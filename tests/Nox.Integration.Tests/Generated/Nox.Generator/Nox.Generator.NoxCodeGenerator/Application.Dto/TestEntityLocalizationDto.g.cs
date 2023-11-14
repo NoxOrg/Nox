@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record TestEntityLocalizationKeyDto(System.String keyId);
 
+/// <summary>
+/// Update TestEntityLocalization
+/// Entity created for testing localization.
+/// </summary>
 public partial class TestEntityLocalizationDto : TestEntityLocalizationDtoBase
 {
 

@@ -14,6 +14,9 @@ using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
+/// <summary>
+/// Entity created for testing auto number usages.
+/// </summary>
 public partial class TestEntityForAutoNumberUsagesCreateDto : TestEntityForAutoNumberUsagesCreateDtoBase
 {
 

@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record WorkplaceKeyDto(System.UInt32 keyId);
 
+/// <summary>
+/// Update Workplace
+/// Workplace.
+/// </summary>
 public partial class WorkplaceDto : WorkplaceDtoBase
 {
 

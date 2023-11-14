@@ -13,9 +13,17 @@ using DomainNamespace = ClientApi.Domain;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
+/// Country Quality Of Life Index.
+/// </summary>
+public partial class CountryQualityOfLifeIndexUpdateDto : CountryQualityOfLifeIndexUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// Country Quality Of Life Index
 /// </summary>
-public partial class CountryQualityOfLifeIndexUpdateDto : IEntityDto<DomainNamespace.CountryQualityOfLifeIndex>
+public partial class CountryQualityOfLifeIndexUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.CountryQualityOfLifeIndex>
 {
     /// <summary>
     /// Rating Index 
@@ -23,5 +31,5 @@ public partial class CountryQualityOfLifeIndexUpdateDto : IEntityDto<DomainNames
     /// </summary>
     [Required(ErrorMessage = "IndexRating is required")]
     
-    public System.Int32 IndexRating { get; set; } = default!;
+    public virtual System.Int32 IndexRating { get; set; } = default!;
 }

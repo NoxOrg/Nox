@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record CommissionKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update Commission
+/// Exchange commission rate and amount.
+/// </summary>
 public partial class CommissionDto : CommissionDtoBase
 {
 

@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record StoreLicenseKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update StoreLicense
+/// Store license info.
+/// </summary>
 public partial class StoreLicenseDto : StoreLicenseDtoBase
 {
 

@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record ExchangeRateKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update ExchangeRate
+/// Exchange rate and related data.
+/// </summary>
 public partial class ExchangeRateDto : ExchangeRateDtoBase
 {
 

@@ -14,6 +14,9 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+/// <summary>
+/// Store owners.
+/// </summary>
 public partial class StoreOwnerCreateDto : StoreOwnerCreateDtoBase
 {
 

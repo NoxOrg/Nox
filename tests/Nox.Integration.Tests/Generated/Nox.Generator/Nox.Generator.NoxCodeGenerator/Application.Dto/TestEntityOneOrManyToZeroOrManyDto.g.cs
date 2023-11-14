@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record TestEntityOneOrManyToZeroOrManyKeyDto(System.String keyId);
 
+/// <summary>
+/// Update TestEntityOneOrManyToZeroOrMany
+/// Entity created for testing database.
+/// </summary>
 public partial class TestEntityOneOrManyToZeroOrManyDto : TestEntityOneOrManyToZeroOrManyDtoBase
 {
 

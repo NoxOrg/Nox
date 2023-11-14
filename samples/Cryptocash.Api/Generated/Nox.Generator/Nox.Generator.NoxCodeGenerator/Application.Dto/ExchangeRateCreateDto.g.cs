@@ -14,6 +14,9 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+/// <summary>
+/// Exchange rate and related data.
+/// </summary>
 public partial class ExchangeRateCreateDto : ExchangeRateCreateDtoBase
 {
 

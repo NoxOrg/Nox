@@ -13,9 +13,17 @@ using DomainNamespace = TestWebApp.Domain;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
+/// .
+/// </summary>
+public partial class TestEntityTwoRelationshipsManyToManyUpdateDto : TestEntityTwoRelationshipsManyToManyUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// 
 /// </summary>
-public partial class TestEntityTwoRelationshipsManyToManyUpdateDto : IEntityDto<DomainNamespace.TestEntityTwoRelationshipsManyToMany>
+public partial class TestEntityTwoRelationshipsManyToManyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityTwoRelationshipsManyToMany>
 {
     /// <summary>
     ///  
@@ -23,15 +31,15 @@ public partial class TestEntityTwoRelationshipsManyToManyUpdateDto : IEntityDto<
     /// </summary>
     [Required(ErrorMessage = "TextTestField is required")]
     
-    public System.String TextTestField { get; set; } = default!;
+    public virtual System.String TextTestField { get; set; } = default!;
 
     /// <summary>
     /// TestEntityTwoRelationshipsManyToMany First relationship to the same entity OneOrMany SecondTestEntityTwoRelationshipsManyToManies
     /// </summary>
-    public List<System.String> TestRelationshipOneId { get; set; } = new();
+    public virtual List<System.String> TestRelationshipOneId { get; set; } = new();
 
     /// <summary>
     /// TestEntityTwoRelationshipsManyToMany Second relationship to the same entity OneOrMany SecondTestEntityTwoRelationshipsManyToManies
     /// </summary>
-    public List<System.String> TestRelationshipTwoId { get; set; } = new();
+    public virtual List<System.String> TestRelationshipTwoId { get; set; } = new();
 }

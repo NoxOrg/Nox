@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record ThirdTestEntityZeroOrOneKeyDto(System.String keyId);
 
+/// <summary>
+/// Update ThirdTestEntityZeroOrOne
+/// .
+/// </summary>
 public partial class ThirdTestEntityZeroOrOneDto : ThirdTestEntityZeroOrOneDtoBase
 {
 

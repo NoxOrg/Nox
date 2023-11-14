@@ -13,9 +13,17 @@ using DomainNamespace = TestWebApp.Domain;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
+/// .
+/// </summary>
+public partial class SecondTestEntityTwoRelationshipsManyToManyUpdateDto : SecondTestEntityTwoRelationshipsManyToManyUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// 
 /// </summary>
-public partial class SecondTestEntityTwoRelationshipsManyToManyUpdateDto : IEntityDto<DomainNamespace.SecondTestEntityTwoRelationshipsManyToMany>
+public partial class SecondTestEntityTwoRelationshipsManyToManyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.SecondTestEntityTwoRelationshipsManyToMany>
 {
     /// <summary>
     ///  
@@ -23,15 +31,15 @@ public partial class SecondTestEntityTwoRelationshipsManyToManyUpdateDto : IEnti
     /// </summary>
     [Required(ErrorMessage = "TextTestField2 is required")]
     
-    public System.String TextTestField2 { get; set; } = default!;
+    public virtual System.String TextTestField2 { get; set; } = default!;
 
     /// <summary>
     /// SecondTestEntityTwoRelationshipsManyToMany First relationship to the same entity on the other side ZeroOrMany TestEntityTwoRelationshipsManyToManies
     /// </summary>
-    public List<System.String> TestRelationshipOneOnOtherSideId { get; set; } = new();
+    public virtual List<System.String> TestRelationshipOneOnOtherSideId { get; set; } = new();
 
     /// <summary>
     /// SecondTestEntityTwoRelationshipsManyToMany Second relationship to the same entity on the other side ZeroOrMany TestEntityTwoRelationshipsManyToManies
     /// </summary>
-    public List<System.String> TestRelationshipTwoOnOtherSideId { get; set; } = new();
+    public virtual List<System.String> TestRelationshipTwoOnOtherSideId { get; set; } = new();
 }

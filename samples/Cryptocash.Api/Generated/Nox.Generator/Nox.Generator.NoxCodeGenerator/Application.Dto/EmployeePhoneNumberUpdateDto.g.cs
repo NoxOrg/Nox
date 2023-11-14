@@ -13,9 +13,17 @@ using DomainNamespace = Cryptocash.Domain;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
+/// Employee phone number and related data.
+/// </summary>
+public partial class EmployeePhoneNumberUpdateDto : EmployeePhoneNumberUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// Employee phone number and related data
 /// </summary>
-public partial class EmployeePhoneNumberUpdateDto : IEntityDto<DomainNamespace.EmployeePhoneNumber>
+public partial class EmployeePhoneNumberUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.EmployeePhoneNumber>
 {
     /// <summary>
     /// Employee's phone number type 
@@ -23,12 +31,12 @@ public partial class EmployeePhoneNumberUpdateDto : IEntityDto<DomainNamespace.E
     /// </summary>
     [Required(ErrorMessage = "PhoneNumberType is required")]
     
-    public System.String PhoneNumberType { get; set; } = default!;
+    public virtual System.String PhoneNumberType { get; set; } = default!;
     /// <summary>
     /// Employee's phone number 
     /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "PhoneNumber is required")]
     
-    public System.String PhoneNumber { get; set; } = default!;
+    public virtual System.String PhoneNumber { get; set; } = default!;
 }

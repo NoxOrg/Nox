@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record CountryTimeZoneKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update CountryTimeZone
+/// Time zone related to country.
+/// </summary>
 public partial class CountryTimeZoneDto : CountryTimeZoneDtoBase
 {
 

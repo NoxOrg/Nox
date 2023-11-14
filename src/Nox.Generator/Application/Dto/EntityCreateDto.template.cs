@@ -14,6 +14,9 @@ using DomainNamespace = {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 
+/// <summary>
+/// {{entity.Description  | string.rstrip}}.
+/// </summary>
 public partial class {{className}} : {{className}}Base
 {
 

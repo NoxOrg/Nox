@@ -14,6 +14,9 @@ using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
+/// <summary>
+/// Entity created for testing database.
+/// </summary>
 public partial class TestEntityForTypesCreateDto : TestEntityForTypesCreateDtoBase
 {
 

@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record EmailAddressKeyDto();
 
+/// <summary>
+/// Update EmailAddress
+/// Verified Email Address.
+/// </summary>
 public partial class EmailAddressDto : EmailAddressDtoBase
 {
 

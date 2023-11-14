@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record VendingMachineKeyDto(System.Guid keyId);
 
+/// <summary>
+/// Update VendingMachine
+/// Vending machine definition and related data.
+/// </summary>
 public partial class VendingMachineDto : VendingMachineDtoBase
 {
 
