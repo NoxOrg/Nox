@@ -72,6 +72,17 @@ public abstract partial class TransactionsControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<CustomerDto>> GetCustomer(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetTransactionByIdQuery(key))).Where(x => x.Customer != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CustomerDto>(Enumerable.Empty<CustomerDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.Customer!));
+    }
+    
     public virtual async Task<ActionResult<CustomerDto>> PutToCustomer(System.Int64 key, [FromBody] CustomerUpdateDto customer)
     {
         if (!ModelState.IsValid)
@@ -137,6 +148,17 @@ public abstract partial class TransactionsControllerBase : ODataController
         
         var references = new System.Uri($"Bookings/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<BookingDto>> GetBooking(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetTransactionByIdQuery(key))).Where(x => x.Booking != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<BookingDto>(Enumerable.Empty<BookingDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.Booking!));
     }
     
     public virtual async Task<ActionResult<BookingDto>> PutToBooking(System.Int64 key, [FromBody] BookingUpdateDto booking)

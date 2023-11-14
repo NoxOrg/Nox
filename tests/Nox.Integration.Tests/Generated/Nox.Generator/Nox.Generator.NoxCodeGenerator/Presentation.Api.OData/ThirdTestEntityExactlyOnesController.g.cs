@@ -72,6 +72,17 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<ThirdTestEntityZeroOrOneDto>> GetThirdTestEntityZeroOrOne(System.String key)
+    {
+        var related = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(key))).Where(x => x.ThirdTestEntityZeroOrOne != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<ThirdTestEntityZeroOrOneDto>(Enumerable.Empty<ThirdTestEntityZeroOrOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.ThirdTestEntityZeroOrOne!));
+    }
+    
     public virtual async Task<ActionResult<ThirdTestEntityZeroOrOneDto>> PutToThirdTestEntityZeroOrOne(System.String key, [FromBody] ThirdTestEntityZeroOrOneUpdateDto thirdTestEntityZeroOrOne)
     {
         if (!ModelState.IsValid)

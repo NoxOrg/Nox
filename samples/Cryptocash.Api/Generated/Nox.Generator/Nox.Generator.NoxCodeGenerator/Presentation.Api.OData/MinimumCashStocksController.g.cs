@@ -76,6 +76,29 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<VendingMachineDto>>> GetVendingMachines(System.Int64 key)
+    {
+        var entity = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
+    public virtual async Task<SingleResult<VendingMachineDto>> GetVendingMachinesNonConventional(System.Int64 key, System.Guid relatedKey)
+    {
+        var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<VendingMachineDto>(Enumerable.Empty<VendingMachineDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
     public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -220,6 +243,17 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         
         var references = new System.Uri($"Currencies/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<CurrencyDto>> GetCurrency(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Where(x => x.Currency != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CurrencyDto>(Enumerable.Empty<CurrencyDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.Currency!));
     }
     
     public virtual async Task<ActionResult<CurrencyDto>> PutToCurrency(System.Int64 key, [FromBody] CurrencyUpdateDto currency)

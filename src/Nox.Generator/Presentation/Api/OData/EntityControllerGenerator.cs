@@ -492,6 +492,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                 if (CanRead(entity))
                 {
                     GenerateGetRefTo(entity, relationship, code, solution);
+
+                    GenerateRelatedGet(solution, relationship, entity, code);
+                    GenerateRelatedGetById(solution, relationship, entity, code);
                 }
                 if (CanDelete(entity))
                 {
@@ -637,6 +640,75 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return Ok(references);");
 
         // End method
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateRelatedGet(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    {
+        var relatedEntity = relationship.Related.Entity;
+        var relationshipName = entity.GetNavigationPropertyName(relationship);
+        var isSingleRelationship = relationship.WithSingleEntity();
+        var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
+
+        code.AppendLine($"[EnableQuery]");
+        if (isSingleRelationship)
+        {
+            code.AppendLine($"public virtual async Task<SingleResult<{relatedEntity.Name}Dto>> Get{relationshipName}(" +
+                $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")})");
+            code.StartBlock(); 
+            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+                $".Where(x => x.{relationshipName} != null);");
+            code.AppendLine($"if (!related.Any())");
+            code.StartBlock();
+            code.AppendLine($"return SingleResult.Create<{relatedEntity.Name}Dto>(Enumerable.Empty<{relatedEntity.Name}Dto>().AsQueryable());");
+            code.EndBlock();
+            code.AppendLine($"return SingleResult.Create(related.Select(x => x.{relationshipName}!));");
+        }
+        else
+        {
+            code.AppendLine($"public virtual async Task<ActionResult<IQueryable<{relatedEntity.Name}Dto>>> Get{relationshipName}(" +
+                $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")})");
+            code.StartBlock();
+            code.AppendLine($"var entity = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+                $".SelectMany(x => x.{relationshipName});");
+            code.AppendLine($"if (!entity.Any())");
+            code.StartBlock();
+            code.AppendLine($"return NotFound();");
+            code.EndBlock();
+            code.AppendLine($"return Ok(entity);");
+        }
+
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateRelatedGetById(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    {
+        if (relationship.WithSingleEntity)
+            return;
+
+        var relatedEntity = relationship.Related.Entity;
+        var relationshipName = entity.GetNavigationPropertyName(relationship);
+        var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
+
+        code.AppendLine($"[EnableQuery]"); 
+        code.AppendLine($"[HttpGet(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{relationshipName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
+        code.AppendLine($"public virtual async Task<SingleResult<{relatedEntity.Name}Dto>> Get{relationshipName}NonConventional(" +
+            $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")}, " +
+            $"{GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey", "")})");
+        code.StartBlock();
+
+        var param = string.Join(" && ", relatedEntity.Keys.Select(k => $"x.{k.Name} == relatedKey{(relatedEntity.Keys.Count > 1 ? k.Name : "")}"));
+        code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+            $".SelectMany(x => x.{relationshipName}).Where(x => {param});");
+        code.AppendLine($"if (!related.Any())");
+        code.StartBlock();
+        code.AppendLine($"return SingleResult.Create<{relatedEntity.Name}Dto>(Enumerable.Empty<{relatedEntity.Name}Dto>().AsQueryable());");
+        code.EndBlock();
+        code.AppendLine($"return SingleResult.Create(related);");
+        
+
         code.EndBlock();
         code.AppendLine();
     }
