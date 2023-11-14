@@ -68,38 +68,6 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 			return null;
 		}
 
-	{{- for relationship in entity.Relationships }}
-		{{- relatedEntity =  relationship.Related.Entity }}
-		{{- relationshipName = GetNavigationPropertyName entity relationship }}
-		{{- key = array.first relatedEntity.Keys }}
-		{{- if relationship.Relationship == "ZeroOrOne" }}
-
-		if(request.EntityDto.{{relationshipName}}Id is not null)
-		{
-			var {{ToLowerFirstChar relationshipName}}Key = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationshipName}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>());
-			var {{ToLowerFirstChar relationshipName}}Entity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{ToLowerFirstChar relationshipName}}Key);
-						
-			if({{ToLowerFirstChar relationshipName}}Entity is not null)
-				entity.CreateRefTo{{relationshipName}}({{ToLowerFirstChar relationshipName}}Entity);
-			else
-				throw new RelatedEntityNotFoundException("{{relationshipName}}", request.EntityDto.{{relationshipName}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>().ToString());
-		}
-		else
-		{
-			entity.DeleteAllRefTo{{relationshipName}}();
-		}
-		{{- else if relationship.Relationship == "ExactlyOne" }}
-
-		var {{ToLowerFirstChar relationshipName}}Key = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationshipName}}Id);
-		var {{ToLowerFirstChar relationshipName}}Entity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{ToLowerFirstChar relationshipName}}Key);
-						
-		if({{ToLowerFirstChar relationshipName}}Entity is not null)
-			entity.CreateRefTo{{relationshipName}}({{ToLowerFirstChar relationshipName}}Entity);
-		else
-			throw new RelatedEntityNotFoundException("{{relationshipName}}", request.EntityDto.{{relationshipName}}Id.ToString());
-		{{-end}}
-	{{- end }}
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 
 		{{- if !entity.IsOwnedEntity }}

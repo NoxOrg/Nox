@@ -57,21 +57,6 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 			return null;
 		}
 
-		if(request.EntityDto.CashStockOrderId is not null)
-		{
-			var cashStockOrderKey = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.EntityDto.CashStockOrderId.NonNullValue<System.Int64>());
-			var cashStockOrderEntity = await DbContext.CashStockOrders.FindAsync(cashStockOrderKey);
-						
-			if(cashStockOrderEntity is not null)
-				entity.CreateRefToCashStockOrder(cashStockOrderEntity);
-			else
-				throw new RelatedEntityNotFoundException("CashStockOrder", request.EntityDto.CashStockOrderId.NonNullValue<System.Int64>().ToString());
-		}
-		else
-		{
-			entity.DeleteAllRefToCashStockOrder();
-		}
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

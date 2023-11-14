@@ -19,13 +19,11 @@ internal class UpdateCommandGenerator : ApplicationEntityDependentGeneratorBase
             var primaryKeys = string.Join(", ", entity.Keys.Select(k => $"{codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
             var primaryKeysFindQuery = string.Join(", ", entity.Keys.Select(k => $"key{k.Name}"));
             var primaryKeysReturnQuery = string.Join(", ", entity.Keys.Select(k => $"entity.{k.Name}.Value"));
-            var relatedEntities = entity.Relationships.GroupBy(r => r.Entity).Select(g => g.First().Entity).ToList();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Update{entity.Name}Command")
                 .WithFileNamePrefix($"Application.Commands")
                 .WithObject("entity", entity)
-                .WithObject("relatedEntities", relatedEntities)
                 .WithObject("primaryKeys", primaryKeys)
                 .WithObject("primaryKeysFindQuery", primaryKeysFindQuery)
                 .WithObject("primaryKeysReturnQuery", primaryKeysReturnQuery)

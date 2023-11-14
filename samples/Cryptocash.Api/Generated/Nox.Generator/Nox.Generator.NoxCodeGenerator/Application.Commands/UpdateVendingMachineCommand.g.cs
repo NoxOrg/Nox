@@ -57,22 +57,6 @@ internal abstract class UpdateVendingMachineCommandHandlerBase : CommandBase<Upd
 			return null;
 		}
 
-		var countryKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId);
-		var countryEntity = await DbContext.Countries.FindAsync(countryKey);
-						
-		if(countryEntity is not null)
-			entity.CreateRefToCountry(countryEntity);
-		else
-			throw new RelatedEntityNotFoundException("Country", request.EntityDto.CountryId.ToString());
-
-		var landLordKey = Cryptocash.Domain.LandLordMetadata.CreateId(request.EntityDto.LandLordId);
-		var landLordEntity = await DbContext.LandLords.FindAsync(landLordKey);
-						
-		if(landLordEntity is not null)
-			entity.CreateRefToLandLord(landLordEntity);
-		else
-			throw new RelatedEntityNotFoundException("LandLord", request.EntityDto.LandLordId.ToString());
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

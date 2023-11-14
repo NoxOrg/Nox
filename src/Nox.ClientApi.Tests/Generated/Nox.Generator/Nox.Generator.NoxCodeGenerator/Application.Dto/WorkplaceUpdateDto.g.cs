@@ -37,10 +37,4 @@ public partial class WorkplaceUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNam
     /// <remarks>Optional.</remarks>    
     /// </summary>
     public virtual System.String? Description { get; set; }
-
-    /// <summary>
-    /// Workplace Workplace country ZeroOrOne Countries
-    /// </summary>
-    
-    public virtual System.Int64? CountryId { get; set; } = default!;
 }

@@ -57,14 +57,6 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 			return null;
 		}
 
-		var currencyKey = Cryptocash.Domain.CurrencyMetadata.CreateId(request.EntityDto.CurrencyId);
-		var currencyEntity = await DbContext.Currencies.FindAsync(currencyKey);
-						
-		if(currencyEntity is not null)
-			entity.CreateRefToCurrency(currencyEntity);
-		else
-			throw new RelatedEntityNotFoundException("Currency", request.EntityDto.CurrencyId.ToString());
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

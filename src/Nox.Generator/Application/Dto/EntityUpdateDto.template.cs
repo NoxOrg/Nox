@@ -42,21 +42,7 @@ public partial class {{className}}Base: EntityDtoBase, IEntityDto<DomainNamespac
     public virtual {{attribute.Type}}Dto{{- if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
     {{- end}}
 {{- end }}
-{{- for relationship in entity.Relationships}}
-	{{- relationshipName = GetNavigationPropertyName entity relationship }}
-    {{- if relationship.WithSingleEntity }}
-
-    /// <summary>
-    /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
-    /// </summary>
-    {{ if relationship.Relationship == "ExactlyOne" }}[Required(ErrorMessage = "{{relationshipName}} is required")]{{-end}}
-    public virtual {{relationship.ForeignKeyPrimitiveType}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationshipName}}Id { get; set; } = default!;
-    {{-else}}
-    {{- ## NOX-237
-    public List<relationship.ForeignKeyPrimitiveType> relationshipNameId { get; set; } = new(); 
-    ## }}
-    {{-end}}
-{{- end }}
+{{- # for relationship in entity.Relationships # see NOX-237 to enable relationships in UpdateDto}}
 {{- for relationship in entity.OwnedRelationships}}
     {{- if relationship.Relationship == "ZeroOrOne" || relationship.Relationship == "ExactlyOne"}}
     /// <summary>
