@@ -45,7 +45,7 @@ namespace Nox.Solution
             }
             if (!routePrefix!.StartsWith("/"))
             {
-                routePrefix = "/" + routePrefix;
+                return "/" + routePrefix;
             }
             if (routePrefix!.EndsWith("/"))
             {
