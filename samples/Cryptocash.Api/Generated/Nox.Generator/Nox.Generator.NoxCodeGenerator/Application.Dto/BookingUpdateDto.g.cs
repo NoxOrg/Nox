@@ -66,28 +66,4 @@ public partial class BookingUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNames
     /// <remarks>Optional.</remarks>    
     /// </summary>
     public virtual VatNumberDto? VatNumber { get; set; }
-
-    /// <summary>
-    /// Booking for ExactlyOne Customers
-    /// </summary>
-    [Required(ErrorMessage = "Customer is required")]
-    public virtual System.Int64 CustomerId { get; set; } = default!;
-
-    /// <summary>
-    /// Booking related to ExactlyOne VendingMachines
-    /// </summary>
-    [Required(ErrorMessage = "VendingMachine is required")]
-    public virtual System.Guid VendingMachineId { get; set; } = default!;
-
-    /// <summary>
-    /// Booking fees for ExactlyOne Commissions
-    /// </summary>
-    [Required(ErrorMessage = "Commission is required")]
-    public virtual System.Int64 CommissionId { get; set; } = default!;
-
-    /// <summary>
-    /// Booking related to ExactlyOne Transactions
-    /// </summary>
-    [Required(ErrorMessage = "Transaction is required")]
-    public virtual System.Int64 TransactionId { get; set; } = default!;
 }

@@ -32,10 +32,4 @@ public partial class TestEntityZeroOrOneToOneOrManyUpdateDtoBase: EntityDtoBase,
     [Required(ErrorMessage = "TextTestField is required")]
     
     public virtual System.String TextTestField { get; set; } = default!;
-
-    /// <summary>
-    /// TestEntityZeroOrOneToOneOrMany Test entity relationship to TestEntityOneOrManyToZeroOrOne ZeroOrOne TestEntityOneOrManyToZeroOrOnes
-    /// </summary>
-    
-    public virtual System.String? TestEntityOneOrManyToZeroOrOneId { get; set; } = default!;
 }

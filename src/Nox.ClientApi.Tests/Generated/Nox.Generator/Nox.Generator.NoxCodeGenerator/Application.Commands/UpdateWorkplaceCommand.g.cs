@@ -61,21 +61,6 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 			return null;
 		}
 
-		if(request.EntityDto.CountryId is not null)
-		{
-			var countryKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
-			var countryEntity = await DbContext.Countries.FindAsync(countryKey);
-						
-			if(countryEntity is not null)
-				entity.CreateRefToCountry(countryEntity);
-			else
-				throw new RelatedEntityNotFoundException("Country", request.EntityDto.CountryId.NonNullValue<System.Int64>().ToString());
-		}
-		else
-		{
-			entity.DeleteAllRefToCountry();
-		}
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await UpdateLocalizedEntityAsync(entity, request.EntityDto, request.CultureCode);

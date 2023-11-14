@@ -56,18 +56,6 @@ public partial class StoreUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespa
     /// <remarks>Optional.</remarks>    
     /// </summary>
     public virtual System.Int32? Status { get; set; }
-
-    /// <summary>
-    /// Store Owner of the Store ZeroOrOne StoreOwners
-    /// </summary>
-    
-    public virtual System.String? StoreOwnerId { get; set; } = default!;
-
-    /// <summary>
-    /// Store License that this store uses ZeroOrOne StoreLicenses
-    /// </summary>
-    
-    public virtual System.Int64? StoreLicenseId { get; set; } = default!;
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>

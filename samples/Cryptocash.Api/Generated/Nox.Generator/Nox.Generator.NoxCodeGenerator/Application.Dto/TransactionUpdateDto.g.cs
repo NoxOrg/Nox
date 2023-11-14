@@ -53,16 +53,4 @@ public partial class TransactionUpdateDtoBase: EntityDtoBase, IEntityDto<DomainN
     [Required(ErrorMessage = "Reference is required")]
     
     public virtual System.String Reference { get; set; } = default!;
-
-    /// <summary>
-    /// Transaction for ExactlyOne Customers
-    /// </summary>
-    [Required(ErrorMessage = "Customer is required")]
-    public virtual System.Int64 CustomerId { get; set; } = default!;
-
-    /// <summary>
-    /// Transaction for ExactlyOne Bookings
-    /// </summary>
-    [Required(ErrorMessage = "Booking is required")]
-    public virtual System.Guid BookingId { get; set; } = default!;
 }

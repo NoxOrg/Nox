@@ -1043,8 +1043,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{postToWorkplaceResponse!.Id}",
                 new WorkplaceUpdateDto() { 
                     Name = postToWorkplaceResponse!.Name, 
-                    Description = expectedDescription,
-                    CountryId = postToWorkplaceResponse!.CountryId },
+                    Description = expectedDescription },
                 headers);
 
             const string oDataRequest = $"$expand={nameof(CountryDto.Workplaces)}";

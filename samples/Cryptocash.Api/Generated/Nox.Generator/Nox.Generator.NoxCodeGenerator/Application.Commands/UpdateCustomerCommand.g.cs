@@ -57,14 +57,6 @@ internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCus
 			return null;
 		}
 
-		var countryKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId);
-		var countryEntity = await DbContext.Countries.FindAsync(countryKey);
-						
-		if(countryEntity is not null)
-			entity.CreateRefToCountry(countryEntity);
-		else
-			throw new RelatedEntityNotFoundException("Country", request.EntityDto.CountryId.ToString());
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

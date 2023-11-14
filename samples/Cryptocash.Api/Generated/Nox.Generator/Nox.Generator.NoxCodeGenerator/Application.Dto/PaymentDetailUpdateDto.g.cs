@@ -44,16 +44,4 @@ public partial class PaymentDetailUpdateDtoBase: EntityDtoBase, IEntityDto<Domai
     /// <remarks>Optional.</remarks>    
     /// </summary>
     public virtual System.String? PaymentAccountSortCode { get; set; }
-
-    /// <summary>
-    /// PaymentDetail used by ExactlyOne Customers
-    /// </summary>
-    [Required(ErrorMessage = "Customer is required")]
-    public virtual System.Int64 CustomerId { get; set; } = default!;
-
-    /// <summary>
-    /// PaymentDetail related to ExactlyOne PaymentProviders
-    /// </summary>
-    [Required(ErrorMessage = "PaymentProvider is required")]
-    public virtual System.Int64 PaymentProviderId { get; set; } = default!;
 }

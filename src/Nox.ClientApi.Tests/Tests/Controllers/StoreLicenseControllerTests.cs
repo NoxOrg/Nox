@@ -68,7 +68,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region PUT Update related entity /api/{EntityPluralName}/{EntityKey} => api/storeLicenses/1
 
-        [Fact]
+        [Fact(Skip = "NOX-237")]
         public async Task Put_UpdateRelatedStore_Success()
         {
             //Arrange
@@ -87,7 +87,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 new StoreLicenseUpdateDto
                 {
                     Issuer = storeLicenseResponse!.Issuer,
-                    StoreId = store2!.Id
+                    //StoreId = store2!.Id
                 },
                 headers);
 

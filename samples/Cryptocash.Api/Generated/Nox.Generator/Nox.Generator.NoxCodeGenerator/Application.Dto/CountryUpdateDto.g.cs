@@ -94,10 +94,4 @@ public partial class CountryUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNames
     [Required(ErrorMessage = "StartOfWeek is required")]
     
     public virtual System.UInt16 StartOfWeek { get; set; } = default!;
-
-    /// <summary>
-    /// Country used by ExactlyOne Currencies
-    /// </summary>
-    [Required(ErrorMessage = "Currency is required")]
-    public virtual System.String CurrencyId { get; set; } = default!;
 }

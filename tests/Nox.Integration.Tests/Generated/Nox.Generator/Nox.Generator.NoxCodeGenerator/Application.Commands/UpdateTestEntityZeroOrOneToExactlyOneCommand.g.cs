@@ -57,21 +57,6 @@ internal abstract class UpdateTestEntityZeroOrOneToExactlyOneCommandHandlerBase 
 			return null;
 		}
 
-		if(request.EntityDto.TestEntityExactlyOneToZeroOrOneId is not null)
-		{
-			var testEntityExactlyOneToZeroOrOneKey = TestWebApp.Domain.TestEntityExactlyOneToZeroOrOneMetadata.CreateId(request.EntityDto.TestEntityExactlyOneToZeroOrOneId.NonNullValue<System.String>());
-			var testEntityExactlyOneToZeroOrOneEntity = await DbContext.TestEntityExactlyOneToZeroOrOnes.FindAsync(testEntityExactlyOneToZeroOrOneKey);
-						
-			if(testEntityExactlyOneToZeroOrOneEntity is not null)
-				entity.CreateRefToTestEntityExactlyOneToZeroOrOne(testEntityExactlyOneToZeroOrOneEntity);
-			else
-				throw new RelatedEntityNotFoundException("TestEntityExactlyOneToZeroOrOne", request.EntityDto.TestEntityExactlyOneToZeroOrOneId.NonNullValue<System.String>().ToString());
-		}
-		else
-		{
-			entity.DeleteAllRefToTestEntityExactlyOneToZeroOrOne();
-		}
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

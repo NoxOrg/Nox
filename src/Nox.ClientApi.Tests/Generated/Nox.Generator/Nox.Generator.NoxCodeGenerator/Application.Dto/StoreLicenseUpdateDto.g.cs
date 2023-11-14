@@ -32,22 +32,4 @@ public partial class StoreLicenseUpdateDtoBase: EntityDtoBase, IEntityDto<Domain
     [Required(ErrorMessage = "Issuer is required")]
     
     public virtual System.String Issuer { get; set; } = default!;
-
-    /// <summary>
-    /// StoreLicense Store that this license related to ExactlyOne Stores
-    /// </summary>
-    [Required(ErrorMessage = "Store is required")]
-    public virtual System.Guid StoreId { get; set; } = default!;
-
-    /// <summary>
-    /// StoreLicense Default currency for this license ZeroOrOne Currencies
-    /// </summary>
-    
-    public virtual System.String? DefaultCurrencyId { get; set; } = default!;
-
-    /// <summary>
-    /// StoreLicense Currency this license was sold in ZeroOrOne Currencies
-    /// </summary>
-    
-    public virtual System.String? SoldInCurrencyId { get; set; } = default!;
 }

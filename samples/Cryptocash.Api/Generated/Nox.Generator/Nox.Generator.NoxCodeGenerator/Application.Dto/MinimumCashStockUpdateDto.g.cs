@@ -32,10 +32,4 @@ public partial class MinimumCashStockUpdateDtoBase: EntityDtoBase, IEntityDto<Do
     [Required(ErrorMessage = "Amount is required")]
     
     public virtual MoneyDto Amount { get; set; } = default!;
-
-    /// <summary>
-    /// MinimumCashStock related to ExactlyOne Currencies
-    /// </summary>
-    [Required(ErrorMessage = "Currency is required")]
-    public virtual System.String CurrencyId { get; set; } = default!;
 }
