@@ -235,17 +235,17 @@
                                                                           MaxLength="63"
                                                                           MinLength="4" />
                                                         </MudItem>
-                                                        <MudItem xs="6">
+@*                                                         <MudItem xs="6">
                                                             <UiEditCountry_g @bind-CountryId="CurrentEditEntity.CountryId"
                                                                              Title="Installation Country"
                                                                              CountrySelectionList="CountryEntityData?.EntityList" />
-                                                        </MudItem>
+                                                        </MudItem> *@
                                                         <MudItem xs="6">
                                                             <UiEditArea_g @bind-Area="CurrentEditEntity.InstallationFootPrint"
                                                                           Title="Installation Area"
                                                                           Format="#.##" />
                                                         </MudItem>
-                                                        <MudItem xs="6">
+@*                                                         <MudItem xs="6">
                                                             <UiEditMoney_g @bind-Money="CurrentEditEntity.RentPerSquareMetre"
                                                                            Currency="GetCurrencyByCountryId(CurrentEditEntity.CountryId)"
                                                                            Title="Rent per Square Metre"
@@ -255,7 +255,7 @@
                                                             <UiEditEntitySelectLandLord_g @bind-LandLordIdLong="CurrentEditEntity.LandLordId"
                                                                                           Title="Contracted Area LandLord"
                                                                                           LandLordSelectionList="LandLordEntityData?.EntityList" />
-                                                        </MudItem>
+                                                        </MudItem> *@
                                                 </MudGrid>
                                             </MudTabPanel>
                                             <MudTabPanel Text="Location">
