@@ -46,7 +46,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("api/Countries/{key}/CountryOwnedTimeZones/{relatedKey}")]
+    [HttpGet("/api/v1/Countries/{key}/CountryOwnedTimeZones/{relatedKey}")]
     public virtual async Task<ActionResult<CountryTimeZoneDto>> GetCountryOwnedTimeZonesNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -85,7 +85,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("api/Countries/{key}/CountryOwnedTimeZones/{relatedKey}")]
+    [HttpPut("/api/v1/Countries/{key}/CountryOwnedTimeZones/{relatedKey}")]
     public virtual async Task<ActionResult<CountryTimeZoneDto>> PutToCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] CountryTimeZoneUpdateDto countryTimeZone)
     {
         if (!ModelState.IsValid)
@@ -109,7 +109,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("api/Countries/{key}/CountryOwnedTimeZones/{relatedKey}")]
+    [HttpPatch("/api/v1/Countries/{key}/CountryOwnedTimeZones/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<CountryTimeZoneDto> countryTimeZone)
     {
         if (!ModelState.IsValid)
@@ -142,7 +142,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("api/Countries/{key}/CountryOwnedTimeZones/{relatedKey}")]
+    [HttpDelete("/api/v1/Countries/{key}/CountryOwnedTimeZones/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteCountryTimeZoneNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -182,7 +182,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("api/Countries/{key}/CountryOwnedHolidays/{relatedKey}")]
+    [HttpGet("/api/v1/Countries/{key}/CountryOwnedHolidays/{relatedKey}")]
     public virtual async Task<ActionResult<HolidayDto>> GetCountryOwnedHolidaysNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -221,7 +221,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("api/Countries/{key}/CountryOwnedHolidays/{relatedKey}")]
+    [HttpPut("/api/v1/Countries/{key}/CountryOwnedHolidays/{relatedKey}")]
     public virtual async Task<ActionResult<HolidayDto>> PutToHolidaysNonConventional(System.String key, System.Int64 relatedKey, [FromBody] HolidayUpdateDto holiday)
     {
         if (!ModelState.IsValid)
@@ -245,7 +245,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("api/Countries/{key}/CountryOwnedHolidays/{relatedKey}")]
+    [HttpPatch("/api/v1/Countries/{key}/CountryOwnedHolidays/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToHolidaysNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<HolidayDto> holiday)
     {
         if (!ModelState.IsValid)
@@ -278,7 +278,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("api/Countries/{key}/CountryOwnedHolidays/{relatedKey}")]
+    [HttpDelete("/api/v1/Countries/{key}/CountryOwnedHolidays/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteHolidayNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)

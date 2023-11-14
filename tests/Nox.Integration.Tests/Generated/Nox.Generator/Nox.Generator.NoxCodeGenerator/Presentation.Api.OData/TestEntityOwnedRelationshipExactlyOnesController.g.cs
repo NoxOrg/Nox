@@ -123,7 +123,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         return Ok(child);
     }
     
-    [HttpDelete("api/TestEntityOwnedRelationshipExactlyOnes/{key}/SecondTestEntityOwnedRelationshipExactlyOne")]
+    [HttpDelete("/api/v1/TestEntityOwnedRelationshipExactlyOnes/{key}/SecondTestEntityOwnedRelationshipExactlyOne")]
     public virtual async Task<ActionResult> DeleteSecondTestEntityOwnedRelationshipExactlyOneNonConventional(System.String key)
     {
         if (!ModelState.IsValid)
