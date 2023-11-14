@@ -17,7 +17,7 @@ namespace Nox.Solution
                 
         public void ApplyDefaults(string solutionVersion)
         {
-            if (ApiRoutePrefix is null || string.IsNullOrEmpty(ApiRoutePrefix))
+            if (string.IsNullOrEmpty(ApiRoutePrefix))
             {
                 ApiRoutePrefix = "/api/v" + new Version(solutionVersion).Major;
                 return;
