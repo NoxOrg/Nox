@@ -30,7 +30,7 @@ namespace ClientApi.Presentation.Api.OData;
 public abstract partial class WorkplacesControllerBase
 {
     
-    [HttpPut("api/Workplaces/{key}/WorkplaceLocalized/{cultureCode}")]
+    [HttpPut("/api/v1/Workplaces/{key}/WorkplaceLocalized/{cultureCode}")]
     public virtual async Task<ActionResult<WorkplaceLocalizedDto>> PutWorkplaceLocalized( [FromRoute] System.UInt32 key, [FromRoute] System.String cultureCode, [FromBody] WorkplaceLocalizedUpsertDto workplaceLocalizedUpsertDto)
     {
         if (!ModelState.IsValid)
