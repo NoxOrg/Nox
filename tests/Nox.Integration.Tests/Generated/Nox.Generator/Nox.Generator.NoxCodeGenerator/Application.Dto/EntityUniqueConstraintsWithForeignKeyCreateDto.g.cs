@@ -14,6 +14,9 @@ using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
+/// <summary>
+/// Entity created for testing constraints with Foreign Key.
+/// </summary>
 public partial class EntityUniqueConstraintsWithForeignKeyCreateDto : EntityUniqueConstraintsWithForeignKeyCreateDtoBase
 {
 

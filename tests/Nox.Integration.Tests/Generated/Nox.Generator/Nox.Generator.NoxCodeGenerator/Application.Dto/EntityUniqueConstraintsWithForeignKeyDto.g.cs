@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record EntityUniqueConstraintsWithForeignKeyKeyDto(System.Guid keyId);
 
+/// <summary>
+/// Update EntityUniqueConstraintsWithForeignKey
+/// Entity created for testing constraints with Foreign Key.
+/// </summary>
 public partial class EntityUniqueConstraintsWithForeignKeyDto : EntityUniqueConstraintsWithForeignKeyDtoBase
 {
 
