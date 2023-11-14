@@ -46,7 +46,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("api/Countries/{key}/CountryShortNames/{relatedKey}")]
+    [HttpGet("/api/v1/Countries/{key}/CountryShortNames/{relatedKey}")]
     public virtual async Task<ActionResult<CountryLocalNameDto>> GetCountryShortNamesNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -85,7 +85,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("api/Countries/{key}/CountryShortNames/{relatedKey}")]
+    [HttpPut("/api/v1/Countries/{key}/CountryShortNames/{relatedKey}")]
     public virtual async Task<ActionResult<CountryLocalNameDto>> PutToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] CountryLocalNameUpdateDto countryLocalName)
     {
         if (!ModelState.IsValid)
@@ -109,7 +109,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("api/Countries/{key}/CountryShortNames/{relatedKey}")]
+    [HttpPatch("/api/v1/Countries/{key}/CountryShortNames/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameDto> countryLocalName)
     {
         if (!ModelState.IsValid)
@@ -142,7 +142,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("api/Countries/{key}/CountryShortNames/{relatedKey}")]
+    [HttpDelete("/api/v1/Countries/{key}/CountryShortNames/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteCountryLocalNameNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -259,7 +259,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("api/Countries/{key}/CountryBarCode")]
+    [HttpDelete("/api/v1/Countries/{key}/CountryBarCode")]
     public virtual async Task<ActionResult> DeleteCountryBarCodeNonConventional(System.Int64 key)
     {
         if (!ModelState.IsValid)

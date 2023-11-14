@@ -1,11 +1,8 @@
-﻿using Humanizer;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Solution.Extensions;
-using Nox.Types.Extensions;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using static Nox.Generator.Common.BaseGenerator;
 
@@ -200,7 +197,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     private static void GenerateChildrenGetById(NoxSolution solution, EntityRelationship relationship, Entity child, Entity parent, CodeBuilder code)
     {
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"[HttpGet(\"api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+        code.AppendLine($"[HttpGet(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
         code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> Get{relationship.Name}NonConventional(" +
             $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
             $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")})");
@@ -309,7 +306,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         }
         else
         {
-            code.AppendLine($"[HttpPut(\"api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+            code.AppendLine($"[HttpPut(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
             code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> PutTo{child.PluralName}NonConventional(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
                 $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")}, " +
@@ -372,7 +369,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         }
         else
         {
-            code.AppendLine($"[HttpPatch(\"api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+            code.AppendLine($"[HttpPatch(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
             code.AppendLine($"public virtual async Task<ActionResult> PatchTo{child.PluralName}NonConventional(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
                 $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")}, " +
@@ -439,13 +436,13 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
         if (isSingleRelationship) 
         {
-            code.AppendLine($"[HttpDelete(\"api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}\")]");
+            code.AppendLine($"[HttpDelete(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}\")]");
             code.AppendLine($"public virtual async Task<ActionResult> Delete{child.Name}NonConventional(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")})");
         }
         else
         {
-            code.AppendLine($"[HttpDelete(\"api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+            code.AppendLine($"[HttpDelete(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
             code.AppendLine($"public virtual async Task<ActionResult> Delete{child.Name}NonConventional(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
                 $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")})");
@@ -695,7 +692,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         }
         else
         {
-            code.AppendLine($"[HttpPut(\"api/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{relationshipName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
+            code.AppendLine($"[HttpPut(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{relationshipName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
             code.AppendLine($"public virtual async Task<ActionResult<{relatedEntity.Name}Dto>> PutTo{relationshipName}NonConventional(" +
                 $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")}, " +
                 $"{GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey", "")}, " +

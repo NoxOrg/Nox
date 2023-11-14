@@ -13,7 +13,7 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
                 .Build();
 
             solution.Infrastructure.Endpoints.Should().NotBeNull();
-            solution.Infrastructure.Endpoints.ApiRootPrefix.Should().Be("/api/v1");
+            solution.Infrastructure.Endpoints.ApiRoutePrefix.Should().Be("/api/v1");
         }
         [Fact]
         public void WhenNoEndPointWithVersion2Defined_ShouldApplyDefaultsV2()
@@ -24,11 +24,11 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
                 .Build();
 
             solution.Infrastructure.Endpoints.Should().NotBeNull();
-            solution.Infrastructure.Endpoints.ApiRootPrefix.Should().Be("/api/v2");
+            solution.Infrastructure.Endpoints.ApiRoutePrefix.Should().Be("/api/v2");
         }
 
         [Fact]
-        public void WhenApiRootPrefixSet_ShouldReturnIt()
+        public void WhenApiRoutePrefixSet_ShouldReturnIt()
         {
             var solution = new NoxSolutionBuilder()
                 .UseYamlFile("./files/endpoints.routeprefix.solution.nox.yaml")
@@ -36,10 +36,10 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
                 .Build();
 
             solution.Infrastructure.Endpoints.Should().NotBeNull();
-            solution.Infrastructure.Endpoints.ApiRootPrefix.Should().Be("/testapi");
+            solution.Infrastructure.Endpoints.ApiRoutePrefix.Should().Be("/testapi");
         }
         [Fact]
-        public void WhenApiRootPrefixSet_ShouldSanitizeIt()
+        public void WhenApiRoutePrefixSet_ShouldSanitizeIt()
         {
             var solution = new NoxSolutionBuilder()
                 .UseYamlFile("./files/endpoints.routeprefix.sanitized.solution.nox.yaml")
@@ -47,10 +47,22 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
                 .Build();
 
             solution.Infrastructure.Endpoints.Should().NotBeNull();
-            solution.Infrastructure.Endpoints.ApiRootPrefix.Should().Be("/testapi");
+            solution.Infrastructure.Endpoints.ApiRoutePrefix.Should().Be("/testapi");
         }
         [Fact]
-        public void WhenApiRootNoPrefix_ShouldBeEmpty()
+        public void WhenApiRoutePrefixRoot_ShouldBeRoot()
+        {
+            var solution = new NoxSolutionBuilder()
+                .UseYamlFile("./files/endpoints.root.routeprefix.solution.nox.yaml")
+                .AllowMissingSolutionYaml()
+                .Build();
+
+            solution.Infrastructure.Endpoints.Should().NotBeNull();
+            solution.Infrastructure.Endpoints.ApiRoutePrefix.Should().Be("/");
+        }
+
+        [Fact]
+        public void WhenApiRouteNoPrefix_ShouldBeDefault()
         {
             var solution = new NoxSolutionBuilder()
                 .UseYamlFile("./files/endpoints.no.routeprefix.solution.nox.yaml")
@@ -58,7 +70,7 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
                 .Build();
 
             solution.Infrastructure.Endpoints.Should().NotBeNull();
-            solution.Infrastructure.Endpoints.ApiRootPrefix.Should().BeEmpty("/");
+            solution.Infrastructure.Endpoints.ApiRoutePrefix.Should().Be("/api/v1");
         }
     }
 }

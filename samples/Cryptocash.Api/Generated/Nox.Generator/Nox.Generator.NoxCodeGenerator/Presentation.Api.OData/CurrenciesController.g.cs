@@ -46,7 +46,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("api/Currencies/{key}/CurrencyCommonBankNotes/{relatedKey}")]
+    [HttpGet("/api/v1/Currencies/{key}/CurrencyCommonBankNotes/{relatedKey}")]
     public virtual async Task<ActionResult<BankNoteDto>> GetCurrencyCommonBankNotesNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -85,7 +85,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("api/Currencies/{key}/CurrencyCommonBankNotes/{relatedKey}")]
+    [HttpPut("/api/v1/Currencies/{key}/CurrencyCommonBankNotes/{relatedKey}")]
     public virtual async Task<ActionResult<BankNoteDto>> PutToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] BankNoteUpdateDto bankNote)
     {
         if (!ModelState.IsValid)
@@ -109,7 +109,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("api/Currencies/{key}/CurrencyCommonBankNotes/{relatedKey}")]
+    [HttpPatch("/api/v1/Currencies/{key}/CurrencyCommonBankNotes/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<BankNoteDto> bankNote)
     {
         if (!ModelState.IsValid)
@@ -142,7 +142,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("api/Currencies/{key}/CurrencyCommonBankNotes/{relatedKey}")]
+    [HttpDelete("/api/v1/Currencies/{key}/CurrencyCommonBankNotes/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteBankNoteNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -182,7 +182,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("api/Currencies/{key}/CurrencyExchangedFromRates/{relatedKey}")]
+    [HttpGet("/api/v1/Currencies/{key}/CurrencyExchangedFromRates/{relatedKey}")]
     public virtual async Task<ActionResult<ExchangeRateDto>> GetCurrencyExchangedFromRatesNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -221,7 +221,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("api/Currencies/{key}/CurrencyExchangedFromRates/{relatedKey}")]
+    [HttpPut("/api/v1/Currencies/{key}/CurrencyExchangedFromRates/{relatedKey}")]
     public virtual async Task<ActionResult<ExchangeRateDto>> PutToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] ExchangeRateUpdateDto exchangeRate)
     {
         if (!ModelState.IsValid)
@@ -245,7 +245,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("api/Currencies/{key}/CurrencyExchangedFromRates/{relatedKey}")]
+    [HttpPatch("/api/v1/Currencies/{key}/CurrencyExchangedFromRates/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<ExchangeRateDto> exchangeRate)
     {
         if (!ModelState.IsValid)
@@ -278,7 +278,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("api/Currencies/{key}/CurrencyExchangedFromRates/{relatedKey}")]
+    [HttpDelete("/api/v1/Currencies/{key}/CurrencyExchangedFromRates/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteExchangeRateNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
