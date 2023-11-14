@@ -42,6 +42,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Nox.Types.Abstractions\Nox.Types.Abstractions.csproj" />
+	  <ProjectReference Include="..\Nox.Yaml\Nox.Yaml.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
