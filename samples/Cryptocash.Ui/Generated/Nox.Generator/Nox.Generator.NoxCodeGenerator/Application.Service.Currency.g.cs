@@ -18,7 +18,7 @@ public class CurrencyService : IEntityService
     {
         ApiUiService rtnApiUiService = new();
 
-        rtnApiUiService.Url = "https://localhost:44310/api/Currencies";
+        rtnApiUiService.Url = "https://localhost:44310/api/v1/Currencies";
 
         rtnApiUiService.OrderList = new List<SortOrder> {
             new SortOrder()

@@ -18,7 +18,7 @@ public class CountryService : IEntityService
     {
         ApiUiService rtnApiUiService = new();
 
-        rtnApiUiService.Url = "https://localhost:44310/api/Countries";
+        rtnApiUiService.Url = "https://localhost:44310/api/v1/Countries";
 
         rtnApiUiService.OrderList = new List<SortOrder> {
             new SortOrder()

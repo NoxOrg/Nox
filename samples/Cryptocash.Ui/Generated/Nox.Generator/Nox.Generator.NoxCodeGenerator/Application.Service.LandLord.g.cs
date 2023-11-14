@@ -18,7 +18,7 @@ public class LandLordService : IEntityService
     {
         ApiUiService rtnApiUiService = new();
 
-        rtnApiUiService.Url = "https://localhost:44310/api/LandLords";
+        rtnApiUiService.Url = "https://localhost:44310/api/v1/LandLords";
 
         rtnApiUiService.OrderList = new List<SortOrder> {
             new SortOrder()

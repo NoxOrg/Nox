@@ -1,5 +1,5 @@
 ﻿@using Cryptocash.Ui.Generated.Component;
-@inherits UiEditAreaBase
+@inherits UiEditNumberBase
 
 <MudNumericField Label="@Title"
               Variant="Variant.Outlined"
@@ -8,8 +8,7 @@
               Required="true"
               RequiredError="@ErrorRequiredMessage"              
               Format="@Format"
-              TextChanged="OnAreaChanged"
-              Adornment="Adornment.End"
-                 AdornmentIcon="@GetAdornmentIcon()"
-              Min="0"
-              Value="Area" />
+              TextChanged="OnNumberChanged"
+              Min="@Minimum"
+              Max="@Maximum"
+              Value="Number" />

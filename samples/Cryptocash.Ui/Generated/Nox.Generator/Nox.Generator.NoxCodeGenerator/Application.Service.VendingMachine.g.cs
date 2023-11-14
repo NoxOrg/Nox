@@ -19,7 +19,7 @@ public class VendingMachineService : IEntityService
     {
         ApiUiService rtnApiUiService = new();
 
-        rtnApiUiService.Url = "https://localhost:44310/api/VendingMachines";
+        rtnApiUiService.Url = "https://localhost:44310/api/v1/VendingMachines";
 
         rtnApiUiService.OrderList = new List<SortOrder> {
             new SortOrder()

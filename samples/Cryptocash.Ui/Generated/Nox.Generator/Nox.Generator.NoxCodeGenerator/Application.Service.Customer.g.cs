@@ -17,7 +17,7 @@ public class CustomerService : IEntityService
     {
         ApiUiService rtnApiUiService = new();
 
-        rtnApiUiService.Url = "https://localhost:44310/api/Customers";
+        rtnApiUiService.Url = "https://localhost:44310/api/v1/Customers";
 
         rtnApiUiService.Paging = new Paging()
         {
