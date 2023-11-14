@@ -13,6 +13,7 @@ using Nox.Application;
 using Nox.Extensions;
 
 using System;
+using System.ComponentModel.Design;
 using System.Net.Http.Headers;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -36,9 +37,14 @@ public abstract partial class TestEntityLocalizationsControllerBase
         {
             return BadRequest(ModelState);
         }
+        var etag = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(Nox.Types.CultureCode.From(cultureCode), key))).Select(e=>e.Etag).SingleOrDefault();
+        
+        if (etag == System.Guid.Empty)
+        {
+            return NotFound();
+        }
         
         var updatedProperties = new Dictionary<string, dynamic>();
-        var etag = Request.GetDecodedEtagHeader();
         updatedProperties.Add(nameof(testEntityLocalizationLocalizedUpsertDto.TextFieldToLocalize), testEntityLocalizationLocalizedUpsertDto.TextFieldToLocalize.ToValueFromNonNull());
         
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityLocalizationCommand(key, updatedProperties, Nox.Types.CultureCode.From(cultureCode) , etag));
@@ -47,7 +53,7 @@ public abstract partial class TestEntityLocalizationsControllerBase
         {
             return NotFound();
         }
-        var item = (await _mediator.Send(new GetTestEntityLocalizationTranslationsByIdQuery( updatedKey.keyId, cultureCode))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetTestEntityLocalizationTranslationsByIdQuery( updatedKey.keyId, Nox.Types.CultureCode.From(cultureCode)))).SingleOrDefault();
 
         return Ok(item);
     }

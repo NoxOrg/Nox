@@ -13,6 +13,7 @@ using Nox.Application;
 using Nox.Extensions;
 
 using System;
+using System.ComponentModel.Design;
 using System.Net.Http.Headers;
 using {{codeGeneratorState.ApplicationNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
@@ -40,11 +41,16 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
         {
             return BadRequest(ModelState);
         }
+        var etag = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery(Nox.Types.CultureCode.From({{cultureCode}}), {{ primaryKeysQuery }}))).Select(e=>e.Etag).SingleOrDefault();
+        
+        if (etag == System.Guid.Empty)
+        {
+            return NotFound();
+        }
         
         var updatedProperties = new Dictionary<string, dynamic>();
-        var etag = Request.GetDecodedEtagHeader();
        
-        {{- for attribute in entityAttributesToLocalize }}
+        {{- for attribute in localizedAttributes }}
         updatedProperties.Add(nameof({{ToLowerFirstChar entity.Name}}LocalizedUpsertDto.{{attribute.Name}}), {{ToLowerFirstChar entity.Name}}LocalizedUpsertDto.{{attribute.Name}}.ToValueFromNonNull());
         {{- end }}
         
@@ -54,7 +60,7 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
         {
             return NotFound();
         }
-        var item = (await _mediator.Send(new Get{{entity.Name }}TranslationsByIdQuery( {{ updatedKeyPrimaryKeysQuery }}, {{cultureCode}}))).SingleOrDefault();
+        var item = (await _mediator.Send(new Get{{entity.Name }}TranslationsByIdQuery( {{ updatedKeyPrimaryKeysQuery }}, Nox.Types.CultureCode.From({{cultureCode}})))).SingleOrDefault();
 
         return Ok(item);
     }

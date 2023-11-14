@@ -17,14 +17,15 @@ using Nox.Types;
 namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 
 /// <summary>
-/// {{entity.Description}} Localized Upsert DTO.
+/// {{entity.Name}} Localized Upsert DTO.
 /// </summary>
 public partial class {{className}}
 { 
 {{- for attribute in entityAttributesToLocalize }}
     /// <summary>
-    /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
+    /// {{attribute.Description |  string.rstrip}}
     /// </summary>
+    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}.</remarks>
     public {{attributeType attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
 {{- end }}
 }

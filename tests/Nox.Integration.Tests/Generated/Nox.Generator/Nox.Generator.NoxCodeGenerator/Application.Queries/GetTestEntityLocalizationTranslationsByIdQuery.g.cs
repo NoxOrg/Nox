@@ -6,13 +6,13 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Commands;
-
+using YamlDotNet.Core.Tokens;
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
 
 namespace TestWebApp.Application.Queries;
 
-public record GetTestEntityLocalizationTranslationsByIdQuery(System.String keyId, System.String CultureCode) : IRequest <IQueryable<TestEntityLocalizationLocalizedDto>>;
+public record  GetTestEntityLocalizationTranslationsByIdQuery(System.String keyId, Nox.Types.CultureCode CultureCode) : IRequest <IQueryable<TestEntityLocalizationLocalizedDto>>;
 
 internal partial class GetTestEntityLocalizationTranslationsByIdQueryHandler:GetTestEntityLocalizationTranslationsByIdQueryHandlerBase
 {
@@ -37,7 +37,7 @@ internal abstract class GetTestEntityLocalizationTranslationsByIdQueryHandlerBas
             .AsNoTracking()
             .Where(r =>
                 r.Id.Equals(request.keyId)
-                && r.CultureCode == request.CultureCode
+                && r.CultureCode == request.CultureCode.Value
             );
         return Task.FromResult(OnResponse(query));
     }

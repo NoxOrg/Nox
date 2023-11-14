@@ -13,6 +13,7 @@ using Nox.Application;
 using Nox.Extensions;
 
 using System;
+using System.ComponentModel.Design;
 using System.Net.Http.Headers;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
@@ -36,9 +37,14 @@ public abstract partial class WorkplacesControllerBase
         {
             return BadRequest(ModelState);
         }
+        var etag = (await _mediator.Send(new GetWorkplaceByIdQuery(Nox.Types.CultureCode.From(cultureCode), key))).Select(e=>e.Etag).SingleOrDefault();
+        
+        if (etag == System.Guid.Empty)
+        {
+            return NotFound();
+        }
         
         var updatedProperties = new Dictionary<string, dynamic>();
-        var etag = Request.GetDecodedEtagHeader();
         updatedProperties.Add(nameof(workplaceLocalizedUpsertDto.Description), workplaceLocalizedUpsertDto.Description.ToValueFromNonNull());
         
         var updatedKey = await _mediator.Send(new PartialUpdateWorkplaceCommand(key, updatedProperties, Nox.Types.CultureCode.From(cultureCode) , etag));
@@ -47,7 +53,7 @@ public abstract partial class WorkplacesControllerBase
         {
             return NotFound();
         }
-        var item = (await _mediator.Send(new GetWorkplaceTranslationsByIdQuery( updatedKey.keyId, cultureCode))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetWorkplaceTranslationsByIdQuery( updatedKey.keyId, Nox.Types.CultureCode.From(cultureCode)))).SingleOrDefault();
 
         return Ok(item);
     }

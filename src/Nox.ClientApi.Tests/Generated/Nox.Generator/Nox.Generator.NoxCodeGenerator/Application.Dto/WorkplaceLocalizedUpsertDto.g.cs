@@ -19,7 +19,8 @@ namespace ClientApi.Application.Dto;
 public partial class WorkplaceLocalizedUpsertDto
 {
     /// <summary>
-    /// Workplace Description (Optional).
+    /// Workplace Description
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public System.String? Description { get; set; }
 }

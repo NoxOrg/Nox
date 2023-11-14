@@ -14,13 +14,11 @@ internal class TranslationsByIdQueryGenerator : ApplicationEntityDependentGenera
         var templateName = @"Application.Queries.TranslationsByIdQuery";
         foreach (var entity in entities.Where(x => x.IsLocalized))
         {
-            if (entity.IsOwnedEntity)
-                continue;
-
             context.CancellationToken.ThrowIfCancellationRequested();
 
             var primaryKeys = string.Join(", ", entity.Keys.Select(k => $"{codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
 
+            
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Get{entity.Name}TranslationsByIdQuery")
                 .WithFileNamePrefix($"Application.Queries")

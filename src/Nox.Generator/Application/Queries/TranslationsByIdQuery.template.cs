@@ -6,32 +6,32 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Commands;
-
+using YamlDotNet.Core.Tokens;
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{codeGeneratorState.PersistenceNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 
-public record Get{{entity.Name }}TranslationsByIdQuery({{primaryKeys}}, System.String {{codeGeneratorState.LocalizationCultureField}}) : IRequest <IQueryable<{{entity.Name}}LocalizedDto>>;
+public record  {{className}}({{primaryKeys}}, Nox.Types.CultureCode {{codeGeneratorState.LocalizationCultureField}}) : IRequest <IQueryable<{{entity.Name}}LocalizedDto>>;
 
-internal partial class Get{{entity.Name}}TranslationsByIdQueryHandler:Get{{entity.Name}}TranslationsByIdQueryHandlerBase
+internal partial class {{className}}Handler:{{className}}HandlerBase
 {
-    public  Get{{entity.Name}}TranslationsByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    public  {{className}}Handler(DtoDbContext dataDbContext): base(dataDbContext)
     {
     
     }
 }
 
-internal abstract class Get{{entity.Name}}TranslationsByIdQueryHandlerBase:  QueryBase<IQueryable<{{entity.Name}}LocalizedDto>>, IRequestHandler<Get{{entity.Name}}TranslationsByIdQuery, IQueryable<{{entity.Name}}LocalizedDto>>
+internal abstract class {{className}}HandlerBase:  QueryBase<IQueryable<{{entity.Name}}LocalizedDto>>, IRequestHandler<Get{{entity.Name}}TranslationsByIdQuery, IQueryable<{{entity.Name}}LocalizedDto>>
 {
-    public  Get{{entity.Name}}TranslationsByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  {{className}}HandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public virtual Task<IQueryable<{{entity.Name}}LocalizedDto>> Handle(Get{{entity.Name}}TranslationsByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<{{entity.Name}}LocalizedDto>> Handle({{className}} request, CancellationToken cancellationToken)
     {    
         var query = DataDbContext.{{entity.PluralName}}Localized
             .AsNoTracking()
@@ -40,7 +40,7 @@ internal abstract class Get{{entity.Name}}TranslationsByIdQueryHandlerBase:  Que
                 r.{{key.Name}}.Equals(request.key{{key.Name}}){{if !for.last}} &&{{end}}
             {{- end -}}
             {{-}}
-                && r.CultureCode == request.{{codeGeneratorState.LocalizationCultureField}}
+                && r.CultureCode == request.{{codeGeneratorState.LocalizationCultureField}}.Value
             );
         return Task.FromResult(OnResponse(query));
     }

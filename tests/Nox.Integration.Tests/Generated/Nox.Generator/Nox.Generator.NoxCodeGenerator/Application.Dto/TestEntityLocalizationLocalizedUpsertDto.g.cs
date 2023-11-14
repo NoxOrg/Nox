@@ -14,12 +14,13 @@ using Nox.Types;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
-/// Entity created for testing localization Localized Upsert DTO.
+/// TestEntityLocalization Localized Upsert DTO.
 /// </summary>
 public partial class TestEntityLocalizationLocalizedUpsertDto
 {
     /// <summary>
-    ///  (Required).
+    /// 
     /// </summary>
+    /// <remarks>Required.</remarks>
     public System.String TextFieldToLocalize { get; set; } = default!;
 }

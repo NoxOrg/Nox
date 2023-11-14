@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis;
 
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Solution.Extensions;
 
 namespace Nox.Generator.Presentation.Api.OData;
 
@@ -23,17 +24,9 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
 
         const string templateName = @"Presentation.Api.OData.EntityController.Translations";
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(e=>e.IsLocalized))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
-
-            if (!entity.IsLocalized)
-            {
-                continue;
-            }
-            
-            var entityAttributesToLocalize = entity.Attributes
-                .Where(x => x.IsLocalized);
 
             var keysForRouting = GetPrimaryKeysQuery(entity).Split(',').Select(x => x.Trim()).ToList();
             
@@ -46,7 +39,7 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
                 .WithObject("createdKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "createdKey.", true))
                 .WithObject("updatedKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "updatedKey.key", true))
                 .WithObject("keysForRouting", keysForRouting)
-                .WithObject("entityAttributesToLocalize", entityAttributesToLocalize)
+                .WithObject("localizedAttributes", entity.GetLocalizedAttributes())
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);
         }

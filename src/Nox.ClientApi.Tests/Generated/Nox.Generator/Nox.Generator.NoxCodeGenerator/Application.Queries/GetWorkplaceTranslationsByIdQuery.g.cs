@@ -6,13 +6,13 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Commands;
-
+using YamlDotNet.Core.Tokens;
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetWorkplaceTranslationsByIdQuery(System.UInt32 keyId, System.String CultureCode) : IRequest <IQueryable<WorkplaceLocalizedDto>>;
+public record  GetWorkplaceTranslationsByIdQuery(System.UInt32 keyId, Nox.Types.CultureCode CultureCode) : IRequest <IQueryable<WorkplaceLocalizedDto>>;
 
 internal partial class GetWorkplaceTranslationsByIdQueryHandler:GetWorkplaceTranslationsByIdQueryHandlerBase
 {
@@ -37,7 +37,7 @@ internal abstract class GetWorkplaceTranslationsByIdQueryHandlerBase:  QueryBase
             .AsNoTracking()
             .Where(r =>
                 r.Id.Equals(request.keyId)
-                && r.CultureCode == request.CultureCode
+                && r.CultureCode == request.CultureCode.Value
             );
         return Task.FromResult(OnResponse(query));
     }
