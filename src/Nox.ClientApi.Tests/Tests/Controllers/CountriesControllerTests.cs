@@ -828,7 +828,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region PUT Update related entity /api/{EntityPluralName}/{EntityKey} => api/countries/1
 
-        [Fact]
+        [Fact(Skip = "NOX-237")]
         public async Task Put_UpdateCountryWorkplaces_FromEmptyToList_Success()
         {
             // Arrange
@@ -844,7 +844,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 new CountryUpdateDto
                 {
                     Name = countryResponse!.Name,
-                    WorkplacesId = new List<UInt32> { workplaceResponse!.Id }
+                    //WorkplacesId = new List<UInt32> { workplaceResponse!.Id }
                 },
                 headers);
 
@@ -859,7 +859,7 @@ namespace ClientApi.Tests.Tests.Controllers
             getCountryResponse!.Workplaces!.First().Name.Should().Be(workplaceResponse!.Name);
         }
 
-        [Fact]
+        [Fact(Skip = "NOX-237")]
         public async Task Put_UpdateCountryWorkplaces_FromListToEmpty_Success()
         {
             // Arrange
@@ -877,7 +877,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 new CountryUpdateDto
                 {
                     Name = countryResponse!.Name,
-                    WorkplacesId = new List<UInt32>()
+                    //WorkplacesId = new List<UInt32>()
                 },
                 headers);
 
@@ -891,7 +891,7 @@ namespace ClientApi.Tests.Tests.Controllers
             getCountryResponse!.Workplaces!.Should().HaveCount(0);
         }
 
-        [Fact]
+        [Fact(Skip = "NOX-237")]
         public async Task Put_UpdateCountryWorkplaces_FromListToList_Success()
         {
             // Arrange
@@ -920,12 +920,12 @@ namespace ClientApi.Tests.Tests.Controllers
                 new CountryUpdateDto
                 {
                     Name = countryResponse!.Name,
-                    WorkplacesId = new List<UInt32>
-                    {
-                        workplaceResponse2!.Id,
-                        workplaceResponse4!.Id,
-                        workplaceResponse5!.Id
-                    }
+                    //WorkplacesId = new List<UInt32>
+                    //{
+                    //    workplaceResponse2!.Id,
+                    //    workplaceResponse4!.Id,
+                    //    workplaceResponse5!.Id
+                    //}
                 },
                 headers);
 

@@ -31,9 +31,4 @@ public partial class LandLordUpdateDto : IEntityDto<DomainNamespace.LandLord>
     [Required(ErrorMessage = "Address is required")]
     
     public StreetAddressDto Address { get; set; } = default!;
-
-    /// <summary>
-    /// LandLord leases an area to house ZeroOrMany VendingMachines
-    /// </summary>
-    public List<System.Guid> VendingMachinesId { get; set; } = new();
 }

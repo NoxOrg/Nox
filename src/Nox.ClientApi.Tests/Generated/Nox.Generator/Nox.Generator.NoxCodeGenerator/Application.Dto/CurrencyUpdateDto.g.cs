@@ -27,14 +27,4 @@ public partial class CurrencyUpdateDto : IEntityDto<DomainNamespace.Currency>
     /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Symbol { get; set; }
-
-    /// <summary>
-    /// Currency List of store licenses where this currency is a default one OneOrMany StoreLicenses
-    /// </summary>
-    public List<System.Int64> StoreLicenseDefaultId { get; set; } = new();
-
-    /// <summary>
-    /// Currency List of store licenses that were sold in this currency OneOrMany StoreLicenses
-    /// </summary>
-    public List<System.Int64> StoreLicenseSoldInId { get; set; } = new();
 }

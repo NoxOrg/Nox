@@ -219,8 +219,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
                 new CountryUpdateDto()
                 {
-                    Name = expectedName,
-                    WorkplacesId = new List<uint> { workplaceResponse!.Id }
+                    Name = expectedName
                 },
                 headers);
 

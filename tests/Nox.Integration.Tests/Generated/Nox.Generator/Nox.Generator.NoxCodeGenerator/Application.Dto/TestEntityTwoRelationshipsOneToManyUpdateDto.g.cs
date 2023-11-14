@@ -24,14 +24,4 @@ public partial class TestEntityTwoRelationshipsOneToManyUpdateDto : IEntityDto<D
     [Required(ErrorMessage = "TextTestField is required")]
     
     public System.String TextTestField { get; set; } = default!;
-
-    /// <summary>
-    /// TestEntityTwoRelationshipsOneToMany First relationship to the same entity ZeroOrMany SecondTestEntityTwoRelationshipsOneToManies
-    /// </summary>
-    public List<System.String> TestRelationshipOneId { get; set; } = new();
-
-    /// <summary>
-    /// TestEntityTwoRelationshipsOneToMany Second relationship to the same entity ZeroOrMany SecondTestEntityTwoRelationshipsOneToManies
-    /// </summary>
-    public List<System.String> TestRelationshipTwoId { get; set; } = new();
 }

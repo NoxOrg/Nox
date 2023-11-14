@@ -57,48 +57,6 @@ internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCus
 			return null;
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.PaymentDetails).LoadAsync();
-		var paymentDetailsEntities = new List<Cryptocash.Domain.PaymentDetail>();
-		foreach(var relatedEntityId in request.EntityDto.PaymentDetailsId)
-		{
-			var relatedKey = Cryptocash.Domain.PaymentDetailMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.PaymentDetails.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				paymentDetailsEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("PaymentDetails", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToPaymentDetails(paymentDetailsEntities);
-
-		await DbContext.Entry(entity).Collection(x => x.Bookings).LoadAsync();
-		var bookingsEntities = new List<Cryptocash.Domain.Booking>();
-		foreach(var relatedEntityId in request.EntityDto.BookingsId)
-		{
-			var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				bookingsEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("Bookings", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToBookings(bookingsEntities);
-
-		await DbContext.Entry(entity).Collection(x => x.Transactions).LoadAsync();
-		var transactionsEntities = new List<Cryptocash.Domain.Transaction>();
-		foreach(var relatedEntityId in request.EntityDto.TransactionsId)
-		{
-			var relatedKey = Cryptocash.Domain.TransactionMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.Transactions.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				transactionsEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("Transactions", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToTransactions(transactionsEntities);
-
 		var countryKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId);
 		var countryEntity = await DbContext.Countries.FindAsync(countryKey);
 						

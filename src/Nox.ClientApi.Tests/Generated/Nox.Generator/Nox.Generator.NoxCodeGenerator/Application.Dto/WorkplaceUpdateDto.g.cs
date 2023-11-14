@@ -35,9 +35,4 @@ public partial class WorkplaceUpdateDto : IEntityDto<DomainNamespace.Workplace>
     /// </summary>
     
     public System.Int64? CountryId { get; set; } = default!;
-
-    /// <summary>
-    /// Workplace Actve Tenants in the workplace ZeroOrMany Tenants
-    /// </summary>
-    public List<System.Guid> TenantsId { get; set; } = new();
 }

@@ -92,19 +92,4 @@ public partial class CountryUpdateDto : IEntityDto<DomainNamespace.Country>
     /// </summary>
     [Required(ErrorMessage = "Currency is required")]
     public System.String CurrencyId { get; set; } = default!;
-
-    /// <summary>
-    /// Country used by OneOrMany Commissions
-    /// </summary>
-    public List<System.Int64> CommissionsId { get; set; } = new();
-
-    /// <summary>
-    /// Country used by ZeroOrMany VendingMachines
-    /// </summary>
-    public List<System.Guid> VendingMachinesId { get; set; } = new();
-
-    /// <summary>
-    /// Country used by ZeroOrMany Customers
-    /// </summary>
-    public List<System.Int64> CustomersId { get; set; } = new();
 }

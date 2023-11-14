@@ -24,9 +24,4 @@ public partial class TenantUpdateDto : IEntityDto<DomainNamespace.Tenant>
     [Required(ErrorMessage = "Name is required")]
     
     public System.String Name { get; set; } = default!;
-
-    /// <summary>
-    /// Tenant Workplaces where the tenant is active ZeroOrMany Workplaces
-    /// </summary>
-    public List<System.UInt32> WorkplacesId { get; set; } = new();
 }

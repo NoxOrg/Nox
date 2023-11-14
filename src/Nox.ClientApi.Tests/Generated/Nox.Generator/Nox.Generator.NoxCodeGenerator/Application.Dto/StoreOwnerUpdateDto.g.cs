@@ -51,9 +51,4 @@ public partial class StoreOwnerUpdateDto : IEntityDto<DomainNamespace.StoreOwner
     /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Notes { get; set; }
-
-    /// <summary>
-    /// StoreOwner Set of stores that this owner owns OneOrMany Stores
-    /// </summary>
-    public List<System.Guid> StoresId { get; set; } = new();
 }

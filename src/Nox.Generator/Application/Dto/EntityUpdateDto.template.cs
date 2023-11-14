@@ -36,15 +36,17 @@ public partial class {{className}} : IEntityDto<DomainNamespace.{{entity.Name}}>
 {{- end }}
 {{- for relationship in entity.Relationships}}
 	{{- relationshipName = GetNavigationPropertyName entity relationship }}
+    {{- if relationship.WithSingleEntity }}
 
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
-    {{- if relationship.WithSingleEntity }}
     {{ if relationship.Relationship == "ExactlyOne" }}[Required(ErrorMessage = "{{relationshipName}} is required")]{{-end}}
     public {{relationship.ForeignKeyPrimitiveType}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationshipName}}Id { get; set; } = default!;
     {{-else}}
-    public List<{{relationship.ForeignKeyPrimitiveType}}> {{relationshipName}}Id { get; set; } = new();
+    {{- ## NOX-237
+    public List<relationship.ForeignKeyPrimitiveType> relationshipNameId { get; set; } = new(); 
+    ## }}
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships}}
