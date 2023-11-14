@@ -54,8 +54,8 @@ namespace Nox.Tests.ProjectDependencies
 
             projectDependenciesNoxSolution.Should().HaveCount(2);
 
-            (projectDependenciesNoxSolution.First() == _fixture.NoxTypesAbstractionsProject.Id).Should().BeTrue();
-            (projectDependenciesNoxSolution.Skip(1).First() == _fixture.NoxYamlProject.Id).Should().BeTrue();
+            projectDependenciesNoxSolution.Where(p => p == _fixture.NoxTypesAbstractionsProject.Id).Count().Should().Be(1);
+            projectDependenciesNoxSolution.Where(p => p == _fixture.NoxYamlProject.Id).Count().Should().Be(1);
         }
 
         [Fact]
