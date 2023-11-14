@@ -57,35 +57,11 @@ internal abstract class TestEntityForAutoNumberUsagesFactoryBase : IEntityFactor
 
     private void UpdateEntityInternal(TestEntityForAutoNumberUsagesEntity entity, TestEntityForAutoNumberUsagesUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.AutoNumberFieldWithOptions = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithOptions(updateDto.AutoNumberFieldWithOptions.NonNullValue<System.Int64>());
-        entity.AutoNumberFieldWithoutOptions = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithoutOptions(updateDto.AutoNumberFieldWithoutOptions.NonNullValue<System.Int64>());
         entity.TextField = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateTextField(updateDto.TextField.NonNullValue<System.String>());
     }
 
     private void PartialUpdateEntityInternal(TestEntityForAutoNumberUsagesEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-
-        if (updatedProperties.TryGetValue("AutoNumberFieldWithOptions", out var AutoNumberFieldWithOptionsUpdateValue))
-        {
-            if (AutoNumberFieldWithOptionsUpdateValue == null)
-            {
-                throw new ArgumentException("Attribute 'AutoNumberFieldWithOptions' can't be null");
-            }
-            {
-                entity.AutoNumberFieldWithOptions = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithOptions(AutoNumberFieldWithOptionsUpdateValue);
-            }
-        }
-
-        if (updatedProperties.TryGetValue("AutoNumberFieldWithoutOptions", out var AutoNumberFieldWithoutOptionsUpdateValue))
-        {
-            if (AutoNumberFieldWithoutOptionsUpdateValue == null)
-            {
-                throw new ArgumentException("Attribute 'AutoNumberFieldWithoutOptions' can't be null");
-            }
-            {
-                entity.AutoNumberFieldWithoutOptions = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithoutOptions(AutoNumberFieldWithoutOptionsUpdateValue);
-            }
-        }
 
         if (updatedProperties.TryGetValue("TextField", out var TextFieldUpdateValue))
         {

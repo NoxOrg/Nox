@@ -65,11 +65,6 @@ public abstract class BookingCreateDtoBase : IEntityDto<DomainNamespace.Booking>
     /// </summary>
     public virtual System.DateTimeOffset? CancelledDateTime { get; set; }
     /// <summary>
-    /// Booking's status 
-    /// <remarks>Optional</remarks>    
-    /// </summary>
-    public virtual System.String? Status { get; set; }
-    /// <summary>
     /// Booking's related vat number 
     /// <remarks>Optional</remarks>    
     /// </summary>

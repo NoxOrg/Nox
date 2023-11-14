@@ -36,11 +36,6 @@ public abstract class WorkplaceCreateDtoBase : IEntityDto<DomainNamespace.Workpl
     /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? Description { get; set; }
-    /// <summary>
-    /// The Formula 
-    /// <remarks>Optional</remarks>    
-    /// </summary>
-    public virtual System.String? Greeting { get; set; }
 
     /// <summary>
     /// Workplace Workplace country ZeroOrOne Countries
