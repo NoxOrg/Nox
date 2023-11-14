@@ -635,7 +635,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateEtagHeader(postResult?.Etag),
                 CreateAcceptLanguageHeader("en-US"));
             
-            var localizedDto =  await PatchAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplaceLocalized/tr-TR", upsertDto, headers);
+            var localizedDto =  await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplaceLocalized/tr-TR", upsertDto, headers, false);
             
             
             // Assert

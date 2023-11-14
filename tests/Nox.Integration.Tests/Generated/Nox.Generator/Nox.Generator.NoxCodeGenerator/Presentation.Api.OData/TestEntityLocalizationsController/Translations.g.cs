@@ -29,8 +29,8 @@ namespace TestWebApp.Presentation.Api.OData;
 public abstract partial class TestEntityLocalizationsControllerBase
 {
     
-    [HttpPatch("api/TestEntityLocalizations/{key}/TestEntityLocalizationLocalized/{cultureCode}")]
-    public virtual async Task<ActionResult<TestEntityLocalizationLocalizedDto>> PatchTestEntityLocalizationLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode, [FromBody] Delta<TestEntityLocalizationLocalizedUpsertDto> testEntityLocalizationLocalizedUpsertDto)
+    [HttpPut("api/TestEntityLocalizations/{key}/TestEntityLocalizationLocalized/{cultureCode}")]
+    public virtual async Task<ActionResult<TestEntityLocalizationLocalizedDto>> PutTestEntityLocalizationLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode, [FromBody] TestEntityLocalizationLocalizedUpsertDto testEntityLocalizationLocalizedUpsertDto)
     {
         if (!ModelState.IsValid)
         {
@@ -39,14 +39,8 @@ public abstract partial class TestEntityLocalizationsControllerBase
         
         var updatedProperties = new Dictionary<string, dynamic>();
         var etag = Request.GetDecodedEtagHeader();
+        updatedProperties.Add(nameof(testEntityLocalizationLocalizedUpsertDto.TextFieldToLocalize), testEntityLocalizationLocalizedUpsertDto.TextFieldToLocalize.ToValueFromNonNull());
         
-        foreach (var propertyName in testEntityLocalizationLocalizedUpsertDto.GetChangedPropertyNames())
-        {
-            if (testEntityLocalizationLocalizedUpsertDto.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updatedProperties[propertyName] = value;
-            }
-        }
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityLocalizationCommand(key, updatedProperties, Nox.Types.CultureCode.From(cultureCode) , etag));
 
         if (updatedKey is null)

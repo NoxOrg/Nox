@@ -31,6 +31,9 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
             {
                 continue;
             }
+            
+            var entityAttributesToLocalize = entity.Attributes
+                .Where(x => x.IsLocalized);
 
             var keysForRouting = GetPrimaryKeysQuery(entity).Split(',').Select(x => x.Trim()).ToList();
             
@@ -43,6 +46,7 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
                 .WithObject("createdKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "createdKey.", true))
                 .WithObject("updatedKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "updatedKey.key", true))
                 .WithObject("keysForRouting", keysForRouting)
+                .WithObject("entityAttributesToLocalize", entityAttributesToLocalize)
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);
         }

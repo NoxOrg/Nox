@@ -33,8 +33,8 @@ namespace {{ codeGeneratorState.ODataNameSpace }};
 public abstract partial class {{ entity.PluralName }}ControllerBase
 {
     
-    [HttpPatch("api/{{entity.PluralName}}/{{keysRoute}}{{entity.Name}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
-    public virtual async Task<ActionResult<{{entity.Name}}LocalizedDto>> Patch{{entity.Name}}Localized( {{ primaryKeysRoute }}, [FromRoute] System.String {{cultureCode}}, [FromBody] Delta<{{entity.Name}}LocalizedUpsertDto> {{ToLowerFirstChar entity.Name}}LocalizedUpsertDto)
+    [HttpPut("api/{{entity.PluralName}}/{{keysRoute}}{{entity.Name}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
+    public virtual async Task<ActionResult<{{entity.Name}}LocalizedDto>> Put{{entity.Name}}Localized( {{ primaryKeysRoute }}, [FromRoute] System.String {{cultureCode}}, [FromBody] {{entity.Name}}LocalizedUpsertDto {{ToLowerFirstChar entity.Name}}LocalizedUpsertDto)
     {
         if (!ModelState.IsValid)
         {
@@ -43,14 +43,11 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
         
         var updatedProperties = new Dictionary<string, dynamic>();
         var etag = Request.GetDecodedEtagHeader();
+       
+        {{- for attribute in entityAttributesToLocalize }}
+        updatedProperties.Add(nameof({{ToLowerFirstChar entity.Name}}LocalizedUpsertDto.{{attribute.Name}}), {{ToLowerFirstChar entity.Name}}LocalizedUpsertDto.{{attribute.Name}}.ToValueFromNonNull());
+        {{- end }}
         
-        foreach (var propertyName in {{ToLowerFirstChar entity.Name}}LocalizedUpsertDto.GetDynamicMemberNames())
-        {
-            if ({{ToLowerFirstChar entity.Name}}LocalizedUpsertDto.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updatedProperties[propertyName] = value;
-            }
-        }
         var updatedKey = await _mediator.Send(new PartialUpdate{{ entity.Name }}Command({{ primaryKeysQuery }}, updatedProperties, Nox.Types.CultureCode.From({{cultureCode}}) , etag));
 
         if (updatedKey is null)
