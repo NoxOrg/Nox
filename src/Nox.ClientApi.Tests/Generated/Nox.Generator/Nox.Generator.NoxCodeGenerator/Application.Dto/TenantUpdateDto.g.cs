@@ -32,9 +32,4 @@ public partial class TenantUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamesp
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;
-
-    /// <summary>
-    /// Tenant Workplaces where the tenant is active ZeroOrMany Workplaces
-    /// </summary>
-    public virtual List<System.UInt32> WorkplacesId { get; set; } = new();
 }

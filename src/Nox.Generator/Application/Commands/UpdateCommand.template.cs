@@ -97,21 +97,6 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 			entity.CreateRefTo{{relationshipName}}({{ToLowerFirstChar relationshipName}}Entity);
 		else
 			throw new RelatedEntityNotFoundException("{{relationshipName}}", request.EntityDto.{{relationshipName}}Id.ToString());
-		{{- else }}
-
-		await DbContext.Entry(entity).Collection(x => x.{{relationshipName}}).LoadAsync();
-		var {{ToLowerFirstChar relationshipName}}Entities = new List<{{codeGeneratorState.DomainNameSpace}}.{{relationship.Entity}}>();
-		foreach(var relatedEntityId in request.EntityDto.{{relationshipName}}Id)
-		{
-			var relatedKey = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedEntityId);
-			var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				{{ToLowerFirstChar relationshipName}}Entities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("{{relationshipName}}", relatedEntityId.ToString());
-		}
-		entity.UpdateRefTo{{relationshipName}}({{ToLowerFirstChar relationshipName}}Entities);
 		{{-end}}
 	{{- end }}
 

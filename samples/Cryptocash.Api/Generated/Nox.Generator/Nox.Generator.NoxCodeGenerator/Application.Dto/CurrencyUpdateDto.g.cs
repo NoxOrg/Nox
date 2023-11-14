@@ -105,14 +105,4 @@ public partial class CurrencyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainName
     [Required(ErrorMessage = "MinorToMajorValue is required")]
     
     public virtual MoneyDto MinorToMajorValue { get; set; } = default!;
-
-    /// <summary>
-    /// Currency used by OneOrMany Countries
-    /// </summary>
-    public virtual List<System.String> CountriesId { get; set; } = new();
-
-    /// <summary>
-    /// Currency used by ZeroOrMany MinimumCashStocks
-    /// </summary>
-    public virtual List<System.Int64> MinimumCashStocksId { get; set; } = new();
 }

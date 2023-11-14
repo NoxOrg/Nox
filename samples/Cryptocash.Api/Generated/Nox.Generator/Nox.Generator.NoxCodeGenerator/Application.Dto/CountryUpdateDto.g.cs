@@ -100,19 +100,4 @@ public partial class CountryUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNames
     /// </summary>
     [Required(ErrorMessage = "Currency is required")]
     public virtual System.String CurrencyId { get; set; } = default!;
-
-    /// <summary>
-    /// Country used by OneOrMany Commissions
-    /// </summary>
-    public virtual List<System.Int64> CommissionsId { get; set; } = new();
-
-    /// <summary>
-    /// Country used by ZeroOrMany VendingMachines
-    /// </summary>
-    public virtual List<System.Guid> VendingMachinesId { get; set; } = new();
-
-    /// <summary>
-    /// Country used by ZeroOrMany Customers
-    /// </summary>
-    public virtual List<System.Int64> CustomersId { get; set; } = new();
 }

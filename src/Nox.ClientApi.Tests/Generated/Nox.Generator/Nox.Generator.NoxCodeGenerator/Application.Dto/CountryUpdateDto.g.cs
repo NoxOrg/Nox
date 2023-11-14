@@ -72,11 +72,6 @@ public partial class CountryUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNames
     /// <remarks>Optional.</remarks>    
     /// </summary>
     public virtual System.Int32? Continent { get; set; }
-
-    /// <summary>
-    /// Country Country workplaces ZeroOrMany Workplaces
-    /// </summary>
-    public virtual List<System.UInt32> WorkplacesId { get; set; } = new();
     /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes
     /// </summary>

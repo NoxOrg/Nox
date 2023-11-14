@@ -43,9 +43,4 @@ public partial class WorkplaceUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNam
     /// </summary>
     
     public virtual System.Int64? CountryId { get; set; } = default!;
-
-    /// <summary>
-    /// Workplace Actve Tenants in the workplace ZeroOrMany Tenants
-    /// </summary>
-    public virtual List<System.Guid> TenantsId { get; set; } = new();
 }

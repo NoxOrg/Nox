@@ -26,7 +26,7 @@ namespace ClientApi.Tests.Controllers
 
         #region PUT Update related entity /api/{EntityPluralName}/{EntityKey} => api/storeowners/1
 
-        [Fact]
+        [Fact(Skip = "NOX-237")]
         public async Task Put_UpdateStores_Success()
         {
             // Arrange
@@ -56,12 +56,12 @@ namespace ClientApi.Tests.Controllers
                 {
                     Name = storeOwnerResponse!.Name,
                     TemporaryOwnerName = storeOwnerResponse!.TemporaryOwnerName,
-                    StoresId = new List<System.Guid>
-                    {
-                        store3!.Id,
-                        store4!.Id,
-                        store5!.Id
-                    }
+                    //StoresId = new List<System.Guid>
+                    //{
+                    //    store3!.Id,
+                    //    store4!.Id,
+                    //    store5!.Id
+                    //}
                 },
                 headers);
 
@@ -79,7 +79,7 @@ namespace ClientApi.Tests.Controllers
             getStoreOwnerResponse!.Stores!.Should().NotContain(w => w.Id.Equals(store2!.Id));
         }
 
-        [Fact]
+        [Fact(Skip = "NOX-237")]
         public async Task Put_UpdateStores_FromListToEmpty_ShouldFail()
         {
             // Arrange

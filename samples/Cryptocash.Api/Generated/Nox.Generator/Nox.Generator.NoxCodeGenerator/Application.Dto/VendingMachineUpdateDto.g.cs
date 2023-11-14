@@ -82,19 +82,4 @@ public partial class VendingMachineUpdateDtoBase: EntityDtoBase, IEntityDto<Doma
     /// </summary>
     [Required(ErrorMessage = "LandLord is required")]
     public virtual System.Int64 LandLordId { get; set; } = default!;
-
-    /// <summary>
-    /// VendingMachine related to ZeroOrMany Bookings
-    /// </summary>
-    public virtual List<System.Guid> BookingsId { get; set; } = new();
-
-    /// <summary>
-    /// VendingMachine related to ZeroOrMany CashStockOrders
-    /// </summary>
-    public virtual List<System.Int64> CashStockOrdersId { get; set; } = new();
-
-    /// <summary>
-    /// VendingMachine required ZeroOrMany MinimumCashStocks
-    /// </summary>
-    public virtual List<System.Int64> MinimumCashStocksId { get; set; } = new();
 }

@@ -35,14 +35,4 @@ public partial class CurrencyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainName
     /// <remarks>Optional.</remarks>    
     /// </summary>
     public virtual System.String? Symbol { get; set; }
-
-    /// <summary>
-    /// Currency List of store licenses where this currency is a default one OneOrMany StoreLicenses
-    /// </summary>
-    public virtual List<System.Int64> StoreLicenseDefaultId { get; set; } = new();
-
-    /// <summary>
-    /// Currency List of store licenses that were sold in this currency OneOrMany StoreLicenses
-    /// </summary>
-    public virtual List<System.Int64> StoreLicenseSoldInId { get; set; } = new();
 }

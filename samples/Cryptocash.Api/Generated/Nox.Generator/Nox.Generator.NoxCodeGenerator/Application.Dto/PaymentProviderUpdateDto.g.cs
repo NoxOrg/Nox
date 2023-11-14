@@ -39,9 +39,4 @@ public partial class PaymentProviderUpdateDtoBase: EntityDtoBase, IEntityDto<Dom
     [Required(ErrorMessage = "PaymentProviderType is required")]
     
     public virtual System.String PaymentProviderType { get; set; } = default!;
-
-    /// <summary>
-    /// PaymentProvider related to ZeroOrMany PaymentDetails
-    /// </summary>
-    public virtual List<System.Int64> PaymentDetailsId { get; set; } = new();
 }
