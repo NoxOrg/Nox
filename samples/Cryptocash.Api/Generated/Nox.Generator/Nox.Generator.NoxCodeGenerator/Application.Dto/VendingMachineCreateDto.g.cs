@@ -14,6 +14,9 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+/// <summary>
+/// Vending machine definition and related data.
+/// </summary>
 public partial class VendingMachineCreateDto : VendingMachineCreateDtoBase
 {
 

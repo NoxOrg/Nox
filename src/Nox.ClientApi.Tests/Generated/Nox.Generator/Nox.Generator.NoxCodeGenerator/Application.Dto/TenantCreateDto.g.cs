@@ -14,6 +14,9 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+/// <summary>
+/// Tenant.
+/// </summary>
 public partial class TenantCreateDto : TenantCreateDtoBase
 {
 

@@ -13,9 +13,17 @@ using DomainNamespace = Cryptocash.Domain;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
+/// Payment provider related data.
+/// </summary>
+public partial class PaymentProviderUpdateDto : PaymentProviderUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// Payment provider related data
 /// </summary>
-public partial class PaymentProviderUpdateDto : IEntityDto<DomainNamespace.PaymentProvider>
+public partial class PaymentProviderUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.PaymentProvider>
 {
     /// <summary>
     /// Payment provider name 
@@ -23,17 +31,17 @@ public partial class PaymentProviderUpdateDto : IEntityDto<DomainNamespace.Payme
     /// </summary>
     [Required(ErrorMessage = "PaymentProviderName is required")]
     
-    public System.String PaymentProviderName { get; set; } = default!;
+    public virtual System.String PaymentProviderName { get; set; } = default!;
     /// <summary>
     /// Payment provider account type 
     /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "PaymentProviderType is required")]
     
-    public System.String PaymentProviderType { get; set; } = default!;
+    public virtual System.String PaymentProviderType { get; set; } = default!;
 
     /// <summary>
     /// PaymentProvider related to ZeroOrMany PaymentDetails
     /// </summary>
-    public List<System.Int64> PaymentDetailsId { get; set; } = new();
+    public virtual List<System.Int64> PaymentDetailsId { get; set; } = new();
 }

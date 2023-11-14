@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record TestEntityOwnedRelationshipOneOrManyKeyDto(System.String keyId);
 
+/// <summary>
+/// Update TestEntityOwnedRelationshipOneOrMany
+/// .
+/// </summary>
 public partial class TestEntityOwnedRelationshipOneOrManyDto : TestEntityOwnedRelationshipOneOrManyDtoBase
 {
 

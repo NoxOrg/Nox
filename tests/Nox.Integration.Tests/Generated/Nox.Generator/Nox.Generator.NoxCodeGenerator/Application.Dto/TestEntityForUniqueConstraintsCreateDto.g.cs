@@ -14,6 +14,9 @@ using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
+/// <summary>
+/// Entity created for testing constraints.
+/// </summary>
 public partial class TestEntityForUniqueConstraintsCreateDto : TestEntityForUniqueConstraintsCreateDtoBase
 {
 

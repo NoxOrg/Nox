@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record BankNoteKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update BankNote
+/// Currencies related frequent and rare bank notes.
+/// </summary>
 public partial class BankNoteDto : BankNoteDtoBase
 {
 

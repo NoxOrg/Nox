@@ -14,6 +14,9 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+/// <summary>
+/// Local names for countries.
+/// </summary>
 public partial class CountryLocalNameCreateDto : CountryLocalNameCreateDtoBase
 {
 

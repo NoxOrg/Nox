@@ -14,6 +14,9 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+/// <summary>
+/// Country Entity Country representation for the Client API tests.
+/// </summary>
 public partial class CountryCreateDto : CountryCreateDtoBase
 {
 

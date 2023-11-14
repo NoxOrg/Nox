@@ -14,6 +14,9 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+/// <summary>
+/// Bar code for country.
+/// </summary>
 public partial class CountryBarCodeCreateDto : CountryBarCodeCreateDtoBase
 {
 

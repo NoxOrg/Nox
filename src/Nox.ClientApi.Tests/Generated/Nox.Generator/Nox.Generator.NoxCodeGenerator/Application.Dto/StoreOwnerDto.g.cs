@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record StoreOwnerKeyDto(System.String keyId);
 
+/// <summary>
+/// Update StoreOwner
+/// Store owners.
+/// </summary>
 public partial class StoreOwnerDto : StoreOwnerDtoBase
 {
 

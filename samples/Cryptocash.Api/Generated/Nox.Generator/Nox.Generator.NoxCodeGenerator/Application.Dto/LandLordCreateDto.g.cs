@@ -14,6 +14,9 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+/// <summary>
+/// Landlord related data.
+/// </summary>
 public partial class LandLordCreateDto : LandLordCreateDtoBase
 {
 

@@ -14,6 +14,9 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+/// <summary>
+/// Store license info.
+/// </summary>
 public partial class StoreLicenseCreateDto : StoreLicenseCreateDtoBase
 {
 

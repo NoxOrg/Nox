@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record MinimumCashStockKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update MinimumCashStock
+/// Minimum cash stock required for vending machine.
+/// </summary>
 public partial class MinimumCashStockDto : MinimumCashStockDtoBase
 {
 

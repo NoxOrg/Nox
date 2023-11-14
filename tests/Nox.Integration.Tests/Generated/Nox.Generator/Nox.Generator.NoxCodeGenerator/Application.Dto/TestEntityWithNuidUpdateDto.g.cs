@@ -13,9 +13,17 @@ using DomainNamespace = TestWebApp.Domain;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
+/// Entity created for testing nuid.
+/// </summary>
+public partial class TestEntityWithNuidUpdateDto : TestEntityWithNuidUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// Entity created for testing nuid
 /// </summary>
-public partial class TestEntityWithNuidUpdateDto : IEntityDto<DomainNamespace.TestEntityWithNuid>
+public partial class TestEntityWithNuidUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityWithNuid>
 {
     /// <summary>
     ///  
@@ -23,5 +31,5 @@ public partial class TestEntityWithNuidUpdateDto : IEntityDto<DomainNamespace.Te
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public System.String Name { get; set; } = default!;
+    public virtual System.String Name { get; set; } = default!;
 }

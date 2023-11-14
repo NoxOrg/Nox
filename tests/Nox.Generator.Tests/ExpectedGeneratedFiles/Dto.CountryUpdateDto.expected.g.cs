@@ -13,9 +13,17 @@ using DomainNamespace = SampleWebApp.Domain;
 namespace SampleWebApp.Application.Dto;
 
 /// <summary>
+/// The list of countries.
+/// </summary>
+public partial class CountryUpdateDto : CountryUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// The list of countries
 /// </summary>
-public partial class CountryUpdateDto : IEntityDto<DomainNamespace.Country>
+public partial class CountryUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Country>
 {
     /// <summary>
     /// The country's common name 
@@ -23,91 +31,91 @@ public partial class CountryUpdateDto : IEntityDto<DomainNamespace.Country>
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public System.String Name { get; set; } = default!;
+    public virtual System.String Name { get; set; } = default!;
     /// <summary>
     /// The country's official name 
     /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "FormalName is required")]
     
-    public System.String FormalName { get; set; } = default!;
+    public virtual System.String FormalName { get; set; } = default!;
     /// <summary>
     /// The country's official ISO 4217 alpha-3 code 
     /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "AlphaCode3 is required")]
     
-    public System.String AlphaCode3 { get; set; } = default!;
+    public virtual System.String AlphaCode3 { get; set; } = default!;
     /// <summary>
     /// The country's official ISO 4217 alpha-2 code 
     /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "AlphaCode2 is required")]
     
-    public System.String AlphaCode2 { get; set; } = default!;
+    public virtual System.String AlphaCode2 { get; set; } = default!;
     /// <summary>
     /// The country's official ISO 4217 alpha-3 code 
     /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "NumericCode is required")]
     
-    public System.Int16 NumericCode { get; set; } = default!;
+    public virtual System.Int16 NumericCode { get; set; } = default!;
     /// <summary>
     /// The country's phone dialing codes (comma-delimited) 
     /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? DialingCodes { get; set; }
+    public virtual System.String? DialingCodes { get; set; }
     /// <summary>
     /// The capital city of the country 
     /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? Capital { get; set; }
+    public virtual System.String? Capital { get; set; }
     /// <summary>
     /// Noun denoting the natives of the country 
     /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? Demonym { get; set; }
+    public virtual System.String? Demonym { get; set; }
     /// <summary>
     /// Country area in square kilometers 
     /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "AreaInSquareKilometres is required")]
     
-    public System.Int32 AreaInSquareKilometres { get; set; } = default!;
+    public virtual System.Int32 AreaInSquareKilometres { get; set; } = default!;
     /// <summary>
     /// The the position of the workplace's point on the surface of the Earth 
     /// <remarks>Optional.</remarks>    
     /// </summary>
-    public LatLongDto? GeoCoord { get; set; }
+    public virtual LatLongDto? GeoCoord { get; set; }
     /// <summary>
     /// The region the country is in 
     /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "GeoRegion is required")]
     
-    public System.String GeoRegion { get; set; } = default!;
+    public virtual System.String GeoRegion { get; set; } = default!;
     /// <summary>
     /// The sub-region the country is in 
     /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "GeoSubRegion is required")]
     
-    public System.String GeoSubRegion { get; set; } = default!;
+    public virtual System.String GeoSubRegion { get; set; } = default!;
     /// <summary>
     /// The world region the country is in 
     /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "GeoWorldRegion is required")]
     
-    public System.String GeoWorldRegion { get; set; } = default!;
+    public virtual System.String GeoWorldRegion { get; set; } = default!;
     /// <summary>
     /// The estimated population of the country 
     /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.Int32? Population { get; set; }
+    public virtual System.Int32? Population { get; set; }
     /// <summary>
     /// The top level internet domains regitered to the country (comma-delimited) 
     /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? TopLevelDomains { get; set; }
+    public virtual System.String? TopLevelDomains { get; set; }
 }

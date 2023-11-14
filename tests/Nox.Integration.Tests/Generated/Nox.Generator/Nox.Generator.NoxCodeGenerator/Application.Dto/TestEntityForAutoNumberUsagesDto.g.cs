@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record TestEntityForAutoNumberUsagesKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update TestEntityForAutoNumberUsages
+/// Entity created for testing auto number usages.
+/// </summary>
 public partial class TestEntityForAutoNumberUsagesDto : TestEntityForAutoNumberUsagesDtoBase
 {
 

@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record StoreKeyDto(System.Guid keyId);
 
+/// <summary>
+/// Update Store
+/// Stores.
+/// </summary>
 public partial class StoreDto : StoreDtoBase
 {
 

@@ -13,9 +13,17 @@ using DomainNamespace = Cryptocash.Domain;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
+/// Vending machine cash stock order and related data.
+/// </summary>
+public partial class CashStockOrderUpdateDto : CashStockOrderUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// Vending machine cash stock order and related data
 /// </summary>
-public partial class CashStockOrderUpdateDto : IEntityDto<DomainNamespace.CashStockOrder>
+public partial class CashStockOrderUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.CashStockOrder>
 {
     /// <summary>
     /// Order amount 
@@ -23,29 +31,29 @@ public partial class CashStockOrderUpdateDto : IEntityDto<DomainNamespace.CashSt
     /// </summary>
     [Required(ErrorMessage = "Amount is required")]
     
-    public MoneyDto Amount { get; set; } = default!;
+    public virtual MoneyDto Amount { get; set; } = default!;
     /// <summary>
     /// Order requested delivery date 
     /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "RequestedDeliveryDate is required")]
     
-    public System.DateTime RequestedDeliveryDate { get; set; } = default!;
+    public virtual System.DateTime RequestedDeliveryDate { get; set; } = default!;
     /// <summary>
     /// Order delivery date 
     /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.DateTimeOffset? DeliveryDateTime { get; set; }
+    public virtual System.DateTimeOffset? DeliveryDateTime { get; set; }
 
     /// <summary>
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
     [Required(ErrorMessage = "VendingMachine is required")]
-    public System.Guid VendingMachineId { get; set; } = default!;
+    public virtual System.Guid VendingMachineId { get; set; } = default!;
 
     /// <summary>
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
     [Required(ErrorMessage = "Employee is required")]
-    public System.Int64 EmployeeId { get; set; } = default!;
+    public virtual System.Int64 EmployeeId { get; set; } = default!;
 }

@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record CountryBarCodeKeyDto();
 
+/// <summary>
+/// Update CountryBarCode
+/// Bar code for country.
+/// </summary>
 public partial class CountryBarCodeDto : CountryBarCodeDtoBase
 {
 
