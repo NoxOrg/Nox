@@ -7,9 +7,12 @@
 #
 
 name: ClientApi
+
 platformId: Nox-Tests
 
 description: Project for Nox System Testing
+
+version: "1.0"
 
 domain:
 

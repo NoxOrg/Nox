@@ -13,9 +13,17 @@ using DomainNamespace = Cryptocash.Domain;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
+/// Minimum cash stock required for vending machine.
+/// </summary>
+public partial class MinimumCashStockUpdateDto : MinimumCashStockUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// Minimum cash stock required for vending machine
 /// </summary>
-public partial class MinimumCashStockUpdateDto : IEntityDto<DomainNamespace.MinimumCashStock>
+public partial class MinimumCashStockUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.MinimumCashStock>
 {
     /// <summary>
     /// Cash stock amount 
@@ -23,16 +31,11 @@ public partial class MinimumCashStockUpdateDto : IEntityDto<DomainNamespace.Mini
     /// </summary>
     [Required(ErrorMessage = "Amount is required")]
     
-    public MoneyDto Amount { get; set; } = default!;
-
-    /// <summary>
-    /// MinimumCashStock required by ZeroOrMany VendingMachines
-    /// </summary>
-    public List<System.Guid> VendingMachinesId { get; set; } = new();
+    public virtual MoneyDto Amount { get; set; } = default!;
 
     /// <summary>
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
     [Required(ErrorMessage = "Currency is required")]
-    public System.String CurrencyId { get; set; } = default!;
+    public virtual System.String CurrencyId { get; set; } = default!;
 }

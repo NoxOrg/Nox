@@ -46,7 +46,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("api/Employees/{key}/EmployeeContactPhoneNumbers/{relatedKey}")]
+    [HttpGet("/api/v1/Employees/{key}/EmployeeContactPhoneNumbers/{relatedKey}")]
     public virtual async Task<ActionResult<EmployeePhoneNumberDto>> GetEmployeeContactPhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -85,7 +85,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("api/Employees/{key}/EmployeeContactPhoneNumbers/{relatedKey}")]
+    [HttpPut("/api/v1/Employees/{key}/EmployeeContactPhoneNumbers/{relatedKey}")]
     public virtual async Task<ActionResult<EmployeePhoneNumberDto>> PutToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] EmployeePhoneNumberUpdateDto employeePhoneNumber)
     {
         if (!ModelState.IsValid)
@@ -109,7 +109,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("api/Employees/{key}/EmployeeContactPhoneNumbers/{relatedKey}")]
+    [HttpPatch("/api/v1/Employees/{key}/EmployeeContactPhoneNumbers/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberDto> employeePhoneNumber)
     {
         if (!ModelState.IsValid)
@@ -142,7 +142,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("api/Employees/{key}/EmployeeContactPhoneNumbers/{relatedKey}")]
+    [HttpDelete("/api/v1/Employees/{key}/EmployeeContactPhoneNumbers/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteEmployeePhoneNumberNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -242,6 +242,29 @@ public abstract partial class EmployeesControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/Employees/{key}/CashStockOrder")]
+    public async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.CashStockOrder).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCashStockOrderByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
         return NoContent();
     }
     

@@ -51,7 +51,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    [HttpGet("/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}")]
     public virtual async Task<ActionResult<CountryLocalNameDto>> GetCountryLocalNamesNonConventional(System.String key, System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -90,7 +90,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpDelete("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    [HttpDelete("/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteCountryLocalNameNonConventional(System.String key, System.String relatedKey)
     {
         if (!ModelState.IsValid)

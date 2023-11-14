@@ -108,6 +108,12 @@ public class PostgresIntegrationTests : NoxIntegrationContainerTestBase<NoxTestP
         _noxCommonTestCases.UniqueConstraintsSameValueShouldThrowException();
     }
 
+    [Fact(Skip="TODO Implement unique constrains for relarionships")]
+    public void WhenUniqueConstraintsWithRelation_ShouldBeValid()
+    {
+        _noxCommonTestCases.WhenUniqueConstraintsWithRelation_ShouldBeValid();
+    }
+
     [Fact]
     public void GeneratedRelationship_Postgres_TwoRelationshipsToTheSameEntityOneToOne()
     {

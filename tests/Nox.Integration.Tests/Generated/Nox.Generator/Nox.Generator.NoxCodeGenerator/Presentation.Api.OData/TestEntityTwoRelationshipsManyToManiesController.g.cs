@@ -92,15 +92,23 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToTestRelationshipOne([FromRoute] System.String key)
+    [HttpDelete("/api/v1/TestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipOne/{relatedKey}")]
+    public async Task<ActionResult> DeleteToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefTestEntityTwoRelationshipsManyToManyToTestRelationshipOneCommand(new TestEntityTwoRelationshipsManyToManyKeyDto(key)));
-        if (!deletedAllRef)
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipOne).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommand(relatedKey, etag));
+        if (!deleted)
         {
             return NotFound();
         }
@@ -108,7 +116,7 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         return NoContent();
     }
     
-    [HttpPut("api/TestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipOne/{relatedKey}")]
+    [HttpPut("/api/v1/TestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipOne/{relatedKey}")]
     public virtual async Task<ActionResult<SecondTestEntityTwoRelationshipsManyToManyDto>> PutToTestRelationshipOneNonConventional(System.String key, System.String relatedKey, [FromBody] SecondTestEntityTwoRelationshipsManyToManyUpdateDto secondTestEntityTwoRelationshipsManyToMany)
     {
         if (!ModelState.IsValid)
@@ -116,8 +124,8 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).Select(x => x.TestRelationshipOne).SingleOrDefault()?.Any(x => x.Id == relatedKey);
-        if (related == null || related == false)
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipOne).Any(x => x.Id == relatedKey);
+        if (!related)
         {
             return NotFound();
         }
@@ -196,15 +204,23 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToTestRelationshipTwo([FromRoute] System.String key)
+    [HttpDelete("/api/v1/TestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipTwo/{relatedKey}")]
+    public async Task<ActionResult> DeleteToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefTestEntityTwoRelationshipsManyToManyToTestRelationshipTwoCommand(new TestEntityTwoRelationshipsManyToManyKeyDto(key)));
-        if (!deletedAllRef)
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipTwo).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommand(relatedKey, etag));
+        if (!deleted)
         {
             return NotFound();
         }
@@ -212,7 +228,7 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         return NoContent();
     }
     
-    [HttpPut("api/TestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipTwo/{relatedKey}")]
+    [HttpPut("/api/v1/TestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipTwo/{relatedKey}")]
     public virtual async Task<ActionResult<SecondTestEntityTwoRelationshipsManyToManyDto>> PutToTestRelationshipTwoNonConventional(System.String key, System.String relatedKey, [FromBody] SecondTestEntityTwoRelationshipsManyToManyUpdateDto secondTestEntityTwoRelationshipsManyToMany)
     {
         if (!ModelState.IsValid)
@@ -220,8 +236,8 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).Select(x => x.TestRelationshipTwo).SingleOrDefault()?.Any(x => x.Id == relatedKey);
-        if (related == null || related == false)
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipTwo).Any(x => x.Id == relatedKey);
+        if (!related)
         {
             return NotFound();
         }

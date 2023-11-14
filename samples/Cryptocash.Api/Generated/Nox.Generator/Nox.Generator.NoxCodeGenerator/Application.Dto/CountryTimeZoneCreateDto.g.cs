@@ -14,6 +14,9 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+/// <summary>
+/// Time zone related to country.
+/// </summary>
 public partial class CountryTimeZoneCreateDto : CountryTimeZoneCreateDtoBase
 {
 

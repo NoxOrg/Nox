@@ -72,22 +72,6 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToSecondTestEntityExactlyOne([FromRoute] System.String key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefTestEntityExactlyOneToSecondTestEntityExactlyOneCommand(new TestEntityExactlyOneKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
     public virtual async Task<ActionResult<SecondTestEntityExactlyOneDto>> PutToSecondTestEntityExactlyOne(System.String key, [FromBody] SecondTestEntityExactlyOneUpdateDto secondTestEntityExactlyOne)
     {
         if (!ModelState.IsValid)

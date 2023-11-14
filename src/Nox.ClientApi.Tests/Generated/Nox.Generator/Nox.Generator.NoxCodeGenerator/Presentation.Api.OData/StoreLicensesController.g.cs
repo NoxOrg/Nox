@@ -72,22 +72,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToStore([FromRoute] System.Int64 key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefStoreLicenseToStoreCommand(new StoreLicenseKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
     public virtual async Task<ActionResult<StoreDto>> PutToStore(System.Int64 key, [FromBody] StoreUpdateDto store)
     {
         if (!ModelState.IsValid)
@@ -187,6 +171,29 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("/api/v1/StoreLicenses/{key}/DefaultCurrency")]
+    public async Task<ActionResult> DeleteToDefaultCurrency([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.DefaultCurrency).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCurrencyByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+    
     public virtual async Task<ActionResult<CurrencyDto>> PutToDefaultCurrency(System.Int64 key, [FromBody] CurrencyUpdateDto currency)
     {
         if (!ModelState.IsValid)
@@ -283,6 +290,29 @@ public abstract partial class StoreLicensesControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/StoreLicenses/{key}/SoldInCurrency")]
+    public async Task<ActionResult> DeleteToSoldInCurrency([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.SoldInCurrency).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCurrencyByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
         return NoContent();
     }
     

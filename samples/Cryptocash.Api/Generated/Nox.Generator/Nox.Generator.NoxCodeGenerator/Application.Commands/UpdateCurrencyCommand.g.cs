@@ -57,34 +57,6 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 			return null;
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.Countries).LoadAsync();
-		var countriesEntities = new List<Cryptocash.Domain.Country>();
-		foreach(var relatedEntityId in request.EntityDto.CountriesId)
-		{
-			var relatedKey = Cryptocash.Domain.CountryMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				countriesEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("Countries", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToCountries(countriesEntities);
-
-		await DbContext.Entry(entity).Collection(x => x.MinimumCashStocks).LoadAsync();
-		var minimumCashStocksEntities = new List<Cryptocash.Domain.MinimumCashStock>();
-		foreach(var relatedEntityId in request.EntityDto.MinimumCashStocksId)
-		{
-			var relatedKey = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.MinimumCashStocks.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				minimumCashStocksEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("MinimumCashStocks", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToMinimumCashStocks(minimumCashStocksEntities);
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

@@ -16,6 +16,7 @@ using ClientApi.Application.Commands;
 using ClientApi.Domain;
 using ClientApi.Infrastructure.Persistence;
 using Nox.Types;
+using ClientApi.Tests.Controllers;
 
 namespace ClientApi.Presentation.Api.OData;
 
@@ -59,7 +60,7 @@ public partial class CountriesController
     /// </summary>
     /// <returns>Prefer using Nox Solution Entity Definition (yaml) to register custom function</returns>
     [EnableQuery]
-    [HttpGet("api/CountriesWithDebt")]
+    [HttpGet($"{Endpoints.RoutePrefix}/CountriesWithDebt")]
     public ActionResult<IQueryable<Application.Dto.CountryDto>> CountriesWithDebt()
     {                
         return Ok(new List<Application.Dto.CountryDto>() {
@@ -75,7 +76,7 @@ public partial class CountriesController
     /// And  Nox Solution Entity Definition (yaml) to register custom function
     /// </summary>
     /// <returns></returns>
-    [HttpGet("api/[controller]/[action]")]
+    [HttpGet($"{Endpoints.RoutePrefix}/[controller]/[action]")]
     public ActionResult<IQueryable<Application.Dto.CountryDto>> CountriesWithDebt2()
     {
         return Ok(new List<Application.Dto.CountryDto>() {
@@ -90,7 +91,7 @@ public partial class CountriesController
     /// Example of a non OData end point that returns Created StatusCode
     /// </summary>
     /// <returns></returns>
-    [HttpPost("api/[controller]/[action]")]
+    [HttpPost($"{Endpoints.RoutePrefix}/[controller]/[action]")]
     public IResult CustomCreateCountry([FromBody] Application.Dto.CountryCreateDto country) 
     {
         var createdCountry = new Application.Dto.CountryDto()
@@ -100,7 +101,7 @@ public partial class CountriesController
             };
 
         var routeValues = new { key = createdCountry.Id };
-        return Results.Created($"api/Countries/{createdCountry.Id}", routeValues);
+        return Results.Created($"{Endpoints.RoutePrefix}/Countries/{createdCountry.Id}", routeValues);
     }
 
 }

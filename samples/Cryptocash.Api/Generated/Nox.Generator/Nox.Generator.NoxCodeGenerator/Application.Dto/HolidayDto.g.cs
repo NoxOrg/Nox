@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record HolidayKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update Holiday
+/// Holiday related to country.
+/// </summary>
 public partial class HolidayDto : HolidayDtoBase
 {
 

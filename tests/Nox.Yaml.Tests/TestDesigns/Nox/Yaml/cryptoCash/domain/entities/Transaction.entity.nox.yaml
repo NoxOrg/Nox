@@ -1,0 +1,104 @@
+#
+# Transaction.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../Schemas/entity.json
+#
+
+name: Transaction
+
+description: Customer transaction log and related data
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: Customer transaction unique identifier 
+    type: autoNumber
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+attributes:
+
+  - name: TransactionType
+    description: Transaction type
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: ProcessedOnDateTime
+    description: Transaction processed datetime
+    type: dateTime     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: Amount
+    description: Transaction amount
+    type: money     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: Reference
+    description: Transaction external reference
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+relationships:
+    
+  - name: TransactionForCustomer
+    description: for
+    relationship: exactlyOne
+    entity: Customer 
+
+  - name: TransactionForBooking
+    description: for
+    relationship: exactlyOne
+    entity: Booking 
+
+persistence:
+    isAudited: true    
+    create:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    delete:
+        isEnabled: true
+        raiseEvents: domainEventsOnly

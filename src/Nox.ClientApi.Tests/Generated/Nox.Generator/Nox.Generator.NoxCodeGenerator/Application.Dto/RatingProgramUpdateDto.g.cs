@@ -13,13 +13,21 @@ using DomainNamespace = ClientApi.Domain;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
+/// Rating program for store.
+/// </summary>
+public partial class RatingProgramUpdateDto : RatingProgramUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// Rating program for store
 /// </summary>
-public partial class RatingProgramUpdateDto : IEntityDto<DomainNamespace.RatingProgram>
+public partial class RatingProgramUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.RatingProgram>
 {
     /// <summary>
     /// Rating Program Name 
     /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? Name { get; set; }
+    public virtual System.String? Name { get; set; }
 }

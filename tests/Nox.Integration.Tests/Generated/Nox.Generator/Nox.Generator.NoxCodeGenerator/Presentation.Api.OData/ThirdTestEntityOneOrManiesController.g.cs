@@ -92,15 +92,23 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToThirdTestEntityZeroOrManies([FromRoute] System.String key)
+    [HttpDelete("/api/v1/ThirdTestEntityOneOrManies/{key}/ThirdTestEntityZeroOrManies/{relatedKey}")]
+    public async Task<ActionResult> DeleteToThirdTestEntityZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefThirdTestEntityOneOrManyToThirdTestEntityZeroOrManiesCommand(new ThirdTestEntityOneOrManyKeyDto(key)));
-        if (!deletedAllRef)
+        var related = (await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(key))).SelectMany(x => x.ThirdTestEntityZeroOrManies).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteThirdTestEntityZeroOrManyByIdCommand(relatedKey, etag));
+        if (!deleted)
         {
             return NotFound();
         }
@@ -108,7 +116,7 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
         return NoContent();
     }
     
-    [HttpPut("api/ThirdTestEntityOneOrManies/{key}/ThirdTestEntityZeroOrManies/{relatedKey}")]
+    [HttpPut("/api/v1/ThirdTestEntityOneOrManies/{key}/ThirdTestEntityZeroOrManies/{relatedKey}")]
     public virtual async Task<ActionResult<ThirdTestEntityZeroOrManyDto>> PutToThirdTestEntityZeroOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] ThirdTestEntityZeroOrManyUpdateDto thirdTestEntityZeroOrMany)
     {
         if (!ModelState.IsValid)
@@ -116,8 +124,8 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(key))).Select(x => x.ThirdTestEntityZeroOrManies).SingleOrDefault()?.Any(x => x.Id == relatedKey);
-        if (related == null || related == false)
+        var related = (await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(key))).SelectMany(x => x.ThirdTestEntityZeroOrManies).Any(x => x.Id == relatedKey);
+        if (!related)
         {
             return NotFound();
         }

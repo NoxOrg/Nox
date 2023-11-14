@@ -24,6 +24,10 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 public record {{entity.Name}}KeyDto({{primaryKeys}});
 
+/// <summary>
+/// Update {{entity.Name}}
+/// {{entity.Description  | string.rstrip}}.
+/// </summary>
 public partial class {{className}} : {{className}}Base
 {
 

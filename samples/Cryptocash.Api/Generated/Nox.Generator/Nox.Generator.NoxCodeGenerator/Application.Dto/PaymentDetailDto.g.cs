@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record PaymentDetailKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update PaymentDetail
+/// Customer payment account related data.
+/// </summary>
 public partial class PaymentDetailDto : PaymentDetailDtoBase
 {
 

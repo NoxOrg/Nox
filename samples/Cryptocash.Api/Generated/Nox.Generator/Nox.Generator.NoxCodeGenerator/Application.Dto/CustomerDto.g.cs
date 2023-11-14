@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record CustomerKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update Customer
+/// Customer definition and related data.
+/// </summary>
 public partial class CustomerDto : CustomerDtoBase
 {
 

@@ -13,9 +13,17 @@ using DomainNamespace = ClientApi.Domain;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
+/// Workplace.
+/// </summary>
+public partial class WorkplaceUpdateDto : WorkplaceUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// Workplace
 /// </summary>
-public partial class WorkplaceUpdateDto : IEntityDto<DomainNamespace.Workplace>
+public partial class WorkplaceUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Workplace>
 {
     /// <summary>
     /// Workplace Name 
@@ -23,21 +31,16 @@ public partial class WorkplaceUpdateDto : IEntityDto<DomainNamespace.Workplace>
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public System.String Name { get; set; } = default!;
+    public virtual System.String Name { get; set; } = default!;
     /// <summary>
     /// Workplace Description 
     /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? Description { get; set; }
+    public virtual System.String? Description { get; set; }
 
     /// <summary>
     /// Workplace Workplace country ZeroOrOne Countries
     /// </summary>
     
-    public System.Int64? CountryId { get; set; } = default!;
-
-    /// <summary>
-    /// Workplace Actve Tenants in the workplace ZeroOrMany Tenants
-    /// </summary>
-    public List<System.Guid> TenantsId { get; set; } = new();
+    public virtual System.Int64? CountryId { get; set; } = default!;
 }

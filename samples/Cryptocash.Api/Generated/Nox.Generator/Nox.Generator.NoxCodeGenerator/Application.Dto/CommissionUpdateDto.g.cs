@@ -13,9 +13,17 @@ using DomainNamespace = Cryptocash.Domain;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
+/// Exchange commission rate and amount.
+/// </summary>
+public partial class CommissionUpdateDto : CommissionUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// Exchange commission rate and amount
 /// </summary>
-public partial class CommissionUpdateDto : IEntityDto<DomainNamespace.Commission>
+public partial class CommissionUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Commission>
 {
     /// <summary>
     /// Commission rate 
@@ -23,23 +31,18 @@ public partial class CommissionUpdateDto : IEntityDto<DomainNamespace.Commission
     /// </summary>
     [Required(ErrorMessage = "Rate is required")]
     
-    public System.Single Rate { get; set; } = default!;
+    public virtual System.Single Rate { get; set; } = default!;
     /// <summary>
     /// Exchange rate conversion amount 
     /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "EffectiveAt is required")]
     
-    public System.DateTimeOffset EffectiveAt { get; set; } = default!;
+    public virtual System.DateTimeOffset EffectiveAt { get; set; } = default!;
 
     /// <summary>
     /// Commission fees for ZeroOrOne Countries
     /// </summary>
     
-    public System.String? CountryId { get; set; } = default!;
-
-    /// <summary>
-    /// Commission fees for ZeroOrMany Bookings
-    /// </summary>
-    public List<System.Guid> BookingsId { get; set; } = new();
+    public virtual System.String? CountryId { get; set; } = default!;
 }

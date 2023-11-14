@@ -13,9 +13,17 @@ using DomainNamespace = Cryptocash.Domain;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
+/// Exchange rate and related data.
+/// </summary>
+public partial class ExchangeRateUpdateDto : ExchangeRateUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// Exchange rate and related data
 /// </summary>
-public partial class ExchangeRateUpdateDto : IEntityDto<DomainNamespace.ExchangeRate>
+public partial class ExchangeRateUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.ExchangeRate>
 {
     /// <summary>
     /// Exchange rate conversion amount 
@@ -23,12 +31,12 @@ public partial class ExchangeRateUpdateDto : IEntityDto<DomainNamespace.Exchange
     /// </summary>
     [Required(ErrorMessage = "EffectiveRate is required")]
     
-    public System.Int32 EffectiveRate { get; set; } = default!;
+    public virtual System.Int32 EffectiveRate { get; set; } = default!;
     /// <summary>
     /// Exchange rate conversion amount 
     /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "EffectiveAt is required")]
     
-    public System.DateTimeOffset EffectiveAt { get; set; } = default!;
+    public virtual System.DateTimeOffset EffectiveAt { get; set; } = default!;
 }

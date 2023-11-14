@@ -14,6 +14,9 @@ using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
+/// <summary>
+/// Entity created for testing database.
+/// </summary>
 public partial class TestEntityForTypesCreateDto : TestEntityForTypesCreateDtoBase
 {
 
@@ -294,18 +297,6 @@ public abstract class TestEntityForTypesCreateDtoBase : IEntityDto<DomainNamespa
     /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? UserTestField { get; set; }
-    /// <summary>
-    ///  
-    /// <remarks>Optional</remarks>    
-    /// </summary>
-    public virtual System.String? FormulaTestField { get; set; }
-    /// <summary>
-    ///  
-    /// <remarks>Required</remarks>    
-    /// </summary>
-    [Required(ErrorMessage = "AutoNumberTestField is required")]
-    
-    public virtual System.Int64 AutoNumberTestField { get; set; } = default!;
     /// <summary>
     ///  
     /// <remarks>Optional</remarks>    

@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record CountryKeyDto(System.String keyId);
 
+/// <summary>
+/// Update Country
+/// Country and related data.
+/// </summary>
 public partial class CountryDto : CountryDtoBase
 {
 

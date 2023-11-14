@@ -14,6 +14,9 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+/// <summary>
+/// Exchange commission rate and amount.
+/// </summary>
 public partial class CommissionCreateDto : CommissionCreateDtoBase
 {
 

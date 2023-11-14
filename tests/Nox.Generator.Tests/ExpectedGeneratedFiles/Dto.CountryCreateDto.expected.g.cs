@@ -14,6 +14,9 @@ using DomainNamespace = SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
+/// <summary>
+/// The list of countries.
+/// </summary>
 public partial class CountryCreateDto : CountryCreateDtoBase
 {
 

@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record RatingProgramKeyDto(System.Guid keyStoreId, System.Int64 keyId);
 
+/// <summary>
+/// Update RatingProgram
+/// Rating program for store.
+/// </summary>
 public partial class RatingProgramDto : RatingProgramDtoBase
 {
 

@@ -13,9 +13,17 @@ using DomainNamespace = ClientApi.Domain;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
+/// Store license info.
+/// </summary>
+public partial class StoreLicenseUpdateDto : StoreLicenseUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// Store license info
 /// </summary>
-public partial class StoreLicenseUpdateDto : IEntityDto<DomainNamespace.StoreLicense>
+public partial class StoreLicenseUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.StoreLicense>
 {
     /// <summary>
     /// License issuer 
@@ -23,30 +31,23 @@ public partial class StoreLicenseUpdateDto : IEntityDto<DomainNamespace.StoreLic
     /// </summary>
     [Required(ErrorMessage = "Issuer is required")]
     
-    public System.String Issuer { get; set; } = default!;
-    /// <summary>
-    /// License external id 
-    /// <remarks>Required.</remarks>    
-    /// </summary>
-    [Required(ErrorMessage = "ExternalId is required")]
-    
-    public System.Int64 ExternalId { get; set; } = default!;
+    public virtual System.String Issuer { get; set; } = default!;
 
     /// <summary>
     /// StoreLicense Store that this license related to ExactlyOne Stores
     /// </summary>
     [Required(ErrorMessage = "Store is required")]
-    public System.Guid StoreId { get; set; } = default!;
+    public virtual System.Guid StoreId { get; set; } = default!;
 
     /// <summary>
     /// StoreLicense Default currency for this license ZeroOrOne Currencies
     /// </summary>
     
-    public System.String? DefaultCurrencyId { get; set; } = default!;
+    public virtual System.String? DefaultCurrencyId { get; set; } = default!;
 
     /// <summary>
     /// StoreLicense Currency this license was sold in ZeroOrOne Currencies
     /// </summary>
     
-    public System.String? SoldInCurrencyId { get; set; } = default!;
+    public virtual System.String? SoldInCurrencyId { get; set; } = default!;
 }

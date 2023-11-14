@@ -1,8 +1,8 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
-// Using Nox version 7.0.92.0
+// Using Nox version 7.0.93.0
 
 /* Found files ->
 - cryptocash.application.nox.yaml

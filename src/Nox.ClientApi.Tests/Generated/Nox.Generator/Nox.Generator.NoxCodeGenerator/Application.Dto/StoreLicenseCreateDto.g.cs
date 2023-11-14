@@ -14,6 +14,9 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+/// <summary>
+/// Store license info.
+/// </summary>
 public partial class StoreLicenseCreateDto : StoreLicenseCreateDtoBase
 {
 
@@ -31,13 +34,6 @@ public abstract class StoreLicenseCreateDtoBase : IEntityDto<DomainNamespace.Sto
     [Required(ErrorMessage = "Issuer is required")]
     
     public virtual System.String Issuer { get; set; } = default!;
-    /// <summary>
-    /// License external id 
-    /// <remarks>Required</remarks>    
-    /// </summary>
-    [Required(ErrorMessage = "ExternalId is required")]
-    
-    public virtual System.Int64 ExternalId { get; set; } = default!;
 
     /// <summary>
     /// StoreLicense Store that this license related to ExactlyOne Stores

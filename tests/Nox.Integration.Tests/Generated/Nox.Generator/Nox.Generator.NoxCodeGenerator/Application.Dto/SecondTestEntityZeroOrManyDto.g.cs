@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record SecondTestEntityZeroOrManyKeyDto(System.String keyId);
 
+/// <summary>
+/// Update SecondTestEntityZeroOrMany
+/// .
+/// </summary>
 public partial class SecondTestEntityZeroOrManyDto : SecondTestEntityZeroOrManyDtoBase
 {
 
