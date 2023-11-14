@@ -360,7 +360,53 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/Countries/{key}/Workplaces/{relatedKey}")]
+    [HttpDelete("/api/v1/Countries/{key}/Workplaces/{relatedKey}")]
+    public async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Workplaces).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteWorkplaceByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/Countries/{key}/Workplaces")]
+    public async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Workplaces).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteWorkplaceByIdCommand(item.Id, etag));
+        }
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/Countries/{key}/Workplaces/{relatedKey}")]
     public virtual async Task<ActionResult<WorkplaceDto>> PutToWorkplacesNonConventional(System.Int64 key, System.UInt32 relatedKey, [FromBody] WorkplaceUpdateDto workplace)
     {
         if (!ModelState.IsValid)
@@ -368,8 +414,8 @@ public abstract partial class CountriesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Workplaces).SingleOrDefault()?.Any(x => x.Id == relatedKey);
-        if (related == null || related == false)
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Workplaces).Any(x => x.Id == relatedKey);
+        if (!related)
         {
             return NotFound();
         }

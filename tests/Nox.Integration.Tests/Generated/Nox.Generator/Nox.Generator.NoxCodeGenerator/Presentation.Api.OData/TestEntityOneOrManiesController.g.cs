@@ -92,15 +92,23 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToSecondTestEntityOneOrManies([FromRoute] System.String key)
+    [HttpDelete("api/TestEntityOneOrManies/{key}/SecondTestEntityOneOrManies/{relatedKey}")]
+    public async Task<ActionResult> DeleteToSecondTestEntityOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand(new TestEntityOneOrManyKeyDto(key)));
-        if (!deletedAllRef)
+        var related = (await _mediator.Send(new GetTestEntityOneOrManyByIdQuery(key))).SelectMany(x => x.SecondTestEntityOneOrManies).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteSecondTestEntityOneOrManyByIdCommand(relatedKey, etag));
+        if (!deleted)
         {
             return NotFound();
         }
@@ -108,7 +116,7 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
         return NoContent();
     }
     
-    [HttpPut("api/TestEntityOneOrManies/{key}/SecondTestEntityOneOrManies/{relatedKey}")]
+    [HttpPut("/api/v1/TestEntityOneOrManies/{key}/SecondTestEntityOneOrManies/{relatedKey}")]
     public virtual async Task<ActionResult<SecondTestEntityOneOrManyDto>> PutToSecondTestEntityOneOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] SecondTestEntityOneOrManyUpdateDto secondTestEntityOneOrMany)
     {
         if (!ModelState.IsValid)
@@ -116,8 +124,8 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetTestEntityOneOrManyByIdQuery(key))).Select(x => x.SecondTestEntityOneOrManies).SingleOrDefault()?.Any(x => x.Id == relatedKey);
-        if (related == null || related == false)
+        var related = (await _mediator.Send(new GetTestEntityOneOrManyByIdQuery(key))).SelectMany(x => x.SecondTestEntityOneOrManies).Any(x => x.Id == relatedKey);
+        if (!related)
         {
             return NotFound();
         }

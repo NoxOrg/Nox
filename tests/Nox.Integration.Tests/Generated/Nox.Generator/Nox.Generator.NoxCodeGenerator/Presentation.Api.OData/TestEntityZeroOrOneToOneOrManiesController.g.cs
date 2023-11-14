@@ -104,6 +104,29 @@ public abstract partial class TestEntityZeroOrOneToOneOrManiesControllerBase : O
         return NoContent();
     }
     
+    [HttpDelete("api/TestEntityZeroOrOneToOneOrManies/{key}/TestEntityOneOrManyToZeroOrOne")]
+    public async Task<ActionResult> DeleteToTestEntityOneOrManyToZeroOrOne([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityZeroOrOneToOneOrManyByIdQuery(key))).Select(x => x.TestEntityOneOrManyToZeroOrOne).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteTestEntityOneOrManyToZeroOrOneByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+    
     public virtual async Task<ActionResult<TestEntityOneOrManyToZeroOrOneDto>> PutToTestEntityOneOrManyToZeroOrOne(System.String key, [FromBody] TestEntityOneOrManyToZeroOrOneUpdateDto testEntityOneOrManyToZeroOrOne)
     {
         if (!ModelState.IsValid)

@@ -245,6 +245,29 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/Employees/{key}/CashStockOrder")]
+    public async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.CashStockOrder).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCashStockOrderByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+    
     public virtual async Task<ActionResult<CashStockOrderDto>> PutToCashStockOrder(System.Int64 key, [FromBody] CashStockOrderUpdateDto cashStockOrder)
     {
         if (!ModelState.IsValid)

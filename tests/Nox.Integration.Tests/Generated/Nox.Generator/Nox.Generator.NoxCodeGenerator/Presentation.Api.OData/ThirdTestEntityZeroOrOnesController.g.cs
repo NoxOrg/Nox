@@ -104,6 +104,29 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
         return NoContent();
     }
     
+    [HttpDelete("api/ThirdTestEntityZeroOrOnes/{key}/ThirdTestEntityExactlyOne")]
+    public async Task<ActionResult> DeleteToThirdTestEntityExactlyOne([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(key))).Select(x => x.ThirdTestEntityExactlyOne).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteThirdTestEntityExactlyOneByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+    
     public virtual async Task<ActionResult<ThirdTestEntityExactlyOneDto>> PutToThirdTestEntityExactlyOne(System.String key, [FromBody] ThirdTestEntityExactlyOneUpdateDto thirdTestEntityExactlyOne)
     {
         if (!ModelState.IsValid)
