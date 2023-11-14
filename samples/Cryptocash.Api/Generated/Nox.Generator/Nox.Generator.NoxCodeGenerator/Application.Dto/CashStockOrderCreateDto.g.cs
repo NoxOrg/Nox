@@ -43,11 +43,6 @@ public abstract class CashStockOrderCreateDtoBase : IEntityDto<DomainNamespace.C
     /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.DateTimeOffset? DeliveryDateTime { get; set; }
-    /// <summary>
-    /// Order status 
-    /// <remarks>Optional</remarks>    
-    /// </summary>
-    public virtual System.String? Status { get; set; }
 
     /// <summary>
     /// CashStockOrder for ExactlyOne VendingMachines

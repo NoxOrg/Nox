@@ -21,11 +21,11 @@ internal static class ScribanScriptsExtensions
             NoxType>(noxSolution.GetSingleTypeForKey));
 
         var scriptObject3 = new ScriptObject();
-        scriptObject2.Import("SingleKeyPrimitiveTypeForEntity", new Func<string,
+        scriptObject3.Import("SingleKeyPrimitiveTypeForEntity", new Func<string,
             string>(noxSolution.GetSingleKeyPrimitiveTypeForEntity));
 
         var scriptObject4 = new ScriptObject();
-        scriptObject2.Import("SinglePrimitiveTypeForKey", new Func<NoxSimpleTypeDefinition,
+        scriptObject4.Import("SinglePrimitiveTypeForKey", new Func<NoxSimpleTypeDefinition,
             string>(noxSolution.GetSinglePrimitiveTypeForKey));
 
         var scriptObject5 = new ScriptObject();
@@ -37,19 +37,23 @@ internal static class ScribanScriptsExtensions
             bool>(type => type.IsUpdatableType()));
 
         var scriptObject7 = new ScriptObject();
-        scriptObject7.Import("IsNoxTypeSimpleType", new Func<NoxType,
-            bool>(type => type.IsSimpleType()));
+        scriptObject7.Import("IsNoxTypeCreatable", new Func<NoxType,
+            bool>(type => type.IsCreatableType()));
 
         var scriptObject8 = new ScriptObject();
-        scriptObject8.Import("IsValueType", new Func<string,
-            bool>(type => Type.GetType(type)?.IsValueType ?? false));
+        scriptObject8.Import("IsNoxTypeSimpleType", new Func<NoxType,
+            bool>(type => type.IsSimpleType()));
 
         var scriptObject9 = new ScriptObject();
-        scriptObject9.Import("Pluralize", new Func<string,
+        scriptObject9.Import("IsValueType", new Func<string,
+            bool>(type => Type.GetType(type)?.IsValueType ?? false));
+
+        var scriptObject10 = new ScriptObject();
+        scriptObject10.Import("Pluralize", new Func<string,
             string>(name => name.Pluralize()));
             
-		var scriptObject10 = new ScriptObject();
-        scriptObject10.Import("ToLowerFirstChar", new Func<string, string>(
+		var scriptObject11 = new ScriptObject();
+        scriptObject11.Import("ToLowerFirstChar", new Func<string, string>(
             input => input.ToLowerFirstChar()));
 
 
@@ -63,5 +67,6 @@ internal static class ScribanScriptsExtensions
         context.PushGlobal(scriptObject8);
         context.PushGlobal(scriptObject9);
         context.PushGlobal(scriptObject10);
+        context.PushGlobal(scriptObject11);
     }
 }
