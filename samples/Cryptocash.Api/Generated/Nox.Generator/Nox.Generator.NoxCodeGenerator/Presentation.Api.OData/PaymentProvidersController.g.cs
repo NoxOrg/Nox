@@ -108,7 +108,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
+    [HttpDelete("/api/v1/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
     public async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -132,7 +132,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/PaymentProviders/{key}/PaymentDetails")]
+    [HttpDelete("/api/v1/PaymentProviders/{key}/PaymentDetails")]
     public async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)

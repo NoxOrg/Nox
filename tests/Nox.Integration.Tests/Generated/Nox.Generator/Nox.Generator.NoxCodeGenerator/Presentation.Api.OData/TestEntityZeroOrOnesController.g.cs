@@ -104,7 +104,7 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         return NoContent();
     }
     
-    [HttpDelete("api/TestEntityZeroOrOnes/{key}/SecondTestEntityZeroOrOne")]
+    [HttpDelete("/api/v1/TestEntityZeroOrOnes/{key}/SecondTestEntityZeroOrOne")]
     public async Task<ActionResult> DeleteToSecondTestEntityZeroOrOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)

@@ -369,7 +369,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Currencies/{key}/Countries/{relatedKey}")]
+    [HttpDelete("/api/v1/Currencies/{key}/Countries/{relatedKey}")]
     public async Task<ActionResult> DeleteToCountries([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -497,7 +497,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
+    [HttpDelete("/api/v1/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
     public async Task<ActionResult> DeleteToMinimumCashStocks([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -521,7 +521,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Currencies/{key}/MinimumCashStocks")]
+    [HttpDelete("/api/v1/Currencies/{key}/MinimumCashStocks")]
     public async Task<ActionResult> DeleteToMinimumCashStocks([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)

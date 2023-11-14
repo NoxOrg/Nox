@@ -108,7 +108,7 @@ public abstract partial class TestEntityZeroOrManyToZeroOrOnesControllerBase : O
         return NoContent();
     }
     
-    [HttpDelete("api/TestEntityZeroOrManyToZeroOrOnes/{key}/TestEntityZeroOrOneToZeroOrManies/{relatedKey}")]
+    [HttpDelete("/api/v1/TestEntityZeroOrManyToZeroOrOnes/{key}/TestEntityZeroOrOneToZeroOrManies/{relatedKey}")]
     public async Task<ActionResult> DeleteToTestEntityZeroOrOneToZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -132,7 +132,7 @@ public abstract partial class TestEntityZeroOrManyToZeroOrOnesControllerBase : O
         return NoContent();
     }
     
-    [HttpDelete("api/TestEntityZeroOrManyToZeroOrOnes/{key}/TestEntityZeroOrOneToZeroOrManies")]
+    [HttpDelete("/api/v1/TestEntityZeroOrManyToZeroOrOnes/{key}/TestEntityZeroOrOneToZeroOrManies")]
     public async Task<ActionResult> DeleteToTestEntityZeroOrOneToZeroOrManies([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)

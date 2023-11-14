@@ -245,7 +245,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Employees/{key}/CashStockOrder")]
+    [HttpDelete("/api/v1/Employees/{key}/CashStockOrder")]
     public async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)

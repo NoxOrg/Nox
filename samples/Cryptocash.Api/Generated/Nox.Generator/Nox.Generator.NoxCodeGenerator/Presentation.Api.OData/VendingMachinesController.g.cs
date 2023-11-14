@@ -242,7 +242,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/VendingMachines/{key}/Bookings/{relatedKey}")]
+    [HttpDelete("/api/v1/VendingMachines/{key}/Bookings/{relatedKey}")]
     public async Task<ActionResult> DeleteToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -266,7 +266,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/VendingMachines/{key}/Bookings")]
+    [HttpDelete("/api/v1/VendingMachines/{key}/Bookings")]
     public async Task<ActionResult> DeleteToBookings([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
@@ -392,7 +392,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/VendingMachines/{key}/CashStockOrders/{relatedKey}")]
+    [HttpDelete("/api/v1/VendingMachines/{key}/CashStockOrders/{relatedKey}")]
     public async Task<ActionResult> DeleteToCashStockOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -416,7 +416,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/VendingMachines/{key}/CashStockOrders")]
+    [HttpDelete("/api/v1/VendingMachines/{key}/CashStockOrders")]
     public async Task<ActionResult> DeleteToCashStockOrders([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
@@ -542,7 +542,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/VendingMachines/{key}/MinimumCashStocks/{relatedKey}")]
+    [HttpDelete("/api/v1/VendingMachines/{key}/MinimumCashStocks/{relatedKey}")]
     public async Task<ActionResult> DeleteToMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -566,7 +566,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/VendingMachines/{key}/MinimumCashStocks")]
+    [HttpDelete("/api/v1/VendingMachines/{key}/MinimumCashStocks")]
     public async Task<ActionResult> DeleteToMinimumCashStocks([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)

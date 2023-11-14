@@ -1,0 +1,74 @@
+#
+# Commission.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../Schemas/entity.json
+#
+
+name: Commission
+
+description: Exchange commission rate and amount
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: Commission unique identifier 
+    type: autoNumber
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+attributes:
+
+  - name: Rate
+    description: Commission rate
+    type: percentage     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: EffectiveAt
+    description: Exchange rate conversion amount
+    type: dateTime     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+relationships:
+    
+  - name: CommissionFeesForCountry
+    description: fees for
+    relationship: zeroOrOne
+    entity: Country
+
+  - name: CommissionFeesForBooking
+    description: fees for
+    relationship: zeroOrMany
+    entity: Booking
+
+persistence:
+    isAudited: true    
+    create:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    delete:
+        isEnabled: true
+        raiseEvents: domainEventsOnly

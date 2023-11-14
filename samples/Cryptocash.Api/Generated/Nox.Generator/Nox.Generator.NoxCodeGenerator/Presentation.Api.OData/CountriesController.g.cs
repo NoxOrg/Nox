@@ -436,7 +436,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Countries/{key}/Commissions/{relatedKey}")]
+    [HttpDelete("/api/v1/Countries/{key}/Commissions/{relatedKey}")]
     public async Task<ActionResult> DeleteToCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -564,7 +564,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Countries/{key}/VendingMachines/{relatedKey}")]
+    [HttpDelete("/api/v1/Countries/{key}/VendingMachines/{relatedKey}")]
     public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -588,7 +588,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Countries/{key}/VendingMachines")]
+    [HttpDelete("/api/v1/Countries/{key}/VendingMachines")]
     public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
@@ -714,7 +714,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Countries/{key}/Customers/{relatedKey}")]
+    [HttpDelete("/api/v1/Countries/{key}/Customers/{relatedKey}")]
     public async Task<ActionResult> DeleteToCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -738,7 +738,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Countries/{key}/Customers")]
+    [HttpDelete("/api/v1/Countries/{key}/Customers")]
     public async Task<ActionResult> DeleteToCustomers([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)

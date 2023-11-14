@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "The definition namespace for dependencies pertaining to a Nox solution.",
+  "description": "Define dependencies pertinent to a Nox solution here. These include translations, data connections, notifications and other.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "properties": {
+    "uiLocalizations": {    
+      "anyOf": [
+        { "$ref": "uiLocalizations.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "dataConnections": {    
+      "title": "The definition namespace for data connections pertaining to a Nox solution.",
+      "description": "Define data connections pertinent to a Nox solution here. Possible data formats include Json, Excel, CSV, XML and Parquet.",
+      "oneOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "items":   {
+        "anyOf": [
+          { "$ref": "dataConnection.json" },
+          {
+            "additionalProperties": false, 
+            "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^[^\\s]*$"
+              }
+            }
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "notifications": {    
+      "anyOf": [
+        { "$ref": "notifications.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "monitoring": {    
+      "anyOf": [
+        { "$ref": "monitoring.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

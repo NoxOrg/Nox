@@ -108,7 +108,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
+    [HttpDelete("/api/v1/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
     public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -132,7 +132,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/MinimumCashStocks/{key}/VendingMachines")]
+    [HttpDelete("/api/v1/MinimumCashStocks/{key}/VendingMachines")]
     public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)

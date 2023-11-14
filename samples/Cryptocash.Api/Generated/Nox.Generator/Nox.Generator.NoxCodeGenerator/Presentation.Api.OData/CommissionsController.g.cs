@@ -104,7 +104,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Commissions/{key}/Country")]
+    [HttpDelete("/api/v1/Commissions/{key}/Country")]
     public async Task<ActionResult> DeleteToCountry([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -230,7 +230,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Commissions/{key}/Bookings/{relatedKey}")]
+    [HttpDelete("/api/v1/Commissions/{key}/Bookings/{relatedKey}")]
     public async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -254,7 +254,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Commissions/{key}/Bookings")]
+    [HttpDelete("/api/v1/Commissions/{key}/Bookings")]
     public async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)

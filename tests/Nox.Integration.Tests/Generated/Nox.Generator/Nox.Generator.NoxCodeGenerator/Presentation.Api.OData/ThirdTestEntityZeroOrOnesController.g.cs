@@ -104,7 +104,7 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
         return NoContent();
     }
     
-    [HttpDelete("api/ThirdTestEntityZeroOrOnes/{key}/ThirdTestEntityExactlyOne")]
+    [HttpDelete("/api/v1/ThirdTestEntityZeroOrOnes/{key}/ThirdTestEntityExactlyOne")]
     public async Task<ActionResult> DeleteToThirdTestEntityExactlyOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)

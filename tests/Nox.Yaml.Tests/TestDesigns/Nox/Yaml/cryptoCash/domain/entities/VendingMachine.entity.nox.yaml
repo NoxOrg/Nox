@@ -1,0 +1,202 @@
+#
+# VendingMachine.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../Schemas/entity.json
+#
+
+name: VendingMachine
+
+pluralName: VendingMachines
+
+description: Vending machine definition and related data
+
+userInterface: 
+  icon: VendingMachines
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: Vending machine unique identifier 
+    type: guid 
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+attributes:
+
+  - name: MacAddress
+    description: Vending machine mac address
+    type: macAddress     
+    isRequired: true  
+    userInterface:
+      label: MacAddress
+      pageGroup: Details
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+      inputMask: '##:##:##:##:##:##'
+      inputOrder: 1      
+
+  - name: PublicIp
+    description: Vending machine public ip
+    type: ipAddress     
+    isRequired: true  
+    userInterface:
+      label: Public Ip
+      pageGroup: Details
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+      inputOrder: 2
+
+  - name: GeoLocation
+    description: Vending machine geo location
+    type: latLong     
+    isRequired: true  
+    userInterface:
+      pageGroup: Location
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+      inputOrder: 1
+
+  - name: StreetAddress
+    description: Vending machine street address
+    type: streetAddress
+    isRequired: true
+    userInterface:
+      pageGroup: Location
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+      inputOrder: 2
+
+  - name: SerialNumber
+    description: Vending machine serial number
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      label: Serial Number
+      pageGroup: Details
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+      inputOrder: 3
+
+  - name: InstallationFootPrint
+    description: Vending machine installation area
+    type: area
+    isRequired: false
+    userInterface:
+      label: Installation Area
+      pageGroup: Details
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+      inputOrder: 4
+
+  - name: RentPerSquareMetre
+    description: Landlord rent amount based on area of the vending machine installation
+    type: money
+    isRequired: false
+    userInterface:
+      label: Rent per Square Metre
+      pageGroup: Details
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+      inputOrder: 5     
+
+relationships:
+    
+  - name: VendingMachineInstallationCountry
+    description: installed in
+    relationship: exactlyOne
+    entity: Country
+    userInterface:
+      label: Installation Country      
+      pageGroup: Details
+      showOnCreateForm: true
+      showOnUpdateForm: true     
+
+  - name: VendingMachineContractedAreaLandLord
+    description: contracted area leased by
+    relationship: exactlyOne
+    entity: LandLord
+    userInterface:
+      label: Contracted Area LandLord   
+      pageGroup: Details
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: VendingMachineRelatedBookings
+    description: related to
+    relationship: zeroOrMany
+    entity: Booking
+    userInterface:
+      label: Related Bookings   
+      pageGroup: Related Bookings
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+  - name: VendingMachineRelatedCashStockOrders
+    description: related to
+    relationship: zeroOrMany
+    entity: CashStockOrder
+    userInterface:
+      label: Related Cash Stock Orders   
+      pageGroup: Cash Stock Orders 
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+  - name: VendingMachineRequiredMinimumCashStocks
+    description: required
+    relationship: zeroOrMany
+    entity: MinimumCashStock
+    userInterface:
+      label: Minimum Cash Stocks   
+      pageGroup: Minimum Cash Stocks 
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+persistence:
+    isAudited: true    
+    create:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    delete:
+        isEnabled: true
+        raiseEvents: domainEventsOnly

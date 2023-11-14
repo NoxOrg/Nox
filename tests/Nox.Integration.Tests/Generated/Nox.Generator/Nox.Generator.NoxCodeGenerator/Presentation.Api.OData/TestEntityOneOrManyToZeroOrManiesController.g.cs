@@ -92,7 +92,7 @@ public abstract partial class TestEntityOneOrManyToZeroOrManiesControllerBase : 
         return NoContent();
     }
     
-    [HttpDelete("api/TestEntityOneOrManyToZeroOrManies/{key}/TestEntityZeroOrManyToOneOrManies/{relatedKey}")]
+    [HttpDelete("/api/v1/TestEntityOneOrManyToZeroOrManies/{key}/TestEntityZeroOrManyToOneOrManies/{relatedKey}")]
     public async Task<ActionResult> DeleteToTestEntityZeroOrManyToOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)

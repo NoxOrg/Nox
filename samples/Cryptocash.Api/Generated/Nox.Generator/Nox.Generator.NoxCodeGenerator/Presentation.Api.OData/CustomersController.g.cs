@@ -108,7 +108,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Customers/{key}/PaymentDetails/{relatedKey}")]
+    [HttpDelete("/api/v1/Customers/{key}/PaymentDetails/{relatedKey}")]
     public async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -132,7 +132,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Customers/{key}/PaymentDetails")]
+    [HttpDelete("/api/v1/Customers/{key}/PaymentDetails")]
     public async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -258,7 +258,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Customers/{key}/Bookings/{relatedKey}")]
+    [HttpDelete("/api/v1/Customers/{key}/Bookings/{relatedKey}")]
     public async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -282,7 +282,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Customers/{key}/Bookings")]
+    [HttpDelete("/api/v1/Customers/{key}/Bookings")]
     public async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -408,7 +408,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Customers/{key}/Transactions/{relatedKey}")]
+    [HttpDelete("/api/v1/Customers/{key}/Transactions/{relatedKey}")]
     public async Task<ActionResult> DeleteToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -432,7 +432,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Customers/{key}/Transactions")]
+    [HttpDelete("/api/v1/Customers/{key}/Transactions")]
     public async Task<ActionResult> DeleteToTransactions([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)

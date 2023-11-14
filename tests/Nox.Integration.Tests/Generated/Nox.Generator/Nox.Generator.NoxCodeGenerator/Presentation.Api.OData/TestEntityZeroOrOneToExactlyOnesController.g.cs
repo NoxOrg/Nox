@@ -104,7 +104,7 @@ public abstract partial class TestEntityZeroOrOneToExactlyOnesControllerBase : O
         return NoContent();
     }
     
-    [HttpDelete("api/TestEntityZeroOrOneToExactlyOnes/{key}/TestEntityExactlyOneToZeroOrOne")]
+    [HttpDelete("/api/v1/TestEntityZeroOrOneToExactlyOnes/{key}/TestEntityExactlyOneToZeroOrOne")]
     public async Task<ActionResult> DeleteToTestEntityExactlyOneToZeroOrOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)

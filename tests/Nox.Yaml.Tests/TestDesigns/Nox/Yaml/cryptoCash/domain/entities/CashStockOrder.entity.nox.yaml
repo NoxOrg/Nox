@@ -1,0 +1,101 @@
+#
+# CashStockOrder.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../Schemas/entity.json
+#
+
+name: CashStockOrder
+
+description: Vending machine cash stock order and related data
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: Vending machine's order unique identifier 
+    type: autoNumber
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+attributes:
+
+  - name: Amount
+    description: Order amount
+    type: money     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: RequestedDeliveryDate
+    description: Order requested delivery date
+    type: date  
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: DeliveryDateTime
+    description: Order delivery date
+    type: dateTime  
+    isRequired: false  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: Status
+    description: Order status
+    type: formula  
+    formulaTypeOptions:
+      expression: 'DeliveryDateTime != null ? "delivered" : "ordered"' 
+      returns: string
+    isRequired: false  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: false
+      canFilter: true
+      showOnCreateForm: false
+      showOnUpdateForm: false
+
+relationships:
+
+  - name: CashStockOrderForVendingMachine
+    description: for
+    relationship: exactlyOne
+    entity: VendingMachine
+
+  - name: CashStockOrderReviewedByEmployee
+    description: reviewed by
+    relationship: exactlyOne
+    entity: Employee
+
+persistence:
+    isAudited: true    
+    create:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    delete:
+        isEnabled: true
+        raiseEvents: domainEventsOnly

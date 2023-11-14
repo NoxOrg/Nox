@@ -108,7 +108,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
         return NoContent();
     }
     
-    [HttpDelete("api/SecondTestEntityZeroOrManies/{key}/TestEntityZeroOrManies/{relatedKey}")]
+    [HttpDelete("/api/v1/SecondTestEntityZeroOrManies/{key}/TestEntityZeroOrManies/{relatedKey}")]
     public async Task<ActionResult> DeleteToTestEntityZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -132,7 +132,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
         return NoContent();
     }
     
-    [HttpDelete("api/SecondTestEntityZeroOrManies/{key}/TestEntityZeroOrManies")]
+    [HttpDelete("/api/v1/SecondTestEntityZeroOrManies/{key}/TestEntityZeroOrManies")]
     public async Task<ActionResult> DeleteToTestEntityZeroOrManies([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)

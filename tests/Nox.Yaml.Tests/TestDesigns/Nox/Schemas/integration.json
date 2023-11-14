@@ -1,0 +1,151 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "The definition namespace for an application ETL data integration.",
+  "description": "Details pertaining to a solution data integration. Includes common ETL attributes like source, transform and target.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "required": [
+    "name",
+    "schedule",
+    "source",
+    "transformationType",
+    "target"
+  ],
+  "properties": {
+    "name": {    
+      "title": "The name of the ETL integration. Contains no spaces.",
+      "description": "The name of the ETL integration. It should be a commonly used singular noun and be unique within a solution.",
+      "type": "string",
+      "pattern": "^[^\\s]*$"
+    },
+    "description": {    
+      "title": "A phrase describing the objective of the ETL data integration.",
+      "description": "A phrase describing the high-level objective of the ETL. A reference to data source and format is especially useful.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "schedule": {    
+      "title": "Scheduling of the Integration.",
+      "description": "Specify when and how frequently the Integration source is checked for updates, as well as the retry policy in case of failure. Includes a switch to indicate whether update is triggered at application startup.",
+      "type": "object",
+      "required": [
+        "start"
+      ],
+      "properties": {
+        "start": {    
+          "title": "Start time to check the Integration source for updates.",
+          "description": "Specify the start time to check the Integration source for updates. This is a 'speak-friendly' phrase that comprises the trigger time as well as the frequency. Translated into a cron expression.",
+          "type": "string"
+        },
+        "retry": {    
+          "title": "Retry policy applying to the Integration source updates.",
+          "description": "This outlines the retry configuration in the case of Integration engine being unable to connect to the Integration data source. Includes limit and delay before retry.",
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "properties": {
+            "limit": {    
+              "oneOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "delaySeconds": {    
+              "oneOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "doubleDelayLimit": {    
+              "oneOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "runOnStartup": {    
+          "title": "Check the Integration source for updates at appliation startup.",
+          "description": "Specify here whether the Integration source is checked for updates when the application starts.",
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "source": {    
+      "anyOf": [
+        { "$ref": "integrationSource.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "transformationType": {    
+      "type": "string",
+      "enum": [
+        "customTransform",
+        "defaultTransform"
+      ]
+    },
+    "target": {    
+      "anyOf": [
+        { "$ref": "integrationTarget.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

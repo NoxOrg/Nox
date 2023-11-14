@@ -1,0 +1,9 @@
+#
+# cryptocash.dependencies.nox.yaml
+#
+# yaml-language-server: $schema=../../../../Schemas/dependencies.json
+#
+
+dataConnections:
+
+  - $ref: ./dataConnections/NoxReferenceData.dataConnection.nox.yaml

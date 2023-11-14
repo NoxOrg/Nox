@@ -108,7 +108,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/LandLords/{key}/VendingMachines/{relatedKey}")]
+    [HttpDelete("/api/v1/LandLords/{key}/VendingMachines/{relatedKey}")]
     public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -132,7 +132,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/LandLords/{key}/VendingMachines")]
+    [HttpDelete("/api/v1/LandLords/{key}/VendingMachines")]
     public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
