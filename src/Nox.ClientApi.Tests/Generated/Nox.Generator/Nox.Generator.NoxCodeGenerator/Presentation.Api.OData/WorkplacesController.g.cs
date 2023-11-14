@@ -104,7 +104,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Workplaces/{key}/Country")]
+    [HttpDelete("/api/v1/Workplaces/{key}/Country")]
     public async Task<ActionResult> DeleteToCountry([FromRoute] System.UInt32 key)
     {
         if (!ModelState.IsValid)
@@ -230,7 +230,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Workplaces/{key}/Tenants/{relatedKey}")]
+    [HttpDelete("/api/v1/Workplaces/{key}/Tenants/{relatedKey}")]
     public async Task<ActionResult> DeleteToTenants([FromRoute] System.UInt32 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -254,7 +254,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Workplaces/{key}/Tenants")]
+    [HttpDelete("/api/v1/Workplaces/{key}/Tenants")]
     public async Task<ActionResult> DeleteToTenants([FromRoute] System.UInt32 key)
     {
         if (!ModelState.IsValid)
@@ -276,7 +276,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/Workplaces/{key}/Tenants/{relatedKey}")]
+    [HttpPut("/api/v1/Workplaces/{key}/Tenants/{relatedKey}")]
     public virtual async Task<ActionResult<TenantDto>> PutToTenantsNonConventional(System.UInt32 key, System.Guid relatedKey, [FromBody] TenantUpdateDto tenant)
     {
         if (!ModelState.IsValid)

@@ -276,7 +276,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/Commissions/{key}/Bookings/{relatedKey}")]
+    [HttpPut("/api/v1/Commissions/{key}/Bookings/{relatedKey}")]
     public virtual async Task<ActionResult<BookingDto>> PutToBookingsNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] BookingUpdateDto booking)
     {
         if (!ModelState.IsValid)

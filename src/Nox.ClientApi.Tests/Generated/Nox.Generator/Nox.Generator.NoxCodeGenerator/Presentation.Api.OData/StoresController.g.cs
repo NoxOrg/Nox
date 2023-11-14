@@ -109,7 +109,7 @@ public abstract partial class StoresControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Stores/{key}/StoreOwner")]
+    [HttpDelete("/api/v1/Stores/{key}/StoreOwner")]
     public async Task<ActionResult> DeleteToStoreOwner([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
@@ -231,7 +231,7 @@ public abstract partial class StoresControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Stores/{key}/StoreLicense")]
+    [HttpDelete("/api/v1/Stores/{key}/StoreLicense")]
     public async Task<ActionResult> DeleteToStoreLicense([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)

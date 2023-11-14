@@ -171,7 +171,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/StoreLicenses/{key}/DefaultCurrency")]
+    [HttpDelete("/api/v1/StoreLicenses/{key}/DefaultCurrency")]
     public async Task<ActionResult> DeleteToDefaultCurrency([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -293,7 +293,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/StoreLicenses/{key}/SoldInCurrency")]
+    [HttpDelete("/api/v1/StoreLicenses/{key}/SoldInCurrency")]
     public async Task<ActionResult> DeleteToSoldInCurrency([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)

@@ -116,7 +116,7 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
         return NoContent();
     }
     
-    [HttpPut("api/TestEntityOneOrManies/{key}/SecondTestEntityOneOrManies/{relatedKey}")]
+    [HttpPut("/api/v1/TestEntityOneOrManies/{key}/SecondTestEntityOneOrManies/{relatedKey}")]
     public virtual async Task<ActionResult<SecondTestEntityOneOrManyDto>> PutToSecondTestEntityOneOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] SecondTestEntityOneOrManyUpdateDto secondTestEntityOneOrMany)
     {
         if (!ModelState.IsValid)

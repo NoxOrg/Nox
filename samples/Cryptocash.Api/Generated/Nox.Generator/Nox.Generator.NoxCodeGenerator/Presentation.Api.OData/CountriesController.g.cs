@@ -460,7 +460,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/Countries/{key}/Commissions/{relatedKey}")]
+    [HttpPut("/api/v1/Countries/{key}/Commissions/{relatedKey}")]
     public virtual async Task<ActionResult<CommissionDto>> PutToCommissionsNonConventional(System.String key, System.Int64 relatedKey, [FromBody] CommissionUpdateDto commission)
     {
         if (!ModelState.IsValid)
@@ -610,7 +610,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/Countries/{key}/VendingMachines/{relatedKey}")]
+    [HttpPut("/api/v1/Countries/{key}/VendingMachines/{relatedKey}")]
     public virtual async Task<ActionResult<VendingMachineDto>> PutToVendingMachinesNonConventional(System.String key, System.Guid relatedKey, [FromBody] VendingMachineUpdateDto vendingMachine)
     {
         if (!ModelState.IsValid)
@@ -760,7 +760,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/Countries/{key}/Customers/{relatedKey}")]
+    [HttpPut("/api/v1/Countries/{key}/Customers/{relatedKey}")]
     public virtual async Task<ActionResult<CustomerDto>> PutToCustomersNonConventional(System.String key, System.Int64 relatedKey, [FromBody] CustomerUpdateDto customer)
     {
         if (!ModelState.IsValid)
