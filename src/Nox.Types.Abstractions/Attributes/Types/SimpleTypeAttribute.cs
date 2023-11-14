@@ -12,8 +12,9 @@ public class SimpleTypeAttribute : Attribute, IDtoGenerateControl
 
     public virtual bool Read { get; set; }
     public virtual bool Update { get; set; }
+    public virtual bool Create { get; set; }
 
-    public SimpleTypeAttribute(Type underlyingType, bool read = true, bool update = true)
+    public SimpleTypeAttribute(Type underlyingType, bool read = true, bool update = true, bool create = true)
     {
         if (typeof(INoxTypeComponentsDiscover).IsAssignableFrom(underlyingType))
         {
@@ -26,5 +27,6 @@ public class SimpleTypeAttribute : Attribute, IDtoGenerateControl
 
         Read = read;
         Update = update;
+        Create = create;
     }
 }

@@ -268,13 +268,6 @@ public partial class TestEntityForTypesUpdateDto : IEntityDto<DomainNamespace.Te
     public System.String? UserTestField { get; set; }
     /// <summary>
     ///  
-    /// <remarks>Required.</remarks>    
-    /// </summary>
-    [Required(ErrorMessage = "AutoNumberTestField is required")]
-    
-    public System.Int64 AutoNumberTestField { get; set; } = default!;
-    /// <summary>
-    ///  
     /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? HtmlTestField { get; set; }
