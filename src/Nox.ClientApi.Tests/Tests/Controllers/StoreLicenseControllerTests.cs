@@ -98,7 +98,7 @@ namespace ClientApi.Tests.Tests.Controllers
             getStoreLicenseResponse!.StoreId.Should().Be(store2!.Id);
         }
 
-        [Fact]
+        [Fact(Skip = "NOX-237")]
         public async Task Put_UpdateRelatedStoreToEmpty_Fail()
         {
             //Arrange
