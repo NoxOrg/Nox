@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "The definition namespace for notification server(s) used in a Nox solution.",
+  "description": "Specify properties pertinent to notification servers deployed within a Nox solution here. Examples include email, SMS and IM (Instant Messaging) servers.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "properties": {
+    "emailServer": {    
+      "anyOf": [
+        { "$ref": "emailServer.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "smsServer": {    
+      "anyOf": [
+        { "$ref": "smsServer.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "imServer": {    
+      "anyOf": [
+        { "$ref": "imServer.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

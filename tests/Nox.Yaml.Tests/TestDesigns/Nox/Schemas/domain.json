@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Information about the domain including entities and their relationships",
+  "description": "Contains definitions of entities, their attributes, events, commands and queries.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "required": [
+    "entities"
+  ],
+  "properties": {
+    "entities": {    
+      "title": "The entities that describe the domain.",
+      "description": "The collection of entities and their relationships with each other.",
+      "type": "array",
+      "items":   {
+        "anyOf": [
+          { "$ref": "entity.json" },
+          {
+            "additionalProperties": false, 
+            "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^[^\\s]*$"
+              }
+            }
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "yamlFile": {    
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "yamlContent": {    
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "yamlPath": {    
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "parent": {    
+      "anyOf": [
+        { "$ref": "solution.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

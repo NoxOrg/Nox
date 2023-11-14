@@ -274,7 +274,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/VendingMachines/{key}/Bookings/{relatedKey}")]
+    [HttpPut("/api/v1/VendingMachines/{key}/Bookings/{relatedKey}")]
     public virtual async Task<ActionResult<BookingDto>> PutToBookingsNonConventional(System.Guid key, System.Guid relatedKey, [FromBody] BookingUpdateDto booking)
     {
         if (!ModelState.IsValid)
@@ -378,7 +378,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/VendingMachines/{key}/CashStockOrders/{relatedKey}")]
+    [HttpPut("/api/v1/VendingMachines/{key}/CashStockOrders/{relatedKey}")]
     public virtual async Task<ActionResult<CashStockOrderDto>> PutToCashStockOrdersNonConventional(System.Guid key, System.Int64 relatedKey, [FromBody] CashStockOrderUpdateDto cashStockOrder)
     {
         if (!ModelState.IsValid)
@@ -482,7 +482,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/VendingMachines/{key}/MinimumCashStocks/{relatedKey}")]
+    [HttpPut("/api/v1/VendingMachines/{key}/MinimumCashStocks/{relatedKey}")]
     public virtual async Task<ActionResult<MinimumCashStockDto>> PutToMinimumCashStocksNonConventional(System.Guid key, System.Int64 relatedKey, [FromBody] MinimumCashStockUpdateDto minimumCashStock)
     {
         if (!ModelState.IsValid)

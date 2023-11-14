@@ -108,7 +108,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
         return NoContent();
     }
     
-    [HttpPut("api/SecondTestEntityZeroOrManies/{key}/TestEntityZeroOrManies/{relatedKey}")]
+    [HttpPut("/api/v1/SecondTestEntityZeroOrManies/{key}/TestEntityZeroOrManies/{relatedKey}")]
     public virtual async Task<ActionResult<TestEntityZeroOrManyDto>> PutToTestEntityZeroOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] TestEntityZeroOrManyUpdateDto testEntityZeroOrMany)
     {
         if (!ModelState.IsValid)

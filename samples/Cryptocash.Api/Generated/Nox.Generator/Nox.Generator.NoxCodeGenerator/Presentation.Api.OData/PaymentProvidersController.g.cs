@@ -108,7 +108,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
+    [HttpPut("/api/v1/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
     public virtual async Task<ActionResult<PaymentDetailDto>> PutToPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] PaymentDetailUpdateDto paymentDetail)
     {
         if (!ModelState.IsValid)

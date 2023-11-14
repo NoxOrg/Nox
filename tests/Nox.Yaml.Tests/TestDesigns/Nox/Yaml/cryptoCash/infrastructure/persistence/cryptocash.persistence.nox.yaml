@@ -1,0 +1,13 @@
+﻿#
+# cryptocash.persistence.nox.yaml
+#
+# yaml-language-server: $schema=../../../../Schemas/persistence.json
+#
+
+databaseServer:
+    name: CryptocashDb
+    provider: sqlServer
+    options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True
+    serverUri: localhost
+    user: sa  
+    password: Developer*123

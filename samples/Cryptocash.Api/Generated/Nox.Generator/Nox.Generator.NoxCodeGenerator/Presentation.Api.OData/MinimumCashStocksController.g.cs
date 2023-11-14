@@ -108,7 +108,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
+    [HttpPut("/api/v1/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
     public virtual async Task<ActionResult<VendingMachineDto>> PutToVendingMachinesNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] VendingMachineUpdateDto vendingMachine)
     {
         if (!ModelState.IsValid)

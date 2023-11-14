@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "The definition namespace for infrastructure components pertaining to a Nox solution.",
+  "description": "Define components pertinent to solution infrastructure here. Examples include persistence, messaging, dependencies and endpoints.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "required": [
+    "persistence"
+  ],
+  "properties": {
+    "persistence": {    
+      "anyOf": [
+        { "$ref": "persistence.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "messaging": {    
+      "anyOf": [
+        { "$ref": "messaging.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "endpoints": {    
+      "title": "The definition namespace for default endpoints pertaining to a Nox solution.",
+      "description": "Define default endpoints pertinent to a Nox solution here. These include endpoints for API and BFF servers.",
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "properties": {
+        "apiServer": {    
+          "anyOf": [
+            { "$ref": "apiServer.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "bffServer": {    
+          "anyOf": [
+            { "$ref": "bffServer.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "dependencies": {    
+      "anyOf": [
+        { "$ref": "dependencies.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "security": {    
+      "anyOf": [
+        { "$ref": "security.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

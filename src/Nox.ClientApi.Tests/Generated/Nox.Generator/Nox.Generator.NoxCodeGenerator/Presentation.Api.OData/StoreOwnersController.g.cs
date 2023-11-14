@@ -108,7 +108,7 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/StoreOwners/{key}/Stores/{relatedKey}")]
+    [HttpPut("/api/v1/StoreOwners/{key}/Stores/{relatedKey}")]
     public virtual async Task<ActionResult<StoreDto>> PutToStoresNonConventional(System.String key, System.Guid relatedKey, [FromBody] StoreUpdateDto store)
     {
         if (!ModelState.IsValid)

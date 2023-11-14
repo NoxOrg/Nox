@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "The definition namespace for persistance settings pertaining to a Nox solution.",
+  "description": "Defines settings pertinent to solution persistence here. These include database, event source, search and cache servers.",
+  "type": "object",
+  "required": [
+    "databaseServer"
+  ],
+  "properties": {
+    "databaseServer": {    
+      "anyOf": [
+        { "$ref": "databaseServer.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "cacheServer": {    
+      "anyOf": [
+        { "$ref": "cacheServer.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "searchServer": {    
+      "anyOf": [
+        { "$ref": "searchServer.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "eventSourceServer": {    
+      "anyOf": [
+        { "$ref": "eventSourceServer.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

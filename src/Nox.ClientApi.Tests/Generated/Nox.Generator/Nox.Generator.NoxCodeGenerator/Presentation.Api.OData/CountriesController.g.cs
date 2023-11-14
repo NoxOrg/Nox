@@ -360,7 +360,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/Countries/{key}/Workplaces/{relatedKey}")]
+    [HttpPut("/api/v1/Countries/{key}/Workplaces/{relatedKey}")]
     public virtual async Task<ActionResult<WorkplaceDto>> PutToWorkplacesNonConventional(System.Int64 key, System.UInt32 relatedKey, [FromBody] WorkplaceUpdateDto workplace)
     {
         if (!ModelState.IsValid)

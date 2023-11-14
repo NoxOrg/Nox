@@ -46,7 +46,7 @@ erDiagram
     Transaction||..||Booking : "for"
     Employee {
     }
-    Employee||..||CashStockOrder : "reviewing"
+    Employee||..o|CashStockOrder : "reviewing"
     Employee||--o{EmployeePhoneNumber : "contacted by"
     EmployeePhoneNumber {
     }
@@ -377,7 +377,7 @@ EmployeePhoneNumberId|AutoNumber|Employee's phone number identifier.|Required, O
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-reviewing|ExactlyOne|CashStockOrder|EmployeeReviewingCashStockOrder|Yes
+reviewing|ZeroOrOne|CashStockOrder|EmployeeReviewingCashStockOrder|Yes
 
 
 ### Employee.EmployeePhoneNumber (Owned by Employee)

@@ -108,7 +108,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/Customers/{key}/PaymentDetails/{relatedKey}")]
+    [HttpPut("/api/v1/Customers/{key}/PaymentDetails/{relatedKey}")]
     public virtual async Task<ActionResult<PaymentDetailDto>> PutToPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] PaymentDetailUpdateDto paymentDetail)
     {
         if (!ModelState.IsValid)
@@ -212,7 +212,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/Customers/{key}/Bookings/{relatedKey}")]
+    [HttpPut("/api/v1/Customers/{key}/Bookings/{relatedKey}")]
     public virtual async Task<ActionResult<BookingDto>> PutToBookingsNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] BookingUpdateDto booking)
     {
         if (!ModelState.IsValid)
@@ -316,7 +316,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/Customers/{key}/Transactions/{relatedKey}")]
+    [HttpPut("/api/v1/Customers/{key}/Transactions/{relatedKey}")]
     public virtual async Task<ActionResult<TransactionDto>> PutToTransactionsNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] TransactionUpdateDto transaction)
     {
         if (!ModelState.IsValid)

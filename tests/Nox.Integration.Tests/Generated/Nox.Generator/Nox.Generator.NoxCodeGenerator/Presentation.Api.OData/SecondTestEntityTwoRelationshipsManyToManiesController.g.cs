@@ -108,7 +108,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
         return NoContent();
     }
     
-    [HttpPut("api/SecondTestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipOneOnOtherSide/{relatedKey}")]
+    [HttpPut("/api/v1/SecondTestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipOneOnOtherSide/{relatedKey}")]
     public virtual async Task<ActionResult<TestEntityTwoRelationshipsManyToManyDto>> PutToTestRelationshipOneOnOtherSideNonConventional(System.String key, System.String relatedKey, [FromBody] TestEntityTwoRelationshipsManyToManyUpdateDto testEntityTwoRelationshipsManyToMany)
     {
         if (!ModelState.IsValid)
@@ -212,7 +212,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
         return NoContent();
     }
     
-    [HttpPut("api/SecondTestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipTwoOnOtherSide/{relatedKey}")]
+    [HttpPut("/api/v1/SecondTestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipTwoOnOtherSide/{relatedKey}")]
     public virtual async Task<ActionResult<TestEntityTwoRelationshipsManyToManyDto>> PutToTestRelationshipTwoOnOtherSideNonConventional(System.String key, System.String relatedKey, [FromBody] TestEntityTwoRelationshipsManyToManyUpdateDto testEntityTwoRelationshipsManyToMany)
     {
         if (!ModelState.IsValid)

@@ -1,0 +1,9 @@
+#
+# test.environment.nox.yaml
+#
+# yaml-language-server: $schema=../../../Schemas/environment.json
+#
+
+name: test
+description: Environment used by quality assurance team and regression testing workloads. 
+isProduction: false

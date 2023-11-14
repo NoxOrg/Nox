@@ -207,7 +207,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/Workplaces/{key}/Tenants/{relatedKey}")]
+    [HttpPut("/api/v1/Workplaces/{key}/Tenants/{relatedKey}")]
     public virtual async Task<ActionResult<TenantDto>> PutToTenantsNonConventional(System.UInt32 key, System.Guid relatedKey, [FromBody] TenantUpdateDto tenant)
     {
         if (!ModelState.IsValid)

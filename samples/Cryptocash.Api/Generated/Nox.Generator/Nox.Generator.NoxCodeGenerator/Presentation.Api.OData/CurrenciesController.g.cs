@@ -385,7 +385,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/Currencies/{key}/Countries/{relatedKey}")]
+    [HttpPut("/api/v1/Currencies/{key}/Countries/{relatedKey}")]
     public virtual async Task<ActionResult<CountryDto>> PutToCountriesNonConventional(System.String key, System.String relatedKey, [FromBody] CountryUpdateDto country)
     {
         if (!ModelState.IsValid)
@@ -489,7 +489,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpPut("api/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
+    [HttpPut("/api/v1/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
     public virtual async Task<ActionResult<MinimumCashStockDto>> PutToMinimumCashStocksNonConventional(System.String key, System.Int64 relatedKey, [FromBody] MinimumCashStockUpdateDto minimumCashStock)
     {
         if (!ModelState.IsValid)
