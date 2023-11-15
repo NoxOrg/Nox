@@ -7,9 +7,9 @@ namespace Nox.Integration.Services;
 public class NoxIntegrationContext: INoxIntegrationContext
 {
     private readonly List<INoxIntegration> _integrations;
-    private readonly Solution.Solution _solution;
+    private readonly Solution.NoxSolution _solution;
     
-    public NoxIntegrationContext(Solution.Solution solution)
+    public NoxIntegrationContext(Solution.NoxSolution solution)
     {
         _integrations = new List<INoxIntegration>();
         _solution = solution;

@@ -18,7 +18,7 @@ public class NoxSolutionSchemaGenerate
          *
          */
 
-        NoxSchemaGenerator.GenerateJsonSchemas(typeof(Solution),_path);
+        NoxSchemaGenerator.GenerateJsonSchemas(typeof(NoxSolution),_path);
 
     }
 

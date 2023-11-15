@@ -30,9 +30,4 @@ public partial class EntityUniqueConstraintsRelatedForeignKeyUpdateDtoBase: Enti
     /// <remarks>Optional.</remarks>    
     /// </summary>
     public virtual System.String? TextField { get; set; }
-
-    /// <summary>
-    /// EntityUniqueConstraintsRelatedForeignKey for ZeroOrMany EntityUniqueConstraintsWithForeignKeys
-    /// </summary>
-    public virtual List<System.Guid> EntityUniqueConstraintsWithForeignKeysId { get; set; } = new();
 }

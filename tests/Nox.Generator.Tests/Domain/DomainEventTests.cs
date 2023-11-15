@@ -21,8 +21,7 @@ public class DomainEventTests : IClassFixture<GeneratorFixture>
             $"./{path}domain-events.solution.nox.yaml"
         };
 
-        _fixture
-            .GenerateSourceCodeFor(sources)
+        GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
             .AssertFileCount(12, "Domain.Country.g.cs", "CountryNameUpdatedEvent.g.cs")
             .AssertContent()

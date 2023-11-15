@@ -22,7 +22,7 @@ public class IntegrationEventTests : IClassFixture<GeneratorFixture>
             $"./{path}integration-events.solution.nox.yaml"
         };
         // Assert the driver doesn't recompute the output
-        _generatorFixture.GenerateSourceCodeFor(sourcePaths)
+        GeneratorFixture.GenerateSourceCodeFor(sourcePaths)
             .AssertOutputResult()
             .AssertFileCount(5)
             .AssertContent()

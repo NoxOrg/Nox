@@ -57,20 +57,6 @@ internal abstract class UpdateEntityUniqueConstraintsRelatedForeignKeyCommandHan
 			return null;
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.EntityUniqueConstraintsWithForeignKeys).LoadAsync();
-		var entityUniqueConstraintsWithForeignKeysEntities = new List<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey>();
-		foreach(var relatedEntityId in request.EntityDto.EntityUniqueConstraintsWithForeignKeysId)
-		{
-			var relatedKey = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.EntityUniqueConstraintsWithForeignKeys.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				entityUniqueConstraintsWithForeignKeysEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("EntityUniqueConstraintsWithForeignKeys", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToEntityUniqueConstraintsWithForeignKeys(entityUniqueConstraintsWithForeignKeysEntities);
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

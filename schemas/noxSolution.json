@@ -1,0 +1,226 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Fully describes a NOX solution",
+  "description": "Contains all configuration, domain objects and infrastructure declarations that defines a NOX solution. See https://noxorg.dev for more.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {    
+      "title": "The short name for the solution. Contains no spaces.",
+      "description": "The name of the NOX solution, application or service. This value is used extensively by the NOX tooling and libraries and should ideally be unique within an organisation.",
+      "type": "string",
+      "pattern": "^[^\\s]*$"
+    },
+    "platformId": {    
+      "title": "Platform Identifier. Used to build a unique Uri.",
+      "description": "Identify a Platform, that is a set of different services. Use to produce a unique Uri, by encoding the provided value.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "version": {    
+      "title": "The version of the NOX solution. Expected a Semantic Version format.",
+      "description": "Required, but if not defined default 1.0.",
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "description": {    
+      "title": "A short description of the NOX solution.",
+      "description": "A brief description of the solution with what it's purpose or goals are.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "overview": {    
+      "title": "URL to the documentation or specification of the solution.",
+      "description": "A URL which contains the requirements, documentation or specification for this solution.",
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "uri"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "variables": {    
+      "title": "The environment variables used in your solution and default values.",
+      "description": "A key/value pair of environment variables used in your solution and their defaults.",
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "additionalProperties":   {
+        "Type": "string"
+      }
+    },
+    "environments": {    
+      "title": "Definitions for run-time environments.",
+      "description": "Definitions for the name, production status and other pertinent information pertaining to run-time environments.",
+      "oneOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "items":   {
+        "anyOf": [
+          { "$ref": "environment.json" },
+          {
+            "additionalProperties": false, 
+            "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^[^\\s]*$"
+              }
+            }
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "versionControl": {    
+      "anyOf": [
+        { "$ref": "versionControl.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "team": {    
+      "title": "Information about the team working on this solution.",
+      "description": "Specify the members of the team working on the solution including their respective roles.",
+      "oneOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "items":   {
+        "anyOf": [
+          { "$ref": "teamMember.json" },
+          {
+            "additionalProperties": false, 
+            "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^[^\\s]*$"
+              }
+            }
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "domain": {    
+      "anyOf": [
+        { "$ref": "domain.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "infrastructure": {    
+      "anyOf": [
+        { "$ref": "infrastructure.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "application": {    
+      "anyOf": [
+        { "$ref": "application.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "rootYamlFile": {    
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "rawYamlContent": {    
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}
