@@ -28,7 +28,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToCountry([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> CreateRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -44,7 +44,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToCountry([FromRoute] System.UInt32 key, [FromBody] CountryCreateDto country)
+    public virtual async Task<ActionResult> PostToCountry([FromRoute] System.Int64 key, [FromBody] CountryCreateDto country)
     {
         if (!ModelState.IsValid)
         {
@@ -52,7 +52,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        country.WorkplacesId = new List<System.UInt32> { key };
+        country.WorkplacesId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -60,7 +60,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Created(createdItem);
     }
     
-    public async Task<ActionResult> GetRefToCountry([FromRoute] System.UInt32 key)
+    public async Task<ActionResult> GetRefToCountry([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Country).SingleOrDefault();
         if (related is null)
@@ -72,7 +72,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -88,7 +88,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.UInt32 key)
+    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
@@ -104,7 +104,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToTenants([FromRoute] System.UInt32 key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> CreateRefToTenants([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -120,7 +120,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToTenants([FromRoute] System.UInt32 key, [FromBody] TenantCreateDto tenant)
+    public virtual async Task<ActionResult> PostToTenants([FromRoute] System.Int64 key, [FromBody] TenantCreateDto tenant)
     {
         if (!ModelState.IsValid)
         {
@@ -128,7 +128,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        tenant.WorkplacesId = new List<System.UInt32> { key };
+        tenant.WorkplacesId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateTenantCommand(tenant, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetTenantByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -136,7 +136,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Created(createdItem);
     }
     
-    public async Task<ActionResult> GetRefToTenants([FromRoute] System.UInt32 key)
+    public async Task<ActionResult> GetRefToTenants([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Tenants).SingleOrDefault();
         if (related is null)
@@ -152,7 +152,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToTenants([FromRoute] System.UInt32 key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> DeleteRefToTenants([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -168,7 +168,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToTenants([FromRoute] System.UInt32 key)
+    public async Task<ActionResult> DeleteRefToTenants([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {

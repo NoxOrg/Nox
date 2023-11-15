@@ -11,7 +11,11 @@ description: Tenant
 keys:
 
   - name: Id
-    type: guid
+    type: nuid
+    nuidTypeOptions:
+      separator: "-"
+      propertyNames:
+        - "Name"
     isRequired: true
 
 attributes:

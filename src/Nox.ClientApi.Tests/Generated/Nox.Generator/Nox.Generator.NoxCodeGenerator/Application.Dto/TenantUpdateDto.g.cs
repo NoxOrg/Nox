@@ -28,5 +28,5 @@ public partial class TenantUpdateDto : IEntityDto<DomainNamespace.Tenant>
     /// <summary>
     /// Tenant Workplaces where the tenant is active ZeroOrMany Workplaces
     /// </summary>
-    public List<System.UInt32> WorkplacesId { get; set; } = new();
+    public List<System.Int64> WorkplacesId { get; set; } = new();
 }

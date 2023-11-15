@@ -115,8 +115,8 @@ namespace Nox.Types.EntityFramework.Configurations
             };
 
             //Configure keys without navigation properties
-            ConfigureKeys(CodeGenConventions, builder, localizedEntity, keys, false, false);
-            
+            ConfigureKeys(CodeGenConventions, builder, localizedEntity, keys, configureNavigationProperty: false, deleteBehavior: DeleteBehavior.Cascade);
+
             ConfigureLocalizedAttributes(CodeGenConventions, builder, localizedEntity);
         }
 
@@ -256,7 +256,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 keyToBeConfigured.Description = $"Foreign key for entity {relationshipToCreate.Relationship.Name}";
                 keyToBeConfigured.IsRequired = relationshipToCreate.Relationship.IsRequired();
                 keyToBeConfigured.IsReadonly = false;
-                databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, keyToBeConfigured, entity, false);
+                databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, keyToBeConfigured, entity, isKey: false);
             }
         }
 
@@ -266,7 +266,7 @@ namespace Nox.Types.EntityFramework.Configurations
             Entity entity,
             IReadOnlyList<NoxSimpleTypeDefinition> keys,
             bool configureNavigationProperty = true,
-            bool configureForeignKey = true)
+            DeleteBehavior deleteBehavior = DeleteBehavior.NoAction)
         {
             if (keys is { Count: > 0 })
             {
@@ -277,7 +277,7 @@ namespace Nox.Types.EntityFramework.Configurations
                     {
                         Console.WriteLine($"    Setup Key {key.Name} as Foreign Key for Entity {entity.Name}");
 
-                        ConfigureEntityKeyForEntityForeignKey(codeGeneratorState, builder, entity, key, configureNavigationProperty, configureForeignKey);
+                        ConfigureEntityKeyForEntityForeignKey(codeGeneratorState, builder, entity, key, configureNavigationProperty, configureToManyRelationship: keys.Count > 1, deleteBehavior);
                         keysPropertyNames.Add(key.Name);
                     }
                     else if (TypesDatabaseConfigurations.TryGetValue(key.Type,
@@ -303,17 +303,30 @@ namespace Nox.Types.EntityFramework.Configurations
             Entity entity,
             NoxSimpleTypeDefinition key,
             bool configureNavigationProperty = true,
-            bool configureForeignKey = true)
+            bool configureToManyRelationship = false,
+            DeleteBehavior deleteBehavior = DeleteBehavior.NoAction)
         {
             // Key type of the Foreign Entity Key
             var foreignEntityKeyType = codeGeneratorState.Solution.GetSingleKeyTypeForEntity(key.EntityIdTypeOptions!.Entity);
 
-            if (configureForeignKey)
+            var relatedTypeName = CodeGenConventions.GetEntityTypeFullName(key.EntityIdTypeOptions.Entity);
+            var navigationName = key.EntityIdTypeOptions!.Entity;
+
+            if (configureToManyRelationship)
             {
                 builder
-                    .HasOne(codeGeneratorState.GetEntityTypeFullName(key.EntityIdTypeOptions.Entity), configureNavigationProperty ? key.EntityIdTypeOptions!.Entity : null)
+                    .HasOne(relatedTypeName, navigationName)
+                    .WithMany()
+                    .HasForeignKey(key.Name)
+                    .OnDelete(deleteBehavior);
+            }
+            else
+            {
+                builder
+                    .HasOne(relatedTypeName, navigationName)
                     .WithOne()
-                    .HasForeignKey(entity.Name, key.Name);
+                    .HasForeignKey(entity.Name, key.Name)
+                    .OnDelete(deleteBehavior);
             }
 
             //Configure foreign key property

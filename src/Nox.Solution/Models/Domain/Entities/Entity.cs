@@ -108,8 +108,11 @@ public class Entity : DefinitionBase
     [YamlIgnore]
     public bool IsLocalized =>
         !HasCompositeKey &&
-        !IsOwnedEntity &&
         this.GetAttributesToLocalize().Any();
+
+    [YamlIgnore]
+    public bool HasLocalizedOwnedEntities 
+        => OwnedRelationships.Any(x => x.Related.Entity?.IsLocalized ?? false);
 
     public Entity ShallowCopy(string? newName = null)
     {

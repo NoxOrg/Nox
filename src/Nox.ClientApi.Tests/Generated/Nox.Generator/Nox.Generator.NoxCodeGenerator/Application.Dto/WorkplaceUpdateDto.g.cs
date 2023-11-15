@@ -39,5 +39,5 @@ public partial class WorkplaceUpdateDto : IEntityDto<DomainNamespace.Workplace>
     /// <summary>
     /// Workplace Actve Tenants in the workplace ZeroOrMany Tenants
     /// </summary>
-    public List<System.Guid> TenantsId { get; set; } = new();
+    public List<System.UInt32> TenantsId { get; set; } = new();
 }

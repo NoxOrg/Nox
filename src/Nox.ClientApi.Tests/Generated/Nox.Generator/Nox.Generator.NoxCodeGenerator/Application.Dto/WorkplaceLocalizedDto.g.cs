@@ -21,7 +21,7 @@ internal partial class WorkplaceLocalizedDto
     /// <summary>
     /// Workplace unique identifier (Required).
     /// </summary>
-    public System.UInt32 Id { get; set; } = default!;
+    public System.Int64 Id { get; set; } = default!;
 
     public System.String CultureCode { get; set; } = default!;
 

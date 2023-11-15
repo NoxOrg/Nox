@@ -54,23 +54,7 @@ internal abstract partial class WorkplaceBase : EntityBase, IEntityConcurrent
     /// Workplace unique identifier
     /// <remarks>Required.</remarks>   
     /// </summary>
-    public Nuid Id {get; set;} = null!;
-       
-    	public virtual void EnsureId()
-    	{
-    		if(Id is null)
-    		{
-    			Id = Nuid.From("Workplace-" + string.Join("-", Name.Value.ToString()));
-    		}
-    		else
-    		{
-    			var currentNuid = Nuid.From("Workplace-" + string.Join("-", Name.Value.ToString()));
-    			if(Id != currentNuid)
-    			{
-    				throw new NoxNuidTypeException("Immutable nuid property Id value is different since it has been initialized");
-    			}
-    		}
-    	}
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Workplace Name

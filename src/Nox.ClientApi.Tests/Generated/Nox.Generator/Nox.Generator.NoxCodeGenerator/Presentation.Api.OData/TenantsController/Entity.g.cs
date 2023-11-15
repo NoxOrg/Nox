@@ -61,7 +61,7 @@ public abstract partial class TenantsControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<TenantDto>> Get([FromRoute] System.Guid key)
+    public async Task<SingleResult<TenantDto>> Get([FromRoute] System.UInt32 key)
     {
         var result = await _mediator.Send(new GetTenantByIdQuery(key));
         return SingleResult.Create(result);
@@ -81,7 +81,7 @@ public abstract partial class TenantsControllerBase : ODataController
         return Created(item);
     }
 
-    public virtual async Task<ActionResult<TenantDto>> Put([FromRoute] System.Guid key, [FromBody] TenantUpdateDto tenant)
+    public virtual async Task<ActionResult<TenantDto>> Put([FromRoute] System.UInt32 key, [FromBody] TenantUpdateDto tenant)
     {
         if (!ModelState.IsValid)
         {
@@ -101,7 +101,7 @@ public abstract partial class TenantsControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TenantDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<TenantDto> tenant)
+    public virtual async Task<ActionResult<TenantDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<TenantDto> tenant)
     {
         if (!ModelState.IsValid)
         {
@@ -131,7 +131,7 @@ public abstract partial class TenantsControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult> Delete([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteTenantByIdCommand(key, etag));

@@ -11,13 +11,9 @@ description: Workplace
 keys:
 
   - name: Id
-    type: nuid
+    type: autoNumber
     description: Workplace unique identifier
     isRequired: true
-    nuidTypeOptions:
-        separator: "-"
-        propertyNames:
-            - "Name"
 
 attributes:
 

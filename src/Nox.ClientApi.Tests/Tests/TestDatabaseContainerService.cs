@@ -16,7 +16,7 @@ public class TestDatabaseContainerService : IAsyncLifetime, ITestDatabaseService
 {
 #if DEBUG
     //To change DatabaseProvider just replace DbProviderKind.
-    public static readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.Postgres;
+    public static readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.SqlServer;
 #else
     public static readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.SqlServer;
 #endif

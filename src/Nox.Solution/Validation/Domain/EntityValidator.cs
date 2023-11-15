@@ -34,11 +34,11 @@ namespace Nox.Solution.Validation
 
             RuleForEach(e => e.OwnedRelationships)
                 .Must(x => x.Related.Entity is not null && !x.Related.Entity.HasCompositeKey)
-                .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity?.Name  ?? "(unknown)", r.Name));
+                .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity?.Name ?? "(unknown)", r.Name));
 
             RuleForEach(e => e.Relationships)
                 .Must(x => x.Related.Entity is not null && !x.Related.Entity.HasCompositeKey)
-                .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity?.Name  ?? "(unknown)", r.Name));
+                .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity?.Name ?? "(unknown)", r.Name));
 
             RuleForEach(e => e.Queries)
                 .SetValidator(e => new DomainQueryValidator(e.Queries, e.Name));
@@ -82,9 +82,7 @@ namespace Nox.Solution.Validation
 
             When(e => e.IsOwnedEntity, () =>
             {
-                RuleFor(e => e)
-                    .SetValidator(new OwnedEntityValidator(entities))
-                    .SetValidator(new EntityLocalizationValidator(ValidationResources.EntityOwnedTextFieldsCantBeLocalized));
+                RuleFor(e => e).SetValidator(new OwnedEntityValidator(entities));
             })
             .Otherwise(() =>
             {

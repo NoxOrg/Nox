@@ -28,7 +28,7 @@ public abstract partial class TenantsControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToWorkplaces([FromRoute] System.Guid key, [FromRoute] System.UInt32 relatedKey)
+    public async Task<ActionResult> CreateRefToWorkplaces([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -44,7 +44,7 @@ public abstract partial class TenantsControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToWorkplaces([FromRoute] System.Guid key, [FromBody] WorkplaceCreateDto workplace)
+    public virtual async Task<ActionResult> PostToWorkplaces([FromRoute] System.UInt32 key, [FromBody] WorkplaceCreateDto workplace)
     {
         if (!ModelState.IsValid)
         {
@@ -52,7 +52,7 @@ public abstract partial class TenantsControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        workplace.TenantsId = new List<System.Guid> { key };
+        workplace.TenantsId = new List<System.UInt32> { key };
         var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, createdKey.keyId))).SingleOrDefault();
@@ -60,7 +60,7 @@ public abstract partial class TenantsControllerBase : ODataController
         return Created(createdItem);
     }
     
-    public async Task<ActionResult> GetRefToWorkplaces([FromRoute] System.Guid key)
+    public async Task<ActionResult> GetRefToWorkplaces([FromRoute] System.UInt32 key)
     {
         var related = (await _mediator.Send(new GetTenantByIdQuery(key))).Select(x => x.Workplaces).SingleOrDefault();
         if (related is null)
@@ -76,7 +76,7 @@ public abstract partial class TenantsControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Guid key, [FromRoute] System.UInt32 relatedKey)
+    public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -92,7 +92,7 @@ public abstract partial class TenantsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Guid key)
+    public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.UInt32 key)
     {
         if (!ModelState.IsValid)
         {

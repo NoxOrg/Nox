@@ -661,7 +661,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
             var countryCreateDto = new CountryCreateDto { 
                 Name = _fixture.Create<string>(),
-                WorkplacesId = new List<UInt32> {
+                WorkplacesId = new List<long> {
                     workplaceResponse1!.Id,
                     workplaceResponse2!.Id,
                     workplaceResponse3!.Id,
@@ -690,7 +690,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var countryCreateDto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                WorkplacesId = new List<UInt32> { _fixture.Create<UInt32>() }
+                WorkplacesId = new List<long> { _fixture.Create<long>() }
             };
 
             // Act
@@ -844,7 +844,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 new CountryUpdateDto
                 {
                     Name = countryResponse!.Name,
-                    WorkplacesId = new List<UInt32> { workplaceResponse!.Id }
+                    WorkplacesId = new List<long> { workplaceResponse!.Id }
                 },
                 headers);
 
@@ -877,7 +877,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 new CountryUpdateDto
                 {
                     Name = countryResponse!.Name,
-                    WorkplacesId = new List<UInt32>()
+                    WorkplacesId = new List<long>()
                 },
                 headers);
 
@@ -920,7 +920,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 new CountryUpdateDto
                 {
                     Name = countryResponse!.Name,
-                    WorkplacesId = new List<UInt32>
+                    WorkplacesId = new List<long>
                     {
                         workplaceResponse2!.Id,
                         workplaceResponse4!.Id,

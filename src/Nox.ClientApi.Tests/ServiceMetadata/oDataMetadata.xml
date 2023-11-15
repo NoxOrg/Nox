@@ -122,7 +122,7 @@
                 <Key>
                     <PropertyRef Name="Id" />
                 </Key>
-                <Property Name="Id" Type="Edm.Guid" Nullable="false" />
+                <Property Name="Id" Type="Edm.Int64" Nullable="false" />
                 <Property Name="Name" Type="Edm.String" />
                 <Property Name="Etag" Type="Edm.Guid" Nullable="false" />
                 <NavigationProperty Name="Workplaces" Type="Collection(ClientApi.Application.Dto.WorkplaceDto)" ContainsTarget="true" />

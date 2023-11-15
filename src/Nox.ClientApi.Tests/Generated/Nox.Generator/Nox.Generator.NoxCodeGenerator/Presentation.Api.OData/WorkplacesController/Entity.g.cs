@@ -61,7 +61,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<WorkplaceDto>> Get([FromRoute] System.UInt32 key)
+    public async Task<SingleResult<WorkplaceDto>> Get([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key));
         return SingleResult.Create(result);
@@ -81,7 +81,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Created(item);
     }
 
-    public virtual async Task<ActionResult<WorkplaceDto>> Put([FromRoute] System.UInt32 key, [FromBody] WorkplaceUpdateDto workplace)
+    public virtual async Task<ActionResult<WorkplaceDto>> Put([FromRoute] System.Int64 key, [FromBody] WorkplaceUpdateDto workplace)
     {
         if (!ModelState.IsValid)
         {
@@ -101,7 +101,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<WorkplaceDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<WorkplaceDto> workplace)
+    public virtual async Task<ActionResult<WorkplaceDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<WorkplaceDto> workplace)
     {
         if (!ModelState.IsValid)
         {
@@ -131,7 +131,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteWorkplaceByIdCommand(key, etag));
