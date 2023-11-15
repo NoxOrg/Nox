@@ -56,6 +56,7 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntityType<{{entity.Name}}Dto>();
         {{- if entity.IsLocalized }}
+        builder.EntityType<{{entity.Name}}LocalizedDto>();
         builder.EntitySet<{{entity.Name}}LocalizedDto>("{{entity.PluralName}}Localized");
         {{- end }}
         

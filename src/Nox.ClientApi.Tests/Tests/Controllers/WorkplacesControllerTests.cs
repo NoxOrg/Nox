@@ -730,7 +730,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateAcceptLanguageHeader("en-US"));
             
             var localizedDto =  await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplaceLocalized/tr-TR", upsertDto, headers, false);
-            
+            var localizations = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplaceLocalized", headers))?.ToList();
             
             // Assert
             result.Should().NotBeNull();
@@ -741,6 +741,7 @@ namespace ClientApi.Tests.Tests.Controllers
             localizedDto.Should().NotBeNull();
             localizedDto!.Id.Should().Be(postResult!.Id);
             localizedDto!.Description.Should().Be(upsertDto.Description);
+            localizations.Should().NotBeNull();
         }
 
         #endregion LOCALIZATIONS

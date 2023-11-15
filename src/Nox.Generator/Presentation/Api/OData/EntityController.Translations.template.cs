@@ -67,7 +67,7 @@ public abstract partial class {{ className }}Base
 
     [EnableQuery]
     [HttpGet("{{solution.Infrastructure.Endpoints.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.Name}}Localized/")]
-    public virtual async Task<ActionResult<{{entity.Name}}LocalizedDto>> Put{{entity.Name}}Localized( {{ primaryKeysRoute }})
+    public virtual async Task<ActionResult<IQueryable<{{entity.Name}}LocalizedDto>>> Put{{entity.Name}}Localized( {{ primaryKeysRoute }})
     {
         var result = (await _mediator.Send(new Get{{entity.Name}}TranslationsQuery({{ primaryKeysQuery }})));
             
