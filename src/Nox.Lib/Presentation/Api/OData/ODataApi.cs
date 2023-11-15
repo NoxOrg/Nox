@@ -10,7 +10,7 @@ namespace Nox.Presentation.Api.OData
         /// </summary>
         public static string GetRoutePrefix(string apiRoutePrefix)
         {
-            return apiRoutePrefix.TrimStart('/');
+            return apiRoutePrefix;
         }
     }
 }
