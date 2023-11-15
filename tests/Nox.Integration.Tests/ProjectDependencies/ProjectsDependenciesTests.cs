@@ -67,7 +67,7 @@ namespace Nox.Tests.ProjectDependencies
             projectDependencies.Should().HaveCountLessOrEqualTo(3);
             projectDependencies.Should().Contain(_fixture.NoxSolution.Id);
 
-            if (projectDependencies.Count() == 3)
+            if (projectDependencies.Count == 3)
             {
                 projectDependencies.Should().Contain(_fixture.NoxTypesAbstractionsProject.Id);
             }

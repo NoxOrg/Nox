@@ -32,7 +32,7 @@ public class CompileTests : IClassFixture<GeneratorFixture>
         {
             $"./{path}test.solution.nox.yaml"
         };
-        var result = _generatorFixture.GenerateSourceCodeFor(sources);
+        var result = GeneratorFixture.GenerateSourceCodeFor(sources);
         var references = GetReferences().ToList();
         _testOutputHelper.WriteLine($"References count: {references.Count}");
 

@@ -7,7 +7,7 @@ namespace Nox.Integration.Tests.ProjectDependencies;
 
 public class CodeAnalysisSolutionFixture : IAsyncLifetime
 {
-    private const string SolutionPath = "src/Nox.Generator.sln";
+    private const string _solutionPath = "src/Nox.Generator.sln";
 
     public Microsoft.CodeAnalysis.Solution Solution { get; private set; } = null!;
     public ProjectDependencyGraph ProjectDependencyGraph { get; private set; } = null!;
@@ -49,9 +49,9 @@ public class CodeAnalysisSolutionFixture : IAsyncLifetime
     private string GetSolutionFile(DirectoryInfo? directoryInfo)
     {
         if (directoryInfo == null)
-            throw new Exception($"Could not find solution {SolutionPath}");
+            throw new Exception($"Could not find solution {_solutionPath}");
 
-        var filePath = Path.Combine(directoryInfo.FullName, SolutionPath);
+        var filePath = Path.Combine(directoryInfo.FullName, _solutionPath);
 
         if (File.Exists(filePath))
         {

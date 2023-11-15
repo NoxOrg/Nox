@@ -21,8 +21,7 @@ public class LocalizedEntitiesTests : IClassFixture<GeneratorFixture>
             $"./{path}domain-events.solution.nox.yaml"
         };
 
-        _fixture
-            .GenerateSourceCodeFor(sources)
+        GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
             .AssertFileCount(12, "Domain.CountryLocalized.g.cs", "Application.Dto.CountryLocalizedDto.g.cs")
             .AssertContent()

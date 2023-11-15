@@ -1,3 +1,4 @@
+using System.Data;
 using System.Text.Json;
 using Nox.Solution.Schema;
 
@@ -11,15 +12,20 @@ public class NoxSolutionSchemaGenerate
     [Fact]
     public void Can_create_a_json_schema_for_yaml()
     {
-        /*
-         * TODO: $ref support for arrays/lists
-         *
-         * TODO: make enum type strings too
-         *
-         */
 
-        NoxSchemaGenerator.GenerateJsonSchemas(typeof(Solution),_path);
+        DeleteAllPreviousSchemas();
 
+        NoxSchemaGenerator.GenerateJsonSchemas(typeof(NoxSolution),_path);
+
+    }
+
+    private void DeleteAllPreviousSchemas()
+    {
+        var jsonFiles = Directory.GetFiles(_path, "*.json");
+        foreach (var jsonFile in jsonFiles) 
+        {
+            File.Delete(jsonFile);
+        }
     }
 
     private static string FindOrCreateFolderInProjectRoot(string folderName)

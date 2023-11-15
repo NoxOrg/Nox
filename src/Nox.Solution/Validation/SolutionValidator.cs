@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Nox.Solution.Validation
 {
-    internal class SolutionValidator : AbstractValidator<Solution>
+    internal class SolutionValidator : AbstractValidator<NoxSolution>
     {
         public SolutionValidator()
         {

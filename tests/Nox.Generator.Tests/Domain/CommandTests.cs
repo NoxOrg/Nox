@@ -28,8 +28,7 @@ public class CommandTests : IClassFixture<GeneratorFixture>
             //"UpdatePopulationStatisticsCommandHandlerBase.g.cs"
         };
 
-        _fixture
-            .GenerateSourceCodeFor(sources)
+        GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
             .AssertFileCount(8, filesShouldExist)
             .AssertContent()
