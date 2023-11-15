@@ -72,7 +72,6 @@ domain:
           description: has
           relationship: oneOrMany
           entity: Country
-          canNavigate: true
 
     - name: Country
       description: The list of countries
@@ -112,13 +111,11 @@ domain:
           description: is on
           relationship: oneOrMany
           entity: Continent
-          canNavigate: true
 
         - name: Inhabitants
           description: is inhabited by
           relationship: oneOrMany
           entity: People
-          canNavigate: true
 
       ownedRelationships:
         - name: CountryLocalNames
@@ -245,4 +242,3 @@ domain:
           description: inhabit
           relationship: oneOrMany
           entity: Country
-          canNavigate: true

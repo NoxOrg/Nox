@@ -76,8 +76,8 @@ ownedRelationships:
     description: Verified emails
     relationship: zeroOrOne #todo make exactly one when dto are ready
     entity: EmailAddress
-    canNavigate: false
-
+    canManageEntity: false
+    
 persistence:
     isAudited: true
     create:

@@ -27,7 +27,6 @@ relationships:
     description: accepts as legal tender
     relationship: oneOrMany
     entity: Currency
-    canNavigate: true
     
 ownedRelationships:
 
