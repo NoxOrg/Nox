@@ -74,7 +74,8 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 {
 {{- for key in entity.Keys }}
     /// <summary>
-    /// {{key.Description}} (Required).
+    /// {{key.Description | string.rstrip}}
+    /// <remarks>Required.</remarks>   
     /// </summary>
     {{ if key.Type == "EntityId" -}}
     public Nox.Types.{{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
@@ -126,7 +127,8 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 {{- for attribute in entity.Attributes }}
 
     /// <summary>
-    /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
+    /// {{attribute.Description | string.rstrip}}
+    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}.</remarks>   
     /// </summary>
     {{ if attribute.Type == "Formula" -}}
     public {{attribute.FormulaTypeOptions.Returns}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}}
@@ -177,7 +179,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 {{- end}}
 {{- ######################################### Relationships ###################################################### -}}
 {{- for relationship in entity.Relationships }}
-    {{- relationshipName = GetRelationshipPublicName entity relationship }}
+    {{- relationshipName = GetNavigationPropertyName entity relationship }}
 
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
@@ -186,7 +188,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
     public virtual List<{{relationship.Entity}}> {{relationshipName}} { get; private set; } = new();
     {{- else}}
     public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationshipName}} { get; private set; } = null!;
-    {{- if relationship.ShouldGenerateForeignOnThisSide}}
+    {{- if relationship.IsForeignKeyOnThisSide}}
 
     /// <summary>
     /// Foreign key for relationship {{relationship.Relationship}} to entity {{relationship.Entity}}
@@ -245,7 +247,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{- if relationship.Relationship == "ExactlyOne" }}
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         {{- else }}
-        {{- if relationship.ShouldGenerateForeignOnThisSide }}
+        {{- if relationship.IsForeignKeyOnThisSide }}
         {{relationshipName}}Id = null;
         {{- else }}
         {{relationshipName}} = null;

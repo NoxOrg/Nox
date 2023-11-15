@@ -14,6 +14,9 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+/// <summary>
+/// Exchange booking and related data.
+/// </summary>
 public partial class BookingCreateDto : BookingCreateDtoBase
 {
 
@@ -24,45 +27,49 @@ public partial class BookingCreateDto : BookingCreateDtoBase
 /// </summary>
 public abstract class BookingCreateDtoBase : IEntityDto<DomainNamespace.Booking>
 {/// <summary>
-    /// Booking unique identifier (Optional).
+    /// Booking unique identifier 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.Guid Id { get; set; } = default!;
     /// <summary>
-    /// Booking's amount exchanged from (Required).
+    /// Booking's amount exchanged from 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "AmountFrom is required")]
     
     public virtual MoneyDto AmountFrom { get; set; } = default!;
     /// <summary>
-    /// Booking's amount exchanged to (Required).
+    /// Booking's amount exchanged to 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "AmountTo is required")]
     
     public virtual MoneyDto AmountTo { get; set; } = default!;
     /// <summary>
-    /// Booking's requested pick up date (Required).
+    /// Booking's requested pick up date 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "RequestedPickUpDate is required")]
     
     public virtual DateTimeRangeDto RequestedPickUpDate { get; set; } = default!;
     /// <summary>
-    /// Booking's actual pick up date (Optional).
+    /// Booking's actual pick up date 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual DateTimeRangeDto? PickedUpDateTime { get; set; }
     /// <summary>
-    /// Booking's expiry date (Optional).
+    /// Booking's expiry date 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.DateTimeOffset? ExpiryDateTime { get; set; }
     /// <summary>
-    /// Booking's cancelled date (Optional).
+    /// Booking's cancelled date 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.DateTimeOffset? CancelledDateTime { get; set; }
     /// <summary>
-    /// Booking's status (Optional).
-    /// </summary>
-    public virtual System.String? Status { get; set; }
-    /// <summary>
-    /// Booking's related vat number (Optional).
+    /// Booking's related vat number 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual VatNumberDto? VatNumber { get; set; }
 

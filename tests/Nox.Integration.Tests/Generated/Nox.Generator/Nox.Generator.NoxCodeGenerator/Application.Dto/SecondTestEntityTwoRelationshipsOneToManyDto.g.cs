@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record SecondTestEntityTwoRelationshipsOneToManyKeyDto(System.String keyId);
 
+/// <summary>
+/// Update SecondTestEntityTwoRelationshipsOneToMany
+/// .
+/// </summary>
 public partial class SecondTestEntityTwoRelationshipsOneToManyDto : SecondTestEntityTwoRelationshipsOneToManyDtoBase
 {
 
@@ -48,12 +52,13 @@ public abstract class SecondTestEntityTwoRelationshipsOneToManyDtoBase : EntityD
     #endregion
 
     /// <summary>
-    ///  (Required).
-    /// </summary>
+    /// 
+    /// </summary>    
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String TextTestField2 { get; set; } = default!;
 

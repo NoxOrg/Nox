@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Lib;
 using ClientApi.Application.Dto;
+using DtoNameSpace = ClientApi.Application.Dto;
 
 namespace ClientApi.Presentation.Api.OData;
 
@@ -32,6 +33,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });
         builder.EntityType<StoreLicenseDto>().HasKey(e => new { e.Id });
         builder.EntityType<CurrencyDto>().HasKey(e => new { e.Id });
+        builder.EntityType<TenantDto>().HasKey(e => new { e.Id });
         builder.EntityType<EmailAddressDto>().HasKey(e => new { });
 
         builder.EntitySet<CountryDto>("Countries");
@@ -63,6 +65,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<StoreDto>().Ignore(e => e.Etag);
         builder.EntitySet<WorkplaceDto>("Workplaces");
         builder.EntityType<WorkplaceDto>().ContainsOptional(e => e.Country);
+        builder.EntityType<WorkplaceDto>().ContainsMany(e => e.Tenants);
 
         builder.EntityType<WorkplaceDto>();
         builder.EntitySet<StoreOwnerDto>("StoreOwners");
@@ -86,8 +89,22 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CurrencyDto>();
         builder.EntityType<CurrencyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CurrencyDto>().Ignore(e => e.Etag);
+        builder.EntitySet<TenantDto>("Tenants");
+        builder.EntityType<TenantDto>().ContainsMany(e => e.Workplaces);
 
-        builder.EntityType<EmailAddressDto>();
+        builder.EntityType<TenantDto>();
+
+        builder.EntityType<EmailAddressDto>(); 
+        // Setup Enumeration End Points
+        builder.EntityType<CountryDto>()
+                            .Collection
+                            .Function("CountryContinents")
+                            .ReturnsCollection<DtoNameSpace.CountryContinentDto>(); 
+        // Setup Enumeration End Points
+        builder.EntityType<StoreDto>()
+                            .Collection
+                            .Function("StoreStatuses")
+                            .ReturnsCollection<DtoNameSpace.StoreStatusDto>();
 
         if(configure != null) configure(builder);
 
@@ -102,7 +119,7 @@ internal static class ODataServiceCollectionExtensions
                         .Expand()
                         .SkipToken()
                         .SetMaxTop(100);
-                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel(),
+                    var routeOptions = options.AddRouteComponents(Nox.Presentation.Api.OData.ODataApi.GetRoutePrefix("/api/v1"), builder.GetEdmModel(),
                         service => service
                             .AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>())
                         .RouteOptions;

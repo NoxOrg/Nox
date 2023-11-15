@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record WorkplaceKeyDto(System.UInt32 keyId);
 
+/// <summary>
+/// Update Workplace
+/// Workplace.
+/// </summary>
 public partial class WorkplaceDto : WorkplaceDtoBase
 {
 
@@ -50,22 +54,25 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
     #endregion
 
     /// <summary>
-    /// Workplace unique identifier (Required).
-    /// </summary>
+    /// Workplace unique identifier
+    /// </summary>    
     public System.UInt32 Id { get; set; } = default!;
 
     /// <summary>
-    /// Workplace Name (Required).
+    /// Workplace Name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Workplace Description (Optional).
+    /// Workplace Description 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Description { get; set; }
 
     /// <summary>
-    /// The Formula (Optional).
+    /// The Formula 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Greeting { get; set; }
 
@@ -75,6 +82,11 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
     //EF maps ForeignKey Automatically
     public System.Int64? CountryId { get; set; } = default!;
     public virtual CountryDto? Country { get; set; } = null!;
+
+    /// <summary>
+    /// Workplace Actve Tenants in the workplace ZeroOrMany Tenants
+    /// </summary>
+    public virtual List<TenantDto> Tenants { get; set; } = new();
 
     [JsonPropertyName("@odata.etag")]
     public System.Guid Etag { get; init; }

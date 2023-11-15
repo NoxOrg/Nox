@@ -43,9 +43,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
         UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
-    public virtual void PartialUpdateEntity(TestEntityForTypesEntity entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(TestEntityForTypesEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private TestWebApp.Domain.TestEntityForTypes ToEntity(TestEntityForTypesCreateDto createDto)
@@ -101,7 +101,6 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
         entity.SetIfNotNull(createDto.UrlTestField, (entity) => entity.UrlTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateUrlTestField(createDto.UrlTestField.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.DateTimeScheduleTestField, (entity) => entity.DateTimeScheduleTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeScheduleTestField(createDto.DateTimeScheduleTestField.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.UserTestField, (entity) => entity.UserTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateUserTestField(createDto.UserTestField.NonNullValue<System.String>()));
-        entity.AutoNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateAutoNumberTestField(createDto.AutoNumberTestField);
         entity.SetIfNotNull(createDto.HtmlTestField, (entity) => entity.HtmlTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateHtmlTestField(createDto.HtmlTestField.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.ImageTestField, (entity) => entity.ImageTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateImageTestField(createDto.ImageTestField.NonNullValue<ImageDto>()));
         return entity;
@@ -158,12 +157,11 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
         entity.SetIfNotNull(updateDto.UrlTestField, (entity) => entity.UrlTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateUrlTestField(updateDto.UrlTestField.ToValueFromNonNull<System.String>()));
         entity.SetIfNotNull(updateDto.DateTimeScheduleTestField, (entity) => entity.DateTimeScheduleTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeScheduleTestField(updateDto.DateTimeScheduleTestField.ToValueFromNonNull<System.String>()));
         entity.SetIfNotNull(updateDto.UserTestField, (entity) => entity.UserTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateUserTestField(updateDto.UserTestField.ToValueFromNonNull<System.String>()));
-        entity.AutoNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateAutoNumberTestField(updateDto.AutoNumberTestField.NonNullValue<System.Int64>());
         entity.SetIfNotNull(updateDto.HtmlTestField, (entity) => entity.HtmlTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateHtmlTestField(updateDto.HtmlTestField.ToValueFromNonNull<System.String>()));
         entity.SetIfNotNull(updateDto.ImageTestField, (entity) => entity.ImageTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateImageTestField(updateDto.ImageTestField.ToValueFromNonNull<ImageDto>()));
     }
 
-    private void PartialUpdateEntityInternal(TestEntityForTypesEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(TestEntityForTypesEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("TextTestField", out var TextTestFieldUpdateValue))
@@ -608,17 +606,6 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             else
             {
                 entity.UserTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateUserTestField(UserTestFieldUpdateValue);
-            }
-        }
-
-        if (updatedProperties.TryGetValue("AutoNumberTestField", out var AutoNumberTestFieldUpdateValue))
-        {
-            if (AutoNumberTestFieldUpdateValue == null)
-            {
-                throw new ArgumentException("Attribute 'AutoNumberTestField' can't be null");
-            }
-            {
-                entity.AutoNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateAutoNumberTestField(AutoNumberTestFieldUpdateValue);
             }
         }
 

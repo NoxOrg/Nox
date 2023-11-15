@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -56,20 +56,6 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		{
 			return null;
 		}
-
-		await DbContext.Entry(entity).Collection(x => x.Workplaces).LoadAsync();
-		var workplacesEntities = new List<Workplace>();
-		foreach(var relatedEntityId in request.EntityDto.WorkplacesId)
-		{
-			var relatedKey = ClientApi.Domain.WorkplaceMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.Workplaces.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				workplacesEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("Workplaces", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToWorkplaces(workplacesEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

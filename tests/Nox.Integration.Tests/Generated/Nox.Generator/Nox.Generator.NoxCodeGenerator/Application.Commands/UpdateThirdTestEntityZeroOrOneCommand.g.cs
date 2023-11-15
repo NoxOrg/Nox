@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -55,21 +55,6 @@ internal abstract class UpdateThirdTestEntityZeroOrOneCommandHandlerBase : Comma
 		if (entity == null)
 		{
 			return null;
-		}
-
-		if(request.EntityDto.ThirdTestEntityExactlyOneId is not null)
-		{
-			var thirdTestEntityExactlyOneKey = TestWebApp.Domain.ThirdTestEntityExactlyOneMetadata.CreateId(request.EntityDto.ThirdTestEntityExactlyOneId.NonNullValue<System.String>());
-			var thirdTestEntityExactlyOneEntity = await DbContext.ThirdTestEntityExactlyOnes.FindAsync(thirdTestEntityExactlyOneKey);
-						
-			if(thirdTestEntityExactlyOneEntity is not null)
-				entity.CreateRefToThirdTestEntityExactlyOne(thirdTestEntityExactlyOneEntity);
-			else
-				throw new RelatedEntityNotFoundException("ThirdTestEntityExactlyOne", request.EntityDto.ThirdTestEntityExactlyOneId.NonNullValue<System.String>().ToString());
-		}
-		else
-		{
-			entity.DeleteAllRefToThirdTestEntityExactlyOne();
 		}
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);

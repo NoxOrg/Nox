@@ -2,7 +2,7 @@
 
 namespace Nox.Types;
 
-internal sealed class LengthUnit : MeasurementUnit
+public sealed class LengthUnit : MeasurementUnit
 {
     public static readonly LengthUnit Meter = new(1, "Meter", "m");
     public static readonly LengthUnit Foot = new(2, "Foot", "ft");

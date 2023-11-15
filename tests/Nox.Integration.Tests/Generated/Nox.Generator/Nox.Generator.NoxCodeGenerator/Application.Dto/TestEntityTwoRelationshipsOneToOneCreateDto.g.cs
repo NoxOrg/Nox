@@ -14,6 +14,9 @@ using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
+/// <summary>
+/// .
+/// </summary>
 public partial class TestEntityTwoRelationshipsOneToOneCreateDto : TestEntityTwoRelationshipsOneToOneCreateDtoBase
 {
 
@@ -25,12 +28,14 @@ public partial class TestEntityTwoRelationshipsOneToOneCreateDto : TestEntityTwo
 public abstract class TestEntityTwoRelationshipsOneToOneCreateDtoBase : IEntityDto<DomainNamespace.TestEntityTwoRelationshipsOneToOne>
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextTestField is required")]
     

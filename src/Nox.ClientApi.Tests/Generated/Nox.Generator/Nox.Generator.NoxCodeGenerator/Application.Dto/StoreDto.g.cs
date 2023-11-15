@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record StoreKeyDto(System.Guid keyId);
 
+/// <summary>
+/// Update Store
+/// Stores.
+/// </summary>
 public partial class StoreDto : StoreDtoBase
 {
 
@@ -62,32 +66,37 @@ public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.S
     #endregion
 
     /// <summary>
-    ///  (Required).
-    /// </summary>
+    /// 
+    /// </summary>    
     public System.Guid Id { get; set; } = default!;
 
     /// <summary>
-    /// Store Name (Required).
+    /// Store Name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Street Address (Required).
+    /// Street Address 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public StreetAddressDto Address { get; set; } = default!;
 
     /// <summary>
-    /// Location (Required).
+    /// Location 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public LatLongDto Location { get; set; } = default!;
 
     /// <summary>
-    /// Opening day (Optional).
+    /// Opening day 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.DateTimeOffset? OpeningDay { get; set; }
 
     /// <summary>
-    /// Store Status (Optional).
+    /// Store Status 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.Int32? Status { get; set; }
     [NotMapped]

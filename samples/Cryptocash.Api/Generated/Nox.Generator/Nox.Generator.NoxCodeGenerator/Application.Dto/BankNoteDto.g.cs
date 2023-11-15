@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record BankNoteKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update BankNote
+/// Currencies related frequent and rare bank notes.
+/// </summary>
 public partial class BankNoteDto : BankNoteDtoBase
 {
 
@@ -53,17 +57,19 @@ public abstract class BankNoteDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     #endregion
 
     /// <summary>
-    /// Currency bank note unique identifier (Required).
-    /// </summary>
+    /// Currency bank note unique identifier
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Currency's cash bank note identifier (Required).
+    /// Currency's cash bank note identifier 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String CashNote { get; set; } = default!;
 
     /// <summary>
-    /// Bank note value (Required).
+    /// Bank note value 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public MoneyDto Value { get; set; } = default!;
 }

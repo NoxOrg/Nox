@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -56,20 +56,6 @@ internal abstract class UpdatePaymentProviderCommandHandlerBase : CommandBase<Up
 		{
 			return null;
 		}
-
-		await DbContext.Entry(entity).Collection(x => x.PaymentDetails).LoadAsync();
-		var paymentDetailsEntities = new List<PaymentDetail>();
-		foreach(var relatedEntityId in request.EntityDto.PaymentDetailsId)
-		{
-			var relatedKey = Cryptocash.Domain.PaymentDetailMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.PaymentDetails.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				paymentDetailsEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("PaymentDetails", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToPaymentDetails(paymentDetailsEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

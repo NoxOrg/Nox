@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Lib;
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+using DtoNameSpace = {{codeGeneratorState.DtoNameSpace}};
 
 namespace {{codeGeneratorState.ODataNameSpace}};
 
@@ -42,7 +43,7 @@ internal static class ODataServiceCollectionExtensions
 
         {{- if entity.Relationships != null }}
             {{- for relationship in entity.Relationships  }}
-		        {{- relationshipName = GetRelationshipPublicName entity relationship }}
+		        {{- relationshipName = GetNavigationPropertyName entity relationship }}
                 {{- if relationship.Relationship == "ExactlyOne" }}
         builder.EntityType<{{entity.Name}}Dto>().ContainsRequired(e => e.{{relationshipName}});
                 {{- else if relationship.Relationship == "ZeroOrOne" }}
@@ -62,6 +63,14 @@ internal static class ODataServiceCollectionExtensions
         {{- end }}
         {{- end }}
 
+        {{- for enumeration in enumerationAttributes #Configure Enumeration endpoints}} 
+        // Setup Enumeration End Points
+        builder.EntityType<{{enumeration.Entity.Name}}Dto>()
+                            .Collection
+                            .Function("{{enumeration.Entity.Name}}{{Pluralize (enumeration.Attribute.Name)}}")
+                            .ReturnsCollection<DtoNameSpace.{{ enumeration.EntityNameForEnumeration}}>();
+        {{- end }}
+
         if(configure != null) configure(builder);
 
         services.AddControllers()
@@ -75,7 +84,7 @@ internal static class ODataServiceCollectionExtensions
                         .Expand()
                         .SkipToken()
                         .SetMaxTop(100);
-                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel(),
+                    var routeOptions = options.AddRouteComponents(Nox.Presentation.Api.OData.ODataApi.GetRoutePrefix("{{solution.Infrastructure.Endpoints.ApiRoutePrefix}}"), builder.GetEdmModel(),
                         service => service
                             .AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>())
                         .RouteOptions;

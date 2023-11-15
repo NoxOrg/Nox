@@ -15,17 +15,21 @@ namespace TestWebApp.Application.Dto;
 /// <summary>
 /// .
 /// </summary>
-public partial class ThirdTestEntityZeroOrManyUpdateDto : IEntityDto<DomainNamespace.ThirdTestEntityZeroOrMany>
+public partial class ThirdTestEntityZeroOrManyUpdateDto : ThirdTestEntityZeroOrManyUpdateDtoBase
+{
+
+}
+
+/// <summary>
+/// 
+/// </summary>
+public partial class ThirdTestEntityZeroOrManyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.ThirdTestEntityZeroOrMany>
 {
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextTestField2 is required")]
     
-    public System.String TextTestField2 { get; set; } = default!;
-
-    /// <summary>
-    /// ThirdTestEntityZeroOrMany Test entity relationship to ThirdTestEntityOneOrMany ZeroOrMany ThirdTestEntityOneOrManies
-    /// </summary>
-    public List<System.String> ThirdTestEntityOneOrManiesId { get; set; } = new();
+    public virtual System.String TextTestField2 { get; set; } = default!;
 }

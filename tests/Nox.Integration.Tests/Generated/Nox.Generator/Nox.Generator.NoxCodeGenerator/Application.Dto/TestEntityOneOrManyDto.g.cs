@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record TestEntityOneOrManyKeyDto(System.String keyId);
 
+/// <summary>
+/// Update TestEntityOneOrMany
+/// Entity created for testing database.
+/// </summary>
 public partial class TestEntityOneOrManyDto : TestEntityOneOrManyDtoBase
 {
 
@@ -48,12 +52,13 @@ public abstract class TestEntityOneOrManyDtoBase : EntityDtoBase, IEntityDto<Dom
     #endregion
 
     /// <summary>
-    ///  (Required).
-    /// </summary>
+    /// 
+    /// </summary>    
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String TextTestField { get; set; } = default!;
 

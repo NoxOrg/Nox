@@ -117,7 +117,7 @@ relationships:
     
   - name: EmployeeReviewingCashStockOrder
     description: reviewing
-    relationship: exactlyOne
+    relationship: zeroOrOne
     entity: CashStockOrder
 
 persistence:

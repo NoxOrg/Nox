@@ -38,12 +38,12 @@ public class EntityRelationship : DefinitionBase
     [YamlIgnore] 
     public string EntityPlural => Entity.Pluralize();
 
-    [Title("Determines whether this side of the relationship is exposed in the generated code and ODATA endpoints.")]
-    [Description("This boolean controls whether this side of the relationship is exposed in the generated code and ODATA endpoints.")]
+    [Title("Define the Entity on this relationship side contains a Navigation Property to the related Entity.")]
+    [Description("Default is true, allows to navigate from this Entity to the related Entity, and generates all endpoints to manage the Entity relaionships, including enabling ODataQueries for related entities.")]
     public bool CanNavigate { get; internal set; } = true;
 
     [YamlIgnore]
-    public bool ShouldGenerateForeignOnThisSide => EntityRelationshipExtensions.ShouldGenerateForeignKeyOnThisSide(this);
+    public bool IsForeignKeyOnThisSide => EntityRelationshipExtensions.IsForeignKeyOnThisSide(this);
 
     /// <summary>
     /// This relationship is a zero or one relation to the other entity

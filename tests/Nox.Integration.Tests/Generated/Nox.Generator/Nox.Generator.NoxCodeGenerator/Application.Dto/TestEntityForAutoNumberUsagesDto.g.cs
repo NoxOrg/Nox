@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record TestEntityForAutoNumberUsagesKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update TestEntityForAutoNumberUsages
+/// Entity created for testing auto number usages.
+/// </summary>
 public partial class TestEntityForAutoNumberUsagesDto : TestEntityForAutoNumberUsagesDtoBase
 {
 
@@ -52,22 +56,25 @@ public abstract class TestEntityForAutoNumberUsagesDtoBase : EntityDtoBase, IEnt
     #endregion
 
     /// <summary>
-    ///  (Required).
-    /// </summary>
+    /// 
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.Int64 AutoNumberFieldWithOptions { get; set; } = default!;
 
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.Int64 AutoNumberFieldWithoutOptions { get; set; } = default!;
 
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String TextField { get; set; } = default!;
 

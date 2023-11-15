@@ -51,67 +51,80 @@ internal record CurrencyDeleted(Currency Currency) : IDomainEvent, INotification
 internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Currency unique identifier (Required).
+    /// Currency unique identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.CurrencyCode3 Id { get; set; } = null!;
 
     /// <summary>
-    /// Currency's name (Required).
+    /// Currency's name
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
-    /// Currency's iso number id (Required).
+    /// Currency's iso number id
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.CurrencyNumber CurrencyIsoNumeric { get; set; } = null!;
 
     /// <summary>
-    /// Currency's symbol (Required).
+    /// Currency's symbol
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text Symbol { get; set; } = null!;
 
     /// <summary>
-    /// Currency's numeric thousands notation separator (Optional).
+    /// Currency's numeric thousands notation separator
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.Text? ThousandsSeparator { get; set; } = null!;
 
     /// <summary>
-    /// Currency's numeric decimal notation separator (Optional).
+    /// Currency's numeric decimal notation separator
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.Text? DecimalSeparator { get; set; } = null!;
 
     /// <summary>
-    /// Currency's numeric space between amount and symbol (Required).
+    /// Currency's numeric space between amount and symbol
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Boolean SpaceBetweenAmountAndSymbol { get; set; } = null!;
 
     /// <summary>
-    /// Currency's numeric decimal digits (Required).
+    /// Currency's numeric decimal digits
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Number DecimalDigits { get; set; } = null!;
 
     /// <summary>
-    /// Currency's major name (Required).
+    /// Currency's major name
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text MajorName { get; set; } = null!;
 
     /// <summary>
-    /// Currency's major display symbol (Required).
+    /// Currency's major display symbol
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text MajorSymbol { get; set; } = null!;
 
     /// <summary>
-    /// Currency's minor name (Required).
+    /// Currency's minor name
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text MinorName { get; set; } = null!;
 
     /// <summary>
-    /// Currency's minor display symbol (Required).
+    /// Currency's minor display symbol
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text MinorSymbol { get; set; } = null!;
 
     /// <summary>
-    /// Currency's minor value when converted to major (Required).
+    /// Currency's minor value when converted to major
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Money MinorToMajorValue { get; set; } = null!;
     /// <summary>

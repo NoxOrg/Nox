@@ -1,0 +1,133 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "The definition namespace for a data connection pertaining to a Nox solution.",
+  "description": "Configure properties pertinent to a data connection in a Nox solution here. Properties include name, serverUri, Port, connection credentials and provider.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "required": [
+    "provider",
+    "name",
+    "serverUri"
+  ],
+  "properties": {
+    "provider": {    
+      "title": "The data connection provider/format.",
+      "description": "The provider/format used for this data connection. Possible data formats include Json, Excel, CSV, XML and Parquet.",
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "amazonSqs",
+            "azureServiceBus",
+            "csvFile",
+            "excelFile",
+            "inMemory",
+            "jsonFile",
+            "mySql",
+            "parquetFile",
+            "postgres",
+            "rabbitMq",
+            "sqLite",
+            "sqlServer",
+            "webApi",
+            "xmlFile"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "additionalProperties": false
+    },
+    "name": {    
+      "title": "The unique name of this server component in the solution.",
+      "description": "The name of this server component in the solution. The name must be unique in the solution configuration",
+      "type": "string",
+      "pattern": "^[^\\s]*$"
+    },
+    "serverUri": {    
+      "title": "Hostname, IP address or URI.",
+      "description": "The name, address, URI or IP of the server to connect to.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        }
+      ]
+    },
+    "port": {    
+      "title": "Server port",
+      "description": "The port to connect to.",
+      "oneOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "string",
+          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "user": {    
+      "title": "Username.",
+      "description": "The username to use when connecting to this server.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "password": {    
+      "title": "Password.",
+      "description": "The password to use when connecting to this server.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "options": {    
+      "title": "Additional options.",
+      "description": "A list of additional options to set when connecting to this server.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

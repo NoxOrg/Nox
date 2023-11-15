@@ -14,6 +14,9 @@ using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
+/// <summary>
+/// Entity created for testing database.
+/// </summary>
 public partial class TestEntityExactlyOneToZeroOrManyCreateDto : TestEntityExactlyOneToZeroOrManyCreateDtoBase
 {
 
@@ -25,12 +28,14 @@ public partial class TestEntityExactlyOneToZeroOrManyCreateDto : TestEntityExact
 public abstract class TestEntityExactlyOneToZeroOrManyCreateDtoBase : IEntityDto<DomainNamespace.TestEntityExactlyOneToZeroOrMany>
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextTestField is required")]
     

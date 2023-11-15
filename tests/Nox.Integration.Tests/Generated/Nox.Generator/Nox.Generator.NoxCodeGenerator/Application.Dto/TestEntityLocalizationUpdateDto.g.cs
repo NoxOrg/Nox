@@ -15,18 +15,28 @@ namespace TestWebApp.Application.Dto;
 /// <summary>
 /// Entity created for testing localization.
 /// </summary>
-public partial class TestEntityLocalizationUpdateDto : IEntityDto<DomainNamespace.TestEntityLocalization>
+public partial class TestEntityLocalizationUpdateDto : TestEntityLocalizationUpdateDtoBase
+{
+
+}
+
+/// <summary>
+/// Entity created for testing localization
+/// </summary>
+public partial class TestEntityLocalizationUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityLocalization>
 {
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextFieldToLocalize is required")]
     
-    public System.String TextFieldToLocalize { get; set; } = default!;
+    public virtual System.String TextFieldToLocalize { get; set; } = default!;
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "NumberField is required")]
     
-    public System.Int16 NumberField { get; set; } = default!;
+    public virtual System.Int16 NumberField { get; set; } = default!;
 }

@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record StoreOwnerKeyDto(System.String keyId);
 
+/// <summary>
+/// Update StoreOwner
+/// Store owners.
+/// </summary>
 public partial class StoreOwnerDto : StoreOwnerDtoBase
 {
 
@@ -61,37 +65,43 @@ public abstract class StoreOwnerDtoBase : EntityDtoBase, IEntityDto<DomainNamesp
     #endregion
 
     /// <summary>
-    ///  (Required).
-    /// </summary>
+    /// 
+    /// </summary>    
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    /// Owner Name (Required).
+    /// Owner Name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Temporary Owner Name (Required).
+    /// Temporary Owner Name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String TemporaryOwnerName { get; set; } = default!;
 
     /// <summary>
-    /// Vat Number (Optional).
+    /// Vat Number 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public VatNumberDto? VatNumber { get; set; }
 
     /// <summary>
-    /// Street Address (Optional).
+    /// Street Address 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public StreetAddressDto? StreetAddress { get; set; }
 
     /// <summary>
-    /// Owner Greeting (Optional).
+    /// Owner Greeting 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public TranslatedTextDto? LocalGreeting { get; set; }
 
     /// <summary>
-    /// Notes (Optional).
+    /// Notes 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Notes { get; set; }
 

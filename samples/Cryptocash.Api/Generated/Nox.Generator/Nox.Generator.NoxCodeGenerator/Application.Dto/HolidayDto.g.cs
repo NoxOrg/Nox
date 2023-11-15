@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record HolidayKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update Holiday
+/// Holiday related to country.
+/// </summary>
 public partial class HolidayDto : HolidayDtoBase
 {
 
@@ -55,22 +59,25 @@ public abstract class HolidayDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     #endregion
 
     /// <summary>
-    /// Country's holiday unique identifier (Required).
-    /// </summary>
+    /// Country's holiday unique identifier
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Country holiday name (Required).
+    /// Country holiday name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Country holiday type (Required).
+    /// Country holiday type 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String Type { get; set; } = default!;
 
     /// <summary>
-    /// Country holiday date (Required).
+    /// Country holiday date 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.DateTime Date { get; set; } = default!;
 }

@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record CountryLocalNameKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update CountryLocalName
+/// Local names for countries.
+/// </summary>
 public partial class CountryLocalNameDto : CountryLocalNameDtoBase
 {
 
@@ -50,17 +54,19 @@ public abstract class CountryLocalNameDtoBase : EntityDtoBase, IEntityDto<Domain
     #endregion
 
     /// <summary>
-    /// The unique identifier (Required).
-    /// </summary>
+    /// The unique identifier
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Local name (Required).
+    /// Local name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Local name in native tongue (Optional).
+    /// Local name in native tongue 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? NativeName { get; set; }
 }

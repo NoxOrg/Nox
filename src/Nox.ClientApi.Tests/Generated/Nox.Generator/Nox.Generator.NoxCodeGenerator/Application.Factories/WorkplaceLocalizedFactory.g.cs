@@ -18,20 +18,37 @@ internal partial class WorkplaceLocalizedFactory : WorkplaceLocalizedFactoryBase
 
 internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto>
 {
-    public virtual WorkplaceLocalized CreateLocalizedEntity(WorkplaceEntity entity, CultureCode cultureCode)
+    public virtual WorkplaceLocalized CreateLocalizedEntity(WorkplaceEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
         var localizedEntity = new WorkplaceLocalized
         {
             Id = entity.Id,
             CultureCode = cultureCode,
-            Description = entity.Description,
         };
+
+        if (copyEntityAttributes)
+        {
+            localizedEntity.Description = entity.Description;
+        }
 
         return localizedEntity;
     }
 
-    public virtual void UpdateLocalizedEntity(WorkplaceLocalized localizedEntity, WorkplaceUpdateDto updateDto, CultureCode cultureCode)
+    public virtual void UpdateLocalizedEntity(WorkplaceLocalized localizedEntity, WorkplaceUpdateDto updateDto)
     {
-        localizedEntity.SetIfNotNull(updateDto.Description, (localizedEntity) => localizedEntity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>()));
+        localizedEntity.Description = updateDto.Description == null
+            ? null
+            : ClientApi.Domain.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
+    }
+
+    public virtual void PartialUpdateLocalizedEntity(WorkplaceLocalized localizedEntity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Description", out var DescriptionUpdateValue))
+        {
+            localizedEntity.Description = DescriptionUpdateValue == null
+                ? null
+                : ClientApi.Domain.WorkplaceMetadata.CreateDescription(DescriptionUpdateValue);
+        }
     }
 }

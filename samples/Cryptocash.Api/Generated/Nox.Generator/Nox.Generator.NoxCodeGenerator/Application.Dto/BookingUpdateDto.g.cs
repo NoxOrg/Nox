@@ -15,64 +15,55 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public partial class BookingUpdateDto : IEntityDto<DomainNamespace.Booking>
+public partial class BookingUpdateDto : BookingUpdateDtoBase
+{
+
+}
+
+/// <summary>
+/// Exchange booking and related data
+/// </summary>
+public partial class BookingUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Booking>
 {
     /// <summary>
-    /// Booking's amount exchanged from (Required).
+    /// Booking's amount exchanged from 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "AmountFrom is required")]
     
-    public MoneyDto AmountFrom { get; set; } = default!;
+    public virtual MoneyDto AmountFrom { get; set; } = default!;
     /// <summary>
-    /// Booking's amount exchanged to (Required).
+    /// Booking's amount exchanged to 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "AmountTo is required")]
     
-    public MoneyDto AmountTo { get; set; } = default!;
+    public virtual MoneyDto AmountTo { get; set; } = default!;
     /// <summary>
-    /// Booking's requested pick up date (Required).
+    /// Booking's requested pick up date 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "RequestedPickUpDate is required")]
     
-    public DateTimeRangeDto RequestedPickUpDate { get; set; } = default!;
+    public virtual DateTimeRangeDto RequestedPickUpDate { get; set; } = default!;
     /// <summary>
-    /// Booking's actual pick up date (Optional).
+    /// Booking's actual pick up date 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public DateTimeRangeDto? PickedUpDateTime { get; set; }
+    public virtual DateTimeRangeDto? PickedUpDateTime { get; set; }
     /// <summary>
-    /// Booking's expiry date (Optional).
+    /// Booking's expiry date 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.DateTimeOffset? ExpiryDateTime { get; set; }
+    public virtual System.DateTimeOffset? ExpiryDateTime { get; set; }
     /// <summary>
-    /// Booking's cancelled date (Optional).
+    /// Booking's cancelled date 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.DateTimeOffset? CancelledDateTime { get; set; }
+    public virtual System.DateTimeOffset? CancelledDateTime { get; set; }
     /// <summary>
-    /// Booking's related vat number (Optional).
+    /// Booking's related vat number 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public VatNumberDto? VatNumber { get; set; }
-
-    /// <summary>
-    /// Booking for ExactlyOne Customers
-    /// </summary>
-    [Required(ErrorMessage = "Customer is required")]
-    public System.Int64 CustomerId { get; set; } = default!;
-
-    /// <summary>
-    /// Booking related to ExactlyOne VendingMachines
-    /// </summary>
-    [Required(ErrorMessage = "VendingMachine is required")]
-    public System.Guid VendingMachineId { get; set; } = default!;
-
-    /// <summary>
-    /// Booking fees for ExactlyOne Commissions
-    /// </summary>
-    [Required(ErrorMessage = "Commission is required")]
-    public System.Int64 CommissionId { get; set; } = default!;
-
-    /// <summary>
-    /// Booking related to ExactlyOne Transactions
-    /// </summary>
-    [Required(ErrorMessage = "Transaction is required")]
-    public System.Int64 TransactionId { get; set; } = default!;
+    public virtual VatNumberDto? VatNumber { get; set; }
 }

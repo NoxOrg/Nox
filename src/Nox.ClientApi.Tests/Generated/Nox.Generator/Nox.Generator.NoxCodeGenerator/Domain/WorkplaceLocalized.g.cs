@@ -1,5 +1,5 @@
 ﻿// Generated
- 
+
 #nullable enable
 
 using System;
@@ -25,12 +25,11 @@ internal partial class WorkplaceLocalized : IEntityConcurrent
     public Nox.Types.Nuid Id { get; set; } = null!;
 
     public Nox.Types.CultureCode CultureCode { get; set; } = null!;
-    
-    
-        /// <summary>
-        /// Workplace Description (Optional).
-        /// </summary>
-        public Nox.Types.Text? Description { get; set; } = null!;
+
+    /// <summary>
+    /// Workplace Description (Optional).
+    /// </summary>
+    public Nox.Types.Text? Description { get; set; } = null!;
 
     /// <summary>
     /// Entity tag used as concurrency token.

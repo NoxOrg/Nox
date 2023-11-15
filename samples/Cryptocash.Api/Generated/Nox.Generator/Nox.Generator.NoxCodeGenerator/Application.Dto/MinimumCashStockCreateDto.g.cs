@@ -14,6 +14,9 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+/// <summary>
+/// Minimum cash stock required for vending machine.
+/// </summary>
 public partial class MinimumCashStockCreateDto : MinimumCashStockCreateDtoBase
 {
 
@@ -25,7 +28,8 @@ public partial class MinimumCashStockCreateDto : MinimumCashStockCreateDtoBase
 public abstract class MinimumCashStockCreateDtoBase : IEntityDto<DomainNamespace.MinimumCashStock>
 {
     /// <summary>
-    /// Cash stock amount (Required).
+    /// Cash stock amount 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Amount is required")]
     

@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -56,22 +56,6 @@ internal abstract class UpdateTransactionCommandHandlerBase : CommandBase<Update
 		{
 			return null;
 		}
-
-		var customerKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId);
-		var customerEntity = await DbContext.Customers.FindAsync(customerKey);
-						
-		if(customerEntity is not null)
-			entity.CreateRefToCustomer(customerEntity);
-		else
-			throw new RelatedEntityNotFoundException("Customer", request.EntityDto.CustomerId.ToString());
-
-		var bookingKey = Cryptocash.Domain.BookingMetadata.CreateId(request.EntityDto.BookingId);
-		var bookingEntity = await DbContext.Bookings.FindAsync(bookingKey);
-						
-		if(bookingEntity is not null)
-			entity.CreateRefToBooking(bookingEntity);
-		else
-			throw new RelatedEntityNotFoundException("Booking", request.EntityDto.BookingId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

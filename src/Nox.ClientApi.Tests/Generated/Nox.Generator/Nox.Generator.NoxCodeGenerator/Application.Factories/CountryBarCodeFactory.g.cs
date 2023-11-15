@@ -43,9 +43,9 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
         UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
-    public virtual void PartialUpdateEntity(CountryBarCodeEntity entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(CountryBarCodeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private ClientApi.Domain.CountryBarCode ToEntity(CountryBarCodeCreateDto createDto)
@@ -62,7 +62,7 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
         entity.SetIfNotNull(updateDto.BarCodeNumber, (entity) => entity.BarCodeNumber = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(updateDto.BarCodeNumber.ToValueFromNonNull<System.Int32>()));
     }
 
-    private void PartialUpdateEntityInternal(CountryBarCodeEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(CountryBarCodeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("BarCodeName", out var BarCodeNameUpdateValue))

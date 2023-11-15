@@ -15,24 +15,21 @@ namespace TestWebApp.Application.Dto;
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityTwoRelationshipsOneToManyUpdateDto : IEntityDto<DomainNamespace.SecondTestEntityTwoRelationshipsOneToMany>
+public partial class SecondTestEntityTwoRelationshipsOneToManyUpdateDto : SecondTestEntityTwoRelationshipsOneToManyUpdateDtoBase
+{
+
+}
+
+/// <summary>
+/// 
+/// </summary>
+public partial class SecondTestEntityTwoRelationshipsOneToManyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.SecondTestEntityTwoRelationshipsOneToMany>
 {
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextTestField2 is required")]
     
-    public System.String TextTestField2 { get; set; } = default!;
-
-    /// <summary>
-    /// SecondTestEntityTwoRelationshipsOneToMany First relationship to the same entity on the other side ZeroOrOne TestEntityTwoRelationshipsOneToManies
-    /// </summary>
-    
-    public System.String? TestRelationshipOneOnOtherSideId { get; set; } = default!;
-
-    /// <summary>
-    /// SecondTestEntityTwoRelationshipsOneToMany Second relationship to the same entity on the other side ZeroOrOne TestEntityTwoRelationshipsOneToManies
-    /// </summary>
-    
-    public System.String? TestRelationshipTwoOnOtherSideId { get; set; } = default!;
+    public virtual System.String TextTestField2 { get; set; } = default!;
 }

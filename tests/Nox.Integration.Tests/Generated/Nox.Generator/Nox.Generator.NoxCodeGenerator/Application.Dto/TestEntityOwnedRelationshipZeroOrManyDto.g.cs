@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record TestEntityOwnedRelationshipZeroOrManyKeyDto(System.String keyId);
 
+/// <summary>
+/// Update TestEntityOwnedRelationshipZeroOrMany
+/// .
+/// </summary>
 public partial class TestEntityOwnedRelationshipZeroOrManyDto : TestEntityOwnedRelationshipZeroOrManyDtoBase
 {
 
@@ -48,12 +52,13 @@ public abstract class TestEntityOwnedRelationshipZeroOrManyDtoBase : EntityDtoBa
     #endregion
 
     /// <summary>
-    ///  (Required).
-    /// </summary>
+    /// 
+    /// </summary>    
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String TextTestField { get; set; } = default!;
 

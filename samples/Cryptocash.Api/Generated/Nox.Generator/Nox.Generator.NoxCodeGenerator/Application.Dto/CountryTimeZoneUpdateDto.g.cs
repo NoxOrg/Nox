@@ -15,12 +15,21 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Time zone related to country.
 /// </summary>
-public partial class CountryTimeZoneUpdateDto : IEntityDto<DomainNamespace.CountryTimeZone>
+public partial class CountryTimeZoneUpdateDto : CountryTimeZoneUpdateDtoBase
+{
+
+}
+
+/// <summary>
+/// Time zone related to country
+/// </summary>
+public partial class CountryTimeZoneUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.CountryTimeZone>
 {
     /// <summary>
-    /// Country's related time zone code (Required).
+    /// Country's related time zone code 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TimeZoneCode is required")]
     
-    public System.String TimeZoneCode { get; set; } = default!;
+    public virtual System.String TimeZoneCode { get; set; } = default!;
 }

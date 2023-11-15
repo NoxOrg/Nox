@@ -119,7 +119,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new PartialUpdateStoreLicenseCommand(key, updatedProperties, etag));
+        var updatedKey = await _mediator.Send(new PartialUpdateStoreLicenseCommand(key, updatedProperties, _cultureCode, etag));
 
         if (updatedKey is null)
         {

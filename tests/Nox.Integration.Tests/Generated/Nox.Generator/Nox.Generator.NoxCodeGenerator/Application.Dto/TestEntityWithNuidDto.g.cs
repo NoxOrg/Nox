@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record TestEntityWithNuidKeyDto(System.UInt32 keyId);
 
+/// <summary>
+/// Update TestEntityWithNuid
+/// Entity created for testing nuid.
+/// </summary>
 public partial class TestEntityWithNuidDto : TestEntityWithNuidDtoBase
 {
 
@@ -48,12 +52,13 @@ public abstract class TestEntityWithNuidDtoBase : EntityDtoBase, IEntityDto<Doma
     #endregion
 
     /// <summary>
-    ///  (Required).
-    /// </summary>
+    /// 
+    /// </summary>    
     public System.UInt32 Id { get; set; } = default!;
 
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String Name { get; set; } = default!;
     [System.Text.Json.Serialization.JsonIgnore]

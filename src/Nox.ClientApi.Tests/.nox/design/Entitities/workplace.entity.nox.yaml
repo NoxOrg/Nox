@@ -52,6 +52,11 @@ relationships:
       relationship: zeroOrOne
       entity: Country
 
+    - name: TenantsInWorkplace
+      description: Actve Tenants in the workplace
+      relationship: zeroOrMany
+      entity: Tenant
+
 persistence:
     isAudited: false
     create:

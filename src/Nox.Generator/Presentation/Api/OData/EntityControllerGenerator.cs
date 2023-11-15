@@ -1,11 +1,8 @@
-﻿using Humanizer;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Solution.Extensions;
-using Nox.Types.Extensions;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using static Nox.Generator.Common.BaseGenerator;
 
@@ -146,6 +143,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine();
             foreach (var relationship in entity.OwnedRelationships)
             {
+                if (!relationship.CanNavigate)
+                    continue;
+
                 var child = relationship.Related.Entity;
 
                 if (CanRead(entity) && CanRead(child))
@@ -197,7 +197,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     private static void GenerateChildrenGetById(NoxSolution solution, EntityRelationship relationship, Entity child, Entity parent, CodeBuilder code)
     {
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"[HttpGet(\"api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+        code.AppendLine($"[HttpGet(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
         code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> Get{relationship.Name}NonConventional(" +
             $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
             $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")})");
@@ -306,7 +306,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         }
         else
         {
-            code.AppendLine($"[HttpPut(\"api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+            code.AppendLine($"[HttpPut(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
             code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> PutTo{child.PluralName}NonConventional(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
                 $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")}, " +
@@ -369,7 +369,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         }
         else
         {
-            code.AppendLine($"[HttpPatch(\"api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+            code.AppendLine($"[HttpPatch(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
             code.AppendLine($"public virtual async Task<ActionResult> PatchTo{child.PluralName}NonConventional(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
                 $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")}, " +
@@ -436,13 +436,13 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
         if (isSingleRelationship) 
         {
-            code.AppendLine($"[HttpDelete(\"api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}\")]");
+            code.AppendLine($"[HttpDelete(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}\")]");
             code.AppendLine($"public virtual async Task<ActionResult> Delete{child.Name}NonConventional(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")})");
         }
         else
         {
-            code.AppendLine($"[HttpDelete(\"api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+            code.AppendLine($"[HttpDelete(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
             code.AppendLine($"public virtual async Task<ActionResult> Delete{child.Name}NonConventional(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
                 $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")})");
@@ -482,6 +482,8 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine();
             foreach (var relationship in entity.Relationships)
             {
+                if (!relationship.CanNavigate)
+                    continue;
                 if (CanCreate(entity))
                 {
                     GenerateCreateRefTo(entity, relationship, code, solution);
@@ -490,11 +492,21 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                 if (CanRead(entity))
                 {
                     GenerateGetRefTo(entity, relationship, code, solution);
+
+                    GenerateRelatedGet(solution, relationship, entity, code);
+                    GenerateRelatedGetById(solution, relationship, entity, code);
                 }
                 if (CanDelete(entity))
                 {
                     GenerateDeleteRefTo(entity, relationship, code, solution);
                     GenerateDeleteAllRefTo(entity, relationship, code, solution);
+
+                    GenerateRelatedDelete(solution, relationship, entity, code);
+                    GenerateRelatedDeleteAll(solution, relationship, entity, code);
+                }
+                if (CanUpdate(entity))
+                {
+                    GenerateRelatedPut(solution, relationship, entity, code);
                 }
             }
             code.AppendLine($"#endregion");
@@ -505,7 +517,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     private static void GenerateCreateRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
     {
         var relatedEntity = relationship.Related.Entity;
-        code.AppendLine($"public async Task<ActionResult> CreateRefTo{entity.GetRelationshipPublicName(relationship)}" +
+        code.AppendLine($"public async Task<ActionResult> CreateRefTo{entity.GetNavigationPropertyName(relationship)}" +
             $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
 
         code.StartBlock();
@@ -514,7 +526,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var createdRef = await _mediator.Send(new CreateRef{entity.Name}To{entity.GetRelationshipPublicName(relationship)}Command(" +
+        code.AppendLine($"var createdRef = await _mediator.Send(new CreateRef{entity.Name}To{entity.GetNavigationPropertyName(relationship)}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({GetPrimaryKeysQuery(relatedEntity, "relatedKey")})));");
         code.AppendLine($"if (!createdRef)");
         code.StartBlock();
@@ -535,7 +547,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             return;
 
         var relatedEntity = relationship.Related.Entity;
-        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{entity.GetRelationshipPublicName(relationship)}" +
+        var relationshipName = entity.GetNavigationPropertyName(relationship);
+
+        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{relationshipName}" +
             $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
 
         code.StartBlock();
@@ -544,7 +558,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var deletedRef = await _mediator.Send(new DeleteRef{entity.Name}To{entity.GetRelationshipPublicName(relationship)}Command(" +
+        code.AppendLine($"var deletedRef = await _mediator.Send(new DeleteRef{entity.Name}To{relationshipName}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({GetPrimaryKeysQuery(relatedEntity, "relatedKey")})));");
         code.AppendLine($"if (!deletedRef)");
         code.StartBlock();
@@ -561,8 +575,13 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
     private static void GenerateDeleteAllRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
     {
-        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{entity.GetRelationshipPublicName(relationship)}" +
-            $"({GetPrimaryKeysRoute(entity, solution)})");
+        if (relationship.Relationship == EntityRelationshipType.ExactlyOne || 
+            relationship.Relationship == EntityRelationshipType.OneOrMany)
+            return;
+
+        var relationshipName = entity.GetNavigationPropertyName(relationship);
+
+        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{relationshipName}({GetPrimaryKeysRoute(entity, solution)})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -570,7 +589,8 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var deletedAllRef = await _mediator.Send(new DeleteAllRef{entity.Name}To{entity.GetRelationshipPublicName(relationship)}Command(" +
+
+        code.AppendLine($"var deletedAllRef = await _mediator.Send(new DeleteAllRef{entity.Name}To{relationshipName}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)})));");
         code.AppendLine($"if (!deletedAllRef)");
         code.StartBlock();
@@ -588,7 +608,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     private static void GenerateGetRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
     {
         var relatedEntity = relationship.Related.Entity;
-        var relationshipName = entity.GetRelationshipPublicName(relationship);
+        var relationshipName = entity.GetNavigationPropertyName(relationship);
         code.AppendLine($"public async Task<ActionResult> GetRefTo{relationshipName}" +
             $"({GetPrimaryKeysRoute(entity, solution)})");
 
@@ -624,17 +644,86 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
     }
 
+    private static void GenerateRelatedGet(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    {
+        var relatedEntity = relationship.Related.Entity;
+        var relationshipName = entity.GetNavigationPropertyName(relationship);
+        var isSingleRelationship = relationship.WithSingleEntity();
+        var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
+
+        code.AppendLine($"[EnableQuery]");
+        if (isSingleRelationship)
+        {
+            code.AppendLine($"public virtual async Task<SingleResult<{relatedEntity.Name}Dto>> Get{relationshipName}(" +
+                $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")})");
+            code.StartBlock(); 
+            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+                $".Where(x => x.{relationshipName} != null);");
+            code.AppendLine($"if (!related.Any())");
+            code.StartBlock();
+            code.AppendLine($"return SingleResult.Create<{relatedEntity.Name}Dto>(Enumerable.Empty<{relatedEntity.Name}Dto>().AsQueryable());");
+            code.EndBlock();
+            code.AppendLine($"return SingleResult.Create(related.Select(x => x.{relationshipName}!));");
+        }
+        else
+        {
+            code.AppendLine($"public virtual async Task<ActionResult<IQueryable<{relatedEntity.Name}Dto>>> Get{relationshipName}(" +
+                $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")})");
+            code.StartBlock();
+            code.AppendLine($"var entity = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+                $".SelectMany(x => x.{relationshipName});");
+            code.AppendLine($"if (!entity.Any())");
+            code.StartBlock();
+            code.AppendLine($"return NotFound();");
+            code.EndBlock();
+            code.AppendLine($"return Ok(entity);");
+        }
+
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateRelatedGetById(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    {
+        if (relationship.WithSingleEntity)
+            return;
+
+        var relatedEntity = relationship.Related.Entity;
+        var relationshipName = entity.GetNavigationPropertyName(relationship);
+        var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
+
+        code.AppendLine($"[EnableQuery]"); 
+        code.AppendLine($"[HttpGet(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{relationshipName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
+        code.AppendLine($"public virtual async Task<SingleResult<{relatedEntity.Name}Dto>> Get{relationshipName}NonConventional(" +
+            $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")}, " +
+            $"{GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey", "")})");
+        code.StartBlock();
+
+        var param = string.Join(" && ", relatedEntity.Keys.Select(k => $"x.{k.Name} == relatedKey{(relatedEntity.Keys.Count > 1 ? k.Name : "")}"));
+        code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+            $".SelectMany(x => x.{relationshipName}).Where(x => {param});");
+        code.AppendLine($"if (!related.Any())");
+        code.StartBlock();
+        code.AppendLine($"return SingleResult.Create<{relatedEntity.Name}Dto>(Enumerable.Empty<{relatedEntity.Name}Dto>().AsQueryable());");
+        code.EndBlock();
+        code.AppendLine($"return SingleResult.Create(related);");
+        
+
+        code.EndBlock();
+        code.AppendLine();
+    }
+
     private static void GenerateRelatedPost(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
     {
         var relatedEntity = relationship.Related.Entity;
         var reversedRelationship = relationship.Related.EntityRelationship;
-        var reversedRelationshipName = relationship.Related.Entity.GetRelationshipPublicName(reversedRelationship);
+        var reversedRelationshipName = relationship.Related.Entity.GetNavigationPropertyName(reversedRelationship);
 
         //Only Single Keys entities are supported
         if (entity.HasCompositeKey || relatedEntity.HasCompositeKey)
             return;
 
-        code.AppendLine($"public virtual async Task<ActionResult> PostTo{entity.GetRelationshipPublicName(relationship)}" +
+        code.AppendLine($"public virtual async Task<ActionResult> PostTo{entity.GetNavigationPropertyName(relationship)}" +
             $"({GetPrimaryKeysRoute(entity, solution)}, [FromBody] {relatedEntity.Name}CreateDto {relatedEntity.Name.ToLowerFirstChar()})");
 
         code.StartBlock();
@@ -657,6 +746,170 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
         code.AppendLine($"return Created(createdItem);");
 
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateRelatedPut(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    {
+        var relatedEntity = relationship.Related.Entity;
+        var relationshipName = entity.GetNavigationPropertyName(relationship);
+        var isSingleRelationship = relationship.WithSingleEntity();
+
+        if (isSingleRelationship)
+        {
+            code.AppendLine($"public virtual async Task<ActionResult<{relatedEntity.Name}Dto>> PutTo{relationshipName}(" +
+                $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")}, " +
+                $"[FromBody] {relatedEntity.Name}UpdateDto {relatedEntity.Name.ToLowerFirstChar()})");
+        }
+        else
+        {
+            code.AppendLine($"[HttpPut(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{relationshipName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
+            code.AppendLine($"public virtual async Task<ActionResult<{relatedEntity.Name}Dto>> PutTo{relationshipName}NonConventional(" +
+                $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")}, " +
+                $"{GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey", "")}, " +
+                $"[FromBody] {relatedEntity.Name}UpdateDto {relatedEntity.Name.ToLowerFirstChar()})");
+        }
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+
+        var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
+
+        if (isSingleRelationship)
+        {
+            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+                $".Select(x => x.{relationshipName}).SingleOrDefault();");
+            code.AppendLine($"if (related == null)");
+        }
+        else
+        {
+            var param = string.Join(" && ", relatedEntity.Keys.Select(k => $"x.{k.Name} == relatedKey{(relatedEntity.Keys.Count > 1 ? k.Name : "")}"));
+            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+                $".SelectMany(x => x.{relationshipName}).Any(x => {param});");
+            code.AppendLine($"if (!related)");
+        }
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
+        var relatedKeyQuery = isSingleRelationship ?
+            $"{GetPrimaryKeysQuery(relatedEntity, "related.", true)}" :
+            $"{GetPrimaryKeysQuery(relatedEntity, "relatedKey")}";
+        code.AppendLine($"var updated = await _mediator.Send(new Update{relatedEntity.Name}Command({relatedKeyQuery}, " +
+            $"{relatedEntity.Name.ToLowerFirstChar()}, _cultureCode, etag));");
+        code.AppendLine($"if (updated == null)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"return Ok();");
+
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateRelatedDelete(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    {
+        if (relationship.WithSingleEntity)
+            return;
+
+        var relatedEntity = relationship.Related.Entity;
+        var relationshipName = entity.GetNavigationPropertyName(relationship);
+
+        code.AppendLine($"[HttpDelete(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{relationshipName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
+        code.AppendLine($"public async Task<ActionResult> DeleteTo{relationshipName}" +
+            $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+
+        var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
+        var param = string.Join(" && ", relatedEntity.Keys.Select(k => $"x.{k.Name} == relatedKey{(relatedEntity.Keys.Count > 1 ? k.Name : "")}"));
+        code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+            $".SelectMany(x => x.{relationshipName})" +
+            $".Any(x => {param});");
+        code.AppendLine($"if (!related)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+        var relatedKeyQuery = $"{GetPrimaryKeysQuery(relatedEntity, "relatedKey")}";
+        code.AppendLine($"var etag = Request.GetDecodedEtagHeader();");
+        code.AppendLine($"var deleted = await _mediator.Send(new Delete{relatedEntity.Name}ByIdCommand({relatedKeyQuery}, etag));");
+        code.AppendLine($"if (!deleted)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"return NoContent();");
+
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateRelatedDeleteAll(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    {
+        if (relationship.Relationship == EntityRelationshipType.ExactlyOne ||
+            relationship.Relationship == EntityRelationshipType.OneOrMany)
+            return;
+
+        var relatedEntity = relationship.Related.Entity;
+        var relationshipName = entity.GetNavigationPropertyName(relationship);
+
+        code.AppendLine($"[HttpDelete(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{relationshipName}\")]");
+        code.AppendLine($"public async Task<ActionResult> DeleteTo{relationshipName}({GetPrimaryKeysRoute(entity, solution)})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+
+        var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
+        if (relationship.WithSingleEntity)
+            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+                $".Select(x => x.{relationshipName}).SingleOrDefault();");
+        else
+            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+                $".Select(x => x.{relationshipName}).SingleOrDefault();");
+        code.AppendLine($"if (related == null)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+
+        code.AppendLine($"var etag = Request.GetDecodedEtagHeader();");
+        if (relationship.WithSingleEntity)
+        {
+            code.AppendLine($"var deleted = await _mediator.Send(new Delete{relatedEntity.Name}ByIdCommand(" +
+                $"{GetPrimaryKeysQuery(relatedEntity, "related.", true)}, " +
+                $"etag));"); 
+            code.AppendLine($"if (!deleted)");
+            code.StartBlock();
+            code.AppendLine($"return NotFound();");
+            code.EndBlock();
+        }
+        else
+        {
+            code.AppendLine($"foreach(var item in related)");
+            code.StartBlock();
+            code.AppendLine($"await _mediator.Send(new Delete{relatedEntity.Name}ByIdCommand(" +
+                $"{GetPrimaryKeysQuery(relatedEntity, "item.", true)}, " +
+                $"etag));");
+            code.EndBlock();
+        }
+        code.AppendLine($"return NoContent();");
         code.EndBlock();
         code.AppendLine();
     }

@@ -14,7 +14,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
     private NoxCodeGenConventions _codeGenConventions { get; }
     private INoxClientAssemblyProvider _clientAssemblyProvider { get; }
 
-    public NoxDtoDatabaseConfigurator(NoxCodeGenConventions codeGenConventions,INoxClientAssemblyProvider clientAssemblyProvider)
+    public NoxDtoDatabaseConfigurator(NoxCodeGenConventions codeGenConventions, INoxClientAssemblyProvider clientAssemblyProvider)
     {
         _codeGenConventions = codeGenConventions;
         _clientAssemblyProvider = clientAssemblyProvider;
@@ -54,7 +54,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 
             if (attribute.Type == NoxType.StreetAddress)
             {
-                var compoundDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGenConventions.GetEntityDtoTypeFullName("StreetAddressDto")); 
+                var compoundDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGenConventions.GetEntityDtoTypeFullName("StreetAddressDto"));
 
                 builder.OwnsOne(compoundDtoType!, attribute.Name)
                     .Property(nameof(StreetAddress.CountryId))
@@ -67,8 +67,11 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
     {
         foreach (var relationshipToCreate in entity.Relationships)
         {
-            var relationshipName = entity.GetRelationshipPublicName(relationshipToCreate);
-            var reversedRelationshipName = relationshipToCreate.Related.Entity.GetRelationshipPublicName(
+            if (!relationshipToCreate.ConfigureThisSide())
+                continue;
+
+            var navigationPropertyName = entity.GetNavigationPropertyName(relationshipToCreate);
+            var reversedNavigationPropertyName = relationshipToCreate.Related.Entity.GetNavigationPropertyName(
                 relationshipToCreate.Related.EntityRelationship);
             // ManyToMany
             // Currently, configured bi-directionally, shouldn't cause any issues.
@@ -76,29 +79,28 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
                 relationshipToCreate.Related.EntityRelationship.WithMultiEntity)
             {
                 builder
-                    .HasMany(relationshipName)
-                    .WithMany(reversedRelationshipName)
-                    .UsingEntity(x => x.ToTable(relationshipName));
+                .HasMany(navigationPropertyName)
+                .WithMany(reversedNavigationPropertyName)
+                .UsingEntity(x => x.ToTable(relationshipToCreate.Name));
             }
             // OneToOne and OneToMany, setup should be done only on foreign key side
-            else if (relationshipToCreate.ShouldGenerateForeignKeyOnThisSide() &&
-                relationshipToCreate.WithSingleEntity())
+            else if (relationshipToCreate.WithSingleEntity())
             {
                 //One to Many
                 if (relationshipToCreate.Related.EntityRelationship.WithMultiEntity)
                 {
                     builder
-                        .HasOne($"{_codeGenConventions.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipName)
-                        .WithMany(reversedRelationshipName)
-                        .HasForeignKey($"{relationshipName}Id");
+                        .HasOne($"{_codeGenConventions.DtoNameSpace}.{relationshipToCreate.Entity}Dto", navigationPropertyName)
+                        .WithMany(reversedNavigationPropertyName)
+                        .HasForeignKey($"{navigationPropertyName}Id");
                 }
                 //One to One
                 else
                 {
                     builder
-                        .HasOne($"{_codeGenConventions.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipName)
-                        .WithOne(reversedRelationshipName)
-                        .HasForeignKey($"{_codeGenConventions.DtoNameSpace}.{entity.Name}Dto", $"{relationshipName}Id");
+                        .HasOne($"{_codeGenConventions.DtoNameSpace}.{relationshipToCreate.Entity}Dto", navigationPropertyName)
+                        .WithOne(reversedNavigationPropertyName)
+                        .HasForeignKey($"{_codeGenConventions.DtoNameSpace}.{entity.Name}Dto", $"{navigationPropertyName}Id");
                 }
             }
         }
@@ -112,7 +114,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         foreach (var ownedRelationship in entity.OwnedRelationships)
         //#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
         {
-            var relatedEntityDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGenConventions.GetEntityDtoTypeFullName(ownedRelationship.Related.Entity.Name + "Dto")); 
+            var relatedEntityDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGenConventions.GetEntityDtoTypeFullName(ownedRelationship.Related.Entity.Name + "Dto"));
 
             if (ownedRelationship.WithSingleEntity())
             {

@@ -14,6 +14,9 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+/// <summary>
+/// Time zone related to country.
+/// </summary>
 public partial class CountryTimeZoneCreateDto : CountryTimeZoneCreateDtoBase
 {
 
@@ -25,7 +28,8 @@ public partial class CountryTimeZoneCreateDto : CountryTimeZoneCreateDtoBase
 public abstract class CountryTimeZoneCreateDtoBase : IEntityDto<DomainNamespace.CountryTimeZone>
 {
     /// <summary>
-    /// Country's related time zone code (Required).
+    /// Country's related time zone code 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TimeZoneCode is required")]
     

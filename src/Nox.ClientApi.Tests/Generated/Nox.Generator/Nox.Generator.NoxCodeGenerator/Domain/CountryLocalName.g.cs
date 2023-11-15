@@ -51,17 +51,20 @@ internal record CountryLocalNameDeleted(CountryLocalName CountryLocalName) : IDo
 internal abstract partial class CountryLocalNameBase : EntityBase, IOwnedEntity
 {
     /// <summary>
-    /// The unique identifier (Required).
+    /// The unique identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Local name (Required).
+    /// Local name
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
-    /// Local name in native tongue (Optional).
+    /// Local name in native tongue
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.Text? NativeName { get; set; } = null!;
     /// <summary>

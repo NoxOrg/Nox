@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Lib;
 using Cryptocash.Application.Dto;
+using DtoNameSpace = Cryptocash.Application.Dto;
 
 namespace Cryptocash.Presentation.Api.OData;
 
@@ -111,7 +112,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<TransactionDto>().Ignore(e => e.Etag);
         builder.EntitySet<EmployeeDto>("Employees");
         builder.EntityType<EmployeeDto>().ContainsMany(e => e.EmployeeContactPhoneNumbers).AutoExpand = true;
-        builder.EntityType<EmployeeDto>().ContainsRequired(e => e.CashStockOrder);
+        builder.EntityType<EmployeeDto>().ContainsOptional(e => e.CashStockOrder);
 
         builder.EntityType<EmployeeDto>();
         builder.EntityType<EmployeeDto>().Ignore(e => e.DeletedAtUtc);
@@ -172,7 +173,7 @@ internal static class ODataServiceCollectionExtensions
                         .Expand()
                         .SkipToken()
                         .SetMaxTop(100);
-                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel(),
+                    var routeOptions = options.AddRouteComponents(Nox.Presentation.Api.OData.ODataApi.GetRoutePrefix("/api/v1"), builder.GetEdmModel(),
                         service => service
                             .AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>())
                         .RouteOptions;

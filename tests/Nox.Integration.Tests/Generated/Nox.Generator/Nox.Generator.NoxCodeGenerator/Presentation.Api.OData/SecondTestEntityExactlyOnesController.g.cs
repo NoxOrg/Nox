@@ -72,20 +72,38 @@ public abstract partial class SecondTestEntityExactlyOnesControllerBase : ODataC
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToTestEntityExactlyOne([FromRoute] System.String key)
+    [EnableQuery]
+    public virtual async Task<SingleResult<TestEntityExactlyOneDto>> GetTestEntityExactlyOne(System.String key)
+    {
+        var related = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(key))).Where(x => x.TestEntityExactlyOne != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<TestEntityExactlyOneDto>(Enumerable.Empty<TestEntityExactlyOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.TestEntityExactlyOne!));
+    }
+    
+    public virtual async Task<ActionResult<TestEntityExactlyOneDto>> PutToTestEntityExactlyOne(System.String key, [FromBody] TestEntityExactlyOneUpdateDto testEntityExactlyOne)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefSecondTestEntityExactlyOneToTestEntityExactlyOneCommand(new SecondTestEntityExactlyOneKeyDto(key)));
-        if (!deletedAllRef)
+        var related = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(key))).Select(x => x.TestEntityExactlyOne).SingleOrDefault();
+        if (related == null)
         {
             return NotFound();
         }
         
-        return NoContent();
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateTestEntityExactlyOneCommand(related.Id, testEntityExactlyOne, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion

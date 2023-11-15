@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -56,20 +56,6 @@ internal abstract class UpdateLandLordCommandHandlerBase : CommandBase<UpdateLan
 		{
 			return null;
 		}
-
-		await DbContext.Entry(entity).Collection(x => x.VendingMachines).LoadAsync();
-		var vendingMachinesEntities = new List<VendingMachine>();
-		foreach(var relatedEntityId in request.EntityDto.VendingMachinesId)
-		{
-			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				vendingMachinesEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("VendingMachines", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToVendingMachines(vendingMachinesEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -56,22 +56,6 @@ internal abstract class UpdateTestEntityTwoRelationshipsOneToOneCommandHandlerBa
 		{
 			return null;
 		}
-
-		var testRelationshipOneKey = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOneMetadata.CreateId(request.EntityDto.TestRelationshipOneId);
-		var testRelationshipOneEntity = await DbContext.SecondTestEntityTwoRelationshipsOneToOnes.FindAsync(testRelationshipOneKey);
-						
-		if(testRelationshipOneEntity is not null)
-			entity.CreateRefToTestRelationshipOne(testRelationshipOneEntity);
-		else
-			throw new RelatedEntityNotFoundException("TestRelationshipOne", request.EntityDto.TestRelationshipOneId.ToString());
-
-		var testRelationshipTwoKey = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOneMetadata.CreateId(request.EntityDto.TestRelationshipTwoId);
-		var testRelationshipTwoEntity = await DbContext.SecondTestEntityTwoRelationshipsOneToOnes.FindAsync(testRelationshipTwoKey);
-						
-		if(testRelationshipTwoEntity is not null)
-			entity.CreateRefToTestRelationshipTwo(testRelationshipTwoEntity);
-		else
-			throw new RelatedEntityNotFoundException("TestRelationshipTwo", request.EntityDto.TestRelationshipTwoId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

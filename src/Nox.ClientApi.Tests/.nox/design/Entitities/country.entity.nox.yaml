@@ -7,7 +7,7 @@
 name: Country
 
 description: Country Entity
-
+    Country representation for the Client API tests
 keys:
 
   - name: Id
@@ -21,7 +21,10 @@ keys:
 attributes:
 
   - name: Name
-    description: The Country Name
+    description: >
+        The Country Name    
+        Set a unique name for the country
+        Do not use abbreviations
     type: text
     textTypeOptions:
       minLength: 4
@@ -37,6 +40,7 @@ attributes:
 
   - name: Population
     description: Population
+        Number of People living in the country
     type: number    
     isRequired: false
     numberTypeOptions:

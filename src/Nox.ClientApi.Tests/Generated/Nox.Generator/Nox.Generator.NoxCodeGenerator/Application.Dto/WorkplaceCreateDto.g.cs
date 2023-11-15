@@ -14,6 +14,9 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+/// <summary>
+/// Workplace.
+/// </summary>
 public partial class WorkplaceCreateDto : WorkplaceCreateDtoBase
 {
 
@@ -25,19 +28,17 @@ public partial class WorkplaceCreateDto : WorkplaceCreateDtoBase
 public abstract class WorkplaceCreateDtoBase : IEntityDto<DomainNamespace.Workplace>
 {
     /// <summary>
-    /// Workplace Name (Required).
+    /// Workplace Name 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;
     /// <summary>
-    /// Workplace Description (Optional).
+    /// Workplace Description 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? Description { get; set; }
-    /// <summary>
-    /// The Formula (Optional).
-    /// </summary>
-    public virtual System.String? Greeting { get; set; }
 
     /// <summary>
     /// Workplace Workplace country ZeroOrOne Countries
@@ -46,4 +47,12 @@ public abstract class WorkplaceCreateDtoBase : IEntityDto<DomainNamespace.Workpl
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual CountryCreateDto? Country { get; set; } = default!;
+
+    /// <summary>
+    /// Workplace Actve Tenants in the workplace ZeroOrMany Tenants
+    /// </summary>
+    public virtual List<System.Guid> TenantsId { get; set; } = new();
+    
+    [System.Text.Json.Serialization.JsonIgnore]
+    public virtual List<TenantCreateDto> Tenants { get; set; } = new();
 }

@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record CashStockOrderKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update CashStockOrder
+/// Vending machine cash stock order and related data.
+/// </summary>
 public partial class CashStockOrderDto : CashStockOrderDtoBase
 {
 
@@ -52,27 +56,31 @@ public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<DomainNa
     #endregion
 
     /// <summary>
-    /// Vending machine's order unique identifier (Required).
-    /// </summary>
+    /// Vending machine's order unique identifier
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Order amount (Required).
+    /// Order amount 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public MoneyDto Amount { get; set; } = default!;
 
     /// <summary>
-    /// Order requested delivery date (Required).
+    /// Order requested delivery date 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.DateTime RequestedDeliveryDate { get; set; } = default!;
 
     /// <summary>
-    /// Order delivery date (Optional).
+    /// Order delivery date 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.DateTimeOffset? DeliveryDateTime { get; set; }
 
     /// <summary>
-    /// Order status (Optional).
+    /// Order status 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Status { get; set; }
 
@@ -86,6 +94,8 @@ public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<DomainNa
     /// <summary>
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
+    //EF maps ForeignKey Automatically
+    public System.Int64? EmployeeId { get; set; } = default!;
     public virtual EmployeeDto? Employee { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }

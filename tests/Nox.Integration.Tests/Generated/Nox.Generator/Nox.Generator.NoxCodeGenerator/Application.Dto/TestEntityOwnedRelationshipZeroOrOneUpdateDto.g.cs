@@ -15,16 +15,25 @@ namespace TestWebApp.Application.Dto;
 /// <summary>
 /// .
 /// </summary>
-public partial class TestEntityOwnedRelationshipZeroOrOneUpdateDto : IEntityDto<DomainNamespace.TestEntityOwnedRelationshipZeroOrOne>
+public partial class TestEntityOwnedRelationshipZeroOrOneUpdateDto : TestEntityOwnedRelationshipZeroOrOneUpdateDtoBase
+{
+
+}
+
+/// <summary>
+/// 
+/// </summary>
+public partial class TestEntityOwnedRelationshipZeroOrOneUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityOwnedRelationshipZeroOrOne>
 {
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextTestField is required")]
     
-    public System.String TextTestField { get; set; } = default!;
+    public virtual System.String TextTestField { get; set; } = default!;
     /// <summary>
     /// TestEntityOwnedRelationshipZeroOrOne Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrOne ZeroOrOne SecondTestEntityOwnedRelationshipZeroOrOnes
     /// </summary>
-    public SecondTestEntityOwnedRelationshipZeroOrOneUpdateDto? SecondTestEntityOwnedRelationshipZeroOrOne { get; set; } = null!;
+    public virtual SecondTestEntityOwnedRelationshipZeroOrOneUpdateDto? SecondTestEntityOwnedRelationshipZeroOrOne { get; set; } = null!;
 }

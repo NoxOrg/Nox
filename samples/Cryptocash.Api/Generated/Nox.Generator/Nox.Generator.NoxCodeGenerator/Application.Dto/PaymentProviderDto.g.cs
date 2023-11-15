@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record PaymentProviderKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update PaymentProvider
+/// Payment provider related data.
+/// </summary>
 public partial class PaymentProviderDto : PaymentProviderDtoBase
 {
 
@@ -53,17 +57,19 @@ public abstract class PaymentProviderDtoBase : EntityDtoBase, IEntityDto<DomainN
     #endregion
 
     /// <summary>
-    /// Payment provider unique identifier (Required).
-    /// </summary>
+    /// Payment provider unique identifier
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Payment provider name (Required).
+    /// Payment provider name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String PaymentProviderName { get; set; } = default!;
 
     /// <summary>
-    /// Payment provider account type (Required).
+    /// Payment provider account type 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String PaymentProviderType { get; set; } = default!;
 

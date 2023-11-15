@@ -23,8 +23,7 @@ public class DataTransferObjectsTests : IClassFixture<GeneratorFixture>
         };
 
         // Assert the driver doesn't recompute the output
-        _generatorFixture
-            .GenerateSourceCodeFor(sources)
+        GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
             .AssertFileCount(2);
     }

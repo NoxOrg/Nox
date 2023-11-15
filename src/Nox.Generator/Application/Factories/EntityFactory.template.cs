@@ -57,9 +57,9 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
-    public virtual void PartialUpdateEntity({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private {{codeGeneratorState.DomainNameSpace}}.{{ entity.Name }} ToEntity({{entity.Name}}CreateDto createDto)
@@ -72,7 +72,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         entity.{{key.Name}} = {{entity.Name}}Metadata.Create{{key.Name}}(createDto.{{key.Name}});
         {{- end }}
         {{- for attribute in entity.Attributes }}
-            {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
+            {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" || attribute.Type == "AutoNumber" -}}
                 {{ continue; }}
             {{- end}}
         {{- if !attribute.IsRequired }}
@@ -112,7 +112,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
     private void UpdateEntityInternal({{entity.Name}}Entity entity, {{entity.Name}}UpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         {{- for attribute in entity.Attributes }}
-            {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
+            {{- if !IsNoxTypeReadable attribute.Type || !IsNoxTypeUpdatable attribute.Type -}}
                 {{ continue; }}
             {{- end}}
         {{ if attribute.IsLocalized }}if(IsDefaultCultureCode(cultureCode)) {{ end }}
@@ -136,14 +136,14 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 		{{- end }}
     }
 
-    private void PartialUpdateEntityInternal({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         {{- for attribute in entity.Attributes }}
-            {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
+            {{- if !IsNoxTypeReadable attribute.Type || !IsNoxTypeUpdatable attribute.Type -}}
                 {{ continue; }}
             {{- end}}
 
-        if (updatedProperties.TryGetValue("{{attribute.Name}}", out var {{attribute.Name}}UpdateValue))
+        if ({{- if attribute.IsLocalized }}IsDefaultCultureCode(cultureCode) && {{ end -}} updatedProperties.TryGetValue("{{attribute.Name}}", out var {{attribute.Name}}UpdateValue))
         {
             {{- if attribute.IsRequired }}
             if ({{attribute.Name}}UpdateValue == null)

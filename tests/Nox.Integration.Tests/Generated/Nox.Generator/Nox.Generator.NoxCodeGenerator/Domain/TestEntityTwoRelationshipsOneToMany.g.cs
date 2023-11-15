@@ -51,12 +51,14 @@ internal record TestEntityTwoRelationshipsOneToManyDeleted(TestEntityTwoRelation
 internal abstract partial class TestEntityTwoRelationshipsOneToManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
     /// <summary>

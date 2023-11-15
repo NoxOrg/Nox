@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -56,20 +56,6 @@ internal abstract class UpdateThirdTestEntityZeroOrManyCommandHandlerBase : Comm
 		{
 			return null;
 		}
-
-		await DbContext.Entry(entity).Collection(x => x.ThirdTestEntityOneOrManies).LoadAsync();
-		var thirdTestEntityOneOrManiesEntities = new List<ThirdTestEntityOneOrMany>();
-		foreach(var relatedEntityId in request.EntityDto.ThirdTestEntityOneOrManiesId)
-		{
-			var relatedKey = TestWebApp.Domain.ThirdTestEntityOneOrManyMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.ThirdTestEntityOneOrManies.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				thirdTestEntityOneOrManiesEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("ThirdTestEntityOneOrManies", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToThirdTestEntityOneOrManies(thirdTestEntityOneOrManiesEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

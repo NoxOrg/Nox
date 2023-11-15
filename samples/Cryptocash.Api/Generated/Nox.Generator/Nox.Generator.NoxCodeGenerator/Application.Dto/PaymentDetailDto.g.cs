@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record PaymentDetailKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update PaymentDetail
+/// Customer payment account related data.
+/// </summary>
 public partial class PaymentDetailDto : PaymentDetailDtoBase
 {
 
@@ -55,22 +59,25 @@ public abstract class PaymentDetailDtoBase : EntityDtoBase, IEntityDto<DomainNam
     #endregion
 
     /// <summary>
-    /// Customer payment account unique identifier (Required).
-    /// </summary>
+    /// Customer payment account unique identifier
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Payment account name (Required).
+    /// Payment account name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String PaymentAccountName { get; set; } = default!;
 
     /// <summary>
-    /// Payment account reference number (Required).
+    /// Payment account reference number 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String PaymentAccountNumber { get; set; } = default!;
 
     /// <summary>
-    /// Payment account sort code (Optional).
+    /// Payment account sort code 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? PaymentAccountSortCode { get; set; }
 

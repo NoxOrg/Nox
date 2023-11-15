@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -55,44 +55,6 @@ internal abstract class UpdateStoreLicenseCommandHandlerBase : CommandBase<Updat
 		if (entity == null)
 		{
 			return null;
-		}
-
-		var storeKey = ClientApi.Domain.StoreMetadata.CreateId(request.EntityDto.StoreId);
-		var storeEntity = await DbContext.Stores.FindAsync(storeKey);
-						
-		if(storeEntity is not null)
-			entity.CreateRefToStore(storeEntity);
-		else
-			throw new RelatedEntityNotFoundException("Store", request.EntityDto.StoreId.ToString());
-
-		if(request.EntityDto.DefaultCurrencyId is not null)
-		{
-			var defaultCurrencyKey = ClientApi.Domain.CurrencyMetadata.CreateId(request.EntityDto.DefaultCurrencyId.NonNullValue<System.String>());
-			var defaultCurrencyEntity = await DbContext.Currencies.FindAsync(defaultCurrencyKey);
-						
-			if(defaultCurrencyEntity is not null)
-				entity.CreateRefToDefaultCurrency(defaultCurrencyEntity);
-			else
-				throw new RelatedEntityNotFoundException("DefaultCurrency", request.EntityDto.DefaultCurrencyId.NonNullValue<System.String>().ToString());
-		}
-		else
-		{
-			entity.DeleteAllRefToDefaultCurrency();
-		}
-
-		if(request.EntityDto.SoldInCurrencyId is not null)
-		{
-			var soldInCurrencyKey = ClientApi.Domain.CurrencyMetadata.CreateId(request.EntityDto.SoldInCurrencyId.NonNullValue<System.String>());
-			var soldInCurrencyEntity = await DbContext.Currencies.FindAsync(soldInCurrencyKey);
-						
-			if(soldInCurrencyEntity is not null)
-				entity.CreateRefToSoldInCurrency(soldInCurrencyEntity);
-			else
-				throw new RelatedEntityNotFoundException("SoldInCurrency", request.EntityDto.SoldInCurrencyId.NonNullValue<System.String>().ToString());
-		}
-		else
-		{
-			entity.DeleteAllRefToSoldInCurrency();
 		}
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);

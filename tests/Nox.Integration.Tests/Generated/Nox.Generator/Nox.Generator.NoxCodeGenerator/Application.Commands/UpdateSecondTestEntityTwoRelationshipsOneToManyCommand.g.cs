@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -55,36 +55,6 @@ internal abstract class UpdateSecondTestEntityTwoRelationshipsOneToManyCommandHa
 		if (entity == null)
 		{
 			return null;
-		}
-
-		if(request.EntityDto.TestRelationshipOneOnOtherSideId is not null)
-		{
-			var testRelationshipOneOnOtherSideKey = TestWebApp.Domain.TestEntityTwoRelationshipsOneToManyMetadata.CreateId(request.EntityDto.TestRelationshipOneOnOtherSideId.NonNullValue<System.String>());
-			var testRelationshipOneOnOtherSideEntity = await DbContext.TestEntityTwoRelationshipsOneToManies.FindAsync(testRelationshipOneOnOtherSideKey);
-						
-			if(testRelationshipOneOnOtherSideEntity is not null)
-				entity.CreateRefToTestRelationshipOneOnOtherSide(testRelationshipOneOnOtherSideEntity);
-			else
-				throw new RelatedEntityNotFoundException("TestRelationshipOneOnOtherSide", request.EntityDto.TestRelationshipOneOnOtherSideId.NonNullValue<System.String>().ToString());
-		}
-		else
-		{
-			entity.DeleteAllRefToTestRelationshipOneOnOtherSide();
-		}
-
-		if(request.EntityDto.TestRelationshipTwoOnOtherSideId is not null)
-		{
-			var testRelationshipTwoOnOtherSideKey = TestWebApp.Domain.TestEntityTwoRelationshipsOneToManyMetadata.CreateId(request.EntityDto.TestRelationshipTwoOnOtherSideId.NonNullValue<System.String>());
-			var testRelationshipTwoOnOtherSideEntity = await DbContext.TestEntityTwoRelationshipsOneToManies.FindAsync(testRelationshipTwoOnOtherSideKey);
-						
-			if(testRelationshipTwoOnOtherSideEntity is not null)
-				entity.CreateRefToTestRelationshipTwoOnOtherSide(testRelationshipTwoOnOtherSideEntity);
-			else
-				throw new RelatedEntityNotFoundException("TestRelationshipTwoOnOtherSide", request.EntityDto.TestRelationshipTwoOnOtherSideId.NonNullValue<System.String>().ToString());
-		}
-		else
-		{
-			entity.DeleteAllRefToTestRelationshipTwoOnOtherSide();
 		}
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);

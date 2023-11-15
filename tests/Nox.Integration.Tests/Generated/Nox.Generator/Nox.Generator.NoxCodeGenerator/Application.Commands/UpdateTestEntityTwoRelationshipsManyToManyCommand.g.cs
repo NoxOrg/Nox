@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -56,34 +56,6 @@ internal abstract class UpdateTestEntityTwoRelationshipsManyToManyCommandHandler
 		{
 			return null;
 		}
-
-		await DbContext.Entry(entity).Collection(x => x.TestRelationshipOne).LoadAsync();
-		var testRelationshipOneEntities = new List<SecondTestEntityTwoRelationshipsManyToMany>();
-		foreach(var relatedEntityId in request.EntityDto.TestRelationshipOneId)
-		{
-			var relatedKey = TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToManyMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.SecondTestEntityTwoRelationshipsManyToManies.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				testRelationshipOneEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("TestRelationshipOne", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToTestRelationshipOne(testRelationshipOneEntities);
-
-		await DbContext.Entry(entity).Collection(x => x.TestRelationshipTwo).LoadAsync();
-		var testRelationshipTwoEntities = new List<SecondTestEntityTwoRelationshipsManyToMany>();
-		foreach(var relatedEntityId in request.EntityDto.TestRelationshipTwoId)
-		{
-			var relatedKey = TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToManyMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.SecondTestEntityTwoRelationshipsManyToManies.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				testRelationshipTwoEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("TestRelationshipTwo", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToTestRelationshipTwo(testRelationshipTwoEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

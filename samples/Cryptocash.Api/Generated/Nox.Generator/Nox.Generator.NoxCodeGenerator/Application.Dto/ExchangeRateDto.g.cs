@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record ExchangeRateKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update ExchangeRate
+/// Exchange rate and related data.
+/// </summary>
 public partial class ExchangeRateDto : ExchangeRateDtoBase
 {
 
@@ -47,17 +51,19 @@ public abstract class ExchangeRateDtoBase : EntityDtoBase, IEntityDto<DomainName
     #endregion
 
     /// <summary>
-    /// Exchange rate unique identifier (Required).
-    /// </summary>
+    /// Exchange rate unique identifier
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Exchange rate conversion amount (Required).
+    /// Exchange rate conversion amount 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.Int32 EffectiveRate { get; set; } = default!;
 
     /// <summary>
-    /// Exchange rate conversion amount (Required).
+    /// Exchange rate conversion amount 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.DateTimeOffset EffectiveAt { get; set; } = default!;
 }

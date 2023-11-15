@@ -16,7 +16,7 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Workplace Localized DTO.
 /// </summary>
-internal partial class WorkplaceLocalizedDto
+public partial class WorkplaceLocalizedDto
 {
     /// <summary>
     /// Workplace unique identifier (Required).

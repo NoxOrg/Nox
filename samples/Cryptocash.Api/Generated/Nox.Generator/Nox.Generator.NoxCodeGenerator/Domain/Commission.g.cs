@@ -51,17 +51,20 @@ internal record CommissionDeleted(Commission Commission) : IDomainEvent, INotifi
 internal abstract partial class CommissionBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Commission unique identifier (Required).
+    /// Commission unique identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Commission rate (Required).
+    /// Commission rate
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Percentage Rate { get; set; } = null!;
 
     /// <summary>
-    /// Exchange rate conversion amount (Required).
+    /// Exchange rate conversion amount
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.DateTime EffectiveAt { get; set; } = null!;
     /// <summary>

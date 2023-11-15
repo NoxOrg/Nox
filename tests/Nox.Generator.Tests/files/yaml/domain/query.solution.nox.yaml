@@ -189,3 +189,10 @@ domain:
         - name: PasswordField
           description: Password Nox Type
           type: password
+
+        - name: AutoNumberField
+          description: AutoNumber Nox Type
+          type: autoNumber
+          autoNumberTypeOptions:
+            startsAt: 10
+            incrementsBy: 5

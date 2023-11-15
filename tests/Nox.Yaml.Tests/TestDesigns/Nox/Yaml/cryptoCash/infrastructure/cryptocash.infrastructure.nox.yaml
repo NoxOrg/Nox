@@ -1,0 +1,19 @@
+﻿#
+# cryptocash.infrastructure.nox.yaml
+#
+# yaml-language-server: $schema=../../../Schemas/infrastructure.json
+#
+
+persistence: 
+
+  $ref: ./persistence/cryptocash.persistence.nox.yaml
+
+dependencies: 
+
+  $ref: ./dependencies/cryptocash.dependencies.nox.yaml
+
+messaging:
+    
+  $ref: ./messaging/cryptocash.messaging.nox.yaml
+
+  

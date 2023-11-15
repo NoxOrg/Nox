@@ -62,6 +62,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
     public DbSet<ClientApi.Domain.StoreOwner> StoreOwners { get; set; } = null!;
     public DbSet<ClientApi.Domain.StoreLicense> StoreLicenses { get; set; } = null!;
     public DbSet<ClientApi.Domain.Currency> Currencies { get; set; } = null!;
+    public DbSet<ClientApi.Domain.Tenant> Tenants { get; set; } = null!;
     public DbSet<ClientApi.Domain.WorkplaceLocalized> WorkplacesLocalized { get; set; } = null!;
     public DbSet<DomainNameSpace.CountryContinent> CountriesContinents { get; set; } = null!;
     public DbSet<DomainNameSpace.CountryContinentLocalized> CountriesContinentsLocalized { get; set; } = null!;

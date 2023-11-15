@@ -10,9 +10,6 @@
       "type": "null"
     }
   ],
-  "required": [
-    "persistence"
-  ],
   "properties": {
     "persistence": {    
       "anyOf": [
@@ -74,6 +71,18 @@
         }
       ],
       "properties": {
+        "apiRoutePrefix": {    
+          "title": "The api route prefix, defaults to api/v1 or to api/vMajor({Solution.Version}) if Version is set in the root of the Solution.",
+          "description": "Defines the prefix for all Api routes end points.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "apiServer": {    
           "anyOf": [
             { "$ref": "apiServer.json" },

@@ -16,6 +16,9 @@ namespace Cryptocash.Ui.Generated.Component
         public string VendingMachinesIcon { get; set; } = IconHelper.GetIconSvgPath("VendingMachines");
         public string VendingMachinesPageLink { get; set; } = "VendingMachines";
 
+        public string TestIcon { get; set; } = IconHelper.GetIconSvgPath("Test");
+        public string TestPageLink { get; set; } = "Test";
+
         #endregion
     }
 }

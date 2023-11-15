@@ -103,13 +103,21 @@ public class NoxCodeGenerator : IIncrementalGenerator
                 {
                     foreach (var flowInstance in generatorInstances.Where(x => x.GeneratorKind == flow))
                     {
-                        flowInstance.Generate(
+                        try
+                        {
+                            flowInstance.Generate(
                             context,
                             codeGeneratorState,
                             config,
                             (logMessage) => _debug.AppendLine($"// {flowInstance} {logMessage}"),
                             projectRoot
                             );
+                        }
+                        catch 
+                        {
+                            _debug.AppendLine($"// Error in Generator: {flowInstance}");
+                            throw;
+                        }                        
                     }
                 }
             }

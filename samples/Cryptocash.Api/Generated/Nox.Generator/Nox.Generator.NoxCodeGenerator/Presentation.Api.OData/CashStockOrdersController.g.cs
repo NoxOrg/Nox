@@ -72,20 +72,38 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachine([FromRoute] System.Int64 key)
+    [EnableQuery]
+    public virtual async Task<SingleResult<VendingMachineDto>> GetVendingMachine(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Where(x => x.VendingMachine != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<VendingMachineDto>(Enumerable.Empty<VendingMachineDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.VendingMachine!));
+    }
+    
+    public virtual async Task<ActionResult<VendingMachineDto>> PutToVendingMachine(System.Int64 key, [FromBody] VendingMachineUpdateDto vendingMachine)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCashStockOrderToVendingMachineCommand(new CashStockOrderKeyDto(key)));
-        if (!deletedAllRef)
+        var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.VendingMachine).SingleOrDefault();
+        if (related == null)
         {
             return NotFound();
         }
         
-        return NoContent();
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateVendingMachineCommand(related.Id, vendingMachine, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     public async Task<ActionResult> CreateRefToEmployee([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
@@ -132,20 +150,38 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToEmployee([FromRoute] System.Int64 key)
+    [EnableQuery]
+    public virtual async Task<SingleResult<EmployeeDto>> GetEmployee(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Where(x => x.Employee != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<EmployeeDto>(Enumerable.Empty<EmployeeDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.Employee!));
+    }
+    
+    public virtual async Task<ActionResult<EmployeeDto>> PutToEmployee(System.Int64 key, [FromBody] EmployeeUpdateDto employee)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCashStockOrderToEmployeeCommand(new CashStockOrderKeyDto(key)));
-        if (!deletedAllRef)
+        var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.Employee).SingleOrDefault();
+        if (related == null)
         {
             return NotFound();
         }
         
-        return NoContent();
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateEmployeeCommand(related.Id, employee, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion

@@ -15,24 +15,35 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Holiday related to country.
 /// </summary>
-public partial class HolidayUpdateDto : IEntityDto<DomainNamespace.Holiday>
+public partial class HolidayUpdateDto : HolidayUpdateDtoBase
+{
+
+}
+
+/// <summary>
+/// Holiday related to country
+/// </summary>
+public partial class HolidayUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Holiday>
 {
     /// <summary>
-    /// Country holiday name (Required).
+    /// Country holiday name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public System.String Name { get; set; } = default!;
+    public virtual System.String Name { get; set; } = default!;
     /// <summary>
-    /// Country holiday type (Required).
+    /// Country holiday type 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Type is required")]
     
-    public System.String Type { get; set; } = default!;
+    public virtual System.String Type { get; set; } = default!;
     /// <summary>
-    /// Country holiday date (Required).
+    /// Country holiday date 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Date is required")]
     
-    public System.DateTime Date { get; set; } = default!;
+    public virtual System.DateTime Date { get; set; } = default!;
 }

@@ -16,7 +16,7 @@ namespace TestWebApp.Application.Dto;
 /// <summary>
 /// Entity created for testing localization Localized DTO.
 /// </summary>
-internal partial class TestEntityLocalizationLocalizedDto
+public partial class TestEntityLocalizationLocalizedDto
 {
     /// <summary>
     ///  (Required).
@@ -26,9 +26,9 @@ internal partial class TestEntityLocalizationLocalizedDto
     public System.String CultureCode { get; set; } = default!;
 
     /// <summary>
-    ///  (Required).
+    ///  (Optional).
     /// </summary>
-    public System.String TextFieldToLocalize { get; set; } = default!;
+    public System.String? TextFieldToLocalize { get; set; }
 
     [JsonPropertyName("@odata.etag")]
     public System.Guid Etag { get; init; }

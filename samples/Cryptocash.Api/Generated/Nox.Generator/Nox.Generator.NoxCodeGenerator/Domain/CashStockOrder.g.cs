@@ -51,27 +51,32 @@ internal record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEv
 internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Vending machine's order unique identifier (Required).
+    /// Vending machine's order unique identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Order amount (Required).
+    /// Order amount
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Money Amount { get; set; } = null!;
 
     /// <summary>
-    /// Order requested delivery date (Required).
+    /// Order requested delivery date
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Date RequestedDeliveryDate { get; set; } = null!;
 
     /// <summary>
-    /// Order delivery date (Optional).
+    /// Order delivery date
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.DateTime? DeliveryDateTime { get; set; } = null!;
 
     /// <summary>
-    /// Order status (Optional).
+    /// Order status
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public string? Status
     { 
@@ -135,6 +140,11 @@ internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntit
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
     public virtual Employee Employee { get; private set; } = null!;
+
+    /// <summary>
+    /// Foreign key for relationship ExactlyOne to entity Employee
+    /// </summary>
+    public Nox.Types.AutoNumber EmployeeId { get; set; } = null!;
 
     public virtual void CreateRefToEmployee(Employee relatedEmployee)
     {

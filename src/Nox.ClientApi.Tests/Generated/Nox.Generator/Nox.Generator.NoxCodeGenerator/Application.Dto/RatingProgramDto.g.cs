@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record RatingProgramKeyDto(System.Guid keyStoreId, System.Int64 keyId);
 
+/// <summary>
+/// Update RatingProgram
+/// Rating program for store.
+/// </summary>
 public partial class RatingProgramDto : RatingProgramDtoBase
 {
 
@@ -49,17 +53,18 @@ public abstract class RatingProgramDtoBase : EntityDtoBase, IEntityDto<DomainNam
     #endregion
 
     /// <summary>
-    ///  (Required).
-    /// </summary>
+    /// 
+    /// </summary>    
     public System.Guid StoreId { get; set; } = default!;
 
     /// <summary>
-    /// The unique identifier (Required).
-    /// </summary>
+    /// The unique identifier
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Rating Program Name (Optional).
+    /// Rating Program Name 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Name { get; set; }
 

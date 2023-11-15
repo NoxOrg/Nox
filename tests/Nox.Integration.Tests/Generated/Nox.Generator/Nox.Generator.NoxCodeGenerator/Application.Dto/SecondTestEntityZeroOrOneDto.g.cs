@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record SecondTestEntityZeroOrOneKeyDto(System.String keyId);
 
+/// <summary>
+/// Update SecondTestEntityZeroOrOne
+/// .
+/// </summary>
 public partial class SecondTestEntityZeroOrOneDto : SecondTestEntityZeroOrOneDtoBase
 {
 
@@ -48,12 +52,13 @@ public abstract class SecondTestEntityZeroOrOneDtoBase : EntityDtoBase, IEntityD
     #endregion
 
     /// <summary>
-    ///  (Required).
-    /// </summary>
+    /// 
+    /// </summary>    
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String TextTestField2 { get; set; } = default!;
 

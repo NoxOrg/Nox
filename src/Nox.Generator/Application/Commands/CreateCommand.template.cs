@@ -88,7 +88,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 
 	{{- for relationship in entity.Relationships }}
-		{{- relationshipName = GetRelationshipPublicName entity relationship }}
+		{{- relationshipName = GetNavigationPropertyName entity relationship }}
 		{{- if relationship.WithSingleEntity }}
 		if(request.EntityDto.{{relationshipName}}Id is not null)
 		{

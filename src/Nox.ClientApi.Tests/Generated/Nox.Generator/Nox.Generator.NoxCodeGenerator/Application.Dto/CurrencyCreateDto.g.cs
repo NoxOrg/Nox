@@ -14,6 +14,9 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+/// <summary>
+/// Currency and related data.
+/// </summary>
 public partial class CurrencyCreateDto : CurrencyCreateDtoBase
 {
 
@@ -25,16 +28,19 @@ public partial class CurrencyCreateDto : CurrencyCreateDtoBase
 public abstract class CurrencyCreateDtoBase : IEntityDto<DomainNamespace.Currency>
 {
     /// <summary>
-    /// Currency unique identifier (Required).
+    /// Currency unique identifier
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
     /// <summary>
-    /// Currency's name (Optional).
+    /// Currency's name 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? Name { get; set; }
     /// <summary>
-    /// Currency's symbol (Optional).
+    /// Currency's symbol 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? Symbol { get; set; }
 

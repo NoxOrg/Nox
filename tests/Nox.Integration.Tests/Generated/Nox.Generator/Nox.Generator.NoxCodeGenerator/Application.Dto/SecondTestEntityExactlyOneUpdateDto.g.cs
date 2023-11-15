@@ -15,18 +15,21 @@ namespace TestWebApp.Application.Dto;
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityExactlyOneUpdateDto : IEntityDto<DomainNamespace.SecondTestEntityExactlyOne>
+public partial class SecondTestEntityExactlyOneUpdateDto : SecondTestEntityExactlyOneUpdateDtoBase
+{
+
+}
+
+/// <summary>
+/// 
+/// </summary>
+public partial class SecondTestEntityExactlyOneUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.SecondTestEntityExactlyOne>
 {
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextTestField2 is required")]
     
-    public System.String TextTestField2 { get; set; } = default!;
-
-    /// <summary>
-    /// SecondTestEntityExactlyOne Test entity relationship to TestEntityExactlyOneRelationship ExactlyOne TestEntityExactlyOnes
-    /// </summary>
-    [Required(ErrorMessage = "TestEntityExactlyOne is required")]
-    public System.String TestEntityExactlyOneId { get; set; } = default!;
+    public virtual System.String TextTestField2 { get; set; } = default!;
 }

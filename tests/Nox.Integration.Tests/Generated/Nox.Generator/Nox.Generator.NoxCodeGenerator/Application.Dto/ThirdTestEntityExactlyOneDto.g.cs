@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record ThirdTestEntityExactlyOneKeyDto(System.String keyId);
 
+/// <summary>
+/// Update ThirdTestEntityExactlyOne
+/// Entity created for testing database.
+/// </summary>
 public partial class ThirdTestEntityExactlyOneDto : ThirdTestEntityExactlyOneDtoBase
 {
 
@@ -48,12 +52,13 @@ public abstract class ThirdTestEntityExactlyOneDtoBase : EntityDtoBase, IEntityD
     #endregion
 
     /// <summary>
-    ///  (Required).
-    /// </summary>
+    /// 
+    /// </summary>    
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String TextTestField { get; set; } = default!;
 

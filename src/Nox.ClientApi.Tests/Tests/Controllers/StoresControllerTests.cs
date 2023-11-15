@@ -279,6 +279,42 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion POST Entity with Deleted RelationshipId /api/{EntityPluralName} => api/stores
 
+        [Fact]
+        public async Task CanNotNavigateTo_VerifiedEmails()
+        {
+            //Arrange
+            var store = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Address = new StreetAddressDto(
+                    StreetNumber: null!,
+                    AddressLine1: "3000 Hillswood Business Park",
+                    AddressLine2: null!,
+                    Route: null!,
+                    Locality: null!,
+                    Neighborhood: null!,
+                    AdministrativeArea1: null!,
+                    AdministrativeArea2: null!,
+                    PostalCode: "KT16 0RS",
+                    CountryId: CountryCode.GB),
+                Location = new LatLongDto(51.3728033, -0.5389749)
+            });
+
+            //Act
+            var postVerifiedEmailsResponse = await PostAsync($"{Endpoints.StoresUrl}/{store!.Id}/VerifiedEmails", new EmailAddressCreateDto());
+            var getVerifiedEmailsResponse = await GetAsync($"{Endpoints.StoresUrl}/{store!.Id}/VerifiedEmails");
+            var putVerifiedEmailsResponse = await PutAsync($"{Endpoints.StoresUrl}/{store!.Id}/VerifiedEmails", new EmailAddressCreateDto(), false);
+            var patchVerifiedEmailsResponse = await PatchAsync($"{Endpoints.StoresUrl}/{store!.Id}/VerifiedEmails", new EmailAddressCreateDto(), new Dictionary<string, IEnumerable<string>>(), false);
+            var deleteVerifiedEmailsResponse = await DeleteAsync($"{Endpoints.StoresUrl}/{store!.Id}/VerifiedEmails", false);
+
+            //Assert
+            postVerifiedEmailsResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            getVerifiedEmailsResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            putVerifiedEmailsResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            patchVerifiedEmailsResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            deleteVerifiedEmailsResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
         #endregion Relationship Examples       
 
         [Fact]

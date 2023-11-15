@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -56,20 +56,6 @@ internal abstract class UpdateStoreOwnerCommandHandlerBase : CommandBase<UpdateS
 		{
 			return null;
 		}
-
-		await DbContext.Entry(entity).Collection(x => x.Stores).LoadAsync();
-		var storesEntities = new List<Store>();
-		foreach(var relatedEntityId in request.EntityDto.StoresId)
-		{
-			var relatedKey = ClientApi.Domain.StoreMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				storesEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("Stores", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToStores(storesEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

@@ -119,7 +119,7 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new PartialUpdateTestEntityOneOrManyCommand(key, updatedProperties, etag));
+        var updatedKey = await _mediator.Send(new PartialUpdateTestEntityOneOrManyCommand(key, updatedProperties, _cultureCode, etag));
 
         if (updatedKey is null)
         {

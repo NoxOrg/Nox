@@ -51,7 +51,8 @@ internal record CountryDeleted(Country Country) : IDomainEvent, INotification;
 internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nuid Id {get; set;} = null!;
        
@@ -72,12 +73,14 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     	}
 
     /// <summary>
-    /// The country's common name (Required).
+    /// The country's common name
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
-    /// The country's official name (Required).
+    /// The country's official name
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text FormalName { get; set; } = null!;
     /// <summary>

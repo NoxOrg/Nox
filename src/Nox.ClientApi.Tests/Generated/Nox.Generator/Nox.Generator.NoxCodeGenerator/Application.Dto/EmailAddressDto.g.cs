@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record EmailAddressKeyDto();
 
+/// <summary>
+/// Update EmailAddress
+/// Verified Email Address.
+/// </summary>
 public partial class EmailAddressDto : EmailAddressDtoBase
 {
 
@@ -47,12 +51,14 @@ public abstract class EmailAddressDtoBase : EntityDtoBase, IEntityDto<DomainName
     #endregion
 
     /// <summary>
-    /// Email (Optional).
+    /// Email 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Email { get; set; }
 
     /// <summary>
-    /// Verified (Optional).
+    /// Verified 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.Boolean? IsVerified { get; set; }
 }

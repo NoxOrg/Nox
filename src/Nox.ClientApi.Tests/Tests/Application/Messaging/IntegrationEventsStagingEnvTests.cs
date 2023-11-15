@@ -1,18 +1,18 @@
 ﻿using AutoFixture;
-using ClientApi.Application.Dto;
-using ClientApi.Application.IntegrationEvents;
 using FluentAssertions;
 using MassTransit.Testing;
-using Nox.Infrastructure.Messaging;
 using Xunit.Abstractions;
+
+using Nox.Infrastructure.Messaging;
+using ClientApi.Tests.Controllers;
+using ClientApi.Application.Dto;
+using ClientApi.Application.IntegrationEvents;
 
 namespace ClientApi.Tests.Application.Messaging
 {
     [Collection("Sequential")]
     public class IntegrationEventsStagingEnvTests : NoxWebApiTestBase
-    {
-        private const string CountriesControllerName = "api/countries";
-
+    {        
         public IntegrationEventsStagingEnvTests(
             ITestOutputHelper testOutput,
             TestDatabaseContainerService containerService)
@@ -30,7 +30,7 @@ namespace ClientApi.Tests.Application.Messaging
                 Population = 99_999_999,
             };
 
-            var createResult = await PostAsync<CountryCreateDto, CountryDto>(CountriesControllerName, createDto);
+            var createResult = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
 
             var updateDto = new CountryUpdateDto
             {
@@ -40,7 +40,7 @@ namespace ClientApi.Tests.Application.Messaging
 
             // Act
             var headers = CreateEtagHeader(createResult?.Etag);
-            var updateResult = await PutAsync<CountryUpdateDto, CountryDto>($"{CountriesControllerName}/{createResult!.Id}", updateDto, headers);
+            var updateResult = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{createResult!.Id}", updateDto, headers);
 
             //Assert
             updateResult.Should().NotBeNull();

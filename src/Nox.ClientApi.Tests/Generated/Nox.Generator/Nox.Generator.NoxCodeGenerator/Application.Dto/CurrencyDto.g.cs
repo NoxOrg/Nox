@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record CurrencyKeyDto(System.String keyId);
 
+/// <summary>
+/// Update Currency
+/// Currency and related data.
+/// </summary>
 public partial class CurrencyDto : CurrencyDtoBase
 {
 
@@ -47,17 +51,19 @@ public abstract class CurrencyDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     #endregion
 
     /// <summary>
-    /// Currency unique identifier (Required).
-    /// </summary>
+    /// Currency unique identifier
+    /// </summary>    
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    /// Currency's name (Optional).
+    /// Currency's name 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Name { get; set; }
 
     /// <summary>
-    /// Currency's symbol (Optional).
+    /// Currency's symbol 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Symbol { get; set; }
 

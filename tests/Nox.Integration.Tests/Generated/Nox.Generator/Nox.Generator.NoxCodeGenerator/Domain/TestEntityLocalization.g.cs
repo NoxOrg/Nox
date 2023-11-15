@@ -51,17 +51,20 @@ internal record TestEntityLocalizationDeleted(TestEntityLocalization TestEntityL
 internal abstract partial class TestEntityLocalizationBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text TextFieldToLocalize { get; set; } = null!;
 
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Number NumberField { get; set; } = null!;
     /// <summary>

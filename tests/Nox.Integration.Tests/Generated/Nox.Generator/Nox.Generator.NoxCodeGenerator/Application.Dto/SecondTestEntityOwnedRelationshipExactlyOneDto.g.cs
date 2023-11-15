@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record SecondTestEntityOwnedRelationshipExactlyOneKeyDto();
 
+/// <summary>
+/// Update SecondTestEntityOwnedRelationshipExactlyOne
+/// .
+/// </summary>
 public partial class SecondTestEntityOwnedRelationshipExactlyOneDto : SecondTestEntityOwnedRelationshipExactlyOneDtoBase
 {
 
@@ -48,7 +52,8 @@ public abstract class SecondTestEntityOwnedRelationshipExactlyOneDtoBase : Entit
     #endregion
 
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String TextTestField2 { get; set; } = default!;
 }

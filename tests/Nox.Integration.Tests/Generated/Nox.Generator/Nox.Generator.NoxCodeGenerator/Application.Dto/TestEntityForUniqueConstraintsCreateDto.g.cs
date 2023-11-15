@@ -14,6 +14,9 @@ using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
+/// <summary>
+/// Entity created for testing constraints.
+/// </summary>
 public partial class TestEntityForUniqueConstraintsCreateDto : TestEntityForUniqueConstraintsCreateDtoBase
 {
 
@@ -25,36 +28,42 @@ public partial class TestEntityForUniqueConstraintsCreateDto : TestEntityForUniq
 public abstract class TestEntityForUniqueConstraintsCreateDtoBase : IEntityDto<DomainNamespace.TestEntityForUniqueConstraints>
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextField is required")]
     
     public virtual System.String TextField { get; set; } = default!;
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "NumberField is required")]
     
     public virtual System.Int16 NumberField { get; set; } = default!;
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "UniqueNumberField is required")]
     
     public virtual System.Int16 UniqueNumberField { get; set; } = default!;
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "UniqueCountryCode is required")]
     
     public virtual System.String UniqueCountryCode { get; set; } = default!;
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "UniqueCurrencyCode is required")]
     

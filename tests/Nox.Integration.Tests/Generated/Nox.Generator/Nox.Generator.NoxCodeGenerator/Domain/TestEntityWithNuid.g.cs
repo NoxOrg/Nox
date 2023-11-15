@@ -51,7 +51,8 @@ internal record TestEntityWithNuidDeleted(TestEntityWithNuid TestEntityWithNuid)
 internal abstract partial class TestEntityWithNuidBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nuid Id {get; set;} = null!;
        
@@ -72,7 +73,8 @@ internal abstract partial class TestEntityWithNuidBase : AuditableEntityBase, IE
     	}
 
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
     /// <summary>

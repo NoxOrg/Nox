@@ -14,6 +14,9 @@ using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
+/// <summary>
+/// .
+/// </summary>
 public partial class SecondTestEntityOwnedRelationshipZeroOrOneCreateDto : SecondTestEntityOwnedRelationshipZeroOrOneCreateDtoBase
 {
 
@@ -25,7 +28,8 @@ public partial class SecondTestEntityOwnedRelationshipZeroOrOneCreateDto : Secon
 public abstract class SecondTestEntityOwnedRelationshipZeroOrOneCreateDtoBase : IEntityDto<DomainNamespace.SecondTestEntityOwnedRelationshipZeroOrOne>
 {
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextTestField2 is required")]
     

@@ -15,12 +15,21 @@ namespace TestWebApp.Application.Dto;
 /// <summary>
 /// Entity created for testing nuid.
 /// </summary>
-public partial class TestEntityWithNuidUpdateDto : IEntityDto<DomainNamespace.TestEntityWithNuid>
+public partial class TestEntityWithNuidUpdateDto : TestEntityWithNuidUpdateDtoBase
+{
+
+}
+
+/// <summary>
+/// Entity created for testing nuid
+/// </summary>
+public partial class TestEntityWithNuidUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityWithNuid>
 {
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public System.String Name { get; set; } = default!;
+    public virtual System.String Name { get; set; } = default!;
 }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Lib;
 using TestWebApp.Application.Dto;
+using DtoNameSpace = TestWebApp.Application.Dto;
 
 namespace TestWebApp.Presentation.Api.OData;
 
@@ -300,7 +301,12 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<TestEntityLocalizationDto>().Ignore(e => e.Etag);
         builder.EntitySet<TestEntityForAutoNumberUsagesDto>("TestEntityForAutoNumberUsages");
 
-        builder.EntityType<TestEntityForAutoNumberUsagesDto>();
+        builder.EntityType<TestEntityForAutoNumberUsagesDto>(); 
+        // Setup Enumeration End Points
+        builder.EntityType<TestEntityForTypesDto>()
+                            .Collection
+                            .Function("TestEntityForTypesEnumerationTestFields")
+                            .ReturnsCollection<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto>();
 
         if(configure != null) configure(builder);
 
@@ -315,7 +321,7 @@ internal static class ODataServiceCollectionExtensions
                         .Expand()
                         .SkipToken()
                         .SetMaxTop(100);
-                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel(),
+                    var routeOptions = options.AddRouteComponents(Nox.Presentation.Api.OData.ODataApi.GetRoutePrefix("/api/v1"), builder.GetEdmModel(),
                         service => service
                             .AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>())
                         .RouteOptions;

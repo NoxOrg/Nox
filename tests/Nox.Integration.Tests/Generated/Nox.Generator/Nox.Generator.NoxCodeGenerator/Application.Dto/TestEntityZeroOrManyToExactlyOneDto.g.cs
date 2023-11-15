@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record TestEntityZeroOrManyToExactlyOneKeyDto(System.String keyId);
 
+/// <summary>
+/// Update TestEntityZeroOrManyToExactlyOne
+/// .
+/// </summary>
 public partial class TestEntityZeroOrManyToExactlyOneDto : TestEntityZeroOrManyToExactlyOneDtoBase
 {
 
@@ -48,12 +52,13 @@ public abstract class TestEntityZeroOrManyToExactlyOneDtoBase : EntityDtoBase, I
     #endregion
 
     /// <summary>
-    ///  (Required).
-    /// </summary>
+    /// 
+    /// </summary>    
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String TextTestField2 { get; set; } = default!;
 

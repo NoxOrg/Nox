@@ -4,6 +4,8 @@ using Nox.Integration.Tests.Fixtures;
 using Nox.Types;
 using System;
 using System.Text.Json;
+using TestWebApp.Application.Dto;
+using TestWebApp.Application.Factories;
 using TestWebApp.Domain;
 using TestWebApp.Infrastructure.Persistence;
 using DateTime = Nox.Types.DateTime;
@@ -186,7 +188,7 @@ public class NoxCommonTestCaseFactory
             YearTestField = Year.From(year),
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
-            YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
+            YamlTestField = Types.Yaml.From(switzerlandCitiesCountiesYaml),
             VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode2),
             ColorTestField = Color.From(color[0], color[1], color[2], color[3]),
             PercentageTestField = Percentage.From(percentage),
@@ -267,7 +269,7 @@ public class NoxCommonTestCaseFactory
         testEntity.VatNumberTestField!.Value.CountryCode.Should().Be(vatNumberCountryCode2);
         testEntity.ColorTestField!.Value.Should().Be("#FFFF0000");
         testEntity.PercentageTestField!.Value.Should().Be(percentage);
-        testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
+        testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Types.Yaml.From(switzerlandCitiesCountiesYaml).Value);
         testEntity.TemperatureTestField!.Value.Should().Be(temperatureCelsius);
         testEntity.TemperatureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TemperatureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
@@ -290,7 +292,7 @@ public class NoxCommonTestCaseFactory
         testEntity.UriTestField!.Value.Should().BeEquivalentTo(new System.Uri(sampleUri));
         testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
-        
+
         if (supportDateTimeOffset)
         {
             testEntity.DateTimeRangeTestField!.Start.Should().Be(dateTimeRangeStart);
@@ -562,13 +564,12 @@ public class NoxCommonTestCaseFactory
             Id = Text.From(textId1),
             TextTestField = Text.From(text),
         };
-        var newItem2 = new TestEntityExactlyOneToZeroOrOne()
+        var newItem2 = new TestEntityExactlyOneToZeroOrOne
         {
             Id = Text.From(textId2),
             TextTestField2 = Text.From(text),
+            TestEntityZeroOrOneToExactlyOneId = newItem.Id
         };
-
-        newItem2.TestEntityZeroOrOneToExactlyOneId = newItem.Id;
         DataContext.TestEntityZeroOrOneToExactlyOnes.Add(newItem);
         DataContext.TestEntityExactlyOneToZeroOrOnes.Add(newItem2);
         DataContext.SaveChanges();
@@ -878,6 +879,67 @@ public class NoxCommonTestCaseFactory
         act2.Should().Throw<DbUpdateException>();
     }
 
+    /// <summary>
+    /// Tests unique contrains when a foreign key is involved
+    /// </summary>
+    public void WhenUniqueConstraintsWithRelation_ShouldBeValid()
+    {
+        //// Arrange
+        //var relatedEntity = new EntityUniqueConstraintsRelatedForeignKey()
+        //{
+        //    Id = Number.From(1)
+        //};
+        //var relatedEntity2 = new EntityUniqueConstraintsRelatedForeignKey()
+        //{
+        //    Id = Number.From(2)
+        //};
+        //var testEntity = new EntityUniqueConstraintsWithForeignKey()
+        //{
+        //    Id = Guid.From(System.Guid.NewGuid()),
+        //    EntityUniqueConstraintsRelatedForeignKeyId = Number.From(1),
+        //    SomeUniqueId = Number.From(1)
+        //};
+        ////Ok => Add another entity with same SomeUniqueId but different related key
+        //var testEntity2 = new EntityUniqueConstraintsWithForeignKey()
+        //{
+        //    Id = Guid.From(System.Guid.NewGuid()),
+        //    EntityUniqueConstraintsRelatedForeignKeyId = Number.From(1),
+        //    //Makes the unique constrain different
+        //    SomeUniqueId = Number.From(2)
+        //};
+
+        ////Ok => Add another entity with same related key but different unique constraint
+        //var testEntity3 = new EntityUniqueConstraintsWithForeignKey()
+        //{
+        //    Id = Guid.From(System.Guid.NewGuid()),
+        //    EntityUniqueConstraintsRelatedForeignKeyId = Number.From(2),
+        //    //Makes the unique constrain different
+        //    SomeUniqueId = Number.From(1)
+        //};
+
+        ////Act
+        //DataContext.EntityUniqueConstraintsRelatedForeignKeys.Add(relatedEntity);
+        //DataContext.EntityUniqueConstraintsRelatedForeignKeys.Add(relatedEntity2);
+        //DataContext.EntityUniqueConstraintsWithForeignKeys.Add(testEntity);
+        //DataContext.EntityUniqueConstraintsWithForeignKeys.Add(testEntity2);        
+        //DataContext.EntityUniqueConstraintsWithForeignKeys.Add(testEntity3);
+        //DataContext.SaveChanges();
+
+        ////Not ok=> Duplicated contrain in attribute and related key
+        //var incorrectTestEntity = new EntityUniqueConstraintsWithForeignKey()
+        //{
+        //    Id = Guid.From(System.Guid.NewGuid()),
+        //    EntityUniqueConstraintsRelatedForeignKeyId = Number.From(1),
+        //    SomeUniqueId = Number.From(1)
+        //};
+
+        //// Assert
+        //DataContext.EntityUniqueConstraintsWithForeignKeys.Add(incorrectTestEntity);
+        //Action tryAddUniqueConstrainViolation = () => DataContext.SaveChanges();
+        //tryAddUniqueConstrainViolation.Should().Throw<DbUpdateException>();
+
+    }
+
     public void GeneratedRelationshipTwoRelationshipsToTheSameEntityOneToOne()
     {
         var text = "TX";
@@ -1047,26 +1109,30 @@ public class NoxCommonTestCaseFactory
         var testEntity = DataContext.TestEntityLocalizationsLocalized.First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
-        Assert.Equal(testEntity.TextFieldToLocalize.Value, text);
+        Assert.Equal(testEntity.TextFieldToLocalize!.Value, text);
         Assert.Equal(testEntity.CultureCode.Value, culture);
     }
-    
+
     public void AutoNumberedEntitiesBeingGenerated()
     {
 
         var idValue = 10;
         var propertyValue = 20;
-        
+
         var text1 = Text.From("TX1");
         var text2 = Text.From("TX2");
 
-        var newItem = new TestEntityForAutoNumberUsages()
+        var factory = new TestEntityForAutoNumberUsagesFactory();
+
+        var newItemDto = new TestEntityForAutoNumberUsagesCreateDto
         {
-            TextField = text1
+            TextField = "TX1"
         };
 
+        var newItem = factory.CreateEntity(newItemDto);
+
         DataContext.TestEntityForAutoNumberUsages.Add(newItem);
-        
+
         var newItem2 = new TestEntityForAutoNumberUsages()
         {
             TextField = text2
@@ -1078,8 +1144,8 @@ public class NoxCommonTestCaseFactory
         // Force the recreation of DataContext and ensure we have fresh data from database
         _dbContextFixture.RefreshDbContext();
 
-        var testEntity1 = DataContext.TestEntityForAutoNumberUsages.First(e=>e.TextField == text1);
-        var testEntity2 = DataContext.TestEntityForAutoNumberUsages.First(e=>e.TextField == text2);
+        var testEntity1 = DataContext.TestEntityForAutoNumberUsages.First(e => e.TextField == text1);
+        var testEntity2 = DataContext.TestEntityForAutoNumberUsages.First(e => e.TextField == text2);
 
         testEntity1.Id.Value.Should().Be(idValue);
         testEntity2.Id.Value.Should().Be(idValue + 2);
@@ -1089,6 +1155,6 @@ public class NoxCommonTestCaseFactory
         testEntity2.AutoNumberFieldWithOptions.Value.Should().Be(propertyValue + 2);
         testEntity1.AutoNumberFieldWithoutOptions.Value.Should().Be(1);
         testEntity2.AutoNumberFieldWithoutOptions.Value.Should().Be(2);
-        
+
     }
 }

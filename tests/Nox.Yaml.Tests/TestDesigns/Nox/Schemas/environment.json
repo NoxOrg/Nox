@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "A definition for a run-time environment.",
+  "description": "A definition for the name, production status and other pertinent information pertaining to a run-time environment.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {    
+      "title": "A short name for the environment. Contains no spaces.",
+      "description": "The name of the run-time environment. Each environment name should be unique within a solution.",
+      "type": "string",
+      "pattern": "^[^\\s]*$"
+    },
+    "description": {    
+      "title": "A short description of the run-time environment.",
+      "description": "The description of the run-time environment. Try to include the purpose or use of the environment.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "isProduction": {    
+      "title": "Whether this environment is a production environment (true) or not (false).",
+      "description": "Specifies whether this environment is used for production or not. Affects how devops processes and the NOX runtime is configured.",
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -7,9 +7,12 @@
 #
 
 name: ClientApi
+
 platformId: Nox-Tests
 
 description: Project for Nox System Testing
+
+version: "1.0"
 
 domain:
 
@@ -34,6 +37,8 @@ domain:
     - $ref: ./Entities/store-license.entity.nox.yaml
   
     - $ref: ./Entities/currency.entity.nox.yaml
+  
+    - $ref: ./Entities/tenant.entity.nox.yaml
 
     - name: EmailAddress #owned by store
       description: Verified Email Address

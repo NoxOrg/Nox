@@ -2,7 +2,8 @@
 
 #nullable enable
 
-// 1 0 0 35
+// Using Nox version 7.0.93.0
+
 /* Found files ->
 - cryptocash.application.nox.yaml
 - CountrySync.integration.nox.yaml
@@ -65,14 +66,6 @@
 - IntegrationEvents.md
 - README.md
 - generator.nox.yaml
-Errors ->
-- Disallowed property ["mergeType"]. (at line 11 in CountrySync.integration.nox.yaml)
-Disallowed property ["queryOptions"]. (at line 22 in CountrySync.integration.nox.yaml)
-Invalid value ["databaseQuery"] for property [sourceAdapterType]. (at line 21 in CountrySync.integration.nox.yaml)
-Disallowed property ["databaseOptions"]. (at line 33 in CountrySync.integration.nox.yaml)
-Invalid value ["databaseTable"] for property [targetAdapterType]. (at line 32 in CountrySync.integration.nox.yaml)   at Nox.Solution.Schema.NoxSchemaValidator.Deserialize[T](YamlReferenceResolver yamlRefResolver)
-   at Nox.Solution.NoxSolutionBuilder.ResolveAndLoadConfiguration()
-   at Nox.Solution.NoxSolutionBuilder.Build()
-   at Nox.Generator.Tasks.NoxFileGenerator.TryGetNoxSolution(NoxSolution& solution) in /home/runner/work/Nox.Generator/Nox.Generator/src/Nox.Generator.Tasks/NoxFileGenerator.cs:line 196
-   at Nox.Generator.Tasks.NoxFileGenerator.GenerateFiles() in /home/runner/work/Nox.Generator/Nox.Generator/src/Nox.Generator.Tasks/NoxFileGenerator.cs:line 46
+Logging Verbosity Minimal
+SUCCESS.
 */

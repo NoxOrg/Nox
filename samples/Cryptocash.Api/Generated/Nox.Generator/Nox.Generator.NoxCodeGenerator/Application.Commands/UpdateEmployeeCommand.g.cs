@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -56,14 +56,6 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 		{
 			return null;
 		}
-
-		var cashStockOrderKey = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.EntityDto.CashStockOrderId);
-		var cashStockOrderEntity = await DbContext.CashStockOrders.FindAsync(cashStockOrderKey);
-						
-		if(cashStockOrderEntity is not null)
-			entity.CreateRefToCashStockOrder(cashStockOrderEntity);
-		else
-			throw new RelatedEntityNotFoundException("CashStockOrder", request.EntityDto.CashStockOrderId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

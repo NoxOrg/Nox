@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -56,14 +56,6 @@ internal abstract class UpdateTestEntityExactlyOneCommandHandlerBase : CommandBa
 		{
 			return null;
 		}
-
-		var secondTestEntityExactlyOneKey = TestWebApp.Domain.SecondTestEntityExactlyOneMetadata.CreateId(request.EntityDto.SecondTestEntityExactlyOneId);
-		var secondTestEntityExactlyOneEntity = await DbContext.SecondTestEntityExactlyOnes.FindAsync(secondTestEntityExactlyOneKey);
-						
-		if(secondTestEntityExactlyOneEntity is not null)
-			entity.CreateRefToSecondTestEntityExactlyOne(secondTestEntityExactlyOneEntity);
-		else
-			throw new RelatedEntityNotFoundException("SecondTestEntityExactlyOne", request.EntityDto.SecondTestEntityExactlyOneId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

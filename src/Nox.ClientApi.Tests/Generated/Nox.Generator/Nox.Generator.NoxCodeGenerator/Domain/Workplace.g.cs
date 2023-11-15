@@ -51,7 +51,8 @@ internal record WorkplaceDeleted(Workplace Workplace) : IDomainEvent, INotificat
 internal abstract partial class WorkplaceBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Workplace unique identifier (Required).
+    /// Workplace unique identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nuid Id {get; set;} = null!;
        
@@ -72,17 +73,20 @@ internal abstract partial class WorkplaceBase : EntityBase, IEntityConcurrent
     	}
 
     /// <summary>
-    /// Workplace Name (Required).
+    /// Workplace Name
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
-    /// Workplace Description (Optional).
+    /// Workplace Description
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.Text? Description { get; set; } = null!;
 
     /// <summary>
-    /// The Formula (Optional).
+    /// The Formula
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public string? Greeting
     { 
@@ -140,6 +144,32 @@ internal abstract partial class WorkplaceBase : EntityBase, IEntityConcurrent
     public virtual void DeleteAllRefToCountry()
     {
         CountryId = null;
+    }
+
+    /// <summary>
+    /// Workplace Actve Tenants in the workplace ZeroOrMany Tenants
+    /// </summary>
+    public virtual List<Tenant> Tenants { get; private set; } = new();
+
+    public virtual void CreateRefToTenants(Tenant relatedTenant)
+    {
+        Tenants.Add(relatedTenant);
+    }
+
+    public virtual void UpdateRefToTenants(List<Tenant> relatedTenant)
+    {
+        Tenants.Clear();
+        Tenants.AddRange(relatedTenant);
+    }
+
+    public virtual void DeleteRefToTenants(Tenant relatedTenant)
+    {
+        Tenants.Remove(relatedTenant);
+    }
+
+    public virtual void DeleteAllRefToTenants()
+    {
+        Tenants.Clear();
     }
 
     /// <summary>

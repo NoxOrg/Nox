@@ -46,7 +46,7 @@ data|Json|Data Field Attributes
 
 Attribute|Type|Description
 ---------|----|-----------
-Country|[Country](#Country-Attributes)|Country Entity
+Country|[Country](#Country-Attributes)|Country Entity Country representation for the Client API tests
 
 ### `CountryUpdated`
 
@@ -74,7 +74,7 @@ data|Json|Data Field Attributes
 
 Attribute|Type|Description
 ---------|----|-----------
-Country|[Country](#Country-Attributes)|Country Entity
+Country|[Country](#Country-Attributes)|Country Entity Country representation for the Client API tests
 
 ### `CountryDeleted`
 
@@ -101,7 +101,7 @@ data|Json|Data Field Attributes
 **Data Field Attributes**
 Attribute|Type|Description
 ---------|----|-----------
-Country|[Country](#Country-Attributes)|Country Entity
+Country|[Country](#Country-Attributes)|Country Entity Country representation for the Client API tests
 
 
 
@@ -110,8 +110,9 @@ Country|[Country](#Country-Attributes)|Country Entity
 Member|Type|Description
 ------|----|-----------
 Id|System.Int64|The unique identifier
-Name|System.String|The Country Name
-Population|System.Int32|Population
+Name|System.String|The Country Name     Set a unique name for the country Do not use abbreviations
+
+Population|System.Int32|Population Number of People living in the country
 CountryDebt|MoneyDto|The Money
 FirstLanguageCode|System.String|First Official Language
 ShortDescription|System.String|The Formula
@@ -161,6 +162,7 @@ Name|System.String|Workplace Name
 Description|System.String|Workplace Description
 Greeting|System.String|The Formula
 CountryId|System.Int64|The unique identifier
+TenantId|System.Guid|
 
 
 ### `StoreOwnerCreated`

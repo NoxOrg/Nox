@@ -51,17 +51,20 @@ internal record CurrencyDeleted(Currency Currency) : IDomainEvent, INotification
 internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Currency unique identifier (Required).
+    /// Currency unique identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.CurrencyCode3 Id { get; set; } = null!;
 
     /// <summary>
-    /// Currency's name (Optional).
+    /// Currency's name
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.Text? Name { get; set; } = null!;
 
     /// <summary>
-    /// Currency's symbol (Optional).
+    /// Currency's symbol
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.Text? Symbol { get; set; } = null!;
     /// <summary>

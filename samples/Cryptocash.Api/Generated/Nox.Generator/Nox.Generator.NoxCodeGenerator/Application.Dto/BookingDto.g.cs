@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record BookingKeyDto(System.Guid keyId);
 
+/// <summary>
+/// Update Booking
+/// Exchange booking and related data.
+/// </summary>
 public partial class BookingDto : BookingDtoBase
 {
 
@@ -66,47 +70,55 @@ public abstract class BookingDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     #endregion
 
     /// <summary>
-    /// Booking unique identifier (Required).
-    /// </summary>
+    /// Booking unique identifier
+    /// </summary>    
     public System.Guid Id { get; set; } = default!;
 
     /// <summary>
-    /// Booking's amount exchanged from (Required).
+    /// Booking's amount exchanged from 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public MoneyDto AmountFrom { get; set; } = default!;
 
     /// <summary>
-    /// Booking's amount exchanged to (Required).
+    /// Booking's amount exchanged to 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public MoneyDto AmountTo { get; set; } = default!;
 
     /// <summary>
-    /// Booking's requested pick up date (Required).
+    /// Booking's requested pick up date 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public DateTimeRangeDto RequestedPickUpDate { get; set; } = default!;
 
     /// <summary>
-    /// Booking's actual pick up date (Optional).
+    /// Booking's actual pick up date 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public DateTimeRangeDto? PickedUpDateTime { get; set; }
 
     /// <summary>
-    /// Booking's expiry date (Optional).
+    /// Booking's expiry date 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.DateTimeOffset? ExpiryDateTime { get; set; }
 
     /// <summary>
-    /// Booking's cancelled date (Optional).
+    /// Booking's cancelled date 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.DateTimeOffset? CancelledDateTime { get; set; }
 
     /// <summary>
-    /// Booking's status (Optional).
+    /// Booking's status 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Status { get; set; }
 
     /// <summary>
-    /// Booking's related vat number (Optional).
+    /// Booking's related vat number 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public VatNumberDto? VatNumber { get; set; }
 

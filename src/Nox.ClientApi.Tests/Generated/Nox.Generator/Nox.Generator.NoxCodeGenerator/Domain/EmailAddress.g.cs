@@ -52,12 +52,14 @@ internal abstract partial class EmailAddressBase : EntityBase, IOwnedEntity
 {
 
     /// <summary>
-    /// Email (Optional).
+    /// Email
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.Email? Email { get; set; } = null!;
 
     /// <summary>
-    /// Verified (Optional).
+    /// Verified
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.Boolean? IsVerified { get; set; } = null!;
     /// <summary>

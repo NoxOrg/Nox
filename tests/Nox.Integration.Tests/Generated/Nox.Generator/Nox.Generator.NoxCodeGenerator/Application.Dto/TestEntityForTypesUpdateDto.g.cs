@@ -15,220 +15,273 @@ namespace TestWebApp.Application.Dto;
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public partial class TestEntityForTypesUpdateDto : IEntityDto<DomainNamespace.TestEntityForTypes>
+public partial class TestEntityForTypesUpdateDto : TestEntityForTypesUpdateDtoBase
+{
+
+}
+
+/// <summary>
+/// Entity created for testing database
+/// </summary>
+public partial class TestEntityForTypesUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityForTypes>
 {
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextTestField is required")]
     
-    public System.String TextTestField { get; set; } = default!;
+    public virtual System.String TextTestField { get; set; } = default!;
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.Int32? EnumerationTestField { get; set; }
+    public virtual System.Int32? EnumerationTestField { get; set; }
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "NumberTestField is required")]
     
-    public System.Int16 NumberTestField { get; set; } = default!;
+    public virtual System.Int16 NumberTestField { get; set; } = default!;
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public MoneyDto? MoneyTestField { get; set; }
+    public virtual MoneyDto? MoneyTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? CountryCode2TestField { get; set; }
+    public virtual System.String? CountryCode2TestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public StreetAddressDto? StreetAddressTestField { get; set; }
+    public virtual StreetAddressDto? StreetAddressTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? CurrencyCode3TestField { get; set; }
+    public virtual System.String? CurrencyCode3TestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.UInt16? DayOfWeekTestField { get; set; }
+    public virtual System.UInt16? DayOfWeekTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? JwtTokenTestField { get; set; }
+    public virtual System.String? JwtTokenTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public LatLongDto? GeoCoordTestField { get; set; }
+    public virtual LatLongDto? GeoCoordTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.Decimal? AreaTestField { get; set; }
+    public virtual System.Decimal? AreaTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? TimeZoneCodeTestField { get; set; }
+    public virtual System.String? TimeZoneCodeTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.Boolean? BooleanTestField { get; set; }
+    public virtual System.Boolean? BooleanTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? CountryCode3TestField { get; set; }
+    public virtual System.String? CountryCode3TestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.UInt16? CountryNumberTestField { get; set; }
+    public virtual System.UInt16? CountryNumberTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.Int16? CurrencyNumberTestField { get; set; }
+    public virtual System.Int16? CurrencyNumberTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.DateTimeOffset? DateTimeTestField { get; set; }
+    public virtual System.DateTimeOffset? DateTimeTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public DateTimeRangeDto? DateTimeRangeTestField { get; set; }
+    public virtual DateTimeRangeDto? DateTimeRangeTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.Decimal? DistanceTestField { get; set; }
+    public virtual System.Decimal? DistanceTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? EmailTestField { get; set; }
+    public virtual System.String? EmailTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.Guid? GuidTestField { get; set; }
+    public virtual System.Guid? GuidTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? InternetDomainTestField { get; set; }
+    public virtual System.String? InternetDomainTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? IpAddressV4TestField { get; set; }
+    public virtual System.String? IpAddressV4TestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? IpAddressV6TestField { get; set; }
+    public virtual System.String? IpAddressV6TestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? JsonTestField { get; set; }
+    public virtual System.String? JsonTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.Decimal? LengthTestField { get; set; }
+    public virtual System.Decimal? LengthTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? MacAddressTestField { get; set; }
+    public virtual System.String? MacAddressTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.Byte? MonthTestField { get; set; }
+    public virtual System.Byte? MonthTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.Single? PercentageTestField { get; set; }
+    public virtual System.Single? PercentageTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? PhoneNumberTestField { get; set; }
+    public virtual System.String? PhoneNumberTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.Decimal? TemperatureTestField { get; set; }
+    public virtual System.Decimal? TemperatureTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public TranslatedTextDto? TranslatedTextTestField { get; set; }
+    public virtual TranslatedTextDto? TranslatedTextTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? UriTestField { get; set; }
+    public virtual System.String? UriTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.Decimal? VolumeTestField { get; set; }
+    public virtual System.Decimal? VolumeTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.Decimal? WeightTestField { get; set; }
+    public virtual System.Decimal? WeightTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.UInt16? YearTestField { get; set; }
+    public virtual System.UInt16? YearTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? CultureCodeTestField { get; set; }
+    public virtual System.String? CultureCodeTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? LanguageCodeTestField { get; set; }
+    public virtual System.String? LanguageCodeTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? YamlTestField { get; set; }
+    public virtual System.String? YamlTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.Int64? DateTimeDurationTestField { get; set; }
+    public virtual System.Int64? DateTimeDurationTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.DateTime? TimeTestField { get; set; }
+    public virtual System.DateTime? TimeTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public VatNumberDto? VatNumberTestField { get; set; }
+    public virtual VatNumberDto? VatNumberTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.DateTime? DateTestField { get; set; }
+    public virtual System.DateTime? DateTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? MarkdownTestField { get; set; }
+    public virtual System.String? MarkdownTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public FileDto? FileTestField { get; set; }
+    public virtual FileDto? FileTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? ColorTestField { get; set; }
+    public virtual System.String? ColorTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? UrlTestField { get; set; }
+    public virtual System.String? UrlTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? DateTimeScheduleTestField { get; set; }
+    public virtual System.String? DateTimeScheduleTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? UserTestField { get; set; }
+    public virtual System.String? UserTestField { get; set; }
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    [Required(ErrorMessage = "AutoNumberTestField is required")]
-    
-    public System.Int64 AutoNumberTestField { get; set; } = default!;
+    public virtual System.String? HtmlTestField { get; set; }
     /// <summary>
-    ///  (Optional).
+    ///  
+    /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.String? HtmlTestField { get; set; }
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
-    public ImageDto? ImageTestField { get; set; }
+    public virtual ImageDto? ImageTestField { get; set; }
 }

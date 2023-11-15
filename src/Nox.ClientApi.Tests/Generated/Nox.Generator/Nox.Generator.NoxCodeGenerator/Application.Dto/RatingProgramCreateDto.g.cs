@@ -14,6 +14,9 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+/// <summary>
+/// Rating program for store.
+/// </summary>
 public partial class RatingProgramCreateDto : RatingProgramCreateDtoBase
 {
 
@@ -25,12 +28,14 @@ public partial class RatingProgramCreateDto : RatingProgramCreateDtoBase
 public abstract class RatingProgramCreateDtoBase : IEntityDto<DomainNamespace.RatingProgram>
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "StoreId is required")]
     public System.Guid StoreId { get; set; } = default!;
     /// <summary>
-    /// Rating Program Name (Optional).
+    /// Rating Program Name 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? Name { get; set; }
 }

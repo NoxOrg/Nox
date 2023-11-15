@@ -119,7 +119,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new PartialUpdateEmployeeCommand(key, updatedProperties, etag));
+        var updatedKey = await _mediator.Send(new PartialUpdateEmployeeCommand(key, updatedProperties, _cultureCode, etag));
 
         if (updatedKey is null)
         {

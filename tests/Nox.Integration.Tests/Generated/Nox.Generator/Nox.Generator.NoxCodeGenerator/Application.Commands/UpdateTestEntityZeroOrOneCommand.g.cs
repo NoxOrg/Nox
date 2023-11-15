@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -55,21 +55,6 @@ internal abstract class UpdateTestEntityZeroOrOneCommandHandlerBase : CommandBas
 		if (entity == null)
 		{
 			return null;
-		}
-
-		if(request.EntityDto.SecondTestEntityZeroOrOneId is not null)
-		{
-			var secondTestEntityZeroOrOneKey = TestWebApp.Domain.SecondTestEntityZeroOrOneMetadata.CreateId(request.EntityDto.SecondTestEntityZeroOrOneId.NonNullValue<System.String>());
-			var secondTestEntityZeroOrOneEntity = await DbContext.SecondTestEntityZeroOrOnes.FindAsync(secondTestEntityZeroOrOneKey);
-						
-			if(secondTestEntityZeroOrOneEntity is not null)
-				entity.CreateRefToSecondTestEntityZeroOrOne(secondTestEntityZeroOrOneEntity);
-			else
-				throw new RelatedEntityNotFoundException("SecondTestEntityZeroOrOne", request.EntityDto.SecondTestEntityZeroOrOneId.NonNullValue<System.String>().ToString());
-		}
-		else
-		{
-			entity.DeleteAllRefToSecondTestEntityZeroOrOne();
 		}
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);

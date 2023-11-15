@@ -7,11 +7,12 @@ namespace Nox.Integration.Tests.ProjectDependencies;
 
 public class CodeAnalysisSolutionFixture : IAsyncLifetime
 {
-    private const string SolutionPath = "src/Nox.Generator.sln";
+    private const string _solutionPath = "src/Nox.Generator.sln";
 
     public Microsoft.CodeAnalysis.Solution Solution { get; private set; } = null!;
     public ProjectDependencyGraph ProjectDependencyGraph { get; private set; } = null!;
 
+    public Project NoxYamlProject { get; private set; } = null!;
     public Project NoxTypesAbstractionsProject { get; private set; } = null!;
     public Project NoxTypesProject { get; private set; } = null!;
     public Project NoxSolution { get; private set; } = null!;
@@ -28,6 +29,7 @@ public class CodeAnalysisSolutionFixture : IAsyncLifetime
 
         ProjectDependencyGraph = Solution.GetProjectDependencyGraph();
 
+        NoxYamlProject = Solution.Projects.Single(project => project.Name == "Nox.Yaml");
         NoxTypesProject = Solution.Projects.Single(project => project.Name == "Nox.Types");
         NoxTypesAbstractionsProject = Solution.Projects.Single(project => project.Name == "Nox.Types.Abstractions");
         NoxSolution = Solution.Projects.Single(project => project.Name == "Nox.Solution");
@@ -47,9 +49,9 @@ public class CodeAnalysisSolutionFixture : IAsyncLifetime
     private string GetSolutionFile(DirectoryInfo? directoryInfo)
     {
         if (directoryInfo == null)
-            throw new Exception($"Could not find solution {SolutionPath}");
+            throw new Exception($"Could not find solution {_solutionPath}");
 
-        var filePath = Path.Combine(directoryInfo.FullName, SolutionPath);
+        var filePath = Path.Combine(directoryInfo.FullName, _solutionPath);
 
         if (File.Exists(filePath))
         {

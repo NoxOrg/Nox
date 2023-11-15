@@ -8,11 +8,7 @@ namespace Nox.Solution.Validation
         private IEnumerable<ServerBase>? _servers;
 
         public InfrastructureValidator()
-        {
-            RuleFor(p => p.Persistence)
-                .NotEmpty()
-                .WithMessage(ValidationResources.InfrastructurePersistenceEmpty);
-            
+        {                        
             RuleFor(p => p.Persistence)
                 .SetValidator(v => new PersistenceValidator(GetServerList(v)));
             

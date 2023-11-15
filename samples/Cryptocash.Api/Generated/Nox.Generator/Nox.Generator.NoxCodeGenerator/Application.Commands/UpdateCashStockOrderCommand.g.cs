@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -56,22 +56,6 @@ internal abstract class UpdateCashStockOrderCommandHandlerBase : CommandBase<Upd
 		{
 			return null;
 		}
-
-		var vendingMachineKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityDto.VendingMachineId);
-		var vendingMachineEntity = await DbContext.VendingMachines.FindAsync(vendingMachineKey);
-						
-		if(vendingMachineEntity is not null)
-			entity.CreateRefToVendingMachine(vendingMachineEntity);
-		else
-			throw new RelatedEntityNotFoundException("VendingMachine", request.EntityDto.VendingMachineId.ToString());
-
-		var employeeKey = Cryptocash.Domain.EmployeeMetadata.CreateId(request.EntityDto.EmployeeId);
-		var employeeEntity = await DbContext.Employees.FindAsync(employeeKey);
-						
-		if(employeeEntity is not null)
-			entity.CreateRefToEmployee(employeeEntity);
-		else
-			throw new RelatedEntityNotFoundException("Employee", request.EntityDto.EmployeeId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
