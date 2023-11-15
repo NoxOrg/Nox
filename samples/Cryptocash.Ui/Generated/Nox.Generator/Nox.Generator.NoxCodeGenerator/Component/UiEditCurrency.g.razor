@@ -1,0 +1,15 @@
+﻿@using Cryptocash.Ui.Generated.Component;
+@using Application.Dto;
+@inherits UiEditCurrencyBase
+
+<MudSelect Label="@Title"
+           Variant="Variant.Outlined"
+           FullWidth="true"
+           Clearable="true"
+           TextChanged="OnCurrencyIdChanged"
+           Value="@CurrentCurrencyIdStr">
+    @foreach (CurrencyDto item in CurrencySelectionList)
+    {
+        <MudSelectItem Value="@item.Id.ToString()">@item.Name</MudSelectItem>
+    }
+</MudSelect>

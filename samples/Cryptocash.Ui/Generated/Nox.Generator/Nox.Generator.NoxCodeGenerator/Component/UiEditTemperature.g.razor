@@ -1,5 +1,5 @@
 ﻿@using Cryptocash.Ui.Generated.Component;
-@inherits UiEditAreaBase
+@inherits UiEditTemperatureBase
 
 <MudNumericField Label="@Title"
               Variant="Variant.Outlined"
@@ -8,8 +8,8 @@
               Required="true"
               RequiredError="@ErrorRequiredMessage"              
               Format="@Format"
-              TextChanged="OnAreaChanged"
+              TextChanged="OnTemperatureChanged"
               Adornment="Adornment.End"
-                 AdornmentIcon="@GetAdornmentIcon()"
+              AdornmentIcon="@GetAdornmentIcon()"
               Min="0"
-              Value="Area" />
+              Value="Temperature" />
