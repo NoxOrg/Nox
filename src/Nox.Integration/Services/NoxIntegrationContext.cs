@@ -10,9 +10,9 @@ public class NoxIntegrationContext: INoxIntegrationContext
     private readonly ILoggerFactory _loggerFactory;
     private readonly ILogger<NoxIntegrationContext> _logger;
     private readonly List<INoxIntegration> _integrations;
-    private readonly Solution.Solution _solution;
+    private readonly NoxSolution _solution;
     
-    public NoxIntegrationContext(ILoggerFactory loggerFactory, Solution.Solution solution)
+    public NoxIntegrationContext(ILoggerFactory loggerFactory, NoxSolution solution)
     {
         _loggerFactory = loggerFactory;
         _logger = loggerFactory.CreateLogger<NoxIntegrationContext>();
@@ -30,9 +30,6 @@ public class NoxIntegrationContext: INoxIntegrationContext
             
             _integrations.Add(instance);
         }
-        
-        //todo Interrogate the solution definition and build a list of integrations
-        //iterate yaml and build integration instances
     }
     
     public async Task<bool> ExecuteIntegrationAsync(string name)

@@ -908,5 +908,11 @@ namespace Nox.Solution {
                 return ResourceManager.GetString("IntegrationTargetDatabaseOptionsDefaultsFalse", resourceCulture);
             }
         }
+        
+        internal static string EntityRelationshipCanNavigate {
+            get {
+                return ResourceManager.GetString("EntityRelationshipCanNavigate", resourceCulture);
+            }
+        }
     }
 }

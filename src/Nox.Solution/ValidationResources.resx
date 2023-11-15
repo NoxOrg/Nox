@@ -549,4 +549,7 @@
   <data name="IntegrationTargetDatabaseOptionsDefaultsFalse" xml:space="preserve">
     <value>Unable to apply defaults for the database target of integration '{0}'.</value>
   </data>
+  <data name="EntityRelationshipCanNavigate" xml:space="preserve">
+    <value>The Relationship '{0}' between '{1}' and '{2}' must have CanNavigate property set to True at least on one side.</value>
+  </data>
 </root>
