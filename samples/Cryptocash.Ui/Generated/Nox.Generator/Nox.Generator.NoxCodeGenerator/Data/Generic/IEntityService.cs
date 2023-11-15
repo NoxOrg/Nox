@@ -2,6 +2,6 @@
 {
     public interface IEntityService
     {
-        ApiUiService IntialiseApiUiService();
+        ApiUiService IntialiseApiUiService(String? BaseApiUrl);
     }
 }

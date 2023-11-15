@@ -359,8 +359,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             IsDataGridLoading = false;
 
             if (ApiEntityService != null)
-            {
-                CurrentApiUiService = ApiEntityService.IntialiseApiUiService();
+            {                
+                CurrentApiUiService = ApiEntityService.IntialiseApiUiService(ConfigurationHelper.Configuration?["BaseApiUrl"]);
             }
 
             UpdateHeaderApiName();
@@ -1025,8 +1025,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// <returns></returns>
         protected async Task GetAllCountries()
         {
-            ApiUiService CountryApiService = new CountryService().IntialiseApiUiService();
-            CountryEntityData = await EntityDataService<CountryDto>.GetAsyncRecursivePagedEntityData(CountryApiService);
+            ApiUiService CountryApiService = new CountryService().IntialiseApiUiService(ConfigurationHelper.Configuration?["BaseApiUrl"]);
+            CountryEntityData = await EntityDataService<CountryDto>.GetAsyncRecursivePagedEntityData(CountryApiService);           
 
             return;
         }
@@ -1037,9 +1037,9 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// <returns></returns>
         protected async Task GetAllCurrencies()
         {
-            ApiUiService CurrencyApiService = new CurrencyService().IntialiseApiUiService();
+            ApiUiService CurrencyApiService = new CurrencyService().IntialiseApiUiService(ConfigurationHelper.Configuration?["BaseApiUrl"]);
             CurrencyEntityData = await EntityDataService<CurrencyDto>.GetAsyncRecursivePagedEntityData(CurrencyApiService);
-
+              
             return;
         }
 
@@ -1049,8 +1049,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// <returns></returns>
         protected async Task GetAllLandLords()
         {
-            ApiUiService LandLordApiService = new LandLordService().IntialiseApiUiService();
-            LandLordEntityData = await EntityDataService<LandLordDto>.GetAsyncRecursivePagedEntityData(LandLordApiService);
+            ApiUiService LandLordApiService = new LandLordService().IntialiseApiUiService(ConfigurationHelper.Configuration?["BaseApiUrl"]);
+            LandLordEntityData = await EntityDataService<LandLordDto>.GetAsyncRecursivePagedEntityData(LandLordApiService);              
 
             return;
         }
