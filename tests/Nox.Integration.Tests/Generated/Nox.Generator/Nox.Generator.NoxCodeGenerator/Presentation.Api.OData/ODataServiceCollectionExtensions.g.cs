@@ -65,6 +65,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<TestEntityForTypesDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityForUniqueConstraintsDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityLocalizationDto>().HasKey(e => new { e.Id });
+        builder.EntityType<TestEntityLocalizationLocalizedDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityForAutoNumberUsagesDto>().HasKey(e => new { e.Id });
 
         builder.EntitySet<TestEntityZeroOrOneDto>("TestEntityZeroOrOnes");
@@ -297,6 +298,8 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<TestEntityLocalizationDto>("TestEntityLocalizations");
 
         builder.EntityType<TestEntityLocalizationDto>();
+        builder.EntityType<TestEntityLocalizationLocalizedDto>();
+        builder.EntitySet<TestEntityLocalizationLocalizedDto>("TestEntityLocalizationsLocalized");
         builder.EntityType<TestEntityLocalizationDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityLocalizationDto>().Ignore(e => e.Etag);
         builder.EntitySet<TestEntityForAutoNumberUsagesDto>("TestEntityForAutoNumberUsages");

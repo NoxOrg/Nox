@@ -30,6 +30,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CountryQualityOfLifeIndexDto>().HasKey(e => new { e.CountryId, e.Id });
         builder.EntityType<StoreDto>().HasKey(e => new { e.Id });
         builder.EntityType<WorkplaceDto>().HasKey(e => new { e.Id });
+        builder.EntityType<WorkplaceLocalizedDto>().HasKey(e => new { e.Id });
         builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });
         builder.EntityType<StoreLicenseDto>().HasKey(e => new { e.Id });
         builder.EntityType<CurrencyDto>().HasKey(e => new { e.Id });
@@ -68,6 +69,8 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<WorkplaceDto>().ContainsMany(e => e.Tenants);
 
         builder.EntityType<WorkplaceDto>();
+        builder.EntityType<WorkplaceLocalizedDto>();
+        builder.EntitySet<WorkplaceLocalizedDto>("WorkplacesLocalized");
         builder.EntitySet<StoreOwnerDto>("StoreOwners");
         builder.EntityType<StoreOwnerDto>().ContainsMany(e => e.Stores);
 

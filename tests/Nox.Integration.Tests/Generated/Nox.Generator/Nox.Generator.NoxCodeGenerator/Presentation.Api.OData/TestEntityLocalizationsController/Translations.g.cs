@@ -30,7 +30,7 @@ namespace TestWebApp.Presentation.Api.OData;
 public abstract partial class TestEntityLocalizationsControllerBase
 {
     
-    [HttpPut("api/TestEntityLocalizations/{key}/TestEntityLocalizationLocalized/{cultureCode}")]
+    [HttpPut("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationLocalized/{cultureCode}")]
     public virtual async Task<ActionResult<TestEntityLocalizationLocalizedDto>> PutTestEntityLocalizationLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode, [FromBody] TestEntityLocalizationLocalizedUpsertDto testEntityLocalizationLocalizedUpsertDto)
     {
         if (!ModelState.IsValid)
@@ -56,5 +56,14 @@ public abstract partial class TestEntityLocalizationsControllerBase
         var item = (await _mediator.Send(new GetTestEntityLocalizationTranslationsByIdQuery( updatedKey.keyId, Nox.Types.CultureCode.From(cultureCode)))).SingleOrDefault();
 
         return Ok(item);
+    }
+
+    [EnableQuery]
+    [HttpGet("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationLocalized/")]
+    public virtual async Task<ActionResult<IQueryable<TestEntityLocalizationLocalizedDto>>> GetTestEntityLocalizationLocalized( [FromRoute] System.String key)
+    {
+        var result = (await _mediator.Send(new GetTestEntityLocalizationTranslationsQuery(key)));
+            
+        return Ok(result);
     }
 }
