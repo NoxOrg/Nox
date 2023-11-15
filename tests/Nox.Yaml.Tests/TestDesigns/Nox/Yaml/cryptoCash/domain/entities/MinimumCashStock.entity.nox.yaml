@@ -1,0 +1,62 @@
+#
+# MinimumCashStock.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../Schemas/entity.json
+#
+
+name: MinimumCashStock
+
+description: Minimum cash stock required for vending machine
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: Vending machine cash stock unique identifier 
+    type: autoNumber
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+attributes:
+
+  - name: Amount
+    description: Cash stock amount
+    type: money     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+relationships:
+
+  - name: MinimumCashStocksRequiredByVendingMachines
+    description: required by
+    relationship: zeroOrMany
+    entity: VendingMachine
+
+  - name: MinimumCashStockRelatedCurrency
+    description: related to
+    relationship: exactlyOne
+    entity: Currency
+
+persistence:
+    isAudited: true    
+    create:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    delete:
+        isEnabled: true
+        raiseEvents: domainEventsOnly

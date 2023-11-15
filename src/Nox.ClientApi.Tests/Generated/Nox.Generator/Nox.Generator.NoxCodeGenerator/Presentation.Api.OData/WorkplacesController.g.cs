@@ -72,6 +72,17 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<CountryDto>> GetCountry(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Where(x => x.Country != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CountryDto>(Enumerable.Empty<CountryDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.Country!));
+    }
+    
     public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -102,6 +113,52 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/Workplaces/{key}/Country")]
+    public async Task<ActionResult> DeleteToCountry([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Country).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCountryByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+    
+    public virtual async Task<ActionResult<CountryDto>> PutToCountry(System.Int64 key, [FromBody] CountryUpdateDto country)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Country).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCountryCommand(related.Id, country, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     public async Task<ActionResult> CreateRefToTenants([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
@@ -152,6 +209,29 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<TenantDto>>> GetTenants(System.Int64 key)
+    {
+        var entity = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).SelectMany(x => x.Tenants);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Workplaces/{key}/Tenants/{relatedKey}")]
+    public virtual async Task<SingleResult<TenantDto>> GetTenantsNonConventional(System.Int64 key, System.UInt32 relatedKey)
+    {
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).SelectMany(x => x.Tenants).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<TenantDto>(Enumerable.Empty<TenantDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
     public async Task<ActionResult> DeleteRefToTenants([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -182,6 +262,76 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/Workplaces/{key}/Tenants/{relatedKey}")]
+    public async Task<ActionResult> DeleteToTenants([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).SelectMany(x => x.Tenants).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteTenantByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/Workplaces/{key}/Tenants")]
+    public async Task<ActionResult> DeleteToTenants([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Tenants).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteTenantByIdCommand(item.Id, etag));
+        }
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/Workplaces/{key}/Tenants/{relatedKey}")]
+    public virtual async Task<ActionResult<TenantDto>> PutToTenantsNonConventional(System.Int64 key, System.UInt32 relatedKey, [FromBody] TenantUpdateDto tenant)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).SelectMany(x => x.Tenants).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateTenantCommand(relatedKey, tenant, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion

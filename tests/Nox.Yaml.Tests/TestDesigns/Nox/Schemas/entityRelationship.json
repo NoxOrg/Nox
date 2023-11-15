@@ -1,0 +1,168 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Defines a one way relationship to another entity.",
+  "description": "Defines a one way relationship to another entity. It is required to define the reverse relationship on the target entity.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "required": [
+    "name",
+    "description",
+    "relationship",
+    "entity"
+  ],
+  "properties": {
+    "name": {    
+      "title": "The name of the relationship. Contains no spaces.",
+      "description": "The name of the relationship, usually in the format EntityRelationshipTargetEntity. Eg \"CountryHasCapitalCity\".",
+      "type": "string",
+      "pattern": "^[^\\s]*$"
+    },
+    "description": {    
+      "title": "A phrase describing the relationship with the target entity.",
+      "description": "A phrase that describes the relationship of the form <entity> <phrase> <targetEntity>. Eg. \"has capital\" like in <Country> <has capital> <City>",
+      "type": "string"
+    },
+    "relationship": {    
+      "title": "The type/cardinality of the relationship.",
+      "description": "The cardinality (type) of relationship with the target entity, e.g. OneOrMany, ZeroOrOne, etc.",
+      "type": "string",
+      "enum": [
+        "exactlyOne",
+        "oneOrMany",
+        "zeroOrMany",
+        "zeroOrOne"
+      ]
+    },
+    "entity": {    
+      "title": "The target entity that relates to this entity.",
+      "description": "The name of the target entity that this entity relates to.",
+      "type": "string"
+    },
+    "userInterface": {    
+      "anyOf": [
+        { "$ref": "typeUserInterface.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "entityPlural": {    
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "canNavigate": {    
+      "title": "Determines whether this side of the relationship is exposed in the generated code and ODATA endpoints.",
+      "description": "This boolean controls whether this side of the relationship is exposed in the generated code and ODATA endpoints.",
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "shouldGenerateForeignOnThisSide": {    
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "withSingleEntity": {    
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "withMultiEntity": {    
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "foreignKeyPrimitiveType": {    
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "related": {    
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "properties": {
+        "entity": {    
+          "anyOf": [
+            { "$ref": "entity.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "entityRelationship": {    
+          "anyOf": [
+            { "$ref": "entityRelationship.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

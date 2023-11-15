@@ -120,14 +120,9 @@ internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcu
     }
 
     /// <summary>
-    /// Employee reviewing ExactlyOne CashStockOrders
+    /// Employee reviewing ZeroOrOne CashStockOrders
     /// </summary>
-    public virtual CashStockOrder CashStockOrder { get; private set; } = null!;
-
-    /// <summary>
-    /// Foreign key for relationship ExactlyOne to entity CashStockOrder
-    /// </summary>
-    public Nox.Types.AutoNumber CashStockOrderId { get; set; } = null!;
+    public virtual CashStockOrder? CashStockOrder { get; private set; } = null!;
 
     public virtual void CreateRefToCashStockOrder(CashStockOrder relatedCashStockOrder)
     {
@@ -136,12 +131,12 @@ internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcu
 
     public virtual void DeleteRefToCashStockOrder(CashStockOrder relatedCashStockOrder)
     {
-        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
+        CashStockOrder = null;
     }
 
     public virtual void DeleteAllRefToCashStockOrder()
     {
-        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
+        CashStockOrder = null;
     }
 
     /// <summary>

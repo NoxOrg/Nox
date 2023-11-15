@@ -1,0 +1,156 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "A definition for application components used in a Nox solution.",
+  "description": "A definition for Integrations, DataTransferObjects and other pertinent components pertaining to a Nox solution application component.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "properties": {
+    "integrations": {    
+      "title": "The definition namespace for application ETL data integrations.",
+      "description": "One or more solution data integrations with common ETL attributes including source, transform and target.",
+      "oneOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "items":   {
+        "anyOf": [
+          { "$ref": "integration.json" },
+          {
+            "additionalProperties": false, 
+            "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^[^\\s]*$"
+              }
+            }
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "dataTransferObjects": {    
+      "title": "The definition namespace for application DTOs within a Nox solution.",
+      "description": "One or more DTOs (Data Transfer Objects used to transfer data between processes in a Nox solution.",
+      "oneOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "items":   {
+        "oneOf": [
+          {
+            "type": "object"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "required": [
+          "name",
+          "attributes"
+        ],
+        "properties": {
+          "name": {    
+            "title": "The name of the DTO. Contains no spaces.",
+            "description": "The name of the DTO. It should be a commonly used singular noun and be unique within a solution.",
+            "type": "string",
+            "pattern": "^[^\\s]*$"
+          },
+          "description": {    
+            "title": "The description of the DTO.",
+            "description": "A phrase describing the DTO and what it represents in the real world.",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "attributes": {    
+            "title": "The attributes of which the DTO is comprised.",
+            "description": "One or more attributes describing the composition of the DTO.",
+            "type": "array",
+            "items":   {
+              "anyOf": [
+                { "$ref": "type.json" },
+                {
+                  "additionalProperties": false, 
+                  "properties": {
+                    "$ref": {
+                      "type": "string",
+                      "format": "uri",
+                      "pattern": "^[^\\s]*$"
+                    }
+                  }
+                }
+              ]
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "additionalProperties": false
+    },
+    "integrationEvents": {    
+      "title": "The events that this application can raise.",
+      "description": "The collection of events that this application can raise to the outside world.",
+      "oneOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "items":   {
+        "anyOf": [
+          { "$ref": "dto.json" },
+          {
+            "additionalProperties": false, 
+            "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^[^\\s]*$"
+              }
+            }
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "localization": {    
+      "anyOf": [
+        { "$ref": "localization.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -14,6 +14,9 @@ using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
+/// <summary>
+/// .
+/// </summary>
 public partial class TestEntityExactlyOneToZeroOrOneCreateDto : TestEntityExactlyOneToZeroOrOneCreateDtoBase
 {
 

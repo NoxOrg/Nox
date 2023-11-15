@@ -8,7 +8,7 @@ namespace Nox.Integration;
 
 public static class ServiceExtension
 {
-    public static IServiceCollection AddNoxIntegrations(this IServiceCollection services, Solution.Solution solution)
+    public static IServiceCollection AddNoxIntegrations(this IServiceCollection services, Solution.NoxSolution solution)
     {
         if (solution.Application is { Integrations: not null } && solution.Application.Integrations.Any())
         {

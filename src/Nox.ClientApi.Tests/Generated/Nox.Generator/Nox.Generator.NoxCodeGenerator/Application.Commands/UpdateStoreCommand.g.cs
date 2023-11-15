@@ -57,36 +57,6 @@ internal abstract class UpdateStoreCommandHandlerBase : CommandBase<UpdateStoreC
 			return null;
 		}
 
-		if(request.EntityDto.StoreOwnerId is not null)
-		{
-			var storeOwnerKey = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.EntityDto.StoreOwnerId.NonNullValue<System.String>());
-			var storeOwnerEntity = await DbContext.StoreOwners.FindAsync(storeOwnerKey);
-						
-			if(storeOwnerEntity is not null)
-				entity.CreateRefToStoreOwner(storeOwnerEntity);
-			else
-				throw new RelatedEntityNotFoundException("StoreOwner", request.EntityDto.StoreOwnerId.NonNullValue<System.String>().ToString());
-		}
-		else
-		{
-			entity.DeleteAllRefToStoreOwner();
-		}
-
-		if(request.EntityDto.StoreLicenseId is not null)
-		{
-			var storeLicenseKey = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.EntityDto.StoreLicenseId.NonNullValue<System.Int64>());
-			var storeLicenseEntity = await DbContext.StoreLicenses.FindAsync(storeLicenseKey);
-						
-			if(storeLicenseEntity is not null)
-				entity.CreateRefToStoreLicense(storeLicenseEntity);
-			else
-				throw new RelatedEntityNotFoundException("StoreLicense", request.EntityDto.StoreLicenseId.NonNullValue<System.Int64>().ToString());
-		}
-		else
-		{
-			entity.DeleteAllRefToStoreLicense();
-		}
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

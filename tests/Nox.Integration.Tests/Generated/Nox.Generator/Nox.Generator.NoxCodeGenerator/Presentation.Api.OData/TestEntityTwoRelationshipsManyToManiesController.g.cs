@@ -76,6 +76,29 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<SecondTestEntityTwoRelationshipsManyToManyDto>>> GetTestRelationshipOne(System.String key)
+    {
+        var entity = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipOne);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/TestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipOne/{relatedKey}")]
+    public virtual async Task<SingleResult<SecondTestEntityTwoRelationshipsManyToManyDto>> GetTestRelationshipOneNonConventional(System.String key, System.String relatedKey)
+    {
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipOne).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<SecondTestEntityTwoRelationshipsManyToManyDto>(Enumerable.Empty<SecondTestEntityTwoRelationshipsManyToManyDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
     public async Task<ActionResult> DeleteRefToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -92,20 +115,52 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToTestRelationshipOne([FromRoute] System.String key)
+    [HttpDelete("/api/v1/TestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipOne/{relatedKey}")]
+    public async Task<ActionResult> DeleteToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefTestEntityTwoRelationshipsManyToManyToTestRelationshipOneCommand(new TestEntityTwoRelationshipsManyToManyKeyDto(key)));
-        if (!deletedAllRef)
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipOne).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommand(relatedKey, etag));
+        if (!deleted)
         {
             return NotFound();
         }
         
         return NoContent();
+    }
+    
+    [HttpPut("/api/v1/TestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipOne/{relatedKey}")]
+    public virtual async Task<ActionResult<SecondTestEntityTwoRelationshipsManyToManyDto>> PutToTestRelationshipOneNonConventional(System.String key, System.String relatedKey, [FromBody] SecondTestEntityTwoRelationshipsManyToManyUpdateDto secondTestEntityTwoRelationshipsManyToMany)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipOne).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateSecondTestEntityTwoRelationshipsManyToManyCommand(relatedKey, secondTestEntityTwoRelationshipsManyToMany, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     public async Task<ActionResult> CreateRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
@@ -156,6 +211,29 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<SecondTestEntityTwoRelationshipsManyToManyDto>>> GetTestRelationshipTwo(System.String key)
+    {
+        var entity = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipTwo);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/TestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipTwo/{relatedKey}")]
+    public virtual async Task<SingleResult<SecondTestEntityTwoRelationshipsManyToManyDto>> GetTestRelationshipTwoNonConventional(System.String key, System.String relatedKey)
+    {
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipTwo).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<SecondTestEntityTwoRelationshipsManyToManyDto>(Enumerable.Empty<SecondTestEntityTwoRelationshipsManyToManyDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
     public async Task<ActionResult> DeleteRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -172,20 +250,52 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToTestRelationshipTwo([FromRoute] System.String key)
+    [HttpDelete("/api/v1/TestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipTwo/{relatedKey}")]
+    public async Task<ActionResult> DeleteToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefTestEntityTwoRelationshipsManyToManyToTestRelationshipTwoCommand(new TestEntityTwoRelationshipsManyToManyKeyDto(key)));
-        if (!deletedAllRef)
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipTwo).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommand(relatedKey, etag));
+        if (!deleted)
         {
             return NotFound();
         }
         
         return NoContent();
+    }
+    
+    [HttpPut("/api/v1/TestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipTwo/{relatedKey}")]
+    public virtual async Task<ActionResult<SecondTestEntityTwoRelationshipsManyToManyDto>> PutToTestRelationshipTwoNonConventional(System.String key, System.String relatedKey, [FromBody] SecondTestEntityTwoRelationshipsManyToManyUpdateDto secondTestEntityTwoRelationshipsManyToMany)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipTwo).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateSecondTestEntityTwoRelationshipsManyToManyCommand(relatedKey, secondTestEntityTwoRelationshipsManyToMany, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion

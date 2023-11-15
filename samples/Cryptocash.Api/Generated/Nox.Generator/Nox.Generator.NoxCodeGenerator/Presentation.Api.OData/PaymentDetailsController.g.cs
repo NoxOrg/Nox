@@ -72,20 +72,38 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCustomer([FromRoute] System.Int64 key)
+    [EnableQuery]
+    public virtual async Task<SingleResult<CustomerDto>> GetCustomer(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetPaymentDetailByIdQuery(key))).Where(x => x.Customer != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CustomerDto>(Enumerable.Empty<CustomerDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.Customer!));
+    }
+    
+    public virtual async Task<ActionResult<CustomerDto>> PutToCustomer(System.Int64 key, [FromBody] CustomerUpdateDto customer)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefPaymentDetailToCustomerCommand(new PaymentDetailKeyDto(key)));
-        if (!deletedAllRef)
+        var related = (await _mediator.Send(new GetPaymentDetailByIdQuery(key))).Select(x => x.Customer).SingleOrDefault();
+        if (related == null)
         {
             return NotFound();
         }
         
-        return NoContent();
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCustomerCommand(related.Id, customer, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     public async Task<ActionResult> CreateRefToPaymentProvider([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
@@ -132,20 +150,38 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToPaymentProvider([FromRoute] System.Int64 key)
+    [EnableQuery]
+    public virtual async Task<SingleResult<PaymentProviderDto>> GetPaymentProvider(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetPaymentDetailByIdQuery(key))).Where(x => x.PaymentProvider != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<PaymentProviderDto>(Enumerable.Empty<PaymentProviderDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.PaymentProvider!));
+    }
+    
+    public virtual async Task<ActionResult<PaymentProviderDto>> PutToPaymentProvider(System.Int64 key, [FromBody] PaymentProviderUpdateDto paymentProvider)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefPaymentDetailToPaymentProviderCommand(new PaymentDetailKeyDto(key)));
-        if (!deletedAllRef)
+        var related = (await _mediator.Send(new GetPaymentDetailByIdQuery(key))).Select(x => x.PaymentProvider).SingleOrDefault();
+        if (related == null)
         {
             return NotFound();
         }
         
-        return NoContent();
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdatePaymentProviderCommand(related.Id, paymentProvider, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion

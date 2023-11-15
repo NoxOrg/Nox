@@ -362,16 +362,6 @@
           "type": "null"
         }
       ]
-    },
-    "hasLocalizedOwnedEntities": {    
-      "oneOf": [
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "null"
-        }
-      ]
     }
   },
   "additionalProperties": false

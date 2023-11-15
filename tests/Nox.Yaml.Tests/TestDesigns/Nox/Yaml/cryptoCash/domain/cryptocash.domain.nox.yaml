@@ -1,0 +1,44 @@
+﻿#
+# cryptocash.domain.nox.yaml
+#
+# yaml-language-server: $schema=../../../Schemas/domain.json
+#
+
+entities:
+
+  - $ref: ./entities/Booking.entity.nox.yaml
+  
+  - $ref: ./entities/Commission.entity.nox.yaml
+  
+  - $ref: ./entities/Country.entity.nox.yaml
+  
+  - $ref: ./entities/Holiday.entity.nox.yaml
+  
+  - $ref: ./entities/CountryTimeZone.entity.nox.yaml
+  
+  - $ref: ./entities/Currency.entity.nox.yaml
+  
+  - $ref: ./entities/BankNote.entity.nox.yaml
+  
+  - $ref: ./entities/Customer.entity.nox.yaml
+  
+  - $ref: ./entities/PaymentDetail.entity.nox.yaml
+  
+  - $ref: ./entities/Transaction.entity.nox.yaml
+  
+  - $ref: ./entities/Employee.entity.nox.yaml
+  
+  - $ref: ./entities/EmployeePhoneNumber.entity.nox.yaml
+  
+  - $ref: ./entities/ExchangeRate.entity.nox.yaml
+
+  - $ref: ./entities/Landlord.entity.nox.yaml
+  
+  - $ref: ./entities/MinimumCashStock.entity.nox.yaml
+  
+  - $ref: ./entities/PaymentProvider.entity.nox.yaml
+  
+  - $ref: ./entities/VendingMachine.entity.nox.yaml
+  
+  - $ref: ./entities/CashStockOrder.entity.nox.yaml
+

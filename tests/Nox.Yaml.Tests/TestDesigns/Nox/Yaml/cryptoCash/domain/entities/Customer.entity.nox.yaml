@@ -1,0 +1,131 @@
+#
+# Customer.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../Schemas/entity.json
+#
+
+name: Customer
+
+pluralName: Customers
+
+description: Customer definition and related data
+
+userInterface: 
+  icon: Customers
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: Customer's unique identifier 
+    type: autoNumber
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+attributes:
+
+  - name: FirstName
+    description: Customer's first name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63      
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: LastName
+    description: Customer's last name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: EmailAddress
+    description: Customer's email address
+    type: email
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: Address
+    description: Customer's street address
+    type: streetAddress
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: MobileNumber
+    description: Customer's mobile number
+    type: phoneNumber
+    isRequired: false
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+relationships:
+    
+  - name: CustomerRelatedPaymentDetails
+    description: related to
+    relationship: zeroOrMany
+    entity: PaymentDetail
+
+  - name: CustomerRelatedBookings
+    description: related to
+    relationship: zeroOrMany
+    entity: Booking
+
+  - name: CustomerRelatedTransactions
+    description: related to
+    relationship: zeroOrMany
+    entity: Transaction 
+
+  - name: CustomerBaseCountry
+    description: based in 
+    relationship: exactlyOne
+    entity: Country 
+
+persistence:
+    isAudited: true    
+    create:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    delete:
+        isEnabled: true
+        raiseEvents: domainEventsOnly

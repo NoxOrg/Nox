@@ -19,7 +19,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 /// <summary>
 /// {{entity.Description}} Localized DTO.
 /// </summary>
-internal partial class {{className}}
+public partial class {{className}}
 {
 {{- for key in entity.Keys }}
     /// <summary>
@@ -32,7 +32,7 @@ internal partial class {{className}}
 {{- end}}
 {{ end }}
     public System.String {{codeGeneratorState.LocalizationCultureField}} { get; set; } = default!;
-{{ for attribute in entityAttributesToLocalize }}
+{{ for attribute in entityLocalizedAttributes }}
     /// <summary>
     /// {{attribute.Description}} (Optional).
     /// </summary>

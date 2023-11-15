@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record LandLordKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update LandLord
+/// Landlord related data.
+/// </summary>
 public partial class LandLordDto : LandLordDtoBase
 {
 

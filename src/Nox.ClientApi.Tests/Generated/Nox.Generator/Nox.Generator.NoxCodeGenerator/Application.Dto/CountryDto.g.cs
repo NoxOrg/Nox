@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record CountryKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update Country
+/// Country Entity Country representation for the Client API tests.
+/// </summary>
 public partial class CountryDto : CountryDtoBase
 {
 

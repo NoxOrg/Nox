@@ -4,14 +4,13 @@ using AutoFixture;
 using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
+using ClientApi.Tests.Controllers;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class GetCountryByIdQueryValidatorTests : NoxWebApiTestBase
-    {
-        private const string CountryControllerName = "api/countries";
-
+    {        
         public GetCountryByIdQueryValidatorTests(
             ITestOutputHelper testOutputHelper,
             TestDatabaseContainerService containerService)
@@ -26,7 +25,7 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task Get_CountriesWithKeyGreaterThen300_ShouldFailSecurityValidation()
         {
             // Act
-            var result = await GetAsync($"{CountryControllerName}/301");
+            var result = await GetAsync($"{Endpoints.CountriesUrl}/301");
             var response = await result.Content.ReadFromJsonAsync<SimpleResponse>();
             // Assert
             response!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -50,11 +49,11 @@ namespace ClientApi.Tests.Tests.Controllers
                     Name = _fixture.Create<string>(),
                     Population = i * 1000000
                 };
-                await PostAsync(CountryControllerName, countryDto);
+                await PostAsync(Endpoints.CountriesUrl, countryDto);
             }
 
             // Act
-            var result = await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>(CountryControllerName);
+            var result = await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>(Endpoints.CountriesUrl);
 
             //Assert
             result!.Should().HaveCount(expectedCount);

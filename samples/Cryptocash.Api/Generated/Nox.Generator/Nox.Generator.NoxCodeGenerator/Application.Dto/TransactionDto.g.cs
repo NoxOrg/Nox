@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record TransactionKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update Transaction
+/// Customer transaction log and related data.
+/// </summary>
 public partial class TransactionDto : TransactionDtoBase
 {
 

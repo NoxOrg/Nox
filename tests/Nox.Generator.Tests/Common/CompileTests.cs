@@ -32,7 +32,7 @@ public class CompileTests : IClassFixture<GeneratorFixture>
         {
             $"./{path}test.solution.nox.yaml"
         };
-        var result = _generatorFixture.GenerateSourceCodeFor(sources);
+        var result = GeneratorFixture.GenerateSourceCodeFor(sources);
         var references = GetReferences().ToList();
         _testOutputHelper.WriteLine($"References count: {references.Count}");
 
@@ -184,8 +184,14 @@ global using global::Microsoft.AspNetCore.Builder;";
         foreach (var source in sources)
         {
             var path = Path.Combine(BasePath, source.Key);
+            var filePath = Path.Combine(BasePath, source.Key);
 
             File.WriteAllText(path, source.Value);
+            var directoryPath = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(directoryPath))
+                Directory.CreateDirectory(directoryPath!);
+
+            File.WriteAllText(filePath, source.Value);
         }
     }
 }

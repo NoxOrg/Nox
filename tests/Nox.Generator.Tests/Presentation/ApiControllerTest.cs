@@ -31,8 +31,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
             //"GetCountriesByContinentQueryBase.g.cs"
         };
 
-        var contentCheckerFlow = _fixture
-            .GenerateSourceCodeFor(sources)
+        var contentCheckerFlow = GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
             .AssertFileCount(54, filesShouldExist)
             .AssertContent()

@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Details pertaining to the IntegrationEventServer settings in a Nox solution.",
+  "description": "Defines settings pertinent to an IntegrationEventServer here. These include provider (RabbitMQ, Azure ServiceBus, Amazon SQS etc), connection details as well as internal default deployment settings.",
+  "type": "object",
+  "required": [
+    "name",
+    "provider"
+  ],
+  "anyOf": [
+    {
+      "required": [
+        "name",
+        "provider"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The unique name of this server component in the solution.",
+          "description": "The name of this server component in the solution. The name must be unique in the solution configuration",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "provider": {    
+          "const": "azureServiceBus"
+        },
+        "azureServiceBusConfig": {    
+          "anyOf": [
+            { "$ref": "azureServiceBusConfig.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "name",
+        "provider"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The unique name of this server component in the solution.",
+          "description": "The name of this server component in the solution. The name must be unique in the solution configuration",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "provider": {    
+          "type": "string",
+          "enum": [
+            "inMemory"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

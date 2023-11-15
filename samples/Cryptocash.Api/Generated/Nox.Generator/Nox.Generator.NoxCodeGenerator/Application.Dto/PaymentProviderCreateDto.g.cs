@@ -14,6 +14,9 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+/// <summary>
+/// Payment provider related data.
+/// </summary>
 public partial class PaymentProviderCreateDto : PaymentProviderCreateDtoBase
 {
 

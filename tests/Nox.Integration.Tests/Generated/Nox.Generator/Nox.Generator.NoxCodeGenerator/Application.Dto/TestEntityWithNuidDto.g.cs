@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record TestEntityWithNuidKeyDto(System.UInt32 keyId);
 
+/// <summary>
+/// Update TestEntityWithNuid
+/// Entity created for testing nuid.
+/// </summary>
 public partial class TestEntityWithNuidDto : TestEntityWithNuidDtoBase
 {
 

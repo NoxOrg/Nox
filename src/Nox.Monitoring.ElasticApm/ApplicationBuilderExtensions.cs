@@ -9,7 +9,7 @@ public static class ApplicationBuilderExtensions
 {
     public static IApplicationBuilder UseNoxAllElasticApm(this IApplicationBuilder builder)
     {
-        var solution = builder.ApplicationServices.GetService<Solution.Solution>();
+        var solution = builder.ApplicationServices.GetService<Solution.NoxSolution>();
         if (solution == null) throw new NoxSolutionConfigurationException("Nox solution definition is not defined. If you want to use monitoring you have to provide a Nox yaml definition.");
         if (solution.Infrastructure == null) throw new NoxSolutionConfigurationException("Nox solution infrastructure is not defined. If you want to use monitoring you have to provide an infrastructure definition");
         if (solution.Infrastructure.Dependencies == null) throw new NoxSolutionConfigurationException("Nox solution infrastructure -> dependencies is not defined. If you want to use monitoring you have to provide an infrastructure -> dependencies definition");

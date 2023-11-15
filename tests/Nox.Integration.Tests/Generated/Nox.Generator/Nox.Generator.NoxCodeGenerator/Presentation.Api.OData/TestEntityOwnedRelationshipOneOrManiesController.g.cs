@@ -46,7 +46,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
     }
     
     [EnableQuery]
-    [HttpGet("api/TestEntityOwnedRelationshipOneOrManies/{key}/SecondTestEntityOwnedRelationshipOneOrMany/{relatedKey}")]
+    [HttpGet("/api/v1/TestEntityOwnedRelationshipOneOrManies/{key}/SecondTestEntityOwnedRelationshipOneOrMany/{relatedKey}")]
     public virtual async Task<ActionResult<SecondTestEntityOwnedRelationshipOneOrManyDto>> GetSecondTestEntityOwnedRelationshipOneOrManyNonConventional(System.String key, System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -85,7 +85,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
         return Created(child);
     }
     
-    [HttpPut("api/TestEntityOwnedRelationshipOneOrManies/{key}/SecondTestEntityOwnedRelationshipOneOrMany/{relatedKey}")]
+    [HttpPut("/api/v1/TestEntityOwnedRelationshipOneOrManies/{key}/SecondTestEntityOwnedRelationshipOneOrMany/{relatedKey}")]
     public virtual async Task<ActionResult<SecondTestEntityOwnedRelationshipOneOrManyDto>> PutToSecondTestEntityOwnedRelationshipOneOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] SecondTestEntityOwnedRelationshipOneOrManyUpdateDto secondTestEntityOwnedRelationshipOneOrMany)
     {
         if (!ModelState.IsValid)
@@ -109,7 +109,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
         return Ok(child);
     }
     
-    [HttpPatch("api/TestEntityOwnedRelationshipOneOrManies/{key}/SecondTestEntityOwnedRelationshipOneOrMany/{relatedKey}")]
+    [HttpPatch("/api/v1/TestEntityOwnedRelationshipOneOrManies/{key}/SecondTestEntityOwnedRelationshipOneOrMany/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToSecondTestEntityOwnedRelationshipOneOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] Delta<SecondTestEntityOwnedRelationshipOneOrManyDto> secondTestEntityOwnedRelationshipOneOrMany)
     {
         if (!ModelState.IsValid)
@@ -142,7 +142,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
         return Ok(child);
     }
     
-    [HttpDelete("api/TestEntityOwnedRelationshipOneOrManies/{key}/SecondTestEntityOwnedRelationshipOneOrMany/{relatedKey}")]
+    [HttpDelete("/api/v1/TestEntityOwnedRelationshipOneOrManies/{key}/SecondTestEntityOwnedRelationshipOneOrMany/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteSecondTestEntityOwnedRelationshipOneOrManyNonConventional(System.String key, System.String relatedKey)
     {
         if (!ModelState.IsValid)

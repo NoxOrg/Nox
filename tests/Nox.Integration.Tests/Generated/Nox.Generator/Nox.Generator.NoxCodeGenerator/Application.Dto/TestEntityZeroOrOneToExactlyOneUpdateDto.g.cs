@@ -13,9 +13,17 @@ using DomainNamespace = TestWebApp.Domain;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
+/// Entity created for testing database.
+/// </summary>
+public partial class TestEntityZeroOrOneToExactlyOneUpdateDto : TestEntityZeroOrOneToExactlyOneUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// Entity created for testing database
 /// </summary>
-public partial class TestEntityZeroOrOneToExactlyOneUpdateDto : IEntityDto<DomainNamespace.TestEntityZeroOrOneToExactlyOne>
+public partial class TestEntityZeroOrOneToExactlyOneUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityZeroOrOneToExactlyOne>
 {
     /// <summary>
     ///  
@@ -23,11 +31,5 @@ public partial class TestEntityZeroOrOneToExactlyOneUpdateDto : IEntityDto<Domai
     /// </summary>
     [Required(ErrorMessage = "TextTestField is required")]
     
-    public System.String TextTestField { get; set; } = default!;
-
-    /// <summary>
-    /// TestEntityZeroOrOneToExactlyOne Test entity relationship to TestEntityExactlyOneToZeroOrOne ZeroOrOne TestEntityExactlyOneToZeroOrOnes
-    /// </summary>
-    
-    public System.String? TestEntityExactlyOneToZeroOrOneId { get; set; } = default!;
+    public virtual System.String TextTestField { get; set; } = default!;
 }

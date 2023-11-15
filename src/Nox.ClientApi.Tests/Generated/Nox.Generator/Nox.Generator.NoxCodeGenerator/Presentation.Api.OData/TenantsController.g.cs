@@ -76,6 +76,29 @@ public abstract partial class TenantsControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> GetWorkplaces(System.UInt32 key)
+    {
+        var entity = (await _mediator.Send(new GetTenantByIdQuery(key))).SelectMany(x => x.Workplaces);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Tenants/{key}/Workplaces/{relatedKey}")]
+    public virtual async Task<SingleResult<WorkplaceDto>> GetWorkplacesNonConventional(System.UInt32 key, System.Int64 relatedKey)
+    {
+        var related = (await _mediator.Send(new GetTenantByIdQuery(key))).SelectMany(x => x.Workplaces).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<WorkplaceDto>(Enumerable.Empty<WorkplaceDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
     public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -106,6 +129,76 @@ public abstract partial class TenantsControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/Tenants/{key}/Workplaces/{relatedKey}")]
+    public async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTenantByIdQuery(key))).SelectMany(x => x.Workplaces).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteWorkplaceByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/Tenants/{key}/Workplaces")]
+    public async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.UInt32 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTenantByIdQuery(key))).Select(x => x.Workplaces).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteWorkplaceByIdCommand(item.Id, etag));
+        }
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/Tenants/{key}/Workplaces/{relatedKey}")]
+    public virtual async Task<ActionResult<WorkplaceDto>> PutToWorkplacesNonConventional(System.UInt32 key, System.Int64 relatedKey, [FromBody] WorkplaceUpdateDto workplace)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTenantByIdQuery(key))).SelectMany(x => x.Workplaces).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateWorkplaceCommand(relatedKey, workplace, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion

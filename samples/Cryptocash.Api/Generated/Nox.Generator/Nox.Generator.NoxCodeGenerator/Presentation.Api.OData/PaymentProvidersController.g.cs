@@ -76,6 +76,29 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<PaymentDetailDto>>> GetPaymentDetails(System.Int64 key)
+    {
+        var entity = (await _mediator.Send(new GetPaymentProviderByIdQuery(key))).SelectMany(x => x.PaymentDetails);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
+    public virtual async Task<SingleResult<PaymentDetailDto>> GetPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey)
+    {
+        var related = (await _mediator.Send(new GetPaymentProviderByIdQuery(key))).SelectMany(x => x.PaymentDetails).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<PaymentDetailDto>(Enumerable.Empty<PaymentDetailDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
     public async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -106,6 +129,76 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
+    public async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetPaymentProviderByIdQuery(key))).SelectMany(x => x.PaymentDetails).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeletePaymentDetailByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/PaymentProviders/{key}/PaymentDetails")]
+    public async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetPaymentProviderByIdQuery(key))).Select(x => x.PaymentDetails).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeletePaymentDetailByIdCommand(item.Id, etag));
+        }
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
+    public virtual async Task<ActionResult<PaymentDetailDto>> PutToPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] PaymentDetailUpdateDto paymentDetail)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetPaymentProviderByIdQuery(key))).SelectMany(x => x.PaymentDetails).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdatePaymentDetailCommand(relatedKey, paymentDetail, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion

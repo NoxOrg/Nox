@@ -77,6 +77,17 @@ public abstract partial class StoresControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<StoreOwnerDto>> GetStoreOwner(System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Where(x => x.StoreOwner != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<StoreOwnerDto>(Enumerable.Empty<StoreOwnerDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.StoreOwner!));
+    }
+    
     public async Task<ActionResult> DeleteRefToStoreOwner([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -107,6 +118,52 @@ public abstract partial class StoresControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/Stores/{key}/StoreOwner")]
+    public async Task<ActionResult> DeleteToStoreOwner([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.StoreOwner).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteStoreOwnerByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+    
+    public virtual async Task<ActionResult<StoreOwnerDto>> PutToStoreOwner(System.Guid key, [FromBody] StoreOwnerUpdateDto storeOwner)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.StoreOwner).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateStoreOwnerCommand(related.Id, storeOwner, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     public async Task<ActionResult> CreateRefToStoreLicense([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
@@ -153,6 +210,17 @@ public abstract partial class StoresControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<StoreLicenseDto>> GetStoreLicense(System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Where(x => x.StoreLicense != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<StoreLicenseDto>(Enumerable.Empty<StoreLicenseDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.StoreLicense!));
+    }
+    
     public async Task<ActionResult> DeleteRefToStoreLicense([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -183,6 +251,52 @@ public abstract partial class StoresControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/Stores/{key}/StoreLicense")]
+    public async Task<ActionResult> DeleteToStoreLicense([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.StoreLicense).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteStoreLicenseByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+    
+    public virtual async Task<ActionResult<StoreLicenseDto>> PutToStoreLicense(System.Guid key, [FromBody] StoreLicenseUpdateDto storeLicense)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.StoreLicense).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateStoreLicenseCommand(related.Id, storeLicense, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion

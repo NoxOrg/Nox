@@ -14,6 +14,9 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+/// <summary>
+/// Employee definition and related data.
+/// </summary>
 public partial class EmployeeCreateDto : EmployeeCreateDtoBase
 {
 
@@ -66,7 +69,7 @@ public abstract class EmployeeCreateDtoBase : IEntityDto<DomainNamespace.Employe
     public virtual System.DateTime? LastWorkingDay { get; set; }
 
     /// <summary>
-    /// Employee reviewing ExactlyOne CashStockOrders
+    /// Employee reviewing ZeroOrOne CashStockOrders
     /// </summary>
     public System.Int64? CashStockOrderId { get; set; } = default!;
     

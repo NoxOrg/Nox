@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record TenantKeyDto(System.UInt32 keyId);
 
+/// <summary>
+/// Update Tenant
+/// Tenant.
+/// </summary>
 public partial class TenantDto : TenantDtoBase
 {
 

@@ -21,8 +21,7 @@ public class ApplicationExtensionTests : IClassFixture<GeneratorFixture>
             $"./{path}app-builder.solution.nox.yaml"
         };
 
-        _generatorFixture
-            .GenerateSourceCodeFor(sources)
+        GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
             .AssertFileCount(2)
             .AssertContent()

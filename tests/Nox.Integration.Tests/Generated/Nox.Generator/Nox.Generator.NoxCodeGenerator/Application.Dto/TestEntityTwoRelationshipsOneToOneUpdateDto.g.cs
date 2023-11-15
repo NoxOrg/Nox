@@ -13,9 +13,17 @@ using DomainNamespace = TestWebApp.Domain;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
+/// .
+/// </summary>
+public partial class TestEntityTwoRelationshipsOneToOneUpdateDto : TestEntityTwoRelationshipsOneToOneUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// 
 /// </summary>
-public partial class TestEntityTwoRelationshipsOneToOneUpdateDto : IEntityDto<DomainNamespace.TestEntityTwoRelationshipsOneToOne>
+public partial class TestEntityTwoRelationshipsOneToOneUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityTwoRelationshipsOneToOne>
 {
     /// <summary>
     ///  
@@ -23,17 +31,5 @@ public partial class TestEntityTwoRelationshipsOneToOneUpdateDto : IEntityDto<Do
     /// </summary>
     [Required(ErrorMessage = "TextTestField is required")]
     
-    public System.String TextTestField { get; set; } = default!;
-
-    /// <summary>
-    /// TestEntityTwoRelationshipsOneToOne First relationship to the same entity ExactlyOne SecondTestEntityTwoRelationshipsOneToOnes
-    /// </summary>
-    [Required(ErrorMessage = "TestRelationshipOne is required")]
-    public System.String TestRelationshipOneId { get; set; } = default!;
-
-    /// <summary>
-    /// TestEntityTwoRelationshipsOneToOne Second relationship to the same entity ExactlyOne SecondTestEntityTwoRelationshipsOneToOnes
-    /// </summary>
-    [Required(ErrorMessage = "TestRelationshipTwo is required")]
-    public System.String TestRelationshipTwoId { get; set; } = default!;
+    public virtual System.String TextTestField { get; set; } = default!;
 }

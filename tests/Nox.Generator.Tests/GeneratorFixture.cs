@@ -9,7 +9,7 @@ namespace Nox.Generator.Tests;
 
 public class GeneratorFixture
 {
-    public IGeneratorTestFlow GenerateSourceCodeFor(IEnumerable<string> sourcePaths)
+    public static IGeneratorTestFlow GenerateSourceCodeFor(IEnumerable<string> sourcePaths)
     {
         var (compilation, generator) = CreateCompilationCompiler();
 

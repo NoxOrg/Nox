@@ -14,6 +14,9 @@ using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
+/// <summary>
+/// Entity created for testing auto number usages.
+/// </summary>
 public partial class TestEntityForAutoNumberUsagesCreateDto : TestEntityForAutoNumberUsagesCreateDtoBase
 {
 
@@ -24,20 +27,6 @@ public partial class TestEntityForAutoNumberUsagesCreateDto : TestEntityForAutoN
 /// </summary>
 public abstract class TestEntityForAutoNumberUsagesCreateDtoBase : IEntityDto<DomainNamespace.TestEntityForAutoNumberUsages>
 {
-    /// <summary>
-    ///  
-    /// <remarks>Required</remarks>    
-    /// </summary>
-    [Required(ErrorMessage = "AutoNumberFieldWithOptions is required")]
-    
-    public virtual System.Int64 AutoNumberFieldWithOptions { get; set; } = default!;
-    /// <summary>
-    ///  
-    /// <remarks>Required</remarks>    
-    /// </summary>
-    [Required(ErrorMessage = "AutoNumberFieldWithoutOptions is required")]
-    
-    public virtual System.Int64 AutoNumberFieldWithoutOptions { get; set; } = default!;
     /// <summary>
     ///  
     /// <remarks>Required</remarks>    

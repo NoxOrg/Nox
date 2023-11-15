@@ -14,6 +14,9 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+/// <summary>
+/// Country Entity Country representation for the Client API tests.
+/// </summary>
 public partial class CountryCreateDto : CountryCreateDtoBase
 {
 
@@ -46,11 +49,6 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? FirstLanguageCode { get; set; }
-    /// <summary>
-    /// The Formula 
-    /// <remarks>Optional</remarks>    
-    /// </summary>
-    public virtual System.String? ShortDescription { get; set; }
     /// <summary>
     /// Country's iso number id 
     /// <remarks>Optional</remarks>    

@@ -110,6 +110,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{EE7F
 		..\.github\dependabot.yml = ..\.github\dependabot.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Yaml", "Yaml", "{58B1018F-6977-420A-8BA2-150032C60105}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Yaml", "Nox.Yaml\Nox.Yaml.csproj", "{7D47CA1F-E1A4-419E-AFB1-19D96203F000}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Yaml.Tests", "..\tests\Nox.Yaml.Tests\Nox.Yaml.Tests.csproj", "{951B59F3-9C0B-4351-A745-08AE047898A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -244,6 +250,14 @@ Global
 		{D6E2EA10-EBAB-4066-BA90-270F3D54DA94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6E2EA10-EBAB-4066-BA90-270F3D54DA94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6E2EA10-EBAB-4066-BA90-270F3D54DA94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D47CA1F-E1A4-419E-AFB1-19D96203F000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D47CA1F-E1A4-419E-AFB1-19D96203F000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D47CA1F-E1A4-419E-AFB1-19D96203F000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D47CA1F-E1A4-419E-AFB1-19D96203F000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{951B59F3-9C0B-4351-A745-08AE047898A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{951B59F3-9C0B-4351-A745-08AE047898A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{951B59F3-9C0B-4351-A745-08AE047898A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{951B59F3-9C0B-4351-A745-08AE047898A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -282,6 +296,8 @@ Global
 		{AAF75AC4-9D4B-4296-A43E-DFB44CA84DEA} = {8869EFA6-3BF6-458B-BABE-71775A588D73}
 		{D6E2EA10-EBAB-4066-BA90-270F3D54DA94} = {154B838E-65DE-479F-80B7-D48CF9862306}
 		{EE7F628D-42C8-4D9D-AA72-C6C223D43576} = {820129FF-6448-42E2-8792-ABE1A8CBF722}
+		{7D47CA1F-E1A4-419E-AFB1-19D96203F000} = {58B1018F-6977-420A-8BA2-150032C60105}
+		{951B59F3-9C0B-4351-A745-08AE047898A1} = {58B1018F-6977-420A-8BA2-150032C60105}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}

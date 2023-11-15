@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record SecondTestEntityTwoRelationshipsOneToManyKeyDto(System.String keyId);
 
+/// <summary>
+/// Update SecondTestEntityTwoRelationshipsOneToMany
+/// .
+/// </summary>
 public partial class SecondTestEntityTwoRelationshipsOneToManyDto : SecondTestEntityTwoRelationshipsOneToManyDtoBase
 {
 

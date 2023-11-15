@@ -14,6 +14,9 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+/// <summary>
+/// Holiday related to country.
+/// </summary>
 public partial class HolidayCreateDto : HolidayCreateDtoBase
 {
 

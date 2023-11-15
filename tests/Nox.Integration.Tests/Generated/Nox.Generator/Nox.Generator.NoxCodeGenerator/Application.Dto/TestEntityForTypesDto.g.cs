@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record TestEntityForTypesKeyDto(System.String keyId);
 
+/// <summary>
+/// Update TestEntityForTypes
+/// Entity created for testing database.
+/// </summary>
 public partial class TestEntityForTypesDto : TestEntityForTypesDtoBase
 {
 

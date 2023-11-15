@@ -502,6 +502,15 @@ namespace Nox.Solution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The entity &apos;{0}&apos; can&apos;t have localized text attributes because it is owned entity. Localized text attributes are only supported for non-owned entities..
+        /// </summary>
+        internal static string EntityOwnedTextFieldsCantBeLocalized {
+            get {
+                return ResourceManager.GetString("EntityOwnedTextFieldsCantBeLocalized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to apply persistence defaults for entity &apos;{0}&apos;..
         /// </summary>
         internal static string EntityPersistenceDefaultsFalse {
@@ -628,11 +637,11 @@ namespace Nox.Solution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The persistence section of the infrastructure definition is missing. Infrastructure persistence is required in a Nox solution definition..
+        ///   Looks up a localized string similar to Unable to apply defaults for endpoints..
         /// </summary>
-        internal static string InfrastructurePersistenceEmpty {
+        internal static string InfrastructureEndPointsDefaultsFalse {
             get {
-                return ResourceManager.GetString("InfrastructurePersistenceEmpty", resourceCulture);
+                return ResourceManager.GetString("InfrastructureEndPointsDefaultsFalse", resourceCulture);
             }
         }
         
@@ -1218,6 +1227,15 @@ namespace Nox.Solution {
         internal static string SmsServerProviderEmpty {
             get {
                 return ResourceManager.GetString("SmsServerProviderEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to apply defaults for the Solution root..
+        /// </summary>
+        internal static string SolutionDefaultsFalse {
+            get {
+                return ResourceManager.GetString("SolutionDefaultsFalse", resourceCulture);
             }
         }
         

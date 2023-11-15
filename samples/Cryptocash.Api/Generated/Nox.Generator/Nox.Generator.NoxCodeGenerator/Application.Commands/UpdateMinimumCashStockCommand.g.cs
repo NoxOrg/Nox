@@ -57,28 +57,6 @@ internal abstract class UpdateMinimumCashStockCommandHandlerBase : CommandBase<U
 			return null;
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.VendingMachines).LoadAsync();
-		var vendingMachinesEntities = new List<Cryptocash.Domain.VendingMachine>();
-		foreach(var relatedEntityId in request.EntityDto.VendingMachinesId)
-		{
-			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				vendingMachinesEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("VendingMachines", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToVendingMachines(vendingMachinesEntities);
-
-		var currencyKey = Cryptocash.Domain.CurrencyMetadata.CreateId(request.EntityDto.CurrencyId);
-		var currencyEntity = await DbContext.Currencies.FindAsync(currencyKey);
-						
-		if(currencyEntity is not null)
-			entity.CreateRefToCurrency(currencyEntity);
-		else
-			throw new RelatedEntityNotFoundException("Currency", request.EntityDto.CurrencyId.ToString());
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

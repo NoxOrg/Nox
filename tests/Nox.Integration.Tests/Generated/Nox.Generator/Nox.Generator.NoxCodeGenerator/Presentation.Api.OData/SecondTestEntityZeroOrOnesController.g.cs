@@ -72,6 +72,17 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<TestEntityZeroOrOneDto>> GetTestEntityZeroOrOne(System.String key)
+    {
+        var related = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(key))).Where(x => x.TestEntityZeroOrOne != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<TestEntityZeroOrOneDto>(Enumerable.Empty<TestEntityZeroOrOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.TestEntityZeroOrOne!));
+    }
+    
     public async Task<ActionResult> DeleteRefToTestEntityZeroOrOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -102,6 +113,52 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
         }
         
         return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/SecondTestEntityZeroOrOnes/{key}/TestEntityZeroOrOne")]
+    public async Task<ActionResult> DeleteToTestEntityZeroOrOne([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(key))).Select(x => x.TestEntityZeroOrOne).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteTestEntityZeroOrOneByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+    
+    public virtual async Task<ActionResult<TestEntityZeroOrOneDto>> PutToTestEntityZeroOrOne(System.String key, [FromBody] TestEntityZeroOrOneUpdateDto testEntityZeroOrOne)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(key))).Select(x => x.TestEntityZeroOrOne).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateTestEntityZeroOrOneCommand(related.Id, testEntityZeroOrOne, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion

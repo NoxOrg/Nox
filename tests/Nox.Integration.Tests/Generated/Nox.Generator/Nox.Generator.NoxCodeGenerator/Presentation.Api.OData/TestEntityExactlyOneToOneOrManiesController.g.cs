@@ -72,20 +72,38 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToTestEntityOneOrManyToExactlyOne([FromRoute] System.String key)
+    [EnableQuery]
+    public virtual async Task<SingleResult<TestEntityOneOrManyToExactlyOneDto>> GetTestEntityOneOrManyToExactlyOne(System.String key)
+    {
+        var related = (await _mediator.Send(new GetTestEntityExactlyOneToOneOrManyByIdQuery(key))).Where(x => x.TestEntityOneOrManyToExactlyOne != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<TestEntityOneOrManyToExactlyOneDto>(Enumerable.Empty<TestEntityOneOrManyToExactlyOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.TestEntityOneOrManyToExactlyOne!));
+    }
+    
+    public virtual async Task<ActionResult<TestEntityOneOrManyToExactlyOneDto>> PutToTestEntityOneOrManyToExactlyOne(System.String key, [FromBody] TestEntityOneOrManyToExactlyOneUpdateDto testEntityOneOrManyToExactlyOne)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefTestEntityExactlyOneToOneOrManyToTestEntityOneOrManyToExactlyOneCommand(new TestEntityExactlyOneToOneOrManyKeyDto(key)));
-        if (!deletedAllRef)
+        var related = (await _mediator.Send(new GetTestEntityExactlyOneToOneOrManyByIdQuery(key))).Select(x => x.TestEntityOneOrManyToExactlyOne).SingleOrDefault();
+        if (related == null)
         {
             return NotFound();
         }
         
-        return NoContent();
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateTestEntityOneOrManyToExactlyOneCommand(related.Id, testEntityOneOrManyToExactlyOne, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion

@@ -28,8 +28,7 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
             "Infrastructure.Persistence.AppDbContext.g.cs"
         };
 
-        _fixture
-            .GenerateSourceCodeFor(sources)
+        GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
             .AssertFileCount(10, filesShouldExist)
             .AssertContent()

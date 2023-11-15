@@ -14,6 +14,9 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+/// <summary>
+/// Currencies related frequent and rare bank notes.
+/// </summary>
 public partial class BankNoteCreateDto : BankNoteCreateDtoBase
 {
 

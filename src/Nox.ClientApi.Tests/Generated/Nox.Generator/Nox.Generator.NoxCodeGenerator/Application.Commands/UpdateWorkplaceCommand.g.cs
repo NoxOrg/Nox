@@ -61,35 +61,6 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 			return null;
 		}
 
-		if(request.EntityDto.CountryId is not null)
-		{
-			var countryKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
-			var countryEntity = await DbContext.Countries.FindAsync(countryKey);
-						
-			if(countryEntity is not null)
-				entity.CreateRefToCountry(countryEntity);
-			else
-				throw new RelatedEntityNotFoundException("Country", request.EntityDto.CountryId.NonNullValue<System.Int64>().ToString());
-		}
-		else
-		{
-			entity.DeleteAllRefToCountry();
-		}
-
-		await DbContext.Entry(entity).Collection(x => x.Tenants).LoadAsync();
-		var tenantsEntities = new List<ClientApi.Domain.Tenant>();
-		foreach(var relatedEntityId in request.EntityDto.TenantsId)
-		{
-			var relatedKey = ClientApi.Domain.TenantMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.Tenants.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				tenantsEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("Tenants", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToTenants(tenantsEntities);
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await UpdateLocalizedEntityAsync(entity, request.EntityDto, request.CultureCode);

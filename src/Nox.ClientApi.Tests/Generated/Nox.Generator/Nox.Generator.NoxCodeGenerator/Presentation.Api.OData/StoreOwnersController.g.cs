@@ -76,6 +76,29 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<StoreDto>>> GetStores(System.String key)
+    {
+        var entity = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).SelectMany(x => x.Stores);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/StoreOwners/{key}/Stores/{relatedKey}")]
+    public virtual async Task<SingleResult<StoreDto>> GetStoresNonConventional(System.String key, System.Guid relatedKey)
+    {
+        var related = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).SelectMany(x => x.Stores).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<StoreDto>(Enumerable.Empty<StoreDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
     public async Task<ActionResult> DeleteRefToStores([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -92,20 +115,52 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToStores([FromRoute] System.String key)
+    [HttpDelete("/api/v1/StoreOwners/{key}/Stores/{relatedKey}")]
+    public async Task<ActionResult> DeleteToStores([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefStoreOwnerToStoresCommand(new StoreOwnerKeyDto(key)));
-        if (!deletedAllRef)
+        var related = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).SelectMany(x => x.Stores).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteStoreByIdCommand(relatedKey, etag));
+        if (!deleted)
         {
             return NotFound();
         }
         
         return NoContent();
+    }
+    
+    [HttpPut("/api/v1/StoreOwners/{key}/Stores/{relatedKey}")]
+    public virtual async Task<ActionResult<StoreDto>> PutToStoresNonConventional(System.String key, System.Guid relatedKey, [FromBody] StoreUpdateDto store)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).SelectMany(x => x.Stores).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateStoreCommand(relatedKey, store, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion

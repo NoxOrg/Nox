@@ -61,7 +61,7 @@ public class IntegrationTests
                 TargetAdapterType = IntegrationAdapterType.Database
             }, dataConnections);
 
-        var context = new NoxIntegrationContext(new Solution.Solution());
+        var context = new NoxIntegrationContext(new Solution.NoxSolution());
         context.AddIntegration(integration);
         var result = await context.ExecuteIntegrationAsync("EtlTest");
         Assert.True(result);

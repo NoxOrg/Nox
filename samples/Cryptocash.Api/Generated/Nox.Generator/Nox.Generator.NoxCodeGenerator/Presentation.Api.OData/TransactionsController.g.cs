@@ -72,20 +72,38 @@ public abstract partial class TransactionsControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCustomer([FromRoute] System.Int64 key)
+    [EnableQuery]
+    public virtual async Task<SingleResult<CustomerDto>> GetCustomer(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetTransactionByIdQuery(key))).Where(x => x.Customer != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CustomerDto>(Enumerable.Empty<CustomerDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.Customer!));
+    }
+    
+    public virtual async Task<ActionResult<CustomerDto>> PutToCustomer(System.Int64 key, [FromBody] CustomerUpdateDto customer)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefTransactionToCustomerCommand(new TransactionKeyDto(key)));
-        if (!deletedAllRef)
+        var related = (await _mediator.Send(new GetTransactionByIdQuery(key))).Select(x => x.Customer).SingleOrDefault();
+        if (related == null)
         {
             return NotFound();
         }
         
-        return NoContent();
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCustomerCommand(related.Id, customer, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     public async Task<ActionResult> CreateRefToBooking([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
@@ -132,20 +150,38 @@ public abstract partial class TransactionsControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToBooking([FromRoute] System.Int64 key)
+    [EnableQuery]
+    public virtual async Task<SingleResult<BookingDto>> GetBooking(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetTransactionByIdQuery(key))).Where(x => x.Booking != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<BookingDto>(Enumerable.Empty<BookingDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.Booking!));
+    }
+    
+    public virtual async Task<ActionResult<BookingDto>> PutToBooking(System.Int64 key, [FromBody] BookingUpdateDto booking)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefTransactionToBookingCommand(new TransactionKeyDto(key)));
-        if (!deletedAllRef)
+        var related = (await _mediator.Send(new GetTransactionByIdQuery(key))).Select(x => x.Booking).SingleOrDefault();
+        if (related == null)
         {
             return NotFound();
         }
         
-        return NoContent();
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateBookingCommand(related.Id, booking, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion

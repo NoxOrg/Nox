@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "The definition namespace for messaging settings pertaining to a Nox solution.",
+  "description": "Defines settings pertinent to solution messaging here. These include IntegrationEventServer provider (RabbitMQ, Azure ServiceBus, Amazon SQS etc) and additional server connection details.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "required": [
+    "integrationEventServer"
+  ],
+  "properties": {
+    "integrationEventServer": {    
+      "anyOf": [
+        { "$ref": "messagingServer.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

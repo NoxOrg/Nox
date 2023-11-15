@@ -72,20 +72,38 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToThirdTestEntityZeroOrOne([FromRoute] System.String key)
+    [EnableQuery]
+    public virtual async Task<SingleResult<ThirdTestEntityZeroOrOneDto>> GetThirdTestEntityZeroOrOne(System.String key)
+    {
+        var related = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(key))).Where(x => x.ThirdTestEntityZeroOrOne != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<ThirdTestEntityZeroOrOneDto>(Enumerable.Empty<ThirdTestEntityZeroOrOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.ThirdTestEntityZeroOrOne!));
+    }
+    
+    public virtual async Task<ActionResult<ThirdTestEntityZeroOrOneDto>> PutToThirdTestEntityZeroOrOne(System.String key, [FromBody] ThirdTestEntityZeroOrOneUpdateDto thirdTestEntityZeroOrOne)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommand(new ThirdTestEntityExactlyOneKeyDto(key)));
-        if (!deletedAllRef)
+        var related = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(key))).Select(x => x.ThirdTestEntityZeroOrOne).SingleOrDefault();
+        if (related == null)
         {
             return NotFound();
         }
         
-        return NoContent();
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateThirdTestEntityZeroOrOneCommand(related.Id, thirdTestEntityZeroOrOne, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion

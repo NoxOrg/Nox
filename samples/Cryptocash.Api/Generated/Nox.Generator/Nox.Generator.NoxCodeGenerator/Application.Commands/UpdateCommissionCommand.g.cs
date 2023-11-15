@@ -57,35 +57,6 @@ internal abstract class UpdateCommissionCommandHandlerBase : CommandBase<UpdateC
 			return null;
 		}
 
-		if(request.EntityDto.CountryId is not null)
-		{
-			var countryKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.String>());
-			var countryEntity = await DbContext.Countries.FindAsync(countryKey);
-						
-			if(countryEntity is not null)
-				entity.CreateRefToCountry(countryEntity);
-			else
-				throw new RelatedEntityNotFoundException("Country", request.EntityDto.CountryId.NonNullValue<System.String>().ToString());
-		}
-		else
-		{
-			entity.DeleteAllRefToCountry();
-		}
-
-		await DbContext.Entry(entity).Collection(x => x.Bookings).LoadAsync();
-		var bookingsEntities = new List<Cryptocash.Domain.Booking>();
-		foreach(var relatedEntityId in request.EntityDto.BookingsId)
-		{
-			var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				bookingsEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("Bookings", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToBookings(bookingsEntities);
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

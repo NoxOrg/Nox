@@ -72,6 +72,17 @@ public abstract partial class TestEntityZeroOrOneToZeroOrManiesControllerBase : 
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<TestEntityZeroOrManyToZeroOrOneDto>> GetTestEntityZeroOrManyToZeroOrOne(System.String key)
+    {
+        var related = (await _mediator.Send(new GetTestEntityZeroOrOneToZeroOrManyByIdQuery(key))).Where(x => x.TestEntityZeroOrManyToZeroOrOne != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<TestEntityZeroOrManyToZeroOrOneDto>(Enumerable.Empty<TestEntityZeroOrManyToZeroOrOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.TestEntityZeroOrManyToZeroOrOne!));
+    }
+    
     public async Task<ActionResult> DeleteRefToTestEntityZeroOrManyToZeroOrOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -102,6 +113,52 @@ public abstract partial class TestEntityZeroOrOneToZeroOrManiesControllerBase : 
         }
         
         return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/TestEntityZeroOrOneToZeroOrManies/{key}/TestEntityZeroOrManyToZeroOrOne")]
+    public async Task<ActionResult> DeleteToTestEntityZeroOrManyToZeroOrOne([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityZeroOrOneToZeroOrManyByIdQuery(key))).Select(x => x.TestEntityZeroOrManyToZeroOrOne).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteTestEntityZeroOrManyToZeroOrOneByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+    
+    public virtual async Task<ActionResult<TestEntityZeroOrManyToZeroOrOneDto>> PutToTestEntityZeroOrManyToZeroOrOne(System.String key, [FromBody] TestEntityZeroOrManyToZeroOrOneUpdateDto testEntityZeroOrManyToZeroOrOne)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityZeroOrOneToZeroOrManyByIdQuery(key))).Select(x => x.TestEntityZeroOrManyToZeroOrOne).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateTestEntityZeroOrManyToZeroOrOneCommand(related.Id, testEntityZeroOrManyToZeroOrOne, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion

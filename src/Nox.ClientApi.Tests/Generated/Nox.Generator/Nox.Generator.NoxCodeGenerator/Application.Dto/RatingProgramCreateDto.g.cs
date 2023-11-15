@@ -14,6 +14,9 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+/// <summary>
+/// Rating program for store.
+/// </summary>
 public partial class RatingProgramCreateDto : RatingProgramCreateDtoBase
 {
 

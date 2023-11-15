@@ -13,9 +13,17 @@ using DomainNamespace = ClientApi.Domain;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
+/// Bar code for country.
+/// </summary>
+public partial class CountryBarCodeUpdateDto : CountryBarCodeUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// Bar code for country
 /// </summary>
-public partial class CountryBarCodeUpdateDto : IEntityDto<DomainNamespace.CountryBarCode>
+public partial class CountryBarCodeUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.CountryBarCode>
 {
     /// <summary>
     /// Bar code name 
@@ -23,10 +31,10 @@ public partial class CountryBarCodeUpdateDto : IEntityDto<DomainNamespace.Countr
     /// </summary>
     [Required(ErrorMessage = "BarCodeName is required")]
     
-    public System.String BarCodeName { get; set; } = default!;
+    public virtual System.String BarCodeName { get; set; } = default!;
     /// <summary>
     /// Bar code number 
     /// <remarks>Optional.</remarks>    
     /// </summary>
-    public System.Int32? BarCodeNumber { get; set; }
+    public virtual System.Int32? BarCodeNumber { get; set; }
 }

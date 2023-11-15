@@ -76,6 +76,29 @@ public abstract partial class TestEntityZeroOrManyToZeroOrOnesControllerBase : O
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<TestEntityZeroOrOneToZeroOrManyDto>>> GetTestEntityZeroOrOneToZeroOrManies(System.String key)
+    {
+        var entity = (await _mediator.Send(new GetTestEntityZeroOrManyToZeroOrOneByIdQuery(key))).SelectMany(x => x.TestEntityZeroOrOneToZeroOrManies);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/TestEntityZeroOrManyToZeroOrOnes/{key}/TestEntityZeroOrOneToZeroOrManies/{relatedKey}")]
+    public virtual async Task<SingleResult<TestEntityZeroOrOneToZeroOrManyDto>> GetTestEntityZeroOrOneToZeroOrManiesNonConventional(System.String key, System.String relatedKey)
+    {
+        var related = (await _mediator.Send(new GetTestEntityZeroOrManyToZeroOrOneByIdQuery(key))).SelectMany(x => x.TestEntityZeroOrOneToZeroOrManies).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<TestEntityZeroOrOneToZeroOrManyDto>(Enumerable.Empty<TestEntityZeroOrOneToZeroOrManyDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
     public async Task<ActionResult> DeleteRefToTestEntityZeroOrOneToZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -106,6 +129,76 @@ public abstract partial class TestEntityZeroOrManyToZeroOrOnesControllerBase : O
         }
         
         return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/TestEntityZeroOrManyToZeroOrOnes/{key}/TestEntityZeroOrOneToZeroOrManies/{relatedKey}")]
+    public async Task<ActionResult> DeleteToTestEntityZeroOrOneToZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityZeroOrManyToZeroOrOneByIdQuery(key))).SelectMany(x => x.TestEntityZeroOrOneToZeroOrManies).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteTestEntityZeroOrOneToZeroOrManyByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/TestEntityZeroOrManyToZeroOrOnes/{key}/TestEntityZeroOrOneToZeroOrManies")]
+    public async Task<ActionResult> DeleteToTestEntityZeroOrOneToZeroOrManies([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityZeroOrManyToZeroOrOneByIdQuery(key))).Select(x => x.TestEntityZeroOrOneToZeroOrManies).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteTestEntityZeroOrOneToZeroOrManyByIdCommand(item.Id, etag));
+        }
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/TestEntityZeroOrManyToZeroOrOnes/{key}/TestEntityZeroOrOneToZeroOrManies/{relatedKey}")]
+    public virtual async Task<ActionResult<TestEntityZeroOrOneToZeroOrManyDto>> PutToTestEntityZeroOrOneToZeroOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] TestEntityZeroOrOneToZeroOrManyUpdateDto testEntityZeroOrOneToZeroOrMany)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityZeroOrManyToZeroOrOneByIdQuery(key))).SelectMany(x => x.TestEntityZeroOrOneToZeroOrManies).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateTestEntityZeroOrOneToZeroOrManyCommand(relatedKey, testEntityZeroOrOneToZeroOrMany, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion
