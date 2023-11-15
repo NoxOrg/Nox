@@ -58,7 +58,7 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
                 .Build();
 
             solution.Infrastructure.Endpoints.Should().NotBeNull();
-            solution.Infrastructure.Endpoints.ApiRoutePrefix.Should().Be("/");
+            solution.Infrastructure.Endpoints.ApiRoutePrefix.Should().Be("");
         }
 
         [Fact]
@@ -71,6 +71,25 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
 
             solution.Infrastructure.Endpoints.Should().NotBeNull();
             solution.Infrastructure.Endpoints.ApiRoutePrefix.Should().Be("/api/v1");
+        }
+
+        [Theory]
+        [InlineData("", "1.0", "/api/v1")]
+        [InlineData("", "2.0", "/api/v2")]
+        [InlineData("/api", "2.0", "/api")]
+        [InlineData("/api/v3", "2.0", "/api/v3")]
+        [InlineData("/", "2", "")]
+        public void WhenApiRoute_ShouldExpect(string configuration, string version, string expected)
+        {
+            // Arrange
+            var endPoints = new Nox.Solution.Endpoints();
+            endPoints.ApiRoutePrefix = configuration;
+
+            // Act
+            endPoints.ApplyDefaults(version);
+
+            // Assert
+            endPoints.ApiRoutePrefix.Should().Be(expected);
         }
     }
 }

@@ -37,11 +37,11 @@ namespace Nox.Solution
             Debug.Assert(routePrefix != null);
             if(string.IsNullOrEmpty(routePrefix))
             {
-                return "/";
+                return "";
             }
             if (routePrefix == "/")
             {
-                return routePrefix;
+                return "";
             }
             if (!routePrefix!.StartsWith("/"))
             {

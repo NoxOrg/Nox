@@ -49,6 +49,29 @@
                 @if (CurrentApiUiService != null && CurrentAddEntity != null)
                 {
                     var AddLabel = "ADD Test";
+                    List<CurrencyDto> testCurrencySelectionList = new List<CurrencyDto>()
+                            {
+                                new CurrencyDto()
+                                {
+                                    Id = "GBP",
+                                    Name = "British Pound",
+                                    Symbol = "£",
+                                    ThousandsSeparator = ",",
+                                    DecimalSeparator = ".",
+                                    SpaceBetweenAmountAndSymbol = false,
+                                    DecimalDigits = 2
+                                },
+                                new CurrencyDto()
+                                {
+                                    Id = "CHF",
+                                    Name = "Swiss Franc",
+                                    Symbol = "CHF",
+                                    ThousandsSeparator = ",",
+                                    DecimalSeparator = ".",
+                                    SpaceBetweenAmountAndSymbol = true,
+                                    DecimalDigits = 2
+                                }                               
+                            };
 
                     <MudItem xs="12" Class="align-left justify-left">
                         <MudButton OnClick="AddEntityOpenDialog"
@@ -90,6 +113,18 @@
                                                     <MudItem xs="6">
                                                         <UiEditLength_g Title="Length" LengthUnit="Nox.Types.LengthUnit.Meter" />
                                                     </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditArea_g Title="Area" AreaUnit="Nox.Types.AreaUnit.SquareMeter" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditTemperature_g Title="Temperature" TemperatureUnit="Nox.Types.TemperatureUnit.Celsius" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditNumber_g Title="Number" Format="#.##" Minimum="0" Maximum="100" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditCurrency_g Title="Currency" CurrencySelectionList="@testCurrencySelectionList" />
+                                                    </MudItem>
                                                 </MudGrid>
                                             </MudTabPanel>
                                         </MudTabs>
@@ -124,7 +159,25 @@
                         Decimal? testVolume = (Decimal)85.31;
                         Decimal? testDistance = (Decimal)74.25;
                         Decimal? testLength = (Decimal)11.87;
-
+                        Decimal? testArea = (Decimal)45.27;
+                        Decimal? testTemperature = (Decimal)14.33;
+                        Decimal? testNumber = (Decimal)23.75;
+                        CountryDto testCountry = new CountryDto()
+                                {
+                                    Name = "United Kingdom"
+                                };
+                        MoneyDto testMoney = new MoneyDto((decimal)6432.43, Nox.Types.CurrencyCode.GBP);                        
+                        CurrencyDto testCurrency = new CurrencyDto()
+                        {
+                            Id = "GBP",
+                            Name = "British Pound",
+                            Symbol = "£",
+                            ThousandsSeparator = ",",
+                            DecimalSeparator = ".",
+                            SpaceBetweenAmountAndSymbol = false,
+                            DecimalDigits = 2
+                        };
+                        
                         <MudTable ServerData="@(new Func<TableState, Task<TableData<CustomerDto>>>(ServerReload))"
                                   T="CustomerDto"
                                   Loading="@IsDataGridLoading"
@@ -142,6 +195,12 @@
                                 <MudTh>Volume</MudTh>
                                 <MudTh>Distance</MudTh>
                                 <MudTh>Length</MudTh>
+                                <MudTh>Area</MudTh>
+                                <MudTh>Temperature</MudTh>
+                                <MudTh>Country</MudTh>
+                                <MudTh>Number</MudTh>
+                                <MudTh>Money</MudTh>
+                                <MudTh>Currency</MudTh>
                             </HeaderContent>
                             <RowTemplate> 
                                 <MudTd>
@@ -162,8 +221,26 @@
                                 <MudTd>
                                     <UiViewDistance_g Distance="@testDistance" DistanceUnit="Nox.Types.DistanceUnit.Kilometer" />
                                 </MudTd>
-                                 <MudTd>
+                                <MudTd>
                                     <UiViewLength_g Length="@testLength" LengthUnit="Nox.Types.LengthUnit.Meter" />
+                                </MudTd>
+                                <MudTd>
+                                    <UiViewArea_g Area="@testArea" AreaUnit="Nox.Types.AreaUnit.SquareMeter" />
+                                </MudTd>
+                                <MudTd>
+                                    <UiViewTemperature_g Temperature="@testTemperature" TemperatureUnit="Nox.Types.TemperatureUnit.Celsius" />
+                                </MudTd>
+                                <MudTd>
+                                    <UiViewCountry_g Country="@testCountry" />
+                                </MudTd>
+                                <MudTd>
+                                    <UiViewNumber_g Number="@testNumber" Format="#.##" />
+                                </MudTd>
+                                <MudTd>
+                                    <UiViewMoney_g Money="@testMoney" Currency="@testCurrency" />
+                                </MudTd>
+                                <MudTd>
+                                    <UiViewCurrency_g Currency="@testCurrency" />
                                 </MudTd>
                             </RowTemplate>
                             <NoRecordsContent>
