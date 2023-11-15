@@ -4,6 +4,7 @@ using Nox.Solution;
 using Nox.Types;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Nox.Generator.Presentation.Api.OData;
 
@@ -26,13 +27,18 @@ internal class ODataServiceCollectionExtensions : INoxCodeGenerator
             return;
         }
 
-        var hasKeyForCompoundKeys = "";
+        
+        var hasKeyForCompoundKeys = new StringBuilder();
         foreach (var entity in noxCodeGenCodeConventions.Solution.Domain.Entities)
         {
-            hasKeyForCompoundKeys += $"builder.EntityType<{entity.Name}Dto>().HasKey(e => new {{{string.Join(",", entity.Keys.Select(k => $" e.{k.Name}"))} }});\n";
-
+            hasKeyForCompoundKeys.AppendLine($"builder.EntityType<{entity.Name}Dto>().HasKey(e => new {{{string.Join(",", entity.Keys.Select(k => $" e.{k.Name}"))} }});");
+            if (entity.IsLocalized)
+            {
+                hasKeyForCompoundKeys.AppendLine($"builder.EntityType<{entity.Name}LocalizedDto>().HasKey(e => new {{{string.Join(",", entity.Keys.Select(k => $" e.{k.Name}"))} }});");
+            }
         }
 
+       
         var enumerationAttributes = new List<EntityEnumerations>();
         foreach (var entity in noxCodeGenCodeConventions.Solution.Domain.Entities)
         {
@@ -54,7 +60,7 @@ internal class ODataServiceCollectionExtensions : INoxCodeGenerator
         var templateName = @"Presentation.Api.OData.ODataServiceCollectionExtensions";
 
         new TemplateCodeBuilder(context, noxCodeGenCodeConventions)
-            .WithObject("hasKeyForCompoundKeys", hasKeyForCompoundKeys)
+            .WithObject("hasKeyForCompoundKeys", hasKeyForCompoundKeys.ToString())
             .WithObject("enumerationAttributes", enumerationAttributes)
             .WithFileNamePrefix($"Presentation.Api.OData")
             .GenerateSourceCodeFromResource(templateName);
