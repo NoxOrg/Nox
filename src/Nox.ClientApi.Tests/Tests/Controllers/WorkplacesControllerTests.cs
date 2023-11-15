@@ -701,6 +701,47 @@ namespace ClientApi.Tests.Tests.Controllers
             frResult![0].Name.Should().Be(createDto.Name);
             frResult![0].Description.Should().Be(updateDto.Description);
         }
+        
+        [Fact]
+        public async Task Put_NewLanguageDescription_CreatesLocalization()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "Un immeuble moderne de taille modeste avec parking, à quelques minutes de la Gare de Lyon et de la Gare d'Austerlitz.",
+            };
+
+
+            var upsertDto = new WorkplaceLocalizedUpsertDto
+            {
+                Description = "Gare de Lyon ve Gare d'Austerlitz'e birkaç dakika uzaklıkta, otoparkı olan mütevazı büyüklükte modern bir bina.",
+            };
+            
+           
+
+            // Act
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("fr-FR"));
+
+            var result = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
+
+            var headers = CreateHeaders(
+                CreateEtagHeader(postResult?.Etag),
+                CreateAcceptLanguageHeader("en-US"));
+            
+            var localizedDto =  await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplaceLocalized/tr-TR", upsertDto, headers, false);
+            
+            
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().HaveCount(1);
+            result![0].Id.Should().Be(postResult!.Id);
+            result![0].Name.Should().Be(createDto.Name);
+            result![0].Description.Should().Be("[" + createDto.Description + "]");
+            localizedDto.Should().NotBeNull();
+            localizedDto!.Id.Should().Be(postResult!.Id);
+            localizedDto!.Description.Should().Be(upsertDto.Description);
+        }
 
         #endregion LOCALIZATIONS
 

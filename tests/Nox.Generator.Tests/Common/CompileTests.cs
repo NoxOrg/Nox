@@ -184,8 +184,14 @@ global using global::Microsoft.AspNetCore.Builder;";
         foreach (var source in sources)
         {
             var path = Path.Combine(BasePath, source.Key);
+            var filePath = Path.Combine(BasePath, source.Key);
 
             File.WriteAllText(path, source.Value);
+            var directoryPath = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(directoryPath))
+                Directory.CreateDirectory(directoryPath!);
+
+            File.WriteAllText(filePath, source.Value);
         }
     }
 }

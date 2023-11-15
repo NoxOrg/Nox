@@ -23,10 +23,11 @@ public class LocalizedEntitiesTests : IClassFixture<GeneratorFixture>
 
         GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileCount(12, "Domain.CountryLocalized.g.cs", "Application.Dto.CountryLocalizedDto.g.cs")
+            .AssertFileCount(13, "Domain.CountryLocalized.g.cs", "Application.Dto.CountryLocalizedDto.g.cs")
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
             .AssertFileExistsAndContent("CountryLocalized.expected.g.cs", "Domain.CountryLocalized.g.cs")
+            .AssertFileExistsAndContent("CountryLocalizedUpsertDto.expected.g.cs", "Application.Dto.CountryLocalizedUpsertDto.g.cs")
             .AssertFileExistsAndContent("CountryLocalizedDto.expected.g.cs", "Application.Dto.CountryLocalizedDto.g.cs")
             .AssertFileExistsAndContent("CountryLocalizedFactory.expected.g.cs", "Application.Factories.CountryLocalizedFactory.g.cs");
     }

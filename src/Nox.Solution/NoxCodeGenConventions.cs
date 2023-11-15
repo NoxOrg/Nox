@@ -46,6 +46,11 @@ public class NoxCodeGenConventions
     /// Computes the Entity DTO Name that holds the translated values of an localized entity.
     /// </summary>
     public static string GetEntityDtoNameForLocalizedType(string entityName) => $"{entityName}LocalizedDto";
+    
+    /// <summary>
+    /// Computes the Entity DTO Name that holds the translated values of an localized entity.
+    /// </summary>
+    public static string GetEntityUpsertDtoNameForLocalizedType(string entityName) => $"{entityName}LocalizedUpsertDto";
     /// <summary>
     /// Localization culture field name.
     /// </summary>

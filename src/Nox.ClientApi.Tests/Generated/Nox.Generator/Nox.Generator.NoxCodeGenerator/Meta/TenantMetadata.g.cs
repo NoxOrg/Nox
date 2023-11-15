@@ -28,11 +28,11 @@ public partial class TenantMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = false,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = false,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -48,11 +48,11 @@ public partial class TenantMetadata
         /// </summary>
         public static Nox.Types.NuidTypeOptions WorkplaceIdTypeOptions {get; private set;} = new ()
         {
-            Separator = "-",
-            PropertyNames = new System.String[]
-            {
-                "Name",
-            },
+            Separator = "-",
+            PropertyNames = new System.String[]
+            {
+                "Name",
+            },
         };
     
     
