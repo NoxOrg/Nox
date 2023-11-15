@@ -12,7 +12,7 @@ using FluentValidation;
 
 namespace Nox.Solution;
 
-[GenerateJsonSchema]
+[GenerateJsonSchema("solution")]
 [Title("Fully describes a NOX solution")]
 [Description("Contains all configuration, domain objects and infrastructure declarations that defines a NOX solution. See https://noxorg.dev for more.")]
 [AdditionalProperties(false)]
