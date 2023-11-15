@@ -101,9 +101,9 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<CustomerDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerDto> customer)
+    public virtual async Task<ActionResult<CustomerDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerUpdateDto> customer)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || customer is null)
         {
             return BadRequest(ModelState);
         }

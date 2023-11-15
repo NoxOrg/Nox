@@ -42,11 +42,11 @@ public partial class TestEntityForAutoNumberUsagesMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions TextFieldTypeOptions {get; private set;} = new ()
         {
-            MinLength = 1,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = false,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 1,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = false,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     

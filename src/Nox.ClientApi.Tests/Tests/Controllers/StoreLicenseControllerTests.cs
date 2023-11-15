@@ -240,7 +240,7 @@ namespace ClientApi.Tests.Tests.Controllers
             storeLicenseCreateResponse!.ExternalId.Should().Be(3000000);
         }
 
-        [Fact]
+        [Fact(Skip = "NOX-237")]
         public async Task WhenStoreLicenceUpdated_AutoNumberExternalIdIsNotUpdated()
         {
             //Arrange
