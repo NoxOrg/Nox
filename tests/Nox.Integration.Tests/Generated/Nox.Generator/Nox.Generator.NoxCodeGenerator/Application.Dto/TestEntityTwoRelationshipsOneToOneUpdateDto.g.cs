@@ -32,16 +32,4 @@ public partial class TestEntityTwoRelationshipsOneToOneUpdateDtoBase: EntityDtoB
     [Required(ErrorMessage = "TextTestField is required")]
     
     public virtual System.String TextTestField { get; set; } = default!;
-
-    /// <summary>
-    /// TestEntityTwoRelationshipsOneToOne First relationship to the same entity ExactlyOne SecondTestEntityTwoRelationshipsOneToOnes
-    /// </summary>
-    [Required(ErrorMessage = "TestRelationshipOne is required")]
-    public virtual System.String TestRelationshipOneId { get; set; } = default!;
-
-    /// <summary>
-    /// TestEntityTwoRelationshipsOneToOne Second relationship to the same entity ExactlyOne SecondTestEntityTwoRelationshipsOneToOnes
-    /// </summary>
-    [Required(ErrorMessage = "TestRelationshipTwo is required")]
-    public virtual System.String TestRelationshipTwoId { get; set; } = default!;
 }

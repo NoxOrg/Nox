@@ -65,10 +65,4 @@ public partial class EmployeeUpdateDtoBase: EntityDtoBase, IEntityDto<DomainName
     /// <remarks>Optional.</remarks>    
     /// </summary>
     public virtual System.DateTime? LastWorkingDay { get; set; }
-
-    /// <summary>
-    /// Employee reviewing ZeroOrOne CashStockOrders
-    /// </summary>
-    
-    public virtual System.Int64? CashStockOrderId { get; set; } = default!;
 }

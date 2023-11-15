@@ -86,8 +86,6 @@ internal class DtoDbContext : DbContext
         public DbSet<SecondTestEntityTwoRelationshipsOneToManyDto> SecondTestEntityTwoRelationshipsOneToManies { get; set; } = null!;
         public DbSet<TestEntityForTypesDto> TestEntityForTypes { get; set; } = null!;
         public DbSet<TestEntityForUniqueConstraintsDto> TestEntityForUniqueConstraints { get; set; } = null!;
-        public DbSet<EntityUniqueConstraintsWithForeignKeyDto> EntityUniqueConstraintsWithForeignKeys { get; set; } = null!;
-        public DbSet<EntityUniqueConstraintsRelatedForeignKeyDto> EntityUniqueConstraintsRelatedForeignKeys { get; set; } = null!;
         public DbSet<TestEntityLocalizationDto> TestEntityLocalizations { get; set; } = null!;
         public DbSet<TestEntityForAutoNumberUsagesDto> TestEntityForAutoNumberUsages { get; set; } = null!;
     public DbSet<TestEntityLocalizationLocalizedDto> TestEntityLocalizationsLocalized { get; set; } = null!;

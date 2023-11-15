@@ -57,21 +57,6 @@ internal abstract class UpdateCommissionCommandHandlerBase : CommandBase<UpdateC
 			return null;
 		}
 
-		if(request.EntityDto.CountryId is not null)
-		{
-			var countryKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.String>());
-			var countryEntity = await DbContext.Countries.FindAsync(countryKey);
-						
-			if(countryEntity is not null)
-				entity.CreateRefToCountry(countryEntity);
-			else
-				throw new RelatedEntityNotFoundException("Country", request.EntityDto.CountryId.NonNullValue<System.String>().ToString());
-		}
-		else
-		{
-			entity.DeleteAllRefToCountry();
-		}
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

@@ -64,8 +64,6 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<SecondTestEntityTwoRelationshipsOneToManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityForTypesDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityForUniqueConstraintsDto>().HasKey(e => new { e.Id });
-        builder.EntityType<EntityUniqueConstraintsWithForeignKeyDto>().HasKey(e => new { e.Id });
-        builder.EntityType<EntityUniqueConstraintsRelatedForeignKeyDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityLocalizationDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityForAutoNumberUsagesDto>().HasKey(e => new { e.Id });
 
@@ -296,14 +294,6 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<TestEntityForUniqueConstraintsDto>("TestEntityForUniqueConstraints");
 
         builder.EntityType<TestEntityForUniqueConstraintsDto>();
-        builder.EntitySet<EntityUniqueConstraintsWithForeignKeyDto>("EntityUniqueConstraintsWithForeignKeys");
-        builder.EntityType<EntityUniqueConstraintsWithForeignKeyDto>().ContainsRequired(e => e.EntityUniqueConstraintsRelatedForeignKey);
-
-        builder.EntityType<EntityUniqueConstraintsWithForeignKeyDto>();
-        builder.EntitySet<EntityUniqueConstraintsRelatedForeignKeyDto>("EntityUniqueConstraintsRelatedForeignKeys");
-        builder.EntityType<EntityUniqueConstraintsRelatedForeignKeyDto>().ContainsMany(e => e.EntityUniqueConstraintsWithForeignKeys);
-
-        builder.EntityType<EntityUniqueConstraintsRelatedForeignKeyDto>();
         builder.EntitySet<TestEntityLocalizationDto>("TestEntityLocalizations");
 
         builder.EntityType<TestEntityLocalizationDto>();

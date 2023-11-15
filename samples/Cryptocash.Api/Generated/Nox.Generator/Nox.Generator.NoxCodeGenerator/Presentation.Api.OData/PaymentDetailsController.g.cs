@@ -72,6 +72,17 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<CustomerDto>> GetCustomer(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetPaymentDetailByIdQuery(key))).Where(x => x.Customer != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CustomerDto>(Enumerable.Empty<CustomerDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.Customer!));
+    }
+    
     public virtual async Task<ActionResult<CustomerDto>> PutToCustomer(System.Int64 key, [FromBody] CustomerUpdateDto customer)
     {
         if (!ModelState.IsValid)
@@ -137,6 +148,17 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         
         var references = new System.Uri($"PaymentProviders/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<PaymentProviderDto>> GetPaymentProvider(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetPaymentDetailByIdQuery(key))).Where(x => x.PaymentProvider != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<PaymentProviderDto>(Enumerable.Empty<PaymentProviderDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.PaymentProvider!));
     }
     
     public virtual async Task<ActionResult<PaymentProviderDto>> PutToPaymentProvider(System.Int64 key, [FromBody] PaymentProviderUpdateDto paymentProvider)

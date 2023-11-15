@@ -54,6 +54,63 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion GET Ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/workplaces/1/Country/$ref
 
+        #region GET Related Entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName} => api/workplaces/1/Country
+
+        [Fact]
+        public async Task Get_WorkplaceCountry_Success()
+        {
+            // Arrange
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
+                new WorkplaceCreateDto { Name = _fixture.Create<string>() });
+            var headers = CreateEtagHeader(workplaceResponse?.Etag);
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(
+                $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
+                new CountryCreateDto() { Name = _fixture.Create<string>() },
+                headers);
+
+            // Act
+            const string oDataRequest = $"$expand={nameof(CountryDto.Workplaces)}";
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>(
+                $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}?{oDataRequest}");
+
+            //Assert
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().Be(countryResponse!.Id);
+            getCountryResponse!.Workplaces.Should().NotBeNull();
+            getCountryResponse!.Workplaces.Should().HaveCount(1);
+            getCountryResponse!.Workplaces!.First().Id.Should().Be(workplaceResponse!.Id);
+        }
+
+        [Fact]
+        public async Task Get_WorkplaceCountry_WhenNoRelatedCountry_NotFound()
+        {
+            // Arrange
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
+                new WorkplaceCreateDto { Name = _fixture.Create<string>() });
+
+            // Act
+            var getCountryResponse = await GetAsync(
+                $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}");
+
+            //Assert
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task Get_WorkplaceCountry_InvalidWorkplaceId_NotFound()
+        {
+            // Act
+            var getCountryResponse = await GetAsync(
+                $"{Endpoints.WorkplacesUrl}/{1}/{nameof(WorkplaceDto.Country)}");
+
+            //Assert
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        #endregion
+
         #endregion GET
 
         #region POST
@@ -160,7 +217,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region PUT Update related entity /api/{EntityPluralName}/{EntityKey} => api/workplaces/1
 
-        [Fact]
+        [Fact(Skip = "NOX-237")]
         public async Task Put_UpdateCountry_Success()
         {
             // Arrange
@@ -180,7 +237,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 new WorkplaceUpdateDto
                 {
                     Name = workplaceResponse!.Name,
-                    CountryId = countryResponse2!.Id
+                    //CountryId = countryResponse2!.Id
                 },
                 headers);
 

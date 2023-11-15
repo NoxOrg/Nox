@@ -72,6 +72,17 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<SecondTestEntityExactlyOneDto>> GetSecondTestEntityExactlyOne(System.String key)
+    {
+        var related = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(key))).Where(x => x.SecondTestEntityExactlyOne != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<SecondTestEntityExactlyOneDto>(Enumerable.Empty<SecondTestEntityExactlyOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.SecondTestEntityExactlyOne!));
+    }
+    
     public virtual async Task<ActionResult<SecondTestEntityExactlyOneDto>> PutToSecondTestEntityExactlyOne(System.String key, [FromBody] SecondTestEntityExactlyOneUpdateDto secondTestEntityExactlyOne)
     {
         if (!ModelState.IsValid)

@@ -76,6 +76,29 @@ public abstract partial class TestEntityOneOrManyToZeroOrOnesControllerBase : OD
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<TestEntityZeroOrOneToOneOrManyDto>>> GetTestEntityZeroOrOneToOneOrManies(System.String key)
+    {
+        var entity = (await _mediator.Send(new GetTestEntityOneOrManyToZeroOrOneByIdQuery(key))).SelectMany(x => x.TestEntityZeroOrOneToOneOrManies);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/TestEntityOneOrManyToZeroOrOnes/{key}/TestEntityZeroOrOneToOneOrManies/{relatedKey}")]
+    public virtual async Task<SingleResult<TestEntityZeroOrOneToOneOrManyDto>> GetTestEntityZeroOrOneToOneOrManiesNonConventional(System.String key, System.String relatedKey)
+    {
+        var related = (await _mediator.Send(new GetTestEntityOneOrManyToZeroOrOneByIdQuery(key))).SelectMany(x => x.TestEntityZeroOrOneToOneOrManies).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<TestEntityZeroOrOneToOneOrManyDto>(Enumerable.Empty<TestEntityZeroOrOneToOneOrManyDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
     public async Task<ActionResult> DeleteRefToTestEntityZeroOrOneToOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)

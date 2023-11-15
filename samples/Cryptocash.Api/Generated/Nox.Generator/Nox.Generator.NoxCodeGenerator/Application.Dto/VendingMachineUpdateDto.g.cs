@@ -70,16 +70,4 @@ public partial class VendingMachineUpdateDtoBase: EntityDtoBase, IEntityDto<Doma
     /// <remarks>Optional.</remarks>    
     /// </summary>
     public virtual MoneyDto? RentPerSquareMetre { get; set; }
-
-    /// <summary>
-    /// VendingMachine installed in ExactlyOne Countries
-    /// </summary>
-    [Required(ErrorMessage = "Country is required")]
-    public virtual System.String CountryId { get; set; } = default!;
-
-    /// <summary>
-    /// VendingMachine contracted area leased by ExactlyOne LandLords
-    /// </summary>
-    [Required(ErrorMessage = "LandLord is required")]
-    public virtual System.Int64 LandLordId { get; set; } = default!;
 }

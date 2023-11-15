@@ -72,6 +72,17 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<VendingMachineDto>> GetVendingMachine(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Where(x => x.VendingMachine != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<VendingMachineDto>(Enumerable.Empty<VendingMachineDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.VendingMachine!));
+    }
+    
     public virtual async Task<ActionResult<VendingMachineDto>> PutToVendingMachine(System.Int64 key, [FromBody] VendingMachineUpdateDto vendingMachine)
     {
         if (!ModelState.IsValid)
@@ -137,6 +148,17 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         
         var references = new System.Uri($"Employees/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<EmployeeDto>> GetEmployee(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Where(x => x.Employee != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<EmployeeDto>(Enumerable.Empty<EmployeeDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.Employee!));
     }
     
     public virtual async Task<ActionResult<EmployeeDto>> PutToEmployee(System.Int64 key, [FromBody] EmployeeUpdateDto employee)

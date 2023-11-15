@@ -44,16 +44,4 @@ public partial class CashStockOrderUpdateDtoBase: EntityDtoBase, IEntityDto<Doma
     /// <remarks>Optional.</remarks>    
     /// </summary>
     public virtual System.DateTimeOffset? DeliveryDateTime { get; set; }
-
-    /// <summary>
-    /// CashStockOrder for ExactlyOne VendingMachines
-    /// </summary>
-    [Required(ErrorMessage = "VendingMachine is required")]
-    public virtual System.Guid VendingMachineId { get; set; } = default!;
-
-    /// <summary>
-    /// CashStockOrder reviewed by ExactlyOne Employees
-    /// </summary>
-    [Required(ErrorMessage = "Employee is required")]
-    public virtual System.Int64 EmployeeId { get; set; } = default!;
 }

@@ -213,6 +213,17 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<CashStockOrderDto>> GetCashStockOrder(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Where(x => x.CashStockOrder != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CashStockOrderDto>(Enumerable.Empty<CashStockOrderDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.CashStockOrder!));
+    }
+    
     public async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)

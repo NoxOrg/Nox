@@ -72,6 +72,17 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<ThirdTestEntityExactlyOneDto>> GetThirdTestEntityExactlyOne(System.String key)
+    {
+        var related = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(key))).Where(x => x.ThirdTestEntityExactlyOne != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<ThirdTestEntityExactlyOneDto>(Enumerable.Empty<ThirdTestEntityExactlyOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.ThirdTestEntityExactlyOne!));
+    }
+    
     public async Task<ActionResult> DeleteRefToThirdTestEntityExactlyOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)

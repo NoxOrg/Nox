@@ -72,6 +72,17 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<SecondTestEntityZeroOrOneDto>> GetSecondTestEntityZeroOrOne(System.String key)
+    {
+        var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Where(x => x.SecondTestEntityZeroOrOne != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<SecondTestEntityZeroOrOneDto>(Enumerable.Empty<SecondTestEntityZeroOrOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.SecondTestEntityZeroOrOne!));
+    }
+    
     public async Task<ActionResult> DeleteRefToSecondTestEntityZeroOrOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)

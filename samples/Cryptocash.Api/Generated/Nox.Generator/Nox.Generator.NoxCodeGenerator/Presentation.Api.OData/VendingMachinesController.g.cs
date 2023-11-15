@@ -72,6 +72,17 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<CountryDto>> GetCountry(System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Where(x => x.Country != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CountryDto>(Enumerable.Empty<CountryDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.Country!));
+    }
+    
     public virtual async Task<ActionResult<CountryDto>> PutToCountry(System.Guid key, [FromBody] CountryUpdateDto country)
     {
         if (!ModelState.IsValid)
@@ -137,6 +148,17 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         
         var references = new System.Uri($"LandLords/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<LandLordDto>> GetLandLord(System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Where(x => x.LandLord != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<LandLordDto>(Enumerable.Empty<LandLordDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.LandLord!));
     }
     
     public virtual async Task<ActionResult<LandLordDto>> PutToLandLord(System.Guid key, [FromBody] LandLordUpdateDto landLord)
@@ -208,6 +230,29 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             references.Add(new System.Uri($"Bookings/{item.Id}", UriKind.Relative));
         }
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<BookingDto>>> GetBookings(System.Guid key)
+    {
+        var entity = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.Bookings);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/VendingMachines/{key}/Bookings/{relatedKey}")]
+    public virtual async Task<SingleResult<BookingDto>> GetBookingsNonConventional(System.Guid key, System.Guid relatedKey)
+    {
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.Bookings).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<BookingDto>(Enumerable.Empty<BookingDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
     }
     
     public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
@@ -360,6 +405,29 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<CashStockOrderDto>>> GetCashStockOrders(System.Guid key)
+    {
+        var entity = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.CashStockOrders);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/VendingMachines/{key}/CashStockOrders/{relatedKey}")]
+    public virtual async Task<SingleResult<CashStockOrderDto>> GetCashStockOrdersNonConventional(System.Guid key, System.Int64 relatedKey)
+    {
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.CashStockOrders).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CashStockOrderDto>(Enumerable.Empty<CashStockOrderDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
     public async Task<ActionResult> DeleteRefToCashStockOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -508,6 +576,29 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             references.Add(new System.Uri($"MinimumCashStocks/{item.Id}", UriKind.Relative));
         }
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<MinimumCashStockDto>>> GetMinimumCashStocks(System.Guid key)
+    {
+        var entity = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.MinimumCashStocks);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/VendingMachines/{key}/MinimumCashStocks/{relatedKey}")]
+    public virtual async Task<SingleResult<MinimumCashStockDto>> GetMinimumCashStocksNonConventional(System.Guid key, System.Int64 relatedKey)
+    {
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<MinimumCashStockDto>(Enumerable.Empty<MinimumCashStockDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
     }
     
     public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)

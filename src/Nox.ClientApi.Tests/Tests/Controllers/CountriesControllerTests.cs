@@ -573,6 +573,119 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion GET Ref To Related Entities /api/{EntityPluralName}/1/{RelationshipName}/$ref => api/countries/1/Workplaces/$ref
 
+        #region GET Related Entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName} => api/countries/1/Workplaces
+
+        [Fact]
+        public async Task Get_CountryWorkplaces_Success()
+        {
+            // Arrange
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, 
+                new CountryCreateDto { Name = _fixture.Create<string>() });
+            var headers = CreateEtagHeader(countryResponse?.Etag);
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
+                $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}",
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                headers);
+
+            // Act
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.Country)}";
+            var getWorkplacesResponse = await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>(
+                $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}?{oDataRequest}");
+
+            //Assert
+            getWorkplacesResponse.Should().NotBeNull();
+            getWorkplacesResponse!.Should().HaveCount(1);
+            getWorkplacesResponse!.First().Id.Should().Be(workplaceResponse!.Id);
+            getWorkplacesResponse!.First().Country.Should().NotBeNull();
+            getWorkplacesResponse!.First().Country!.Id.Should().Be(countryResponse!.Id);
+            getWorkplacesResponse!.First().CountryId.Should().Be(countryResponse!.Id);
+        }
+
+        [Fact]
+        public async Task Get_CountryWorkplaces_WhenNoRelatedWorkplaces_NotFound()
+        {
+            // Arrange
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, 
+                new CountryCreateDto { Name = _fixture.Create<string>() });
+
+            // Act
+            var getWorkplacesResponse = await GetAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}");
+
+            //Assert
+            getWorkplacesResponse.Should().NotBeNull();
+            getWorkplacesResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task Get_CountryWorkplaces_InvalidCountryId_NotFound()
+        {
+            // Act
+            var getWorkplacesResponse = await GetAsync($"{Endpoints.CountriesUrl}/{1}/{nameof(CountryDto.Workplaces)}");
+
+            //Assert
+            getWorkplacesResponse.Should().NotBeNull();
+            getWorkplacesResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        #endregion
+
+        #region GET by Id Related Entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedKey} => api/countries/1/Workplaces/1
+
+        [Fact]
+        public async Task GetById_CountryWorkplace_Success()
+        {
+            // Arrange
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, 
+                new CountryCreateDto { Name = _fixture.Create<string>() });
+            var headers = CreateEtagHeader(countryResponse?.Etag);
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
+                $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}",
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                headers);
+
+            // Act
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.Country)}";
+            var getWorkplacesResponse = await GetODataSimpleResponseAsync<WorkplaceDto>(
+                $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            getWorkplacesResponse.Should().NotBeNull();
+            getWorkplacesResponse!.Id.Should().Be(workplaceResponse!.Id);
+            getWorkplacesResponse!.Country.Should().NotBeNull();
+            getWorkplacesResponse!.Country!.Id.Should().Be(countryResponse!.Id);
+            getWorkplacesResponse!.CountryId.Should().Be(countryResponse!.Id);
+        }
+
+        [Fact]
+        public async Task GetById_CountryWorkplace_InvalidWorkplaceId_NotFound()
+        {
+            // Arrange
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+                new CountryCreateDto { Name = _fixture.Create<string>() });
+
+            // Act
+            var getWorkplacesResponse = await GetAsync(
+                $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{1}");
+
+            //Assert
+            getWorkplacesResponse.Should().NotBeNull();
+            getWorkplacesResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task GetById_CountryWorkplace_InvalidCountryIdAndWorkplaceId_NotFound()
+        {
+            // Act
+            var getWorkplacesResponse = await GetAsync(
+                $"{Endpoints.CountriesUrl}/{1}/{nameof(CountryDto.Workplaces)}/{1}");
+
+            //Assert
+            getWorkplacesResponse.Should().NotBeNull();
+            getWorkplacesResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        #endregion
+
         #endregion GET
 
         #region POST
@@ -1043,8 +1156,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{postToWorkplaceResponse!.Id}",
                 new WorkplaceUpdateDto() { 
                     Name = postToWorkplaceResponse!.Name, 
-                    Description = expectedDescription,
-                    CountryId = postToWorkplaceResponse!.CountryId },
+                    Description = expectedDescription },
                 headers);
 
             const string oDataRequest = $"$expand={nameof(CountryDto.Workplaces)}";

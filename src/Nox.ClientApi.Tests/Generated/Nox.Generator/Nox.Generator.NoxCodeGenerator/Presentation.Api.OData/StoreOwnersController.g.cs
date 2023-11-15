@@ -76,6 +76,29 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<StoreDto>>> GetStores(System.String key)
+    {
+        var entity = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).SelectMany(x => x.Stores);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/StoreOwners/{key}/Stores/{relatedKey}")]
+    public virtual async Task<SingleResult<StoreDto>> GetStoresNonConventional(System.String key, System.Guid relatedKey)
+    {
+        var related = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).SelectMany(x => x.Stores).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<StoreDto>(Enumerable.Empty<StoreDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
     public async Task<ActionResult> DeleteRefToStores([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)

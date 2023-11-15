@@ -58,10 +58,4 @@ public partial class CustomerUpdateDtoBase: EntityDtoBase, IEntityDto<DomainName
     /// <remarks>Optional.</remarks>    
     /// </summary>
     public virtual System.String? MobileNumber { get; set; }
-
-    /// <summary>
-    /// Customer based in ExactlyOne Countries
-    /// </summary>
-    [Required(ErrorMessage = "Country is required")]
-    public virtual System.String CountryId { get; set; } = default!;
 }
