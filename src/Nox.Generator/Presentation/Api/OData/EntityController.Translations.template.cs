@@ -31,7 +31,7 @@ namespace {{ codeGeneratorState.ODataNameSpace }};
 {{- cultureCode = ToLowerFirstChar codeGeneratorState.LocalizationCultureField}}
 
 
-public abstract partial class {{ entity.PluralName }}ControllerBase
+public abstract partial class {{ className }}Base
 {
     
     [HttpPut("{{solution.Infrastructure.Endpoints.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.Name}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
@@ -63,5 +63,14 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
         var item = (await _mediator.Send(new Get{{entity.Name }}TranslationsByIdQuery( {{ updatedKeyPrimaryKeysQuery }}, Nox.Types.CultureCode.From({{cultureCode}})))).SingleOrDefault();
 
         return Ok(item);
+    }
+
+    [EnableQuery]
+    [HttpGet("{{solution.Infrastructure.Endpoints.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.Name}}Localized/")]
+    public virtual async Task<ActionResult<{{entity.Name}}LocalizedDto>> Put{{entity.Name}}Localized( {{ primaryKeysRoute }})
+    {
+        var result = (await _mediator.Send(new Get{{entity.Name}}TranslationsQuery({{ primaryKeysQuery }})));
+            
+        return Ok(result);
     }
 }
