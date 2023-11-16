@@ -83,7 +83,6 @@ public abstract partial class StoreOwnersControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         store.StoreOwnerId = key;
         var createdKey = await _mediator.Send(new CreateStoreCommand(store, _cultureCode));
         

@@ -63,7 +63,6 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         customer.PaymentDetailsId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateCustomerCommand(customer, _cultureCode));
         
@@ -141,7 +140,6 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         paymentProvider.PaymentDetailsId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreatePaymentProviderCommand(paymentProvider, _cultureCode));
         

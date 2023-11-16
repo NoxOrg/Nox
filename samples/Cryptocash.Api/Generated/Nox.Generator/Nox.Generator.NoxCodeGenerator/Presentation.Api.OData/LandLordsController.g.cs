@@ -99,7 +99,6 @@ public abstract partial class LandLordsControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         vendingMachine.LandLordId = key;
         var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
         

@@ -732,7 +732,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
 
         var localizationPart = relatedEntity.IsLocalized ? "_cultureCode, " : "";
         if(reversedRelationship.WithSingleEntity())

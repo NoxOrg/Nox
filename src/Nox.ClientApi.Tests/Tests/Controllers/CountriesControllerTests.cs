@@ -945,13 +945,11 @@ namespace ClientApi.Tests.Tests.Controllers
                 new CountryCreateDto { Name = _fixture.Create<string>() });
 
             // Act
-            var headers = CreateEtagHeader(countryResponse?.Etag);
             var postToWorkplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}",
-                new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
-                headers);
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
 
-            headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
+            var headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
             var deleteWorkplaceResponse = await DeleteAsync(
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{postToWorkplaceResponse!.Id}",
                 headers);
@@ -983,13 +981,11 @@ namespace ClientApi.Tests.Tests.Controllers
                 new CountryCreateDto { Name = _fixture.Create<string>() });
 
             // Act
-            var headers = CreateEtagHeader(countryResponse?.Etag);
             var postToWorkplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}",
-                new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
-                headers);
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
 
-            headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
+            var headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
             var deleteWorkplaceResponse = await DeleteAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}", headers);
 
             const string oDataRequest = $"$expand={nameof(CountryDto.Workplaces)}";
@@ -1142,16 +1138,14 @@ namespace ClientApi.Tests.Tests.Controllers
             var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, 
                 new CountryCreateDto { Name = _fixture.Create<string>() });
 
-            var headers = CreateEtagHeader(countryResponse?.Etag);
             var postToWorkplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}",
-                new WorkplaceCreateDto() { Name = _fixture.Create<string>(), Description = _fixture.Create<string>() },
-                headers);
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>(), Description = _fixture.Create<string>() });
 
             var expectedDescription = _fixture.Create<string>();
 
             // Act
-            headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
+            var headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
             var putToWorkplaceResponse = await PutAsync<WorkplaceUpdateDto>(
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{postToWorkplaceResponse!.Id}",
                 new WorkplaceUpdateDto() { 

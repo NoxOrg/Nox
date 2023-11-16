@@ -95,7 +95,6 @@ public abstract partial class CommissionsControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         country.CommissionsId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
         
@@ -232,7 +231,6 @@ public abstract partial class CommissionsControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         booking.CommissionId = key;
         var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
         

@@ -99,7 +99,6 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         paymentDetail.PaymentProviderId = key;
         var createdKey = await _mediator.Send(new CreatePaymentDetailCommand(paymentDetail, _cultureCode));
         

@@ -63,7 +63,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         store.StoreLicenseId = key;
         var createdKey = await _mediator.Send(new CreateStoreCommand(store, _cultureCode));
         
@@ -173,7 +172,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         currency.StoreLicenseDefaultId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency, _cultureCode));
         
@@ -306,7 +304,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         currency.StoreLicenseSoldInId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency, _cultureCode));
         
