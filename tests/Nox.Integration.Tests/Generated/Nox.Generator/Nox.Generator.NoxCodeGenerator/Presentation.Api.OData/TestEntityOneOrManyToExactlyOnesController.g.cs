@@ -44,38 +44,6 @@ public abstract partial class TestEntityOneOrManyToExactlyOnesControllerBase : O
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTestEntityExactlyOneToOneOrManies([FromRoute] System.String key)
-    {
-        var related = (await _mediator.Send(new GetTestEntityOneOrManyToExactlyOneByIdQuery(key))).Select(x => x.TestEntityExactlyOneToOneOrManies).SingleOrDefault();
-        if (related is null)
-        {
-            return NotFound();
-        }
-        
-        IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
-        {
-            references.Add(new System.Uri($"TestEntityExactlyOneToOneOrManies/{item.Id}", UriKind.Relative));
-        }
-        return Ok(references);
-    }
-    
-    public async Task<ActionResult> DeleteRefToTestEntityExactlyOneToOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedRef = await _mediator.Send(new DeleteRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand(new TestEntityOneOrManyToExactlyOneKeyDto(key), new TestEntityExactlyOneToOneOrManyKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
     public virtual async Task<ActionResult> PostToTestEntityExactlyOneToOneOrManies([FromRoute] System.String key, [FromBody] TestEntityExactlyOneToOneOrManyCreateDto testEntityExactlyOneToOneOrMany)
     {
         if (!ModelState.IsValid)
@@ -90,6 +58,22 @@ public abstract partial class TestEntityOneOrManyToExactlyOnesControllerBase : O
         var createdItem = (await _mediator.Send(new GetTestEntityExactlyOneToOneOrManyByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
+    }
+    
+    public async Task<ActionResult> GetRefToTestEntityExactlyOneToOneOrManies([FromRoute] System.String key)
+    {
+        var related = (await _mediator.Send(new GetTestEntityOneOrManyToExactlyOneByIdQuery(key))).Select(x => x.TestEntityExactlyOneToOneOrManies).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in related)
+        {
+            references.Add(new System.Uri($"TestEntityExactlyOneToOneOrManies/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
     }
     
     [EnableQuery]
@@ -115,28 +99,20 @@ public abstract partial class TestEntityOneOrManyToExactlyOnesControllerBase : O
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/TestEntityOneOrManyToExactlyOnes/{key}/TestEntityExactlyOneToOneOrManies/{relatedKey}")]
-    public virtual async Task<ActionResult<TestEntityExactlyOneToOneOrManyDto>> PutToTestEntityExactlyOneToOneOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] TestEntityExactlyOneToOneOrManyUpdateDto testEntityExactlyOneToOneOrMany)
+    public async Task<ActionResult> DeleteRefToTestEntityExactlyOneToOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetTestEntityOneOrManyToExactlyOneByIdQuery(key))).SelectMany(x => x.TestEntityExactlyOneToOneOrManies).Any(x => x.Id == relatedKey);
-        if (!related)
+        var deletedRef = await _mediator.Send(new DeleteRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand(new TestEntityOneOrManyToExactlyOneKeyDto(key), new TestEntityExactlyOneToOneOrManyKeyDto(relatedKey)));
+        if (!deletedRef)
         {
             return NotFound();
         }
         
-        var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateTestEntityExactlyOneToOneOrManyCommand(relatedKey, testEntityExactlyOneToOneOrMany, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok();
+        return NoContent();
     }
     
     [HttpDelete("/api/v1/TestEntityOneOrManyToExactlyOnes/{key}/TestEntityExactlyOneToOneOrManies/{relatedKey}")]
@@ -161,6 +137,30 @@ public abstract partial class TestEntityOneOrManyToExactlyOnesControllerBase : O
         }
         
         return NoContent();
+    }
+    
+    [HttpPut("/api/v1/TestEntityOneOrManyToExactlyOnes/{key}/TestEntityExactlyOneToOneOrManies/{relatedKey}")]
+    public virtual async Task<ActionResult<TestEntityExactlyOneToOneOrManyDto>> PutToTestEntityExactlyOneToOneOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] TestEntityExactlyOneToOneOrManyUpdateDto testEntityExactlyOneToOneOrMany)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityOneOrManyToExactlyOneByIdQuery(key))).SelectMany(x => x.TestEntityExactlyOneToOneOrManies).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateTestEntityExactlyOneToOneOrManyCommand(relatedKey, testEntityExactlyOneToOneOrMany, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion

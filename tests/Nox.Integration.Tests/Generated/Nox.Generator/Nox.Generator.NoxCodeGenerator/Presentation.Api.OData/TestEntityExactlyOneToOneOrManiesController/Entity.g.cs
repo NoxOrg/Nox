@@ -101,9 +101,9 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityExactlyOneToOneOrManyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityExactlyOneToOneOrManyUpdateDto> testEntityExactlyOneToOneOrMany)
+    public virtual async Task<ActionResult<TestEntityExactlyOneToOneOrManyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityExactlyOneToOneOrManyDto> testEntityExactlyOneToOneOrMany)
     {
-        if (!ModelState.IsValid || testEntityExactlyOneToOneOrMany is null)
+        if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }

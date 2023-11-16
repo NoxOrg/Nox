@@ -101,9 +101,9 @@ public abstract partial class TestEntityWithNuidsControllerBase : ODataControlle
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityWithNuidDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<TestEntityWithNuidUpdateDto> testEntityWithNuid)
+    public virtual async Task<ActionResult<TestEntityWithNuidDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<TestEntityWithNuidDto> testEntityWithNuid)
     {
-        if (!ModelState.IsValid || testEntityWithNuid is null)
+        if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }

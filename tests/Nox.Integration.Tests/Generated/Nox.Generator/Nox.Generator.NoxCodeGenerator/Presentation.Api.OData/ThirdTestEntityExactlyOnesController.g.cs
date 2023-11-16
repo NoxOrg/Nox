@@ -44,18 +44,6 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToThirdTestEntityZeroOrOne([FromRoute] System.String key)
-    {
-        var related = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(key))).Select(x => x.ThirdTestEntityZeroOrOne).SingleOrDefault();
-        if (related is null)
-        {
-            return NotFound();
-        }
-        
-        var references = new System.Uri($"ThirdTestEntityZeroOrOnes/{related.Id}", UriKind.Relative);
-        return Ok(references);
-    }
-    
     public virtual async Task<ActionResult> PostToThirdTestEntityZeroOrOne([FromRoute] System.String key, [FromBody] ThirdTestEntityZeroOrOneCreateDto thirdTestEntityZeroOrOne)
     {
         if (!ModelState.IsValid)
@@ -70,6 +58,18 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
         var createdItem = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
+    }
+    
+    public async Task<ActionResult> GetRefToThirdTestEntityZeroOrOne([FromRoute] System.String key)
+    {
+        var related = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(key))).Select(x => x.ThirdTestEntityZeroOrOne).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"ThirdTestEntityZeroOrOnes/{related.Id}", UriKind.Relative);
+        return Ok(references);
     }
     
     [EnableQuery]

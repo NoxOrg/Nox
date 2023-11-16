@@ -110,9 +110,9 @@ public abstract partial class EmployeesControllerBase : ODataController
     }
     
     [HttpPatch("/api/v1/Employees/{key}/EmployeeContactPhoneNumbers/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberUpdateDto> employeePhoneNumber)
+    public virtual async Task<ActionResult> PatchToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberDto> employeePhoneNumber)
     {
-        if (!ModelState.IsValid || employeePhoneNumber is null)
+        if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
@@ -185,6 +185,22 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToCashStockOrder([FromRoute] System.Int64 key, [FromBody] CashStockOrderCreateDto cashStockOrder)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        cashStockOrder.EmployeeId = key;
+        var createdKey = await _mediator.Send(new CreateCashStockOrderCommand(cashStockOrder, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCashStockOrderByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToCashStockOrder([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.CashStockOrder).SingleOrDefault();
@@ -195,6 +211,17 @@ public abstract partial class EmployeesControllerBase : ODataController
         
         var references = new System.Uri($"CashStockOrders/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<CashStockOrderDto>> GetCashStockOrder(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Where(x => x.CashStockOrder != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CashStockOrderDto>(Enumerable.Empty<CashStockOrderDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.CashStockOrder!));
     }
     
     public async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
@@ -229,31 +256,27 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToCashStockOrder([FromRoute] System.Int64 key, [FromBody] CashStockOrderCreateDto cashStockOrder)
+    [HttpDelete("/api/v1/Employees/{key}/CashStockOrder")]
+    public async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
-        cashStockOrder.EmployeeId = key;
-        var createdKey = await _mediator.Send(new CreateCashStockOrderCommand(cashStockOrder, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetCashStockOrderByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
-    [EnableQuery]
-    public virtual async Task<SingleResult<CashStockOrderDto>> GetCashStockOrder(System.Int64 key)
-    {
-        var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Where(x => x.CashStockOrder != null);
-        if (!related.Any())
+        var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.CashStockOrder).SingleOrDefault();
+        if (related == null)
         {
-            return SingleResult.Create<CashStockOrderDto>(Enumerable.Empty<CashStockOrderDto>().AsQueryable());
+            return NotFound();
         }
-        return SingleResult.Create(related.Select(x => x.CashStockOrder!));
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCashStockOrderByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
     }
     
     public virtual async Task<ActionResult<CashStockOrderDto>> PutToCashStockOrder(System.Int64 key, [FromBody] CashStockOrderUpdateDto cashStockOrder)
@@ -277,29 +300,6 @@ public abstract partial class EmployeesControllerBase : ODataController
         }
         
         return Ok();
-    }
-    
-    [HttpDelete("/api/v1/Employees/{key}/CashStockOrder")]
-    public async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Int64 key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.CashStockOrder).SingleOrDefault();
-        if (related == null)
-        {
-            return NotFound();
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteCashStockOrderByIdCommand(related.Id, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
-        return NoContent();
     }
     
     #endregion

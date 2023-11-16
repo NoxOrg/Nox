@@ -44,6 +44,22 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToVendingMachines([FromRoute] System.Int64 key, [FromBody] VendingMachineCreateDto vendingMachine)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        vendingMachine.MinimumCashStocksId = new List<System.Int64> { key };
+        var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetVendingMachineByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToVendingMachines([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();
@@ -58,6 +74,29 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
             references.Add(new System.Uri($"VendingMachines/{item.Id}", UriKind.Relative));
         }
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<VendingMachineDto>>> GetVendingMachines(System.Int64 key)
+    {
+        var entity = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
+    public virtual async Task<SingleResult<VendingMachineDto>> GetVendingMachinesNonConventional(System.Int64 key, System.Guid relatedKey)
+    {
+        var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<VendingMachineDto>(Enumerable.Empty<VendingMachineDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
     }
     
     public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
@@ -90,69 +129,6 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         }
         
         return NoContent();
-    }
-    
-    public virtual async Task<ActionResult> PostToVendingMachines([FromRoute] System.Int64 key, [FromBody] VendingMachineCreateDto vendingMachine)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        vendingMachine.MinimumCashStocksId = new List<System.Int64> { key };
-        var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetVendingMachineByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
-    [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<VendingMachineDto>>> GetVendingMachines(System.Int64 key)
-    {
-        var entity = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines);
-        if (!entity.Any())
-        {
-            return NotFound();
-        }
-        return Ok(entity);
-    }
-    
-    [EnableQuery]
-    [HttpGet("/api/v1/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
-    public virtual async Task<SingleResult<VendingMachineDto>> GetVendingMachinesNonConventional(System.Int64 key, System.Guid relatedKey)
-    {
-        var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines).Where(x => x.Id == relatedKey);
-        if (!related.Any())
-        {
-            return SingleResult.Create<VendingMachineDto>(Enumerable.Empty<VendingMachineDto>().AsQueryable());
-        }
-        return SingleResult.Create(related);
-    }
-    
-    [HttpPut("/api/v1/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
-    public virtual async Task<ActionResult<VendingMachineDto>> PutToVendingMachinesNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] VendingMachineUpdateDto vendingMachine)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
-        if (!related)
-        {
-            return NotFound();
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateVendingMachineCommand(relatedKey, vendingMachine, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok();
     }
     
     [HttpDelete("/api/v1/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
@@ -201,6 +177,30 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpPut("/api/v1/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
+    public virtual async Task<ActionResult<VendingMachineDto>> PutToVendingMachinesNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] VendingMachineUpdateDto vendingMachine)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateVendingMachineCommand(relatedKey, vendingMachine, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     public async Task<ActionResult> CreateRefToCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -217,18 +217,6 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCurrency([FromRoute] System.Int64 key)
-    {
-        var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Select(x => x.Currency).SingleOrDefault();
-        if (related is null)
-        {
-            return NotFound();
-        }
-        
-        var references = new System.Uri($"Currencies/{related.Id}", UriKind.Relative);
-        return Ok(references);
-    }
-    
     public virtual async Task<ActionResult> PostToCurrency([FromRoute] System.Int64 key, [FromBody] CurrencyCreateDto currency)
     {
         if (!ModelState.IsValid)
@@ -243,6 +231,18 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         var createdItem = (await _mediator.Send(new GetCurrencyByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
+    }
+    
+    public async Task<ActionResult> GetRefToCurrency([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Select(x => x.Currency).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"Currencies/{related.Id}", UriKind.Relative);
+        return Ok(references);
     }
     
     [EnableQuery]

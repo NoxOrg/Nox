@@ -44,18 +44,6 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTestRelationshipOne([FromRoute] System.String key)
-    {
-        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipOne).SingleOrDefault();
-        if (related is null)
-        {
-            return NotFound();
-        }
-        
-        var references = new System.Uri($"SecondTestEntityTwoRelationshipsOneToOnes/{related.Id}", UriKind.Relative);
-        return Ok(references);
-    }
-    
     public virtual async Task<ActionResult> PostToTestRelationshipOne([FromRoute] System.String key, [FromBody] SecondTestEntityTwoRelationshipsOneToOneCreateDto secondTestEntityTwoRelationshipsOneToOne)
     {
         if (!ModelState.IsValid)
@@ -70,6 +58,18 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         var createdItem = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
+    }
+    
+    public async Task<ActionResult> GetRefToTestRelationshipOne([FromRoute] System.String key)
+    {
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipOne).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"SecondTestEntityTwoRelationshipsOneToOnes/{related.Id}", UriKind.Relative);
+        return Ok(references);
     }
     
     [EnableQuery]
@@ -122,18 +122,6 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTestRelationshipTwo([FromRoute] System.String key)
-    {
-        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipTwo).SingleOrDefault();
-        if (related is null)
-        {
-            return NotFound();
-        }
-        
-        var references = new System.Uri($"SecondTestEntityTwoRelationshipsOneToOnes/{related.Id}", UriKind.Relative);
-        return Ok(references);
-    }
-    
     public virtual async Task<ActionResult> PostToTestRelationshipTwo([FromRoute] System.String key, [FromBody] SecondTestEntityTwoRelationshipsOneToOneCreateDto secondTestEntityTwoRelationshipsOneToOne)
     {
         if (!ModelState.IsValid)
@@ -148,6 +136,18 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         var createdItem = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
+    }
+    
+    public async Task<ActionResult> GetRefToTestRelationshipTwo([FromRoute] System.String key)
+    {
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipTwo).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"SecondTestEntityTwoRelationshipsOneToOnes/{related.Id}", UriKind.Relative);
+        return Ok(references);
     }
     
     [EnableQuery]

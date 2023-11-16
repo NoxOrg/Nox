@@ -101,9 +101,9 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityLocalizationDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityLocalizationUpdateDto> testEntityLocalization)
+    public virtual async Task<ActionResult<TestEntityLocalizationDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityLocalizationDto> testEntityLocalization)
     {
-        if (!ModelState.IsValid || testEntityLocalization is null)
+        if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }

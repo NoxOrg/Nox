@@ -44,6 +44,22 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToPaymentDetails([FromRoute] System.Int64 key, [FromBody] PaymentDetailCreateDto paymentDetail)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        paymentDetail.CustomerId = key;
+        var createdKey = await _mediator.Send(new CreatePaymentDetailCommand(paymentDetail, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetPaymentDetailByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToPaymentDetails([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.PaymentDetails).SingleOrDefault();
@@ -58,6 +74,29 @@ public abstract partial class CustomersControllerBase : ODataController
             references.Add(new System.Uri($"PaymentDetails/{item.Id}", UriKind.Relative));
         }
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<PaymentDetailDto>>> GetPaymentDetails(System.Int64 key)
+    {
+        var entity = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.PaymentDetails);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Customers/{key}/PaymentDetails/{relatedKey}")]
+    public virtual async Task<SingleResult<PaymentDetailDto>> GetPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey)
+    {
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.PaymentDetails).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<PaymentDetailDto>(Enumerable.Empty<PaymentDetailDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
     }
     
     public async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
@@ -90,69 +129,6 @@ public abstract partial class CustomersControllerBase : ODataController
         }
         
         return NoContent();
-    }
-    
-    public virtual async Task<ActionResult> PostToPaymentDetails([FromRoute] System.Int64 key, [FromBody] PaymentDetailCreateDto paymentDetail)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        paymentDetail.CustomerId = key;
-        var createdKey = await _mediator.Send(new CreatePaymentDetailCommand(paymentDetail, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetPaymentDetailByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
-    [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<PaymentDetailDto>>> GetPaymentDetails(System.Int64 key)
-    {
-        var entity = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.PaymentDetails);
-        if (!entity.Any())
-        {
-            return NotFound();
-        }
-        return Ok(entity);
-    }
-    
-    [EnableQuery]
-    [HttpGet("/api/v1/Customers/{key}/PaymentDetails/{relatedKey}")]
-    public virtual async Task<SingleResult<PaymentDetailDto>> GetPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey)
-    {
-        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.PaymentDetails).Where(x => x.Id == relatedKey);
-        if (!related.Any())
-        {
-            return SingleResult.Create<PaymentDetailDto>(Enumerable.Empty<PaymentDetailDto>().AsQueryable());
-        }
-        return SingleResult.Create(related);
-    }
-    
-    [HttpPut("/api/v1/Customers/{key}/PaymentDetails/{relatedKey}")]
-    public virtual async Task<ActionResult<PaymentDetailDto>> PutToPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] PaymentDetailUpdateDto paymentDetail)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.PaymentDetails).Any(x => x.Id == relatedKey);
-        if (!related)
-        {
-            return NotFound();
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdatePaymentDetailCommand(relatedKey, paymentDetail, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok();
     }
     
     [HttpDelete("/api/v1/Customers/{key}/PaymentDetails/{relatedKey}")]
@@ -201,6 +177,30 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpPut("/api/v1/Customers/{key}/PaymentDetails/{relatedKey}")]
+    public virtual async Task<ActionResult<PaymentDetailDto>> PutToPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] PaymentDetailUpdateDto paymentDetail)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.PaymentDetails).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdatePaymentDetailCommand(relatedKey, paymentDetail, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     public async Task<ActionResult> CreateRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -217,6 +217,22 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToBookings([FromRoute] System.Int64 key, [FromBody] BookingCreateDto booking)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        booking.CustomerId = key;
+        var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetBookingByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToBookings([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.Bookings).SingleOrDefault();
@@ -231,6 +247,29 @@ public abstract partial class CustomersControllerBase : ODataController
             references.Add(new System.Uri($"Bookings/{item.Id}", UriKind.Relative));
         }
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<BookingDto>>> GetBookings(System.Int64 key)
+    {
+        var entity = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Bookings);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Customers/{key}/Bookings/{relatedKey}")]
+    public virtual async Task<SingleResult<BookingDto>> GetBookingsNonConventional(System.Int64 key, System.Guid relatedKey)
+    {
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Bookings).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<BookingDto>(Enumerable.Empty<BookingDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
     }
     
     public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
@@ -263,69 +302,6 @@ public abstract partial class CustomersControllerBase : ODataController
         }
         
         return NoContent();
-    }
-    
-    public virtual async Task<ActionResult> PostToBookings([FromRoute] System.Int64 key, [FromBody] BookingCreateDto booking)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        booking.CustomerId = key;
-        var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetBookingByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
-    [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<BookingDto>>> GetBookings(System.Int64 key)
-    {
-        var entity = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Bookings);
-        if (!entity.Any())
-        {
-            return NotFound();
-        }
-        return Ok(entity);
-    }
-    
-    [EnableQuery]
-    [HttpGet("/api/v1/Customers/{key}/Bookings/{relatedKey}")]
-    public virtual async Task<SingleResult<BookingDto>> GetBookingsNonConventional(System.Int64 key, System.Guid relatedKey)
-    {
-        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Bookings).Where(x => x.Id == relatedKey);
-        if (!related.Any())
-        {
-            return SingleResult.Create<BookingDto>(Enumerable.Empty<BookingDto>().AsQueryable());
-        }
-        return SingleResult.Create(related);
-    }
-    
-    [HttpPut("/api/v1/Customers/{key}/Bookings/{relatedKey}")]
-    public virtual async Task<ActionResult<BookingDto>> PutToBookingsNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] BookingUpdateDto booking)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
-        if (!related)
-        {
-            return NotFound();
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateBookingCommand(relatedKey, booking, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok();
     }
     
     [HttpDelete("/api/v1/Customers/{key}/Bookings/{relatedKey}")]
@@ -374,6 +350,30 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpPut("/api/v1/Customers/{key}/Bookings/{relatedKey}")]
+    public virtual async Task<ActionResult<BookingDto>> PutToBookingsNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] BookingUpdateDto booking)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateBookingCommand(relatedKey, booking, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     public async Task<ActionResult> CreateRefToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -390,6 +390,22 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToTransactions([FromRoute] System.Int64 key, [FromBody] TransactionCreateDto transaction)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        transaction.CustomerId = key;
+        var createdKey = await _mediator.Send(new CreateTransactionCommand(transaction, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetTransactionByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToTransactions([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.Transactions).SingleOrDefault();
@@ -404,6 +420,29 @@ public abstract partial class CustomersControllerBase : ODataController
             references.Add(new System.Uri($"Transactions/{item.Id}", UriKind.Relative));
         }
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<TransactionDto>>> GetTransactions(System.Int64 key)
+    {
+        var entity = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Transactions);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Customers/{key}/Transactions/{relatedKey}")]
+    public virtual async Task<SingleResult<TransactionDto>> GetTransactionsNonConventional(System.Int64 key, System.Int64 relatedKey)
+    {
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Transactions).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<TransactionDto>(Enumerable.Empty<TransactionDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
     }
     
     public async Task<ActionResult> DeleteRefToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
@@ -436,69 +475,6 @@ public abstract partial class CustomersControllerBase : ODataController
         }
         
         return NoContent();
-    }
-    
-    public virtual async Task<ActionResult> PostToTransactions([FromRoute] System.Int64 key, [FromBody] TransactionCreateDto transaction)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        transaction.CustomerId = key;
-        var createdKey = await _mediator.Send(new CreateTransactionCommand(transaction, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetTransactionByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
-    [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<TransactionDto>>> GetTransactions(System.Int64 key)
-    {
-        var entity = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Transactions);
-        if (!entity.Any())
-        {
-            return NotFound();
-        }
-        return Ok(entity);
-    }
-    
-    [EnableQuery]
-    [HttpGet("/api/v1/Customers/{key}/Transactions/{relatedKey}")]
-    public virtual async Task<SingleResult<TransactionDto>> GetTransactionsNonConventional(System.Int64 key, System.Int64 relatedKey)
-    {
-        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Transactions).Where(x => x.Id == relatedKey);
-        if (!related.Any())
-        {
-            return SingleResult.Create<TransactionDto>(Enumerable.Empty<TransactionDto>().AsQueryable());
-        }
-        return SingleResult.Create(related);
-    }
-    
-    [HttpPut("/api/v1/Customers/{key}/Transactions/{relatedKey}")]
-    public virtual async Task<ActionResult<TransactionDto>> PutToTransactionsNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] TransactionUpdateDto transaction)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Transactions).Any(x => x.Id == relatedKey);
-        if (!related)
-        {
-            return NotFound();
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateTransactionCommand(relatedKey, transaction, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok();
     }
     
     [HttpDelete("/api/v1/Customers/{key}/Transactions/{relatedKey}")]
@@ -547,6 +523,30 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpPut("/api/v1/Customers/{key}/Transactions/{relatedKey}")]
+    public virtual async Task<ActionResult<TransactionDto>> PutToTransactionsNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] TransactionUpdateDto transaction)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Transactions).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateTransactionCommand(relatedKey, transaction, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     public async Task<ActionResult> CreateRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -563,18 +563,6 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCountry([FromRoute] System.Int64 key)
-    {
-        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
-        if (related is null)
-        {
-            return NotFound();
-        }
-        
-        var references = new System.Uri($"Countries/{related.Id}", UriKind.Relative);
-        return Ok(references);
-    }
-    
     public virtual async Task<ActionResult> PostToCountry([FromRoute] System.Int64 key, [FromBody] CountryCreateDto country)
     {
         if (!ModelState.IsValid)
@@ -589,6 +577,18 @@ public abstract partial class CustomersControllerBase : ODataController
         var createdItem = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
+    }
+    
+    public async Task<ActionResult> GetRefToCountry([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"Countries/{related.Id}", UriKind.Relative);
+        return Ok(references);
     }
     
     [EnableQuery]

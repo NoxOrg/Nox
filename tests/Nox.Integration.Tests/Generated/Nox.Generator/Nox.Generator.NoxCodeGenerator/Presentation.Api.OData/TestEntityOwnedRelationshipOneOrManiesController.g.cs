@@ -110,9 +110,9 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
     }
     
     [HttpPatch("/api/v1/TestEntityOwnedRelationshipOneOrManies/{key}/SecondTestEntityOwnedRelationshipOneOrMany/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToSecondTestEntityOwnedRelationshipOneOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] Delta<SecondTestEntityOwnedRelationshipOneOrManyUpdateDto> secondTestEntityOwnedRelationshipOneOrMany)
+    public virtual async Task<ActionResult> PatchToSecondTestEntityOwnedRelationshipOneOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] Delta<SecondTestEntityOwnedRelationshipOneOrManyDto> secondTestEntityOwnedRelationshipOneOrMany)
     {
-        if (!ModelState.IsValid || secondTestEntityOwnedRelationshipOneOrMany is null)
+        if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }

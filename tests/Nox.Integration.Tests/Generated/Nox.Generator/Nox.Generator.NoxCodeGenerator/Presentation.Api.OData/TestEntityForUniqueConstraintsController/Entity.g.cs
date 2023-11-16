@@ -101,9 +101,9 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityForUniqueConstraintsDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityForUniqueConstraintsUpdateDto> testEntityForUniqueConstraints)
+    public virtual async Task<ActionResult<TestEntityForUniqueConstraintsDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityForUniqueConstraintsDto> testEntityForUniqueConstraints)
     {
-        if (!ModelState.IsValid || testEntityForUniqueConstraints is null)
+        if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }

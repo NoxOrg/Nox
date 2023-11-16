@@ -110,9 +110,9 @@ public abstract partial class CurrenciesControllerBase : ODataController
     }
     
     [HttpPatch("/api/v1/Currencies/{key}/CurrencyCommonBankNotes/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<BankNoteUpdateDto> bankNote)
+    public virtual async Task<ActionResult> PatchToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<BankNoteDto> bankNote)
     {
-        if (!ModelState.IsValid || bankNote is null)
+        if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
@@ -246,9 +246,9 @@ public abstract partial class CurrenciesControllerBase : ODataController
     }
     
     [HttpPatch("/api/v1/Currencies/{key}/CurrencyExchangedFromRates/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<ExchangeRateUpdateDto> exchangeRate)
+    public virtual async Task<ActionResult> PatchToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<ExchangeRateDto> exchangeRate)
     {
-        if (!ModelState.IsValid || exchangeRate is null)
+        if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
@@ -321,38 +321,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCountries([FromRoute] System.String key)
-    {
-        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Select(x => x.Countries).SingleOrDefault();
-        if (related is null)
-        {
-            return NotFound();
-        }
-        
-        IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
-        {
-            references.Add(new System.Uri($"Countries/{item.Id}", UriKind.Relative));
-        }
-        return Ok(references);
-    }
-    
-    public async Task<ActionResult> DeleteRefToCountries([FromRoute] System.String key, [FromRoute] System.String relatedKey)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedRef = await _mediator.Send(new DeleteRefCurrencyToCountriesCommand(new CurrencyKeyDto(key), new CountryKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
     public virtual async Task<ActionResult> PostToCountries([FromRoute] System.String key, [FromBody] CountryCreateDto country)
     {
         if (!ModelState.IsValid)
@@ -367,6 +335,22 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var createdItem = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
+    }
+    
+    public async Task<ActionResult> GetRefToCountries([FromRoute] System.String key)
+    {
+        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Select(x => x.Countries).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in related)
+        {
+            references.Add(new System.Uri($"Countries/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
     }
     
     [EnableQuery]
@@ -392,28 +376,20 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/Currencies/{key}/Countries/{relatedKey}")]
-    public virtual async Task<ActionResult<CountryDto>> PutToCountriesNonConventional(System.String key, System.String relatedKey, [FromBody] CountryUpdateDto country)
+    public async Task<ActionResult> DeleteRefToCountries([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.Countries).Any(x => x.Id == relatedKey);
-        if (!related)
+        var deletedRef = await _mediator.Send(new DeleteRefCurrencyToCountriesCommand(new CurrencyKeyDto(key), new CountryKeyDto(relatedKey)));
+        if (!deletedRef)
         {
             return NotFound();
         }
         
-        var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateCountryCommand(relatedKey, country, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok();
+        return NoContent();
     }
     
     [HttpDelete("/api/v1/Currencies/{key}/Countries/{relatedKey}")]
@@ -440,6 +416,30 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpPut("/api/v1/Currencies/{key}/Countries/{relatedKey}")]
+    public virtual async Task<ActionResult<CountryDto>> PutToCountriesNonConventional(System.String key, System.String relatedKey, [FromBody] CountryUpdateDto country)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.Countries).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCountryCommand(relatedKey, country, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     public async Task<ActionResult> CreateRefToMinimumCashStocks([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -456,6 +456,22 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToMinimumCashStocks([FromRoute] System.String key, [FromBody] MinimumCashStockCreateDto minimumCashStock)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        minimumCashStock.CurrencyId = key;
+        var createdKey = await _mediator.Send(new CreateMinimumCashStockCommand(minimumCashStock, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetMinimumCashStockByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToMinimumCashStocks([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Select(x => x.MinimumCashStocks).SingleOrDefault();
@@ -470,6 +486,29 @@ public abstract partial class CurrenciesControllerBase : ODataController
             references.Add(new System.Uri($"MinimumCashStocks/{item.Id}", UriKind.Relative));
         }
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<MinimumCashStockDto>>> GetMinimumCashStocks(System.String key)
+    {
+        var entity = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.MinimumCashStocks);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
+    public virtual async Task<SingleResult<MinimumCashStockDto>> GetMinimumCashStocksNonConventional(System.String key, System.Int64 relatedKey)
+    {
+        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<MinimumCashStockDto>(Enumerable.Empty<MinimumCashStockDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
     }
     
     public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
@@ -502,69 +541,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         }
         
         return NoContent();
-    }
-    
-    public virtual async Task<ActionResult> PostToMinimumCashStocks([FromRoute] System.String key, [FromBody] MinimumCashStockCreateDto minimumCashStock)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        minimumCashStock.CurrencyId = key;
-        var createdKey = await _mediator.Send(new CreateMinimumCashStockCommand(minimumCashStock, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetMinimumCashStockByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
-    [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<MinimumCashStockDto>>> GetMinimumCashStocks(System.String key)
-    {
-        var entity = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.MinimumCashStocks);
-        if (!entity.Any())
-        {
-            return NotFound();
-        }
-        return Ok(entity);
-    }
-    
-    [EnableQuery]
-    [HttpGet("/api/v1/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
-    public virtual async Task<SingleResult<MinimumCashStockDto>> GetMinimumCashStocksNonConventional(System.String key, System.Int64 relatedKey)
-    {
-        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Where(x => x.Id == relatedKey);
-        if (!related.Any())
-        {
-            return SingleResult.Create<MinimumCashStockDto>(Enumerable.Empty<MinimumCashStockDto>().AsQueryable());
-        }
-        return SingleResult.Create(related);
-    }
-    
-    [HttpPut("/api/v1/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
-    public virtual async Task<ActionResult<MinimumCashStockDto>> PutToMinimumCashStocksNonConventional(System.String key, System.Int64 relatedKey, [FromBody] MinimumCashStockUpdateDto minimumCashStock)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Any(x => x.Id == relatedKey);
-        if (!related)
-        {
-            return NotFound();
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateMinimumCashStockCommand(relatedKey, minimumCashStock, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok();
     }
     
     [HttpDelete("/api/v1/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
@@ -611,6 +587,30 @@ public abstract partial class CurrenciesControllerBase : ODataController
             await _mediator.Send(new DeleteMinimumCashStockByIdCommand(item.Id, etag));
         }
         return NoContent();
+    }
+    
+    [HttpPut("/api/v1/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
+    public virtual async Task<ActionResult<MinimumCashStockDto>> PutToMinimumCashStocksNonConventional(System.String key, System.Int64 relatedKey, [FromBody] MinimumCashStockUpdateDto minimumCashStock)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateMinimumCashStockCommand(relatedKey, minimumCashStock, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion
