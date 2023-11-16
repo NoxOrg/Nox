@@ -110,9 +110,9 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpPatch("/api/v1/Countries/{key}/CountryShortNames/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameDto> countryLocalName)
+    public virtual async Task<ActionResult> PatchToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameUpdateDto> countryLocalName)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || countryLocalName is null)
         {
             return BadRequest(ModelState);
         }
@@ -229,7 +229,7 @@ public abstract partial class CountriesControllerBase : ODataController
     
     public virtual async Task<ActionResult> PatchToCountryBarCode(System.Int64 key, [FromBody] Delta<CountryBarCodeDto> countryBarCode)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || countryBarCode is null)
         {
             return BadRequest(ModelState);
         }

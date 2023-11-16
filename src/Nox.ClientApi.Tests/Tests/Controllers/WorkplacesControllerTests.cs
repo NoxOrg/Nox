@@ -632,7 +632,7 @@ namespace ClientApi.Tests.Tests.Controllers
             frResult![0].Description.Should().Be("[" + createDto.Description + "]");
         }
 
-        [Fact(Skip="The Patch end point need to be changed from EntityDto to UpdateDto")]
+        [Fact]
         public async Task Patch_DefaultLanguageDescription_UpdatesLocalization()
         {
             // Arrange
@@ -666,7 +666,7 @@ namespace ClientApi.Tests.Tests.Controllers
             enResult![0].Description.Should().Be(updateDto.Description);
         }
 
-        [Fact(Skip="The Patch end point need to be changed from EntityDto to UpdateDto")]
+        [Fact]
         public async Task Patch_NotDefaultLanguageDescription_UpdatesLocalization()
         {
             // Arrange
@@ -821,7 +821,7 @@ namespace ClientApi.Tests.Tests.Controllers
             putResult.Should().NotBeNull();
         }
 
-        [Fact(Skip = "The Patch end point need to be changed from EntityDto to UpdateDto")]
+        [Fact]
         public async Task Patch_Name_ShouldUpdateNameOnly()
         {
             // Arrange
@@ -850,7 +850,7 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         // TODO: FIX THIS TEST ONCE LOCALIZATION IS IMPLEMENTED FOR PATCH
-        [Fact(Skip = "The Patch end point need to be changed from EntityDto to UpdateDto")]
+        [Fact]
         public async Task Patch_Description_ShouldUpdateDescriptionOnly()
         {
             // Arrange

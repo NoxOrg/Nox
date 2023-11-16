@@ -373,12 +373,12 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine($"public virtual async Task<ActionResult> PatchTo{child.PluralName}NonConventional(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
                 $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")}, " +
-                $"[FromBody] Delta<{child.Name}Dto> {child.Name.ToLowerFirstChar()})");
+                $"[FromBody] Delta<{child.Name}UpdateDto> {child.Name.ToLowerFirstChar()})");
         }
         
         // Method content
         code.StartBlock();
-        code.AppendLine($"if (!ModelState.IsValid)");
+        code.AppendLine($"if (!ModelState.IsValid || {child.Name.ToLowerFirstChar()} is null)");
         code.StartBlock();
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();

@@ -101,9 +101,9 @@ public abstract partial class RatingProgramsControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<RatingProgramDto>> Patch([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId, [FromBody] Delta<RatingProgramDto> ratingProgram)
+    public virtual async Task<ActionResult<RatingProgramDto>> Patch([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId, [FromBody] Delta<RatingProgramUpdateDto> ratingProgram)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || ratingProgram is null)
         {
             return BadRequest(ModelState);
         }

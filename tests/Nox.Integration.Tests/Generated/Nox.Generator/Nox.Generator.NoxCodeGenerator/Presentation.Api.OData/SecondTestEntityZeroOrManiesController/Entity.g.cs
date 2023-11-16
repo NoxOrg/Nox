@@ -101,9 +101,9 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<SecondTestEntityZeroOrManyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<SecondTestEntityZeroOrManyDto> secondTestEntityZeroOrMany)
+    public virtual async Task<ActionResult<SecondTestEntityZeroOrManyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<SecondTestEntityZeroOrManyUpdateDto> secondTestEntityZeroOrMany)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || secondTestEntityZeroOrMany is null)
         {
             return BadRequest(ModelState);
         }

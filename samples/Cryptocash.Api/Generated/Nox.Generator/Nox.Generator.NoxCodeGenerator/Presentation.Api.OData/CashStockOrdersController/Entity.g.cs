@@ -101,9 +101,9 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<CashStockOrderDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CashStockOrderDto> cashStockOrder)
+    public virtual async Task<ActionResult<CashStockOrderDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CashStockOrderUpdateDto> cashStockOrder)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || cashStockOrder is null)
         {
             return BadRequest(ModelState);
         }

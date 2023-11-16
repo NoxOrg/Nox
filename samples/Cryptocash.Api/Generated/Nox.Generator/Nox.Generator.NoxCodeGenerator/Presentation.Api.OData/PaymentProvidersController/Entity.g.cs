@@ -101,9 +101,9 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<PaymentProviderDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PaymentProviderDto> paymentProvider)
+    public virtual async Task<ActionResult<PaymentProviderDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PaymentProviderUpdateDto> paymentProvider)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || paymentProvider is null)
         {
             return BadRequest(ModelState);
         }
