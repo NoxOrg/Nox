@@ -741,7 +741,11 @@ namespace ClientApi.Tests.Tests.Controllers
             localizedDto.Should().NotBeNull();
             localizedDto!.Id.Should().Be(postResult!.Id);
             localizedDto!.Description.Should().Be(upsertDto.Description);
+            
             localizations.Should().NotBeNull();
+            localizations.Should().HaveCount(2);
+            localizations.Should().ContainSingle(l => l.Id == postResult!.Id && l.CultureCode == "fr-FR" && l.Description == createDto.Description);
+            localizations.Should().ContainSingle(l => l.Id == postResult!.Id && l.CultureCode == "tr-TR" && l.Description == upsertDto.Description);
         }
 
         #endregion LOCALIZATIONS
