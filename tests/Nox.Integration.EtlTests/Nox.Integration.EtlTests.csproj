@@ -12,6 +12,8 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
         <PackageReference Include="xunit" Version="2.6.1"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,7 +26,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Nox.Integration\Nox.Integration.csproj" />
+        <ProjectReference Include="..\..\src\Nox.Integration\Nox.Integration.csproj" />
+        <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj" />
     </ItemGroup>
 
 </Project>

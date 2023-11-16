@@ -12,9 +12,9 @@ public static class IntegrationContextExtensions
     {
         switch (sourceDefinition.SourceAdapterType)
         {
-            case IntegrationAdapterType.Database:
+            case IntegrationSourceAdapterType.DatabaseQuery:
                 var dataConnection = ProcessDatabaseSourceDefinition(sourceDefinition, dataConnections);
-                instance.WithDatabaseReceiveAdapter(sourceDefinition.DatabaseOptions!, dataConnection);
+                instance.WithDatabaseReceiveAdapter(sourceDefinition.QueryOptions!, dataConnection);
                 break;
         }
 
@@ -23,10 +23,10 @@ public static class IntegrationContextExtensions
     
     private static DataConnection ProcessDatabaseSourceDefinition(IntegrationSource sourceDefinition, IReadOnlyList<DataConnection>? dataConnections)
     {
-        if (sourceDefinition.DatabaseOptions == null)
+        if (sourceDefinition.QueryOptions == null)
         {
             throw new NoxIntegrationConfigurationException(
-                "Database options missing. Integrations that receive data from databases must specify valid database options.");
+                "Query options missing. Integrations that receive data from database queries must specify valid query options.");
         }
 
         DataConnection? dataConnectionDefinition = null;
@@ -54,7 +54,7 @@ public static class IntegrationContextExtensions
     {
         switch (targetDefinition.TargetAdapterType)
         {
-            case IntegrationAdapterType.Database:
+            case IntegrationTargetAdapterType.DatabaseTable:
                 var dataConnection = ProcessDatabaseTargetDefinition(targetDefinition, dataConnections);
                 instance.WithDatabaseSendAdapter(targetDefinition.DatabaseOptions!, dataConnection);
                 break;

@@ -543,4 +543,13 @@
 	<data name="SolutionDefaultsFalse" xml:space="preserve">
     <value>Unable to apply defaults for the Solution root.</value>
   </data>
+	<data name="IntegrationTargetDatabaseOptionsDefaultsFalse" xml:space="preserve">
+		<value>Unable to apply defaults for the database target of integration '{0}'.</value>
+	</data>
+	<data name="IntegrationTargetDatabaseOptionsTableNameEmpty" xml:space="preserve">
+		<value>The table name in the database options of the target for integration {0} has not been specified. Database table targets must have a table name specified.</value>
+	</data>
+	<data name="IntegrationTargetDatabaseOptionsSchemaEmpty" xml:space="preserve">
+		<value>The schema name in the database options of the target for integration {0} has not been specified. Database targets must have a schema name specified.</value>
+	</data>
 </root>

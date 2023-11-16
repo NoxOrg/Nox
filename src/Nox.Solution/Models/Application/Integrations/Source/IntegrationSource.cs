@@ -21,7 +21,7 @@ public class IntegrationSource
     [Required]
     [Title("The type of source.")]
     [Description("Specify the type of the source. Options include entity, database, file, webAPI and message queue.")]
-    public IntegrationAdapterType SourceAdapterType { get; internal set; } = default;
+    public IntegrationSourceAdapterType SourceAdapterType { get; internal set; } = default;
 
     [Title("The name of the data connection. Contains no spaces.")]
     [Description("The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections. Data Connection is required when the source is not a Nox Entity")]
@@ -31,19 +31,19 @@ public class IntegrationSource
 
     public IntegrationSourceWatermark? Watermark { get; internal set; }
 
-    [IfEquals(nameof(SourceAdapterType),IntegrationAdapterType.Database)]
-    public IntegrationSourceDatabaseOptions? DatabaseOptions { get; set; }
+    [IfEquals(nameof(SourceAdapterType),IntegrationSourceAdapterType.DatabaseQuery)]
+    public IntegrationSourceQueryOptions? QueryOptions { get; set; }
+    
+    [IfEquals(nameof(SourceAdapterType),IntegrationSourceAdapterType.StoredProcedure)]
+    public IntegrationSourceStoredProcedureOptions? StoredProcedureOptions { get; set; }
 
-    [IfEquals(nameof(SourceAdapterType),IntegrationAdapterType.File)]
+    [IfEquals(nameof(SourceAdapterType),IntegrationSourceAdapterType.File)]
     public IntegrationSourceFileOptions? FileOptions { get; set; }
 
-    [IfEquals(nameof(SourceAdapterType),IntegrationAdapterType.MessageQueue)]
+    [IfEquals(nameof(SourceAdapterType),IntegrationSourceAdapterType.MessageQueue)]
     public IntegrationSourceMessageQueueOptions? MessageQueueOptions { get; set; }
 
-    [IfEquals(nameof(SourceAdapterType),IntegrationAdapterType.WebApi)]
+    [IfEquals(nameof(SourceAdapterType),IntegrationSourceAdapterType.WebApi)]
     public IntegrationSourceWebApiOptions? WebApiOptions { get; set; }
-    
-    [AdditionalProperties(false)]
-    [IfEquals(nameof(SourceAdapterType), IntegrationAdapterType.Entity)]
-    public IntegrationTargetEntityOptions? EntityOptions { get; set; }
+
 }
