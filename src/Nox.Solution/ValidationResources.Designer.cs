@@ -529,15 +529,6 @@ namespace Nox.Solution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Relationship &apos;{0}&apos; between &apos;{1}&apos; and &apos;{2}&apos; must have CanNavigate property set to True at least on one side..
-        /// </summary>
-        internal static string EntityRelationshipCanNavigate {
-            get {
-                return ResourceManager.GetString("EntityRelationshipCanNavigate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The Relationship &apos;{0}&apos; for entity &apos;{1}&apos; does not have a description. All entity relationships must have a description..
         /// </summary>
         internal static string EntityRelationshipDescriptionEmpty {

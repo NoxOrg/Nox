@@ -39,9 +39,13 @@ public class EntityRelationship
     [YamlIgnore]
     public string EntityPlural => Entity.Pluralize();
 
-    [Title("Determines whether this side of the relationship is exposed in the generated code and ODATA endpoints.")]
-    [Description("This boolean controls whether this side of the relationship is exposed in the generated code and ODATA endpoints.")]
-    public bool CanNavigate { get; internal set; } = true;
+    [Title("Define the Entity on this relationship side contains a Reference endpoints to the related Entity.")]
+    [Description("Default is true, determines whether OData $ref endpoints are generated for this relationship.")]
+    public bool CanManageReference { get; internal set; } = true;
+
+    [Title("Define the Entity on this relationship side contains endpoints to manage the related Entity.")]
+    [Description("Default is true, determines whether navigation routing endpoints are generated for the related entities, including enabling ODataQueries for related entities.")]
+    public bool CanManageEntity { get; internal set; } = true;
 
     [YamlIgnore]
     public bool ShouldGenerateForeignOnThisSide => EntityRelationshipExtensions.ShouldGenerateForeignKeyOnThisSide(this);

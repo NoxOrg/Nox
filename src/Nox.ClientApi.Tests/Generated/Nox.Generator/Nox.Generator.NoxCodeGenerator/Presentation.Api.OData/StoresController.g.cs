@@ -49,22 +49,6 @@ public abstract partial class StoresControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToStoreOwner([FromRoute] System.Guid key, [FromBody] StoreOwnerCreateDto storeOwner)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        storeOwner.StoresId = new List<System.Guid> { key };
-        var createdKey = await _mediator.Send(new CreateStoreOwnerCommand(storeOwner, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetStoreOwnerByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToStoreOwner([FromRoute] System.Guid key)
     {
         var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.StoreOwner).SingleOrDefault();
@@ -75,17 +59,6 @@ public abstract partial class StoresControllerBase : ODataController
         
         var references = new System.Uri($"StoreOwners/{related.Id}", UriKind.Relative);
         return Ok(references);
-    }
-    
-    [EnableQuery]
-    public virtual async Task<SingleResult<StoreOwnerDto>> GetStoreOwner(System.Guid key)
-    {
-        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Where(x => x.StoreOwner != null);
-        if (!related.Any())
-        {
-            return SingleResult.Create<StoreOwnerDto>(Enumerable.Empty<StoreOwnerDto>().AsQueryable());
-        }
-        return SingleResult.Create(related.Select(x => x.StoreOwner!));
     }
     
     public async Task<ActionResult> DeleteRefToStoreOwner([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
@@ -120,27 +93,31 @@ public abstract partial class StoresControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/Stores/{key}/StoreOwner")]
-    public async Task<ActionResult> DeleteToStoreOwner([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> PostToStoreOwner([FromRoute] System.Guid key, [FromBody] StoreOwnerCreateDto storeOwner)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.StoreOwner).SingleOrDefault();
-        if (related == null)
-        {
-            return NotFound();
-        }
-        
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteStoreOwnerByIdCommand(related.Id, etag));
-        if (!deleted)
+        storeOwner.StoresId = new List<System.Guid> { key };
+        var createdKey = await _mediator.Send(new CreateStoreOwnerCommand(storeOwner, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetStoreOwnerByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<StoreOwnerDto>> GetStoreOwner(System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Where(x => x.StoreOwner != null);
+        if (!related.Any())
         {
-            return NotFound();
+            return SingleResult.Create<StoreOwnerDto>(Enumerable.Empty<StoreOwnerDto>().AsQueryable());
         }
-        return NoContent();
+        return SingleResult.Create(related.Select(x => x.StoreOwner!));
     }
     
     public virtual async Task<ActionResult<StoreOwnerDto>> PutToStoreOwner(System.Guid key, [FromBody] StoreOwnerUpdateDto storeOwner)
@@ -166,6 +143,29 @@ public abstract partial class StoresControllerBase : ODataController
         return Ok();
     }
     
+    [HttpDelete("/api/v1/Stores/{key}/StoreOwner")]
+    public async Task<ActionResult> DeleteToStoreOwner([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.StoreOwner).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteStoreOwnerByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToStoreLicense([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -182,22 +182,6 @@ public abstract partial class StoresControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToStoreLicense([FromRoute] System.Guid key, [FromBody] StoreLicenseCreateDto storeLicense)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        storeLicense.StoreId = key;
-        var createdKey = await _mediator.Send(new CreateStoreLicenseCommand(storeLicense, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetStoreLicenseByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToStoreLicense([FromRoute] System.Guid key)
     {
         var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.StoreLicense).SingleOrDefault();
@@ -208,17 +192,6 @@ public abstract partial class StoresControllerBase : ODataController
         
         var references = new System.Uri($"StoreLicenses/{related.Id}", UriKind.Relative);
         return Ok(references);
-    }
-    
-    [EnableQuery]
-    public virtual async Task<SingleResult<StoreLicenseDto>> GetStoreLicense(System.Guid key)
-    {
-        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Where(x => x.StoreLicense != null);
-        if (!related.Any())
-        {
-            return SingleResult.Create<StoreLicenseDto>(Enumerable.Empty<StoreLicenseDto>().AsQueryable());
-        }
-        return SingleResult.Create(related.Select(x => x.StoreLicense!));
     }
     
     public async Task<ActionResult> DeleteRefToStoreLicense([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
@@ -253,27 +226,31 @@ public abstract partial class StoresControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/Stores/{key}/StoreLicense")]
-    public async Task<ActionResult> DeleteToStoreLicense([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> PostToStoreLicense([FromRoute] System.Guid key, [FromBody] StoreLicenseCreateDto storeLicense)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.StoreLicense).SingleOrDefault();
-        if (related == null)
-        {
-            return NotFound();
-        }
-        
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteStoreLicenseByIdCommand(related.Id, etag));
-        if (!deleted)
+        storeLicense.StoreId = key;
+        var createdKey = await _mediator.Send(new CreateStoreLicenseCommand(storeLicense, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetStoreLicenseByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<StoreLicenseDto>> GetStoreLicense(System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Where(x => x.StoreLicense != null);
+        if (!related.Any())
         {
-            return NotFound();
+            return SingleResult.Create<StoreLicenseDto>(Enumerable.Empty<StoreLicenseDto>().AsQueryable());
         }
-        return NoContent();
+        return SingleResult.Create(related.Select(x => x.StoreLicense!));
     }
     
     public virtual async Task<ActionResult<StoreLicenseDto>> PutToStoreLicense(System.Guid key, [FromBody] StoreLicenseUpdateDto storeLicense)
@@ -297,6 +274,29 @@ public abstract partial class StoresControllerBase : ODataController
         }
         
         return Ok();
+    }
+    
+    [HttpDelete("/api/v1/Stores/{key}/StoreLicense")]
+    public async Task<ActionResult> DeleteToStoreLicense([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.StoreLicense).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteStoreLicenseByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
     }
     
     #endregion

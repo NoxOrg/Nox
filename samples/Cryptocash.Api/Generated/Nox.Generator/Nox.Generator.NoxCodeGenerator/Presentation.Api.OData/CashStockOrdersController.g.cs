@@ -44,6 +44,18 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToVendingMachine([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.VendingMachine).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"VendingMachines/{related.Id}", UriKind.Relative);
+        return Ok(references);
+    }
+    
     public virtual async Task<ActionResult> PostToVendingMachine([FromRoute] System.Int64 key, [FromBody] VendingMachineCreateDto vendingMachine)
     {
         if (!ModelState.IsValid)
@@ -58,18 +70,6 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         var createdItem = (await _mediator.Send(new GetVendingMachineByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
-    }
-    
-    public async Task<ActionResult> GetRefToVendingMachine([FromRoute] System.Int64 key)
-    {
-        var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.VendingMachine).SingleOrDefault();
-        if (related is null)
-        {
-            return NotFound();
-        }
-        
-        var references = new System.Uri($"VendingMachines/{related.Id}", UriKind.Relative);
-        return Ok(references);
     }
     
     [EnableQuery]
@@ -122,6 +122,18 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToEmployee([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.Employee).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"Employees/{related.Id}", UriKind.Relative);
+        return Ok(references);
+    }
+    
     public virtual async Task<ActionResult> PostToEmployee([FromRoute] System.Int64 key, [FromBody] EmployeeCreateDto employee)
     {
         if (!ModelState.IsValid)
@@ -136,18 +148,6 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         var createdItem = (await _mediator.Send(new GetEmployeeByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
-    }
-    
-    public async Task<ActionResult> GetRefToEmployee([FromRoute] System.Int64 key)
-    {
-        var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.Employee).SingleOrDefault();
-        if (related is null)
-        {
-            return NotFound();
-        }
-        
-        var references = new System.Uri($"Employees/{related.Id}", UriKind.Relative);
-        return Ok(references);
     }
     
     [EnableQuery]

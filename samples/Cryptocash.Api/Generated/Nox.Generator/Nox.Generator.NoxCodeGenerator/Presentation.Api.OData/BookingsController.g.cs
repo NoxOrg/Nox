@@ -44,6 +44,18 @@ public abstract partial class BookingsControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToCustomer([FromRoute] System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Customer).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"Customers/{related.Id}", UriKind.Relative);
+        return Ok(references);
+    }
+    
     public virtual async Task<ActionResult> PostToCustomer([FromRoute] System.Guid key, [FromBody] CustomerCreateDto customer)
     {
         if (!ModelState.IsValid)
@@ -58,18 +70,6 @@ public abstract partial class BookingsControllerBase : ODataController
         var createdItem = (await _mediator.Send(new GetCustomerByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
-    }
-    
-    public async Task<ActionResult> GetRefToCustomer([FromRoute] System.Guid key)
-    {
-        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Customer).SingleOrDefault();
-        if (related is null)
-        {
-            return NotFound();
-        }
-        
-        var references = new System.Uri($"Customers/{related.Id}", UriKind.Relative);
-        return Ok(references);
     }
     
     [EnableQuery]
@@ -122,6 +122,18 @@ public abstract partial class BookingsControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToVendingMachine([FromRoute] System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.VendingMachine).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"VendingMachines/{related.Id}", UriKind.Relative);
+        return Ok(references);
+    }
+    
     public virtual async Task<ActionResult> PostToVendingMachine([FromRoute] System.Guid key, [FromBody] VendingMachineCreateDto vendingMachine)
     {
         if (!ModelState.IsValid)
@@ -136,18 +148,6 @@ public abstract partial class BookingsControllerBase : ODataController
         var createdItem = (await _mediator.Send(new GetVendingMachineByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
-    }
-    
-    public async Task<ActionResult> GetRefToVendingMachine([FromRoute] System.Guid key)
-    {
-        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.VendingMachine).SingleOrDefault();
-        if (related is null)
-        {
-            return NotFound();
-        }
-        
-        var references = new System.Uri($"VendingMachines/{related.Id}", UriKind.Relative);
-        return Ok(references);
     }
     
     [EnableQuery]
@@ -200,6 +200,18 @@ public abstract partial class BookingsControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToCommission([FromRoute] System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Commission).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"Commissions/{related.Id}", UriKind.Relative);
+        return Ok(references);
+    }
+    
     public virtual async Task<ActionResult> PostToCommission([FromRoute] System.Guid key, [FromBody] CommissionCreateDto commission)
     {
         if (!ModelState.IsValid)
@@ -214,18 +226,6 @@ public abstract partial class BookingsControllerBase : ODataController
         var createdItem = (await _mediator.Send(new GetCommissionByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
-    }
-    
-    public async Task<ActionResult> GetRefToCommission([FromRoute] System.Guid key)
-    {
-        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Commission).SingleOrDefault();
-        if (related is null)
-        {
-            return NotFound();
-        }
-        
-        var references = new System.Uri($"Commissions/{related.Id}", UriKind.Relative);
-        return Ok(references);
     }
     
     [EnableQuery]
@@ -278,6 +278,18 @@ public abstract partial class BookingsControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToTransaction([FromRoute] System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Transaction).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"Transactions/{related.Id}", UriKind.Relative);
+        return Ok(references);
+    }
+    
     public virtual async Task<ActionResult> PostToTransaction([FromRoute] System.Guid key, [FromBody] TransactionCreateDto transaction)
     {
         if (!ModelState.IsValid)
@@ -292,18 +304,6 @@ public abstract partial class BookingsControllerBase : ODataController
         var createdItem = (await _mediator.Send(new GetTransactionByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
-    }
-    
-    public async Task<ActionResult> GetRefToTransaction([FromRoute] System.Guid key)
-    {
-        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Transaction).SingleOrDefault();
-        if (related is null)
-        {
-            return NotFound();
-        }
-        
-        var references = new System.Uri($"Transactions/{related.Id}", UriKind.Relative);
-        return Ok(references);
     }
     
     [EnableQuery]

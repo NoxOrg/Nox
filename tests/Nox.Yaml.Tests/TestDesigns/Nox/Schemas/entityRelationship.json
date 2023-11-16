@@ -69,9 +69,17 @@
         }
       ]
     },
-    "canNavigate": {    
-      "title": "Determines whether this side of the relationship is exposed in the generated code and ODATA endpoints.",
-      "description": "This boolean controls whether this side of the relationship is exposed in the generated code and ODATA endpoints.",
+    "canManageReference": {    
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "canManageEntity": {    
       "oneOf": [
         {
           "type": "boolean"

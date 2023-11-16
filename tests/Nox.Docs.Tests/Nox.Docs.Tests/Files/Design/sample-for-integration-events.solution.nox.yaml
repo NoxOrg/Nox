@@ -48,7 +48,6 @@ domain:
           description: has
           relationship: oneOrMany
           entity: Country
-          canNavigate: true
 
     - name: Country
       description: A country is a distinct territorial body or political entity.
@@ -189,7 +188,6 @@ domain:
           description: is on
           relationship: oneOrMany
           entity: Continent
-          canNavigate: true
 
       ownedRelationships:
         - name: CountryLocalNames
