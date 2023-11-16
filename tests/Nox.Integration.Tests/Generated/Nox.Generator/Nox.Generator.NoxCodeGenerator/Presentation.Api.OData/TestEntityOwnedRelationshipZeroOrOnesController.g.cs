@@ -93,7 +93,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
     
     public virtual async Task<ActionResult> PatchToSecondTestEntityOwnedRelationshipZeroOrOne(System.String key, [FromBody] Delta<SecondTestEntityOwnedRelationshipZeroOrOneDto> secondTestEntityOwnedRelationshipZeroOrOne)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || secondTestEntityOwnedRelationshipZeroOrOne is null)
         {
             return BadRequest(ModelState);
         }

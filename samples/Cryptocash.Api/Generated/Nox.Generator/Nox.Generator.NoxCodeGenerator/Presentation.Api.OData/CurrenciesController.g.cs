@@ -110,9 +110,9 @@ public abstract partial class CurrenciesControllerBase : ODataController
     }
     
     [HttpPatch("/api/v1/Currencies/{key}/CurrencyCommonBankNotes/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<BankNoteDto> bankNote)
+    public virtual async Task<ActionResult> PatchToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<BankNoteUpdateDto> bankNote)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || bankNote is null)
         {
             return BadRequest(ModelState);
         }
@@ -246,9 +246,9 @@ public abstract partial class CurrenciesControllerBase : ODataController
     }
     
     [HttpPatch("/api/v1/Currencies/{key}/CurrencyExchangedFromRates/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<ExchangeRateDto> exchangeRate)
+    public virtual async Task<ActionResult> PatchToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<ExchangeRateUpdateDto> exchangeRate)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || exchangeRate is null)
         {
             return BadRequest(ModelState);
         }

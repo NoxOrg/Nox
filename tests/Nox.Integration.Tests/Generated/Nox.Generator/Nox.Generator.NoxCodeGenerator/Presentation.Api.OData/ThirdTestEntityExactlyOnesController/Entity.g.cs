@@ -101,9 +101,9 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<ThirdTestEntityExactlyOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<ThirdTestEntityExactlyOneDto> thirdTestEntityExactlyOne)
+    public virtual async Task<ActionResult<ThirdTestEntityExactlyOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<ThirdTestEntityExactlyOneUpdateDto> thirdTestEntityExactlyOne)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || thirdTestEntityExactlyOne is null)
         {
             return BadRequest(ModelState);
         }

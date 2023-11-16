@@ -110,9 +110,9 @@ public abstract partial class EmployeesControllerBase : ODataController
     }
     
     [HttpPatch("/api/v1/Employees/{key}/EmployeeContactPhoneNumbers/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberDto> employeePhoneNumber)
+    public virtual async Task<ActionResult> PatchToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberUpdateDto> employeePhoneNumber)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || employeePhoneNumber is null)
         {
             return BadRequest(ModelState);
         }

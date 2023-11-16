@@ -110,9 +110,9 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpPatch("/api/v1/Countries/{key}/CountryOwnedTimeZones/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<CountryTimeZoneDto> countryTimeZone)
+    public virtual async Task<ActionResult> PatchToCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<CountryTimeZoneUpdateDto> countryTimeZone)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || countryTimeZone is null)
         {
             return BadRequest(ModelState);
         }
@@ -246,9 +246,9 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpPatch("/api/v1/Countries/{key}/CountryOwnedHolidays/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToHolidaysNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<HolidayDto> holiday)
+    public virtual async Task<ActionResult> PatchToHolidaysNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<HolidayUpdateDto> holiday)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || holiday is null)
         {
             return BadRequest(ModelState);
         }
