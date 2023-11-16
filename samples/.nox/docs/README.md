@@ -106,12 +106,12 @@ CommissionId|AutoNumber|Commission unique identifier.|Required, Foreign Key
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-for|ExactlyOne|Customer|BookingForCustomer|Yes
-related to|ExactlyOne|VendingMachine|BookingRelatedVendingMachine|Yes
-fees for|ExactlyOne|Commission|BookingFeesForCommission|Yes
-related to|ExactlyOne|Transaction|BookingRelatedTransaction|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+for|ExactlyOne|Customer|BookingForCustomer|Yes|Yes
+related to|ExactlyOne|VendingMachine|BookingRelatedVendingMachine|Yes|Yes
+fees for|ExactlyOne|Commission|BookingFeesForCommission|Yes|Yes
+related to|ExactlyOne|Transaction|BookingRelatedTransaction|Yes|Yes
 
 
 ### CashStockOrder
@@ -137,10 +137,10 @@ VendingMachineId|Guid|Vending machine unique identifier.|Required, Foreign Key
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-for|ExactlyOne|VendingMachine|CashStockOrderForVendingMachine|Yes
-reviewed by|ExactlyOne|Employee|CashStockOrderReviewedByEmployee|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+for|ExactlyOne|VendingMachine|CashStockOrderForVendingMachine|Yes|Yes
+reviewed by|ExactlyOne|Employee|CashStockOrderReviewedByEmployee|Yes|Yes
 
 
 ### Commission
@@ -164,10 +164,10 @@ CountryId|CountryCode2|Country unique identifier.|Required, Foreign Key
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-fees for|ZeroOrOne|Country|CommissionFeesForCountry|Yes
-fees for|ZeroOrMany|Booking|CommissionFeesForBooking|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+fees for|ZeroOrOne|Country|CommissionFeesForCountry|Yes|Yes
+fees for|ZeroOrMany|Booking|CommissionFeesForBooking|Yes|Yes
 
 
 ### Country
@@ -204,12 +204,12 @@ CurrencyId|CurrencyCode3|Currency unique identifier.|Required, Foreign Key
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-used by|ExactlyOne|Currency|CountryUsedByCurrency|Yes
-used by|OneOrMany|Commission|CountryUsedByCommissions|Yes
-used by|ZeroOrMany|VendingMachine|CountryUsedByVendingMachines|Yes
-used by|ZeroOrMany|Customer|CountryUsedByCustomers|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+used by|ExactlyOne|Currency|CountryUsedByCurrency|Yes|Yes
+used by|OneOrMany|Commission|CountryUsedByCommissions|Yes|Yes
+used by|ZeroOrMany|VendingMachine|CountryUsedByVendingMachines|Yes|Yes
+used by|ZeroOrMany|Customer|CountryUsedByCustomers|Yes|Yes
 
 
 ### Country.CountryTimeZone (Owned by Country)
@@ -278,10 +278,10 @@ ExchangeRateId|AutoNumber|Exchange rate unique identifier.|Required, Owned Entit
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-used by|OneOrMany|Country|CurrencyUsedByCountry|Yes
-used by|ZeroOrMany|MinimumCashStock|CurrencyUsedByMinimumCashStocks|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+used by|OneOrMany|Country|CurrencyUsedByCountry|Yes|Yes
+used by|ZeroOrMany|MinimumCashStock|CurrencyUsedByMinimumCashStocks|Yes|Yes
 
 
 ### Currency.BankNote (Owned by Currency)
@@ -342,12 +342,12 @@ CountryId|CountryCode2|Country unique identifier.|Required, Foreign Key
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-related to|ZeroOrMany|PaymentDetail|CustomerRelatedPaymentDetails|Yes
-related to|ZeroOrMany|Booking|CustomerRelatedBookings|Yes
-related to|ZeroOrMany|Transaction|CustomerRelatedTransactions|Yes
-based in|ExactlyOne|Country|CustomerBaseCountry|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+related to|ZeroOrMany|PaymentDetail|CustomerRelatedPaymentDetails|Yes|Yes
+related to|ZeroOrMany|Booking|CustomerRelatedBookings|Yes|Yes
+related to|ZeroOrMany|Transaction|CustomerRelatedTransactions|Yes|Yes
+based in|ExactlyOne|Country|CustomerBaseCountry|Yes|Yes
 
 
 ### Employee
@@ -375,9 +375,9 @@ EmployeePhoneNumberId|AutoNumber|Employee's phone number identifier.|Required, O
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-reviewing|ZeroOrOne|CashStockOrder|EmployeeReviewingCashStockOrder|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+reviewing|ZeroOrOne|CashStockOrder|EmployeeReviewingCashStockOrder|Yes|Yes
 
 
 ### Employee.EmployeePhoneNumber (Owned by Employee)
@@ -417,9 +417,9 @@ Address|StreetAddress|Landlord's street address.|Required
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-leases an area to house|ZeroOrMany|VendingMachine|ContractedAreasForVendingMachines|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+leases an area to house|ZeroOrMany|VendingMachine|ContractedAreasForVendingMachines|Yes|Yes
 
 
 ### MinimumCashStock
@@ -443,10 +443,10 @@ CurrencyId|CurrencyCode3|Currency unique identifier.|Required, Foreign Key
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-required by|ZeroOrMany|VendingMachine|MinimumCashStocksRequiredByVendingMachines|Yes
-related to|ExactlyOne|Currency|MinimumCashStockRelatedCurrency|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+required by|ZeroOrMany|VendingMachine|MinimumCashStocksRequiredByVendingMachines|Yes|Yes
+related to|ExactlyOne|Currency|MinimumCashStockRelatedCurrency|Yes|Yes
 
 
 ### PaymentDetail
@@ -472,10 +472,10 @@ PaymentProviderId|AutoNumber|Payment provider unique identifier.|Required, Forei
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-used by|ExactlyOne|Customer|PaymentDetailsUsedByCustomer|Yes
-related to|ExactlyOne|PaymentProvider|PaymentDetailsRelatedPaymentProvider|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+used by|ExactlyOne|Customer|PaymentDetailsUsedByCustomer|Yes|Yes
+related to|ExactlyOne|PaymentProvider|PaymentDetailsRelatedPaymentProvider|Yes|Yes
 
 
 ### PaymentProvider
@@ -498,9 +498,9 @@ PaymentProviderType|Text|Payment provider account type.|Required, MinLength: 4, 
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-related to|ZeroOrMany|PaymentDetail|PaymentProviderRelatedPaymentDetails|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+related to|ZeroOrMany|PaymentDetail|PaymentProviderRelatedPaymentDetails|Yes|Yes
 
 
 ### Transaction
@@ -526,10 +526,10 @@ CustomerId|AutoNumber|Customer's unique identifier.|Required, Foreign Key
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-for|ExactlyOne|Customer|TransactionForCustomer|Yes
-for|ExactlyOne|Booking|TransactionForBooking|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+for|ExactlyOne|Customer|TransactionForCustomer|Yes|Yes
+for|ExactlyOne|Booking|TransactionForBooking|Yes|Yes
 
 
 ### VendingMachine
@@ -560,13 +560,13 @@ MinimumCashStockId|AutoNumber|Vending machine cash stock unique identifier.|Requ
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-installed in|ExactlyOne|Country|VendingMachineInstallationCountry|Yes
-contracted area leased by|ExactlyOne|LandLord|VendingMachineContractedAreaLandLord|Yes
-related to|ZeroOrMany|Booking|VendingMachineRelatedBookings|Yes
-related to|ZeroOrMany|CashStockOrder|VendingMachineRelatedCashStockOrders|Yes
-required|ZeroOrMany|MinimumCashStock|VendingMachineRequiredMinimumCashStocks|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+installed in|ExactlyOne|Country|VendingMachineInstallationCountry|Yes|Yes
+contracted area leased by|ExactlyOne|LandLord|VendingMachineContractedAreaLandLord|Yes|Yes
+related to|ZeroOrMany|Booking|VendingMachineRelatedBookings|Yes|Yes
+related to|ZeroOrMany|CashStockOrder|VendingMachineRelatedCashStockOrders|Yes|Yes
+required|ZeroOrMany|MinimumCashStock|VendingMachineRequiredMinimumCashStocks|Yes|Yes
 
 
 

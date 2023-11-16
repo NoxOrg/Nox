@@ -101,9 +101,9 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<CountryQualityOfLifeIndexDto>> Patch([FromRoute] System.Int64 keyCountryId, [FromRoute] System.Int64 keyId, [FromBody] Delta<CountryQualityOfLifeIndexDto> countryQualityOfLifeIndex)
+    public virtual async Task<ActionResult<CountryQualityOfLifeIndexDto>> Patch([FromRoute] System.Int64 keyCountryId, [FromRoute] System.Int64 keyId, [FromBody] Delta<CountryQualityOfLifeIndexUpdateDto> countryQualityOfLifeIndex)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || countryQualityOfLifeIndex is null)
         {
             return BadRequest(ModelState);
         }

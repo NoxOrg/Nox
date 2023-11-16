@@ -55,6 +55,7 @@ internal static class ODataServiceCollectionExtensions
         {{- end }}
 
         builder.EntityType<{{entity.Name}}Dto>();
+        builder.ComplexType<{{entity.Name}}UpdateDto>();
         {{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited ~}}
 
         builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.DeletedAtUtc);

@@ -44,6 +44,18 @@ public abstract partial class SecondTestEntityExactlyOnesControllerBase : ODataC
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToTestEntityExactlyOne([FromRoute] System.String key)
+    {
+        var related = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(key))).Select(x => x.TestEntityExactlyOne).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"TestEntityExactlyOnes/{related.Id}", UriKind.Relative);
+        return Ok(references);
+    }
+    
     public virtual async Task<ActionResult> PostToTestEntityExactlyOne([FromRoute] System.String key, [FromBody] TestEntityExactlyOneCreateDto testEntityExactlyOne)
     {
         if (!ModelState.IsValid)
@@ -58,18 +70,6 @@ public abstract partial class SecondTestEntityExactlyOnesControllerBase : ODataC
         var createdItem = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
-    }
-    
-    public async Task<ActionResult> GetRefToTestEntityExactlyOne([FromRoute] System.String key)
-    {
-        var related = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(key))).Select(x => x.TestEntityExactlyOne).SingleOrDefault();
-        if (related is null)
-        {
-            return NotFound();
-        }
-        
-        var references = new System.Uri($"TestEntityExactlyOnes/{related.Id}", UriKind.Relative);
-        return Ok(references);
     }
     
     [EnableQuery]

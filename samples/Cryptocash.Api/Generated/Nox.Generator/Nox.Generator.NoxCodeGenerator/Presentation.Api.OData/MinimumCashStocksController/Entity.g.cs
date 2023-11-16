@@ -101,9 +101,9 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<MinimumCashStockDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<MinimumCashStockDto> minimumCashStock)
+    public virtual async Task<ActionResult<MinimumCashStockDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<MinimumCashStockUpdateDto> minimumCashStock)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || minimumCashStock is null)
         {
             return BadRequest(ModelState);
         }

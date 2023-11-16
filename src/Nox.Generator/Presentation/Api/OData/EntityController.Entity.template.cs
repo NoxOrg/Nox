@@ -113,9 +113,9 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<{{entity.Name}}Dto>> Patch({{ primaryKeysRoute }}, [FromBody] Delta<{{entity.Name}}Dto> {{ToLowerFirstChar entity.Name}})
+    public virtual async Task<ActionResult<{{entity.Name}}Dto>> Patch({{ primaryKeysRoute }}, [FromBody] Delta<{{entity.Name}}UpdateDto> {{ToLowerFirstChar entity.Name}})
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || {{ToLowerFirstChar entity.Name}} is null)
         {
             return BadRequest(ModelState);
         }
