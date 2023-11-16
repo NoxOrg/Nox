@@ -12,11 +12,12 @@ public class NoxSolutionEntityDomainEventsMarkdownExtensionsTests
     {
         // Arrange
         var noxSolution = new NoxSolutionBuilder()
-            .UseYamlFile("./Files/Design/sample-for-domain-events.solution.nox.yaml")
+            .WithFile("./Files/Design/sample-for-domain-events.solution.nox.yaml")
             .Build();
 
         // Act
-        var actual = noxSolution.ToMarkdownEntityDomainEvents();
+        var actual = noxSolution.ToMarkdownEntityDomainEvents()
+            .OrderBy(m => m.Name);
 
         // Assert
         var expected = new[]
@@ -24,7 +25,8 @@ public class NoxSolutionEntityDomainEventsMarkdownExtensionsTests
             CreateMarkdownFile("CountryLocalNames"),
             CreateMarkdownFile("Country"),
             CreateMarkdownFile("Continent"),
-        };
+        }
+        .OrderBy(m => m.Name);
 
         actual.Should().BeEquivalentTo(expected);
     }

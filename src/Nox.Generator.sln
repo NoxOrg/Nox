@@ -111,6 +111,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{EE7F
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Yaml", "Yaml", "{58B1018F-6977-420A-8BA2-150032C60105}"
+	ProjectSection(SolutionItems) = preProject
+		..\images\nox.png = ..\images\nox.png
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Yaml", "Nox.Yaml\Nox.Yaml.csproj", "{7D47CA1F-E1A4-419E-AFB1-19D96203F000}"
 EndProject

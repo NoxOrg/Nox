@@ -2,7 +2,7 @@
 using Nox.Solution.Events;
 using Nox.Solution.Extensions;
 using Nox.Types;
-using Nox.Types.Schema;
+using Nox.Yaml.Attributes;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

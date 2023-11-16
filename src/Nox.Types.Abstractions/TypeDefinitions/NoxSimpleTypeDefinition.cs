@@ -1,4 +1,4 @@
-﻿using Nox.Types.Schema;
+﻿using Nox.Yaml.Attributes;
 using System.Diagnostics;
 
 namespace Nox.Types;
@@ -132,7 +132,8 @@ public class NoxSimpleTypeDefinition
     [Description("Indicates whether this attribute is readonly. Defaults to false.")]
     public bool IsReadonly { get; internal set; } = false;
 
-    public bool IsLocalized => Type == NoxType.Text && TextTypeOptions!.IsLocalized;
+    [Ignore]
+    public bool IsLocalized => Type == NoxType.Text && TextTypeOptions is not null && TextTypeOptions.IsLocalized;
 
     public NoxSimpleTypeDefinition ShallowCopy()
     {

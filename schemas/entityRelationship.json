@@ -59,16 +59,6 @@
         }
       ]
     },
-    "entityPlural": {    
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
     "canNavigate": {    
       "title": "Define the Entity on this relationship side contains a Navigation Property to the related Entity.",
       "description": "Default is true, allows to navigate from this Entity to the related Entity, and generates all endpoints to manage the Entity relaionships, including enabling ODataQueries for related entities.",
@@ -80,88 +70,6 @@
           "type": "null"
         }
       ]
-    },
-    "isForeignKeyOnThisSide": {    
-      "oneOf": [
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "withSingleEntity": {    
-      "oneOf": [
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "withMultiEntity": {    
-      "oneOf": [
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "foreignKeyPrimitiveType": {    
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "related": {    
-      "oneOf": [
-        {
-          "type": "object"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "properties": {
-        "entity": {    
-          "anyOf": [
-            { "$ref": "entity.json" },
-            {
-              "additionalProperties": false, 
-              "properties": {
-                "$ref": {
-                  "type": "string",
-                  "format": "uri",
-                  "pattern": "^[^\\s]*$"
-                }
-              }
-            }
-          ]
-        },
-        "entityRelationship": {    
-          "anyOf": [
-            { "$ref": "entityRelationship.json" },
-            {
-              "additionalProperties": false, 
-              "properties": {
-                "$ref": {
-                  "type": "string",
-                  "format": "uri",
-                  "pattern": "^[^\\s]*$"
-                }
-              }
-            }
-          ]
-        }
-      }
     }
   },
   "additionalProperties": false

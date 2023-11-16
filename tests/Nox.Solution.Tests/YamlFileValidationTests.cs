@@ -2,6 +2,8 @@ using FluentAssertions;
 using FluentValidation;
 using Nox.Solution.Exceptions;
 using Nox.Solution.Schema;
+using Nox.Yaml.Exceptions;
+using Nox.Yaml.Parser;
 using System;
 
 namespace Nox.Solution.Tests;
@@ -11,36 +13,35 @@ public class YamlFileValidationTests
     [Theory]
     [InlineData("unsupported-version-control.solution.nox")]
     [InlineData("not-found.yaml")]
-    public void UseYamlFile_ThrowsException_NoxSolutionConfigurationException(string filrName)
+    public void UseYamlFile_ThrowsException_NoxYamlException(string filrName)
     {
-        var solutionBuilder = new NoxSolutionBuilder().UseYamlFile($"./files/{filrName}");
+        var solutionBuilder = new NoxSolutionBuilder().WithFile($"./files/{filrName}");
 
         solutionBuilder
             .Invoking(solution => solution.Build())
-            .Should().Throw<NoxSolutionConfigurationException>();
+            .Should().Throw<NoxYamlException>();
     }
 
     [Theory]
-    [InlineData("duplicate-environment-name.solution.nox.yaml", "The environment name 'test' is duplicated. Environment names must be unique in a solution.")]
+    [InlineData("duplicate-environment-name.solution.nox.yaml", "The collection [environments] contains duplicate for values [\"test\"] based on property [name]. (at line 11 in duplicate-environment-name.solution.nox.yaml)")]
     public void Validate_Solution_ThrowsException_WithMessage(string ymlFileName, string expectedErrorMessage)
     {
         Action act = () => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/{ymlFileName}")
-            .Build()
-            .Validate();
+            .WithFile($"./files/{ymlFileName}")
+            .Build();
 
         act.Should()
-            .Throw<FluentValidation.ValidationException>()
-            .Where(exception => exception.Errors.First().ErrorMessage.Contains(expectedErrorMessage));
+            .Throw<NoxYamlException>()
+            .Where(exception => exception.Errors[0].Contains(expectedErrorMessage));
     }
 
     [Fact]
     public void When_AzureServiceBus_AzureServiceBusConfig_Is_Required()
     {
         var noxConfigBuilder = new NoxSolutionBuilder()
-       .UseYamlFile($"./files/invalid-messaging.azureservicebus.solution.nox.yaml");
+       .WithFile($"./files/invalid-messaging.azureservicebus.solution.nox.yaml");
 
-        Assert.Throws<ValidationException>(() => noxConfigBuilder.Build());
+        Assert.Throws<NoxYamlValidationException>(() => noxConfigBuilder.Build());
     }
 
     [Fact]
@@ -56,17 +57,17 @@ public class YamlFileValidationTests
 
         var resolvedFiles = new YamlReferenceResolver(files, "invalid-sample.solution.nox.yaml");
 
-        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(resolvedFiles));
+        var exception = Assert.Throws<NoxYamlException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(resolvedFiles));
 
-        var errors = exception.Message.Split('\n');
+        var errors = exception.Errors;
 
-        var errorCount = errors.Length;
+        var errorCount = errors.Count;
 
         Assert.Contains("[\"relationship\"]", exception.Message);
         Assert.Contains("[\"name\"]", exception.Message);
         Assert.Contains("[\"serverUri\"]", exception.Message);
         Assert.Contains("dataConnection", exception.Message);
-        Assert.Equal(33, errorCount);
+        Assert.Equal(42, errorCount);
     }
 
     
@@ -92,8 +93,8 @@ public class YamlFileValidationTests
     [Fact]
     public void Deserialize_MissedIsRequiredInKeys_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/missed-isRequired-keys-for-entity.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/missed-isRequired-keys-for-entity.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
@@ -109,8 +110,8 @@ public class YamlFileValidationTests
     [Fact]
     public void Deserialize_EntityKeyIsCompoundType_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/entity-key-compound-type.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/entity-key-compound-type.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
@@ -122,8 +123,8 @@ public class YamlFileValidationTests
     [Fact]
     public void Deserialize_OwnedRelationship_MultipleUse_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/owned-relationship-used-twice.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owned-relationship-used-twice.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
@@ -137,8 +138,8 @@ public class YamlFileValidationTests
     [Fact]
     public void Deserialize_OwnedEntity_SetAsAudited_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/owned-entity-set-as-audited.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owned-entity-set-as-audited.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
@@ -152,8 +153,8 @@ public class YamlFileValidationTests
     [Fact]
     public void Deserialize_OwnedEntity_HasRelationships_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/owned-entity-has-relationships.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owned-entity-has-relationships.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
@@ -167,8 +168,8 @@ public class YamlFileValidationTests
     [Fact]
     public void Deserialize_OwnedEntity_HasKeysWhenRelationshipIsZeroOrOne_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/owned-entity-has-keys-when-relationship-is-zeroOrOne.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owned-entity-has-keys-when-relationship-is-zeroOrOne.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
@@ -182,8 +183,8 @@ public class YamlFileValidationTests
     [Fact]
     public void Deserialize_OwnedEntity_HasKeysWhenRelationshipIsExactlyOne_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/owned-entity-has-keys-when-relationship-is-exactlyOne.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owned-entity-has-keys-when-relationship-is-exactlyOne.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
@@ -197,8 +198,8 @@ public class YamlFileValidationTests
     [Fact]
     public void Deserialize_OwnedEntity_DoesNotHaveKeysWhenRelationshipIsZeroOrMany_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/owned-entity-does-not-have-keys-when-relatonship-is-zeroOrMany.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owned-entity-does-not-have-keys-when-relatonship-is-zeroOrMany.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
@@ -212,8 +213,8 @@ public class YamlFileValidationTests
     [Fact]
     public void Deserialize_OwnedEntity_DoesNotHaveKeysWhenRelationshipIsOneOrMany_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/owned-entity-does-not-have-keys-when-relatonship-is-oneOrMany.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owned-entity-does-not-have-keys-when-relatonship-is-oneOrMany.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
@@ -227,8 +228,8 @@ public class YamlFileValidationTests
     [Fact]
     public void Deserialize_Entity_DoesNotHaveKeys_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/entity-does-not-have-keys-defined.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/entity-does-not-have-keys-defined.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
@@ -244,11 +245,11 @@ public class YamlFileValidationTests
     public void Deserialize_EntityItemsNameAreDuplicated_ThrowsException()
     {
         Action action = () => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/duplicated-items-definition.nox.yaml")
+            .WithFile($"./files/duplicated-items-definition.nox.yaml")
             .Build();
 
         var errors = action.Should()
-             .ThrowExactly<ValidationException>()
+             .ThrowExactly<NoxYamlValidationException>()
              .Subject
              .First()
              .Errors;
@@ -279,11 +280,11 @@ public class YamlFileValidationTests
     public void Deserialize_WithInvalidUniqueAttributeConstraints_ThrowsException()
     {
         Action action = () => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/invalid-unique-attribute-constraints.solution.nox.yaml")
+            .WithFile($"./files/invalid-unique-attribute-constraints.solution.nox.yaml")
             .Build();
 
         var errors = action.Should()
-            .ThrowExactly<ValidationException>()
+            .ThrowExactly<NoxYamlValidationException>()
             .Subject
             .First()
             .Errors.ToArray();
@@ -310,9 +311,9 @@ public class YamlFileValidationTests
     {
         var yaml = File.ReadAllText("./files/invalid-structure-unique-attribute-constraints.solution.nox.yaml");
 
-        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml));
+        var exception = Assert.Throws<NoxYamlException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml));
 
-        var errorCount = exception.Message.Split('\n').Length;
+        var errorCount = exception.Errors.Count;
 
         errorCount.Should().BePositive();
 
@@ -324,11 +325,11 @@ public class YamlFileValidationTests
     public void Deserialize_InvalidRelationshipConfig_ThrowsException()
     {
         var action = () => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/invalid-relationship-config.entity.nox.yaml")
+            .WithFile($"./files/invalid-relationship-config.entity.nox.yaml")
             .Build();
 
         var errors = action.Should()
-            .ThrowExactly<ValidationException>()
+            .ThrowExactly<NoxYamlValidationException>()
             .Subject
             .First()
             .Errors.ToArray();

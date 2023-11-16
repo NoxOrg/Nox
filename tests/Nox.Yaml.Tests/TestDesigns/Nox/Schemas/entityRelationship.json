@@ -59,16 +59,6 @@
         }
       ]
     },
-    "entityPlural": {    
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
     "canNavigate": {    
       "title": "Determines whether this side of the relationship is exposed in the generated code and ODATA endpoints.",
       "description": "This boolean controls whether this side of the relationship is exposed in the generated code and ODATA endpoints.",
@@ -80,88 +70,6 @@
           "type": "null"
         }
       ]
-    },
-    "shouldGenerateForeignOnThisSide": {    
-      "oneOf": [
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "withSingleEntity": {    
-      "oneOf": [
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "withMultiEntity": {    
-      "oneOf": [
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "foreignKeyPrimitiveType": {    
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "related": {    
-      "oneOf": [
-        {
-          "type": "object"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "properties": {
-        "entity": {    
-          "anyOf": [
-            { "$ref": "entity.json" },
-            {
-              "additionalProperties": false, 
-              "properties": {
-                "$ref": {
-                  "type": "string",
-                  "format": "uri",
-                  "pattern": "^[^\\s]*$"
-                }
-              }
-            }
-          ]
-        },
-        "entityRelationship": {    
-          "anyOf": [
-            { "$ref": "entityRelationship.json" },
-            {
-              "additionalProperties": false, 
-              "properties": {
-                "$ref": {
-                  "type": "string",
-                  "format": "uri",
-                  "pattern": "^[^\\s]*$"
-                }
-              }
-            }
-          ]
-        }
-      }
     }
   },
   "additionalProperties": false

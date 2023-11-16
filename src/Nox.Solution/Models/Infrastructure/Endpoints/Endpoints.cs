@@ -1,4 +1,5 @@
-using Nox.Types.Schema;
+using Nox.Yaml;
+using Nox.Yaml.Attributes;
 using System;
 using System.Diagnostics;
 
@@ -7,19 +8,22 @@ namespace Nox.Solution
     [Title("The definition namespace for default endpoints pertaining to a Nox solution.")]
     [Description("Define default endpoints pertinent to a Nox solution here. These include endpoints for API and BFF servers.")]
     [AdditionalProperties(false)]
-    public class Endpoints
+    public class Endpoints : YamlConfigNode<NoxSolution,Infrastructure>
     {
         [Title("The api route prefix, defaults to api/v1 or to api/vMajor({Solution.Version}) if Version is set in the root of the Solution.")]
         [Description(@"Defines the prefix for all Api routes end points.")]
         public string ApiRoutePrefix { get; internal set; } = null!;
+        
         public ApiServer? ApiServer { get; internal set; }
+        
         public BffServer? BffServer { get; internal set; }
-                
-        public void ApplyDefaults(string solutionVersion)
+
+
+        public override void SetDefaults(NoxSolution topNode, Infrastructure parentNode, string yamlPath)
         {
             if (string.IsNullOrEmpty(ApiRoutePrefix))
             {
-                ApiRoutePrefix = "/api/v" + new Version(solutionVersion).Major;
+                ApiRoutePrefix = "/api/v" + new Version(topNode.Version).Major;
                 return;
             }
             else
@@ -27,6 +31,7 @@ namespace Nox.Solution
                 ApiRoutePrefix = SanitizeRoutePrefix(ApiRoutePrefix);
             }
         }
+
         /// <summary>
         /// Sanitizes the route prefix by stripping trailing forward slashes and adding leading slashes.
         /// </summary>

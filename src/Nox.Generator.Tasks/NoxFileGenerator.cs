@@ -195,7 +195,7 @@ internal class NoxFileGenerator
             );
 
             solution = new NoxSolutionBuilder()
-                .UseYamlFilesAndContent(yamlsFilesAndContent)
+                .WithYamlFilesAndContent(yamlsFilesAndContent)
                 .Build();
         }
         catch (YamlException e)
