@@ -34,7 +34,7 @@ namespace {{ codeGeneratorState.ODataNameSpace }};
 public abstract partial class {{ className }}Base
 {
     
-    [HttpPut("{{solution.Infrastructure.Endpoints.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.Name}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
+    [HttpPut("{{solution.Infrastructure.Endpoints.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.PluralName}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
     public virtual async Task<ActionResult<{{entity.Name}}LocalizedDto>> Put{{entity.Name}}Localized( {{ primaryKeysRoute }}, [FromRoute] System.String {{cultureCode}}, [FromBody] {{entity.Name}}LocalizedUpsertDto {{ToLowerFirstChar entity.Name}}LocalizedUpsertDto)
     {
         if (!ModelState.IsValid)
@@ -65,9 +65,9 @@ public abstract partial class {{ className }}Base
         return Ok(item);
     }
 
-    [EnableQuery]
-    [HttpGet("{{solution.Infrastructure.Endpoints.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.Name}}Localized/")]
-    public virtual async Task<ActionResult<IQueryable<{{entity.Name}}LocalizedDto>>> Get{{entity.Name}}Localized( {{ primaryKeysRoute }})
+
+    [HttpGet("{{solution.Infrastructure.Endpoints.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.PluralName}}Localized/")]
+    public virtual async Task<ActionResult<IQueryable<{{entity.Name}}LocalizedDto>>> Get{{entity.Name}}LocalizedNonConventional( {{ primaryKeysRoute }})
     {
         var result = (await _mediator.Send(new Get{{entity.Name}}TranslationsQuery({{ primaryKeysQuery }})));
             

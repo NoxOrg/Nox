@@ -2,6 +2,7 @@
 
 #nullable enable
 
+using System.Reflection.Metadata.Ecma335;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
@@ -69,8 +70,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<WorkplaceDto>().ContainsMany(e => e.Tenants);
 
         builder.EntityType<WorkplaceDto>();
-        builder.EntityType<WorkplaceLocalizedDto>();
-        builder.EntitySet<WorkplaceLocalizedDto>("WorkplacesLocalized");
+        builder.EntityType<WorkplaceDto>().Function("WorkplacesLocalized").ReturnsCollection<DtoNameSpace.WorkplaceLocalizedDto>();
         builder.EntitySet<StoreOwnerDto>("StoreOwners");
         builder.EntityType<StoreOwnerDto>().ContainsMany(e => e.Stores);
 
@@ -109,6 +109,7 @@ internal static class ODataServiceCollectionExtensions
                             .Function("StoreStatuses")
                             .ReturnsCollection<DtoNameSpace.StoreStatusDto>();
 
+       
         if(configure != null) configure(builder);
 
         services.AddControllers()

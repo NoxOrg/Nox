@@ -2,6 +2,7 @@
 
 #nullable enable
 
+using System.Reflection.Metadata.Ecma335;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
@@ -56,8 +57,9 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntityType<{{entity.Name}}Dto>();
         {{- if entity.IsLocalized }}
-        builder.EntityType<{{entity.Name}}LocalizedDto>();
-        builder.EntitySet<{{entity.Name}}LocalizedDto>("{{entity.PluralName}}Localized");
+        builder.EntityType<{{entity.Name}}Dto>().Function("{{entity.PluralName}}Localized").ReturnsCollection<DtoNameSpace.{{entity.Name}}LocalizedDto>();
+        {{- end }}
+        {{- if entity.IsOwnedEntity }}
         {{- end }}
         
         {{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited ~}}
@@ -76,6 +78,7 @@ internal static class ODataServiceCollectionExtensions
                             .ReturnsCollection<DtoNameSpace.{{ enumeration.EntityNameForEnumeration}}>();
         {{- end }}
 
+       
         if(configure != null) configure(builder);
 
         services.AddControllers()

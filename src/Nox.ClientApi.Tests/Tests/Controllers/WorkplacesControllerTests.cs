@@ -729,8 +729,8 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateEtagHeader(postResult?.Etag),
                 CreateAcceptLanguageHeader("en-US"));
             
-            var localizedDto =  await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplaceLocalized/tr-TR", upsertDto, headers, false);
-            var localizations = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplaceLocalized"))?.ToList();
+            var localizedDto =  await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplacesLocalized/tr-TR", upsertDto, headers, false);
+            var localizations = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplacesLocalized"))?.ToList();
             
             // Assert
             result.Should().NotBeNull();
