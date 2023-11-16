@@ -59,9 +59,21 @@
         }
       ]
     },
-    "canNavigate": {    
-      "title": "Determines whether this side of the relationship is exposed in the generated code and ODATA endpoints.",
-      "description": "This boolean controls whether this side of the relationship is exposed in the generated code and ODATA endpoints.",
+    "canManageReference": {    
+      "title": "Define the Entity on this relationship side contains a Reference endpoints to the related Entity.",
+      "description": "Default is true, determines whether OData $ref endpoints are generated for this relationship.",
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "canManageEntity": {    
+      "title": "Define the Entity on this relationship side contains endpoints to manage the related Entity.",
+      "description": "Default is true, determines whether navigation routing endpoints are generated for the related entities, including enabling ODataQueries for related entities.",
       "oneOf": [
         {
           "type": "boolean"
