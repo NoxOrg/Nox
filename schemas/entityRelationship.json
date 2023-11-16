@@ -69,9 +69,17 @@
         }
       ]
     },
-    "canNavigate": {    
-      "title": "Define the Entity on this relationship side contains a Navigation Property to the related Entity.",
-      "description": "Default is true, allows to navigate from this Entity to the related Entity, and generates all endpoints to manage the Entity relaionships, including enabling ODataQueries for related entities.",
+    "canManageReference": {    
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "canManageEntity": {    
       "oneOf": [
         {
           "type": "boolean"

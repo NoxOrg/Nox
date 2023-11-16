@@ -44,6 +44,18 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToStore([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.Store).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"Stores/{related.Id}", UriKind.Relative);
+        return Ok(references);
+    }
+    
     public virtual async Task<ActionResult> PostToStore([FromRoute] System.Int64 key, [FromBody] StoreCreateDto store)
     {
         if (!ModelState.IsValid)
@@ -58,18 +70,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         var createdItem = (await _mediator.Send(new GetStoreByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
-    }
-    
-    public async Task<ActionResult> GetRefToStore([FromRoute] System.Int64 key)
-    {
-        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.Store).SingleOrDefault();
-        if (related is null)
-        {
-            return NotFound();
-        }
-        
-        var references = new System.Uri($"Stores/{related.Id}", UriKind.Relative);
-        return Ok(references);
     }
     
     [EnableQuery]
@@ -122,22 +122,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToDefaultCurrency([FromRoute] System.Int64 key, [FromBody] CurrencyCreateDto currency)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        currency.StoreLicenseDefaultId = new List<System.Int64> { key };
-        var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetCurrencyByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToDefaultCurrency([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.DefaultCurrency).SingleOrDefault();
@@ -148,17 +132,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         
         var references = new System.Uri($"Currencies/{related.Id}", UriKind.Relative);
         return Ok(references);
-    }
-    
-    [EnableQuery]
-    public virtual async Task<SingleResult<CurrencyDto>> GetDefaultCurrency(System.Int64 key)
-    {
-        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Where(x => x.DefaultCurrency != null);
-        if (!related.Any())
-        {
-            return SingleResult.Create<CurrencyDto>(Enumerable.Empty<CurrencyDto>().AsQueryable());
-        }
-        return SingleResult.Create(related.Select(x => x.DefaultCurrency!));
     }
     
     public async Task<ActionResult> DeleteRefToDefaultCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
@@ -193,27 +166,31 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/StoreLicenses/{key}/DefaultCurrency")]
-    public async Task<ActionResult> DeleteToDefaultCurrency([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> PostToDefaultCurrency([FromRoute] System.Int64 key, [FromBody] CurrencyCreateDto currency)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.DefaultCurrency).SingleOrDefault();
-        if (related == null)
-        {
-            return NotFound();
-        }
-        
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteCurrencyByIdCommand(related.Id, etag));
-        if (!deleted)
+        currency.StoreLicenseDefaultId = new List<System.Int64> { key };
+        var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCurrencyByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<CurrencyDto>> GetDefaultCurrency(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Where(x => x.DefaultCurrency != null);
+        if (!related.Any())
         {
-            return NotFound();
+            return SingleResult.Create<CurrencyDto>(Enumerable.Empty<CurrencyDto>().AsQueryable());
         }
-        return NoContent();
+        return SingleResult.Create(related.Select(x => x.DefaultCurrency!));
     }
     
     public virtual async Task<ActionResult<CurrencyDto>> PutToDefaultCurrency(System.Int64 key, [FromBody] CurrencyUpdateDto currency)
@@ -239,6 +216,29 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Ok();
     }
     
+    [HttpDelete("/api/v1/StoreLicenses/{key}/DefaultCurrency")]
+    public async Task<ActionResult> DeleteToDefaultCurrency([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.DefaultCurrency).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCurrencyByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToSoldInCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -255,22 +255,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToSoldInCurrency([FromRoute] System.Int64 key, [FromBody] CurrencyCreateDto currency)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        currency.StoreLicenseSoldInId = new List<System.Int64> { key };
-        var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetCurrencyByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToSoldInCurrency([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.SoldInCurrency).SingleOrDefault();
@@ -281,17 +265,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         
         var references = new System.Uri($"Currencies/{related.Id}", UriKind.Relative);
         return Ok(references);
-    }
-    
-    [EnableQuery]
-    public virtual async Task<SingleResult<CurrencyDto>> GetSoldInCurrency(System.Int64 key)
-    {
-        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Where(x => x.SoldInCurrency != null);
-        if (!related.Any())
-        {
-            return SingleResult.Create<CurrencyDto>(Enumerable.Empty<CurrencyDto>().AsQueryable());
-        }
-        return SingleResult.Create(related.Select(x => x.SoldInCurrency!));
     }
     
     public async Task<ActionResult> DeleteRefToSoldInCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
@@ -326,27 +299,31 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/StoreLicenses/{key}/SoldInCurrency")]
-    public async Task<ActionResult> DeleteToSoldInCurrency([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> PostToSoldInCurrency([FromRoute] System.Int64 key, [FromBody] CurrencyCreateDto currency)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.SoldInCurrency).SingleOrDefault();
-        if (related == null)
-        {
-            return NotFound();
-        }
-        
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteCurrencyByIdCommand(related.Id, etag));
-        if (!deleted)
+        currency.StoreLicenseSoldInId = new List<System.Int64> { key };
+        var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCurrencyByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<CurrencyDto>> GetSoldInCurrency(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Where(x => x.SoldInCurrency != null);
+        if (!related.Any())
         {
-            return NotFound();
+            return SingleResult.Create<CurrencyDto>(Enumerable.Empty<CurrencyDto>().AsQueryable());
         }
-        return NoContent();
+        return SingleResult.Create(related.Select(x => x.SoldInCurrency!));
     }
     
     public virtual async Task<ActionResult<CurrencyDto>> PutToSoldInCurrency(System.Int64 key, [FromBody] CurrencyUpdateDto currency)
@@ -370,6 +347,29 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         }
         
         return Ok();
+    }
+    
+    [HttpDelete("/api/v1/StoreLicenses/{key}/SoldInCurrency")]
+    public async Task<ActionResult> DeleteToSoldInCurrency([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.SoldInCurrency).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCurrencyByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
     }
     
     #endregion
