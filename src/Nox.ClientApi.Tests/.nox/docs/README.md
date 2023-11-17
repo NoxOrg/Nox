@@ -160,8 +160,8 @@ Symbol|Text|Currency's symbol.|MinLength: 4, MaxLength: 63
 
 Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
 -----------|-----------|--------------|----|---------------|------------------
-List of store licenses where this currency is a default one|OneOrMany|StoreLicense|StoreLicenseDefault|Yes|No
-List of store licenses that were sold in this currency|OneOrMany|StoreLicense|StoreLicenseSoldIn|Yes|Yes
+List of store licenses where this currency is a default one|OneOrMany|StoreLicense|StoreLicenseDefault|No|No
+List of store licenses that were sold in this currency|OneOrMany|StoreLicense|StoreLicenseSoldIn|No|No
 
 
 ### RatingProgram

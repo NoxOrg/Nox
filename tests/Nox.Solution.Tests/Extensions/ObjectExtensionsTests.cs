@@ -142,7 +142,7 @@ public class ObjectExtensionsTests
     {
         // Arrange
         var noxConfig = new NoxSolutionBuilder()
-            .UseYamlFile("./files/sample.solution.nox.yaml")
+            .WithFile("./files/sample.solution.nox.yaml")
             .Build();
 
         // Act

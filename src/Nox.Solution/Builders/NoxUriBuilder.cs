@@ -10,8 +10,9 @@ public class NoxUriBuilder
     public NoxUriBuilder(ServerBase serverBase, string scheme, string description)
     {
         var uriString = serverBase.ServerUri;
-        Uri? uri = null;
-        var isValid = Uri.TryCreate(uriString, UriKind.Absolute, out uri);
+
+        var isValid = Uri.TryCreate(uriString, UriKind.Absolute, out Uri? uri);
+        
         if (isValid) //contains at least a scheme and a host
         {
             if (!uri!.Scheme.Equals(scheme, StringComparison.OrdinalIgnoreCase)) throw new NoxUriBuilderException(string.Format(ValidationResources.ServerUriInvalidScheme, description, scheme));

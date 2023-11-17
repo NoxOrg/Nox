@@ -1,14 +1,14 @@
-﻿using Nox.Solution.Constants;
-using Nox.Types.Schema;
-using System;
-using System.Collections.Generic;
+﻿using FluentValidation;
 using Nox.Solution.Validation;
 using Nox.Types;
 using Nox.Types.Extensions;
-using System.Collections.Concurrent;
+using Nox.Yaml;
+using Nox.Yaml.Attributes;
+using Nox.Yaml.Validation;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using YamlDotNet.Serialization;
-using FluentValidation;
 
 namespace Nox.Solution;
 
@@ -16,44 +16,46 @@ namespace Nox.Solution;
 [Title("Fully describes a NOX solution")]
 [Description("Contains all configuration, domain objects and infrastructure declarations that defines a NOX solution. See https://noxorg.dev for more.")]
 [AdditionalProperties(false)]
-public class NoxSolution
+public class NoxSolution : YamlConfigNode<NoxSolution>
 {
-    private string _platformId = null!;
-
     [Required]
     [Title("The short name for the solution. Contains no spaces.")]
     [Description("The name of the NOX solution, application or service. This value is used extensively by the NOX tooling and libraries and should ideally be unique within an organisation.")]
-    [Pattern(RegexConstants.SolutionNamePattern)]
+    [Pattern(Nox.Yaml.Constants.StringWithNoSpacesRegex)]
     public string Name { get; set; } = null!;
 
     [Title("Platform Identifier. Used to build a unique Uri.")]
     [Description("Identify a Platform, that is a set of different services. Use to produce a unique Uri, by encoding the provided value.")]
-    public string PlatformId
-    {
-        get => _platformId ?? Name;
-        internal set => _platformId = value;
-    }
+    public string PlatformId { get; set; } = null!;
+
 
     [Title("The version of the NOX solution. Expected a Semantic Version format.")]
     [Description("Required, but if not defined default 1.0.")]
-    [Pattern(RegexConstants.SolutionVersionPattern)]
+    [Pattern(Nox.Yaml.Constants.VersionStringRegex)]
     public string Version { get; internal set; } = "1.0";
 
     [Title("A short description of the NOX solution.")]
     [Description("A brief description of the solution with what it's purpose or goals are.")]
     public string? Description { get; internal set; }
 
+    [Title("A short overview or description of the solution.")]
+    [Description("A short overview for this solution describing the purpose and responsibility of the solution.")]
+    public string? Overview { get; internal set; }
+
     [Title("URL to the documentation or specification of the solution.")]
     [Description("A URL which contains the requirements, documentation or specification for this solution.")]
-    public Uri? Overview { get; internal set; }
+    public Uri? DocumentationUrl { get; internal set; }
 
     [Title("The environment variables used in your solution and default values.")]
     [Description("A key/value pair of environment variables used in your solution and their defaults.")]
+
     public IReadOnlyDictionary<string, string>? Variables { get; internal set; }
 
     [Title("Definitions for run-time environments.")]
     [Description("Definitions for the name, production status and other pertinent information pertaining to run-time environments.")]
     [AdditionalProperties(false)]
+    [UniqueItemProperties(nameof(Environment.Name))]
+
     public IReadOnlyList<Environment>? Environments { get; internal set; }
 
     public VersionControl? VersionControl { get; internal set; }
@@ -69,77 +71,109 @@ public class NoxSolution
 
     public Application? Application { get; internal set; } = new Application();
 
-    internal void ApplyDefaults()
-    {
-        Infrastructure!.ApplyDefaults(Version);
-    }
-
     [YamlIgnore]
     public string? RootYamlFile { get; internal set; }
 
     [YamlIgnore]
     public string? RawYamlContent { get; internal set; }
 
-    // The dictionary value contains the parent entity
-    private ConcurrentDictionary<string, Entity> _ownedEntities = null!;
-
-    internal void Validate()
+    public override void SetDefaults(NoxSolution topNode, NoxSolution parentNode, string yamlPath)
     {
-        var validator = new SolutionValidator();
-        validator.ValidateAndThrow(this);
+        // Basic property defaulting
+
+        Name ??= "NotSpecified";
+
+        PlatformId ??= Name;
+
     }
 
-    internal bool IsOwnedEntity(Entity entity)
+    // Dictionary containing owned entity names and their parent entity
+    private Dictionary<string, Entity> _ownedEntities = new();
+
+    // Dictionary containing all data connections including persistence
+    private Dictionary<string, DataConnection> _dataConnections = new();
+
+    public override void Initialize(NoxSolution topNode, NoxSolution parentNode, string yamlPath)
     {
-        // Cannot rely on constructor in this scenario as
-        // constructor execution during deserialization doesn't contain a Domain set
-        if (_ownedEntities == null)
+        // build map of entity names and owners (Entity)
+
+        _ownedEntities = Domain?.Entities
+            .Where(e => e.OwnedRelationships is not null)
+            .SelectMany(e => e.OwnedRelationships, (e, r) => new { Entity = e, Relationship = r })
+            .GroupBy(o => o.Relationship.Entity)
+            .ToDictionary(g => g.Key, g => g.ElementAt(0).Entity)
+            ?? _ownedEntities;
+
+        // Set the owner of each entity if it has one
+
+        Domain?.Entities.ToList().ForEach(e =>
         {
-            InitOwnedEntitiesList();
+            e.IsOwnedEntity = IsOwnedEntity(e);
+            if (e.IsOwnedEntity)
+            {
+                e.OwnerEntity = GetEntityOwner(e);
+            }
+        });
+
+        // Build full DataConnection list
+
+        IEnumerable<DataConnection> dataConnections =
+            Infrastructure?.Dependencies?.DataConnections
+            ?? Enumerable.Empty<DataConnection>();
+
+        if (Infrastructure?.Persistence?.DatabaseServer is not null)
+        {
+            var db = Infrastructure.Persistence.DatabaseServer;
+            var connectionProxyForDatabase = new DataConnection
+            {
+                Name = db.Name,
+                Options = db.Options,
+                User = db.User,
+                Password = db.Password,
+                Port = db.Port,
+                ServerUri = db.ServerUri,
+                Provider = (DataConnectionProvider)Enum.Parse(typeof(DataConnectionProvider), db.Provider.ToString())
+            };
+            dataConnections = dataConnections.Append(connectionProxyForDatabase);
         }
 
-        return _ownedEntities!.ContainsKey(entity.Name);
+        _dataConnections = dataConnections.ToDictionary(d => d.Name, d => d);
+
     }
+
+    public override ValidationResult Validate(NoxSolution topNode, NoxSolution parentNode, string yamlPath)
+    {
+        var result = new ValidationResult();
+
+        // Backwards compatibility, executes fluent validator
+        // TODO: refactor this into the new Validate and SetDefault mechanisms
+        var validator = new SolutionValidator();
+        var fluentResult = validator.Validate(this);
+        if (fluentResult is not null)
+        {
+            foreach (var error in fluentResult.Errors)
+            {
+                result.Errors.Add(new ValidationFailure(string.Empty, error.ErrorMessage));
+            }
+        }
+        // END
+
+        return result;
+    }
+
+    internal bool HasDataConnectionWithName(string name)
+        => _dataConnections.ContainsKey(name);
+
+    internal bool IsOwnedEntity(Entity entity)
+        => _ownedEntities.ContainsKey(entity.Name);
 
     internal Entity? GetEntityOwner(Entity entity)
     {
-        // Cannot rely on constructor in this scenario as
-        // constructor execution during deserialization doesn't contain a Domain set
-        if (_ownedEntities == null)
-        {
-            InitOwnedEntitiesList();
-        }
-
-        if (_ownedEntities != null && _ownedEntities.TryGetValue(entity.Name, out var result))
+        if (_ownedEntities.TryGetValue(entity.Name, out var result))
         {
             return result;
         }
-
         return null;
-    }
-    private void InitOwnedEntitiesList()
-    {
-        if (Domain == null)
-        {
-            return;
-        }
-
-        lock (this)
-        {
-            if (_ownedEntities is null)
-            {
-                _ownedEntities = new();
-
-                foreach (var entity in Domain.Entities)
-                {
-                    if (entity.OwnedRelationships is null) continue;
-                    foreach (var relationship in entity.OwnedRelationships)
-                    {
-                        _ownedEntities.TryAdd(relationship.Entity, entity);
-                    }
-                }
-            }
-        }
     }
 
     /// <summary>

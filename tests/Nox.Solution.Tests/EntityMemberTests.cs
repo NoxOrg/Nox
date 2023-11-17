@@ -8,7 +8,7 @@ public class EntityMemberTests
     public void Entity_GetMembers_Returns_Valid_Result()
     {
         var noxConfig = new NoxSolutionBuilder()
-            .UseYamlFile("./files/sample.solution.nox.yaml")
+            .WithFile("./files/sample.solution.nox.yaml")
             .Build();
 
         var country = noxConfig.Domain!.Entities[0];

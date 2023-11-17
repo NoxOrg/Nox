@@ -21,7 +21,7 @@ namespace Nox.Solution.Validation
             RuleFor(solution => solution.Version)
                 .NotEmpty()
                 .WithMessage(ValidationResources.SolutionVersionEmpty)
-                .Matches(RegexConstants.SolutionVersionPattern)
+                .Matches(Yaml.Constants.VersionStringRegex)
                 .WithMessage(ValidationResources.SolutionVersionPattern);
 
             RuleForEach(sln => sln.Environments)

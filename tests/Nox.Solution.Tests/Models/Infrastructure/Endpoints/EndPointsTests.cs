@@ -7,19 +7,20 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
         [Fact]
         public void WhenNoEndPointOrVersionIsDefined_ShouldApplyDefaultsV1()
         {
-            var solution = new NoxSolutionBuilder()
-                .UseYamlFile("./files/x.solution.nox.yaml")
-                .AllowMissingSolutionYaml()
-                .Build();
+            var solution = new NoxSolution();
+            var endPoints = solution.Infrastructure.Endpoints;
+
+            endPoints.SetDefaults(solution, solution.Infrastructure, string.Empty);
 
             solution.Infrastructure.Endpoints.Should().NotBeNull();
             solution.Infrastructure.Endpoints.ApiRoutePrefix.Should().Be("/api/v1");
         }
+
         [Fact]
         public void WhenNoEndPointWithVersion2Defined_ShouldApplyDefaultsV2()
         {
             var solution = new NoxSolutionBuilder()
-                .UseYamlFile("./files/endpoints.defaultversion2.solution.nox.yaml")
+                .WithFile("./files/endpoints.defaultversion2.solution.nox.yaml")
                 .AllowMissingSolutionYaml()
                 .Build();
 
@@ -31,7 +32,7 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
         public void WhenApiRoutePrefixSet_ShouldReturnIt()
         {
             var solution = new NoxSolutionBuilder()
-                .UseYamlFile("./files/endpoints.routeprefix.solution.nox.yaml")
+                .WithFile("./files/endpoints.routeprefix.solution.nox.yaml")
                 .AllowMissingSolutionYaml()
                 .Build();
 
@@ -42,7 +43,7 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
         public void WhenApiRoutePrefixSet_ShouldSanitizeIt()
         {
             var solution = new NoxSolutionBuilder()
-                .UseYamlFile("./files/endpoints.routeprefix.sanitized.solution.nox.yaml")
+                .WithFile("./files/endpoints.routeprefix.sanitized.solution.nox.yaml")
                 .AllowMissingSolutionYaml()
                 .Build();
 
@@ -53,7 +54,7 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
         public void WhenApiRoutePrefixRoot_ShouldBeRoot()
         {
             var solution = new NoxSolutionBuilder()
-                .UseYamlFile("./files/endpoints.root.routeprefix.solution.nox.yaml")
+                .WithFile("./files/endpoints.root.routeprefix.solution.nox.yaml")
                 .AllowMissingSolutionYaml()
                 .Build();
 
@@ -65,7 +66,7 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
         public void WhenApiRouteNoPrefix_ShouldBeDefault()
         {
             var solution = new NoxSolutionBuilder()
-                .UseYamlFile("./files/endpoints.no.routeprefix.solution.nox.yaml")
+                .WithFile("./files/endpoints.no.routeprefix.solution.nox.yaml")
                 .AllowMissingSolutionYaml()
                 .Build();
 
@@ -82,11 +83,12 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
         public void WhenApiRoute_ShouldExpect(string configuration, string version, string expected)
         {
             // Arrange
-            var endPoints = new Nox.Solution.Endpoints();
+            var solution = new NoxSolution() { Version = version };
+            var endPoints = solution.Infrastructure.Endpoints;
             endPoints.ApiRoutePrefix = configuration;
 
             // Act
-            endPoints.ApplyDefaults(version);
+            endPoints.SetDefaults(solution,solution.Infrastructure,string.Empty);
 
             // Assert
             endPoints.ApiRoutePrefix.Should().Be(expected);

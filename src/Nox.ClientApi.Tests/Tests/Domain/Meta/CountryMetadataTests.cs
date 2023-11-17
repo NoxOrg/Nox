@@ -20,7 +20,7 @@ namespace ClientApi.Tests.Domain.Meta
             //Arrange
             var rootPath = "../../../.nox";
             var noxSolution = new NoxSolutionBuilder()
-                .UseYamlFile($"{rootPath}/design/clientapi.solution.nox.yaml")
+                .WithFile($"{rootPath}/design/clientapi.solution.nox.yaml")
                 .Build();
             
             //Act

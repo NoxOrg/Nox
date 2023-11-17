@@ -9,7 +9,7 @@ public class NoxSolutionMermaidExtensionsTests
     public void Solution_Creates_Valid_Mermaid_Erd()
     {
         var noxSolution = new NoxSolutionBuilder()
-            .UseYamlFile("./Files/Design/sample.solution.nox.yaml")
+            .WithFile("./Files/Design/sample.solution.nox.yaml")
             .Build();
 
         var mermaidText = noxSolution.ToMermaidErd();
@@ -60,7 +60,7 @@ public class NoxSolutionMermaidExtensionsTests
     public void Solution_Creates_Valid_Mermaid_DetailedErd()
     {
         var noxSolution = new NoxSolutionBuilder()
-            .UseYamlFile("./Files/Design/sample.solution.nox.yaml")
+            .WithFile("./Files/Design/sample.solution.nox.yaml")
             .Build();
 
         var mermaidText = noxSolution.ToMermaidErd(ErdDetail.Detailed);
@@ -111,7 +111,7 @@ public class NoxSolutionMermaidExtensionsTests
     public void Solution_Creates_Valid_Mermaid_SummaryErd()
     {
         var noxSolution = new NoxSolutionBuilder()
-            .UseYamlFile("./Files/Design/sample.solution.nox.yaml")
+            .WithFile("./Files/Design/sample.solution.nox.yaml")
             .Build();
 
         var mermaidText = noxSolution.ToMermaidErd(ErdDetail.Summary);

@@ -175,7 +175,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
         try
         {
             solution = new NoxSolutionBuilder()
-                .UseYamlFilesAndContent(solutionFileAndContent)
+                .WithYamlFilesAndContent(solutionFileAndContent)
                 .Build();
         }
         catch (YamlException e)

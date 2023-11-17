@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using YamlDotNet.Serialization.NamingConventions;
-using YamlDotNet.Serialization;
-using Nox.Yaml.Exceptions;
-using YamlDotNet.Core;
-using System.Linq;
-using System;
-using System.IO;
-using Nox.Yaml.Schema.Validator;
-using Nox.Yaml.Schema.Generator;
+﻿using Nox.Yaml.Exceptions;
 using Nox.Yaml.Parser;
+using Nox.Yaml.Schema.Generator;
+using Nox.Yaml.Schema.Validator;
+using YamlDotNet.Core;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace Nox.Solution.Schema;
 
@@ -74,8 +70,8 @@ internal static class NoxSchemaValidator
             // Then if schema is valid it's neccessary to check whether we can deserialize
             if (validator.Errors.Any())
             {
-                var message = string.Join("\n", validator.Errors.Distinct());
-                throw new NoxYamlException(message);
+                var message = string.Join("\n", validator.Errors);
+                throw new NoxYamlException(message, validator.Errors);
             }
 
             yamlTypedObjectInstance = deserializer.Deserialize<T>(yaml);
@@ -85,7 +81,7 @@ internal static class NoxSchemaValidator
         {
             var errors = GetExceptionMessages(ex);
             var message = string.Join("\n", errors.Distinct());
-            throw new NoxYamlException(message, ex);
+            throw new NoxYamlException(message, ex, errors);
         }
 
         return yamlTypedObjectInstance;
@@ -104,7 +100,7 @@ internal static class NoxSchemaValidator
         {
             errors.Add(exception.Message);
         }
-        
+
         if (exception.InnerException is not null)
         {
             GetExceptionMessages(exception.InnerException, errors);

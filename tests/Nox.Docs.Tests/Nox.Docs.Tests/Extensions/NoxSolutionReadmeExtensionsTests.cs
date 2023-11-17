@@ -14,7 +14,7 @@ public class NoxSolutionReadmeExtensionsTests
     {
         // Arrange
         var noxSolution = new NoxSolutionBuilder()
-            .UseYamlFile(filePath)
+            .WithFile(filePath)
             .Build();
 
         // Act

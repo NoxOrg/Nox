@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Nox.Types;
-using Nox.Types.Schema;
+using Nox.Yaml.Attributes;
 
 namespace Nox.Solution
 {

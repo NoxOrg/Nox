@@ -34,51 +34,6 @@
         ]
       },
       "additionalProperties": false
-    },
-    "yamlFile": {    
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "yamlContent": {    
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "yamlPath": {    
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "parent": {    
-      "anyOf": [
-        { "$ref": "solution.json" },
-        {
-          "additionalProperties": false, 
-          "properties": {
-            "$ref": {
-              "type": "string",
-              "format": "uri",
-              "pattern": "^[^\\s]*$"
-            }
-          }
-        }
-      ]
     }
   },
   "additionalProperties": false
