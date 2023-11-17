@@ -25,6 +25,7 @@ application:
   integrations:
     - name: JsonToEntityIntegration
       description: a Sample integration that sources data from json files and persist to a Nox Entity
+      mergeType: addNew
       
       schedule:
         start: every day at 2am
@@ -38,40 +39,30 @@ application:
         name: CountryJsonSource
         description: Sources Country data from a json file
         dataConnectionName: CountryJsonData
-        sourceAdapterType: file
-        fileOptions: 
-          filename: country-seed-data.json
-          recordAttributes:
-            - name: Id
-              description: The ISO Alpha 2 code of the country
-              type: text
-              textTypeOptions:
-                casing: lower
-                maxLength: 2
-                minLength: 2
-              
-            - name: CountryName
-              description: The globally accepted name of the country
-              type: text
-              textTypeOptions:
-                minLength: 2
-                maxLength: 50
+        sourceAdapterType: databaseQuery
+        queryOptions:
+          minimumExpectedRecords: 2
+          query: SELECT * FROM SourceTable
         
         watermark:
           dateColumns:
             - "CreateDate"
             - "EditDate"
-          sequentialKeyColumn: CountryId
+          sequentialKeyColumns: 
+            - "CountryId"
       
       transformationType: defaultTransform
       
       target:
         name: Country
         dataConnectionName: BusinessSystemDatabase
-        targetAdapterType: entity
-            
+        targetAdapterType: databaseTable
+        tableOptions: 
+          tableName: Countries
+    
     - name: SqlToSqlIntegration
       description: a Sample integration that sources data from Sql Server and persists to a Nox Table
+      mergeType: mergeNew
 
       schedule:
         start: every day at 2am
@@ -85,8 +76,8 @@ application:
         name: BusinessSystemSource
         description: Sources Country data from a Sql Server database
         dataConnectionName: BusinessSystemDatabase
-        sourceAdapterType: database
-        databaseOptions:
+        sourceAdapterType: databaseQuery
+        queryOptions: 
           query: SELECT * FROM dbo.Countries
           minimumExpectedRecords: 10
 
@@ -94,17 +85,18 @@ application:
           dateColumns:
             - "CreateDate"
             - "EditDate"
-          sequentialKeyColumn: CountryId
+          sequentialKeyColumns: 
+            - "CountryId"
 
       transformationType: customTransform
 
       target:
         name: CountryTarget
         dataConnectionName: BusinessSystemDatabase
-        targetAdapterType: database
-        databaseOptions:
-          storedProcedure: up_Update_Country
-          
+        targetAdapterType: databaseTable
+        tableOptions: 
+          tableName: Countries
+
 
 infrastructure: 
   persistence: 

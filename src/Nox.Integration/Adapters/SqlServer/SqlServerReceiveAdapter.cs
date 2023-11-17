@@ -6,7 +6,7 @@ namespace Nox.Integration.Adapters;
 
 public class SqlServerReceiveAdapter: INoxDatabaseReceiveAdapter
 {
-    public IntegrationAdapterType AdapterType => IntegrationAdapterType.Database;
+    public IntegrationSourceAdapterType AdapterType => IntegrationSourceAdapterType.DatabaseQuery;
     
     public string Query { get; }
     public int MinimumExpectedRecords { get; }

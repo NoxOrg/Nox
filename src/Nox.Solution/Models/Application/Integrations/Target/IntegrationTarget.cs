@@ -21,7 +21,7 @@ public class IntegrationTarget
     [Required]
     [Title("The type of target.")]
     [Description("Specify the type of target. Options include entity, database, file, webAPI and message queue.")]
-    public IntegrationAdapterType TargetAdapterType { get; internal set; } = default;
+    public IntegrationTargetAdapterType TargetAdapterType { get; internal set; } = default;
 
     [Title("The name of the integration target data connection. Contains no spaces.")]
     [Description("The name should be a commonly used singular noun and be unique within a solution.")]
@@ -31,22 +31,27 @@ public class IntegrationTarget
     public string DataConnectionName { get; internal set; } = null!;
 
     [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetAdapterType),IntegrationAdapterType.Database)]
-    public IntegrationTargetDatabaseOptions? DatabaseOptions { get; set; }
-
-    [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetAdapterType),IntegrationAdapterType.File)]
-    public IntegrationTargetFileOptions? FileOptions { get; set; }
-
-    [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetAdapterType), IntegrationAdapterType.WebApi)]
-    public IntegrationTargetWebApiOptions? WebApiOptions { get; set; }
-
-    [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetAdapterType), IntegrationAdapterType.MessageQueue)]
-    public IntegrationTargetMessageQueueOptions? MessageQueueOptions { get; set; }
-
-    [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetAdapterType), IntegrationAdapterType.Entity)]
-    public IntegrationTargetEntityOptions? EntityOptions { get; set; }
+    [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.DatabaseTable)]
+    public IntegrationTargetTableOptions? TableOptions { get; set; }
+    
+    //Uncomment when implemented
+    // [AdditionalProperties(false)]
+    // [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.StoredProcedure)]
+    // public IntegrationTargetStoredProcedureOptions? StoredProcedureOptions { get; set; }
+    //
+    // [AdditionalProperties(false)]
+    // [IfEquals(nameof(TargetAdapterType),IntegrationTargetAdapterType.File)]
+    // public IntegrationTargetFileOptions? FileOptions { get; set; }
+    //
+    // [AdditionalProperties(false)]
+    // [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.WebApi)]
+    // public IntegrationTargetWebApiOptions? WebApiOptions { get; set; }
+    //
+    // [AdditionalProperties(false)]
+    // [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.MessageQueue)]
+    // public IntegrationTargetMessageQueueOptions? MessageQueueOptions { get; set; }
+    //
+    // [AdditionalProperties(false)]
+    // [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.NoxEntity)]
+    // public IntegrationTargetEntityOptions? EntityOptions { get; set; }
 }
