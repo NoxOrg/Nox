@@ -13,8 +13,8 @@ using PersistenceNameSpace = {{codeGeneratorState.PersistenceNameSpace}};
 namespace {{codeGeneratorState.ApplicationQueriesNameSpace}};
 
 {{- for enumAtt in enumerationAttributes }}
-
-public partial record Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}Query() : IRequest<IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}>>;
+//Record
+public partial record Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}Query(Nox.Types.CultureCode cultureCode) : IRequest<IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}>>;
 
 internal partial class Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}QueryHandler: Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}QueryHandlerBase
 {
@@ -34,15 +34,15 @@ internal abstract class Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute
     {
         {{- if enumAtt.Attribute.EnumerationTypeOptions.IsLocalized}}
         {
-             //TODO Culture Code
+            var cultureCode = request.cultureCode.Value;
             IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}> queryBuilder =
             from enumValues in DataDbContext.{{entity.PluralName}}{{ Pluralize(enumAtt.Attribute.Name)}}.AsNoTracking()
             from enumLocalized in DataDbContext.{{entity.PluralName}}{{ Pluralize(enumAtt.Attribute.Name)}}Localized.AsNoTracking()
-                .Where(l => enumValues.Id == l.Id && l.CultureCode == "pt-PT").DefaultIfEmpty()
+                .Where(l => enumValues.Id == l.Id && l.CultureCode == cultureCode).DefaultIfEmpty()
             select new DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}()
             {
                 Id = enumValues.Id,
-                Name = enumLocalized.Name ?? enumValues.Name,
+                Name = enumLocalized.Name ?? "[" + enumValues.Name + "]",
             };
             return Task.FromResult(OnResponse(queryBuilder));
         }

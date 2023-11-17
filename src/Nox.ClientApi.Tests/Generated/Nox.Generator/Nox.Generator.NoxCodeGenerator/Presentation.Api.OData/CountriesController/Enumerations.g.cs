@@ -13,7 +13,7 @@ public abstract partial class CountriesControllerBase
     [HttpGet("/api/v1/Countries/CountryContinents")]
     public virtual async Task<ActionResult<IQueryable<DtoNameSpace.CountryContinentDto>>> GetContinentsNonConventional()
     {            
-        var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetCountriesContinentsQuery());                        
+        var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetCountriesContinentsQuery(_cultureCode));                        
         return Ok(result);        
     }
 }
