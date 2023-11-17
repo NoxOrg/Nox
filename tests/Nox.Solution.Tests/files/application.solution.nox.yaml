@@ -39,24 +39,10 @@ application:
         name: CountryJsonSource
         description: Sources Country data from a json file
         dataConnectionName: CountryJsonData
-        sourceAdapterType: file
-        fileOptions: 
-          filename: country-seed-data.json
-          recordAttributes:
-            - name: Id
-              description: The ISO Alpha 2 code of the country
-              type: text
-              textTypeOptions:
-                casing: lower
-                maxLength: 2
-                minLength: 2
-              
-            - name: CountryName
-              description: The globally accepted name of the country
-              type: text
-              textTypeOptions:
-                minLength: 2
-                maxLength: 50
+        sourceAdapterType: databaseQuery
+        queryOptions:
+          minimumExpectedRecords: 2
+          query: SELECT * FROM SourceTable
         
         watermark:
           dateColumns:
@@ -107,10 +93,10 @@ application:
       target:
         name: CountryTarget
         dataConnectionName: BusinessSystemDatabase
-        targetAdapterType: storedProcedure
-        storedProcedureOptions: 
-          storedProcedure: up_Update_Country
-          
+        targetAdapterType: databaseTable
+        tableOptions: 
+          tableName: Countries
+
 
 infrastructure: 
   persistence: 
