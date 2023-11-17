@@ -11,7 +11,6 @@ using DtoNameSpace = ClientApi.Application.Dto;
 using PersistenceNameSpace = ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
-
 public partial record GetCountriesContinentsQuery(Nox.Types.CultureCode cultureCode) : IRequest<IQueryable<DtoNameSpace.CountryContinentDto>>;
 
 internal partial class GetCountriesContinentsQueryHandler: GetCountriesContinentsQueryHandlerBase

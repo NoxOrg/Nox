@@ -71,26 +71,6 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
         return data;
     }
-    
-    /// <summary>
-    /// Get response from endpoint
-    /// </summary>
-    protected async Task<TResult?> GetAsync<TResult>(string requestUrl, Dictionary<string, IEnumerable<string>>? headers = null)
-    {
-        using var httpClient = _appFactory.CreateClient();
-
-        AddHeaders(httpClient, headers ?? new());
-
-        var result = await httpClient.GetAsync(requestUrl);
-
-        result.EnsureSuccessStatusCode();
-
-        var content = await result.Content.ReadAsStringAsync();
-
-        var data = DeserializeResponse<TResult>(content);
-
-        return data;
-    }
 
     public async Task<HttpResponseMessage> GetAsync(string requestUrl)
     {

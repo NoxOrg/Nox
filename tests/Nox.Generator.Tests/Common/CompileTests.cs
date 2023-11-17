@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using FluentAssertions;
@@ -16,12 +13,10 @@ public class CompileTests : IClassFixture<GeneratorFixture>
 {
     public readonly string BasePath = "../../../Generated/";
     private readonly ITestOutputHelper _testOutputHelper;
-    private readonly GeneratorFixture _generatorFixture;
 
     public CompileTests(ITestOutputHelper testOutputHelper, GeneratorFixture generatorFixture)
     {
         _testOutputHelper = testOutputHelper;
-        _generatorFixture = generatorFixture;
     }
 
     [Fact]
@@ -91,6 +86,8 @@ global using global::Microsoft.AspNetCore.Builder;";
         AddMetadataReferenceFromDlls(Path.GetDirectoryName(typeof(IServiceCollection).Assembly.Location)!, referencePaths, references);
 
         AddMetadataReferenceFromDlls(Path.GetDirectoryName(typeof(JsonDocument).Assembly.Location)!, referencePaths, references);
+        
+        AddMetadataReferenceFromDlls(Path.GetDirectoryName(typeof(System.ComponentModel.DataAnnotations.DataTypeAttribute).Assembly.Location)!, referencePaths, references);
 
         return references;
     }

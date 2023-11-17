@@ -11,7 +11,6 @@ using DtoNameSpace = ClientApi.Application.Dto;
 using PersistenceNameSpace = ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
-
 public partial record GetStoresStatusesQuery(Nox.Types.CultureCode cultureCode) : IRequest<IQueryable<DtoNameSpace.StoreStatusDto>>;
 
 internal partial class GetStoresStatusesQueryHandler: GetStoresStatusesQueryHandlerBase

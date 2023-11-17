@@ -11,8 +11,7 @@ using DtoNameSpace = TestWebApp.Application.Dto;
 using PersistenceNameSpace = TestWebApp.Infrastructure.Persistence;
 
 namespace TestWebApp.Application.Queries;
-
-public partial record GetTestEntityForTypesEnumerationTestFieldsQuery(CultureCode cultureCode) : IRequest<IQueryable<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto>>;
+public partial record GetTestEntityForTypesEnumerationTestFieldsQuery(Nox.Types.CultureCode cultureCode) : IRequest<IQueryable<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto>>;
 
 internal partial class GetTestEntityForTypesEnumerationTestFieldsQueryHandler: GetTestEntityForTypesEnumerationTestFieldsQueryHandlerBase
 {

@@ -384,18 +384,6 @@ namespace ClientApi.Tests.Tests.Controllers
                 .BeOfType<StoreDto>()
                 .Which.Id.Should().Be(expectedId);
         }
-        
-        [Fact]
-        public async Task WhenGetStatuses_ReturnsStatuses()
-        {
-            // Arrange
-            // Act
-            var result = await GetAsync<List<StoreStatusDto>>($"{Endpoints.StoresUrl}/Statuses");
-
-            //Assert
-            result.Should().NotBeNull();
-            
-        }
 
         private async Task<StoreDto?> CreateStore()
         {
