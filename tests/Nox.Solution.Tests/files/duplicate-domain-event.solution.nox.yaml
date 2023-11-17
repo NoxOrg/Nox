@@ -78,7 +78,7 @@ application:
     - name: CountryNameUpdatedEvent
       description: This must raise a validation exception, event names must be unique
       type: object
-      trait: Country
+      domainContext: Country
       objectTypeOptions:
         attributes:
 
