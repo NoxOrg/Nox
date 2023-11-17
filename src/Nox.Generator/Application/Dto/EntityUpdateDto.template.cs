@@ -30,9 +30,9 @@ public partial class {{className}}Base: EntityDtoBase, IEntityDto<DomainNamespac
     {{ continue; }}
     {{- end}}
     /// <summary>
-    /// {{attribute.Description  | string.rstrip}} 
-    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}.</remarks>    
+    /// {{attribute.Description  | string.rstrip}}     
     /// </summary>
+    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}.</remarks>    
     {{- if attribute.IsRequired}}
     [Required(ErrorMessage = "{{attribute.Name}} is required")]
     {{ end}}

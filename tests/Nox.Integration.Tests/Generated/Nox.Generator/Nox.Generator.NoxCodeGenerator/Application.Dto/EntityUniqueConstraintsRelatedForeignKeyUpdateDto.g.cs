@@ -26,8 +26,8 @@ public partial class EntityUniqueConstraintsRelatedForeignKeyUpdateDto : EntityU
 public partial class EntityUniqueConstraintsRelatedForeignKeyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.EntityUniqueConstraintsRelatedForeignKey>
 {
     /// <summary>
-    ///  
-    /// <remarks>Optional.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public virtual System.String? TextField { get; set; }
 }

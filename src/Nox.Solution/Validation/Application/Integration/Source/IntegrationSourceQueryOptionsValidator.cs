@@ -2,9 +2,9 @@ using FluentValidation;
 
 namespace Nox.Solution.Validation;
 
-internal class IntegrationSourceDatabaseOptionsValidator: AbstractValidator<IntegrationSourceDatabaseOptions?>
+internal class IntegrationSourceQueryOptionsValidator: AbstractValidator<IntegrationSourceQueryOptions?>
 {
-    public IntegrationSourceDatabaseOptionsValidator(string integrationName)
+    public IntegrationSourceQueryOptionsValidator(string integrationName)
     {
         RuleFor(opt => opt!.Query)
             .NotEmpty()

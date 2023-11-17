@@ -54,9 +54,9 @@ public abstract class EntityUniqueConstraintsRelatedForeignKeyDtoBase : EntityDt
     public System.Int32 Id { get; set; } = default!;
 
     /// <summary>
-    ///  
-    /// <remarks>Optional.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? TextField { get; set; }
 
     /// <summary>

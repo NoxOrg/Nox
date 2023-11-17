@@ -62,15 +62,15 @@ public abstract class LandLordDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Landlord name 
-    /// <remarks>Required.</remarks>    
+    /// Landlord name     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Landlord's street address 
-    /// <remarks>Required.</remarks>    
+    /// Landlord's street address     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public StreetAddressDto Address { get; set; } = default!;
 
     /// <summary>

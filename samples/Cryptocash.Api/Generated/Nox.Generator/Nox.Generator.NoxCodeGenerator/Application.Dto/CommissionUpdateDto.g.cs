@@ -26,16 +26,16 @@ public partial class CommissionUpdateDto : CommissionUpdateDtoBase
 public partial class CommissionUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Commission>
 {
     /// <summary>
-    /// Commission rate 
-    /// <remarks>Required.</remarks>    
+    /// Commission rate     
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Rate is required")]
     
     public virtual System.Single Rate { get; set; } = default!;
     /// <summary>
-    /// Exchange rate conversion amount 
-    /// <remarks>Required.</remarks>    
+    /// Exchange rate conversion amount     
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "EffectiveAt is required")]
     
     public virtual System.DateTimeOffset EffectiveAt { get; set; } = default!;

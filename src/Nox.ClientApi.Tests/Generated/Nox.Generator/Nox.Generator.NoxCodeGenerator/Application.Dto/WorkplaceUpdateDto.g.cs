@@ -26,15 +26,15 @@ public partial class WorkplaceUpdateDto : WorkplaceUpdateDtoBase
 public partial class WorkplaceUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Workplace>
 {
     /// <summary>
-    /// Workplace Name 
-    /// <remarks>Required.</remarks>    
+    /// Workplace Name     
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;
     /// <summary>
-    /// Workplace Description 
-    /// <remarks>Optional.</remarks>    
+    /// Workplace Description     
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public virtual System.String? Description { get; set; }
 }

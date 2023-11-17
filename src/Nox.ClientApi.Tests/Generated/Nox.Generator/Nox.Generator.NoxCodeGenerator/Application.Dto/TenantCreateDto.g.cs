@@ -27,14 +27,14 @@ public partial class TenantCreateDto : TenantCreateDtoBase
 /// </summary>
 public abstract class TenantCreateDtoBase : IEntityDto<DomainNamespace.Tenant>
 {/// <summary>
-    ///  
-    /// <remarks>Optional.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public System.Guid Id { get; set; } = default!;
     /// <summary>
-    /// Teanant Name 
-    /// <remarks>Required</remarks>    
+    /// Teanant Name     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;

@@ -28,37 +28,37 @@ public partial class CustomerCreateDto : CustomerCreateDtoBase
 public abstract class CustomerCreateDtoBase : IEntityDto<DomainNamespace.Customer>
 {
     /// <summary>
-    /// Customer's first name 
-    /// <remarks>Required</remarks>    
+    /// Customer's first name     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "FirstName is required")]
     
     public virtual System.String FirstName { get; set; } = default!;
     /// <summary>
-    /// Customer's last name 
-    /// <remarks>Required</remarks>    
+    /// Customer's last name     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "LastName is required")]
     
     public virtual System.String LastName { get; set; } = default!;
     /// <summary>
-    /// Customer's email address 
-    /// <remarks>Required</remarks>    
+    /// Customer's email address     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "EmailAddress is required")]
     
     public virtual System.String EmailAddress { get; set; } = default!;
     /// <summary>
-    /// Customer's street address 
-    /// <remarks>Required</remarks>    
+    /// Customer's street address     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Address is required")]
     
     public virtual StreetAddressDto Address { get; set; } = default!;
     /// <summary>
-    /// Customer's mobile number 
-    /// <remarks>Optional</remarks>    
+    /// Customer's mobile number     
     /// </summary>
+    /// <remarks>Optional</remarks>
     public virtual System.String? MobileNumber { get; set; }
 
     /// <summary>

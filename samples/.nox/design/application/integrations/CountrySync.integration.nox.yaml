@@ -8,6 +8,8 @@ name: CountrySync
 
 description: Synchronization of Country entities with data stored on Nox.Reference project on GitHub.
 
+mergeType: mergeNew
+
 schedule:
   start: Every week on Sunday at 3am
   runOnStartup: true
@@ -17,8 +19,8 @@ source:
   description: Curated dataset of all country information at Nox.Reference project repo
   dataConnectionName: NoxReferenceData
 
-  sourceAdapterType: database
-  databaseOptions:
+  sourceAdapterType: databaseQuery
+  queryOptions:
     query: SELECT * FROM dbo.Countries
     minimumExpectedRecords: 10
     
@@ -28,7 +30,7 @@ target:
   name: CountryEntities
   description: The country entites of the domain
   dataConnectionName: CryptocashDb
-  targetAdapterType: entity
-  entityOptions:
-    entity: Country
+  targetAdapterType: databaseTable
+  databaseOptions:
+    tableName: Countries
 

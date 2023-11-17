@@ -26,15 +26,15 @@ public partial class CountryBarCodeUpdateDto : CountryBarCodeUpdateDtoBase
 public partial class CountryBarCodeUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.CountryBarCode>
 {
     /// <summary>
-    /// Bar code name 
-    /// <remarks>Required.</remarks>    
+    /// Bar code name     
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "BarCodeName is required")]
     
     public virtual System.String BarCodeName { get; set; } = default!;
     /// <summary>
-    /// Bar code number 
-    /// <remarks>Optional.</remarks>    
+    /// Bar code number     
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public virtual System.Int32? BarCodeNumber { get; set; }
 }

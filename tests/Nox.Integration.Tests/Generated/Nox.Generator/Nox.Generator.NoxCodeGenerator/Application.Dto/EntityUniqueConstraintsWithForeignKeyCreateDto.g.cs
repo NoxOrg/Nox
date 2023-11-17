@@ -27,19 +27,19 @@ public partial class EntityUniqueConstraintsWithForeignKeyCreateDto : EntityUniq
 /// </summary>
 public abstract class EntityUniqueConstraintsWithForeignKeyCreateDtoBase : IEntityDto<DomainNamespace.EntityUniqueConstraintsWithForeignKey>
 {/// <summary>
-    ///  
-    /// <remarks>Optional.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public System.Guid Id { get; set; } = default!;
     /// <summary>
-    ///  
-    /// <remarks>Optional</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Optional</remarks>
     public virtual System.String? TextField { get; set; }
     /// <summary>
-    ///  
-    /// <remarks>Required</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "SomeUniqueId is required")]
     
     public virtual System.Int32 SomeUniqueId { get; set; } = default!;

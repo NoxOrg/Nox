@@ -52,15 +52,15 @@ internal abstract partial class EmailAddressBase : EntityBase, IOwnedEntity
 {
 
     /// <summary>
-    /// Email
-    /// <remarks>Optional.</remarks>   
+    /// Email    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Email? Email { get; set; } = null!;
 
     /// <summary>
-    /// Verified
-    /// <remarks>Optional.</remarks>   
+    /// Verified    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Boolean? IsVerified { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

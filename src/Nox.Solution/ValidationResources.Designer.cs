@@ -943,24 +943,6 @@ namespace Nox.Solution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The target for integration {0} does not specify database options. When an integration targets data to a database, database options must be specified..
-        /// </summary>
-        internal static string IntegrationTargetDatabaseOptionsEmpty {
-            get {
-                return ResourceManager.GetString("IntegrationTargetDatabaseOptionsEmpty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The stored procedure in the database options of the target for integration {0} has not been specified. Database targets must have a stored procedure specified..
-        /// </summary>
-        internal static string IntegrationTargetDatabaseOptionsStoredProcEmpty {
-            get {
-                return ResourceManager.GetString("IntegrationTargetDatabaseOptionsStoredProcEmpty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The target &apos;{0}&apos; for integration &apos;{1}&apos; does not have a data connection specified. If the target type is not Entity, your integration target must have a data connection specified in the Infrastructure section of your yaml definition..
         /// </summary>
         internal static string IntegrationTargetDataConnectionEmpty {
@@ -1056,6 +1038,78 @@ namespace Nox.Solution {
         internal static string IntegrationTargetNameEmpty {
             get {
                 return ResourceManager.GetString("IntegrationTargetNameEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to apply defaults for the stored procedure target of integration &apos;{0}&apos;..
+        /// </summary>
+        internal static string IntegrationTargetStoredProcedureOptionsDefaultsFalse {
+            get {
+                return ResourceManager.GetString("IntegrationTargetStoredProcedureOptionsDefaultsFalse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The target for integration {0} does not specify stored procedure options. When an integration targets data to a database stored procedure, stored procedure options must be specified..
+        /// </summary>
+        internal static string IntegrationTargetStoredProcedureOptionsEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTargetStoredProcedureOptionsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The schema name in the stored procedure options of the target for integration {0} has not been specified. Database stored procedure targets must have a schema name specified..
+        /// </summary>
+        internal static string IntegrationTargetStoredProcedureOptionsSchemaEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTargetStoredProcedureOptionsSchemaEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The stored procedure in the database options of the target for integration {0} has not been specified. Database targets must have a stored procedure specified..
+        /// </summary>
+        internal static string IntegrationTargetStoredProcedureOptionsStoredProcEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTargetStoredProcedureOptionsStoredProcEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to apply defaults for the database table target of integration &apos;{0}&apos;..
+        /// </summary>
+        internal static string IntegrationTargetTableOptionsDefaultsFalse {
+            get {
+                return ResourceManager.GetString("IntegrationTargetTableOptionsDefaultsFalse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The target for integration {0} does not specify table options. When an integration targets data to a database table, table options must be specified..
+        /// </summary>
+        internal static string IntegrationTargetTableOptionsEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTargetTableOptionsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The schema name in the table options of the target for integration {0} has not been specified. Database table targets must have a schema name specified..
+        /// </summary>
+        internal static string IntegrationTargetTableOptionsSchemaEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTargetTableOptionsSchemaEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The table name in the database options of the target for integration {0} has not been specified. Database table targets must have a table name specified..
+        /// </summary>
+        internal static string IntegrationTargetTableOptionsTableNameEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTargetTableOptionsTableNameEmpty", resourceCulture);
             }
         }
         

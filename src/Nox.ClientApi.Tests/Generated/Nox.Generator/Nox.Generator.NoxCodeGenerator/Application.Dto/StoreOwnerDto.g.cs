@@ -70,39 +70,39 @@ public abstract class StoreOwnerDtoBase : EntityDtoBase, IEntityDto<DomainNamesp
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    /// Owner Name 
-    /// <remarks>Required.</remarks>    
+    /// Owner Name     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Temporary Owner Name 
-    /// <remarks>Required.</remarks>    
+    /// Temporary Owner Name     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String TemporaryOwnerName { get; set; } = default!;
 
     /// <summary>
-    /// Vat Number 
-    /// <remarks>Optional.</remarks>    
+    /// Vat Number     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public VatNumberDto? VatNumber { get; set; }
 
     /// <summary>
-    /// Street Address 
-    /// <remarks>Optional.</remarks>    
+    /// Street Address     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public StreetAddressDto? StreetAddress { get; set; }
 
     /// <summary>
-    /// Owner Greeting 
-    /// <remarks>Optional.</remarks>    
+    /// Owner Greeting     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public TranslatedTextDto? LocalGreeting { get; set; }
 
     /// <summary>
-    /// Notes 
-    /// <remarks>Optional.</remarks>    
+    /// Notes     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? Notes { get; set; }
 
     /// <summary>

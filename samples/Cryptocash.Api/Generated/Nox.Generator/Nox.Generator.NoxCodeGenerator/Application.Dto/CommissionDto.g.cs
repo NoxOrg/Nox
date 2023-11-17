@@ -56,15 +56,15 @@ public abstract class CommissionDtoBase : EntityDtoBase, IEntityDto<DomainNamesp
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Commission rate 
-    /// <remarks>Required.</remarks>    
+    /// Commission rate     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.Single Rate { get; set; } = default!;
 
     /// <summary>
-    /// Exchange rate conversion amount 
-    /// <remarks>Required.</remarks>    
+    /// Exchange rate conversion amount     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.DateTimeOffset EffectiveAt { get; set; } = default!;
 
     /// <summary>

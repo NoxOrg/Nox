@@ -18,7 +18,7 @@ public class IntegrationSchedule
     [AdditionalProperties(false)]
     public IntegrationScheduleRetryPolicy? Retry { get; internal set; }
 
-    [Title("Check the Integration source for updates at appliation startup.")]
+    [Title("Check the Integration source for updates at application startup.")]
     [Description("Specify here whether the Integration source is checked for updates when the application starts.")]
     public bool? RunOnStartup { get; internal set; } = false;
 }

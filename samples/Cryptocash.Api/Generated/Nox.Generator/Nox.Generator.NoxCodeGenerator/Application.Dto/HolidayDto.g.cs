@@ -64,20 +64,20 @@ public abstract class HolidayDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Country holiday name 
-    /// <remarks>Required.</remarks>    
+    /// Country holiday name     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Country holiday type 
-    /// <remarks>Required.</remarks>    
+    /// Country holiday type     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String Type { get; set; } = default!;
 
     /// <summary>
-    /// Country holiday date 
-    /// <remarks>Required.</remarks>    
+    /// Country holiday date     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.DateTime Date { get; set; } = default!;
 }

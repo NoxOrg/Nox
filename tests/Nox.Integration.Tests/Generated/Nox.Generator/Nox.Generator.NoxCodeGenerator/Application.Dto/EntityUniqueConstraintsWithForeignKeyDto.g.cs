@@ -56,15 +56,15 @@ public abstract class EntityUniqueConstraintsWithForeignKeyDtoBase : EntityDtoBa
     public System.Guid Id { get; set; } = default!;
 
     /// <summary>
-    ///  
-    /// <remarks>Optional.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? TextField { get; set; }
 
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.Int32 SomeUniqueId { get; set; } = default!;
 
     /// <summary>

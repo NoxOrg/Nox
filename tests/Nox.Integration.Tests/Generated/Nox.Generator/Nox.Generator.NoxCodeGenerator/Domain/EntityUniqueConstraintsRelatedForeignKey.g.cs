@@ -51,15 +51,15 @@ internal record EntityUniqueConstraintsRelatedForeignKeyDeleted(EntityUniqueCons
 internal abstract partial class EntityUniqueConstraintsRelatedForeignKeyBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Number Id { get; set; } = null!;
 
     /// <summary>
-    /// 
-    /// <remarks>Optional.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Text? TextField { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

@@ -76,39 +76,39 @@ public abstract class EmployeeDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Employee's first name 
-    /// <remarks>Required.</remarks>    
+    /// Employee's first name     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String FirstName { get; set; } = default!;
 
     /// <summary>
-    /// Employee's last name 
-    /// <remarks>Required.</remarks>    
+    /// Employee's last name     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String LastName { get; set; } = default!;
 
     /// <summary>
-    /// Employee's email address 
-    /// <remarks>Required.</remarks>    
+    /// Employee's email address     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String EmailAddress { get; set; } = default!;
 
     /// <summary>
-    /// Employee's street address 
-    /// <remarks>Required.</remarks>    
+    /// Employee's street address     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public StreetAddressDto Address { get; set; } = default!;
 
     /// <summary>
-    /// Employee's first working day 
-    /// <remarks>Required.</remarks>    
+    /// Employee's first working day     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.DateTime FirstWorkingDay { get; set; } = default!;
 
     /// <summary>
-    /// Employee's last working day 
-    /// <remarks>Optional.</remarks>    
+    /// Employee's last working day     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.DateTime? LastWorkingDay { get; set; }
 
     /// <summary>

@@ -51,39 +51,39 @@ internal record CustomerDeleted(Customer Customer) : IDomainEvent, INotification
 internal abstract partial class CustomerBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Customer's unique identifier
-    /// <remarks>Required.</remarks>   
+    /// Customer's unique identifier    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Customer's first name
-    /// <remarks>Required.</remarks>   
+    /// Customer's first name    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text FirstName { get; set; } = null!;
 
     /// <summary>
-    /// Customer's last name
-    /// <remarks>Required.</remarks>   
+    /// Customer's last name    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text LastName { get; set; } = null!;
 
     /// <summary>
-    /// Customer's email address
-    /// <remarks>Required.</remarks>   
+    /// Customer's email address    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Email EmailAddress { get; set; } = null!;
 
     /// <summary>
-    /// Customer's street address
-    /// <remarks>Required.</remarks>   
+    /// Customer's street address    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.StreetAddress Address { get; set; } = null!;
 
     /// <summary>
-    /// Customer's mobile number
-    /// <remarks>Optional.</remarks>   
+    /// Customer's mobile number    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.PhoneNumber? MobileNumber { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

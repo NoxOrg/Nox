@@ -51,27 +51,27 @@ internal record HolidayDeleted(Holiday Holiday) : IDomainEvent, INotification;
 internal abstract partial class HolidayBase : EntityBase, IOwnedEntity
 {
     /// <summary>
-    /// Country's holiday unique identifier
-    /// <remarks>Required.</remarks>   
+    /// Country's holiday unique identifier    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Country holiday name
-    /// <remarks>Required.</remarks>   
+    /// Country holiday name    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
-    /// Country holiday type
-    /// <remarks>Required.</remarks>   
+    /// Country holiday type    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text Type { get; set; } = null!;
 
     /// <summary>
-    /// Country holiday date
-    /// <remarks>Required.</remarks>   
+    /// Country holiday date    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Date Date { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

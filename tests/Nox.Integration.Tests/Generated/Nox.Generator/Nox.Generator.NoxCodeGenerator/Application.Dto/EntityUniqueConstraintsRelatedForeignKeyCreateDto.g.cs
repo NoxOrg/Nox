@@ -28,15 +28,15 @@ public partial class EntityUniqueConstraintsRelatedForeignKeyCreateDto : EntityU
 public abstract class EntityUniqueConstraintsRelatedForeignKeyCreateDtoBase : IEntityDto<DomainNamespace.EntityUniqueConstraintsRelatedForeignKey>
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>    
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
     public System.Int32 Id { get; set; } = default!;
     /// <summary>
-    ///  
-    /// <remarks>Optional</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Optional</remarks>
     public virtual System.String? TextField { get; set; }
 
     /// <summary>
