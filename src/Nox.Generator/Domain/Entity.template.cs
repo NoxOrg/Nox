@@ -74,9 +74,9 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 {
 {{- for key in entity.Keys }}
     /// <summary>
-    /// {{key.Description | string.rstrip}}
-    /// <remarks>Required.</remarks>   
+    /// {{key.Description | string.rstrip}}    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     {{ if key.Type == "EntityId" -}}
     public Nox.Types.{{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
     {{- # Navigation Property }}
@@ -127,9 +127,9 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 {{- for attribute in entity.Attributes }}
 
     /// <summary>
-    /// {{attribute.Description | string.rstrip}}
-    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}.</remarks>   
+    /// {{attribute.Description | string.rstrip}}    
     /// </summary>
+    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}.</remarks>   
     {{ if attribute.Type == "Formula" -}}
     public {{attribute.FormulaTypeOptions.Returns}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}}
 { 

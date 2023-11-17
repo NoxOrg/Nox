@@ -33,14 +33,14 @@ public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Na
     {{- else if key.Type == "Guid" -}}
 
     /// <summary>
-    /// {{key.Description  | string.rstrip}} 
-    /// <remarks>Optional.</remarks>    
+    /// {{key.Description  | string.rstrip}}     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     {{- else }}
     /// <summary>
-    /// {{key.Description  | string.rstrip}}
-    /// <remarks>Required.</remarks>    
+    /// {{key.Description  | string.rstrip}}    
     /// </summary>
+    /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "{{key.Name}} is required")]
     {{- end }}
     {{ if key.Type == "EntityId" -}}
@@ -55,9 +55,9 @@ public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Na
     {{ continue; -}}
     {{- end }}
     /// <summary>
-    /// {{attribute.Description  | string.rstrip}} 
-    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}</remarks>    
+    /// {{attribute.Description  | string.rstrip}}     
     /// </summary>
+    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}</remarks>    
     {{- if attribute.IsRequired}}
     [Required(ErrorMessage = "{{attribute.Name}} is required")]
     {{ end}}

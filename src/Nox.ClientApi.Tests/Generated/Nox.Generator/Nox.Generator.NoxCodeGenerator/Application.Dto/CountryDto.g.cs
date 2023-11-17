@@ -73,63 +73,63 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The Country Name     Set a unique name for the country Do not use abbreviations 
-    /// <remarks>Required.</remarks>    
+    /// The Country Name     Set a unique name for the country Do not use abbreviations     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Population Number of People living in the country 
-    /// <remarks>Optional.</remarks>    
+    /// Population Number of People living in the country     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.Int32? Population { get; set; }
 
     /// <summary>
-    /// The Money 
-    /// <remarks>Optional.</remarks>    
+    /// The Money     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public MoneyDto? CountryDebt { get; set; }
 
     /// <summary>
-    /// First Official Language 
-    /// <remarks>Optional.</remarks>    
+    /// First Official Language     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? FirstLanguageCode { get; set; }
 
     /// <summary>
-    /// The Formula 
-    /// <remarks>Optional.</remarks>    
+    /// The Formula     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? ShortDescription { get; set; }
 
     /// <summary>
-    /// Country's iso number id 
-    /// <remarks>Optional.</remarks>    
+    /// Country's iso number id     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.UInt16? CountryIsoNumeric { get; set; }
 
     /// <summary>
-    /// Country's iso alpha3 id 
-    /// <remarks>Optional.</remarks>    
+    /// Country's iso alpha3 id     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? CountryIsoAlpha3 { get; set; }
 
     /// <summary>
-    /// Country's map via google maps 
-    /// <remarks>Optional.</remarks>    
+    /// Country's map via google maps     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? GoogleMapsUrl { get; set; }
 
     /// <summary>
-    /// Country's start of week day 
-    /// <remarks>Optional.</remarks>    
+    /// Country's start of week day     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.UInt16? StartOfWeek { get; set; }
 
     /// <summary>
-    /// Country Continent 
-    /// <remarks>Optional.</remarks>    
+    /// Country Continent     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.Int32? Continent { get; set; }
     [NotMapped]
     public string? ContinentName { get; set; } = default!;

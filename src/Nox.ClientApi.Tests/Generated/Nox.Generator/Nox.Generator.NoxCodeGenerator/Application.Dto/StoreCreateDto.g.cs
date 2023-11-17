@@ -27,40 +27,40 @@ public partial class StoreCreateDto : StoreCreateDtoBase
 /// </summary>
 public abstract class StoreCreateDtoBase : IEntityDto<DomainNamespace.Store>
 {/// <summary>
-    ///  
-    /// <remarks>Optional.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public System.Guid Id { get; set; } = default!;
     /// <summary>
-    /// Store Name 
-    /// <remarks>Required</remarks>    
+    /// Store Name     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;
     /// <summary>
-    /// Street Address 
-    /// <remarks>Required</remarks>    
+    /// Street Address     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Address is required")]
     
     public virtual StreetAddressDto Address { get; set; } = default!;
     /// <summary>
-    /// Location 
-    /// <remarks>Required</remarks>    
+    /// Location     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Location is required")]
     
     public virtual LatLongDto Location { get; set; } = default!;
     /// <summary>
-    /// Opening day 
-    /// <remarks>Optional</remarks>    
+    /// Opening day     
     /// </summary>
+    /// <remarks>Optional</remarks>
     public virtual System.DateTimeOffset? OpeningDay { get; set; }
     /// <summary>
-    /// Store Status 
-    /// <remarks>Optional</remarks>    
+    /// Store Status     
     /// </summary>
+    /// <remarks>Optional</remarks>
     public virtual System.Int32? Status { get; set; }
 
     /// <summary>

@@ -52,9 +52,9 @@ internal abstract partial class SecondTestEntityOwnedRelationshipZeroOrOneBase :
 {
 
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

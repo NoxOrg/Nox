@@ -52,15 +52,15 @@ internal abstract partial class CountryBarCodeBase : EntityBase, IOwnedEntity
 {
 
     /// <summary>
-    /// Bar code name
-    /// <remarks>Required.</remarks>   
+    /// Bar code name    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text BarCodeName { get; set; } = null!;
 
     /// <summary>
-    /// Bar code number
-    /// <remarks>Optional.</remarks>   
+    /// Bar code number    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Number? BarCodeNumber { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
