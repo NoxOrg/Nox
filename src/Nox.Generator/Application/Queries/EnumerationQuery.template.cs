@@ -13,7 +13,6 @@ using PersistenceNameSpace = {{codeGeneratorState.PersistenceNameSpace}};
 namespace {{codeGeneratorState.ApplicationQueriesNameSpace}};
 
 {{- for enumAtt in enumerationAttributes }}
-//Record
 public partial record Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}Query(Nox.Types.CultureCode cultureCode) : IRequest<IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}>>;
 
 internal partial class Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}QueryHandler: Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}QueryHandlerBase
