@@ -1423,68 +1423,68 @@ domain:
             - UniqueCountryCode
             - UniqueCurrencyCode
 
-    # - name: EntityUniqueConstraintsWithForeignKey
-    #   description: Entity created for testing constraints with Foreign Key
+    - name: EntityUniqueConstraintsWithForeignKey
+      description: Entity created for testing constraints with Foreign Key
 
-    #   persistence:
-    #     isAudited: false
+      persistence:
+        isAudited: false
 
-    #   keys:
-    #     - name: Id
-    #       isRequired: true
-    #       type: guid
+      keys:
+        - name: Id
+          isRequired: true
+          type: guid
 
-    #   attributes:
+      attributes:
 
-    #     - name: TextField
-    #       type: text
-    #       textTypeOptions:
-    #         minLength: 4
-    #         maxLength: 63
-    #       isRequired: false
+        - name: TextField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: false
 
-    #     - name: SomeUniqueId
-    #       type: number
-    #       isRequired: true
+        - name: SomeUniqueId
+          type: number
+          isRequired: true
 
-    #   uniqueAttributeConstraints:
-    #     - name: ForeignIdAndSomeUniqueId
-    #       attributeNames:
-    #         - SomeUniqueId
-    #       relationshipNames:
-    #         - name: relatestoSingleForeignKey
+      uniqueAttributeConstraints:
+        - name: ForeignIdAndSomeUniqueId
+          attributeNames:
+            - SomeUniqueId
+          relationshipNames:
+            - relatestoSingleForeignKey
   
-    #   relationships:   
+      relationships:   
     
-    #       - name: relatestoSingleForeignKey
-    #         description: for
-    #         relationship: exactlyOne
-    #         entity: EntityUniqueConstraintsRelatedForeignKey
+          - name: relatestoSingleForeignKey
+            description: for
+            relationship: exactlyOne
+            entity: EntityUniqueConstraintsRelatedForeignKey
 
-    # - name: EntityUniqueConstraintsRelatedForeignKey
-    #   description: Entity created for testing constraints
-    #   persistence:
-    #     isAudited: false
-    #   keys:
-    #     - name: Id
-    #       isRequired: true
-    #       type: number
+    - name: EntityUniqueConstraintsRelatedForeignKey
+      description: Entity created for testing constraints
+      persistence:
+        isAudited: false
+      keys:
+        - name: Id
+          isRequired: true
+          type: number
 
-    #   attributes:
+      attributes:
 
-    #     - name: TextField
-    #       type: text
-    #       textTypeOptions:
-    #         minLength: 4
-    #         maxLength: 63
-    #       isRequired: false
+        - name: TextField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: false
 
-    #   relationships:    
+      relationships:    
     
-    #       - name: relatesto2
-    #         description: for
-    #         relationship: zeroOrMany
-    #         entity: EntityUniqueConstraintsWithForeignKey
+          - name: relatesto2
+            description: for
+            relationship: zeroOrMany
+            entity: EntityUniqueConstraintsWithForeignKey
 
     - name: TestEntityLocalization
       description: Entity created for testing localization

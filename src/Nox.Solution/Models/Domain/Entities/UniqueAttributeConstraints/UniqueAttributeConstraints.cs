@@ -31,8 +31,14 @@ public class UniqueAttributeConstraint : DefinitionBase
     /// <summary>
     /// Gets or sets the list of attribute names that together form the unique constraint.
     /// </summary>
-    [Required]
     [Title("Attribute Names")]
     [Description("List of attribute names that together form the unique constraint.")]
-    public IReadOnlyList<string> AttributeNames { get; internal set; } = null!;
+    public IReadOnlyList<string> AttributeNames { get; internal set; } = new List<string>();
+
+    /// <summary>
+    /// Gets or sets the list of relationship names that together form the unique constraint.
+    /// </summary>
+    [Title("Relationship Names")]
+    [Description("List of relationship names that together form the unique constraint.")]
+    public IReadOnlyList<string> RelationshipNames { get; internal set; } = new List<string>();
 }

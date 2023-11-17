@@ -592,6 +592,24 @@ namespace Nox.Solution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Relationship name &apos;{0}&apos; in unique attribute constraint not found in entity relationship(s) ({1}).
+        /// </summary>
+        internal static string EntityUniqueAttributeConstraintCanReferenceOnlyExistingRelationships {
+            get {
+                return ResourceManager.GetString("EntityUniqueAttributeConstraintCanReferenceOnlyExistingRelationships", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unique constraint {0} doesn&apos;t have any attribute names nor relationship names specified. It must have at least one attribute or relationship name referenced..
+        /// </summary>
+        internal static string EntityUniqueAttributeConstraintMustHaveAtLeastOneAttributeOrRelationship {
+            get {
+                return ResourceManager.GetString("EntityUniqueAttributeConstraintMustHaveAtLeastOneAttributeOrRelationship", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The environment name &apos;{0}&apos; is duplicated. Environment names must be unique in a solution..
         /// </summary>
         internal static string EnvironmentNameDuplicate {
@@ -1083,6 +1101,15 @@ namespace Nox.Solution {
         internal static string ObjectTypeOptionsAttributesEmpty {
             get {
                 return ResourceManager.GetString("ObjectTypeOptionsAttributesEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relationship {0} doesn&apos;t satisfy condition that only zero / one to many relationships can be used in unique constraint..
+        /// </summary>
+        internal static string OnlySingleToManyRelationshipsCanBeUsedInUniqueConstraint {
+            get {
+                return ResourceManager.GetString("OnlySingleToManyRelationshipsCanBeUsedInUniqueConstraint", resourceCulture);
             }
         }
         
