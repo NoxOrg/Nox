@@ -29,12 +29,19 @@ namespace Nox.Solution.Validation
                 .Must(HaveValidDataConnection)
                 .WithMessage(m => string.Format(ValidationResources.IntegrationTargetDataConnectionMissing, m.Name, integrationName, m.DataConnectionName));
 
-            //Database options required when adapter type == Table || type == StoredProcedure
-            RuleFor(target => target!.DatabaseOptions)
+            //Table options required when adapter type == Table
+            RuleFor(target => target!.TableOptions)
                 .NotNull()
-                .WithMessage(target => string.Format(ValidationResources.IntegrationTargetDatabaseOptionsEmpty, target!.Name, integrationName))
-                .SetValidator(target => new IntegrationTargetDatabaseOptionsValidator(integrationName, target.TargetAdapterType, GetDataConnectionProvider(target.DataConnectionName)))
-                .When(target => target?.TargetAdapterType is IntegrationTargetAdapterType.DatabaseTable or IntegrationTargetAdapterType.StoredProcedure);
+                .WithMessage(target => string.Format(ValidationResources.IntegrationTargetTableOptionsEmpty, target!.Name, integrationName))
+                .SetValidator(target => new IntegrationTargetTableOptionsValidator(integrationName, target.TargetAdapterType, GetDataConnectionProvider(target.DataConnectionName)))
+                .When(target => target?.TargetAdapterType is IntegrationTargetAdapterType.DatabaseTable);
+            
+            //Stored Procedure options required when adapter type == StoredProcedure
+            RuleFor(target => target!.StoredProcedureOptions)
+                .NotNull()
+                .WithMessage(target => string.Format(ValidationResources.IntegrationTargetStoredProcedureOptionsEmpty, target!.Name, integrationName))
+                .SetValidator(target => new IntegrationTargetStoredProcedureOptionsValidator(integrationName, target.TargetAdapterType, GetDataConnectionProvider(target.DataConnectionName)))
+                .When(target => target?.TargetAdapterType is IntegrationTargetAdapterType.StoredProcedure);
             
             //File options required when adapter type == File
             RuleFor(target => target!.FileOptions)

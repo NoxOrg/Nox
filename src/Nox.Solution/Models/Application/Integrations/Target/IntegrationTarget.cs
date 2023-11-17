@@ -31,8 +31,12 @@ public class IntegrationTarget
     public string DataConnectionName { get; internal set; } = null!;
 
     [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetAdapterType),IntegrationTargetAdapterType.DatabaseTable)]
-    public IntegrationTargetDatabaseOptions? DatabaseOptions { get; set; }
+    [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.DatabaseTable)]
+    public IntegrationTargetTableOptions? TableOptions { get; set; }
+    
+    [AdditionalProperties(false)]
+    [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.StoredProcedure)]
+    public IntegrationTargetStoredProcedureOptions? StoredProcedureOptions { get; set; }
 
     [AdditionalProperties(false)]
     [IfEquals(nameof(TargetAdapterType),IntegrationTargetAdapterType.File)]

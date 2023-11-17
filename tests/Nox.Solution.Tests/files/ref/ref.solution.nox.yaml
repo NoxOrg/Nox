@@ -48,6 +48,7 @@ application:
   integrations:
     - name: SampleEtl
       description: a Sample Etl
+      mergeType: addNew
       
       schedule:
         start: every day at 2am
@@ -85,16 +86,17 @@ application:
           dateColumns:
             - "CreateDate"
             - "EditDate"
-          sequentialKeyColumn: CountryId
+          sequentialKeyColumns: 
+            - "CountryId"
           
       transformationType: defaultTransform
 
       target:
         name: Country
         dataConnectionName: SampleCurrencyDb
-        targetAdapterType: entity
-        entityOptions:
-            entity: Country 
+        targetAdapterType: databaseTable
+        tableOptions: 
+          tableName: Countries
 
 infrastructure:
   

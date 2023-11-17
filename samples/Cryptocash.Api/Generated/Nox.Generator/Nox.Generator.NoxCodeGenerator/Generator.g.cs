@@ -31,12 +31,5 @@
 //  - cryptocash.messaging.nox.yaml
 //  - cryptocash.persistence.nox.yaml
 //  - generator.nox.yaml
-// Errors ->
-//  - Missing property ["mergeType"] is required. (at line 7 in CountrySync.integration.nox.yaml)
-Disallowed property ["databaseOptions"]. (at line 21 in CountrySync.integration.nox.yaml)
-Disallowed property ["entityOptions"]. (at line 32 in CountrySync.integration.nox.yaml)
-Invalid value ["entity"] for property [targetAdapterType]. (at line 31 in CountrySync.integration.nox.yaml)   at Nox.Solution.Schema.NoxSchemaValidator.Deserialize[T](YamlReferenceResolver yamlRefResolver)
-   at Nox.Solution.NoxSolutionBuilder.ResolveAndLoadConfiguration()
-   at Nox.Solution.NoxSolutionBuilder.Build()
-   at Nox.Generator.NoxCodeGenerator.TryGetNoxSolution(ImmutableArray`1 noxYamls, NoxSolution& solution)
-   at Nox.Generator.NoxCodeGenerator.GenerateSource(SourceProductionContext context, ImmutableArray`1 noxYamls)
+// Logging Verbosity Minimal
+// SUCCESS.

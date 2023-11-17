@@ -375,6 +375,8 @@ application:
     - name: JsonToEntityIntegration
       description: a Sample integration that sources data from json files and persist to a Nox Entity
       
+      mergeType: mergeNew
+      
       schedule:
         start: every day at 2am
         retry:
@@ -410,16 +412,17 @@ application:
           dateColumns:
             - "CreateDate"
             - "EditDate"
-          sequentialKeyColumn: CountryId
+          sequentialKeyColumns: 
+            - "CountryId"
       
       transformationType: defaultTransform
       
       target:
         name: Country
         dataConnectionName: SqlServerData
-        targetAdapterType: entity
-        entityOptions:
-          entity: Country
+        targetAdapterType: databaseTable
+        tableOptions:
+          tableName: Countries
         
         #  localization:
 #
