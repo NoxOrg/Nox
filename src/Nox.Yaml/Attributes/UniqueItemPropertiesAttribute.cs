@@ -30,7 +30,8 @@ public class UniqueItemPropertiesAttribute : Attribute
             {
                 if (!obj.ContainsKey(key))
                 {
-                    throw new ArgumentException($"Property '{key}' not found on element of collection.");
+                    _duplicates.Add("<KEY-NOT-FOUND>");
+                    continue;
                 }
                 value += obj[key].Value?.ToString();
             }

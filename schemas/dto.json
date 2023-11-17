@@ -1,5 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "A complex nox type.",
+  "description": "Defines a complex nox type that includes simple types, objects, arrays and collections.",
   "oneOf": [
     {
       "type": "object"
@@ -119,18 +121,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -312,16 +305,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -484,16 +467,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -622,16 +595,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -776,16 +739,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -966,16 +919,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -1102,16 +1045,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -1282,16 +1215,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -1439,16 +1362,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -1565,16 +1478,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -1750,16 +1653,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -1899,16 +1792,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -2060,16 +1943,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -2200,16 +2073,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -2363,16 +2226,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -2499,16 +2352,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -2679,16 +2522,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -2825,16 +2658,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -3189,16 +3012,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -3353,16 +3166,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -3499,16 +3302,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -3939,16 +3732,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -4093,16 +3876,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -4237,16 +4010,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -4424,16 +4187,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -4560,16 +4313,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -4719,16 +4462,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -4893,16 +4626,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -5286,16 +5009,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -5450,16 +5163,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -5630,16 +5333,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -5784,16 +5477,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -5928,16 +5611,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -5982,18 +5655,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -6175,16 +5839,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -6347,16 +6001,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -6485,16 +6129,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -6639,16 +6273,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -6829,16 +6453,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -6965,16 +6579,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -7145,16 +6749,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -7302,16 +6896,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -7428,16 +7012,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -7613,16 +7187,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -7762,16 +7326,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -7923,16 +7477,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -8063,16 +7607,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -8226,16 +7760,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -8362,16 +7886,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -8542,16 +8056,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -8688,16 +8192,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -9052,16 +8546,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -9216,16 +8700,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -9362,16 +8836,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -9802,16 +9266,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -9956,16 +9410,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -10100,16 +9544,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -10287,16 +9721,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -10423,16 +9847,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -10582,16 +9996,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -10756,16 +10160,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -11149,16 +10543,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -11313,16 +10697,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -11493,16 +10867,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -11647,16 +11011,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -11791,16 +11145,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -11845,18 +11189,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -11962,18 +11297,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -12107,18 +11433,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -12226,18 +11543,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -12353,18 +11661,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -12508,18 +11807,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -12625,18 +11915,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -12770,18 +12051,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -12900,18 +12172,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -13007,18 +12270,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -13157,18 +12411,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -13287,18 +12532,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -13413,18 +12649,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -13534,18 +12761,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -13662,18 +12880,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -13779,18 +12988,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -13924,18 +13124,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -14051,18 +13242,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -14380,18 +13562,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -14517,18 +13690,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -14644,18 +13808,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -15049,18 +14204,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -15176,18 +14322,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -15301,18 +14438,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -15453,18 +14581,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -15570,18 +14689,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -15702,18 +14812,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -15849,18 +14950,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -16207,18 +15299,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -16352,18 +15435,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -16497,18 +15571,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "required": [
@@ -16624,18 +15689,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "type": "object",
@@ -16738,18 +15794,9 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
-      }
+      },
+      "additionalProperties": false
     }
   ]
 }

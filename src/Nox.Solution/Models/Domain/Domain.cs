@@ -1,4 +1,4 @@
-﻿using Nox.Types.Schema;
+﻿using Nox.Yaml.Attributes;
 using System;
 using System.Collections.Generic;
 using YamlDotNet.Serialization;

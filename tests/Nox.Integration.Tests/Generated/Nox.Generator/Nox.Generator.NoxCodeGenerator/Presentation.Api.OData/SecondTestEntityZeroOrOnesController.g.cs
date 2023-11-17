@@ -44,22 +44,6 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToTestEntityZeroOrOne([FromRoute] System.String key, [FromBody] TestEntityZeroOrOneCreateDto testEntityZeroOrOne)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        testEntityZeroOrOne.SecondTestEntityZeroOrOneId = key;
-        var createdKey = await _mediator.Send(new CreateTestEntityZeroOrOneCommand(testEntityZeroOrOne, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToTestEntityZeroOrOne([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(key))).Select(x => x.TestEntityZeroOrOne).SingleOrDefault();
@@ -70,17 +54,6 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
         
         var references = new System.Uri($"TestEntityZeroOrOnes/{related.Id}", UriKind.Relative);
         return Ok(references);
-    }
-    
-    [EnableQuery]
-    public virtual async Task<SingleResult<TestEntityZeroOrOneDto>> GetTestEntityZeroOrOne(System.String key)
-    {
-        var related = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(key))).Where(x => x.TestEntityZeroOrOne != null);
-        if (!related.Any())
-        {
-            return SingleResult.Create<TestEntityZeroOrOneDto>(Enumerable.Empty<TestEntityZeroOrOneDto>().AsQueryable());
-        }
-        return SingleResult.Create(related.Select(x => x.TestEntityZeroOrOne!));
     }
     
     public async Task<ActionResult> DeleteRefToTestEntityZeroOrOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
@@ -115,27 +88,30 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/SecondTestEntityZeroOrOnes/{key}/TestEntityZeroOrOne")]
-    public async Task<ActionResult> DeleteToTestEntityZeroOrOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> PostToTestEntityZeroOrOne([FromRoute] System.String key, [FromBody] TestEntityZeroOrOneCreateDto testEntityZeroOrOne)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(key))).Select(x => x.TestEntityZeroOrOne).SingleOrDefault();
-        if (related == null)
-        {
-            return NotFound();
-        }
+        testEntityZeroOrOne.SecondTestEntityZeroOrOneId = key;
+        var createdKey = await _mediator.Send(new CreateTestEntityZeroOrOneCommand(testEntityZeroOrOne, _cultureCode));
         
-        var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteTestEntityZeroOrOneByIdCommand(related.Id, etag));
-        if (!deleted)
+        var createdItem = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<TestEntityZeroOrOneDto>> GetTestEntityZeroOrOne(System.String key)
+    {
+        var related = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(key))).Where(x => x.TestEntityZeroOrOne != null);
+        if (!related.Any())
         {
-            return NotFound();
+            return SingleResult.Create<TestEntityZeroOrOneDto>(Enumerable.Empty<TestEntityZeroOrOneDto>().AsQueryable());
         }
-        return NoContent();
+        return SingleResult.Create(related.Select(x => x.TestEntityZeroOrOne!));
     }
     
     public virtual async Task<ActionResult<TestEntityZeroOrOneDto>> PutToTestEntityZeroOrOne(System.String key, [FromBody] TestEntityZeroOrOneUpdateDto testEntityZeroOrOne)
@@ -159,6 +135,29 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
         }
         
         return Ok();
+    }
+    
+    [HttpDelete("/api/v1/SecondTestEntityZeroOrOnes/{key}/TestEntityZeroOrOne")]
+    public async Task<ActionResult> DeleteToTestEntityZeroOrOne([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(key))).Select(x => x.TestEntityZeroOrOne).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteTestEntityZeroOrOneByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
     }
     
     #endregion

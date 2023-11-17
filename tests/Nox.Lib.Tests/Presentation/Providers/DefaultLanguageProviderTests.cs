@@ -21,7 +21,7 @@ public class DefaultLanguageProviderTests
         var yamlContent = "{name: solution, application: {localization: {supportedCultures: [en-US, fr-FR], defaultCulture: en-US}}}";
 
         _noxSolution = new NoxSolutionBuilder()
-            .UseYamlFilesAndContent(new Dictionary<string, Func<TextReader>>
+            .WithYamlFilesAndContent(new Dictionary<string, Func<TextReader>>
             {
                 [yamlName] = () => new StringReader(yamlContent)
             })

@@ -1,5 +1,4 @@
-﻿using Nox.Types.Schema;
-using System;
+﻿using Nox.Yaml.Attributes;
 
 namespace Nox.Solution;
 
@@ -27,8 +26,4 @@ public class Infrastructure : DefinitionBase
 
     public Security? Security { get; internal set; }
 
-    internal void ApplyDefaults(string version)
-    {
-        Endpoints!.ApplyDefaults(version);
-    }
 }

@@ -143,7 +143,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine();
             foreach (var relationship in entity.OwnedRelationships)
             {
-                if (!relationship.CanNavigate)
+                if (!relationship.CanManageEntity)
                     continue;
 
                 var child = relationship.Related.Entity;
@@ -373,12 +373,12 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine($"public virtual async Task<ActionResult> PatchTo{child.PluralName}NonConventional(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
                 $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")}, " +
-                $"[FromBody] Delta<{child.Name}Dto> {child.Name.ToLowerFirstChar()})");
+                $"[FromBody] Delta<{child.Name}UpdateDto> {child.Name.ToLowerFirstChar()})");
         }
         
         // Method content
         code.StartBlock();
-        code.AppendLine($"if (!ModelState.IsValid)");
+        code.AppendLine($"if (!ModelState.IsValid || {child.Name.ToLowerFirstChar()} is null)");
         code.StartBlock();
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
@@ -482,31 +482,31 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine();
             foreach (var relationship in entity.Relationships)
             {
-                if (!relationship.CanNavigate)
-                    continue;
-                if (CanCreate(entity))
+                if (relationship.CanManageReference)
                 {
-                    GenerateCreateRefTo(entity, relationship, code, solution);
-                    GenerateRelatedPost(solution, relationship, entity, code);
+                    if (CanCreate(entity)) GenerateCreateRefTo(entity, relationship, code, solution);
+                    if (CanRead(entity)) GenerateGetRefTo(entity, relationship, code, solution);
+                    if (CanDelete(entity))
+                    {
+                        GenerateDeleteRefTo(entity, relationship, code, solution);
+                        GenerateDeleteAllRefTo(entity, relationship, code, solution);
+                    }
                 }
-                if (CanRead(entity))
-                {
-                    GenerateGetRefTo(entity, relationship, code, solution);
 
-                    GenerateRelatedGet(solution, relationship, entity, code);
-                    GenerateRelatedGetById(solution, relationship, entity, code);
-                }
-                if (CanDelete(entity))
+                if (relationship.CanManageEntity)
                 {
-                    GenerateDeleteRefTo(entity, relationship, code, solution);
-                    GenerateDeleteAllRefTo(entity, relationship, code, solution);
-
-                    GenerateRelatedDelete(solution, relationship, entity, code);
-                    GenerateRelatedDeleteAll(solution, relationship, entity, code);
-                }
-                if (CanUpdate(entity))
-                {
-                    GenerateRelatedPut(solution, relationship, entity, code);
+                    if (CanCreate(entity)) GenerateRelatedPost(solution, relationship, entity, code);
+                    if (CanRead(entity))
+                    {
+                        GenerateRelatedGet(solution, relationship, entity, code);
+                        GenerateRelatedGetById(solution, relationship, entity, code);
+                    }
+                    if (CanUpdate(entity)) GenerateRelatedPut(solution, relationship, entity, code);
+                    if (CanDelete(entity))
+                    {
+                        GenerateRelatedDelete(solution, relationship, entity, code);
+                        GenerateRelatedDeleteAll(solution, relationship, entity, code);
+                    }
                 }
             }
             code.AppendLine($"#endregion");
@@ -732,7 +732,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
 
         var localizationPart = relatedEntity.IsLocalized ? "_cultureCode, " : "";
         if(reversedRelationship.WithSingleEntity())

@@ -28,20 +28,20 @@ public partial class CurrencyCreateDto : CurrencyCreateDtoBase
 public abstract class CurrencyCreateDtoBase : IEntityDto<DomainNamespace.Currency>
 {
     /// <summary>
-    /// Currency unique identifier
-    /// <remarks>Required.</remarks>    
+    /// Currency unique identifier    
     /// </summary>
+    /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
     /// <summary>
-    /// Currency's name 
-    /// <remarks>Optional</remarks>    
+    /// Currency's name     
     /// </summary>
+    /// <remarks>Optional</remarks>
     public virtual System.String? Name { get; set; }
     /// <summary>
-    /// Currency's symbol 
-    /// <remarks>Optional</remarks>    
+    /// Currency's symbol     
     /// </summary>
+    /// <remarks>Optional</remarks>
     public virtual System.String? Symbol { get; set; }
 
     /// <summary>

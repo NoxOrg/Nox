@@ -21,6 +21,7 @@ using Nox.Infrastructure.Messaging.AzureServiceBus;
 using Nox.Infrastructure;
 using Nox.Integration;
 using Nox.Integration.Extensions;
+using Nox.Yaml.VariableProviders.Environment;
 
 namespace Nox.Configuration
 {
@@ -252,17 +253,20 @@ namespace Nox.Configuration
 
         private static NoxSolution CreateSolution(IServiceProvider serviceProvider)
         {
-            return new NoxSolutionBuilder()
-                .OnResolveSecrets((_, args) =>
+            var secretsProvider = new SecretsVariableValueProvider<NoxSolutionBasicsOnly>( (s, v) =>
+            {
+                var secretsConfig = s.Infrastructure?.Security?.Secrets;
+                if (secretsConfig is not null)
                 {
-                    var secretsConfig = args.SecretsConfig;
-                    var secretKeys = args.Variables;
-                    // TODO Create Nox Solution without using the container
-                    // This is configuration and is needed in service configuration
                     var resolver = serviceProvider.GetRequiredService<INoxSecretsResolver>();
-                    resolver.Configure(secretsConfig!, Assembly.GetEntryAssembly());
-                    args.Secrets = resolver.Resolve(secretKeys!);
-                })
+                    resolver.Configure(secretsConfig, Assembly.GetEntryAssembly());
+                    return resolver.Resolve(v);
+                }
+                return new Dictionary<string,string?>();
+            });
+
+            return new NoxSolutionBuilder()
+                .WithSecretsVariableValueProvider(secretsProvider)
                 .Build();
         }
     }

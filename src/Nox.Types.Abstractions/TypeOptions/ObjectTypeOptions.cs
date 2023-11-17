@@ -1,4 +1,4 @@
-﻿using Nox.Types.Schema;
+﻿using Nox.Yaml.Attributes;
 using System.Collections.Generic;
 
 namespace Nox.Types;

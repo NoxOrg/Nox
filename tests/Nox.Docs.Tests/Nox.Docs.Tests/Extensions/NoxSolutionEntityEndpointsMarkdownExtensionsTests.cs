@@ -12,11 +12,12 @@ public class NoxSolutionEntityEndpointsMarkdownExtensionsTests
     {
         // Arrange
         var noxSolution = new NoxSolutionBuilder()
-            .UseYamlFile("./Files/Design/sample-for-endpoints.solution.nox.yaml")
+            .WithFile("./Files/Design/sample-for-endpoints.solution.nox.yaml")
             .Build();
 
         // Act
-        var actual = noxSolution.ToMarkdownEntityEndpoints();
+        var actual = noxSolution.ToMarkdownEntityEndpoints()
+            .OrderBy(m => m.Name);
 
         // Assert
         var expected = new[]
@@ -24,7 +25,8 @@ public class NoxSolutionEntityEndpointsMarkdownExtensionsTests
             CreateMarkdownFile("People"),
             CreateMarkdownFile("Country"),
             CreateMarkdownFile("Continent"),
-        };
+        }
+        .OrderBy(m => m.Name);
 
         actual.Should().BeEquivalentTo(expected);
     }

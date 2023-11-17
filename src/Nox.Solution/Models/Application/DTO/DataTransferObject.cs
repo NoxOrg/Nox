@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Nox.Types.Schema;
+using Nox.Yaml.Attributes;
 using Nox.Types;
 
 

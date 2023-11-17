@@ -51,14 +51,14 @@ public abstract class EmailAddressDtoBase : EntityDtoBase, IEntityDto<DomainName
     #endregion
 
     /// <summary>
-    /// Email 
-    /// <remarks>Optional.</remarks>    
+    /// Email     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? Email { get; set; }
 
     /// <summary>
-    /// Verified 
-    /// <remarks>Optional.</remarks>    
+    /// Verified     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.Boolean? IsVerified { get; set; }
 }

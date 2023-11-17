@@ -945,13 +945,11 @@ namespace ClientApi.Tests.Tests.Controllers
                 new CountryCreateDto { Name = _fixture.Create<string>() });
 
             // Act
-            var headers = CreateEtagHeader(countryResponse?.Etag);
             var postToWorkplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}",
-                new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
-                headers);
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
 
-            headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
+            var headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
             var deleteWorkplaceResponse = await DeleteAsync(
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{postToWorkplaceResponse!.Id}",
                 headers);
@@ -983,13 +981,11 @@ namespace ClientApi.Tests.Tests.Controllers
                 new CountryCreateDto { Name = _fixture.Create<string>() });
 
             // Act
-            var headers = CreateEtagHeader(countryResponse?.Etag);
             var postToWorkplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}",
-                new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
-                headers);
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
 
-            headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
+            var headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
             var deleteWorkplaceResponse = await DeleteAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}", headers);
 
             const string oDataRequest = $"$expand={nameof(CountryDto.Workplaces)}";
@@ -1142,16 +1138,14 @@ namespace ClientApi.Tests.Tests.Controllers
             var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, 
                 new CountryCreateDto { Name = _fixture.Create<string>() });
 
-            var headers = CreateEtagHeader(countryResponse?.Etag);
             var postToWorkplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}",
-                new WorkplaceCreateDto() { Name = _fixture.Create<string>(), Description = _fixture.Create<string>() },
-                headers);
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>(), Description = _fixture.Create<string>() });
 
             var expectedDescription = _fixture.Create<string>();
 
             // Act
-            headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
+            var headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
             var putToWorkplaceResponse = await PutAsync<WorkplaceUpdateDto>(
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{postToWorkplaceResponse!.Id}",
                 new WorkplaceUpdateDto() { 
@@ -1381,7 +1375,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 Population = 1
             };
 
-            var updateDto = new CountryDto
+            var updateDto = new CountryUpdateDto
             {
                 Population = expectedNumber
             };
@@ -1390,11 +1384,87 @@ namespace ClientApi.Tests.Tests.Controllers
             var postResult = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
             var headers = CreateEtagHeader(postResult!.Etag);
 
-            var patchResult = await PatchAsync<CountryDto, CountryDto>($"{Endpoints.CountriesUrl}/{postResult!.Id}", updateDto, headers);
+            var patchResult = await PatchAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
             patchResult!.Population.Should().Be(expectedNumber);
             patchResult!.Name.Should().Be(expectedName);
+        }
+
+        [Fact]
+        public async Task Patch_RequiredNameIsMissing_ShouldUpdatePopulation()
+        {
+            //This test is to verify the case that if the required Name is missing in delta Patch request, it should still update other fields and do not throw BadRequest
+            
+            // Arrange
+            var expectedPopulation = _fixture.Create<int>();
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+                new CountryCreateDto
+                {
+                    Name = _fixture.Create<string>(),
+                    Population = _fixture.Create<int>()
+                });
+
+            // Act            
+            var headers = CreateEtagHeader(countryResponse!.Etag);
+            var patchResponse = await PatchAsync<CountryUpdateDto, CountryDto>(
+                $"{Endpoints.CountriesUrl}/{countryResponse!.Id}",
+                new CountryUpdateDto
+                {
+                    Population = expectedPopulation
+                }, 
+                headers);
+
+            // Assert
+            patchResponse!.Population.Should().Be(expectedPopulation);
+            patchResponse!.Name.Should().Be(countryResponse!.Name);
+        }
+
+        [Fact]
+        public async Task Patch_RequiredName_IsSetToNull_ShouldFail()
+        {
+            // Arrange
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+                new CountryCreateDto
+                {
+                    Name = _fixture.Create<string>()
+                });
+
+            // Act            
+            var headers = CreateEtagHeader(countryResponse!.Etag);
+            var patchResponse = await PatchAsync(
+                $"{Endpoints.CountriesUrl}/{countryResponse!.Id}",
+                new CountryUpdateDto { },
+                headers,
+                false);
+
+            // Assert
+            patchResponse!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact(Skip = "Patch should update Compound nox types")]
+        public async Task Patch_CompoundNoxTypes_ShouldUpdate()
+        {
+            // Arrange
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+                new CountryCreateDto
+                {
+                    Name = _fixture.Create<string>()
+                });
+
+            // Act            
+            var headers = CreateEtagHeader(countryResponse!.Etag);
+            var patchResponse = await PatchAsync(
+                $"{Endpoints.CountriesUrl}/{countryResponse!.Id}",
+                new CountryUpdateDto
+                {
+                    CountryDebt = new MoneyDto(_fixture.Create<decimal>(), CurrencyCode.USD)
+                },
+                headers,
+                false);
+
+            // Assert
+            patchResponse!.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Fact]

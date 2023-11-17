@@ -26,8 +26,8 @@ public partial class RatingProgramUpdateDto : RatingProgramUpdateDtoBase
 public partial class RatingProgramUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.RatingProgram>
 {
     /// <summary>
-    /// Rating Program Name 
-    /// <remarks>Optional.</remarks>    
+    /// Rating Program Name     
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public virtual System.String? Name { get; set; }
 }

@@ -26,9 +26,9 @@ public partial class TenantUpdateDto : TenantUpdateDtoBase
 public partial class TenantUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Tenant>
 {
     /// <summary>
-    /// Teanant Name 
-    /// <remarks>Required.</remarks>    
+    /// Teanant Name     
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;

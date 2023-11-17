@@ -91,7 +91,7 @@ internal class SchemaProperty
 
         IsVariableAllowed = info.GetCustomAttribute<AllowVariableAttribute>(true) != null;
 
-        Ignore = info.GetCustomAttribute<IgnoreAttribute>(true) != null;
+        Ignore = info.GetCustomAttribute<IgnoreAttribute>(true) != null || info.GetCustomAttribute<YamlIgnoreAttribute>(true) != null;
 
         Conditional = info.GetCustomAttribute<IfEqualsAttribute>(true);
 

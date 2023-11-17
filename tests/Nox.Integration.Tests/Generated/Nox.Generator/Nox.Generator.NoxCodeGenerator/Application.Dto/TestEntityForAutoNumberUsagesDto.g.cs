@@ -61,21 +61,21 @@ public abstract class TestEntityForAutoNumberUsagesDtoBase : EntityDtoBase, IEnt
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.Int64 AutoNumberFieldWithOptions { get; set; } = default!;
 
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.Int64 AutoNumberFieldWithoutOptions { get; set; } = default!;
 
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String TextField { get; set; } = default!;
 
     [JsonPropertyName("@odata.etag")]

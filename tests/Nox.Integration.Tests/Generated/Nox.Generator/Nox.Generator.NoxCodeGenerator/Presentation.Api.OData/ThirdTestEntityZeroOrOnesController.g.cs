@@ -44,22 +44,6 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToThirdTestEntityExactlyOne([FromRoute] System.String key, [FromBody] ThirdTestEntityExactlyOneCreateDto thirdTestEntityExactlyOne)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        thirdTestEntityExactlyOne.ThirdTestEntityZeroOrOneId = key;
-        var createdKey = await _mediator.Send(new CreateThirdTestEntityExactlyOneCommand(thirdTestEntityExactlyOne, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToThirdTestEntityExactlyOne([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(key))).Select(x => x.ThirdTestEntityExactlyOne).SingleOrDefault();
@@ -70,17 +54,6 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
         
         var references = new System.Uri($"ThirdTestEntityExactlyOnes/{related.Id}", UriKind.Relative);
         return Ok(references);
-    }
-    
-    [EnableQuery]
-    public virtual async Task<SingleResult<ThirdTestEntityExactlyOneDto>> GetThirdTestEntityExactlyOne(System.String key)
-    {
-        var related = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(key))).Where(x => x.ThirdTestEntityExactlyOne != null);
-        if (!related.Any())
-        {
-            return SingleResult.Create<ThirdTestEntityExactlyOneDto>(Enumerable.Empty<ThirdTestEntityExactlyOneDto>().AsQueryable());
-        }
-        return SingleResult.Create(related.Select(x => x.ThirdTestEntityExactlyOne!));
     }
     
     public async Task<ActionResult> DeleteRefToThirdTestEntityExactlyOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
@@ -115,27 +88,30 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/ThirdTestEntityZeroOrOnes/{key}/ThirdTestEntityExactlyOne")]
-    public async Task<ActionResult> DeleteToThirdTestEntityExactlyOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> PostToThirdTestEntityExactlyOne([FromRoute] System.String key, [FromBody] ThirdTestEntityExactlyOneCreateDto thirdTestEntityExactlyOne)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(key))).Select(x => x.ThirdTestEntityExactlyOne).SingleOrDefault();
-        if (related == null)
-        {
-            return NotFound();
-        }
+        thirdTestEntityExactlyOne.ThirdTestEntityZeroOrOneId = key;
+        var createdKey = await _mediator.Send(new CreateThirdTestEntityExactlyOneCommand(thirdTestEntityExactlyOne, _cultureCode));
         
-        var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteThirdTestEntityExactlyOneByIdCommand(related.Id, etag));
-        if (!deleted)
+        var createdItem = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<ThirdTestEntityExactlyOneDto>> GetThirdTestEntityExactlyOne(System.String key)
+    {
+        var related = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(key))).Where(x => x.ThirdTestEntityExactlyOne != null);
+        if (!related.Any())
         {
-            return NotFound();
+            return SingleResult.Create<ThirdTestEntityExactlyOneDto>(Enumerable.Empty<ThirdTestEntityExactlyOneDto>().AsQueryable());
         }
-        return NoContent();
+        return SingleResult.Create(related.Select(x => x.ThirdTestEntityExactlyOne!));
     }
     
     public virtual async Task<ActionResult<ThirdTestEntityExactlyOneDto>> PutToThirdTestEntityExactlyOne(System.String key, [FromBody] ThirdTestEntityExactlyOneUpdateDto thirdTestEntityExactlyOne)
@@ -159,6 +135,29 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
         }
         
         return Ok();
+    }
+    
+    [HttpDelete("/api/v1/ThirdTestEntityZeroOrOnes/{key}/ThirdTestEntityExactlyOne")]
+    public async Task<ActionResult> DeleteToThirdTestEntityExactlyOne([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(key))).Select(x => x.ThirdTestEntityExactlyOne).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteThirdTestEntityExactlyOneByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
     }
     
     #endregion

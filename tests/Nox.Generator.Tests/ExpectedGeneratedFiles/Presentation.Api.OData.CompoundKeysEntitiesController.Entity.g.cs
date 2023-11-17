@@ -101,9 +101,9 @@ public abstract partial class CompoundKeysEntitiesControllerBase : ODataControll
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<CompoundKeysEntityDto>> Patch([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] Delta<CompoundKeysEntityDto> compoundKeysEntity)
+    public virtual async Task<ActionResult<CompoundKeysEntityDto>> Patch([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] Delta<CompoundKeysEntityUpdateDto> compoundKeysEntity)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || compoundKeysEntity is null)
         {
             return BadRequest(ModelState);
         }

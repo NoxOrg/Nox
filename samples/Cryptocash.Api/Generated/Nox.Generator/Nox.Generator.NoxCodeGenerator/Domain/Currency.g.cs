@@ -1,0 +1,282 @@
+﻿// Generated
+
+#nullable enable
+
+using System;
+using System.Collections.Generic;
+
+using MediatR;
+
+using Nox.Abstractions;
+using Nox.Domain;
+using Nox.Solution;
+using Nox.Types;
+
+namespace Cryptocash.Domain;
+
+internal partial class Currency : CurrencyBase, IEntityHaveDomainEvents
+{
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
+}
+/// <summary>
+/// Record for Currency created event.
+/// </summary>
+internal record CurrencyCreated(Currency Currency) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for Currency updated event.
+/// </summary>
+internal record CurrencyUpdated(Currency Currency) : IDomainEvent, INotification;
+/// <summary>
+/// Record for Currency deleted event.
+/// </summary>
+internal record CurrencyDeleted(Currency Currency) : IDomainEvent, INotification;
+
+/// <summary>
+/// Currency and related data.
+/// </summary>
+internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcurrent
+{
+    /// <summary>
+    /// Currency unique identifier    
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.CurrencyCode3 Id { get; set; } = null!;
+
+    /// <summary>
+    /// Currency's name    
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.Text Name { get; set; } = null!;
+
+    /// <summary>
+    /// Currency's iso number id    
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.CurrencyNumber CurrencyIsoNumeric { get; set; } = null!;
+
+    /// <summary>
+    /// Currency's symbol    
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.Text Symbol { get; set; } = null!;
+
+    /// <summary>
+    /// Currency's numeric thousands notation separator    
+    /// </summary>
+    /// <remarks>Optional.</remarks>   
+    public Nox.Types.Text? ThousandsSeparator { get; set; } = null!;
+
+    /// <summary>
+    /// Currency's numeric decimal notation separator    
+    /// </summary>
+    /// <remarks>Optional.</remarks>   
+    public Nox.Types.Text? DecimalSeparator { get; set; } = null!;
+
+    /// <summary>
+    /// Currency's numeric space between amount and symbol    
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.Boolean SpaceBetweenAmountAndSymbol { get; set; } = null!;
+
+    /// <summary>
+    /// Currency's numeric decimal digits    
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.Number DecimalDigits { get; set; } = null!;
+
+    /// <summary>
+    /// Currency's major name    
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.Text MajorName { get; set; } = null!;
+
+    /// <summary>
+    /// Currency's major display symbol    
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.Text MajorSymbol { get; set; } = null!;
+
+    /// <summary>
+    /// Currency's minor name    
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.Text MinorName { get; set; } = null!;
+
+    /// <summary>
+    /// Currency's minor display symbol    
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.Text MinorSymbol { get; set; } = null!;
+
+    /// <summary>
+    /// Currency's minor value when converted to major    
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.Money MinorToMajorValue { get; set; } = null!;
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(Currency currency)
+	{
+		InternalDomainEvents.Add(new CurrencyCreated(currency));
+    }
+	
+	protected virtual void InternalRaiseUpdateEvent(Currency currency)
+	{
+		InternalDomainEvents.Add(new CurrencyUpdated(currency));
+    }
+	
+	protected virtual void InternalRaiseDeleteEvent(Currency currency)
+	{
+		InternalDomainEvents.Add(new CurrencyDeleted(currency));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
+    public virtual void ClearDomainEvents()
+    {
+        InternalDomainEvents.Clear();
+    }
+
+    /// <summary>
+    /// Currency used by OneOrMany Countries
+    /// </summary>
+    public virtual List<Country> Countries { get; private set; } = new();
+
+    public virtual void CreateRefToCountries(Country relatedCountry)
+    {
+        Countries.Add(relatedCountry);
+    }
+
+    public virtual void UpdateRefToCountries(List<Country> relatedCountry)
+    {
+        if(relatedCountry is null || relatedCountry.Count < 2)
+            throw new RelationshipDeletionException($"The relationship cannot be updated.");
+        Countries.Clear();
+        Countries.AddRange(relatedCountry);
+    }
+
+    public virtual void DeleteRefToCountries(Country relatedCountry)
+    {
+        if(Countries.Count() < 2)
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
+        Countries.Remove(relatedCountry);
+    }
+
+    public virtual void DeleteAllRefToCountries()
+    {
+        if(Countries.Count() < 2)
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
+        Countries.Clear();
+    }
+
+    /// <summary>
+    /// Currency used by ZeroOrMany MinimumCashStocks
+    /// </summary>
+    public virtual List<MinimumCashStock> MinimumCashStocks { get; private set; } = new();
+
+    public virtual void CreateRefToMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
+    {
+        MinimumCashStocks.Add(relatedMinimumCashStock);
+    }
+
+    public virtual void UpdateRefToMinimumCashStocks(List<MinimumCashStock> relatedMinimumCashStock)
+    {
+        MinimumCashStocks.Clear();
+        MinimumCashStocks.AddRange(relatedMinimumCashStock);
+    }
+
+    public virtual void DeleteRefToMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
+    {
+        MinimumCashStocks.Remove(relatedMinimumCashStock);
+    }
+
+    public virtual void DeleteAllRefToMinimumCashStocks()
+    {
+        MinimumCashStocks.Clear();
+    }
+
+    /// <summary>
+    /// Currency commonly used ZeroOrMany BankNotes
+    /// </summary>
+    public virtual List<BankNote> CurrencyCommonBankNotes { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new BankNote entity.
+    /// </summary>
+    public virtual void CreateRefToCurrencyCommonBankNotes(BankNote relatedBankNote)
+    {
+        CurrencyCommonBankNotes.Add(relatedBankNote);
+    }
+    
+    /// <summary>
+    /// Deletes owned BankNote entity.
+    /// </summary>
+    public virtual void DeleteRefToCurrencyCommonBankNotes(BankNote relatedBankNote)
+    {
+        CurrencyCommonBankNotes.Remove(relatedBankNote);
+    }
+    
+    /// <summary>
+    /// Deletes all owned BankNote entities.
+    /// </summary>
+    public virtual void DeleteAllRefToCurrencyCommonBankNotes()
+    {
+        CurrencyCommonBankNotes.Clear();
+    }
+
+    /// <summary>
+    /// Currency exchanged from OneOrMany ExchangeRates
+    /// </summary>
+    public virtual List<ExchangeRate> CurrencyExchangedFromRates { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new ExchangeRate entity.
+    /// </summary>
+    public virtual void CreateRefToCurrencyExchangedFromRates(ExchangeRate relatedExchangeRate)
+    {
+        CurrencyExchangedFromRates.Add(relatedExchangeRate);
+    }
+    
+    /// <summary>
+    /// Deletes owned ExchangeRate entity.
+    /// </summary>
+    public virtual void DeleteRefToCurrencyExchangedFromRates(ExchangeRate relatedExchangeRate)
+    {
+        if(CurrencyExchangedFromRates.Count() < 2)
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
+        CurrencyExchangedFromRates.Remove(relatedExchangeRate);
+    }
+    
+    /// <summary>
+    /// Deletes all owned ExchangeRate entities.
+    /// </summary>
+    public virtual void DeleteAllRefToCurrencyExchangedFromRates()
+    {
+        if(CurrencyExchangedFromRates.Count() < 2)
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
+        CurrencyExchangedFromRates.Clear();
+    }
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
+}

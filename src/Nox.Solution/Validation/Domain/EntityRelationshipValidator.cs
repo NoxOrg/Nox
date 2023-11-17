@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using FluentValidation;
-using Nox.Solution.Extensions;
 
 namespace Nox.Solution.Validation
 {
@@ -35,10 +33,6 @@ namespace Nox.Solution.Validation
                 RuleFor(er => entityName)
                     .Must((x, y) => HaveReverseRelationship(x, _entities.First(x => x.Name.Equals(y))))
                     .WithMessage(er => string.Format(ValidationResources.CorrespondingRelationshipMissing, er.Name, entityName, er.Entity));
-
-                RuleFor(er => entityName)
-                    .Must(CanNavigateAtLeastOnOneSide)
-                    .WithMessage(er => string.Format(ValidationResources.EntityRelationshipCanNavigate, er.Name, entityName, er.Entity));
             })
             .Otherwise(() =>
             {
@@ -89,14 +83,6 @@ namespace Nox.Solution.Validation
                 );
 
             return otherParents is null;
-        }
-
-        private bool CanNavigateAtLeastOnOneSide(EntityRelationship toEvaluate, string _)
-        {
-            var thisCanNavigate = toEvaluate.CanNavigate;
-            var reversedCanNavigate = toEvaluate.Related.EntityRelationship.CanNavigate;
-
-            return thisCanNavigate || reversedCanNavigate;
         }
     }
 }
