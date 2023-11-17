@@ -3,9 +3,10 @@ namespace Nox;
 public enum IntegrationTargetAdapterType
 {
     DatabaseTable,
-    StoredProcedure,
-    NoxEntity,
-    File,
-    WebApi,
-    MessageQueue
+    //Uncomment these when they are implemented
+    // StoredProcedure,
+    // NoxEntity,
+    // File,
+    // WebApi,
+    // MessageQueue
 }

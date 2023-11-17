@@ -34,16 +34,17 @@ public class IntegrationSource
     [IfEquals(nameof(SourceAdapterType),IntegrationSourceAdapterType.DatabaseQuery)]
     public IntegrationSourceQueryOptions? QueryOptions { get; set; }
     
-    [IfEquals(nameof(SourceAdapterType),IntegrationSourceAdapterType.StoredProcedure)]
-    public IntegrationSourceStoredProcedureOptions? StoredProcedureOptions { get; set; }
-
-    [IfEquals(nameof(SourceAdapterType),IntegrationSourceAdapterType.File)]
-    public IntegrationSourceFileOptions? FileOptions { get; set; }
-
-    [IfEquals(nameof(SourceAdapterType),IntegrationSourceAdapterType.MessageQueue)]
-    public IntegrationSourceMessageQueueOptions? MessageQueueOptions { get; set; }
-
-    [IfEquals(nameof(SourceAdapterType),IntegrationSourceAdapterType.WebApi)]
-    public IntegrationSourceWebApiOptions? WebApiOptions { get; set; }
+    //Uncomment when implemented
+    // [IfEquals(nameof(SourceAdapterType),IntegrationSourceAdapterType.StoredProcedure)]
+    // public IntegrationSourceStoredProcedureOptions? StoredProcedureOptions { get; set; }
+    //
+    // [IfEquals(nameof(SourceAdapterType),IntegrationSourceAdapterType.File)]
+    // public IntegrationSourceFileOptions? FileOptions { get; set; }
+    //
+    // [IfEquals(nameof(SourceAdapterType),IntegrationSourceAdapterType.MessageQueue)]
+    // public IntegrationSourceMessageQueueOptions? MessageQueueOptions { get; set; }
+    //
+    // [IfEquals(nameof(SourceAdapterType),IntegrationSourceAdapterType.WebApi)]
+    // public IntegrationSourceWebApiOptions? WebApiOptions { get; set; }
 
 }

@@ -89,7 +89,7 @@ public class IntegrationTests
             {
                 Name = "TestTarget",
                 Description = "Integration target for testing.",
-                DatabaseOptions = new IntegrationTargetDatabaseOptions
+                TableOptions = new IntegrationTargetTableOptions
                 {
                     TableName = "Country"
                 },

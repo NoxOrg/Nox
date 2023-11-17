@@ -23,26 +23,27 @@ namespace Nox.Solution.Validation
                 .SetValidator(source => new IntegrationSourceQueryOptionsValidator(integrationName))
                 .When(source => source?.SourceAdapterType == IntegrationSourceAdapterType.DatabaseQuery);
 
-            //File options required when adapter type == File
-            RuleFor(source => source!.FileOptions)
-                .NotNull()
-                .WithMessage(source => string.Format(ValidationResources.IntegrationSourceFileOptionsEmpty, source!.Name, integrationName))
-                .SetValidator(source => new IntegrationSourceFileOptionsValidator(integrationName))
-                .When(source => source?.SourceAdapterType == IntegrationSourceAdapterType.File);
-            
-            //Message queue options required when adapter type == MessageQueue
-            RuleFor(source => source!.MessageQueueOptions)
-                .NotNull()
-                .WithMessage(source => string.Format(ValidationResources.IntegrationSourceMsgQueueOptionsEmpty, source!.Name, integrationName))
-                .SetValidator(source => new IntegrationSourceMessageQueueOptionsValidator(integrationName))
-                .When(source => source?.SourceAdapterType == IntegrationSourceAdapterType.MessageQueue);
-
-            //WebApi options required when adapter type == WebApi
-            RuleFor(source => source!.WebApiOptions)
-                .NotNull()
-                .WithMessage(source => string.Format(ValidationResources.IntegrationSourceHttpOptionsEmpty, source!.Name, integrationName))
-                .SetValidator(source => new IntegrationSourceHttpOptionsValidator(integrationName))
-                .When(source => source?.SourceAdapterType == IntegrationSourceAdapterType.WebApi);
+            //Uncomment when implemented
+            // //File options required when adapter type == File
+            // RuleFor(source => source!.FileOptions)
+            //     .NotNull()
+            //     .WithMessage(source => string.Format(ValidationResources.IntegrationSourceFileOptionsEmpty, source!.Name, integrationName))
+            //     .SetValidator(source => new IntegrationSourceFileOptionsValidator(integrationName))
+            //     .When(source => source?.SourceAdapterType == IntegrationSourceAdapterType.File);
+            //
+            // //Message queue options required when adapter type == MessageQueue
+            // RuleFor(source => source!.MessageQueueOptions)
+            //     .NotNull()
+            //     .WithMessage(source => string.Format(ValidationResources.IntegrationSourceMsgQueueOptionsEmpty, source!.Name, integrationName))
+            //     .SetValidator(source => new IntegrationSourceMessageQueueOptionsValidator(integrationName))
+            //     .When(source => source?.SourceAdapterType == IntegrationSourceAdapterType.MessageQueue);
+            //
+            // //WebApi options required when adapter type == WebApi
+            // RuleFor(source => source!.WebApiOptions)
+            //     .NotNull()
+            //     .WithMessage(source => string.Format(ValidationResources.IntegrationSourceHttpOptionsEmpty, source!.Name, integrationName))
+            //     .SetValidator(source => new IntegrationSourceHttpOptionsValidator(integrationName))
+            //     .When(source => source?.SourceAdapterType == IntegrationSourceAdapterType.WebApi);
         }
 
         private bool HaveValidDataConnection(string dataConnectionName)

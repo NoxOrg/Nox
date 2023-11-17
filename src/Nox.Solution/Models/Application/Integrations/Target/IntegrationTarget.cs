@@ -34,23 +34,24 @@ public class IntegrationTarget
     [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.DatabaseTable)]
     public IntegrationTargetTableOptions? TableOptions { get; set; }
     
-    [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.StoredProcedure)]
-    public IntegrationTargetStoredProcedureOptions? StoredProcedureOptions { get; set; }
-
-    [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetAdapterType),IntegrationTargetAdapterType.File)]
-    public IntegrationTargetFileOptions? FileOptions { get; set; }
-
-    [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.WebApi)]
-    public IntegrationTargetWebApiOptions? WebApiOptions { get; set; }
-
-    [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.MessageQueue)]
-    public IntegrationTargetMessageQueueOptions? MessageQueueOptions { get; set; }
-
-    [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.NoxEntity)]
-    public IntegrationTargetEntityOptions? EntityOptions { get; set; }
+    //Uncomment when implemented
+    // [AdditionalProperties(false)]
+    // [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.StoredProcedure)]
+    // public IntegrationTargetStoredProcedureOptions? StoredProcedureOptions { get; set; }
+    //
+    // [AdditionalProperties(false)]
+    // [IfEquals(nameof(TargetAdapterType),IntegrationTargetAdapterType.File)]
+    // public IntegrationTargetFileOptions? FileOptions { get; set; }
+    //
+    // [AdditionalProperties(false)]
+    // [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.WebApi)]
+    // public IntegrationTargetWebApiOptions? WebApiOptions { get; set; }
+    //
+    // [AdditionalProperties(false)]
+    // [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.MessageQueue)]
+    // public IntegrationTargetMessageQueueOptions? MessageQueueOptions { get; set; }
+    //
+    // [AdditionalProperties(false)]
+    // [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.NoxEntity)]
+    // public IntegrationTargetEntityOptions? EntityOptions { get; set; }
 }

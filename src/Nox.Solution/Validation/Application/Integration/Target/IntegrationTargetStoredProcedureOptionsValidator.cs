@@ -10,10 +10,11 @@ internal class IntegrationTargetStoredProcedureOptionsValidator: AbstractValidat
             .NotEqual(false)
             .WithMessage(e => string.Format(ValidationResources.IntegrationTargetStoredProcedureOptionsDefaultsFalse, integrationName));
         
-        RuleFor(opt => opt!.StoredProcedure)
-            .NotEmpty()
-            .WithMessage(opt => string.Format(ValidationResources.IntegrationTargetStoredProcedureOptionsStoredProcEmpty, integrationName))
-            .When(_ => adapterType == IntegrationTargetAdapterType.StoredProcedure);
+        //Uncomment when implemented
+        // RuleFor(opt => opt!.StoredProcedure)
+        //     .NotEmpty()
+        //     .WithMessage(opt => string.Format(ValidationResources.IntegrationTargetStoredProcedureOptionsStoredProcEmpty, integrationName))
+        //     .When(_ => adapterType == IntegrationTargetAdapterType.StoredProcedure);
         
         RuleFor(opt => opt!.SchemaName)
             .NotEmpty()

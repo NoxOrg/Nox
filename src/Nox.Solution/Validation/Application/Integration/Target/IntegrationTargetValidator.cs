@@ -20,7 +20,7 @@ namespace Nox.Solution.Validation
 
             RuleFor(p => p.TargetAdapterType)
                 .IsInEnum()
-                .WithMessage(p => string.Format(ValidationResources.IntegrationTargetTypeEmpty, p.Name, integrationName, IntegrationTargetAdapterType.File.ToNameList()));
+                .WithMessage(p => string.Format(ValidationResources.IntegrationTargetTypeEmpty, p.Name, integrationName, IntegrationTargetAdapterType.DatabaseTable.ToNameList()));
             
             //Data Connection required when adapter type != entity
             RuleFor(p => p.DataConnectionName)
@@ -36,33 +36,34 @@ namespace Nox.Solution.Validation
                 .SetValidator(target => new IntegrationTargetTableOptionsValidator(integrationName, target.TargetAdapterType, GetDataConnectionProvider(target.DataConnectionName)))
                 .When(target => target?.TargetAdapterType is IntegrationTargetAdapterType.DatabaseTable);
             
-            //Stored Procedure options required when adapter type == StoredProcedure
-            RuleFor(target => target!.StoredProcedureOptions)
-                .NotNull()
-                .WithMessage(target => string.Format(ValidationResources.IntegrationTargetStoredProcedureOptionsEmpty, target!.Name, integrationName))
-                .SetValidator(target => new IntegrationTargetStoredProcedureOptionsValidator(integrationName, target.TargetAdapterType, GetDataConnectionProvider(target.DataConnectionName)))
-                .When(target => target?.TargetAdapterType is IntegrationTargetAdapterType.StoredProcedure);
-            
-            //File options required when adapter type == File
-            RuleFor(target => target!.FileOptions)
-                .NotNull()
-                .WithMessage(target => string.Format(ValidationResources.IntegrationTargetFileOptionsEmpty, target!.Name, integrationName))
-                .SetValidator(target => new IntegrationTargetFileOptionsValidator(integrationName))
-                .When(target => target?.TargetAdapterType == IntegrationTargetAdapterType.File);
-            
-            //Message queue options required when adapter type == MessageQueue
-            RuleFor(target => target!.MessageQueueOptions)
-                .NotNull()
-                .WithMessage(target => string.Format(ValidationResources.IntegrationTargetMsgQueueOptionsEmpty, target!.Name, integrationName))
-                .SetValidator(target => new IntegrationTargetMessageQueueOptionsValidator(integrationName))
-                .When(target => target?.TargetAdapterType == IntegrationTargetAdapterType.MessageQueue);
-
-            //WebApi options required when adapter type == WebApi
-            RuleFor(target => target!.WebApiOptions)
-                .NotNull()
-                .WithMessage(target => string.Format(ValidationResources.IntegrationTargetHttpOptionsEmpty, target!.Name, integrationName))
-                .SetValidator(target => new IntegrationTargetHttpOptionsValidator(integrationName))
-                .When(target => target?.TargetAdapterType == IntegrationTargetAdapterType.WebApi);
+            //Uncomment when implemented
+            // //Stored Procedure options required when adapter type == StoredProcedure
+            // RuleFor(target => target!.StoredProcedureOptions)
+            //     .NotNull()
+            //     .WithMessage(target => string.Format(ValidationResources.IntegrationTargetStoredProcedureOptionsEmpty, target!.Name, integrationName))
+            //     .SetValidator(target => new IntegrationTargetStoredProcedureOptionsValidator(integrationName, target.TargetAdapterType, GetDataConnectionProvider(target.DataConnectionName)))
+            //     .When(target => target?.TargetAdapterType is IntegrationTargetAdapterType.StoredProcedure);
+            //
+            // //File options required when adapter type == File
+            // RuleFor(target => target!.FileOptions)
+            //     .NotNull()
+            //     .WithMessage(target => string.Format(ValidationResources.IntegrationTargetFileOptionsEmpty, target!.Name, integrationName))
+            //     .SetValidator(target => new IntegrationTargetFileOptionsValidator(integrationName))
+            //     .When(target => target?.TargetAdapterType == IntegrationTargetAdapterType.File);
+            //
+            // //Message queue options required when adapter type == MessageQueue
+            // RuleFor(target => target!.MessageQueueOptions)
+            //     .NotNull()
+            //     .WithMessage(target => string.Format(ValidationResources.IntegrationTargetMsgQueueOptionsEmpty, target!.Name, integrationName))
+            //     .SetValidator(target => new IntegrationTargetMessageQueueOptionsValidator(integrationName))
+            //     .When(target => target?.TargetAdapterType == IntegrationTargetAdapterType.MessageQueue);
+            //
+            // //WebApi options required when adapter type == WebApi
+            // RuleFor(target => target!.WebApiOptions)
+            //     .NotNull()
+            //     .WithMessage(target => string.Format(ValidationResources.IntegrationTargetHttpOptionsEmpty, target!.Name, integrationName))
+            //     .SetValidator(target => new IntegrationTargetHttpOptionsValidator(integrationName))
+            //     .When(target => target?.TargetAdapterType == IntegrationTargetAdapterType.WebApi);
             
         }
         
