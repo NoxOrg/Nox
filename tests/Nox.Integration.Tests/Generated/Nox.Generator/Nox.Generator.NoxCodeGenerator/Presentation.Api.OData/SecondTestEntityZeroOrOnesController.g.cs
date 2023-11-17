@@ -95,7 +95,6 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         testEntityZeroOrOne.SecondTestEntityZeroOrOneId = key;
         var createdKey = await _mediator.Send(new CreateTestEntityZeroOrOneCommand(testEntityZeroOrOne, _cultureCode));
         

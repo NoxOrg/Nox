@@ -99,7 +99,6 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         testEntityTwoRelationshipsManyToMany.TestRelationshipOneId = new List<System.String> { key };
         var createdKey = await _mediator.Send(new CreateTestEntityTwoRelationshipsManyToManyCommand(testEntityTwoRelationshipsManyToMany, _cultureCode));
         
@@ -272,7 +271,6 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         testEntityTwoRelationshipsManyToMany.TestRelationshipTwoId = new List<System.String> { key };
         var createdKey = await _mediator.Send(new CreateTestEntityTwoRelationshipsManyToManyCommand(testEntityTwoRelationshipsManyToMany, _cultureCode));
         

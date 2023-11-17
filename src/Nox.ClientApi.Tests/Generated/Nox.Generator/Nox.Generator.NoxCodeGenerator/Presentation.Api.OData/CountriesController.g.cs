@@ -351,7 +351,6 @@ public abstract partial class CountriesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         workplace.CountryId = key;
         var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
         

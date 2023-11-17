@@ -99,7 +99,6 @@ public abstract partial class TestEntityZeroOrManiesControllerBase : ODataContro
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         secondTestEntityZeroOrMany.TestEntityZeroOrManiesId = new List<System.String> { key };
         var createdKey = await _mediator.Send(new CreateSecondTestEntityZeroOrManyCommand(secondTestEntityZeroOrMany, _cultureCode));
         

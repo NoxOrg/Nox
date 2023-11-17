@@ -63,7 +63,6 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         vendingMachine.CashStockOrdersId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
         
@@ -141,7 +140,6 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         employee.CashStockOrderId = key;
         var createdKey = await _mediator.Send(new CreateEmployeeCommand(employee, _cultureCode));
         

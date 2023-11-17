@@ -63,7 +63,6 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         secondTestEntityExactlyOne.TestEntityExactlyOneId = key;
         var createdKey = await _mediator.Send(new CreateSecondTestEntityExactlyOneCommand(secondTestEntityExactlyOne, _cultureCode));
         

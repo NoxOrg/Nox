@@ -236,7 +236,6 @@ public abstract partial class EmployeesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         cashStockOrder.EmployeeId = key;
         var createdKey = await _mediator.Send(new CreateCashStockOrderCommand(cashStockOrder, _cultureCode));
         

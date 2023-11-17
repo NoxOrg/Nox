@@ -99,7 +99,6 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         vendingMachine.MinimumCashStocksId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
         
@@ -236,7 +235,6 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         currency.MinimumCashStocksId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency, _cultureCode));
         

@@ -63,7 +63,6 @@ public abstract partial class BookingsControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         customer.BookingsId = new List<System.Guid> { key };
         var createdKey = await _mediator.Send(new CreateCustomerCommand(customer, _cultureCode));
         
@@ -141,7 +140,6 @@ public abstract partial class BookingsControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         vendingMachine.BookingsId = new List<System.Guid> { key };
         var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
         
@@ -219,7 +217,6 @@ public abstract partial class BookingsControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         commission.BookingsId = new List<System.Guid> { key };
         var createdKey = await _mediator.Send(new CreateCommissionCommand(commission, _cultureCode));
         
@@ -297,7 +294,6 @@ public abstract partial class BookingsControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         transaction.BookingId = key;
         var createdKey = await _mediator.Send(new CreateTransactionCommand(transaction, _cultureCode));
         

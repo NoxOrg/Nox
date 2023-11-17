@@ -340,7 +340,6 @@ public abstract partial class CountriesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         currency.CountriesId = new List<System.String> { key };
         var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency, _cultureCode));
         
@@ -438,7 +437,6 @@ public abstract partial class CountriesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         commission.CountryId = key;
         var createdKey = await _mediator.Send(new CreateCommissionCommand(commission, _cultureCode));
         
@@ -589,7 +587,6 @@ public abstract partial class CountriesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         vendingMachine.CountryId = key;
         var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
         
@@ -762,7 +759,6 @@ public abstract partial class CountriesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         customer.CountryId = key;
         var createdKey = await _mediator.Send(new CreateCustomerCommand(customer, _cultureCode));
         

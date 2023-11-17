@@ -100,7 +100,6 @@ public abstract partial class StoresControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         storeOwner.StoresId = new List<System.Guid> { key };
         var createdKey = await _mediator.Send(new CreateStoreOwnerCommand(storeOwner, _cultureCode));
         
@@ -233,7 +232,6 @@ public abstract partial class StoresControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         storeLicense.StoreId = key;
         var createdKey = await _mediator.Send(new CreateStoreLicenseCommand(storeLicense, _cultureCode));
         

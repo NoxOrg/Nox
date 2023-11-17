@@ -360,7 +360,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         country.CurrencyId = key;
         var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
         
@@ -511,7 +510,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         minimumCashStock.CurrencyId = key;
         var createdKey = await _mediator.Send(new CreateMinimumCashStockCommand(minimumCashStock, _cultureCode));
         

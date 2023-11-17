@@ -95,7 +95,6 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         country.WorkplacesId = new List<System.UInt32> { key };
         var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
         
@@ -232,7 +231,6 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         tenant.WorkplacesId = new List<System.UInt32> { key };
         var createdKey = await _mediator.Send(new CreateTenantCommand(tenant, _cultureCode));
         
