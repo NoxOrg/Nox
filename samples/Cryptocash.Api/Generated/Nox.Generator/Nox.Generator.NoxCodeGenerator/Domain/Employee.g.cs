@@ -137,35 +137,35 @@ internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcu
     public virtual void DeleteAllRefToCashStockOrder()
     {
         CashStockOrder = null;
-    }
+    }﻿
 
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
-    public virtual List<EmployeePhoneNumber> EmployeeContactPhoneNumbers { get; private set; } = new();
+    public virtual List<EmployeePhoneNumber> EmployeePhoneNumbers { get; private set; } = new();
     
     /// <summary>
     /// Creates a new EmployeePhoneNumber entity.
     /// </summary>
-    public virtual void CreateRefToEmployeeContactPhoneNumbers(EmployeePhoneNumber relatedEmployeePhoneNumber)
+    public virtual void CreateRefToEmployeePhoneNumbers(EmployeePhoneNumber relatedEmployeePhoneNumber)
     {
-        EmployeeContactPhoneNumbers.Add(relatedEmployeePhoneNumber);
+        EmployeePhoneNumbers.Add(relatedEmployeePhoneNumber);
     }
     
     /// <summary>
     /// Deletes owned EmployeePhoneNumber entity.
     /// </summary>
-    public virtual void DeleteRefToEmployeeContactPhoneNumbers(EmployeePhoneNumber relatedEmployeePhoneNumber)
+    public virtual void DeleteRefToEmployeePhoneNumbers(EmployeePhoneNumber relatedEmployeePhoneNumber)
     {
-        EmployeeContactPhoneNumbers.Remove(relatedEmployeePhoneNumber);
+        EmployeePhoneNumbers.Remove(relatedEmployeePhoneNumber);
     }
     
     /// <summary>
     /// Deletes all owned EmployeePhoneNumber entities.
     /// </summary>
-    public virtual void DeleteAllRefToEmployeeContactPhoneNumbers()
+    public virtual void DeleteAllRefToEmployeePhoneNumbers()
     {
-        EmployeeContactPhoneNumbers.Clear();
+        EmployeePhoneNumbers.Clear();
     }
 
     /// <summary>

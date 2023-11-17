@@ -1,4 +1,5 @@
-﻿﻿// Generated
+﻿﻿
+﻿// Generated
 
 #nullable enable
 
@@ -48,13 +49,13 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 		{
 			return false;
 		}
-		var entity = parentEntity.VerifiedEmails;
+		var entity = parentEntity.EmailAddress;
 		if (entity == null)
 		{
 			return false;
 		}
 
-		parentEntity.DeleteRefToVerifiedEmails(entity);
+		parentEntity.DeleteRefToEmailAddress(entity);
 
 		await OnCompletedAsync(request, entity);
 

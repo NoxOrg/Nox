@@ -87,35 +87,35 @@ internal abstract partial class TestEntityOwnedRelationshipZeroOrManyBase : Audi
     public virtual void ClearDomainEvents()
     {
         InternalDomainEvents.Clear();
-    }
+    }﻿
 
     /// <summary>
     /// TestEntityOwnedRelationshipZeroOrMany Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrMany ZeroOrMany SecondTestEntityOwnedRelationshipZeroOrManies
     /// </summary>
-    public virtual List<SecondTestEntityOwnedRelationshipZeroOrMany> SecondTestEntityOwnedRelationshipZeroOrMany { get; private set; } = new();
+    public virtual List<SecondTestEntityOwnedRelationshipZeroOrMany> SecondTestEntityOwnedRelationshipZeroOrManies { get; private set; } = new();
     
     /// <summary>
     /// Creates a new SecondTestEntityOwnedRelationshipZeroOrMany entity.
     /// </summary>
-    public virtual void CreateRefToSecondTestEntityOwnedRelationshipZeroOrMany(SecondTestEntityOwnedRelationshipZeroOrMany relatedSecondTestEntityOwnedRelationshipZeroOrMany)
+    public virtual void CreateRefToSecondTestEntityOwnedRelationshipZeroOrManies(SecondTestEntityOwnedRelationshipZeroOrMany relatedSecondTestEntityOwnedRelationshipZeroOrMany)
     {
-        SecondTestEntityOwnedRelationshipZeroOrMany.Add(relatedSecondTestEntityOwnedRelationshipZeroOrMany);
+        SecondTestEntityOwnedRelationshipZeroOrManies.Add(relatedSecondTestEntityOwnedRelationshipZeroOrMany);
     }
     
     /// <summary>
     /// Deletes owned SecondTestEntityOwnedRelationshipZeroOrMany entity.
     /// </summary>
-    public virtual void DeleteRefToSecondTestEntityOwnedRelationshipZeroOrMany(SecondTestEntityOwnedRelationshipZeroOrMany relatedSecondTestEntityOwnedRelationshipZeroOrMany)
+    public virtual void DeleteRefToSecondTestEntityOwnedRelationshipZeroOrManies(SecondTestEntityOwnedRelationshipZeroOrMany relatedSecondTestEntityOwnedRelationshipZeroOrMany)
     {
-        SecondTestEntityOwnedRelationshipZeroOrMany.Remove(relatedSecondTestEntityOwnedRelationshipZeroOrMany);
+        SecondTestEntityOwnedRelationshipZeroOrManies.Remove(relatedSecondTestEntityOwnedRelationshipZeroOrMany);
     }
     
     /// <summary>
     /// Deletes all owned SecondTestEntityOwnedRelationshipZeroOrMany entities.
     /// </summary>
-    public virtual void DeleteAllRefToSecondTestEntityOwnedRelationshipZeroOrMany()
+    public virtual void DeleteAllRefToSecondTestEntityOwnedRelationshipZeroOrManies()
     {
-        SecondTestEntityOwnedRelationshipZeroOrMany.Clear();
+        SecondTestEntityOwnedRelationshipZeroOrManies.Clear();
     }
 
     /// <summary>

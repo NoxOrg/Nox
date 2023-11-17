@@ -87,7 +87,7 @@ internal abstract partial class TestEntityOwnedRelationshipExactlyOneBase : Audi
     public virtual void ClearDomainEvents()
     {
         InternalDomainEvents.Clear();
-    }
+    }﻿
 
     /// <summary>
     /// TestEntityOwnedRelationshipExactlyOne Test entity relationship to SecondTestEntityOwnedRelationshipExactlyOne ExactlyOne SecondTestEntityOwnedRelationshipExactlyOnes
