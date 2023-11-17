@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Nox.Generator.Tasks\Nox.Generator.Tasks.csproj" />
+    <ProjectReference Include="..\..\src\Nox.Generator.Tasks\Nox.Generator.Tasks.csproj" />
   </ItemGroup>
 
 </Project>
