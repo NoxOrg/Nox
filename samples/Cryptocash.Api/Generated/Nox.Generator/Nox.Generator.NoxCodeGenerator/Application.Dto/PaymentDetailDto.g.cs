@@ -64,21 +64,21 @@ public abstract class PaymentDetailDtoBase : EntityDtoBase, IEntityDto<DomainNam
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Payment account name 
-    /// <remarks>Required.</remarks>    
+    /// Payment account name     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String PaymentAccountName { get; set; } = default!;
 
     /// <summary>
-    /// Payment account reference number 
-    /// <remarks>Required.</remarks>    
+    /// Payment account reference number     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String PaymentAccountNumber { get; set; } = default!;
 
     /// <summary>
-    /// Payment account sort code 
-    /// <remarks>Optional.</remarks>    
+    /// Payment account sort code     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? PaymentAccountSortCode { get; set; }
 
     /// <summary>

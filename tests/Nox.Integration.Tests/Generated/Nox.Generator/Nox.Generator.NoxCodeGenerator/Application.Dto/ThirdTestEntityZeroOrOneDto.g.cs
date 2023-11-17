@@ -57,9 +57,9 @@ public abstract class ThirdTestEntityZeroOrOneDtoBase : EntityDtoBase, IEntityDt
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String TextTestField2 { get; set; } = default!;
 
     /// <summary>

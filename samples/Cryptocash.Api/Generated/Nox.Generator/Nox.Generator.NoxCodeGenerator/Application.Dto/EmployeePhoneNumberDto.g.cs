@@ -62,14 +62,14 @@ public abstract class EmployeePhoneNumberDtoBase : EntityDtoBase, IEntityDto<Dom
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Employee's phone number type 
-    /// <remarks>Required.</remarks>    
+    /// Employee's phone number type     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String PhoneNumberType { get; set; } = default!;
 
     /// <summary>
-    /// Employee's phone number 
-    /// <remarks>Required.</remarks>    
+    /// Employee's phone number     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String PhoneNumber { get; set; } = default!;
 }

@@ -51,15 +51,15 @@ internal record TestEntityZeroOrManyToOneOrManyDeleted(TestEntityZeroOrManyToOne
 internal abstract partial class TestEntityZeroOrManyToOneOrManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

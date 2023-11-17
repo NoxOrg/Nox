@@ -26,9 +26,9 @@ public partial class TestEntityWithNuidUpdateDto : TestEntityWithNuidUpdateDtoBa
 public partial class TestEntityWithNuidUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityWithNuid>
 {
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;

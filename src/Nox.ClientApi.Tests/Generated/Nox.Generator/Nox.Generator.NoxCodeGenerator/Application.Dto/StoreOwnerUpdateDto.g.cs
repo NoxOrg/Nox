@@ -26,37 +26,37 @@ public partial class StoreOwnerUpdateDto : StoreOwnerUpdateDtoBase
 public partial class StoreOwnerUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.StoreOwner>
 {
     /// <summary>
-    /// Owner Name 
-    /// <remarks>Required.</remarks>    
+    /// Owner Name     
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;
     /// <summary>
-    /// Temporary Owner Name 
-    /// <remarks>Required.</remarks>    
+    /// Temporary Owner Name     
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "TemporaryOwnerName is required")]
     
     public virtual System.String TemporaryOwnerName { get; set; } = default!;
     /// <summary>
-    /// Vat Number 
-    /// <remarks>Optional.</remarks>    
+    /// Vat Number     
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public virtual VatNumberDto? VatNumber { get; set; }
     /// <summary>
-    /// Street Address 
-    /// <remarks>Optional.</remarks>    
+    /// Street Address     
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public virtual StreetAddressDto? StreetAddress { get; set; }
     /// <summary>
-    /// Owner Greeting 
-    /// <remarks>Optional.</remarks>    
+    /// Owner Greeting     
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public virtual TranslatedTextDto? LocalGreeting { get; set; }
     /// <summary>
-    /// Notes 
-    /// <remarks>Optional.</remarks>    
+    /// Notes     
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public virtual System.String? Notes { get; set; }
 }

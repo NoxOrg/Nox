@@ -75,51 +75,51 @@ public abstract class BookingDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     public System.Guid Id { get; set; } = default!;
 
     /// <summary>
-    /// Booking's amount exchanged from 
-    /// <remarks>Required.</remarks>    
+    /// Booking's amount exchanged from     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public MoneyDto AmountFrom { get; set; } = default!;
 
     /// <summary>
-    /// Booking's amount exchanged to 
-    /// <remarks>Required.</remarks>    
+    /// Booking's amount exchanged to     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public MoneyDto AmountTo { get; set; } = default!;
 
     /// <summary>
-    /// Booking's requested pick up date 
-    /// <remarks>Required.</remarks>    
+    /// Booking's requested pick up date     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public DateTimeRangeDto RequestedPickUpDate { get; set; } = default!;
 
     /// <summary>
-    /// Booking's actual pick up date 
-    /// <remarks>Optional.</remarks>    
+    /// Booking's actual pick up date     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public DateTimeRangeDto? PickedUpDateTime { get; set; }
 
     /// <summary>
-    /// Booking's expiry date 
-    /// <remarks>Optional.</remarks>    
+    /// Booking's expiry date     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.DateTimeOffset? ExpiryDateTime { get; set; }
 
     /// <summary>
-    /// Booking's cancelled date 
-    /// <remarks>Optional.</remarks>    
+    /// Booking's cancelled date     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.DateTimeOffset? CancelledDateTime { get; set; }
 
     /// <summary>
-    /// Booking's status 
-    /// <remarks>Optional.</remarks>    
+    /// Booking's status     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? Status { get; set; }
 
     /// <summary>
-    /// Booking's related vat number 
-    /// <remarks>Optional.</remarks>    
+    /// Booking's related vat number     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public VatNumberDto? VatNumber { get; set; }
 
     /// <summary>

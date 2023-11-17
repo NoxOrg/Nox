@@ -71,33 +71,33 @@ public abstract class TestEntityForUniqueConstraintsDtoBase : EntityDtoBase, IEn
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String TextField { get; set; } = default!;
 
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.Int16 NumberField { get; set; } = default!;
 
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.Int16 UniqueNumberField { get; set; } = default!;
 
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String UniqueCountryCode { get; set; } = default!;
 
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String UniqueCurrencyCode { get; set; } = default!;
 
     [JsonPropertyName("@odata.etag")]

@@ -62,15 +62,15 @@ public abstract class PaymentProviderDtoBase : EntityDtoBase, IEntityDto<DomainN
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Payment provider name 
-    /// <remarks>Required.</remarks>    
+    /// Payment provider name     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String PaymentProviderName { get; set; } = default!;
 
     /// <summary>
-    /// Payment provider account type 
-    /// <remarks>Required.</remarks>    
+    /// Payment provider account type     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String PaymentProviderType { get; set; } = default!;
 
     /// <summary>

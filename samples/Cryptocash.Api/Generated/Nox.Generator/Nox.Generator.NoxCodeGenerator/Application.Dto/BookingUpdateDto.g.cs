@@ -26,44 +26,44 @@ public partial class BookingUpdateDto : BookingUpdateDtoBase
 public partial class BookingUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Booking>
 {
     /// <summary>
-    /// Booking's amount exchanged from 
-    /// <remarks>Required.</remarks>    
+    /// Booking's amount exchanged from     
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "AmountFrom is required")]
     
     public virtual MoneyDto AmountFrom { get; set; } = default!;
     /// <summary>
-    /// Booking's amount exchanged to 
-    /// <remarks>Required.</remarks>    
+    /// Booking's amount exchanged to     
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "AmountTo is required")]
     
     public virtual MoneyDto AmountTo { get; set; } = default!;
     /// <summary>
-    /// Booking's requested pick up date 
-    /// <remarks>Required.</remarks>    
+    /// Booking's requested pick up date     
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "RequestedPickUpDate is required")]
     
     public virtual DateTimeRangeDto RequestedPickUpDate { get; set; } = default!;
     /// <summary>
-    /// Booking's actual pick up date 
-    /// <remarks>Optional.</remarks>    
+    /// Booking's actual pick up date     
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public virtual DateTimeRangeDto? PickedUpDateTime { get; set; }
     /// <summary>
-    /// Booking's expiry date 
-    /// <remarks>Optional.</remarks>    
+    /// Booking's expiry date     
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public virtual System.DateTimeOffset? ExpiryDateTime { get; set; }
     /// <summary>
-    /// Booking's cancelled date 
-    /// <remarks>Optional.</remarks>    
+    /// Booking's cancelled date     
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public virtual System.DateTimeOffset? CancelledDateTime { get; set; }
     /// <summary>
-    /// Booking's related vat number 
-    /// <remarks>Optional.</remarks>    
+    /// Booking's related vat number     
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public virtual VatNumberDto? VatNumber { get; set; }
 }
