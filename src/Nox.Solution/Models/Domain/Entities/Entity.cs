@@ -127,7 +127,7 @@ public class Entity : DefinitionBase
     {
         EnsureAttributesByName();
         EnsureKeyByName();
-        EnsureRelationshipPublicNames();
+        EnsureNavigationPropertyName();
 
         foreach (var attribute in Attributes)
         {
@@ -267,7 +267,7 @@ public class Entity : DefinitionBase
         }
     }
 
-    private void EnsureRelationshipPublicNames()
+    private void EnsureNavigationPropertyName()
     {
         if (_relationshipNavigationPropertyName is not null)
             return;
