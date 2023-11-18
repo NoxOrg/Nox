@@ -170,35 +170,35 @@ internal abstract partial class StoreBase : AuditableEntityBase, IEntityConcurre
     public virtual void DeleteAllRefToStoreLicense()
     {
         StoreLicense = null;
-    }
+    }﻿
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
-    public virtual EmailAddress? VerifiedEmails { get; private set; }
+    public virtual EmailAddress? EmailAddress { get; private set; }
     
     /// <summary>
     /// Creates a new EmailAddress entity.
     /// </summary>
-    public virtual void CreateRefToVerifiedEmails(EmailAddress relatedEmailAddress)
+    public virtual void CreateRefToEmailAddress(EmailAddress relatedEmailAddress)
     {
-        VerifiedEmails = relatedEmailAddress;
+        EmailAddress = relatedEmailAddress;
     }
     
     /// <summary>
     /// Deletes owned EmailAddress entity.
     /// </summary>
-    public virtual void DeleteRefToVerifiedEmails(EmailAddress relatedEmailAddress)
+    public virtual void DeleteRefToEmailAddress(EmailAddress relatedEmailAddress)
     {
-        VerifiedEmails = null;
+        EmailAddress = null;
     }
     
     /// <summary>
     /// Deletes all owned EmailAddress entities.
     /// </summary>
-    public virtual void DeleteAllRefToVerifiedEmails()
+    public virtual void DeleteAllRefToEmailAddress()
     {
-        VerifiedEmails = null;
+        EmailAddress = null;
     }
 
     /// <summary>

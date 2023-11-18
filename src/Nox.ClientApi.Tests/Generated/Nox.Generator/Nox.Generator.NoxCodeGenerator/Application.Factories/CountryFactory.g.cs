@@ -66,7 +66,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         entity.SetIfNotNull(createDto.GoogleMapsUrl, (entity) => entity.GoogleMapsUrl =ClientApi.Domain.CountryMetadata.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.StartOfWeek, (entity) => entity.StartOfWeek =ClientApi.Domain.CountryMetadata.CreateStartOfWeek(createDto.StartOfWeek.NonNullValue<System.UInt16>()));
         entity.SetIfNotNull(createDto.Continent, (entity) => entity.Continent =ClientApi.Domain.CountryMetadata.CreateContinent(createDto.Continent.NonNullValue<System.Int32>()));
-        createDto.CountryShortNames.ForEach(dto => entity.CreateRefToCountryShortNames(CountryLocalNameFactory.CreateEntity(dto)));
+        createDto.CountryLocalNames.ForEach(dto => entity.CreateRefToCountryLocalNames(CountryLocalNameFactory.CreateEntity(dto)));
         if (createDto.CountryBarCode is not null)
         {
             entity.CreateRefToCountryBarCode(CountryBarCodeFactory.CreateEntity(createDto.CountryBarCode));

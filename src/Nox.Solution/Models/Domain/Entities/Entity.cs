@@ -272,18 +272,20 @@ public class Entity : DefinitionBase
         if (_relationshipNavigationPropertyName is not null)
             return;
 
+        var allRelationships = Relationships.Union(OwnedRelationships).ToList();
+
         _relationshipNavigationPropertyName = new();
-        for (int i = 0; i < Relationships!.Count; i++)
+        for (int i = 0; i < allRelationships!.Count; i++)
         {
             string name;
-            if (Relationships.Count(rel => rel.Entity == Relationships[i].Entity) == 1)
-                name = Relationships[i].WithSingleEntity() 
-                    ? Relationships[i].Entity 
-                    : Relationships[i].EntityPlural;
+            if (allRelationships.Count(rel => rel.Entity == allRelationships[i].Entity) == 1)
+                name = allRelationships[i].WithSingleEntity() 
+                    ? allRelationships[i].Entity 
+                    : allRelationships[i].EntityPlural;
             else
-                name = Relationships[i].Name;
+                name = allRelationships[i].Name;
 
-            _relationshipNavigationPropertyName.Add(Relationships[i], name);
+            _relationshipNavigationPropertyName.Add(allRelationships[i], name);
         }
     }
 

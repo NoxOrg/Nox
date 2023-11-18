@@ -182,13 +182,14 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
     private static void GeneratePrivateChildrenGetById(NoxSolution solution, EntityRelationship relationship, Entity child, Entity parent, CodeBuilder code)
     {
-        code.AppendLine($"protected async Task<{child.Name}Dto?> TryGet{relationship.Name}({GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, {child.Name}KeyDto childKeyDto)");
+        var relationshipName = parent.GetNavigationPropertyName(relationship);
+        code.AppendLine($"protected async Task<{child.Name}Dto?> TryGet{relationshipName}({GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, {child.Name}KeyDto childKeyDto)");
 
         code.StartBlock();
         code.AppendLine($"var parent = (await _mediator.Send(new Get{parent.Name}ByIdQuery({GetPrimaryKeysQuery(parent)}))).SingleOrDefault();");
 
         var param = string.Join(" && ", child.Keys.Select(k => $"x.{k.Name} == childKeyDto.key{k.Name}"));
-        code.AppendLine($"return parent?.{relationship.Name}.SingleOrDefault(x => {param});");
+        code.AppendLine($"return parent?.{relationshipName}.SingleOrDefault(x => {param});");
 
         code.EndBlock();
         code.AppendLine();
@@ -196,9 +197,11 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
     private static void GenerateChildrenGetById(NoxSolution solution, EntityRelationship relationship, Entity child, Entity parent, CodeBuilder code)
     {
+        var relationshipName = parent.GetNavigationPropertyName(relationship);
+
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"[HttpGet(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
-        code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> Get{relationship.Name}NonConventional(" +
+        code.AppendLine($"[HttpGet(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationshipName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+        code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> Get{relationshipName}NonConventional(" +
             $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
             $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")})");
 
@@ -208,7 +211,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
 
-        code.AppendLine($"var child = await TryGet{relationship.Name}(" +
+        code.AppendLine($"var child = await TryGet{relationshipName}(" +
             $"{GetPrimaryKeysQuery(parent)}, " +
             $"new {child.Name}KeyDto({GetPrimaryKeysQuery(child, "relatedKey")}));");
         code.AppendLine($"if (child == null)");
@@ -226,12 +229,13 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     {
         var child = relationship.Related.Entity;
         var isSingleRelationship = relationship.WithSingleEntity();
+        var relationshipName = parent.GetNavigationPropertyName(relationship);
 
         code.AppendLine($"[EnableQuery]");
         if (isSingleRelationship)
-            code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> Get{relationship.Name}({GetPrimaryKeysRoute(parent, solution)})");
+            code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> Get{relationshipName}({GetPrimaryKeysRoute(parent, solution)})");
         else
-            code.AppendLine($"public virtual async Task<ActionResult<IQueryable<{child.Name}Dto>>> Get{relationship.Name}({GetPrimaryKeysRoute(parent, solution)})");
+            code.AppendLine($"public virtual async Task<ActionResult<IQueryable<{child.Name}Dto>>> Get{relationshipName}({GetPrimaryKeysRoute(parent, solution)})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -247,7 +251,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.EndBlock();
         code.AppendLine();
 
-        code.AppendLine($"return Ok(item.{relationship.Name});");
+        code.AppendLine($"return Ok(item.{relationshipName});");
 
         code.EndBlock();
         code.AppendLine();
@@ -257,8 +261,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     {
         var child = relationship.Related.Entity;
         var isSingleRelationship = relationship.WithSingleEntity();
+        var relationshipName = parent.GetNavigationPropertyName(relationship);
 
-        code.AppendLine($"public virtual async Task<ActionResult> PostTo{relationship.Name}({GetPrimaryKeysRoute(parent, solution)}, [FromBody] {child.Name}CreateDto {child.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public virtual async Task<ActionResult> PostTo{relationshipName}({GetPrimaryKeysRoute(parent, solution)}, [FromBody] {child.Name}CreateDto {child.Name.ToLowerFirstChar()})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -267,7 +272,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.EndBlock();
         code.AppendLine();
         code.AppendLine("var etag = Request.GetDecodedEtagHeader();");        
-        code.AppendLine($"var createdKey = await _mediator.Send(new Create{child.Name}For{parent.Name}Command(" +
+        code.AppendLine($"var createdKey = await _mediator.Send(new Create{relationshipName}For{parent.Name}Command(" +
             $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), {child.Name.ToLowerFirstChar()}, etag));");
         code.AppendLine($"if (createdKey == null)");
         code.StartBlock();
@@ -278,9 +283,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         if (isSingleRelationship)
             code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({GetPrimaryKeysQuery(parent)})))" +
                 $".SingleOrDefault()?" +
-                $".{relationship.Name};");
+                $".{relationshipName};");
         else
-            code.AppendLine($"var child = await TryGet{relationship.Name}({GetPrimaryKeysQuery(parent)}, createdKey);");
+            code.AppendLine($"var child = await TryGet{relationshipName}({GetPrimaryKeysQuery(parent)}, createdKey);");
 
         code.AppendLine($"if (child == null)");
         code.StartBlock();
@@ -297,16 +302,17 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     {
         var child = relationship.Related.Entity;
         var isSingleRelationship = relationship.WithSingleEntity();
+        var relationshipName = parent.GetNavigationPropertyName(relationship);
 
         if (isSingleRelationship)
         {
-            code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> PutTo{relationship.Name}(" +
+            code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> PutTo{relationshipName}(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
                 $"[FromBody] {child.Name}UpdateDto {child.Name.ToLowerFirstChar()})");
         }
         else
         {
-            code.AppendLine($"[HttpPut(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+            code.AppendLine($"[HttpPut(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationshipName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
             code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> PutTo{child.PluralName}NonConventional(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
                 $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")}, " +
@@ -322,11 +328,11 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
 
         if (isSingleRelationship)
-            code.AppendLine($"var updatedKey = await _mediator.Send(new Update{child.Name}For{parent.Name}Command(" +
+            code.AppendLine($"var updatedKey = await _mediator.Send(new Update{relationshipName}For{parent.Name}Command(" +
                     $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
                     $"{child.Name.ToLowerFirstChar()}, etag));");
         else
-            code.AppendLine($"var updatedKey = await _mediator.Send(new Update{child.Name}For{parent.Name}Command(" +
+            code.AppendLine($"var updatedKey = await _mediator.Send(new Update{relationshipName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
                 $"new {child.Name}KeyDto({GetPrimaryKeysQuery(child, "relatedKey")}), " +
                 $"{child.Name.ToLowerFirstChar()}, etag));");
@@ -340,9 +346,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         if (isSingleRelationship)
             code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({GetPrimaryKeysQuery(parent)})))" +
                 $".SingleOrDefault()?" +
-                $".{relationship.Name};");
+                $".{relationshipName};");
         else
-            code.AppendLine($"var child = await TryGet{relationship.Name}({GetPrimaryKeysQuery(parent)}, updatedKey);");
+            code.AppendLine($"var child = await TryGet{relationshipName}({GetPrimaryKeysQuery(parent)}, updatedKey);");
 
         code.AppendLine($"if (child == null)");
         code.StartBlock();
@@ -359,17 +365,18 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     {
         var child = relationship.Related.Entity;
         var isSingleRelationship = relationship.WithSingleEntity();
-        
+        var relationshipName = parent.GetNavigationPropertyName(relationship);
+
         // Method Patch
         if (isSingleRelationship)
         {
-            code.AppendLine($"public virtual async Task<ActionResult> PatchTo{relationship.Name}(" +
+            code.AppendLine($"public virtual async Task<ActionResult> PatchTo{relationshipName}(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
                 $"[FromBody] Delta<{child.Name}Dto> {child.Name.ToLowerFirstChar()})");
         }
         else
         {
-            code.AppendLine($"[HttpPatch(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+            code.AppendLine($"[HttpPatch(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationshipName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
             code.AppendLine($"public virtual async Task<ActionResult> PatchTo{child.PluralName}NonConventional(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
                 $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")}, " +
@@ -395,11 +402,11 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
 
         if (isSingleRelationship)
-            code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{child.Name}For{parent.Name}Command(" +
+            code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{relationshipName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
                 $"updateProperties, etag));");
         else
-            code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{child.Name}For{parent.Name}Command(" +
+            code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{relationshipName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
                 $"new {child.Name}KeyDto({GetPrimaryKeysQuery(child, "relatedKey")}), " +
                 $"updateProperties, etag));");
@@ -413,9 +420,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         if (isSingleRelationship)
             code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({GetPrimaryKeysQuery(parent)})))" +
                 $".SingleOrDefault()?" +
-                $".{relationship.Name};");
+                $".{relationshipName};");
         else
-            code.AppendLine($"var child = await TryGet{relationship.Name}({GetPrimaryKeysQuery(parent)}, updated);");
+            code.AppendLine($"var child = await TryGet{relationshipName}({GetPrimaryKeysQuery(parent)}, updated);");
 
         code.AppendLine($"if (child == null)");
         code.StartBlock();
@@ -433,16 +440,17 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     {
         var child = relationship.Related.Entity;
         var isSingleRelationship = relationship.WithSingleEntity();
+        var relationshipName = parent.GetNavigationPropertyName(relationship);
 
         if (isSingleRelationship) 
         {
-            code.AppendLine($"[HttpDelete(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}\")]");
+            code.AppendLine($"[HttpDelete(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationshipName}\")]");
             code.AppendLine($"public virtual async Task<ActionResult> Delete{child.Name}NonConventional(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")})");
         }
         else
         {
-            code.AppendLine($"[HttpDelete(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationship.Name}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+            code.AppendLine($"[HttpDelete(\"{solution.Infrastructure.Endpoints.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{relationshipName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
             code.AppendLine($"public virtual async Task<ActionResult> Delete{child.Name}NonConventional(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
                 $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")})");
@@ -455,10 +463,10 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.EndBlock();
 
         if (isSingleRelationship)
-            code.AppendLine($"var result = await _mediator.Send(new Delete{child.Name}For{parent.Name}Command(" +
+            code.AppendLine($"var result = await _mediator.Send(new Delete{relationshipName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)})));");
         else
-            code.AppendLine($"var result = await _mediator.Send(new Delete{child.Name}For{parent.Name}Command(" +
+            code.AppendLine($"var result = await _mediator.Send(new Delete{relationshipName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
                 $"new {child.Name}KeyDto({GetPrimaryKeysQuery(child, "relatedKey")})));");
 

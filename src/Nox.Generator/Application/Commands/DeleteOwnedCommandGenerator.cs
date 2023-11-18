@@ -17,12 +17,13 @@ internal class DeleteOwnedCommandGenerator : ApplicationEntityDependentGenerator
             foreach (var ownedRelationship in entity.OwnedRelationships)
             {
                 var ownedEntity = entities.Single(entity => entity.Name == ownedRelationship.Entity);
+                var relationshipName = entity.GetNavigationPropertyName(ownedRelationship);
 
                 var parentKeysFindQuery = string.Join(", ", entity.Keys.Select(k => $"key{k.Name}"));
                 var ownedKeysFindQuery = string.Join(" && ", ownedEntity.Keys.Select(k => $"x.{k.Name} == owned{k.Name}"));
 
                 new TemplateCodeBuilder(context, codeGeneratorState)
-                    .WithClassName($"Delete{ownedEntity.Name}For{entity.Name}Command")
+                    .WithClassName($"Delete{relationshipName}For{entity.Name}Command")
                     .WithFileNamePrefix($"Application.Commands")
                     .WithObject("relationship", ownedRelationship)
                     .WithObject("entity", ownedEntity)
