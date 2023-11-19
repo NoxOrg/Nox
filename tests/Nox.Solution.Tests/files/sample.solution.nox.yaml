@@ -419,7 +419,7 @@ application:
         dataConnectionName: SqlServerData
         targetAdapterType: entity
         entityOptions:
-          entity: Country
+          entityName: Country
         
         #  localization:
 #

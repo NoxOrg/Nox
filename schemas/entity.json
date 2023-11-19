@@ -200,7 +200,7 @@
       ],
       "items":   {
         "anyOf": [
-          { "$ref": "dto.json" },
+          { "$ref": "domainEvent.json" },
           {
             "additionalProperties": false, 
             "properties": {
@@ -240,7 +240,8 @@
             }
           }
         ]
-      }
+      },
+      "additionalProperties": false
     },
     "attributes": {    
       "title": "Attributes that describe this entity.",

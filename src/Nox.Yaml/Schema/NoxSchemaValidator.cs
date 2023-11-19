@@ -70,8 +70,7 @@ internal static class NoxSchemaValidator
             // Then if schema is valid it's neccessary to check whether we can deserialize
             if (validator.Errors.Any())
             {
-                var message = string.Join("\n", validator.Errors);
-                throw new NoxYamlException(message, validator.Errors);
+                throw new NoxYamlValidationException(validator.Errors);
             }
 
             yamlTypedObjectInstance = deserializer.Deserialize<T>(yaml);

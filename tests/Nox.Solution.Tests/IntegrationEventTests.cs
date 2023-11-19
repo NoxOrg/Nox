@@ -12,9 +12,16 @@ public class IntegrationEventTests
     {
         var solutionBuilder = new NoxSolutionBuilder().WithFile($"./files/{fileName}");
 
-        solutionBuilder
+        var exception = solutionBuilder
             .Invoking(solution => solution.Build())
-            .Should().Throw<NoxYamlException>()
-            .WithMessage("Missing property [\"trait\"] is required.*");
+            .Should().Throw<NoxYamlValidationException>()
+            .Which;
+
+        exception.Errors.Count
+            .Should().Be(1);
+
+        exception.Errors.First().ErrorMessage
+            .Should().Match("Missing property [\"trait\"] is required.*");
+
     }
 }

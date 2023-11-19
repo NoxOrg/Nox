@@ -130,9 +130,9 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
             ? new TFullType() 
             : ResolveAndLoadConfiguration();
         
-        SetAllDefaults(instance);
-        
         InitializeAll(instance);
+        
+        SetAllDefaults(instance);
 
         ValidateAll(instance);
 

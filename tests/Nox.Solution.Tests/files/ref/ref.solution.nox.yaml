@@ -94,7 +94,7 @@ application:
         dataConnectionName: SampleCurrencyDb
         targetAdapterType: entity
         entityOptions:
-            entity: Country 
+            entityName: Country 
 
 infrastructure:
   

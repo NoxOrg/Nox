@@ -14,5 +14,6 @@ public class IntegrationSourceDatabaseOptions
 
     [Title("The minimum expected record count.")]
     [Description("This integration will not run, as per scheduled, unless a minimum number of records in the source have changed.")]
+    [Minimum(1)]
     public int? MinimumExpectedRecords { get; set; } = 1;
 }

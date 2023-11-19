@@ -1,4 +1,5 @@
-﻿using Nox.Yaml.Attributes;
+﻿using Nox.Yaml;
+using Nox.Yaml.Attributes;
 using System.Diagnostics;
 
 namespace Nox.Types;
@@ -8,7 +9,7 @@ namespace Nox.Types;
 [Description("Nox simple types definition used throughout Nox.Solution project.")]
 [AdditionalProperties(false)]
 [DebuggerDisplay("{Name}, type: {Type} required: {IsRequired}")]
-public class NoxSimpleTypeDefinition
+public class NoxSimpleTypeDefinition : YamlConfigNode<object,object>
 {
     [Required]
     [Title("The name of the attribute. Contains no spaces.")]
@@ -140,10 +141,9 @@ public class NoxSimpleTypeDefinition
         return (NoxSimpleTypeDefinition)MemberwiseClone();
     }
 
-    internal void ApplyDefaults()
+    public override void SetDefaults(object topNode, object parentNode, string yamlPath)
     {
-        if (Type == NoxType.Text &&
-            TextTypeOptions == null)
+        if (Type == NoxType.Text && TextTypeOptions == null)
         {
             TextTypeOptions = new TextTypeOptions();
         }

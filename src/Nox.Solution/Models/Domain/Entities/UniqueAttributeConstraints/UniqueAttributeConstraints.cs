@@ -10,7 +10,7 @@ namespace Nox.Solution;
 [Title("Unique Attribute Constraint Definition")]
 [Description("Defines a unique constraint based on specific attributes.")]
 [AdditionalProperties(false)]
-public class UniqueAttributeConstraint : DefinitionBase
+public class UniqueAttributeConstraint
 {
     /// <summary>
     /// Gets or sets the unique name for the attribute constraint.
@@ -18,7 +18,7 @@ public class UniqueAttributeConstraint : DefinitionBase
     [Required]
     [Title("Constraint Name")]
     [Description("A unique name for the attribute constraint. Use PascalCase and choose a singular noun.")]
-    [Pattern(@"^[^\s]*$")]
+    [Pattern(Nox.Yaml.Constants.StringWithNoSpacesRegex)]
     public string Name { get; internal set; } = null!;
     
     /// <summary>

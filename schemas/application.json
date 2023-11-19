@@ -51,60 +51,19 @@
         }
       ],
       "items":   {
-        "oneOf": [
+        "anyOf": [
+          { "$ref": "dto.json" },
           {
-            "type": "object"
-          },
-          {
-            "type": "null"
-          }
-        ],
-        "required": [
-          "name",
-          "attributes"
-        ],
-        "properties": {
-          "name": {    
-            "title": "The name of the DTO. Contains no spaces.",
-            "description": "The name of the DTO. It should be a commonly used singular noun and be unique within a solution.",
-            "type": "string",
-            "pattern": "^[^\\s]*$"
-          },
-          "description": {    
-            "title": "The description of the DTO.",
-            "description": "A phrase describing the DTO and what it represents in the real world.",
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
+            "additionalProperties": false, 
+            "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^[^\\s]*$"
               }
-            ]
-          },
-          "attributes": {    
-            "title": "The attributes of which the DTO is comprised.",
-            "description": "One or more attributes describing the composition of the DTO.",
-            "type": "array",
-            "items":   {
-              "anyOf": [
-                { "$ref": "type.json" },
-                {
-                  "additionalProperties": false, 
-                  "properties": {
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri",
-                      "pattern": "^[^\\s]*$"
-                    }
-                  }
-                }
-              ]
-            },
-            "additionalProperties": false
+            }
           }
-        },
-        "additionalProperties": false
+        ]
       },
       "additionalProperties": false
     },
@@ -121,7 +80,7 @@
       ],
       "items":   {
         "anyOf": [
-          { "$ref": "dto.json" },
+          { "$ref": "integrationEvent.json" },
           {
             "additionalProperties": false, 
             "properties": {

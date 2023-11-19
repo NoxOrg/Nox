@@ -52,6 +52,7 @@
 
 	<ItemGroup>
 		<Folder Include="Generated\" />
+		<Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\" />
 	</ItemGroup>
 
 	<ItemGroup>

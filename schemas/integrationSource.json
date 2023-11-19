@@ -3,15 +3,12 @@
   "title": "Definition namespace for attributes describing the source component of an ETL integration.",
   "description": "This section details ETL source attributes like name, description, scheduling and watermark specifications.",
   "type": "object",
-  "required": [
-    "name",
-    "sourceAdapterType"
-  ],
   "anyOf": [
     {
       "required": [
         "name",
-        "sourceAdapterType"
+        "sourceAdapterType",
+        "databaseOptions"
       ],
       "properties": {
         "name": {    
@@ -38,14 +35,7 @@
         "databaseOptions": {    
           "title": "Definition namespace for a database integration source.",
           "description": "This section specified attributes related to an integration source of type Database. Attributes include the database query as well as minimum expected records.",
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
-          ],
+          "type": "object",
           "required": [
             "query"
           ],
@@ -60,7 +50,8 @@
               "description": "This integration will not run, as per scheduled, unless a minimum number of records in the source have changed.",
               "oneOf": [
                 {
-                  "type": "integer"
+                  "type": "integer",
+                  "minimum": 1
                 },
                 {
                   "type": "null"
@@ -139,7 +130,8 @@
     {
       "required": [
         "name",
-        "sourceAdapterType"
+        "sourceAdapterType",
+        "fileOptions"
       ],
       "properties": {
         "name": {    
@@ -166,14 +158,7 @@
         "fileOptions": {    
           "title": "Definition namespace for a file type integration source.",
           "description": "This section specified attributes related to an integration source of type File. Attributes include the name and attributes of the file to ingest.",
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
-          ],
+          "type": "object",
           "required": [
             "filename",
             "recordAttributes"
@@ -277,7 +262,8 @@
     {
       "required": [
         "name",
-        "sourceAdapterType"
+        "sourceAdapterType",
+        "messageQueueOptions"
       ],
       "properties": {
         "name": {    
@@ -304,14 +290,7 @@
         "messageQueueOptions": {    
           "title": "Definition namespace for a Message Queue integration source.",
           "description": "This section specified attributes related to an integration source of type Message Queue. Attributes include the name of the source queue or topic.",
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
-          ],
+          "type": "object",
           "required": [
             "sourceName",
             "messageAttributes"
@@ -415,7 +394,8 @@
     {
       "required": [
         "name",
-        "sourceAdapterType"
+        "sourceAdapterType",
+        "webApiOptions"
       ],
       "properties": {
         "name": {    
@@ -442,60 +422,35 @@
         "webApiOptions": {    
           "title": "Definition namespace for a web API integration source.",
           "description": "This section specified attributes related to an integration source of type web API. Attributes include the route, response format and http verb.",
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
-          ],
+          "type": "object",
           "required": [
+            "route",
+            "exchangeFormat",
+            "httpVerb",
             "responseAttributes"
           ],
           "properties": {
             "route": {    
               "title": "The path component for the request URI.",
               "description": "The path component for the request URI, e.g. '/myPath' in http://localhost:8081/myPath?myParameter=123.",
-              "oneOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ]
+              "type": "string"
             },
             "exchangeFormat": {    
               "title": "The Http exchange format.",
               "description": "The format of the Http response data payload, eg. Json, XML.",
-              "oneOf": [
-                {
-                  "type": "string",
-                  "enum": [
-                    "json",
-                    "xml"
-                  ]
-                },
-                {
-                  "type": "null"
-                }
+              "type": "string",
+              "enum": [
+                "json",
+                "xml"
               ]
             },
             "httpVerb": {    
               "title": "The Http request verb.",
               "description": "The relevant verb detailing the Http request type, i.e. GET, POST, etc.",
-              "oneOf": [
-                {
-                  "type": "string",
-                  "enum": [
-                    "get",
-                    "post"
-                  ]
-                },
-                {
-                  "type": "null"
-                }
+              "type": "string",
+              "enum": [
+                "get",
+                "post"
               ]
             },
             "responseAttributes": {    
@@ -591,7 +546,8 @@
     {
       "required": [
         "name",
-        "sourceAdapterType"
+        "sourceAdapterType",
+        "entityOptions"
       ],
       "properties": {
         "name": {    
@@ -618,19 +574,12 @@
         "entityOptions": {    
           "title": "Definition namespace for an entity integration target.",
           "description": "This section specified attributes related to an integration target of type Entity. Attributes include the entity name.",
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
-          ],
+          "type": "object",
           "required": [
-            "entity"
+            "entityName"
           ],
           "properties": {
-            "entity": {    
+            "entityName": {    
               "title": "The entity name.",
               "description": "The name of the entity to which data will be synchronized.",
               "type": "string"

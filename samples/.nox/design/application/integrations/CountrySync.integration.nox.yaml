@@ -30,5 +30,5 @@ target:
   dataConnectionName: CryptocashDb
   targetAdapterType: entity
   entityOptions:
-    entity: Country
+    entityName: Country
 

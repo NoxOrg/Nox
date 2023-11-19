@@ -1,7 +1,7 @@
 #
 # sample.solution.nox.yaml
 #
-# yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
+# yaml-language-server: $schema=../../../../schemas/solution.json
 #
 
 name: NoxSolutionTests
@@ -359,7 +359,7 @@ application:
         dataConnectionName: SampleCurrencyDb
         targetAdapterType: entity
         entityOptions:
-          entity: Country
+          entityName: Country
 
 infrastructure:
 

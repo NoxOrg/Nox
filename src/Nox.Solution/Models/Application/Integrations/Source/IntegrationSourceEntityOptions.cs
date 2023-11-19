@@ -9,6 +9,7 @@ public class IntegrationSourceEntityOptions
     [Required]
     [Title("The entity name.")]
     [Description("The name of the entity from which data will be synchronized.")]
+    [ExistInCollection(nameof(NoxSolution.Domain), nameof(NoxSolution.Domain.Entities), nameof(Entity.Name))]
     public string EntityName { get; set; } = null!;
     
     [Title("The minimum expected record count.")]

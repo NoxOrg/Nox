@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Defines a command that operates on the domain.",
-  "description": "Defines a command that operates on the domain. A Command has side effects and doesn't return a value.",
+  "title": "A complex nox type.",
+  "description": "Defines a complex nox type that includes simple types, objects, arrays and collections.",
   "oneOf": [
     {
       "type": "object"
@@ -13,29 +13,16 @@
   "anyOf": [
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -129,45 +116,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -332,16 +296,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -504,16 +458,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -642,16 +586,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -796,16 +730,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -986,16 +910,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -1122,16 +1036,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -1302,16 +1206,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -1459,16 +1353,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -1585,16 +1469,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -1770,16 +1644,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -1919,16 +1783,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -2080,16 +1934,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -2220,16 +2064,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -2383,16 +2217,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -2519,16 +2343,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -2699,16 +2513,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -2845,16 +2649,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -3209,16 +3003,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -3373,16 +3157,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -3519,16 +3293,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -3959,16 +3723,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -4113,16 +3867,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -4257,16 +4001,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -4444,16 +4178,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -4580,16 +4304,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -4739,16 +4453,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -4913,16 +4617,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -5306,16 +5000,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -5470,16 +5154,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -5650,16 +5324,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -5804,16 +5468,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -5948,16 +5602,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -6002,45 +5646,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -6205,16 +5826,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -6377,16 +5988,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -6515,16 +6116,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -6669,16 +6260,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -6859,16 +6440,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -6995,16 +6566,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -7175,16 +6736,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -7332,16 +6883,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -7458,16 +6999,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -7643,16 +7174,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -7792,16 +7313,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -7953,16 +7464,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -8093,16 +7594,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -8256,16 +7747,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -8392,16 +7873,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -8572,16 +8043,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -8718,16 +8179,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -9082,16 +8533,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -9246,16 +8687,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -9392,16 +8823,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -9832,16 +9253,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -9986,16 +9397,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -10130,16 +9531,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -10317,16 +9708,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -10453,16 +9834,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -10612,16 +9983,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -10786,16 +10147,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -11179,16 +10530,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -11343,16 +10684,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -11523,16 +10854,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -11677,16 +10998,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -11821,16 +11132,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -11875,45 +11176,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -12006,45 +11284,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -12165,45 +11420,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -12298,45 +11530,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -12439,45 +11648,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -12608,45 +11794,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -12739,45 +11902,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -12898,45 +12038,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -13042,45 +12159,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -13163,45 +12257,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -13327,45 +12398,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -13471,45 +12519,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -13611,45 +12636,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -13746,45 +12748,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -13888,45 +12867,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -14019,45 +12975,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -14178,45 +13111,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -14319,45 +13229,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -14662,45 +13549,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -14813,45 +13677,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -14954,45 +13795,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -15373,45 +14191,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -15514,45 +14309,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -15653,45 +14425,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -15819,45 +14568,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -15950,45 +14676,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -16096,45 +14799,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -16257,45 +14937,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -16629,45 +15286,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -16788,45 +15422,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -16947,45 +15558,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -17088,16 +15676,6 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
@@ -17105,29 +15683,16 @@
     {
       "type": "object",
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -17208,16 +15773,6 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
