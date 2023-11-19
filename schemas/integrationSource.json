@@ -30,9 +30,9 @@
           ]
         },
         "sourceAdapterType": {    
-          "const": "database"
+          "const": "databaseQuery"
         },
-        "databaseOptions": {    
+        "queryOptions": {    
           "title": "Definition namespace for a database integration source.",
           "description": "This section specified attributes related to an integration source of type Database. Attributes include the database query as well as minimum expected records.",
           "type": "object",
@@ -109,119 +109,9 @@
                 ]
               }
             },
-            "sequentialKeyColumn": {    
+            "sequentialKeyColumns": {    
               "title": "Sequential key column used for watermark purpose.",
               "description": "Specify a sequential key columns to be compared to target data to indicate if data has changed.",
-              "oneOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            }
-          },
-          "additionalProperties": false
-        }
-      },
-      "additionalProperties": false
-    },
-    {
-      "required": [
-        "name",
-        "sourceAdapterType",
-        "fileOptions"
-      ],
-      "properties": {
-        "name": {    
-          "title": "The name of the Integration source. Contains no spaces.",
-          "description": "The name should be a commonly used singular noun and be unique within a solution.",
-          "type": "string",
-          "pattern": "^[^\\s]*$"
-        },
-        "description": {    
-          "title": "A description of the Integration source.",
-          "description": "A phrase describing the source component of the Integration. Think about describing the what/where of this data source.",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "sourceAdapterType": {    
-          "const": "file"
-        },
-        "fileOptions": {    
-          "title": "Definition namespace for a file type integration source.",
-          "description": "This section specified attributes related to an integration source of type File. Attributes include the name and attributes of the file to ingest.",
-          "type": "object",
-          "required": [
-            "filename",
-            "recordAttributes"
-          ],
-          "properties": {
-            "filename": {    
-              "title": "The file name.",
-              "description": "The name of the file that will be ingested.",
-              "type": "string"
-            },
-            "recordAttributes": {    
-              "title": "The attributes of the source file record.",
-              "description": "One or more attributes describing the composition of the source file record.",
-              "type": "array",
-              "items":   {
-                "anyOf": [
-                  { "$ref": "type.json" },
-                  {
-                    "additionalProperties": false, 
-                    "properties": {
-                      "$ref": {
-                        "type": "string",
-                        "format": "uri",
-                        "pattern": "^[^\\s]*$"
-                      }
-                    }
-                  }
-                ]
-              },
-              "additionalProperties": false
-            }
-          },
-          "additionalProperties": false
-        },
-        "dataConnectionName": {    
-          "title": "The name of the data connection. Contains no spaces.",
-          "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections. Data Connection is required when the source is not a Nox Entity",
-          "oneOf": [
-            {
-              "type": "string",
-              "pattern": "^[^\\s]*$"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "additionalProperties": false
-        },
-        "watermark": {    
-          "title": "Definition namespace for watermark columns on the integration source data.",
-          "description": "This section lists the column(s) on the source data used to indicate whether a record in the source data has changed.",
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "properties": {
-            "dateColumns": {    
-              "title": "Column(s) in datetime format used for watermark purpose.",
-              "description": "List datetime columns to be compared to target data to indicate if data has changed.",
               "oneOf": [
                 {
                   "type": "array"
@@ -262,8 +152,7 @@
     {
       "required": [
         "name",
-        "sourceAdapterType",
-        "messageQueueOptions"
+        "sourceAdapterType"
       ],
       "properties": {
         "name": {    
@@ -290,7 +179,14 @@
         "messageQueueOptions": {    
           "title": "Definition namespace for a Message Queue integration source.",
           "description": "This section specified attributes related to an integration source of type Message Queue. Attributes include the name of the source queue or topic.",
-          "type": "object",
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
           "required": [
             "sourceName",
             "messageAttributes"
@@ -394,8 +290,7 @@
     {
       "required": [
         "name",
-        "sourceAdapterType",
-        "webApiOptions"
+        "sourceAdapterType"
       ],
       "properties": {
         "name": {    
@@ -422,35 +317,60 @@
         "webApiOptions": {    
           "title": "Definition namespace for a web API integration source.",
           "description": "This section specified attributes related to an integration source of type web API. Attributes include the route, response format and http verb.",
-          "type": "object",
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
           "required": [
-            "route",
-            "exchangeFormat",
-            "httpVerb",
             "responseAttributes"
           ],
           "properties": {
             "route": {    
               "title": "The path component for the request URI.",
               "description": "The path component for the request URI, e.g. '/myPath' in http://localhost:8081/myPath?myParameter=123.",
-              "type": "string"
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             },
             "exchangeFormat": {    
               "title": "The Http exchange format.",
               "description": "The format of the Http response data payload, eg. Json, XML.",
-              "type": "string",
-              "enum": [
-                "json",
-                "xml"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "json",
+                    "xml"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
               ]
             },
             "httpVerb": {    
               "title": "The Http request verb.",
               "description": "The relevant verb detailing the Http request type, i.e. GET, POST, etc.",
-              "type": "string",
-              "enum": [
-                "get",
-                "post"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "get",
+                    "post"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
               ]
             },
             "responseAttributes": {    
@@ -546,8 +466,7 @@
     {
       "required": [
         "name",
-        "sourceAdapterType",
-        "entityOptions"
+        "sourceAdapterType"
       ],
       "properties": {
         "name": {    
@@ -574,12 +493,19 @@
         "entityOptions": {    
           "title": "Definition namespace for an entity integration target.",
           "description": "This section specified attributes related to an integration target of type Entity. Attributes include the entity name.",
-          "type": "object",
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
           "required": [
-            "entityName"
+            "entity"
           ],
           "properties": {
-            "entityName": {    
+            "entity": {    
               "title": "The entity name.",
               "description": "The name of the entity to which data will be synchronized.",
               "type": "string"

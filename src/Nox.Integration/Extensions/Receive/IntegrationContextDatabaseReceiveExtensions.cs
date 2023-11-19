@@ -7,7 +7,7 @@ namespace Nox.Integration.Extensions.Receive;
 
 public static class IntegrationContextDatabaseReceiveExtensions
 {
-    internal static INoxIntegration WithDatabaseReceiveAdapter(this INoxIntegration instance, IntegrationSourceDatabaseOptions options, DataConnection dataConnectionDefinition)
+    internal static INoxIntegration WithDatabaseReceiveAdapter(this INoxIntegration instance, IntegrationSourceQueryOptions options, DataConnection dataConnectionDefinition)
     {
         switch (dataConnectionDefinition.Provider)
         {
@@ -18,7 +18,7 @@ public static class IntegrationContextDatabaseReceiveExtensions
         return instance;
     }
 
-    internal static SqlServerReceiveAdapter CreateSqlServerReceiveAdapter(string integrationName, IntegrationSourceDatabaseOptions options, DataConnection dataConnectionDefinition)
+    internal static SqlServerReceiveAdapter CreateSqlServerReceiveAdapter(string integrationName, IntegrationSourceQueryOptions options, DataConnection dataConnectionDefinition)
     {
         var csb = new SqlConnectionStringBuilder(dataConnectionDefinition.Options)
         {

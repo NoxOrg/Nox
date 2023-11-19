@@ -51,27 +51,27 @@ internal record PaymentDetailDeleted(PaymentDetail PaymentDetail) : IDomainEvent
 internal abstract partial class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Customer payment account unique identifier
-    /// <remarks>Required.</remarks>   
+    /// Customer payment account unique identifier    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Payment account name
-    /// <remarks>Required.</remarks>   
+    /// Payment account name    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text PaymentAccountName { get; set; } = null!;
 
     /// <summary>
-    /// Payment account reference number
-    /// <remarks>Required.</remarks>   
+    /// Payment account reference number    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text PaymentAccountNumber { get; set; } = null!;
 
     /// <summary>
-    /// Payment account sort code
-    /// <remarks>Optional.</remarks>   
+    /// Payment account sort code    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Text? PaymentAccountSortCode { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

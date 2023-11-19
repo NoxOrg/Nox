@@ -57,9 +57,9 @@ public abstract class TestEntityWithNuidDtoBase : EntityDtoBase, IEntityDto<Doma
     public System.UInt32 Id { get; set; } = default!;
 
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String Name { get; set; } = default!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }

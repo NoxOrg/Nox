@@ -262,7 +262,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<SecondTestEntityOwnedRelationshipZeroOrOneDto>();
         builder.ComplexType<SecondTestEntityOwnedRelationshipZeroOrOneUpdateDto>();
         builder.EntitySet<TestEntityOwnedRelationshipOneOrManyDto>("TestEntityOwnedRelationshipOneOrManies");
-        builder.EntityType<TestEntityOwnedRelationshipOneOrManyDto>().ContainsMany(e => e.SecondTestEntityOwnedRelationshipOneOrMany).AutoExpand = true;
+        builder.EntityType<TestEntityOwnedRelationshipOneOrManyDto>().ContainsMany(e => e.SecondTestEntityOwnedRelationshipOneOrManies).AutoExpand = true;
 
         builder.EntityType<TestEntityOwnedRelationshipOneOrManyDto>();
         builder.ComplexType<TestEntityOwnedRelationshipOneOrManyUpdateDto>();
@@ -273,7 +273,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<SecondTestEntityOwnedRelationshipOneOrManyDto>();
         builder.ComplexType<SecondTestEntityOwnedRelationshipOneOrManyUpdateDto>();
         builder.EntitySet<TestEntityOwnedRelationshipZeroOrManyDto>("TestEntityOwnedRelationshipZeroOrManies");
-        builder.EntityType<TestEntityOwnedRelationshipZeroOrManyDto>().ContainsMany(e => e.SecondTestEntityOwnedRelationshipZeroOrMany).AutoExpand = true;
+        builder.EntityType<TestEntityOwnedRelationshipZeroOrManyDto>().ContainsMany(e => e.SecondTestEntityOwnedRelationshipZeroOrManies).AutoExpand = true;
 
         builder.EntityType<TestEntityOwnedRelationshipZeroOrManyDto>();
         builder.ComplexType<TestEntityOwnedRelationshipZeroOrManyUpdateDto>();

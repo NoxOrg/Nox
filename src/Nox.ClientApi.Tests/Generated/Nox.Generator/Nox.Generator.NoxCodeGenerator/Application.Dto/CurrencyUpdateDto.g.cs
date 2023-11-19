@@ -26,13 +26,13 @@ public partial class CurrencyUpdateDto : CurrencyUpdateDtoBase
 public partial class CurrencyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Currency>
 {
     /// <summary>
-    /// Currency's name 
-    /// <remarks>Optional.</remarks>    
+    /// Currency's name     
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public virtual System.String? Name { get; set; }
     /// <summary>
-    /// Currency's symbol 
-    /// <remarks>Optional.</remarks>    
+    /// Currency's symbol     
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public virtual System.String? Symbol { get; set; }
 }

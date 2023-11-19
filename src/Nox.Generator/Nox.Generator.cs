@@ -42,8 +42,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
     {
         var _debug = new CodeBuilder($"Generator.g.cs", context);
         _errors.Clear();
-        _debug.AppendLine($"// Using Nox version {Assembly.GetExecutingAssembly().GetName().Version}");
-        _debug.AppendLine();
+        
         _debug.AppendLine("// Found files ->");
         foreach (var (path, _) in noxYamls)
         {

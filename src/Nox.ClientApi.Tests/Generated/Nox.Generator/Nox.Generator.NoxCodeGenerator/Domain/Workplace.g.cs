@@ -51,9 +51,9 @@ internal record WorkplaceDeleted(Workplace Workplace) : IDomainEvent, INotificat
 internal abstract partial class WorkplaceBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Workplace unique identifier
-    /// <remarks>Required.</remarks>   
+    /// Workplace unique identifier    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nuid Id {get; set;} = null!;
        
     	public virtual void EnsureId()
@@ -73,21 +73,21 @@ internal abstract partial class WorkplaceBase : EntityBase, IEntityConcurrent
     	}
 
     /// <summary>
-    /// Workplace Name
-    /// <remarks>Required.</remarks>   
+    /// Workplace Name    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
-    /// Workplace Description
-    /// <remarks>Optional.</remarks>   
+    /// Workplace Description    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Text? Description { get; set; } = null!;
 
     /// <summary>
-    /// The Formula
-    /// <remarks>Optional.</remarks>   
+    /// The Formula    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public string? Greeting
     { 
         get { return $"Hello, {Name.Value}!"; }

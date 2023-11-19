@@ -63,7 +63,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         country.VendingMachinesId = new List<System.Guid> { key };
         var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
         
@@ -141,7 +140,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         landLord.VendingMachinesId = new List<System.Guid> { key };
         var createdKey = await _mediator.Send(new CreateLandLordCommand(landLord, _cultureCode));
         
@@ -255,7 +253,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         booking.VendingMachineId = key;
         var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
         
@@ -428,7 +425,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         cashStockOrder.VendingMachineId = key;
         var createdKey = await _mediator.Send(new CreateCashStockOrderCommand(cashStockOrder, _cultureCode));
         
@@ -601,7 +597,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         minimumCashStock.VendingMachinesId = new List<System.Guid> { key };
         var createdKey = await _mediator.Send(new CreateMinimumCashStockCommand(minimumCashStock, _cultureCode));
         

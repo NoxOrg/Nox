@@ -28,15 +28,15 @@ public partial class TestEntityZeroOrOneToZeroOrManyCreateDto : TestEntityZeroOr
 public abstract class TestEntityZeroOrOneToZeroOrManyCreateDtoBase : IEntityDto<DomainNamespace.TestEntityZeroOrOneToZeroOrMany>
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>    
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
     /// <summary>
-    ///  
-    /// <remarks>Required</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "TextTestField is required")]
     
     public virtual System.String TextTestField { get; set; } = default!;

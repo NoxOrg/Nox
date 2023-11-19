@@ -2,7 +2,7 @@
 
 #nullable enable
 
-// Using Nox version 7.0.93.0
+// Using Nox version 7.0.96.0
 
 /* Found files ->
 - cryptocash.application.nox.yaml
@@ -66,11 +66,6 @@
 - IntegrationEvents.md
 - README.md
 - generator.nox.yaml
-Errors ->
-- Missing property ["entity"] is required. (at line 33 in CountrySync.integration.nox.yaml)
-Disallowed property ["entityName"]. (at line 33 in CountrySync.integration.nox.yaml)   at Nox.Solution.Schema.NoxSchemaValidator.Deserialize[T](YamlReferenceResolver yamlRefResolver)
-   at Nox.Solution.NoxSolutionBuilder.ResolveAndLoadConfiguration()
-   at Nox.Solution.NoxSolutionBuilder.Build()
-   at Nox.Generator.Tasks.NoxFileGenerator.TryGetNoxSolution(NoxSolution& solution) in /home/runner/work/Nox.Generator/Nox.Generator/src/Nox.Generator.Tasks/NoxFileGenerator.cs:line 197
-   at Nox.Generator.Tasks.NoxFileGenerator.GenerateFiles() in /home/runner/work/Nox.Generator/Nox.Generator/src/Nox.Generator.Tasks/NoxFileGenerator.cs:line 47
+Logging Verbosity Minimal
+SUCCESS.
 */

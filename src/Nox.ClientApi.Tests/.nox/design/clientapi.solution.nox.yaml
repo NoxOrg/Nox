@@ -86,7 +86,7 @@ application:
     - name: CountryPopulationHigherThan100M
       description: Country Population Updated with Population Higher then 100M
       type: object
-      trait: Country
+      domainContext: Country
       objectTypeOptions:
         attributes:
           - name: Name

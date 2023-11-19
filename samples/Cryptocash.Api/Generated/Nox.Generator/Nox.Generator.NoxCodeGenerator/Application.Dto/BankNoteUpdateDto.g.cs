@@ -26,16 +26,16 @@ public partial class BankNoteUpdateDto : BankNoteUpdateDtoBase
 public partial class BankNoteUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.BankNote>
 {
     /// <summary>
-    /// Currency's cash bank note identifier 
-    /// <remarks>Required.</remarks>    
+    /// Currency's cash bank note identifier     
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "CashNote is required")]
     
     public virtual System.String CashNote { get; set; } = default!;
     /// <summary>
-    /// Bank note value 
-    /// <remarks>Required.</remarks>    
+    /// Bank note value     
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Value is required")]
     
     public virtual MoneyDto Value { get; set; } = default!;

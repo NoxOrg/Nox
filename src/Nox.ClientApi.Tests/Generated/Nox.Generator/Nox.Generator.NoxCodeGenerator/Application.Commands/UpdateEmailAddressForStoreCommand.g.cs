@@ -1,4 +1,5 @@
-﻿﻿// Generated
+﻿﻿
+﻿// Generated
 
 #nullable enable
 
@@ -52,7 +53,7 @@ internal partial class UpdateEmailAddressForStoreCommandHandlerBase : CommandBas
 		{
 			return null;
 		}
-		var entity = parentEntity.VerifiedEmails;
+		var entity = parentEntity.EmailAddress;
 		
 		if (entity == null)
 		{

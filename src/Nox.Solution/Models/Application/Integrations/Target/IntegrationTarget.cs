@@ -24,7 +24,7 @@ public class IntegrationTarget : YamlConfigNode<NoxSolution, Integration>
     [Required]
     [Title("The type of target.")]
     [Description("Specify the type of target. Options include entity, database, file, webAPI and message queue.")]
-    public IntegrationAdapterType TargetAdapterType { get; internal set; } = default;
+    public IntegrationTargetAdapterType TargetAdapterType { get; internal set; } = default;
 
     [Required]
     [Title("The name of the integration target data connection. Contains no spaces.")]
@@ -33,27 +33,27 @@ public class IntegrationTarget : YamlConfigNode<NoxSolution, Integration>
     [AdditionalProperties(false)]
     public string DataConnectionName { get; internal set; } = null!;
 
-    [IfEquals(nameof(TargetAdapterType), IntegrationAdapterType.Database)]
+    [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.Database)]
     [Required]
     [AdditionalProperties(false)]
     public IntegrationTargetDatabaseOptions? DatabaseOptions { get; set; }
 
-    [IfEquals(nameof(TargetAdapterType), IntegrationAdapterType.File)]
+    [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.File)]
     [Required]
     [AdditionalProperties(false)]
     public IntegrationTargetFileOptions? FileOptions { get; set; }
 
-    [IfEquals(nameof(TargetAdapterType), IntegrationAdapterType.WebApi)]
+    [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.WebApi)]
     [Required]
     [AdditionalProperties(false)]
     public IntegrationTargetWebApiOptions? WebApiOptions { get; set; }
 
-    [IfEquals(nameof(TargetAdapterType), IntegrationAdapterType.MessageQueue)]
+    [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.MessageQueue)]
     [Required]
     [AdditionalProperties(false)]
     public IntegrationTargetMessageQueueOptions? MessageQueueOptions { get; set; }
 
-    [IfEquals(nameof(TargetAdapterType), IntegrationAdapterType.Entity)]
+    [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.Entity)]
     [Required]
     [AdditionalProperties(false)]
     public IntegrationTargetEntityOptions? EntityOptions { get; set; }

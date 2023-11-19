@@ -99,7 +99,6 @@ public abstract partial class TenantsControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         workplace.TenantsId = new List<System.Guid> { key };
         var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
         

@@ -57,15 +57,15 @@ public abstract class TestEntityOwnedRelationshipZeroOrManyDtoBase : EntityDtoBa
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String TextTestField { get; set; } = default!;
 
     /// <summary>
     /// TestEntityOwnedRelationshipZeroOrMany Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrMany ZeroOrMany SecondTestEntityOwnedRelationshipZeroOrManies
     /// </summary>
-    public virtual List<SecondTestEntityOwnedRelationshipZeroOrManyDto> SecondTestEntityOwnedRelationshipZeroOrMany { get; set; } = new();
+    public virtual List<SecondTestEntityOwnedRelationshipZeroOrManyDto> SecondTestEntityOwnedRelationshipZeroOrManies { get; set; } = new();
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

@@ -28,22 +28,22 @@ public partial class TestEntityLocalizationCreateDto : TestEntityLocalizationCre
 public abstract class TestEntityLocalizationCreateDtoBase : IEntityDto<DomainNamespace.TestEntityLocalization>
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>    
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
     /// <summary>
-    ///  
-    /// <remarks>Required</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "TextFieldToLocalize is required")]
     
     public virtual System.String TextFieldToLocalize { get; set; } = default!;
     /// <summary>
-    ///  
-    /// <remarks>Required</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "NumberField is required")]
     
     public virtual System.Int16 NumberField { get; set; } = default!;

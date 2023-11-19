@@ -20,7 +20,7 @@ internal static class EmployeeExtensions
         dto.SetIfNotNull(entity?.Address, (dto) => dto.Address =entity!.Address!.ToDto());
         dto.SetIfNotNull(entity?.FirstWorkingDay, (dto) => dto.FirstWorkingDay =entity!.FirstWorkingDay!.Value.ToDateTime(new System.TimeOnly(0, 0, 0)));
         dto.SetIfNotNull(entity?.LastWorkingDay, (dto) => dto.LastWorkingDay =entity!.LastWorkingDay!.Value.ToDateTime(new System.TimeOnly(0, 0, 0)));
-        dto.SetIfNotNull(entity?.EmployeeContactPhoneNumbers, (dto) => dto.EmployeeContactPhoneNumbers = entity!.EmployeeContactPhoneNumbers.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.EmployeePhoneNumbers, (dto) => dto.EmployeePhoneNumbers = entity!.EmployeePhoneNumbers.Select(e => e.ToDto()).ToList());
 
         return dto;
     }

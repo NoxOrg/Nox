@@ -28,16 +28,16 @@ public partial class LandLordCreateDto : LandLordCreateDtoBase
 public abstract class LandLordCreateDtoBase : IEntityDto<DomainNamespace.LandLord>
 {
     /// <summary>
-    /// Landlord name 
-    /// <remarks>Required</remarks>    
+    /// Landlord name     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;
     /// <summary>
-    /// Landlord's street address 
-    /// <remarks>Required</remarks>    
+    /// Landlord's street address     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Address is required")]
     
     public virtual StreetAddressDto Address { get; set; } = default!;

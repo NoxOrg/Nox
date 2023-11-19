@@ -97,75 +97,75 @@ public abstract class CurrencyDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    /// Currency's name 
-    /// <remarks>Required.</remarks>    
+    /// Currency's name     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Currency's iso number id 
-    /// <remarks>Required.</remarks>    
+    /// Currency's iso number id     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.Int16 CurrencyIsoNumeric { get; set; } = default!;
 
     /// <summary>
-    /// Currency's symbol 
-    /// <remarks>Required.</remarks>    
+    /// Currency's symbol     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String Symbol { get; set; } = default!;
 
     /// <summary>
-    /// Currency's numeric thousands notation separator 
-    /// <remarks>Optional.</remarks>    
+    /// Currency's numeric thousands notation separator     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? ThousandsSeparator { get; set; }
 
     /// <summary>
-    /// Currency's numeric decimal notation separator 
-    /// <remarks>Optional.</remarks>    
+    /// Currency's numeric decimal notation separator     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? DecimalSeparator { get; set; }
 
     /// <summary>
-    /// Currency's numeric space between amount and symbol 
-    /// <remarks>Required.</remarks>    
+    /// Currency's numeric space between amount and symbol     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.Boolean SpaceBetweenAmountAndSymbol { get; set; } = default!;
 
     /// <summary>
-    /// Currency's numeric decimal digits 
-    /// <remarks>Required.</remarks>    
+    /// Currency's numeric decimal digits     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.Int32 DecimalDigits { get; set; } = default!;
 
     /// <summary>
-    /// Currency's major name 
-    /// <remarks>Required.</remarks>    
+    /// Currency's major name     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String MajorName { get; set; } = default!;
 
     /// <summary>
-    /// Currency's major display symbol 
-    /// <remarks>Required.</remarks>    
+    /// Currency's major display symbol     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String MajorSymbol { get; set; } = default!;
 
     /// <summary>
-    /// Currency's minor name 
-    /// <remarks>Required.</remarks>    
+    /// Currency's minor name     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String MinorName { get; set; } = default!;
 
     /// <summary>
-    /// Currency's minor display symbol 
-    /// <remarks>Required.</remarks>    
+    /// Currency's minor display symbol     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String MinorSymbol { get; set; } = default!;
 
     /// <summary>
-    /// Currency's minor value when converted to major 
-    /// <remarks>Required.</remarks>    
+    /// Currency's minor value when converted to major     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public MoneyDto MinorToMajorValue { get; set; } = default!;
 
     /// <summary>
@@ -181,12 +181,12 @@ public abstract class CurrencyDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes
     /// </summary>
-    public virtual List<BankNoteDto> CurrencyCommonBankNotes { get; set; } = new();
+    public virtual List<BankNoteDto> BankNotes { get; set; } = new();
 
     /// <summary>
     /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
-    public virtual List<ExchangeRateDto> CurrencyExchangedFromRates { get; set; } = new();
+    public virtual List<ExchangeRateDto> ExchangeRates { get; set; } = new();
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

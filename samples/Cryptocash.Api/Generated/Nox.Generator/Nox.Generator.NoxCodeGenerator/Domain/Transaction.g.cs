@@ -51,33 +51,33 @@ internal record TransactionDeleted(Transaction Transaction) : IDomainEvent, INot
 internal abstract partial class TransactionBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Customer transaction unique identifier
-    /// <remarks>Required.</remarks>   
+    /// Customer transaction unique identifier    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Transaction type
-    /// <remarks>Required.</remarks>   
+    /// Transaction type    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text TransactionType { get; set; } = null!;
 
     /// <summary>
-    /// Transaction processed datetime
-    /// <remarks>Required.</remarks>   
+    /// Transaction processed datetime    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.DateTime ProcessedOnDateTime { get; set; } = null!;
 
     /// <summary>
-    /// Transaction amount
-    /// <remarks>Required.</remarks>   
+    /// Transaction amount    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Money Amount { get; set; } = null!;
 
     /// <summary>
-    /// Transaction external reference
-    /// <remarks>Required.</remarks>   
+    /// Transaction external reference    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text Reference { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

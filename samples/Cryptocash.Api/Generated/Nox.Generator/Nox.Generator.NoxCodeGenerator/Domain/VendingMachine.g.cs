@@ -51,9 +51,9 @@ internal record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEv
 internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Vending machine unique identifier
-    /// <remarks>Required.</remarks>   
+    /// Vending machine unique identifier    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Guid Id {get; set;} = null!;
          /// <summary>
         /// Ensures that a Guid Id is set or will be generate a new one
@@ -71,45 +71,45 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
     	}
 
     /// <summary>
-    /// Vending machine mac address
-    /// <remarks>Required.</remarks>   
+    /// Vending machine mac address    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.MacAddress MacAddress { get; set; } = null!;
 
     /// <summary>
-    /// Vending machine public ip
-    /// <remarks>Required.</remarks>   
+    /// Vending machine public ip    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.IpAddress PublicIp { get; set; } = null!;
 
     /// <summary>
-    /// Vending machine geo location
-    /// <remarks>Required.</remarks>   
+    /// Vending machine geo location    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.LatLong GeoLocation { get; set; } = null!;
 
     /// <summary>
-    /// Vending machine street address
-    /// <remarks>Required.</remarks>   
+    /// Vending machine street address    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.StreetAddress StreetAddress { get; set; } = null!;
 
     /// <summary>
-    /// Vending machine serial number
-    /// <remarks>Required.</remarks>   
+    /// Vending machine serial number    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text SerialNumber { get; set; } = null!;
 
     /// <summary>
-    /// Vending machine installation area
-    /// <remarks>Optional.</remarks>   
+    /// Vending machine installation area    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Area? InstallationFootPrint { get; set; } = null!;
 
     /// <summary>
-    /// Landlord rent amount based on area of the vending machine installation
-    /// <remarks>Optional.</remarks>   
+    /// Landlord rent amount based on area of the vending machine installation    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Money? RentPerSquareMetre { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

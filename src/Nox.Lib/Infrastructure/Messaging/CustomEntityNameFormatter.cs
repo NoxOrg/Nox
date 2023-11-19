@@ -26,12 +26,12 @@ namespace Nox.Infrastructure.Messaging
             var integrationEventAttribute = messageType.GenericTypeArguments[0].GetCustomAttribute<IntegrationEventTypeAttribute>();
           
             if (integrationEventAttribute == null ||
-                string.IsNullOrWhiteSpace(integrationEventAttribute.Trait))
+                string.IsNullOrWhiteSpace(integrationEventAttribute.DomainContext))
             {
-                throw new EventTraitIsNotFoundException($"Integration event {messageType.Name} should have {nameof(IntegrationEventTypeAttribute)} with non-empty {nameof(integrationEventAttribute.Trait)} specified.");
+                throw new IntegrationEventDomainContextNullException($"Integration event {messageType.Name} should have {nameof(IntegrationEventTypeAttribute)} with non-empty {nameof(integrationEventAttribute.DomainContext)} specified.");
             }
 
-            return $"{_platformId}.{_name}.{integrationEventAttribute.Trait}";
+            return $"{_platformId}.{_name}.{integrationEventAttribute.DomainContext}";
         }
     }
 }

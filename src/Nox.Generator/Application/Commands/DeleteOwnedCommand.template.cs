@@ -1,4 +1,5 @@
-﻿﻿// Generated
+﻿{{- relationshipName = GetNavigationPropertyName parent relationship }}﻿
+﻿// Generated
 
 #nullable enable
 
@@ -15,14 +16,14 @@ using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Na
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 {{- if isSingleRelationship }}
-public partial record Delete{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto) : IRequest <bool>;
+public partial record Delete{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto) : IRequest <bool>;
 {{ else }}
-public partial record Delete{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto) : IRequest <bool>;
+public partial record Delete{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto) : IRequest <bool>;
 {{- end }}
 
-internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler : Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase
+internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandler : Delete{{relationshipName}}For{{parent.Name}}CommandHandlerBase
 {
-	public Delete{{entity.Name}}For{{parent.Name}}CommandHandler(
+	public Delete{{relationshipName}}For{{parent.Name}}CommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -30,18 +31,18 @@ internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler : D
 	}
 }
 
-internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase : CommandBase<Delete{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <Delete{{entity.Name}}For{{parent.Name}}Command, bool>
+internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandlerBase : CommandBase<Delete{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <Delete{{relationshipName}}For{{parent.Name}}Command, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase(
+	public Delete{{relationshipName}}For{{parent.Name}}CommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(Delete{{entity.Name}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(Delete{{relationshipName}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -56,13 +57,13 @@ internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 		}
 
 		{{- if isSingleRelationship }}
-		var entity = parentEntity.{{relationship.Name}};
+		var entity = parentEntity.{{relationshipName}};
 		if (entity == null)
 		{
 			return false;
 		}
 
-		parentEntity.DeleteRefTo{{relationship.Name}}(entity);
+		parentEntity.DeleteRefTo{{relationshipName}}(entity);
 
 		await OnCompletedAsync(request, entity);
 
@@ -71,12 +72,12 @@ internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 		{{- for key in entity.Keys }}
 		var owned{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
-		var entity = parentEntity.{{relationship.Name}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
+		var entity = parentEntity.{{relationshipName}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
 		if (entity == null)
 		{
 			return false;
 		}
-		parentEntity.{{relationship.Name}}.Remove(entity);
+		parentEntity.{{relationshipName}}.Remove(entity);
 		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;

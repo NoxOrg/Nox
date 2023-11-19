@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-using Microsoft.CodeAnalysis;
-using Nox.Types;
+﻿using Nox.Types;
 using Nox.Types.Extensions;
 using Nox.Yaml;
 using Nox.Yaml.Attributes;
@@ -69,7 +67,6 @@ public class NoxSolution : YamlConfigNode<NoxSolution>
 
     public Application? Application { get; internal set; } = new Application();
 
-
     [YamlIgnore]
     public IReadOnlyList<DataConnection> DataConnections => _dataConnections.Values.ToList();
 
@@ -92,7 +89,8 @@ public class NoxSolution : YamlConfigNode<NoxSolution>
 
     public override ValidationResult Validate(NoxSolution topNode, NoxSolution parentNode, string yamlPath)
     {
-        var result = new ValidationResult();
+        var result = base.Validate(topNode,parentNode,yamlPath);
+
         return result;
     }
 

@@ -27,54 +27,54 @@ public partial class VendingMachineCreateDto : VendingMachineCreateDtoBase
 /// </summary>
 public abstract class VendingMachineCreateDtoBase : IEntityDto<DomainNamespace.VendingMachine>
 {/// <summary>
-    /// Vending machine unique identifier 
-    /// <remarks>Optional.</remarks>    
+    /// Vending machine unique identifier     
     /// </summary>
+    /// <remarks>Optional.</remarks>
     public System.Guid Id { get; set; } = default!;
     /// <summary>
-    /// Vending machine mac address 
-    /// <remarks>Required</remarks>    
+    /// Vending machine mac address     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "MacAddress is required")]
     
     public virtual System.String MacAddress { get; set; } = default!;
     /// <summary>
-    /// Vending machine public ip 
-    /// <remarks>Required</remarks>    
+    /// Vending machine public ip     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "PublicIp is required")]
     
     public virtual System.String PublicIp { get; set; } = default!;
     /// <summary>
-    /// Vending machine geo location 
-    /// <remarks>Required</remarks>    
+    /// Vending machine geo location     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "GeoLocation is required")]
     
     public virtual LatLongDto GeoLocation { get; set; } = default!;
     /// <summary>
-    /// Vending machine street address 
-    /// <remarks>Required</remarks>    
+    /// Vending machine street address     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "StreetAddress is required")]
     
     public virtual StreetAddressDto StreetAddress { get; set; } = default!;
     /// <summary>
-    /// Vending machine serial number 
-    /// <remarks>Required</remarks>    
+    /// Vending machine serial number     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "SerialNumber is required")]
     
     public virtual System.String SerialNumber { get; set; } = default!;
     /// <summary>
-    /// Vending machine installation area 
-    /// <remarks>Optional</remarks>    
+    /// Vending machine installation area     
     /// </summary>
+    /// <remarks>Optional</remarks>
     public virtual System.Decimal? InstallationFootPrint { get; set; }
     /// <summary>
-    /// Landlord rent amount based on area of the vending machine installation 
-    /// <remarks>Optional</remarks>    
+    /// Landlord rent amount based on area of the vending machine installation     
     /// </summary>
+    /// <remarks>Optional</remarks>
     public virtual MoneyDto? RentPerSquareMetre { get; set; }
 
     /// <summary>

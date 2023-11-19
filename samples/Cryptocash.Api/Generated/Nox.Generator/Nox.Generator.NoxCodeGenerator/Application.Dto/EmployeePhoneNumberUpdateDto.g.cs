@@ -26,16 +26,16 @@ public partial class EmployeePhoneNumberUpdateDto : EmployeePhoneNumberUpdateDto
 public partial class EmployeePhoneNumberUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.EmployeePhoneNumber>
 {
     /// <summary>
-    /// Employee's phone number type 
-    /// <remarks>Required.</remarks>    
+    /// Employee's phone number type     
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "PhoneNumberType is required")]
     
     public virtual System.String PhoneNumberType { get; set; } = default!;
     /// <summary>
-    /// Employee's phone number 
-    /// <remarks>Required.</remarks>    
+    /// Employee's phone number     
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "PhoneNumber is required")]
     
     public virtual System.String PhoneNumber { get; set; } = default!;

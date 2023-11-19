@@ -18,12 +18,13 @@ internal class CreateOwnedCommandGenerator : ApplicationEntityDependentGenerator
             foreach (var ownedRelationship in entity.OwnedRelationships)
             {
                 var ownedEntity = entities.Single(entity => entity.Name == ownedRelationship.Entity);
+                var relationshipName = entity.GetNavigationPropertyName(ownedRelationship);
 
                 var parentKeysFindQuery = string.Join(", ", entity.Keys.Select(k => $"key{k.Name}"));
                 var primaryKeysReturnQuery = string.Join(", ", ownedEntity.Keys.Select(k => $"entity.{k.Name}.Value"));
 
                 new TemplateCodeBuilder(context, codeGeneratorState)
-                    .WithClassName($"Create{ownedEntity.Name}For{entity.Name}Command")
+                    .WithClassName($"Create{relationshipName}For{entity.Name}Command")
                     .WithFileNamePrefix($"Application.Commands")
                     .WithObject("relationship", ownedRelationship)
                     .WithObject("entity", ownedEntity)
