@@ -65,12 +65,12 @@ public class IntegrationTests
             {
                 Name = "TestSource",
                 Description = "Integration Source for testing",
+                SourceAdapterType = IntegrationSourceAdapterType.DatabaseQuery,
                 QueryOptions = new IntegrationSourceQueryOptions
                 {
                     Query = "SELECT Id, Name, Population, CreateDate, EditDate FROM CountryMaster",
                     MinimumExpectedRecords = 10
                 },
-                SourceAdapterType = IntegrationSourceAdapterType.DatabaseQuery,
                 DataConnectionName = "CountrySource",
                 Watermark = new IntegrationSourceWatermark
                 {
@@ -89,12 +89,12 @@ public class IntegrationTests
             {
                 Name = "TestTarget",
                 Description = "Integration target for testing.",
+                TargetAdapterType = IntegrationTargetAdapterType.DatabaseTable,
                 TableOptions = new IntegrationTargetTableOptions
                 {
                     TableName = "Country"
                 },
-                DataConnectionName = "EtlSample",
-                TargetAdapterType = IntegrationTargetAdapterType.DatabaseTable
+                DataConnectionName = "EtlSample"
             }, dataConnections);
 
         var context = new NoxIntegrationContext(new NoxSolution());

@@ -13,7 +13,7 @@ public static class IntegrationContextExtensions
         switch (sourceDefinition.SourceAdapterType)
         {
             case IntegrationSourceAdapterType.DatabaseQuery:
-                var dataConnection = ProcessDatabaseSourceDefinition(sourceDefinition, dataConnections);
+                var dataConnection = ProcessQuerySourceDefinition(sourceDefinition, dataConnections);
                 instance.WithDatabaseReceiveAdapter(sourceDefinition.QueryOptions!, dataConnection);
                 break;
         }
@@ -21,7 +21,7 @@ public static class IntegrationContextExtensions
         return instance;
     }
     
-    private static DataConnection ProcessDatabaseSourceDefinition(IntegrationSource sourceDefinition, IReadOnlyList<DataConnection>? dataConnections)
+    private static DataConnection ProcessQuerySourceDefinition(IntegrationSource sourceDefinition, IReadOnlyList<DataConnection>? dataConnections)
     {
         if (sourceDefinition.QueryOptions == null)
         {
@@ -56,7 +56,7 @@ public static class IntegrationContextExtensions
         {
             case IntegrationTargetAdapterType.DatabaseTable:
                 var dataConnection = ProcessDatabaseTargetDefinition(targetDefinition, dataConnections);
-                instance.WithDatabaseSendAdapter(targetDefinition.TableOptions!, dataConnection);
+                instance.WithDatabaseSendAdapter(targetDefinition.DatabaseOptions!, dataConnection);
                 break;
         }
         return instance;
