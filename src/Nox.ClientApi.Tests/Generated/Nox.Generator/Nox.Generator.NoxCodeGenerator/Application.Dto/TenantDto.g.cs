@@ -57,9 +57,9 @@ public abstract class TenantDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.
     public System.UInt32 Id { get; set; } = default!;
 
     /// <summary>
-    /// Teanant Name 
-    /// <remarks>Required.</remarks>    
+    /// Teanant Name     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String Name { get; set; } = default!;
 
     /// <summary>

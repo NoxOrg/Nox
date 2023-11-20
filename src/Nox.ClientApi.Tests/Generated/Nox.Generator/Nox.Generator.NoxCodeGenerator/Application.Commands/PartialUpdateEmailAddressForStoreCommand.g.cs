@@ -1,4 +1,5 @@
-﻿﻿// Generated
+﻿﻿
+﻿// Generated
 
 #nullable enable
 
@@ -50,7 +51,7 @@ internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: Com
 		{
 			return null;
 		}
-		var entity = parentEntity.VerifiedEmails;
+		var entity = parentEntity.EmailAddress;
 		
 		if (entity == null)
 		{

@@ -81,45 +81,45 @@ public abstract class VendingMachineDtoBase : EntityDtoBase, IEntityDto<DomainNa
     public System.Guid Id { get; set; } = default!;
 
     /// <summary>
-    /// Vending machine mac address 
-    /// <remarks>Required.</remarks>    
+    /// Vending machine mac address     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String MacAddress { get; set; } = default!;
 
     /// <summary>
-    /// Vending machine public ip 
-    /// <remarks>Required.</remarks>    
+    /// Vending machine public ip     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String PublicIp { get; set; } = default!;
 
     /// <summary>
-    /// Vending machine geo location 
-    /// <remarks>Required.</remarks>    
+    /// Vending machine geo location     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public LatLongDto GeoLocation { get; set; } = default!;
 
     /// <summary>
-    /// Vending machine street address 
-    /// <remarks>Required.</remarks>    
+    /// Vending machine street address     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public StreetAddressDto StreetAddress { get; set; } = default!;
 
     /// <summary>
-    /// Vending machine serial number 
-    /// <remarks>Required.</remarks>    
+    /// Vending machine serial number     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String SerialNumber { get; set; } = default!;
 
     /// <summary>
-    /// Vending machine installation area 
-    /// <remarks>Optional.</remarks>    
+    /// Vending machine installation area     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.Decimal? InstallationFootPrint { get; set; }
 
     /// <summary>
-    /// Landlord rent amount based on area of the vending machine installation 
-    /// <remarks>Optional.</remarks>    
+    /// Landlord rent amount based on area of the vending machine installation     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public MoneyDto? RentPerSquareMetre { get; set; }
 
     /// <summary>

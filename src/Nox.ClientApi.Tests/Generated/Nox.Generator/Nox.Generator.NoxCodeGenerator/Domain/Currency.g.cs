@@ -51,21 +51,21 @@ internal record CurrencyDeleted(Currency Currency) : IDomainEvent, INotification
 internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Currency unique identifier
-    /// <remarks>Required.</remarks>   
+    /// Currency unique identifier    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.CurrencyCode3 Id { get; set; } = null!;
 
     /// <summary>
-    /// Currency's name
-    /// <remarks>Optional.</remarks>   
+    /// Currency's name    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Text? Name { get; set; } = null!;
 
     /// <summary>
-    /// Currency's symbol
-    /// <remarks>Optional.</remarks>   
+    /// Currency's symbol    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Text? Symbol { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

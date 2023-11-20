@@ -51,81 +51,81 @@ internal record CurrencyDeleted(Currency Currency) : IDomainEvent, INotification
 internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Currency unique identifier
-    /// <remarks>Required.</remarks>   
+    /// Currency unique identifier    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.CurrencyCode3 Id { get; set; } = null!;
 
     /// <summary>
-    /// Currency's name
-    /// <remarks>Required.</remarks>   
+    /// Currency's name    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
-    /// Currency's iso number id
-    /// <remarks>Required.</remarks>   
+    /// Currency's iso number id    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.CurrencyNumber CurrencyIsoNumeric { get; set; } = null!;
 
     /// <summary>
-    /// Currency's symbol
-    /// <remarks>Required.</remarks>   
+    /// Currency's symbol    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text Symbol { get; set; } = null!;
 
     /// <summary>
-    /// Currency's numeric thousands notation separator
-    /// <remarks>Optional.</remarks>   
+    /// Currency's numeric thousands notation separator    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Text? ThousandsSeparator { get; set; } = null!;
 
     /// <summary>
-    /// Currency's numeric decimal notation separator
-    /// <remarks>Optional.</remarks>   
+    /// Currency's numeric decimal notation separator    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Text? DecimalSeparator { get; set; } = null!;
 
     /// <summary>
-    /// Currency's numeric space between amount and symbol
-    /// <remarks>Required.</remarks>   
+    /// Currency's numeric space between amount and symbol    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Boolean SpaceBetweenAmountAndSymbol { get; set; } = null!;
 
     /// <summary>
-    /// Currency's numeric decimal digits
-    /// <remarks>Required.</remarks>   
+    /// Currency's numeric decimal digits    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Number DecimalDigits { get; set; } = null!;
 
     /// <summary>
-    /// Currency's major name
-    /// <remarks>Required.</remarks>   
+    /// Currency's major name    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text MajorName { get; set; } = null!;
 
     /// <summary>
-    /// Currency's major display symbol
-    /// <remarks>Required.</remarks>   
+    /// Currency's major display symbol    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text MajorSymbol { get; set; } = null!;
 
     /// <summary>
-    /// Currency's minor name
-    /// <remarks>Required.</remarks>   
+    /// Currency's minor name    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text MinorName { get; set; } = null!;
 
     /// <summary>
-    /// Currency's minor display symbol
-    /// <remarks>Required.</remarks>   
+    /// Currency's minor display symbol    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text MinorSymbol { get; set; } = null!;
 
     /// <summary>
-    /// Currency's minor value when converted to major
-    /// <remarks>Required.</remarks>   
+    /// Currency's minor value when converted to major    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Money MinorToMajorValue { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
@@ -211,68 +211,68 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
     public virtual void DeleteAllRefToMinimumCashStocks()
     {
         MinimumCashStocks.Clear();
-    }
+    }﻿
 
     /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes
     /// </summary>
-    public virtual List<BankNote> CurrencyCommonBankNotes { get; private set; } = new();
+    public virtual List<BankNote> BankNotes { get; private set; } = new();
     
     /// <summary>
     /// Creates a new BankNote entity.
     /// </summary>
-    public virtual void CreateRefToCurrencyCommonBankNotes(BankNote relatedBankNote)
+    public virtual void CreateRefToBankNotes(BankNote relatedBankNote)
     {
-        CurrencyCommonBankNotes.Add(relatedBankNote);
+        BankNotes.Add(relatedBankNote);
     }
     
     /// <summary>
     /// Deletes owned BankNote entity.
     /// </summary>
-    public virtual void DeleteRefToCurrencyCommonBankNotes(BankNote relatedBankNote)
+    public virtual void DeleteRefToBankNotes(BankNote relatedBankNote)
     {
-        CurrencyCommonBankNotes.Remove(relatedBankNote);
+        BankNotes.Remove(relatedBankNote);
     }
     
     /// <summary>
     /// Deletes all owned BankNote entities.
     /// </summary>
-    public virtual void DeleteAllRefToCurrencyCommonBankNotes()
+    public virtual void DeleteAllRefToBankNotes()
     {
-        CurrencyCommonBankNotes.Clear();
-    }
+        BankNotes.Clear();
+    }﻿
 
     /// <summary>
     /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
-    public virtual List<ExchangeRate> CurrencyExchangedFromRates { get; private set; } = new();
+    public virtual List<ExchangeRate> ExchangeRates { get; private set; } = new();
     
     /// <summary>
     /// Creates a new ExchangeRate entity.
     /// </summary>
-    public virtual void CreateRefToCurrencyExchangedFromRates(ExchangeRate relatedExchangeRate)
+    public virtual void CreateRefToExchangeRates(ExchangeRate relatedExchangeRate)
     {
-        CurrencyExchangedFromRates.Add(relatedExchangeRate);
+        ExchangeRates.Add(relatedExchangeRate);
     }
     
     /// <summary>
     /// Deletes owned ExchangeRate entity.
     /// </summary>
-    public virtual void DeleteRefToCurrencyExchangedFromRates(ExchangeRate relatedExchangeRate)
+    public virtual void DeleteRefToExchangeRates(ExchangeRate relatedExchangeRate)
     {
-        if(CurrencyExchangedFromRates.Count() < 2)
+        if(ExchangeRates.Count() < 2)
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        CurrencyExchangedFromRates.Remove(relatedExchangeRate);
+        ExchangeRates.Remove(relatedExchangeRate);
     }
     
     /// <summary>
     /// Deletes all owned ExchangeRate entities.
     /// </summary>
-    public virtual void DeleteAllRefToCurrencyExchangedFromRates()
+    public virtual void DeleteAllRefToExchangeRates()
     {
-        if(CurrencyExchangedFromRates.Count() < 2)
+        if(ExchangeRates.Count() < 2)
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        CurrencyExchangedFromRates.Clear();
+        ExchangeRates.Clear();
     }
 
     /// <summary>

@@ -101,9 +101,9 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<StoreOwnerDto>> Patch([FromRoute] System.String key, [FromBody] Delta<StoreOwnerDto> storeOwner)
+    public virtual async Task<ActionResult<StoreOwnerDto>> Patch([FromRoute] System.String key, [FromBody] Delta<StoreOwnerUpdateDto> storeOwner)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || storeOwner is null)
         {
             return BadRequest(ModelState);
         }

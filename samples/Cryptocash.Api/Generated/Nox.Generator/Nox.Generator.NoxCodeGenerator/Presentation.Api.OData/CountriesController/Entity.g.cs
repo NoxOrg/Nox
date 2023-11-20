@@ -101,9 +101,9 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<CountryDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CountryDto> country)
+    public virtual async Task<ActionResult<CountryDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || country is null)
         {
             return BadRequest(ModelState);
         }

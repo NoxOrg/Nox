@@ -101,9 +101,9 @@ public abstract partial class TransactionsControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TransactionDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<TransactionDto> transaction)
+    public virtual async Task<ActionResult<TransactionDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<TransactionUpdateDto> transaction)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || transaction is null)
         {
             return BadRequest(ModelState);
         }

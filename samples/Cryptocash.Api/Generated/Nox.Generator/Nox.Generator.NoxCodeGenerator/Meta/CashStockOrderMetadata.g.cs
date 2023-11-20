@@ -49,8 +49,8 @@ public partial class CashStockOrderMetadata
         /// </summary>
         public static Nox.Types.FormulaTypeOptions StatusTypeOptions {get; private set;} = new ()
         {
-            Expression = "DeliveryDateTime != null ? \"delivered\" : \"ordered\"",
-            Returns = Nox.Types.FormulaReturnType.@string,
+            Expression = "DeliveryDateTime != null ? \"delivered\" : \"ordered\"",
+            Returns = Nox.Types.FormulaReturnType.@string,
         };
     
     

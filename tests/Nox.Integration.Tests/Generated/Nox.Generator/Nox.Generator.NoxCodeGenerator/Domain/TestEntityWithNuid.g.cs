@@ -51,9 +51,9 @@ internal record TestEntityWithNuidDeleted(TestEntityWithNuid TestEntityWithNuid)
 internal abstract partial class TestEntityWithNuidBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nuid Id {get; set;} = null!;
        
     	public virtual void EnsureId()
@@ -73,9 +73,9 @@ internal abstract partial class TestEntityWithNuidBase : AuditableEntityBase, IE
     	}
 
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text Name { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

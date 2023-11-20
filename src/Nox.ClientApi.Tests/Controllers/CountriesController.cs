@@ -31,7 +31,7 @@ public partial class CountriesController
     /// <param name="key"></param>
     /// <param name="countryLocalName"></param>
     /// <returns></returns>
-    public override async Task<ActionResult> PostToCountryShortNames([FromRoute] long key, [FromBody] CountryLocalNameCreateDto countryLocalName)
+    public override async Task<ActionResult> PostToCountryLocalNames([FromRoute] long key, [FromBody] CountryLocalNameCreateDto countryLocalName)
     {
         if (!ModelState.IsValid)
         {
@@ -39,13 +39,13 @@ public partial class CountriesController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new CreateCountryLocalNameForCountryCommand(new CountryKeyDto(key), countryLocalName, etag) { CustomField = "Example"});
+        var createdKey = await _mediator.Send(new CreateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), countryLocalName, etag) { CustomField = "Example"});
         if (createdKey == null)
         {
             return NotFound();
         }
 
-        var child = await TryGetCountryShortNames(key, createdKey);
+        var child = await TryGetCountryLocalNames(key, createdKey);
         if (child == null)
         {
             return NotFound();

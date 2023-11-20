@@ -28,15 +28,15 @@ public partial class ThirdTestEntityOneOrManyCreateDto : ThirdTestEntityOneOrMan
 public abstract class ThirdTestEntityOneOrManyCreateDtoBase : IEntityDto<DomainNamespace.ThirdTestEntityOneOrMany>
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>    
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
     /// <summary>
-    ///  
-    /// <remarks>Required</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "TextTestField is required")]
     
     public virtual System.String TextTestField { get; set; } = default!;

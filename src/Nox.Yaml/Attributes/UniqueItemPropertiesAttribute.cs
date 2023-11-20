@@ -21,7 +21,7 @@ public class UniqueItemPropertiesAttribute : Attribute
 
     internal bool IsValid(IReadOnlyList<Dictionary<string, (object? Value, YamlLineInfo LineInfo)>> objectInstances)
     {
-        var valuesSeen = new HashSet<string>();
+        var valuesSeen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         foreach (var obj in objectInstances)
         {
@@ -30,7 +30,8 @@ public class UniqueItemPropertiesAttribute : Attribute
             {
                 if (!obj.ContainsKey(key))
                 {
-                    throw new ArgumentException($"Property '{key}' not found on element of collection.");
+                    _duplicates.Add("<KEY-NOT-FOUND>");
+                    continue;
                 }
                 value += obj[key].Value?.ToString();
             }

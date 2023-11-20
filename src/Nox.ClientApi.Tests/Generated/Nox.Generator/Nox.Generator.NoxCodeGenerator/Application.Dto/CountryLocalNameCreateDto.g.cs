@@ -28,15 +28,15 @@ public partial class CountryLocalNameCreateDto : CountryLocalNameCreateDtoBase
 public abstract class CountryLocalNameCreateDtoBase : IEntityDto<DomainNamespace.CountryLocalName>
 {
     /// <summary>
-    /// Local name 
-    /// <remarks>Required</remarks>    
+    /// Local name     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;
     /// <summary>
-    /// Local name in native tongue 
-    /// <remarks>Optional</remarks>    
+    /// Local name in native tongue     
     /// </summary>
+    /// <remarks>Optional</remarks>
     public virtual System.String? NativeName { get; set; }
 }

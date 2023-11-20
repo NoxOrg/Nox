@@ -7,19 +7,19 @@ namespace Nox.Integration.Extensions.Send;
 
 public static class IntegrationContextDatabaseSendExtensions
 {
-    public static INoxIntegration WithDatabaseSendAdapter(this INoxIntegration instance, IntegrationTargetDatabaseOptions options, DataConnection dataConnectionDefinition)
+    public static INoxIntegration WithDatabaseSendAdapter(this INoxIntegration instance, IntegrationTargetTableOptions tableOptions, DataConnection dataConnectionDefinition)
     {
         switch (dataConnectionDefinition.Provider)
         {
             case DataConnectionProvider.SqlServer:
-                instance.SendAdapter = CreateSqlServerSendAdapter(instance.Name, options, dataConnectionDefinition);
+                instance.SendAdapter = CreateSqlServerSendAdapter(instance.Name, tableOptions, dataConnectionDefinition);
                 break;
         }
 
         return instance;
     }
     
-    internal static SqlServerSendAdapter CreateSqlServerSendAdapter(string integrationName, IntegrationTargetDatabaseOptions options, DataConnection dataConnectionDefinition)
+    internal static SqlServerSendAdapter CreateSqlServerSendAdapter(string integrationName, IntegrationTargetTableOptions tableOptions, DataConnection dataConnectionDefinition)
     {
         var csb = new SqlConnectionStringBuilder(dataConnectionDefinition.Options)
         {
@@ -29,7 +29,7 @@ public static class IntegrationContextDatabaseSendExtensions
             InitialCatalog = dataConnectionDefinition.Name,
             ApplicationName = integrationName
         };
-        var adapter = new SqlServerSendAdapter(options.StoredProcedure, csb.ConnectionString);
+        var adapter = new SqlServerSendAdapter(tableOptions.TableName, csb.ConnectionString);
         return adapter;
     }
 }

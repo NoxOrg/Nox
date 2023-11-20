@@ -221,13 +221,14 @@ public static class NoxSolutionMarkdownExtensions
 
         sb.AppendLine("#### <u>Relationships</u>");
         sb.AppendLine("");
-        sb.AppendLine("Description|Cardinality|Related Entity|Name|Can Navigate?");
-        sb.AppendLine("-----------|-----------|--------------|----|-------------");
+        sb.AppendLine("Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?");
+        sb.AppendLine("-----------|-----------|--------------|----|---------------|------------------");
 
         foreach (var relationship in relationships)
         {
-            var canNavigate = relationship.CanNavigate ? "Yes" : "No";
-            sb.AppendLine($"{relationship.Description}|{relationship.Relationship}|{relationship.Related.Entity.Name}|{relationship.Name}|{canNavigate}");
+            var canManageRef = relationship.CanManageReference? "Yes" : "No";
+            var canManageEntity = relationship.CanManageEntity? "Yes" : "No";
+            sb.AppendLine($"{relationship.Description}|{relationship.Relationship}|{relationship.Related.Entity.Name}|{relationship.Name}|{canManageRef}|{canManageEntity}");
         }
         return sb.ToString();
     }

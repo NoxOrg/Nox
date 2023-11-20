@@ -26,7 +26,7 @@ namespace ClientApi.Tests.Tests.Controllers
         #region RELATIONSHIP
 
         [Fact]
-        public async Task CanNotNavigateTo_StoreLicenseDefault()
+        public async Task CanManageReferenceTo_StoreLicenseDefault_NotFound()
         {
             //Arrange
             var store = await CreateStore();

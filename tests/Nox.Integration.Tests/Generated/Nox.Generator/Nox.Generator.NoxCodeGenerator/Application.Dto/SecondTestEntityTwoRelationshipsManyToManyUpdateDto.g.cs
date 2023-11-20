@@ -26,9 +26,9 @@ public partial class SecondTestEntityTwoRelationshipsManyToManyUpdateDto : Secon
 public partial class SecondTestEntityTwoRelationshipsManyToManyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.SecondTestEntityTwoRelationshipsManyToMany>
 {
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "TextTestField2 is required")]
     
     public virtual System.String TextTestField2 { get; set; } = default!;

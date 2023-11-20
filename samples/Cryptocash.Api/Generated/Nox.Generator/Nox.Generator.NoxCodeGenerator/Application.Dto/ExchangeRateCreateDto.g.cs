@@ -28,16 +28,16 @@ public partial class ExchangeRateCreateDto : ExchangeRateCreateDtoBase
 public abstract class ExchangeRateCreateDtoBase : IEntityDto<DomainNamespace.ExchangeRate>
 {
     /// <summary>
-    /// Exchange rate conversion amount 
-    /// <remarks>Required</remarks>    
+    /// Exchange rate conversion amount     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "EffectiveRate is required")]
     
     public virtual System.Int32 EffectiveRate { get; set; } = default!;
     /// <summary>
-    /// Exchange rate conversion amount 
-    /// <remarks>Required</remarks>    
+    /// Exchange rate conversion amount     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "EffectiveAt is required")]
     
     public virtual System.DateTimeOffset EffectiveAt { get; set; } = default!;

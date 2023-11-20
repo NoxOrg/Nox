@@ -28,14 +28,14 @@ public partial class RatingProgramCreateDto : RatingProgramCreateDtoBase
 public abstract class RatingProgramCreateDtoBase : IEntityDto<DomainNamespace.RatingProgram>
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>    
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "StoreId is required")]
     public System.Guid StoreId { get; set; } = default!;
     /// <summary>
-    /// Rating Program Name 
-    /// <remarks>Optional</remarks>    
+    /// Rating Program Name     
     /// </summary>
+    /// <remarks>Optional</remarks>
     public virtual System.String? Name { get; set; }
 }

@@ -62,14 +62,14 @@ public abstract class BankNoteDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Currency's cash bank note identifier 
-    /// <remarks>Required.</remarks>    
+    /// Currency's cash bank note identifier     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String CashNote { get; set; } = default!;
 
     /// <summary>
-    /// Bank note value 
-    /// <remarks>Required.</remarks>    
+    /// Bank note value     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public MoneyDto Value { get; set; } = default!;
 }

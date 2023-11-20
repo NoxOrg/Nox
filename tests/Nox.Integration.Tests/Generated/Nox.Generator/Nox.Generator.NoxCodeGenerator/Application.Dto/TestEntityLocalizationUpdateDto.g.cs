@@ -26,16 +26,16 @@ public partial class TestEntityLocalizationUpdateDto : TestEntityLocalizationUpd
 public partial class TestEntityLocalizationUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityLocalization>
 {
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "TextFieldToLocalize is required")]
     
     public virtual System.String TextFieldToLocalize { get; set; } = default!;
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "NumberField is required")]
     
     public virtual System.Int16 NumberField { get; set; } = default!;

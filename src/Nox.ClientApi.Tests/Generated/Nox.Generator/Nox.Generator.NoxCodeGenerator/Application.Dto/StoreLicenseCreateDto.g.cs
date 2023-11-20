@@ -28,9 +28,9 @@ public partial class StoreLicenseCreateDto : StoreLicenseCreateDtoBase
 public abstract class StoreLicenseCreateDtoBase : IEntityDto<DomainNamespace.StoreLicense>
 {
     /// <summary>
-    /// License issuer 
-    /// <remarks>Required</remarks>    
+    /// License issuer     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Issuer is required")]
     
     public virtual System.String Issuer { get; set; } = default!;

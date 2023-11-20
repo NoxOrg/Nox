@@ -101,9 +101,9 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityTwoRelationshipsManyToManyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityTwoRelationshipsManyToManyDto> testEntityTwoRelationshipsManyToMany)
+    public virtual async Task<ActionResult<TestEntityTwoRelationshipsManyToManyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityTwoRelationshipsManyToManyUpdateDto> testEntityTwoRelationshipsManyToMany)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || testEntityTwoRelationshipsManyToMany is null)
         {
             return BadRequest(ModelState);
         }

@@ -28,9 +28,9 @@ public partial class MinimumCashStockCreateDto : MinimumCashStockCreateDtoBase
 public abstract class MinimumCashStockCreateDtoBase : IEntityDto<DomainNamespace.MinimumCashStock>
 {
     /// <summary>
-    /// Cash stock amount 
-    /// <remarks>Required</remarks>    
+    /// Cash stock amount     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Amount is required")]
     
     public virtual MoneyDto Amount { get; set; } = default!;

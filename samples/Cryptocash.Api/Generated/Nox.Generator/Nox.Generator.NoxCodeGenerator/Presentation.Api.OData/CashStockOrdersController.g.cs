@@ -44,22 +44,6 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToVendingMachine([FromRoute] System.Int64 key, [FromBody] VendingMachineCreateDto vendingMachine)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        vendingMachine.CashStockOrdersId = new List<System.Int64> { key };
-        var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetVendingMachineByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToVendingMachine([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.VendingMachine).SingleOrDefault();
@@ -70,6 +54,21 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         
         var references = new System.Uri($"VendingMachines/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    public virtual async Task<ActionResult> PostToVendingMachine([FromRoute] System.Int64 key, [FromBody] VendingMachineCreateDto vendingMachine)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        vendingMachine.CashStockOrdersId = new List<System.Int64> { key };
+        var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetVendingMachineByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]
@@ -122,22 +121,6 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToEmployee([FromRoute] System.Int64 key, [FromBody] EmployeeCreateDto employee)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        employee.CashStockOrderId = key;
-        var createdKey = await _mediator.Send(new CreateEmployeeCommand(employee, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetEmployeeByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToEmployee([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.Employee).SingleOrDefault();
@@ -148,6 +131,21 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         
         var references = new System.Uri($"Employees/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    public virtual async Task<ActionResult> PostToEmployee([FromRoute] System.Int64 key, [FromBody] EmployeeCreateDto employee)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        employee.CashStockOrderId = key;
+        var createdKey = await _mediator.Send(new CreateEmployeeCommand(employee, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetEmployeeByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]

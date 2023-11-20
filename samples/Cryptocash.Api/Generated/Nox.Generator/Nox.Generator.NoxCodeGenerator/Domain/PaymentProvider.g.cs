@@ -51,21 +51,21 @@ internal record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomai
 internal abstract partial class PaymentProviderBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Payment provider unique identifier
-    /// <remarks>Required.</remarks>   
+    /// Payment provider unique identifier    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Payment provider name
-    /// <remarks>Required.</remarks>   
+    /// Payment provider name    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text PaymentProviderName { get; set; } = null!;
 
     /// <summary>
-    /// Payment provider account type
-    /// <remarks>Required.</remarks>   
+    /// Payment provider account type    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text PaymentProviderType { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

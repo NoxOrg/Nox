@@ -60,9 +60,9 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         entity.SetIfNotNull(createDto.OpeningDay, (entity) => entity.OpeningDay =ClientApi.Domain.StoreMetadata.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>()));
         entity.SetIfNotNull(createDto.Status, (entity) => entity.Status =ClientApi.Domain.StoreMetadata.CreateStatus(createDto.Status.NonNullValue<System.Int32>()));
         entity.EnsureId(createDto.Id);
-        if (createDto.VerifiedEmails is not null)
+        if (createDto.EmailAddress is not null)
         {
-            entity.CreateRefToVerifiedEmails(EmailAddressFactory.CreateEntity(createDto.VerifiedEmails));
+            entity.CreateRefToEmailAddress(EmailAddressFactory.CreateEntity(createDto.EmailAddress));
         }
         return entity;
     }

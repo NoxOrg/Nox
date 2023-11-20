@@ -1,6 +1,5 @@
 using Moq;
-using Nox.Solution.Macros;
-using Nox.Solution.Utils;
+using Nox.Yaml.VariableProviders.Environment;
 
 namespace Nox.Solution.Tests.Macros;
 
@@ -20,18 +19,18 @@ public class EnvironmentVariableMacroParserTest
 
 
         var noxConfig = new NoxSolutionBuilder()
-            .UseYamlFile("./files/macros/sample.solution.nox.yaml")
-            .UseEnvironmentProvider(environmentProvider.Object)
+            .WithFile("./files/macros/sample.solution.nox.yaml")
+            .WithEnvironmentProvider(environmentProvider.Object)
             .Build();
 
         Assert.NotNull(noxConfig);
 
-        Assert.Equal("cacheuser1",noxConfig.Infrastructure.Persistence!.CacheServer?.User);
-        Assert.Equal("cachepwd1",noxConfig.Infrastructure.Persistence!.CacheServer?.Password);
-        Assert.Equal("dbuser1",noxConfig.Infrastructure.Persistence!.DatabaseServer?.User);
-        Assert.Equal(@"#{}$%@'\\",noxConfig.Infrastructure.Persistence!.DatabaseServer?.Password);
-        Assert.Equal("secretuser1",noxConfig.Infrastructure.Security?.Secrets?.OrganizationSecretsServer?.User);
-        Assert.Equal("secretpwd1",noxConfig.Infrastructure.Security?.Secrets?.OrganizationSecretsServer?.Password);
+        Assert.Equal("cacheuser1", noxConfig.Infrastructure.Persistence!.CacheServer?.User);
+        Assert.Equal("cachepwd1", noxConfig.Infrastructure.Persistence!.CacheServer?.Password);
+        Assert.Equal("dbuser1", noxConfig.Infrastructure.Persistence!.DatabaseServer?.User);
+        Assert.Equal(@"#{}$%@'\\", noxConfig.Infrastructure.Persistence!.DatabaseServer?.Password);
+        Assert.Equal("secretuser1", noxConfig.Infrastructure.Security?.Secrets?.OrganizationSecretsServer?.User);
+        Assert.Equal("secretpwd1", noxConfig.Infrastructure.Security?.Secrets?.OrganizationSecretsServer?.Password);
 
     }
 
@@ -40,11 +39,11 @@ public class EnvironmentVariableMacroParserTest
     {
         try
         {
-            System.Environment.SetEnvironmentVariable("MyTemp","MyTemp");
-            System.Environment.SetEnvironmentVariable("MyTempDir","MyTempDir");
+            System.Environment.SetEnvironmentVariable("MyTemp", "MyTemp");
+            System.Environment.SetEnvironmentVariable("MyTempDir", "MyTempDir");
 
             var noxConfig = new NoxSolutionBuilder()
-                .UseYamlFile("./files/macros/envvar.solution.nox.yaml")
+                .WithFile("./files/macros/envvar.solution.nox.yaml")
                 .Build();
 
             Assert.NotNull(noxConfig);
@@ -54,8 +53,8 @@ public class EnvironmentVariableMacroParserTest
         }
         finally
         {
-            System.Environment.SetEnvironmentVariable("MyTemp",null);
-            System.Environment.SetEnvironmentVariable("MyTempDir",null);
+            System.Environment.SetEnvironmentVariable("MyTemp", null);
+            System.Environment.SetEnvironmentVariable("MyTempDir", null);
         }
     }
 

@@ -6,5 +6,11 @@ public enum EntityMemberType
     Key,
     Relationship,
     OwnedRelationship,
-    ImpliedRelationship
+    ImpliedRelationship,
+    Query,
+    Command,
+    DomainEvent,
+    IntegrationEvent,
+    UniqueConstraint,
+    Entity
 }

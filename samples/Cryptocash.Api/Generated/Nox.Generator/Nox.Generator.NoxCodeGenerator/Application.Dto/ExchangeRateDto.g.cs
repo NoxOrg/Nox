@@ -56,14 +56,14 @@ public abstract class ExchangeRateDtoBase : EntityDtoBase, IEntityDto<DomainName
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Exchange rate conversion amount 
-    /// <remarks>Required.</remarks>    
+    /// Exchange rate conversion amount     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.Int32 EffectiveRate { get; set; } = default!;
 
     /// <summary>
-    /// Exchange rate conversion amount 
-    /// <remarks>Required.</remarks>    
+    /// Exchange rate conversion amount     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.DateTimeOffset EffectiveAt { get; set; } = default!;
 }

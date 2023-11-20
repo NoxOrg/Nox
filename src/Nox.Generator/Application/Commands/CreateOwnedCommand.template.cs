@@ -1,4 +1,5 @@
-﻿﻿// Generated
+﻿{{- relationshipName = GetNavigationPropertyName parent relationship }}﻿
+// Generated
 
 #nullable enable
 
@@ -17,11 +18,11 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
-public partial record Create{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}CreateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+public partial record Create{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}CreateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 
-internal partial class Create{{entity.Name}}For{{parent.Name}}CommandHandler : Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase
+internal partial class Create{{relationshipName}}For{{parent.Name}}CommandHandler : Create{{relationshipName}}For{{parent.Name}}CommandHandlerBase
 {
-	public Create{{entity.Name}}For{{parent.Name}}CommandHandler(
+	public Create{{relationshipName}}For{{parent.Name}}CommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory)
@@ -29,12 +30,12 @@ internal partial class Create{{entity.Name}}For{{parent.Name}}CommandHandler : C
 	{
 	}
 }
-internal abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase : CommandBase<Create{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler<Create{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
+internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandlerBase : CommandBase<Create{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler<Create{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;
 
-	public Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase(
+	public Create{{relationshipName}}For{{parent.Name}}CommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(noxSolution)
@@ -43,7 +44,7 @@ internal abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBas
 		_entityFactory = entityFactory;
 	}
 
-	public virtual  async Task<{{entity.Name}}KeyDto?> Handle(Create{{entity.Name}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
+	public virtual  async Task<{{entity.Name}}KeyDto?> Handle(Create{{relationshipName}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
 	{
 		await OnExecutingAsync(request);
 
@@ -64,7 +65,7 @@ internal abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBas
 		entityToCreate.Ensure{{key.Name}}();
 		{{- end }}
 		{{- end }}
-		parentEntity.CreateRefTo{{relationship.Name}}(entity);
+		parentEntity.CreateRefTo{{relationshipName}}(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 

@@ -28,9 +28,9 @@ public partial class TestEntityWithNuidCreateDto : TestEntityWithNuidCreateDtoBa
 public abstract class TestEntityWithNuidCreateDtoBase : IEntityDto<DomainNamespace.TestEntityWithNuid>
 {
     /// <summary>
-    ///  
-    /// <remarks>Required</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;

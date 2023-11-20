@@ -262,16 +262,14 @@ namespace ClientApi.Tests.Tests.Controllers
             var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
                 new WorkplaceCreateDto { Name = _fixture.Create<string>() });
 
-            var headers = CreateEtagHeader(workplaceResponse?.Etag);
             var postToCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(
                 $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
-                new CountryCreateDto() { Name = _fixture.Create<string>() },
-                headers);
+                new CountryCreateDto() { Name = _fixture.Create<string>() });
 
             var expectedName = _fixture.Create<string>();
 
             // Act
-            headers = CreateEtagHeader(postToCountryResponse?.Etag);
+            var headers = CreateEtagHeader(postToCountryResponse?.Etag);
             var putToCountryResponse = await PutAsync<CountryUpdateDto>(
                 $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
                 new CountryUpdateDto()
@@ -375,13 +373,11 @@ namespace ClientApi.Tests.Tests.Controllers
                 new WorkplaceCreateDto { Name = _fixture.Create<string>() });
 
             // Act
-            var headers = CreateEtagHeader(workplaceResponse?.Etag);
             var postToCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(
                 $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
-                new CountryCreateDto() { Name = _fixture.Create<string>() },
-                headers);
+                new CountryCreateDto() { Name = _fixture.Create<string>() });
 
-            headers = CreateEtagHeader(postToCountryResponse?.Etag);
+            var headers = CreateEtagHeader(postToCountryResponse?.Etag);
             var deleteCountryResponse = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}", headers);
 
             const string oDataRequest = $"$expand={nameof(WorkplaceDto.Country)}";
@@ -632,7 +628,7 @@ namespace ClientApi.Tests.Tests.Controllers
             frResult![0].Description.Should().Be("[" + createDto.Description + "]");
         }
 
-        [Fact(Skip="The Patch end point need to be changed from EntityDto to UpdateDto")]
+        [Fact]
         public async Task Patch_DefaultLanguageDescription_UpdatesLocalization()
         {
             // Arrange
@@ -666,7 +662,7 @@ namespace ClientApi.Tests.Tests.Controllers
             enResult![0].Description.Should().Be(updateDto.Description);
         }
 
-        [Fact(Skip="The Patch end point need to be changed from EntityDto to UpdateDto")]
+        [Fact]
         public async Task Patch_NotDefaultLanguageDescription_UpdatesLocalization()
         {
             // Arrange
@@ -775,36 +771,8 @@ namespace ClientApi.Tests.Tests.Controllers
             putResult.Should().NotBeNull();
         }
 
-        [Fact(Skip = "The Patch end point need to be changed from EntityDto to UpdateDto")]
-        public async Task Patch_Name_ShouldUpdateNameOnly()
-        {
-            // Arrange
-            var expectedName = _fixture.Create<string>();
-
-            var createDto = new WorkplaceCreateDto
-            {
-                Name = _fixture.Create<string>(),
-            };
-
-            var updateDto = new WorkplaceUpdateDto
-            {
-                Name = expectedName
-            };
-
-            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto);
-            var headers = CreateEtagHeader(postResult!.Etag);
-            // Act
-
-            var patchResult = await PatchAsync<WorkplaceUpdateDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}", updateDto, headers, false);
-
-            //Assert
-            var errorMessage = await patchResult!.Content.ReadAsStringAsync();
-            errorMessage.Should().Contain("Immutable nuid property Id value is different since it has been initialized");
-            patchResult.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
-        }
-
         // TODO: FIX THIS TEST ONCE LOCALIZATION IS IMPLEMENTED FOR PATCH
-        [Fact(Skip = "The Patch end point need to be changed from EntityDto to UpdateDto")]
+        [Fact]
         public async Task Patch_Description_ShouldUpdateDescriptionOnly()
         {
             // Arrange

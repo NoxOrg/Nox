@@ -2,16 +2,16 @@
 {
 
     /// <summary>
-    ///  Nox configuration is invalid
+    /// DomainContext must be defined in IntegrationEventTypeAttribute.
     /// </summary>
-    public class EventTraitIsNotFoundException : Exception
+    public class IntegrationEventDomainContextNullException : Exception
     {
-        public EventTraitIsNotFoundException(string message)
+        public IntegrationEventDomainContextNullException(string message)
             : base(message)
         {
         }
 
-        public EventTraitIsNotFoundException(string message, Exception inner)
+        public IntegrationEventDomainContextNullException(string message, Exception inner)
             : base(message, inner)
         {
         }

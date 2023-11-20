@@ -101,9 +101,9 @@ public abstract partial class TenantsControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TenantDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<TenantDto> tenant)
+    public virtual async Task<ActionResult<TenantDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<TenantUpdateDto> tenant)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || tenant is null)
         {
             return BadRequest(ModelState);
         }

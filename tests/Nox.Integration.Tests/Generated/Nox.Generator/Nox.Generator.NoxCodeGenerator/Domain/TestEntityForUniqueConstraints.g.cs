@@ -51,39 +51,39 @@ internal record TestEntityForUniqueConstraintsDeleted(TestEntityForUniqueConstra
 internal abstract partial class TestEntityForUniqueConstraintsBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text TextField { get; set; } = null!;
 
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Number NumberField { get; set; } = null!;
 
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Number UniqueNumberField { get; set; } = null!;
 
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.CountryCode2 UniqueCountryCode { get; set; } = null!;
 
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.CurrencyCode3 UniqueCurrencyCode { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

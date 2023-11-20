@@ -44,22 +44,6 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToTestRelationshipOne([FromRoute] System.String key, [FromBody] SecondTestEntityTwoRelationshipsOneToOneCreateDto secondTestEntityTwoRelationshipsOneToOne)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        secondTestEntityTwoRelationshipsOneToOne.TestRelationshipOneOnOtherSideId = key;
-        var createdKey = await _mediator.Send(new CreateSecondTestEntityTwoRelationshipsOneToOneCommand(secondTestEntityTwoRelationshipsOneToOne, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToTestRelationshipOne([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipOne).SingleOrDefault();
@@ -70,6 +54,21 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         
         var references = new System.Uri($"SecondTestEntityTwoRelationshipsOneToOnes/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    public virtual async Task<ActionResult> PostToTestRelationshipOne([FromRoute] System.String key, [FromBody] SecondTestEntityTwoRelationshipsOneToOneCreateDto secondTestEntityTwoRelationshipsOneToOne)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        secondTestEntityTwoRelationshipsOneToOne.TestRelationshipOneOnOtherSideId = key;
+        var createdKey = await _mediator.Send(new CreateSecondTestEntityTwoRelationshipsOneToOneCommand(secondTestEntityTwoRelationshipsOneToOne, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]
@@ -122,22 +121,6 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToTestRelationshipTwo([FromRoute] System.String key, [FromBody] SecondTestEntityTwoRelationshipsOneToOneCreateDto secondTestEntityTwoRelationshipsOneToOne)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        secondTestEntityTwoRelationshipsOneToOne.TestRelationshipTwoOnOtherSideId = key;
-        var createdKey = await _mediator.Send(new CreateSecondTestEntityTwoRelationshipsOneToOneCommand(secondTestEntityTwoRelationshipsOneToOne, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToTestRelationshipTwo([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipTwo).SingleOrDefault();
@@ -148,6 +131,21 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         
         var references = new System.Uri($"SecondTestEntityTwoRelationshipsOneToOnes/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    public virtual async Task<ActionResult> PostToTestRelationshipTwo([FromRoute] System.String key, [FromBody] SecondTestEntityTwoRelationshipsOneToOneCreateDto secondTestEntityTwoRelationshipsOneToOne)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        secondTestEntityTwoRelationshipsOneToOne.TestRelationshipTwoOnOtherSideId = key;
+        var createdKey = await _mediator.Send(new CreateSecondTestEntityTwoRelationshipsOneToOneCommand(secondTestEntityTwoRelationshipsOneToOne, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]

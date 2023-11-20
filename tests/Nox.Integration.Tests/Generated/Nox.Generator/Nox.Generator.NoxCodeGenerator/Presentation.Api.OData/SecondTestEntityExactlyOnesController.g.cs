@@ -44,22 +44,6 @@ public abstract partial class SecondTestEntityExactlyOnesControllerBase : ODataC
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToTestEntityExactlyOne([FromRoute] System.String key, [FromBody] TestEntityExactlyOneCreateDto testEntityExactlyOne)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        testEntityExactlyOne.SecondTestEntityExactlyOneId = key;
-        var createdKey = await _mediator.Send(new CreateTestEntityExactlyOneCommand(testEntityExactlyOne, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToTestEntityExactlyOne([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(key))).Select(x => x.TestEntityExactlyOne).SingleOrDefault();
@@ -70,6 +54,21 @@ public abstract partial class SecondTestEntityExactlyOnesControllerBase : ODataC
         
         var references = new System.Uri($"TestEntityExactlyOnes/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    public virtual async Task<ActionResult> PostToTestEntityExactlyOne([FromRoute] System.String key, [FromBody] TestEntityExactlyOneCreateDto testEntityExactlyOne)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        testEntityExactlyOne.SecondTestEntityExactlyOneId = key;
+        var createdKey = await _mediator.Send(new CreateTestEntityExactlyOneCommand(testEntityExactlyOne, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]

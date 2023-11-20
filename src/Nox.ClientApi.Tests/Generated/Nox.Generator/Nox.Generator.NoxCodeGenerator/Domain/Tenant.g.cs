@@ -51,9 +51,9 @@ internal record TenantDeleted(Tenant Tenant) : IDomainEvent, INotification;
 internal abstract partial class TenantBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nuid Id {get; set;} = null!;
        
     	public virtual void EnsureId()
@@ -73,9 +73,9 @@ internal abstract partial class TenantBase : EntityBase, IEntityConcurrent
     	}
 
     /// <summary>
-    /// Teanant Name
-    /// <remarks>Required.</remarks>   
+    /// Teanant Name    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text Name { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
