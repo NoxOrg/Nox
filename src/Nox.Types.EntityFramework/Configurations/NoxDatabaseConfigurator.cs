@@ -115,7 +115,7 @@ namespace Nox.Types.EntityFramework.Configurations
             };
 
             //Configure keys without navigation properties
-            ConfigureKeys(CodeGenConventions, builder, localizedEntity, keys, configureNavigationProperty: false, deleteBehavior: DeleteBehavior.Cascade);
+            ConfigureKeys(CodeGenConventions, builder, localizedEntity, keys, configureNavigationProperty: true, deleteBehavior: DeleteBehavior.Cascade);
 
             ConfigureLocalizedAttributes(CodeGenConventions, builder, localizedEntity);
         }
