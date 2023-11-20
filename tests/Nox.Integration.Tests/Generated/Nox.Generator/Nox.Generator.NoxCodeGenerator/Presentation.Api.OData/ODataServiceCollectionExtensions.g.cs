@@ -205,7 +205,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<TestEntityOwnedRelationshipExactlyOneDto>().Ignore(e => e.Etag);
 
 		builder.EntityType<SecondTestEntityOwnedRelationshipExactlyOneDto>().HasKey(e => new {  });
-        builder.ComplexType<SecondTestEntityOwnedRelationshipExactlyOneUpdateDto>();
+        builder.ComplexType<SecondTestEntityOwnedRelationshipExactlyOneUpsertDto>();
 
         builder.EntitySet<TestEntityOwnedRelationshipZeroOrOneDto>("TestEntityOwnedRelationshipZeroOrOnes");
 		builder.EntityType<TestEntityOwnedRelationshipZeroOrOneDto>().HasKey(e => new { e.Id });
@@ -215,7 +215,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<TestEntityOwnedRelationshipZeroOrOneDto>().Ignore(e => e.Etag);
 
 		builder.EntityType<SecondTestEntityOwnedRelationshipZeroOrOneDto>().HasKey(e => new {  });
-        builder.ComplexType<SecondTestEntityOwnedRelationshipZeroOrOneUpdateDto>();
+        builder.ComplexType<SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto>();
 
         builder.EntitySet<TestEntityOwnedRelationshipOneOrManyDto>("TestEntityOwnedRelationshipOneOrManies");
 		builder.EntityType<TestEntityOwnedRelationshipOneOrManyDto>().HasKey(e => new { e.Id });
@@ -226,7 +226,7 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntitySet<SecondTestEntityOwnedRelationshipOneOrManyDto>("SecondTestEntityOwnedRelationshipOneOrManies");
 		builder.EntityType<SecondTestEntityOwnedRelationshipOneOrManyDto>().HasKey(e => new { e.Id });
-        builder.ComplexType<SecondTestEntityOwnedRelationshipOneOrManyUpdateDto>();
+        builder.ComplexType<SecondTestEntityOwnedRelationshipOneOrManyUpsertDto>();
 
         builder.EntitySet<TestEntityOwnedRelationshipZeroOrManyDto>("TestEntityOwnedRelationshipZeroOrManies");
 		builder.EntityType<TestEntityOwnedRelationshipZeroOrManyDto>().HasKey(e => new { e.Id });
@@ -237,7 +237,7 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntitySet<SecondTestEntityOwnedRelationshipZeroOrManyDto>("SecondTestEntityOwnedRelationshipZeroOrManies");
 		builder.EntityType<SecondTestEntityOwnedRelationshipZeroOrManyDto>().HasKey(e => new { e.Id });
-        builder.ComplexType<SecondTestEntityOwnedRelationshipZeroOrManyUpdateDto>();
+        builder.ComplexType<SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto>();
 
         builder.EntitySet<TestEntityTwoRelationshipsOneToOneDto>("TestEntityTwoRelationshipsOneToOnes");
 		builder.EntityType<TestEntityTwoRelationshipsOneToOneDto>().HasKey(e => new { e.Id });

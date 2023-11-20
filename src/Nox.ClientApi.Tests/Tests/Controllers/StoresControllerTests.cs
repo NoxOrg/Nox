@@ -26,7 +26,7 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task GetById_ReturnsOwnedEntitites()
         {
             // Arrange
-            var expectedEmail = new EmailAddressCreateDto() { Email = "test@gmail.com", IsVerified = false };
+            var expectedEmail = new EmailAddressUpsertDto() { Email = "test@gmail.com", IsVerified = false };
             var createDto = new StoreCreateDto
             {
                 Name = _fixture.Create<string>(),
@@ -79,7 +79,7 @@ namespace ClientApi.Tests.Tests.Controllers
                     PostalCode: "KT16 0RS",
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
-                EmailAddress = new EmailAddressCreateDto() { Email = "test@gmail.com", IsVerified = false },
+                EmailAddress = new EmailAddressUpsertDto() { Email = "test@gmail.com", IsVerified = false },
                 OpeningDay = expectedDate
             };
             await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, createDto);
@@ -336,7 +336,7 @@ namespace ClientApi.Tests.Tests.Controllers
                     PostalCode: "KT16 0RS",
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
-                EmailAddress = new EmailAddressCreateDto
+                EmailAddress = new EmailAddressUpsertDto
                 {
                     Email = "test@gmail.com",
                     IsVerified = false

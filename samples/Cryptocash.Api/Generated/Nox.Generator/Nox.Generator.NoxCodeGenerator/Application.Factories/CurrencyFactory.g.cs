@@ -26,13 +26,13 @@ namespace Cryptocash.Application.Factories;
 internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    protected IEntityFactory<Cryptocash.Domain.BankNote, BankNoteCreateDto, BankNoteUpdateDto> BankNoteFactory {get;}
-    protected IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> ExchangeRateFactory {get;}
+    protected IEntityFactory<Cryptocash.Domain.BankNote, BankNoteUpsertDto, BankNoteUpsertDto> BankNoteFactory {get;}
+    protected IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> ExchangeRateFactory {get;}
 
     public CurrencyFactoryBase
     (
-        IEntityFactory<Cryptocash.Domain.BankNote, BankNoteCreateDto, BankNoteUpdateDto> banknotefactory,
-        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> exchangeratefactory
+        IEntityFactory<Cryptocash.Domain.BankNote, BankNoteUpsertDto, BankNoteUpsertDto> banknotefactory,
+        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> exchangeratefactory
         )
     {
         BankNoteFactory = banknotefactory;
@@ -231,8 +231,8 @@ internal partial class CurrencyFactory : CurrencyFactoryBase
 {
     public CurrencyFactory
     (
-        IEntityFactory<Cryptocash.Domain.BankNote, BankNoteCreateDto, BankNoteUpdateDto> banknotefactory,
-        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> exchangeratefactory
+        IEntityFactory<Cryptocash.Domain.BankNote, BankNoteUpsertDto, BankNoteUpsertDto> banknotefactory,
+        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> exchangeratefactory
     ) : base(banknotefactory,exchangeratefactory)
     {}
 }

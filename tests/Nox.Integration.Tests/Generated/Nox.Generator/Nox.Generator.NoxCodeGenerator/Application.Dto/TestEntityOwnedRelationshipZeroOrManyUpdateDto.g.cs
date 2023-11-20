@@ -32,4 +32,8 @@ public partial class TestEntityOwnedRelationshipZeroOrManyUpdateDtoBase: EntityD
     [Required(ErrorMessage = "TextTestField is required")]
     
     public virtual System.String TextTestField { get; set; } = default!;
+    /// <summary>
+    /// TestEntityOwnedRelationshipZeroOrMany Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrMany ZeroOrMany SecondTestEntityOwnedRelationshipZeroOrManies
+    /// </summary>
+    public virtual List<SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto> SecondTestEntityOwnedRelationshipZeroOrManies { get; set; } = new();
 }

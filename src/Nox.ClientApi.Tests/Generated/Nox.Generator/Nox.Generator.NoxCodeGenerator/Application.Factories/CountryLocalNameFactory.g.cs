@@ -23,7 +23,7 @@ using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Factories;
 
-internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLocalNameEntity, CountryLocalNameCreateDto, CountryLocalNameUpdateDto>
+internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
@@ -33,12 +33,12 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
     {
     }
 
-    public virtual CountryLocalNameEntity CreateEntity(CountryLocalNameCreateDto createDto)
+    public virtual CountryLocalNameEntity CreateEntity(CountryLocalNameUpsertDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(CountryLocalNameEntity entity, CountryLocalNameUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual void UpdateEntity(CountryLocalNameEntity entity, CountryLocalNameUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         UpdateEntityInternal(entity, updateDto, cultureCode);
     }
@@ -48,7 +48,7 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private ClientApi.Domain.CountryLocalName ToEntity(CountryLocalNameCreateDto createDto)
+    private ClientApi.Domain.CountryLocalName ToEntity(CountryLocalNameUpsertDto createDto)
     {
         var entity = new ClientApi.Domain.CountryLocalName();
         entity.Name = ClientApi.Domain.CountryLocalNameMetadata.CreateName(createDto.Name);
@@ -56,7 +56,7 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
         return entity;
     }
 
-    private void UpdateEntityInternal(CountryLocalNameEntity entity, CountryLocalNameUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private void UpdateEntityInternal(CountryLocalNameEntity entity, CountryLocalNameUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = ClientApi.Domain.CountryLocalNameMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.SetIfNotNull(updateDto.NativeName, (entity) => entity.NativeName = ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(updateDto.NativeName.ToValueFromNonNull<System.String>()));

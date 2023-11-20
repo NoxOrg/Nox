@@ -21,19 +21,19 @@ internal partial class PartialUpdateBankNotesForCurrencyCommandHandler: PartialU
 	public PartialUpdateBankNotesForCurrencyCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<BankNoteEntity, BankNoteCreateDto, BankNoteUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateBankNotesForCurrencyCommandHandlerBase: CommandBase<PartialUpdateBankNotesForCurrencyCommand, BankNoteEntity>, IRequestHandler <PartialUpdateBankNotesForCurrencyCommand, BankNoteKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<BankNoteEntity, BankNoteCreateDto, BankNoteUpdateDto> EntityFactory { get; }
+	public IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> EntityFactory { get; }
 
 	public PartialUpdateBankNotesForCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<BankNoteEntity, BankNoteCreateDto, BankNoteUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

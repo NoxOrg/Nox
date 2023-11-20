@@ -59,6 +59,7 @@
 //  - Nox.Generator.Application.Dto.EntityLocalizedDtoGenerator
 //  - Nox.Generator.Application.Dto.EntityLocalizedUpsertDtoGenerator
 //  - Nox.Generator.Application.Dto.EntityUpdateDtoGenerator
+//  - Nox.Generator.Application.Dto.EntityUpsertDtoGenerator
 //  - Nox.Generator.Application.Dto.NoxTypeDtoGenerator
 //  - Nox.Generator.Application.Dto.EntityEnumerationGenerator
 //  - Nox.Generator.Application.Commands.CreateCommandGenerator
