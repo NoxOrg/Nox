@@ -53,6 +53,7 @@ public class NoxSimpleTypeDefinition : YamlConfigNode<object,object>
     public EncryptedTextTypeOptions? EncryptedTextTypeOptions { get; set; }
 
     [IfEquals(nameof(Type), NoxType.EntityId)]
+    [Required]
     public EntityIdTypeOptions? EntityIdTypeOptions { get; set; }
 
     [IfEquals(nameof(Type), NoxType.Enumeration)]

@@ -1346,7 +1346,8 @@
             {
               "required": [
                 "name",
-                "type"
+                "type",
+                "entityIdTypeOptions"
               ],
               "properties": {
                 "objectTypeOptions": {    
@@ -1404,14 +1405,7 @@
                   "const": "entityId"
                 },
                 "entityIdTypeOptions": {    
-                  "oneOf": [
-                    {
-                      "type": "object"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ],
+                  "type": "object",
                   "properties": {
                     "entity": {    
                       "oneOf": [
@@ -6869,7 +6863,8 @@
             {
               "required": [
                 "name",
-                "type"
+                "type",
+                "entityIdTypeOptions"
               ],
               "properties": {
                 "objectTypeOptions": {    
@@ -6927,14 +6922,7 @@
                   "const": "entityId"
                 },
                 "entityIdTypeOptions": {    
-                  "oneOf": [
-                    {
-                      "type": "object"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ],
+                  "type": "object",
                   "properties": {
                     "entity": {    
                       "oneOf": [
@@ -12089,7 +12077,8 @@
     {
       "required": [
         "name",
-        "type"
+        "type",
+        "entityIdTypeOptions"
       ],
       "properties": {
         "name": {    
@@ -12114,14 +12103,7 @@
           "const": "entityId"
         },
         "entityIdTypeOptions": {    
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
-          ],
+          "type": "object",
           "properties": {
             "entity": {    
               "oneOf": [
