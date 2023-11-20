@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Commands;
 
-using DtoNameSpace = ClientApi.Application.Dto;
-using PersistenceNameSpace = ClientApi.Infrastructure.Persistence;
+using DtoNameSpace = SampleWebApp.Application.Dto;
+using PersistenceNameSpace = SampleWebApp.Infrastructure.Persistence;
 
-namespace ClientApi.Application.Queries;
+namespace SampleWebApp.Application.Queries;
 public partial record GetCountriesContinentsQuery(Nox.Types.CultureCode cultureCode) : IRequest<IQueryable<DtoNameSpace.CountryContinentDto>>;
 
 internal partial class GetCountriesContinentsQueryHandler: GetCountriesContinentsQueryHandlerBase
