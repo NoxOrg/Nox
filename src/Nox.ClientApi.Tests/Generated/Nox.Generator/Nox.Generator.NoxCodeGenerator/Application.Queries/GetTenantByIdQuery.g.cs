@@ -12,7 +12,7 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public partial record GetTenantByIdQuery(System.Guid keyId) : IRequest <IQueryable<TenantDto>>;
+public partial record GetTenantByIdQuery(System.UInt32 keyId) : IRequest <IQueryable<TenantDto>>;
 
 internal partial class GetTenantByIdQueryHandler:GetTenantByIdQueryHandlerBase
 {

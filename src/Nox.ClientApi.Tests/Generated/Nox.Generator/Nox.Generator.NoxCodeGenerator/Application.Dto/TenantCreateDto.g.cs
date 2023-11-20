@@ -26,11 +26,7 @@ public partial class TenantCreateDto : TenantCreateDtoBase
 /// Tenant.
 /// </summary>
 public abstract class TenantCreateDtoBase : IEntityDto<DomainNamespace.Tenant>
-{/// <summary>
-    ///      
-    /// </summary>
-    /// <remarks>Optional.</remarks>
-    public System.Guid Id { get; set; } = default!;
+{
     /// <summary>
     /// Teanant Name     
     /// </summary>
@@ -42,7 +38,7 @@ public abstract class TenantCreateDtoBase : IEntityDto<DomainNamespace.Tenant>
     /// <summary>
     /// Tenant Workplaces where the tenant is active ZeroOrMany Workplaces
     /// </summary>
-    public virtual List<System.UInt32> WorkplacesId { get; set; } = new();
+    public virtual List<System.Int64> WorkplacesId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<WorkplaceCreateDto> Workplaces { get; set; } = new();

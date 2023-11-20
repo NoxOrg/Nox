@@ -22,9 +22,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
     {
         var localizedEntity = new {{localizedEntityName}}
         {
-            {{- for key in entity.Keys }}
-            {{key.Name}} = entity.{{key.Name}},
-            {{- end }}
+            {{entity.Name}} = entity,
             {{codeGeneratorState.LocalizationCultureField}} = cultureCode,
         };
 

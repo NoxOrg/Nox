@@ -53,7 +53,6 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         var entity = new ClientApi.Domain.Workplace();
         entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(createDto.Name);
         entity.SetIfNotNull(createDto.Description, (entity) => entity.Description =ClientApi.Domain.WorkplaceMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>()));
-		entity.EnsureId();
         return entity;
     }
 
@@ -61,7 +60,6 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
     {
         entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         if(IsDefaultCultureCode(cultureCode)) entity.SetIfNotNull(updateDto.Description, (entity) => entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>()));
-		entity.EnsureId();
     }
 
     private void PartialUpdateEntityInternal(WorkplaceEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -86,7 +84,6 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
                 entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(DescriptionUpdateValue);
             }
         }
-		entity.EnsureId();
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)

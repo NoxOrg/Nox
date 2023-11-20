@@ -12,9 +12,9 @@ This event is triggered when a new Tenant is created.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|Guid|
+Id|Nuid|
 Name|Text|Teanant Name
-WorkplaceId|Nuid|Workplace unique identifier
+WorkplaceId|AutoNumber|Workplace unique identifier
 
 
 ### `TenantUpdated`
@@ -25,9 +25,9 @@ This event is triggered when an existing Tenant is updated.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|Guid|
+Id|Nuid|
 Name|Text|Teanant Name
-WorkplaceId|Nuid|Workplace unique identifier
+WorkplaceId|AutoNumber|Workplace unique identifier
 
 
 ### `TenantDeleted`
@@ -38,7 +38,7 @@ This event is triggered when an existing Tenant is deleted.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|Guid|
+Id|Nuid|
 Name|Text|Teanant Name
-WorkplaceId|Nuid|Workplace unique identifier
+WorkplaceId|AutoNumber|Workplace unique identifier
 

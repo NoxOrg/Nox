@@ -41,6 +41,8 @@ internal partial class CountryLocalized : IEntityConcurrent
     /// </summary>
     public Nox.Types.Text? Capital { get; set; } = null!;
 
+    public virtual SampleWebApp.Domain.Country Country { get; set; } = null!;
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
