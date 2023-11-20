@@ -8,7 +8,7 @@ using Cryptocash.Ui.Generated.Data.ApiSetting;
 
 namespace Cryptocash.Ui.Generated.Component
 {
-    public class UiEditEntitySelectLandLordBase : ComponentBase
+    public class UiEditEntityExactlyOneLandLordBase : ComponentBase
     {
         #region Declarations
 
