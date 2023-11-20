@@ -109,7 +109,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
     {
         InitializeAttributesByName();
         InitializeKeyByName();
-        InitializeRelationshipPublicNames();
+        InitializeRelationshipPropertyNames();
     }
 
     private Dictionary<string, NoxSimpleTypeDefinition>? _keysByName;
@@ -128,14 +128,16 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
 
     private Dictionary<EntityRelationship, string>? _relationshipNavigationPropertyName;
 
-    private void InitializeRelationshipPublicNames()
+    private void InitializeRelationshipPropertyNames()
     {
         _relationshipNavigationPropertyName = new();
 
-        foreach (var rel in Relationships)
+        var allRelationships = AllRelationships.ToList();
+
+        foreach (var rel in allRelationships)
         {
             string name;
-            if (Relationships.Count(r => r.Entity == rel.Entity) == 1)
+            if (allRelationships.Count(r => r.Entity == rel.Entity) == 1)
                 name = rel.WithSingleEntity()
                     ? rel.Entity
                     : rel.EntityPlural;

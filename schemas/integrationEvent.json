@@ -13,14 +13,14 @@
   "anyOf": [
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -122,14 +122,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -5652,14 +5652,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -11182,14 +11182,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -11290,14 +11290,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -11426,14 +11426,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -11536,14 +11536,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -11654,14 +11654,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -11800,14 +11800,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -11908,14 +11908,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -12044,14 +12044,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -12165,14 +12165,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -12263,14 +12263,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -12404,14 +12404,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -12525,14 +12525,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -12642,14 +12642,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -12754,14 +12754,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -12873,14 +12873,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -12981,14 +12981,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -13117,14 +13117,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -13235,14 +13235,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -13555,14 +13555,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -13683,14 +13683,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -13801,14 +13801,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -14197,14 +14197,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -14315,14 +14315,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -14431,14 +14431,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -14574,14 +14574,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -14682,14 +14682,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -14805,14 +14805,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -14943,14 +14943,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -15292,14 +15292,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -15428,14 +15428,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -15564,14 +15564,14 @@
     },
     {
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
@@ -15683,14 +15683,14 @@
     {
       "type": "object",
       "required": [
-        "trait",
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "trait": {    
-          "title": "The trait of the event. Contains no spaces.",
-          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },

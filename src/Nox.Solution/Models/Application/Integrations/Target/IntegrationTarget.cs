@@ -33,11 +33,12 @@ public class IntegrationTarget : YamlConfigNode<NoxSolution, Integration>
     [AdditionalProperties(false)]
     public string DataConnectionName { get; internal set; } = null!;
 
-    [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.Database)]
+    [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.DatabaseTable)]
     [Required]
     [AdditionalProperties(false)]
-    public IntegrationTargetDatabaseOptions? DatabaseOptions { get; set; }
+    public IntegrationTargetTableOptions? TableOptions { get; set; }
 
+    /*
     [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.File)]
     [Required]
     [AdditionalProperties(false)]
@@ -57,6 +58,7 @@ public class IntegrationTarget : YamlConfigNode<NoxSolution, Integration>
     [Required]
     [AdditionalProperties(false)]
     public IntegrationTargetEntityOptions? EntityOptions { get; set; }
+    */
 
     public override ValidationResult Validate(NoxSolution topNode, Integration parentNode, string yamlPath)
     {

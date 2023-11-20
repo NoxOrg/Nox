@@ -34,9 +34,11 @@ public class IntegrationSource : YamlConfigNode<NoxSolution,Integration>
 
     public IntegrationSourceWatermark? Watermark { get; internal set; }
 
-    [IfEquals(nameof(SourceAdapterType), IntegrationSourceAdapterType.Database)]
+    [IfEquals(nameof(SourceAdapterType), IntegrationSourceAdapterType.DatabaseQuery)]
     [Required]
-    public IntegrationSourceDatabaseOptions? DatabaseOptions { get; set; }
+    public IntegrationSourceQueryOptions? QueryOptions { get; set; }
+
+    /*
 
     [IfEquals(nameof(SourceAdapterType), IntegrationSourceAdapterType.File)]
     [Required]
@@ -54,6 +56,8 @@ public class IntegrationSource : YamlConfigNode<NoxSolution,Integration>
     [Required]
     [IfEquals(nameof(SourceAdapterType), IntegrationSourceAdapterType.Entity)]
     public IntegrationTargetEntityOptions? EntityOptions { get; set; }
+
+    */
 
     public override ValidationResult Validate(NoxSolution topNode, Integration parentNode, string yamlPath)
     {
