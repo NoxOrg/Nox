@@ -22,7 +22,7 @@ internal partial class {{className}}Handler:{{className}}HandlerBase
     }
 }
 
-internal abstract class {{className}}HandlerBase:  QueryBase<IQueryable<{{entity.Name}}LocalizedDto>>, IRequestHandler<Get{{entity.Name}}TranslationsQuery, IQueryable<{{entity.Name}}LocalizedDto>>
+internal abstract class {{className}}HandlerBase:  QueryBase<IQueryable<{{entity.Name}}LocalizedDto>>, IRequestHandler<{{className}}, IQueryable<{{entity.Name}}LocalizedDto>>
 {
     public  {{className}}HandlerBase(DtoDbContext dataDbContext)
     {
