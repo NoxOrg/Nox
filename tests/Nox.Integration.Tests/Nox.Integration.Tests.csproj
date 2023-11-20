@@ -28,11 +28,10 @@
 		<RemoveDir Directories="Generated" />
 	</Target>
 
-	<ItemGroup>
-		<Compile Remove="Application\**" />
-		<Compile Remove="Generated\**" />
-		<Content Include="Generated\**" />
-	</ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Generated\**" />
+    <Content Include="Generated\**" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<AdditionalFiles Include=".\.nox\design\**\*.yaml" LinkBase="Design">
@@ -51,21 +50,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Generated\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="AutoFixture.AutoMoq" Version="4.18.0" />
 		<PackageReference Include="AutoFixture.Xunit2" Version="4.18.0" />
 		<PackageReference Include="FluentAssertions" Version="6.12.0" />
 		<PackageReference Include="JsonSchema.Net.Generation" Version="3.5.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.13" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.14" />
 
 		<PackageReference Include="Microsoft.Build.Locator" Version="1.6.10" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.7.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.7.0" />
 		
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.14" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
 		<PackageReference Include="Microsoft.OData.ModelBuilder" Version="1.0.9" />
 		<PackageReference Include="Moq" Version="4.20.69" />
@@ -84,7 +79,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.13" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.14" />
 		<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.3" />
 		<PackageReference Include="Microsoft.OData.Core" Version="7.18.0" />
 	</ItemGroup>

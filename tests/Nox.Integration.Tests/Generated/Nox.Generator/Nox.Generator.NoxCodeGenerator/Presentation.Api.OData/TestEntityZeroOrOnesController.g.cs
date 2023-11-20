@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -117,6 +117,32 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
     
     [HttpDelete("/api/v1/TestEntityZeroOrOnes/{key}/SecondTestEntityZeroOrOne")]
     public async Task<ActionResult> DeleteToSecondTestEntityZeroOrOne([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        secondTestEntityZeroOrOne.TestEntityZeroOrOneId = key;
+        var createdKey = await _mediator.Send(new CreateSecondTestEntityZeroOrOneCommand(secondTestEntityZeroOrOne, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<SecondTestEntityZeroOrOneDto>> GetSecondTestEntityZeroOrOne(System.String key)
+    {
+        var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Where(x => x.SecondTestEntityZeroOrOne != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<SecondTestEntityZeroOrOneDto>(Enumerable.Empty<SecondTestEntityZeroOrOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.SecondTestEntityZeroOrOne!));
+    }
+    
+    public virtual async Task<ActionResult<SecondTestEntityZeroOrOneDto>> PutToSecondTestEntityZeroOrOne(System.String key, [FromBody] SecondTestEntityZeroOrOneUpdateDto secondTestEntityZeroOrOne)
     {
         if (!ModelState.IsValid)
         {

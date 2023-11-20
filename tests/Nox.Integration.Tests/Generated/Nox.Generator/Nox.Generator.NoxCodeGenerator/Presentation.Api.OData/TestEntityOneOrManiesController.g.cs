@@ -51,7 +51,6 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         secondTestEntityOneOrMany.TestEntityOneOrManiesId = new List<System.String> { key };
         var createdKey = await _mediator.Send(new CreateSecondTestEntityOneOrManyCommand(secondTestEntityOneOrMany, _cultureCode));
         

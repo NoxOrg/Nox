@@ -28,15 +28,15 @@ public partial class TestEntityOwnedRelationshipZeroOrManyCreateDto : TestEntity
 public abstract class TestEntityOwnedRelationshipZeroOrManyCreateDtoBase : IEntityDto<DomainNamespace.TestEntityOwnedRelationshipZeroOrMany>
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>    
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
     /// <summary>
-    ///  
-    /// <remarks>Required</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "TextTestField is required")]
     
     public virtual System.String TextTestField { get; set; } = default!;
@@ -44,5 +44,5 @@ public abstract class TestEntityOwnedRelationshipZeroOrManyCreateDtoBase : IEnti
     /// <summary>
     /// TestEntityOwnedRelationshipZeroOrMany Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrMany ZeroOrMany SecondTestEntityOwnedRelationshipZeroOrManies
     /// </summary>
-    public virtual List<SecondTestEntityOwnedRelationshipZeroOrManyCreateDto> SecondTestEntityOwnedRelationshipZeroOrMany { get; set; } = new();
+    public virtual List<SecondTestEntityOwnedRelationshipZeroOrManyCreateDto> SecondTestEntityOwnedRelationshipZeroOrManies { get; set; } = new();
 }

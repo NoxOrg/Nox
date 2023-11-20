@@ -24,7 +24,7 @@ public class ScribanTemplateExtensionsTests
     {
         // Arrange
         var noxSolution = new NoxSolutionBuilder()
-            .UseYamlFile("./Files/Design/sample-for-endpoints.solution.nox.yaml")
+            .WithFile("./Files/Design/sample-for-endpoints.solution.nox.yaml")
             .Build();
 
         var model = new Dictionary<string, object>

@@ -7,6 +7,7 @@ using Nox.Yaml.Serialization;
 using Nox.Yaml.VariableProviders.Environment;
 using Nox.Yaml.Validation;
 using System.Reflection.Emit;
+using System.Text.RegularExpressions;
 
 namespace Nox.Yaml;
 
@@ -29,8 +30,6 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
     private string? _rootFileAndContentKey;
 
     private bool _mustThrowIfYamlNotFound = true;
-
-    public static TFullType? Instance { get; internal set; }
 
     private EnvironmentVariableValueProvider _environmentVariableValueProvider = new(new EnvironmentProvider());
 
@@ -92,6 +91,12 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
         return this;
     }
 
+    public YamlConfigurationReader<TFullType, TVarsOnlyType> WithEnvironmentProvider(IEnvironmentProvider provider)
+    {
+        _environmentVariableValueProvider = new(provider);
+        return this;
+    }
+
     public YamlConfigurationReader<TFullType,TVarsOnlyType> WithEnvironmentVariableProvider(EnvironmentVariableValueProvider provider)
     {
         _environmentVariableValueProvider = provider;
@@ -121,30 +126,33 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
     {
         ResolveAndValidateFilesAndContent();
 
-        Instance = _yamlFilesAndContent is null 
+        var instance = _yamlFilesAndContent is null 
             ? new TFullType() 
             : ResolveAndLoadConfiguration();
         
-        SetAllDefaults(Instance);
+        InitializeAll(instance);
         
-        InitializeAll(Instance);
+        SetAllDefaults(instance);
 
-        ValidateAll(Instance);
+        ValidateAll(instance);
 
-        return Instance;
+        return instance;
     }
 
     private static void SetAllDefaults(TFullType instance)
     {
         object topNode = instance;
 
-        Type configNodeType = typeof(YamlConfigNode<,>);
+        Type configNodeType1 = typeof(YamlConfigNode<>);
+
+        Type configNodeType2 = typeof(YamlConfigNode<,>);
 
         instance.WalkObjectTypes((prop, type, obj, parent) => {
 
             var baseType = type.BaseType;
 
-            if (baseType.IsGenericType && baseType.GetGenericTypeDefinition() == configNodeType)
+            if (baseType.IsGenericType && 
+                (baseType.GetGenericTypeDefinition() == configNodeType1 || baseType.GetGenericTypeDefinition() == configNodeType2))
             {
                 var method = type.GetMethod(nameof(YamlConfigNode<object,object>.SetDefaults));
                 
@@ -157,13 +165,16 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
     {
         object topNode = instance;
 
-        Type configNodeType = typeof(YamlConfigNode<,>);
+        Type configNodeType1 = typeof(YamlConfigNode<>);
+
+        Type configNodeType2 = typeof(YamlConfigNode<,>);
 
         instance.WalkObjectTypes((prop, type, obj, parent) => {
 
             var baseType = type.BaseType;
 
-            if (baseType.IsGenericType && baseType.GetGenericTypeDefinition() == configNodeType)
+            if (baseType.IsGenericType &&
+                (baseType.GetGenericTypeDefinition() == configNodeType1 || baseType.GetGenericTypeDefinition() == configNodeType2))
             {
                 var method = type.GetMethod(nameof(YamlConfigNode<object, object>.Initialize));
 
@@ -176,7 +187,9 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
     {
         object topNode = instance;
 
-        Type configNodeType = typeof(YamlConfigNode<,>);
+        Type configNodeType1 = typeof(YamlConfigNode<>);
+
+        Type configNodeType2 = typeof(YamlConfigNode<,>);
 
         var allValidationResults = new ValidationResult();
 
@@ -184,7 +197,8 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
 
             var baseType = type.BaseType;
 
-            if (baseType.IsGenericType && baseType.GetGenericTypeDefinition() == configNodeType)
+            if (baseType.IsGenericType &&
+                (baseType.GetGenericTypeDefinition() == configNodeType1 || baseType.GetGenericTypeDefinition() == configNodeType2))
             {
                 var method = type.GetMethod(nameof(YamlConfigNode<object, object>.Validate));
 
@@ -248,16 +262,18 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
         {
             var fileName = _yamlFilePath ?? _filePattern;
 
-            DeterministicThrow($"No yaml file(s) matching [{fileName}] was found.");
+            DeterministicThrow($"No yaml file(s) matching [{fileName}] was found. Current folder [{Directory.GetCurrentDirectory()}].");
             return;
         }
 
         if (_rootFileAndContentKey is null)
         {
-            var match = _yamlFilePath ?? _filePattern.WildCardToRegex();
+            var matchPattern = _yamlFilePath?.WildCardToRegex() ?? _filePattern.WildCardToRegex();
+
+            var regex = new Regex(matchPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
             var solutionFiles = _yamlFilesAndContent
-                .Where(kv => kv.Key.ToLower().Contains(".solution.nox.yaml"))
+                .Where(kv => regex.IsMatch(kv.Key))
                 .Select(kv => kv.Key)
                 .ToArray();
 
@@ -336,7 +352,7 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
 
         if (solutionYamlFiles.Length > 1)
         {
-            throw new NoxYamlException($"Found more than one *.solution.nox.yaml file in folder ({folder}).");
+            throw new NoxYamlException($"Found more than one file matching [{pattern}] found in folder [{folder}].");
         }
 
         if (solutionYamlFiles.Length == 1) return solutionYamlFiles[0];

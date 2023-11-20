@@ -88,6 +88,7 @@ internal class EntityMetaGenerator : INoxCodeGenerator
                 .SkipWhile(s => !s.StartsWith("{"))
                 .Skip(1)
                 .TakeWhile(s=> !s.StartsWith("}"))
+                .Select(s => s.TrimEnd())
                 .ToArray();
         }
 

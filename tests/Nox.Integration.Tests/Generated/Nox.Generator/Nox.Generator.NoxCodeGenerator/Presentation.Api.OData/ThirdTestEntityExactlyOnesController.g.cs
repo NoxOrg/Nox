@@ -51,7 +51,6 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         thirdTestEntityZeroOrOne.ThirdTestEntityExactlyOneId = key;
         var createdKey = await _mediator.Send(new CreateThirdTestEntityZeroOrOneCommand(thirdTestEntityZeroOrOne, _cultureCode));
         

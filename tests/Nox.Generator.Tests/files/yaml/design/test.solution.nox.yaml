@@ -1382,11 +1382,11 @@ domain:
           isRequired: true
           
       uniqueAttributeConstraints:
-        - name: UniqueNumberField
+        - name: UniqueNumberFieldConstraint
           attributeNames:
             - UniqueNumberField
         
-        - name: UniqueFields
+        - name: UniqueFieldsConstraint
           attributeNames:
             - UniqueCountryCode
             - UniqueCurrencyCode

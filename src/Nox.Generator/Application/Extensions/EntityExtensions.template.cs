@@ -41,10 +41,11 @@ internal static class {{className}}
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships }}
+	{{- relationshipName = GetNavigationPropertyName entity relationship }}
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-        dto.SetIfNotNull(entity?.{{relationship.Name}}, (dto) => dto.{{relationship.Name}} = entity!.{{relationship.Name}}.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.{{relationshipName}}, (dto) => dto.{{relationshipName}} = entity!.{{relationshipName}}.Select(e => e.ToDto()).ToList());
     {{- else}}
-        dto.SetIfNotNull(entity?.{{relationship.Name}}, (dto) => dto.{{relationship.Name}} = entity!.{{relationship.Name}}!.ToDto());
+        dto.SetIfNotNull(entity?.{{relationshipName}}, (dto) => dto.{{relationshipName}} = entity!.{{relationshipName}}!.ToDto());
     {{-end}}
 {{- end }}
 

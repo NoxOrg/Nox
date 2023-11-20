@@ -97,12 +97,13 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 		{{- end }}
 
         {{- for relationship in entity.OwnedRelationships }}
+            {{- relationshipName = GetNavigationPropertyName entity relationship }}
             {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-        createDto.{{relationship.Name}}.ForEach(dto => entity.CreateRefTo{{relationship.Name}}({{relationship.Entity}}Factory.CreateEntity(dto)));
+        createDto.{{relationshipName}}.ForEach(dto => entity.CreateRefTo{{relationshipName}}({{relationship.Entity}}Factory.CreateEntity(dto)));
             {{- else}}
-        if (createDto.{{relationship.Name}} is not null)
+        if (createDto.{{relationshipName}} is not null)
         {
-            entity.CreateRefTo{{relationship.Name}}({{relationship.Entity}}Factory.CreateEntity(createDto.{{relationship.Name}}));
+            entity.CreateRefTo{{relationshipName}}({{relationship.Entity}}Factory.CreateEntity(createDto.{{relationshipName}}));
         }
             {{-end}}
         {{- end }}

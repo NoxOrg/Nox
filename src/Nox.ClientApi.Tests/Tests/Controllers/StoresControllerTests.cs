@@ -42,7 +42,7 @@ namespace ClientApi.Tests.Tests.Controllers
                     PostalCode: "KT16 0RS",
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
-                VerifiedEmails = expectedEmail,
+                EmailAddress = expectedEmail,
             };
             var postResult = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, createDto);
 
@@ -51,7 +51,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             response.Should().NotBeNull();
-            response!.VerifiedEmails.Should().BeEquivalentTo(expectedEmail);
+            response!.EmailAddress.Should().BeEquivalentTo(expectedEmail);
             response!.OpeningDay.Should().BeNull();
         }
 
@@ -79,7 +79,7 @@ namespace ClientApi.Tests.Tests.Controllers
                     PostalCode: "KT16 0RS",
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
-                VerifiedEmails = new EmailAddressCreateDto() { Email = "test@gmail.com", IsVerified = false },
+                EmailAddress = new EmailAddressCreateDto() { Email = "test@gmail.com", IsVerified = false },
                 OpeningDay = expectedDate
             };
             await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, createDto);
@@ -280,7 +280,7 @@ namespace ClientApi.Tests.Tests.Controllers
         #endregion POST Entity with Deleted RelationshipId /api/{EntityPluralName} => api/stores
 
         [Fact]
-        public async Task CanNotNavigateTo_VerifiedEmails()
+        public async Task CanNotNavigateTo_EmailAddress()
         {
             //Arrange
             var store = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
@@ -301,18 +301,18 @@ namespace ClientApi.Tests.Tests.Controllers
             });
 
             //Act
-            var postVerifiedEmailsResponse = await PostAsync($"{Endpoints.StoresUrl}/{store!.Id}/VerifiedEmails", new EmailAddressCreateDto());
-            var getVerifiedEmailsResponse = await GetAsync($"{Endpoints.StoresUrl}/{store!.Id}/VerifiedEmails");
-            var putVerifiedEmailsResponse = await PutAsync($"{Endpoints.StoresUrl}/{store!.Id}/VerifiedEmails", new EmailAddressCreateDto(), false);
-            var patchVerifiedEmailsResponse = await PatchAsync($"{Endpoints.StoresUrl}/{store!.Id}/VerifiedEmails", new EmailAddressCreateDto(), new Dictionary<string, IEnumerable<string>>(), false);
-            var deleteVerifiedEmailsResponse = await DeleteAsync($"{Endpoints.StoresUrl}/{store!.Id}/VerifiedEmails", false);
+            var postEmailAddressResponse = await PostAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", new EmailAddressCreateDto());
+            var getEmailAddressResponse = await GetAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress");
+            var putEmailAddressResponse = await PutAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", new EmailAddressCreateDto(), false);
+            var patchEmailAddressResponse = await PatchAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", new EmailAddressCreateDto(), new Dictionary<string, IEnumerable<string>>(), false);
+            var deleteEmailAddressResponse = await DeleteAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", false);
 
             //Assert
-            postVerifiedEmailsResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
-            getVerifiedEmailsResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
-            putVerifiedEmailsResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
-            patchVerifiedEmailsResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
-            deleteVerifiedEmailsResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            postEmailAddressResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            getEmailAddressResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            putEmailAddressResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            patchEmailAddressResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            deleteEmailAddressResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         #endregion Relationship Examples       
@@ -336,7 +336,7 @@ namespace ClientApi.Tests.Tests.Controllers
                     PostalCode: "KT16 0RS",
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
-                VerifiedEmails = new EmailAddressCreateDto
+                EmailAddress = new EmailAddressCreateDto
                 {
                     Email = "test@gmail.com",
                     IsVerified = false

@@ -367,6 +367,7 @@ application:
   integrations:
     - name: JsonToEntityIntegration
       description: a Sample integration that sources data from json files and persist to a Nox Entity
+      mergeType: mergeNew
 
       schedule:
         start: every day at 2am
@@ -380,39 +381,26 @@ application:
         name: CountryJsonSource
         description: Sources Country data from a json file
         dataConnectionName: CountryJsonData
-        sourceAdapterType: file
-        fileOptions:
-          filename: country-seed-data.json
-          recordAttributes:
-            - name: Id
-              description: The ISO Alpha 2 code of the country
-              type: text
-              textTypeOptions:
-                casing: lower
-                maxLength: 2
-                minLength: 2
-
-            - name: CountryName
-              description: The globally accepted name of the country
-              type: text
-              textTypeOptions:
-                minLength: 2
-                maxLength: 50
+        sourceAdapterType: databaseQuery
+        queryOptions:
+          minimumExpectedRecords: 1
+          query: SELECT * FROM SourceTable
 
         watermark:
           dateColumns:
             - "CreateDate"
             - "EditDate"
-          sequentialKeyColumn: CountryId
+          sequentialKeyColumns: 
+            - "CountryId"
 
       transformationType: defaultTransform
 
       target:
         name: Country
         dataConnectionName: SqlServerData
-        targetAdapterType: entity
-        entityOptions:
-          entity: Country
+        targetAdapterType: databaseTable
+        tableOptions: 
+          tableName: Countries
 
 infrastructure:
   

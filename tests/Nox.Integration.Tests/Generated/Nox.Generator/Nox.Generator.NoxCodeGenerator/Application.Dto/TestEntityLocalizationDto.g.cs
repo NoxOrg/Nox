@@ -59,15 +59,15 @@ public abstract class TestEntityLocalizationDtoBase : EntityDtoBase, IEntityDto<
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String TextFieldToLocalize { get; set; } = default!;
 
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.Int16 NumberField { get; set; } = default!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }

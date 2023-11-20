@@ -63,9 +63,9 @@ public abstract class RatingProgramDtoBase : EntityDtoBase, IEntityDto<DomainNam
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Rating Program Name 
-    /// <remarks>Optional.</remarks>    
+    /// Rating Program Name     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? Name { get; set; }
 
     [JsonPropertyName("@odata.etag")]

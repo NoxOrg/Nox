@@ -28,15 +28,15 @@ public partial class CountryQualityOfLifeIndexCreateDto : CountryQualityOfLifeIn
 public abstract class CountryQualityOfLifeIndexCreateDtoBase : IEntityDto<DomainNamespace.CountryQualityOfLifeIndex>
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>    
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "CountryId is required")]
     public System.Int64 CountryId { get; set; } = default!;
     /// <summary>
-    /// Rating Index 
-    /// <remarks>Required</remarks>    
+    /// Rating Index     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "IndexRating is required")]
     
     public virtual System.Int32 IndexRating { get; set; } = default!;

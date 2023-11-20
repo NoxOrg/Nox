@@ -51,45 +51,45 @@ internal record StoreOwnerDeleted(StoreOwner StoreOwner) : IDomainEvent, INotifi
 internal abstract partial class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
-    /// Owner Name
-    /// <remarks>Required.</remarks>   
+    /// Owner Name    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
-    /// Temporary Owner Name
-    /// <remarks>Required.</remarks>   
+    /// Temporary Owner Name    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text TemporaryOwnerName { get; set; } = null!;
 
     /// <summary>
-    /// Vat Number
-    /// <remarks>Optional.</remarks>   
+    /// Vat Number    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.VatNumber? VatNumber { get; set; } = null!;
 
     /// <summary>
-    /// Street Address
-    /// <remarks>Optional.</remarks>   
+    /// Street Address    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.StreetAddress? StreetAddress { get; set; } = null!;
 
     /// <summary>
-    /// Owner Greeting
-    /// <remarks>Optional.</remarks>   
+    /// Owner Greeting    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.TranslatedText? LocalGreeting { get; set; } = null!;
 
     /// <summary>
-    /// Notes
-    /// <remarks>Optional.</remarks>   
+    /// Notes    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Text? Notes { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

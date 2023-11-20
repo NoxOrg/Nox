@@ -28,16 +28,16 @@ public partial class WorkplaceCreateDto : WorkplaceCreateDtoBase
 public abstract class WorkplaceCreateDtoBase : IEntityDto<DomainNamespace.Workplace>
 {
     /// <summary>
-    /// Workplace Name 
-    /// <remarks>Required</remarks>    
+    /// Workplace Name     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;
     /// <summary>
-    /// Workplace Description 
-    /// <remarks>Optional</remarks>    
+    /// Workplace Description     
     /// </summary>
+    /// <remarks>Optional</remarks>
     public virtual System.String? Description { get; set; }
 
     /// <summary>

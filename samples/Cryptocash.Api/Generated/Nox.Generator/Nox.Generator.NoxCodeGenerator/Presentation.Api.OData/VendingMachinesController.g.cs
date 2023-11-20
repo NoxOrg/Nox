@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -51,7 +51,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         country.VendingMachinesId = new List<System.Guid> { key };
         var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
         
@@ -129,7 +128,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         landLord.VendingMachinesId = new List<System.Guid> { key };
         var createdKey = await _mediator.Send(new CreateLandLordCommand(landLord, _cultureCode));
         
@@ -229,7 +227,13 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         {
             references.Add(new System.Uri($"Bookings/{item.Id}", UriKind.Relative));
         }
-        return Ok(references);
+        
+        booking.VendingMachineId = key;
+        var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetBookingByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]
@@ -380,7 +384,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         cashStockOrder.VendingMachineId = key;
         var createdKey = await _mediator.Send(new CreateCashStockOrderCommand(cashStockOrder, _cultureCode));
         
@@ -553,7 +556,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         minimumCashStock.VendingMachinesId = new List<System.Guid> { key };
         var createdKey = await _mediator.Send(new CreateMinimumCashStockCommand(minimumCashStock, _cultureCode));
         

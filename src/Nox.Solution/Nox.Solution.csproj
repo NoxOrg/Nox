@@ -45,21 +45,6 @@
 	  <ProjectReference Include="..\Nox.Yaml\Nox.Yaml.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Update="ValidationResources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>ValidationResources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-		<Compile Update="ValidationResources.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>ValidationResources.resx</DependentUpon>
-		</Compile>
-	</ItemGroup>
-
 
 
 </Project>

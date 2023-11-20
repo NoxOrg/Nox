@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -117,6 +117,32 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
     
     [HttpDelete("/api/v1/ThirdTestEntityZeroOrOnes/{key}/ThirdTestEntityExactlyOne")]
     public async Task<ActionResult> DeleteToThirdTestEntityExactlyOne([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        thirdTestEntityExactlyOne.ThirdTestEntityZeroOrOneId = key;
+        var createdKey = await _mediator.Send(new CreateThirdTestEntityExactlyOneCommand(thirdTestEntityExactlyOne, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<ThirdTestEntityExactlyOneDto>> GetThirdTestEntityExactlyOne(System.String key)
+    {
+        var related = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(key))).Where(x => x.ThirdTestEntityExactlyOne != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<ThirdTestEntityExactlyOneDto>(Enumerable.Empty<ThirdTestEntityExactlyOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.ThirdTestEntityExactlyOne!));
+    }
+    
+    public virtual async Task<ActionResult<ThirdTestEntityExactlyOneDto>> PutToThirdTestEntityExactlyOne(System.String key, [FromBody] ThirdTestEntityExactlyOneUpdateDto thirdTestEntityExactlyOne)
     {
         if (!ModelState.IsValid)
         {

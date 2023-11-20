@@ -51,7 +51,6 @@ public abstract partial class TestEntityOneOrManyToExactlyOnesControllerBase : O
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         testEntityExactlyOneToOneOrMany.TestEntityOneOrManyToExactlyOneId = key;
         var createdKey = await _mediator.Send(new CreateTestEntityExactlyOneToOneOrManyCommand(testEntityExactlyOneToOneOrMany, _cultureCode));
         

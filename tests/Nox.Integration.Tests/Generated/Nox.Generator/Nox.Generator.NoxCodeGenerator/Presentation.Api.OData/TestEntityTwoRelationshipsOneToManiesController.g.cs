@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -73,7 +73,13 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         {
             references.Add(new System.Uri($"SecondTestEntityTwoRelationshipsOneToManies/{item.Id}", UriKind.Relative));
         }
-        return Ok(references);
+        
+        secondTestEntityTwoRelationshipsOneToMany.TestRelationshipOneOnOtherSideId = key;
+        var createdKey = await _mediator.Send(new CreateSecondTestEntityTwoRelationshipsOneToManyCommand(secondTestEntityTwoRelationshipsOneToMany, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]
@@ -224,7 +230,6 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         secondTestEntityTwoRelationshipsOneToMany.TestRelationshipTwoOnOtherSideId = key;
         var createdKey = await _mediator.Send(new CreateSecondTestEntityTwoRelationshipsOneToManyCommand(secondTestEntityTwoRelationshipsOneToMany, _cultureCode));
         

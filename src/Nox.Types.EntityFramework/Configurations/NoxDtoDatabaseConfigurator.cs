@@ -114,12 +114,13 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         foreach (var ownedRelationship in entity.OwnedRelationships)
         //#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
         {
+            var navigationPropertyName = entity.GetNavigationPropertyName(ownedRelationship);
             var relatedEntityDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGenConventions.GetEntityDtoTypeFullName(ownedRelationship.Related.Entity.Name + "Dto"));
 
             if (ownedRelationship.WithSingleEntity())
             {
                 builder.OwnsOne(relatedEntityDtoType!,
-                    ownedRelationship.Name,
+                    navigationPropertyName,
                     owned =>
                     {
                         owned.WithOwner().HasForeignKey($"{entity.Name}Id");
@@ -128,7 +129,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
             }
 
             builder.OwnsMany(relatedEntityDtoType!,
-                ownedRelationship.Name,
+                navigationPropertyName,
                 owned =>
                 {
                     owned.WithOwner().HasForeignKey($"{entity.Name}Id");

@@ -1,4 +1,4 @@
-﻿using Nox.Generator.Tests.Flows;
+using Nox.Generator.Tests.Flows;
 using Xunit;
 
 namespace Nox.Generator.Tests.Presentation;
@@ -43,7 +43,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         CheckController("CitiesController", contentCheckerFlow, true);
     }
 
-    private void CheckController(string controllerName, IGeneratorContentTestFlow contentCheckerFlow, bool hasTranslations = false)
+    private static void CheckController(string controllerName, IGeneratorContentTestFlow contentCheckerFlow, bool hasTranslations = false)
     {
         var controllerFileName = $"Presentation.Api.OData.{controllerName}.g.cs";
         var controllerEntityFileName = $"Presentation.Api.OData.{controllerName}.Entity.g.cs";

@@ -13,6 +13,7 @@
   "required": [
     "name",
     "schedule",
+    "mergeType",
     "source",
     "transformationType",
     "target"
@@ -95,7 +96,7 @@
           "additionalProperties": false
         },
         "runOnStartup": {    
-          "title": "Check the Integration source for updates at appliation startup.",
+          "title": "Check the Integration source for updates at application startup.",
           "description": "Specify here whether the Integration source is checked for updates when the application starts.",
           "oneOf": [
             {
@@ -108,6 +109,13 @@
         }
       },
       "additionalProperties": false
+    },
+    "mergeType": {    
+      "type": "string",
+      "enum": [
+        "addNew",
+        "mergeNew"
+      ]
     },
     "source": {    
       "anyOf": [

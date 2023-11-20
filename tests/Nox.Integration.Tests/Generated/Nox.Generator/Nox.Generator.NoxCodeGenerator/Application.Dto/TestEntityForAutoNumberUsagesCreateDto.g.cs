@@ -28,9 +28,9 @@ public partial class TestEntityForAutoNumberUsagesCreateDto : TestEntityForAutoN
 public abstract class TestEntityForAutoNumberUsagesCreateDtoBase : IEntityDto<DomainNamespace.TestEntityForAutoNumberUsages>
 {
     /// <summary>
-    ///  
-    /// <remarks>Required</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "TextField is required")]
     
     public virtual System.String TextField { get; set; } = default!;

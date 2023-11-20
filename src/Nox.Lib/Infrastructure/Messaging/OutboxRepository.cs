@@ -37,11 +37,11 @@ namespace Nox.Infrastructure.Messaging
             _logger.LogInformation($"Publish message {typeof(T)} to {_bus.GetType()}");
 
             var integrationEventAttribute = integrationEvent.GetType().GetCustomAttribute<IntegrationEventTypeAttribute>();
-            var trait = integrationEventAttribute?.Trait;
+            var domainContext = integrationEventAttribute?.DomainContext;
             var eventName = integrationEventAttribute?.EventName;
-            if (string.IsNullOrWhiteSpace(trait))
+            if (string.IsNullOrWhiteSpace(domainContext))
             {
-                throw new EventTraitIsNotFoundException($"Provided {nameof(integrationEventAttribute.Trait)} in {nameof(IntegrationEventTypeAttribute)} for event {integrationEvent.GetType()} can't be null or empty.");
+                throw new IntegrationEventDomainContextNullException($"Provided {nameof(integrationEventAttribute.DomainContext)} in {nameof(IntegrationEventTypeAttribute)} for event {integrationEvent.GetType()} can't be null or empty.");
             }
 
             if (string.IsNullOrWhiteSpace(eventName))
@@ -58,8 +58,8 @@ namespace Nox.Infrastructure.Messaging
                 cloudEvent.Id = sendContext.MessageId.ToString();
                 cloudEvent.Source = new Uri($"https://{_messagePrefix}{_noxSolution.PlatformId}.com/{_noxSolution.Name}");
                 cloudEvent.Time = sendContext.SentTime;
-                cloudEvent.Type = $"{_noxSolution.PlatformId}.{_noxSolution.Name}.{trait}.v{_noxSolution.Version}.{eventName}";
-                cloudEvent.DataSchema = new System.Uri($"https://{_messagePrefix}{_noxSolution.PlatformId}.com/schemas/{_noxSolution.Name}/{trait}/v{_noxSolution.Version}/{eventName}.json");
+                cloudEvent.Type = $"{_noxSolution.PlatformId}.{_noxSolution.Name}.{domainContext}.v{_noxSolution.Version}.{eventName}";
+                cloudEvent.DataSchema = new System.Uri($"https://{_messagePrefix}{_noxSolution.PlatformId}.com/schemas/{_noxSolution.Name}/{domainContext}/v{_noxSolution.Version}/{eventName}.json");
                 cloudEvent.DataContentType = "application/json";
                 cloudEvent.SetAttributeFromString("xuserid", _userProvider.GetUser().ToString());
                 cloudEvent.Validate();

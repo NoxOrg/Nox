@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -123,11 +123,8 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipOneOnOtherSide).SingleOrDefault();
-        if (related == null)
-        {
-            return NotFound();
-        }
+        testEntityTwoRelationshipsOneToOne.TestRelationshipOneId = key;
+        var createdKey = await _mediator.Send(new CreateTestEntityTwoRelationshipsOneToOneCommand(testEntityTwoRelationshipsOneToOne, _cultureCode));
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteTestEntityTwoRelationshipsOneToOneByIdCommand(related.Id, etag));
@@ -250,6 +247,32 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
     
     [HttpDelete("/api/v1/SecondTestEntityTwoRelationshipsOneToOnes/{key}/TestRelationshipTwoOnOtherSide")]
     public async Task<ActionResult> DeleteToTestRelationshipTwoOnOtherSide([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        testEntityTwoRelationshipsOneToOne.TestRelationshipTwoId = key;
+        var createdKey = await _mediator.Send(new CreateTestEntityTwoRelationshipsOneToOneCommand(testEntityTwoRelationshipsOneToOne, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<TestEntityTwoRelationshipsOneToOneDto>> GetTestRelationshipTwoOnOtherSide(System.String key)
+    {
+        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Where(x => x.TestRelationshipTwoOnOtherSide != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<TestEntityTwoRelationshipsOneToOneDto>(Enumerable.Empty<TestEntityTwoRelationshipsOneToOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.TestRelationshipTwoOnOtherSide!));
+    }
+    
+    public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToOneDto>> PutToTestRelationshipTwoOnOtherSide(System.String key, [FromBody] TestEntityTwoRelationshipsOneToOneUpdateDto testEntityTwoRelationshipsOneToOne)
     {
         if (!ModelState.IsValid)
         {

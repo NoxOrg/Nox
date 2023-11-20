@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -73,7 +73,13 @@ public abstract partial class LandLordsControllerBase : ODataController
         {
             references.Add(new System.Uri($"VendingMachines/{item.Id}", UriKind.Relative));
         }
-        return Ok(references);
+        
+        vendingMachine.LandLordId = key;
+        var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetVendingMachineByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]

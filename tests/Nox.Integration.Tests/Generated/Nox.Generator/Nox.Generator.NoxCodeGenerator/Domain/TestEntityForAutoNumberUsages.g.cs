@@ -51,27 +51,27 @@ internal record TestEntityForAutoNumberUsagesDeleted(TestEntityForAutoNumberUsag
 internal abstract partial class TestEntityForAutoNumberUsagesBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.AutoNumber AutoNumberFieldWithOptions { get; set; } = null!;
 
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.AutoNumber AutoNumberFieldWithoutOptions { get; set; } = null!;
 
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text TextField { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

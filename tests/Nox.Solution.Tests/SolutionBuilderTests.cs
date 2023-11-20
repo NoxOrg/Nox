@@ -1,7 +1,7 @@
 using FluentAssertions;
 using FluentValidation;
-using Nox.Solution.Exceptions;
 using Nox.Types;
+using Nox.Yaml.Exceptions;
 
 namespace Nox.Solution.Tests;
 
@@ -11,7 +11,7 @@ public class SolutionBuilderTests
     public void Can_create_solution_from_set_yaml_file()
     {
         var noxConfig = new NoxSolutionBuilder()
-            .UseYamlFile("./files/minimal.solution.nox.yaml")
+            .WithFile("./files/minimal.solution.nox.yaml")
             .Build();
         noxConfig.Should().NotBeNull();
         noxConfig.Name.Should().Be("MinimalService");
@@ -24,10 +24,9 @@ public class SolutionBuilderTests
     [Fact]
     public void Can_get_instance_after_builder_build()
     {
-        _ = new NoxSolutionBuilder()
-            .UseYamlFile("./files/minimal.solution.nox.yaml")
+        var instance = new NoxSolutionBuilder()
+            .WithFile("./files/minimal.solution.nox.yaml")
             .Build();
-        var instance = NoxSolutionBuilder.Instance;
         Assert.NotNull(instance);
         Assert.NotNull(instance);
         Assert.Equal("MinimalService", instance.Name);
@@ -38,19 +37,22 @@ public class SolutionBuilderTests
     public void Throw_if_set_yaml_file_does_not_exist()
     {
         var noxConfigBuilder = new NoxSolutionBuilder()
-            .UseYamlFile("./files/missing.solution.nox.yaml");
-        Assert.Throws<NoxSolutionConfigurationException>(noxConfigBuilder.Build);
+            .WithFile("./files/missing.solution.nox.yaml");
+        Assert.Throws<NoxYamlException>(noxConfigBuilder.Build);
     }
 
     [Fact]
     public void Throw_if_solution_wrong_set()
     {
         var noxConfigBuilder = new NoxSolutionBuilder()
-            .UseYamlFile("./files/wrong.solution.nox.yaml");
+            .WithFile("./files/wrong.solution.nox.yaml");
 
-        var exception = Assert.Throws<ValidationException>(noxConfigBuilder.Build);
+        var exception = Assert.Throws<NoxYamlValidationException>(noxConfigBuilder.Build);
 
-        exception.Message.Should().Contain("Solution Version doesn't satisfy pattern.");
+        exception
+            .Errors[0]
+            .ErrorMessage
+            .Should().Match("The value [\"1.0.asddd\"] for property [version] does not match pattern*");
     }
 
     [Fact]
@@ -66,40 +68,49 @@ public class SolutionBuilderTests
     public void Error_if_solution_not_found_in_nox_folder()
     {
         var noxConfigBuilder = new NoxSolutionBuilder()
-            .UseYamlFile(".files/invalidextension.solution.nox.zaml");
+            .WithFile(".files/invalidextension.solution.nox.zaml");
 
-        Assert.Throws<NoxSolutionConfigurationException>(() => noxConfigBuilder.Build());
+        Assert.Throws<NoxYamlException>(() => noxConfigBuilder.Build());
     }
 
     [Fact]
     public void When_InMemmory_AzureServiceBusConfig_Must_Be_Null()
     {
         var noxConfigBuilder = new NoxSolutionBuilder()
-            .UseYamlFile($"./files/invalid-messaging.inmemory.solution.nox.yaml");
+            .WithFile($"./files/invalid-messaging.inmemory.solution.nox.yaml");
 
-        Assert.Throws<NoxSolutionConfigurationException>(() => noxConfigBuilder.Build());
+        Assert.Throws<NoxYamlValidationException>(() => noxConfigBuilder.Build());
     }
 
     [Fact]
     public void Throw_if_missing_yaml()
     {
         var noxConfigBuilder = new NoxSolutionBuilder()
-            .UseYamlFile("./files/x.solution.nox.yaml");
-        Assert.Throws<NoxSolutionConfigurationException>(() => noxConfigBuilder.Build());
+            .WithFile("./files/x.solution.nox.yaml");
+        Assert.Throws<NoxYamlException>(() => noxConfigBuilder.Build());
     }
 
     [Fact]
     public void Must_not_throw_if_allow_missing_yaml()
     {
         var solution = new NoxSolutionBuilder()
-            .UseYamlFile("./files/x.solution.nox.yaml")
+            .WithFile("./files/x.solution.nox.yaml")
             .AllowMissingSolutionYaml()
             .Build();
+
+
         Assert.NotNull(solution);
+        
+        // Default name and platform id when unspecified
+        solution.Name.Should().Be("NotSpecified");
+        solution.PlatformId.Should().Be("NotSpecified");
+        
         //Infrastructure will always have a default value
         Assert.NotNull(solution.Infrastructure);
+        
         //Persistence is Optional
         Assert.Null(solution.Infrastructure.Persistence);
+        
         //End Points will always have a default value, even if no endpoints is being generated
         Assert.NotNull(solution.Infrastructure.Endpoints);
         Assert.Null(solution.Domain);
@@ -110,21 +121,23 @@ public class SolutionBuilderTests
     public void Throw_if_entity_has_multiple_autonumber_property_when_database_provider_sqlite()
     {
         var noxConfigBuilder = new NoxSolutionBuilder()
-            .UseYamlFile("./files/sqlite-multiple-autonumber-entity.solution.nox.yaml");
+            .WithFile("./files/sqlite-multiple-autonumber-entity.solution.nox.yaml");
 
-        var exception = Assert.Throws<ValidationException>(noxConfigBuilder.Build);
+        var exception = Assert.Throws<NoxYamlValidationException>(noxConfigBuilder.Build);
 
-        exception.Message.Should().Contain("SQLite does not support more than one AutoNumber per entity.");
+        exception
+            .Errors[0]
+            .ErrorMessage
+            .Should().Contain("SQLite only supports one AutoNumber per entity.");
     }
 
     [Fact]
     public void Must_not_throw_if_entity_has_multiple_autonumber_property_when_database_provider_is_mssql()
     {
 
-        _ = new NoxSolutionBuilder()
-            .UseYamlFile("./files/mssql-multiple-autonumber-entity.solution.nox.yaml")
+        var instance = new NoxSolutionBuilder()
+            .WithFile("./files/mssql-multiple-autonumber-entity.solution.nox.yaml")
             .Build();
-        var instance = NoxSolutionBuilder.Instance;
 
         Assert.NotNull(instance);
         Assert.Equal(DatabaseServerProvider.SqlServer, instance.Infrastructure!.Persistence!.DatabaseServer.Provider);
@@ -136,10 +149,9 @@ public class SolutionBuilderTests
     public void Must_not_throw_if_entity_has_multiple_autonumber_property_when_database_provider_is_postgresql()
     {
 
-        _ = new NoxSolutionBuilder()
-            .UseYamlFile("./files/postgresql-multiple-autonumber-entity.solution.nox.yaml")
+        var instance = new NoxSolutionBuilder()
+            .WithFile("./files/postgresql-multiple-autonumber-entity.solution.nox.yaml")
             .Build();
-        var instance = NoxSolutionBuilder.Instance;
 
         Assert.NotNull(instance);
         Assert.Equal(DatabaseServerProvider.Postgres, instance.Infrastructure!.Persistence!.DatabaseServer.Provider);

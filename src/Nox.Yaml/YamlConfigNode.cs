@@ -3,6 +3,9 @@ using YamlDotNet.Serialization;
 
 namespace Nox.Yaml;
 
+public class YamlConfigNode<TTopNode> : YamlConfigNode<TTopNode,TTopNode> where TTopNode : class, new() { }
+
+
 public class YamlConfigNode<TTopNode,TParentNode> 
     where TTopNode : class, new()
     where TParentNode : class, new()

@@ -81,81 +81,81 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    /// Country's name 
-    /// <remarks>Required.</remarks>    
+    /// Country's name     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Country's official name 
-    /// <remarks>Optional.</remarks>    
+    /// Country's official name     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? OfficialName { get; set; }
 
     /// <summary>
-    /// Country's iso number id 
-    /// <remarks>Optional.</remarks>    
+    /// Country's iso number id     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.UInt16? CountryIsoNumeric { get; set; }
 
     /// <summary>
-    /// Country's iso alpha3 id 
-    /// <remarks>Optional.</remarks>    
+    /// Country's iso alpha3 id     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? CountryIsoAlpha3 { get; set; }
 
     /// <summary>
-    /// Country's geo coordinates 
-    /// <remarks>Optional.</remarks>    
+    /// Country's geo coordinates     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public LatLongDto? GeoCoords { get; set; }
 
     /// <summary>
-    /// Country's flag emoji 
-    /// <remarks>Optional.</remarks>    
+    /// Country's flag emoji     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? FlagEmoji { get; set; }
 
     /// <summary>
-    /// Country's flag in svg format 
-    /// <remarks>Optional.</remarks>    
+    /// Country's flag in svg format     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public ImageDto? FlagSvg { get; set; }
 
     /// <summary>
-    /// Country's flag in png format 
-    /// <remarks>Optional.</remarks>    
+    /// Country's flag in png format     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public ImageDto? FlagPng { get; set; }
 
     /// <summary>
-    /// Country's coat of arms in svg format 
-    /// <remarks>Optional.</remarks>    
+    /// Country's coat of arms in svg format     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public ImageDto? CoatOfArmsSvg { get; set; }
 
     /// <summary>
-    /// Country's coat of arms in png format 
-    /// <remarks>Optional.</remarks>    
+    /// Country's coat of arms in png format     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public ImageDto? CoatOfArmsPng { get; set; }
 
     /// <summary>
-    /// Country's map via google maps 
-    /// <remarks>Optional.</remarks>    
+    /// Country's map via google maps     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? GoogleMapsUrl { get; set; }
 
     /// <summary>
-    /// Country's map via open street maps 
-    /// <remarks>Optional.</remarks>    
+    /// Country's map via open street maps     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? OpenStreetMapsUrl { get; set; }
 
     /// <summary>
-    /// Country's start of week day 
-    /// <remarks>Required.</remarks>    
+    /// Country's start of week day     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.UInt16 StartOfWeek { get; set; } = default!;
 
     /// <summary>
@@ -183,12 +183,12 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryTimeZoneDto> CountryOwnedTimeZones { get; set; } = new();
+    public virtual List<CountryTimeZoneDto> CountryTimeZones { get; set; } = new();
 
     /// <summary>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<HolidayDto> CountryOwnedHolidays { get; set; } = new();
+    public virtual List<HolidayDto> Holidays { get; set; } = new();
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

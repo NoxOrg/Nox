@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -73,7 +73,13 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         {
             references.Add(new System.Uri($"VendingMachines/{item.Id}", UriKind.Relative));
         }
-        return Ok(references);
+        
+        vendingMachine.MinimumCashStocksId = new List<System.Int64> { key };
+        var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetVendingMachineByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]
@@ -224,7 +230,6 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         currency.MinimumCashStocksId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency, _cultureCode));
         

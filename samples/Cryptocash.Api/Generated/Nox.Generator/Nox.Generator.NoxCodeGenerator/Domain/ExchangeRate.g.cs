@@ -51,21 +51,21 @@ internal record ExchangeRateDeleted(ExchangeRate ExchangeRate) : IDomainEvent, I
 internal abstract partial class ExchangeRateBase : EntityBase, IOwnedEntity
 {
     /// <summary>
-    /// Exchange rate unique identifier
-    /// <remarks>Required.</remarks>   
+    /// Exchange rate unique identifier    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Exchange rate conversion amount
-    /// <remarks>Required.</remarks>   
+    /// Exchange rate conversion amount    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Number EffectiveRate { get; set; } = null!;
 
     /// <summary>
-    /// Exchange rate conversion amount
-    /// <remarks>Required.</remarks>   
+    /// Exchange rate conversion amount    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.DateTime EffectiveAt { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

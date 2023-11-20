@@ -1,6 +1,4 @@
-using System.Data;
-using System.Text.Json;
-using Nox.Solution.Schema;
+using Nox.Yaml.Schema;
 
 namespace Nox.Solution.Tests;
 
@@ -15,14 +13,14 @@ public class NoxSolutionSchemaGenerate
 
         DeleteAllPreviousSchemas();
 
-        NoxSchemaGenerator.GenerateJsonSchemas(typeof(NoxSolution),_path);
+        NoxSchemaGenerator.GenerateJsonSchemas<NoxSolution>(_path);
 
     }
 
     private void DeleteAllPreviousSchemas()
     {
         var jsonFiles = Directory.GetFiles(_path, "*.json");
-        foreach (var jsonFile in jsonFiles) 
+        foreach (var jsonFile in jsonFiles)
         {
             File.Delete(jsonFile);
         }

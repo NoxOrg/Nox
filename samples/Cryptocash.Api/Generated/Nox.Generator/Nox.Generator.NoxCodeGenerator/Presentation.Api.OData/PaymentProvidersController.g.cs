@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -73,7 +73,13 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         {
             references.Add(new System.Uri($"PaymentDetails/{item.Id}", UriKind.Relative));
         }
-        return Ok(references);
+        
+        paymentDetail.PaymentProviderId = key;
+        var createdKey = await _mediator.Send(new CreatePaymentDetailCommand(paymentDetail, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetPaymentDetailByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]

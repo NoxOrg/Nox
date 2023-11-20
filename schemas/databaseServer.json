@@ -35,7 +35,7 @@
         },
         {
           "type": "string",
-          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+          "pattern": "^\\$\\{\\{\\s*(.+)\\.(.+)\\s*\\}\\}$"
         }
       ]
     },
@@ -44,11 +44,13 @@
       "description": "The port to connect to.",
       "oneOf": [
         {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
         },
         {
           "type": "string",
-          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+          "pattern": "^\\$\\{\\{\\s*(.+)\\.(.+)\\s*\\}\\}$"
         },
         {
           "type": "null"
@@ -64,7 +66,7 @@
         },
         {
           "type": "string",
-          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+          "pattern": "^\\$\\{\\{\\s*(.+)\\.(.+)\\s*\\}\\}$"
         },
         {
           "type": "null"
@@ -80,7 +82,7 @@
         },
         {
           "type": "string",
-          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+          "pattern": "^\\$\\{\\{\\s*(.+)\\.(.+)\\s*\\}\\}$"
         },
         {
           "type": "null"
@@ -96,7 +98,7 @@
         },
         {
           "type": "string",
-          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+          "pattern": "^\\$\\{\\{\\s*(.+)\\.(.+)\\s*\\}\\}$"
         },
         {
           "type": "null"

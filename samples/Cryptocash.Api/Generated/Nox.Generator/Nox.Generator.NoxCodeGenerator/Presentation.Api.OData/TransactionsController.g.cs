@@ -51,7 +51,6 @@ public abstract partial class TransactionsControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         customer.TransactionsId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateCustomerCommand(customer, _cultureCode));
         
@@ -129,7 +128,6 @@ public abstract partial class TransactionsControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         booking.TransactionId = key;
         var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
         

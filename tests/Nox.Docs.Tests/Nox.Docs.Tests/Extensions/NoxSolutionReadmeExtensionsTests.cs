@@ -14,7 +14,7 @@ public class NoxSolutionReadmeExtensionsTests
     {
         // Arrange
         var noxSolution = new NoxSolutionBuilder()
-            .UseYamlFile(filePath)
+            .WithFile(filePath)
             .Build();
 
         // Act
@@ -26,12 +26,12 @@ public class NoxSolutionReadmeExtensionsTests
 
     public class TestData : IEnumerable<object[]>
     {
-        private const string BasePath = "./Files/Design";
-        private const string FileExtension = ".nox.yaml";
+        private const string _basePath = "./Files/Design";
+        private const string _fileExtension = ".nox.yaml";
 
         public IEnumerator<object[]> GetEnumerator()
         {
-            var files = Directory.GetFiles(BasePath, $"*{FileExtension}");
+            var files = Directory.GetFiles(_basePath, $"*{_fileExtension}");
             foreach (var file in files)
             {
                 yield return new object[] { file };

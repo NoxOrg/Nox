@@ -28,8 +28,8 @@ internal static class CurrencyExtensions
         dto.SetIfNotNull(entity?.MinorToMajorValue, (dto) => dto.MinorToMajorValue =entity!.MinorToMajorValue!.ToDto());
         dto.SetIfNotNull(entity?.Countries, (dto) => dto.Countries = entity!.Countries.Select(e => e.ToDto()).ToList());
         dto.SetIfNotNull(entity?.MinimumCashStocks, (dto) => dto.MinimumCashStocks = entity!.MinimumCashStocks.Select(e => e.ToDto()).ToList());
-        dto.SetIfNotNull(entity?.CurrencyCommonBankNotes, (dto) => dto.CurrencyCommonBankNotes = entity!.CurrencyCommonBankNotes.Select(e => e.ToDto()).ToList());
-        dto.SetIfNotNull(entity?.CurrencyExchangedFromRates, (dto) => dto.CurrencyExchangedFromRates = entity!.CurrencyExchangedFromRates.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.BankNotes, (dto) => dto.BankNotes = entity!.BankNotes.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.ExchangeRates, (dto) => dto.ExchangeRates = entity!.ExchangeRates.Select(e => e.ToDto()).ToList());
 
         return dto;
     }

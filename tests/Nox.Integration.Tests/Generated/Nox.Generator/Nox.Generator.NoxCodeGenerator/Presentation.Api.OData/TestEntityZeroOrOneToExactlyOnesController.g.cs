@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -117,6 +117,32 @@ public abstract partial class TestEntityZeroOrOneToExactlyOnesControllerBase : O
     
     [HttpDelete("/api/v1/TestEntityZeroOrOneToExactlyOnes/{key}/TestEntityExactlyOneToZeroOrOne")]
     public async Task<ActionResult> DeleteToTestEntityExactlyOneToZeroOrOne([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        testEntityExactlyOneToZeroOrOne.TestEntityZeroOrOneToExactlyOneId = key;
+        var createdKey = await _mediator.Send(new CreateTestEntityExactlyOneToZeroOrOneCommand(testEntityExactlyOneToZeroOrOne, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetTestEntityExactlyOneToZeroOrOneByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<TestEntityExactlyOneToZeroOrOneDto>> GetTestEntityExactlyOneToZeroOrOne(System.String key)
+    {
+        var related = (await _mediator.Send(new GetTestEntityZeroOrOneToExactlyOneByIdQuery(key))).Where(x => x.TestEntityExactlyOneToZeroOrOne != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<TestEntityExactlyOneToZeroOrOneDto>(Enumerable.Empty<TestEntityExactlyOneToZeroOrOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.TestEntityExactlyOneToZeroOrOne!));
+    }
+    
+    public virtual async Task<ActionResult<TestEntityExactlyOneToZeroOrOneDto>> PutToTestEntityExactlyOneToZeroOrOne(System.String key, [FromBody] TestEntityExactlyOneToZeroOrOneUpdateDto testEntityExactlyOneToZeroOrOne)
     {
         if (!ModelState.IsValid)
         {

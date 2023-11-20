@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -73,7 +73,13 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
         {
             references.Add(new System.Uri($"TestEntityZeroOrManies/{item.Id}", UriKind.Relative));
         }
-        return Ok(references);
+        
+        testEntityZeroOrMany.SecondTestEntityZeroOrManiesId = new List<System.String> { key };
+        var createdKey = await _mediator.Send(new CreateTestEntityZeroOrManyCommand(testEntityZeroOrMany, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetTestEntityZeroOrManyByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]

@@ -262,16 +262,14 @@ namespace ClientApi.Tests.Tests.Controllers
             var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
                 new WorkplaceCreateDto { Name = _fixture.Create<string>() });
 
-            var headers = CreateEtagHeader(workplaceResponse?.Etag);
             var postToCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(
                 $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
-                new CountryCreateDto() { Name = _fixture.Create<string>() },
-                headers);
+                new CountryCreateDto() { Name = _fixture.Create<string>() });
 
             var expectedName = _fixture.Create<string>();
 
             // Act
-            headers = CreateEtagHeader(postToCountryResponse?.Etag);
+            var headers = CreateEtagHeader(postToCountryResponse?.Etag);
             var putToCountryResponse = await PutAsync<CountryUpdateDto>(
                 $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
                 new CountryUpdateDto()
@@ -375,13 +373,11 @@ namespace ClientApi.Tests.Tests.Controllers
                 new WorkplaceCreateDto { Name = _fixture.Create<string>() });
 
             // Act
-            var headers = CreateEtagHeader(workplaceResponse?.Etag);
             var postToCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(
                 $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
-                new CountryCreateDto() { Name = _fixture.Create<string>() },
-                headers);
+                new CountryCreateDto() { Name = _fixture.Create<string>() });
 
-            headers = CreateEtagHeader(postToCountryResponse?.Etag);
+            var headers = CreateEtagHeader(postToCountryResponse?.Etag);
             var deleteCountryResponse = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}", headers);
 
             const string oDataRequest = $"$expand={nameof(WorkplaceDto.Country)}";

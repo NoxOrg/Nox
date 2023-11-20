@@ -31,13 +31,14 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<{{entity.Name}}Dto>("{{entity.PluralName}}");
         {{- end }}
         {{- if entity.OwnedRelationships != null }}
-            {{- for ownedRelationship in entity.OwnedRelationships }}
+            {{- for ownedRelationship in entity.OwnedRelationships }}                
+		        {{- ownedRelationshipName = GetNavigationPropertyName entity ownedRelationship }}
                 {{- if ownedRelationship.Relationship == "ExactlyOne" }}
-        builder.EntityType<{{entity.Name}}Dto>().ContainsRequired(e => e.{{ownedRelationship.Name}}).AutoExpand = true;
+        builder.EntityType<{{entity.Name}}Dto>().ContainsRequired(e => e.{{ownedRelationshipName}}).AutoExpand = true;
                 {{- else if ownedRelationship.Relationship == "ZeroOrOne" }}
-        builder.EntityType<{{entity.Name}}Dto>().ContainsOptional(e => e.{{ownedRelationship.Name}}).AutoExpand = true;
+        builder.EntityType<{{entity.Name}}Dto>().ContainsOptional(e => e.{{ownedRelationshipName}}).AutoExpand = true;
                 {{- else }}
-        builder.EntityType<{{entity.Name}}Dto>().ContainsMany(e => e.{{ownedRelationship.Name}}).AutoExpand = true;
+        builder.EntityType<{{entity.Name}}Dto>().ContainsMany(e => e.{{ownedRelationshipName}}).AutoExpand = true;
                 {{- end }}
             {{- end }}
         {{- end }}

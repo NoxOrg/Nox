@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -73,7 +73,13 @@ public abstract partial class CustomersControllerBase : ODataController
         {
             references.Add(new System.Uri($"PaymentDetails/{item.Id}", UriKind.Relative));
         }
-        return Ok(references);
+        
+        paymentDetail.CustomerId = key;
+        var createdKey = await _mediator.Send(new CreatePaymentDetailCommand(paymentDetail, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetPaymentDetailByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]
@@ -224,7 +230,6 @@ public abstract partial class CustomersControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         booking.CustomerId = key;
         var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
         
@@ -397,7 +402,6 @@ public abstract partial class CustomersControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         transaction.CustomerId = key;
         var createdKey = await _mediator.Send(new CreateTransactionCommand(transaction, _cultureCode));
         
@@ -570,7 +574,6 @@ public abstract partial class CustomersControllerBase : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         country.CustomersId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
         

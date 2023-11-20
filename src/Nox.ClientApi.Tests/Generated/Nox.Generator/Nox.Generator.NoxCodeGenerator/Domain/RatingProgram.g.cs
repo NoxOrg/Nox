@@ -51,22 +51,22 @@ internal record RatingProgramDeleted(RatingProgram RatingProgram) : IDomainEvent
 internal abstract partial class RatingProgramBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Guid StoreId { get; set; } = null!;
     
         public virtual Store Store { get; set; } = null!;
     /// <summary>
-    /// The unique identifier
-    /// <remarks>Required.</remarks>   
+    /// The unique identifier    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Rating Program Name
-    /// <remarks>Optional.</remarks>   
+    /// Rating Program Name    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Text? Name { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

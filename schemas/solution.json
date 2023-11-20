@@ -58,6 +58,18 @@
       ]
     },
     "overview": {    
+      "title": "A short overview or description of the solution.",
+      "description": "A short overview for this solution describing the purpose and responsibility of the solution.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "documentationUrl": {    
       "title": "URL to the documentation or specification of the solution.",
       "description": "A URL which contains the requirements, documentation or specification for this solution.",
       "oneOf": [
@@ -198,26 +210,6 @@
               "pattern": "^[^\\s]*$"
             }
           }
-        }
-      ]
-    },
-    "rootYamlFile": {    
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "rawYamlContent": {    
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
         }
       ]
     }

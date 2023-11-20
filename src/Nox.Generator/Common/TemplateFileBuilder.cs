@@ -39,7 +39,7 @@ internal class TemplateFileBuilder : TemplateBuilderBase
 
         string absoluteFilePath = Path.Combine(_outputPath, _outputFolder, $"{fileName}.g.{_fileExtension}");
 
-        FileInfo file = new FileInfo(absoluteFilePath);
+        var file = new FileInfo(absoluteFilePath);
         file.Directory.Create(); // If the directory already exists, this method does nothing.
 
         File.WriteAllText(absoluteFilePath, sourceCode, Encoding.UTF8);

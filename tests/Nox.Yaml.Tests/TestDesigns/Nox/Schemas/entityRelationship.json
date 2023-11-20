@@ -59,17 +59,9 @@
         }
       ]
     },
-    "entityPlural": {    
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
     "canManageReference": {    
+      "title": "Define the Entity on this relationship side contains a Reference endpoints to the related Entity.",
+      "description": "Default is true, determines whether OData $ref endpoints are generated for this relationship.",
       "oneOf": [
         {
           "type": "boolean"
@@ -80,6 +72,8 @@
       ]
     },
     "canManageEntity": {    
+      "title": "Define the Entity on this relationship side contains endpoints to manage the related Entity.",
+      "description": "Default is true, determines whether navigation routing endpoints are generated for the related entities, including enabling ODataQueries for related entities.",
       "oneOf": [
         {
           "type": "boolean"
@@ -88,88 +82,6 @@
           "type": "null"
         }
       ]
-    },
-    "shouldGenerateForeignOnThisSide": {    
-      "oneOf": [
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "withSingleEntity": {    
-      "oneOf": [
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "withMultiEntity": {    
-      "oneOf": [
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "foreignKeyPrimitiveType": {    
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "related": {    
-      "oneOf": [
-        {
-          "type": "object"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "properties": {
-        "entity": {    
-          "anyOf": [
-            { "$ref": "entity.json" },
-            {
-              "additionalProperties": false, 
-              "properties": {
-                "$ref": {
-                  "type": "string",
-                  "format": "uri",
-                  "pattern": "^[^\\s]*$"
-                }
-              }
-            }
-          ]
-        },
-        "entityRelationship": {    
-          "anyOf": [
-            { "$ref": "entityRelationship.json" },
-            {
-              "additionalProperties": false, 
-              "properties": {
-                "$ref": {
-                  "type": "string",
-                  "format": "uri",
-                  "pattern": "^[^\\s]*$"
-                }
-              }
-            }
-          ]
-        }
-      }
     }
   },
   "additionalProperties": false

@@ -3,6 +3,7 @@ using Nox.Yaml.Extensions;
 using Nox.Yaml.Schema.Generator;
 using System.Collections;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Nox.Yaml.Schema.Validator;
 
@@ -41,7 +42,9 @@ internal class SchemaValidator
         }
         var globalUniqueProperties = _globallyUniqueKeys.Select(e => e.Property).ToArray();
 
-        var requiredProperties = schemaProperty.Required ?? Enumerable.Empty<string>();
+        var requiredProperties = 
+            (schemaProperty.AnyOf is null ? schemaProperty.Required : null)
+            ?? Enumerable.Empty<string>();
 
         // Check all required properties exist
         foreach (var required in requiredProperties)
@@ -142,10 +145,30 @@ internal class SchemaValidator
 
             // end type checks
 
+            if( objType.IsIntegerType() || objType.IsNumericType())
+            {
+                if (property.Minimum is double minValue)
+                {
+                    if (obj.Value is not null && Convert.ToDouble(obj.Value) < minValue)
+                    {
+                        _errors.Add($"Invalid value [{obj.Value}] for property [{property.Name}] is less than minumum [{property.Minimum}]. {fileInfo}");
+                    }
+                }
+
+                if (property.Maximum is double maxValue) 
+                {
+                    if (obj.Value is not null && Convert.ToDouble(obj.Value) > maxValue)
+                    {
+                        _errors.Add($"Invalid value [{obj.Value}] for property [{property.Name}] is more than maximum [{property.Minimum}]. {fileInfo}");
+                    }
+                }
+            }
+
             List<Dictionary<string, (object? Value, YamlLineInfo LineInfo)>> arrayItems = new();
 
             if (property.Type == "object")
             {
+                if (obj.Value is null) continue;
                 var obj2 = (Dictionary<string, (object? Value, YamlLineInfo LineInfo)>)obj.Value;
                 Validate(obj2, property);
             }
@@ -163,7 +186,7 @@ internal class SchemaValidator
             }
 
             // Check for valid enumerators
-            else if (property.Enum is not null && property.Name is not null)
+            if (property.Enum is not null)
             {
                 if (obj.Value is string strEnum)
                 {
@@ -174,10 +197,23 @@ internal class SchemaValidator
                 }
             }
 
+            // Check pattern
+            if (property.Pattern is not null)
+            {
+                if (obj.Value is string strPattern)
+                {
+                    if (!Regex.IsMatch(strPattern,property.Pattern,RegexOptions.Compiled,TimeSpan.FromSeconds(1)))
+                    {
+                        _errors.Add($"The value [\"{strPattern}\"] for property [{property.Name}] does not match pattern [{property.Pattern}]. {fileInfo}");
+                    }
+                }
+
+            }
+
             // Check MustExistIn (does value exist in another list by key)
             if (property.ExistsInCollection is not null && obj.Value is string strExistsIn)
             {
-                if (!property.ExistsInCollection.IsValid(strExistsIn, _topObject))
+                if (!property.ExistsInCollection.IsValid(strExistsIn, _topObject, fileInfo))
                 {
                     _errors.Add($"No entry exists for property [{property.Name}] with value [\"{strExistsIn}\"] in [{property.ExistsInCollection.Path}]. {fileInfo}");
                 }
@@ -197,7 +233,10 @@ internal class SchemaValidator
             {
                 foreach(var (Parent, _, Values) in _globallyUniqueKeys.Where(e => e.Property.Equals(property.Name))) 
                 {
+                    if (obj.Value is null) continue;
+
                     var strValue = obj.Value.ToString();
+
                     if (Values.Contains(strValue))
                     {
                         _errors.Add($"The key [{property.Name}] contains a global duplicate [\"{strValue}\"] in the [{Parent}] heirachy. {fileInfo}");

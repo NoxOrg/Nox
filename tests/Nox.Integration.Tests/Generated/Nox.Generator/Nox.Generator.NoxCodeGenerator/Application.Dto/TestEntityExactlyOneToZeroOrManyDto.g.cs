@@ -57,9 +57,9 @@ public abstract class TestEntityExactlyOneToZeroOrManyDtoBase : EntityDtoBase, I
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String TextTestField { get; set; } = default!;
 
     /// <summary>

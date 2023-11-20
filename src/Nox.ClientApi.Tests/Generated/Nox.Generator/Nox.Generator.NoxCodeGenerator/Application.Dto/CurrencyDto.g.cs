@@ -56,15 +56,15 @@ public abstract class CurrencyDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    /// Currency's name 
-    /// <remarks>Optional.</remarks>    
+    /// Currency's name     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? Name { get; set; }
 
     /// <summary>
-    /// Currency's symbol 
-    /// <remarks>Optional.</remarks>    
+    /// Currency's symbol     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? Symbol { get; set; }
 
     /// <summary>
