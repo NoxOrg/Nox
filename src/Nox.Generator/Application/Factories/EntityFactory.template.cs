@@ -66,7 +66,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
     {
         var entity = new {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}();
         {{- for key in entity.Keys }}
-            {{- if key.Type == "Nuid" || key.Type == "AutoNumber" || key.Type == "Guid" -}}
+            {{- if !IsNoxTypeCreatable key.Type || key.Type == "Guid" -}}
                 {{ continue; -}}
             {{- end }}
         entity.{{key.Name}} = {{entity.Name}}Metadata.Create{{key.Name}}(createDto.{{key.Name}});
