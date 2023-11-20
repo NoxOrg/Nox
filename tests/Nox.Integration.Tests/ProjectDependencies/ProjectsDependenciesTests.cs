@@ -15,7 +15,7 @@ namespace Nox.Tests.ProjectDependencies
         }
 
         [Fact]
-        public void Nox_Types_Abstractions__References_Nox_Yaml()
+        public void Nox_Types_Abstractions_References_Nox_Yaml()
         {
             var projectDependencies = _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxTypesAbstractionsProject.Id);
             projectDependencies.Count.Should().Be(1);
@@ -47,17 +47,6 @@ namespace Nox.Tests.ProjectDependencies
             }
         }
 
-        [Fact]
-        public void Nox_Solution_References_Nox_Types_Abstractions_Only()
-        {
-            var projectDependenciesNoxSolution =
-                _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxSolution.Id);
-
-            projectDependenciesNoxSolution.Should().HaveCount(2);
-
-            projectDependenciesNoxSolution.Where(p => p == _fixture.NoxTypesAbstractionsProject.Id).Count().Should().Be(1);
-            projectDependenciesNoxSolution.Where(p => p == _fixture.NoxYamlProject.Id).Count().Should().Be(1);
-        }
 
         [Fact]
         public void Nox_Generator_Depends_OnlyOn_Nox_Solution()
@@ -106,5 +95,29 @@ namespace Nox.Tests.ProjectDependencies
             projectDependencies.SingleOrDefault(d => d.Id == _fixture.NoxTypesProject.Id.Id).Should().NotBeNull();
             projectDependencies.SingleOrDefault(d => d.Id == _fixture.NoxSolution.Id.Id).Should().NotBeNull();
         }
+        #region Nox.Solution
+        [Fact]
+        public void Nox_Solution_References_Nox_Types_Abstractions_Yaml_Only()
+        {
+            var projectDependenciesNoxSolution =
+                _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxSolution.Id);
+
+            projectDependenciesNoxSolution.Should().HaveCount(2);
+
+            projectDependenciesNoxSolution.Where(p => p == _fixture.NoxTypesAbstractionsProject.Id).Count().Should().Be(1);
+            projectDependenciesNoxSolution.Where(p => p == _fixture.NoxYamlProject.Id).Count().Should().Be(1);
+        }
+
+        #endregion
+        #region Nox.Yaml
+        [Fact]
+        public void Nox_Yaml_Should_Not_Reference_Any_Project()
+        {
+            var projectDependenciesNoxSolution =
+                _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxYamlProject.Id);
+
+            projectDependenciesNoxSolution.Should().HaveCount(0);
+        }
+        #endregion
     }
 }
