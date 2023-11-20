@@ -26,13 +26,6 @@ internal class ODataServiceCollectionExtensions : INoxCodeGenerator
             return;
         }
 
-        var hasKeyForCompoundKeys = "";
-        foreach (var entity in noxCodeGenCodeConventions.Solution.Domain.Entities)
-        {
-            hasKeyForCompoundKeys += $"builder.EntityType<{entity.Name}Dto>().HasKey(e => new {{{string.Join(",", entity.Keys.Select(k => $" e.{k.Name}"))} }});\n";
-
-        }
-
         var enumerationAttributes = new List<EntityEnumerations>();
         foreach (var entity in noxCodeGenCodeConventions.Solution.Domain.Entities)
         {
@@ -54,7 +47,6 @@ internal class ODataServiceCollectionExtensions : INoxCodeGenerator
         var templateName = @"Presentation.Api.OData.ODataServiceCollectionExtensions";
 
         new TemplateCodeBuilder(context, noxCodeGenCodeConventions)
-            .WithObject("hasKeyForCompoundKeys", hasKeyForCompoundKeys)
             .WithObject("enumerationAttributes", enumerationAttributes)
             .WithFileNamePrefix($"Presentation.Api.OData")
             .GenerateSourceCodeFromResource(templateName);
