@@ -10,11 +10,6 @@
       "type": "null"
     }
   ],
-  "required": [
-    "trait",
-    "name",
-    "type"
-  ],
   "anyOf": [
     {
       "required": [
@@ -179,10 +174,6 @@
             {
               "type": "null"
             }
-          ],
-          "required": [
-            "name",
-            "type"
           ],
           "anyOf": [
             {
@@ -6043,10 +6034,6 @@
             {
               "type": "null"
             }
-          ],
-          "required": [
-            "name",
-            "type"
           ],
           "anyOf": [
             {

@@ -126,4 +126,14 @@ infrastructure:
         serverUri: localhost
         user: sa
         password: Developer*123
+
+domain: 
+  entities:
+    - name: Country
+      keys:
+        - name: Id
+          type: autoNumber
+      attributes:
+        - name: name
+          type: text
         

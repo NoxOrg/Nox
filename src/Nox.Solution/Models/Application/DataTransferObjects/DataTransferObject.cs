@@ -7,12 +7,13 @@ namespace Nox.Solution;
 
 
 [AdditionalProperties(false)]
+[GenerateJsonSchema("dto")]
 public class DataTransferObject
 {
     [Required]
     [Title("The name of the DTO. Contains no spaces.")]
     [Description("The name of the DTO. It should be a commonly used singular noun and be unique within a solution.")]
-    [Pattern(@"^[^\s]*$")]
+    [Pattern(Nox.Yaml.Constants.StringWithNoSpacesRegex)]
     public string Name { get; internal set; } = null!;
 
     [Title("The description of the DTO.")]

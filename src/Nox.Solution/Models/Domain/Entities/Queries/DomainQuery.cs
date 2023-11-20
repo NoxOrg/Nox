@@ -7,12 +7,12 @@ namespace Nox.Solution;
 [Title("Defines a query for the domain.")]
 [Description("Defines a query that operates on the domain. Queries should have no side effects and not mutate the domain state.")]
 [AdditionalProperties(false)]
-public class DomainQuery : DefinitionBase
+public class DomainQuery
 {
     [Required]
     [Title("The name of the query. Contains no spaces.")]
     [Description("A descriptive name for the query, usually in the format Get[Entity]by[Grouping]. Eg \"GetCountriesByContinent\".")]
-    [Pattern(@"^[^\s]*$")]
+    [Pattern(Nox.Yaml.Constants.StringWithNoSpacesRegex)]
     public string Name { get; internal set; } = null!;
 
     [Title("A phrase describing expected output from the domain query.")]

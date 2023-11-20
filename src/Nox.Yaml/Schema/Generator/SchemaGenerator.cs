@@ -131,15 +131,9 @@ internal class SchemaGenerator
                 js.Indent();
                 js.AppendLine("{");
                 js.Indent();
-                js.AppendProperty("type", schemaProperty.Type);
-                if (schemaProperty.Format is not null)
-                    js.AppendProperty("format", schemaProperty.Format);
-        
-                if (schemaProperty.Pattern is not null && (schemaProperty.Items is null || schemaProperty.Items.Ignore) )
-                    js.AppendProperty("pattern", schemaProperty.Pattern);
 
-                if (schemaProperty.Enum is not null)
-                    js.AppendProperty("enum", schemaProperty.Enum);
+                WriteTypeInfo(schemaProperty, js);
+
                 js.RemoveTrailingCommas();
                 js.UnIndent();
                 js.AppendLine("},");
@@ -149,7 +143,7 @@ internal class SchemaGenerator
                     js.AppendLine("{");
                     js.Indent();
                     js.AppendProperty("type", "string");
-                    js.AppendProperty("pattern", "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})");
+                    js.AppendProperty("pattern", Constants.YamlVariableRegex);
                     js.RemoveTrailingCommas();
                     js.UnIndent();
                     js.AppendLine("},");
@@ -164,29 +158,21 @@ internal class SchemaGenerator
                     js.UnIndent();
                     js.AppendLine("}");
                 }
-                
+
                 js.RemoveTrailingCommas();
                 js.UnIndent();
                 js.AppendLine("],");
             }
             else
             {
-                js.AppendProperty("type", schemaProperty.Type);
-                if (schemaProperty.Format is not null)
-                    js.AppendProperty("format", schemaProperty.Format);
-        
-                if (schemaProperty.Pattern is not null && (schemaProperty.Items is null || schemaProperty.Items.Ignore) )
-                    js.AppendProperty("pattern", schemaProperty.Pattern);
-
-                if (schemaProperty.Enum is not null)
-                    js.AppendProperty("enum", schemaProperty.Enum);
+                WriteTypeInfo(schemaProperty, js);
             }
         }
 
         if (schemaProperty.TypeConst is not null)
             js.Append($"  \"const\": \"{schemaProperty.TypeConst}\"\n");
 
-        if (schemaProperty.Required is not null)
+        if (schemaProperty.Required is not null && schemaProperty.AnyOf is null)
             js.AppendProperty("required", schemaProperty.Required);
 
         if (schemaProperty.Properties is not null)
@@ -251,6 +237,28 @@ internal class SchemaGenerator
         {
             return js.Build();
         }
+
+    }
+
+    private static void WriteTypeInfo(SchemaProperty schemaProperty, JsonSerializer js)
+    {
+        
+        js.AppendProperty("type", schemaProperty.Type!);
+        
+        if (schemaProperty.Format is not null)
+            js.AppendProperty("format", schemaProperty.Format);
+
+        if (schemaProperty.Pattern is not null && (schemaProperty.Items is null || schemaProperty.Items.Ignore))
+            js.AppendProperty("pattern", schemaProperty.Pattern);
+
+        if (schemaProperty.Enum is not null)
+            js.AppendProperty("enum", schemaProperty.Enum);
+
+        if (schemaProperty.Minimum.HasValue)
+            js.AppendProperty("minimum", schemaProperty.Minimum.Value);
+
+        if (schemaProperty.Maximum.HasValue)
+            js.AppendProperty("maximum", schemaProperty.Maximum.Value);
 
     }
 

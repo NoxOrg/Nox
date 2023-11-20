@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Defines a command that operates on the domain.",
-  "description": "Defines a command that operates on the domain. A Command has side effects and doesn't return a value.",
+  "title": "A complex nox type.",
+  "description": "Defines a complex nox type that includes simple types, objects, arrays and collections.",
   "oneOf": [
     {
       "type": "object"
@@ -13,29 +13,16 @@
   "anyOf": [
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -129,45 +116,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -332,16 +296,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -504,16 +458,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -642,16 +586,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -796,16 +730,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -986,16 +910,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -1122,16 +1036,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -1302,16 +1206,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -1459,16 +1353,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -1476,7 +1360,8 @@
             {
               "required": [
                 "name",
-                "type"
+                "type",
+                "entityIdTypeOptions"
               ],
               "properties": {
                 "objectTypeOptions": {    
@@ -1534,14 +1419,7 @@
                   "const": "entityId"
                 },
                 "entityIdTypeOptions": {    
-                  "oneOf": [
-                    {
-                      "type": "object"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ],
+                  "type": "object",
                   "properties": {
                     "entity": {    
                       "oneOf": [
@@ -1585,16 +1463,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -1770,16 +1638,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -1919,16 +1777,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -2080,16 +1928,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -2220,16 +2058,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -2383,16 +2211,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -2519,16 +2337,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -2699,16 +2507,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -2845,16 +2643,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -3209,16 +2997,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -3373,16 +3151,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -3519,16 +3287,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -3959,16 +3717,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -4113,16 +3861,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -4257,16 +3995,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -4444,16 +4172,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -4580,16 +4298,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -4739,16 +4447,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -4913,16 +4611,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -5306,16 +4994,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -5470,16 +5148,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -5650,16 +5318,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -5804,16 +5462,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -5948,16 +5596,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -6002,45 +5640,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -6205,16 +5820,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -6377,16 +5982,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -6515,16 +6110,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -6669,16 +6254,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -6859,16 +6434,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -6995,16 +6560,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -7175,16 +6730,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -7332,16 +6877,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -7349,7 +6884,8 @@
             {
               "required": [
                 "name",
-                "type"
+                "type",
+                "entityIdTypeOptions"
               ],
               "properties": {
                 "objectTypeOptions": {    
@@ -7407,14 +6943,7 @@
                   "const": "entityId"
                 },
                 "entityIdTypeOptions": {    
-                  "oneOf": [
-                    {
-                      "type": "object"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ],
+                  "type": "object",
                   "properties": {
                     "entity": {    
                       "oneOf": [
@@ -7458,16 +6987,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -7643,16 +7162,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -7792,16 +7301,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -7953,16 +7452,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -8093,16 +7582,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -8256,16 +7735,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -8392,16 +7861,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -8572,16 +8031,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -8718,16 +8167,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -9082,16 +8521,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -9246,16 +8675,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -9392,16 +8811,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -9832,16 +9241,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -9986,16 +9385,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -10130,16 +9519,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -10317,16 +9696,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -10453,16 +9822,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -10612,16 +9971,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -10786,16 +10135,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -11179,16 +10518,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -11343,16 +10672,6 @@
                 "isReadonly": {    
                   "title": "Is this attribute readonly? Boolean value.",
                   "description": "Indicates whether this attribute is readonly. Defaults to false.",
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -11523,16 +10842,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -11677,16 +10986,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -11821,16 +11120,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "isLocalized": {    
-                  "oneOf": [
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "additionalProperties": false
@@ -11875,45 +11164,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -12006,45 +11272,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -12165,45 +11408,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -12298,45 +11518,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -12439,45 +11636,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -12608,45 +11782,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -12739,45 +11890,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -12898,45 +12026,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -13042,45 +12147,23 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
-        "type"
+        "type",
+        "entityIdTypeOptions"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -13104,14 +12187,7 @@
           "const": "entityId"
         },
         "entityIdTypeOptions": {    
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
-          ],
+          "type": "object",
           "properties": {
             "entity": {    
               "oneOf": [
@@ -13163,45 +12239,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -13327,45 +12380,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -13471,45 +12501,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -13611,45 +12618,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -13746,45 +12730,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -13888,45 +12849,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -14019,45 +12957,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -14178,45 +13093,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -14319,45 +13211,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -14662,45 +13531,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -14813,45 +13659,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -14954,45 +13777,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -15373,45 +14173,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -15514,45 +14291,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -15653,45 +14407,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -15819,45 +14550,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -15950,45 +14658,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -16096,45 +14781,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -16257,45 +14919,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -16629,45 +15268,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -16788,45 +15404,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -16947,45 +15540,22 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
     },
     {
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -17088,16 +15658,6 @@
               "type": "null"
             }
           ]
-        },
-        "isLocalized": {    
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
         }
       },
       "additionalProperties": false
@@ -17105,29 +15665,16 @@
     {
       "type": "object",
       "required": [
+        "domainContext",
         "name",
         "type"
       ],
       "properties": {
-        "emitEvents": {    
-          "oneOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "items":   {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
+        "domainContext": {    
+          "title": "The Domain Context of the event. Contains no spaces.",
+          "description": "Domain context should have one of this value types: EntityName | BussinessProcessName | BoundedContext. Used to define the type in the Cloud events. Example: {Solution.PlatformId}.{Solution.Name}.{DomainContext}.v{Solution.Version}.{eventName}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
         },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
@@ -17208,16 +15755,6 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"

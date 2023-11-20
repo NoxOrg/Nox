@@ -21,7 +21,7 @@ public class UniqueItemPropertiesAttribute : Attribute
 
     internal bool IsValid(IReadOnlyList<Dictionary<string, (object? Value, YamlLineInfo LineInfo)>> objectInstances)
     {
-        var valuesSeen = new HashSet<string>();
+        var valuesSeen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         foreach (var obj in objectInstances)
         {

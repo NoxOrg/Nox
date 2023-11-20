@@ -3,16 +3,12 @@
   "title": "Definition namespace for attributes describing the target component of an integration integration.",
   "description": "This section details integration target attributes like name, description and type among other.",
   "type": "object",
-  "required": [
-    "name",
-    "targetAdapterType",
-    "dataConnectionName"
-  ],
   "anyOf": [
     {
       "required": [
         "name",
         "targetAdapterType",
+        "tableOptions",
         "dataConnectionName"
       ],
       "properties": {
@@ -40,14 +36,7 @@
         "tableOptions": {    
           "title": "Definition namespace for a database table integration target.",
           "description": "This section specified attributes related to an integration target of type Database Table. Attributes include the table name that will be updated.",
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
-          ],
+          "type": "object",
           "required": [
             "tableName"
           ],

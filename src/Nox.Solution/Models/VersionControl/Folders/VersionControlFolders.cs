@@ -2,7 +2,7 @@
 
 namespace Nox.Solution;
 
-public class VersionControlFolders : DefinitionBase
+public class VersionControlFolders
 {
     [Required]
     [Title("The path or relative path to the source code root.")]

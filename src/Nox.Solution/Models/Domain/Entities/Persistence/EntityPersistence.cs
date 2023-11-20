@@ -1,4 +1,5 @@
-﻿using Nox.Yaml.Attributes;
+﻿using Nox.Yaml;
+using Nox.Yaml.Attributes;
 using YamlDotNet.Serialization;
 
 namespace Nox.Solution;
@@ -7,7 +8,7 @@ namespace Nox.Solution;
 [Title("Specifies information on storing and retrieving the entity.")]
 [Description("Provides hints to the database engine and API as to how this entity should be managed in the persistence store.")]
 [AdditionalProperties(false)]
-public class EntityPersistence : DefinitionBase
+public class EntityPersistence : YamlConfigNode<NoxSolution,Entity>
 {
     [Title("Whether all changes to this entity is tracked for  auditing.")]
     [Description("Indicates to the storage engine that all changes to this entity must be tracked over time. Usually used to time-travel, track or audit an entity's state changes.")]
@@ -26,11 +27,9 @@ public class EntityPersistence : DefinitionBase
     public EntityUpdateSettings Update { get; internal set; } = new EntityUpdateSettings();
     public EntityDeleteSettings Delete { get; internal set; } = new EntityDeleteSettings();
 
-    internal bool ApplyDefaults(string entityName)
+    public override void SetDefaults(NoxSolution topNode, Entity parentNode, string yamlPath)
     {
-        if (string.IsNullOrWhiteSpace(TableName)) TableName = entityName;
-        if (string.IsNullOrWhiteSpace(Schema)) Schema = "dbo";
-        return true;
+        TableName ??= parentNode.Name;
     }
 }
 
