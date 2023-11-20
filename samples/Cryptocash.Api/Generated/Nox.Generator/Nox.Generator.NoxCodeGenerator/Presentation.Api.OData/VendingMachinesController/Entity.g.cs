@@ -101,9 +101,9 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<VendingMachineDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<VendingMachineDto> vendingMachine)
+    public virtual async Task<ActionResult<VendingMachineDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<VendingMachineUpdateDto> vendingMachine)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || vendingMachine is null)
         {
             return BadRequest(ModelState);
         }

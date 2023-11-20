@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -112,7 +112,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
     [HttpPatch("/api/v1/TestEntityOwnedRelationshipOneOrManies/{key}/SecondTestEntityOwnedRelationshipOneOrManies/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToSecondTestEntityOwnedRelationshipOneOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] Delta<SecondTestEntityOwnedRelationshipOneOrManyUpdateDto> secondTestEntityOwnedRelationshipOneOrMany)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || secondTestEntityOwnedRelationshipOneOrMany is null)
         {
             return BadRequest(ModelState);
         }

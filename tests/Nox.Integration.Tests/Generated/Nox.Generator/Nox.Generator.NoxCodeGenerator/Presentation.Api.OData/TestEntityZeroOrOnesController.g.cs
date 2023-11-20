@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -44,22 +44,6 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToSecondTestEntityZeroOrOne([FromRoute] System.String key, [FromBody] SecondTestEntityZeroOrOneCreateDto secondTestEntityZeroOrOne)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        secondTestEntityZeroOrOne.TestEntityZeroOrOneId = key;
-        var createdKey = await _mediator.Send(new CreateSecondTestEntityZeroOrOneCommand(secondTestEntityZeroOrOne, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToSecondTestEntityZeroOrOne([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Select(x => x.SecondTestEntityZeroOrOne).SingleOrDefault();
@@ -70,17 +54,6 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         
         var references = new System.Uri($"SecondTestEntityZeroOrOnes/{related.Id}", UriKind.Relative);
         return Ok(references);
-    }
-    
-    [EnableQuery]
-    public virtual async Task<SingleResult<SecondTestEntityZeroOrOneDto>> GetSecondTestEntityZeroOrOne(System.String key)
-    {
-        var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Where(x => x.SecondTestEntityZeroOrOne != null);
-        if (!related.Any())
-        {
-            return SingleResult.Create<SecondTestEntityZeroOrOneDto>(Enumerable.Empty<SecondTestEntityZeroOrOneDto>().AsQueryable());
-        }
-        return SingleResult.Create(related.Select(x => x.SecondTestEntityZeroOrOne!));
     }
     
     public async Task<ActionResult> DeleteRefToSecondTestEntityZeroOrOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
@@ -115,8 +88,7 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/TestEntityZeroOrOnes/{key}/SecondTestEntityZeroOrOne")]
-    public async Task<ActionResult> DeleteToSecondTestEntityZeroOrOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> PostToSecondTestEntityZeroOrOne([FromRoute] System.String key, [FromBody] SecondTestEntityZeroOrOneCreateDto secondTestEntityZeroOrOne)
     {
         if (!ModelState.IsValid)
         {
@@ -156,15 +128,17 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteSecondTestEntityZeroOrOneByIdCommand(related.Id, etag));
-        if (!deleted)
+        var updated = await _mediator.Send(new UpdateSecondTestEntityZeroOrOneCommand(related.Id, secondTestEntityZeroOrOne, _cultureCode, etag));
+        if (updated == null)
         {
             return NotFound();
         }
-        return NoContent();
+        
+        return Ok();
     }
     
-    public virtual async Task<ActionResult<SecondTestEntityZeroOrOneDto>> PutToSecondTestEntityZeroOrOne(System.String key, [FromBody] SecondTestEntityZeroOrOneUpdateDto secondTestEntityZeroOrOne)
+    [HttpDelete("/api/v1/TestEntityZeroOrOnes/{key}/SecondTestEntityZeroOrOne")]
+    public async Task<ActionResult> DeleteToSecondTestEntityZeroOrOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -178,13 +152,12 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateSecondTestEntityZeroOrOneCommand(related.Id, secondTestEntityZeroOrOne, _cultureCode, etag));
-        if (updated == null)
+        var deleted = await _mediator.Send(new DeleteSecondTestEntityZeroOrOneByIdCommand(related.Id, etag));
+        if (!deleted)
         {
             return NotFound();
         }
-        
-        return Ok();
+        return NoContent();
     }
     
     #endregion

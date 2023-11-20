@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -44,22 +44,6 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToCountry([FromRoute] System.Int64 key, [FromBody] CountryCreateDto country)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        country.CommissionsId = new List<System.Int64> { key };
-        var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToCountry([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
@@ -70,17 +54,6 @@ public abstract partial class CommissionsControllerBase : ODataController
         
         var references = new System.Uri($"Countries/{related.Id}", UriKind.Relative);
         return Ok(references);
-    }
-    
-    [EnableQuery]
-    public virtual async Task<SingleResult<CountryDto>> GetCountry(System.Int64 key)
-    {
-        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Where(x => x.Country != null);
-        if (!related.Any())
-        {
-            return SingleResult.Create<CountryDto>(Enumerable.Empty<CountryDto>().AsQueryable());
-        }
-        return SingleResult.Create(related.Select(x => x.Country!));
     }
     
     public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
@@ -115,8 +88,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/Commissions/{key}/Country")]
-    public async Task<ActionResult> DeleteToCountry([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> PostToCountry([FromRoute] System.Int64 key, [FromBody] CountryCreateDto country)
     {
         if (!ModelState.IsValid)
         {
@@ -126,13 +98,20 @@ public abstract partial class CommissionsControllerBase : ODataController
         country.CommissionsId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
         
-        var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteCountryByIdCommand(related.Id, etag));
-        if (!deleted)
+        var createdItem = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<CountryDto>> GetCountry(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Where(x => x.Country != null);
+        if (!related.Any())
         {
-            return NotFound();
+            return SingleResult.Create<CountryDto>(Enumerable.Empty<CountryDto>().AsQueryable());
         }
-        return NoContent();
+        return SingleResult.Create(related.Select(x => x.Country!));
     }
     
     public virtual async Task<ActionResult<CountryDto>> PutToCountry(System.Int64 key, [FromBody] CountryUpdateDto country)
@@ -158,6 +137,29 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Ok();
     }
     
+    [HttpDelete("/api/v1/Commissions/{key}/Country")]
+    public async Task<ActionResult> DeleteToCountry([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCountryByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -172,22 +174,6 @@ public abstract partial class CommissionsControllerBase : ODataController
         }
         
         return NoContent();
-    }
-    
-    public virtual async Task<ActionResult> PostToBookings([FromRoute] System.Int64 key, [FromBody] BookingCreateDto booking)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        booking.CommissionId = key;
-        var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetBookingByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
     }
     
     public async Task<ActionResult> GetRefToBookings([FromRoute] System.Int64 key)
@@ -276,36 +262,28 @@ public abstract partial class CommissionsControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    [HttpPut("/api/v1/Commissions/{key}/Bookings/{relatedKey}")]
+    public virtual async Task<ActionResult<BookingDto>> PutToBookingsNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] BookingUpdateDto booking)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefCommissionToBookingsCommand(new CommissionKeyDto(key), new BookingKeyDto(relatedKey)));
-        if (!deletedRef)
+        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
+        if (!related)
         {
             return NotFound();
         }
         
-        return NoContent();
-    }
-    
-    public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCommissionToBookingsCommand(new CommissionKeyDto(key)));
-        if (!deletedAllRef)
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateBookingCommand(relatedKey, booking, _cultureCode, etag));
+        if (updated == null)
         {
             return NotFound();
         }
         
-        return NoContent();
+        return Ok();
     }
     
     [HttpDelete("/api/v1/Commissions/{key}/Bookings/{relatedKey}")]
@@ -352,30 +330,6 @@ public abstract partial class CommissionsControllerBase : ODataController
             await _mediator.Send(new DeleteBookingByIdCommand(item.Id, etag));
         }
         return NoContent();
-    }
-    
-    [HttpPut("/api/v1/Commissions/{key}/Bookings/{relatedKey}")]
-    public virtual async Task<ActionResult<BookingDto>> PutToBookingsNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] BookingUpdateDto booking)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
-        if (!related)
-        {
-            return NotFound();
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateBookingCommand(relatedKey, booking, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok();
     }
     
     #endregion

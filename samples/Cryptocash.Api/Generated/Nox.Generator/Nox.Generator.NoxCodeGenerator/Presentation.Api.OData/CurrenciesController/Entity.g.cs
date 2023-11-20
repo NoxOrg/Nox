@@ -101,9 +101,9 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<CurrencyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CurrencyDto> currency)
+    public virtual async Task<ActionResult<CurrencyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CurrencyUpdateDto> currency)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || currency is null)
         {
             return BadRequest(ModelState);
         }

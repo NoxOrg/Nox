@@ -23,8 +23,6 @@ internal class GeneratorContentTestFlow : IGeneratorContentTestFlow
         var actualFileContent = generatedSources.FirstOrDefault(s => s.HintName.Replace("/", ".") == actualFileName).SourceText?.ToString();
         var filePath = Path.Combine(_expectedFilesFolder, expectedFileName);
 
-        File.WriteAllText(actualFileName,actualFileContent);
-        
         var expectedFileContent = File.ReadAllText(filePath);
 
         generatedSources
