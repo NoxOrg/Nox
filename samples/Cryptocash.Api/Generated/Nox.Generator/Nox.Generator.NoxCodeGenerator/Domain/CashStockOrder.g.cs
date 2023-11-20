@@ -51,33 +51,33 @@ internal record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEv
 internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Vending machine's order unique identifier
-    /// <remarks>Required.</remarks>   
+    /// Vending machine's order unique identifier    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Order amount
-    /// <remarks>Required.</remarks>   
+    /// Order amount    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Money Amount { get; set; } = null!;
 
     /// <summary>
-    /// Order requested delivery date
-    /// <remarks>Required.</remarks>   
+    /// Order requested delivery date    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Date RequestedDeliveryDate { get; set; } = null!;
 
     /// <summary>
-    /// Order delivery date
-    /// <remarks>Optional.</remarks>   
+    /// Order delivery date    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.DateTime? DeliveryDateTime { get; set; } = null!;
 
     /// <summary>
-    /// Order status
-    /// <remarks>Optional.</remarks>   
+    /// Order status    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public string? Status
     { 
         get { return DeliveryDateTime != null ? "delivered" : "ordered"; }

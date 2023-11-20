@@ -44,22 +44,6 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToCustomer([FromRoute] System.Int64 key, [FromBody] CustomerCreateDto customer)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        customer.PaymentDetailsId = new List<System.Int64> { key };
-        var createdKey = await _mediator.Send(new CreateCustomerCommand(customer, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetCustomerByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToCustomer([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetPaymentDetailByIdQuery(key))).Select(x => x.Customer).SingleOrDefault();
@@ -70,6 +54,21 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         
         var references = new System.Uri($"Customers/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    public virtual async Task<ActionResult> PostToCustomer([FromRoute] System.Int64 key, [FromBody] CustomerCreateDto customer)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        customer.PaymentDetailsId = new List<System.Int64> { key };
+        var createdKey = await _mediator.Send(new CreateCustomerCommand(customer, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCustomerByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]
@@ -122,22 +121,6 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToPaymentProvider([FromRoute] System.Int64 key, [FromBody] PaymentProviderCreateDto paymentProvider)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        paymentProvider.PaymentDetailsId = new List<System.Int64> { key };
-        var createdKey = await _mediator.Send(new CreatePaymentProviderCommand(paymentProvider, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetPaymentProviderByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToPaymentProvider([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetPaymentDetailByIdQuery(key))).Select(x => x.PaymentProvider).SingleOrDefault();
@@ -148,6 +131,21 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         
         var references = new System.Uri($"PaymentProviders/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    public virtual async Task<ActionResult> PostToPaymentProvider([FromRoute] System.Int64 key, [FromBody] PaymentProviderCreateDto paymentProvider)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        paymentProvider.PaymentDetailsId = new List<System.Int64> { key };
+        var createdKey = await _mediator.Send(new CreatePaymentProviderCommand(paymentProvider, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetPaymentProviderByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]

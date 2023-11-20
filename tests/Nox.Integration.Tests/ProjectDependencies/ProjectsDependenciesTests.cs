@@ -15,14 +15,14 @@ namespace Nox.Tests.ProjectDependencies
         }
 
         [Fact]
-        public void Nox_Types_Abstractions__Cannot_Reference_Projects()
+        public void Nox_Types_Abstractions__References_Nox_Yaml()
         {
             var projectDependencies = _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxTypesAbstractionsProject.Id);
-            projectDependencies.Should().BeEmpty();
+            projectDependencies.Count.Should().Be(1);
         }
 
         [Fact]
-        public void Nox_Types_Abstractions_Cannot_Reference_ThirdParty_Packages()
+        public void Nox_Types_Abstractions_Reference_Only_YamlDotNet()
         {
             using (new AssertionScope())
             {
@@ -37,6 +37,7 @@ namespace Nox.Tests.ProjectDependencies
 
                         fileName.Should().Match(filename =>
                             string.IsNullOrEmpty(filename)
+                            || fileName!.StartsWith("YamlDotNet")
                             || fileName!.StartsWith("Microsoft")
                             || fileName.StartsWith("System")
                             || fileName.StartsWith("mscorlib")

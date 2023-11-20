@@ -57,8 +57,8 @@ public abstract class CountryTimeZoneDtoBase : EntityDtoBase, IEntityDto<DomainN
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Country's related time zone code 
-    /// <remarks>Required.</remarks>    
+    /// Country's related time zone code     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String TimeZoneCode { get; set; } = default!;
 }

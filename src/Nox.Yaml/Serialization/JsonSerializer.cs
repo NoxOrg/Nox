@@ -33,6 +33,16 @@ internal class JsonSerializer
         AppendLine($"{ToJson(name)}: {ToJson(value)},");
     }
 
+    public void AppendProperty(string name, double value)
+    {
+        AppendLine($"{ToJson(name)}: {value},");
+    }
+
+    public void AppendProperty(string name, int value)
+    {
+        AppendLine($"{ToJson(name)}: {value},");
+    }
+
     public void AppendProperty(string name, object value)
     {
         AppendIndented($"{ToJson(name)}: ");

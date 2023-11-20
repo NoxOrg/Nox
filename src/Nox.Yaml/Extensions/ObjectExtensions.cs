@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Nox.Yaml.Attributes;
+using System.Collections;
 using System.Reflection;
 using YamlDotNet.Serialization;
 
@@ -137,7 +138,8 @@ public static class ObjectExtensions
             
             parent = obj;
 
-            var properties = type.GetProperties();
+            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
             foreach (var property in properties)
             {
                 if (property.GetCustomAttribute<YamlIgnoreAttribute>() is not null)
@@ -145,13 +147,26 @@ public static class ObjectExtensions
                     continue;
                 }
 
+                if (property.GetCustomAttribute<IgnoreAttribute>() is not null)
+                {
+                    continue;
+                }
+
                 var propertyName = property.Name;
-                var propertyValue = property.GetValue(obj);
-                var fullPath = string.IsNullOrEmpty(path) ? propertyName : $"{path}.{propertyName}";
 
-                WalkObjectTypes(propertyValue!, propertyAction, $"{fullPath}", parent);
+                try
+                {
+                    var propertyValue = property.GetValue(obj);
+                    var fullPath = string.IsNullOrEmpty(path) ? propertyName : $"{path}.{propertyName}";
+                    WalkObjectTypes(propertyValue!, propertyAction, $"{fullPath}", parent);
+                }
+                catch (Exception)
+                {
+                    // Ignore if invalid
+                }
 
+
+                }
             }
-        }
     }
 }

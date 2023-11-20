@@ -81,9 +81,9 @@ CountryLocalNameId|AutoNumber|The unique identifier.|Required, Owned Entity
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-Country workplaces|ZeroOrMany|Workplace|PhysicalWorkplaces|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+Country workplaces|ZeroOrMany|Workplace|PhysicalWorkplaces|Yes|Yes
 
 
 ### Country.CountryBarCode (Owned by Country)
@@ -158,10 +158,10 @@ Symbol|Text|Currency's symbol.|MinLength: 4, MaxLength: 63
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-List of store licenses where this currency is a default one|OneOrMany|StoreLicense|StoreLicenseDefault|No
-List of store licenses that were sold in this currency|OneOrMany|StoreLicense|StoreLicenseSoldIn|No
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+List of store licenses where this currency is a default one|OneOrMany|StoreLicense|StoreLicenseDefault|No|No
+List of store licenses that were sold in this currency|OneOrMany|StoreLicense|StoreLicenseSoldIn|No|No
 
 
 ### RatingProgram
@@ -207,10 +207,10 @@ StoreOwnerId|Text||Required, Foreign Key, MinLength: 3, MaxLength: 3, IsUnicode:
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-Owner of the Store|ZeroOrOne|StoreOwner|Ownership|Yes
-License that this store uses|ZeroOrOne|StoreLicense|License|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+Owner of the Store|ZeroOrOne|StoreOwner|Ownership|Yes|Yes
+License that this store uses|ZeroOrOne|StoreLicense|License|Yes|Yes
 
 
 ### Store.EmailAddress (Owned by Store)
@@ -251,11 +251,11 @@ CurrencyId|CurrencyCode3|Currency unique identifier.|Required, Foreign Key
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-Store that this license related to|ExactlyOne|Store|StoreWithLicense|Yes
-Default currency for this license|ZeroOrOne|Currency|DefaultCurrency|Yes
-Currency this license was sold in|ZeroOrOne|Currency|SoldInCurrency|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+Store that this license related to|ExactlyOne|Store|StoreWithLicense|Yes|Yes
+Default currency for this license|ZeroOrOne|Currency|DefaultCurrency|Yes|Yes
+Currency this license was sold in|ZeroOrOne|Currency|SoldInCurrency|Yes|Yes
 
 
 ### StoreOwner
@@ -282,9 +282,9 @@ Notes|Text|Notes.|
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-Set of stores that this owner owns|OneOrMany|Store|Stores|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+Set of stores that this owner owns|OneOrMany|Store|Stores|Yes|Yes
 
 
 ### Tenant
@@ -306,9 +306,9 @@ WorkplaceId|Nuid|Workplace unique identifier.|Required, Foreign Key, Separator: 
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-Workplaces where the tenant is active|ZeroOrMany|Workplace|TenantWorkplaces|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+Workplaces where the tenant is active|ZeroOrMany|Workplace|TenantWorkplaces|Yes|Yes
 
 
 ### Workplace
@@ -333,10 +333,10 @@ TenantId|Guid||Required, Foreign Key
 
 #### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-Workplace country|ZeroOrOne|Country|BelongsToCountry|Yes
-Actve Tenants in the workplace|ZeroOrMany|Tenant|TenantsInWorkplace|Yes
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+Workplace country|ZeroOrOne|Country|BelongsToCountry|Yes|Yes
+Actve Tenants in the workplace|ZeroOrMany|Tenant|TenantsInWorkplace|Yes|Yes
 
 
 

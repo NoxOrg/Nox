@@ -28,15 +28,15 @@ public partial class SecondTestEntityOwnedRelationshipZeroOrManyCreateDto : Seco
 public abstract class SecondTestEntityOwnedRelationshipZeroOrManyCreateDtoBase : IEntityDto<DomainNamespace.SecondTestEntityOwnedRelationshipZeroOrMany>
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>    
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
     /// <summary>
-    ///  
-    /// <remarks>Required</remarks>    
+    ///      
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "TextTestField2 is required")]
     
     public virtual System.String TextTestField2 { get; set; } = default!;

@@ -51,9 +51,9 @@ internal record TenantDeleted(Tenant Tenant) : IDomainEvent, INotification;
 internal abstract partial class TenantBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Guid Id {get; set;} = null!;
          /// <summary>
         /// Ensures that a Guid Id is set or will be generate a new one
@@ -71,9 +71,9 @@ internal abstract partial class TenantBase : EntityBase, IEntityConcurrent
     	}
 
     /// <summary>
-    /// Teanant Name
-    /// <remarks>Required.</remarks>   
+    /// Teanant Name    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text Name { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

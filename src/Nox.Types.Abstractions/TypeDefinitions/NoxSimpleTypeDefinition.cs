@@ -1,4 +1,5 @@
-﻿using Nox.Types.Schema;
+﻿using Nox.Yaml;
+using Nox.Yaml.Attributes;
 using System.Diagnostics;
 
 namespace Nox.Types;
@@ -8,7 +9,7 @@ namespace Nox.Types;
 [Description("Nox simple types definition used throughout Nox.Solution project.")]
 [AdditionalProperties(false)]
 [DebuggerDisplay("{Name}, type: {Type} required: {IsRequired}")]
-public class NoxSimpleTypeDefinition
+public class NoxSimpleTypeDefinition : YamlConfigNode<object,object>
 {
     [Required]
     [Title("The name of the attribute. Contains no spaces.")]
@@ -52,6 +53,7 @@ public class NoxSimpleTypeDefinition
     public EncryptedTextTypeOptions? EncryptedTextTypeOptions { get; set; }
 
     [IfEquals(nameof(Type), NoxType.EntityId)]
+    [Required]
     public EntityIdTypeOptions? EntityIdTypeOptions { get; set; }
 
     [IfEquals(nameof(Type), NoxType.Enumeration)]
@@ -132,17 +134,17 @@ public class NoxSimpleTypeDefinition
     [Description("Indicates whether this attribute is readonly. Defaults to false.")]
     public bool IsReadonly { get; internal set; } = false;
 
-    public bool IsLocalized => Type == NoxType.Text && TextTypeOptions!.IsLocalized;
+    [Ignore]
+    public bool IsLocalized => Type == NoxType.Text && TextTypeOptions is not null && TextTypeOptions.IsLocalized;
 
     public NoxSimpleTypeDefinition ShallowCopy()
     {
         return (NoxSimpleTypeDefinition)MemberwiseClone();
     }
 
-    internal void ApplyDefaults()
+    public override void SetDefaults(object topNode, object parentNode, string yamlPath)
     {
-        if (Type == NoxType.Text &&
-            TextTypeOptions == null)
+        if (Type == NoxType.Text && TextTypeOptions == null)
         {
             TextTypeOptions = new TextTypeOptions();
         }

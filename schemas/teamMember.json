@@ -11,7 +11,8 @@
     }
   ],
   "required": [
-    "userName"
+    "userName",
+    "roles"
   ],
   "properties": {
     "name": {    
@@ -35,14 +36,7 @@
     "roles": {    
       "title": "Roles that a team member fulfills for this solution.",
       "description": "The list of one or more roles that the user fulfills for this solution. At least one role is required",
-      "oneOf": [
-        {
-          "type": "array"
-        },
-        {
-          "type": "null"
-        }
-      ],
+      "type": "array",
       "items":   {
         "oneOf": [
           {

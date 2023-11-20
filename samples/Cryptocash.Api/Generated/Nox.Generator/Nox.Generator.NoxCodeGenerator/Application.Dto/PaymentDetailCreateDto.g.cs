@@ -28,23 +28,23 @@ public partial class PaymentDetailCreateDto : PaymentDetailCreateDtoBase
 public abstract class PaymentDetailCreateDtoBase : IEntityDto<DomainNamespace.PaymentDetail>
 {
     /// <summary>
-    /// Payment account name 
-    /// <remarks>Required</remarks>    
+    /// Payment account name     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "PaymentAccountName is required")]
     
     public virtual System.String PaymentAccountName { get; set; } = default!;
     /// <summary>
-    /// Payment account reference number 
-    /// <remarks>Required</remarks>    
+    /// Payment account reference number     
     /// </summary>
+    /// <remarks>Required</remarks>
     [Required(ErrorMessage = "PaymentAccountNumber is required")]
     
     public virtual System.String PaymentAccountNumber { get; set; } = default!;
     /// <summary>
-    /// Payment account sort code 
-    /// <remarks>Optional</remarks>    
+    /// Payment account sort code     
     /// </summary>
+    /// <remarks>Optional</remarks>
     public virtual System.String? PaymentAccountSortCode { get; set; }
 
     /// <summary>

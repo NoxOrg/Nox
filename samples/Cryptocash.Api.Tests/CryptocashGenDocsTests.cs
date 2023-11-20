@@ -12,7 +12,7 @@ public class CryptocashGenDocsTests
         var rootPath = "../../../../.nox";
 
         var noxSolution = new NoxSolutionBuilder()
-            .UseYamlFile($"{rootPath}/design/cryptocash.solution.nox.yaml")
+            .WithFile($"{rootPath}/design/cryptocash.solution.nox.yaml")
             .Build();
 
         var action = () => noxSolution.GenerateMarkdownReadme($"{rootPath}/docs");

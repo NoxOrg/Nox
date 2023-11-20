@@ -2,8 +2,6 @@
 
 #nullable enable
 
-// Using Nox version 7.0.3.0
-
 // Found files ->
 //  - clientapi.solution.nox.yaml
 //  - country.entity.nox.yaml

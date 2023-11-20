@@ -44,22 +44,6 @@ public abstract partial class TransactionsControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToCustomer([FromRoute] System.Int64 key, [FromBody] CustomerCreateDto customer)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        customer.TransactionsId = new List<System.Int64> { key };
-        var createdKey = await _mediator.Send(new CreateCustomerCommand(customer, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetCustomerByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToCustomer([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetTransactionByIdQuery(key))).Select(x => x.Customer).SingleOrDefault();
@@ -70,6 +54,21 @@ public abstract partial class TransactionsControllerBase : ODataController
         
         var references = new System.Uri($"Customers/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    public virtual async Task<ActionResult> PostToCustomer([FromRoute] System.Int64 key, [FromBody] CustomerCreateDto customer)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        customer.TransactionsId = new List<System.Int64> { key };
+        var createdKey = await _mediator.Send(new CreateCustomerCommand(customer, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCustomerByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]
@@ -122,22 +121,6 @@ public abstract partial class TransactionsControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToBooking([FromRoute] System.Int64 key, [FromBody] BookingCreateDto booking)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        booking.TransactionId = key;
-        var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetBookingByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToBooking([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetTransactionByIdQuery(key))).Select(x => x.Booking).SingleOrDefault();
@@ -148,6 +131,21 @@ public abstract partial class TransactionsControllerBase : ODataController
         
         var references = new System.Uri($"Bookings/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    public virtual async Task<ActionResult> PostToBooking([FromRoute] System.Int64 key, [FromBody] BookingCreateDto booking)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        booking.TransactionId = key;
+        var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetBookingByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]

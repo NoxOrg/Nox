@@ -44,22 +44,6 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToSecondTestEntityExactlyOne([FromRoute] System.String key, [FromBody] SecondTestEntityExactlyOneCreateDto secondTestEntityExactlyOne)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        secondTestEntityExactlyOne.TestEntityExactlyOneId = key;
-        var createdKey = await _mediator.Send(new CreateSecondTestEntityExactlyOneCommand(secondTestEntityExactlyOne, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToSecondTestEntityExactlyOne([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(key))).Select(x => x.SecondTestEntityExactlyOne).SingleOrDefault();
@@ -70,6 +54,21 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
         
         var references = new System.Uri($"SecondTestEntityExactlyOnes/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    public virtual async Task<ActionResult> PostToSecondTestEntityExactlyOne([FromRoute] System.String key, [FromBody] SecondTestEntityExactlyOneCreateDto secondTestEntityExactlyOne)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        secondTestEntityExactlyOne.TestEntityExactlyOneId = key;
+        var createdKey = await _mediator.Send(new CreateSecondTestEntityExactlyOneCommand(secondTestEntityExactlyOne, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     [EnableQuery]

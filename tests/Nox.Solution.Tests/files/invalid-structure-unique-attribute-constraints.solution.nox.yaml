@@ -95,8 +95,7 @@ domain:
         - name: CountryAcceptsCurrency
           description: accepts as legal tender
           relationship: oneOrMany
-          entity: Currency
-          canNavigate: true
+          entity: Currency          
           
       ownedRelationships:
 

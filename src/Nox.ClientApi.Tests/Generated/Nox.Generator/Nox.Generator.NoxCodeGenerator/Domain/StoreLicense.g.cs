@@ -51,21 +51,21 @@ internal record StoreLicenseDeleted(StoreLicense StoreLicense) : IDomainEvent, I
 internal abstract partial class StoreLicenseBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// License issuer
-    /// <remarks>Required.</remarks>   
+    /// License issuer    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text Issuer { get; set; } = null!;
 
     /// <summary>
-    /// License external id
-    /// <remarks>Required.</remarks>   
+    /// License external id    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.AutoNumber ExternalId { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

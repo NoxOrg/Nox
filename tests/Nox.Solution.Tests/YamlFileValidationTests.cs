@@ -2,7 +2,11 @@ using FluentAssertions;
 using FluentValidation;
 using Nox.Solution.Exceptions;
 using Nox.Solution.Schema;
+using Nox.Yaml.Exceptions;
+using Nox.Yaml.Parser;
 using System;
+using System.IO;
+using Xunit.Sdk;
 
 namespace Nox.Solution.Tests;
 
@@ -11,36 +15,35 @@ public class YamlFileValidationTests
     [Theory]
     [InlineData("unsupported-version-control.solution.nox")]
     [InlineData("not-found.yaml")]
-    public void UseYamlFile_ThrowsException_NoxSolutionConfigurationException(string filrName)
+    public void UseYamlFile_ThrowsException_NoxYamlException(string filrName)
     {
-        var solutionBuilder = new NoxSolutionBuilder().UseYamlFile($"./files/{filrName}");
+        var solutionBuilder = new NoxSolutionBuilder().WithFile($"./files/{filrName}");
 
         solutionBuilder
             .Invoking(solution => solution.Build())
-            .Should().Throw<NoxSolutionConfigurationException>();
+            .Should().Throw<NoxYamlException>();
     }
 
     [Theory]
-    [InlineData("duplicate-environment-name.solution.nox.yaml", "The environment name 'test' is duplicated. Environment names must be unique in a solution.")]
+    [InlineData("duplicate-environment-name.solution.nox.yaml", "The collection [environments] contains duplicate for values [\"test\"] based on property [name]. (at line 11 in duplicate-environment-name.solution.nox.yaml)")]
     public void Validate_Solution_ThrowsException_WithMessage(string ymlFileName, string expectedErrorMessage)
     {
         Action act = () => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/{ymlFileName}")
-            .Build()
-            .Validate();
+            .WithFile($"./files/{ymlFileName}")
+            .Build();
 
         act.Should()
-            .Throw<FluentValidation.ValidationException>()
-            .Where(exception => exception.Errors.First().ErrorMessage.Contains(expectedErrorMessage));
+            .Throw<NoxYamlValidationException>()
+            .Where(exception => exception.Errors[0].ErrorMessage.Contains(expectedErrorMessage));
     }
 
     [Fact]
     public void When_AzureServiceBus_AzureServiceBusConfig_Is_Required()
     {
         var noxConfigBuilder = new NoxSolutionBuilder()
-       .UseYamlFile($"./files/invalid-messaging.azureservicebus.solution.nox.yaml");
+       .WithFile($"./files/invalid-messaging.azureservicebus.solution.nox.yaml");
 
-        Assert.Throws<ValidationException>(() => noxConfigBuilder.Build());
+        Assert.Throws<NoxYamlValidationException>(() => noxConfigBuilder.Build());
     }
 
     [Fact]
@@ -56,17 +59,13 @@ public class YamlFileValidationTests
 
         var resolvedFiles = new YamlReferenceResolver(files, "invalid-sample.solution.nox.yaml");
 
-        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(resolvedFiles));
+        var exception = Assert.Throws<NoxYamlValidationException>(
+            () => NoxSchemaValidator.Deserialize<NoxSolution>(resolvedFiles)
+        );
 
-        var errors = exception.Message.Split('\n');
+        var errors = exception.Errors.Select(e => e.ErrorMessage).ToArray();
 
-        var errorCount = errors.Length;
-
-        Assert.Contains("[\"relationship\"]", exception.Message);
-        Assert.Contains("[\"name\"]", exception.Message);
-        Assert.Contains("[\"serverUri\"]", exception.Message);
-        Assert.Contains("dataConnection", exception.Message);
-        Assert.Equal(33, errorCount);
+        errors.Length.Should().Be(39);
     }
 
     
@@ -84,225 +83,216 @@ public class YamlFileValidationTests
     {
         var yaml = File.ReadAllText($"./files/{yamlFile}");
 
-        var model = NoxSchemaValidator.Deserialize<NoxSolution>(yaml)!;
+        var model = NoxSchemaValidator.Deserialize<NoxSolution>(yaml, yamlFile)!;
 
         model.Name.Should().Be(expectedServiceName);
     }
 
+
     [Fact]
-    public void Deserialize_MissedIsRequiredInKeys_ThrowsException()
+    public void Deserialize_InvalidServerPort_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/missed-isRequired-keys-for-entity.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/invalid-server-port-numbers.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
 
-        Assert.Equal(4, errors.Length);
+        Assert.Equal(2, errors.Length);
 
-        Assert.Equal("Entity Currency: Key property IsRequired should be set to True explicitly in  Id", errors[0].ErrorMessage);
-        Assert.Equal("Entity Currency: Key property IsRequired should be set to True explicitly in  Name", errors[1].ErrorMessage);
-        Assert.Equal("Entity Country: Key property IsRequired should be set to True explicitly in  Id", errors[2].ErrorMessage);
-        Assert.Equal("Entity Country: Key property IsRequired should be set to True explicitly in  Name", errors[3].ErrorMessage);
+        Assert.Equal("Invalid value [99999] for property [port] is more than maximum [0]. (at line 25 in invalid-server-port-numbers.solution.nox.yaml)", errors[0].ErrorMessage);
+        Assert.Equal("Invalid value [-1] for property [port] is less than minumum [0]. (at line 33 in invalid-server-port-numbers.solution.nox.yaml)", errors[1].ErrorMessage);
     }
 
     [Fact]
     public void Deserialize_EntityKeyIsCompoundType_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/entity-key-compound-type.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/entity-key-compound-type.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
 
         errors.Length.Should().Be(1);
-        errors[0].ErrorMessage.Should().Be("Entity Currency: Key Id cannot be Compound type.", errors[0].ErrorMessage);
+
+        errors[0].ErrorMessage
+            .Should().Be("Key [Id] on entity [Currency] can not be a compound type.", errors[0].ErrorMessage);
+        
     }
 
     [Fact]
     public void Deserialize_OwnedRelationship_MultipleUse_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/owned-relationship-used-twice.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owned-relationship-used-twice.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
 
-        Assert.Equal(2, errors.Length);
+        Assert.Single(errors);
 
-        Assert.Equal("The owned relationship 'CountryLegalCurrencies' for entity 'Country' refers to an entity 'Currency' that is used in other owned relationships. Owned entities must be owned by one parent only.", errors[0].ErrorMessage);
-        Assert.Equal("The owned relationship 'StoreAcceptedCurrencies' for entity 'Store' refers to an entity 'Currency' that is used in other owned relationships. Owned entities must be owned by one parent only.", errors[1].ErrorMessage);
+        Assert.Equal("Entity [Currency] owned multiple times or by multiple entities [Country,Store].", errors[0].ErrorMessage);
     }
 
     [Fact]
     public void Deserialize_OwnedEntity_SetAsAudited_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/owned-entity-set-as-audited.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owned-entity-set-as-audited.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
 
         Assert.Equal(2, errors.Length);
 
-        Assert.Equal("The owned entity 'Currency' cannot be auditable.", errors[0].ErrorMessage);
-        Assert.Equal("The owned entity 'Country' cannot be auditable.", errors[1].ErrorMessage);
+        Assert.Equal("Entity [Currency] is owned and can't therefore be auditable. [Persistence.IsAudited=true]", errors[0].ErrorMessage);
+        Assert.Equal("Entity [Country] is owned and can't therefore be auditable. [Persistence.IsAudited=true]", errors[1].ErrorMessage);
     }
 
     [Fact]
     public void Deserialize_OwnedEntity_HasRelationships_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/owned-entity-has-relationships.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owned-entity-has-relationships.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
 
-        Assert.Equal(2, errors.Length);
+        Assert.Equal(2,errors.Length);
 
-        Assert.Equal("The owned entity 'Country' cannot have relationships to other entities.", errors[0].ErrorMessage);
-        Assert.Equal("The owned entity 'Country' cannot be referred by other entities relationships.", errors[1].ErrorMessage);
+        Assert.Equal("Entity [Country] owned multiple times or by multiple entities [People,Continent].", errors[0].ErrorMessage);
+        Assert.Equal("Entity [Country] is owned and can't have relationships.", errors[1].ErrorMessage);
     }
 
     [Fact]
     public void Deserialize_OwnedEntity_HasKeysWhenRelationshipIsZeroOrOne_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/owned-entity-has-keys-when-relationship-is-zeroOrOne.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owned-entity-has-keys-when-relationship-is-zeroOrOne.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
 
         Assert.Equal(2, errors.Length);
 
-        Assert.Equal("Owned entity Currency with ZeroOrOne or ExactlyOne relationship can not have key(s).", errors[0].ErrorMessage);
-        Assert.Equal("Owned entity Country with ZeroOrOne or ExactlyOne relationship can not have key(s).", errors[1].ErrorMessage);
+        Assert.Equal("Keys are invalid for owned entity [Currency] with ZeroOrOne/ExactlyOne relationship from [Country].", errors[0].ErrorMessage);
+        Assert.Equal("Keys are invalid for owned entity [Country] with ZeroOrOne/ExactlyOne relationship from [Continent].", errors[1].ErrorMessage);
     }
 
     [Fact]
     public void Deserialize_OwnedEntity_HasKeysWhenRelationshipIsExactlyOne_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/owned-entity-has-keys-when-relationship-is-exactlyOne.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owned-entity-has-keys-when-relationship-is-exactlyOne.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
 
         Assert.Equal(2, errors.Length);
 
-        Assert.Equal("Owned entity Currency with ZeroOrOne or ExactlyOne relationship can not have key(s).", errors[0].ErrorMessage);
-        Assert.Equal("Owned entity Country with ZeroOrOne or ExactlyOne relationship can not have key(s).", errors[1].ErrorMessage);
+        Assert.Equal("Keys are invalid for owned entity [Currency] with ZeroOrOne/ExactlyOne relationship from [Country].", errors[0].ErrorMessage);
+        Assert.Equal("Keys are invalid for owned entity [Country] with ZeroOrOne/ExactlyOne relationship from [Continent].", errors[1].ErrorMessage);
     }
 
     [Fact]
     public void Deserialize_OwnedEntity_DoesNotHaveKeysWhenRelationshipIsZeroOrMany_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/owned-entity-does-not-have-keys-when-relatonship-is-zeroOrMany.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owned-entity-does-not-have-keys-when-relatonship-is-zeroOrMany.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
 
         Assert.Equal(2, errors.Length);
 
-        Assert.Equal("Keys are mandatory for entity Currency. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[0].ErrorMessage);
-        Assert.Equal("Keys are mandatory for entity Country. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[1].ErrorMessage);
+        Assert.Equal("Keys are mandatory for owned entity [Currency] with ZeroOrMany/OneOrMany relationship from [Country].", errors[0].ErrorMessage);
+        Assert.Equal("Keys are mandatory for owned entity [Country] with ZeroOrMany/OneOrMany relationship from [Continent].", errors[1].ErrorMessage);
     }
 
     [Fact]
     public void Deserialize_OwnedEntity_DoesNotHaveKeysWhenRelationshipIsOneOrMany_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/owned-entity-does-not-have-keys-when-relatonship-is-oneOrMany.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owned-entity-does-not-have-keys-when-relatonship-is-oneOrMany.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
 
         Assert.Equal(2, errors.Length);
 
-        Assert.Equal("Keys are mandatory for entity Currency. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[0].ErrorMessage);
-        Assert.Equal("Keys are mandatory for entity Country. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[1].ErrorMessage);
+        Assert.Equal("Keys are mandatory for owned entity [Currency] with ZeroOrMany/OneOrMany relationship from [Country].", errors[0].ErrorMessage);
+        Assert.Equal("Keys are mandatory for owned entity [Country] with ZeroOrMany/OneOrMany relationship from [Continent].", errors[1].ErrorMessage);
     }
 
     [Fact]
     public void Deserialize_Entity_DoesNotHaveKeys_ThrowsException()
     {
-        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/entity-does-not-have-keys-defined.solution.nox.yaml")
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/entity-does-not-have-keys-defined.solution.nox.yaml")
             .Build());
 
         var errors = exception.Errors.ToArray();
 
         Assert.Equal(3, errors.Length);
 
-        Assert.Equal("Keys are mandatory for entity People. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[0].ErrorMessage);
-        Assert.Equal("Keys are mandatory for entity Currency. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[1].ErrorMessage);
-        Assert.Equal("Keys are mandatory for entity Country. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[2].ErrorMessage);
+        Assert.Equal("Keys are mandatory for entity [People].", errors[0].ErrorMessage);
+        Assert.Equal("Keys are mandatory for entity [Currency].", errors[1].ErrorMessage);
+        Assert.Equal("Keys are mandatory for entity [Country].", errors[2].ErrorMessage);
     }
 
     [Fact]
     public void Deserialize_EntityItemsNameAreDuplicated_ThrowsException()
     {
         Action action = () => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/duplicated-items-definition.nox.yaml")
+            .WithFile($"./files/duplicated-items-definition.nox.yaml")
             .Build();
 
-        var errors = action.Should()
-             .ThrowExactly<ValidationException>()
-             .Subject
-             .First()
-             .Errors;
-
+    
         var expectedErrors = new string[]
         {
-            "The entity relation  'CurrenciesCountryLegal' is duplicated",
-            "The entity owned relation  'CountryLegalCurrencies' is duplicated",
-            "The entity key 'Id' is duplicated",
-            "The entity attribute 'Id' is duplicated",
-            "The Keys 'Id' is duplicated",
-            "The Attributes 'Id' is duplicated",
-            "The Attributes 'CurrenciesCountryLegal' is duplicated",
-            "The Relationships 'CurrenciesCountryLegal' is duplicated",
-            "The OwnedRelationships 'Id' is duplicated",
-            "The dependant entity Currency  in relation Id can only have a single key."
+            "Duplicate name [Id] on entity [Currency] found in [Key,Key,Attribute,OwnedRelationship,OwnedRelationship]",
+            "Duplicate name [CurrenciesCountryLegal] on entity [Currency] found in [Attribute,Relationship,Relationship]",
+            "Multiple ownerships of entity [Currency] exists on entity [Currency].",
+            "Entity [Currency] owned multiple times or by multiple entities [Currency,Currency,Currency,Currency].",
+            "Entity [Currency] is owned and can't have relationships.",
+            "Relationship [CurrenciesCountryLegal] on entity [Currency] refers to related entity [Currency] with composite key. Must be simple key on Currency.",
+            "Relationship [CurrenciesCountryLegal] on entity [Currency] refers to related entity [Currency] with composite key. Must be simple key on Currency.",
+            "Relationship [Id] on entity [Currency] refers to related entity [Currency] with composite key. Must be simple key on Currency.",
+            "Relationship [Id] on entity [Currency] refers to related entity [Currency] with composite key. Must be simple key on Currency.",
         };
-        
-        errors.Should()
-            .NotBeEmpty()
-            .And.HaveCount(20)
+
+        action.Should()
+            .ThrowExactly<NoxYamlValidationException>()
+            .Which
+            .Errors
+            .Should().NotBeEmpty()
             .And.Subject.Select(x => x.ErrorMessage)
-           .Should()
-           .Contain(x => expectedErrors.Any(t => x.StartsWith(t)));
+            .Should().BeEquivalentTo(expectedErrors);
+    
     }
 
     [Fact]
     public void Deserialize_WithInvalidUniqueAttributeConstraints_ThrowsException()
     {
         Action action = () => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/invalid-unique-attribute-constraints.solution.nox.yaml")
+            .WithFile($"./files/invalid-unique-attribute-constraints.solution.nox.yaml")
             .Build();
 
-        var errors = action.Should()
-            .ThrowExactly<ValidationException>()
-            .Subject
-            .First()
-            .Errors.ToArray();
 
         var expectedErrors = new[]
         {
-            "The unique attribute constraint 'UniqueCountryName' is duplicated. unique attribute constraint must be unique in a domain definition.",
-            "The unique attribute constraint attribute names 'AlphaCode2,AlphaCode3,NumericCode' is duplicated. unique attribute constraint attribute names must be unique in a domain definition.",
-            "Attribute name 'NonExistentAttribute' in unique attribute constraint not found in neither entity attribute(s)",
+            "Duplicate name [UniqueCountryName] on entity [Country] found in [UniqueConstraint,UniqueConstraint]",
+            "Unique constraint [UniqueConstraintWithNonExistentAttribute] refers to non-existing attribute [NonExistentAttribute] on entity [Country]",
+            "Unique constraints [UniqueCountry,Unique] refers to non-unique keys [AlphaCode2,AlphaCode3,NumericCode] on entity [Country]",
         };
 
-        errors.Length.Should().BePositive();
-
-        errors.Should()
-            .NotBeEmpty()
-            .And.HaveCount(5)
+        var errors = action.Should()
+            .ThrowExactly<NoxYamlValidationException>()
+            .Which.Errors
+            .Should().NotBeEmpty()
+            .And.HaveCount(3)
             .And.Subject.Select(x => x.ErrorMessage)
-            .Should()
-            .Contain(x => Array.Exists(expectedErrors, x.StartsWith));
+            .Should().BeEquivalentTo(expectedErrors);
     }
 
     [Fact]
@@ -310,41 +300,15 @@ public class YamlFileValidationTests
     {
         var yaml = File.ReadAllText("./files/invalid-structure-unique-attribute-constraints.solution.nox.yaml");
 
-        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml));
+        var exception = Assert
+            .Throws<NoxYamlValidationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml));
 
-        var errorCount = exception.Message.Split('\n').Length;
+        var errors = exception.Errors.Select(e => e.ErrorMessage).ToArray();
 
-        errorCount.Should().BePositive();
+        errors.Length.Should().Be(2);
 
-        exception.Message.Should().Contain("Missing property [\"name\"]");
-        exception.Message.Should().Contain("Missing property [\"attributeNames\"]");
+        errors[0].Should().Match("Missing property [\"name\"] is required.*");
+        errors[1].Should().Match("Missing property [\"attributeNames\"] is required.*");
     }
 
-    [Fact]
-    public void Deserialize_InvalidRelationshipConfig_ThrowsException()
-    {
-        var action = () => new NoxSolutionBuilder()
-            .UseYamlFile($"./files/invalid-relationship-config.entity.nox.yaml")
-            .Build();
-
-        var errors = action.Should()
-            .ThrowExactly<ValidationException>()
-            .Subject
-            .First()
-            .Errors.ToArray();
-
-        var expectedErrors = new[]
-        {
-            "The Relationship 'CurrencyInCountries' between 'Currency' and 'Country' must have CanNavigate property set to True at least on one side.",
-            "The Relationship 'CountryLegalCurrencies' between 'Country' and 'Currency' must have CanNavigate property set to True at least on one side."
-        };
-
-        errors.Length.Should().BePositive();
-        errors.Should()
-            .NotBeEmpty()
-            .And.HaveCount(expectedErrors.Length)
-            .And.Subject.Select(x => x.ErrorMessage)
-            .Should()
-            .Contain(x => Array.Exists(expectedErrors, x.StartsWith));
-    }
 }

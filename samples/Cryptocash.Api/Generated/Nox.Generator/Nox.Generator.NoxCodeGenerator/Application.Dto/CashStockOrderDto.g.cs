@@ -61,27 +61,27 @@ public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<DomainNa
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Order amount 
-    /// <remarks>Required.</remarks>    
+    /// Order amount     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public MoneyDto Amount { get; set; } = default!;
 
     /// <summary>
-    /// Order requested delivery date 
-    /// <remarks>Required.</remarks>    
+    /// Order requested delivery date     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.DateTime RequestedDeliveryDate { get; set; } = default!;
 
     /// <summary>
-    /// Order delivery date 
-    /// <remarks>Optional.</remarks>    
+    /// Order delivery date     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.DateTimeOffset? DeliveryDateTime { get; set; }
 
     /// <summary>
-    /// Order status 
-    /// <remarks>Optional.</remarks>    
+    /// Order status     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? Status { get; set; }
 
     /// <summary>

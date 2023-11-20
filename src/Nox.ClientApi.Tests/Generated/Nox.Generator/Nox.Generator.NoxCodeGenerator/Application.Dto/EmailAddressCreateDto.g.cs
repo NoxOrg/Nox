@@ -28,13 +28,13 @@ public partial class EmailAddressCreateDto : EmailAddressCreateDtoBase
 public abstract class EmailAddressCreateDtoBase : IEntityDto<DomainNamespace.EmailAddress>
 {
     /// <summary>
-    /// Email 
-    /// <remarks>Optional</remarks>    
+    /// Email     
     /// </summary>
+    /// <remarks>Optional</remarks>
     public virtual System.String? Email { get; set; }
     /// <summary>
-    /// Verified 
-    /// <remarks>Optional</remarks>    
+    /// Verified     
     /// </summary>
+    /// <remarks>Optional</remarks>
     public virtual System.Boolean? IsVerified { get; set; }
 }

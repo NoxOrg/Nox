@@ -19,6 +19,12 @@ public class NoxYamlValidationException : Exception
         _errors.AddRange(errors);
     }
 
+    public NoxYamlValidationException(IEnumerable<string> errors)
+        : base($"The Nox type validation failed with {errors.Count()} error(s).")
+    {
+        _errors.AddRange(errors.Select(e => new ValidationFailure(string.Empty, e)));
+    }
+
     protected NoxYamlValidationException(SerializationInfo serializationInfo, StreamingContext streamingContext)
         : base(serializationInfo, streamingContext)
     {

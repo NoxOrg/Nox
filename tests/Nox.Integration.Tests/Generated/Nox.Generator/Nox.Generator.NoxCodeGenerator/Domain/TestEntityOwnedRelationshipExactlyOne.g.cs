@@ -51,15 +51,15 @@ internal record TestEntityOwnedRelationshipExactlyOneDeleted(TestEntityOwnedRela
 internal abstract partial class TestEntityOwnedRelationshipExactlyOneBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
-    /// 
-    /// <remarks>Required.</remarks>   
+    ///     
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text TextTestField { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
@@ -87,7 +87,7 @@ internal abstract partial class TestEntityOwnedRelationshipExactlyOneBase : Audi
     public virtual void ClearDomainEvents()
     {
         InternalDomainEvents.Clear();
-    }
+    }﻿
 
     /// <summary>
     /// TestEntityOwnedRelationshipExactlyOne Test entity relationship to SecondTestEntityOwnedRelationshipExactlyOne ExactlyOne SecondTestEntityOwnedRelationshipExactlyOnes

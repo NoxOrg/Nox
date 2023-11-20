@@ -3,10 +3,6 @@
   "title": "Definition namespace for attributes describing the source component of an ETL integration.",
   "description": "This section details ETL source attributes like name, description, scheduling and watermark specifications.",
   "type": "object",
-  "required": [
-    "name",
-    "sourceAdapterType"
-  ],
   "anyOf": [
     {
       "required": [

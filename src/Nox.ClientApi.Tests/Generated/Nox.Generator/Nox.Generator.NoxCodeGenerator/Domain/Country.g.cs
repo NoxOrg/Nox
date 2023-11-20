@@ -51,39 +51,39 @@ internal record CountryDeleted(Country Country) : IDomainEvent, INotification;
 internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// The unique identifier
-    /// <remarks>Required.</remarks>   
+    /// The unique identifier    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// The Country Name     Set a unique name for the country Do not use abbreviations
-    /// <remarks>Required.</remarks>   
+    /// The Country Name     Set a unique name for the country Do not use abbreviations    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
-    /// Population Number of People living in the country
-    /// <remarks>Optional.</remarks>   
+    /// Population Number of People living in the country    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Number? Population { get; set; } = null!;
 
     /// <summary>
-    /// The Money
-    /// <remarks>Optional.</remarks>   
+    /// The Money    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Money? CountryDebt { get; set; } = null!;
 
     /// <summary>
-    /// First Official Language
-    /// <remarks>Optional.</remarks>   
+    /// First Official Language    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.LanguageCode? FirstLanguageCode { get; set; } = null!;
 
     /// <summary>
-    /// The Formula
-    /// <remarks>Optional.</remarks>   
+    /// The Formula    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public string? ShortDescription
     { 
         get { return $"{Name} has a population of {Population} people."; }
@@ -91,33 +91,33 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     }
 
     /// <summary>
-    /// Country's iso number id
-    /// <remarks>Optional.</remarks>   
+    /// Country's iso number id    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.CountryNumber? CountryIsoNumeric { get; set; } = null!;
 
     /// <summary>
-    /// Country's iso alpha3 id
-    /// <remarks>Optional.</remarks>   
+    /// Country's iso alpha3 id    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.CountryCode3? CountryIsoAlpha3 { get; set; } = null!;
 
     /// <summary>
-    /// Country's map via google maps
-    /// <remarks>Optional.</remarks>   
+    /// Country's map via google maps    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Url? GoogleMapsUrl { get; set; } = null!;
 
     /// <summary>
-    /// Country's start of week day
-    /// <remarks>Optional.</remarks>   
+    /// Country's start of week day    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.DayOfWeek? StartOfWeek { get; set; } = null!;
 
     /// <summary>
-    /// Country Continent
-    /// <remarks>Optional.</remarks>   
+    /// Country Continent    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.Enumeration? Continent { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
@@ -171,36 +171,36 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     public virtual void DeleteAllRefToWorkplaces()
     {
         Workplaces.Clear();
-    }
+    }﻿
 
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalName> CountryShortNames { get; private set; } = new();
+    public virtual List<CountryLocalName> CountryLocalNames { get; private set; } = new();
     
     /// <summary>
     /// Creates a new CountryLocalName entity.
     /// </summary>
-    public virtual void CreateRefToCountryShortNames(CountryLocalName relatedCountryLocalName)
+    public virtual void CreateRefToCountryLocalNames(CountryLocalName relatedCountryLocalName)
     {
-        CountryShortNames.Add(relatedCountryLocalName);
+        CountryLocalNames.Add(relatedCountryLocalName);
     }
     
     /// <summary>
     /// Deletes owned CountryLocalName entity.
     /// </summary>
-    public virtual void DeleteRefToCountryShortNames(CountryLocalName relatedCountryLocalName)
+    public virtual void DeleteRefToCountryLocalNames(CountryLocalName relatedCountryLocalName)
     {
-        CountryShortNames.Remove(relatedCountryLocalName);
+        CountryLocalNames.Remove(relatedCountryLocalName);
     }
     
     /// <summary>
     /// Deletes all owned CountryLocalName entities.
     /// </summary>
-    public virtual void DeleteAllRefToCountryShortNames()
+    public virtual void DeleteAllRefToCountryLocalNames()
     {
-        CountryShortNames.Clear();
-    }
+        CountryLocalNames.Clear();
+    }﻿
 
     /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes

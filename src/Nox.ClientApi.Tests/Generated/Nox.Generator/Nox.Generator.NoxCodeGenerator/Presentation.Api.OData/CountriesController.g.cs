@@ -29,7 +29,7 @@ public abstract partial class CountriesControllerBase : ODataController
     #region Owned Relationships
     
     [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<CountryLocalNameDto>>> GetCountryShortNames([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult<IQueryable<CountryLocalNameDto>>> GetCountryLocalNames([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
@@ -42,18 +42,18 @@ public abstract partial class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok(item.CountryShortNames);
+        return Ok(item.CountryLocalNames);
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Countries/{key}/CountryShortNames/{relatedKey}")]
-    public virtual async Task<ActionResult<CountryLocalNameDto>> GetCountryShortNamesNonConventional(System.Int64 key, System.Int64 relatedKey)
+    [HttpGet("/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    public virtual async Task<ActionResult<CountryLocalNameDto>> GetCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var child = await TryGetCountryShortNames(key, new CountryLocalNameKeyDto(relatedKey));
+        var child = await TryGetCountryLocalNames(key, new CountryLocalNameKeyDto(relatedKey));
         if (child == null)
         {
             return NotFound();
@@ -62,7 +62,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PostToCountryShortNames([FromRoute] System.Int64 key, [FromBody] CountryLocalNameCreateDto countryLocalName)
+    public virtual async Task<ActionResult> PostToCountryLocalNames([FromRoute] System.Int64 key, [FromBody] CountryLocalNameCreateDto countryLocalName)
     {
         if (!ModelState.IsValid)
         {
@@ -70,13 +70,13 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new CreateCountryLocalNameForCountryCommand(new CountryKeyDto(key), countryLocalName, etag));
+        var createdKey = await _mediator.Send(new CreateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), countryLocalName, etag));
         if (createdKey == null)
         {
             return NotFound();
         }
         
-        var child = await TryGetCountryShortNames(key, createdKey);
+        var child = await TryGetCountryLocalNames(key, createdKey);
         if (child == null)
         {
             return NotFound();
@@ -85,7 +85,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("/api/v1/Countries/{key}/CountryShortNames/{relatedKey}")]
+    [HttpPut("/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}")]
     public virtual async Task<ActionResult<CountryLocalNameDto>> PutToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] CountryLocalNameUpdateDto countryLocalName)
     {
         if (!ModelState.IsValid)
@@ -94,13 +94,13 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateCountryLocalNameForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), countryLocalName, etag));
+        var updatedKey = await _mediator.Send(new UpdateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), countryLocalName, etag));
         if (updatedKey == null)
         {
             return NotFound();
         }
         
-        var child = await TryGetCountryShortNames(key, updatedKey);
+        var child = await TryGetCountryLocalNames(key, updatedKey);
         if (child == null)
         {
             return NotFound();
@@ -109,10 +109,10 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("/api/v1/Countries/{key}/CountryShortNames/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameDto> countryLocalName)
+    [HttpPatch("/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    public virtual async Task<ActionResult> PatchToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameUpdateDto> countryLocalName)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || countryLocalName is null)
         {
             return BadRequest(ModelState);
         }
@@ -127,13 +127,13 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCountryLocalNameForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), updateProperties, etag));
         
         if (updated is null)
         {
             return NotFound();
         }
-        var child = await TryGetCountryShortNames(key, updated);
+        var child = await TryGetCountryLocalNames(key, updated);
         if (child == null)
         {
             return NotFound();
@@ -142,14 +142,14 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("/api/v1/Countries/{key}/CountryShortNames/{relatedKey}")]
+    [HttpDelete("/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteCountryLocalNameNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var result = await _mediator.Send(new DeleteCountryLocalNameForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey)));
+        var result = await _mediator.Send(new DeleteCountryLocalNamesForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey)));
         if (!result)
         {
             return NotFound();
@@ -158,10 +158,10 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    protected async Task<CountryLocalNameDto?> TryGetCountryShortNames(System.Int64 key, CountryLocalNameKeyDto childKeyDto)
+    protected async Task<CountryLocalNameDto?> TryGetCountryLocalNames(System.Int64 key, CountryLocalNameKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
-        return parent?.CountryShortNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+        return parent?.CountryLocalNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
     [EnableQuery]
@@ -229,7 +229,7 @@ public abstract partial class CountriesControllerBase : ODataController
     
     public virtual async Task<ActionResult> PatchToCountryBarCode(System.Int64 key, [FromBody] Delta<CountryBarCodeDto> countryBarCode)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || countryBarCode is null)
         {
             return BadRequest(ModelState);
         }
@@ -296,22 +296,6 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToWorkplaces([FromRoute] System.Int64 key, [FromBody] WorkplaceCreateDto workplace)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        workplace.CountryId = key;
-        var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
-        
-        var createdItem = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, createdKey.keyId))).SingleOrDefault();
-        
-        return Created(createdItem);
-    }
-    
     public async Task<ActionResult> GetRefToWorkplaces([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Workplaces).SingleOrDefault();
@@ -326,29 +310,6 @@ public abstract partial class CountriesControllerBase : ODataController
             references.Add(new System.Uri($"Workplaces/{item.Id}", UriKind.Relative));
         }
         return Ok(references);
-    }
-    
-    [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> GetWorkplaces(System.Int64 key)
-    {
-        var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Workplaces);
-        if (!entity.Any())
-        {
-            return NotFound();
-        }
-        return Ok(entity);
-    }
-    
-    [EnableQuery]
-    [HttpGet("/api/v1/Countries/{key}/Workplaces/{relatedKey}")]
-    public virtual async Task<SingleResult<WorkplaceDto>> GetWorkplacesNonConventional(System.Int64 key, System.UInt32 relatedKey)
-    {
-        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Workplaces).Where(x => x.Id == relatedKey);
-        if (!related.Any())
-        {
-            return SingleResult.Create<WorkplaceDto>(Enumerable.Empty<WorkplaceDto>().AsQueryable());
-        }
-        return SingleResult.Create(related);
     }
     
     public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
@@ -381,6 +342,68 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToWorkplaces([FromRoute] System.Int64 key, [FromBody] WorkplaceCreateDto workplace)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        workplace.CountryId = key;
+        var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> GetWorkplaces(System.Int64 key)
+    {
+        var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Workplaces);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Countries/{key}/Workplaces/{relatedKey}")]
+    public virtual async Task<SingleResult<WorkplaceDto>> GetWorkplacesNonConventional(System.Int64 key, System.UInt32 relatedKey)
+    {
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Workplaces).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<WorkplaceDto>(Enumerable.Empty<WorkplaceDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
+    [HttpPut("/api/v1/Countries/{key}/Workplaces/{relatedKey}")]
+    public virtual async Task<ActionResult<WorkplaceDto>> PutToWorkplacesNonConventional(System.Int64 key, System.UInt32 relatedKey, [FromBody] WorkplaceUpdateDto workplace)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Workplaces).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateWorkplaceCommand(relatedKey, workplace, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     [HttpDelete("/api/v1/Countries/{key}/Workplaces/{relatedKey}")]
@@ -427,30 +450,6 @@ public abstract partial class CountriesControllerBase : ODataController
             await _mediator.Send(new DeleteWorkplaceByIdCommand(item.Id, etag));
         }
         return NoContent();
-    }
-    
-    [HttpPut("/api/v1/Countries/{key}/Workplaces/{relatedKey}")]
-    public virtual async Task<ActionResult<WorkplaceDto>> PutToWorkplacesNonConventional(System.Int64 key, System.UInt32 relatedKey, [FromBody] WorkplaceUpdateDto workplace)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Workplaces).Any(x => x.Id == relatedKey);
-        if (!related)
-        {
-            return NotFound();
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateWorkplaceCommand(relatedKey, workplace, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok();
     }
     
     #endregion

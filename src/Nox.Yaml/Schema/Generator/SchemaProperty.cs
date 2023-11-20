@@ -28,6 +28,8 @@ internal class SchemaProperty
     public Dictionary<string, SchemaProperty>? Properties { get; private set; }
     public List<SchemaProperty>? AnyOf { get; private set; }
     public SchemaProperty? Items { get; private set; }
+    public double? Minimum { get; private set; }
+    public double? Maximum { get; private set; }
     #endregion
 
     #region Properties to support JSON schema generation
@@ -89,9 +91,13 @@ internal class SchemaProperty
 
         IsRequired = info.GetCustomAttribute<RequiredAttribute>(true) != null;
 
+        Minimum = info.GetCustomAttribute<MinimumAttribute>(true)?.Value;
+        
+        Maximum = info.GetCustomAttribute<MaximumAttribute>(true)?.Value;
+
         IsVariableAllowed = info.GetCustomAttribute<AllowVariableAttribute>(true) != null;
 
-        Ignore = info.GetCustomAttribute<IgnoreAttribute>(true) != null;
+        Ignore = info.GetCustomAttribute<IgnoreAttribute>(true) != null || info.GetCustomAttribute<YamlIgnoreAttribute>(true) != null;
 
         Conditional = info.GetCustomAttribute<IfEqualsAttribute>(true);
 
@@ -119,12 +125,14 @@ internal class SchemaProperty
     /// Adds a child <see cref="SchemaProperty"/> to a parent <see cref="SchemaProperty"/>.
     /// </summary>
     /// <param name="schemaProperty">The <see cref="SchemaProperty"/> to add.</param>
-    public void AddProperty(SchemaProperty schemaProperty)
+    public void AddProperty(SchemaProperty schemaProperty, bool forceRequired = false)
     {
         Properties ??= new();
         Properties.Add(schemaProperty.Name!, schemaProperty);
 
-        if (schemaProperty.IsRequired && schemaProperty.Name is not null)
+        var isRequired = ((schemaProperty.IsRequired && schemaProperty.Conditional is null) || forceRequired);
+
+        if (isRequired && schemaProperty.Name is not null)
         {
             AddRequired(schemaProperty.Name);
         }
@@ -175,6 +183,10 @@ internal class SchemaProperty
         IsRequired = other.IsRequired || IsRequired;
 
         Required = other.Required ?? Required;
+
+        Minimum = other.Minimum ?? Minimum;
+
+        Maximum = other.Maximum ?? Maximum;
 
         Ignore = other.Ignore || Ignore;
 
@@ -257,7 +269,7 @@ internal class SchemaProperty
 
                 if (dependentFieldName == nonConditional.Key)
                 {
-                    sp.AddProperty(conditional.Value);
+                    sp.AddProperty(conditional.Value, conditional.Value.IsRequired);
                 }
             }
 

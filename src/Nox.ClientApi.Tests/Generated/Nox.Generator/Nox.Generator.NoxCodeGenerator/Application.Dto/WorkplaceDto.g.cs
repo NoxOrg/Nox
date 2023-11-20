@@ -59,21 +59,21 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
     public System.UInt32 Id { get; set; } = default!;
 
     /// <summary>
-    /// Workplace Name 
-    /// <remarks>Required.</remarks>    
+    /// Workplace Name     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Workplace Description 
-    /// <remarks>Optional.</remarks>    
+    /// Workplace Description     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? Description { get; set; }
 
     /// <summary>
-    /// The Formula 
-    /// <remarks>Optional.</remarks>    
+    /// The Formula     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.String? Greeting { get; set; }
 
     /// <summary>

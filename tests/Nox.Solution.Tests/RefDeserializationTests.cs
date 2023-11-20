@@ -11,7 +11,7 @@ public class RefDeserializationTests
     public void Can_create_a_full_configuration()
     {
         var noxConfig = new NoxSolutionBuilder()
-            .UseYamlFile("./files/ref/ref.solution.nox.yaml")
+            .WithFile("./files/ref/ref.solution.nox.yaml")
             .Build();
 
 

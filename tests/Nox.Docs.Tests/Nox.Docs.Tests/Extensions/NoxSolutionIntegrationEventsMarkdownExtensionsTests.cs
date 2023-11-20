@@ -12,7 +12,7 @@ public class NoxSolutionIntegrationEventsMarkdownExtensionsTests
     {
         // Arrange
         var noxSolution = new NoxSolutionBuilder()
-            .UseYamlFile("./Files/Design/sample-for-integration-events.solution.nox.yaml")
+            .WithFile("./Files/Design/sample-for-integration-events.solution.nox.yaml")
             .Build();
 
         // Act

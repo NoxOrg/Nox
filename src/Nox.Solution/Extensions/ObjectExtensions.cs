@@ -34,8 +34,7 @@ public static class ObjectExtensions
         }
         else if (type.IsDictionary())
         {
-            var dictionary = obj as IDictionary;
-            if (dictionary != null)
+            if (obj is IDictionary dictionary)
             {
                 foreach (var key in dictionary.Keys)
                 {
@@ -54,8 +53,7 @@ public static class ObjectExtensions
         }
         else if (type.IsArray || type.IsEnumerable())
         {
-            var enumerable = obj as IEnumerable;
-            if (enumerable != null)
+            if (obj is IEnumerable enumerable)
             {
                 propertyAction(path, obj);
 

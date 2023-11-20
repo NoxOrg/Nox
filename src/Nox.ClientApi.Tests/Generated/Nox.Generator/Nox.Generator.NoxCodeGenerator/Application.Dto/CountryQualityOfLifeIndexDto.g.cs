@@ -63,9 +63,9 @@ public abstract class CountryQualityOfLifeIndexDtoBase : EntityDtoBase, IEntityD
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Rating Index 
-    /// <remarks>Required.</remarks>    
+    /// Rating Index     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.Int32 IndexRating { get; set; } = default!;
 
     [JsonPropertyName("@odata.etag")]

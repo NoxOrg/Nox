@@ -3,10 +3,6 @@
   "title": "Details pertaining to the IntegrationEventServer settings in a Nox solution.",
   "description": "Defines settings pertinent to an IntegrationEventServer here. These include provider (RabbitMQ, Azure ServiceBus, Amazon SQS etc), connection details as well as internal default deployment settings.",
   "type": "object",
-  "required": [
-    "name",
-    "provider"
-  ],
   "anyOf": [
     {
       "required": [

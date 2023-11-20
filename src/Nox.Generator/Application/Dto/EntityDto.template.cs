@@ -103,9 +103,9 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<DomainNamesp
     {{- end}}
 
     /// <summary>
-    /// {{attribute.Description  | string.rstrip}} 
-    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}.</remarks>    
+    /// {{attribute.Description  | string.rstrip}}     
     /// </summary>
+    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}.</remarks>    
     public {{attributeType attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
 {{- end }}
 {{- ######################################### Enumerations ###################################################### -}}
@@ -131,14 +131,15 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<DomainNamesp
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
+	{{- relationshipName = GetNavigationPropertyName entity relationship }}
 
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}Dto> {{relationship.Name}} { get; set; } = new();
+    public virtual List<{{relationship.Entity}}Dto> {{relationshipName}} { get; set; } = new();
     {{- else}}
-    public virtual {{relationship.Entity}}Dto{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; set; } = null!;
+    public virtual {{relationship.Entity}}Dto{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationshipName}} { get; set; } = null!;
     {{-end}}
 {{- end }}
 

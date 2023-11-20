@@ -1,7 +1,10 @@
 ﻿using Humanizer;
 using Nox.Solution.Extensions;
 using Nox.Types;
-using Nox.Types.Schema;
+using Nox.Yaml;
+using Nox.Yaml.Attributes;
+using Nox.Yaml.Validation;
+using System.Linq;
 using YamlDotNet.Serialization;
 
 namespace Nox.Solution;
@@ -10,12 +13,12 @@ namespace Nox.Solution;
 [Title("Defines a one way relationship to another entity.")]
 [Description("Defines a one way relationship to another entity. It is required to define the reverse relationship on the target entity.")]
 [AdditionalProperties(false)]
-public class EntityRelationship : DefinitionBase
+public class EntityRelationship : YamlConfigNode<NoxSolution,Entity>
 {
     [Required]
     [Title("The name of the relationship. Contains no spaces.")]
     [Description("The name of the relationship, usually in the format EntityRelationshipTargetEntity. Eg \"CountryHasCapitalCity\".")]
-    [Pattern(@"^[^\s]*$")]
+    [Pattern(Nox.Yaml.Constants.StringWithNoSpacesRegex)]
     public string Name { get; internal set; } = null!;
 
     [Required]
@@ -31,6 +34,11 @@ public class EntityRelationship : DefinitionBase
     [Required]
     [Title("The target entity that relates to this entity.")]
     [Description("The name of the target entity that this entity relates to.")]
+    [ExistInCollection(
+        nameof(NoxSolution.Domain),
+        nameof(NoxSolution.Domain.Entities),
+        nameof(Solution.Entity.Name)
+    )]
     public string Entity { get; internal set; } = null!;
 
     public TypeUserInterface? UserInterface { get; internal set; }
@@ -38,9 +46,13 @@ public class EntityRelationship : DefinitionBase
     [YamlIgnore] 
     public string EntityPlural => Entity.Pluralize();
 
-    [Title("Define the Entity on this relationship side contains a Navigation Property to the related Entity.")]
-    [Description("Default is true, allows to navigate from this Entity to the related Entity, and generates all endpoints to manage the Entity relaionships, including enabling ODataQueries for related entities.")]
-    public bool CanNavigate { get; internal set; } = true;
+    [Title("Define the Entity on this relationship side contains a Reference endpoints to the related Entity.")]
+    [Description("Default is true, determines whether OData $ref endpoints are generated for this relationship.")]
+    public bool CanManageReference { get; internal set; } = true;
+
+    [Title("Define the Entity on this relationship side contains endpoints to manage the related Entity.")]
+    [Description("Default is true, determines whether navigation routing endpoints are generated for the related entities, including enabling ODataQueries for related entities.")]
+    public bool CanManageEntity { get; internal set; } = true;
 
     [YamlIgnore]
     public bool IsForeignKeyOnThisSide => EntityRelationshipExtensions.IsForeignKeyOnThisSide(this);
@@ -65,6 +77,7 @@ public class EntityRelationship : DefinitionBase
 
     [YamlIgnore]
     public virtual RelatedEntityInfo Related { get; internal set; } = new();
+
 }
 
 public class RelatedEntityInfo

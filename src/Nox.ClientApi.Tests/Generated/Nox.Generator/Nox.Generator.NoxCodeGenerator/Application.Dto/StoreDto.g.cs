@@ -71,33 +71,33 @@ public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.S
     public System.Guid Id { get; set; } = default!;
 
     /// <summary>
-    /// Store Name 
-    /// <remarks>Required.</remarks>    
+    /// Store Name     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Street Address 
-    /// <remarks>Required.</remarks>    
+    /// Street Address     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public StreetAddressDto Address { get; set; } = default!;
 
     /// <summary>
-    /// Location 
-    /// <remarks>Required.</remarks>    
+    /// Location     
     /// </summary>
+    /// <remarks>Required.</remarks>    
     public LatLongDto Location { get; set; } = default!;
 
     /// <summary>
-    /// Opening day 
-    /// <remarks>Optional.</remarks>    
+    /// Opening day     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.DateTimeOffset? OpeningDay { get; set; }
 
     /// <summary>
-    /// Store Status 
-    /// <remarks>Optional.</remarks>    
+    /// Store Status     
     /// </summary>
+    /// <remarks>Optional.</remarks>    
     public System.Int32? Status { get; set; }
     [NotMapped]
     public string? StatusName { get; set; } = default!;
@@ -117,7 +117,7 @@ public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.S
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
-    public virtual EmailAddressDto? VerifiedEmails { get; set; } = null!;
+    public virtual EmailAddressDto? EmailAddress { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

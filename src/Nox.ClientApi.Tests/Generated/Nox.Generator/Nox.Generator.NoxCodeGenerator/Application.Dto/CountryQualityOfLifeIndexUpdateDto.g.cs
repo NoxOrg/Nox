@@ -26,9 +26,9 @@ public partial class CountryQualityOfLifeIndexUpdateDto : CountryQualityOfLifeIn
 public partial class CountryQualityOfLifeIndexUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.CountryQualityOfLifeIndex>
 {
     /// <summary>
-    /// Rating Index 
-    /// <remarks>Required.</remarks>    
+    /// Rating Index     
     /// </summary>
+    /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "IndexRating is required")]
     
     public virtual System.Int32 IndexRating { get; set; } = default!;

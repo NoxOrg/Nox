@@ -37,30 +37,36 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<EmailAddressDto>().HasKey(e => new { });
 
         builder.EntitySet<CountryDto>("Countries");
-        builder.EntityType<CountryDto>().ContainsMany(e => e.CountryShortNames).AutoExpand = true;
+        builder.EntityType<CountryDto>().ContainsMany(e => e.CountryLocalNames).AutoExpand = true;
         builder.EntityType<CountryDto>().ContainsOptional(e => e.CountryBarCode).AutoExpand = true;
         builder.EntityType<CountryDto>().ContainsMany(e => e.Workplaces);
 
         builder.EntityType<CountryDto>();
+        builder.ComplexType<CountryUpdateDto>();
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CountryDto>().Ignore(e => e.Etag);
         builder.EntitySet<CountryLocalNameDto>("CountryLocalNames");
 
         builder.EntityType<CountryLocalNameDto>();
+        builder.ComplexType<CountryLocalNameUpdateDto>();
 
         builder.EntityType<CountryBarCodeDto>();
+        builder.ComplexType<CountryBarCodeUpdateDto>();
         builder.EntitySet<RatingProgramDto>("RatingPrograms");
 
         builder.EntityType<RatingProgramDto>();
+        builder.ComplexType<RatingProgramUpdateDto>();
         builder.EntitySet<CountryQualityOfLifeIndexDto>("CountryQualityOfLifeIndices");
 
         builder.EntityType<CountryQualityOfLifeIndexDto>();
+        builder.ComplexType<CountryQualityOfLifeIndexUpdateDto>();
         builder.EntitySet<StoreDto>("Stores");
-        builder.EntityType<StoreDto>().ContainsOptional(e => e.VerifiedEmails).AutoExpand = true;
+        builder.EntityType<StoreDto>().ContainsOptional(e => e.EmailAddress).AutoExpand = true;
         builder.EntityType<StoreDto>().ContainsOptional(e => e.StoreOwner);
         builder.EntityType<StoreDto>().ContainsOptional(e => e.StoreLicense);
 
         builder.EntityType<StoreDto>();
+        builder.ComplexType<StoreUpdateDto>();
         builder.EntityType<StoreDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<StoreDto>().Ignore(e => e.Etag);
         builder.EntitySet<WorkplaceDto>("Workplaces");
@@ -68,10 +74,12 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<WorkplaceDto>().ContainsMany(e => e.Tenants);
 
         builder.EntityType<WorkplaceDto>();
+        builder.ComplexType<WorkplaceUpdateDto>();
         builder.EntitySet<StoreOwnerDto>("StoreOwners");
         builder.EntityType<StoreOwnerDto>().ContainsMany(e => e.Stores);
 
         builder.EntityType<StoreOwnerDto>();
+        builder.ComplexType<StoreOwnerUpdateDto>();
         builder.EntityType<StoreOwnerDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<StoreOwnerDto>().Ignore(e => e.Etag);
         builder.EntitySet<StoreLicenseDto>("StoreLicenses");
@@ -80,6 +88,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<StoreLicenseDto>().ContainsOptional(e => e.SoldInCurrency);
 
         builder.EntityType<StoreLicenseDto>();
+        builder.ComplexType<StoreLicenseUpdateDto>();
         builder.EntityType<StoreLicenseDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<StoreLicenseDto>().Ignore(e => e.Etag);
         builder.EntitySet<CurrencyDto>("Currencies");
@@ -87,14 +96,17 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CurrencyDto>().ContainsMany(e => e.StoreLicenseSoldIn);
 
         builder.EntityType<CurrencyDto>();
+        builder.ComplexType<CurrencyUpdateDto>();
         builder.EntityType<CurrencyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CurrencyDto>().Ignore(e => e.Etag);
         builder.EntitySet<TenantDto>("Tenants");
         builder.EntityType<TenantDto>().ContainsMany(e => e.Workplaces);
 
         builder.EntityType<TenantDto>();
+        builder.ComplexType<TenantUpdateDto>();
 
-        builder.EntityType<EmailAddressDto>(); 
+        builder.EntityType<EmailAddressDto>();
+        builder.ComplexType<EmailAddressUpdateDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<CountryDto>()
                             .Collection

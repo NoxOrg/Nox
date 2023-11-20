@@ -51,9 +51,9 @@ internal record BookingDeleted(Booking Booking) : IDomainEvent, INotification;
 internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Booking unique identifier
-    /// <remarks>Required.</remarks>   
+    /// Booking unique identifier    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Guid Id {get; set;} = null!;
          /// <summary>
         /// Ensures that a Guid Id is set or will be generate a new one
@@ -71,45 +71,45 @@ internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcur
     	}
 
     /// <summary>
-    /// Booking's amount exchanged from
-    /// <remarks>Required.</remarks>   
+    /// Booking's amount exchanged from    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Money AmountFrom { get; set; } = null!;
 
     /// <summary>
-    /// Booking's amount exchanged to
-    /// <remarks>Required.</remarks>   
+    /// Booking's amount exchanged to    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.Money AmountTo { get; set; } = null!;
 
     /// <summary>
-    /// Booking's requested pick up date
-    /// <remarks>Required.</remarks>   
+    /// Booking's requested pick up date    
     /// </summary>
+    /// <remarks>Required.</remarks>   
     public Nox.Types.DateTimeRange RequestedPickUpDate { get; set; } = null!;
 
     /// <summary>
-    /// Booking's actual pick up date
-    /// <remarks>Optional.</remarks>   
+    /// Booking's actual pick up date    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.DateTimeRange? PickedUpDateTime { get; set; } = null!;
 
     /// <summary>
-    /// Booking's expiry date
-    /// <remarks>Optional.</remarks>   
+    /// Booking's expiry date    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.DateTime? ExpiryDateTime { get; set; } = null!;
 
     /// <summary>
-    /// Booking's cancelled date
-    /// <remarks>Optional.</remarks>   
+    /// Booking's cancelled date    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.DateTime? CancelledDateTime { get; set; } = null!;
 
     /// <summary>
-    /// Booking's status
-    /// <remarks>Optional.</remarks>   
+    /// Booking's status    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public string? Status
     { 
         get { return CancelledDateTime != null ? "cancelled" : (PickedUpDateTime != null ? "picked-up" : (ExpiryDateTime != null ? "expired" : "booked")); }
@@ -117,9 +117,9 @@ internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcur
     }
 
     /// <summary>
-    /// Booking's related vat number
-    /// <remarks>Optional.</remarks>   
+    /// Booking's related vat number    
     /// </summary>
+    /// <remarks>Optional.</remarks>   
     public Nox.Types.VatNumber? VatNumber { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.

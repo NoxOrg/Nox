@@ -1,4 +1,5 @@
-﻿﻿// Generated
+﻿{{- relationshipName = GetNavigationPropertyName parent relationship }}﻿
+﻿// Generated
 
 #nullable enable
 
@@ -16,14 +17,14 @@ using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Na
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 {{- if isSingleRelationship }}
-public partial record Update{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}UpdateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+public partial record Update{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}UpdateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 {{ else }}
-public partial record Update{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto, {{entity.Name}}UpdateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+public partial record Update{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto, {{entity.Name}}UpdateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 {{- end }}
 
-internal partial class Update{{entity.Name}}For{{parent.Name}}CommandHandler : Update{{entity.Name}}For{{parent.Name}}CommandHandlerBase
+internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandler : Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase
 {
-	public Update{{entity.Name}}For{{parent.Name}}CommandHandler(
+	public Update{{relationshipName}}For{{parent.Name}}CommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory)
@@ -32,12 +33,12 @@ internal partial class Update{{entity.Name}}For{{parent.Name}}CommandHandler : U
 	}
 }
 
-internal partial class Update{{entity.Name}}For{{parent.Name}}CommandHandlerBase : CommandBase<Update{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <Update{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
+internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase : CommandBase<Update{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <Update{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;
 
-	public Update{{entity.Name}}For{{parent.Name}}CommandHandlerBase(
+	public Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(noxSolution)
@@ -46,7 +47,7 @@ internal partial class Update{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
+	public virtual async Task<{{entity.Name}}KeyDto?> Handle(Update{{relationshipName}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -61,12 +62,12 @@ internal partial class Update{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 		}
 
 		{{- if isSingleRelationship }}
-		var entity = parentEntity.{{relationship.Name}};
+		var entity = parentEntity.{{relationshipName}};
 		{{ else }}
 		{{- for key in entity.Keys }}
 		var owned{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
-		var entity = parentEntity.{{relationship.Name}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
+		var entity = parentEntity.{{relationshipName}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
 		{{- end }}
 		if (entity == null)
 		{
