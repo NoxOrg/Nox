@@ -280,7 +280,7 @@ public abstract partial class CountriesControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
+    public async Task<ActionResult> CreateRefToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -312,7 +312,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
+    public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -372,7 +372,7 @@ public abstract partial class CountriesControllerBase : ODataController
     
     [EnableQuery]
     [HttpGet("/api/v1/Countries/{key}/Workplaces/{relatedKey}")]
-    public virtual async Task<SingleResult<WorkplaceDto>> GetWorkplacesNonConventional(System.Int64 key, System.UInt32 relatedKey)
+    public virtual async Task<SingleResult<WorkplaceDto>> GetWorkplacesNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Workplaces).Where(x => x.Id == relatedKey);
         if (!related.Any())
@@ -383,7 +383,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpPut("/api/v1/Countries/{key}/Workplaces/{relatedKey}")]
-    public virtual async Task<ActionResult<WorkplaceDto>> PutToWorkplacesNonConventional(System.Int64 key, System.UInt32 relatedKey, [FromBody] WorkplaceUpdateDto workplace)
+    public virtual async Task<ActionResult<WorkplaceDto>> PutToWorkplacesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] WorkplaceUpdateDto workplace)
     {
         if (!ModelState.IsValid)
         {
@@ -407,7 +407,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpDelete("/api/v1/Countries/{key}/Workplaces/{relatedKey}")]
-    public async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
+    public async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {

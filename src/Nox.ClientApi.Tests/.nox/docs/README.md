@@ -299,9 +299,9 @@ Tenant.
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|Guid||Required, Primary Key
+Id|Nuid||Required, Primary Key, Separator: -, PropertyNames: System.String[]
 Name|Text|Teanant Name.|Required, MinLength: 4, MaxLength: 63
-WorkplaceId|Nuid|Workplace unique identifier.|Required, Foreign Key, Separator: -, PropertyNames: System.String[]
+WorkplaceId|AutoNumber|Workplace unique identifier.|Required, Foreign Key
 
 
 #### <u>Relationships</u>
@@ -323,12 +323,12 @@ Workplace.
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|Nuid|Workplace unique identifier.|Required, Primary Key, Separator: -, PropertyNames: System.String[]
+Id|AutoNumber|Workplace unique identifier.|Required, Primary Key
 Name|Text|Workplace Name.|Required, MinLength: 4, MaxLength: 63
 Description|Text|Workplace Description.|MinLength: 4, IsLocalized: true
 Greeting|Formula|The Formula.|
 CountryId|AutoNumber|The unique identifier.|Required, Foreign Key, StartsAt: 10, IncrementsBy: 5
-TenantId|Guid||Required, Foreign Key
+TenantId|Nuid||Required, Foreign Key, Separator: -, PropertyNames: System.String[]
 
 
 #### <u>Relationships</u>

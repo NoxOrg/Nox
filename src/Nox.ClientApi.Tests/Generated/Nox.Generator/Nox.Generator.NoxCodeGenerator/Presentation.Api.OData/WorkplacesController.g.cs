@@ -28,7 +28,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToCountry([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> CreateRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -44,7 +44,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCountry([FromRoute] System.UInt32 key)
+    public async Task<ActionResult> GetRefToCountry([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Country).SingleOrDefault();
         if (related is null)
@@ -56,7 +56,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -72,7 +72,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.UInt32 key)
+    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
@@ -88,14 +88,14 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToCountry([FromRoute] System.UInt32 key, [FromBody] CountryCreateDto country)
+    public virtual async Task<ActionResult> PostToCountry([FromRoute] System.Int64 key, [FromBody] CountryCreateDto country)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        country.WorkplacesId = new List<System.UInt32> { key };
+        country.WorkplacesId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -104,7 +104,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     }
     
     [EnableQuery]
-    public virtual async Task<SingleResult<CountryDto>> GetCountry(System.UInt32 key)
+    public virtual async Task<SingleResult<CountryDto>> GetCountry(System.Int64 key)
     {
         var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Where(x => x.Country != null);
         if (!related.Any())
@@ -114,7 +114,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return SingleResult.Create(related.Select(x => x.Country!));
     }
     
-    public virtual async Task<ActionResult<CountryDto>> PutToCountry(System.UInt32 key, [FromBody] CountryUpdateDto country)
+    public virtual async Task<ActionResult<CountryDto>> PutToCountry(System.Int64 key, [FromBody] CountryUpdateDto country)
     {
         if (!ModelState.IsValid)
         {
@@ -138,7 +138,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     }
     
     [HttpDelete("/api/v1/Workplaces/{key}/Country")]
-    public async Task<ActionResult> DeleteToCountry([FromRoute] System.UInt32 key)
+    public async Task<ActionResult> DeleteToCountry([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
@@ -160,7 +160,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToTenants([FromRoute] System.UInt32 key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> CreateRefToTenants([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -176,7 +176,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTenants([FromRoute] System.UInt32 key)
+    public async Task<ActionResult> GetRefToTenants([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Tenants).SingleOrDefault();
         if (related is null)
@@ -192,7 +192,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToTenants([FromRoute] System.UInt32 key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> DeleteRefToTenants([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -208,7 +208,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToTenants([FromRoute] System.UInt32 key)
+    public async Task<ActionResult> DeleteRefToTenants([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
@@ -224,14 +224,14 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToTenants([FromRoute] System.UInt32 key, [FromBody] TenantCreateDto tenant)
+    public virtual async Task<ActionResult> PostToTenants([FromRoute] System.Int64 key, [FromBody] TenantCreateDto tenant)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        tenant.WorkplacesId = new List<System.UInt32> { key };
+        tenant.WorkplacesId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateTenantCommand(tenant, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetTenantByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -240,7 +240,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     }
     
     [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<TenantDto>>> GetTenants(System.UInt32 key)
+    public virtual async Task<ActionResult<IQueryable<TenantDto>>> GetTenants(System.Int64 key)
     {
         var entity = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).SelectMany(x => x.Tenants);
         if (!entity.Any())
@@ -252,7 +252,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     
     [EnableQuery]
     [HttpGet("/api/v1/Workplaces/{key}/Tenants/{relatedKey}")]
-    public virtual async Task<SingleResult<TenantDto>> GetTenantsNonConventional(System.UInt32 key, System.Guid relatedKey)
+    public virtual async Task<SingleResult<TenantDto>> GetTenantsNonConventional(System.Int64 key, System.UInt32 relatedKey)
     {
         var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).SelectMany(x => x.Tenants).Where(x => x.Id == relatedKey);
         if (!related.Any())
@@ -263,7 +263,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     }
     
     [HttpPut("/api/v1/Workplaces/{key}/Tenants/{relatedKey}")]
-    public virtual async Task<ActionResult<TenantDto>> PutToTenantsNonConventional(System.UInt32 key, System.Guid relatedKey, [FromBody] TenantUpdateDto tenant)
+    public virtual async Task<ActionResult<TenantDto>> PutToTenantsNonConventional(System.Int64 key, System.UInt32 relatedKey, [FromBody] TenantUpdateDto tenant)
     {
         if (!ModelState.IsValid)
         {
@@ -287,7 +287,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     }
     
     [HttpDelete("/api/v1/Workplaces/{key}/Tenants/{relatedKey}")]
-    public async Task<ActionResult> DeleteToTenants([FromRoute] System.UInt32 key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> DeleteToTenants([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -311,7 +311,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     }
     
     [HttpDelete("/api/v1/Workplaces/{key}/Tenants")]
-    public async Task<ActionResult> DeleteToTenants([FromRoute] System.UInt32 key)
+    public async Task<ActionResult> DeleteToTenants([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
