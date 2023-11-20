@@ -13,7 +13,7 @@ public abstract partial class TestEntityForTypesControllerBase
     [HttpGet("/api/v1/TestEntityForTypes/TestEntityForTypesEnumerationTestFields")]
     public virtual async Task<ActionResult<IQueryable<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto>>> GetEnumerationTestFieldsNonConventional()
     {            
-        var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetTestEntityForTypesEnumerationTestFieldsQuery());                        
+        var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetTestEntityForTypesEnumerationTestFieldsQuery(_cultureCode));                        
         return Ok(result);        
     }
 }

@@ -10,7 +10,7 @@
         public const string WorkplacesUrl = $"{RoutePrefix}/workplaces";
         public const string RatingProgramsUrl = $"{RoutePrefix}/ratingprograms";
         public const string CurrenciesUrl = $"{RoutePrefix}/currencies";
-        public const string TeanantUrl = $"{RoutePrefix}/tenants";
+        public const string TenantsUrl = $"{RoutePrefix}/tenants";
         public const string CountryQualityOfLifeIndicesUrl = $"{RoutePrefix}/CountryQualityOfLifeIndices";
         
     }

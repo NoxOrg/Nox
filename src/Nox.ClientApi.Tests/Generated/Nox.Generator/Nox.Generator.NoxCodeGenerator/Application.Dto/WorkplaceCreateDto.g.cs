@@ -51,7 +51,7 @@ public abstract class WorkplaceCreateDtoBase : IEntityDto<DomainNamespace.Workpl
     /// <summary>
     /// Workplace Actve Tenants in the workplace ZeroOrMany Tenants
     /// </summary>
-    public virtual List<System.Guid> TenantsId { get; set; } = new();
+    public virtual List<System.UInt32> TenantsId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<TenantCreateDto> Tenants { get; set; } = new();

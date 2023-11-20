@@ -19,7 +19,7 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record TenantKeyDto(System.Guid keyId);
+public record TenantKeyDto(System.UInt32 keyId);
 
 /// <summary>
 /// Update Tenant
@@ -54,7 +54,7 @@ public abstract class TenantDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.
     /// <summary>
     /// 
     /// </summary>    
-    public System.Guid Id { get; set; } = default!;
+    public System.UInt32 Id { get; set; } = default!;
 
     /// <summary>
     /// Teanant Name     

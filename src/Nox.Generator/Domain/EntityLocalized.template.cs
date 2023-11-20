@@ -37,6 +37,8 @@ internal partial class {{className}} : IEntityConcurrent
     /// </summary>
     public Nox.Types.{{attribute.Type}}? {{attribute.Name}} { get; set; } = null!;
 {{ end }}
+    public virtual {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}} {{entity.Name}} { get; set; } = null!;
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

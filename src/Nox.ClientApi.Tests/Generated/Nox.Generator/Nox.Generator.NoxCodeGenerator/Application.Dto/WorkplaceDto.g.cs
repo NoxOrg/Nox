@@ -19,7 +19,7 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record WorkplaceKeyDto(System.UInt32 keyId);
+public record WorkplaceKeyDto(System.Int64 keyId);
 
 /// <summary>
 /// Update Workplace
@@ -56,7 +56,7 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
     /// <summary>
     /// Workplace unique identifier
     /// </summary>    
-    public System.UInt32 Id { get; set; } = default!;
+    public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
     /// Workplace Name     
