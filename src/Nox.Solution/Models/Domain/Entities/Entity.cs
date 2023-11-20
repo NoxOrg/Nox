@@ -430,9 +430,6 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
             result.Errors.Add(new ValidationFailure(nameof(Name), message));
         }
 
-        // TODO validat that relationship names must be unique within constraint
-        // - check if this works with attributes already after andre refactor
-
         // Validates that only zero/one to many relationships are used
         var messages4 = UniqueAttributeConstraints
             .SelectMany(c =>
@@ -447,6 +444,30 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
             .Select(o => $"Unique constraint [{o.ConstraintName}] refers to a relationship [{o.RelationshipName}] which isn't zero/one to many from single side");
 
         foreach (var message in messages4)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Name), message));
+        }
+
+        // Validate that attribute names are unique within constraint
+        var messages5 = UniqueAttributeConstraints
+            .SelectMany(constraint => constraint.AttributeNames
+                .GroupBy(name => name)
+                .Where(group => group.Count() > 1)
+                .Select(group => $"Unique constraint [{constraint.Name}] has duplicate attribute name: [{group.Key}]"));
+
+        foreach (var message in messages5)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Name), message));
+        }
+
+        // Validate that relationship names are unique within constraint
+        var messages6 = UniqueAttributeConstraints
+            .SelectMany(constraint => constraint.RelationshipNames
+                .GroupBy(name => name)
+                .Where(group => group.Count() > 1)
+                .Select(group => $"Unique constraint [{constraint.Name}] has duplicate relationship name: [{group.Key}]"));
+
+        foreach (var message in messages6)
         {
             result.Errors.Add(new ValidationFailure(nameof(Name), message));
         }

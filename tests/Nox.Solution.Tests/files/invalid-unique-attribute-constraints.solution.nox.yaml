@@ -84,6 +84,9 @@ domain:
         - name: Name
           type: text
           
+        - name: Landmarks
+          type: text
+
       relationships:
         - name: BelongsToCountry
           description: is in the
@@ -96,6 +99,20 @@ domain:
           attributeNames:
             - Name
           relationshipNames:
+            - BelongsToCountry
+
+        - name: UniqueConstraintWithDuplicateAttributeName
+          description: The name must be unique
+          attributeNames:
+            - Name
+            - Name
+
+        - name: UniqueConstraintWithDuplicateRelationshipName
+          description: The landmarks are unique
+          attributeNames:
+            - Landmarks
+          relationshipNames:
+            - BelongsToCountry
             - BelongsToCountry
 
     - name: Country
