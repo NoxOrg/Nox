@@ -397,6 +397,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
     private void ValidateUniqueAttributeConstraints(ValidationResult result)
     {
         var memberNames = Attributes.Select(m => m.Name).ToImmutableHashSet();
+        var relationshipNames = Relationships.Select(r => r.Name).ToImmutableHashSet();
 
         var messages = UniqueAttributeConstraints
             .SelectMany(c => c.AttributeNames, (c, a) => new { c.Name, AttributeName = a })
@@ -409,7 +410,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         }
 
         var messages2 = UniqueAttributeConstraints
-            .Select(c => new { c.Name, Keys = string.Join(",", c.AttributeNames.OrderBy(e => e)) })
+            .Select(c => new { c.Name, Keys = string.Join(",", c.AttributeNames.Concat(c.RelationshipNames).OrderBy(e => e)) })
             .GroupBy( o => o.Keys )
             .Where( g => g.Count() > 1)
             .Select(g => $"Unique constraints [{string.Join(",", g.Select(g=>g.Name))}] refers to non-unique keys [{g.Key}] on entity [{Name}]");
@@ -419,6 +420,36 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
             result.Errors.Add(new ValidationFailure(nameof(Name), message));
         }
 
+        var messages3 = UniqueAttributeConstraints
+            .SelectMany(c => c.RelationshipNames, (c, r) => new { c.Name, RelationshipName = r })
+            .Where(o => !relationshipNames.Contains(o.RelationshipName))
+            .Select(o => $"Unique constraint [{o.Name}] refers to non-existing relationship [{o.RelationshipName}] on entity [{Name}]");
+
+        foreach (var message in messages3)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Name), message));
+        }
+
+        // TODO validat that relationship names must be unique within constraint
+        // - check if this works with attributes already after andre refactor
+
+        // Validates that only zero/one to many relationships are used
+        var messages4 = UniqueAttributeConstraints
+            .SelectMany(c =>
+                c.RelationshipNames
+                    .Where(relationshipName =>
+                        Relationships.Any(relationship =>
+                            relationship.Name == relationshipName
+                            && !(relationship.WithSingleEntity && relationship.Related.EntityRelationship.WithMultiEntity()))
+                    )
+                    .Select(relationshipName => new { ConstraintName = c.Name, RelationshipName = relationshipName })
+                )
+            .Select(o => $"Unique constraint [{o.ConstraintName}] refers to a relationship [{o.RelationshipName}] which isn't zero/one to many from single side");
+
+        foreach (var message in messages4)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Name), message));
+        }
     }
 
     public virtual NoxSimpleTypeDefinition? GetAttributeByName(string entityName)

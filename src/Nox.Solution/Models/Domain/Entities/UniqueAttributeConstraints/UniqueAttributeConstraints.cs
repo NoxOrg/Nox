@@ -27,10 +27,11 @@ public class UniqueAttributeConstraint
     [Title("Constraint Description")]
     [Description("A detailed explanation of the purpose and behavior of this unique attribute constraint.")]
     public string? Description { get; internal set; }
-    
+
     /// <summary>
     /// Gets or sets the list of attribute names that together form the unique constraint.
     /// </summary>
+    [Required]
     [Title("Attribute Names")]
     [Description("List of attribute names that together form the unique constraint.")]
     public IReadOnlyList<string> AttributeNames { get; internal set; } = new List<string>();
