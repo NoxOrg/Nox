@@ -23,12 +23,11 @@ internal static class ODataServiceCollectionExtensions
     {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
 
-        {{ hasKeyForCompoundKeys -}}
-
         {{- for entity in solution.Domain.Entities }}
-        {{- if (array.size entity.Keys) > 0 #we can not have entityset without keys}}
+        {{~ if (array.size entity.Keys) > 0 #we can not have entityset without keys}}
         builder.EntitySet<{{entity.Name}}Dto>("{{entity.PluralName}}");
         {{- end }}
+		builder.EntityType<{{entity.Name}}Dto>().HasKey(e => new { {{ $delim = "" -}} {{ for key in entity.Keys -}} {{$delim}}e.{{key.Name}}{{ $delim = ", " }}{{ end }} });
         {{- if entity.OwnedRelationships != null }}
             {{- for ownedRelationship in entity.OwnedRelationships }}                
 		        {{- ownedRelationshipName = GetNavigationPropertyName entity ownedRelationship }}
@@ -41,7 +40,6 @@ internal static class ODataServiceCollectionExtensions
                 {{- end }}
             {{- end }}
         {{- end }}
-
         {{- if entity.Relationships != null }}
             {{- for relationship in entity.Relationships  }}
 		        {{- relationshipName = GetNavigationPropertyName entity relationship }}
@@ -54,9 +52,8 @@ internal static class ODataServiceCollectionExtensions
                 {{- end }}
             {{- end }}
         {{- end }}
-
-        builder.EntityType<{{entity.Name}}Dto>();
         builder.ComplexType<{{entity.Name}}UpdateDto>();
+
         {{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited ~}}
 
         builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.DeletedAtUtc);
