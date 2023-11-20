@@ -70,7 +70,7 @@ global using global::Microsoft.AspNetCore.Builder;";
         return CSharpCompilation.Create(
             assemblyName: "compilation",
             syntaxTrees: sources.Select(source =>
-                CSharpSyntaxTree.ParseText(source.Value, new CSharpParseOptions(LanguageVersion.Preview))),
+                CSharpSyntaxTree.ParseText(source.Value, new CSharpParseOptions(LanguageVersion.CSharp11))),
             references: references,
             options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
     }
