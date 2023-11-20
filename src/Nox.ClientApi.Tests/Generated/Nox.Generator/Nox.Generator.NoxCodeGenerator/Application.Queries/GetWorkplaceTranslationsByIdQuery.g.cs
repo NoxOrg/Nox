@@ -12,7 +12,7 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record  GetWorkplaceTranslationsByIdQuery(System.UInt32 keyId, Nox.Types.CultureCode CultureCode) : IRequest <IQueryable<WorkplaceLocalizedDto>>;
+public record  GetWorkplaceTranslationsByIdQuery(System.Int64 keyId, Nox.Types.CultureCode CultureCode) : IRequest <IQueryable<WorkplaceLocalizedDto>>;
 
 internal partial class GetWorkplaceTranslationsByIdQueryHandler:GetWorkplaceTranslationsByIdQueryHandlerBase
 {

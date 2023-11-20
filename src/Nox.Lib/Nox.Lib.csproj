@@ -64,6 +64,7 @@
 		<ProjectReference Include="..\Nox.Monitoring.ElasticApm\Nox.Monitoring.ElasticApm.csproj" />
 		<ProjectReference Include="..\Nox.Secrets\Nox.Secrets.csproj" />
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
+		<ProjectReference Include="..\Nox.Yaml\Nox.Yaml.csproj" />
 		<ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
 		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" PrivateAssets="all" />
 		<ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
@@ -90,6 +91,10 @@
             <Pack>true</Pack>
             <PackagePath>analyzers\dotnet\cs</PackagePath>
         </Content>
+		<Content Include="..\..\src\Nox.Yaml\bin\$(Configuration)\netstandard2.0\Nox.Yaml.dll">
+			<Pack>true</Pack>
+			<PackagePath>analyzers\dotnet\cs</PackagePath>
+		</Content>
 		<Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\Nox.Types.Abstractions.dll">
 			<Pack>true</Pack>
 			<PackagePath>analyzers\dotnet\cs</PackagePath>
@@ -111,6 +116,10 @@
 				<PackagePath>lib\$(TargetFramework)</PackagePath>
 		</Content>
 		<Content Include="$(OutputPath)\Nox.Solution.dll">
+			<Pack>true</Pack>
+			<PackagePath>lib\$(TargetFramework)</PackagePath>
+		</Content>
+		<Content Include="$(OutputPath)\Nox.Yaml.dll">
 			<Pack>true</Pack>
 			<PackagePath>lib\$(TargetFramework)</PackagePath>
 		</Content>

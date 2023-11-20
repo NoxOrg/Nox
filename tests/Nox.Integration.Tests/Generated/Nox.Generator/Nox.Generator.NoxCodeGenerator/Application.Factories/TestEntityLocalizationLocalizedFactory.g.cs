@@ -22,7 +22,7 @@ internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLoca
     {
         var localizedEntity = new TestEntityLocalizationLocalized
         {
-            Id = entity.Id,
+            TestEntityLocalization = entity,
             CultureCode = cultureCode,
         };
 

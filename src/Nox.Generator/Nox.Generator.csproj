@@ -75,6 +75,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
+		<ProjectReference Include="..\Nox.Yaml\Nox.Yaml.csproj" />
 	</ItemGroup>
 
 	<PropertyGroup>

@@ -31,6 +31,8 @@ internal partial class TestEntityLocalizationLocalized : IEntityConcurrent
     /// </summary>
     public Nox.Types.Text? TextFieldToLocalize { get; set; } = null!;
 
+    public virtual TestWebApp.Domain.TestEntityLocalization TestEntityLocalization { get; set; } = null!;
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

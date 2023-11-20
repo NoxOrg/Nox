@@ -196,6 +196,19 @@ domain:
           type: text
           textTypeOptions:
             maxLength: 31
+            
+        - name: Continent
+          description: Country Continent
+          type: enumeration
+          enumerationTypeOptions:
+            values:
+              - { id: 1, name: Europe }
+              - { id: 2, name: Asia }
+              - { id: 3, name: Africa }
+              - { id: 4, name: America }
+              - { id: 5, name: Oceania }
+            isLocalized: true
+          isRequired: false
 
     - name: CompoundKeysEntity
 

@@ -774,7 +774,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
             var countryCreateDto = new CountryCreateDto { 
                 Name = _fixture.Create<string>(),
-                WorkplacesId = new List<UInt32> {
+                WorkplacesId = new List<long> {
                     workplaceResponse1!.Id,
                     workplaceResponse2!.Id,
                     workplaceResponse3!.Id,
@@ -803,7 +803,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var countryCreateDto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                WorkplacesId = new List<UInt32> { _fixture.Create<UInt32>() }
+                WorkplacesId = new List<long> { _fixture.Create<long>() }
             };
 
             // Act
@@ -1631,16 +1631,41 @@ namespace ClientApi.Tests.Tests.Controllers
                 new CountryContinentDto() { Id = 4, Name = "America" },
                 new CountryContinentDto() { Id = 5, Name = "Oceania" }
             };
+
+          
             // Act
-            var result = await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/CountryContinents");
+            var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/CountryContinents"))?.ToList();
 
 
             result.Should().NotBeNull();
 
             result.Should().HaveCount(5);
             result.Should().BeEquivalentTo(expectedResult);
+            
 
-            //TODO Translated test translated names
+        }
+        
+        [Fact]
+        public async Task WhenGetEnumerationValuesNotExist_ShouldGetTranslatedNameInBrackets()
+        {
+            // Arrange
+            var expectedResult = new[] {
+                new CountryContinentDto() { Id = 1, Name = "[Europe]" },
+                new CountryContinentDto() { Id = 2, Name = "[Asia]" },
+                new CountryContinentDto() { Id = 3, Name = "[Africa]" },
+                new CountryContinentDto() { Id = 4, Name = "[America]" },
+                new CountryContinentDto() { Id = 5, Name = "[Oceania]" }
+            };
+
+            var headers = CreateHeaders(CreateAcceptLanguageHeader("fr-FR"));
+            // Act
+            var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/CountryContinents", headers:headers))?.ToList();
+
+
+            result.Should().NotBeNull();
+
+            result.Should().HaveCount(5);
+            result.Should().BeEquivalentTo(expectedResult);
 
         }
 

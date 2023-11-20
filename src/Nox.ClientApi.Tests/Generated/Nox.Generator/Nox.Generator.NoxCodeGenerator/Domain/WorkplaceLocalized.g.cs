@@ -22,7 +22,7 @@ internal partial class WorkplaceLocalized : IEntityConcurrent
     /// <summary>
     /// Workplace unique identifier (Required).
     /// </summary>
-    public Nox.Types.Nuid Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     public Nox.Types.CultureCode CultureCode { get; set; } = null!;
 
@@ -30,6 +30,8 @@ internal partial class WorkplaceLocalized : IEntityConcurrent
     /// Workplace Description (Optional).
     /// </summary>
     public Nox.Types.Text? Description { get; set; } = null!;
+
+    public virtual ClientApi.Domain.Workplace Workplace { get; set; } = null!;
 
     /// <summary>
     /// Entity tag used as concurrency token.
