@@ -28,10 +28,9 @@ public partial class {{className}} : {{className}}Base
 public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Name}}>
 {
 {{- for key in entity.Keys }}
-    {{- if key.Type == "Nuid" || key.Type == "AutoNumber" -}}
+    {{- if !IsNoxTypeCreatable key.Type -}}    
     {{ continue; -}}
     {{- else if key.Type == "Guid" -}}
-
     /// <summary>
     /// {{key.Description  | string.rstrip}}     
     /// </summary>
