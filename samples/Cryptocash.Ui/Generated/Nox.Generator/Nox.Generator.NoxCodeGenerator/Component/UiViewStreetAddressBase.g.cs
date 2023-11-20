@@ -25,107 +25,48 @@ namespace Cryptocash.Ui.Generated.Component
             {
                 string RtnStreetAddress = String.Empty;
 
-                if (StreetAddress != null)
+                if (StreetAddress == null)
+                    return RtnStreetAddress;
+
+                var StreetAddressParts = new List<string>();
+
+                AddNonEmpty(StreetAddress.StreetNumber, StreetAddressParts);
+                AddNonEmpty(StreetAddress.AddressLine1, StreetAddressParts);
+                AddNonEmpty(StreetAddress.AddressLine2, StreetAddressParts);
+                AddNonEmpty(StreetAddress.Route, StreetAddressParts);
+                AddNonEmpty(StreetAddress.Locality, StreetAddressParts);
+                AddNonEmpty(StreetAddress.Neighborhood, StreetAddressParts);
+                AddNonEmpty(StreetAddress.AdministrativeArea1, StreetAddressParts);
+                AddNonEmpty(StreetAddress.AdministrativeArea2, StreetAddressParts);
+                AddNonEmpty(StreetAddress.PostalCode, StreetAddressParts);
+
+                if (!String.IsNullOrWhiteSpace(StreetAddress.CountryId.ToString()))
                 {
-                    if (!String.IsNullOrWhiteSpace(StreetAddress.StreetNumber))
+                    if (CountrySelectionList != null
+                        && CountrySelectionList.Count > 0)
                     {
-                        RtnStreetAddress = StreetAddress.StreetNumber.Trim();
-                    }
+                        CountryDto? FoundCountry = CountrySelectionList.FirstOrDefault(Country => Country.Id.Equals(StreetAddress!.CountryId.ToString()));
 
-                    if (!String.IsNullOrWhiteSpace(StreetAddress.AddressLine1))
-                    {
-                        if (!String.IsNullOrWhiteSpace(RtnStreetAddress))
+                        if (FoundCountry != null)
                         {
-                            RtnStreetAddress += ", ";
+                            AddNonEmpty(FoundCountry.Name.Trim(), StreetAddressParts);
                         }
-                        RtnStreetAddress += StreetAddress.AddressLine1.Trim();
-                    }
-
-                    if (!String.IsNullOrWhiteSpace(StreetAddress.AddressLine2))
-                    {
-                        if (!String.IsNullOrWhiteSpace(RtnStreetAddress))
-                        {
-                            RtnStreetAddress += ", ";
-                        }
-                        RtnStreetAddress += StreetAddress.AddressLine2.Trim();
-                    }
-
-                    if (!String.IsNullOrWhiteSpace(StreetAddress.Route))
-                    {
-                        if (!String.IsNullOrWhiteSpace(RtnStreetAddress))
-                        {
-                            RtnStreetAddress += ", ";
-                        }
-                        RtnStreetAddress += StreetAddress.Route.Trim();
-                    }
-
-                    if (!String.IsNullOrWhiteSpace(StreetAddress.Locality))
-                    {
-                        if (!String.IsNullOrWhiteSpace(RtnStreetAddress))
-                        {
-                            RtnStreetAddress += ", ";
-                        }
-                        RtnStreetAddress += StreetAddress.Locality.Trim();
-                    }
-
-                    if (!String.IsNullOrWhiteSpace(StreetAddress.Neighborhood))
-                    {
-                        if (!String.IsNullOrWhiteSpace(RtnStreetAddress))
-                        {
-                            RtnStreetAddress += ", ";
-                        }
-                        RtnStreetAddress += StreetAddress.Neighborhood.Trim();
-                    }
-
-                    if (!String.IsNullOrWhiteSpace(StreetAddress.AdministrativeArea1))
-                    {
-                        if (!String.IsNullOrWhiteSpace(RtnStreetAddress))
-                        {
-                            RtnStreetAddress += ", ";
-                        }
-                        RtnStreetAddress += StreetAddress.AdministrativeArea1.Trim();
-                    }
-
-                    if (!String.IsNullOrWhiteSpace(StreetAddress.AdministrativeArea2))
-                    {
-                        if (!String.IsNullOrWhiteSpace(RtnStreetAddress))
-                        {
-                            RtnStreetAddress += ", ";
-                        }
-                        RtnStreetAddress += StreetAddress.AdministrativeArea2.Trim();
-                    }
-
-                    if (!String.IsNullOrWhiteSpace(StreetAddress.PostalCode))
-                    {
-                        if (!String.IsNullOrWhiteSpace(RtnStreetAddress))
-                        {
-                            RtnStreetAddress += ", ";
-                        }
-                        RtnStreetAddress += StreetAddress.PostalCode.Trim();
-                    }
-
-                    if (!String.IsNullOrWhiteSpace(StreetAddress.CountryId.ToString()))
-                    {
-                        if (!String.IsNullOrWhiteSpace(RtnStreetAddress))
-                        {
-                            RtnStreetAddress += ", ";
-                        }
-
-                        if (CountrySelectionList != null 
-                            && CountrySelectionList.Count > 0)
-                        {
-                            CountryDto? FoundCountry = CountrySelectionList.FirstOrDefault(Country => Country.Id.Equals(StreetAddress!.CountryId.ToString()));
-
-                            if (FoundCountry != null
-                                && !String.IsNullOrWhiteSpace(FoundCountry.Name))
-                            {
-                                RtnStreetAddress += FoundCountry.Name.Trim();
-                            }
-                        }                        
                     }
                 }
 
+                RtnStreetAddress = string.Join(", ", StreetAddressParts).Trim();
+
                 return RtnStreetAddress;
+            }
+
+
+        }
+
+        private void AddNonEmpty(string? value, List<string> parts)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                parts.Add(value.Trim());
             }
         }
     }
