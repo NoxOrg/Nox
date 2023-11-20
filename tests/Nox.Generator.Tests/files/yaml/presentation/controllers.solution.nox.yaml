@@ -262,3 +262,35 @@ domain:
             minLength: 1
             maxLength: 63
           isRequired: true
+          
+          
+    - name: City
+      
+      persistence:
+        isAudited: false
+        create:
+          isEnabled: true
+          raiseEvents: never
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+          raiseEvents: never
+        delete:
+          isEnabled: false
+          raiseEvents: never
+      
+      keys:
+        - name: Id
+          isRequired: true
+          type: text
+
+      attributes:
+        - name: Name
+          description: The city's common name
+          type: text
+          textTypeOptions:
+            minLength: 2
+            maxLength: 63
+            isLocalized: true
+          isRequired: true  
