@@ -74,8 +74,6 @@ public class NoxIntegration: INoxIntegration
             case IntegrationTargetAdapterType.DatabaseTable:
                 postProcessDestination = source.LinkToDatabaseTable((INoxDatabaseSendAdapter)SendAdapter, IdColumns, DateColumns);
                 break;
-            case IntegrationTargetAdapterType.StoredProcedure:
-                break;
             default:
                 throw new NotImplementedException($"Send adapter type: {Enum.GetName(SendAdapter!.AdapterType)} has not been implemented!");
         }

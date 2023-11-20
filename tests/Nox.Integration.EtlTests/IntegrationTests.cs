@@ -60,7 +60,7 @@ public class IntegrationTests
             }
         };
 
-        var integration = new NoxIntegration(definition.Name, definition.Description)
+        var integration = new NoxIntegration(loggerFactory, definition)
             .WithReceiveAdapter(new IntegrationSource
             {
                 Name = "TestSource",
@@ -97,7 +97,7 @@ public class IntegrationTests
                 DataConnectionName = "EtlSample"
             }, dataConnections);
 
-        var context = new NoxIntegrationContext(new NoxSolution());
+        var context = new NoxIntegrationContext(loggerFactory, new NoxSolution());
         context.AddIntegration(integration);
         var result = await context.ExecuteIntegrationAsync("EtlTest");
         Assert.True(result);

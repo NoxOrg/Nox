@@ -56,7 +56,7 @@ public static class IntegrationContextExtensions
         {
             case IntegrationTargetAdapterType.DatabaseTable:
                 var dataConnection = ProcessDatabaseTargetDefinition(targetDefinition, dataConnections);
-                instance.WithDatabaseSendAdapter(targetDefinition.DatabaseOptions!, dataConnection);
+                instance.WithDatabaseTableSendAdapter(targetDefinition.TableOptions!, dataConnection);
                 break;
         }
         return instance;
