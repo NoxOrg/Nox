@@ -78,7 +78,7 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// <summary>
     /// Country Country workplaces ZeroOrMany Workplaces
     /// </summary>
-    public virtual List<System.UInt32> WorkplacesId { get; set; } = new();
+    public virtual List<System.Int64> WorkplacesId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<WorkplaceCreateDto> Workplaces { get; set; } = new();
@@ -86,7 +86,7 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalNameCreateDto> CountryShortNames { get; set; } = new();
+    public virtual List<CountryLocalNameCreateDto> CountryLocalNames { get; set; } = new();
 
     /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes

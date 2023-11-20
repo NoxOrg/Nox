@@ -211,68 +211,68 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
     public virtual void DeleteAllRefToMinimumCashStocks()
     {
         MinimumCashStocks.Clear();
-    }
+    }﻿
 
     /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes
     /// </summary>
-    public virtual List<BankNote> CurrencyCommonBankNotes { get; private set; } = new();
+    public virtual List<BankNote> BankNotes { get; private set; } = new();
     
     /// <summary>
     /// Creates a new BankNote entity.
     /// </summary>
-    public virtual void CreateRefToCurrencyCommonBankNotes(BankNote relatedBankNote)
+    public virtual void CreateRefToBankNotes(BankNote relatedBankNote)
     {
-        CurrencyCommonBankNotes.Add(relatedBankNote);
+        BankNotes.Add(relatedBankNote);
     }
     
     /// <summary>
     /// Deletes owned BankNote entity.
     /// </summary>
-    public virtual void DeleteRefToCurrencyCommonBankNotes(BankNote relatedBankNote)
+    public virtual void DeleteRefToBankNotes(BankNote relatedBankNote)
     {
-        CurrencyCommonBankNotes.Remove(relatedBankNote);
+        BankNotes.Remove(relatedBankNote);
     }
     
     /// <summary>
     /// Deletes all owned BankNote entities.
     /// </summary>
-    public virtual void DeleteAllRefToCurrencyCommonBankNotes()
+    public virtual void DeleteAllRefToBankNotes()
     {
-        CurrencyCommonBankNotes.Clear();
-    }
+        BankNotes.Clear();
+    }﻿
 
     /// <summary>
     /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
-    public virtual List<ExchangeRate> CurrencyExchangedFromRates { get; private set; } = new();
+    public virtual List<ExchangeRate> ExchangeRates { get; private set; } = new();
     
     /// <summary>
     /// Creates a new ExchangeRate entity.
     /// </summary>
-    public virtual void CreateRefToCurrencyExchangedFromRates(ExchangeRate relatedExchangeRate)
+    public virtual void CreateRefToExchangeRates(ExchangeRate relatedExchangeRate)
     {
-        CurrencyExchangedFromRates.Add(relatedExchangeRate);
+        ExchangeRates.Add(relatedExchangeRate);
     }
     
     /// <summary>
     /// Deletes owned ExchangeRate entity.
     /// </summary>
-    public virtual void DeleteRefToCurrencyExchangedFromRates(ExchangeRate relatedExchangeRate)
+    public virtual void DeleteRefToExchangeRates(ExchangeRate relatedExchangeRate)
     {
-        if(CurrencyExchangedFromRates.Count() < 2)
+        if(ExchangeRates.Count() < 2)
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        CurrencyExchangedFromRates.Remove(relatedExchangeRate);
+        ExchangeRates.Remove(relatedExchangeRate);
     }
     
     /// <summary>
     /// Deletes all owned ExchangeRate entities.
     /// </summary>
-    public virtual void DeleteAllRefToCurrencyExchangedFromRates()
+    public virtual void DeleteAllRefToExchangeRates()
     {
-        if(CurrencyExchangedFromRates.Count() < 2)
+        if(ExchangeRates.Count() < 2)
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        CurrencyExchangedFromRates.Clear();
+        ExchangeRates.Clear();
     }
 
     /// <summary>

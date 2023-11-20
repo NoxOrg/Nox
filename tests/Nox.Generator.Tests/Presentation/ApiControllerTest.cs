@@ -42,7 +42,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         CheckController("CompoundKeysEntitiesController", contentCheckerFlow);
     }
 
-    private void CheckController(string controllerName, IGeneratorContentTestFlow contentCheckerFlow)
+    private static void CheckController(string controllerName, IGeneratorContentTestFlow contentCheckerFlow)
     {
         var controllerFileName = $"Presentation.Api.OData.{controllerName}.g.cs";
         var controllerEntityFileName = $"Presentation.Api.OData.{controllerName}.Entity.g.cs";

@@ -31,8 +31,8 @@ internal static class CountryExtensions
         dto.SetIfNotNull(entity?.Commissions, (dto) => dto.Commissions = entity!.Commissions.Select(e => e.ToDto()).ToList());
         dto.SetIfNotNull(entity?.VendingMachines, (dto) => dto.VendingMachines = entity!.VendingMachines.Select(e => e.ToDto()).ToList());
         dto.SetIfNotNull(entity?.Customers, (dto) => dto.Customers = entity!.Customers.Select(e => e.ToDto()).ToList());
-        dto.SetIfNotNull(entity?.CountryOwnedTimeZones, (dto) => dto.CountryOwnedTimeZones = entity!.CountryOwnedTimeZones.Select(e => e.ToDto()).ToList());
-        dto.SetIfNotNull(entity?.CountryOwnedHolidays, (dto) => dto.CountryOwnedHolidays = entity!.CountryOwnedHolidays.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.CountryTimeZones, (dto) => dto.CountryTimeZones = entity!.CountryTimeZones.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.Holidays, (dto) => dto.Holidays = entity!.Holidays.Select(e => e.ToDto()).ToList());
 
         return dto;
     }

@@ -70,8 +70,8 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         entity.MinorName = Cryptocash.Domain.CurrencyMetadata.CreateMinorName(createDto.MinorName);
         entity.MinorSymbol = Cryptocash.Domain.CurrencyMetadata.CreateMinorSymbol(createDto.MinorSymbol);
         entity.MinorToMajorValue = Cryptocash.Domain.CurrencyMetadata.CreateMinorToMajorValue(createDto.MinorToMajorValue);
-        createDto.CurrencyCommonBankNotes.ForEach(dto => entity.CreateRefToCurrencyCommonBankNotes(BankNoteFactory.CreateEntity(dto)));
-        createDto.CurrencyExchangedFromRates.ForEach(dto => entity.CreateRefToCurrencyExchangedFromRates(ExchangeRateFactory.CreateEntity(dto)));
+        createDto.BankNotes.ForEach(dto => entity.CreateRefToBankNotes(BankNoteFactory.CreateEntity(dto)));
+        createDto.ExchangeRates.ForEach(dto => entity.CreateRefToExchangeRates(ExchangeRateFactory.CreateEntity(dto)));
         return entity;
     }
 

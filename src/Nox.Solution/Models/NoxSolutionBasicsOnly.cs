@@ -7,14 +7,14 @@ namespace Nox.Solution;
 /// A bare-bones version of a NoxSolution for pre-deserialization processing
 /// for environment variable and secret processing.
 /// </summary>
-public class NoxSolutionBasicsOnly : DefinitionBase
+public class NoxSolutionBasicsOnly
 {
     public IReadOnlyDictionary<string, object>? Variables { get; internal set; }
 
     public InfrastructureBasicsOnly? Infrastructure { get; internal set; }
 }
 
-public class InfrastructureBasicsOnly : DefinitionBase
+public class InfrastructureBasicsOnly
 {
     public SecurityBasicsOnly? Security { get; internal set; }
 }

@@ -17,7 +17,7 @@ using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 
-public record UpdateWorkplaceCommand(System.UInt32 keyId, WorkplaceUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<WorkplaceKeyDto?>;
+public record UpdateWorkplaceCommand(System.Int64 keyId, WorkplaceUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<WorkplaceKeyDto?>;
 
 internal partial class UpdateWorkplaceCommandHandler : UpdateWorkplaceCommandHandlerBase
 {

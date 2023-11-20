@@ -1,7 +1,10 @@
 ﻿using Humanizer;
 using Nox.Solution.Extensions;
 using Nox.Types;
+using Nox.Yaml;
 using Nox.Yaml.Attributes;
+using Nox.Yaml.Validation;
+using System.Linq;
 using YamlDotNet.Serialization;
 
 namespace Nox.Solution;
@@ -10,12 +13,12 @@ namespace Nox.Solution;
 [Title("Defines a one way relationship to another entity.")]
 [Description("Defines a one way relationship to another entity. It is required to define the reverse relationship on the target entity.")]
 [AdditionalProperties(false)]
-public class EntityRelationship : DefinitionBase
+public class EntityRelationship : YamlConfigNode<NoxSolution,Entity>
 {
     [Required]
     [Title("The name of the relationship. Contains no spaces.")]
     [Description("The name of the relationship, usually in the format EntityRelationshipTargetEntity. Eg \"CountryHasCapitalCity\".")]
-    [Pattern(@"^[^\s]*$")]
+    [Pattern(Nox.Yaml.Constants.StringWithNoSpacesRegex)]
     public string Name { get; internal set; } = null!;
 
     [Required]
@@ -31,6 +34,11 @@ public class EntityRelationship : DefinitionBase
     [Required]
     [Title("The target entity that relates to this entity.")]
     [Description("The name of the target entity that this entity relates to.")]
+    [ExistInCollection(
+        nameof(NoxSolution.Domain),
+        nameof(NoxSolution.Domain.Entities),
+        nameof(Solution.Entity.Name)
+    )]
     public string Entity { get; internal set; } = null!;
 
     public TypeUserInterface? UserInterface { get; internal set; }
@@ -69,6 +77,7 @@ public class EntityRelationship : DefinitionBase
 
     [YamlIgnore]
     public virtual RelatedEntityInfo Related { get; internal set; } = new();
+
 }
 
 public class RelatedEntityInfo

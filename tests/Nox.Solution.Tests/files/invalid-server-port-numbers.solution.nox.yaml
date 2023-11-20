@@ -1,0 +1,36 @@
+﻿#
+# invalid-server-port-numbers.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+name: InvalidServerPortSolution
+
+infrastructure:
+  
+  persistence:
+
+    databaseServer:
+      name: SampleCurrencyDb
+      serverUri: sqlserver.iwgplc.com
+      provider: sqlServer
+      port: 1433
+      user: sqluser
+      password: sqlpassword
+
+    cacheServer:
+      name: SampleCache
+      provider: azureRedis
+      serverUri: redis.iwgplc.com
+      port: 99999
+      user: RedisUser
+      password: RedisPassword
+    
+    eventSourceServer:
+      name: SampleEvtSrc
+      serverUri: SampleEvt.iwgplc.com
+      provider: eventStoreDb
+      port: -1
+      user: EvtUser
+      password: EvtPassword
+

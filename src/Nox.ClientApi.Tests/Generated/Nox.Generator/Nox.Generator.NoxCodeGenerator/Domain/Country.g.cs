@@ -171,36 +171,36 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     public virtual void DeleteAllRefToWorkplaces()
     {
         Workplaces.Clear();
-    }
+    }﻿
 
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalName> CountryShortNames { get; private set; } = new();
+    public virtual List<CountryLocalName> CountryLocalNames { get; private set; } = new();
     
     /// <summary>
     /// Creates a new CountryLocalName entity.
     /// </summary>
-    public virtual void CreateRefToCountryShortNames(CountryLocalName relatedCountryLocalName)
+    public virtual void CreateRefToCountryLocalNames(CountryLocalName relatedCountryLocalName)
     {
-        CountryShortNames.Add(relatedCountryLocalName);
+        CountryLocalNames.Add(relatedCountryLocalName);
     }
     
     /// <summary>
     /// Deletes owned CountryLocalName entity.
     /// </summary>
-    public virtual void DeleteRefToCountryShortNames(CountryLocalName relatedCountryLocalName)
+    public virtual void DeleteRefToCountryLocalNames(CountryLocalName relatedCountryLocalName)
     {
-        CountryShortNames.Remove(relatedCountryLocalName);
+        CountryLocalNames.Remove(relatedCountryLocalName);
     }
     
     /// <summary>
     /// Deletes all owned CountryLocalName entities.
     /// </summary>
-    public virtual void DeleteAllRefToCountryShortNames()
+    public virtual void DeleteAllRefToCountryLocalNames()
     {
-        CountryShortNames.Clear();
-    }
+        CountryLocalNames.Clear();
+    }﻿
 
     /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes

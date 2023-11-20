@@ -157,12 +157,12 @@ Workplace|[Workplace](#Workplace-Attributes)|Workplace
 ### `Workplace Attributes`
 Member|Type|Description
 ------|----|-----------
-Id|System.UInt32|Workplace unique identifier
+Id|System.Int64|Workplace unique identifier
 Name|System.String|Workplace Name
 Description|System.String|Workplace Description
 Greeting|System.String|The Formula
 CountryId|System.Int64|The unique identifier
-TenantId|System.Guid|
+TenantId|System.UInt32|
 
 
 ### `StoreOwnerCreated`

@@ -22,7 +22,7 @@ internal abstract class CountryLocalizedFactoryBase : IEntityLocalizedFactory<Co
     {
         var localizedEntity = new CountryLocalized
         {
-            Id = entity.Id,
+            Country = entity,
             CultureCode = cultureCode,
         };
 

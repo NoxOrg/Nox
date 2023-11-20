@@ -268,68 +268,68 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     public virtual void DeleteAllRefToCustomers()
     {
         Customers.Clear();
-    }
+    }﻿
 
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryTimeZone> CountryOwnedTimeZones { get; private set; } = new();
+    public virtual List<CountryTimeZone> CountryTimeZones { get; private set; } = new();
     
     /// <summary>
     /// Creates a new CountryTimeZone entity.
     /// </summary>
-    public virtual void CreateRefToCountryOwnedTimeZones(CountryTimeZone relatedCountryTimeZone)
+    public virtual void CreateRefToCountryTimeZones(CountryTimeZone relatedCountryTimeZone)
     {
-        CountryOwnedTimeZones.Add(relatedCountryTimeZone);
+        CountryTimeZones.Add(relatedCountryTimeZone);
     }
     
     /// <summary>
     /// Deletes owned CountryTimeZone entity.
     /// </summary>
-    public virtual void DeleteRefToCountryOwnedTimeZones(CountryTimeZone relatedCountryTimeZone)
+    public virtual void DeleteRefToCountryTimeZones(CountryTimeZone relatedCountryTimeZone)
     {
-        if(CountryOwnedTimeZones.Count() < 2)
+        if(CountryTimeZones.Count() < 2)
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        CountryOwnedTimeZones.Remove(relatedCountryTimeZone);
+        CountryTimeZones.Remove(relatedCountryTimeZone);
     }
     
     /// <summary>
     /// Deletes all owned CountryTimeZone entities.
     /// </summary>
-    public virtual void DeleteAllRefToCountryOwnedTimeZones()
+    public virtual void DeleteAllRefToCountryTimeZones()
     {
-        if(CountryOwnedTimeZones.Count() < 2)
+        if(CountryTimeZones.Count() < 2)
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        CountryOwnedTimeZones.Clear();
-    }
+        CountryTimeZones.Clear();
+    }﻿
 
     /// <summary>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<Holiday> CountryOwnedHolidays { get; private set; } = new();
+    public virtual List<Holiday> Holidays { get; private set; } = new();
     
     /// <summary>
     /// Creates a new Holiday entity.
     /// </summary>
-    public virtual void CreateRefToCountryOwnedHolidays(Holiday relatedHoliday)
+    public virtual void CreateRefToHolidays(Holiday relatedHoliday)
     {
-        CountryOwnedHolidays.Add(relatedHoliday);
+        Holidays.Add(relatedHoliday);
     }
     
     /// <summary>
     /// Deletes owned Holiday entity.
     /// </summary>
-    public virtual void DeleteRefToCountryOwnedHolidays(Holiday relatedHoliday)
+    public virtual void DeleteRefToHolidays(Holiday relatedHoliday)
     {
-        CountryOwnedHolidays.Remove(relatedHoliday);
+        Holidays.Remove(relatedHoliday);
     }
     
     /// <summary>
     /// Deletes all owned Holiday entities.
     /// </summary>
-    public virtual void DeleteAllRefToCountryOwnedHolidays()
+    public virtual void DeleteAllRefToHolidays()
     {
-        CountryOwnedHolidays.Clear();
+        Holidays.Clear();
     }
 
     /// <summary>

@@ -11,7 +11,7 @@ public class Integration
     [Required]
     [Title("The name of the ETL integration. Contains no spaces.")]
     [Description("The name of the ETL integration. It should be a commonly used singular noun and be unique within a solution.")]
-    [Pattern(@"^[^\s]*$")]
+    [Pattern(Nox.Yaml.Constants.StringWithNoSpacesRegex)]
     public string Name { get; set; } = null!;
 
     [Title("A phrase describing the objective of the ETL data integration.")]
@@ -20,6 +20,9 @@ public class Integration
     
     [Required]
     public IntegrationSchedule? Schedule { get; internal set; }
+    
+    [Required] 
+    public IntegrationMergeType MergeType { get; internal set; } = IntegrationMergeType.MergeNew;
 
     [Required]
     public IntegrationSource Source { get; internal set; } = null!;

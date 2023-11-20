@@ -54,19 +54,21 @@ internal abstract partial class TenantBase : EntityBase, IEntityConcurrent
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Guid Id {get; set;} = null!;
-         /// <summary>
-        /// Ensures that a Guid Id is set or will be generate a new one
-        /// </summary>
-    	public virtual void EnsureId(System.Guid guid)
+    public Nuid Id {get; set;} = null!;
+       
+    	public virtual void EnsureId()
     	{
-    		if(System.Guid.Empty.Equals(guid))
+    		if(Id is null)
     		{
-    			Id = Nox.Types.Guid.From(System.Guid.NewGuid());
+    			Id = Nuid.From("Tenant-" + string.Join("-", Name.Value.ToString()));
     		}
     		else
     		{
-    			Id = Nox.Types.Guid.From(guid);
+    			var currentNuid = Nuid.From("Tenant-" + string.Join("-", Name.Value.ToString()));
+    			if(Id != currentNuid)
+    			{
+    				throw new NoxNuidTypeException("Immutable nuid property Id value is different since it has been initialized");
+    			}
     		}
     	}
 

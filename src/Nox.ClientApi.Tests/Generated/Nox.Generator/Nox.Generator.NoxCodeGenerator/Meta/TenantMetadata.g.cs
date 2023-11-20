@@ -17,10 +17,23 @@ public partial class TenantMetadata
 {
     
         /// <summary>
+        /// Type options for property 'Id'
+        /// </summary>
+        public static Nox.Types.NuidTypeOptions IdTypeOptions {get; private set;} = new ()
+        {
+            Separator = "-",
+            PropertyNames = new System.String[]
+            {
+                "Name",
+            },
+        };
+    
+    
+        /// <summary>
         /// Factory for property 'Id'
         /// </summary>
-        public static Nox.Types.Guid CreateId(System.Guid value)
-            => Nox.Types.Guid.From(value);
+        public static Nox.Types.Nuid CreateId(System.UInt32 value)
+            => Nox.Types.Nuid.From(value, IdTypeOptions);
         
     
         /// <summary>
@@ -44,23 +57,10 @@ public partial class TenantMetadata
         
     
         /// <summary>
-        /// Type options for property 'WorkplaceId'
-        /// </summary>
-        public static Nox.Types.NuidTypeOptions WorkplaceIdTypeOptions {get; private set;} = new ()
-        {
-            Separator = "-",
-            PropertyNames = new System.String[]
-            {
-                "Name",
-            },
-        };
-    
-    
-        /// <summary>
         /// Factory for property 'WorkplaceId'
         /// </summary>
-        public static Nox.Types.Nuid CreateWorkplaceId(System.UInt32 value)
-            => Nox.Types.Nuid.From(value, WorkplaceIdTypeOptions);
+        public static Nox.Types.AutoNumber CreateWorkplaceId(System.Int64 value)
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
 
         /// <summary>

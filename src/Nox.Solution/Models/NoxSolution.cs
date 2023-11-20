@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-using Nox.Solution.Validation;
-using Nox.Types;
+﻿using Nox.Types;
 using Nox.Types.Extensions;
 using Nox.Yaml;
 using Nox.Yaml.Attributes;
@@ -28,7 +26,6 @@ public class NoxSolution : YamlConfigNode<NoxSolution>
     [Description("Identify a Platform, that is a set of different services. Use to produce a unique Uri, by encoding the provided value.")]
     public string PlatformId { get; set; } = null!;
 
-
     [Title("The version of the NOX solution. Expected a Semantic Version format.")]
     [Description("Required, but if not defined default 1.0.")]
     [Pattern(Nox.Yaml.Constants.VersionStringRegex)]
@@ -55,13 +52,12 @@ public class NoxSolution : YamlConfigNode<NoxSolution>
     [Description("Definitions for the name, production status and other pertinent information pertaining to run-time environments.")]
     [AdditionalProperties(false)]
     [UniqueItemProperties(nameof(Environment.Name))]
-
     public IReadOnlyList<Environment>? Environments { get; internal set; }
 
     public VersionControl? VersionControl { get; internal set; }
-
     [Title("Information about the team working on this solution.")]
     [Description("Specify the members of the team working on the solution including their respective roles.")]
+    [UniqueItemProperties(nameof(TeamMember.Name))]
     [AdditionalProperties(false)]
     public IReadOnlyList<TeamMember>? Team { get; internal set; }
 
@@ -72,10 +68,14 @@ public class NoxSolution : YamlConfigNode<NoxSolution>
     public Application? Application { get; internal set; } = new Application();
 
     [YamlIgnore]
-    public string? RootYamlFile { get; internal set; }
+    public IReadOnlyList<DataConnection> DataConnections => _dataConnections.Values.ToList();
 
-    [YamlIgnore]
-    public string? RawYamlContent { get; internal set; }
+    public override void Initialize(NoxSolution topNode, NoxSolution parentNode, string yamlPath)
+    {
+        IntializeEntityNamesAndOwners();
+        InitializeEntityWithOwners();
+        InitializeFullDataConnectionList();
+    }
 
     public override void SetDefaults(NoxSolution topNode, NoxSolution parentNode, string yamlPath)
     {
@@ -87,36 +87,42 @@ public class NoxSolution : YamlConfigNode<NoxSolution>
 
     }
 
-    // Dictionary containing owned entity names and their parent entity
+    public override ValidationResult Validate(NoxSolution topNode, NoxSolution parentNode, string yamlPath)
+    {
+        var result = base.Validate(topNode,parentNode,yamlPath);
+
+        return result;
+    }
+
     private Dictionary<string, Entity> _ownedEntities = new();
 
-    // Dictionary containing all data connections including persistence
-    private Dictionary<string, DataConnection> _dataConnections = new();
-
-    public override void Initialize(NoxSolution topNode, NoxSolution parentNode, string yamlPath)
+    private void IntializeEntityNamesAndOwners()
     {
-        // build map of entity names and owners (Entity)
-
         _ownedEntities = Domain?.Entities
             .Where(e => e.OwnedRelationships is not null)
             .SelectMany(e => e.OwnedRelationships, (e, r) => new { Entity = e, Relationship = r })
             .GroupBy(o => o.Relationship.Entity)
             .ToDictionary(g => g.Key, g => g.ElementAt(0).Entity)
             ?? _ownedEntities;
+    }
 
-        // Set the owner of each entity if it has one
-
+    private void InitializeEntityWithOwners()
+    {
         Domain?.Entities.ToList().ForEach(e =>
         {
-            e.IsOwnedEntity = IsOwnedEntity(e);
+            e.IsOwnedEntity = _ownedEntities.ContainsKey(e.Name);
             if (e.IsOwnedEntity)
             {
-                e.OwnerEntity = GetEntityOwner(e);
+                if (_ownedEntities.TryGetValue(e.Name, out var result))
+                    e.OwnerEntity = result;
             }
         });
+    }
 
-        // Build full DataConnection list
+    private Dictionary<string, DataConnection> _dataConnections = new();
 
+    private void InitializeFullDataConnectionList()
+    {
         IEnumerable<DataConnection> dataConnections =
             Infrastructure?.Dependencies?.DataConnections
             ?? Enumerable.Empty<DataConnection>();
@@ -138,42 +144,6 @@ public class NoxSolution : YamlConfigNode<NoxSolution>
         }
 
         _dataConnections = dataConnections.ToDictionary(d => d.Name, d => d);
-
-    }
-
-    public override ValidationResult Validate(NoxSolution topNode, NoxSolution parentNode, string yamlPath)
-    {
-        var result = new ValidationResult();
-
-        // Backwards compatibility, executes fluent validator
-        // TODO: refactor this into the new Validate and SetDefault mechanisms
-        var validator = new SolutionValidator();
-        var fluentResult = validator.Validate(this);
-        if (fluentResult is not null)
-        {
-            foreach (var error in fluentResult.Errors)
-            {
-                result.Errors.Add(new ValidationFailure(string.Empty, error.ErrorMessage));
-            }
-        }
-        // END
-
-        return result;
-    }
-
-    internal bool HasDataConnectionWithName(string name)
-        => _dataConnections.ContainsKey(name);
-
-    internal bool IsOwnedEntity(Entity entity)
-        => _ownedEntities.ContainsKey(entity.Name);
-
-    internal Entity? GetEntityOwner(Entity entity)
-    {
-        if (_ownedEntities.TryGetValue(entity.Name, out var result))
-        {
-            return result;
-        }
-        return null;
     }
 
     /// <summary>

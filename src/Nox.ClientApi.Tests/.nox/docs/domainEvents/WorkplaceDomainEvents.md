@@ -12,12 +12,12 @@ This event is triggered when a new Workplace is created.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|Nuid|Workplace unique identifier
+Id|AutoNumber|Workplace unique identifier
 Name|Text|Workplace Name
 Description|Text|Workplace Description
 Greeting|Formula|The Formula
 CountryId|AutoNumber|The unique identifier
-TenantId|Guid|
+TenantId|Nuid|
 
 
 ### `WorkplaceUpdated`
@@ -28,12 +28,12 @@ This event is triggered when an existing Workplace is updated.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|Nuid|Workplace unique identifier
+Id|AutoNumber|Workplace unique identifier
 Name|Text|Workplace Name
 Description|Text|Workplace Description
 Greeting|Formula|The Formula
 CountryId|AutoNumber|The unique identifier
-TenantId|Guid|
+TenantId|Nuid|
 
 
 ### `WorkplaceDeleted`
@@ -44,10 +44,10 @@ This event is triggered when an existing Workplace is deleted.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|Nuid|Workplace unique identifier
+Id|AutoNumber|Workplace unique identifier
 Name|Text|Workplace Name
 Description|Text|Workplace Description
 Greeting|Formula|The Formula
 CountryId|AutoNumber|The unique identifier
-TenantId|Guid|
+TenantId|Nuid|
 

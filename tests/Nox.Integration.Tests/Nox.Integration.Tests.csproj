@@ -28,11 +28,10 @@
 		<RemoveDir Directories="Generated" />
 	</Target>
 
-	<ItemGroup>
-		<Compile Remove="Application\**" />
-		<Compile Remove="Generated\**" />
-		<Content Include="Generated\**" />
-	</ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Generated\**" />
+    <Content Include="Generated\**" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<AdditionalFiles Include=".\.nox\design\**\*.yaml" LinkBase="Design">
@@ -48,10 +47,6 @@
 
 	<ItemGroup>
 		<AdditionalFiles Include="generator.nox.yaml" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Generated\" />
 	</ItemGroup>
 
 	<ItemGroup>

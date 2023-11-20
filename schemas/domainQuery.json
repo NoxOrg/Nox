@@ -46,7 +46,7 @@
       ],
       "items":   {
         "anyOf": [
-          { "$ref": "dto.json" },
+          { "$ref": "domainQueryRequestInput.json" },
           {
             "additionalProperties": false, 
             "properties": {
@@ -63,7 +63,7 @@
     },
     "responseOutput": {    
       "anyOf": [
-        { "$ref": "dto.json" },
+        { "$ref": "domainQueryResponseOutput.json" },
         {
           "additionalProperties": false, 
           "properties": {

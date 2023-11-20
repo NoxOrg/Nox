@@ -3,7 +3,7 @@ using Nox.Yaml.Attributes;
 
 namespace Nox.Solution;
 
-[GenerateJsonSchema("dto")]
+[GenerateJsonSchema]
 public class DomainQueryRequestInput : NoxComplexTypeDefinition
 {
     

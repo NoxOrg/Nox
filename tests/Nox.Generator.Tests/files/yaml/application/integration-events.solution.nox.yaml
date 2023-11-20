@@ -7,7 +7,7 @@ application:
     - name: CountryNameChangedAppEvent
       description: An application event raised when the name of a country changes
       type: object
-      trait: Country
+      domainContext: Country
       objectTypeOptions:
         attributes:
           - name: CountryId
@@ -21,7 +21,7 @@ application:
     - name: CountryLocalNamesAddedEvent
       description: An integration event raised when new local names are added to a country
       type: collection
-      trait: Country
+      domainContext: Country
       collectionTypeOptions:
         name: CountryLocalNameInfo
         type: object
@@ -38,7 +38,7 @@ application:
     - name: CountryCurrenciesAddedEvent
       description: An integration event raised when multiple currencies are added
       type: array
-      trait: Country
+      domainContext: Country
       arrayTypeOptions:
         name: CurrencyInfo
         type: object

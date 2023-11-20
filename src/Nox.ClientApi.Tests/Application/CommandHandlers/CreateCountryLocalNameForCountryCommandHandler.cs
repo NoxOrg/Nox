@@ -5,15 +5,15 @@ namespace ClientApi.Application.Commands;
 /// <summary>
 /// Example how to add an additional property to a command
 /// </summary>
-public partial record CreateCountryLocalNameForCountryCommand
+public partial record CreateCountryLocalNamesForCountryCommand
 {
     public string CustomField { get; set; } = string.Empty;
 }
 
 
-internal partial class CreateCountryLocalNameForCountryCommandHandler
+internal partial class CreateCountryLocalNamesForCountryCommandHandler
 {
-    public override async Task<CountryLocalNameKeyDto?> Handle(CreateCountryLocalNameForCountryCommand request, CancellationToken cancellationToken)
+    public override async Task<CountryLocalNameKeyDto?> Handle(CreateCountryLocalNamesForCountryCommand request, CancellationToken cancellationToken)
     {
         /// Example how to use the custom field added to the default request
         if(string.IsNullOrEmpty(request.CustomField))

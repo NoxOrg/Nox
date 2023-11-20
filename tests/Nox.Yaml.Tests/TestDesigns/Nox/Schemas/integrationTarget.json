@@ -3,11 +3,6 @@
   "title": "Definition namespace for attributes describing the target component of an integration integration.",
   "description": "This section details integration target attributes like name, description and type among other.",
   "type": "object",
-  "required": [
-    "name",
-    "targetAdapterType",
-    "dataConnectionName"
-  ],
   "anyOf": [
     {
       "required": [

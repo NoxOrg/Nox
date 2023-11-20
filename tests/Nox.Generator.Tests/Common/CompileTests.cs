@@ -42,17 +42,17 @@ public class CompileTests : IClassFixture<GeneratorFixture>
             _testOutputHelper.WriteLine(diagnostic.Location.SourceTree?.ToString() ?? "No source tree");
             _testOutputHelper.WriteLine(new string('*', 120));
         }
-        
-        if(diagnostics.Count > 0)
+
+        if (diagnostics.Count > 0)
             GenerateAllFiles(result.Sources);
 
         diagnostics
             .Should()
             .BeEmpty();
-        
+
     }
 
-    private static CSharpCompilation CreateCompilation(IDictionary<string,string> sources,
+    private static CSharpCompilation CreateCompilation(IDictionary<string, string> sources,
         IEnumerable<MetadataReference> references)
     {
         var globalUsingFileContent =
@@ -88,6 +88,8 @@ global using global::Microsoft.AspNetCore.Builder;";
         AddMetadataReferenceFromDlls(Path.GetDirectoryName(typeof(JsonDocument).Assembly.Location)!, referencePaths, references);
         
         AddMetadataReferenceFromDlls(Path.GetDirectoryName(typeof(System.ComponentModel.DataAnnotations.DataTypeAttribute).Assembly.Location)!, referencePaths, references);
+
+        AddMetadataReferenceFromDlls(Path.GetDirectoryName(typeof(System.ComponentModel.Component).Assembly.Location)!, referencePaths, references);
 
         return references;
     }
@@ -172,23 +174,21 @@ global using global::Microsoft.AspNetCore.Builder;";
         return true;
     }
 
-    private  void GenerateAllFiles(IDictionary<string,string> sources)
+    private void GenerateAllFiles(IDictionary<string, string> sources)
     {
         if (!Directory.Exists(BasePath))
         {
             Directory.CreateDirectory(BasePath);
-        } 
+        }
         foreach (var source in sources)
         {
             var path = Path.Combine(BasePath, source.Key);
-            var filePath = Path.Combine(BasePath, source.Key);
+            var directoryPath = Path.GetDirectoryName(path);
 
-            File.WriteAllText(path, source.Value);
-            var directoryPath = Path.GetDirectoryName(filePath);
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath!);
 
-            File.WriteAllText(filePath, source.Value);
+            File.WriteAllText(path, source.Value);
         }
     }
 }

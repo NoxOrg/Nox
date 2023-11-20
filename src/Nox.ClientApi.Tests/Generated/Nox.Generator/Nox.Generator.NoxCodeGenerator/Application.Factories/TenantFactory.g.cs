@@ -52,13 +52,14 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
     {
         var entity = new ClientApi.Domain.Tenant();
         entity.Name = ClientApi.Domain.TenantMetadata.CreateName(createDto.Name);
-        entity.EnsureId(createDto.Id);
+		entity.EnsureId();
         return entity;
     }
 
     private void UpdateEntityInternal(TenantEntity entity, TenantUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = ClientApi.Domain.TenantMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
+		entity.EnsureId();
     }
 
     private void PartialUpdateEntityInternal(TenantEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -74,6 +75,7 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
                 entity.Name = ClientApi.Domain.TenantMetadata.CreateName(NameUpdateValue);
             }
         }
+		entity.EnsureId();
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)

@@ -6,7 +6,7 @@ namespace Nox.Integration.Adapters;
 
 public class SqlServerSendAdapter: INoxDatabaseSendAdapter
 {
-    public IntegrationAdapterType AdapterType => IntegrationAdapterType.Database;
+    public IntegrationTargetAdapterType AdapterType => IntegrationTargetAdapterType.DatabaseTable;
     public string StoredProcedure { get; }
     public IConnectionManager ConnectionManager { get; }
 

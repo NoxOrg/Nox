@@ -87,7 +87,7 @@ internal abstract partial class TestEntityOwnedRelationshipZeroOrOneBase : Audit
     public virtual void ClearDomainEvents()
     {
         InternalDomainEvents.Clear();
-    }
+    }﻿
 
     /// <summary>
     /// TestEntityOwnedRelationshipZeroOrOne Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrOne ZeroOrOne SecondTestEntityOwnedRelationshipZeroOrOnes

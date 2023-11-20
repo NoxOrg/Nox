@@ -13,7 +13,7 @@ using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
 
-public partial record DeleteTenantByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteTenantByIdCommand(System.UInt32 keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteTenantByIdCommandHandler : DeleteTenantByIdCommandHandlerBase
 {

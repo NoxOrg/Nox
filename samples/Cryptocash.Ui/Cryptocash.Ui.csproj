@@ -34,4 +34,142 @@
     <ProjectReference Include="..\Cryptocash.Api\Cryptocash.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="..\.nox\design\application\cryptocash.application.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\application\cryptocash.application.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\application\integrations\CountrySync.integration.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\application\integrations\CountrySync.integration.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\cryptocash.solution.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\cryptocash.solution.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\cryptocash.domain.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\cryptocash.domain.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\BankNote.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\BankNote.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\Booking.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\Booking.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\CashStockOrder.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\CashStockOrder.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\Commission.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\Commission.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\Country.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\Country.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\CountryTimeZone.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\CountryTimeZone.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\Currency.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\Currency.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\Customer.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\Customer.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\Employee.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\Employee.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\EmployeePhoneNumber.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\EmployeePhoneNumber.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\ExchangeRate.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\ExchangeRate.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\Holiday.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\Holiday.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\Landlord.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\Landlord.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\MinimumCashStock.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\MinimumCashStock.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\PaymentDetail.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\PaymentDetail.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\PaymentProvider.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\PaymentProvider.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\Transaction.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\Transaction.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\domain\entities\VendingMachine.entity.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\domain\entities\VendingMachine.entity.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\infrastructure\cryptocash.infrastructure.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\infrastructure\cryptocash.infrastructure.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\infrastructure\dependencies\cryptocash.dependencies.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\infrastructure\dependencies\cryptocash.dependencies.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\infrastructure\dependencies\dataConnections\NoxReferenceData.dataConnection.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\infrastructure\dependencies\dataConnections\NoxReferenceData.dataConnection.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\infrastructure\messaging\cryptocash.messaging.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\infrastructure\messaging\cryptocash.messaging.nox.yaml</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\.nox\design\infrastructure\persistence\cryptocash.persistence.nox.yaml">
+      <LinkBase>Design/</LinkBase>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Design\infrastructure\persistence\cryptocash.persistence.nox.yaml</Link>
+    </AdditionalFiles>
+  </ItemGroup>
+
 </Project>
