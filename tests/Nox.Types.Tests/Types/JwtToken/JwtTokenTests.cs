@@ -28,9 +28,9 @@ public class JwtTokenTests
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    public void JwtToken_Constructor_WithNullOrEmptyStringValue_ThrowsException(string value)
+    public void JwtToken_Constructor_WithNullOrEmptyStringValue_ThrowsException(string? value)
     {
-        var action = () => JwtToken.From(value);
+        var action = () => JwtToken.From(value!);
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox JWT Token type as the value cannot be null or empty.") });

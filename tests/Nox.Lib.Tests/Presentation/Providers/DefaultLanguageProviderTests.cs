@@ -128,7 +128,7 @@ public class DefaultLanguageProviderTests
     [InlineData("")]
     [InlineData("es-MX")]
     [InlineData("en-US")]
-    public void GetLanguage_WhenQueryParamIsSetWithSupportedValue_ReturnsQueryParamValue(string headerValue)
+    public void GetLanguage_WhenQueryParamIsSetWithSupportedValue_ReturnsQueryParamValue(string? headerValue)
     {
         // Arrange
         _queryParamProviderMock.Setup(x => x.GetQueryParamValue("lang")).Returns("fr-FR");

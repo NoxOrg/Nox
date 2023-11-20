@@ -1,9 +1,7 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
-using System.Reflection.Metadata.Ecma335;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.OData.Formatter.Serialization;
