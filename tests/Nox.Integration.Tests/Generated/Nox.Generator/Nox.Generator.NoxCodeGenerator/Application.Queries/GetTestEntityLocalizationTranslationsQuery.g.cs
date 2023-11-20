@@ -12,7 +12,7 @@ using TestWebApp.Infrastructure.Persistence;
 
 namespace TestWebApp.Application.Queries;
 
-public record  GetTestEntityLocalizationTranslationsQuery(System.String keyId) : IRequest <IQueryable<TestEntityLocalizationLocalizedDto>>;
+public partial record  GetTestEntityLocalizationTranslationsQuery(System.String keyId) : IRequest <IQueryable<TestEntityLocalizationLocalizedDto>>;
 
 internal partial class GetTestEntityLocalizationTranslationsQueryHandler:GetTestEntityLocalizationTranslationsQueryHandlerBase
 {

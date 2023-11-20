@@ -176,7 +176,7 @@ public enum NoxType : uint
     [SimpleType(typeof(byte))]
     Month = 4186740261,
 
-    [SimpleType(typeof(uint))]
+    [SimpleType(typeof(uint), Update = false, Create = false)]
     Nuid = 3304944825,
 
     [SimpleType(typeof(NumberTypeComponentsDiscover))]
