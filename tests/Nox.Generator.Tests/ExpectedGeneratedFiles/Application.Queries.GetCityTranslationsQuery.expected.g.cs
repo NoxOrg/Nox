@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 
 namespace SampleWebApp.Application.Queries;
 
-public record  GetCityTranslationsQuery(System.String keyId) : IRequest <IQueryable<CityLocalizedDto>>;
+public partial record  GetCityTranslationsQuery(System.String keyId) : IRequest <IQueryable<CityLocalizedDto>>;
 
 internal partial class GetCityTranslationsQueryHandler:GetCityTranslationsQueryHandlerBase
 {

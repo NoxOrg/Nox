@@ -12,7 +12,7 @@ using {{codeGeneratorState.PersistenceNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 
-public record  {{className}}({{primaryKeys}}) : IRequest <IQueryable<{{entity.Name}}LocalizedDto>>;
+public partial record  {{className}}({{primaryKeys}}) : IRequest <IQueryable<{{entity.Name}}LocalizedDto>>;
 
 internal partial class {{className}}Handler:{{className}}HandlerBase
 {
