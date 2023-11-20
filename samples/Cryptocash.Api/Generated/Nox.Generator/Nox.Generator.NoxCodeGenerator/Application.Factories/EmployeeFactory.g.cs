@@ -60,7 +60,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         entity.Address = Cryptocash.Domain.EmployeeMetadata.CreateAddress(createDto.Address);
         entity.FirstWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(createDto.FirstWorkingDay);
         entity.SetIfNotNull(createDto.LastWorkingDay, (entity) => entity.LastWorkingDay =Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(createDto.LastWorkingDay.NonNullValue<System.DateTime>()));
-        createDto.EmployeeContactPhoneNumbers.ForEach(dto => entity.CreateRefToEmployeeContactPhoneNumbers(EmployeePhoneNumberFactory.CreateEntity(dto)));
+        createDto.EmployeePhoneNumbers.ForEach(dto => entity.CreateRefToEmployeePhoneNumbers(EmployeePhoneNumberFactory.CreateEntity(dto)));
         return entity;
     }
 

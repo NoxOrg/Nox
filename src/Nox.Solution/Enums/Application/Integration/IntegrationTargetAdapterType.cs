@@ -5,7 +5,7 @@ public enum IntegrationTargetAdapterType
     DatabaseTable,
     //Uncomment these when they are implemented
     // StoredProcedure,
-    // NoxEntity,
+    // Entity,
     // File,
     // WebApi,
     // MessageQueue

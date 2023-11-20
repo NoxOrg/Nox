@@ -3,15 +3,12 @@
   "title": "Definition namespace for attributes describing the source component of an ETL integration.",
   "description": "This section details ETL source attributes like name, description, scheduling and watermark specifications.",
   "type": "object",
-  "required": [
-    "name",
-    "sourceAdapterType"
-  ],
   "anyOf": [
     {
       "required": [
         "name",
-        "sourceAdapterType"
+        "sourceAdapterType",
+        "queryOptions"
       ],
       "properties": {
         "name": {    
@@ -38,14 +35,7 @@
         "queryOptions": {    
           "title": "Definition namespace for a database integration source.",
           "description": "This section specified attributes related to an integration source of type Database. Attributes include the database query as well as minimum expected records.",
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
-          ],
+          "type": "object",
           "required": [
             "query"
           ],
@@ -60,7 +50,8 @@
               "description": "This integration will not run, as per scheduled, unless a minimum number of records in the source have changed.",
               "oneOf": [
                 {
-                  "type": "integer"
+                  "type": "integer",
+                  "minimum": 1
                 },
                 {
                   "type": "null"

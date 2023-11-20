@@ -1,8 +1,10 @@
+using Nox.Yaml;
 using Nox.Yaml.Attributes;
+using System.Linq;
 
 namespace Nox.Solution;
 
-public class IntegrationTargetStoredProcedureOptions
+public class IntegrationTargetStoredProcedureOptions : YamlConfigNode<NoxSolution, IntegrationTarget>
 {
     [Title("The stored procedure to execute.")]
     [Description("The stored procedure that will be executed on the target database.")]
@@ -12,11 +14,19 @@ public class IntegrationTargetStoredProcedureOptions
     [Description("The name of the schema in which the stored procedure resides.")]
     public string SchemaName { get; set; } = string.Empty;
 
-    internal bool ApplyDefaults(DataConnectionProvider provider)
+    public override void SetDefaults(NoxSolution topNode, IntegrationTarget parentNode, string yamlPath)
     {
+        DefaultConnectionProvider(topNode, parentNode);
+    }
+
+    internal void DefaultConnectionProvider(NoxSolution topNode, IntegrationTarget parentNode)
+    {
+        var dataConnection = topNode
+            .DataConnections.First(d => d.Name.Equals(parentNode.DataConnectionName));
+
         if (string.IsNullOrWhiteSpace(SchemaName))
         {
-            switch (provider)
+            switch (dataConnection.Provider)
             {
                 case DataConnectionProvider.Postgres:
                     SchemaName = "public";
@@ -26,7 +36,5 @@ public class IntegrationTargetStoredProcedureOptions
                     break;
             }
         }
-
-        return true;
     }
 }

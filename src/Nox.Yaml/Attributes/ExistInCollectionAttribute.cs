@@ -1,5 +1,6 @@
 ﻿using Nox.Yaml.Extensions;
 using Nox.Yaml.Parser;
+using System.IO;
 
 namespace Nox.Yaml.Attributes;
 
@@ -24,7 +25,7 @@ public class ExistInCollectionAttribute : Attribute
         _propertyKey = propertyPath.Last().ToCamelCase();
     }
 
-    internal bool IsValid(string value, Dictionary<string, (object? Value, YamlLineInfo LineInfo)> objectInstance)
+    internal bool IsValid(string value, Dictionary<string, (object? Value, YamlLineInfo LineInfo)> objectInstance, string fileInfo)
     {
         var targetNode = objectInstance;
 
@@ -33,7 +34,7 @@ public class ExistInCollectionAttribute : Attribute
         {
             if (!targetNode.ContainsKey(prop))
             {
-                throw new ArgumentException($"Invalid '{prop}' in path '{Path}'.");
+                throw new ArgumentException($"Invalid '{prop}' in path '{Path}'. {fileInfo}");
             }
 
             var element = targetNode[prop].Value;
@@ -44,7 +45,7 @@ public class ExistInCollectionAttribute : Attribute
             }
             else
             {
-                throw new ArgumentException($"Invalid '{prop}' in path '{Path}'.");
+                throw new ArgumentException($"Invalid '{prop}' in path '{Path}'. {fileInfo}");
             }
         }
 
@@ -53,7 +54,7 @@ public class ExistInCollectionAttribute : Attribute
 
         if (!targetNode.ContainsKey(collectionKey))
         {
-            throw new ArgumentException($"Invalid '{collectionKey}' in path '{Path}'.");
+            throw new ArgumentException($"Invalid '{collectionKey}' in path '{Path}'. {fileInfo}");
         }
 
         var collection = targetNode[collectionKey].Value;
@@ -66,7 +67,7 @@ public class ExistInCollectionAttribute : Attribute
                 {
                     if (!element.ContainsKey(_propertyKey))
                     {
-                        throw new ArgumentException($"Property '{_propertyKey}' not found in collection '{Path}'.");
+                        throw new ArgumentException($"Property '{_propertyKey}' not found in collection '{Path}'. {fileInfo}");
                     }
                     if (value.Equals(element[_propertyKey].Value))
                     {
@@ -77,7 +78,7 @@ public class ExistInCollectionAttribute : Attribute
         }
         else
         {
-            throw new ArgumentException($"Property '{collectionKey}' in collection '{Path}' is not a list or enumarable.");
+            throw new ArgumentException($"Property '{collectionKey}' in collection '{Path}' is not a list or enumarable. {fileInfo}");
         }
         return false;
     }

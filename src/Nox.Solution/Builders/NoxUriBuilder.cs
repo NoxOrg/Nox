@@ -13,9 +13,11 @@ public class NoxUriBuilder
 
         var isValid = Uri.TryCreate(uriString, UriKind.Absolute, out Uri? uri);
         
-        if (isValid) //contains at least a scheme and a host
+        if (isValid && uri is not null) //contains at least a scheme and a host
         {
-            if (!uri!.Scheme.Equals(scheme, StringComparison.OrdinalIgnoreCase)) throw new NoxUriBuilderException(string.Format(ValidationResources.ServerUriInvalidScheme, description, scheme));
+            if (!uri.Scheme.Equals(scheme, StringComparison.OrdinalIgnoreCase)) 
+                throw new NoxUriBuilderException($"The server definition for {description} has an invalid serverUri scheme, should be {scheme}. Unable to build a proper uri from the available attributes.");
+
             Uri = uri;
         }
         else //assume that only a host name or ip address was supplied

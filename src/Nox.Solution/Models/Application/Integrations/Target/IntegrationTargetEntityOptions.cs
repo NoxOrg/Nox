@@ -1,4 +1,5 @@
-﻿using Nox.Yaml.Attributes;
+﻿using Nox.Yaml;
+using Nox.Yaml.Attributes;
 
 namespace Nox.Solution;
 
@@ -9,5 +10,6 @@ public class IntegrationTargetEntityOptions
     [Required]
     [Title("The entity name.")]
     [Description("The name of the entity to which data will be synchronized.")]
-    public string Entity { get; set; } = null!;
+    [ExistInCollection(nameof(NoxSolution.Domain), nameof(NoxSolution.Domain.Entities), nameof(Entity.Name))]
+    public string EntityName { get; set; } = null!;
 }

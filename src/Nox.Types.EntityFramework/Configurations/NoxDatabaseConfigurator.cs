@@ -79,7 +79,7 @@ namespace Nox.Types.EntityFramework.Configurations
 
             ConfigureRelationships(CodeGenConventions, builder, entity, relationshipsToCreate);
 
-            ConfigureOwnedRelationships( CodeGenConventions, modelBuilder, builder, entity, ownedRelationshipsToCreate);
+            ConfigureOwnedRelationships(CodeGenConventions, modelBuilder, builder, entity, ownedRelationshipsToCreate);
 
             ConfigureUniqueAttributeConstraints(builder, entity);
             
@@ -215,10 +215,11 @@ namespace Nox.Types.EntityFramework.Configurations
         {
             foreach (var relationshipToCreate in ownedRelationshipsToCreate)
             {
+                var navigationPropertyName = entity.GetNavigationPropertyName(relationshipToCreate.Relationship);
                 if (relationshipToCreate.Relationship.WithSingleEntity())
                 {
                     builder
-                        .OwnsOne(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.Name, x =>
+                        .OwnsOne(relationshipToCreate.RelationshipEntityType, navigationPropertyName, x =>
                         {
                             ConfigureEntity(modelBuilder,new OwnedNavigationBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
                         });
@@ -226,7 +227,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 else
                 {
                     builder
-                        .OwnsMany(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.Name, x =>
+                        .OwnsMany(relationshipToCreate.RelationshipEntityType, navigationPropertyName, x =>
                         {
                             ConfigureEntity(modelBuilder,new OwnedNavigationBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
                         });

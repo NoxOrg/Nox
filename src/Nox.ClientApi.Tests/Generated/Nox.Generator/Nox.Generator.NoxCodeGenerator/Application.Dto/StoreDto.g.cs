@@ -117,7 +117,7 @@ public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.S
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
-    public virtual EmailAddressDto? VerifiedEmails { get; set; } = null!;
+    public virtual EmailAddressDto? EmailAddress { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

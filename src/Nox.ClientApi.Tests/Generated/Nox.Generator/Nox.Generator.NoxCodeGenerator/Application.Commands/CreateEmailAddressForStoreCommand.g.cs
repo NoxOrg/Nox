@@ -1,4 +1,5 @@
-﻿﻿// Generated
+﻿﻿
+// Generated
 
 #nullable enable
 
@@ -55,7 +56,7 @@ internal abstract class CreateEmailAddressForStoreCommandHandlerBase : CommandBa
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		parentEntity.CreateRefToVerifiedEmails(entity);
+		parentEntity.CreateRefToEmailAddress(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 

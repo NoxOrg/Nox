@@ -11,7 +11,6 @@ public class SampleClass : YamlConfigNode<SampleClass,SampleClass>
     [Required]
     [Title("Sample string property title")]
     [Description("Sample string property description")]
-    [Pattern(Constants.YamlVariableRegex)]
     public string SampleString { get; set; } = default!;
 
     [Title("Sample int property title")]

@@ -5,8 +5,9 @@ namespace Nox.Solution;
 [GenerateJsonSchema]
 [Title("The definition namespace for infrastructure components pertaining to a Nox solution.")]
 [Description("Define components pertinent to solution infrastructure here. Examples include persistence, messaging, dependencies and endpoints.")]
+[UniqueChildProperty("Name")]
 [AdditionalProperties(false)]
-public class Infrastructure : DefinitionBase
+public class Infrastructure
 {    
     // These descriptors should be moved to the class when the generator is fixed
     [Title("The definition namespace for persistance settings pertaining to a Nox solution.")]

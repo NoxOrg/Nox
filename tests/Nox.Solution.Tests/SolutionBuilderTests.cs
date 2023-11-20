@@ -49,7 +49,10 @@ public class SolutionBuilderTests
 
         var exception = Assert.Throws<NoxYamlValidationException>(noxConfigBuilder.Build);
 
-        exception.Message.Should().Contain("Solution Version doesn't satisfy pattern.");
+        exception
+            .Errors[0]
+            .ErrorMessage
+            .Should().Match("The value [\"1.0.asddd\"] for property [version] does not match pattern*");
     }
 
     [Fact]
@@ -76,7 +79,7 @@ public class SolutionBuilderTests
         var noxConfigBuilder = new NoxSolutionBuilder()
             .WithFile($"./files/invalid-messaging.inmemory.solution.nox.yaml");
 
-        Assert.Throws<NoxYamlException>(() => noxConfigBuilder.Build());
+        Assert.Throws<NoxYamlValidationException>(() => noxConfigBuilder.Build());
     }
 
     [Fact]
@@ -94,6 +97,7 @@ public class SolutionBuilderTests
             .WithFile("./files/x.solution.nox.yaml")
             .AllowMissingSolutionYaml()
             .Build();
+
 
         Assert.NotNull(solution);
         
@@ -121,7 +125,10 @@ public class SolutionBuilderTests
 
         var exception = Assert.Throws<NoxYamlValidationException>(noxConfigBuilder.Build);
 
-        exception.Message.Should().Contain("SQLite does not support more than one AutoNumber per entity.");
+        exception
+            .Errors[0]
+            .ErrorMessage
+            .Should().Contain("SQLite only supports one AutoNumber per entity.");
     }
 
     [Fact]

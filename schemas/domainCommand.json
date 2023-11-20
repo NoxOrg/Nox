@@ -10,10 +10,6 @@
       "type": "null"
     }
   ],
-  "required": [
-    "name",
-    "type"
-  ],
   "anyOf": [
     {
       "required": [
@@ -194,10 +190,6 @@
             {
               "type": "null"
             }
-          ],
-          "required": [
-            "name",
-            "type"
           ],
           "anyOf": [
             {
@@ -1394,7 +1386,8 @@
             {
               "required": [
                 "name",
-                "type"
+                "type",
+                "entityIdTypeOptions"
               ],
               "properties": {
                 "objectTypeOptions": {    
@@ -1452,14 +1445,7 @@
                   "const": "entityId"
                 },
                 "entityIdTypeOptions": {    
-                  "oneOf": [
-                    {
-                      "type": "object"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ],
+                  "type": "object",
                   "properties": {
                     "entity": {    
                       "oneOf": [
@@ -5742,10 +5728,6 @@
               "type": "null"
             }
           ],
-          "required": [
-            "name",
-            "type"
-          ],
           "anyOf": [
             {
               "required": [
@@ -6941,7 +6923,8 @@
             {
               "required": [
                 "name",
-                "type"
+                "type",
+                "entityIdTypeOptions"
               ],
               "properties": {
                 "objectTypeOptions": {    
@@ -6999,14 +6982,7 @@
                   "const": "entityId"
                 },
                 "entityIdTypeOptions": {    
-                  "oneOf": [
-                    {
-                      "type": "object"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ],
+                  "type": "object",
                   "properties": {
                     "entity": {    
                       "oneOf": [
@@ -12321,7 +12297,8 @@
     {
       "required": [
         "name",
-        "type"
+        "type",
+        "entityIdTypeOptions"
       ],
       "properties": {
         "emitEvents": {    
@@ -12366,14 +12343,7 @@
           "const": "entityId"
         },
         "entityIdTypeOptions": {    
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
-          ],
+          "type": "object",
           "properties": {
             "entity": {    
               "oneOf": [

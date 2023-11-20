@@ -10,10 +10,6 @@
       "type": "null"
     }
   ],
-  "required": [
-    "name",
-    "type"
-  ],
   "anyOf": [
     {
       "required": [
@@ -945,7 +941,8 @@
     {
       "required": [
         "name",
-        "type"
+        "type",
+        "entityIdTypeOptions"
       ],
       "properties": {
         "name": {    
@@ -970,14 +967,7 @@
           "const": "entityId"
         },
         "entityIdTypeOptions": {    
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
-          ],
+          "type": "object",
           "properties": {
             "entity": {    
               "oneOf": [

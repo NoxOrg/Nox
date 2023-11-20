@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Nox.Solution.Exceptions;
 using Nox.Yaml.Exceptions;
 
 namespace Nox.Solution.Tests;
@@ -11,9 +12,15 @@ public class IntegrationEventTests
     {
         var solutionBuilder = new NoxSolutionBuilder().WithFile($"./files/{fileName}");
 
-        solutionBuilder
-            .Invoking(solution => solution.Build())
-            .Should().Throw<NoxYamlException>()
-            .WithMessage("Missing property [\"domaincontext\"] is required.*");
+        var exception = solutionBuilder
+                  .Invoking(solution => solution.Build())
+                  .Should().Throw<NoxYamlValidationException>()
+                  .Which;
+
+        exception.Errors.Count
+            .Should().Be(1);
+
+        exception.Errors.First().ErrorMessage
+            .Should().Match("Missing property [\"domainContext\"] is required.*");
     }
 }
