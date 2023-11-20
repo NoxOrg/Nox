@@ -33,9 +33,9 @@ public class FileTests
     [InlineData(null)]
     [InlineData("")]
     [InlineData(" ")]
-    public void From_WithMissingUrl_ShouldThrowValidationException(string url)
+    public void From_WithMissingUrl_ShouldThrowValidationException(string? url)
     {
-        var action = () => File.From(url, "MyFile", 512);
+        var action = () => File.From(url!, "MyFile", 512);
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Url", "Could not create a Nox File type with an empty Url.") });
@@ -79,9 +79,9 @@ public class FileTests
     [InlineData(null)]
     [InlineData("")]
     [InlineData(" ")]
-    public void From_WithMissingPrettyname_ShouldThrowValidationException(string prettyName)
+    public void From_WithMissingPrettyname_ShouldThrowValidationException(string? prettyName)
     {
-        var action = () => File.From("https://example.com/myfile.pdf", prettyName, 512);
+        var action = () => File.From("https://example.com/myfile.pdf", prettyName!, 512);
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("PrettyName", "Could not create a Nox File type with an empty PrettyName.") });
