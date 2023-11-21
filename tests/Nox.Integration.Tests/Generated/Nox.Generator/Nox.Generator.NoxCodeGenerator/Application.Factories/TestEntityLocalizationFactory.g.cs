@@ -51,7 +51,7 @@ internal abstract class TestEntityLocalizationFactoryBase : IEntityFactory<TestE
     private TestWebApp.Domain.TestEntityLocalization ToEntity(TestEntityLocalizationCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityLocalization();
-        entity.Id = TestEntityLocalizationMetadata.CreateId(createDto.Id);
+        entity.Id = TestEntityLocalizationMetadata.CreateId(createDto.Id!);
         entity.TextFieldToLocalize = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(createDto.TextFieldToLocalize);
         entity.NumberField = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateNumberField(createDto.NumberField);
         return entity;

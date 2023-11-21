@@ -35,5 +35,5 @@ public partial class TestEntityOwnedRelationshipZeroOrOneUpdateDtoBase: EntityDt
     /// <summary>
     /// TestEntityOwnedRelationshipZeroOrOne Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrOne ZeroOrOne SecondTestEntityOwnedRelationshipZeroOrOnes
     /// </summary>
-    public virtual SecondTestEntityOwnedRelationshipZeroOrOneUpdateDto? SecondTestEntityOwnedRelationshipZeroOrOne { get; set; } = null!;
+    public virtual SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto? SecondTestEntityOwnedRelationshipZeroOrOne { get; set; } = null!;
 }

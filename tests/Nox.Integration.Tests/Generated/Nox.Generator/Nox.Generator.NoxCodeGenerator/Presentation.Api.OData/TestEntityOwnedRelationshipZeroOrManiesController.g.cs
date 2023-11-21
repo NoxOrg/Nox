@@ -62,7 +62,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PostToSecondTestEntityOwnedRelationshipZeroOrManies([FromRoute] System.String key, [FromBody] SecondTestEntityOwnedRelationshipZeroOrManyCreateDto secondTestEntityOwnedRelationshipZeroOrMany)
+    public virtual async Task<ActionResult> PostToSecondTestEntityOwnedRelationshipZeroOrManies([FromRoute] System.String key, [FromBody] SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto secondTestEntityOwnedRelationshipZeroOrMany)
     {
         if (!ModelState.IsValid)
         {
@@ -86,7 +86,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
     }
     
     [HttpPut("/api/v1/TestEntityOwnedRelationshipZeroOrManies/{key}/SecondTestEntityOwnedRelationshipZeroOrManies/{relatedKey}")]
-    public virtual async Task<ActionResult<SecondTestEntityOwnedRelationshipZeroOrManyDto>> PutToSecondTestEntityOwnedRelationshipZeroOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] SecondTestEntityOwnedRelationshipZeroOrManyUpdateDto secondTestEntityOwnedRelationshipZeroOrMany)
+    public virtual async Task<ActionResult<SecondTestEntityOwnedRelationshipZeroOrManyDto>> PutToSecondTestEntityOwnedRelationshipZeroOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto secondTestEntityOwnedRelationshipZeroOrMany)
     {
         if (!ModelState.IsValid)
         {
@@ -110,7 +110,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
     }
     
     [HttpPatch("/api/v1/TestEntityOwnedRelationshipZeroOrManies/{key}/SecondTestEntityOwnedRelationshipZeroOrManies/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToSecondTestEntityOwnedRelationshipZeroOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] Delta<SecondTestEntityOwnedRelationshipZeroOrManyUpdateDto> secondTestEntityOwnedRelationshipZeroOrMany)
+    public virtual async Task<ActionResult> PatchToSecondTestEntityOwnedRelationshipZeroOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] Delta<SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto> secondTestEntityOwnedRelationshipZeroOrMany)
     {
         if (!ModelState.IsValid || secondTestEntityOwnedRelationshipZeroOrMany is null)
         {

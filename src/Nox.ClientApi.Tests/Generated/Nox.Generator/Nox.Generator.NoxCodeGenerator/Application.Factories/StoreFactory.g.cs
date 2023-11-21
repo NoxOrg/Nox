@@ -26,11 +26,11 @@ namespace ClientApi.Application.Factories;
 internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    protected IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> EmailAddressFactory {get;}
+    protected IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> EmailAddressFactory {get;}
 
     public StoreFactoryBase
     (
-        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> emailaddressfactory
+        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> emailaddressfactory
         )
     {
         EmailAddressFactory = emailaddressfactory;
@@ -139,7 +139,7 @@ internal partial class StoreFactory : StoreFactoryBase
 {
     public StoreFactory
     (
-        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> emailaddressfactory
+        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> emailaddressfactory
     ) : base(emailaddressfactory)
     {}
 }

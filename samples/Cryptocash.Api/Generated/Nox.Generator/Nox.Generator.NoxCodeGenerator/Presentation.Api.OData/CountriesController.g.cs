@@ -62,7 +62,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PostToCountryTimeZones([FromRoute] System.String key, [FromBody] CountryTimeZoneCreateDto countryTimeZone)
+    public virtual async Task<ActionResult> PostToCountryTimeZones([FromRoute] System.String key, [FromBody] CountryTimeZoneUpsertDto countryTimeZone)
     {
         if (!ModelState.IsValid)
         {
@@ -86,7 +86,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpPut("/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}")]
-    public virtual async Task<ActionResult<CountryTimeZoneDto>> PutToCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] CountryTimeZoneUpdateDto countryTimeZone)
+    public virtual async Task<ActionResult<CountryTimeZoneDto>> PutToCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] CountryTimeZoneUpsertDto countryTimeZone)
     {
         if (!ModelState.IsValid)
         {
@@ -110,7 +110,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpPatch("/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<CountryTimeZoneUpdateDto> countryTimeZone)
+    public virtual async Task<ActionResult> PatchToCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<CountryTimeZoneUpsertDto> countryTimeZone)
     {
         if (!ModelState.IsValid || countryTimeZone is null)
         {
@@ -198,7 +198,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PostToHolidays([FromRoute] System.String key, [FromBody] HolidayCreateDto holiday)
+    public virtual async Task<ActionResult> PostToHolidays([FromRoute] System.String key, [FromBody] HolidayUpsertDto holiday)
     {
         if (!ModelState.IsValid)
         {
@@ -222,7 +222,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpPut("/api/v1/Countries/{key}/Holidays/{relatedKey}")]
-    public virtual async Task<ActionResult<HolidayDto>> PutToHolidaysNonConventional(System.String key, System.Int64 relatedKey, [FromBody] HolidayUpdateDto holiday)
+    public virtual async Task<ActionResult<HolidayDto>> PutToHolidaysNonConventional(System.String key, System.Int64 relatedKey, [FromBody] HolidayUpsertDto holiday)
     {
         if (!ModelState.IsValid)
         {
@@ -246,7 +246,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpPatch("/api/v1/Countries/{key}/Holidays/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToHolidaysNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<HolidayUpdateDto> holiday)
+    public virtual async Task<ActionResult> PatchToHolidaysNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<HolidayUpsertDto> holiday)
     {
         if (!ModelState.IsValid || holiday is null)
         {

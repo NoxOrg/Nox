@@ -31,7 +31,7 @@ public partial class CountriesController
     /// <param name="key"></param>
     /// <param name="countryLocalName"></param>
     /// <returns></returns>
-    public override async Task<ActionResult> PostToCountryLocalNames([FromRoute] long key, [FromBody] CountryLocalNameCreateDto countryLocalName)
+    public override async Task<ActionResult> PostToCountryLocalNames([FromRoute] long key, [FromBody] CountryLocalNameUpsertDto countryLocalName)
     {
         if (!ModelState.IsValid)
         {

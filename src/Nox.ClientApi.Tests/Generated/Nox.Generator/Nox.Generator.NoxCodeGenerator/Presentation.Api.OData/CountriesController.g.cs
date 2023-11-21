@@ -62,7 +62,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PostToCountryLocalNames([FromRoute] System.Int64 key, [FromBody] CountryLocalNameCreateDto countryLocalName)
+    public virtual async Task<ActionResult> PostToCountryLocalNames([FromRoute] System.Int64 key, [FromBody] CountryLocalNameUpsertDto countryLocalName)
     {
         if (!ModelState.IsValid)
         {
@@ -86,7 +86,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpPut("/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}")]
-    public virtual async Task<ActionResult<CountryLocalNameDto>> PutToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] CountryLocalNameUpdateDto countryLocalName)
+    public virtual async Task<ActionResult<CountryLocalNameDto>> PutToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] CountryLocalNameUpsertDto countryLocalName)
     {
         if (!ModelState.IsValid)
         {
@@ -110,7 +110,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpPatch("/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameUpdateDto> countryLocalName)
+    public virtual async Task<ActionResult> PatchToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameUpsertDto> countryLocalName)
     {
         if (!ModelState.IsValid || countryLocalName is null)
         {
@@ -181,7 +181,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(item.CountryBarCode);
     }
     
-    public virtual async Task<ActionResult> PostToCountryBarCode([FromRoute] System.Int64 key, [FromBody] CountryBarCodeCreateDto countryBarCode)
+    public virtual async Task<ActionResult> PostToCountryBarCode([FromRoute] System.Int64 key, [FromBody] CountryBarCodeUpsertDto countryBarCode)
     {
         if (!ModelState.IsValid)
         {
@@ -204,7 +204,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<CountryBarCodeDto>> PutToCountryBarCode(System.Int64 key, [FromBody] CountryBarCodeUpdateDto countryBarCode)
+    public virtual async Task<ActionResult<CountryBarCodeDto>> PutToCountryBarCode(System.Int64 key, [FromBody] CountryBarCodeUpsertDto countryBarCode)
     {
         if (!ModelState.IsValid)
         {

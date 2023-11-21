@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -33,10 +33,10 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntitySet<CountryLocalNameDto>("CountryLocalNames");
 		builder.EntityType<CountryLocalNameDto>().HasKey(e => new { e.Id });
-        builder.ComplexType<CountryLocalNameUpdateDto>();
+        builder.ComplexType<CountryLocalNameUpsertDto>();
 
 		builder.EntityType<CountryBarCodeDto>().HasKey(e => new {  });
-        builder.ComplexType<CountryBarCodeUpdateDto>();
+        builder.ComplexType<CountryBarCodeUpsertDto>();
 
         builder.EntitySet<RatingProgramDto>("RatingPrograms");
 		builder.EntityType<RatingProgramDto>().HasKey(e => new { e.StoreId, e.Id });
@@ -93,7 +93,7 @@ internal static class ODataServiceCollectionExtensions
         builder.ComplexType<TenantUpdateDto>();
 
 		builder.EntityType<EmailAddressDto>().HasKey(e => new {  });
-        builder.ComplexType<EmailAddressUpdateDto>(); 
+        builder.ComplexType<EmailAddressUpsertDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<CountryDto>()
                             .Collection

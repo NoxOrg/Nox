@@ -21,19 +21,19 @@ internal partial class PartialUpdateHolidaysForCountryCommandHandler: PartialUpd
 	public PartialUpdateHolidaysForCountryCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateHolidaysForCountryCommandHandlerBase: CommandBase<PartialUpdateHolidaysForCountryCommand, HolidayEntity>, IRequestHandler <PartialUpdateHolidaysForCountryCommand, HolidayKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> EntityFactory { get; }
+	public IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> EntityFactory { get; }
 
 	public PartialUpdateHolidaysForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

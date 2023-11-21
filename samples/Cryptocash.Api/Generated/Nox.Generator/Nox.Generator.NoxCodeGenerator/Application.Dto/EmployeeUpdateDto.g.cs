@@ -65,4 +65,8 @@ public partial class EmployeeUpdateDtoBase: EntityDtoBase, IEntityDto<DomainName
     /// </summary>
     /// <remarks>Optional.</remarks>
     public virtual System.DateTime? LastWorkingDay { get; set; }
+    /// <summary>
+    /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
+    /// </summary>
+    public virtual List<EmployeePhoneNumberUpsertDto> EmployeePhoneNumbers { get; set; } = new();
 }
