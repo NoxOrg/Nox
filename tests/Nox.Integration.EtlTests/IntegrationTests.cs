@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Nox.Integration.Abstractions;
 using Nox.Integration.Extensions;
 using Nox.Integration.Services;
 using Nox.Solution;
@@ -15,6 +16,7 @@ public class IntegrationTests
     public async Task Can_Execute_an_integration()
     {
         var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+        var logger = loggerFactory.CreateLogger<INoxIntegrationContext>();
         
         var dataConnections = new List<DataConnection>();
         dataConnections.Add(new DataConnection
@@ -60,17 +62,17 @@ public class IntegrationTests
             }
         };
 
-        var integration = new NoxIntegration(definition.Name, definition.Description)
+        var integration = new NoxIntegration(logger, definition)
             .WithReceiveAdapter(new IntegrationSource
             {
                 Name = "TestSource",
                 Description = "Integration Source for testing",
+                SourceAdapterType = IntegrationSourceAdapterType.DatabaseQuery,
                 QueryOptions = new IntegrationSourceQueryOptions
                 {
                     Query = "SELECT Id, Name, Population, CreateDate, EditDate FROM CountryMaster",
                     MinimumExpectedRecords = 10
                 },
-                SourceAdapterType = IntegrationSourceAdapterType.DatabaseQuery,
                 DataConnectionName = "CountrySource",
                 Watermark = new IntegrationSourceWatermark
                 {
@@ -89,15 +91,15 @@ public class IntegrationTests
             {
                 Name = "TestTarget",
                 Description = "Integration target for testing.",
+                TargetAdapterType = IntegrationTargetAdapterType.DatabaseTable,
                 TableOptions = new IntegrationTargetTableOptions
                 {
                     TableName = "Country"
                 },
-                DataConnectionName = "EtlSample",
-                TargetAdapterType = IntegrationTargetAdapterType.DatabaseTable
+                DataConnectionName = "EtlSample"
             }, dataConnections);
 
-        var context = new NoxIntegrationContext(new NoxSolution());
+        var context = new NoxIntegrationContext(logger, new NoxSolution());
         context.AddIntegration(integration);
         var result = await context.ExecuteIntegrationAsync("EtlTest");
         Assert.True(result);

@@ -2,24 +2,25 @@ using Microsoft.Data.SqlClient;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Adapters;
 using Nox.Solution;
-
 namespace Nox.Integration.Extensions.Send;
 
 public static class IntegrationContextDatabaseSendExtensions
 {
-    public static INoxIntegration WithDatabaseSendAdapter(this INoxIntegration instance, IntegrationTargetTableOptions tableOptions, DataConnection dataConnectionDefinition)
+    public static INoxIntegration WithDatabaseTableSendAdapter(this INoxIntegration instance, IntegrationTargetTableOptions options, DataConnection dataConnectionDefinition)
     {
         switch (dataConnectionDefinition.Provider)
         {
             case DataConnectionProvider.SqlServer:
-                instance.SendAdapter = CreateSqlServerSendAdapter(instance.Name, tableOptions, dataConnectionDefinition);
+                instance.SendAdapter = CreateSqlServerTableAdapter(instance.Name, options, dataConnectionDefinition);
                 break;
+                default:
+                    throw new NotImplementedException();
         }
 
         return instance;
     }
     
-    internal static SqlServerSendAdapter CreateSqlServerSendAdapter(string integrationName, IntegrationTargetTableOptions tableOptions, DataConnection dataConnectionDefinition)
+    internal static SqlServerSendAdapter CreateSqlServerTableAdapter(string integrationName, IntegrationTargetTableOptions options, DataConnection dataConnectionDefinition)
     {
         var csb = new SqlConnectionStringBuilder(dataConnectionDefinition.Options)
         {
@@ -29,7 +30,35 @@ public static class IntegrationContextDatabaseSendExtensions
             InitialCatalog = dataConnectionDefinition.Name,
             ApplicationName = integrationName
         };
-        var adapter = new SqlServerSendAdapter(tableOptions.TableName, csb.ConnectionString);
+        var adapter = new SqlServerSendAdapter(csb.ConnectionString, options.SchemaName, null, options.TableName);
+        return adapter;
+    }
+    
+    public static INoxIntegration WithStoredProcedureSendAdapter(this INoxIntegration instance, IntegrationTargetStoredProcedureOptions options, DataConnection dataConnectionDefinition)
+    {
+        switch (dataConnectionDefinition.Provider)
+        {
+            case DataConnectionProvider.SqlServer:
+                instance.SendAdapter = CreateSqlServerProcAdapter(instance.Name, options, dataConnectionDefinition);
+                break;
+            default:
+                throw new NotImplementedException();
+        }
+
+        return instance;
+    }
+    
+    internal static SqlServerSendAdapter CreateSqlServerProcAdapter(string integrationName, IntegrationTargetStoredProcedureOptions options, DataConnection dataConnectionDefinition)
+    {
+        var csb = new SqlConnectionStringBuilder(dataConnectionDefinition.Options)
+        {
+            DataSource = $"{dataConnectionDefinition.ServerUri},{dataConnectionDefinition.Port ?? 1433}",
+            UserID = dataConnectionDefinition.User,
+            Password = dataConnectionDefinition.Password,
+            InitialCatalog = dataConnectionDefinition.Name,
+            ApplicationName = integrationName
+        };
+        var adapter = new SqlServerSendAdapter(csb.ConnectionString, options.SchemaName, options.StoredProcedure, null);
         return adapter;
     }
 }
