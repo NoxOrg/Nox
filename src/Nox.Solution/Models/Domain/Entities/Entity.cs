@@ -399,6 +399,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         var memberNames = Attributes.Select(m => m.Name).ToImmutableHashSet();
         var relationshipNames = Relationships.Select(r => r.Name).ToImmutableHashSet();
 
+        // Validate that referenced attributes exist
         var messages = UniqueAttributeConstraints
             .SelectMany(c => c.AttributeNames, (c, a) => new { c.Name, AttributeName = a })
             .Where(o => !memberNames.Contains(o.AttributeName))
@@ -409,6 +410,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
             result.Errors.Add(new ValidationFailure(nameof(Name), message));
         }
 
+        // Validate that there are no duplicate unique constraints in entity
         var messages2 = UniqueAttributeConstraints
             .Select(c => new { c.Name, Keys = string.Join(",", c.AttributeNames.Concat(c.RelationshipNames).OrderBy(e => e)) })
             .GroupBy( o => o.Keys )
@@ -420,6 +422,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
             result.Errors.Add(new ValidationFailure(nameof(Name), message));
         }
 
+        // Validate that referenced relationships exist
         var messages3 = UniqueAttributeConstraints
             .SelectMany(c => c.RelationshipNames, (c, r) => new { c.Name, RelationshipName = r })
             .Where(o => !relationshipNames.Contains(o.RelationshipName))
