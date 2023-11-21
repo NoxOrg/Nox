@@ -47,6 +47,28 @@
           }
         ]
       }
+    },
+    "relationshipNames": {    
+      "title": "Relationship Names",
+      "description": "List of relationship names that together form the unique constraint.",
+      "oneOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "items":   {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
     }
   },
   "additionalProperties": false
