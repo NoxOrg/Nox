@@ -82,25 +82,7 @@ public class NoxIntegration: INoxIntegration
             try
             {
                 var handler = handlers.Single(h => h.IntegrationName == Name);
-                var mapping = handler.Invoke();
-                var rowTransform = new RowTransformation<ExpandoObject, ExpandoObject>(sourceRecord =>
-                {
-                    IDictionary<string, object> sourceDict = sourceRecord!;
-                    var targetDict = new Dictionary<string, object>();
-                    
-                    targetDict["Id"] = sourceDict["CountryId"];
-                    targetDict["Name"] = sourceDict["Name"];
-                    targetDict["Population"] = sourceDict["Population"];
-                    
-
-                    dynamic targetEo = targetDict.Aggregate(new ExpandoObject() as IDictionary<string, object>, (a, p) =>
-                    {
-                        a.Add(p);
-                        return a;
-                    });
-                    
-                    return targetEo;
-                });
+                var rowTransform = new RowTransformation<ExpandoObject, ExpandoObject>(sourceRecord => handler.Invoke(sourceRecord));
                 transformSource =  source.LinkTo(rowTransform);
             }
             catch (Exception ex)
