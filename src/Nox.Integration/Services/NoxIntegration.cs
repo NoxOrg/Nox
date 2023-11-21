@@ -10,7 +10,7 @@ namespace Nox.Integration.Services;
 
 public class NoxIntegration: INoxIntegration
 {
-    private readonly ILogger<NoxIntegration> _logger;
+    private readonly ILogger _logger;
     
     public string Name { get; }
     public string? Description { get; }
@@ -20,9 +20,9 @@ public class NoxIntegration: INoxIntegration
     public List<string>? IdColumns { get; } = null;
     public List<string>? DateColumns { get; } = null;
 
-    public NoxIntegration(ILoggerFactory loggerFactory, Solution.Integration definition)
+    public NoxIntegration(ILogger logger, Solution.Integration definition)
     {
-        _logger = loggerFactory.CreateLogger<NoxIntegration>();
+        _logger = logger;
         Name = definition.Name;
         Description = definition.Description;
         MergeType = definition.MergeType;

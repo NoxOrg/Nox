@@ -7,15 +7,13 @@ namespace Nox.Integration.Services;
 
 public class NoxIntegrationContext: INoxIntegrationContext
 {
-    private readonly ILoggerFactory _loggerFactory;
-    private readonly ILogger<NoxIntegrationContext> _logger;
+    private readonly ILogger _logger;
     private readonly List<INoxIntegration> _integrations;
     private readonly NoxSolution _solution;
     
-    public NoxIntegrationContext(ILoggerFactory loggerFactory, NoxSolution solution)
+    public NoxIntegrationContext(ILogger<INoxIntegrationContext> logger, NoxSolution solution)
     {
-        _loggerFactory = loggerFactory;
-        _logger = loggerFactory.CreateLogger<NoxIntegrationContext>();
+        _logger = logger;
         _integrations = new List<INoxIntegration>();
         _solution = solution;
     }
@@ -24,7 +22,7 @@ public class NoxIntegrationContext: INoxIntegrationContext
     {
         foreach (var integrationDefinition in _solution.Application!.Integrations!)
         {
-            var instance = new NoxIntegration(_loggerFactory, integrationDefinition);
+            var instance = new NoxIntegration(_logger, integrationDefinition);
             instance.WithReceiveAdapter(integrationDefinition.Source, _solution.Infrastructure?.Dependencies?.DataConnections);
             instance.WithSendAdapter(integrationDefinition.Target, _solution.Infrastructure?.Dependencies?.DataConnections);
             

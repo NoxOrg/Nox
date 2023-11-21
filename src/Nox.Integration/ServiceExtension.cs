@@ -15,8 +15,8 @@ public static class ServiceExtension
         {
             services.TryAddSingleton<INoxIntegrationContext>(p =>
             {
-                var loggerFactory = p.GetRequiredService<LoggerFactory>();
-                var context = new NoxIntegrationContext(loggerFactory, solution);
+                var logger = p.GetRequiredService<ILogger<INoxIntegrationContext>>();
+                var context = new NoxIntegrationContext(logger, solution);
                 context.Initialize();
                 return context;
             });

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Nox.Integration.Abstractions;
 using Nox.Integration.Extensions;
 using Nox.Integration.Services;
 using Nox.Solution;
@@ -15,6 +16,7 @@ public class IntegrationTests
     public async Task Can_Execute_an_integration()
     {
         var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+        var logger = loggerFactory.CreateLogger<INoxIntegrationContext>();
         
         var dataConnections = new List<DataConnection>();
         dataConnections.Add(new DataConnection
@@ -60,7 +62,7 @@ public class IntegrationTests
             }
         };
 
-        var integration = new NoxIntegration(loggerFactory, definition)
+        var integration = new NoxIntegration(logger, definition)
             .WithReceiveAdapter(new IntegrationSource
             {
                 Name = "TestSource",
@@ -97,7 +99,7 @@ public class IntegrationTests
                 DataConnectionName = "EtlSample"
             }, dataConnections);
 
-        var context = new NoxIntegrationContext(loggerFactory, new NoxSolution());
+        var context = new NoxIntegrationContext(logger, new NoxSolution());
         context.AddIntegration(integration);
         var result = await context.ExecuteIntegrationAsync("EtlTest");
         Assert.True(result);
