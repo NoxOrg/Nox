@@ -51,7 +51,7 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
     private TestWebApp.Domain.TestEntityForTypes ToEntity(TestEntityForTypesCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityForTypes();
-        entity.Id = TestEntityForTypesMetadata.CreateId(createDto.Id!);
+        entity.Id = TestEntityForTypesMetadata.CreateId(createDto.Id);
         entity.TextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTextTestField(createDto.TextTestField);
         entity.SetIfNotNull(createDto.EnumerationTestField, (entity) => entity.EnumerationTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateEnumerationTestField(createDto.EnumerationTestField.NonNullValue<System.Int32>()));
         entity.NumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateNumberTestField(createDto.NumberTestField);

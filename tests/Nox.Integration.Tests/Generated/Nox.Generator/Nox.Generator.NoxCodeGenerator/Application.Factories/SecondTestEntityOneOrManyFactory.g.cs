@@ -51,7 +51,7 @@ internal abstract class SecondTestEntityOneOrManyFactoryBase : IEntityFactory<Se
     private TestWebApp.Domain.SecondTestEntityOneOrMany ToEntity(SecondTestEntityOneOrManyCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.SecondTestEntityOneOrMany();
-        entity.Id = SecondTestEntityOneOrManyMetadata.CreateId(createDto.Id!);
+        entity.Id = SecondTestEntityOneOrManyMetadata.CreateId(createDto.Id);
         entity.TextTestField2 = TestWebApp.Domain.SecondTestEntityOneOrManyMetadata.CreateTextTestField2(createDto.TextTestField2);
         return entity;
     }

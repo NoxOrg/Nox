@@ -51,7 +51,7 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
     private TestWebApp.Domain.TestEntityForUniqueConstraints ToEntity(TestEntityForUniqueConstraintsCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityForUniqueConstraints();
-        entity.Id = TestEntityForUniqueConstraintsMetadata.CreateId(createDto.Id!);
+        entity.Id = TestEntityForUniqueConstraintsMetadata.CreateId(createDto.Id);
         entity.TextField = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateTextField(createDto.TextField);
         entity.NumberField = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateNumberField(createDto.NumberField);
         entity.UniqueNumberField = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueNumberField(createDto.UniqueNumberField);

@@ -292,7 +292,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 Population = 44000000
             };
 
-            var barCodeDto = new CountryBarCodeCreateDto
+            var barCodeDto = new CountryBarCodeUpsertDto
             {
                 BarCodeName = expectedBarCodeName
             };
@@ -301,7 +301,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var headers = CreateEtagHeader(result?.Etag);
 
             //Act
-            var ownedResult = await PostAsync<CountryBarCodeCreateDto, CountryBarCodeDto>($"{Endpoints.CountriesUrl}/{result!.Id}/CountryBarCode", barCodeDto, headers);
+            var ownedResult = await PostAsync<CountryBarCodeUpsertDto, CountryBarCodeDto>($"{Endpoints.CountriesUrl}/{result!.Id}/CountryBarCode", barCodeDto, headers);
             var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{result!.Id}");
 
             //Assert
@@ -333,9 +333,9 @@ namespace ClientApi.Tests.Tests.Controllers
             var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
             var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
             var headers = CreateEtagHeader(getCountryResponse?.Etag);
-            var ownedResult = await PutAsync<CountryLocalNameUpdateDto, CountryLocalNameDto>(
+            var ownedResult = await PutAsync<CountryLocalNameUpsertDto, CountryLocalNameDto>(
                 $"{Endpoints.CountriesUrl}/{getCountryResponse!.Id}/{nameof(dto.CountryLocalNames)}/{getCountryResponse!.CountryLocalNames[0].Id}",
-                new CountryLocalNameUpdateDto
+                new CountryLocalNameUpsertDto
                 {
                     Name = expectedOwnedName
                 }, headers);
@@ -363,9 +363,9 @@ namespace ClientApi.Tests.Tests.Controllers
             // Act
             var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
             var headers = CreateEtagHeader(postCountryResponse?.Etag);
-            var putToCountryBarCodeResponse = await PutAsync<CountryBarCodeUpdateDto, CountryBarCodeDto>(
+            var putToCountryBarCodeResponse = await PutAsync<CountryBarCodeUpsertDto, CountryBarCodeDto>(
                 $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}/CountryBarCode",
-                new CountryBarCodeUpdateDto
+                new CountryBarCodeUpsertDto
                 {
                     BarCodeName = expectedBarCode
                 }, headers);
@@ -1688,7 +1688,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var headers = CreateEtagHeader(countryCreatedResult?.Etag);
-            var countryShortName = new CountryLocalNameCreateDto() { Name = "ShortName" };
+            var countryShortName = new CountryLocalNameUpsertDto() { Name = "ShortName" };
             var countryShortNameResult = await PostAsync($"{Endpoints.CountriesUrl}/{countryCreatedResult!.Id}/{nameof(createDto.CountryLocalNames)}", countryShortName, headers);
 
             // Assert
