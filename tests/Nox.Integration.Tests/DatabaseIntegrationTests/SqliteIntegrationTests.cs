@@ -115,10 +115,16 @@ public class SqliteIntegrationTests
         _noxCommonTestCases.UniqueConstraintsSameValueShouldThrowException();
     }
 
-    [Fact(Skip = "TODO Implement unique constrains for relarionships")]
+    [Fact]
     public void WhenUniqueConstraintsWithRelation_ShouldBeValid()
     {
         _noxCommonTestCases.WhenUniqueConstraintsWithRelation_ShouldBeValid();
+    }
+
+    [Fact]
+    public void WhenUniqueConstraintsWithRelationIsViolated_ShouldThrow()
+    {
+        _noxCommonTestCases.WhenUniqueConstraintsWithRelationIsViolated_ShouldThrowException();
     }
 
     [Fact]

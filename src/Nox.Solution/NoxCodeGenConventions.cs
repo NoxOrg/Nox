@@ -46,7 +46,7 @@ public class NoxCodeGenConventions
     /// Computes the Entity DTO Name that holds the translated values of an localized entity.
     /// </summary>
     public static string GetEntityDtoNameForLocalizedType(string entityName) => $"{entityName}LocalizedDto";
-    
+
     /// <summary>
     /// Computes the Entity DTO Name that holds the translated values of an localized entity.
     /// </summary>
@@ -60,5 +60,5 @@ public class NoxCodeGenConventions
 
     public string GetEntityDtoTypeFullName(string dtoName) => $"{DtoNameSpace}.{dtoName}";
 
-    public static string GetForeignKeyPropertyName(string foreignEntityName) => $"{foreignEntityName}Id";
+    public static string GetForeignKeyPropertyName(Entity entity, EntityRelationship relationship) => $"{entity.GetNavigationPropertyName(relationship)}Id";
 }

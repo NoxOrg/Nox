@@ -91,6 +91,8 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
     public DbSet<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToMany> SecondTestEntityTwoRelationshipsOneToManies { get; set; } = null!;
     public DbSet<TestWebApp.Domain.TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
     public DbSet<TestWebApp.Domain.TestEntityForUniqueConstraints> TestEntityForUniqueConstraints { get; set; } = null!;
+    public DbSet<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey> EntityUniqueConstraintsWithForeignKeys { get; set; } = null!;
+    public DbSet<TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey> EntityUniqueConstraintsRelatedForeignKeys { get; set; } = null!;
     public DbSet<TestWebApp.Domain.TestEntityLocalization> TestEntityLocalizations { get; set; } = null!;
     public DbSet<TestWebApp.Domain.TestEntityForAutoNumberUsages> TestEntityForAutoNumberUsages { get; set; } = null!;
     public DbSet<TestWebApp.Domain.TestEntityLocalizationLocalized> TestEntityLocalizationsLocalized { get; set; } = null!;

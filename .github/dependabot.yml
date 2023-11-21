@@ -12,6 +12,7 @@ updates:
           - "*"
         exclude-patterns:
           - "Microsoft.Build.Framework"
+          - "MediatR"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]

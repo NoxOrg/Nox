@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -52,7 +52,10 @@ internal static class ODataServiceCollectionExtensions
             {{- end }}
         {{- end }}
         builder.ComplexType<{{entity.Name}}UpdateDto>();
-
+        {{- if entity.IsLocalized }}
+        builder.EntityType<{{entity.Name}}LocalizedDto>().HasKey(e => new { {{ $delim = "" -}} {{ for key in entity.Keys -}} {{$delim}}e.{{key.Name}}{{ $delim = ", " }}{{ end }} });
+        builder.EntityType<{{entity.Name}}Dto>().Function("{{entity.PluralName}}Localized").ReturnsCollection<DtoNameSpace.{{entity.Name}}LocalizedDto>();
+        {{- end }}
         {{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited ~}}
 
         builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.DeletedAtUtc);
@@ -69,6 +72,7 @@ internal static class ODataServiceCollectionExtensions
                             .ReturnsCollection<DtoNameSpace.{{ enumeration.EntityNameForEnumeration}}>();
         {{- end }}
 
+       
         if(configure != null) configure(builder);
 
         services.AddControllers()
