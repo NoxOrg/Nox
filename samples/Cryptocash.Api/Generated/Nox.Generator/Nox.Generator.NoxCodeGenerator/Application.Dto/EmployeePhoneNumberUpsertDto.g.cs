@@ -28,9 +28,8 @@ public abstract class EmployeePhoneNumberUpsertDtoBase: EntityDtoBase, IEntityDt
 
     /// <summary>
     /// Employee's phone number identifier
-    /// </summary>    
-    
-        public System.Int64 Id { get; set; } = default!;
+    /// </summary>
+    public System.Int64? Id { get; set; }
 
     /// <summary>
     /// Employee's phone number type     

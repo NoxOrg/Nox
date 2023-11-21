@@ -28,9 +28,8 @@ public abstract class ExchangeRateUpsertDtoBase: EntityDtoBase, IEntityDto<Domai
 
     /// <summary>
     /// Exchange rate unique identifier
-    /// </summary>    
-    
-        public System.Int64 Id { get; set; } = default!;
+    /// </summary>
+    public System.Int64? Id { get; set; }
 
     /// <summary>
     /// Exchange rate conversion amount     

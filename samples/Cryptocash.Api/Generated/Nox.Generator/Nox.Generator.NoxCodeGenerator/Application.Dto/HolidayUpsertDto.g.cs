@@ -28,9 +28,8 @@ public abstract class HolidayUpsertDtoBase: EntityDtoBase, IEntityDto<DomainName
 
     /// <summary>
     /// Country's holiday unique identifier
-    /// </summary>    
-    
-        public System.Int64 Id { get; set; } = default!;
+    /// </summary>
+    public System.Int64? Id { get; set; }
 
     /// <summary>
     /// Country holiday name     

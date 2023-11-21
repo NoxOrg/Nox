@@ -28,9 +28,8 @@ public abstract class BankNoteUpsertDtoBase: EntityDtoBase, IEntityDto<DomainNam
 
     /// <summary>
     /// Currency bank note unique identifier
-    /// </summary>    
-    
-        public System.Int64 Id { get; set; } = default!;
+    /// </summary>
+    public System.Int64? Id { get; set; }
 
     /// <summary>
     /// Currency's cash bank note identifier     

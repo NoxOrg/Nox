@@ -30,10 +30,10 @@ public abstract class {{className}}Base: EntityDtoBase, IEntityDto<DomainNamespa
     /// <summary>
     /// {{key.Description  | string.rstrip}}
     /// </summary>    
-    {{ if key.Type == "EntityId" }}
-    public {{SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = default!;
+    {{- if key.Type == "EntityId" }}
+    public {{SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity}}? {{key.Name}}
     {{- else }}
-    public {{SinglePrimitiveTypeForKey key}} {{key.Name}} { get; set; } = default!;
+    public {{SinglePrimitiveTypeForKey key}}? {{key.Name}} { get; set; }
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}

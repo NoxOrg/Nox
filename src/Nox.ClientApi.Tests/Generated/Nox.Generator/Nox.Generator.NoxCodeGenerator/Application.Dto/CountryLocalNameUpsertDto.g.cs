@@ -28,9 +28,8 @@ public abstract class CountryLocalNameUpsertDtoBase: EntityDtoBase, IEntityDto<D
 
     /// <summary>
     /// The unique identifier
-    /// </summary>    
-    
-        public System.Int64 Id { get; set; } = default!;
+    /// </summary>
+    public System.Int64? Id { get; set; }
 
     /// <summary>
     /// Local name     
