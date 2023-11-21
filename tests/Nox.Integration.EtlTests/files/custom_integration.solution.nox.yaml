@@ -13,10 +13,10 @@ application:
 
   integrations:
 
-    - name: SqlToSqlIntegration
+    - name: SqlToSqlCustomIntegration
       description: a Sample integration that sources data from Sql Server and persists to a Database Table
       mergeType: mergeNew
-      transformationType: defaultTransform
+      transformationType: customTransform
 
       schedule:
         start: every day at 2am
@@ -32,7 +32,7 @@ application:
         dataConnectionName: CountrySource
         sourceAdapterType: databaseQuery
         queryOptions:
-          query: SELECT CountryId AS Id, Name, Population, CreateDate, EditDate FROM CountryMaster
+          query: SELECT CountryId, Name, Population, CreateDate, EditDate FROM CountryMaster
           minimumExpectedRecords: 5
 
         watermark:
@@ -53,7 +53,7 @@ application:
 infrastructure:
   
   dependencies:
-  
+    
     dataConnections:
       - name: CountrySource
         provider: sqlServer
@@ -62,7 +62,7 @@ infrastructure:
         password: Developer*123
         port: 1433
         options: pooling=false;encrypt=false;
-        
+
       - name: EtlSample
         provider: sqlServer
         serverUri: localhost

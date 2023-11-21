@@ -4,6 +4,7 @@ using ETLBox.DataFlow;
 using Microsoft.Extensions.Logging;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Abstractions.Adapters;
+using Nox.Integration.Exceptions;
 using Nox.Integration.Extensions.Send;
 
 namespace Nox.Integration.Services;
@@ -15,6 +16,8 @@ public class NoxIntegration: INoxIntegration
     public string Name { get; }
     public string? Description { get; }
     public IntegrationMergeType MergeType { get; }
+    
+    public IntegrationTransformType TransformType { get; }
     public INoxReceiveAdapter? ReceiveAdapter { get; set; }
     public INoxSendAdapter? SendAdapter { get; set; }
     public List<string>? IdColumns { get; } = null;
@@ -26,6 +29,7 @@ public class NoxIntegration: INoxIntegration
         Name = definition.Name;
         Description = definition.Description;
         MergeType = definition.MergeType;
+        TransformType = definition.TransformationType;
         if (definition.Source.Watermark == null) return;
         var watermark = definition.Source.Watermark;
         if (watermark.SequentialKeyColumns != null && watermark.SequentialKeyColumns.Any())
@@ -46,33 +50,78 @@ public class NoxIntegration: INoxIntegration
         }
     }
     
-    public async Task<bool> ExecuteAsync()
+    public async Task<bool> ExecuteAsync(IEnumerable<INoxCustomTransformHandler>? handlers = null)
     {
         var result = false;
 
         switch (MergeType)
         {
             case IntegrationMergeType.MergeNew:
-                result = await ExecuteMergeNew();
+                result = await ExecuteMergeNew(handlers);
                 break;
             case IntegrationMergeType.AddNew:
-                result = await ExecuteAddNew();
+                result = await ExecuteAddNew(handlers);
                 break;
         }
 
         return result;
     }
 
-    private async Task<bool> ExecuteMergeNew()
+    private async Task<bool> ExecuteMergeNew(IEnumerable<INoxCustomTransformHandler>? handlers)
     {
         var source = ReceiveAdapter!.DataFlowSource;
         //todo: filter source using merge state
 
+
+        IDataFlowSource<ExpandoObject>? transformSource = null;
+        
+        if (TransformType == IntegrationTransformType.CustomTransform)
+        {
+            if (handlers == null) throw new NoxIntegrationException("Cannot execute custom transform, no handlers registered.");
+            //Find the handler
+            try
+            {
+                var handler = handlers.Single(h => h.IntegrationName == Name);
+                var mapping = handler.Invoke();
+                var rowTransform = new RowTransformation<ExpandoObject, ExpandoObject>(sourceRecord =>
+                {
+                    IDictionary<string, object> sourceDict = sourceRecord!;
+                    var targetDict = new Dictionary<string, object>();
+                    
+                    targetDict["Id"] = sourceDict["CountryId"];
+                    targetDict["Name"] = sourceDict["Name"];
+                    targetDict["Population"] = sourceDict["Population"];
+                    
+
+                    dynamic targetEo = targetDict.Aggregate(new ExpandoObject() as IDictionary<string, object>, (a, p) =>
+                    {
+                        a.Add(p);
+                        return a;
+                    });
+                    
+                    return targetEo;
+                });
+                transformSource =  source.LinkTo(rowTransform);
+            }
+            catch (Exception ex)
+            {
+                throw new NoxIntegrationException($"Unable to resolve custom transform handler for integration {Name}: ({ex.Message})");
+            }
+        }
+        
         CustomDestination? postProcessDestination = null;
         switch (SendAdapter!.AdapterType)
         {
             case IntegrationTargetAdapterType.DatabaseTable:
-                postProcessDestination = source.LinkToDatabaseTable((INoxDatabaseSendAdapter)SendAdapter, IdColumns, DateColumns);
+                if (transformSource != null)
+                {
+                    postProcessDestination = transformSource.LinkToDatabaseTable((INoxDatabaseSendAdapter)SendAdapter, IdColumns, DateColumns);    
+                }
+                else
+                {
+                    postProcessDestination = source.LinkToDatabaseTable((INoxDatabaseSendAdapter)SendAdapter, IdColumns, DateColumns);    
+                }
+                
                 break;
             default:
                 throw new NotImplementedException($"Send adapter type: {Enum.GetName(SendAdapter!.AdapterType)} has not been implemented!");
@@ -82,7 +131,7 @@ public class NoxIntegration: INoxIntegration
         var inserts = 0;
         var updates = 0;
 
-        postProcessDestination!.WriteAction = (row, _) =>
+        postProcessDestination.WriteAction = (row, _) =>
         {
             var record = (IDictionary<string, object?>)row;
             if ((ChangeAction)record["ChangeAction"]! == ChangeAction.Insert)
@@ -122,9 +171,9 @@ public class NoxIntegration: INoxIntegration
 
         return true;
 
-    } 
+    }
 
-    private Task<bool> ExecuteAddNew()
+    private Task<bool> ExecuteAddNew(IEnumerable<INoxCustomTransformHandler>? handlers)
     {
         return Task.FromResult(true);
     }

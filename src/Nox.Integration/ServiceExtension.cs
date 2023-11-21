@@ -16,12 +16,19 @@ public static class ServiceExtension
             services.TryAddSingleton<INoxIntegrationContext>(p =>
             {
                 var logger = p.GetRequiredService<ILogger<INoxIntegrationContext>>();
-                var context = new NoxIntegrationContext(logger, solution);
+                var handlers = p.GetServices<INoxCustomTransformHandler>();
+                var context = new NoxIntegrationContext(logger, solution, handlers);
                 context.Initialize();
                 return context;
             });
         }
         
+        return services;
+    }
+
+    public static IServiceCollection RegisterTransformHandler(this IServiceCollection services, Type handlerType)
+    {
+        services.AddTransient(typeof(INoxCustomTransformHandler), handlerType);
         return services;
     }
 }

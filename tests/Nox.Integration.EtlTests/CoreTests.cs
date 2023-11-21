@@ -71,7 +71,7 @@ public class CoreTests
                 SourceAdapterType = IntegrationSourceAdapterType.DatabaseQuery,
                 QueryOptions = new IntegrationSourceQueryOptions
                 {
-                    Query = "SELECT Id, Name, Population, CreateDate, EditDate FROM CountryMaster",
+                    Query = "SELECT CountryId AS Id, Name, Population, CreateDate, EditDate FROM CountryMaster",
                     MinimumExpectedRecords = 10
                 },
                 DataConnectionName = "CountrySource",
