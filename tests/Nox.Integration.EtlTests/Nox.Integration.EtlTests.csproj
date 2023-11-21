@@ -30,4 +30,10 @@
         <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="files\test_integration.solution.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

@@ -1,0 +1,72 @@
+#
+# test_integration.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: TestIntegration
+
+description: Yaml file for testing integrations
+
+application:
+
+  integrations:
+
+    - name: SqlToSqlIntegration
+      description: a Sample integration that sources data from Sql Server and persists to a Database Table
+      mergeType: mergeNew
+      transformationType: defaultTransform
+
+      schedule:
+        start: every day at 2am
+        retry:
+          limit: 5
+          delaySeconds: 5
+          doubleDelayLimit: 10
+        runOnStartup: true
+
+      source:
+        name: SampleSource
+        description: Sources Country data from a Sql Server database
+        dataConnectionName: CountrySource
+        sourceAdapterType: databaseQuery
+        queryOptions:
+          query: SELECT Id, Name, Population, CreateDate, EditDate FROM CountryMaster
+          minimumExpectedRecords: 5
+
+        watermark:
+          dateColumns:
+            - "CreateDate"
+            - "EditDate"
+          sequentialKeyColumns:
+            - "Id"
+
+      target:
+        name: SampleTarget
+        dataConnectionName: EtlSample
+        targetAdapterType: databaseTable
+        tableOptions:
+          tableName: Country
+
+
+infrastructure:
+  
+  dependencies:
+  
+    dataConnections:
+      - name: CountrySource
+        provider: sqlServer
+        serverUri: localhost
+        user: sa
+        password: Developer*123
+        port: 1433
+        options: pooling=false;encrypt=false;
+        
+      - name: EtlSample
+        provider: sqlServer
+        serverUri: localhost
+        user: sa
+        password: Developer*123
+        port : 1433
+        options: pooling=false;encrypt=false;

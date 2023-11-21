@@ -6,45 +6,48 @@ using Nox.Solution;
 
 namespace Nox.Integration.EtlTests;
 
-public class IntegrationTests
+public class CustomTransformTests
 {
 #if DEBUG
     [Fact]
 #else
     [Fact (Skip = "This test can only be run locally if you have a loal sql server instance and have created the CountrySource database using ./files/Create_CoutrySource.sql")]
 #endif 
-    public async Task Can_Execute_an_integration()
+    public async Task Can_Execute_an_integration_using_custom_transform()
     {
         var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
         var logger = loggerFactory.CreateLogger<INoxIntegrationContext>();
         
-        var dataConnections = new List<DataConnection>();
-        dataConnections.Add(new DataConnection
+        var dataConnections = new List<DataConnection>
         {
-            Name = "CountrySource",
-            Provider = DataConnectionProvider.SqlServer,
-            User = "sa",
-            Password = "Developer*123",
-            Port = 1433,
-            ServerUri = "localhost",
-            Options = "pooling=false;encrypt=false"
-        });
-        dataConnections.Add(new DataConnection
-        {
-            Name = "EtlSample",
-            Provider = DataConnectionProvider.SqlServer,
-            User = "sa",
-            Password = "Developer*123",
-            Port = 1433,
-            ServerUri = "localhost",
-            Options = "pooling=false;encrypt=false"
-        });
+            new()
+            {
+                Name = "CountrySource",
+                Provider = DataConnectionProvider.SqlServer,
+                User = "sa",
+                Password = "Developer*123",
+                Port = 1433,
+                ServerUri = "localhost",
+                Options = "pooling=false;encrypt=false"
+            },
+            new()
+            {
+                Name = "EtlSample",
+                Provider = DataConnectionProvider.SqlServer,
+                User = "sa",
+                Password = "Developer*123",
+                Port = 1433,
+                ServerUri = "localhost",
+                Options = "pooling=false;encrypt=false"
+            }
+        };
 
         var definition = new Solution.Integration
         {
-            Name = "EtlTest",
-            Description = "This is a test Integration",
+            Name = "EtlCustomTransformTest",
+            Description = "This is a custom transform test Integration",
             MergeType = IntegrationMergeType.MergeNew,
+            TransformationType = IntegrationTransformType.CustomTransform,
             Source = new IntegrationSource
             {
                 Watermark = new IntegrationSourceWatermark
@@ -101,7 +104,7 @@ public class IntegrationTests
 
         var context = new NoxIntegrationContext(logger, new NoxSolution());
         context.AddIntegration(integration);
-        var result = await context.ExecuteIntegrationAsync("EtlTest");
+        var result = await context.ExecuteIntegrationAsync("EtlCustomTransformTest");
         Assert.True(result);
     }
 }
