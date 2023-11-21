@@ -725,8 +725,8 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateEtagHeader(postResult?.Etag),
                 CreateAcceptLanguageHeader("en-US"));
             
-            var localizedDto =  await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplaceLocalized/tr-TR", upsertDto, headers, false);
-            
+            var localizedDto =  await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplacesLocalized/tr-TR", upsertDto, headers, false);
+            var localizations = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplacesLocalized"))?.ToList();
             
             // Assert
             result.Should().NotBeNull();
@@ -737,7 +737,128 @@ namespace ClientApi.Tests.Tests.Controllers
             localizedDto.Should().NotBeNull();
             localizedDto!.Id.Should().Be(postResult!.Id);
             localizedDto!.Description.Should().Be(upsertDto.Description);
+            
+            localizations.Should().NotBeNull();
+            localizations.Should().HaveCount(2);
+            localizations.Should().ContainSingle(l => l.Id == postResult!.Id && l.CultureCode == "fr-FR" && l.Description == createDto.Description);
+            localizations.Should().ContainSingle(l => l.Id == postResult!.Id && l.CultureCode == "tr-TR" && l.Description == upsertDto.Description);
         }
+        
+        [Fact]
+        public async Task Put_CreateWorkplaceLocalization_Success()
+        {
+            var newWorkplace = await CreateWorkplaceAndGetId();
+            var cultureCode = "ar-SA";
+            var upsertDto = new WorkplaceLocalizedUpsertDto
+            {
+                Description = "الوصف المترجم باللغة الإنجليزية."
+            };
+
+          
+            var headers = CreateHeaders(
+                CreateAcceptLanguageHeader(cultureCode));
+
+            var putResult = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}", 
+                upsertDto, 
+                headers, false);
+
+            putResult.Should().NotBeNull();
+            putResult!.Id.Should().Be(newWorkplace.Id);
+            putResult.CultureCode.Should().Be(cultureCode);
+            putResult.Description.Should().Be(upsertDto.Description);
+        }
+        
+        [Fact]
+        public async Task Get_RetrieveWorkplaceLocalizations_Success()
+        {
+            var newWorkplace = await CreateWorkplaceAndGetId();
+
+            var localizations = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>(
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized",
+                CreateAcceptLanguageHeader("en-US")))?.ToList();
+
+            
+            localizations.Should().NotBeNull();
+            localizations.Should().NotBeEmpty();
+            localizations.Should().Contain(l => l.Id == newWorkplace.Id);
+        }
+
+        [Fact]
+        public async Task Put_UpdateWorkplaceLocalization_Success()
+        {
+            // Create a new workplace and get its ID
+            var newWorkplace = await CreateWorkplaceAndGetId();
+            var cultureCode = "en-US";
+            var initialDescription = "Initial Description";
+            var updatedDescription = "Updated Description";
+
+            // Initial localization creation
+            var initialUpsertDto = new WorkplaceLocalizedUpsertDto
+            {
+                Description = initialDescription
+            };
+
+            var headers = CreateHeaders(
+                CreateAcceptLanguageHeader(cultureCode));
+
+            var initialPutResult = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}", 
+                initialUpsertDto, 
+                headers,false);
+
+            initialPutResult.Should().NotBeNull();
+            initialPutResult!.Description.Should().Be(initialDescription);
+
+            // Update localization
+            var upsertDto = new WorkplaceLocalizedUpsertDto
+            {
+                Description = updatedDescription
+            };
+
+            var putResult = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}", 
+                upsertDto, 
+                headers, false);
+
+            putResult.Should().NotBeNull();
+            putResult!.Description.Should().Be(updatedDescription);
+            
+            // Get all localizations
+            var localizations = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>(
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized",
+                CreateAcceptLanguageHeader("en-US")))?.ToList();
+            
+            localizations.Should().NotBeNull();
+            localizations.Should().NotBeEmpty();
+            localizations.Should().HaveCount(1);
+            localizations.Should().Contain(l => l.Id == newWorkplace.Id);
+            localizations.Should().Contain(l => l.Description == updatedDescription);
+        }
+
+
+        private async Task<WorkplaceDto> CreateWorkplaceAndGetId()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = "Example Workplace",
+                Description = "Description of Example Workplace."
+            };
+
+            // Act
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
+                Endpoints.WorkplacesUrl, 
+                createDto, 
+                CreateAcceptLanguageHeader("en-US"));
+
+            // Assert
+            postResult.Should().NotBeNull();
+            postResult!.Id.Should().BePositive(); // Ensures that an ID was assigned
+
+            return postResult;
+        }
+
 
         #endregion LOCALIZATIONS
 

@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -293,6 +293,8 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<TestEntityLocalizationDto>("TestEntityLocalizations");
 		builder.EntityType<TestEntityLocalizationDto>().HasKey(e => new { e.Id });
         builder.ComplexType<TestEntityLocalizationUpdateDto>();
+        builder.EntityType<TestEntityLocalizationLocalizedDto>().HasKey(e => new { e.Id });
+        builder.EntityType<TestEntityLocalizationDto>().Function("TestEntityLocalizationsLocalized").ReturnsCollection<DtoNameSpace.TestEntityLocalizationLocalizedDto>();
         builder.EntityType<TestEntityLocalizationDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityLocalizationDto>().Ignore(e => e.Etag);
 
@@ -305,6 +307,7 @@ internal static class ODataServiceCollectionExtensions
                             .Function("TestEntityForTypesEnumerationTestFields")
                             .ReturnsCollection<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto>();
 
+       
         if(configure != null) configure(builder);
 
         services.AddControllers()
