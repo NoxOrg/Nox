@@ -157,6 +157,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CashStockOrderDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CashStockOrderDto>().Ignore(e => e.Etag);
 
+       
         if(configure != null) configure(builder);
 
         services.AddControllers()

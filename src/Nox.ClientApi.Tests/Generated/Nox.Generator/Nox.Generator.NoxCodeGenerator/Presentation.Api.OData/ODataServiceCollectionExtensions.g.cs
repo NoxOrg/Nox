@@ -60,6 +60,8 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<WorkplaceDto>().ContainsOptional(e => e.Country);
         builder.EntityType<WorkplaceDto>().ContainsMany(e => e.Tenants);
         builder.ComplexType<WorkplaceUpdateDto>();
+        builder.EntityType<WorkplaceLocalizedDto>().HasKey(e => new { e.Id });
+        builder.EntityType<WorkplaceDto>().Function("WorkplacesLocalized").ReturnsCollection<DtoNameSpace.WorkplaceLocalizedDto>();
 
         builder.EntitySet<StoreOwnerDto>("StoreOwners");
 		builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });
@@ -103,6 +105,7 @@ internal static class ODataServiceCollectionExtensions
                             .Function("StoreStatuses")
                             .ReturnsCollection<DtoNameSpace.StoreStatusDto>();
 
+       
         if(configure != null) configure(builder);
 
         services.AddControllers()

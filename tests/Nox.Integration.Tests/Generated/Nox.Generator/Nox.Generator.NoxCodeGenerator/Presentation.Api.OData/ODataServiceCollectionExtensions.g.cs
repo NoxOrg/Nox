@@ -290,9 +290,21 @@ internal static class ODataServiceCollectionExtensions
 		builder.EntityType<TestEntityForUniqueConstraintsDto>().HasKey(e => new { e.Id });
         builder.ComplexType<TestEntityForUniqueConstraintsUpdateDto>();
 
+        builder.EntitySet<EntityUniqueConstraintsWithForeignKeyDto>("EntityUniqueConstraintsWithForeignKeys");
+		builder.EntityType<EntityUniqueConstraintsWithForeignKeyDto>().HasKey(e => new { e.Id });
+        builder.EntityType<EntityUniqueConstraintsWithForeignKeyDto>().ContainsRequired(e => e.EntityUniqueConstraintsRelatedForeignKey);
+        builder.ComplexType<EntityUniqueConstraintsWithForeignKeyUpdateDto>();
+
+        builder.EntitySet<EntityUniqueConstraintsRelatedForeignKeyDto>("EntityUniqueConstraintsRelatedForeignKeys");
+		builder.EntityType<EntityUniqueConstraintsRelatedForeignKeyDto>().HasKey(e => new { e.Id });
+        builder.EntityType<EntityUniqueConstraintsRelatedForeignKeyDto>().ContainsMany(e => e.EntityUniqueConstraintsWithForeignKeys);
+        builder.ComplexType<EntityUniqueConstraintsRelatedForeignKeyUpdateDto>();
+
         builder.EntitySet<TestEntityLocalizationDto>("TestEntityLocalizations");
 		builder.EntityType<TestEntityLocalizationDto>().HasKey(e => new { e.Id });
         builder.ComplexType<TestEntityLocalizationUpdateDto>();
+        builder.EntityType<TestEntityLocalizationLocalizedDto>().HasKey(e => new { e.Id });
+        builder.EntityType<TestEntityLocalizationDto>().Function("TestEntityLocalizationsLocalized").ReturnsCollection<DtoNameSpace.TestEntityLocalizationLocalizedDto>();
         builder.EntityType<TestEntityLocalizationDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityLocalizationDto>().Ignore(e => e.Etag);
 
@@ -305,6 +317,7 @@ internal static class ODataServiceCollectionExtensions
                             .Function("TestEntityForTypesEnumerationTestFields")
                             .ReturnsCollection<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto>();
 
+       
         if(configure != null) configure(builder);
 
         services.AddControllers()
