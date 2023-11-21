@@ -51,7 +51,7 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
     private ClientApi.Domain.StoreOwner ToEntity(StoreOwnerCreateDto createDto)
     {
         var entity = new ClientApi.Domain.StoreOwner();
-        entity.Id = StoreOwnerMetadata.CreateId(createDto.Id);
+        entity.Id = StoreOwnerMetadata.CreateId(createDto.Id!);
         entity.Name = ClientApi.Domain.StoreOwnerMetadata.CreateName(createDto.Name);
         entity.TemporaryOwnerName = ClientApi.Domain.StoreOwnerMetadata.CreateTemporaryOwnerName(createDto.TemporaryOwnerName);
         entity.SetIfNotNull(createDto.VatNumber, (entity) => entity.VatNumber =ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(createDto.VatNumber.NonNullValue<VatNumberDto>()));

@@ -10,7 +10,7 @@ namespace Nox.Generator.Application.Dto;
 
 internal class EntityUpsertDtoGenerator : INoxCodeGenerator
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
 
     public void Generate(
       SourceProductionContext context,
@@ -26,10 +26,9 @@ internal class EntityUpsertDtoGenerator : INoxCodeGenerator
         if (solution.Domain is null || !solution.Domain.Entities.Any())
             return;
 
-        foreach (var entity in codeGeneratorState.Solution.Domain!.Entities.Where(entity => entity.IsOwnedEntity))
+        foreach (var entity in solution.Domain!.Entities.Where(entity => entity.IsOwnedEntity))
         {
-            var attributes = entity.Attributes ?? Enumerable.Empty<NoxSimpleTypeDefinition>();
-            var componentsInfo = attributes
+            var componentsInfo = entity.Attributes
                .ToDictionary(r => r.Name, key => new { 
                    IsSimpleType = key.Type.IsSimpleType(), 
                    ComponentType = GetSingleComponentSimpleType(key),

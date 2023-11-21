@@ -71,7 +71,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
             {{- if !IsNoxTypeCreatable key.Type || key.Type == "Guid" -}}
                 {{ continue; -}}
             {{- end }}
-        entity.{{key.Name}} = {{entity.Name}}Metadata.Create{{key.Name}}(createDto.{{key.Name}});
+        entity.{{key.Name}} = {{entity.Name}}Metadata.Create{{key.Name}}(createDto.{{key.Name}}{{if entity.IsOwnedEntity}}!{{end}});
         {{- end }}
         {{- for attribute in entity.Attributes }}
             {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" || attribute.Type == "AutoNumber" -}}

@@ -28,9 +28,8 @@ public abstract class SecondTestEntityOwnedRelationshipZeroOrManyUpsertDtoBase: 
 
     /// <summary>
     /// 
-    /// </summary>    
-    
-        public System.String Id { get; set; } = default!;
+    /// </summary>
+    public System.String? Id { get; set; }
 
     /// <summary>
     ///      

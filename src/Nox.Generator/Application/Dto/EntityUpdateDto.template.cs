@@ -48,7 +48,7 @@ public partial class {{className}}Base: EntityDtoBase, IEntityDto<DomainNamespac
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
-    {{- if relationship.Relationship == "ZeroOrOne" || relationship.Relationship == "ExactlyOne"}}
+    {{- if relationship.WithSingleEntity }}
     public virtual {{relationship.Entity}}UpsertDto{{- if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationshipName}} { get; set; } = null!;
     {{- else }}
     public virtual List<{{relationship.Entity}}UpsertDto> {{relationshipName}} { get; set; } = new();

@@ -92,10 +92,10 @@ public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Na
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
-    {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}UpsertDto> {{relationshipName}} { get; set; } = new();
-    {{- else}}
+    {{- if relationship.WithSingleEntity }}
     public virtual {{relationship.Entity}}UpsertDto{{- if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationshipName}} { get; set; } = null!;
+    {{- else}}
+    public virtual List<{{relationship.Entity}}UpsertDto> {{relationshipName}} { get; set; } = new();
     {{-end}}
 {{- end }}
 }

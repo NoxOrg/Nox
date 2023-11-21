@@ -51,7 +51,7 @@ internal abstract class TestEntityTwoRelationshipsManyToManyFactoryBase : IEntit
     private TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany ToEntity(TestEntityTwoRelationshipsManyToManyCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany();
-        entity.Id = TestEntityTwoRelationshipsManyToManyMetadata.CreateId(createDto.Id);
+        entity.Id = TestEntityTwoRelationshipsManyToManyMetadata.CreateId(createDto.Id!);
         entity.TextTestField = TestWebApp.Domain.TestEntityTwoRelationshipsManyToManyMetadata.CreateTextTestField(createDto.TextTestField);
         return entity;
     }

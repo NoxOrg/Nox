@@ -57,7 +57,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
     private Cryptocash.Domain.Country ToEntity(CountryCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Country();
-        entity.Id = CountryMetadata.CreateId(createDto.Id);
+        entity.Id = CountryMetadata.CreateId(createDto.Id!);
         entity.Name = Cryptocash.Domain.CountryMetadata.CreateName(createDto.Name);
         entity.SetIfNotNull(createDto.OfficialName, (entity) => entity.OfficialName =Cryptocash.Domain.CountryMetadata.CreateOfficialName(createDto.OfficialName.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.CountryIsoNumeric, (entity) => entity.CountryIsoNumeric =Cryptocash.Domain.CountryMetadata.CreateCountryIsoNumeric(createDto.CountryIsoNumeric.NonNullValue<System.UInt16>()));
