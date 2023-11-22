@@ -275,6 +275,142 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<CountryTimeZoneDto>>> GetCountryTimeZones([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var item = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.CountryTimeZones);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}")]
+    public virtual async Task<ActionResult<CountryTimeZoneDto>> GetCountryTimeZonesNonConventional(System.Int64 key, System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var child = await TryGetCountryTimeZones(key, new CountryTimeZoneKeyDto(relatedKey));
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    public virtual async Task<ActionResult> PostToCountryTimeZones([FromRoute] System.Int64 key, [FromBody] CountryTimeZoneUpsertDto countryTimeZone)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var createdKey = await _mediator.Send(new CreateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), countryTimeZone, etag));
+        if (createdKey == null)
+        {
+            return NotFound();
+        }
+        
+        var child = await TryGetCountryTimeZones(key, createdKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
+    }
+    
+    [HttpPut("/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}")]
+    public virtual async Task<ActionResult<CountryTimeZoneDto>> PutToCountryTimeZonesNonConventional(System.Int64 key, System.String relatedKey, [FromBody] CountryTimeZoneUpsertDto countryTimeZone)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updatedKey = await _mediator.Send(new UpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey), countryTimeZone, etag));
+        if (updatedKey == null)
+        {
+            return NotFound();
+        }
+        
+        var child = await TryGetCountryTimeZones(key, updatedKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    [HttpPatch("/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}")]
+    public virtual async Task<ActionResult> PatchToCountryTimeZonesNonConventional(System.Int64 key, System.String relatedKey, [FromBody] Delta<CountryTimeZoneUpsertDto> countryTimeZone)
+    {
+        if (!ModelState.IsValid || countryTimeZone is null)
+        {
+            return BadRequest(ModelState);
+        }
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in countryTimeZone.GetChangedPropertyNames())
+        {
+            if(countryTimeZone.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey), updateProperties, etag));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        var child = await TryGetCountryTimeZones(key, updated);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    [HttpDelete("/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}")]
+    public virtual async Task<ActionResult> DeleteCountryTimeZoneNonConventional(System.Int64 key, System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _mediator.Send(new DeleteCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey)));
+        if (!result)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    protected async Task<CountryTimeZoneDto?> TryGetCountryTimeZones(System.Int64 key, CountryTimeZoneKeyDto childKeyDto)
+    {
+        var parent = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
+        return parent?.CountryTimeZones.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+    }
+    
     #endregion
     
     
