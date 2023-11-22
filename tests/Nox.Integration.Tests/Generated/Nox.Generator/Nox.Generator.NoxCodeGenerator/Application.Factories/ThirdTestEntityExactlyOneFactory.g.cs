@@ -51,7 +51,7 @@ internal abstract class ThirdTestEntityExactlyOneFactoryBase : IEntityFactory<Th
     private TestWebApp.Domain.ThirdTestEntityExactlyOne ToEntity(ThirdTestEntityExactlyOneCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.ThirdTestEntityExactlyOne();
-        entity.Id = ThirdTestEntityExactlyOneMetadata.CreateId(createDto.Id!);
+        entity.Id = ThirdTestEntityExactlyOneMetadata.CreateId(createDto.Id);
         entity.TextTestField = TestWebApp.Domain.ThirdTestEntityExactlyOneMetadata.CreateTextTestField(createDto.TextTestField);
         return entity;
     }

@@ -301,10 +301,10 @@ namespace ClientApi.Tests.Tests.Controllers
             });
 
             //Act
-            var postEmailAddressResponse = await PostAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", new EmailAddressCreateDto());
+            var postEmailAddressResponse = await PostAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", new EmailAddressUpsertDto());
             var getEmailAddressResponse = await GetAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress");
-            var putEmailAddressResponse = await PutAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", new EmailAddressCreateDto(), false);
-            var patchEmailAddressResponse = await PatchAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", new EmailAddressCreateDto(), new Dictionary<string, IEnumerable<string>>(), false);
+            var putEmailAddressResponse = await PutAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", new EmailAddressUpsertDto(), false);
+            var patchEmailAddressResponse = await PatchAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", new EmailAddressUpsertDto(), new Dictionary<string, IEnumerable<string>>(), false);
             var deleteEmailAddressResponse = await DeleteAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", false);
 
             //Assert

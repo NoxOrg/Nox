@@ -51,7 +51,7 @@ internal abstract class EntityUniqueConstraintsRelatedForeignKeyFactoryBase : IE
     private TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey ToEntity(EntityUniqueConstraintsRelatedForeignKeyCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey();
-        entity.Id = EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(createDto.Id!);
+        entity.Id = EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(createDto.Id);
         entity.SetIfNotNull(createDto.TextField, (entity) => entity.TextField =TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>()));
         return entity;
     }

@@ -26,10 +26,9 @@ internal class EntityCreateDtoGenerator : INoxCodeGenerator
         {
             return;
         }
-        foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+        foreach (var entity in codeGeneratorState.Solution.Domain!.Entities.Where(entity => !entity.IsOwnedEntity))
         {
-            var attributes = entity.Attributes ?? Enumerable.Empty<NoxSimpleTypeDefinition>();
-            var componentsInfo = attributes
+            var componentsInfo = entity.Attributes
                .ToDictionary(r => r.Name, key => new { 
                    IsSimpleType = key.Type.IsSimpleType(),
                    ComponentType = GetSingleComponentSimpleType(key)
