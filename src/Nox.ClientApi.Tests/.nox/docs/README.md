@@ -14,7 +14,6 @@ erDiagram
     }
     Country||--o{CountryLocalName : "is also know as"
     Country||--o|CountryBarCode : "is also coded as"
-    Country||--o{CountryTimeZone : "uses"
     CountryLocalName {
     }
     CountryBarCode {
@@ -41,8 +40,6 @@ erDiagram
     Currency {
     }
     Tenant {
-    }
-    CountryTimeZone {
     }
     EmailAddress {
     }
@@ -79,7 +76,6 @@ GoogleMapsUrl|Url|Country's map via google maps.|
 StartOfWeek|DayOfWeek|Country's start of week day.|
 Continent|Enumeration|Country Continent.|Values: System.Collections.Generic.List`1[Nox.Types.EnumerationValues]
 CountryLocalNameId|AutoNumber|The unique identifier.|Required, Owned Entity
-CountryTimeZoneId|TimeZoneCode|Country's related time zone code.|Required, Owned Entity
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -119,22 +115,6 @@ Member|Type|Description|Info
 Id|AutoNumber|The unique identifier.|Required, Primary Key
 Name|Text|Local name.|Required, MinLength: 4, MaxLength: 63
 NativeName|Text|Local name in native tongue.|MinLength: 4, MaxLength: 63
-
-
-
-
-### Country.CountryTimeZone (Owned by Country)
-
-Time zone related to country.
-
-[Domain Events](./domainEvents/CountryTimeZoneDomainEvents.md)
-
-#### <u>Members (Keys, Attributes & Relationships)</u>
-
-Member|Type|Description|Info
----------|----|----------|-------
-Id|TimeZoneCode|Country's related time zone code.|Required, Primary Key
-Name|Text|Time Zone Name.|MinLength: 4, MaxLength: 63
 
 
 

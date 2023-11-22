@@ -25,7 +25,6 @@ GoogleMapsUrl|Url|Country's map via google maps
 StartOfWeek|DayOfWeek|Country's start of week day
 Continent|Enumeration|Country Continent
 CountryLocalNameId|AutoNumber|The unique identifier
-CountryTimeZoneId|TimeZoneCode|Country's related time zone code
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -50,7 +49,6 @@ GoogleMapsUrl|Url|Country's map via google maps
 StartOfWeek|DayOfWeek|Country's start of week day
 Continent|Enumeration|Country Continent
 CountryLocalNameId|AutoNumber|The unique identifier
-CountryTimeZoneId|TimeZoneCode|Country's related time zone code
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -75,6 +73,5 @@ GoogleMapsUrl|Url|Country's map via google maps
 StartOfWeek|DayOfWeek|Country's start of week day
 Continent|Enumeration|Country Continent
 CountryLocalNameId|AutoNumber|The unique identifier
-CountryTimeZoneId|TimeZoneCode|Country's related time zone code
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

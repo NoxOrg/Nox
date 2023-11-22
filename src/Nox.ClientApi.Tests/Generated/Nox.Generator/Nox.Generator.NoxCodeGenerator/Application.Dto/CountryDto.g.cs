@@ -145,11 +145,6 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     /// Country is also coded as ZeroOrOne CountryBarCodes
     /// </summary>
     public virtual CountryBarCodeDto? CountryBarCode { get; set; } = null!;
-
-    /// <summary>
-    /// Country uses ZeroOrMany CountryTimeZones
-    /// </summary>
-    public virtual List<CountryTimeZoneDto> CountryTimeZones { get; set; } = new();
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

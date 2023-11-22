@@ -74,28 +74,6 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Countries/{key}/CountryBarCodes/{relatedKey}`
   - Description: Delete an existing CountryBarCode for a specific Country.
 
-### CountryTimeZone
-
-#### Get CountryTimeZones
-- **GET** `/api/Countries/{key}/CountryTimeZones`
-  - Description: Retrieve all CountryTimeZones for a specific Country.
-
-#### Create CountryTimeZone
-- **POST** `/api/Countries/{key}/CountryTimeZones`
-  - Description: Create a new CountryTimeZone for a specific Country.
-
-#### Update CountryTimeZone
-- **PUT** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
-  - Description: Update an existing CountryTimeZone for a specific Country.
-  
-#### Partially Update CountryTimeZone
-- **PATCH** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
-  - Description: Partially update an existing CountryTimeZone for a specific Country.
-
-#### Delete CountryTimeZone
-- **DELETE** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
-  - Description: Delete an existing CountryTimeZone for a specific Country.
-
 ## Relationships Endpoints
 
 ### Workplace

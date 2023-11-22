@@ -303,67 +303,6 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion POST to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
 
-        #region POST to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryTimeZones
-
-        [Fact(Skip = "Owned relationship with manual Key is not created properly")]
-        public async Task PostToCountryTimeZones_WithId_ShouldAddToCountryTimeZone()
-        {
-            // Arrange
-            var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
-                new CountryCreateDto
-                {
-                    Name = _fixture.Create<string>(),
-                    Population = _fixture.Create<int>()
-                });
-            var headers = CreateEtagHeader(result?.Etag);
-
-            //Act
-            var ownedResult = await PostAsync(
-                $"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(CountryDto.CountryTimeZones)}", 
-                new CountryTimeZoneUpsertDto
-                {
-                    Id = "EST",
-                    Name = _fixture.Create<string>()
-                }, 
-                headers);
-
-            const string oDataRequest = $"$expand={nameof(CountryDto.CountryTimeZones)}";
-            var getWorkplacesResponse = await GetODataSimpleResponseAsync<CountryDto>(
-                $"{Endpoints.CountriesUrl}/{result!.Id}");
-
-            //Assert
-            //ownedResult.Should().NotBeNull();
-            //ownedResult!.Id.Should().Be("EST");
-        }
-
-        [Fact]
-        public async Task PostToCountryTimeZones_WithoutId_ShouldFail()
-        {
-            // Arrange
-            var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
-                new CountryCreateDto
-                {
-                    Name = _fixture.Create<string>(),
-                    Population = _fixture.Create<int>()
-                });
-            var headers = CreateEtagHeader(result?.Etag);
-
-            //Act
-            var ownedResult = await PostAsync(
-                $"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(CountryDto.CountryTimeZones)}",
-                new CountryTimeZoneUpsertDto
-                {
-                    Name = _fixture.Create<string>()
-                },
-                headers);
-
-            //Assert
-            ownedResult.Should().NotBeNull();
-            ownedResult!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        }
-
-        #endregion POST to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
-
         #region POST to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryBarCode
 
         [Fact]

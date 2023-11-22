@@ -122,7 +122,6 @@ GoogleMapsUrl|System.String|Country's map via google maps
 StartOfWeek|System.UInt16|Country's start of week day
 Continent|System.Int32|Country Continent
 CountryLocalNameId|System.Int64|The unique identifier
-CountryTimeZoneId|System.String|Country's related time zone code
 
 
 ### `WorkplaceDeleted`

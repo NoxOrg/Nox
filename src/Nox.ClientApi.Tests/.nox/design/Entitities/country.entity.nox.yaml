@@ -110,11 +110,6 @@ ownedRelationships:
     relationship: zeroOrOne
     entity: CountryBarCode
 
-  - name: CountryTimeZone
-    description: uses
-    relationship: zeroOrMany
-    entity: CountryTimeZone
-
 relationships:
 
     - name: PhysicalWorkplaces

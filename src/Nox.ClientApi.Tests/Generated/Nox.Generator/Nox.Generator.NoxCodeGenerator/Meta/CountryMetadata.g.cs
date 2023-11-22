@@ -183,13 +183,6 @@ public partial class CountryMetadata
         public static Nox.Types.AutoNumber CreateCountryLocalNameId(System.Int64 value)
             => Nox.Types.AutoNumber.FromDatabase(value);
         
-    
-        /// <summary>
-        /// Factory for property 'CountryTimeZoneId'
-        /// </summary>
-        public static Nox.Types.TimeZoneCode CreateCountryTimeZoneId(System.String value)
-            => Nox.Types.TimeZoneCode.From(value);
-        
 
         /// <summary>
         /// User Interface for property 'Name'
