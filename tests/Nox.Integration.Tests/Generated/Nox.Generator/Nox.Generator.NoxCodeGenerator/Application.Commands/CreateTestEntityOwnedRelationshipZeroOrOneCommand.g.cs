@@ -12,6 +12,8 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -61,4 +63,11 @@ internal abstract class CreateTestEntityOwnedRelationshipZeroOrOneCommandHandler
 		await DbContext.SaveChangesAsync();
 		return new TestEntityOwnedRelationshipZeroOrOneKeyDto(entityToCreate.Id.Value);
 	}
+}
+
+public class CreateTestEntityOwnedRelationshipZeroOrOneValidator : AbstractValidator<CreateTestEntityOwnedRelationshipZeroOrOneCommand>
+{
+    public CreateTestEntityOwnedRelationshipZeroOrOneValidator(ILogger<CreateTestEntityOwnedRelationshipZeroOrOneCommand> logger)
+    {
+    }
 }
