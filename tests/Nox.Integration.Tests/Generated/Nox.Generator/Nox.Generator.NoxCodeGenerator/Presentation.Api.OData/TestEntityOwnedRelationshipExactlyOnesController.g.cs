@@ -91,7 +91,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PatchToSecondTestEntityOwnedRelationshipExactlyOne(System.String key, [FromBody] Delta<SecondTestEntityOwnedRelationshipExactlyOneDto> secondTestEntityOwnedRelationshipExactlyOne)
+    public virtual async Task<ActionResult> PatchToSecondTestEntityOwnedRelationshipExactlyOne(System.String key, [FromBody] Delta<SecondTestEntityOwnedRelationshipExactlyOneUpsertDto> secondTestEntityOwnedRelationshipExactlyOne)
     {
         if (!ModelState.IsValid || secondTestEntityOwnedRelationshipExactlyOne is null)
         {
@@ -106,6 +106,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
                 updateProperties[propertyName] = value;                
             }           
         }
+        
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new PartialUpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), updateProperties, etag));

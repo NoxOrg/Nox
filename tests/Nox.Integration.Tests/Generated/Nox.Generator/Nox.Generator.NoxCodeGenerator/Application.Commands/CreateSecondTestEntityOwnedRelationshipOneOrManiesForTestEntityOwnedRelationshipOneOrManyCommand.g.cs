@@ -11,6 +11,8 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -69,4 +71,12 @@ internal abstract class CreateSecondTestEntityOwnedRelationshipOneOrManiesForTes
 
 		return new SecondTestEntityOwnedRelationshipOneOrManyKeyDto(entity.Id.Value);
 	}
+}
+
+public class CreateSecondTestEntityOwnedRelationshipOneOrManiesForTestEntityOwnedRelationshipOneOrManyValidator : AbstractValidator<CreateSecondTestEntityOwnedRelationshipOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand>
+{
+    public CreateSecondTestEntityOwnedRelationshipOneOrManiesForTestEntityOwnedRelationshipOneOrManyValidator(ILogger<CreateSecondTestEntityOwnedRelationshipOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand> logger)
+    {
+		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
+    }
 }

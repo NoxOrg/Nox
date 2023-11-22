@@ -14,12 +14,12 @@ using Nox.Types;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
-using Cryptocash.Infrastructure.Persistence;
-using Cryptocash.Domain;
-using Cryptocash.Application.Dto;
-using CountryTimeZoneEntity = Cryptocash.Domain.CountryTimeZone;
+using ClientApi.Infrastructure.Persistence;
+using ClientApi.Domain;
+using ClientApi.Application.Dto;
+using CountryTimeZoneEntity = ClientApi.Domain.CountryTimeZone;
 
-namespace Cryptocash.Application.Commands;
+namespace ClientApi.Application.Commands;
 public partial record CreateCountryTimeZonesForCountryCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneUpsertDto EntityDto, System.Guid? Etag) : IRequest <CountryTimeZoneKeyDto?>;
 
 internal partial class CreateCountryTimeZonesForCountryCommandHandler : CreateCountryTimeZonesForCountryCommandHandlerBase
@@ -49,7 +49,7 @@ internal abstract class CreateCountryTimeZonesForCountryCommandHandlerBase : Com
 	public virtual  async Task<CountryTimeZoneKeyDto?> Handle(CreateCountryTimeZonesForCountryCommand request, CancellationToken cancellationToken)
 	{
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
@@ -77,6 +77,6 @@ public class CreateCountryTimeZonesForCountryValidator : AbstractValidator<Creat
 {
     public CreateCountryTimeZonesForCountryValidator(ILogger<CreateCountryTimeZonesForCountryCommand> logger)
     {
-		RuleFor(x => x.EntityDto.Id).Null().WithMessage("Id must be null as it is auto generated.");
+		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
     }
 }

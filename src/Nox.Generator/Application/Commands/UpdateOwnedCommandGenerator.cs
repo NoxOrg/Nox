@@ -31,7 +31,6 @@ internal class UpdateOwnedCommandGenerator : ApplicationEntityDependentGenerator
                     .WithObject("relationship", ownedRelationship)
                     .WithObject("entity", ownedEntity)
                     .WithObject("parent", entity)
-                    .WithObject("isSingleRelationship", ownedRelationship.WithSingleEntity)
                     .WithObject("primaryKeysReturnQuery", primaryKeysReturnQuery)
                     .WithObject("parentKeysFindQuery", parentKeysFindQuery)
                     .WithObject("ownedKeysFindQuery", ownedKeysFindQuery)

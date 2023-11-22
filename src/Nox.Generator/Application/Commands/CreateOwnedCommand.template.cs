@@ -11,6 +11,8 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
@@ -79,3 +81,20 @@ internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandl
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}
 }
+
+{{- if (entity.Keys | array.size) > 0 }}
+
+public class Create{{relationshipName}}For{{parent.Name}}Validator : AbstractValidator<Create{{relationshipName}}For{{parent.Name}}Command>
+{
+    public Create{{relationshipName}}For{{parent.Name}}Validator(ILogger<Create{{relationshipName}}For{{parent.Name}}Command> logger)
+    {
+		{{- for key in entity.Keys }}
+            {{- if !IsNoxTypeCreatable key.Type }}
+		RuleFor(x => x.EntityDto.{{key.Name}}).Null().WithMessage("{{key.Name}} must be null as it is auto generated.");
+			{{- else }}
+		RuleFor(x => x.EntityDto.{{key.Name}}).NotNull().WithMessage("{{key.Name}} is required.");
+            {{- end }}
+        {{- end }}
+    }
+}
+{{- end }}

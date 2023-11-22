@@ -8,9 +8,9 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = Cryptocash.Domain;
+using DomainNamespace = ClientApi.Domain;
 
-namespace Cryptocash.Application.Dto;
+namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Time zone related to country.
@@ -27,14 +27,13 @@ public abstract class CountryTimeZoneUpsertDtoBase: EntityDtoBase, IEntityDto<Do
 {
 
     /// <summary>
-    /// Country's time zone unique identifier
+    /// Country's related time zone code
     /// </summary>
-    public virtual System.Int64? Id { get; set; }
+    public virtual System.String? Id { get; set; }
 
     /// <summary>
-    /// Country's related time zone code     
+    /// Time Zone Name     
     /// </summary>
-    /// <remarks>Required.</remarks>
-    [Required(ErrorMessage = "TimeZoneCode is required")]
-    public virtual System.String TimeZoneCode { get; set; } = default!;
+    /// <remarks>Optional.</remarks>
+    public virtual System.String? Name { get; set; }
 }

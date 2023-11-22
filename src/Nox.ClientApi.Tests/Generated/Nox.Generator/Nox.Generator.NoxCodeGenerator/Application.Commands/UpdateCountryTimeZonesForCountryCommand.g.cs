@@ -11,12 +11,12 @@ using Nox.Application.Factories;
 using Nox.Extensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using Cryptocash.Infrastructure.Persistence;
-using Cryptocash.Domain;
-using Cryptocash.Application.Dto;
-using CountryTimeZoneEntity = Cryptocash.Domain.CountryTimeZone;
+using ClientApi.Infrastructure.Persistence;
+using ClientApi.Domain;
+using ClientApi.Application.Dto;
+using CountryTimeZoneEntity = ClientApi.Domain.CountryTimeZone;
 
-namespace Cryptocash.Application.Commands;
+namespace ClientApi.Application.Commands;
 
 public partial record UpdateCountryTimeZonesForCountryCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneUpsertDto EntityDto, System.Guid? Etag) : IRequest <CountryTimeZoneKeyDto?>;
 
@@ -49,13 +49,13 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
-		var ownedId = Cryptocash.Domain.CountryTimeZoneMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
+		var ownedId = ClientApi.Domain.CountryTimeZoneMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.String>());
 		var entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
