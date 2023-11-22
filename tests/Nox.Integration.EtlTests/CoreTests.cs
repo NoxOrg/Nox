@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Extensions;
@@ -6,7 +7,7 @@ using Nox.Solution;
 
 namespace Nox.Integration.EtlTests;
 
-public class IntegrationTests
+public class CoreTests
 {
 #if DEBUG
     [Fact]
@@ -70,7 +71,7 @@ public class IntegrationTests
                 SourceAdapterType = IntegrationSourceAdapterType.DatabaseQuery,
                 QueryOptions = new IntegrationSourceQueryOptions
                 {
-                    Query = "SELECT Id, Name, Population, CreateDate, EditDate FROM CountryMaster",
+                    Query = "SELECT CountryId AS Id, Name, Population, CreateDate, EditDate FROM CountryMaster",
                     MinimumExpectedRecords = 10
                 },
                 DataConnectionName = "CountrySource",
@@ -102,6 +103,30 @@ public class IntegrationTests
         var context = new NoxIntegrationContext(logger, new NoxSolution());
         context.AddIntegration(integration);
         var result = await context.ExecuteIntegrationAsync("EtlTest");
+        Assert.True(result);
+    }
+
+#if DEBUG
+    [Fact]
+#else
+    [Fact (Skip = "This test can only be run locally if you have a loal sql server instance and have created the CountrySource database using ./files/Create_CoutrySource.sql")]
+#endif     
+    public async Task Can_Execute_an_Integration_From_Yaml_Definition()
+    {
+        var services = new ServiceCollection();
+        services.AddLogging(configure =>
+        {
+            configure.AddConsole();
+        });
+
+        var solution = new NoxSolutionBuilder()
+            .WithFile("./files/test_integration.solution.nox.yaml")
+            .Build();
+        services.AddSingleton<NoxSolution>(solution);
+        services.AddNoxIntegrations(solution);
+        var provider = services.BuildServiceProvider();
+        var context = provider.GetRequiredService<INoxIntegrationContext>();
+        var result = await context.ExecuteIntegrationAsync("SqlToSqlIntegration");
         Assert.True(result);
     }
 }
