@@ -17,7 +17,7 @@ public interface INoxIntegration
     List<string>? IdColumns { get; }
     List<string>? DateColumns { get; }
     
-    internal Task<bool> ExecuteAsync(IEnumerable<INoxCustomTransformHandler>? handlers = null);
+    internal Task<bool> ExecuteAsync(INoxCustomTransformHandler? handler = null);
 
     //todo mapping handler, custom or AutoMapper.
     // If custom, it should create a handler that a user can implement and use to map fields.

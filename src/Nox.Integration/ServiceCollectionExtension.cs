@@ -7,22 +7,11 @@ using Nox.Solution;
 
 namespace Nox.Integration;
 
-public static class ServiceExtension
+public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddNoxIntegrations(this IServiceCollection services, Solution.NoxSolution solution)
     {
-        if (solution.Application is { Integrations: not null } && solution.Application.Integrations.Any())
-        {
-            services.TryAddSingleton<INoxIntegrationContext>(p =>
-            {
-                var logger = p.GetRequiredService<ILogger<INoxIntegrationContext>>();
-                var handlers = p.GetServices<INoxCustomTransformHandler>();
-                var context = new NoxIntegrationContext(logger, solution, handlers);
-                context.Initialize();
-                return context;
-            });
-        }
-        
+        services.TryAddSingleton<INoxIntegrationContext, NoxIntegrationContext>();
         return services;
     }
 

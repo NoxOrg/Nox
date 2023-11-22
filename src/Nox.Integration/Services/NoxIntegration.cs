@@ -9,7 +9,7 @@ using Nox.Integration.Extensions.Send;
 
 namespace Nox.Integration.Services;
 
-public class NoxIntegration: INoxIntegration
+internal sealed class NoxIntegration: INoxIntegration
 {
     private readonly ILogger _logger;
     
@@ -50,24 +50,24 @@ public class NoxIntegration: INoxIntegration
         }
     }
     
-    public async Task<bool> ExecuteAsync(IEnumerable<INoxCustomTransformHandler>? handlers = null)
+    public async Task<bool> ExecuteAsync(INoxCustomTransformHandler? handler = null)
     {
         var result = false;
 
         switch (MergeType)
         {
             case IntegrationMergeType.MergeNew:
-                result = await ExecuteMergeNew(handlers);
+                result = await ExecuteMergeNew(handler);
                 break;
             case IntegrationMergeType.AddNew:
-                result = await ExecuteAddNew(handlers);
+                result = await ExecuteAddNew(handler);
                 break;
         }
 
         return result;
     }
 
-    private async Task<bool> ExecuteMergeNew(IEnumerable<INoxCustomTransformHandler>? handlers)
+    private async Task<bool> ExecuteMergeNew(INoxCustomTransformHandler? handler)
     {
         var source = ReceiveAdapter!.DataFlowSource;
         //todo: filter source using merge state
@@ -77,21 +77,12 @@ public class NoxIntegration: INoxIntegration
         
         if (TransformType == IntegrationTransformType.CustomTransform)
         {
-            if (handlers == null) throw new NoxIntegrationException("Cannot execute custom transform, no handlers registered.");
-            //Find the handler
-            try
-            {
-                var handler = handlers.Single(h => h.IntegrationName == Name);
-                var rowTransform = new RowTransformation<ExpandoObject, ExpandoObject>(sourceRecord => handler.Invoke(sourceRecord));
-                transformSource =  source.LinkTo(rowTransform);
-            }
-            catch (Exception ex)
-            {
-                throw new NoxIntegrationException($"Unable to resolve custom transform handler for integration {Name}: ({ex.Message})");
-            }
+            if (handler == null) throw new NoxIntegrationException("Cannot execute custom transform, handler not registered.");
+            var rowTransform = new RowTransformation<ExpandoObject, ExpandoObject>(sourceRecord => handler.Invoke(sourceRecord));
+            transformSource =  source.LinkTo(rowTransform);
         }
         
-        CustomDestination? postProcessDestination = null;
+        CustomDestination? postProcessDestination;
         switch (SendAdapter!.AdapterType)
         {
             case IntegrationTargetAdapterType.DatabaseTable:
@@ -155,7 +146,7 @@ public class NoxIntegration: INoxIntegration
 
     }
 
-    private Task<bool> ExecuteAddNew(IEnumerable<INoxCustomTransformHandler>? handlers)
+    private Task<bool> ExecuteAddNew(INoxCustomTransformHandler? handler)
     {
         return Task.FromResult(true);
     }

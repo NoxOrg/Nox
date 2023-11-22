@@ -21,7 +21,7 @@ public class TestNoxCustomTransformHandler: INoxCustomTransformHandler
         result.Id = sourceRecord.CountryId;
         result.Name = sourceRecord.Name;
         result.Population = sourceRecord.Population;
-        //Check that solution is injected
+        //Test that solution is injected
         var name = _solution.Name;
         return result;
     }
