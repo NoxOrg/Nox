@@ -39,7 +39,7 @@ public class UrlTests
         var uri = new System.Uri(input);
         Action init = () => { Url.From(uri); };
 
-        init.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+        init.Should().Throw<NoxTypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
             $"Could not create a Nox Url type as value {input} is not a valid Url.")
         });
     }
@@ -54,7 +54,7 @@ public class UrlTests
     {
         Action init = () => { Url.From(input); };
 
-        init.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+        init.Should().Throw<NoxTypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
             $"Could not create a Nox Url type as value {input} is not a valid Url.")
         });
     }
@@ -65,7 +65,7 @@ public class UrlTests
         string longUrl =  $"file://{new('a', Url.MaxLength)}/";
         Action init = () => { Url.From(longUrl); };
 
-        init.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+        init.Should().Throw<NoxTypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
             $"Could not create a Nox Url type as value {longUrl} is greater than the specified maximum of 2083")
         });
     }

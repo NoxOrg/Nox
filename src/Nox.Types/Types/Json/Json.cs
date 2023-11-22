@@ -40,7 +40,7 @@ public sealed class Json : ValueObject<string, Json>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         newObject.ApplyOptions();

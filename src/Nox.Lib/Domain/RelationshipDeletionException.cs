@@ -1,9 +1,9 @@
 using System.Net;
-using Nox.Types;
+using Nox.Exceptions;
 
 namespace Nox.Domain;
 
-public class RelationshipDeletionException: Exception, INoxHttpException
+public class RelationshipDeletionException: Exception, IApplicationException
 {
     public RelationshipDeletionException(string message)
         : base(message)
@@ -15,5 +15,9 @@ public class RelationshipDeletionException: Exception, INoxHttpException
     {
     }
 
-    public HttpStatusCode StatusCode => HttpStatusCode.BadRequest;
+    public HttpStatusCode? StatusCode => HttpStatusCode.BadRequest;
+
+    public string ErrorCode => "can_not_delete_relationship";
+
+    public object? ErrorDetails => throw new NotImplementedException();
 }

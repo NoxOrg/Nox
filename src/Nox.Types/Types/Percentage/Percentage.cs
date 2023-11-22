@@ -15,7 +15,7 @@ public sealed class Percentage : ValueObject<float, Percentage>
     /// </summary>
     /// <param name="value">The value to create the <see cref="Percentage"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Percentage From(float value, PercentageTypeOptions options)
     {
         var newObject = new Percentage
@@ -28,7 +28,7 @@ public sealed class Percentage : ValueObject<float, Percentage>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

@@ -68,7 +68,7 @@ public class VolumeTests
     {
         var action = () => Volume.From(-28);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Volume type as negative value -28 is not allowed.") });
     }
 
@@ -77,7 +77,7 @@ public class VolumeTests
     {
         var action = () => Volume.From(double.NaN);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[]
                 { new ValidationFailure("Value", "Could not create a Nox type as value NaN is not allowed.") });
     }
@@ -87,7 +87,7 @@ public class VolumeTests
     {
         var action = () => Volume.From(double.PositiveInfinity);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[]
                 { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
     }
@@ -97,7 +97,7 @@ public class VolumeTests
     {
         var action = () => Volume.From(double.NegativeInfinity);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[]
                 { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
     }
@@ -248,7 +248,7 @@ public class VolumeTests
             var action = () =>
                 Volume.From(7.5, new VolumeTypeOptions { MaxValue = 5, Unit = VolumeTypeUnit.CubicMeter });
 
-            action.Should().Throw<TypeValidationException>()
+            action.Should().Throw<NoxTypeValidationException>()
                 .And.Errors.Should().BeEquivalentTo(new[]
                 {
                     new ValidationFailure("Value",
@@ -267,7 +267,7 @@ public class VolumeTests
             var action = () =>
                 Volume.From(7.5, new VolumeTypeOptions { MinValue = 10, Unit = VolumeTypeUnit.CubicMeter });
 
-            action.Should().Throw<TypeValidationException>()
+            action.Should().Throw<NoxTypeValidationException>()
                 .And.Errors.Should().BeEquivalentTo(new[]
                 {
                     new ValidationFailure("Value",

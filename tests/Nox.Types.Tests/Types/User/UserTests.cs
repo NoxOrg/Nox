@@ -60,7 +60,7 @@ public class UserTests
     public void User_Constructor_SpecifyingMaxLength_WithLongerLengthInput_ThrowsValidationException()
     {
         var act = () => User.From("thequickbrownfoxjumpedoverthewoodenlog@iwgplc.com", new UserTypeOptions { MaxLength = 15 });
-        act.Should().Throw<TypeValidationException>()
+        act.Should().Throw<NoxTypeValidationException>()
             .And.Errors.First().ErrorMessage.Should().Be("Could not create a Nox User type that is 49 characters long and longer than the maximum specified length of 15.");
     }
 
@@ -68,7 +68,7 @@ public class UserTests
     public void User_Constructor_SpecifyingMinLength_WithShorterLengthInput_ThrowsValidationException()
     {
         var act = () => User.From("thequickbrownfoxjumpedoverthewoodenlog@iwgplc.com", new UserTypeOptions { MinLength = 50 });
-        act.Should().Throw<TypeValidationException>()
+        act.Should().Throw<NoxTypeValidationException>()
             .And.Errors.First().ErrorMessage.Should().Be("Could not create a Nox User type that is 49 characters long and shorter than the minimum specified length of 50.");
     }
 
@@ -76,7 +76,7 @@ public class UserTests
     public void User_Constructor_InvalidGuidType_ThrowsValidationException()
     {
         var act = () => User.From("thequickbrownfoxjumpedoverthewoodenlog@iwgplc.com", new UserTypeOptions { ValidGuidFormat = true, ValidEmailFormat = false, IsCaseSensitive = true });
-        act.Should().Throw<TypeValidationException>().And.Errors.First().ErrorMessage
+        act.Should().Throw<NoxTypeValidationException>().And.Errors.First().ErrorMessage
             .Should().Be("Could not create a Nox User type thequickbrownfoxjumpedoverthewoodenlog@iwgplc.com as it is not a valid Guid.");
     }
 
@@ -85,7 +85,7 @@ public class UserTests
     {
         var userGuid = Guid.NewGuid().ToString();
         var act = () => User.From(userGuid, new UserTypeOptions { ValidGuidFormat = false, ValidEmailFormat = true, IsCaseSensitive = true });
-        act.Should().Throw<TypeValidationException>()
+        act.Should().Throw<NoxTypeValidationException>()
             .And.Errors.First().ErrorMessage
             .Should().Be($"Could not create a Nox User type {userGuid} as it is not a valid email address.");
     }
@@ -95,7 +95,7 @@ public class UserTests
     {
         var userId = "AyeDee";
         var act = () => User.From(userId);
-        act.Should().Throw<TypeValidationException>()
+        act.Should().Throw<NoxTypeValidationException>()
             .And.Errors.First().ErrorMessage
             .Should().Be($"Could not create a Nox User type {userId} as it is not a valid guid or email address.");
     }

@@ -32,7 +32,7 @@ public class JwtTokenTests
     {
         var action = () => JwtToken.From(value!);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox JWT Token type as the value cannot be null or empty.") });
     }
 
@@ -53,7 +53,7 @@ public class JwtTokenTests
     {
         var action = () => JwtToken.From(value);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox JWT Token type as value {value} does not have a valid JWT format.") });
     }
 

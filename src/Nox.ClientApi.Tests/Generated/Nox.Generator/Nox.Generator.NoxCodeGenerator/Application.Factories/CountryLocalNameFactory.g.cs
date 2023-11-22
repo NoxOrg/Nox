@@ -35,7 +35,14 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
 
     public virtual CountryLocalNameEntity CreateEntity(CountryLocalNameUpsertDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(CountryLocalNameEntity entity, CountryLocalNameUpsertDto updateDto, Nox.Types.CultureCode cultureCode)

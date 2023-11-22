@@ -43,7 +43,7 @@ public class LengthTests
         {
             var action = () => Length.From(7.5, new LengthTypeOptions { MaxValue = 5, Units = LengthTypeUnit.Meter });
 
-            action.Should().Throw<TypeValidationException>()
+            action.Should().Throw<NoxTypeValidationException>()
                 .And.Errors.Should().BeEquivalentTo(new[]
                 {
                     new ValidationFailure("Value",
@@ -61,7 +61,7 @@ public class LengthTests
         {
             var action = () => Length.From(7.5, new LengthTypeOptions { MinValue = 10, Units = LengthTypeUnit.Meter });
 
-            action.Should().Throw<TypeValidationException>()
+            action.Should().Throw<NoxTypeValidationException>()
                 .And.Errors.Should().BeEquivalentTo(new[]
                 {
                     new ValidationFailure("Value",
@@ -77,7 +77,7 @@ public class LengthTests
     {
         var action = () => Length.From(-100);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
                 "Could not create a Nox Length type as negative length value -100 is not allowed.") });
     }
@@ -87,7 +87,7 @@ public class LengthTests
     {
         var action = () => Length.From(double.NaN);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
                 "Could not create a Nox type as value NaN is not allowed.") });
     }
@@ -98,7 +98,7 @@ public class LengthTests
         var action = () => Length.From(double.PositiveInfinity);
 
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
                 "Could not create a Nox type as value Infinity is not allowed.") });
     }
@@ -108,7 +108,7 @@ public class LengthTests
     {
         var action = () => Length.From(double.NegativeInfinity);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
                 "Could not create a Nox type as value Infinity is not allowed.") });
     }

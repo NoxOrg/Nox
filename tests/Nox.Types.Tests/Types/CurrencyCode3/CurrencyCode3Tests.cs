@@ -18,7 +18,7 @@ public class CurrencyCode3Tests
     {
         var action = () => CurrencyCode3.From("ABC");
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox CurrencyCode3 type with unsupported value 'ABC'.") });
     }
 

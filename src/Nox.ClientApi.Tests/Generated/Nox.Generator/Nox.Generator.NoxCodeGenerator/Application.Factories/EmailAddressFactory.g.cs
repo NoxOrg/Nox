@@ -35,7 +35,14 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEnt
 
     public virtual EmailAddressEntity CreateEntity(EmailAddressUpsertDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(EmailAddressEntity entity, EmailAddressUpsertDto updateDto, Nox.Types.CultureCode cultureCode)

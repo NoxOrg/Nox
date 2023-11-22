@@ -39,7 +39,7 @@ public abstract partial class {{ className }}Base
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var etag = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery(Nox.Types.CultureCode.From({{cultureCode}}), {{ primaryKeysQuery }}))).Select(e=>e.Etag).SingleOrDefault();
         

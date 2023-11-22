@@ -37,7 +37,7 @@ public class FileTests
     {
         var action = () => File.From(url!, "MyFile", 512);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Url", "Could not create a Nox File type with an empty Url.") });
     }
 
@@ -46,7 +46,7 @@ public class FileTests
     {
         var action = () => File.From($"https://www.example.com/{new string('a', 2050)}/file1.pdf", "File1", 100);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Url", "Could not create a Nox File type with an Url length greater than max allowed length of 2083.") });
     }
 
@@ -55,7 +55,7 @@ public class FileTests
     {
         var action = () => File.From("test", "MyFile", 512);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Url", "Could not create a Nox File type with an invalid Url 'test'.") });
     }
 
@@ -71,7 +71,7 @@ public class FileTests
                 SupportedFileFormats = new List<FileFormatType> { FileFormatType.Pdf, FileFormatType.Docx }
             });
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Url", $"Could not create a Nox File type with a file having an unsupported extension '{expected}'.") });
     }
 
@@ -83,7 +83,7 @@ public class FileTests
     {
         var action = () => File.From("https://example.com/myfile.pdf", prettyName!, 512);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("PrettyName", "Could not create a Nox File type with an empty PrettyName.") });
     }
 
@@ -92,7 +92,7 @@ public class FileTests
     {
         var action = () => File.From("https://example.com/myfile.pdf", new string('a', 512), 100);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("PrettyName", "Could not create a Nox File type with a PrettyName length greater than max allowed length of 511.") });
     }
 

@@ -47,7 +47,7 @@ public sealed class File : ValueObject<(string Url, string PrettyName, ulong Siz
     /// <param name="value">The value.</param>
     /// <param name="options">The options.</param>
     /// <returns></returns>
-    /// <exception cref="Nox.Types.TypeValidationException"></exception>
+    /// <exception cref="Nox.Types.NoxTypeValidationException"></exception>
     public static File From((string Url, string PrettyName, ulong SizeInBytes) value, FileTypeOptions options)
     {
         var newObject = new File
@@ -60,7 +60,7 @@ public sealed class File : ValueObject<(string Url, string PrettyName, ulong Siz
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

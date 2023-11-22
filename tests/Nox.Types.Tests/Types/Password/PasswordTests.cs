@@ -42,7 +42,7 @@ public class PasswordTests
     [InlineData("correct.password2.")]
     public void Password_From_DefaultOptions_ValidationFailed(string passwordText)
     {
-        Assert.Throws<TypeValidationException>(() => _ =
+        Assert.Throws<NoxTypeValidationException>(() => _ =
             Password.From(passwordText)
         );
     }

@@ -38,7 +38,14 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
 
     public virtual StoreEntity CreateEntity(StoreCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(StoreEntity entity, StoreUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

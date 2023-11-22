@@ -14,7 +14,7 @@ public abstract class EntityDtoBase
         {
             createAction();
         }
-        catch (TypeValidationException ex)
+        catch (NoxTypeValidationException ex)
         {
             validationResult.Add(propertyName, ex.Errors.Select(x => x.ErrorMessage));
         }

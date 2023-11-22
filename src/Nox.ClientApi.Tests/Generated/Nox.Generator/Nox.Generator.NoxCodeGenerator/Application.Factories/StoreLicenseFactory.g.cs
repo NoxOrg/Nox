@@ -35,7 +35,14 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
 
     public virtual StoreLicenseEntity CreateEntity(StoreLicenseCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(StoreLicenseEntity entity, StoreLicenseUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

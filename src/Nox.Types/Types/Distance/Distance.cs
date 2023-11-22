@@ -26,7 +26,7 @@ public class Distance : ValueObject<QuantityValue, Distance>
     /// </summary>
     /// <param name="value">The value to create the <see cref="Distance"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public new static Distance From(QuantityValue value)
         => From(value, new DistanceTypeOptions());
 
@@ -36,7 +36,7 @@ public class Distance : ValueObject<QuantityValue, Distance>
     /// <param name="value">The value to create the <see cref="Distance"/> with</param>
     /// <param name="unit">The unit to create the <see cref="Distance"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Distance From(QuantityValue value, DistanceTypeUnit unit)
         => From(value, new DistanceTypeOptions() { Units = unit });
 
@@ -46,7 +46,7 @@ public class Distance : ValueObject<QuantityValue, Distance>
     /// <param name="origin">The origin <see cref="LatLong"/> to create the <see cref="Distance"/> with</param>
     /// <param name="destination">The destination <see cref="LatLong"/> to create the <see cref="Distance"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Distance From(LatLong origin, LatLong destination)
         => From(origin, destination, new DistanceTypeOptions());
 
@@ -57,7 +57,7 @@ public class Distance : ValueObject<QuantityValue, Distance>
     /// <param name="destination">The destination <see cref="LatLong"/> to create the <see cref="Distance"/> with</param>
     /// <param name="unit">The <see cref="DistanceTypeUnit"/> to create the <see cref="Distance"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Distance From(LatLong origin, LatLong destination, DistanceTypeUnit unit) 
         => From(origin, destination, new DistanceTypeOptions { Units = unit });
 
@@ -68,7 +68,7 @@ public class Distance : ValueObject<QuantityValue, Distance>
     /// <param name="destination">The destination <see cref="LatLong"/> to create the <see cref="Distance"/> with</param>
     /// <param name="options">The <see cref="DistanceTypeOptions"/> to create the <see cref="Distance"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Distance From(LatLong origin, LatLong destination, DistanceTypeOptions options)
     {
         var distanceValue = new HaversineDistanceCalculator().Calculate(origin, destination, options.Units);
@@ -81,7 +81,7 @@ public class Distance : ValueObject<QuantityValue, Distance>
     /// <param name="value">The value to create the <see cref="Distance"/> with</param>
     /// <param name="options">The options to create the <see cref="Distance"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Distance From(QuantityValue value, DistanceTypeOptions options)
     {
         var newObject = new Distance
@@ -95,7 +95,7 @@ public class Distance : ValueObject<QuantityValue, Distance>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

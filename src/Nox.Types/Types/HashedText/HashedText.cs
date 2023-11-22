@@ -39,7 +39,7 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
     /// <param name="plainText">Plain text that will be hashed</param>
     /// <param name="options"><see cref="HashedTextTypeOptions"/></param>
     /// <returns>New instance of <see cref="HashedText"/></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static HashedText From(string plainText, HashedTextTypeOptions options)
     {
         options ??= new HashedTextTypeOptions();
@@ -50,7 +50,7 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

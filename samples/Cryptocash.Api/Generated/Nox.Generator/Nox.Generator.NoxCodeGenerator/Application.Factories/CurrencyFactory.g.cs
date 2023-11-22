@@ -57,7 +57,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
     private Cryptocash.Domain.Currency ToEntity(CurrencyCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Currency();
-        entity.Id = CurrencyMetadata.CreateId(createDto.Id!);
+        entity.Id = CurrencyMetadata.CreateId(createDto.Id);
         entity.Name = Cryptocash.Domain.CurrencyMetadata.CreateName(createDto.Name);
         entity.CurrencyIsoNumeric = Cryptocash.Domain.CurrencyMetadata.CreateCurrencyIsoNumeric(createDto.CurrencyIsoNumeric);
         entity.Symbol = Cryptocash.Domain.CurrencyMetadata.CreateSymbol(createDto.Symbol);

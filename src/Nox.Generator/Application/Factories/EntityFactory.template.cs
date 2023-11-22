@@ -51,7 +51,14 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 
     public virtual {{entity.Name}}Entity CreateEntity({{entityCreateDto}} createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity({{entity.Name}}Entity entity, {{entityUpdateDto}} updateDto, Nox.Types.CultureCode cultureCode)

@@ -39,7 +39,7 @@ namespace Nox.Application.Behaviors
 
             if (failures.Any())
             {
-                throw new TypeValidationException(failures);
+                throw new ValidationException(failures.ToList());
             }
 
             return await next();
