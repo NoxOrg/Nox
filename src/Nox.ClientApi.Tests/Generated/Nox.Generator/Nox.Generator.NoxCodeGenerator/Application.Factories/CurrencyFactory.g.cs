@@ -51,7 +51,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
     private ClientApi.Domain.Currency ToEntity(CurrencyCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Currency();
-        entity.Id = CurrencyMetadata.CreateId(createDto.Id);
+        entity.Id = CurrencyMetadata.CreateId(createDto.Id!);
         entity.SetIfNotNull(createDto.Name, (entity) => entity.Name =ClientApi.Domain.CurrencyMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.Symbol, (entity) => entity.Symbol =ClientApi.Domain.CurrencyMetadata.CreateSymbol(createDto.Symbol.NonNullValue<System.String>()));
         return entity;

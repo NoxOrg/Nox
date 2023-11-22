@@ -26,11 +26,11 @@ namespace Cryptocash.Application.Factories;
 internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    protected IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> EmployeePhoneNumberFactory {get;}
+    protected IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> EmployeePhoneNumberFactory {get;}
 
     public EmployeeFactoryBase
     (
-        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> employeephonenumberfactory
+        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> employeephonenumberfactory
         )
     {
         EmployeePhoneNumberFactory = employeephonenumberfactory;
@@ -150,7 +150,7 @@ internal partial class EmployeeFactory : EmployeeFactoryBase
 {
     public EmployeeFactory
     (
-        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> employeephonenumberfactory
+        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> employeephonenumberfactory
     ) : base(employeephonenumberfactory)
     {}
 }

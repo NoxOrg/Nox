@@ -44,5 +44,5 @@ public abstract class TestEntityOwnedRelationshipZeroOrOneCreateDtoBase : IEntit
     /// <summary>
     /// TestEntityOwnedRelationshipZeroOrOne Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrOne ZeroOrOne SecondTestEntityOwnedRelationshipZeroOrOnes
     /// </summary>
-    public virtual SecondTestEntityOwnedRelationshipZeroOrOneCreateDto? SecondTestEntityOwnedRelationshipZeroOrOne { get; set; } = null!;
+    public virtual SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto? SecondTestEntityOwnedRelationshipZeroOrOne { get; set; } = null!;
 }

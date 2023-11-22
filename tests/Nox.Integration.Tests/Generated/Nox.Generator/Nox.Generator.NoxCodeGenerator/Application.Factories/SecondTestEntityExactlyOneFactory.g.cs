@@ -51,7 +51,7 @@ internal abstract class SecondTestEntityExactlyOneFactoryBase : IEntityFactory<S
     private TestWebApp.Domain.SecondTestEntityExactlyOne ToEntity(SecondTestEntityExactlyOneCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.SecondTestEntityExactlyOne();
-        entity.Id = SecondTestEntityExactlyOneMetadata.CreateId(createDto.Id);
+        entity.Id = SecondTestEntityExactlyOneMetadata.CreateId(createDto.Id!);
         entity.TextTestField2 = TestWebApp.Domain.SecondTestEntityExactlyOneMetadata.CreateTextTestField2(createDto.TextTestField2);
         return entity;
     }

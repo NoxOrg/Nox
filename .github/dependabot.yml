@@ -10,9 +10,8 @@ updates:
       dependencies:
         patterns:
           - "*"
-        exclude-patterns:
-          - "Microsoft.Build.Framework"
-          - "MediatR"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "MediatR" #until upgrade to .Net 8
+      - dependency-name: "Microsoft.Build.Framework" #until upgrade to .Net

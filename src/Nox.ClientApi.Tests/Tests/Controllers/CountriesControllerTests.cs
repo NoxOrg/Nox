@@ -67,11 +67,11 @@ namespace ClientApi.Tests.Tests.Controllers
                 Name = "Portugal",
                 Population = 1_000_000,
                 CountryDebt = new MoneyDto(200_000, CurrencyCode.USD),
-                CountryLocalNames = new List<CountryLocalNameCreateDto>() {
-                    new CountryLocalNameCreateDto() { Name = "Iberia" },
-                    new CountryLocalNameCreateDto() { Name = expectedLocalName}
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>() {
+                    new CountryLocalNameUpsertDto() { Name = "Iberia" },
+                    new CountryLocalNameUpsertDto() { Name = expectedLocalName}
                 },
-                CountryBarCode = new CountryBarCodeCreateDto() { BarCodeName = expectedBarCodeName }
+                CountryBarCode = new CountryBarCodeUpsertDto() { BarCodeName = expectedBarCodeName }
             };
             var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
 
@@ -98,9 +98,9 @@ namespace ClientApi.Tests.Tests.Controllers
         [Fact]
         public async Task Get_OwnedEntitiesByParentKey_ReturnsOwnedEntitiesList()
         {
-            var expectedCountryLocalNames = new List<CountryLocalNameCreateDto>() {
-                    new CountryLocalNameCreateDto() { Name = "Iberia" },
-                    new CountryLocalNameCreateDto() { Name = "Lusitania"}
+            var expectedCountryLocalNames = new List<CountryLocalNameUpsertDto>() {
+                    new CountryLocalNameUpsertDto() { Name = "Iberia" },
+                    new CountryLocalNameUpsertDto() { Name = "Lusitania"}
                 };
             // Arrange
             var dto = new CountryCreateDto
@@ -130,9 +130,9 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task Get_OwnedEntityByParentKeyAndFilter_ReturnsSingleEntity()
         {
             var expectedName = "Lusitania";
-            var expectedCountryLocalNames = new List<CountryLocalNameCreateDto>() {
-                    new CountryLocalNameCreateDto() { Name = "Iberia" },
-                    new CountryLocalNameCreateDto() { Name = expectedName}
+            var expectedCountryLocalNames = new List<CountryLocalNameUpsertDto>() {
+                    new CountryLocalNameUpsertDto() { Name = "Iberia" },
+                    new CountryLocalNameUpsertDto() { Name = expectedName}
                 };
             // Arrange
             var dto = new CountryCreateDto
@@ -166,8 +166,8 @@ namespace ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                CountryLocalNames = new List<CountryLocalNameCreateDto>() {
-                    new CountryLocalNameCreateDto() { Name = expectedCountryLocalName }
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>() {
+                    new CountryLocalNameUpsertDto() { Name = expectedCountryLocalName }
                 }
             };
             var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
@@ -195,7 +195,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                CountryBarCode = new CountryBarCodeCreateDto() { BarCodeName = expectedBarCodeName }
+                CountryBarCode = new CountryBarCodeUpsertDto() { BarCodeName = expectedBarCodeName }
             };
             var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
 
@@ -225,8 +225,8 @@ namespace ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                CountryLocalNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() { Name = expectedCountryLocalName } },
-                CountryBarCode = new CountryBarCodeCreateDto() { BarCodeName = expectedBarCodeName }
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>() { new CountryLocalNameUpsertDto() { Name = expectedCountryLocalName } },
+                CountryBarCode = new CountryBarCodeUpsertDto() { BarCodeName = expectedBarCodeName }
             };
             // Act
             var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
@@ -259,7 +259,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 Population = 44000000
             };
 
-            var localNameDto = new CountryLocalNameCreateDto
+            var localNameDto = new CountryLocalNameUpsertDto
             {
                 Name = expectedLocalName
             };
@@ -268,7 +268,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var headers = CreateEtagHeader(result?.Etag);
 
             //Act
-            var ownedResult = await PostAsync<CountryLocalNameCreateDto, CountryLocalNameDto>($"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(createDto.CountryLocalNames)}", localNameDto, headers);
+            var ownedResult = await PostAsync<CountryLocalNameUpsertDto, CountryLocalNameDto>($"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(createDto.CountryLocalNames)}", localNameDto, headers);
 
             //Assert
             ownedResult.Should().NotBeNull();
@@ -327,7 +327,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                CountryLocalNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() { Name = _fixture.Create<string>() } }
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>() { new CountryLocalNameUpsertDto() { Name = _fixture.Create<string>() } }
             };
             // Act
             var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
@@ -358,7 +358,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                CountryBarCode = new CountryBarCodeCreateDto() { BarCodeName = _fixture.Create<string>() }
+                CountryBarCode = new CountryBarCodeUpsertDto() { BarCodeName = _fixture.Create<string>() }
             };
             // Act
             var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
@@ -398,7 +398,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                CountryLocalNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() {
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>() { new CountryLocalNameUpsertDto() {
                     Name = _fixture.Create<string>(),
                     NativeName = expectedOwnedNativeName
                 } }
@@ -435,7 +435,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                CountryBarCode = new CountryBarCodeCreateDto
+                CountryBarCode = new CountryBarCodeUpsertDto
                 {
                     BarCodeName = _fixture.Create<string>(),
                     BarCodeNumber = expectedBarCodeNumber
@@ -480,8 +480,8 @@ namespace ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                CountryLocalNames = new List<CountryLocalNameCreateDto>() {
-                    new CountryLocalNameCreateDto() { Name = expectedCountryLocalName }
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>() {
+                    new CountryLocalNameUpsertDto() { Name = expectedCountryLocalName }
                 }
             };
             var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
@@ -507,7 +507,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                CountryBarCode = new CountryBarCodeCreateDto
+                CountryBarCode = new CountryBarCodeUpsertDto
                 {
                     BarCodeName = _fixture.Create<string>()
                 }
@@ -1579,10 +1579,10 @@ namespace ClientApi.Tests.Tests.Controllers
                 Name = "Portugal",
                 Population = 1_000_000,
                 CountryDebt = new MoneyDto(200_000, CurrencyCode.USD),
-                CountryLocalNames = new List<CountryLocalNameCreateDto>()
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>()
                 {
-                    new CountryLocalNameCreateDto() { Name = "Iberia" },
-                    new CountryLocalNameCreateDto() { Name = "Lusitania"}
+                    new CountryLocalNameUpsertDto() { Name = "Iberia" },
+                    new CountryLocalNameUpsertDto() { Name = "Lusitania"}
                 }
             };
 

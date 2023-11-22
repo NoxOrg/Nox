@@ -21,19 +21,19 @@ internal partial class PartialUpdateExchangeRatesForCurrencyCommandHandler: Part
 	public PartialUpdateExchangeRatesForCurrencyCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<ExchangeRateEntity, ExchangeRateCreateDto, ExchangeRateUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateExchangeRatesForCurrencyCommandHandlerBase: CommandBase<PartialUpdateExchangeRatesForCurrencyCommand, ExchangeRateEntity>, IRequestHandler <PartialUpdateExchangeRatesForCurrencyCommand, ExchangeRateKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<ExchangeRateEntity, ExchangeRateCreateDto, ExchangeRateUpdateDto> EntityFactory { get; }
+	public IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> EntityFactory { get; }
 
 	public PartialUpdateExchangeRatesForCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<ExchangeRateEntity, ExchangeRateCreateDto, ExchangeRateUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

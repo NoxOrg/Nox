@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -54,11 +54,11 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntitySet<HolidayDto>("Holidays");
 		builder.EntityType<HolidayDto>().HasKey(e => new { e.Id });
-        builder.ComplexType<HolidayUpdateDto>();
+        builder.ComplexType<HolidayUpsertDto>();
 
         builder.EntitySet<CountryTimeZoneDto>("CountryTimeZones");
 		builder.EntityType<CountryTimeZoneDto>().HasKey(e => new { e.Id });
-        builder.ComplexType<CountryTimeZoneUpdateDto>();
+        builder.ComplexType<CountryTimeZoneUpsertDto>();
 
         builder.EntitySet<CurrencyDto>("Currencies");
 		builder.EntityType<CurrencyDto>().HasKey(e => new { e.Id });
@@ -72,7 +72,7 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntitySet<BankNoteDto>("BankNotes");
 		builder.EntityType<BankNoteDto>().HasKey(e => new { e.Id });
-        builder.ComplexType<BankNoteUpdateDto>();
+        builder.ComplexType<BankNoteUpsertDto>();
 
         builder.EntitySet<CustomerDto>("Customers");
 		builder.EntityType<CustomerDto>().HasKey(e => new { e.Id });
@@ -110,11 +110,11 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntitySet<EmployeePhoneNumberDto>("EmployeePhoneNumbers");
 		builder.EntityType<EmployeePhoneNumberDto>().HasKey(e => new { e.Id });
-        builder.ComplexType<EmployeePhoneNumberUpdateDto>();
+        builder.ComplexType<EmployeePhoneNumberUpsertDto>();
 
         builder.EntitySet<ExchangeRateDto>("ExchangeRates");
 		builder.EntityType<ExchangeRateDto>().HasKey(e => new { e.Id });
-        builder.ComplexType<ExchangeRateUpdateDto>();
+        builder.ComplexType<ExchangeRateUpsertDto>();
 
         builder.EntitySet<LandLordDto>("LandLords");
 		builder.EntityType<LandLordDto>().HasKey(e => new { e.Id });

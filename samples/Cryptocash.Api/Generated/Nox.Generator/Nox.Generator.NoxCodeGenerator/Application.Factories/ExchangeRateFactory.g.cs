@@ -23,7 +23,7 @@ using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEntity, ExchangeRateCreateDto, ExchangeRateUpdateDto>
+internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
@@ -33,12 +33,12 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
     {
     }
 
-    public virtual ExchangeRateEntity CreateEntity(ExchangeRateCreateDto createDto)
+    public virtual ExchangeRateEntity CreateEntity(ExchangeRateUpsertDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(ExchangeRateEntity entity, ExchangeRateUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual void UpdateEntity(ExchangeRateEntity entity, ExchangeRateUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         UpdateEntityInternal(entity, updateDto, cultureCode);
     }
@@ -48,7 +48,7 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private Cryptocash.Domain.ExchangeRate ToEntity(ExchangeRateCreateDto createDto)
+    private Cryptocash.Domain.ExchangeRate ToEntity(ExchangeRateUpsertDto createDto)
     {
         var entity = new Cryptocash.Domain.ExchangeRate();
         entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(createDto.EffectiveRate);
@@ -56,7 +56,7 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
         return entity;
     }
 
-    private void UpdateEntityInternal(ExchangeRateEntity entity, ExchangeRateUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private void UpdateEntityInternal(ExchangeRateEntity entity, ExchangeRateUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(updateDto.EffectiveRate.NonNullValue<System.Int32>());
         entity.EffectiveAt = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());

@@ -26,11 +26,11 @@ namespace TestWebApp.Application.Factories;
 internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEntityFactory<TestEntityOwnedRelationshipZeroOrManyEntity, TestEntityOwnedRelationshipZeroOrManyCreateDto, TestEntityOwnedRelationshipZeroOrManyUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    protected IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrMany, SecondTestEntityOwnedRelationshipZeroOrManyCreateDto, SecondTestEntityOwnedRelationshipZeroOrManyUpdateDto> SecondTestEntityOwnedRelationshipZeroOrManyFactory {get;}
+    protected IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrMany, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto> SecondTestEntityOwnedRelationshipZeroOrManyFactory {get;}
 
     public TestEntityOwnedRelationshipZeroOrManyFactoryBase
     (
-        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrMany, SecondTestEntityOwnedRelationshipZeroOrManyCreateDto, SecondTestEntityOwnedRelationshipZeroOrManyUpdateDto> secondtestentityownedrelationshipzeroormanyfactory
+        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrMany, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto> secondtestentityownedrelationshipzeroormanyfactory
         )
     {
         SecondTestEntityOwnedRelationshipZeroOrManyFactory = secondtestentityownedrelationshipzeroormanyfactory;
@@ -54,7 +54,7 @@ internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEnti
     private TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany ToEntity(TestEntityOwnedRelationshipZeroOrManyCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany();
-        entity.Id = TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(createDto.Id);
+        entity.Id = TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(createDto.Id!);
         entity.TextTestField = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateTextTestField(createDto.TextTestField);
         createDto.SecondTestEntityOwnedRelationshipZeroOrManies.ForEach(dto => entity.CreateRefToSecondTestEntityOwnedRelationshipZeroOrManies(SecondTestEntityOwnedRelationshipZeroOrManyFactory.CreateEntity(dto)));
         return entity;
@@ -88,7 +88,7 @@ internal partial class TestEntityOwnedRelationshipZeroOrManyFactory : TestEntity
 {
     public TestEntityOwnedRelationshipZeroOrManyFactory
     (
-        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrMany, SecondTestEntityOwnedRelationshipZeroOrManyCreateDto, SecondTestEntityOwnedRelationshipZeroOrManyUpdateDto> secondtestentityownedrelationshipzeroormanyfactory
+        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrMany, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto> secondtestentityownedrelationshipzeroormanyfactory
     ) : base(secondtestentityownedrelationshipzeroormanyfactory)
     {}
 }

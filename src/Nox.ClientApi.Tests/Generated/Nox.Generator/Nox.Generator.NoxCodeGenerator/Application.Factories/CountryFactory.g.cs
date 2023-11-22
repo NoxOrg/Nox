@@ -26,13 +26,13 @@ namespace ClientApi.Application.Factories;
 internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    protected IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> CountryLocalNameFactory {get;}
-    protected IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> CountryBarCodeFactory {get;}
+    protected IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> CountryLocalNameFactory {get;}
+    protected IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> CountryBarCodeFactory {get;}
 
     public CountryFactoryBase
     (
-        IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> countrylocalnamefactory,
-        IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> countrybarcodefactory
+        IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> countrylocalnamefactory,
+        IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory
         )
     {
         CountryLocalNameFactory = countrylocalnamefactory;
@@ -182,8 +182,8 @@ internal partial class CountryFactory : CountryFactoryBase
 {
     public CountryFactory
     (
-        IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> countrylocalnamefactory,
-        IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> countrybarcodefactory
+        IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> countrylocalnamefactory,
+        IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory
     ) : base(countrylocalnamefactory,countrybarcodefactory)
     {}
 }

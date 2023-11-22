@@ -79,5 +79,5 @@ public abstract class EmployeeCreateDtoBase : IEntityDto<DomainNamespace.Employe
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
-    public virtual List<EmployeePhoneNumberCreateDto> EmployeePhoneNumbers { get; set; } = new();
+    public virtual List<EmployeePhoneNumberUpsertDto> EmployeePhoneNumbers { get; set; } = new();
 }

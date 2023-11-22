@@ -18,14 +18,14 @@ using Cryptocash.Application.Dto;
 using EmployeePhoneNumberEntity = Cryptocash.Domain.EmployeePhoneNumber;
 
 namespace Cryptocash.Application.Commands;
-public partial record CreateEmployeePhoneNumbersForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberCreateDto EntityDto, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
+public partial record CreateEmployeePhoneNumbersForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberUpsertDto EntityDto, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
 
 internal partial class CreateEmployeePhoneNumbersForEmployeeCommandHandler : CreateEmployeePhoneNumbersForEmployeeCommandHandlerBase
 {
 	public CreateEmployeePhoneNumbersForEmployeeCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> entityFactory)
+		IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> entityFactory)
 		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
@@ -33,12 +33,12 @@ internal partial class CreateEmployeePhoneNumbersForEmployeeCommandHandler : Cre
 internal abstract class CreateEmployeePhoneNumbersForEmployeeCommandHandlerBase : CommandBase<CreateEmployeePhoneNumbersForEmployeeCommand, EmployeePhoneNumberEntity>, IRequestHandler<CreateEmployeePhoneNumbersForEmployeeCommand, EmployeePhoneNumberKeyDto?>
 {
 	private readonly AppDbContext _dbContext;
-	private readonly IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> _entityFactory;
+	private readonly IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> _entityFactory;
 
 	public CreateEmployeePhoneNumbersForEmployeeCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> entityFactory) : base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

@@ -26,13 +26,13 @@ namespace Cryptocash.Application.Factories;
 internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    protected IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> CountryTimeZoneFactory {get;}
-    protected IEntityFactory<Cryptocash.Domain.Holiday, HolidayCreateDto, HolidayUpdateDto> HolidayFactory {get;}
+    protected IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> CountryTimeZoneFactory {get;}
+    protected IEntityFactory<Cryptocash.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> HolidayFactory {get;}
 
     public CountryFactoryBase
     (
-        IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> countrytimezonefactory,
-        IEntityFactory<Cryptocash.Domain.Holiday, HolidayCreateDto, HolidayUpdateDto> holidayfactory
+        IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
+        IEntityFactory<Cryptocash.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory
         )
     {
         CountryTimeZoneFactory = countrytimezonefactory;
@@ -57,7 +57,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
     private Cryptocash.Domain.Country ToEntity(CountryCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Country();
-        entity.Id = CountryMetadata.CreateId(createDto.Id);
+        entity.Id = CountryMetadata.CreateId(createDto.Id!);
         entity.Name = Cryptocash.Domain.CountryMetadata.CreateName(createDto.Name);
         entity.SetIfNotNull(createDto.OfficialName, (entity) => entity.OfficialName =Cryptocash.Domain.CountryMetadata.CreateOfficialName(createDto.OfficialName.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.CountryIsoNumeric, (entity) => entity.CountryIsoNumeric =Cryptocash.Domain.CountryMetadata.CreateCountryIsoNumeric(createDto.CountryIsoNumeric.NonNullValue<System.UInt16>()));
@@ -226,8 +226,8 @@ internal partial class CountryFactory : CountryFactoryBase
 {
     public CountryFactory
     (
-        IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> countrytimezonefactory,
-        IEntityFactory<Cryptocash.Domain.Holiday, HolidayCreateDto, HolidayUpdateDto> holidayfactory
+        IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
+        IEntityFactory<Cryptocash.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory
     ) : base(countrytimezonefactory,holidayfactory)
     {}
 }

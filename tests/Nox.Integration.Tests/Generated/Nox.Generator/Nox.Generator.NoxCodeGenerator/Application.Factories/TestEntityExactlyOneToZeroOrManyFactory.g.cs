@@ -51,7 +51,7 @@ internal abstract class TestEntityExactlyOneToZeroOrManyFactoryBase : IEntityFac
     private TestWebApp.Domain.TestEntityExactlyOneToZeroOrMany ToEntity(TestEntityExactlyOneToZeroOrManyCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityExactlyOneToZeroOrMany();
-        entity.Id = TestEntityExactlyOneToZeroOrManyMetadata.CreateId(createDto.Id);
+        entity.Id = TestEntityExactlyOneToZeroOrManyMetadata.CreateId(createDto.Id!);
         entity.TextTestField = TestWebApp.Domain.TestEntityExactlyOneToZeroOrManyMetadata.CreateTextTestField(createDto.TextTestField);
         return entity;
     }
