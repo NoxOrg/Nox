@@ -15,12 +15,12 @@ using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteAllCustomerRelatedBookingsForCustomerCommand(CustomerKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAllBookingsForCustomerCommand(CustomerKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAllCustomerRelatedBookingsForCustomerCommandHandler : DeleteAllCustomerRelatedBookingsForCustomerCommandHandlerBase
+internal partial class DeleteAllBookingsForCustomerCommandHandler : DeleteAllBookingsForCustomerCommandHandlerBase
 {
-	public DeleteAllCustomerRelatedBookingsForCustomerCommandHandler(
+	public DeleteAllBookingsForCustomerCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAllCustomerRelatedBookingsForCustomerCommandHandler
 	}
 }
 
-internal partial class DeleteAllCustomerRelatedBookingsForCustomerCommandHandlerBase : CommandBase<DeleteAllCustomerRelatedBookingsForCustomerCommand, BookingEntity>, IRequestHandler <DeleteAllCustomerRelatedBookingsForCustomerCommand, bool>
+internal partial class DeleteAllBookingsForCustomerCommandHandlerBase : CommandBase<DeleteAllBookingsForCustomerCommand, BookingEntity>, IRequestHandler <DeleteAllBookingsForCustomerCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAllCustomerRelatedBookingsForCustomerCommandHandlerBase(
+	public DeleteAllBookingsForCustomerCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAllCustomerRelatedBookingsForCustomerCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAllBookingsForCustomerCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -62,7 +62,7 @@ internal partial class DeleteAllCustomerRelatedBookingsForCustomerCommandHandler
 			
 			foreach(var relatedEntity in related)
 			{
-				DbContext.Bookings.Remove(relatedEntity);
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

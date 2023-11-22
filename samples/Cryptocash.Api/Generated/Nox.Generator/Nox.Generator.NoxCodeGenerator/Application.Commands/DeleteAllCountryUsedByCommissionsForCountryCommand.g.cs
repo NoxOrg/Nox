@@ -15,12 +15,12 @@ using CommissionEntity = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteAllCountryUsedByCommissionsForCountryCommand(CountryKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAllCommissionsForCountryCommand(CountryKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAllCountryUsedByCommissionsForCountryCommandHandler : DeleteAllCountryUsedByCommissionsForCountryCommandHandlerBase
+internal partial class DeleteAllCommissionsForCountryCommandHandler : DeleteAllCommissionsForCountryCommandHandlerBase
 {
-	public DeleteAllCountryUsedByCommissionsForCountryCommandHandler(
+	public DeleteAllCommissionsForCountryCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAllCountryUsedByCommissionsForCountryCommandHandler
 	}
 }
 
-internal partial class DeleteAllCountryUsedByCommissionsForCountryCommandHandlerBase : CommandBase<DeleteAllCountryUsedByCommissionsForCountryCommand, CommissionEntity>, IRequestHandler <DeleteAllCountryUsedByCommissionsForCountryCommand, bool>
+internal partial class DeleteAllCommissionsForCountryCommandHandlerBase : CommandBase<DeleteAllCommissionsForCountryCommand, CommissionEntity>, IRequestHandler <DeleteAllCommissionsForCountryCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAllCountryUsedByCommissionsForCountryCommandHandlerBase(
+	public DeleteAllCommissionsForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAllCountryUsedByCommissionsForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAllCommissionsForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -62,7 +62,7 @@ internal partial class DeleteAllCountryUsedByCommissionsForCountryCommandHandler
 			
 			foreach(var relatedEntity in related)
 			{
-				DbContext.Commissions.Remove(relatedEntity);
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

@@ -15,12 +15,12 @@ using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteAllCountryUsedByCustomersForCountryCommand(CountryKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAllCustomersForCountryCommand(CountryKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAllCountryUsedByCustomersForCountryCommandHandler : DeleteAllCountryUsedByCustomersForCountryCommandHandlerBase
+internal partial class DeleteAllCustomersForCountryCommandHandler : DeleteAllCustomersForCountryCommandHandlerBase
 {
-	public DeleteAllCountryUsedByCustomersForCountryCommandHandler(
+	public DeleteAllCustomersForCountryCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAllCountryUsedByCustomersForCountryCommandHandler :
 	}
 }
 
-internal partial class DeleteAllCountryUsedByCustomersForCountryCommandHandlerBase : CommandBase<DeleteAllCountryUsedByCustomersForCountryCommand, CustomerEntity>, IRequestHandler <DeleteAllCountryUsedByCustomersForCountryCommand, bool>
+internal partial class DeleteAllCustomersForCountryCommandHandlerBase : CommandBase<DeleteAllCustomersForCountryCommand, CustomerEntity>, IRequestHandler <DeleteAllCustomersForCountryCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAllCountryUsedByCustomersForCountryCommandHandlerBase(
+	public DeleteAllCustomersForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAllCountryUsedByCustomersForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAllCustomersForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -62,7 +62,7 @@ internal partial class DeleteAllCountryUsedByCustomersForCountryCommandHandlerBa
 			
 			foreach(var relatedEntity in related)
 			{
-				DbContext.Customers.Remove(relatedEntity);
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

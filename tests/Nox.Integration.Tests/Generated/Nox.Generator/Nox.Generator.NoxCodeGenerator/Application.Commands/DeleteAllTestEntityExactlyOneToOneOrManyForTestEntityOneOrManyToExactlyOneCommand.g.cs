@@ -15,12 +15,12 @@ using TestEntityExactlyOneToOneOrManyEntity = TestWebApp.Domain.TestEntityExactl
 
 namespace TestWebApp.Application.Commands;
 
-public partial record DeleteAllTestEntityExactlyOneToOneOrManyForTestEntityOneOrManyToExactlyOneCommand(TestEntityOneOrManyToExactlyOneKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAllTestEntityExactlyOneToOneOrManiesForTestEntityOneOrManyToExactlyOneCommand(TestEntityOneOrManyToExactlyOneKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAllTestEntityExactlyOneToOneOrManyForTestEntityOneOrManyToExactlyOneCommandHandler : DeleteAllTestEntityExactlyOneToOneOrManyForTestEntityOneOrManyToExactlyOneCommandHandlerBase
+internal partial class DeleteAllTestEntityExactlyOneToOneOrManiesForTestEntityOneOrManyToExactlyOneCommandHandler : DeleteAllTestEntityExactlyOneToOneOrManiesForTestEntityOneOrManyToExactlyOneCommandHandlerBase
 {
-	public DeleteAllTestEntityExactlyOneToOneOrManyForTestEntityOneOrManyToExactlyOneCommandHandler(
+	public DeleteAllTestEntityExactlyOneToOneOrManiesForTestEntityOneOrManyToExactlyOneCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAllTestEntityExactlyOneToOneOrManyForTestEntityOneO
 	}
 }
 
-internal partial class DeleteAllTestEntityExactlyOneToOneOrManyForTestEntityOneOrManyToExactlyOneCommandHandlerBase : CommandBase<DeleteAllTestEntityExactlyOneToOneOrManyForTestEntityOneOrManyToExactlyOneCommand, TestEntityExactlyOneToOneOrManyEntity>, IRequestHandler <DeleteAllTestEntityExactlyOneToOneOrManyForTestEntityOneOrManyToExactlyOneCommand, bool>
+internal partial class DeleteAllTestEntityExactlyOneToOneOrManiesForTestEntityOneOrManyToExactlyOneCommandHandlerBase : CommandBase<DeleteAllTestEntityExactlyOneToOneOrManiesForTestEntityOneOrManyToExactlyOneCommand, TestEntityExactlyOneToOneOrManyEntity>, IRequestHandler <DeleteAllTestEntityExactlyOneToOneOrManiesForTestEntityOneOrManyToExactlyOneCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAllTestEntityExactlyOneToOneOrManyForTestEntityOneOrManyToExactlyOneCommandHandlerBase(
+	public DeleteAllTestEntityExactlyOneToOneOrManiesForTestEntityOneOrManyToExactlyOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAllTestEntityExactlyOneToOneOrManyForTestEntityOneOrManyToExactlyOneCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAllTestEntityExactlyOneToOneOrManiesForTestEntityOneOrManyToExactlyOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -62,7 +62,7 @@ internal partial class DeleteAllTestEntityExactlyOneToOneOrManyForTestEntityOneO
 			
 			foreach(var relatedEntity in related)
 			{
-				DbContext.TestEntityExactlyOneToOneOrManies.Remove(relatedEntity);
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

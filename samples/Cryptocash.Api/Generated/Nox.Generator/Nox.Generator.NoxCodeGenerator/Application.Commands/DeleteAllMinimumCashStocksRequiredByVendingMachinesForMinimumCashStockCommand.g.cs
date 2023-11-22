@@ -15,12 +15,12 @@ using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteAllMinimumCashStocksRequiredByVendingMachinesForMinimumCashStockCommand(MinimumCashStockKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAllVendingMachinesForMinimumCashStockCommand(MinimumCashStockKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAllMinimumCashStocksRequiredByVendingMachinesForMinimumCashStockCommandHandler : DeleteAllMinimumCashStocksRequiredByVendingMachinesForMinimumCashStockCommandHandlerBase
+internal partial class DeleteAllVendingMachinesForMinimumCashStockCommandHandler : DeleteAllVendingMachinesForMinimumCashStockCommandHandlerBase
 {
-	public DeleteAllMinimumCashStocksRequiredByVendingMachinesForMinimumCashStockCommandHandler(
+	public DeleteAllVendingMachinesForMinimumCashStockCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAllMinimumCashStocksRequiredByVendingMachinesForMin
 	}
 }
 
-internal partial class DeleteAllMinimumCashStocksRequiredByVendingMachinesForMinimumCashStockCommandHandlerBase : CommandBase<DeleteAllMinimumCashStocksRequiredByVendingMachinesForMinimumCashStockCommand, VendingMachineEntity>, IRequestHandler <DeleteAllMinimumCashStocksRequiredByVendingMachinesForMinimumCashStockCommand, bool>
+internal partial class DeleteAllVendingMachinesForMinimumCashStockCommandHandlerBase : CommandBase<DeleteAllVendingMachinesForMinimumCashStockCommand, VendingMachineEntity>, IRequestHandler <DeleteAllVendingMachinesForMinimumCashStockCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAllMinimumCashStocksRequiredByVendingMachinesForMinimumCashStockCommandHandlerBase(
+	public DeleteAllVendingMachinesForMinimumCashStockCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAllMinimumCashStocksRequiredByVendingMachinesForMinimumCashStockCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAllVendingMachinesForMinimumCashStockCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -62,7 +62,7 @@ internal partial class DeleteAllMinimumCashStocksRequiredByVendingMachinesForMin
 			
 			foreach(var relatedEntity in related)
 			{
-				DbContext.VendingMachines.Remove(relatedEntity);
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

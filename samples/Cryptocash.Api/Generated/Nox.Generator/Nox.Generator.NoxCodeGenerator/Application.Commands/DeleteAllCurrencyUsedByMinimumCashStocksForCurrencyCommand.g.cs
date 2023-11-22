@@ -15,12 +15,12 @@ using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteAllCurrencyUsedByMinimumCashStocksForCurrencyCommand(CurrencyKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAllMinimumCashStocksForCurrencyCommand(CurrencyKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAllCurrencyUsedByMinimumCashStocksForCurrencyCommandHandler : DeleteAllCurrencyUsedByMinimumCashStocksForCurrencyCommandHandlerBase
+internal partial class DeleteAllMinimumCashStocksForCurrencyCommandHandler : DeleteAllMinimumCashStocksForCurrencyCommandHandlerBase
 {
-	public DeleteAllCurrencyUsedByMinimumCashStocksForCurrencyCommandHandler(
+	public DeleteAllMinimumCashStocksForCurrencyCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAllCurrencyUsedByMinimumCashStocksForCurrencyComman
 	}
 }
 
-internal partial class DeleteAllCurrencyUsedByMinimumCashStocksForCurrencyCommandHandlerBase : CommandBase<DeleteAllCurrencyUsedByMinimumCashStocksForCurrencyCommand, MinimumCashStockEntity>, IRequestHandler <DeleteAllCurrencyUsedByMinimumCashStocksForCurrencyCommand, bool>
+internal partial class DeleteAllMinimumCashStocksForCurrencyCommandHandlerBase : CommandBase<DeleteAllMinimumCashStocksForCurrencyCommand, MinimumCashStockEntity>, IRequestHandler <DeleteAllMinimumCashStocksForCurrencyCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAllCurrencyUsedByMinimumCashStocksForCurrencyCommandHandlerBase(
+	public DeleteAllMinimumCashStocksForCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAllCurrencyUsedByMinimumCashStocksForCurrencyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAllMinimumCashStocksForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -62,7 +62,7 @@ internal partial class DeleteAllCurrencyUsedByMinimumCashStocksForCurrencyComman
 			
 			foreach(var relatedEntity in related)
 			{
-				DbContext.MinimumCashStocks.Remove(relatedEntity);
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

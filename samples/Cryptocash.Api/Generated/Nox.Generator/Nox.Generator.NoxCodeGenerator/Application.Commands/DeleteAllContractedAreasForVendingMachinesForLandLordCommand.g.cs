@@ -15,12 +15,12 @@ using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteAllContractedAreasForVendingMachinesForLandLordCommand(LandLordKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAllVendingMachinesForLandLordCommand(LandLordKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAllContractedAreasForVendingMachinesForLandLordCommandHandler : DeleteAllContractedAreasForVendingMachinesForLandLordCommandHandlerBase
+internal partial class DeleteAllVendingMachinesForLandLordCommandHandler : DeleteAllVendingMachinesForLandLordCommandHandlerBase
 {
-	public DeleteAllContractedAreasForVendingMachinesForLandLordCommandHandler(
+	public DeleteAllVendingMachinesForLandLordCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAllContractedAreasForVendingMachinesForLandLordComm
 	}
 }
 
-internal partial class DeleteAllContractedAreasForVendingMachinesForLandLordCommandHandlerBase : CommandBase<DeleteAllContractedAreasForVendingMachinesForLandLordCommand, VendingMachineEntity>, IRequestHandler <DeleteAllContractedAreasForVendingMachinesForLandLordCommand, bool>
+internal partial class DeleteAllVendingMachinesForLandLordCommandHandlerBase : CommandBase<DeleteAllVendingMachinesForLandLordCommand, VendingMachineEntity>, IRequestHandler <DeleteAllVendingMachinesForLandLordCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAllContractedAreasForVendingMachinesForLandLordCommandHandlerBase(
+	public DeleteAllVendingMachinesForLandLordCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAllContractedAreasForVendingMachinesForLandLordCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAllVendingMachinesForLandLordCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -62,7 +62,7 @@ internal partial class DeleteAllContractedAreasForVendingMachinesForLandLordComm
 			
 			foreach(var relatedEntity in related)
 			{
-				DbContext.VendingMachines.Remove(relatedEntity);
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

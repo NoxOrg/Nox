@@ -61,8 +61,7 @@ internal partial class DeleteAllTestRelationshipTwoForTestEntityTwoRelationships
 			}
 			
 			foreach(var relatedEntity in related)
-			{
-				DbContext.SecondTestEntityTwoRelationshipsOneToManies.Remove(relatedEntity);
+			{DbContext.SecondTestEntityTwoRelationshipsOneToManies.Remove(relatedEntity);
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

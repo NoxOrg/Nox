@@ -15,12 +15,12 @@ using ThirdTestEntityOneOrManyEntity = TestWebApp.Domain.ThirdTestEntityOneOrMan
 
 namespace TestWebApp.Application.Commands;
 
-public partial record DeleteAllThirdTestEntityOneOrManyRelationshipForThirdTestEntityZeroOrManyCommand(ThirdTestEntityZeroOrManyKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAllThirdTestEntityOneOrManiesForThirdTestEntityZeroOrManyCommand(ThirdTestEntityZeroOrManyKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAllThirdTestEntityOneOrManyRelationshipForThirdTestEntityZeroOrManyCommandHandler : DeleteAllThirdTestEntityOneOrManyRelationshipForThirdTestEntityZeroOrManyCommandHandlerBase
+internal partial class DeleteAllThirdTestEntityOneOrManiesForThirdTestEntityZeroOrManyCommandHandler : DeleteAllThirdTestEntityOneOrManiesForThirdTestEntityZeroOrManyCommandHandlerBase
 {
-	public DeleteAllThirdTestEntityOneOrManyRelationshipForThirdTestEntityZeroOrManyCommandHandler(
+	public DeleteAllThirdTestEntityOneOrManiesForThirdTestEntityZeroOrManyCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAllThirdTestEntityOneOrManyRelationshipForThirdTest
 	}
 }
 
-internal partial class DeleteAllThirdTestEntityOneOrManyRelationshipForThirdTestEntityZeroOrManyCommandHandlerBase : CommandBase<DeleteAllThirdTestEntityOneOrManyRelationshipForThirdTestEntityZeroOrManyCommand, ThirdTestEntityOneOrManyEntity>, IRequestHandler <DeleteAllThirdTestEntityOneOrManyRelationshipForThirdTestEntityZeroOrManyCommand, bool>
+internal partial class DeleteAllThirdTestEntityOneOrManiesForThirdTestEntityZeroOrManyCommandHandlerBase : CommandBase<DeleteAllThirdTestEntityOneOrManiesForThirdTestEntityZeroOrManyCommand, ThirdTestEntityOneOrManyEntity>, IRequestHandler <DeleteAllThirdTestEntityOneOrManiesForThirdTestEntityZeroOrManyCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAllThirdTestEntityOneOrManyRelationshipForThirdTestEntityZeroOrManyCommandHandlerBase(
+	public DeleteAllThirdTestEntityOneOrManiesForThirdTestEntityZeroOrManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAllThirdTestEntityOneOrManyRelationshipForThirdTestEntityZeroOrManyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAllThirdTestEntityOneOrManiesForThirdTestEntityZeroOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -62,7 +62,7 @@ internal partial class DeleteAllThirdTestEntityOneOrManyRelationshipForThirdTest
 			
 			foreach(var relatedEntity in related)
 			{
-				DbContext.ThirdTestEntityOneOrManies.Remove(relatedEntity);
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

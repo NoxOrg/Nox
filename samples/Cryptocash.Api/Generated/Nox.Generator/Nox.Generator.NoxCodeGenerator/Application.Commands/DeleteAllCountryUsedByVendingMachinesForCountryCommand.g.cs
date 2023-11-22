@@ -15,12 +15,12 @@ using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteAllCountryUsedByVendingMachinesForCountryCommand(CountryKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAllVendingMachinesForCountryCommand(CountryKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAllCountryUsedByVendingMachinesForCountryCommandHandler : DeleteAllCountryUsedByVendingMachinesForCountryCommandHandlerBase
+internal partial class DeleteAllVendingMachinesForCountryCommandHandler : DeleteAllVendingMachinesForCountryCommandHandlerBase
 {
-	public DeleteAllCountryUsedByVendingMachinesForCountryCommandHandler(
+	public DeleteAllVendingMachinesForCountryCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAllCountryUsedByVendingMachinesForCountryCommandHan
 	}
 }
 
-internal partial class DeleteAllCountryUsedByVendingMachinesForCountryCommandHandlerBase : CommandBase<DeleteAllCountryUsedByVendingMachinesForCountryCommand, VendingMachineEntity>, IRequestHandler <DeleteAllCountryUsedByVendingMachinesForCountryCommand, bool>
+internal partial class DeleteAllVendingMachinesForCountryCommandHandlerBase : CommandBase<DeleteAllVendingMachinesForCountryCommand, VendingMachineEntity>, IRequestHandler <DeleteAllVendingMachinesForCountryCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAllCountryUsedByVendingMachinesForCountryCommandHandlerBase(
+	public DeleteAllVendingMachinesForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAllCountryUsedByVendingMachinesForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAllVendingMachinesForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -62,7 +62,7 @@ internal partial class DeleteAllCountryUsedByVendingMachinesForCountryCommandHan
 			
 			foreach(var relatedEntity in related)
 			{
-				DbContext.VendingMachines.Remove(relatedEntity);
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

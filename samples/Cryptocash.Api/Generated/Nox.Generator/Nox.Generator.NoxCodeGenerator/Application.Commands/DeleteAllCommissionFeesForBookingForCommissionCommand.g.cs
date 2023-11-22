@@ -15,12 +15,12 @@ using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteAllCommissionFeesForBookingForCommissionCommand(CommissionKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAllBookingsForCommissionCommand(CommissionKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAllCommissionFeesForBookingForCommissionCommandHandler : DeleteAllCommissionFeesForBookingForCommissionCommandHandlerBase
+internal partial class DeleteAllBookingsForCommissionCommandHandler : DeleteAllBookingsForCommissionCommandHandlerBase
 {
-	public DeleteAllCommissionFeesForBookingForCommissionCommandHandler(
+	public DeleteAllBookingsForCommissionCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAllCommissionFeesForBookingForCommissionCommandHand
 	}
 }
 
-internal partial class DeleteAllCommissionFeesForBookingForCommissionCommandHandlerBase : CommandBase<DeleteAllCommissionFeesForBookingForCommissionCommand, BookingEntity>, IRequestHandler <DeleteAllCommissionFeesForBookingForCommissionCommand, bool>
+internal partial class DeleteAllBookingsForCommissionCommandHandlerBase : CommandBase<DeleteAllBookingsForCommissionCommand, BookingEntity>, IRequestHandler <DeleteAllBookingsForCommissionCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAllCommissionFeesForBookingForCommissionCommandHandlerBase(
+	public DeleteAllBookingsForCommissionCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAllCommissionFeesForBookingForCommissionCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAllBookingsForCommissionCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -62,7 +62,7 @@ internal partial class DeleteAllCommissionFeesForBookingForCommissionCommandHand
 			
 			foreach(var relatedEntity in related)
 			{
-				DbContext.Bookings.Remove(relatedEntity);
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

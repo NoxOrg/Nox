@@ -15,12 +15,12 @@ using CountryEntity = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteAllCurrencyUsedByCountryForCurrencyCommand(CurrencyKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAllCountriesForCurrencyCommand(CurrencyKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAllCurrencyUsedByCountryForCurrencyCommandHandler : DeleteAllCurrencyUsedByCountryForCurrencyCommandHandlerBase
+internal partial class DeleteAllCountriesForCurrencyCommandHandler : DeleteAllCountriesForCurrencyCommandHandlerBase
 {
-	public DeleteAllCurrencyUsedByCountryForCurrencyCommandHandler(
+	public DeleteAllCountriesForCurrencyCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAllCurrencyUsedByCountryForCurrencyCommandHandler :
 	}
 }
 
-internal partial class DeleteAllCurrencyUsedByCountryForCurrencyCommandHandlerBase : CommandBase<DeleteAllCurrencyUsedByCountryForCurrencyCommand, CountryEntity>, IRequestHandler <DeleteAllCurrencyUsedByCountryForCurrencyCommand, bool>
+internal partial class DeleteAllCountriesForCurrencyCommandHandlerBase : CommandBase<DeleteAllCountriesForCurrencyCommand, CountryEntity>, IRequestHandler <DeleteAllCountriesForCurrencyCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAllCurrencyUsedByCountryForCurrencyCommandHandlerBase(
+	public DeleteAllCountriesForCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAllCurrencyUsedByCountryForCurrencyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAllCountriesForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -62,7 +62,7 @@ internal partial class DeleteAllCurrencyUsedByCountryForCurrencyCommandHandlerBa
 			
 			foreach(var relatedEntity in related)
 			{
-				DbContext.Countries.Remove(relatedEntity);
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

@@ -15,12 +15,12 @@ using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 
-public partial record DeleteAllPhysicalWorkplacesForCountryCommand(CountryKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAllWorkplacesForCountryCommand(CountryKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAllPhysicalWorkplacesForCountryCommandHandler : DeleteAllPhysicalWorkplacesForCountryCommandHandlerBase
+internal partial class DeleteAllWorkplacesForCountryCommandHandler : DeleteAllWorkplacesForCountryCommandHandlerBase
 {
-	public DeleteAllPhysicalWorkplacesForCountryCommandHandler(
+	public DeleteAllWorkplacesForCountryCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAllPhysicalWorkplacesForCountryCommandHandler : Del
 	}
 }
 
-internal partial class DeleteAllPhysicalWorkplacesForCountryCommandHandlerBase : CommandBase<DeleteAllPhysicalWorkplacesForCountryCommand, WorkplaceEntity>, IRequestHandler <DeleteAllPhysicalWorkplacesForCountryCommand, bool>
+internal partial class DeleteAllWorkplacesForCountryCommandHandlerBase : CommandBase<DeleteAllWorkplacesForCountryCommand, WorkplaceEntity>, IRequestHandler <DeleteAllWorkplacesForCountryCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAllPhysicalWorkplacesForCountryCommandHandlerBase(
+	public DeleteAllWorkplacesForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAllPhysicalWorkplacesForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAllWorkplacesForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -61,8 +61,7 @@ internal partial class DeleteAllPhysicalWorkplacesForCountryCommandHandlerBase :
 			}
 			
 			foreach(var relatedEntity in related)
-			{
-				DbContext.Workplaces.Remove(relatedEntity);
+			{DbContext.Workplaces.Remove(relatedEntity);
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

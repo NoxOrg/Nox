@@ -15,12 +15,12 @@ using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteAllVendingMachineRelatedBookingsForVendingMachineCommand(VendingMachineKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAllBookingsForVendingMachineCommand(VendingMachineKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAllVendingMachineRelatedBookingsForVendingMachineCommandHandler : DeleteAllVendingMachineRelatedBookingsForVendingMachineCommandHandlerBase
+internal partial class DeleteAllBookingsForVendingMachineCommandHandler : DeleteAllBookingsForVendingMachineCommandHandlerBase
 {
-	public DeleteAllVendingMachineRelatedBookingsForVendingMachineCommandHandler(
+	public DeleteAllBookingsForVendingMachineCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAllVendingMachineRelatedBookingsForVendingMachineCo
 	}
 }
 
-internal partial class DeleteAllVendingMachineRelatedBookingsForVendingMachineCommandHandlerBase : CommandBase<DeleteAllVendingMachineRelatedBookingsForVendingMachineCommand, BookingEntity>, IRequestHandler <DeleteAllVendingMachineRelatedBookingsForVendingMachineCommand, bool>
+internal partial class DeleteAllBookingsForVendingMachineCommandHandlerBase : CommandBase<DeleteAllBookingsForVendingMachineCommand, BookingEntity>, IRequestHandler <DeleteAllBookingsForVendingMachineCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAllVendingMachineRelatedBookingsForVendingMachineCommandHandlerBase(
+	public DeleteAllBookingsForVendingMachineCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAllVendingMachineRelatedBookingsForVendingMachineCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAllBookingsForVendingMachineCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -62,7 +62,7 @@ internal partial class DeleteAllVendingMachineRelatedBookingsForVendingMachineCo
 			
 			foreach(var relatedEntity in related)
 			{
-				DbContext.Bookings.Remove(relatedEntity);
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

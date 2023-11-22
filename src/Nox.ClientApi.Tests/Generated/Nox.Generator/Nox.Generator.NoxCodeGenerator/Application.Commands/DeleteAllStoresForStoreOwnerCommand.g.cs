@@ -62,7 +62,7 @@ internal partial class DeleteAllStoresForStoreOwnerCommandHandlerBase : CommandB
 			
 			foreach(var relatedEntity in related)
 			{
-				DbContext.Stores.Remove(relatedEntity);
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

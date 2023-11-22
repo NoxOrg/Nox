@@ -15,12 +15,12 @@ using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteAllVendingMachineRelatedCashStockOrdersForVendingMachineCommand(VendingMachineKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAllCashStockOrdersForVendingMachineCommand(VendingMachineKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAllVendingMachineRelatedCashStockOrdersForVendingMachineCommandHandler : DeleteAllVendingMachineRelatedCashStockOrdersForVendingMachineCommandHandlerBase
+internal partial class DeleteAllCashStockOrdersForVendingMachineCommandHandler : DeleteAllCashStockOrdersForVendingMachineCommandHandlerBase
 {
-	public DeleteAllVendingMachineRelatedCashStockOrdersForVendingMachineCommandHandler(
+	public DeleteAllCashStockOrdersForVendingMachineCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAllVendingMachineRelatedCashStockOrdersForVendingMa
 	}
 }
 
-internal partial class DeleteAllVendingMachineRelatedCashStockOrdersForVendingMachineCommandHandlerBase : CommandBase<DeleteAllVendingMachineRelatedCashStockOrdersForVendingMachineCommand, CashStockOrderEntity>, IRequestHandler <DeleteAllVendingMachineRelatedCashStockOrdersForVendingMachineCommand, bool>
+internal partial class DeleteAllCashStockOrdersForVendingMachineCommandHandlerBase : CommandBase<DeleteAllCashStockOrdersForVendingMachineCommand, CashStockOrderEntity>, IRequestHandler <DeleteAllCashStockOrdersForVendingMachineCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAllVendingMachineRelatedCashStockOrdersForVendingMachineCommandHandlerBase(
+	public DeleteAllCashStockOrdersForVendingMachineCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAllVendingMachineRelatedCashStockOrdersForVendingMachineCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAllCashStockOrdersForVendingMachineCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -62,7 +62,7 @@ internal partial class DeleteAllVendingMachineRelatedCashStockOrdersForVendingMa
 			
 			foreach(var relatedEntity in related)
 			{
-				DbContext.CashStockOrders.Remove(relatedEntity);
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

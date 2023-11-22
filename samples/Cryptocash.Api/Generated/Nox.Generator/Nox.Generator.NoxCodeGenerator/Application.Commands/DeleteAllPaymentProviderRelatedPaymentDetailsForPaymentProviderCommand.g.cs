@@ -15,12 +15,12 @@ using PaymentDetailEntity = Cryptocash.Domain.PaymentDetail;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteAllPaymentProviderRelatedPaymentDetailsForPaymentProviderCommand(PaymentProviderKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAllPaymentDetailsForPaymentProviderCommand(PaymentProviderKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAllPaymentProviderRelatedPaymentDetailsForPaymentProviderCommandHandler : DeleteAllPaymentProviderRelatedPaymentDetailsForPaymentProviderCommandHandlerBase
+internal partial class DeleteAllPaymentDetailsForPaymentProviderCommandHandler : DeleteAllPaymentDetailsForPaymentProviderCommandHandlerBase
 {
-	public DeleteAllPaymentProviderRelatedPaymentDetailsForPaymentProviderCommandHandler(
+	public DeleteAllPaymentDetailsForPaymentProviderCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAllPaymentProviderRelatedPaymentDetailsForPaymentPr
 	}
 }
 
-internal partial class DeleteAllPaymentProviderRelatedPaymentDetailsForPaymentProviderCommandHandlerBase : CommandBase<DeleteAllPaymentProviderRelatedPaymentDetailsForPaymentProviderCommand, PaymentDetailEntity>, IRequestHandler <DeleteAllPaymentProviderRelatedPaymentDetailsForPaymentProviderCommand, bool>
+internal partial class DeleteAllPaymentDetailsForPaymentProviderCommandHandlerBase : CommandBase<DeleteAllPaymentDetailsForPaymentProviderCommand, PaymentDetailEntity>, IRequestHandler <DeleteAllPaymentDetailsForPaymentProviderCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAllPaymentProviderRelatedPaymentDetailsForPaymentProviderCommandHandlerBase(
+	public DeleteAllPaymentDetailsForPaymentProviderCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAllPaymentProviderRelatedPaymentDetailsForPaymentProviderCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAllPaymentDetailsForPaymentProviderCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -62,7 +62,7 @@ internal partial class DeleteAllPaymentProviderRelatedPaymentDetailsForPaymentPr
 			
 			foreach(var relatedEntity in related)
 			{
-				DbContext.PaymentDetails.Remove(relatedEntity);
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

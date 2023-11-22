@@ -62,7 +62,7 @@ internal partial class DeleteAllStoreLicenseDefaultForCurrencyCommandHandlerBase
 			
 			foreach(var relatedEntity in related)
 			{
-				DbContext.StoreLicenses.Remove(relatedEntity);
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

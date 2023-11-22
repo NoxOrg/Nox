@@ -15,12 +15,12 @@ using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Na
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public partial record DeleteAll{{relationship.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAll{{GetNavigationPropertyName parent relationship}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAll{{relationship.Name}}For{{parent.Name}}CommandHandler : DeleteAll{{relationship.Name}}For{{parent.Name}}CommandHandlerBase
+internal partial class DeleteAll{{GetNavigationPropertyName parent relationship}}For{{parent.Name}}CommandHandler : DeleteAll{{GetNavigationPropertyName parent relationship}}For{{parent.Name}}CommandHandlerBase
 {
-	public DeleteAll{{relationship.Name}}For{{parent.Name}}CommandHandler(
+	public DeleteAll{{GetNavigationPropertyName parent relationship}}For{{parent.Name}}CommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAll{{relationship.Name}}For{{parent.Name}}CommandHa
 	}
 }
 
-internal partial class DeleteAll{{relationship.Name}}For{{parent.Name}}CommandHandlerBase : CommandBase<DeleteAll{{relationship.Name}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <DeleteAll{{relationship.Name}}For{{parent.Name}}Command, bool>
+internal partial class DeleteAll{{GetNavigationPropertyName parent relationship}}For{{parent.Name}}CommandHandlerBase : CommandBase<DeleteAll{{GetNavigationPropertyName parent relationship}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <DeleteAll{{GetNavigationPropertyName parent relationship}}For{{parent.Name}}Command, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAll{{relationship.Name}}For{{parent.Name}}CommandHandlerBase(
+	public DeleteAll{{GetNavigationPropertyName parent relationship}}For{{parent.Name}}CommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAll{{relationship.Name}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAll{{GetNavigationPropertyName parent relationship}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -67,7 +67,11 @@ internal partial class DeleteAll{{relationship.Name}}For{{parent.Name}}CommandHa
 			
 			foreach(var relatedEntity in related)
 			{
+				{{- if (entity.Persistence?.IsAudited ?? true) }}
+				DbContext.Entry(relatedEntity).State = EntityState.Deleted;
+				{{-else-}}
 				DbContext.{{relationship.EntityPlural}}.Remove(relatedEntity);
+				{{- end}}
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			

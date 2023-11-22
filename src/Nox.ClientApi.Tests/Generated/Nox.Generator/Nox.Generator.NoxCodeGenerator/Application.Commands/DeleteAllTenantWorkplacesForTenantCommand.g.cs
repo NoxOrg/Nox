@@ -15,12 +15,12 @@ using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 
-public partial record DeleteAllTenantWorkplacesForTenantCommand(TenantKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteAllWorkplacesForTenantCommand(TenantKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-internal partial class DeleteAllTenantWorkplacesForTenantCommandHandler : DeleteAllTenantWorkplacesForTenantCommandHandlerBase
+internal partial class DeleteAllWorkplacesForTenantCommandHandler : DeleteAllWorkplacesForTenantCommandHandlerBase
 {
-	public DeleteAllTenantWorkplacesForTenantCommandHandler(
+	public DeleteAllWorkplacesForTenantCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
@@ -28,18 +28,18 @@ internal partial class DeleteAllTenantWorkplacesForTenantCommandHandler : Delete
 	}
 }
 
-internal partial class DeleteAllTenantWorkplacesForTenantCommandHandlerBase : CommandBase<DeleteAllTenantWorkplacesForTenantCommand, WorkplaceEntity>, IRequestHandler <DeleteAllTenantWorkplacesForTenantCommand, bool>
+internal partial class DeleteAllWorkplacesForTenantCommandHandlerBase : CommandBase<DeleteAllWorkplacesForTenantCommand, WorkplaceEntity>, IRequestHandler <DeleteAllWorkplacesForTenantCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
-	public DeleteAllTenantWorkplacesForTenantCommandHandlerBase(
+	public DeleteAllWorkplacesForTenantCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteAllTenantWorkplacesForTenantCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteAllWorkplacesForTenantCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -61,8 +61,7 @@ internal partial class DeleteAllTenantWorkplacesForTenantCommandHandlerBase : Co
 			}
 			
 			foreach(var relatedEntity in related)
-			{
-				DbContext.Workplaces.Remove(relatedEntity);
+			{DbContext.Workplaces.Remove(relatedEntity);
 				await OnCompletedAsync(request, relatedEntity);
 			}
 			
