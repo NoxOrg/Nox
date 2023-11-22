@@ -51,7 +51,7 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
     private ClientApi.Domain.CountryQualityOfLifeIndex ToEntity(CountryQualityOfLifeIndexCreateDto createDto)
     {
         var entity = new ClientApi.Domain.CountryQualityOfLifeIndex();
-        entity.CountryId = CountryQualityOfLifeIndexMetadata.CreateCountryId(createDto.CountryId!);
+        entity.CountryId = CountryQualityOfLifeIndexMetadata.CreateCountryId(createDto.CountryId);
         entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(createDto.IndexRating);
         return entity;
     }

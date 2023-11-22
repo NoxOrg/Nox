@@ -51,14 +51,21 @@ internal abstract class EntityUniqueConstraintsRelatedForeignKeyFactoryBase : IE
     private TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey ToEntity(EntityUniqueConstraintsRelatedForeignKeyCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey();
-        entity.Id = EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(createDto.Id!);
+        entity.Id = EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(createDto.Id);
         entity.SetIfNotNull(createDto.TextField, (entity) => entity.TextField =TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>()));
         return entity;
     }
 
     private void UpdateEntityInternal(EntityUniqueConstraintsRelatedForeignKeyEntity entity, EntityUniqueConstraintsRelatedForeignKeyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.SetIfNotNull(updateDto.TextField, (entity) => entity.TextField = TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateTextField(updateDto.TextField.ToValueFromNonNull<System.String>()));
+        if(updateDto.TextField is null)
+        {
+             entity.TextField = null;
+        }
+        else
+        {
+            entity.TextField = TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateTextField(updateDto.TextField.ToValueFromNonNull<System.String>());
+        }
     }
 
     private void PartialUpdateEntityInternal(EntityUniqueConstraintsRelatedForeignKeyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)

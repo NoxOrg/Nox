@@ -77,14 +77,70 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
     private void UpdateEntityInternal(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = ClientApi.Domain.CountryMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
-        entity.SetIfNotNull(updateDto.Population, (entity) => entity.Population = ClientApi.Domain.CountryMetadata.CreatePopulation(updateDto.Population.ToValueFromNonNull<System.Int32>()));
-        entity.SetIfNotNull(updateDto.CountryDebt, (entity) => entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(updateDto.CountryDebt.ToValueFromNonNull<MoneyDto>()));
-        entity.SetIfNotNull(updateDto.FirstLanguageCode, (entity) => entity.FirstLanguageCode = ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(updateDto.FirstLanguageCode.ToValueFromNonNull<System.String>()));
-        entity.SetIfNotNull(updateDto.CountryIsoNumeric, (entity) => entity.CountryIsoNumeric = ClientApi.Domain.CountryMetadata.CreateCountryIsoNumeric(updateDto.CountryIsoNumeric.ToValueFromNonNull<System.UInt16>()));
-        entity.SetIfNotNull(updateDto.CountryIsoAlpha3, (entity) => entity.CountryIsoAlpha3 = ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(updateDto.CountryIsoAlpha3.ToValueFromNonNull<System.String>()));
-        entity.SetIfNotNull(updateDto.GoogleMapsUrl, (entity) => entity.GoogleMapsUrl = ClientApi.Domain.CountryMetadata.CreateGoogleMapsUrl(updateDto.GoogleMapsUrl.ToValueFromNonNull<System.String>()));
-        entity.SetIfNotNull(updateDto.StartOfWeek, (entity) => entity.StartOfWeek = ClientApi.Domain.CountryMetadata.CreateStartOfWeek(updateDto.StartOfWeek.ToValueFromNonNull<System.UInt16>()));
-        entity.SetIfNotNull(updateDto.Continent, (entity) => entity.Continent = ClientApi.Domain.CountryMetadata.CreateContinent(updateDto.Continent.ToValueFromNonNull<System.Int32>()));
+        if(updateDto.Population is null)
+        {
+             entity.Population = null;
+        }
+        else
+        {
+            entity.Population = ClientApi.Domain.CountryMetadata.CreatePopulation(updateDto.Population.ToValueFromNonNull<System.Int32>());
+        }
+        if(updateDto.CountryDebt is null)
+        {
+             entity.CountryDebt = null;
+        }
+        else
+        {
+            entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(updateDto.CountryDebt.ToValueFromNonNull<MoneyDto>());
+        }
+        if(updateDto.FirstLanguageCode is null)
+        {
+             entity.FirstLanguageCode = null;
+        }
+        else
+        {
+            entity.FirstLanguageCode = ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(updateDto.FirstLanguageCode.ToValueFromNonNull<System.String>());
+        }
+        if(updateDto.CountryIsoNumeric is null)
+        {
+             entity.CountryIsoNumeric = null;
+        }
+        else
+        {
+            entity.CountryIsoNumeric = ClientApi.Domain.CountryMetadata.CreateCountryIsoNumeric(updateDto.CountryIsoNumeric.ToValueFromNonNull<System.UInt16>());
+        }
+        if(updateDto.CountryIsoAlpha3 is null)
+        {
+             entity.CountryIsoAlpha3 = null;
+        }
+        else
+        {
+            entity.CountryIsoAlpha3 = ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(updateDto.CountryIsoAlpha3.ToValueFromNonNull<System.String>());
+        }
+        if(updateDto.GoogleMapsUrl is null)
+        {
+             entity.GoogleMapsUrl = null;
+        }
+        else
+        {
+            entity.GoogleMapsUrl = ClientApi.Domain.CountryMetadata.CreateGoogleMapsUrl(updateDto.GoogleMapsUrl.ToValueFromNonNull<System.String>());
+        }
+        if(updateDto.StartOfWeek is null)
+        {
+             entity.StartOfWeek = null;
+        }
+        else
+        {
+            entity.StartOfWeek = ClientApi.Domain.CountryMetadata.CreateStartOfWeek(updateDto.StartOfWeek.ToValueFromNonNull<System.UInt16>());
+        }
+        if(updateDto.Continent is null)
+        {
+             entity.Continent = null;
+        }
+        else
+        {
+            entity.Continent = ClientApi.Domain.CountryMetadata.CreateContinent(updateDto.Continent.ToValueFromNonNull<System.Int32>());
+        }
     }
 
     private void PartialUpdateEntityInternal(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)

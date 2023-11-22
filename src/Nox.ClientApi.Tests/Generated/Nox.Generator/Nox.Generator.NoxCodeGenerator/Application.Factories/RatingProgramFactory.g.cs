@@ -51,14 +51,21 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
     private ClientApi.Domain.RatingProgram ToEntity(RatingProgramCreateDto createDto)
     {
         var entity = new ClientApi.Domain.RatingProgram();
-        entity.StoreId = RatingProgramMetadata.CreateStoreId(createDto.StoreId!);
+        entity.StoreId = RatingProgramMetadata.CreateStoreId(createDto.StoreId);
         entity.SetIfNotNull(createDto.Name, (entity) => entity.Name =ClientApi.Domain.RatingProgramMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
         return entity;
     }
 
     private void UpdateEntityInternal(RatingProgramEntity entity, RatingProgramUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.SetIfNotNull(updateDto.Name, (entity) => entity.Name = ClientApi.Domain.RatingProgramMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>()));
+        if(updateDto.Name is null)
+        {
+             entity.Name = null;
+        }
+        else
+        {
+            entity.Name = ClientApi.Domain.RatingProgramMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>());
+        }
     }
 
     private void PartialUpdateEntityInternal(RatingProgramEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
