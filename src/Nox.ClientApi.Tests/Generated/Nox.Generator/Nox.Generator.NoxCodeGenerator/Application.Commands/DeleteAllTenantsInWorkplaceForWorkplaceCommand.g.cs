@@ -1,0 +1,85 @@
+﻿﻿// Generated
+
+#nullable enable
+
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Nox.Application.Commands;
+using Nox.Solution;
+using Nox.Types;
+using Nox.Application.Factories;
+using ClientApi.Infrastructure.Persistence;
+using ClientApi.Domain;
+using ClientApi.Application.Dto;
+using TenantEntity = ClientApi.Domain.Tenant;
+
+namespace ClientApi.Application.Commands;
+
+public partial record DeleteAllTenantsInWorkplaceForWorkplaceCommand(WorkplaceKeyDto ParentKeyDto) : IRequest <bool>;
+
+
+internal partial class DeleteAllTenantsInWorkplaceForWorkplaceCommandHandler : DeleteAllTenantsInWorkplaceForWorkplaceCommandHandlerBase
+{
+	public DeleteAllTenantsInWorkplaceForWorkplaceCommandHandler(
+        AppDbContext dbContext,
+		NoxSolution noxSolution)
+		: base(dbContext, noxSolution)
+	{
+	}
+}
+
+internal partial class DeleteAllTenantsInWorkplaceForWorkplaceCommandHandlerBase : CommandBase<DeleteAllTenantsInWorkplaceForWorkplaceCommand, TenantEntity>, IRequestHandler <DeleteAllTenantsInWorkplaceForWorkplaceCommand, bool>
+{
+	public AppDbContext DbContext { get; }
+
+	public DeleteAllTenantsInWorkplaceForWorkplaceCommandHandlerBase(
+        AppDbContext dbContext,
+		NoxSolution noxSolution) : base(noxSolution)
+	{
+		DbContext = dbContext;
+	}
+
+	public virtual async Task<bool> Handle(DeleteAllTenantsInWorkplaceForWorkplaceCommand request, CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		await OnExecutingAsync(request);
+		var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(request.ParentKeyDto.keyId);
+		
+		using var trx = DbContext.Database.BeginTransaction();
+		
+		try
+		{
+			var parentEntity = await DbContext.Workplaces.FindAsync(keyId);
+			if (parentEntity == null)
+			{
+				return false;
+			}
+			var related = parentEntity.Tenants;
+			if (related == null)
+			{
+				return false;
+			}
+			
+			foreach(var relatedEntity in related)
+			{
+				DbContext.Tenants.Remove(relatedEntity);
+				await OnCompletedAsync(request, relatedEntity);
+			}
+			
+			await trx.CommitAsync();
+			
+			var result = await DbContext.SaveChangesAsync(cancellationToken);
+			if (result < 1)
+			{
+				return false;
+			}
+
+			return true;
+		}
+		catch
+		{
+			await trx.RollbackAsync();
+			return false;
+		}
+	}
+}
