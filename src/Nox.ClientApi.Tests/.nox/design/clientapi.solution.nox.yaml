@@ -39,6 +39,8 @@ domain:
     - $ref: ./Entities/currency.entity.nox.yaml
   
     - $ref: ./Entities/tenant.entity.nox.yaml
+  
+    - $ref: ./Entities/country-time-zone.entity.nox.yaml
 
     - name: EmailAddress #owned by store
       description: Verified Email Address
