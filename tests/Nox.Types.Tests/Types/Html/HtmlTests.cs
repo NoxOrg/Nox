@@ -23,6 +23,6 @@ public class HtmlTests
     [InlineData("plain text")]
     public void Html_Constructor_WithInvalidInput_ThrowsValidationException(string badHtmlString)
     {
-        Assert.Throws<TypeValidationException>(() => Html.From(badHtmlString));
+        Assert.Throws<NoxTypeValidationException>(() => Html.From(badHtmlString));
     }
 }

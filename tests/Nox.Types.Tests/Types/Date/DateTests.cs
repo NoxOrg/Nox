@@ -51,7 +51,7 @@ public class DateTests
 
         var action = () => Date.From(new DateOnly(2023, 07, 01), options);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Date type as value 07/01/2023 is greater than than the maximum specified value of 06/01/2023") });
     }
 
@@ -66,7 +66,7 @@ public class DateTests
 
         var action = () => Date.From(new DateOnly(2023, 03, 01), options);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Date type as value 03/01/2023 is less than than the minimum specified value of 04/01/2023") });
     }
 
@@ -81,7 +81,7 @@ public class DateTests
 
         var action = () => Date.From(2023, 07, 01, options);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Date type as value 07/01/2023 is greater than than the maximum specified value of 06/01/2023") });
     }
 
@@ -96,7 +96,7 @@ public class DateTests
 
         var action = () => Date.From(2023, 03, 01, options);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Date type as value 03/01/2023 is less than than the minimum specified value of 04/01/2023") });
     }
 

@@ -35,7 +35,7 @@ public abstract partial class TestEntityLocalizationsControllerBase
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var etag = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(Nox.Types.CultureCode.From(cultureCode), key))).Select(e=>e.Etag).SingleOrDefault();
         

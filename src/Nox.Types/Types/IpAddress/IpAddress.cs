@@ -11,7 +11,7 @@ public sealed class IpAddress : ValueObject<string, IpAddress>
     /// </summary>
     /// <param name="value">The value to create the <see cref="IpAddress"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public new static IpAddress From(string value)
     {
         TryParse(value, out var ipAddressValue);
@@ -25,7 +25,7 @@ public sealed class IpAddress : ValueObject<string, IpAddress>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

@@ -39,7 +39,7 @@ public partial class CountriesController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new CreateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), countryLocalName, etag) { CustomField = "Example"});
+        var createdKey = await _mediator.Send(new CreateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), countryLocalName, etag) { AlternativeName = "Example"});
         if (createdKey == null)
         {
             return NotFound();

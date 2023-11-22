@@ -28,7 +28,7 @@ public class Area : ValueObject<QuantityValue, Area>
     /// </summary>
     /// <param name="value">The value to create the <see cref="Area"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public new static Area From(QuantityValue value)
         => From(value, new AreaTypeOptions());
 
@@ -38,7 +38,7 @@ public class Area : ValueObject<QuantityValue, Area>
     /// <param name="value">The value to create the <see cref="Area"/> with</param>
     /// <param name="unit">The unit to create the <see cref="Area"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Area From(QuantityValue value, AreaTypeUnit unit)
         => From(value, new AreaTypeOptions() { Units = unit });
 
@@ -48,7 +48,7 @@ public class Area : ValueObject<QuantityValue, Area>
     /// <param name="value">The value to create the <see cref="Area"/> with</param>
     /// <param name="options">The options to create the <see cref="Area"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Area From(QuantityValue value, AreaTypeOptions options)
     {
         var newObject = new Area
@@ -62,7 +62,7 @@ public class Area : ValueObject<QuantityValue, Area>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

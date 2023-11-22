@@ -26,7 +26,7 @@ public class CultureCodeTests
     {
         
         // Arrange & Act
-        var exception = Assert.Throws<TypeValidationException>(() => _ = CultureCode.From(cultureCode));
+        var exception = Assert.Throws<NoxTypeValidationException>(() => _ = CultureCode.From(cultureCode));
 
         // Assert
         Assert.Equal($"Could not create a Nox CultureCode type with unsupported value '{cultureCode}'.", exception.Errors.First().ErrorMessage);

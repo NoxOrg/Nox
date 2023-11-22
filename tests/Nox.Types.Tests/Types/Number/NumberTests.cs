@@ -17,7 +17,7 @@ public class NumberTests
     {
         var testNumber = 3.14m;
 
-        Assert.Throws<TypeValidationException>(() => _ =
+        Assert.Throws<NoxTypeValidationException>(() => _ =
             Number.From(testNumber, new NumberTypeOptions { MaxValue = 1 })
         );
     }
@@ -27,7 +27,7 @@ public class NumberTests
     {
         var testNumber = 3.14m;
 
-        Assert.Throws<TypeValidationException>(() => _ =
+        Assert.Throws<NoxTypeValidationException>(() => _ =
             Number.From(testNumber, new NumberTypeOptions { MinValue = 42 })
         );
     }

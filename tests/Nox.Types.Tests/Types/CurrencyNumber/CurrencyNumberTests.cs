@@ -18,7 +18,7 @@ public class CurrencyNumberTests
     {
         var action = () => CurrencyNumber.From(991);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox CurrencyNumber type with unsupported value '991'.") });
     }
 

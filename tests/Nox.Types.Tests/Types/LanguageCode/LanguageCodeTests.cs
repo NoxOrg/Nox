@@ -28,7 +28,7 @@ public class LanguageCodeTests
     {
         var action = () => LanguageCode.From("abc");
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox LanguageCode type with unsupported value 'abc'.") });
     }
 
@@ -89,7 +89,7 @@ public class LanguageCodeTests
     {
         var action = () => _languageCodes.Select(code => LanguageCode.From(code));
 
-        action.Should().NotThrow<TypeValidationException>();
+        action.Should().NotThrow<NoxTypeValidationException>();
     }
 
     [Fact]
@@ -116,7 +116,7 @@ public class LanguageCodeTests
         {
             var action = () => LanguageCode.From(nonLanguageCode);
             _output.WriteLine($"Testing invalid code {nonLanguageCode}..");
-            action.Should().Throw<TypeValidationException>();
+            action.Should().Throw<NoxTypeValidationException>();
         }
 
 

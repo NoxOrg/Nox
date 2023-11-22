@@ -67,7 +67,7 @@ public class DateTimeRangeTests
 
             var action = () => DateTimeRange.From(start, end);
 
-            action.Should().Throw<TypeValidationException>()
+            action.Should().Throw<NoxTypeValidationException>()
                 .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTimeRange type with Start value {expectedStartStringOutput} and End value {expectedEndStringOutput} as start of the time range must be the same or before the end of the time range.") });
         }
 
@@ -88,7 +88,7 @@ public class DateTimeRangeTests
                 new DateTimeRangeTypeOptions { MinStartValue = new DateTimeOffset(2025, 01, 01, 0, 0, 0, 0, TimeSpan.Zero)}
             );
 
-            action.Should().Throw<TypeValidationException>()
+            action.Should().Throw<NoxTypeValidationException>()
                 .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Start", $"Could not create a Nox DateTimeRange type as Start value {expectedEndStringOutput} is less than than the minimum specified value of 01/01/2025 00:00:00 +00:00.") });
         }
 
@@ -109,7 +109,7 @@ public class DateTimeRangeTests
                 new DateTimeRangeTypeOptions { MaxEndValue = new DateTimeOffset(2025, 01, 01, 0, 0, 0, 0, TimeSpan.Zero) }
             );
 
-            action.Should().Throw<TypeValidationException>()
+            action.Should().Throw<NoxTypeValidationException>()
                 .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("End", $"Could not create a Nox DateTimeRange type as End value {expectedEndStringOutput} is greater than than the maximum specified value of 01/01/2025 00:00:00 +00:00.") });
         }
 

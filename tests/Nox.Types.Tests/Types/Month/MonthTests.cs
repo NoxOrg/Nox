@@ -12,7 +12,7 @@ public class MonthTests
     public void Validate_InvalidValue_ReturnsValidationFailure(byte value)
     {
         // Arrange & Act
-        var exception = Assert.Throws<TypeValidationException>(() => _ =  Month.From(value));
+        var exception = Assert.Throws<NoxTypeValidationException>(() => _ =  Month.From(value));
       
         // Assert
         exception.Errors.Should().Contain(e =>
@@ -32,7 +32,7 @@ public class MonthTests
     public void Validate_InvalidIntValue_ReturnsValidationFailure(int value)
     {
         // Arrange & Act
-        var exception = Assert.Throws<TypeValidationException>(() => _ =  Month.From(value));
+        var exception = Assert.Throws<NoxTypeValidationException>(() => _ =  Month.From(value));
       
         // Assert
         exception.Errors.Should().Contain(e =>

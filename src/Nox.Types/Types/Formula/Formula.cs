@@ -17,7 +17,7 @@ public class Formula : ValueObject<string, Formula>
     /// Creates a new instance of <see cref="Formula"/> object.
     /// </summary>
     /// <param name="options">The options.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Formula From(FormulaTypeOptions options)
     {
         var newObject = new Formula
@@ -30,7 +30,7 @@ public class Formula : ValueObject<string, Formula>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

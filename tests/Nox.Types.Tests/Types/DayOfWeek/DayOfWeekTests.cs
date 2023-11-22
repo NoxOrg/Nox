@@ -24,7 +24,7 @@ public class DayOfWeekTests
         var action = () => DayOfWeek.From(value);
 
         // Assert
-        action.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DayOfWeek type a value {value} is greater than the maximum specified value of 6") });
+        action.Should().Throw<NoxTypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DayOfWeek type a value {value} is greater than the maximum specified value of 6") });
     }
 
     [Fact]

@@ -81,7 +81,7 @@ public sealed class Image : ValueObject<(string Url, string PrettyName, int Size
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

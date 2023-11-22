@@ -21,7 +21,7 @@ public class DateTimeTests
         DateTimeTypeOptions dateTimeTypeOptions = new() { AllowFutureOnly = true };
         Action comparison = () => DateTime.From(new DateTimeOffset(2000, 01, 01, 0, 0, 0, 0, TimeSpan.Zero), dateTimeTypeOptions);
 
-        comparison.Should().Throw<TypeValidationException>();
+        comparison.Should().Throw<NoxTypeValidationException>();
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public class DateTimeTests
         DateTimeTypeOptions dateTimeTypeOptions = new() { MaxValue = new DateTimeOffset(2022, 01, 01, 0, 0, 0, 0, TimeSpan.Zero) };
         Action comparison = () => DateTime.From(new DateTimeOffset(2023, 01, 01, 0, 0, 0, 0, TimeSpan.Zero), dateTimeTypeOptions);
 
-        comparison.Should().Throw<TypeValidationException>();
+        comparison.Should().Throw<NoxTypeValidationException>();
     }
 
     [Fact]

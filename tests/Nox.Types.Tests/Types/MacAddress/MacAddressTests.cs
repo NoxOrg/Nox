@@ -51,7 +51,7 @@ public class MacAddressTests
     {
         var action = () => MacAddress.From(input);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox MAC Address type as value {input} is not a valid MAC Address.") });
     }
 
@@ -60,7 +60,7 @@ public class MacAddressTests
     {
         var action = () => MacAddress.From(0xFFFFFFFFFFFFF); // too many bytes
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox MAC Address type as value FFFFFFFFFFFFF is not a valid MAC Address.") });
     }
 
@@ -71,7 +71,7 @@ public class MacAddressTests
     {
         var action = () => MacAddress.From(input);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox MAC Address type as value {expectedOutput} is not a valid MAC Address.") });
     }
 

@@ -35,7 +35,14 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
 
     public virtual CountryBarCodeEntity CreateEntity(CountryBarCodeUpsertDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(CountryBarCodeEntity entity, CountryBarCodeUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
