@@ -15,15 +15,15 @@ internal class DeleteRelatedCommandGenerator : ApplicationEntityDependentGenerat
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            foreach (var ownedRelation in entity.Relationships.Where(x => x.WithMultiEntity))
+            foreach (var relation in entity.Relationships.Where(x => x.WithMultiEntity))
             {
-                var ownedEntity = entities.Single(entity => entity.Name == ownedRelation.Entity);
+                var ownedEntity = entities.Single(entity => entity.Name == relation.Entity);
                 var parentKeysFindQuery = string.Join(", ", entity.Keys.Select(k => $"key{k.Name}"));
 
                 new TemplateCodeBuilder(context, codeGeneratorState)
-                    .WithClassName($"DeleteAll{ownedRelation.Name}For{entity.Name}Command")
+                    .WithClassName($"DeleteAll{relation.Name}For{entity.Name}Command")
                     .WithFileNamePrefix($"Application.Commands")
-                    .WithObject("relationship", ownedRelation)
+                    .WithObject("relationship", relation)
                     .WithObject("entity", ownedEntity)
                     .WithObject("parent", entity)
                     .WithObject("parentKeysFindQuery", parentKeysFindQuery)
