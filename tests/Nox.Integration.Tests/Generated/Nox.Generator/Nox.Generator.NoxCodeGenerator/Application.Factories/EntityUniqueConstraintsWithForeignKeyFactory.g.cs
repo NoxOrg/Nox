@@ -59,7 +59,14 @@ internal abstract class EntityUniqueConstraintsWithForeignKeyFactoryBase : IEnti
 
     private void UpdateEntityInternal(EntityUniqueConstraintsWithForeignKeyEntity entity, EntityUniqueConstraintsWithForeignKeyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.SetIfNotNull(updateDto.TextField, (entity) => entity.TextField = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateTextField(updateDto.TextField.ToValueFromNonNull<System.String>()));
+        if(updateDto.TextField is null)
+        {
+             entity.TextField = null;
+        }
+        else
+        {
+            entity.TextField = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateTextField(updateDto.TextField.ToValueFromNonNull<System.String>());
+        }
         entity.SomeUniqueId = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateSomeUniqueId(updateDto.SomeUniqueId.NonNullValue<System.Int32>());
     }
 

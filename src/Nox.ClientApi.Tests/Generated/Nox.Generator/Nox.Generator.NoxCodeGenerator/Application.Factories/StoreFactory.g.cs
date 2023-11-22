@@ -72,8 +72,22 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         entity.Name = ClientApi.Domain.StoreMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
         entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(updateDto.Location.NonNullValue<LatLongDto>());
-        entity.SetIfNotNull(updateDto.OpeningDay, (entity) => entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>()));
-        entity.SetIfNotNull(updateDto.Status, (entity) => entity.Status = ClientApi.Domain.StoreMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>()));
+        if(updateDto.OpeningDay is null)
+        {
+             entity.OpeningDay = null;
+        }
+        else
+        {
+            entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>());
+        }
+        if(updateDto.Status is null)
+        {
+             entity.Status = null;
+        }
+        else
+        {
+            entity.Status = ClientApi.Domain.StoreMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>());
+        }
     }
 
     private void PartialUpdateEntityInternal(StoreEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)

@@ -125,10 +125,17 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
             {{- else -}}.NonNullValue<{{attribute.Type}}Dto>()
             {{- end}});
         {{- else -}}
-        entity.SetIfNotNull(updateDto.{{attribute.Name}}, (entity) => entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
+        if(updateDto.{{attribute.Name}} is null)
+        {
+             entity.{{attribute.Name}} = null;
+        }
+        else
+        {
+            entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
             {{- if IsNoxTypeSimpleType attribute.Type -}}.ToValueFromNonNull<{{SinglePrimitiveTypeForKey attribute}}>()
             {{- else -}}.ToValueFromNonNull<{{attribute.Type}}Dto>()
-            {{- end}}));
+            {{- end}});
+        }      
         {{- end }}
         {{- end }}
 

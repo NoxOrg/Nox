@@ -58,8 +58,22 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEnt
 
     private void UpdateEntityInternal(EmailAddressEntity entity, EmailAddressUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.SetIfNotNull(updateDto.Email, (entity) => entity.Email = ClientApi.Domain.EmailAddressMetadata.CreateEmail(updateDto.Email.ToValueFromNonNull<System.String>()));
-        entity.SetIfNotNull(updateDto.IsVerified, (entity) => entity.IsVerified = ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(updateDto.IsVerified.ToValueFromNonNull<System.Boolean>()));
+        if(updateDto.Email is null)
+        {
+             entity.Email = null;
+        }
+        else
+        {
+            entity.Email = ClientApi.Domain.EmailAddressMetadata.CreateEmail(updateDto.Email.ToValueFromNonNull<System.String>());
+        }
+        if(updateDto.IsVerified is null)
+        {
+             entity.IsVerified = null;
+        }
+        else
+        {
+            entity.IsVerified = ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(updateDto.IsVerified.ToValueFromNonNull<System.Boolean>());
+        }
     }
 
     private void PartialUpdateEntityInternal(EmailAddressEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)

@@ -59,7 +59,14 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
     private void UpdateEntityInternal(CountryLocalNameEntity entity, CountryLocalNameUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = ClientApi.Domain.CountryLocalNameMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
-        entity.SetIfNotNull(updateDto.NativeName, (entity) => entity.NativeName = ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(updateDto.NativeName.ToValueFromNonNull<System.String>()));
+        if(updateDto.NativeName is null)
+        {
+             entity.NativeName = null;
+        }
+        else
+        {
+            entity.NativeName = ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(updateDto.NativeName.ToValueFromNonNull<System.String>());
+        }
     }
 
     private void PartialUpdateEntityInternal(CountryLocalNameEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)

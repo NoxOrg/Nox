@@ -65,10 +65,38 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
     {
         entity.Name = ClientApi.Domain.StoreOwnerMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.TemporaryOwnerName = ClientApi.Domain.StoreOwnerMetadata.CreateTemporaryOwnerName(updateDto.TemporaryOwnerName.NonNullValue<System.String>());
-        entity.SetIfNotNull(updateDto.VatNumber, (entity) => entity.VatNumber = ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(updateDto.VatNumber.ToValueFromNonNull<VatNumberDto>()));
-        entity.SetIfNotNull(updateDto.StreetAddress, (entity) => entity.StreetAddress = ClientApi.Domain.StoreOwnerMetadata.CreateStreetAddress(updateDto.StreetAddress.ToValueFromNonNull<StreetAddressDto>()));
-        entity.SetIfNotNull(updateDto.LocalGreeting, (entity) => entity.LocalGreeting = ClientApi.Domain.StoreOwnerMetadata.CreateLocalGreeting(updateDto.LocalGreeting.ToValueFromNonNull<TranslatedTextDto>()));
-        entity.SetIfNotNull(updateDto.Notes, (entity) => entity.Notes = ClientApi.Domain.StoreOwnerMetadata.CreateNotes(updateDto.Notes.ToValueFromNonNull<System.String>()));
+        if(updateDto.VatNumber is null)
+        {
+             entity.VatNumber = null;
+        }
+        else
+        {
+            entity.VatNumber = ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(updateDto.VatNumber.ToValueFromNonNull<VatNumberDto>());
+        }
+        if(updateDto.StreetAddress is null)
+        {
+             entity.StreetAddress = null;
+        }
+        else
+        {
+            entity.StreetAddress = ClientApi.Domain.StoreOwnerMetadata.CreateStreetAddress(updateDto.StreetAddress.ToValueFromNonNull<StreetAddressDto>());
+        }
+        if(updateDto.LocalGreeting is null)
+        {
+             entity.LocalGreeting = null;
+        }
+        else
+        {
+            entity.LocalGreeting = ClientApi.Domain.StoreOwnerMetadata.CreateLocalGreeting(updateDto.LocalGreeting.ToValueFromNonNull<TranslatedTextDto>());
+        }
+        if(updateDto.Notes is null)
+        {
+             entity.Notes = null;
+        }
+        else
+        {
+            entity.Notes = ClientApi.Domain.StoreOwnerMetadata.CreateNotes(updateDto.Notes.ToValueFromNonNull<System.String>());
+        }
     }
 
     private void PartialUpdateEntityInternal(StoreOwnerEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
