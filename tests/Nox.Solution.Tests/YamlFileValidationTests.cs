@@ -294,19 +294,22 @@ public class YamlFileValidationTests
             .WithFile($"./files/invalid-unique-attribute-constraints.solution.nox.yaml")
             .Build();
 
-
         var expectedErrors = new[]
         {
             "Duplicate name [UniqueCountryName] on entity [Country] found in [UniqueConstraint,UniqueConstraint]",
             "Unique constraint [UniqueConstraintWithNonExistentAttribute] refers to non-existing attribute [NonExistentAttribute] on entity [Country]",
             "Unique constraints [UniqueCountry,Unique] refers to non-unique keys [AlphaCode2,AlphaCode3,NumericCode] on entity [Country]",
+            "Unique constraint [UniqueConstraintWithNonExistentRelationship] refers to non-existing relationship [NonExistentRelationship] on entity [Country]",
+            "Unique constraint [UniqueConstraintWithInvalidRelationshipType] refers to a relationship [CountryAcceptsCurrency] which isn't zero/one to many from single side",
+            "Unique constraint [UniqueConstraintWithDuplicateAttributeName] has duplicate attribute name: [Name]",
+            "Unique constraint [UniqueConstraintWithDuplicateRelationshipName] has duplicate relationship name: [BelongsToCountry]"
         };
 
         var errors = action.Should()
             .ThrowExactly<NoxYamlValidationException>()
             .Which.Errors
             .Should().NotBeEmpty()
-            .And.HaveCount(3)
+            .And.HaveCount(7)
             .And.Subject.Select(x => x.ErrorMessage)
             .Should().BeEquivalentTo(expectedErrors);
     }

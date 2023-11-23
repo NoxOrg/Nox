@@ -35,5 +35,5 @@ public partial class TestEntityOwnedRelationshipExactlyOneUpdateDtoBase: EntityD
     /// <summary>
     /// TestEntityOwnedRelationshipExactlyOne Test entity relationship to SecondTestEntityOwnedRelationshipExactlyOne ExactlyOne SecondTestEntityOwnedRelationshipExactlyOnes
     /// </summary>
-    public virtual SecondTestEntityOwnedRelationshipExactlyOneUpdateDto SecondTestEntityOwnedRelationshipExactlyOne { get; set; } = null!;
+    public virtual SecondTestEntityOwnedRelationshipExactlyOneUpsertDto SecondTestEntityOwnedRelationshipExactlyOne { get; set; } = null!;
 }

@@ -20,7 +20,7 @@ public class Temperature : ValueObject<QuantityValue, Temperature>
     /// </summary>
     /// <param name="value">The value of <see cref="Temperature"/></param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public new static Temperature From(QuantityValue value)
     {
         return From(value, new TemperatureTypeOptions());
@@ -32,7 +32,7 @@ public class Temperature : ValueObject<QuantityValue, Temperature>
     /// <param name="value">The value of <see cref="Temperature"/></param>
     /// <param name="temperatureUnit">The unit of <see cref="Temperature"/></param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Temperature From(QuantityValue value, TemperatureTypeUnit temperatureUnit)
     {
         return From(value, new TemperatureTypeOptions() { Units = temperatureUnit });
@@ -44,7 +44,7 @@ public class Temperature : ValueObject<QuantityValue, Temperature>
     /// <param name="value">The value of <see cref="Temperature"/></param>
     /// <param name="options">The options of type <see cref="TemperatureTypeOptions"/></param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Temperature From(QuantityValue value, TemperatureTypeOptions options)
     {
         var newObject = new Temperature
@@ -58,7 +58,7 @@ public class Temperature : ValueObject<QuantityValue, Temperature>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

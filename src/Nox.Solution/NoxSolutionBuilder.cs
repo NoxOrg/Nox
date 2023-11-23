@@ -23,7 +23,7 @@ public class NoxSolutionBuilder
             .WithSearchFromExecutionFolder("./.nox/design")
             .WithSearchFromExecutionFolder("./design")
             .WithSearchFromExecutionFolder("./Design")
-            .WithSearchFromRepositoryRoot("./nox/design")
+            .WithSearchFromRepositoryRoot("./.nox/design")
             .WithEnvironmentVariableDefaultsProvider(
                 new EnvironmentVariableDefaultsProvider<NoxSolutionBasicsOnly>(s => s.Variables ?? new Dictionary<string, object>())
             );

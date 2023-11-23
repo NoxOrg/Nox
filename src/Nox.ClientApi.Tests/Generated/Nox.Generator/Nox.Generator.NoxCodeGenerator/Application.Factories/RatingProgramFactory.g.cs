@@ -35,7 +35,14 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
 
     public virtual RatingProgramEntity CreateEntity(RatingProgramCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(RatingProgramEntity entity, RatingProgramUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
@@ -58,7 +65,14 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
 
     private void UpdateEntityInternal(RatingProgramEntity entity, RatingProgramUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.SetIfNotNull(updateDto.Name, (entity) => entity.Name = ClientApi.Domain.RatingProgramMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>()));
+        if(updateDto.Name is null)
+        {
+             entity.Name = null;
+        }
+        else
+        {
+            entity.Name = ClientApi.Domain.RatingProgramMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>());
+        }
     }
 
     private void PartialUpdateEntityInternal(RatingProgramEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)

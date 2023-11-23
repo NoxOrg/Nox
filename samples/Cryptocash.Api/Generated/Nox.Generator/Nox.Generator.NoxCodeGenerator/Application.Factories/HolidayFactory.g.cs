@@ -23,7 +23,7 @@ using HolidayEntity = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto>
+internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
@@ -33,12 +33,19 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
     {
     }
 
-    public virtual HolidayEntity CreateEntity(HolidayCreateDto createDto)
+    public virtual HolidayEntity CreateEntity(HolidayUpsertDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
-    public virtual void UpdateEntity(HolidayEntity entity, HolidayUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual void UpdateEntity(HolidayEntity entity, HolidayUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         UpdateEntityInternal(entity, updateDto, cultureCode);
     }
@@ -48,7 +55,7 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private Cryptocash.Domain.Holiday ToEntity(HolidayCreateDto createDto)
+    private Cryptocash.Domain.Holiday ToEntity(HolidayUpsertDto createDto)
     {
         var entity = new Cryptocash.Domain.Holiday();
         entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(createDto.Name);
@@ -57,7 +64,7 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         return entity;
     }
 
-    private void UpdateEntityInternal(HolidayEntity entity, HolidayUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private void UpdateEntityInternal(HolidayEntity entity, HolidayUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.Type = Cryptocash.Domain.HolidayMetadata.CreateType(updateDto.Type.NonNullValue<System.String>());

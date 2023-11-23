@@ -28,7 +28,7 @@ public class Length : ValueObject<QuantityValue, Length>
     /// </summary>
     /// <param name="value">The value to create the <see cref="Length"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public new static Length From(QuantityValue value)
         => From(value, new LengthTypeOptions());
 
@@ -38,7 +38,7 @@ public class Length : ValueObject<QuantityValue, Length>
     /// <param name="value">The value to create the <see cref="Length"/> with</param>
     /// <param name="unit">The unit to create the <see cref="Length"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Length From(QuantityValue value, LengthTypeUnit unit)
         => From(value, new LengthTypeOptions() { Units = unit });
 
@@ -48,7 +48,7 @@ public class Length : ValueObject<QuantityValue, Length>
     /// <param name="value">The value to create the <see cref="Length"/> with</param>
     /// <param name="options">The options to create the <see cref="Length"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Length From(QuantityValue value, LengthTypeOptions options)
     {
         var newObject = new Length
@@ -62,7 +62,7 @@ public class Length : ValueObject<QuantityValue, Length>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

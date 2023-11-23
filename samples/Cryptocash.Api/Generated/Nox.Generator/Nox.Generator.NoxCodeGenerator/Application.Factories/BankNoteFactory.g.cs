@@ -23,7 +23,7 @@ using BankNoteEntity = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, BankNoteCreateDto, BankNoteUpdateDto>
+internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
@@ -33,12 +33,19 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
     {
     }
 
-    public virtual BankNoteEntity CreateEntity(BankNoteCreateDto createDto)
+    public virtual BankNoteEntity CreateEntity(BankNoteUpsertDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
-    public virtual void UpdateEntity(BankNoteEntity entity, BankNoteUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual void UpdateEntity(BankNoteEntity entity, BankNoteUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         UpdateEntityInternal(entity, updateDto, cultureCode);
     }
@@ -48,7 +55,7 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private Cryptocash.Domain.BankNote ToEntity(BankNoteCreateDto createDto)
+    private Cryptocash.Domain.BankNote ToEntity(BankNoteUpsertDto createDto)
     {
         var entity = new Cryptocash.Domain.BankNote();
         entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(createDto.CashNote);
@@ -56,7 +63,7 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
         return entity;
     }
 
-    private void UpdateEntityInternal(BankNoteEntity entity, BankNoteUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private void UpdateEntityInternal(BankNoteEntity entity, BankNoteUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(updateDto.CashNote.NonNullValue<System.String>());
         entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(updateDto.Value.NonNullValue<MoneyDto>());

@@ -49,19 +49,19 @@ internal class DtoDbContext : DbContext
     }
 
     
-        public DbSet<CountryDto> Countries { get; set; } = null!;
-        public DbSet<RatingProgramDto> RatingPrograms { get; set; } = null!;
-        public DbSet<CountryQualityOfLifeIndexDto> CountryQualityOfLifeIndices { get; set; } = null!;
-        public DbSet<StoreDto> Stores { get; set; } = null!;
-        public DbSet<WorkplaceDto> Workplaces { get; set; } = null!;
-        public DbSet<StoreOwnerDto> StoreOwners { get; set; } = null!;
-        public DbSet<StoreLicenseDto> StoreLicenses { get; set; } = null!;
-        public DbSet<CurrencyDto> Currencies { get; set; } = null!;
-        public DbSet<TenantDto> Tenants { get; set; } = null!;
-    public DbSet<WorkplaceLocalizedDto> WorkplacesLocalized { get; set; } = null!;
-    public DbSet<DtoNameSpace.CountryContinentDto> CountriesContinents { get; set; } = null!;
-    public DbSet<DtoNameSpace.CountryContinentLocalizedDto> CountriesContinentsLocalized { get; set; } = null!;
-    public DbSet<DtoNameSpace.StoreStatusDto> StoresStatuses { get; set; } = null!;
+        public virtual DbSet<CountryDto> Countries { get; set; } = null!;
+        public virtual DbSet<RatingProgramDto> RatingPrograms { get; set; } = null!;
+        public virtual DbSet<CountryQualityOfLifeIndexDto> CountryQualityOfLifeIndices { get; set; } = null!;
+        public virtual DbSet<StoreDto> Stores { get; set; } = null!;
+        public virtual DbSet<WorkplaceDto> Workplaces { get; set; } = null!;
+        public virtual DbSet<StoreOwnerDto> StoreOwners { get; set; } = null!;
+        public virtual DbSet<StoreLicenseDto> StoreLicenses { get; set; } = null!;
+        public virtual DbSet<CurrencyDto> Currencies { get; set; } = null!;
+        public virtual DbSet<TenantDto> Tenants { get; set; } = null!;
+    public virtual DbSet<WorkplaceLocalizedDto> WorkplacesLocalized { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.CountryContinentDto> CountriesContinents { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.CountryContinentLocalizedDto> CountriesContinentsLocalized { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.StoreStatusDto> StoresStatuses { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

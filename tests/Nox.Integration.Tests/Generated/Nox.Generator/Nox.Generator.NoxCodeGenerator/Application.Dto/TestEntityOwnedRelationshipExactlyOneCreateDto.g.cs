@@ -44,5 +44,5 @@ public abstract class TestEntityOwnedRelationshipExactlyOneCreateDtoBase : IEnti
     /// <summary>
     /// TestEntityOwnedRelationshipExactlyOne Test entity relationship to SecondTestEntityOwnedRelationshipExactlyOne ExactlyOne SecondTestEntityOwnedRelationshipExactlyOnes
     /// </summary>
-    public virtual SecondTestEntityOwnedRelationshipExactlyOneCreateDto SecondTestEntityOwnedRelationshipExactlyOne { get; set; } = null!;
+    public virtual SecondTestEntityOwnedRelationshipExactlyOneUpsertDto SecondTestEntityOwnedRelationshipExactlyOne { get; set; } = null!;
 }

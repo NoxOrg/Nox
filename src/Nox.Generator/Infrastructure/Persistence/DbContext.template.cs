@@ -57,18 +57,18 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
         }
     {{ for entity in solution.Domain.Entities -}}
     {{- if (!entity.IsOwnedEntity) }}
-    public DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
+    public virtual DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
     {{- end }}
     {{- end }}
     {{ for entity in entitiesToLocalize -}}
-    public DbSet<{{codeGeneratorState.DomainNameSpace}}.{{GetEntityNameForLocalizedType entity.Name}}> {{GetEntityNameForLocalizedType entity.PluralName}} { get; set; } = null!;
+    public virtual DbSet<{{codeGeneratorState.DomainNameSpace}}.{{GetEntityNameForLocalizedType entity.Name}}> {{GetEntityNameForLocalizedType entity.PluralName}} { get; set; } = null!;
     {{- end }}
 
     {{- for entityAtt in enumerationAttributes #Setup Entity Enumerations}}
     {{- for enumAtt in entityAtt.Attributes}}
-    public DbSet<DomainNameSpace.{{enumAtt.EntityNameForEnumeration}}> {{enumAtt.DbSetNameForEnumeration}} { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.{{enumAtt.EntityNameForEnumeration}}> {{enumAtt.DbSetNameForEnumeration}} { get; set; } = null!;
     {{- if enumAtt.Attribute.EnumerationTypeOptions.IsLocalized}}
-    public DbSet<DomainNameSpace.{{ enumAtt.EntityNameForLocalizedEnumeration}}> {{enumAtt.DbSetNameForLocalizedEnumeration}} { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.{{ enumAtt.EntityNameForLocalizedEnumeration}}> {{enumAtt.DbSetNameForLocalizedEnumeration}} { get; set; } = null!;
     {{- end }}
     {{- end }}
     {{- end }}

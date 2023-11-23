@@ -7,7 +7,7 @@ namespace Nox.Integration.Extensions.Send;
 
 public static class DatabaseTargetExtensions
 {
-    public static CustomDestination LinkToDatabaseTable(this IDataFlowExecutableSource<ExpandoObject> source, INoxDatabaseSendAdapter sendAdapter, List<string>? idColumns, List<string>? dateColumns)
+    public static CustomDestination LinkToDatabaseTable(this IDataFlowSource<ExpandoObject> source, INoxDatabaseSendAdapter sendAdapter, List<string>? idColumns, List<string>? dateColumns)
     {
         var tableTarget = sendAdapter.TableTarget!;
         if (idColumns != null && idColumns.Any())

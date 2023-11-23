@@ -404,7 +404,15 @@ namespace Nox.Types.EntityFramework.Configurations
         {
             foreach (var uniqueConstraint in entity.UniqueAttributeConstraints!)
             {
-                result.Add(builder.HasUniqueAttributeConstraint(uniqueConstraint.AttributeNames.ToArray(),
+                var uniqueProperties = new List<string>();
+                uniqueProperties.AddRange(uniqueConstraint.AttributeNames);
+
+                var relationshipAttributes = uniqueConstraint.RelationshipNames.Select(x =>
+                    NoxCodeGenConventions.GetForeignKeyPropertyName(entity, entity.Relationships.First(y => y.Name == x)));
+
+                uniqueProperties.AddRange(relationshipAttributes);
+
+                result.Add(builder.HasUniqueAttributeConstraint(uniqueProperties.ToArray(),
                     uniqueConstraint.Name));
             }
         }
@@ -413,10 +421,15 @@ namespace Nox.Types.EntityFramework.Configurations
         {
             foreach (var uniqueConstraint in entity.UniqueAttributeConstraints!)
             {
-                var auditProperties = new List<string>(uniqueConstraint.AttributeNames.Count + 1);
-                auditProperties.AddRange(uniqueConstraint.AttributeNames);
-                auditProperties.Add("DeletedAtUtc");
-                result.Add(builder.HasUniqueAttributeConstraint(auditProperties.ToArray(), uniqueConstraint.Name));
+                var uniqueProperties = new List<string>();
+                uniqueProperties.AddRange(uniqueConstraint.AttributeNames);
+
+                var relationshipAttributes = uniqueConstraint.RelationshipNames.Select(x =>
+                    NoxCodeGenConventions.GetForeignKeyPropertyName(entity, entity.Relationships.First(y => y.Name == x)));
+
+                uniqueProperties.AddRange(relationshipAttributes);
+                uniqueProperties.Add("DeletedAtUtc");
+                result.Add(builder.HasUniqueAttributeConstraint(uniqueProperties.ToArray(), uniqueConstraint.Name));
             }
         }
 

@@ -28,7 +28,7 @@ public class Weight : ValueObject<QuantityValue, Weight>
     /// </summary>
     /// <param name="value">The value to create the <see cref="Weight"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public new static Weight From(QuantityValue value)
         => From(value, new WeightTypeOptions());
 
@@ -38,7 +38,7 @@ public class Weight : ValueObject<QuantityValue, Weight>
     /// <param name="value">The value to create the <see cref="Weight"/> with</param>
     /// <param name="unit">The unit to create the <see cref="Weight"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Weight From(QuantityValue value, WeightTypeUnit unit)
         => From(value, new WeightTypeOptions() { Units = unit });
 
@@ -48,7 +48,7 @@ public class Weight : ValueObject<QuantityValue, Weight>
     /// <param name="value">The value to create the <see cref="Weight"/> with</param>
     /// <param name="options">The options to create the <see cref="Weight"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Weight From(QuantityValue value, WeightTypeOptions options)
     {
         var newObject = new Weight
@@ -62,7 +62,7 @@ public class Weight : ValueObject<QuantityValue, Weight>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

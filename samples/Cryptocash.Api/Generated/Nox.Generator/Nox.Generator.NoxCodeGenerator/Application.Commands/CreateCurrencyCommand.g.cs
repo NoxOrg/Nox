@@ -12,6 +12,8 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -111,4 +113,17 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		await DbContext.SaveChangesAsync();
 		return new CurrencyKeyDto(entityToCreate.Id.Value);
 	}
+}
+
+public class CreateCurrencyValidator : AbstractValidator<CreateCurrencyCommand>
+{
+    public CreateCurrencyValidator()
+    {
+		RuleFor(x => x.EntityDto.BankNotes)
+			.Must(owned => owned.All(x => x.Id == null))
+			.WithMessage("BankNotes.Id must be null as it is auto generated.");
+		RuleFor(x => x.EntityDto.ExchangeRates)
+			.Must(owned => owned.All(x => x.Id == null))
+			.WithMessage("ExchangeRates.Id must be null as it is auto generated.");
+    }
 }

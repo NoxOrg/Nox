@@ -73,7 +73,11 @@ public partial class CountryUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNames
     /// <remarks>Optional.</remarks>
     public virtual System.Int32? Continent { get; set; }
     /// <summary>
+    /// Country is also know as ZeroOrMany CountryLocalNames
+    /// </summary>
+    public virtual List<CountryLocalNameUpsertDto> CountryLocalNames { get; set; } = new();
+    /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes
     /// </summary>
-    public virtual CountryBarCodeUpdateDto? CountryBarCode { get; set; } = null!;
+    public virtual CountryBarCodeUpsertDto? CountryBarCode { get; set; } = null!;
 }

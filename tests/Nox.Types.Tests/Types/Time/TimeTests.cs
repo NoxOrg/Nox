@@ -104,7 +104,7 @@ public class TimeTests
             int minute = 0;
             int seconds = 0;
             int milliseconds = 100;
-            var exception = Assert.Throws<TypeValidationException>(() => _ =
+            var exception = Assert.Throws<NoxTypeValidationException>(() => _ =
               Time.From(hour, minute, seconds, milliseconds, new TimeTypeOptions { MinTimeTicks = 25000000 })
             );
 
@@ -137,7 +137,7 @@ public class TimeTests
         void Test()
         {
             long ticks = 100;
-            var exception = Assert.Throws<TypeValidationException>(() => _ =
+            var exception = Assert.Throws<NoxTypeValidationException>(() => _ =
               Time.From(ticks, new TimeTypeOptions { MinTimeTicks = 1000})
             );
 

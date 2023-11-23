@@ -94,4 +94,12 @@ public partial class CountryUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNames
     [Required(ErrorMessage = "StartOfWeek is required")]
     
     public virtual System.UInt16 StartOfWeek { get; set; } = default!;
+    /// <summary>
+    /// Country owned OneOrMany CountryTimeZones
+    /// </summary>
+    public virtual List<CountryTimeZoneUpsertDto> CountryTimeZones { get; set; } = new();
+    /// <summary>
+    /// Country owned ZeroOrMany Holidays
+    /// </summary>
+    public virtual List<HolidayUpsertDto> Holidays { get; set; } = new();
 }

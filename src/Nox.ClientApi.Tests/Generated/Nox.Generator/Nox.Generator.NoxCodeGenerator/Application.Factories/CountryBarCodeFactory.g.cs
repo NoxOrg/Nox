@@ -23,7 +23,7 @@ using CountryBarCodeEntity = ClientApi.Domain.CountryBarCode;
 
 namespace ClientApi.Application.Factories;
 
-internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCodeEntity, CountryBarCodeCreateDto, CountryBarCodeUpdateDto>
+internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCodeEntity, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
@@ -33,12 +33,19 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
     {
     }
 
-    public virtual CountryBarCodeEntity CreateEntity(CountryBarCodeCreateDto createDto)
+    public virtual CountryBarCodeEntity CreateEntity(CountryBarCodeUpsertDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
-    public virtual void UpdateEntity(CountryBarCodeEntity entity, CountryBarCodeUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual void UpdateEntity(CountryBarCodeEntity entity, CountryBarCodeUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         UpdateEntityInternal(entity, updateDto, cultureCode);
     }
@@ -48,7 +55,7 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private ClientApi.Domain.CountryBarCode ToEntity(CountryBarCodeCreateDto createDto)
+    private ClientApi.Domain.CountryBarCode ToEntity(CountryBarCodeUpsertDto createDto)
     {
         var entity = new ClientApi.Domain.CountryBarCode();
         entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(createDto.BarCodeName);
@@ -56,10 +63,17 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
         return entity;
     }
 
-    private void UpdateEntityInternal(CountryBarCodeEntity entity, CountryBarCodeUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private void UpdateEntityInternal(CountryBarCodeEntity entity, CountryBarCodeUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(updateDto.BarCodeName.NonNullValue<System.String>());
-        entity.SetIfNotNull(updateDto.BarCodeNumber, (entity) => entity.BarCodeNumber = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(updateDto.BarCodeNumber.ToValueFromNonNull<System.Int32>()));
+        if(updateDto.BarCodeNumber is null)
+        {
+             entity.BarCodeNumber = null;
+        }
+        else
+        {
+            entity.BarCodeNumber = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(updateDto.BarCodeNumber.ToValueFromNonNull<System.Int32>());
+        }
     }
 
     private void PartialUpdateEntityInternal(CountryBarCodeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)

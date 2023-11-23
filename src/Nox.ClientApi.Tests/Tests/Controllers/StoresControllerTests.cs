@@ -26,7 +26,7 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task GetById_ReturnsOwnedEntitites()
         {
             // Arrange
-            var expectedEmail = new EmailAddressCreateDto() { Email = "test@gmail.com", IsVerified = false };
+            var expectedEmail = new EmailAddressUpsertDto() { Email = "test@gmail.com", IsVerified = false };
             var createDto = new StoreCreateDto
             {
                 Name = _fixture.Create<string>(),
@@ -79,7 +79,7 @@ namespace ClientApi.Tests.Tests.Controllers
                     PostalCode: "KT16 0RS",
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
-                EmailAddress = new EmailAddressCreateDto() { Email = "test@gmail.com", IsVerified = false },
+                EmailAddress = new EmailAddressUpsertDto() { Email = "test@gmail.com", IsVerified = false },
                 OpeningDay = expectedDate
             };
             await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, createDto);
@@ -301,10 +301,10 @@ namespace ClientApi.Tests.Tests.Controllers
             });
 
             //Act
-            var postEmailAddressResponse = await PostAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", new EmailAddressCreateDto());
+            var postEmailAddressResponse = await PostAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", new EmailAddressUpsertDto());
             var getEmailAddressResponse = await GetAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress");
-            var putEmailAddressResponse = await PutAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", new EmailAddressCreateDto(), false);
-            var patchEmailAddressResponse = await PatchAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", new EmailAddressCreateDto(), new Dictionary<string, IEnumerable<string>>(), false);
+            var putEmailAddressResponse = await PutAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", new EmailAddressUpsertDto(), false);
+            var patchEmailAddressResponse = await PatchAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", new EmailAddressUpsertDto(), new Dictionary<string, IEnumerable<string>>(), false);
             var deleteEmailAddressResponse = await DeleteAsync($"{Endpoints.StoresUrl}/{store!.Id}/EmailAddress", false);
 
             //Assert
@@ -336,7 +336,7 @@ namespace ClientApi.Tests.Tests.Controllers
                     PostalCode: "KT16 0RS",
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
-                EmailAddress = new EmailAddressCreateDto
+                EmailAddress = new EmailAddressUpsertDto
                 {
                     Email = "test@gmail.com",
                     IsVerified = false

@@ -181,7 +181,7 @@ public class DateTimeDurationTests
             TimeUnit = TimeUnit.Day,
         });
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTimeDuration type as value 10.00:02:01 is less than than the minimum specified value of 10.12:00:00") });
     }
 
@@ -194,7 +194,7 @@ public class DateTimeDurationTests
             TimeUnit = TimeUnit.Day,
         });
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTimeDuration type as value 10.12:02:01 is greater than than the maximum specified value of 10.12:00:00") });
     }
 
@@ -208,7 +208,7 @@ public class DateTimeDurationTests
             TimeUnit = TimeUnit.CustomFormat,
         });
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTimeDuration type as value 10.00:02:01 is less than than the minimum specified value of 10.12:00:00") });
     }
 
@@ -221,7 +221,7 @@ public class DateTimeDurationTests
             TimeUnit = TimeUnit.CustomFormat,
         });
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTimeDuration type as value 10.12:02:01 is greater than than the maximum specified value of 10.12:00:00") });
     }
 

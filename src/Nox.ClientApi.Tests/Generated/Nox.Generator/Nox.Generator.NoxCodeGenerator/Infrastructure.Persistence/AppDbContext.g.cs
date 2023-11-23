@@ -54,19 +54,19 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             _codeGenConventions = codeGeneratorState;
         }
     
-    public DbSet<ClientApi.Domain.Country> Countries { get; set; } = null!;
-    public DbSet<ClientApi.Domain.RatingProgram> RatingPrograms { get; set; } = null!;
-    public DbSet<ClientApi.Domain.CountryQualityOfLifeIndex> CountryQualityOfLifeIndices { get; set; } = null!;
-    public DbSet<ClientApi.Domain.Store> Stores { get; set; } = null!;
-    public DbSet<ClientApi.Domain.Workplace> Workplaces { get; set; } = null!;
-    public DbSet<ClientApi.Domain.StoreOwner> StoreOwners { get; set; } = null!;
-    public DbSet<ClientApi.Domain.StoreLicense> StoreLicenses { get; set; } = null!;
-    public DbSet<ClientApi.Domain.Currency> Currencies { get; set; } = null!;
-    public DbSet<ClientApi.Domain.Tenant> Tenants { get; set; } = null!;
-    public DbSet<ClientApi.Domain.WorkplaceLocalized> WorkplacesLocalized { get; set; } = null!;
-    public DbSet<DomainNameSpace.CountryContinent> CountriesContinents { get; set; } = null!;
-    public DbSet<DomainNameSpace.CountryContinentLocalized> CountriesContinentsLocalized { get; set; } = null!;
-    public DbSet<DomainNameSpace.StoreStatus> StoresStatuses { get; set; } = null!;
+    public virtual DbSet<ClientApi.Domain.Country> Countries { get; set; } = null!;
+    public virtual DbSet<ClientApi.Domain.RatingProgram> RatingPrograms { get; set; } = null!;
+    public virtual DbSet<ClientApi.Domain.CountryQualityOfLifeIndex> CountryQualityOfLifeIndices { get; set; } = null!;
+    public virtual DbSet<ClientApi.Domain.Store> Stores { get; set; } = null!;
+    public virtual DbSet<ClientApi.Domain.Workplace> Workplaces { get; set; } = null!;
+    public virtual DbSet<ClientApi.Domain.StoreOwner> StoreOwners { get; set; } = null!;
+    public virtual DbSet<ClientApi.Domain.StoreLicense> StoreLicenses { get; set; } = null!;
+    public virtual DbSet<ClientApi.Domain.Currency> Currencies { get; set; } = null!;
+    public virtual DbSet<ClientApi.Domain.Tenant> Tenants { get; set; } = null!;
+    public virtual DbSet<ClientApi.Domain.WorkplaceLocalized> WorkplacesLocalized { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.CountryContinent> CountriesContinents { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.CountryContinentLocalized> CountriesContinentsLocalized { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.StoreStatus> StoresStatuses { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

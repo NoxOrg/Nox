@@ -67,6 +67,53 @@ team:
 domain:
 
   entities:
+    - name: City
+      description: List of cities
+
+      persistence: 
+        isAudited: false
+        tableName: City
+        schema: dbo
+      
+      keys:
+        - name: Id
+          isRequired: true
+          type: autoNumber
+
+      attributes:
+        - name: Name
+          type: text
+          
+        - name: Landmarks
+          type: text
+
+      relationships:
+        - name: BelongsToCountry
+          description: is in the
+          relationship: exactlyOne
+          entity: Country
+  
+      uniqueAttributeConstraints:
+        - name: UniqueCityNameWithinCountry
+          description: The city name must be unique in the country
+          attributeNames:
+            - Name
+          relationshipNames:
+            - BelongsToCountry
+
+        - name: UniqueConstraintWithDuplicateAttributeName
+          description: The name must be unique
+          attributeNames:
+            - Name
+            - Name
+
+        - name: UniqueConstraintWithDuplicateRelationshipName
+          description: The landmarks are unique
+          attributeNames:
+            - Landmarks
+          relationshipNames:
+            - BelongsToCountry
+            - BelongsToCountry
 
     - name: Country
       description: The list of countries
@@ -97,6 +144,11 @@ domain:
           relationship: oneOrMany
           entity: Currency
           
+        - name: CountryHasCity
+          description: has
+          relationship: oneOrMany
+          entity: City
+
       ownedRelationships:
 
         - name: CountryLocalNames
@@ -260,6 +312,21 @@ domain:
             - AlphaCode3
             - AlphaCode2
             - NonExistentAttribute
+
+        - name: UniqueConstraintWithNonExistentRelationship
+          description: The country must be unique
+          attributeNames:
+            - NumericCode
+          relationshipNames:
+            - NonExistentRelationship
+
+        - name: UniqueConstraintWithInvalidRelationshipType
+          description: The country must be unique
+          attributeNames:
+            - NumericCode
+          relationshipNames:
+            - CountryAcceptsCurrency
+
               
     - name: Currency
       description: The list of currencies

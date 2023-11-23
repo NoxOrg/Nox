@@ -77,7 +77,7 @@ namespace Cryptocash.Ui.Generated.Data.Helper
                         }
                         else
                         {
-                            return ConvertedDateTime.ToString("dd-MMM-yy hh:mm:ss");
+                            return ConvertedDateTime.ToString("dd-MMM-yy HH:mm:ss");
                         }
                     }
                 }

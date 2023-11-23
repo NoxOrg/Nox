@@ -29,7 +29,7 @@ public class EntityPersistence : YamlConfigNode<NoxSolution,Entity>
 
     public override void SetDefaults(NoxSolution topNode, Entity parentNode, string yamlPath)
     {
-        TableName ??= parentNode.Name;
+        TableName ??= parentNode.PluralName;
     }
 }
 

@@ -51,7 +51,12 @@ internal static class ODataServiceCollectionExtensions
                 {{- end }}
             {{- end }}
         {{- end }}
+        {{- if entity.IsOwnedEntity }}
+        builder.ComplexType<{{entity.Name}}UpsertDto>();
+        {{- else }}
         builder.ComplexType<{{entity.Name}}UpdateDto>();
+        {{- end }}
+
         {{- if entity.IsLocalized }}
         builder.EntityType<{{entity.Name}}LocalizedDto>().HasKey(e => new { {{ $delim = "" -}} {{ for key in entity.Keys -}} {{$delim}}e.{{key.Name}}{{ $delim = ", " }}{{ end }} });
         builder.EntityType<{{entity.Name}}Dto>().Function("{{entity.PluralName}}Localized").ReturnsCollection<DtoNameSpace.{{entity.Name}}LocalizedDto>();

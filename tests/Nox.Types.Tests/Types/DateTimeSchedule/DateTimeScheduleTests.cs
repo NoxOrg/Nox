@@ -65,7 +65,7 @@ public class DateTimeScheduleTests
     {
         Action comparison = () => DateTimeSchedule.From(value);
 
-        comparison.Should().Throw<TypeValidationException>();
+        comparison.Should().Throw<NoxTypeValidationException>();
     }
 
     [Theory]

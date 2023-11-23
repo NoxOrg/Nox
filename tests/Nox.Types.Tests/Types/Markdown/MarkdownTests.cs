@@ -57,7 +57,7 @@ public class MarkdownTests
         var maxLength = 3u;
         var fromAct = () => Markdown.From("long text", new MarkdownTypeOptions { MaxLength = maxLength });
 
-        fromAct.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+        fromAct.Should().Throw<NoxTypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
             $"Could not create a Markdown type that is 9 characters long and longer than the maximum specified length of {maxLength}") });
     }
 }

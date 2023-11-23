@@ -67,7 +67,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PostToCountryLocalNames([FromRoute] System.String key, [FromBody] CountryLocalNameCreateDto countryLocalName)
+    public virtual async Task<ActionResult> PostToCountryLocalNames([FromRoute] System.String key, [FromBody] CountryLocalNameUpsertDto countryLocalName)
     {
         if (!ModelState.IsValid)
         {
