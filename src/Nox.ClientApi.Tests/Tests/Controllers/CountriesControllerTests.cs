@@ -510,14 +510,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 CountryBarCode = new CountryBarCodeCreateDto
                 {
                     BarCodeName = _fixture.Create<string>()
-                },
-                CountryLocalNames = new List<CountryLocalNameCreateDto>()
-                {
-                    new CountryLocalNameCreateDto()
-                    {
-                        Name = _fixture.Create<string>(),
-                    },
-                },
+                }
             };
             var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
 
@@ -1259,20 +1252,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = "Portugal",
-                Population = 10350000,
-                CountryBarCode = new CountryBarCodeCreateDto
-                {
-                    BarCodeName = "Portugal",
-                    BarCodeNumber = 1123,
-                },
-                CountryLocalNames = new List<CountryLocalNameCreateDto>
-                {
-                    new CountryLocalNameCreateDto
-                    {
-                        Name = "Lusitania",
-                        NativeName = "Lusitania Native",
-                    },
-                },
+                Population = 10350000
             };
 
             // Act

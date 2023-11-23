@@ -50,6 +50,25 @@ internal record EmailAddressDeleted(EmailAddress EmailAddress) : IDomainEvent, I
 /// </summary>
 internal abstract partial class EmailAddressBase : EntityBase, IOwnedEntity
 {
+    /// <summary>
+    ///     
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.Guid Id {get; set;} = null!;
+         /// <summary>
+        /// Ensures that a Guid Id is set or will be generate a new one
+        /// </summary>
+    	public virtual void EnsureId(System.Guid guid)
+    	{
+    		if(System.Guid.Empty.Equals(guid))
+    		{
+    			Id = Nox.Types.Guid.From(System.Guid.NewGuid());
+    		}
+    		else
+    		{
+    			Id = Nox.Types.Guid.From(guid);
+    		}
+    	}
 
     /// <summary>
     /// Email    

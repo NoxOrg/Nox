@@ -50,6 +50,11 @@ internal record SecondTestEntityOwnedRelationshipZeroOrOneDeleted(SecondTestEnti
 /// </summary>
 internal abstract partial class SecondTestEntityOwnedRelationshipZeroOrOneBase : EntityBase, IOwnedEntity
 {
+    /// <summary>
+    ///     
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///     
