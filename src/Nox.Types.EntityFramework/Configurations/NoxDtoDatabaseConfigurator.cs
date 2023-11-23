@@ -84,7 +84,6 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 
     private void ConfigureRelationship(IEntityBuilder builder, Entity entity, EntityRelationship relationship)
     {
-        var relatedEntityTypeName = _codeGenConventions.GetEntityDtoTypeFullName(relationship.Related.Entity.Name + "Dto");
         var navigationPropertyName = entity.GetNavigationPropertyName(relationship);
         var reversedNavigationPropertyName = relationship.Related.Entity.GetNavigationPropertyName(relationship.Related.EntityRelationship);
 
@@ -104,7 +103,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
             if (relationship.Related.EntityRelationship.WithMultiEntity)
             {
                 builder
-                    .HasOne(relatedEntityTypeName, navigationPropertyName)
+                    .HasOne($"{_codeGenConventions.DtoNameSpace}.{relationship.Entity}Dto", navigationPropertyName)
                     .WithMany(reversedNavigationPropertyName)
                     .HasForeignKey($"{navigationPropertyName}Id");
             }
@@ -112,9 +111,9 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
             else
             {
                 builder
-                    .HasOne(relatedEntityTypeName, navigationPropertyName)
+                    .HasOne($"{_codeGenConventions.DtoNameSpace}.{relationship.Entity}Dto", navigationPropertyName)
                     .WithOne(reversedNavigationPropertyName)
-                    .HasForeignKey(relatedEntityTypeName, $"{navigationPropertyName}Id");
+                    .HasForeignKey($"{_codeGenConventions.DtoNameSpace}.{entity.Name}Dto", $"{navigationPropertyName}Id");
             }
         }
     }

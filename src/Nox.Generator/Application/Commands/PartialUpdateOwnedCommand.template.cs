@@ -59,8 +59,10 @@ internal abstract class PartialUpdate{{relationshipName}}For{{parent.Name}}Comma
 		}
 
 		{{- if isSingleRelationship }}
+		await DbContext.Entry(parentEntity).Reference(e => e.{{relationshipName}}).LoadAsync(cancellationToken);
 		var entity = parentEntity.{{relationshipName}};
 		{{ else }}
+		await DbContext.Entry(parentEntity).Collection(p => p.{{relationshipName}}).LoadAsync(cancellationToken);
 		{{- for key in entity.Keys }}
 		var owned{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
@@ -76,7 +78,7 @@ internal abstract class PartialUpdate{{relationshipName}}For{{parent.Name}}Comma
 
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
+		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{

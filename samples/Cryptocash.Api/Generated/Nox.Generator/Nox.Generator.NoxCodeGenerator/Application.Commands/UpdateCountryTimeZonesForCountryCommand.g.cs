@@ -52,6 +52,7 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 		{
 			return null;
 		}
+		await DbContext.Entry(parentEntity).Collection(p => p.CountryTimeZones).LoadAsync(cancellationToken);
 		var ownedId = Cryptocash.Domain.CountryTimeZoneMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)

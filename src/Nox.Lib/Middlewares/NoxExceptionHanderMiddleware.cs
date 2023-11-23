@@ -16,6 +16,7 @@ public class NoxExceptionHanderMiddleware
         ILogger<NoxExceptionHanderMiddleware> logger)
     {
         _next = next;
+
         _logger = logger;
     }
 

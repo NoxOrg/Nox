@@ -51,6 +51,7 @@ internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: Com
 		{
 			return null;
 		}
+		await DbContext.Entry(parentEntity).Reference(e => e.EmailAddress).LoadAsync(cancellationToken);
 		var entity = parentEntity.EmailAddress;
 		
 		if (entity == null)
@@ -63,7 +64,7 @@ internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: Com
 
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
+		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{

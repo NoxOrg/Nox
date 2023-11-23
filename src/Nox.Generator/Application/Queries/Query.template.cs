@@ -34,7 +34,10 @@ internal abstract class Get{{entity.PluralName}}QueryHandlerBase : QueryBase<IQu
     public virtual Task<IQueryable<{{entity.Name}}Dto>> Handle(Get{{entity.PluralName}}Query request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<{{entity.Name}}Dto>)DataDbContext.{{entity.PluralName}}
-            .AsNoTracking();
+            .AsNoTracking()
+            {{- for ownedRelationship in entity.OwnedRelationships }}
+            .Include(e => e.{{GetNavigationPropertyName entity ownedRelationship}})
+            {{- end -}};
        return Task.FromResult(OnResponse(item));
     }
 }
