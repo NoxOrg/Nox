@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using DtoNameSpace = {{codeGeneratorState.DtoNameSpace}};
 using ApplicationQueriesNameSpace = {{codeGeneratorState.ApplicationQueriesNameSpace}};
-using ApplicationCommandsNameSpace = {{codeGeneratorState.ApplicationCommandsNameSpace}};
+using ApplicationCommandsNameSpace = {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 namespace {{ codeGeneratorState.ODataNameSpace }};
 
@@ -29,7 +29,7 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
     }
 
     [HttpDelete("{{solution.Infrastructure.Endpoints.ApiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
-    public virtual async Task<ActionResult> Delete{{Pluralize (enumAtt.Attribute.Name)}}LocalizedNonConventional([FromRoute] System.String {{cultureCode}}
+    public virtual async Task<ActionResult> Delete{{Pluralize (enumAtt.Attribute.Name)}}LocalizedNonConventional([FromRoute] System.String {{cultureCode}})
     {            
         var result = await _mediator.Send(new ApplicationCommandsNameSpace.Delete{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}TranslationsCommand(Nox.Types.CultureCode.From({{cultureCode}})));                        
         return NoContent();     

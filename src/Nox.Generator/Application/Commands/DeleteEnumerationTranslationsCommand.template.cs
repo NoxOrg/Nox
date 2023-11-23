@@ -5,6 +5,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
+using Nox.Application.Exceptions;
 using Nox.Solution;
 using Nox.Types;
 using {{codeGeneratorState.PersistenceNameSpace}};
@@ -43,28 +44,22 @@ internal abstract class {{deleteCommand}}HandlerBase : CommandBase<{{deleteComma
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
 
-		// {{- for key in entity.Keys }}
-		// {{- keyType = SingleTypeForKey key }}
-		// var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.key{{key.Name}});
-		// {{- end }}
-		//
-		// var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysQuery}});
-		// if (entity == null{{if (entity.Persistence?.IsAudited ?? true)}} || entity.IsDeleted == true{{end}})
-		// {
-		// 	return false;
-		// }
-		// {{- if !entity.IsOwnedEntity }}
-		//
-		// entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		// {{- end }}
-		//
-		// await OnCompletedAsync(request, entity);
-		//
-		// {{- if (entity.Persistence?.IsAudited ?? true) }}
-		// DbContext.Entry(entity).State = EntityState.Deleted;
-		// {{-else-}}
-		// DbContext.{{entity.PluralName}}.Remove(entity);
-		// {{- end}}
+		if(NoxSolution.Application?.Localization?.DefaultCulture == command.CultureCode.Value)
+		{
+			throw new DefaultCultureCodeDeletionException($"Default culture code {command.CultureCode.Value} cannot be deleted.");
+		}
+		
+		var localizedEnums = await DbContext.{{entity.PluralName}}{{Pluralize (enumAtt.Attribute.Name)}}Localized.Where(x => x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
+		
+		if(localizedEnums == null || localizedEnums.Count == 0)
+		{
+			return false;
+		}
+		
+		await OnBatchCompletedAsync(command, localizedEnums);
+		
+		DbContext.RemoveRange(localizedEnums);
+		
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

@@ -1,4 +1,4 @@
-﻿using Nox.Domain;
+using Nox.Domain;
 using Nox.Solution;
 
 namespace Nox.Application.Commands;
@@ -33,4 +33,12 @@ public abstract class CommandBase<TRequest, TEntity> : INoxCommand where TEntity
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     protected virtual Task OnCompletedAsync(TRequest request, TEntity entity) { return Task.CompletedTask; }
+    
+    /// <summary>
+    /// Command handler completed
+    /// Use this method to override, update, validate or other run custom logic regarding the batch process of the updated/created/deleted Entities
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="entities"></param>
+    protected virtual Task OnBatchCompletedAsync(TRequest request, IEnumerable<TEntity> entities) { return Task.CompletedTask; }
 }
