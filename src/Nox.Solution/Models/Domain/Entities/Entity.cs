@@ -200,6 +200,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         ValidateThatOwnedEntitiesAreNotAuditable(result);
         ValidateThatOwnedEntitiesHaveNoRelationships(result);
         ValidateThatOwnedEntitiesNotLocalized(result);
+        ValidateThatAllOwnerEntitiesHaveSimpleKeys(result);
         ValidateThatAllRelatedEntitiesHaveSimpleKeys(result);
         ValidateUniqueAttributeConstraints(result);
 
@@ -241,9 +242,9 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
 
     private void ValidateThatKeysExistWhenNeeded(ValidationResult result)
     {
-        if(!IsOwnedEntity) 
+        if (!IsOwnedEntity)
         {
-            if (Keys.Count() == 0) 
+            if (Keys.Count() == 0)
                 result.Errors.Add(new ValidationFailure(nameof(Keys), $"Keys are mandatory for entity [{Name}]."));
 
             return;
@@ -252,7 +253,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         // Owned entities
         var ownerRelationships = OwnerEntity!.OwnedRelationships.Where(r => r.Entity.Equals(Name));
 
-        if(ownerRelationships.Count() > 1) 
+        if (ownerRelationships.Count() > 1)
         {
             result.Errors.Add(new ValidationFailure(nameof(Keys), $"Multiple ownerships of entity [{Name}] exists on entity [{OwnerEntity!.Name}]."));
             return;
@@ -336,7 +337,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
 
         var owningEntities = parentNode
             .Entities
-            .SelectMany(e => e.AllRelationships, (e,r) => new { e.Name, r.Entity })
+            .SelectMany(e => e.AllRelationships, (e, r) => new { e.Name, r.Entity })
             .Where(o => o.Entity.Equals(Name))
             .Select(o => o.Name);
 
@@ -360,7 +361,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
     {
         if (!IsOwnedEntity) return;
 
-        if(Relationships.Count() == 0) return;
+        if (Relationships.Count() == 0) return;
 
         result.Errors.Add(
             new ValidationFailure(nameof(Relationships), $"Entity [{Name}] is owned and can't have relationships.")
@@ -379,6 +380,15 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         }
     }
 
+    private void ValidateThatAllOwnerEntitiesHaveSimpleKeys(ValidationResult result)
+    {
+        if(OwnedRelationships.Any() && HasCompositeKey)
+        {
+            result.Errors.Add(
+                new ValidationFailure(Name, $"Entity [{Name}] is an owner entity and can't have composite key.")
+            );
+        }
+    }
 
     private void ValidateThatAllRelatedEntitiesHaveSimpleKeys(ValidationResult result)
     {
@@ -409,9 +419,9 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
 
         var messages2 = UniqueAttributeConstraints
             .Select(c => new { c.Name, Keys = string.Join(",", c.AttributeNames.OrderBy(e => e)) })
-            .GroupBy( o => o.Keys )
-            .Where( g => g.Count() > 1)
-            .Select(g => $"Unique constraints [{string.Join(",", g.Select(g=>g.Name))}] refers to non-unique keys [{g.Key}] on entity [{Name}]");
+            .GroupBy(o => o.Keys)
+            .Where(g => g.Count() > 1)
+            .Select(g => $"Unique constraints [{string.Join(",", g.Select(g => g.Name))}] refers to non-unique keys [{g.Key}] on entity [{Name}]");
 
         foreach (var message in messages2)
         {
