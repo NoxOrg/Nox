@@ -29,7 +29,6 @@ public class NoxApiMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         var path = context.Request.Path;
-        var verb = context.Request.Method;
 
         if (!path.HasValue)
         {
@@ -66,7 +65,7 @@ public class NoxApiMiddleware
 
         Debug.WriteLine(context.Request.Path.Value);
 
-        if (!apiRoute.HttpVerb.ToString().ToUpper().Equals(verb))
+        if (!apiRoute.HttpVerbString.Equals(context.Request.Method))
         {
             await _next(context);
             return;

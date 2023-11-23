@@ -67,7 +67,7 @@ internal abstract class CreateTestEntityOwnedRelationshipZeroOrOneCommandHandler
 
 public class CreateTestEntityOwnedRelationshipZeroOrOneValidator : AbstractValidator<CreateTestEntityOwnedRelationshipZeroOrOneCommand>
 {
-    public CreateTestEntityOwnedRelationshipZeroOrOneValidator(ILogger<CreateTestEntityOwnedRelationshipZeroOrOneCommand> logger)
+    public CreateTestEntityOwnedRelationshipZeroOrOneValidator()
     {
     }
 }

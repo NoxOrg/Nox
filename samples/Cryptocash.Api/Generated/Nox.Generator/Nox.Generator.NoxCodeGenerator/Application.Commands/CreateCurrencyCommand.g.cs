@@ -117,7 +117,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 
 public class CreateCurrencyValidator : AbstractValidator<CreateCurrencyCommand>
 {
-    public CreateCurrencyValidator(ILogger<CreateCurrencyCommand> logger)
+    public CreateCurrencyValidator()
     {
 		RuleFor(x => x.EntityDto.BankNotes)
 			.Must(owned => owned.All(x => x.Id == null))

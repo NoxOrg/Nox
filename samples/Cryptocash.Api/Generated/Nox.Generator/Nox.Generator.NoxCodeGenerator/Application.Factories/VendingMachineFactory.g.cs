@@ -35,7 +35,14 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
 
     public virtual VendingMachineEntity CreateEntity(VendingMachineCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(VendingMachineEntity entity, VendingMachineUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

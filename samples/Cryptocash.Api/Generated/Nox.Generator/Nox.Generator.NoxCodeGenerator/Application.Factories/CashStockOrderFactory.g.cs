@@ -35,7 +35,14 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
 
     public virtual CashStockOrderEntity CreateEntity(CashStockOrderCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(CashStockOrderEntity entity, CashStockOrderUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

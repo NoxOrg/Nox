@@ -35,7 +35,14 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, Lan
 
     public virtual LandLordEntity CreateEntity(LandLordCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(LandLordEntity entity, LandLordUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

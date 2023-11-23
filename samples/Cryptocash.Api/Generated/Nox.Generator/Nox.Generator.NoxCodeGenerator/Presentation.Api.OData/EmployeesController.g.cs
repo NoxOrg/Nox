@@ -85,7 +85,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("/api/v1/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
+    [HttpPut("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
     public virtual async Task<ActionResult<EmployeePhoneNumberDto>> PutToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] EmployeePhoneNumberUpsertDto employeePhoneNumber)
     {
         if (!ModelState.IsValid)
@@ -109,7 +109,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("/api/v1/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
+    [HttpPatch("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberUpsertDto> employeePhoneNumber)
     {
         if (!ModelState.IsValid || employeePhoneNumber is null)
@@ -142,7 +142,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("/api/v1/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
+    [HttpDelete("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteEmployeePhoneNumberNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)

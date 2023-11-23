@@ -67,7 +67,7 @@ internal abstract class CreateTestEntityOwnedRelationshipZeroOrManyCommandHandle
 
 public class CreateTestEntityOwnedRelationshipZeroOrManyValidator : AbstractValidator<CreateTestEntityOwnedRelationshipZeroOrManyCommand>
 {
-    public CreateTestEntityOwnedRelationshipZeroOrManyValidator(ILogger<CreateTestEntityOwnedRelationshipZeroOrManyCommand> logger)
+    public CreateTestEntityOwnedRelationshipZeroOrManyValidator()
     {
 		RuleFor(x => x.EntityDto.SecondTestEntityOwnedRelationshipZeroOrManies)
 			.Must(owned => owned.All(x => x.Id != null))

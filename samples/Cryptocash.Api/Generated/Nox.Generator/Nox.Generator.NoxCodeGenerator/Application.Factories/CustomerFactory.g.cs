@@ -35,7 +35,14 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
 
     public virtual CustomerEntity CreateEntity(CustomerCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(CustomerEntity entity, CustomerUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

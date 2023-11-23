@@ -35,7 +35,14 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
 
     public virtual TestEntityForTypesEntity CreateEntity(TestEntityForTypesCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(TestEntityForTypesEntity entity, TestEntityForTypesUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

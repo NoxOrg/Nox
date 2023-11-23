@@ -85,7 +85,7 @@ internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmp
 
 public class CreateEmployeeValidator : AbstractValidator<CreateEmployeeCommand>
 {
-    public CreateEmployeeValidator(ILogger<CreateEmployeeCommand> logger)
+    public CreateEmployeeValidator()
     {
 		RuleFor(x => x.EntityDto.EmployeePhoneNumbers)
 			.Must(owned => owned.All(x => x.Id == null))

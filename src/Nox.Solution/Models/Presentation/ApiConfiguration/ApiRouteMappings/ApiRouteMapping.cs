@@ -3,6 +3,7 @@ using Nox.Yaml;
 using Nox.Yaml.Attributes;
 using System;
 using System.Collections.Generic;
+using YamlDotNet.Serialization;
 
 namespace Nox.Solution;
 
@@ -47,10 +48,26 @@ public class ApiRouteMapping : YamlConfigNode<NoxSolution,ApiConfiguration>
     [AdditionalProperties(false)]
     public NoxComplexTypeDefinition ResponseOutput { get; internal set; } = default!;
 
+    [YamlIgnore]
+    public string HttpVerbString { get; private set; } = null!;
     public override void SetDefaults(NoxSolution topNode, ApiConfiguration parentNode, string yamlPath)
     {
         Route = SanitizeEndpoint(Route);
         TargetUrl = SanitizeEndpoint(TargetUrl);
+        HttpVerbString = HttpVerbToHttpVerbString(HttpVerb);
+    }
+
+    private static string HttpVerbToHttpVerbString(HttpVerb verb)
+    {
+        return verb switch
+        {
+            HttpVerb.Get => "GET",
+            HttpVerb.Post => "POST",
+            HttpVerb.Put => "PUT",
+            HttpVerb.Delete => "DELETE",
+            HttpVerb.Patch => "PATCH",
+            _ => throw new NotImplementedException()
+        };
     }
 
     private static string SanitizeEndpoint(string route)
