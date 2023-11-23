@@ -225,6 +225,20 @@ public class YamlFileValidationTests
     }
 
     [Fact]
+    public void Deserialize_OwnerEntity_CompositeKeys_ThrowsException()
+    {
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owner-entity-has-composite-keys.solution.nox.yaml")
+            .Build());
+
+        var errors = exception.Errors.ToArray();
+
+        Assert.Single(errors);
+
+        Assert.Equal("Relationship [ContinentIncludesCountries] on entity [Continent] refers to related entity [Country] with composite key. Must be simple key on Country.", errors[0].ErrorMessage);
+    }
+
+    [Fact]
     public void Deserialize_Entity_DoesNotHaveKeys_ThrowsException()
     {
         var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
