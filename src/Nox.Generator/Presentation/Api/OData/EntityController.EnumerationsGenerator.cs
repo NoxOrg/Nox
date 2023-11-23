@@ -39,7 +39,7 @@ internal class EntityControllerEnumerationsGenerator : EntityControllerGenerator
                 .Select(attribute => new {
                     Attribute = attribute,
                     EntityNameForEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name) + "Dto",
-                    EntityNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name) + "Dto"
+                    EntityNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name) + "Dto",
                 });
 
             if (!enumerationAttributes.Any())

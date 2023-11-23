@@ -1,0 +1,68 @@
+#
+# workplace.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: Workplace
+
+description: Workplace
+
+keys:
+
+  - name: Id
+    type: autoNumber
+    description: Workplace unique identifier
+    isRequired: true
+
+attributes:
+
+  - name: Name
+    description: Workplace Name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+
+  - name: Description
+    description: Workplace Description
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 255
+      isLocalized: true
+    isRequired: false
+
+  - name: Greeting
+    description: The Formula
+    type: formula
+    formulaTypeOptions:
+      expression: "$\"Hello, {Name.Value}!\""
+      returns: string
+
+relationships:
+
+    - name: BelongsToCountry
+      description: Workplace country
+      relationship: zeroOrOne
+      entity: Country
+
+    - name: TenantsInWorkplace
+      description: Actve Tenants in the workplace
+      relationship: zeroOrMany
+      entity: Tenant
+
+persistence:
+    isAudited: false
+    create:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    delete:
+        isEnabled: true
+        raiseEvents: domainAndIntegrationEvents
