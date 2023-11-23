@@ -243,6 +243,32 @@ namespace ClientApi.Tests.Tests.Controllers
             getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
         }
 
+        [Fact]
+        public async Task Post_CountryLocalNamesWithId_ShouldFail()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>() 
+                { 
+                    new CountryLocalNameUpsertDto() 
+                    { 
+                        Id = 1,
+                        Name = _fixture.Create<string>()
+                    },
+                    new CountryLocalNameUpsertDto() { Name = _fixture.Create<string>() },
+                    new CountryLocalNameUpsertDto() { Name = _fixture.Create<string>() }
+                }
+            };
+            // Act
+            var result = await PostAsync(Endpoints.CountriesUrl, dto);
+
+            //Assert
+            result.Should().NotBeNull();
+            result!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
         #endregion POST Entity With Owned Entities /api/{EntityPluralName} => api/countries
 
         #region POST to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
