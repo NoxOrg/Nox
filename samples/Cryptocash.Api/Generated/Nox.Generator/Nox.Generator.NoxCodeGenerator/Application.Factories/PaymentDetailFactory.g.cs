@@ -35,7 +35,14 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetailE
 
     public virtual PaymentDetailEntity CreateEntity(PaymentDetailCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(PaymentDetailEntity entity, PaymentDetailUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

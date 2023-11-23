@@ -1,0 +1,32 @@
+﻿[
+  {
+    "@odata.etag": "ff12b20e-8605-4972-9ca7-000088b5435b",
+    "Id": "CHF",
+    "Name": "Swiss Franc",
+    "CurrencyIsoNumeric": 756,
+    "Symbol": "CHF",
+    "ThousandsSeparator": "\\u0027",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "franc",
+    "MajorSymbol": "CHF",
+    "MinorName": "rappen",
+    "MinorSymbol": "Rp."
+  },
+  {
+    "@odata.etag": "c94ae766-8d88-4347-9493-d2174483475d",
+    "Id": "GBP",
+    "Name": "British Pound",
+    "CurrencyIsoNumeric": 826,
+    "Symbol": "\\u00A3",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": false,
+    "DecimalDigits": 2,
+    "MajorName": "pound",
+    "MajorSymbol": "\\u00A3",
+    "MinorName": "penny",
+    "MinorSymbol": "p"
+  }
+]

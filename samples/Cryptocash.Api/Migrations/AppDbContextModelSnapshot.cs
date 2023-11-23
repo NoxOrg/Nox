@@ -17,7 +17,7 @@ namespace Cryptocash.Api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "7.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -1569,7 +1569,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("CountryId");
                         });
 
-                    b.OwnsMany("Cryptocash.Domain.CountryTimeZone", "CountryOwnedTimeZones", b1 =>
+                    b.OwnsMany("Cryptocash.Domain.CountryTimeZone", "CountryTimeZones", b1 =>
                         {
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1600,7 +1600,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("CountryId");
                         });
 
-                    b.OwnsMany("Cryptocash.Domain.Holiday", "CountryOwnedHolidays", b1 =>
+                    b.OwnsMany("Cryptocash.Domain.Holiday", "Holidays", b1 =>
                         {
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1644,9 +1644,7 @@ namespace Cryptocash.Api.Migrations
 
                     b.Navigation("CoatOfArmsSvg");
 
-                    b.Navigation("CountryOwnedHolidays");
-
-                    b.Navigation("CountryOwnedTimeZones");
+                    b.Navigation("CountryTimeZones");
 
                     b.Navigation("Currency");
 
@@ -1655,11 +1653,13 @@ namespace Cryptocash.Api.Migrations
                     b.Navigation("FlagSvg");
 
                     b.Navigation("GeoCoords");
+
+                    b.Navigation("Holidays");
                 });
 
             modelBuilder.Entity("Cryptocash.Domain.Currency", b =>
                 {
-                    b.OwnsMany("Cryptocash.Domain.BankNote", "CurrencyCommonBankNotes", b1 =>
+                    b.OwnsMany("Cryptocash.Domain.BankNote", "BankNotes", b1 =>
                         {
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1731,7 +1731,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("CurrencyId");
                         });
 
-                    b.OwnsMany("Cryptocash.Domain.ExchangeRate", "CurrencyExchangedFromRates", b1 =>
+                    b.OwnsMany("Cryptocash.Domain.ExchangeRate", "ExchangeRates", b1 =>
                         {
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1762,9 +1762,9 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("CurrencyId");
                         });
 
-                    b.Navigation("CurrencyCommonBankNotes");
+                    b.Navigation("BankNotes");
 
-                    b.Navigation("CurrencyExchangedFromRates");
+                    b.Navigation("ExchangeRates");
 
                     b.Navigation("MinorToMajorValue")
                         .IsRequired();
@@ -1897,7 +1897,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("EmployeeId");
                         });
 
-                    b.OwnsMany("Cryptocash.Domain.EmployeePhoneNumber", "EmployeeContactPhoneNumbers", b1 =>
+                    b.OwnsMany("Cryptocash.Domain.EmployeePhoneNumber", "EmployeePhoneNumbers", b1 =>
                         {
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1935,7 +1935,7 @@ namespace Cryptocash.Api.Migrations
                     b.Navigation("Address")
                         .IsRequired();
 
-                    b.Navigation("EmployeeContactPhoneNumbers");
+                    b.Navigation("EmployeePhoneNumbers");
                 });
 
             modelBuilder.Entity("Cryptocash.Domain.LandLord", b =>

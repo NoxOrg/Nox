@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.OData;
 using Nox;
 using System;
+using Cryptocash.DataSeed;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddDataSeeders();
 
 builder.AddNox();
 
@@ -28,6 +32,11 @@ app.UseNox();
 //    dbContext.Database.EnsureDeleted();
 //    dbContext.Database.EnsureCreated();
 //}
+
+if (app.Environment.IsDevelopment())
+{
+    app.SeedDataIfRequired();
+}
 
 app.UseHttpsRedirection();
 

@@ -35,7 +35,14 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
 
     public virtual HolidayEntity CreateEntity(HolidayUpsertDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(HolidayEntity entity, HolidayUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
