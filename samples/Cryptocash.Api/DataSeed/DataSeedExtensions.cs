@@ -11,7 +11,7 @@ public static class DataSeedExtensions
     {
         return services
             .AddScoped<ISeedDataReader, JsonSeedDataReader>()
-            .AddScoped<IDataSeeder, CryptocashCurrencyDataSeeder>();
+            .AddScoped<IDataSeeder, CryptocashPaymentProviderDataSeeder>();
     }
 
     public static void SeedDataIfRequired(this WebApplication app)
