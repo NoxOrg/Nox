@@ -161,7 +161,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 
 public class Create{{entity.Name}}Validator : AbstractValidator<Create{{entity.Name}}Command>
 {
-    public Create{{entity.Name}}Validator(ILogger<Create{{entity.Name}}Command> logger)
+    public Create{{entity.Name}}Validator()
     {
 		{{- for ownedRelationship in entity.OwnedRelationships }}
 			{{- if ownedRelationship.WithMultiEntity }}
