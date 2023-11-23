@@ -50,6 +50,7 @@
 //  - Nox.Generator.Application.Queries.QueryGenerator
 //  - Nox.Generator.Application.Queries.QueryLocalizedGenerator
 //  - Nox.Generator.Application.Queries.TranslationsByIdQueryGenerator
+//  - Nox.Generator.Application.Queries.TranslationsQueryGenerator
 //  - Nox.Generator.Application.Factories.EntityFactoryGenerator
 //  - Nox.Generator.Application.Factories.EntityLocalizedFactoryGenerator
 //  - Nox.Generator.Application.Extensions.EntityExtensionsGenerator
@@ -59,6 +60,7 @@
 //  - Nox.Generator.Application.Dto.EntityLocalizedDtoGenerator
 //  - Nox.Generator.Application.Dto.EntityLocalizedUpsertDtoGenerator
 //  - Nox.Generator.Application.Dto.EntityUpdateDtoGenerator
+//  - Nox.Generator.Application.Dto.EntityUpsertDtoGenerator
 //  - Nox.Generator.Application.Dto.NoxTypeDtoGenerator
 //  - Nox.Generator.Application.Dto.EntityEnumerationGenerator
 //  - Nox.Generator.Application.Commands.CreateCommandGenerator

@@ -15,14 +15,14 @@ using Cryptocash.Application.Dto;
 using HolidayEntity = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Commands;
-public partial record UpdateHolidaysForCountryCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto, HolidayUpdateDto EntityDto, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
+public partial record UpdateHolidaysForCountryCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto, HolidayUpsertDto EntityDto, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
 
 internal partial class UpdateHolidaysForCountryCommandHandler : UpdateHolidaysForCountryCommandHandlerBase
 {
 	public UpdateHolidaysForCountryCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> entityFactory)
+		IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> entityFactory)
 		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
@@ -31,12 +31,12 @@ internal partial class UpdateHolidaysForCountryCommandHandler : UpdateHolidaysFo
 internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<UpdateHolidaysForCountryCommand, HolidayEntity>, IRequestHandler <UpdateHolidaysForCountryCommand, HolidayKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	private readonly IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> _entityFactory;
+	private readonly IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> _entityFactory;
 
 	public UpdateHolidaysForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;

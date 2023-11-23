@@ -1,4 +1,6 @@
 {{- ownedEntities = entity.OwnedRelationships | array.map "Entity" }}
+{{-entityCreateDto = entity.IsOwnedEntity ? (entity.Name + "UpsertDto") : (entity.Name + "CreateDto") }}
+{{-entityUpdateDto = entity.IsOwnedEntity ? (entity.Name + "UpsertDto") : (entity.Name + "UpdateDto") }}
 {{- func fieldFactoryName
     ret (string.downcase $0 + "Factory")
 end -}}
@@ -27,18 +29,18 @@ using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Na
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Factories;
 
-internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto>
+internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity, {{entityCreateDto}}, {{entityUpdateDto}}>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("{{codeGeneratorState.Solution.Application.Localization.DefaultCulture}}");
 
     {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
-    protected IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}CreateDto, {{ownedEntity}}UpdateDto> {{ownedEntity}}Factory {get;}
+    protected IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}UpsertDto, {{ownedEntity}}UpsertDto> {{ownedEntity}}Factory {get;}
     {{- end }}
 
     public {{className}}Base
     (
         {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
-        IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}CreateDto, {{ownedEntity}}UpdateDto> {{fieldFactoryName ownedEntity}}{{if !for.last}},{{end}}
+        IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}UpsertDto, {{ownedEntity}}UpsertDto> {{fieldFactoryName ownedEntity}}{{if !for.last}},{{end}}
         {{- end }}
         )
     {
@@ -47,12 +49,19 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         {{- end }}
     }
 
-    public virtual {{entity.Name}}Entity CreateEntity({{entity.Name}}CreateDto createDto)
+    public virtual {{entity.Name}}Entity CreateEntity({{entityCreateDto}} createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
-    public virtual void UpdateEntity({{entity.Name}}Entity entity, {{entity.Name}}UpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual void UpdateEntity({{entity.Name}}Entity entity, {{entityUpdateDto}} updateDto, Nox.Types.CultureCode cultureCode)
     {
         UpdateEntityInternal(entity, updateDto, cultureCode);
     }
@@ -62,14 +71,14 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private {{codeGeneratorState.DomainNameSpace}}.{{ entity.Name }} ToEntity({{entity.Name}}CreateDto createDto)
+    private {{codeGeneratorState.DomainNameSpace}}.{{ entity.Name }} ToEntity({{entityCreateDto}} createDto)
     {
         var entity = new {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}();
         {{- for key in entity.Keys }}
-            {{- if key.Type == "Nuid" || key.Type == "AutoNumber" || key.Type == "Guid" -}}
+            {{- if !IsNoxTypeCreatable key.Type || key.Type == "Guid" -}}
                 {{ continue; -}}
             {{- end }}
-        entity.{{key.Name}} = {{entity.Name}}Metadata.Create{{key.Name}}(createDto.{{key.Name}});
+        entity.{{key.Name}} = {{entity.Name}}Metadata.Create{{key.Name}}(createDto.{{key.Name}}{{if entity.IsOwnedEntity}}!{{end}});
         {{- end }}
         {{- for attribute in entity.Attributes }}
             {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" || attribute.Type == "AutoNumber" -}}
@@ -110,7 +119,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         return entity;
     }
 
-    private void UpdateEntityInternal({{entity.Name}}Entity entity, {{entity.Name}}UpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private void UpdateEntityInternal({{entity.Name}}Entity entity, {{entityUpdateDto}} updateDto, Nox.Types.CultureCode cultureCode)
     {
         {{- for attribute in entity.Attributes }}
             {{- if !IsNoxTypeReadable attribute.Type || !IsNoxTypeUpdatable attribute.Type -}}
@@ -123,10 +132,17 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
             {{- else -}}.NonNullValue<{{attribute.Type}}Dto>()
             {{- end}});
         {{- else -}}
-        entity.SetIfNotNull(updateDto.{{attribute.Name}}, (entity) => entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
+        if(updateDto.{{attribute.Name}} is null)
+        {
+             entity.{{attribute.Name}} = null;
+        }
+        else
+        {
+            entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
             {{- if IsNoxTypeSimpleType attribute.Type -}}.ToValueFromNonNull<{{SinglePrimitiveTypeForKey attribute}}>()
             {{- else -}}.ToValueFromNonNull<{{attribute.Type}}Dto>()
-            {{- end}}));
+            {{- end}});
+        }      
         {{- end }}
         {{- end }}
 
@@ -179,7 +195,7 @@ internal partial class {{className}} : {{className}}Base
     public {{className}}
     (
         {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
-        IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}CreateDto, {{ownedEntity}}UpdateDto> {{fieldFactoryName ownedEntity}}{{if !for.last}},{{end}}
+        IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}UpsertDto, {{ownedEntity}}UpsertDto> {{fieldFactoryName ownedEntity}}{{if !for.last}},{{end}}
         {{- end }}
     ) : base({{ ownedEntities | array.each @fieldFactoryName | array.join "," }})
     {}

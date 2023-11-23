@@ -180,7 +180,7 @@ public class ColorTests
     {
         Action comparison = () => Nox.Types.Color.From(color);
 
-        comparison.Should().Throw<TypeValidationException>();
+        comparison.Should().Throw<NoxTypeValidationException>();
     }
 
     [Fact]

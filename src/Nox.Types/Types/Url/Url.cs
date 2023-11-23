@@ -20,14 +20,14 @@ public sealed class Url : ValueObject<System.Uri, Url>
     {
         if (value.Length > MaxLength)
         {
-            throw new TypeValidationException(
+            throw new NoxTypeValidationException(
                 new List<ValidationFailure> { new("Value", $"Could not create a Nox Url type as value {value} is greater than the specified maximum of {MaxLength}") }
             );
         }
 
         if (!System.Uri.TryCreate(value, UriKind.Absolute, out var uriValue))
         {
-            throw new TypeValidationException(
+            throw new NoxTypeValidationException(
                 new List<ValidationFailure> { new("Value", $"Could not create a Nox Url type as value {value} is not a valid Url.") }
             );
         }
@@ -38,7 +38,7 @@ public sealed class Url : ValueObject<System.Uri, Url>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

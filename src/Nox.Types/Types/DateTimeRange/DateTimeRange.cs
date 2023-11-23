@@ -43,7 +43,7 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
     /// </summary>
     /// <param name="value">The value.</param>
     /// <param name="dateTimeRangeTypeOptions">The date time range type options.</param>
-    /// <exception cref="Nox.Types.TypeValidationException"></exception>
+    /// <exception cref="Nox.Types.NoxTypeValidationException"></exception>
     public static DateTimeRange From((DateTimeOffset Start, DateTimeOffset End) value, DateTimeRangeTypeOptions dateTimeRangeTypeOptions)
     {
         var newObject = new DateTimeRange
@@ -56,7 +56,7 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;
@@ -66,7 +66,7 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
     /// Creates a new instance of <see cref="DateTimeRange"/> with specified start and end date and time and with default type options.
     /// </summary>
     /// <param name="value">The value.</param>
-    /// <exception cref="Nox.Types.TypeValidationException"></exception>
+    /// <exception cref="Nox.Types.NoxTypeValidationException"></exception>
     public new static DateTimeRange From((DateTimeOffset Start, DateTimeOffset End) value)
         => From(value, new DateTimeRangeTypeOptions());
 
@@ -76,7 +76,7 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
     /// <param name="start">The start.</param>
     /// <param name="end">The end.</param>
     /// <param name="dateTimeRangeTypeOptions">The date time range type options.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static DateTimeRange From(DateTimeOffset start, DateTimeOffset end, DateTimeRangeTypeOptions? dateTimeRangeTypeOptions = null)
         => From((start, end), dateTimeRangeTypeOptions ?? new DateTimeRangeTypeOptions());
 
@@ -86,7 +86,7 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
     /// <param name="start">The start.</param>
     /// <param name="duration">The duration of the range.</param>
     /// <param name="dateTimeRangeTypeOptions">The date time range type options.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static DateTimeRange From(DateTimeOffset start, TimeSpan duration, DateTimeRangeTypeOptions? dateTimeRangeTypeOptions = null)
             => From((start, start.Add(duration)), dateTimeRangeTypeOptions ?? new DateTimeRangeTypeOptions());
 

@@ -13,7 +13,7 @@ public sealed class Uri : ValueObject<System.Uri, Uri>
     {
         if (value.Length > MaxLength)
         {
-            throw new TypeValidationException(
+            throw new NoxTypeValidationException(
                 new List<ValidationFailure>
                 {
                     new ValidationFailure("Uri",
@@ -23,7 +23,7 @@ public sealed class Uri : ValueObject<System.Uri, Uri>
         
         if (!System.Uri.TryCreate(value, uriKind, out var uriValue))
         {
-            throw new TypeValidationException(
+            throw new NoxTypeValidationException(
                 new List<ValidationFailure> {
                     new ValidationFailure("Uri", $"The string '{value}' you provided, is not a valid Uri.") });
         }

@@ -21,19 +21,19 @@ internal partial class PartialUpdateCountryLocalNamesForCountryCommandHandler: P
 	public PartialUpdateCountryLocalNamesForCountryCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryLocalNameEntity, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateCountryLocalNamesForCountryCommandHandlerBase: CommandBase<PartialUpdateCountryLocalNamesForCountryCommand, CountryLocalNameEntity>, IRequestHandler <PartialUpdateCountryLocalNamesForCountryCommand, CountryLocalNameKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<CountryLocalNameEntity, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> EntityFactory { get; }
+	public IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> EntityFactory { get; }
 
 	public PartialUpdateCountryLocalNamesForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryLocalNameEntity, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

@@ -57,7 +57,7 @@ public class Money : ValueObject<(decimal Amount, CurrencyCode CurrencyCode), Mo
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

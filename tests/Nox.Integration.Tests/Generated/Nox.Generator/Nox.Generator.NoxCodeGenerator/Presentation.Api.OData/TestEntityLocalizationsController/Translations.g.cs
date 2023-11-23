@@ -30,12 +30,12 @@ namespace TestWebApp.Presentation.Api.OData;
 public abstract partial class TestEntityLocalizationsControllerBase
 {
     
-    [HttpPut("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationLocalized/{cultureCode}")]
+    [HttpPut("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/{cultureCode}")]
     public virtual async Task<ActionResult<TestEntityLocalizationLocalizedDto>> PutTestEntityLocalizationLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode, [FromBody] TestEntityLocalizationLocalizedUpsertDto testEntityLocalizationLocalizedUpsertDto)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var etag = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(Nox.Types.CultureCode.From(cultureCode), key))).Select(e=>e.Etag).SingleOrDefault();
         
@@ -56,5 +56,14 @@ public abstract partial class TestEntityLocalizationsControllerBase
         var item = (await _mediator.Send(new GetTestEntityLocalizationTranslationsByIdQuery( updatedKey.keyId, Nox.Types.CultureCode.From(cultureCode)))).SingleOrDefault();
 
         return Ok(item);
+    }
+
+
+    [HttpGet("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/")]
+    public virtual async Task<ActionResult<IQueryable<TestEntityLocalizationLocalizedDto>>> GetTestEntityLocalizationLocalizedNonConventional( [FromRoute] System.String key)
+    {
+        var result = (await _mediator.Send(new GetTestEntityLocalizationTranslationsQuery(key)));
+            
+        return Ok(result);
     }
 }

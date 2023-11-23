@@ -28,7 +28,7 @@ public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
     /// <param name="timespan"></param>
     /// <param name="options"></param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static DateTime From(System.DateTime dateTime, TimeSpan timespan, DateTimeTypeOptions? options = null)
     {
         options ??= new DateTimeTypeOptions();
@@ -55,7 +55,7 @@ public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

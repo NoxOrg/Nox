@@ -1,6 +1,6 @@
 namespace Nox.Integration.Abstractions;
 
-public interface INoxIntegrationContext
+internal interface INoxIntegrationContext
 {
     Task<bool> ExecuteIntegrationAsync(string name);
     void AddIntegration(INoxIntegration instance);

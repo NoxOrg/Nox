@@ -49,17 +49,17 @@ internal class DtoDbContext : DbContext
     }
 
     {{ for entity in entities }}
-    public DbSet<{{ entity.Name }}Dto> {{ entity.PluralName }} { get; set; } = null!;
+    public virtual DbSet<{{ entity.Name }}Dto> {{ entity.PluralName }} { get; set; } = null!;
     {{- end }}
     {{- for entity in entitiesToLocalize }}
-    public DbSet<{{GetEntityDtoNameForLocalizedType entity.Name}}> {{GetEntityNameForLocalizedType entity.PluralName}} { get; set; } = null!;
+    public virtual DbSet<{{GetEntityDtoNameForLocalizedType entity.Name}}> {{GetEntityNameForLocalizedType entity.PluralName}} { get; set; } = null!;
     {{- end }}
 
     {{- for entityAtt in enumerationAttributes #Setup Entity Enumerations}}
     {{- for enumAtt in entityAtt.Attributes}}
-    public DbSet<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}> {{enumAtt.DbSetNameForEnumeration}} { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}> {{enumAtt.DbSetNameForEnumeration}} { get; set; } = null!;
     {{- if enumAtt.Attribute.EnumerationTypeOptions.IsLocalized}}
-    public DbSet<DtoNameSpace.{{ enumAtt.EntityNameForLocalizedEnumeration}}> {{enumAtt.DbSetNameForLocalizedEnumeration}} { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.{{ enumAtt.EntityNameForLocalizedEnumeration}}> {{enumAtt.DbSetNameForLocalizedEnumeration}} { get; set; } = null!;
     {{- end }}
     {{- end }}
     {{- end }}

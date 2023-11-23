@@ -34,7 +34,7 @@ public class Color : ValueObject<string, Color>
     /// <param name="red">The red color.</param>
     /// <param name="green">The green color.</param>
     /// <param name="blue">The blue color.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Color From(byte red, byte green, byte blue)
     {
         return From(255, red, green, blue);
@@ -47,7 +47,7 @@ public class Color : ValueObject<string, Color>
     /// <param name="red">The red color.</param>
     /// <param name="green">The green color.</param>
     /// <param name="blue">The blue color.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Color From(byte alpha, byte red, byte green, byte blue)
     {
         var color = System.Drawing.Color.FromArgb(alpha, red, green, blue);
@@ -59,7 +59,7 @@ public class Color : ValueObject<string, Color>
     /// </summary>
     /// <param name="name">The origin value to create the <see cref="Color"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Color FromName(string name)
     {
         var color = System.Drawing.Color.FromName(name);

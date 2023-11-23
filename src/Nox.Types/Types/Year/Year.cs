@@ -28,7 +28,7 @@ public sealed class Year : ValueObject<ushort, Year>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

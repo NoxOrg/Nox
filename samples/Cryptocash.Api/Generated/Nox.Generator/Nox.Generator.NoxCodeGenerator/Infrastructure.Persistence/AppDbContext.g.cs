@@ -54,19 +54,19 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             _codeGenConventions = codeGeneratorState;
         }
     
-    public DbSet<Cryptocash.Domain.Booking> Bookings { get; set; } = null!;
-    public DbSet<Cryptocash.Domain.Commission> Commissions { get; set; } = null!;
-    public DbSet<Cryptocash.Domain.Country> Countries { get; set; } = null!;
-    public DbSet<Cryptocash.Domain.Currency> Currencies { get; set; } = null!;
-    public DbSet<Cryptocash.Domain.Customer> Customers { get; set; } = null!;
-    public DbSet<Cryptocash.Domain.PaymentDetail> PaymentDetails { get; set; } = null!;
-    public DbSet<Cryptocash.Domain.Transaction> Transactions { get; set; } = null!;
-    public DbSet<Cryptocash.Domain.Employee> Employees { get; set; } = null!;
-    public DbSet<Cryptocash.Domain.LandLord> LandLords { get; set; } = null!;
-    public DbSet<Cryptocash.Domain.MinimumCashStock> MinimumCashStocks { get; set; } = null!;
-    public DbSet<Cryptocash.Domain.PaymentProvider> PaymentProviders { get; set; } = null!;
-    public DbSet<Cryptocash.Domain.VendingMachine> VendingMachines { get; set; } = null!;
-    public DbSet<Cryptocash.Domain.CashStockOrder> CashStockOrders { get; set; } = null!;
+    public virtual DbSet<Cryptocash.Domain.Booking> Bookings { get; set; } = null!;
+    public virtual DbSet<Cryptocash.Domain.Commission> Commissions { get; set; } = null!;
+    public virtual DbSet<Cryptocash.Domain.Country> Countries { get; set; } = null!;
+    public virtual DbSet<Cryptocash.Domain.Currency> Currencies { get; set; } = null!;
+    public virtual DbSet<Cryptocash.Domain.Customer> Customers { get; set; } = null!;
+    public virtual DbSet<Cryptocash.Domain.PaymentDetail> PaymentDetails { get; set; } = null!;
+    public virtual DbSet<Cryptocash.Domain.Transaction> Transactions { get; set; } = null!;
+    public virtual DbSet<Cryptocash.Domain.Employee> Employees { get; set; } = null!;
+    public virtual DbSet<Cryptocash.Domain.LandLord> LandLords { get; set; } = null!;
+    public virtual DbSet<Cryptocash.Domain.MinimumCashStock> MinimumCashStocks { get; set; } = null!;
+    public virtual DbSet<Cryptocash.Domain.PaymentProvider> PaymentProviders { get; set; } = null!;
+    public virtual DbSet<Cryptocash.Domain.VendingMachine> VendingMachines { get; set; } = null!;
+    public virtual DbSet<Cryptocash.Domain.CashStockOrder> CashStockOrders { get; set; } = null!;
     
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

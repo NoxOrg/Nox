@@ -59,5 +59,5 @@ public partial class StoreUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespa
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
-    public virtual EmailAddressUpdateDto? EmailAddress { get; set; } = null!;
+    public virtual EmailAddressUpsertDto? EmailAddress { get; set; } = null!;
 }

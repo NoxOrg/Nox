@@ -12,6 +12,8 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -97,4 +99,11 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		await DbContext.SaveChangesAsync();
 		return new StoreKeyDto(entityToCreate.Id.Value);
 	}
+}
+
+public class CreateStoreValidator : AbstractValidator<CreateStoreCommand>
+{
+    public CreateStoreValidator(ILogger<CreateStoreCommand> logger)
+    {
+    }
 }

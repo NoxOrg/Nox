@@ -23,7 +23,7 @@ public class VatNumberTests
 
         var action = () => VatNumber.From(vatNumberValue, countryCode);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox VatNumber type with unsupported CountryCode 'UA'.") });
     }
 
@@ -35,7 +35,7 @@ public class VatNumberTests
 
         var action = () => VatNumber.From(vatNumberValue, countryCode);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox VatNumber type with unsupported value 'FR44403198682123'.") });
     }
 

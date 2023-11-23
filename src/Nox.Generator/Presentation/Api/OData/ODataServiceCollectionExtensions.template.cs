@@ -1,8 +1,7 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.OData.Formatter.Serialization;
@@ -23,12 +22,11 @@ internal static class ODataServiceCollectionExtensions
     {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
 
-        {{ hasKeyForCompoundKeys -}}
-
         {{- for entity in solution.Domain.Entities }}
-        {{- if (array.size entity.Keys) > 0 #we can not have entityset without keys}}
+        {{~ if (array.size entity.Keys) > 0 #we can not have entityset without keys}}
         builder.EntitySet<{{entity.Name}}Dto>("{{entity.PluralName}}");
         {{- end }}
+		builder.EntityType<{{entity.Name}}Dto>().HasKey(e => new { {{ $delim = "" -}} {{ for key in entity.Keys -}} {{$delim}}e.{{key.Name}}{{ $delim = ", " }}{{ end }} });
         {{- if entity.OwnedRelationships != null }}
             {{- for ownedRelationship in entity.OwnedRelationships }}                
 		        {{- ownedRelationshipName = GetNavigationPropertyName entity ownedRelationship }}
@@ -41,7 +39,6 @@ internal static class ODataServiceCollectionExtensions
                 {{- end }}
             {{- end }}
         {{- end }}
-
         {{- if entity.Relationships != null }}
             {{- for relationship in entity.Relationships  }}
 		        {{- relationshipName = GetNavigationPropertyName entity relationship }}
@@ -54,9 +51,16 @@ internal static class ODataServiceCollectionExtensions
                 {{- end }}
             {{- end }}
         {{- end }}
-
-        builder.EntityType<{{entity.Name}}Dto>();
+        {{- if entity.IsOwnedEntity }}
+        builder.ComplexType<{{entity.Name}}UpsertDto>();
+        {{- else }}
         builder.ComplexType<{{entity.Name}}UpdateDto>();
+        {{- end }}
+
+        {{- if entity.IsLocalized }}
+        builder.EntityType<{{entity.Name}}LocalizedDto>().HasKey(e => new { {{ $delim = "" -}} {{ for key in entity.Keys -}} {{$delim}}e.{{key.Name}}{{ $delim = ", " }}{{ end }} });
+        builder.EntityType<{{entity.Name}}Dto>().Function("{{entity.PluralName}}Localized").ReturnsCollection<DtoNameSpace.{{entity.Name}}LocalizedDto>();
+        {{- end }}
         {{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited ~}}
 
         builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.DeletedAtUtc);
@@ -73,6 +77,7 @@ internal static class ODataServiceCollectionExtensions
                             .ReturnsCollection<DtoNameSpace.{{ enumeration.EntityNameForEnumeration}}>();
         {{- end }}
 
+       
         if(configure != null) configure(builder);
 
         services.AddControllers()

@@ -26,11 +26,11 @@ namespace ClientApi.Application.Factories;
 internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    protected IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> EmailAddressFactory {get;}
+    protected IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> EmailAddressFactory {get;}
 
     public StoreFactoryBase
     (
-        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> emailaddressfactory
+        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> emailaddressfactory
         )
     {
         EmailAddressFactory = emailaddressfactory;
@@ -38,7 +38,14 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
 
     public virtual StoreEntity CreateEntity(StoreCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(StoreEntity entity, StoreUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
@@ -72,8 +79,22 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         entity.Name = ClientApi.Domain.StoreMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
         entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(updateDto.Location.NonNullValue<LatLongDto>());
-        entity.SetIfNotNull(updateDto.OpeningDay, (entity) => entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>()));
-        entity.SetIfNotNull(updateDto.Status, (entity) => entity.Status = ClientApi.Domain.StoreMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>()));
+        if(updateDto.OpeningDay is null)
+        {
+             entity.OpeningDay = null;
+        }
+        else
+        {
+            entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>());
+        }
+        if(updateDto.Status is null)
+        {
+             entity.Status = null;
+        }
+        else
+        {
+            entity.Status = ClientApi.Domain.StoreMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>());
+        }
     }
 
     private void PartialUpdateEntityInternal(StoreEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -139,7 +160,7 @@ internal partial class StoreFactory : StoreFactoryBase
 {
     public StoreFactory
     (
-        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> emailaddressfactory
+        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> emailaddressfactory
     ) : base(emailaddressfactory)
     {}
 }

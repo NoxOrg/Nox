@@ -35,7 +35,14 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 
     public virtual CountryEntity CreateEntity(CountryCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
@@ -77,16 +84,58 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         entity.AlphaCode3 = SampleWebApp.Domain.CountryMetadata.CreateAlphaCode3(updateDto.AlphaCode3.NonNullValue<System.String>());
         entity.AlphaCode2 = SampleWebApp.Domain.CountryMetadata.CreateAlphaCode2(updateDto.AlphaCode2.NonNullValue<System.String>());
         entity.NumericCode = SampleWebApp.Domain.CountryMetadata.CreateNumericCode(updateDto.NumericCode.NonNullValue<System.Int16>());
-        entity.SetIfNotNull(updateDto.DialingCodes, (entity) => entity.DialingCodes = SampleWebApp.Domain.CountryMetadata.CreateDialingCodes(updateDto.DialingCodes.ToValueFromNonNull<System.String>()));
-        entity.SetIfNotNull(updateDto.Capital, (entity) => entity.Capital = SampleWebApp.Domain.CountryMetadata.CreateCapital(updateDto.Capital.ToValueFromNonNull<System.String>()));
-        entity.SetIfNotNull(updateDto.Demonym, (entity) => entity.Demonym = SampleWebApp.Domain.CountryMetadata.CreateDemonym(updateDto.Demonym.ToValueFromNonNull<System.String>()));
+        if(updateDto.DialingCodes is null)
+        {
+             entity.DialingCodes = null;
+        }
+        else
+        {
+            entity.DialingCodes = SampleWebApp.Domain.CountryMetadata.CreateDialingCodes(updateDto.DialingCodes.ToValueFromNonNull<System.String>());
+        }
+        if(updateDto.Capital is null)
+        {
+             entity.Capital = null;
+        }
+        else
+        {
+            entity.Capital = SampleWebApp.Domain.CountryMetadata.CreateCapital(updateDto.Capital.ToValueFromNonNull<System.String>());
+        }
+        if(updateDto.Demonym is null)
+        {
+             entity.Demonym = null;
+        }
+        else
+        {
+            entity.Demonym = SampleWebApp.Domain.CountryMetadata.CreateDemonym(updateDto.Demonym.ToValueFromNonNull<System.String>());
+        }
         entity.AreaInSquareKilometres = SampleWebApp.Domain.CountryMetadata.CreateAreaInSquareKilometres(updateDto.AreaInSquareKilometres.NonNullValue<System.Int32>());
-        entity.SetIfNotNull(updateDto.GeoCoord, (entity) => entity.GeoCoord = SampleWebApp.Domain.CountryMetadata.CreateGeoCoord(updateDto.GeoCoord.ToValueFromNonNull<LatLongDto>()));
+        if(updateDto.GeoCoord is null)
+        {
+             entity.GeoCoord = null;
+        }
+        else
+        {
+            entity.GeoCoord = SampleWebApp.Domain.CountryMetadata.CreateGeoCoord(updateDto.GeoCoord.ToValueFromNonNull<LatLongDto>());
+        }
         entity.GeoRegion = SampleWebApp.Domain.CountryMetadata.CreateGeoRegion(updateDto.GeoRegion.NonNullValue<System.String>());
         entity.GeoSubRegion = SampleWebApp.Domain.CountryMetadata.CreateGeoSubRegion(updateDto.GeoSubRegion.NonNullValue<System.String>());
         entity.GeoWorldRegion = SampleWebApp.Domain.CountryMetadata.CreateGeoWorldRegion(updateDto.GeoWorldRegion.NonNullValue<System.String>());
-        entity.SetIfNotNull(updateDto.Population, (entity) => entity.Population = SampleWebApp.Domain.CountryMetadata.CreatePopulation(updateDto.Population.ToValueFromNonNull<System.Int32>()));
-        entity.SetIfNotNull(updateDto.TopLevelDomains, (entity) => entity.TopLevelDomains = SampleWebApp.Domain.CountryMetadata.CreateTopLevelDomains(updateDto.TopLevelDomains.ToValueFromNonNull<System.String>()));
+        if(updateDto.Population is null)
+        {
+             entity.Population = null;
+        }
+        else
+        {
+            entity.Population = SampleWebApp.Domain.CountryMetadata.CreatePopulation(updateDto.Population.ToValueFromNonNull<System.Int32>());
+        }
+        if(updateDto.TopLevelDomains is null)
+        {
+             entity.TopLevelDomains = null;
+        }
+        else
+        {
+            entity.TopLevelDomains = SampleWebApp.Domain.CountryMetadata.CreateTopLevelDomains(updateDto.TopLevelDomains.ToValueFromNonNull<System.String>());
+        }
     }
 
     private void PartialUpdateEntityInternal(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)

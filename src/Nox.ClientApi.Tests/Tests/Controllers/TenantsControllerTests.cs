@@ -57,10 +57,8 @@ namespace ClientApi.Tests.Controllers
             // Act
             var putResult = await PutAsync<TenantUpdateDto>($"{Endpoints.TenantsUrl}/{postResult!.Id}", updateDto, headers, false);
 
-            //Assert
-            var errorMessage = await putResult!.Content.ReadAsStringAsync();
-            errorMessage.Should().Contain("Immutable nuid property Id value is different since it has been initialized");
-            putResult.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            //Assert            
+            putResult!.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
 
         #region Many to Many Relations

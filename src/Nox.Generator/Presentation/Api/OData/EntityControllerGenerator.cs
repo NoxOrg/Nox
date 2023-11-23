@@ -263,7 +263,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         var isSingleRelationship = relationship.WithSingleEntity();
         var relationshipName = parent.GetNavigationPropertyName(relationship);
 
-        code.AppendLine($"public virtual async Task<ActionResult> PostTo{relationshipName}({GetPrimaryKeysRoute(parent, solution)}, [FromBody] {child.Name}CreateDto {child.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public virtual async Task<ActionResult> PostTo{relationshipName}({GetPrimaryKeysRoute(parent, solution)}, [FromBody] {child.Name}UpsertDto {child.Name.ToLowerFirstChar()})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -308,7 +308,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         {
             code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> PutTo{relationshipName}(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
-                $"[FromBody] {child.Name}UpdateDto {child.Name.ToLowerFirstChar()})");
+                $"[FromBody] {child.Name}UpsertDto {child.Name.ToLowerFirstChar()})");
         }
         else
         {
@@ -316,7 +316,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> PutTo{child.PluralName}NonConventional(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
                 $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")}, " +
-                $"[FromBody] {child.Name}UpdateDto {child.Name.ToLowerFirstChar()})");
+                $"[FromBody] {child.Name}UpsertDto {child.Name.ToLowerFirstChar()})");
         }
 
         code.StartBlock();
@@ -380,7 +380,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine($"public virtual async Task<ActionResult> PatchTo{child.PluralName}NonConventional(" +
                 $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
                 $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")}, " +
-                $"[FromBody] Delta<{child.Name}UpdateDto> {child.Name.ToLowerFirstChar()})");
+                $"[FromBody] Delta<{child.Name}UpsertDto> {child.Name.ToLowerFirstChar()})");
         }
         
         // Method content

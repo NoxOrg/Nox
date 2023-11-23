@@ -8,6 +8,7 @@
 @using Cryptocash.Ui.Generated.Nox_Generator.Nox_Generator_NoxCodeGenerator.Component
 @using Cryptocash.Ui.Generated.Pages.Generic
 @using MudBlazor
+@using System.Globalization;
 @using global::Cryptocash.Ui.Generated.Data.Helper;
 
 @page "/Test"
@@ -72,6 +73,7 @@
                                     DecimalDigits = 2
                                 }                               
                             };
+                    CultureInfo testCultureInfo = CultureInfo.GetCultureInfo("en-GB");
 
                     <MudItem xs="12" Class="align-left justify-left">
                         <MudButton OnClick="AddEntityOpenDialog"
@@ -125,6 +127,48 @@
                                                     <MudItem xs="6">
                                                         <UiEditCurrency_g Title="Currency" CurrencySelectionList="@testCurrencySelectionList" />
                                                     </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditMonth_g Title="Month" CultureInfo="testCultureInfo" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditDayOfWeek_g Title="DayOfWeek" CultureInfo="testCultureInfo" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditDate_g Title="Date" CultureInfo="testCultureInfo" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditTime_g 
+                                                            DisplayMinute="true" 
+                                                            DisplaySecond="true" 
+                                                            DisplayMillisecond="false" 
+                                                            CultureInfo="@testCultureInfo"                                                            
+                                                            TitleHour="Hour"
+                                                            TitleMinute="Minute"
+                                                            TitleSecond="Second"/>
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditDateTime_g DisplayMinute="true"
+                                                            DisplaySecond="false"
+                                                            DisplayMillisecond="false"
+                                                            CultureInfo="@testCultureInfo"
+                                                            TitleDateTime="DateTime"
+                                                            TitleHour="Hour"
+                                                            TitleMinute="Minute"
+                                                            TitleSecond="Second" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditDateTimeRange_g DisplayMinute="true"
+                                                            DisplaySecond="false"
+                                                            DisplayMillisecond="false"
+                                                            CultureInfo="@testCultureInfo"
+                                                            TitleDateTimeRange="DateTimeRange"
+                                                            TitleHourStart="Start Hour"
+                                                            TitleMinuteStart="Start Minute"
+                                                            TitleSecondStart="Start Second"
+                                                            TitleHourEnd="End Hour"
+                                                            TitleMinuteEnd="End Minute"
+                                                            TitleSecondEnd="End Second" />
+                                                    </MudItem>
                                                 </MudGrid>
                                             </MudTabPanel>
                                         </MudTabs>
@@ -177,7 +221,51 @@
                             SpaceBetweenAmountAndSymbol = false,
                             DecimalDigits = 2
                         };
-                        
+                        LatLongDto testLatLong = new LatLongDto((double)51.509865, (double)-0.118092);
+                        StreetAddressDto testStreetAddress = new StreetAddressDto(
+                            "StreetNumber",
+                            "AddressLine1",
+                            "AddressLine2",
+                            "Route",
+                            "Locality",
+                            "Neighborhood",
+                            "AdministrativeArea1",
+                            "AdministrativeArea2",
+                            "PostalCode",
+                            Nox.Types.CountryCode.GB
+                        );
+                        List<CountryDto> testCountryList = new List<CountryDto>()
+                        {
+                            new CountryDto()
+                            {
+                                Id = "GB",
+                                Name = "Great Britain"
+                            }
+                        };
+                        LandLordDto testLandLord = new LandLordDto()
+                        {
+                            Name = "LandLord A"
+                        };
+                        List<LandLordDto> testLandLordList = new List<LandLordDto>()
+                        {
+                            new LandLordDto()
+                            {
+                                Name = "LandLord A"
+                            },
+                            new LandLordDto()
+                            {
+                                Name = "LandLord B"
+                            }
+                        };
+                        CultureInfo testCultureInfo = CultureInfo.GetCultureInfo("en-GB");
+                        byte testMonth = 1;
+                        byte testDay = 1;
+                        int testHour = 11;
+                        int testMinute = 22;
+                        int testSecond = 33;
+                        DateTime? testDate = DateTime.Now;
+                        DateTime? testDateEnd = DateTime.Now.AddHours(23);
+
                         <MudTable ServerData="@(new Func<TableState, Task<TableData<CustomerDto>>>(ServerReload))"
                                   T="CustomerDto"
                                   Loading="@IsDataGridLoading"
@@ -201,46 +289,86 @@
                                 <MudTh>Number</MudTh>
                                 <MudTh>Money</MudTh>
                                 <MudTh>Currency</MudTh>
+                                <MudTh>LatLong</MudTh>
+                                <MudTh>StreetAddress</MudTh>
+                                <MudTh>EntityExactlyOne</MudTh>
+                                <MudTh>EntityZeroOrMany</MudTh>
+                                <MudTh>Month</MudTh>
+                                <MudTh>DayOfWeek</MudTh>
+                                <MudTh>Time</MudTh>
+                                <MudTh>Date</MudTh>
+                                <MudTh>DateTime</MudTh>
+                                <MudTh>DateTimeRange</MudTh>
                             </HeaderContent>
                             <RowTemplate> 
-                                <MudTd>
+                                <MudTd Style="vertical-align:top;">
                                     <UiViewPercentage_g Percentage="@testPercentage" />                                    
                                 </MudTd> 
-                                <MudTd>
+                                <MudTd Style="vertical-align:top;">
                                     <UiViewYear_g Year="2023" />
                                 </MudTd>
-                                <MudTd>
+                                <MudTd Style="vertical-align:top;">
                                     <UiViewBoolean_g Boolean="true" TitleTrue="True" TitleFalse="False" />
                                 </MudTd>
-                                <MudTd>
+                                <MudTd Style="vertical-align:top;">
                                     <UiViewWeight_g Weight="@testWeight" WeightUnit="Nox.Types.WeightUnit.Kilogram" />
                                 </MudTd>
-                                <MudTd>
+                                <MudTd Style="vertical-align:top;">
                                     <UiViewVolume_g Volume="@testVolume" VolumeUnit="Nox.Types.VolumeUnit.CubicMeter" />
                                 </MudTd>
-                                <MudTd>
+                                <MudTd Style="vertical-align:top;">
                                     <UiViewDistance_g Distance="@testDistance" DistanceUnit="Nox.Types.DistanceUnit.Kilometer" />
                                 </MudTd>
-                                <MudTd>
+                                <MudTd Style="vertical-align:top;">
                                     <UiViewLength_g Length="@testLength" LengthUnit="Nox.Types.LengthUnit.Meter" />
                                 </MudTd>
-                                <MudTd>
+                                <MudTd Style="vertical-align:top;">
                                     <UiViewArea_g Area="@testArea" AreaUnit="Nox.Types.AreaUnit.SquareMeter" />
                                 </MudTd>
-                                <MudTd>
+                                <MudTd Style="vertical-align:top;">
                                     <UiViewTemperature_g Temperature="@testTemperature" TemperatureUnit="Nox.Types.TemperatureUnit.Celsius" />
                                 </MudTd>
-                                <MudTd>
+                                <MudTd Style="vertical-align:top;">
                                     <UiViewCountry_g Country="@testCountry" />
                                 </MudTd>
-                                <MudTd>
+                                <MudTd Style="vertical-align:top;">
                                     <UiViewNumber_g Number="@testNumber" Format="#.##" />
                                 </MudTd>
-                                <MudTd>
+                                <MudTd Style="vertical-align:top;">
                                     <UiViewMoney_g Money="@testMoney" Currency="@testCurrency" />
                                 </MudTd>
-                                <MudTd>
+                                <MudTd Style="vertical-align:top;">
                                     <UiViewCurrency_g Currency="@testCurrency" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <UiViewLatLong_g LatLong="@testLatLong" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <UiViewStreetAddress_g StreetAddress="@testStreetAddress" CountrySelectionList="@testCountryList" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <UiViewEntityExactlyOneLandLord_g LandLord="@testLandLord" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <UiViewEntityZeroOrManyLandLord_g LandLordList="@testLandLordList" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <UiViewMonth_g Month="@testMonth" CultureInfo="@testCultureInfo" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <UiViewDayOfWeek_g DayOfWeek="@testDay" CultureInfo="@testCultureInfo" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <UiViewTime_g Hour="@testHour" Minute="@testMinute" Second="@testSecond" CultureInfo="@testCultureInfo" Format="HH:mm:ss"/>
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <UiViewDate_g Date="@testDate" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy"/>
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <UiViewDateTime_g DateTime="@testDate" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy HH:mm:ss" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <UiViewDateTimeRange_g DateTimeStart="@testDate" DateTimeEnd="@testDateEnd" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy HH:mm:ss" />
                                 </MudTd>
                             </RowTemplate>
                             <NoRecordsContent>

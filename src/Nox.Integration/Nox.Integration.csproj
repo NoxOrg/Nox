@@ -42,9 +42,5 @@
     <ItemGroup>
       <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Response\" />
-    </ItemGroup>
     
 </Project>

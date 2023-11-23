@@ -71,7 +71,7 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateThirdTestEntityZeroOrOneCommand(thirdTestEntityZeroOrOne, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -105,7 +105,7 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
     {
         if (!ModelState.IsValid || thirdTestEntityZeroOrOne is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

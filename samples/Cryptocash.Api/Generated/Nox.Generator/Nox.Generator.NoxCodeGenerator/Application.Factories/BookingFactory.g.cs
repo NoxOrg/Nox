@@ -67,10 +67,38 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
         entity.AmountFrom = Cryptocash.Domain.BookingMetadata.CreateAmountFrom(updateDto.AmountFrom.NonNullValue<MoneyDto>());
         entity.AmountTo = Cryptocash.Domain.BookingMetadata.CreateAmountTo(updateDto.AmountTo.NonNullValue<MoneyDto>());
         entity.RequestedPickUpDate = Cryptocash.Domain.BookingMetadata.CreateRequestedPickUpDate(updateDto.RequestedPickUpDate.NonNullValue<DateTimeRangeDto>());
-        entity.SetIfNotNull(updateDto.PickedUpDateTime, (entity) => entity.PickedUpDateTime = Cryptocash.Domain.BookingMetadata.CreatePickedUpDateTime(updateDto.PickedUpDateTime.ToValueFromNonNull<DateTimeRangeDto>()));
-        entity.SetIfNotNull(updateDto.ExpiryDateTime, (entity) => entity.ExpiryDateTime = Cryptocash.Domain.BookingMetadata.CreateExpiryDateTime(updateDto.ExpiryDateTime.ToValueFromNonNull<System.DateTimeOffset>()));
-        entity.SetIfNotNull(updateDto.CancelledDateTime, (entity) => entity.CancelledDateTime = Cryptocash.Domain.BookingMetadata.CreateCancelledDateTime(updateDto.CancelledDateTime.ToValueFromNonNull<System.DateTimeOffset>()));
-        entity.SetIfNotNull(updateDto.VatNumber, (entity) => entity.VatNumber = Cryptocash.Domain.BookingMetadata.CreateVatNumber(updateDto.VatNumber.ToValueFromNonNull<VatNumberDto>()));
+        if(updateDto.PickedUpDateTime is null)
+        {
+             entity.PickedUpDateTime = null;
+        }
+        else
+        {
+            entity.PickedUpDateTime = Cryptocash.Domain.BookingMetadata.CreatePickedUpDateTime(updateDto.PickedUpDateTime.ToValueFromNonNull<DateTimeRangeDto>());
+        }
+        if(updateDto.ExpiryDateTime is null)
+        {
+             entity.ExpiryDateTime = null;
+        }
+        else
+        {
+            entity.ExpiryDateTime = Cryptocash.Domain.BookingMetadata.CreateExpiryDateTime(updateDto.ExpiryDateTime.ToValueFromNonNull<System.DateTimeOffset>());
+        }
+        if(updateDto.CancelledDateTime is null)
+        {
+             entity.CancelledDateTime = null;
+        }
+        else
+        {
+            entity.CancelledDateTime = Cryptocash.Domain.BookingMetadata.CreateCancelledDateTime(updateDto.CancelledDateTime.ToValueFromNonNull<System.DateTimeOffset>());
+        }
+        if(updateDto.VatNumber is null)
+        {
+             entity.VatNumber = null;
+        }
+        else
+        {
+            entity.VatNumber = Cryptocash.Domain.BookingMetadata.CreateVatNumber(updateDto.VatNumber.ToValueFromNonNull<VatNumberDto>());
+        }
     }
 
     private void PartialUpdateEntityInternal(BookingEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)

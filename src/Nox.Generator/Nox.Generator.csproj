@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<LangVersion>10.0</LangVersion>
+		<LangVersion>11.0</LangVersion>
 		<Nullable>enable</Nullable>
 		<IncludeBuildOutput>true</IncludeBuildOutput>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -54,13 +54,13 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.7.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.8.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="YamlDotNet" Version="13.7.1" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="Humanizer.Core" Version="2.14.1" PrivateAssets="all" GeneratePathProperty="true" />
-		<PackageReference Include="FluentValidation" Version="11.8.0" PrivateAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="FluentValidation" Version="11.8.1" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="System.Text.Json" Version="7.0.4" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="Scriban" Version="5.9.0" IncludeAssets="Build" />
 	</ItemGroup>

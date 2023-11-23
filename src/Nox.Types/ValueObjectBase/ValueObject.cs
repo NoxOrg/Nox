@@ -38,7 +38,7 @@ public abstract class ValueObject<T, TValueObject> : INoxType
     /// </summary>
     /// <param name="value">The value to be used for the value object.</param>
     /// <returns>The newly created value object instance.</returns>
-    /// <exception cref="TypeValidationException">Thrown when the validation of the value object fails.</exception>
+    /// <exception cref="NoxTypeValidationException">Thrown when the validation of the value object fails.</exception>
     public static TValueObject From(T value)
     {
         var newObject = new TValueObject
@@ -50,7 +50,7 @@ public abstract class ValueObject<T, TValueObject> : INoxType
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

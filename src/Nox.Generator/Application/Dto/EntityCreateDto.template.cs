@@ -28,10 +28,9 @@ public partial class {{className}} : {{className}}Base
 public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Name}}>
 {
 {{- for key in entity.Keys }}
-    {{- if key.Type == "Nuid" || key.Type == "AutoNumber" -}}
+    {{- if !IsNoxTypeCreatable key.Type -}}    
     {{ continue; -}}
     {{- else if key.Type == "Guid" -}}
-
     /// <summary>
     /// {{key.Description  | string.rstrip}}     
     /// </summary>
@@ -93,10 +92,10 @@ public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Na
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
-    {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}CreateDto> {{relationshipName}} { get; set; } = new();
+    {{- if relationship.WithSingleEntity }}
+    public virtual {{relationship.Entity}}UpsertDto{{- if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationshipName}} { get; set; } = null!;
     {{- else}}
-    public virtual {{relationship.Entity}}CreateDto{{- if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationshipName}} { get; set; } = null!;
+    public virtual List<{{relationship.Entity}}UpsertDto> {{relationshipName}} { get; set; } = new();
     {{-end}}
 {{- end }}
 }

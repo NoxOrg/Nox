@@ -23,10 +23,10 @@ public class InternetDomainTests
     [Theory] 
     [InlineData(null)]
     [InlineData("")]
-    public void InternetDomain_WithNullOrEmptyDomain_ShouldBeInvalid(string invalidDomain)
+    public void InternetDomain_WithNullOrEmptyDomain_ShouldBeInvalid(string? invalidDomain)
     {
         // Arrange & Act
-        var exception = Assert.Throws<TypeValidationException> (() => _ = InternetDomain.From(invalidDomain));
+        var exception = Assert.Throws<NoxTypeValidationException> (() => _ = InternetDomain.From(invalidDomain!));
 
         // Assert
         Assert.NotNull(exception);
@@ -44,7 +44,7 @@ public class InternetDomainTests
     public void InternetDomain_WithInvalidDomain_ShouldBeInvalid(string invalidDomain)
     {
         // Arrange & Act
-        var exception = Assert.Throws<TypeValidationException>(() => _ = InternetDomain.From(invalidDomain));
+        var exception = Assert.Throws<NoxTypeValidationException>(() => _ = InternetDomain.From(invalidDomain));
 
         // Assert
         Assert.NotNull(exception);

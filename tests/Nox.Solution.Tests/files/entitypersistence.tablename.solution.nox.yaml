@@ -1,0 +1,42 @@
+#
+# workplace.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: SampleService
+
+platformId: "Nox"
+
+description: Sample Nox solution yaml configuration
+
+domain:
+
+  entities:
+
+    - name: Country
+      description: The list of countries      
+      keys:
+        - name: Id
+          isRequired: true
+          type: text
+          
+      attributes:
+        - name: Name
+          description: Name
+          type: text
+      persistence:
+        isAudited: true
+        tableName: SpecialCountry 
+
+    - name: Person
+      description: Persons  
+      keys:
+        - name: Id
+          isRequired: true
+          type: text          
+      attributes:
+        - name: Name
+          description: Name
+          type: text

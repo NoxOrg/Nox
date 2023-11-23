@@ -43,7 +43,7 @@ public class YamlTests
         string yamlString = System.IO.File.ReadAllText( Path.Combine(FileRoot,InvalidFolder, fileName));
         
         // Arrange & Act
-        var exception = Assert.Throws<TypeValidationException>(() => Yaml.From(yamlString));
+        var exception = Assert.Throws<NoxTypeValidationException>(() => Yaml.From(yamlString));
 
         // Assert
         exception.Errors.Should().NotHaveCount(0);

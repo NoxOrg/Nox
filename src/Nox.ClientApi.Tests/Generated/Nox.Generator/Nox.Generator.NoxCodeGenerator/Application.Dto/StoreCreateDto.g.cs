@@ -82,5 +82,5 @@ public abstract class StoreCreateDtoBase : IEntityDto<DomainNamespace.Store>
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
-    public virtual EmailAddressCreateDto? EmailAddress { get; set; } = null!;
+    public virtual EmailAddressUpsertDto? EmailAddress { get; set; } = null!;
 }

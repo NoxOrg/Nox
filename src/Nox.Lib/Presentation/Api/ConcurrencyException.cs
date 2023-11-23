@@ -1,9 +1,8 @@
 ﻿using System.Net;
-using Nox.Types;
 
 namespace Nox.Exceptions;
 
-public class ConcurrencyException : Exception, INoxHttpException
+public sealed class ConcurrencyException : System.Exception, IApplicationException
 {
     public ConcurrencyException(string message, HttpStatusCode statusCode)
         : base(message)
@@ -11,5 +10,9 @@ public class ConcurrencyException : Exception, INoxHttpException
         StatusCode = statusCode;
     }
 
-    public HttpStatusCode StatusCode { get; }
+    public HttpStatusCode? StatusCode { get; }
+
+    public string ErrorCode => "etag_invalid";
+
+    public object? ErrorDetails => Message;
 }

@@ -40,7 +40,7 @@ public sealed class Enumeration : ValueObject<int, Enumeration>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;
@@ -66,7 +66,7 @@ public sealed class Enumeration : ValueObject<int, Enumeration>
             var result = new ValidationResult();
             result.Errors.Add(new ValidationFailure(nameof(Value), $"No enumerator exists with an Description of '{stringValue}'."));
 
-            throw new TypeValidationException(result.Errors);
+            throw new NoxTypeValidationException(result.Errors);
         }
 
         return From((int)value, options);

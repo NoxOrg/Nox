@@ -35,7 +35,14 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
 
     public virtual TenantEntity CreateEntity(TenantCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(TenantEntity entity, TenantUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

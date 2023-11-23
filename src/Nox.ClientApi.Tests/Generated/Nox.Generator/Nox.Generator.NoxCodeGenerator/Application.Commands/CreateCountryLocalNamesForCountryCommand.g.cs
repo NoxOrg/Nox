@@ -18,14 +18,14 @@ using ClientApi.Application.Dto;
 using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Commands;
-public partial record CreateCountryLocalNamesForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameCreateDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
+public partial record CreateCountryLocalNamesForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameUpsertDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
 
 internal partial class CreateCountryLocalNamesForCountryCommandHandler : CreateCountryLocalNamesForCountryCommandHandlerBase
 {
 	public CreateCountryLocalNamesForCountryCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryLocalNameEntity, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> entityFactory)
+		IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> entityFactory)
 		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
@@ -33,12 +33,12 @@ internal partial class CreateCountryLocalNamesForCountryCommandHandler : CreateC
 internal abstract class CreateCountryLocalNamesForCountryCommandHandlerBase : CommandBase<CreateCountryLocalNamesForCountryCommand, CountryLocalNameEntity>, IRequestHandler<CreateCountryLocalNamesForCountryCommand, CountryLocalNameKeyDto?>
 {
 	private readonly AppDbContext _dbContext;
-	private readonly IEntityFactory<CountryLocalNameEntity, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> _entityFactory;
+	private readonly IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> _entityFactory;
 
 	public CreateCountryLocalNamesForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryLocalNameEntity, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> entityFactory) : base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

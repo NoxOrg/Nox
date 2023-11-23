@@ -2,12 +2,9 @@
 
 #nullable enable
 
-using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-
-using MediatR;
 
 using Nox.Application.Dto;
 using Nox.Types;

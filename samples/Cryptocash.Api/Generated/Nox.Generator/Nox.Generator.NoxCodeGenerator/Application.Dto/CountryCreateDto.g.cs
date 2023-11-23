@@ -138,10 +138,10 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryTimeZoneCreateDto> CountryTimeZones { get; set; } = new();
+    public virtual List<CountryTimeZoneUpsertDto> CountryTimeZones { get; set; } = new();
 
     /// <summary>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<HolidayCreateDto> Holidays { get; set; } = new();
+    public virtual List<HolidayUpsertDto> Holidays { get; set; } = new();
 }

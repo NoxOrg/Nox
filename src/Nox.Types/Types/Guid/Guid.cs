@@ -17,12 +17,12 @@ public sealed class Guid : ValueObject<System.Guid, Guid>
     /// </summary>
     /// <param name="value">String to be parsed to <see cref="Guid"/>.</param>
     /// <returns>New instance of <see cref="Guid"/>.</returns>
-    /// <exception cref="TypeValidationException">In case the <paramref name="value"/> contains an invalid Guid.</exception>
+    /// <exception cref="NoxTypeValidationException">In case the <paramref name="value"/> contains an invalid Guid.</exception>
     public static Guid From(string value)
     {
         if (!System.Guid.TryParse(value, out var parsedGuid))
         {
-            throw new TypeValidationException(
+            throw new NoxTypeValidationException(
                 new List<ValidationFailure>
                 {
                     new(nameof(value),
@@ -39,7 +39,7 @@ public sealed class Guid : ValueObject<System.Guid, Guid>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

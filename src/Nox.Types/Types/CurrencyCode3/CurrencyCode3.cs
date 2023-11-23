@@ -31,7 +31,7 @@ public sealed class CurrencyCode3 : ValueObject<string, CurrencyCode3>
     /// </summary>
     /// <param name="value">The string to create the <see cref="CurrencyCode3"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException">If the currencyCode3 is invalid.</exception>
+    /// <exception cref="NoxTypeValidationException">If the currencyCode3 is invalid.</exception>
     public new static CurrencyCode3 From(string value)
     {
         var newObject = new CurrencyCode3
@@ -43,7 +43,7 @@ public sealed class CurrencyCode3 : ValueObject<string, CurrencyCode3>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

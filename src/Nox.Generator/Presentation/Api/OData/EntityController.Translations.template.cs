@@ -31,15 +31,14 @@ namespace {{ codeGeneratorState.ODataNameSpace }};
 {{- cultureCode = ToLowerFirstChar codeGeneratorState.LocalizationCultureField}}
 
 
-public abstract partial class {{ entity.PluralName }}ControllerBase
+public abstract partial class {{ className }}Base
 {
-    
-    [HttpPut("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.Name}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
+    [HttpPut("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.PluralName}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
     public virtual async Task<ActionResult<{{entity.Name}}LocalizedDto>> Put{{entity.Name}}Localized( {{ primaryKeysRoute }}, [FromRoute] System.String {{cultureCode}}, [FromBody] {{entity.Name}}LocalizedUpsertDto {{ToLowerFirstChar entity.Name}}LocalizedUpsertDto)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var etag = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery(Nox.Types.CultureCode.From({{cultureCode}}), {{ primaryKeysQuery }}))).Select(e=>e.Etag).SingleOrDefault();
         
@@ -63,5 +62,14 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
         var item = (await _mediator.Send(new Get{{entity.Name }}TranslationsByIdQuery( {{ updatedKeyPrimaryKeysQuery }}, Nox.Types.CultureCode.From({{cultureCode}})))).SingleOrDefault();
 
         return Ok(item);
+    }
+
+
+    [HttpGet("{{solution.Infrastructure.Endpoints.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.PluralName}}Localized/")]
+    public virtual async Task<ActionResult<IQueryable<{{entity.Name}}LocalizedDto>>> Get{{entity.Name}}LocalizedNonConventional( {{ primaryKeysRoute }})
+    {
+        var result = (await _mediator.Send(new Get{{entity.Name}}TranslationsQuery({{ primaryKeysQuery }})));
+            
+        return Ok(result);
     }
 }

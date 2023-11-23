@@ -2,8 +2,6 @@
 
 #nullable enable
 
-// Using Nox version 7.0.96.0
-
 /* Found files ->
 - cryptocash.application.nox.yaml
 - CountrySync.integration.nox.yaml
@@ -70,10 +68,6 @@
 - IntegrationEvents.md
 - README.md
 - generator.nox.yaml
-Errors ->
-- Disallowed property ["presentation"]. (at line 34 in cryptocash.solution.nox.yaml)   at Nox.Solution.Schema.NoxSchemaValidator.Deserialize[T](YamlReferenceResolver yamlRefResolver)
-   at Nox.Solution.NoxSolutionBuilder.ResolveAndLoadConfiguration()
-   at Nox.Solution.NoxSolutionBuilder.Build()
-   at Nox.Generator.Tasks.NoxFileGenerator.TryGetNoxSolution(NoxSolution& solution) in /home/runner/work/Nox.Generator/Nox.Generator/src/Nox.Generator.Tasks/NoxFileGenerator.cs:line 197
-   at Nox.Generator.Tasks.NoxFileGenerator.GenerateFiles() in /home/runner/work/Nox.Generator/Nox.Generator/src/Nox.Generator.Tasks/NoxFileGenerator.cs:line 47
+Logging Verbosity Minimal
+SUCCESS.
 */
