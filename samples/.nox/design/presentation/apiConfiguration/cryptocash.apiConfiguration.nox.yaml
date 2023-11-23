@@ -1,0 +1,12 @@
+#
+# cryptocash.apiConfiguration.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/apiConfiguration.json
+#
+
+apiRoutePrefix: /api
+
+apiRouteMappings:
+
+  - $ref: ./apiRouteMappings/countriesByName.apiRouteMapping.nox.yaml
+        

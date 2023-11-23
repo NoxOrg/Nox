@@ -275,6 +275,8 @@ internal class SchemaGenerator
               { "$ref": "{{schemaFile}}" },
               {
                 "additionalProperties": false, 
+                "required": ["$ref"],
+                "type": "object",
                 "properties": {
                   "$ref": {
                     "type": "string",

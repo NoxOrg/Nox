@@ -19,6 +19,8 @@
         { "$ref": "persistence.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",
@@ -34,6 +36,8 @@
         { "$ref": "messaging.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",
@@ -61,6 +65,8 @@
             { "$ref": "apiServer.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -76,6 +82,8 @@
             { "$ref": "bffServer.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -94,6 +102,8 @@
         { "$ref": "dependencies.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",
@@ -109,6 +119,8 @@
         { "$ref": "security.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",

@@ -248,6 +248,7 @@ namespace Nox.Configuration
             services.AddSwaggerGen(opts =>
             {
                 opts.SchemaFilter<DeltaSchemaFilter>();
+                opts.DocumentFilter<ApiRouteMappingDocumentFilter>();
             });
         }
 

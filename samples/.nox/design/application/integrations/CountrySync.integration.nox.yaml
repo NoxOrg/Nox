@@ -31,6 +31,6 @@ target:
   description: The country entites of the domain
   dataConnectionName: CryptocashDb
   targetAdapterType: databaseTable
-  databaseOptions:
+  tableOptions:
     tableName: Countries
 

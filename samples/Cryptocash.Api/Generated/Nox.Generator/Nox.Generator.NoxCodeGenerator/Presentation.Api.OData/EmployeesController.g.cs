@@ -46,7 +46,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
+    [HttpGet("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
     public virtual async Task<ActionResult<EmployeePhoneNumberDto>> GetEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -85,7 +85,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("/api/v1/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
+    [HttpPut("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
     public virtual async Task<ActionResult<EmployeePhoneNumberDto>> PutToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] EmployeePhoneNumberUpdateDto employeePhoneNumber)
     {
         if (!ModelState.IsValid)
@@ -109,7 +109,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("/api/v1/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
+    [HttpPatch("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberUpdateDto> employeePhoneNumber)
     {
         if (!ModelState.IsValid || employeePhoneNumber is null)
@@ -142,7 +142,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("/api/v1/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
+    [HttpDelete("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteEmployeePhoneNumberNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -278,7 +278,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Employees/{key}/CashStockOrder")]
+    [HttpDelete("/api/Employees/{key}/CashStockOrder")]
     public async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)

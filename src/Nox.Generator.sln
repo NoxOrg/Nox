@@ -117,7 +117,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Yaml.Tests", "..\tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Generator.Tasks.Test", "..\tests\Nox.Generator.Tasks.Test\Nox.Generator.Tasks.Test.csproj", "{0105DEB7-C707-4AF2-807A-9478E3A4D2FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Integration.EtlTests", "..\tests\Nox.Integration.EtlTests\Nox.Integration.EtlTests.csproj", "{0D664756-BD08-4692-9FD3-704505E3CA5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Integration.EtlTests", "..\tests\Nox.Integration.EtlTests\Nox.Integration.EtlTests.csproj", "{0D664756-BD08-4692-9FD3-704505E3CA5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
