@@ -24,7 +24,7 @@
     <PackageReference Include="Microsoft.Identity.Web" Version="2.15.5" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.15.5" />
     <PackageReference Include="MudBlazor" Version="6.11.1" />
-    <PackageReference Include="Nox.Generator.Tasks" Version="7.0.102" />
+    <PackageReference Include="Nox.Generator.Tasks" Version="7.0.103" />
   </ItemGroup>
 
   <ItemGroup>
