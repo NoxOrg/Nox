@@ -273,7 +273,6 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
                 result.Errors.Add(new ValidationFailure(nameof(Keys), $"Keys are invalid for owned entity [{Name}] with ZeroOrOne/ExactlyOne relationship from [{OwnerEntity!.Name}]."));
 
         }
-
     }
 
     private void ValidateThatKeysAreAppropriateType(ValidationResult result)

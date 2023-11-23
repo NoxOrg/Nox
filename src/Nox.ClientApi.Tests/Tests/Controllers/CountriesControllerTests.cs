@@ -1252,7 +1252,20 @@ namespace ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = "Portugal",
-                Population = 10350000
+                Population = 10350000,
+                CountryBarCode = new CountryBarCodeCreateDto
+                {
+                    BarCodeName = "Portugal",
+                    BarCodeNumber = 1123,
+                },
+                CountryLocalNames = new List<CountryLocalNameCreateDto>
+                {
+                    new CountryLocalNameCreateDto
+                    {
+                        Name = "Lusitania",
+                        NativeName = "Lusitania Native",
+                    },
+                },
             };
 
             // Act

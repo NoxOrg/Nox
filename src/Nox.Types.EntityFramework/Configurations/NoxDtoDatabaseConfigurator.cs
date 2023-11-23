@@ -1,24 +1,24 @@
-﻿using Nox.Solution;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
-using Nox.Solution.Extensions;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Nox.Types.EntityFramework.Abstractions;
 using Nox.Infrastructure;
-using System.Diagnostics;
+using Nox.Solution;
+using Nox.Solution.Extensions;
+using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
 namespace Nox.Types.EntityFramework.Configurations;
 
 public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 {
-    private NoxCodeGenConventions _codeGenConventions { get; }
-    private INoxClientAssemblyProvider _clientAssemblyProvider { get; }
+    private readonly NoxCodeGenConventions _codeGenConventions;
+    private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
 
     public NoxDtoDatabaseConfigurator(NoxCodeGenConventions codeGenConventions, INoxClientAssemblyProvider clientAssemblyProvider)
     {
         _codeGenConventions = codeGenConventions;
         _clientAssemblyProvider = clientAssemblyProvider;
     }
+
     public void ConfigureDto(IEntityBuilder builder, Entity entity)
     {
         ConfigureKeys(builder, entity);
@@ -27,7 +27,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 
         ConfigureRelationships(builder, entity);
 
-        ConfigureOwnedRelations(builder, entity);
+        ConfigureOwnedRelationships(builder, entity);
     }
 
     public void ConfigureLocalizedDto(IEntityBuilder builder, Entity entity)
@@ -35,6 +35,14 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         var localizedEntity = entity.ShallowCopy(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name));
 
         ConfigureKeys(builder, localizedEntity);
+    }
+
+    private static void ConfigureKeys(IEntityBuilder builder, Entity entity)
+    {
+        foreach (var key in entity.GetKeys())
+        {
+            builder.HasKey(key.Name);
+        }
     }
 
     private void ConfigureAttributes(IEntityBuilder builder, Entity entity)
@@ -70,80 +78,74 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
             if (!relationshipToCreate.ConfigureThisSide())
                 continue;
 
-            var navigationPropertyName = entity.GetNavigationPropertyName(relationshipToCreate);
-            var reversedNavigationPropertyName = relationshipToCreate.Related.Entity.GetNavigationPropertyName(
-                relationshipToCreate.Related.EntityRelationship);
-            // ManyToMany
-            // Currently, configured bi-directionally, shouldn't cause any issues.
-            if (relationshipToCreate.WithMultiEntity &&
-                relationshipToCreate.Related.EntityRelationship.WithMultiEntity)
-            {
-                builder
+            ConfigureRelationship(builder, entity, relationshipToCreate);
+        }
+    }
+
+    private void ConfigureRelationship(IEntityBuilder builder, Entity entity, EntityRelationship relationship)
+    {
+        var relatedEntityTypeName = _codeGenConventions.GetEntityDtoTypeFullName(relationship.Related.Entity.Name + "Dto");
+        var navigationPropertyName = entity.GetNavigationPropertyName(relationship);
+        var reversedNavigationPropertyName = relationship.Related.Entity.GetNavigationPropertyName(relationship.Related.EntityRelationship);
+
+        // ManyToMany Currently, configured bi-directionally, shouldn't cause any issues.
+        if (relationship.WithMultiEntity &&
+            relationship.Related.EntityRelationship.WithMultiEntity)
+        {
+            builder
                 .HasMany(navigationPropertyName)
                 .WithMany(reversedNavigationPropertyName)
-                .UsingEntity(x => x.ToTable(relationshipToCreate.Name));
-            }
-            // OneToOne and OneToMany, setup should be done only on foreign key side
-            else if (relationshipToCreate.WithSingleEntity())
+                .UsingEntity(x => x.ToTable(relationship.Name));
+        }
+        // OneToOne and OneToMany, setup should be done only on foreign key side
+        else if (relationship.WithSingleEntity())
+        {
+            //One to Many
+            if (relationship.Related.EntityRelationship.WithMultiEntity)
             {
-                //One to Many
-                if (relationshipToCreate.Related.EntityRelationship.WithMultiEntity)
-                {
-                    builder
-                        .HasOne($"{_codeGenConventions.DtoNameSpace}.{relationshipToCreate.Entity}Dto", navigationPropertyName)
-                        .WithMany(reversedNavigationPropertyName)
-                        .HasForeignKey($"{navigationPropertyName}Id");
-                }
-                //One to One
-                else
-                {
-                    builder
-                        .HasOne($"{_codeGenConventions.DtoNameSpace}.{relationshipToCreate.Entity}Dto", navigationPropertyName)
-                        .WithOne(reversedNavigationPropertyName)
-                        .HasForeignKey($"{_codeGenConventions.DtoNameSpace}.{entity.Name}Dto", $"{navigationPropertyName}Id");
-                }
+                builder
+                    .HasOne(relatedEntityTypeName, navigationPropertyName)
+                    .WithMany(reversedNavigationPropertyName)
+                    .HasForeignKey($"{navigationPropertyName}Id");
+            }
+            //One to One
+            else
+            {
+                builder
+                    .HasOne(relatedEntityTypeName, navigationPropertyName)
+                    .WithOne(reversedNavigationPropertyName)
+                    .HasForeignKey(relatedEntityTypeName, $"{navigationPropertyName}Id");
             }
         }
     }
 
-    private void ConfigureOwnedRelations(IEntityBuilder builder, Entity entity)
+    private void ConfigureOwnedRelationships(IEntityBuilder builder, Entity entity)
     {
-        var keyNames = entity.Keys!.Select(x => x.Name);
-
-        //#pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions
-        foreach (var ownedRelationship in entity.OwnedRelationships)
-        //#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
+        foreach (var relationshipToCreate in entity.OwnedRelationships)
         {
-            var navigationPropertyName = entity.GetNavigationPropertyName(ownedRelationship);
-            var relatedEntityDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGenConventions.GetEntityDtoTypeFullName(ownedRelationship.Related.Entity.Name + "Dto"));
-
-            if (ownedRelationship.WithSingleEntity())
-            {
-                builder.OwnsOne(relatedEntityDtoType!,
-                    navigationPropertyName,
-                    owned =>
-                    {
-                        owned.WithOwner().HasForeignKey($"{entity.Name}Id");
-                    });
-                return;
-            }
-
-            builder.OwnsMany(relatedEntityDtoType!,
-                navigationPropertyName,
-                owned =>
-                {
-                    owned.WithOwner().HasForeignKey($"{entity.Name}Id");
-                    owned.HasKey(string.Join(",", keyNames));
-                    owned.ToTable(ownedRelationship.Related.Entity.Name);
-                });
+            ConfigureOwnedRelationship(builder, entity, relationshipToCreate);
         }
     }
 
-    private static void ConfigureKeys(IEntityBuilder builder, Entity entity)
+    private void ConfigureOwnedRelationship(IEntityBuilder builder, Entity entity, EntityRelationship relationship)
     {
-        foreach (var key in entity.Keys!)
+        var relatedEntityTypeName = _codeGenConventions.GetEntityDtoTypeFullName(relationship.Related.Entity.Name + "Dto");
+        var navigationPropertyName = entity.GetNavigationPropertyName(relationship);
+
+        //One to Many
+        if (relationship.WithMultiEntity())
         {
-            builder.HasKey(key.Name);
+            builder
+                .HasMany(navigationPropertyName)
+                .WithOne()
+                .HasForeignKey($"{entity.Name}Id");
+        }
+        else //One to One
+        {
+            builder
+                .HasOne(relatedEntityTypeName, navigationPropertyName)
+                .WithOne()
+                .HasForeignKey(relatedEntityTypeName, entity.Keys.Select(key => key.Name).ToArray());
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using ClientApi.Application.Dto;
 using AutoFixture;
-using Nox.Types;
 using System.Net;
 using Xunit.Abstractions;
 using ClientApi.Tests.Controllers;
@@ -11,9 +10,6 @@ namespace ClientApi.Tests.Tests.Controllers
     [Collection("CountryQualityOfLifeIndexControllerTests")]
     public class CountryQualityOfLifeIndexControllerTests : NoxWebApiTestBase
     {
-        private const string EntityPluralName = "CountryQualityOfLifeIndices";
-        private const string EntityUrl = $"En/{EntityPluralName}";      
-
         public CountryQualityOfLifeIndexControllerTests(ITestOutputHelper testOutput, TestDatabaseContainerService containerService)
             : base(testOutput, containerService)
         {
