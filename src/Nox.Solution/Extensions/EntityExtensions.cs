@@ -73,7 +73,14 @@ public static class EntityExtensions
     public static IReadOnlyList<NoxSimpleTypeDefinition> GetKeys(this Entity entity)
     {
         if (entity.IsOwnedEntity && entity.OwnerEntity!.OwnedRelationships.Any(rel => rel.Entity == entity.Name && rel.WithSingleEntity))
-            return entity.OwnerEntity!.Keys;
+            return entity.OwnerEntity!.Keys
+                .Select(key =>
+                {
+                    var newKey = key.ShallowCopy();
+                    newKey.Name = entity.OwnerEntity.Name + key.Name;
+                    return newKey;
+                })
+                .ToList();
 
         return entity.Keys;
     }

@@ -54,7 +54,7 @@ internal abstract partial class CountryBarCodeBase : EntityBase, IOwnedEntity
     /// The unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber CountryId { get; set; } = null!;
 
     /// <summary>
     /// Bar code name    

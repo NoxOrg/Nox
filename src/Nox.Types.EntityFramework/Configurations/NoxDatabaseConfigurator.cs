@@ -262,14 +262,14 @@ namespace Nox.Types.EntityFramework.Configurations
                     $"Name {entity.Name} " +
                     $"HasOne {relatedEntityTypeName}, {navigationPropertyName} " +
                     $"WithOne" +
-                    $"ForeignKey {relatedEntityTypeName} {string.Join(", ", entity.GetKeys().Select(key => key.Name).ToArray())}" +
+                    $"ForeignKey {relatedEntityTypeName} {string.Join(", ", relationship.Relationship.Related.Entity.GetKeys().Select(key => key.Name).ToArray())}" +
                     $"DeleteBehavior {DeleteBehavior.Cascade}");
                 //#endif
 
                 builder
                     .HasOne(relatedEntityTypeName, navigationPropertyName)
                     .WithOne()
-                    .HasForeignKey(relatedEntityTypeName, entity.GetKeys().Select(key => key.Name).ToArray())
+                    .HasForeignKey(relatedEntityTypeName, relationship.Relationship.Related.Entity.GetKeys().Select(key => key.Name).ToArray())
                     .IsRequired(relationship.Relationship.IsRequired())
                     .OnDelete(DeleteBehavior.Cascade);
             }

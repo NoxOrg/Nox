@@ -54,19 +54,19 @@ internal abstract partial class EmailAddressBase : EntityBase, IOwnedEntity
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Guid Id {get; set;} = null!;
+    public Nox.Types.Guid StoreId {get; set;} = null!;
          /// <summary>
         /// Ensures that a Guid Id is set or will be generate a new one
         /// </summary>
-    	public virtual void EnsureId(System.Guid guid)
+    	public virtual void EnsureStoreId(System.Guid guid)
     	{
     		if(System.Guid.Empty.Equals(guid))
     		{
-    			Id = Nox.Types.Guid.From(System.Guid.NewGuid());
+    			StoreId = Nox.Types.Guid.From(System.Guid.NewGuid());
     		}
     		else
     		{
-    			Id = Nox.Types.Guid.From(guid);
+    			StoreId = Nox.Types.Guid.From(guid);
     		}
     	}
 

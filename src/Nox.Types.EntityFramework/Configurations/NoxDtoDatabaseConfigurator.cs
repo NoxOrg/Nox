@@ -144,7 +144,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
             builder
                 .HasOne(relatedEntityTypeName, navigationPropertyName)
                 .WithOne()
-                .HasForeignKey(relatedEntityTypeName, entity.Keys.Select(key => key.Name).ToArray());
+                .HasForeignKey(relatedEntityTypeName, relationship.Related.Entity.GetKeys().Select(key => key.Name).ToArray());
         }
     }
 }

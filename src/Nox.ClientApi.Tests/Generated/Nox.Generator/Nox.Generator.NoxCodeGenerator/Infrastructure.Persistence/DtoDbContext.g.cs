@@ -87,7 +87,7 @@ internal class DtoDbContext : DbContext
                 var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
                     ?? throw new TypeNotFoundException(dtoName);
 
-                _noxDtoDatabaseConfigurator.ConfigureDto(new EntityBuilderAdapter(modelBuilder.Entity(type).ToTable(entity.PluralName)), entity);
+                _noxDtoDatabaseConfigurator.ConfigureDto(new EntityBuilderAdapter(modelBuilder.Entity(type).ToTable(entity.Persistence.TableName)), entity);
 
                 if (entity.IsLocalized)
                 {

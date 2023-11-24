@@ -54,7 +54,7 @@ internal abstract partial class SecondTestEntityOwnedRelationshipExactlyOneBase 
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Id { get; set; } = null!;
+    public Nox.Types.Text TestEntityOwnedRelationshipExactlyOneId { get; set; } = null!;
 
     /// <summary>
     ///     

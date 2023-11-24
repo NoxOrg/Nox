@@ -200,6 +200,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         ValidateThatOwnedEntitiesAreNotAuditable(result);
         ValidateThatOwnedEntitiesHaveNoRelationships(result);
         ValidateThatOwnedEntitiesNotLocalized(result);
+        ValidateThatOwnedEntitiesDontHaveAttributeNamesWithOwnerEntityKeyNames(result);
         ValidateThatAllOwnerEntitiesHaveSimpleKeys(result);
         ValidateThatAllRelatedEntitiesHaveSimpleKeys(result);
         ValidateUniqueAttributeConstraints(result);
@@ -377,6 +378,21 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         foreach (var attr in localizedAttributes)
         {
             result.Errors.Add(new ValidationFailure(attr.Name, $"Attribute [{attr.Name}] on owned entity [{Name}] can't be localized."));
+        }
+    }
+
+    private void ValidateThatOwnedEntitiesDontHaveAttributeNamesWithOwnerEntityKeyNames(ValidationResult result)
+    {
+        if (!IsOwnedEntity) return;
+        if (OwnerEntity!.OwnedRelationships.All(rel => rel.Entity == Name && rel.WithMultiEntity)) return;
+
+        var ownerEntityKeys = OwnerEntity!.Keys.Select(key => key.Name);
+        var attributeNames = Attributes!.Where(attr => ownerEntityKeys!.Contains(attr.Name)).Select(attr => attr.Name);
+
+        foreach (var attrName in attributeNames)
+        {
+            result.Errors.Add(
+                new ValidationFailure(attrName, $"Attribute [{attrName}] on owned entity [{Name}] has conflicting name with owner entity [{OwnerEntity.Name}] key."));
         }
     }
 
