@@ -11,24 +11,24 @@ public static class DataSeedExtensions
     {
         return services
             .AddScoped<ISeedDataReader, JsonSeedDataReader>()
-            .AddScoped<IDataSeeder, CryptocashPaymentProviderDataSeeder>();
-            //.AddScoped<IDataSeeder, CryptocashBankNoteDataSeeder>()
-            //.AddScoped<IDataSeeder, CryptocashBookingDataSeeder>()
-            //.AddScoped<IDataSeeder, CryptocashCashStockOrderDataSeeder>()
-            //.AddScoped<IDataSeeder, CryptocashCommissionDataSeeder>()
-            //.AddScoped<IDataSeeder, CryptocashCountryDataSeeder>()
-            //.AddScoped<IDataSeeder, CryptocashCountryTimeZoneDataSeeder>()
-            //.AddScoped<IDataSeeder, CryptocashCurrencyDataSeeder>()
-            //.AddScoped<IDataSeeder, CryptocashCustomerDataSeeder>()
-            //.AddScoped<IDataSeeder, CryptocashEmployeeDataSeeder>()
-            //.AddScoped<IDataSeeder, CryptocashEmployeePhoneNumberDataSeeder>()
-            //.AddScoped<IDataSeeder, CryptocashExchangeRateDataSeeder>()
-            //.AddScoped<IDataSeeder, CryptocashHolidayDataSeeder>()
-            //.AddScoped<IDataSeeder, CryptocashLandLordDataSeeder>()
-            //.AddScoped<IDataSeeder, CryptocashMinimumCashStockDataSeeder>()
-            //.AddScoped<IDataSeeder, CryptocashPaymentDetailDataSeeder>()            
-            //.AddScoped<IDataSeeder, CryptocashTransactionDataSeeder>()
-            //.AddScoped<IDataSeeder, CryptocashVendingMachineDataSeeder>();
+            .AddScoped<IDataSeeder, CryptocashPaymentProviderDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashCountryDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashBankNoteDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashBookingDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashCashStockOrderDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashCommissionDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashCountryTimeZoneDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashCurrencyDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashCustomerDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashEmployeeDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashEmployeePhoneNumberDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashExchangeRateDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashHolidayDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashLandLordDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashMinimumCashStockDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashPaymentDetailDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashTransactionDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashVendingMachineDataSeeder>();
     }
 
     public static void SeedDataIfRequired(this WebApplication app)
