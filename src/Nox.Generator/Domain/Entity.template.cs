@@ -108,15 +108,15 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
      /// <summary>
     /// Ensures that a Guid Id is set or will be generate a new one
     /// </summary>
-	public virtual void Ensure{{ key.Name}}(System.Guid guid)
+	public virtual void Ensure{{ key.Name}}(System.Guid? guid)
 	{
-		if(System.Guid.Empty.Equals(guid))
+		if(guid is null || System.Guid.Empty.Equals(guid))
 		{
 			{{key.Name}} = Nox.Types.Guid.From(System.Guid.NewGuid());
 		}
 		else
 		{
-			{{key.Name}} = Nox.Types.Guid.From(guid);
+			{{key.Name}} = Nox.Types.Guid.From(guid!.Value);
 		}
 	}
     {{- else -}}
