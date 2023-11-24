@@ -40,6 +40,7 @@ internal class EntityControllerEnumerationsGenerator : EntityControllerGenerator
                     Attribute = attribute,
                     EntityNameForEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name) + "Dto",
                     EntityNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name) + "Dto",
+                    EntityDtoNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name),
                 });
 
             if (!enumerationAttributes.Any())

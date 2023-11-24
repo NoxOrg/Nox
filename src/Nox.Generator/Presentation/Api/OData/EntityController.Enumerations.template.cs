@@ -1,4 +1,7 @@
 ﻿// Generated
+
+using System.Collections.Generic;
+
 {{- cultureCode = ToLowerFirstChar codeGeneratorState.LocalizationCultureField}}
 #nullable enable
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +37,15 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
         var result = await _mediator.Send(new ApplicationCommandsNameSpace.Delete{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}TranslationsCommand(Nox.Types.CultureCode.From({{cultureCode}})));                        
         return NoContent();     
     }
+
+    [HttpPut("{{solution.Infrastructure.Endpoints.ApiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized")]
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}>>> Put{{Pluralize (enumAtt.Attribute.Name)}}LocalizedNonConventional([FromBody] IEnumerable<DtoNameSpace.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}> {{ToLowerFirstChar enumAtt.EntityDtoNameForLocalizedEnumeration}}s)
+    {            
+        var cultureCode = await _mediator.Send(new ApplicationCommandsNameSpace.Upsert{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}TranslationsCommand({{ToLowerFirstChar enumAtt.EntityDtoNameForLocalizedEnumeration}}s));                        
+        var result = await _mediator.Send(new ApplicationQueriesNameSpace.Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}Query(cultureCode));                        
+        return Ok(result);       
+    }
+   
     {{-end }}
     {{- end}} 
 }
