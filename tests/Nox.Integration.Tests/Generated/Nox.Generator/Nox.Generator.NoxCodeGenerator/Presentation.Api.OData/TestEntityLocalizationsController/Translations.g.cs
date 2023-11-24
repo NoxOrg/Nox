@@ -29,6 +29,7 @@ namespace TestWebApp.Presentation.Api.OData;
 
 public abstract partial class TestEntityLocalizationsControllerBase
 {
+    
     [HttpPut("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/{cultureCode}")]
     public virtual async Task<ActionResult<TestEntityLocalizationLocalizedDto>> PutTestEntityLocalizationLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode, [FromBody] TestEntityLocalizationLocalizedUpsertDto testEntityLocalizationLocalizedUpsertDto)
     {
@@ -58,7 +59,7 @@ public abstract partial class TestEntityLocalizationsControllerBase
     }
 
 
-    [HttpGet("/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/")]
+    [HttpGet("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/")]
     public virtual async Task<ActionResult<IQueryable<TestEntityLocalizationLocalizedDto>>> GetTestEntityLocalizationLocalizedNonConventional( [FromRoute] System.String key)
     {
         var result = (await _mediator.Send(new GetTestEntityLocalizationTranslationsQuery(key)));
