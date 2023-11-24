@@ -171,7 +171,7 @@ internal static class ODataServiceCollectionExtensions
                         .Expand()
                         .SkipToken()
                         .SetMaxTop(100);
-                    var routeOptions = options.AddRouteComponents(Nox.Presentation.Api.OData.ODataApi.GetRoutePrefix("/api/v1"), builder.GetEdmModel(),
+                    var routeOptions = options.AddRouteComponents(Nox.Presentation.Api.OData.ODataApi.GetRoutePrefix("/api"), builder.GetEdmModel(),
                         service => service
                             .AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>())
                         .RouteOptions;

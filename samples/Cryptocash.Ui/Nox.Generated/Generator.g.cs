@@ -28,8 +28,12 @@
 - cryptocash.infrastructure.nox.yaml
 - cryptocash.dependencies.nox.yaml
 - NoxReferenceData.dataConnection.nox.yaml
+- cryptocash.endpoints.nox.yaml
 - cryptocash.messaging.nox.yaml
 - cryptocash.persistence.nox.yaml
+- countriesByName.apiRouteMapping.nox.yaml
+- cryptocash.apiConfiguration.nox.yaml
+- cryptocash.presentation.nox.yaml
 - BankNoteDomainEvents.md
 - BookingDomainEvents.md
 - CashStockOrderDomainEvents.md
@@ -64,6 +68,11 @@
 - IntegrationEvents.md
 - README.md
 - generator.nox.yaml
-Logging Verbosity Minimal
-SUCCESS.
+Errors ->
+- The Nox type validation failed with 1 error(s). PropertyName: . Error: Disallowed property ["presentation"]. (at line 34 in cryptocash.solution.nox.yaml)   at Nox.Solution.Schema.NoxSchemaValidator.Deserialize[T](YamlReferenceResolver yamlRefResolver)
+   at Nox.Yaml.YamlConfigurationReader`2.ResolveAndLoadConfiguration()
+   at Nox.Yaml.YamlConfigurationReader`2.Read()
+   at Nox.Solution.NoxSolutionBuilder.Build()
+   at Nox.Generator.Tasks.NoxFileGenerator.TryGetNoxSolution(NoxSolution& solution) in /home/runner/work/Nox.Generator/Nox.Generator/src/Nox.Generator.Tasks/NoxFileGenerator.cs:line 195
+   at Nox.Generator.Tasks.NoxFileGenerator.GenerateFiles() in /home/runner/work/Nox.Generator/Nox.Generator/src/Nox.Generator.Tasks/NoxFileGenerator.cs:line 45
 */

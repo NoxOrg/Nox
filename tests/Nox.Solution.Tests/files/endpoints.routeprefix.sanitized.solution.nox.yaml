@@ -17,5 +17,7 @@ description: Sample Nox solution yaml configuration
 infrastructure:
 
   endpoints:
-    
+
+presentation:
+  apiConfiguration: 
     apiRoutePrefix: /testapi/

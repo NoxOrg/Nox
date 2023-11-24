@@ -179,9 +179,11 @@ internal class SchemaValidator
             {
                 foreach (var item in (IList)obj.Value!)
                 {
-                    var obj2 = (Dictionary<string, (object? Value, YamlLineInfo LineInfo)>)item;
-                    Validate(obj2, property.Items);
-                    arrayItems.Add(obj2);
+                    if (TryCastToDictionaryOrThrow(item, fileInfo, out var obj2))
+                    {
+                        Validate(obj2, property.Items);
+                        arrayItems.Add(obj2);
+                    }
                 }
             }
 
@@ -261,5 +263,21 @@ internal class SchemaValidator
     private static string ToFileInfoString(YamlLineInfo? lineInfo)
     {
         return lineInfo == null ? string.Empty : $"(at line {lineInfo.Line} in {lineInfo.FileName})";
+    }
+
+    private bool TryCastToDictionaryOrThrow(object item, string fileInfo, 
+        out Dictionary<string, (object? Value, YamlLineInfo LineInfo)> obj)
+    {
+        try
+        {
+            obj = (Dictionary<string, (object? Value, YamlLineInfo LineInfo)>)item;
+            return true;
+        }
+        catch (InvalidCastException)
+        {
+            _errors.Add($"Value of [{item}] is expected to be an object but isn't. {fileInfo}");
+            obj = null!;
+            return false;
+        }
     }
 }

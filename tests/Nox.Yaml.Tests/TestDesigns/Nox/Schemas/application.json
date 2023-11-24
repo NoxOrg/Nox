@@ -27,6 +27,8 @@
           { "$ref": "integration.json" },
           {
             "additionalProperties": false, 
+            "required": ["$ref"],
+            "type": "object",
             "properties": {
               "$ref": {
                 "type": "string",
@@ -91,6 +93,8 @@
                 { "$ref": "type.json" },
                 {
                   "additionalProperties": false, 
+                  "required": ["$ref"],
+                  "type": "object",
                   "properties": {
                     "$ref": {
                       "type": "string",
@@ -124,6 +128,8 @@
           { "$ref": "dto.json" },
           {
             "additionalProperties": false, 
+            "required": ["$ref"],
+            "type": "object",
             "properties": {
               "$ref": {
                 "type": "string",
@@ -141,6 +147,8 @@
         { "$ref": "localization.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",

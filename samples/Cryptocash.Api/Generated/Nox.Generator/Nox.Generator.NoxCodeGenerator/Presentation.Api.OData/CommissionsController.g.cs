@@ -137,7 +137,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Commissions/{key}/Country")]
+    [HttpDelete("/api/Commissions/{key}/Country")]
     public async Task<ActionResult> DeleteToCountry([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -251,7 +251,7 @@ public abstract partial class CommissionsControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Commissions/{key}/Bookings/{relatedKey}")]
+    [HttpGet("/api/Commissions/{key}/Bookings/{relatedKey}")]
     public virtual async Task<SingleResult<BookingDto>> GetBookingsNonConventional(System.Int64 key, System.Guid relatedKey)
     {
         var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).SelectMany(x => x.Bookings).Where(x => x.Id == relatedKey);
@@ -262,7 +262,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/Commissions/{key}/Bookings/{relatedKey}")]
+    [HttpPut("/api/Commissions/{key}/Bookings/{relatedKey}")]
     public virtual async Task<ActionResult<BookingDto>> PutToBookingsNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] BookingUpdateDto booking)
     {
         if (!ModelState.IsValid)
@@ -286,7 +286,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Commissions/{key}/Bookings/{relatedKey}")]
+    [HttpDelete("/api/Commissions/{key}/Bookings/{relatedKey}")]
     public async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -310,7 +310,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/Commissions/{key}/Bookings")]
+    [HttpDelete("/api/Commissions/{key}/Bookings")]
     public async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)

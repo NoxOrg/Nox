@@ -8,10 +8,10 @@ using Nox.Yaml.Attributes;
 using Nox.Yaml.Validation;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using YamlDotNet.Serialization;
+using System.Collections.Immutable;
 
 namespace Nox.Solution;
 

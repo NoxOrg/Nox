@@ -28,8 +28,12 @@
 //  - cryptocash.infrastructure.nox.yaml
 //  - cryptocash.dependencies.nox.yaml
 //  - NoxReferenceData.dataConnection.nox.yaml
+//  - cryptocash.endpoints.nox.yaml
 //  - cryptocash.messaging.nox.yaml
 //  - cryptocash.persistence.nox.yaml
+//  - countriesByName.apiRouteMapping.nox.yaml
+//  - cryptocash.apiConfiguration.nox.yaml
+//  - cryptocash.presentation.nox.yaml
 //  - generator.nox.yaml
 // Logging Verbosity Minimal
 // SUCCESS.

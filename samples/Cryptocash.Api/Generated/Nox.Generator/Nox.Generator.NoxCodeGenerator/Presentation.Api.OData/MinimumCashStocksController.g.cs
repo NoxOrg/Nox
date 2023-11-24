@@ -119,7 +119,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
+    [HttpGet("/api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
     public virtual async Task<SingleResult<VendingMachineDto>> GetVendingMachinesNonConventional(System.Int64 key, System.Guid relatedKey)
     {
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines).Where(x => x.Id == relatedKey);
@@ -130,7 +130,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
+    [HttpPut("/api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
     public virtual async Task<ActionResult<VendingMachineDto>> PutToVendingMachinesNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] VendingMachineUpdateDto vendingMachine)
     {
         if (!ModelState.IsValid)
@@ -154,7 +154,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
+    [HttpDelete("/api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
     public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -178,7 +178,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/MinimumCashStocks/{key}/VendingMachines")]
+    [HttpDelete("/api/MinimumCashStocks/{key}/VendingMachines")]
     public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
