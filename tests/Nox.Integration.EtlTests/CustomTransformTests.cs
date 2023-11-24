@@ -22,7 +22,7 @@ public class CustomTransformTests
             .Build();
         services
             .AddSingleton(solution)
-            .AddNoxIntegrations(solution)
+            .AddNoxIntegrations()
             .RegisterTransformHandler(typeof(TestNoxCustomTransformHandler))
             .RegisterTransformHandler(typeof(AnotherNoxCustomTransformHandler));
         var provider = services.BuildServiceProvider();
