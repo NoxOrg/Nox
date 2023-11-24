@@ -285,7 +285,6 @@ public class YamlFileValidationTests
             "Entity [Currency] is an owner entity and can't have composite key.",
             "Entity [Currency] owned multiple times or by multiple entities [Currency,Currency,Currency,Currency].",
             "Entity [Currency] is owned and can't have relationships.",
-            //"Attribute [Id] on owned entity [Currency] has conflicting name with owner entity [Currency] key.",
             "Relationship [CurrenciesCountryLegal] on entity [Currency] refers to related entity [Currency] with composite key. Must be simple key on Currency.",
             "Relationship [CurrenciesCountryLegal] on entity [Currency] refers to related entity [Currency] with composite key. Must be simple key on Currency.",
             "Relationship [Id] on entity [Currency] refers to related entity [Currency] with composite key. Must be simple key on Currency.",
