@@ -59,6 +59,9 @@
     <!--  Copy to output all files under ExpectedGeneratedFiles-->
     <ItemGroup>
         <Compile Remove="files\Program.cs"/>
+        <Compile Include="ExpectedGeneratedFiles\Application.Integration.Custom.expected.g.cs" />
+        <Compile Include="ExpectedGeneratedFiles\Application.Integration.CustomTransform.expected.g.cs" />
+        <Compile Include="ExpectedGeneratedFiles\Application.Integration.CustomTransform.expected.g.cs" />
         <None Include="files\Program.cs">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
