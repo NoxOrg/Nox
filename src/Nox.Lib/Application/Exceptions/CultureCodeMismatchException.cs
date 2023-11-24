@@ -3,24 +3,24 @@ using System.Runtime.Serialization;
 namespace Nox.Application.Exceptions;
 
 [Serializable]
-public class DefaultCultureCodeDeletionException : Exception
+public class CultureCodeMismatchException : Exception
 {
-    public DefaultCultureCodeDeletionException()
+    public CultureCodeMismatchException()
     {
     }
 
-    public DefaultCultureCodeDeletionException(string message)
+    public CultureCodeMismatchException(string message)
         : base(message)
     {
     }
 
-    public DefaultCultureCodeDeletionException(string message, Exception inner)
+    public CultureCodeMismatchException(string message, Exception inner)
         : base(message, inner)
     {
     }
 
-    
-    protected DefaultCultureCodeDeletionException(SerializationInfo info, StreamingContext context) 
+    // Constructor needed for serialization.
+    protected CultureCodeMismatchException(SerializationInfo info, StreamingContext context) 
         : base(info, context)
     {        
     }

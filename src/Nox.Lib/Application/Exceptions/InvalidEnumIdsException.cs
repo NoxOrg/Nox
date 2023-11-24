@@ -3,24 +3,24 @@ using System.Runtime.Serialization;
 namespace Nox.Application.Exceptions;
 
 [Serializable]
-public class DefaultCultureCodeDeletionException : Exception
+public class InvalidEnumIdsException : Exception
 {
-    public DefaultCultureCodeDeletionException()
+    public InvalidEnumIdsException()
     {
     }
 
-    public DefaultCultureCodeDeletionException(string message)
+    public InvalidEnumIdsException(string message)
         : base(message)
     {
     }
 
-    public DefaultCultureCodeDeletionException(string message, Exception inner)
+    public InvalidEnumIdsException(string message, Exception inner)
         : base(message, inner)
     {
     }
 
-    
-    protected DefaultCultureCodeDeletionException(SerializationInfo info, StreamingContext context) 
+    // Constructor needed for serialization.
+    protected InvalidEnumIdsException(SerializationInfo info, StreamingContext context) 
         : base(info, context)
     {        
     }
