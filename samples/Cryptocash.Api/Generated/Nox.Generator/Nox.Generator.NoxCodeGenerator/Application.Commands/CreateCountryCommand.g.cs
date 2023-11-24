@@ -160,7 +160,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 
 public class CreateCountryValidator : AbstractValidator<CreateCountryCommand>
 {
-    public CreateCountryValidator(ILogger<CreateCountryCommand> logger)
+    public CreateCountryValidator()
     {
 		RuleFor(x => x.EntityDto.CountryTimeZones)
 			.Must(owned => owned.All(x => x.Id == null))

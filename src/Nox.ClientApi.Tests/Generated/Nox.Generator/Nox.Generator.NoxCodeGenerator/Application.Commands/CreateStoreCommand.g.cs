@@ -103,7 +103,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 
 public class CreateStoreValidator : AbstractValidator<CreateStoreCommand>
 {
-    public CreateStoreValidator(ILogger<CreateStoreCommand> logger)
+    public CreateStoreValidator()
     {
     }
 }

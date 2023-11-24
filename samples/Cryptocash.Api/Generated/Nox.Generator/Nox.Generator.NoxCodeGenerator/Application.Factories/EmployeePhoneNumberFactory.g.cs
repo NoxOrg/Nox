@@ -35,7 +35,14 @@ internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<Employee
 
     public virtual EmployeePhoneNumberEntity CreateEntity(EmployeePhoneNumberUpsertDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(EmployeePhoneNumberEntity entity, EmployeePhoneNumberUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
