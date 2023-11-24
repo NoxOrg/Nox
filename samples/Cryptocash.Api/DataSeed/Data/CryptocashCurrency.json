@@ -1,2 +1,22 @@
 ﻿[
+  {
+    "Id": "CHF",
+    "Name": "Swiss Franc",
+    "CurrencyIsoNumeric": 756,
+    "Symbol": "CHF",
+    "ThousandsSeparator": "\\u0027",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "franc",
+    "MajorSymbol": "CHF",
+    "MinorName": "rappen",
+    "MinorSymbol": "Rp.",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "CHF"
+    },
+    "BankNotes": [],
+    "ExchangeRates": []
+  }
 ]

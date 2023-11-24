@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Cryptocash.DataSeed.Seeders;
 
@@ -9,6 +10,9 @@ public class JsonSeedDataReader : ISeedDataReader
         using var reader = new StreamReader(filePath);
         var json = reader.ReadToEnd();
 
-        return JsonSerializer.Deserialize<IEnumerable<T>>(json) ?? Array.Empty<T>();
+        var jsonOptions = new JsonSerializerOptions();
+        jsonOptions.Converters.Add(new JsonStringEnumConverter());
+
+        return JsonSerializer.Deserialize<IEnumerable<T>>(json, jsonOptions) ?? Array.Empty<T>();
     }
 }
