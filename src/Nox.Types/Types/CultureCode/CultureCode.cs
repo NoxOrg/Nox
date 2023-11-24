@@ -5,22 +5,22 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a culture value object that encapsulates culture-related information.
 /// </summary>
-public class CultureCode : ValueObject<string, CultureCode>
+public partial class CultureCode : ValueObject<string, CultureCode>
 {
     /// <summary>
     /// The culture code.
     /// </summary>
-    private const string TwoLettersCultureCode = @"^[a-z]{2}$";
+    private const string _twoLettersCultureCode = @"^[a-z]{2}$";
 
     /// <summary>
     /// The culture code.
     /// </summary>
-    private const string FiveLettersCultureCode = @"^[a-z]{2}-[A-Z]{2}$";
+    private const string _fiveLettersCultureCode = @"^[a-z]{2}-[A-Z]{2}$";
 
     /// <summary>
     /// The culture code.
     /// </summary>
-    private const string TenLettersCultureCode = @"^[a-z]{2}-[A-Z]{2}-[A-Z][a-z]{3}$";
+    private const string _tenLettersCultureCode = @"^[a-z]{2}-[A-Z]{2}-[A-Z][a-z]{3}$";
 
     /// <summary>
     /// Validates the <see cref="CultureCode"/> object.
@@ -29,8 +29,10 @@ public class CultureCode : ValueObject<string, CultureCode>
     internal override ValidationResult Validate()
     {
         var result = base.Validate();
-        
-        if (!Regex.IsMatch(Value, TwoLettersCultureCode) && !Regex.IsMatch(Value, FiveLettersCultureCode) && !Regex.IsMatch(Value, TenLettersCultureCode))
+
+        if (!CultureCodeRegex2().IsMatch(Value)
+            && !CultureCCodeRegex2_2().IsMatch(Value)
+            && !CultureCCodeRegex2_2_3().IsMatch(Value))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox CultureCode type with unsupported value '{Value}'."));
         }
@@ -38,5 +40,13 @@ public class CultureCode : ValueObject<string, CultureCode>
         return result;
     }
 
-   
+    [GeneratedRegex("^[a-z]{2}$")]
+    private static partial Regex CultureCodeRegex2();
+
+    [GeneratedRegex("^[a-z]{2}-[A-Z]{2}$")]
+    private static partial Regex CultureCCodeRegex2_2();
+
+    [GeneratedRegex("^[a-z]{2}-[A-Z]{2}-[A-Z][a-z]{3}$")]
+    private static partial Regex CultureCCodeRegex2_2_3();
+
 }

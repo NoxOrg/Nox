@@ -5,7 +5,8 @@
 		<LangVersion>11.0</LangVersion>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-	</PropertyGroup>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
 
 	<PropertyGroup>
 		<PackageId>Nox.Solution</PackageId>
@@ -28,14 +29,6 @@
 		<PackageReference Include="YamlDotNet" Version="13.7.1" />
 	</ItemGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	</PropertyGroup>
-
 	<ItemGroup>
 		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
 	</ItemGroup>
@@ -44,7 +37,5 @@
 	  <ProjectReference Include="..\Nox.Types.Abstractions\Nox.Types.Abstractions.csproj" />
 	  <ProjectReference Include="..\Nox.Yaml\Nox.Yaml.csproj" />
 	</ItemGroup>
-
-
 
 </Project>

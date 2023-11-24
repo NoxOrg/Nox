@@ -8,12 +8,12 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
         public void WhenNoEndPointOrVersionIsDefined_ShouldApplyDefaultsV1()
         {
             var solution = new NoxSolution();
-            var endPoints = solution.Infrastructure.Endpoints;
+            var endPoints = solution.Presentation.ApiConfiguration;
 
-            endPoints.SetDefaults(solution, solution.Infrastructure, string.Empty);
+            endPoints.SetDefaults(solution, solution.Presentation, string.Empty);
 
-            solution.Infrastructure.Endpoints.Should().NotBeNull();
-            solution.Infrastructure.Endpoints.ApiRoutePrefix.Should().Be("/api/v1");
+            solution.Presentation.ApiConfiguration.Should().NotBeNull();
+            solution.Presentation.ApiConfiguration.ApiRoutePrefix.Should().Be("/api/v1");
         }
 
         [Fact]
@@ -24,8 +24,8 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
                 .AllowMissingSolutionYaml()
                 .Build();
 
-            solution.Infrastructure.Endpoints.Should().NotBeNull();
-            solution.Infrastructure.Endpoints.ApiRoutePrefix.Should().Be("/api/v2");
+            solution.Presentation.ApiConfiguration.Should().NotBeNull();
+            solution.Presentation.ApiConfiguration.ApiRoutePrefix.Should().Be("/api/v2");
         }
 
         [Fact]
@@ -36,8 +36,8 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
                 .AllowMissingSolutionYaml()
                 .Build();
 
-            solution.Infrastructure.Endpoints.Should().NotBeNull();
-            solution.Infrastructure.Endpoints.ApiRoutePrefix.Should().Be("/testapi");
+            solution.Presentation.ApiConfiguration.Should().NotBeNull();
+            solution.Presentation.ApiConfiguration.ApiRoutePrefix.Should().Be("/testapi");
         }
         [Fact]
         public void WhenApiRoutePrefixSet_ShouldSanitizeIt()
@@ -47,8 +47,8 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
                 .AllowMissingSolutionYaml()
                 .Build();
 
-            solution.Infrastructure.Endpoints.Should().NotBeNull();
-            solution.Infrastructure.Endpoints.ApiRoutePrefix.Should().Be("/testapi");
+            solution.Presentation.ApiConfiguration.Should().NotBeNull();
+            solution.Presentation.ApiConfiguration.ApiRoutePrefix.Should().Be("/testapi");
         }
         [Fact]
         public void WhenApiRoutePrefixRoot_ShouldBeRoot()
@@ -58,8 +58,8 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
                 .AllowMissingSolutionYaml()
                 .Build();
 
-            solution.Infrastructure.Endpoints.Should().NotBeNull();
-            solution.Infrastructure.Endpoints.ApiRoutePrefix.Should().Be("");
+            solution.Presentation.ApiConfiguration.Should().NotBeNull();
+            solution.Presentation.ApiConfiguration.ApiRoutePrefix.Should().Be("");
         }
 
         [Fact]
@@ -70,8 +70,8 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
                 .AllowMissingSolutionYaml()
                 .Build();
 
-            solution.Infrastructure.Endpoints.Should().NotBeNull();
-            solution.Infrastructure.Endpoints.ApiRoutePrefix.Should().Be("/api/v1");
+            solution.Presentation.ApiConfiguration.Should().NotBeNull();
+            solution.Presentation.ApiConfiguration.ApiRoutePrefix.Should().Be("/api/v1");
         }
 
         [Theory]
@@ -84,14 +84,14 @@ namespace Nox.Solution.Tests.Models.Infrastructure.Endpoints
         {
             // Arrange
             var solution = new NoxSolution() { Version = version };
-            var endPoints = solution.Infrastructure.Endpoints;
-            endPoints.ApiRoutePrefix = configuration;
+            var apiConfig = solution.Presentation.ApiConfiguration;
+            apiConfig.ApiRoutePrefix = configuration;
 
             // Act
-            endPoints.SetDefaults(solution,solution.Infrastructure,string.Empty);
+            apiConfig.SetDefaults(solution,solution.Presentation,string.Empty);
 
             // Assert
-            endPoints.ApiRoutePrefix.Should().Be(expected);
+            apiConfig.ApiRoutePrefix.Should().Be(expected);
         }
     }
 }

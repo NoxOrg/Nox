@@ -16,6 +16,8 @@
         { "$ref": "uiLocalizations.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",
@@ -42,6 +44,8 @@
           { "$ref": "dataConnection.json" },
           {
             "additionalProperties": false, 
+            "required": ["$ref"],
+            "type": "object",
             "properties": {
               "$ref": {
                 "type": "string",
@@ -59,6 +63,8 @@
         { "$ref": "notifications.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",
@@ -74,6 +80,8 @@
         { "$ref": "monitoring.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",

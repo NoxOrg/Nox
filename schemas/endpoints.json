@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "The definition namespace for default endpoints pertaining to a Nox solution.",
+  "description": "Define default endpoints pertinent to a Nox solution here. These include endpoints for API and BFF servers.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "properties": {
+    "apiServer": {    
+      "anyOf": [
+        { "$ref": "apiServer.json" },
+        {
+          "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "bffServer": {    
+      "anyOf": [
+        { "$ref": "bffServer.json" },
+        {
+          "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -2,7 +2,7 @@
 
 namespace Nox.Types;
 
-[GenerateJsonSchema("dto")]
+[GenerateJsonSchema("complexType")]
 [Title("A complex nox type.")]
 [Description("Defines a complex nox type that includes simple types, objects, arrays and collections.")]
 [AdditionalProperties(false)]
