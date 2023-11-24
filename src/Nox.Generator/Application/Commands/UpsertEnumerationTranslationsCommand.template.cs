@@ -107,7 +107,7 @@ internal abstract class {{upsertCommand}}HandlerBase : CommandBase<{{upsertComma
 			});
 		}
 
-		OnBatchCompletedAsync(command, localizedEntities);
+		await OnBatchCompletedAsync(command, localizedEntities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return cultureCodeValue;
 	}
