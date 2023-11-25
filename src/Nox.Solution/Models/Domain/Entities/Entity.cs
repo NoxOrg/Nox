@@ -200,6 +200,8 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         ValidateThatOwnedEntitiesAreNotAuditable(result);
         ValidateThatOwnedEntitiesHaveNoRelationships(result);
         ValidateThatOwnedEntitiesNotLocalized(result);
+        ValidateThatOwnedEntitiesDontHaveAttributeNamesWithOwnerEntityKeyNames(result);
+        ValidateThatAllOwnerEntitiesHaveSimpleKeys(result);
         ValidateThatAllRelatedEntitiesHaveSimpleKeys(result);
         ValidateUniqueAttributeConstraints(result);
         ValidateThatReferenceNumberPrefix(result);
@@ -287,7 +289,6 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
                 result.Errors.Add(new ValidationFailure(nameof(Keys), $"Keys are invalid for owned entity [{Name}] with ZeroOrOne/ExactlyOne relationship from [{OwnerEntity!.Name}]."));
 
         }
-
     }
 
     private void ValidateThatKeysAreAppropriateType(ValidationResult result)
@@ -394,6 +395,30 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         }
     }
 
+    private void ValidateThatOwnedEntitiesDontHaveAttributeNamesWithOwnerEntityKeyNames(ValidationResult result)
+    {
+        if (!IsOwnedEntity) return;
+        if (OwnerEntity!.OwnedRelationships.All(rel => rel.Entity == Name && rel.WithMultiEntity)) return;
+
+        var ownerEntityKeys = OwnerEntity!.Keys.Select(key => key.Name);
+        var attributeNames = Attributes!.Where(attr => ownerEntityKeys!.Contains(attr.Name)).Select(attr => attr.Name);
+
+        foreach (var attrName in attributeNames)
+        {
+            result.Errors.Add(
+                new ValidationFailure(attrName, $"Attribute [{attrName}] on owned entity [{Name}] has conflicting name with owner entity [{OwnerEntity.Name}] key."));
+        }
+    }
+
+    private void ValidateThatAllOwnerEntitiesHaveSimpleKeys(ValidationResult result)
+    {
+        if(OwnedRelationships.Any() && HasCompositeKey)
+        {
+            result.Errors.Add(
+                new ValidationFailure(Name, $"Entity [{Name}] is an owner entity and can't have composite key.")
+            );
+        }
+    }
 
     private void ValidateThatAllRelatedEntitiesHaveSimpleKeys(ValidationResult result)
     {

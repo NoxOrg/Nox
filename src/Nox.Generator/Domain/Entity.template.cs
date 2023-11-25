@@ -72,7 +72,7 @@ internal record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomai
 /// </summary>
 internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
 {
-{{- for key in entity.Keys }}
+{{- for key in entityKeys }}
     /// <summary>
     /// {{key.Description | string.rstrip}}    
     /// </summary>

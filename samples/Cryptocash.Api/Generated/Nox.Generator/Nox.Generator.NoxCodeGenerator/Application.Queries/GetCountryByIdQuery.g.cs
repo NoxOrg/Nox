@@ -35,6 +35,8 @@ internal abstract class GetCountryByIdQueryHandlerBase:  QueryBase<IQueryable<Co
     {    
         var query = DataDbContext.Countries
             .AsNoTracking()
+            .Include(e => e.CountryTimeZones)
+            .Include(e => e.Holidays)
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

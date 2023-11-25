@@ -225,6 +225,36 @@ public class YamlFileValidationTests
     }
 
     [Fact]
+    public void Deserialize_OwnedEntity_HasOverlappingAttributeNameWithOwnerEntityKeyName_ThrowsException()
+    {
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owned-entity-has-attribute-name-overlapped-with-owner-entity-key.solution.nox.yaml")
+            .Build());
+
+        var errors = exception.Errors.ToArray();
+
+        Assert.Single(errors);
+
+        Assert.Equal("Attribute [Name] on owned entity [Country] has conflicting name with owner entity [Continent] key.", errors[0].ErrorMessage);
+    }
+
+    [Fact]
+    public void Deserialize_OwnerEntity_CompositeKeys_ThrowsException()
+    {
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/owner-entity-has-composite-keys.solution.nox.yaml")
+            .Build());
+
+        var errors = exception.Errors.ToArray();
+
+        Assert.Equal(3, errors.Length);
+
+        Assert.Equal("Entity [Country] is an owner entity and can't have composite key.", errors[0].ErrorMessage);
+        Assert.Equal("Entity [Continent] is an owner entity and can't have composite key.", errors[1].ErrorMessage);
+        Assert.Equal("Relationship [ContinentIncludesCountries] on entity [Continent] refers to related entity [Country] with composite key. Must be simple key on Country.", errors[2].ErrorMessage);
+    }
+
+    [Fact]
     public void Deserialize_Entity_DoesNotHaveKeys_ThrowsException()
     {
         var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
@@ -247,12 +277,12 @@ public class YamlFileValidationTests
             .WithFile($"./files/duplicated-items-definition.nox.yaml")
             .Build();
 
-    
         var expectedErrors = new string[]
         {
             "Duplicate name [Id] on entity [Currency] found in [Key,Key,Attribute,OwnedRelationship,OwnedRelationship]",
             "Duplicate name [CurrenciesCountryLegal] on entity [Currency] found in [Attribute,Relationship,Relationship]",
             "Multiple ownerships of entity [Currency] exists on entity [Currency].",
+            "Entity [Currency] is an owner entity and can't have composite key.",
             "Entity [Currency] owned multiple times or by multiple entities [Currency,Currency,Currency,Currency].",
             "Entity [Currency] is owned and can't have relationships.",
             "Relationship [CurrenciesCountryLegal] on entity [Currency] refers to related entity [Currency] with composite key. Must be simple key on Currency.",

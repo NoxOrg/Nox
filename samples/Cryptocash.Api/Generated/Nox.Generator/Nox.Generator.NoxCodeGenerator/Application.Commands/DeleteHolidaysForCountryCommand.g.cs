@@ -48,6 +48,7 @@ internal partial class DeleteHolidaysForCountryCommandHandlerBase : CommandBase<
 		{
 			return false;
 		}
+		await DbContext.Entry(parentEntity).Collection(p => p.Holidays).LoadAsync(cancellationToken);
 		var ownedId = Cryptocash.Domain.HolidayMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
@@ -56,7 +57,6 @@ internal partial class DeleteHolidaysForCountryCommandHandlerBase : CommandBase<
 		}
 		parentEntity.Holidays.Remove(entity);
 		await OnCompletedAsync(request, entity);
-
 		DbContext.Entry(entity).State = EntityState.Deleted;
 
 		var result = await DbContext.SaveChangesAsync(cancellationToken);

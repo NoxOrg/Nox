@@ -49,6 +49,7 @@ internal partial class DeleteCountryBarCodeForCountryCommandHandlerBase : Comman
 		{
 			return false;
 		}
+		await DbContext.Entry(parentEntity).Reference(e => e.CountryBarCode).LoadAsync(cancellationToken);
 		var entity = parentEntity.CountryBarCode;
 		if (entity == null)
 		{
@@ -59,8 +60,8 @@ internal partial class DeleteCountryBarCodeForCountryCommandHandlerBase : Comman
 
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		
+		DbContext.Entry(entity).State = EntityState.Deleted;
 
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)

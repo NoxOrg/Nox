@@ -82,18 +82,12 @@ internal class DtoDbContext : DbContext
         {            
             foreach (var entity in _codeGenConventions.Solution.Domain!.Entities)
             {
-                // Ignore owned entities configuration as they are configured inside entity constructor
-                if (entity.IsOwnedEntity)
-                {
-                    continue;
-                }
-
                 var dtoName = entity.Name + "Dto";
 
                 var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
                     ?? throw new TypeNotFoundException(dtoName);
 
-                _noxDtoDatabaseConfigurator.ConfigureDto(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                _noxDtoDatabaseConfigurator.ConfigureDto(new EntityBuilderAdapter(modelBuilder.Entity(type).ToTable(entity.Persistence.TableName)), entity);
 
                 if (entity.IsLocalized)
                 {

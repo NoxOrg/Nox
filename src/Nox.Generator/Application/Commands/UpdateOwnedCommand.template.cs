@@ -62,8 +62,10 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		}
 
 		{{- if isSingleRelationship }}
+		await DbContext.Entry(parentEntity).Reference(e => e.{{relationshipName}}).LoadAsync(cancellationToken);
 		var entity = parentEntity.{{relationshipName}};
 		{{ else }}
+		await DbContext.Entry(parentEntity).Collection(p => p.{{relationshipName}}).LoadAsync(cancellationToken);
 		{{- for key in entity.Keys }}
 		var owned{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
