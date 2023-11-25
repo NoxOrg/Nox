@@ -18,6 +18,7 @@ public class ReferenceNumberTests
         var initialValue = "INV-2323453";
 
         var refNumber1 = ReferenceNumber.FromDatabase(initialValue);
+        var refNumber2 = ReferenceNumber.FromDatabase(initialValue);
 
         refNumber1.Should().Be(refNumber2);
     }
