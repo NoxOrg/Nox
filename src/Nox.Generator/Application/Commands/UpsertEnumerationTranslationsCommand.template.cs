@@ -24,7 +24,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 {{-enumEntity = enumAtt.EntityNameForLocalizedEnumeration }}
 public partial record  {{upsertCommand}}(IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}> {{enumAtt.EntityDtoNameForLocalizedEnumeration}}s) : IRequest<CultureCode>;
 
-internal class {{upsertCommand}}Handler : {{upsertCommand}}HandlerBase
+internal partial class {{upsertCommand}}Handler : {{upsertCommand}}HandlerBase
 {
 	public {{upsertCommand}}Handler(
         AppDbContext dbContext,

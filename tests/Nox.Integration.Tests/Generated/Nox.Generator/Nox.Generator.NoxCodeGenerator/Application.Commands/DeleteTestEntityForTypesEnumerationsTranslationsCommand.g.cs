@@ -15,7 +15,7 @@ using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
 namespace TestWebApp.Application.Commands;
 public partial record  DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand(Nox.Types.CultureCode CultureCode) : IRequest<bool>;
 
-internal class DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandler : DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase
+internal partial class DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandler : DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase
 {
 	public DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandler(
         AppDbContext dbContext,

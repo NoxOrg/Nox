@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+using System.Collections;
+using FluentAssertions;
 using ClientApi.Application.Dto;
 using AutoFixture;
 using Nox.Types;

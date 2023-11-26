@@ -51,6 +51,7 @@
 //  - Nox.Generator.Application.Queries.ByIdQueryGenerator
 //  - Nox.Generator.Application.Queries.ByIdQueryLocalizedGenerator
 //  - Nox.Generator.Application.Queries.EnumerationQueryGenerator
+//  - Nox.Generator.Application.Queries.EnumerationTranslationsQueryGenerator
 //  - Nox.Generator.Application.Queries.QueryGenerator
 //  - Nox.Generator.Application.Queries.QueryLocalizedGenerator
 //  - Nox.Generator.Application.Queries.TranslationsByIdQueryGenerator
@@ -72,12 +73,14 @@
 //  - Nox.Generator.Application.Commands.CreateCommandGenerator
 //  - Nox.Generator.Application.Commands.CreateOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.DeleteByIdCommandGenerator
+//  - Nox.Generator.Application.Commands.DeleteEnumerationTranslationsCommandGenerator
 //  - Nox.Generator.Application.Commands.DeleteOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.PartialUpdateCommandGenerator
 //  - Nox.Generator.Application.Commands.PartialUpdateOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.RefToCommandGenerator
 //  - Nox.Generator.Application.Commands.UpdateCommandGenerator
 //  - Nox.Generator.Application.Commands.UpdateOwnedCommandGenerator
+//  - Nox.Generator.Application.Commands.UpsertEnumerationTranslationsCommandGenerator
 //  - Nox.Generator.Application.Commands.NavigationMenuGenerator
 //  - Nox.Generator.Application.Commands.NavigationMenuRazor
 // Nox.Generator.Application.Integration.CustomTransformHandlerGenerator Skipping generator because no integrations defined

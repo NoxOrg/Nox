@@ -1,10 +1,12 @@
 ﻿// Generated
 
+using System.Collections.Generic;
 #nullable enable
 using Microsoft.AspNetCore.Mvc;
 
 using DtoNameSpace = ClientApi.Application.Dto;
 using ApplicationQueriesNameSpace = ClientApi.Application.Queries;
+using ApplicationCommandsNameSpace = ClientApi.Application.Commands;
 
 namespace ClientApi.Presentation.Api.OData;
 
@@ -15,5 +17,5 @@ public abstract partial class StoresControllerBase
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetStoresStatusesQuery(_cultureCode));                        
         return Ok(result);        
-    }
+    } 
 }

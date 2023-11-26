@@ -80,6 +80,12 @@ internal static class ODataServiceCollectionExtensions
                             .Collection
                             .Function("{{enumeration.Entity.Name}}{{Pluralize (enumeration.Attribute.Name)}}")
                             .ReturnsCollection<DtoNameSpace.{{ enumeration.EntityNameForEnumeration}}>();
+        {{- if enumeration.IsLocalized }}
+        builder.EntityType<{{enumeration.Entity.Name}}Dto>()
+                            .Collection
+                            .Function("{{enumeration.Entity.Name}}{{Pluralize (enumeration.Attribute.Name)}}Localized")
+                            .ReturnsCollection<DtoNameSpace.{{ enumeration.EntityNameForLocalizedEnumeration}}>();
+        {{- end }}
         {{- end }}
 
        

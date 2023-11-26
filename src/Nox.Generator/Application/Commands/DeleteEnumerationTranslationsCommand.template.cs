@@ -20,7 +20,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 {{-enumEntity = enumAtt.EntityNameForLocalizedEnumeration }}
 public partial record  {{deleteCommand}}(Nox.Types.CultureCode {{codeGeneratorState.LocalizationCultureField}}) : IRequest<bool>;
 
-internal class {{deleteCommand}}Handler : {{deleteCommand}}HandlerBase
+internal partial class {{deleteCommand}}Handler : {{deleteCommand}}HandlerBase
 {
 	public {{deleteCommand}}Handler(
         AppDbContext dbContext,
