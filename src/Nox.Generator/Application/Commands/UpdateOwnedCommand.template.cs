@@ -1,4 +1,7 @@
 ﻿{{- relationshipName = GetNavigationPropertyName parent relationship }}﻿
+{{- func keyType(key)
+   ret (key.Type == "EntityId") ? (SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity) : (SinglePrimitiveTypeForKey key)
+end -}}
 ﻿// Generated
 
 #nullable enable
@@ -9,6 +12,9 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Extensions;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
@@ -16,11 +22,7 @@ using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Na
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-{{- if isSingleRelationship }}
 public partial record Update{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}UpsertDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
-{{ else }}
-public partial record Update{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto, {{entity.Name}}UpsertDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
-{{- end }}
 
 internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandler : Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase
 {
@@ -61,13 +63,13 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 			return null;
 		}
 
-		{{- if isSingleRelationship }}
+		{{- if relationship.WithSingleEntity }}
 		await DbContext.Entry(parentEntity).Reference(e => e.{{relationshipName}}).LoadAsync(cancellationToken);
 		var entity = parentEntity.{{relationshipName}};
 		{{ else }}
 		await DbContext.Entry(parentEntity).Collection(p => p.{{relationshipName}}).LoadAsync(cancellationToken);
 		{{- for key in entity.Keys }}
-		var owned{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityKeyDto.key{{key.Name}});
+		var owned{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{key.Name}}.NonNullValue<{{keyType key}}>());
 		{{- end }}
 		var entity = parentEntity.{{relationshipName}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
 		{{- end }}
@@ -90,3 +92,16 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}
 }
+
+{{- if (entity.Keys | array.size) > 0 }}
+
+public class Update{{relationshipName}}For{{parent.Name}}Validator : AbstractValidator<Update{{relationshipName}}For{{parent.Name}}Command>
+{
+    public Update{{relationshipName}}For{{parent.Name}}Validator(ILogger<Update{{relationshipName}}For{{parent.Name}}Command> logger)
+    {
+		{{- for key in entity.Keys }}
+		RuleFor(x => x.EntityDto.{{key.Name}}).NotNull().WithMessage("{{key.Name}} is required.");
+        {{- end }}
+    }
+}
+{{- end }}

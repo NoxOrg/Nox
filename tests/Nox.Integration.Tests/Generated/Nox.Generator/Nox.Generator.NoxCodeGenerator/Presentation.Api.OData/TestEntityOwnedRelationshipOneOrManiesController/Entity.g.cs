@@ -61,7 +61,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
     }
 
     [EnableQuery]
-    public async Task<SingleResult<TestEntityOwnedRelationshipOneOrManyDto>> Get([FromRoute] System.String key)
+    public virtual async Task<SingleResult<TestEntityOwnedRelationshipOneOrManyDto>> Get([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new GetTestEntityOwnedRelationshipOneOrManyByIdQuery(key));
         return SingleResult.Create(result);

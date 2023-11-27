@@ -61,7 +61,7 @@ public abstract partial class TenantsControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<TenantDto>> Get([FromRoute] System.UInt32 key)
+    public virtual async Task<SingleResult<TenantDto>> Get([FromRoute] System.UInt32 key)
     {
         var result = await _mediator.Send(new GetTenantByIdQuery(key));
         return SingleResult.Create(result);

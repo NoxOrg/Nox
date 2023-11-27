@@ -61,7 +61,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
     }
 
     [EnableQuery]
-    public async Task<SingleResult<SecondTestEntityTwoRelationshipsManyToManyDto>> Get([FromRoute] System.String key)
+    public virtual async Task<SingleResult<SecondTestEntityTwoRelationshipsManyToManyDto>> Get([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new GetSecondTestEntityTwoRelationshipsManyToManyByIdQuery(key));
         return SingleResult.Create(result);

@@ -61,7 +61,7 @@ public abstract partial class TestEntityZeroOrOneToOneOrManiesControllerBase : O
     }
 
     [EnableQuery]
-    public async Task<SingleResult<TestEntityZeroOrOneToOneOrManyDto>> Get([FromRoute] System.String key)
+    public virtual async Task<SingleResult<TestEntityZeroOrOneToOneOrManyDto>> Get([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new GetTestEntityZeroOrOneToOneOrManyByIdQuery(key));
         return SingleResult.Create(result);

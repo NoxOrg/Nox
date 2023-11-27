@@ -61,7 +61,7 @@ public abstract partial class StoreOwnersControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<StoreOwnerDto>> Get([FromRoute] System.String key)
+    public virtual async Task<SingleResult<StoreOwnerDto>> Get([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new GetStoreOwnerByIdQuery(key));
         return SingleResult.Create(result);

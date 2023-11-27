@@ -1,5 +1,4 @@
-﻿﻿
-﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -9,13 +8,17 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Extensions;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Commands;
-public partial record UpdateExchangeRatesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto, ExchangeRateUpsertDto EntityDto, System.Guid? Etag) : IRequest <ExchangeRateKeyDto?>;
+
+public partial record UpdateExchangeRatesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateUpsertDto EntityDto, System.Guid? Etag) : IRequest <ExchangeRateKeyDto?>;
 
 internal partial class UpdateExchangeRatesForCurrencyCommandHandler : UpdateExchangeRatesForCurrencyCommandHandlerBase
 {
@@ -53,7 +56,7 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 			return null;
 		}
 		await DbContext.Entry(parentEntity).Collection(p => p.ExchangeRates).LoadAsync(cancellationToken);
-		var ownedId = Cryptocash.Domain.ExchangeRateMetadata.CreateId(request.EntityKeyDto.keyId);
+		var ownedId = Cryptocash.Domain.ExchangeRateMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
 		var entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
@@ -73,4 +76,12 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 
 		return new ExchangeRateKeyDto(entity.Id.Value);
 	}
+}
+
+public class UpdateExchangeRatesForCurrencyValidator : AbstractValidator<UpdateExchangeRatesForCurrencyCommand>
+{
+    public UpdateExchangeRatesForCurrencyValidator(ILogger<UpdateExchangeRatesForCurrencyCommand> logger)
+    {
+		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
+    }
 }

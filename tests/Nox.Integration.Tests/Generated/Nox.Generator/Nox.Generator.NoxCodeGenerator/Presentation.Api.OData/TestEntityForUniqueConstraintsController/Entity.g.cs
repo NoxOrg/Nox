@@ -61,7 +61,7 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
     }
 
     [EnableQuery]
-    public async Task<SingleResult<TestEntityForUniqueConstraintsDto>> Get([FromRoute] System.String key)
+    public virtual async Task<SingleResult<TestEntityForUniqueConstraintsDto>> Get([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new GetTestEntityForUniqueConstraintsByIdQuery(key));
         return SingleResult.Create(result);

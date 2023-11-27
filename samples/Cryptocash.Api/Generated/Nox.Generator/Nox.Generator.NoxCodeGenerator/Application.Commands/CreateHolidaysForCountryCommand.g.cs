@@ -11,6 +11,8 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -69,4 +71,12 @@ internal abstract class CreateHolidaysForCountryCommandHandlerBase : CommandBase
 
 		return new HolidayKeyDto(entity.Id.Value);
 	}
+}
+
+public class CreateHolidaysForCountryValidator : AbstractValidator<CreateHolidaysForCountryCommand>
+{
+    public CreateHolidaysForCountryValidator(ILogger<CreateHolidaysForCountryCommand> logger)
+    {
+		RuleFor(x => x.EntityDto.Id).Null().WithMessage("Id must be null as it is auto generated.");
+    }
 }

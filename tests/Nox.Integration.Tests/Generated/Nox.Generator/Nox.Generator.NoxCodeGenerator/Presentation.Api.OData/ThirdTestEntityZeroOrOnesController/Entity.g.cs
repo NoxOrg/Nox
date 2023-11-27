@@ -61,7 +61,7 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
     }
 
     [EnableQuery]
-    public async Task<SingleResult<ThirdTestEntityZeroOrOneDto>> Get([FromRoute] System.String key)
+    public virtual async Task<SingleResult<ThirdTestEntityZeroOrOneDto>> Get([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(key));
         return SingleResult.Create(result);

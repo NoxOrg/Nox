@@ -61,7 +61,7 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
     }
 
     [EnableQuery]
-    public async Task<SingleResult<EntityUniqueConstraintsWithForeignKeyDto>> Get([FromRoute] System.Guid key)
+    public virtual async Task<SingleResult<EntityUniqueConstraintsWithForeignKeyDto>> Get([FromRoute] System.Guid key)
     {
         var result = await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(key));
         return SingleResult.Create(result);
