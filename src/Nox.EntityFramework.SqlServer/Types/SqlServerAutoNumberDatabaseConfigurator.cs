@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.EntityFramework.Types;
+using System.IO.Pipes;
 
 namespace Nox.EntityFramework.SqlServer.Types;
 
@@ -35,11 +36,21 @@ public class SqlServerAutoNumberDatabaseConfigurator : AutoNumberDatabaseConfigu
         }
         else if (shouldAutoincrement)
         {
+            ConfigureSequence(modelBuilder, entity, property, property.AutoNumberTypeOptions ??= new AutoNumberTypeOptions());
+
             builder
                 .Property(property.Name)
                 .HasDefaultValueSql($"NEXT VALUE FOR Seq{entity.Name}{property.Name}");
 
         }
         base.ConfigureEntityProperty(noxSolutionCodeGeneratorState, property, entity, isKey, modelBuilder, builder);
+    }
+    private void ConfigureSequence(ModelBuilder modelBuilder, Entity entity, NoxSimpleTypeDefinition property, AutoNumberTypeOptions typeOptions)
+    {
+        var seqName = $"Seq{entity.Name}{property.Name}";
+
+        modelBuilder.HasSequence<long>(seqName)
+            .StartsAt(typeOptions.StartsAt)
+            .IncrementsBy(typeOptions.IncrementsBy);
     }
 }
