@@ -2,7 +2,7 @@
 using Nox.Types;
 using Nox.Types.EntityFramework.Types;
 
-namespace Nox.EntityFramework.SqlServer;
+namespace Nox.EntityFramework.SqlServer.Types;
 
 public class SqlServerAreaDatabaseConfigurator : AreaDatabaseConfigurator, ISqlServerNoxTypeDatabaseConfigurator
 {

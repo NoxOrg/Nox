@@ -3,7 +3,7 @@ using Nox.Types;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Types.EntityFramework.Types;
 
-namespace Nox.EntityFramework.SqlServer;
+namespace Nox.EntityFramework.SqlServer.Types;
 
 public class SqlServerDateRangeDatabaseConfigurator : DateTimeRangeDatabaseConfigurator, ISqlServerNoxTypeDatabaseConfigurator
 {

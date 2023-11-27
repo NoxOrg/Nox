@@ -3,7 +3,7 @@ using Nox.Types;
 using Nox.Types.Common;
 using Nox.Types.EntityFramework.Types;
 
-namespace Nox.EntityFramework.SqlServer;
+namespace Nox.EntityFramework.SqlServer.Types;
 
 public class SqlServerDistanceDatabaseConfigurator : DistanceDatabaseConfigurator, ISqlServerNoxTypeDatabaseConfigurator
 {
