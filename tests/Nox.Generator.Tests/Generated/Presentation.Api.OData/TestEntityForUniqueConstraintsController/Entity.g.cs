@@ -71,7 +71,7 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateTestEntityForUniqueConstraintsCommand(testEntityForUniqueConstraints, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -101,11 +101,11 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityForUniqueConstraintsDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityForUniqueConstraintsUpdateDto> testEntityForUniqueConstraints)
+    public virtual async Task<ActionResult<TestEntityForUniqueConstraintsDto>> Patch([FromRoute] System.String key, [FromBody] Delta<PatchTestEntityForUniqueConstraintsUpdateDto> testEntityForUniqueConstraints)
     {
         if (!ModelState.IsValid || testEntityForUniqueConstraints is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

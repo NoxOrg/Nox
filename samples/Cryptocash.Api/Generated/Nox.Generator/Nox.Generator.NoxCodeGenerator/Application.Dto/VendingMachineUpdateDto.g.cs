@@ -21,6 +21,15 @@ public partial class VendingMachineUpdateDto : VendingMachineUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity VendingMachine: Vending machine definition and related data.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class VendingMachinePatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Vending machine definition and related data
 /// </summary>
 public partial class VendingMachineUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.VendingMachine>

@@ -21,6 +21,15 @@ public partial class StoreLicenseUpdateDto : StoreLicenseUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity StoreLicense: Store license info.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class StoreLicensePatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Store license info
 /// </summary>
 public partial class StoreLicenseUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.StoreLicense>

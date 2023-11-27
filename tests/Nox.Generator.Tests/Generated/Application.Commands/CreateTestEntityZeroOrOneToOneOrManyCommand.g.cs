@@ -12,6 +12,8 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;

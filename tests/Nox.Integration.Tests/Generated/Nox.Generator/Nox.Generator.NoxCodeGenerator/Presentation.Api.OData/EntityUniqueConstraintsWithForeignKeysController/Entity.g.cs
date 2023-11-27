@@ -101,7 +101,7 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<EntityUniqueConstraintsWithForeignKeyDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<EntityUniqueConstraintsWithForeignKeyUpdateDto> entityUniqueConstraintsWithForeignKey)
+    public virtual async Task<ActionResult<EntityUniqueConstraintsWithForeignKeyDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<PatchEntityUniqueConstraintsWithForeignKeyUpdateDto> entityUniqueConstraintsWithForeignKey)
     {
         if (!ModelState.IsValid || entityUniqueConstraintsWithForeignKey is null)
         {

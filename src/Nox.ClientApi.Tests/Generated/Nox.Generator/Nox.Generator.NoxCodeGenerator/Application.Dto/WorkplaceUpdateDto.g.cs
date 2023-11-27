@@ -21,6 +21,15 @@ public partial class WorkplaceUpdateDto : WorkplaceUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity Workplace: Workplace.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class WorkplacePatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Workplace
 /// </summary>
 public partial class WorkplaceUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Workplace>

@@ -21,6 +21,15 @@ public partial class TestEntityZeroOrOneToZeroOrManyUpdateDto : TestEntityZeroOr
 }
 
 /// <summary>
+/// Patch entity TestEntityZeroOrOneToZeroOrMany: Entity created for testing database.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class TestEntityZeroOrOneToZeroOrManyPatchDto: TestEntityZeroOrOneToZeroOrManyUpdateDto
+{
+    
+}
+
+/// <summary>
 /// Entity created for testing database
 /// </summary>
 public partial class TestEntityZeroOrOneToZeroOrManyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityZeroOrOneToZeroOrMany>

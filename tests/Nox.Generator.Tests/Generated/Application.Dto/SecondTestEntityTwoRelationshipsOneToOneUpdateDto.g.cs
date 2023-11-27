@@ -21,6 +21,15 @@ public partial class SecondTestEntityTwoRelationshipsOneToOneUpdateDto : SecondT
 }
 
 /// <summary>
+/// Patch entity SecondTestEntityTwoRelationshipsOneToOne: .
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class SecondTestEntityTwoRelationshipsOneToOnePatchDto: SecondTestEntityTwoRelationshipsOneToOneUpdateDto
+{
+    
+}
+
+/// <summary>
 /// 
 /// </summary>
 public partial class SecondTestEntityTwoRelationshipsOneToOneUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.SecondTestEntityTwoRelationshipsOneToOne>

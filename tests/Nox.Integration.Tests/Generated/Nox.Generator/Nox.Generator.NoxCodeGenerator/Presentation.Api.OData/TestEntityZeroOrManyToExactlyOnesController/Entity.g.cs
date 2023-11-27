@@ -101,7 +101,7 @@ public abstract partial class TestEntityZeroOrManyToExactlyOnesControllerBase : 
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityZeroOrManyToExactlyOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityZeroOrManyToExactlyOneUpdateDto> testEntityZeroOrManyToExactlyOne)
+    public virtual async Task<ActionResult<TestEntityZeroOrManyToExactlyOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<PatchTestEntityZeroOrManyToExactlyOneUpdateDto> testEntityZeroOrManyToExactlyOne)
     {
         if (!ModelState.IsValid || testEntityZeroOrManyToExactlyOne is null)
         {

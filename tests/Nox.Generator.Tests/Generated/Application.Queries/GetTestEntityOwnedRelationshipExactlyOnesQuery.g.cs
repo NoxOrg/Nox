@@ -34,7 +34,8 @@ internal abstract class GetTestEntityOwnedRelationshipExactlyOnesQueryHandlerBas
     public virtual Task<IQueryable<TestEntityOwnedRelationshipExactlyOneDto>> Handle(GetTestEntityOwnedRelationshipExactlyOnesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<TestEntityOwnedRelationshipExactlyOneDto>)DataDbContext.TestEntityOwnedRelationshipExactlyOnes
-            .AsNoTracking();
+            .AsNoTracking()
+            .Include(e => e.SecondTestEntityOwnedRelationshipExactlyOne);
        return Task.FromResult(OnResponse(item));
     }
 }

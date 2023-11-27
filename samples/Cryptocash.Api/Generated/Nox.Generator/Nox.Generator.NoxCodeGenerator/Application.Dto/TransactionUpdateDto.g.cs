@@ -21,6 +21,15 @@ public partial class TransactionUpdateDto : TransactionUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity Transaction: Customer transaction log and related data.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class TransactionPatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Customer transaction log and related data
 /// </summary>
 public partial class TransactionUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Transaction>

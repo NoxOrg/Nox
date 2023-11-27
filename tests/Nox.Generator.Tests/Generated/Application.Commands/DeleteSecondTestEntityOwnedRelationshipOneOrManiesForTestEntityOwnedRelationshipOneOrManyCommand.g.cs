@@ -48,6 +48,7 @@ internal partial class DeleteSecondTestEntityOwnedRelationshipOneOrManiesForTest
 		{
 			return false;
 		}
+		await DbContext.Entry(parentEntity).Collection(p => p.SecondTestEntityOwnedRelationshipOneOrManies).LoadAsync(cancellationToken);
 		var ownedId = TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrManyMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.SecondTestEntityOwnedRelationshipOneOrManies.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
@@ -56,7 +57,6 @@ internal partial class DeleteSecondTestEntityOwnedRelationshipOneOrManiesForTest
 		}
 		parentEntity.SecondTestEntityOwnedRelationshipOneOrManies.Remove(entity);
 		await OnCompletedAsync(request, entity);
-
 		DbContext.Entry(entity).State = EntityState.Deleted;
 
 		var result = await DbContext.SaveChangesAsync(cancellationToken);

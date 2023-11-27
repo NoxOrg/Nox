@@ -21,6 +21,15 @@ public partial class TestEntityOwnedRelationshipOneOrManyUpdateDto : TestEntityO
 }
 
 /// <summary>
+/// Patch entity TestEntityOwnedRelationshipOneOrMany: .
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class TestEntityOwnedRelationshipOneOrManyPatchDto: TestEntityOwnedRelationshipOneOrManyUpdateDto
+{
+    
+}
+
+/// <summary>
 /// 
 /// </summary>
 public partial class TestEntityOwnedRelationshipOneOrManyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityOwnedRelationshipOneOrMany>
@@ -32,4 +41,8 @@ public partial class TestEntityOwnedRelationshipOneOrManyUpdateDtoBase: EntityDt
     [Required(ErrorMessage = "TextTestField is required")]
     
     public virtual System.String TextTestField { get; set; } = default!;
+    /// <summary>
+    /// TestEntityOwnedRelationshipOneOrMany Test entity relationship to SecondTestEntityOwnedRelationshipOneOrMany OneOrMany SecondTestEntityOwnedRelationshipOneOrManies
+    /// </summary>
+    public virtual List<SecondTestEntityOwnedRelationshipOneOrManyUpsertDto> SecondTestEntityOwnedRelationshipOneOrManies { get; set; } = new();
 }

@@ -71,7 +71,7 @@ public abstract partial class TestEntityOneOrManyToZeroOrOnesControllerBase : OD
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateTestEntityOneOrManyToZeroOrOneCommand(testEntityOneOrManyToZeroOrOne, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class TestEntityOneOrManyToZeroOrOnesControllerBase : OD
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -101,11 +101,11 @@ public abstract partial class TestEntityOneOrManyToZeroOrOnesControllerBase : OD
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityOneOrManyToZeroOrOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityOneOrManyToZeroOrOneUpdateDto> testEntityOneOrManyToZeroOrOne)
+    public virtual async Task<ActionResult<TestEntityOneOrManyToZeroOrOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<PatchTestEntityOneOrManyToZeroOrOneUpdateDto> testEntityOneOrManyToZeroOrOne)
     {
         if (!ModelState.IsValid || testEntityOneOrManyToZeroOrOne is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

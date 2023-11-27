@@ -21,6 +21,15 @@ public partial class TestEntityLocalizationUpdateDto : TestEntityLocalizationUpd
 }
 
 /// <summary>
+/// Patch entity TestEntityLocalization: Entity created for testing localization.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class TestEntityLocalizationPatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Entity created for testing localization
 /// </summary>
 public partial class TestEntityLocalizationUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityLocalization>

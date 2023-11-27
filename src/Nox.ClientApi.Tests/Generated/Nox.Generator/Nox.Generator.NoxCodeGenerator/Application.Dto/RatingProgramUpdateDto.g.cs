@@ -21,6 +21,15 @@ public partial class RatingProgramUpdateDto : RatingProgramUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity RatingProgram: Rating program for store.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class RatingProgramPatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Rating program for store
 /// </summary>
 public partial class RatingProgramUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.RatingProgram>

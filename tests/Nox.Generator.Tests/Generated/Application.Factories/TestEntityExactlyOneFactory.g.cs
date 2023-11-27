@@ -35,7 +35,14 @@ internal abstract class TestEntityExactlyOneFactoryBase : IEntityFactory<TestEnt
 
     public virtual TestEntityExactlyOneEntity CreateEntity(TestEntityExactlyOneCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(TestEntityExactlyOneEntity entity, TestEntityExactlyOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

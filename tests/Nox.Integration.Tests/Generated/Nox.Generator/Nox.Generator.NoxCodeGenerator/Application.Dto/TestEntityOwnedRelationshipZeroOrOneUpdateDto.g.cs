@@ -21,6 +21,15 @@ public partial class TestEntityOwnedRelationshipZeroOrOneUpdateDto : TestEntityO
 }
 
 /// <summary>
+/// Patch entity TestEntityOwnedRelationshipZeroOrOne: .
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class TestEntityOwnedRelationshipZeroOrOnePatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// 
 /// </summary>
 public partial class TestEntityOwnedRelationshipZeroOrOneUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityOwnedRelationshipZeroOrOne>

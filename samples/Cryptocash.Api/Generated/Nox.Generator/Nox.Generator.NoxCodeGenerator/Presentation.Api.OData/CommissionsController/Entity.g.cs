@@ -101,7 +101,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<CommissionDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CommissionUpdateDto> commission)
+    public virtual async Task<ActionResult<CommissionDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PatchCommissionUpdateDto> commission)
     {
         if (!ModelState.IsValid || commission is null)
         {

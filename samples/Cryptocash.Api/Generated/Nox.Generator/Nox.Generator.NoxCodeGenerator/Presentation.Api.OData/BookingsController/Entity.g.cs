@@ -101,7 +101,7 @@ public abstract partial class BookingsControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<BookingDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<BookingUpdateDto> booking)
+    public virtual async Task<ActionResult<BookingDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<PatchBookingUpdateDto> booking)
     {
         if (!ModelState.IsValid || booking is null)
         {

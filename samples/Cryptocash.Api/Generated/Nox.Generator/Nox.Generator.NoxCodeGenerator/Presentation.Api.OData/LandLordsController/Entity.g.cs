@@ -101,7 +101,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<LandLordDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordUpdateDto> landLord)
+    public virtual async Task<ActionResult<LandLordDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PatchLandLordUpdateDto> landLord)
     {
         if (!ModelState.IsValid || landLord is null)
         {

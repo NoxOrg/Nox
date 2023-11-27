@@ -21,6 +21,15 @@ public partial class TenantUpdateDto : TenantUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity Tenant: Tenant.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class TenantPatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Tenant
 /// </summary>
 public partial class TenantUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Tenant>

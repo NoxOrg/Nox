@@ -21,6 +21,15 @@ public partial class CustomerUpdateDto : CustomerUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity Customer: Customer definition and related data.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class CustomerPatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Customer definition and related data
 /// </summary>
 public partial class CustomerUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Customer>

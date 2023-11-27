@@ -35,7 +35,14 @@ internal abstract class SecondTestEntityTwoRelationshipsOneToManyFactoryBase : I
 
     public virtual SecondTestEntityTwoRelationshipsOneToManyEntity CreateEntity(SecondTestEntityTwoRelationshipsOneToManyCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(SecondTestEntityTwoRelationshipsOneToManyEntity entity, SecondTestEntityTwoRelationshipsOneToManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

@@ -35,7 +35,14 @@ internal abstract class ThirdTestEntityZeroOrManyFactoryBase : IEntityFactory<Th
 
     public virtual ThirdTestEntityZeroOrManyEntity CreateEntity(ThirdTestEntityZeroOrManyCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(ThirdTestEntityZeroOrManyEntity entity, ThirdTestEntityZeroOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

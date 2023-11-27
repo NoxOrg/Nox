@@ -21,6 +21,15 @@ public partial class ThirdTestEntityOneOrManyUpdateDto : ThirdTestEntityOneOrMan
 }
 
 /// <summary>
+/// Patch entity ThirdTestEntityOneOrMany: Entity created for testing database.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class ThirdTestEntityOneOrManyPatchDto: ThirdTestEntityOneOrManyUpdateDto
+{
+    
+}
+
+/// <summary>
 /// Entity created for testing database
 /// </summary>
 public partial class ThirdTestEntityOneOrManyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.ThirdTestEntityOneOrMany>

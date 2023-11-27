@@ -54,7 +54,7 @@ internal static class ODataServiceCollectionExtensions
         {{- if entity.IsOwnedEntity }}
         builder.ComplexType<{{entity.Name}}UpsertDto>();
         {{- else }}
-        builder.ComplexType<{{entity.Name}}UpdateDto>();
+        builder.ComplexType<{{entity.Name}}PatchDto>();
         {{- end }}
 
         {{- if entity.IsLocalized }}

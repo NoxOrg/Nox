@@ -45,7 +45,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
         return Ok(item.SecondTestEntityOwnedRelationshipZeroOrOne);
     }
     
-    public virtual async Task<ActionResult> PostToSecondTestEntityOwnedRelationshipZeroOrOne([FromRoute] System.String key, [FromBody] SecondTestEntityOwnedRelationshipZeroOrOneCreateDto secondTestEntityOwnedRelationshipZeroOrOne)
+    public virtual async Task<ActionResult> PostToSecondTestEntityOwnedRelationshipZeroOrOne([FromRoute] System.String key, [FromBody] SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto secondTestEntityOwnedRelationshipZeroOrOne)
     {
         if (!ModelState.IsValid)
         {
@@ -68,7 +68,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<SecondTestEntityOwnedRelationshipZeroOrOneDto>> PutToSecondTestEntityOwnedRelationshipZeroOrOne(System.String key, [FromBody] SecondTestEntityOwnedRelationshipZeroOrOneUpdateDto secondTestEntityOwnedRelationshipZeroOrOne)
+    public virtual async Task<ActionResult<SecondTestEntityOwnedRelationshipZeroOrOneDto>> PutToSecondTestEntityOwnedRelationshipZeroOrOne(System.String key, [FromBody] SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto secondTestEntityOwnedRelationshipZeroOrOne)
     {
         if (!ModelState.IsValid)
         {

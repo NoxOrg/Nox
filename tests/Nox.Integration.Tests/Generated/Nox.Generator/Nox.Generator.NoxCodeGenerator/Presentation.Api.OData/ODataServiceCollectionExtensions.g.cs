@@ -25,181 +25,181 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<TestEntityZeroOrOneDto>("TestEntityZeroOrOnes");
 		builder.EntityType<TestEntityZeroOrOneDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityZeroOrOneDto>().ContainsOptional(e => e.SecondTestEntityZeroOrOne);
-        builder.ComplexType<TestEntityZeroOrOneUpdateDto>();
+        builder.ComplexType<TestEntityZeroOrOnePatchDto>();
         builder.EntityType<TestEntityZeroOrOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityZeroOrOneDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<SecondTestEntityZeroOrOneDto>("SecondTestEntityZeroOrOnes");
 		builder.EntityType<SecondTestEntityZeroOrOneDto>().HasKey(e => new { e.Id });
         builder.EntityType<SecondTestEntityZeroOrOneDto>().ContainsOptional(e => e.TestEntityZeroOrOne);
-        builder.ComplexType<SecondTestEntityZeroOrOneUpdateDto>();
+        builder.ComplexType<SecondTestEntityZeroOrOnePatchDto>();
         builder.EntityType<SecondTestEntityZeroOrOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<SecondTestEntityZeroOrOneDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityWithNuidDto>("TestEntityWithNuids");
 		builder.EntityType<TestEntityWithNuidDto>().HasKey(e => new { e.Id });
-        builder.ComplexType<TestEntityWithNuidUpdateDto>();
+        builder.ComplexType<TestEntityWithNuidPatchDto>();
         builder.EntityType<TestEntityWithNuidDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityWithNuidDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityOneOrManyDto>("TestEntityOneOrManies");
 		builder.EntityType<TestEntityOneOrManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityOneOrManyDto>().ContainsMany(e => e.SecondTestEntityOneOrManies);
-        builder.ComplexType<TestEntityOneOrManyUpdateDto>();
+        builder.ComplexType<TestEntityOneOrManyPatchDto>();
         builder.EntityType<TestEntityOneOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityOneOrManyDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<SecondTestEntityOneOrManyDto>("SecondTestEntityOneOrManies");
 		builder.EntityType<SecondTestEntityOneOrManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<SecondTestEntityOneOrManyDto>().ContainsMany(e => e.TestEntityOneOrManies);
-        builder.ComplexType<SecondTestEntityOneOrManyUpdateDto>();
+        builder.ComplexType<SecondTestEntityOneOrManyPatchDto>();
         builder.EntityType<SecondTestEntityOneOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<SecondTestEntityOneOrManyDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityZeroOrManyDto>("TestEntityZeroOrManies");
 		builder.EntityType<TestEntityZeroOrManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityZeroOrManyDto>().ContainsMany(e => e.SecondTestEntityZeroOrManies);
-        builder.ComplexType<TestEntityZeroOrManyUpdateDto>();
+        builder.ComplexType<TestEntityZeroOrManyPatchDto>();
         builder.EntityType<TestEntityZeroOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityZeroOrManyDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<SecondTestEntityZeroOrManyDto>("SecondTestEntityZeroOrManies");
 		builder.EntityType<SecondTestEntityZeroOrManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<SecondTestEntityZeroOrManyDto>().ContainsMany(e => e.TestEntityZeroOrManies);
-        builder.ComplexType<SecondTestEntityZeroOrManyUpdateDto>();
+        builder.ComplexType<SecondTestEntityZeroOrManyPatchDto>();
         builder.EntityType<SecondTestEntityZeroOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<SecondTestEntityZeroOrManyDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<ThirdTestEntityOneOrManyDto>("ThirdTestEntityOneOrManies");
 		builder.EntityType<ThirdTestEntityOneOrManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<ThirdTestEntityOneOrManyDto>().ContainsMany(e => e.ThirdTestEntityZeroOrManies);
-        builder.ComplexType<ThirdTestEntityOneOrManyUpdateDto>();
+        builder.ComplexType<ThirdTestEntityOneOrManyPatchDto>();
         builder.EntityType<ThirdTestEntityOneOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<ThirdTestEntityOneOrManyDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<ThirdTestEntityZeroOrManyDto>("ThirdTestEntityZeroOrManies");
 		builder.EntityType<ThirdTestEntityZeroOrManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<ThirdTestEntityZeroOrManyDto>().ContainsMany(e => e.ThirdTestEntityOneOrManies);
-        builder.ComplexType<ThirdTestEntityZeroOrManyUpdateDto>();
+        builder.ComplexType<ThirdTestEntityZeroOrManyPatchDto>();
         builder.EntityType<ThirdTestEntityZeroOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<ThirdTestEntityZeroOrManyDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<ThirdTestEntityExactlyOneDto>("ThirdTestEntityExactlyOnes");
 		builder.EntityType<ThirdTestEntityExactlyOneDto>().HasKey(e => new { e.Id });
         builder.EntityType<ThirdTestEntityExactlyOneDto>().ContainsRequired(e => e.ThirdTestEntityZeroOrOne);
-        builder.ComplexType<ThirdTestEntityExactlyOneUpdateDto>();
+        builder.ComplexType<ThirdTestEntityExactlyOnePatchDto>();
         builder.EntityType<ThirdTestEntityExactlyOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<ThirdTestEntityExactlyOneDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<ThirdTestEntityZeroOrOneDto>("ThirdTestEntityZeroOrOnes");
 		builder.EntityType<ThirdTestEntityZeroOrOneDto>().HasKey(e => new { e.Id });
         builder.EntityType<ThirdTestEntityZeroOrOneDto>().ContainsOptional(e => e.ThirdTestEntityExactlyOne);
-        builder.ComplexType<ThirdTestEntityZeroOrOneUpdateDto>();
+        builder.ComplexType<ThirdTestEntityZeroOrOnePatchDto>();
         builder.EntityType<ThirdTestEntityZeroOrOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<ThirdTestEntityZeroOrOneDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityExactlyOneDto>("TestEntityExactlyOnes");
 		builder.EntityType<TestEntityExactlyOneDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityExactlyOneDto>().ContainsRequired(e => e.SecondTestEntityExactlyOne);
-        builder.ComplexType<TestEntityExactlyOneUpdateDto>();
+        builder.ComplexType<TestEntityExactlyOnePatchDto>();
         builder.EntityType<TestEntityExactlyOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityExactlyOneDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<SecondTestEntityExactlyOneDto>("SecondTestEntityExactlyOnes");
 		builder.EntityType<SecondTestEntityExactlyOneDto>().HasKey(e => new { e.Id });
         builder.EntityType<SecondTestEntityExactlyOneDto>().ContainsRequired(e => e.TestEntityExactlyOne);
-        builder.ComplexType<SecondTestEntityExactlyOneUpdateDto>();
+        builder.ComplexType<SecondTestEntityExactlyOnePatchDto>();
         builder.EntityType<SecondTestEntityExactlyOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<SecondTestEntityExactlyOneDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityZeroOrOneToZeroOrManyDto>("TestEntityZeroOrOneToZeroOrManies");
 		builder.EntityType<TestEntityZeroOrOneToZeroOrManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityZeroOrOneToZeroOrManyDto>().ContainsOptional(e => e.TestEntityZeroOrManyToZeroOrOne);
-        builder.ComplexType<TestEntityZeroOrOneToZeroOrManyUpdateDto>();
+        builder.ComplexType<TestEntityZeroOrOneToZeroOrManyPatchDto>();
         builder.EntityType<TestEntityZeroOrOneToZeroOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityZeroOrOneToZeroOrManyDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityZeroOrManyToZeroOrOneDto>("TestEntityZeroOrManyToZeroOrOnes");
 		builder.EntityType<TestEntityZeroOrManyToZeroOrOneDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityZeroOrManyToZeroOrOneDto>().ContainsMany(e => e.TestEntityZeroOrOneToZeroOrManies);
-        builder.ComplexType<TestEntityZeroOrManyToZeroOrOneUpdateDto>();
+        builder.ComplexType<TestEntityZeroOrManyToZeroOrOnePatchDto>();
         builder.EntityType<TestEntityZeroOrManyToZeroOrOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityZeroOrManyToZeroOrOneDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityExactlyOneToOneOrManyDto>("TestEntityExactlyOneToOneOrManies");
 		builder.EntityType<TestEntityExactlyOneToOneOrManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityExactlyOneToOneOrManyDto>().ContainsRequired(e => e.TestEntityOneOrManyToExactlyOne);
-        builder.ComplexType<TestEntityExactlyOneToOneOrManyUpdateDto>();
+        builder.ComplexType<TestEntityExactlyOneToOneOrManyPatchDto>();
         builder.EntityType<TestEntityExactlyOneToOneOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityExactlyOneToOneOrManyDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityOneOrManyToExactlyOneDto>("TestEntityOneOrManyToExactlyOnes");
 		builder.EntityType<TestEntityOneOrManyToExactlyOneDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityOneOrManyToExactlyOneDto>().ContainsMany(e => e.TestEntityExactlyOneToOneOrManies);
-        builder.ComplexType<TestEntityOneOrManyToExactlyOneUpdateDto>();
+        builder.ComplexType<TestEntityOneOrManyToExactlyOnePatchDto>();
         builder.EntityType<TestEntityOneOrManyToExactlyOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityOneOrManyToExactlyOneDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityExactlyOneToZeroOrManyDto>("TestEntityExactlyOneToZeroOrManies");
 		builder.EntityType<TestEntityExactlyOneToZeroOrManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityExactlyOneToZeroOrManyDto>().ContainsRequired(e => e.TestEntityZeroOrManyToExactlyOne);
-        builder.ComplexType<TestEntityExactlyOneToZeroOrManyUpdateDto>();
+        builder.ComplexType<TestEntityExactlyOneToZeroOrManyPatchDto>();
         builder.EntityType<TestEntityExactlyOneToZeroOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityExactlyOneToZeroOrManyDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityZeroOrManyToExactlyOneDto>("TestEntityZeroOrManyToExactlyOnes");
 		builder.EntityType<TestEntityZeroOrManyToExactlyOneDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityZeroOrManyToExactlyOneDto>().ContainsMany(e => e.TestEntityExactlyOneToZeroOrManies);
-        builder.ComplexType<TestEntityZeroOrManyToExactlyOneUpdateDto>();
+        builder.ComplexType<TestEntityZeroOrManyToExactlyOnePatchDto>();
         builder.EntityType<TestEntityZeroOrManyToExactlyOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityZeroOrManyToExactlyOneDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityOneOrManyToZeroOrManyDto>("TestEntityOneOrManyToZeroOrManies");
 		builder.EntityType<TestEntityOneOrManyToZeroOrManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityOneOrManyToZeroOrManyDto>().ContainsMany(e => e.TestEntityZeroOrManyToOneOrManies);
-        builder.ComplexType<TestEntityOneOrManyToZeroOrManyUpdateDto>();
+        builder.ComplexType<TestEntityOneOrManyToZeroOrManyPatchDto>();
         builder.EntityType<TestEntityOneOrManyToZeroOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityOneOrManyToZeroOrManyDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityZeroOrManyToOneOrManyDto>("TestEntityZeroOrManyToOneOrManies");
 		builder.EntityType<TestEntityZeroOrManyToOneOrManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityZeroOrManyToOneOrManyDto>().ContainsMany(e => e.TestEntityOneOrManyToZeroOrManies);
-        builder.ComplexType<TestEntityZeroOrManyToOneOrManyUpdateDto>();
+        builder.ComplexType<TestEntityZeroOrManyToOneOrManyPatchDto>();
         builder.EntityType<TestEntityZeroOrManyToOneOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityZeroOrManyToOneOrManyDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityZeroOrOneToOneOrManyDto>("TestEntityZeroOrOneToOneOrManies");
 		builder.EntityType<TestEntityZeroOrOneToOneOrManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityZeroOrOneToOneOrManyDto>().ContainsOptional(e => e.TestEntityOneOrManyToZeroOrOne);
-        builder.ComplexType<TestEntityZeroOrOneToOneOrManyUpdateDto>();
+        builder.ComplexType<TestEntityZeroOrOneToOneOrManyPatchDto>();
         builder.EntityType<TestEntityZeroOrOneToOneOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityZeroOrOneToOneOrManyDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityOneOrManyToZeroOrOneDto>("TestEntityOneOrManyToZeroOrOnes");
 		builder.EntityType<TestEntityOneOrManyToZeroOrOneDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityOneOrManyToZeroOrOneDto>().ContainsMany(e => e.TestEntityZeroOrOneToOneOrManies);
-        builder.ComplexType<TestEntityOneOrManyToZeroOrOneUpdateDto>();
+        builder.ComplexType<TestEntityOneOrManyToZeroOrOnePatchDto>();
         builder.EntityType<TestEntityOneOrManyToZeroOrOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityOneOrManyToZeroOrOneDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityZeroOrOneToExactlyOneDto>("TestEntityZeroOrOneToExactlyOnes");
 		builder.EntityType<TestEntityZeroOrOneToExactlyOneDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityZeroOrOneToExactlyOneDto>().ContainsOptional(e => e.TestEntityExactlyOneToZeroOrOne);
-        builder.ComplexType<TestEntityZeroOrOneToExactlyOneUpdateDto>();
+        builder.ComplexType<TestEntityZeroOrOneToExactlyOnePatchDto>();
         builder.EntityType<TestEntityZeroOrOneToExactlyOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityZeroOrOneToExactlyOneDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityExactlyOneToZeroOrOneDto>("TestEntityExactlyOneToZeroOrOnes");
 		builder.EntityType<TestEntityExactlyOneToZeroOrOneDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityExactlyOneToZeroOrOneDto>().ContainsRequired(e => e.TestEntityZeroOrOneToExactlyOne);
-        builder.ComplexType<TestEntityExactlyOneToZeroOrOneUpdateDto>();
+        builder.ComplexType<TestEntityExactlyOneToZeroOrOnePatchDto>();
         builder.EntityType<TestEntityExactlyOneToZeroOrOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityExactlyOneToZeroOrOneDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityOwnedRelationshipExactlyOneDto>("TestEntityOwnedRelationshipExactlyOnes");
 		builder.EntityType<TestEntityOwnedRelationshipExactlyOneDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityOwnedRelationshipExactlyOneDto>().ContainsRequired(e => e.SecondTestEntityOwnedRelationshipExactlyOne).AutoExpand = true;
-        builder.ComplexType<TestEntityOwnedRelationshipExactlyOneUpdateDto>();
+        builder.ComplexType<TestEntityOwnedRelationshipExactlyOnePatchDto>();
         builder.EntityType<TestEntityOwnedRelationshipExactlyOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityOwnedRelationshipExactlyOneDto>().Ignore(e => e.Etag);
 
@@ -209,7 +209,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<TestEntityOwnedRelationshipZeroOrOneDto>("TestEntityOwnedRelationshipZeroOrOnes");
 		builder.EntityType<TestEntityOwnedRelationshipZeroOrOneDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityOwnedRelationshipZeroOrOneDto>().ContainsOptional(e => e.SecondTestEntityOwnedRelationshipZeroOrOne).AutoExpand = true;
-        builder.ComplexType<TestEntityOwnedRelationshipZeroOrOneUpdateDto>();
+        builder.ComplexType<TestEntityOwnedRelationshipZeroOrOnePatchDto>();
         builder.EntityType<TestEntityOwnedRelationshipZeroOrOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityOwnedRelationshipZeroOrOneDto>().Ignore(e => e.Etag);
 
@@ -219,7 +219,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<TestEntityOwnedRelationshipOneOrManyDto>("TestEntityOwnedRelationshipOneOrManies");
 		builder.EntityType<TestEntityOwnedRelationshipOneOrManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityOwnedRelationshipOneOrManyDto>().ContainsMany(e => e.SecondTestEntityOwnedRelationshipOneOrManies).AutoExpand = true;
-        builder.ComplexType<TestEntityOwnedRelationshipOneOrManyUpdateDto>();
+        builder.ComplexType<TestEntityOwnedRelationshipOneOrManyPatchDto>();
         builder.EntityType<TestEntityOwnedRelationshipOneOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityOwnedRelationshipOneOrManyDto>().Ignore(e => e.Etag);
 
@@ -230,7 +230,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<TestEntityOwnedRelationshipZeroOrManyDto>("TestEntityOwnedRelationshipZeroOrManies");
 		builder.EntityType<TestEntityOwnedRelationshipZeroOrManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityOwnedRelationshipZeroOrManyDto>().ContainsMany(e => e.SecondTestEntityOwnedRelationshipZeroOrManies).AutoExpand = true;
-        builder.ComplexType<TestEntityOwnedRelationshipZeroOrManyUpdateDto>();
+        builder.ComplexType<TestEntityOwnedRelationshipZeroOrManyPatchDto>();
         builder.EntityType<TestEntityOwnedRelationshipZeroOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityOwnedRelationshipZeroOrManyDto>().Ignore(e => e.Etag);
 
@@ -242,7 +242,7 @@ internal static class ODataServiceCollectionExtensions
 		builder.EntityType<TestEntityTwoRelationshipsOneToOneDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityTwoRelationshipsOneToOneDto>().ContainsRequired(e => e.TestRelationshipOne);
         builder.EntityType<TestEntityTwoRelationshipsOneToOneDto>().ContainsRequired(e => e.TestRelationshipTwo);
-        builder.ComplexType<TestEntityTwoRelationshipsOneToOneUpdateDto>();
+        builder.ComplexType<TestEntityTwoRelationshipsOneToOnePatchDto>();
         builder.EntityType<TestEntityTwoRelationshipsOneToOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityTwoRelationshipsOneToOneDto>().Ignore(e => e.Etag);
 
@@ -250,13 +250,13 @@ internal static class ODataServiceCollectionExtensions
 		builder.EntityType<SecondTestEntityTwoRelationshipsOneToOneDto>().HasKey(e => new { e.Id });
         builder.EntityType<SecondTestEntityTwoRelationshipsOneToOneDto>().ContainsOptional(e => e.TestRelationshipOneOnOtherSide);
         builder.EntityType<SecondTestEntityTwoRelationshipsOneToOneDto>().ContainsOptional(e => e.TestRelationshipTwoOnOtherSide);
-        builder.ComplexType<SecondTestEntityTwoRelationshipsOneToOneUpdateDto>();
+        builder.ComplexType<SecondTestEntityTwoRelationshipsOneToOnePatchDto>();
 
         builder.EntitySet<TestEntityTwoRelationshipsManyToManyDto>("TestEntityTwoRelationshipsManyToManies");
 		builder.EntityType<TestEntityTwoRelationshipsManyToManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityTwoRelationshipsManyToManyDto>().ContainsMany(e => e.TestRelationshipOne);
         builder.EntityType<TestEntityTwoRelationshipsManyToManyDto>().ContainsMany(e => e.TestRelationshipTwo);
-        builder.ComplexType<TestEntityTwoRelationshipsManyToManyUpdateDto>();
+        builder.ComplexType<TestEntityTwoRelationshipsManyToManyPatchDto>();
         builder.EntityType<TestEntityTwoRelationshipsManyToManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityTwoRelationshipsManyToManyDto>().Ignore(e => e.Etag);
 
@@ -264,13 +264,13 @@ internal static class ODataServiceCollectionExtensions
 		builder.EntityType<SecondTestEntityTwoRelationshipsManyToManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<SecondTestEntityTwoRelationshipsManyToManyDto>().ContainsMany(e => e.TestRelationshipOneOnOtherSide);
         builder.EntityType<SecondTestEntityTwoRelationshipsManyToManyDto>().ContainsMany(e => e.TestRelationshipTwoOnOtherSide);
-        builder.ComplexType<SecondTestEntityTwoRelationshipsManyToManyUpdateDto>();
+        builder.ComplexType<SecondTestEntityTwoRelationshipsManyToManyPatchDto>();
 
         builder.EntitySet<TestEntityTwoRelationshipsOneToManyDto>("TestEntityTwoRelationshipsOneToManies");
 		builder.EntityType<TestEntityTwoRelationshipsOneToManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityTwoRelationshipsOneToManyDto>().ContainsMany(e => e.TestRelationshipOne);
         builder.EntityType<TestEntityTwoRelationshipsOneToManyDto>().ContainsMany(e => e.TestRelationshipTwo);
-        builder.ComplexType<TestEntityTwoRelationshipsOneToManyUpdateDto>();
+        builder.ComplexType<TestEntityTwoRelationshipsOneToManyPatchDto>();
         builder.EntityType<TestEntityTwoRelationshipsOneToManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityTwoRelationshipsOneToManyDto>().Ignore(e => e.Etag);
 
@@ -278,31 +278,31 @@ internal static class ODataServiceCollectionExtensions
 		builder.EntityType<SecondTestEntityTwoRelationshipsOneToManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<SecondTestEntityTwoRelationshipsOneToManyDto>().ContainsOptional(e => e.TestRelationshipOneOnOtherSide);
         builder.EntityType<SecondTestEntityTwoRelationshipsOneToManyDto>().ContainsOptional(e => e.TestRelationshipTwoOnOtherSide);
-        builder.ComplexType<SecondTestEntityTwoRelationshipsOneToManyUpdateDto>();
+        builder.ComplexType<SecondTestEntityTwoRelationshipsOneToManyPatchDto>();
 
         builder.EntitySet<TestEntityForTypesDto>("TestEntityForTypes");
 		builder.EntityType<TestEntityForTypesDto>().HasKey(e => new { e.Id });
-        builder.ComplexType<TestEntityForTypesUpdateDto>();
+        builder.ComplexType<TestEntityForTypesPatchDto>();
         builder.EntityType<TestEntityForTypesDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityForTypesDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TestEntityForUniqueConstraintsDto>("TestEntityForUniqueConstraints");
 		builder.EntityType<TestEntityForUniqueConstraintsDto>().HasKey(e => new { e.Id });
-        builder.ComplexType<TestEntityForUniqueConstraintsUpdateDto>();
+        builder.ComplexType<TestEntityForUniqueConstraintsPatchDto>();
 
         builder.EntitySet<EntityUniqueConstraintsWithForeignKeyDto>("EntityUniqueConstraintsWithForeignKeys");
 		builder.EntityType<EntityUniqueConstraintsWithForeignKeyDto>().HasKey(e => new { e.Id });
         builder.EntityType<EntityUniqueConstraintsWithForeignKeyDto>().ContainsRequired(e => e.EntityUniqueConstraintsRelatedForeignKey);
-        builder.ComplexType<EntityUniqueConstraintsWithForeignKeyUpdateDto>();
+        builder.ComplexType<EntityUniqueConstraintsWithForeignKeyPatchDto>();
 
         builder.EntitySet<EntityUniqueConstraintsRelatedForeignKeyDto>("EntityUniqueConstraintsRelatedForeignKeys");
 		builder.EntityType<EntityUniqueConstraintsRelatedForeignKeyDto>().HasKey(e => new { e.Id });
         builder.EntityType<EntityUniqueConstraintsRelatedForeignKeyDto>().ContainsMany(e => e.EntityUniqueConstraintsWithForeignKeys);
-        builder.ComplexType<EntityUniqueConstraintsRelatedForeignKeyUpdateDto>();
+        builder.ComplexType<EntityUniqueConstraintsRelatedForeignKeyPatchDto>();
 
         builder.EntitySet<TestEntityLocalizationDto>("TestEntityLocalizations");
 		builder.EntityType<TestEntityLocalizationDto>().HasKey(e => new { e.Id });
-        builder.ComplexType<TestEntityLocalizationUpdateDto>();
+        builder.ComplexType<TestEntityLocalizationPatchDto>();
         builder.EntityType<TestEntityLocalizationLocalizedDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityLocalizationDto>().Function("TestEntityLocalizationsLocalized").ReturnsCollection<DtoNameSpace.TestEntityLocalizationLocalizedDto>();
         builder.EntityType<TestEntityLocalizationDto>().Ignore(e => e.DeletedAtUtc);
@@ -310,7 +310,7 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntitySet<TestEntityForAutoNumberUsagesDto>("TestEntityForAutoNumberUsages");
 		builder.EntityType<TestEntityForAutoNumberUsagesDto>().HasKey(e => new { e.Id });
-        builder.ComplexType<TestEntityForAutoNumberUsagesUpdateDto>(); 
+        builder.ComplexType<TestEntityForAutoNumberUsagesPatchDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<TestEntityForTypesDto>()
                             .Collection

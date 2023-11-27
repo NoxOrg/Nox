@@ -35,6 +35,7 @@ internal abstract class GetTestEntityOwnedRelationshipOneOrManyByIdQueryHandlerB
     {    
         var query = DataDbContext.TestEntityOwnedRelationshipOneOrManies
             .AsNoTracking()
+            .Include(e => e.SecondTestEntityOwnedRelationshipOneOrManies)
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

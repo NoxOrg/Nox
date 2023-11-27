@@ -101,7 +101,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<EmployeeDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<EmployeeUpdateDto> employee)
+    public virtual async Task<ActionResult<EmployeeDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PatchEmployeeUpdateDto> employee)
     {
         if (!ModelState.IsValid || employee is null)
         {

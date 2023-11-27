@@ -21,6 +21,15 @@ public partial class CashStockOrderUpdateDto : CashStockOrderUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity CashStockOrder: Vending machine cash stock order and related data.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class CashStockOrderPatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Vending machine cash stock order and related data
 /// </summary>
 public partial class CashStockOrderUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.CashStockOrder>

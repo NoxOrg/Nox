@@ -21,6 +21,15 @@ public partial class CountryUpdateDto : CountryUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity Country: Country Entity Country representation for the Client API tests.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class CountryPatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Country Entity Country representation for the Client API tests
 /// </summary>
 public partial class CountryUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Country>

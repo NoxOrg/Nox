@@ -21,6 +21,15 @@ public partial class CurrencyUpdateDto : CurrencyUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity Currency: Currency and related data.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class CurrencyPatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Currency and related data
 /// </summary>
 public partial class CurrencyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Currency>

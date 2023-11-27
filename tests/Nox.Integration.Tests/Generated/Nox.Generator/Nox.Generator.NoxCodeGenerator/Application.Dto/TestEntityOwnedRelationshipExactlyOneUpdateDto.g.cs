@@ -21,6 +21,15 @@ public partial class TestEntityOwnedRelationshipExactlyOneUpdateDto : TestEntity
 }
 
 /// <summary>
+/// Patch entity TestEntityOwnedRelationshipExactlyOne: .
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class TestEntityOwnedRelationshipExactlyOnePatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// 
 /// </summary>
 public partial class TestEntityOwnedRelationshipExactlyOneUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityOwnedRelationshipExactlyOne>

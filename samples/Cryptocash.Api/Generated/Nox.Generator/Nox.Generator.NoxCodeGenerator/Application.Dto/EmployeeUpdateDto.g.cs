@@ -21,6 +21,15 @@ public partial class EmployeeUpdateDto : EmployeeUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity Employee: Employee definition and related data.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class EmployeePatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Employee definition and related data
 /// </summary>
 public partial class EmployeeUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Employee>

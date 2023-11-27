@@ -44,5 +44,5 @@ public abstract class TestEntityOwnedRelationshipOneOrManyCreateDtoBase : IEntit
     /// <summary>
     /// TestEntityOwnedRelationshipOneOrMany Test entity relationship to SecondTestEntityOwnedRelationshipOneOrMany OneOrMany SecondTestEntityOwnedRelationshipOneOrManies
     /// </summary>
-    public virtual List<SecondTestEntityOwnedRelationshipOneOrManyCreateDto> SecondTestEntityOwnedRelationshipOneOrManies { get; set; } = new();
+    public virtual List<SecondTestEntityOwnedRelationshipOneOrManyUpsertDto> SecondTestEntityOwnedRelationshipOneOrManies { get; set; } = new();
 }

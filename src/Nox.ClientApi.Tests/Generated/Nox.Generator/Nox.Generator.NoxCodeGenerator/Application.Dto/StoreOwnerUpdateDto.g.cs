@@ -21,6 +21,15 @@ public partial class StoreOwnerUpdateDto : StoreOwnerUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity StoreOwner: Store owners.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class StoreOwnerPatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Store owners
 /// </summary>
 public partial class StoreOwnerUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.StoreOwner>

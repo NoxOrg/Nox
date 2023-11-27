@@ -21,6 +21,15 @@ public partial class PaymentProviderUpdateDto : PaymentProviderUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity PaymentProvider: Payment provider related data.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class PaymentProviderPatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Payment provider related data
 /// </summary>
 public partial class PaymentProviderUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.PaymentProvider>

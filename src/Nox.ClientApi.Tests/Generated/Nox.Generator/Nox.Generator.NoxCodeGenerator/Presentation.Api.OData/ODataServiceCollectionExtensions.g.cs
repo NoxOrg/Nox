@@ -27,7 +27,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CountryDto>().ContainsMany(e => e.CountryLocalNames).AutoExpand = true;
         builder.EntityType<CountryDto>().ContainsOptional(e => e.CountryBarCode).AutoExpand = true;
         builder.EntityType<CountryDto>().ContainsMany(e => e.Workplaces);
-        builder.ComplexType<CountryUpdateDto>();
+        builder.ComplexType<CountryPatchDto>();
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CountryDto>().Ignore(e => e.Etag);
 
@@ -40,18 +40,18 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntitySet<RatingProgramDto>("RatingPrograms");
 		builder.EntityType<RatingProgramDto>().HasKey(e => new { e.StoreId, e.Id });
-        builder.ComplexType<RatingProgramUpdateDto>();
+        builder.ComplexType<RatingProgramPatchDto>();
 
         builder.EntitySet<CountryQualityOfLifeIndexDto>("CountryQualityOfLifeIndices");
 		builder.EntityType<CountryQualityOfLifeIndexDto>().HasKey(e => new { e.CountryId, e.Id });
-        builder.ComplexType<CountryQualityOfLifeIndexUpdateDto>();
+        builder.ComplexType<CountryQualityOfLifeIndexPatchDto>();
 
         builder.EntitySet<StoreDto>("Stores");
 		builder.EntityType<StoreDto>().HasKey(e => new { e.Id });
         builder.EntityType<StoreDto>().ContainsOptional(e => e.EmailAddress).AutoExpand = true;
         builder.EntityType<StoreDto>().ContainsOptional(e => e.StoreOwner);
         builder.EntityType<StoreDto>().ContainsOptional(e => e.StoreLicense);
-        builder.ComplexType<StoreUpdateDto>();
+        builder.ComplexType<StorePatchDto>();
         builder.EntityType<StoreDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<StoreDto>().Ignore(e => e.Etag);
 
@@ -59,14 +59,14 @@ internal static class ODataServiceCollectionExtensions
 		builder.EntityType<WorkplaceDto>().HasKey(e => new { e.Id });
         builder.EntityType<WorkplaceDto>().ContainsOptional(e => e.Country);
         builder.EntityType<WorkplaceDto>().ContainsMany(e => e.Tenants);
-        builder.ComplexType<WorkplaceUpdateDto>();
+        builder.ComplexType<WorkplacePatchDto>();
         builder.EntityType<WorkplaceLocalizedDto>().HasKey(e => new { e.Id });
         builder.EntityType<WorkplaceDto>().Function("WorkplacesLocalized").ReturnsCollection<DtoNameSpace.WorkplaceLocalizedDto>();
 
         builder.EntitySet<StoreOwnerDto>("StoreOwners");
 		builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });
         builder.EntityType<StoreOwnerDto>().ContainsMany(e => e.Stores);
-        builder.ComplexType<StoreOwnerUpdateDto>();
+        builder.ComplexType<StoreOwnerPatchDto>();
         builder.EntityType<StoreOwnerDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<StoreOwnerDto>().Ignore(e => e.Etag);
 
@@ -75,7 +75,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<StoreLicenseDto>().ContainsRequired(e => e.Store);
         builder.EntityType<StoreLicenseDto>().ContainsOptional(e => e.DefaultCurrency);
         builder.EntityType<StoreLicenseDto>().ContainsOptional(e => e.SoldInCurrency);
-        builder.ComplexType<StoreLicenseUpdateDto>();
+        builder.ComplexType<StoreLicensePatchDto>();
         builder.EntityType<StoreLicenseDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<StoreLicenseDto>().Ignore(e => e.Etag);
 
@@ -83,14 +83,14 @@ internal static class ODataServiceCollectionExtensions
 		builder.EntityType<CurrencyDto>().HasKey(e => new { e.Id });
         builder.EntityType<CurrencyDto>().ContainsMany(e => e.StoreLicenseDefault);
         builder.EntityType<CurrencyDto>().ContainsMany(e => e.StoreLicenseSoldIn);
-        builder.ComplexType<CurrencyUpdateDto>();
+        builder.ComplexType<CurrencyPatchDto>();
         builder.EntityType<CurrencyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CurrencyDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<TenantDto>("Tenants");
 		builder.EntityType<TenantDto>().HasKey(e => new { e.Id });
         builder.EntityType<TenantDto>().ContainsMany(e => e.Workplaces);
-        builder.ComplexType<TenantUpdateDto>();
+        builder.ComplexType<TenantPatchDto>();
 
 		builder.EntityType<EmailAddressDto>().HasKey(e => new {  });
         builder.ComplexType<EmailAddressUpsertDto>(); 

@@ -101,7 +101,7 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<PaymentDetailDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PaymentDetailUpdateDto> paymentDetail)
+    public virtual async Task<ActionResult<PaymentDetailDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PatchPaymentDetailUpdateDto> paymentDetail)
     {
         if (!ModelState.IsValid || paymentDetail is null)
         {

@@ -35,6 +35,7 @@ internal abstract class GetTestEntityOwnedRelationshipExactlyOneByIdQueryHandler
     {    
         var query = DataDbContext.TestEntityOwnedRelationshipExactlyOnes
             .AsNoTracking()
+            .Include(e => e.SecondTestEntityOwnedRelationshipExactlyOne)
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

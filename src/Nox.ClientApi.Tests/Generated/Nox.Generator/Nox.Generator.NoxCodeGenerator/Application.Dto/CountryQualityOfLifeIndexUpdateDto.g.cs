@@ -21,6 +21,15 @@ public partial class CountryQualityOfLifeIndexUpdateDto : CountryQualityOfLifeIn
 }
 
 /// <summary>
+/// Patch entity CountryQualityOfLifeIndex: Country Quality Of Life Index.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class CountryQualityOfLifeIndexPatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Country Quality Of Life Index
 /// </summary>
 public partial class CountryQualityOfLifeIndexUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.CountryQualityOfLifeIndex>

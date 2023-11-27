@@ -48,43 +48,43 @@ internal class DtoDbContext : DbContext
     }
 
     
-        public DbSet<TestEntityZeroOrOneDto> TestEntityZeroOrOnes { get; set; } = null!;
-        public DbSet<SecondTestEntityZeroOrOneDto> SecondTestEntityZeroOrOnes { get; set; } = null!;
-        public DbSet<TestEntityWithNuidDto> TestEntityWithNuids { get; set; } = null!;
-        public DbSet<TestEntityOneOrManyDto> TestEntityOneOrManies { get; set; } = null!;
-        public DbSet<SecondTestEntityOneOrManyDto> SecondTestEntityOneOrManies { get; set; } = null!;
-        public DbSet<TestEntityZeroOrManyDto> TestEntityZeroOrManies { get; set; } = null!;
-        public DbSet<SecondTestEntityZeroOrManyDto> SecondTestEntityZeroOrManies { get; set; } = null!;
-        public DbSet<ThirdTestEntityOneOrManyDto> ThirdTestEntityOneOrManies { get; set; } = null!;
-        public DbSet<ThirdTestEntityZeroOrManyDto> ThirdTestEntityZeroOrManies { get; set; } = null!;
-        public DbSet<ThirdTestEntityExactlyOneDto> ThirdTestEntityExactlyOnes { get; set; } = null!;
-        public DbSet<ThirdTestEntityZeroOrOneDto> ThirdTestEntityZeroOrOnes { get; set; } = null!;
-        public DbSet<TestEntityExactlyOneDto> TestEntityExactlyOnes { get; set; } = null!;
-        public DbSet<SecondTestEntityExactlyOneDto> SecondTestEntityExactlyOnes { get; set; } = null!;
-        public DbSet<TestEntityZeroOrOneToZeroOrManyDto> TestEntityZeroOrOneToZeroOrManies { get; set; } = null!;
-        public DbSet<TestEntityZeroOrManyToZeroOrOneDto> TestEntityZeroOrManyToZeroOrOnes { get; set; } = null!;
-        public DbSet<TestEntityExactlyOneToOneOrManyDto> TestEntityExactlyOneToOneOrManies { get; set; } = null!;
-        public DbSet<TestEntityOneOrManyToExactlyOneDto> TestEntityOneOrManyToExactlyOnes { get; set; } = null!;
-        public DbSet<TestEntityExactlyOneToZeroOrManyDto> TestEntityExactlyOneToZeroOrManies { get; set; } = null!;
-        public DbSet<TestEntityZeroOrManyToExactlyOneDto> TestEntityZeroOrManyToExactlyOnes { get; set; } = null!;
-        public DbSet<TestEntityOneOrManyToZeroOrManyDto> TestEntityOneOrManyToZeroOrManies { get; set; } = null!;
-        public DbSet<TestEntityZeroOrManyToOneOrManyDto> TestEntityZeroOrManyToOneOrManies { get; set; } = null!;
-        public DbSet<TestEntityZeroOrOneToOneOrManyDto> TestEntityZeroOrOneToOneOrManies { get; set; } = null!;
-        public DbSet<TestEntityOneOrManyToZeroOrOneDto> TestEntityOneOrManyToZeroOrOnes { get; set; } = null!;
-        public DbSet<TestEntityZeroOrOneToExactlyOneDto> TestEntityZeroOrOneToExactlyOnes { get; set; } = null!;
-        public DbSet<TestEntityExactlyOneToZeroOrOneDto> TestEntityExactlyOneToZeroOrOnes { get; set; } = null!;
-        public DbSet<TestEntityOwnedRelationshipExactlyOneDto> TestEntityOwnedRelationshipExactlyOnes { get; set; } = null!;
-        public DbSet<TestEntityOwnedRelationshipZeroOrOneDto> TestEntityOwnedRelationshipZeroOrOnes { get; set; } = null!;
-        public DbSet<TestEntityOwnedRelationshipOneOrManyDto> TestEntityOwnedRelationshipOneOrManies { get; set; } = null!;
-        public DbSet<TestEntityOwnedRelationshipZeroOrManyDto> TestEntityOwnedRelationshipZeroOrManies { get; set; } = null!;
-        public DbSet<TestEntityTwoRelationshipsOneToOneDto> TestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
-        public DbSet<SecondTestEntityTwoRelationshipsOneToOneDto> SecondTestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
-        public DbSet<TestEntityTwoRelationshipsManyToManyDto> TestEntityTwoRelationshipsManyToManies { get; set; } = null!;
-        public DbSet<SecondTestEntityTwoRelationshipsManyToManyDto> SecondTestEntityTwoRelationshipsManyToManies { get; set; } = null!;
-        public DbSet<TestEntityTwoRelationshipsOneToManyDto> TestEntityTwoRelationshipsOneToManies { get; set; } = null!;
-        public DbSet<SecondTestEntityTwoRelationshipsOneToManyDto> SecondTestEntityTwoRelationshipsOneToManies { get; set; } = null!;
-        public DbSet<TestEntityForTypesDto> TestEntityForTypes { get; set; } = null!;
-        public DbSet<TestEntityForUniqueConstraintsDto> TestEntityForUniqueConstraints { get; set; } = null!;
+        public virtual DbSet<TestEntityZeroOrOneDto> TestEntityZeroOrOnes { get; set; } = null!;
+        public virtual DbSet<SecondTestEntityZeroOrOneDto> SecondTestEntityZeroOrOnes { get; set; } = null!;
+        public virtual DbSet<TestEntityWithNuidDto> TestEntityWithNuids { get; set; } = null!;
+        public virtual DbSet<TestEntityOneOrManyDto> TestEntityOneOrManies { get; set; } = null!;
+        public virtual DbSet<SecondTestEntityOneOrManyDto> SecondTestEntityOneOrManies { get; set; } = null!;
+        public virtual DbSet<TestEntityZeroOrManyDto> TestEntityZeroOrManies { get; set; } = null!;
+        public virtual DbSet<SecondTestEntityZeroOrManyDto> SecondTestEntityZeroOrManies { get; set; } = null!;
+        public virtual DbSet<ThirdTestEntityOneOrManyDto> ThirdTestEntityOneOrManies { get; set; } = null!;
+        public virtual DbSet<ThirdTestEntityZeroOrManyDto> ThirdTestEntityZeroOrManies { get; set; } = null!;
+        public virtual DbSet<ThirdTestEntityExactlyOneDto> ThirdTestEntityExactlyOnes { get; set; } = null!;
+        public virtual DbSet<ThirdTestEntityZeroOrOneDto> ThirdTestEntityZeroOrOnes { get; set; } = null!;
+        public virtual DbSet<TestEntityExactlyOneDto> TestEntityExactlyOnes { get; set; } = null!;
+        public virtual DbSet<SecondTestEntityExactlyOneDto> SecondTestEntityExactlyOnes { get; set; } = null!;
+        public virtual DbSet<TestEntityZeroOrOneToZeroOrManyDto> TestEntityZeroOrOneToZeroOrManies { get; set; } = null!;
+        public virtual DbSet<TestEntityZeroOrManyToZeroOrOneDto> TestEntityZeroOrManyToZeroOrOnes { get; set; } = null!;
+        public virtual DbSet<TestEntityExactlyOneToOneOrManyDto> TestEntityExactlyOneToOneOrManies { get; set; } = null!;
+        public virtual DbSet<TestEntityOneOrManyToExactlyOneDto> TestEntityOneOrManyToExactlyOnes { get; set; } = null!;
+        public virtual DbSet<TestEntityExactlyOneToZeroOrManyDto> TestEntityExactlyOneToZeroOrManies { get; set; } = null!;
+        public virtual DbSet<TestEntityZeroOrManyToExactlyOneDto> TestEntityZeroOrManyToExactlyOnes { get; set; } = null!;
+        public virtual DbSet<TestEntityOneOrManyToZeroOrManyDto> TestEntityOneOrManyToZeroOrManies { get; set; } = null!;
+        public virtual DbSet<TestEntityZeroOrManyToOneOrManyDto> TestEntityZeroOrManyToOneOrManies { get; set; } = null!;
+        public virtual DbSet<TestEntityZeroOrOneToOneOrManyDto> TestEntityZeroOrOneToOneOrManies { get; set; } = null!;
+        public virtual DbSet<TestEntityOneOrManyToZeroOrOneDto> TestEntityOneOrManyToZeroOrOnes { get; set; } = null!;
+        public virtual DbSet<TestEntityZeroOrOneToExactlyOneDto> TestEntityZeroOrOneToExactlyOnes { get; set; } = null!;
+        public virtual DbSet<TestEntityExactlyOneToZeroOrOneDto> TestEntityExactlyOneToZeroOrOnes { get; set; } = null!;
+        public virtual DbSet<TestEntityOwnedRelationshipExactlyOneDto> TestEntityOwnedRelationshipExactlyOnes { get; set; } = null!;
+        public virtual DbSet<TestEntityOwnedRelationshipZeroOrOneDto> TestEntityOwnedRelationshipZeroOrOnes { get; set; } = null!;
+        public virtual DbSet<TestEntityOwnedRelationshipOneOrManyDto> TestEntityOwnedRelationshipOneOrManies { get; set; } = null!;
+        public virtual DbSet<TestEntityOwnedRelationshipZeroOrManyDto> TestEntityOwnedRelationshipZeroOrManies { get; set; } = null!;
+        public virtual DbSet<TestEntityTwoRelationshipsOneToOneDto> TestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
+        public virtual DbSet<SecondTestEntityTwoRelationshipsOneToOneDto> SecondTestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
+        public virtual DbSet<TestEntityTwoRelationshipsManyToManyDto> TestEntityTwoRelationshipsManyToManies { get; set; } = null!;
+        public virtual DbSet<SecondTestEntityTwoRelationshipsManyToManyDto> SecondTestEntityTwoRelationshipsManyToManies { get; set; } = null!;
+        public virtual DbSet<TestEntityTwoRelationshipsOneToManyDto> TestEntityTwoRelationshipsOneToManies { get; set; } = null!;
+        public virtual DbSet<SecondTestEntityTwoRelationshipsOneToManyDto> SecondTestEntityTwoRelationshipsOneToManies { get; set; } = null!;
+        public virtual DbSet<TestEntityForTypesDto> TestEntityForTypes { get; set; } = null!;
+        public virtual DbSet<TestEntityForUniqueConstraintsDto> TestEntityForUniqueConstraints { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -105,18 +105,12 @@ internal class DtoDbContext : DbContext
         {            
             foreach (var entity in _codeGenConventions.Solution.Domain!.Entities)
             {
-                // Ignore owned entities configuration as they are configured inside entity constructor
-                if (entity.IsOwnedEntity)
-                {
-                    continue;
-                }
-
                 var dtoName = entity.Name + "Dto";
 
                 var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
                     ?? throw new TypeNotFoundException(dtoName);
 
-                _noxDtoDatabaseConfigurator.ConfigureDto(modelBuilder.Entity(type), entity);
+                _noxDtoDatabaseConfigurator.ConfigureDto(modelBuilder.Entity(type).ToTable(entity.Persistence.TableName), entity);
 
                 if (entity.IsLocalized)
                 {

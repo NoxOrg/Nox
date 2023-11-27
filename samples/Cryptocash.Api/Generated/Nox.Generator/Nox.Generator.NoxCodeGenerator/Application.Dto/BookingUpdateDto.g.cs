@@ -21,6 +21,15 @@ public partial class BookingUpdateDto : BookingUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity Booking: Exchange booking and related data.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class BookingPatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Exchange booking and related data
 /// </summary>
 public partial class BookingUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Booking>

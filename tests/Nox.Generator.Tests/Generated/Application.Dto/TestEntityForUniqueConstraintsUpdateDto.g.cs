@@ -21,6 +21,15 @@ public partial class TestEntityForUniqueConstraintsUpdateDto : TestEntityForUniq
 }
 
 /// <summary>
+/// Patch entity TestEntityForUniqueConstraints: Entity created for testing constraints.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class TestEntityForUniqueConstraintsPatchDto: TestEntityForUniqueConstraintsUpdateDto
+{
+    
+}
+
+/// <summary>
 /// Entity created for testing constraints
 /// </summary>
 public partial class TestEntityForUniqueConstraintsUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityForUniqueConstraints>

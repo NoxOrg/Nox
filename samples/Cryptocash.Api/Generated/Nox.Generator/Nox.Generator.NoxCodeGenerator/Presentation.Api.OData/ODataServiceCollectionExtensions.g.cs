@@ -28,7 +28,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<BookingDto>().ContainsRequired(e => e.VendingMachine);
         builder.EntityType<BookingDto>().ContainsRequired(e => e.Commission);
         builder.EntityType<BookingDto>().ContainsRequired(e => e.Transaction);
-        builder.ComplexType<BookingUpdateDto>();
+        builder.ComplexType<BookingPatchDto>();
         builder.EntityType<BookingDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<BookingDto>().Ignore(e => e.Etag);
 
@@ -36,7 +36,7 @@ internal static class ODataServiceCollectionExtensions
 		builder.EntityType<CommissionDto>().HasKey(e => new { e.Id });
         builder.EntityType<CommissionDto>().ContainsOptional(e => e.Country);
         builder.EntityType<CommissionDto>().ContainsMany(e => e.Bookings);
-        builder.ComplexType<CommissionUpdateDto>();
+        builder.ComplexType<CommissionPatchDto>();
         builder.EntityType<CommissionDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CommissionDto>().Ignore(e => e.Etag);
 
@@ -48,7 +48,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CountryDto>().ContainsMany(e => e.Commissions);
         builder.EntityType<CountryDto>().ContainsMany(e => e.VendingMachines);
         builder.EntityType<CountryDto>().ContainsMany(e => e.Customers);
-        builder.ComplexType<CountryUpdateDto>();
+        builder.ComplexType<CountryPatchDto>();
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CountryDto>().Ignore(e => e.Etag);
 
@@ -66,7 +66,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CurrencyDto>().ContainsMany(e => e.ExchangeRates).AutoExpand = true;
         builder.EntityType<CurrencyDto>().ContainsMany(e => e.Countries);
         builder.EntityType<CurrencyDto>().ContainsMany(e => e.MinimumCashStocks);
-        builder.ComplexType<CurrencyUpdateDto>();
+        builder.ComplexType<CurrencyPatchDto>();
         builder.EntityType<CurrencyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CurrencyDto>().Ignore(e => e.Etag);
 
@@ -80,7 +80,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CustomerDto>().ContainsMany(e => e.Bookings);
         builder.EntityType<CustomerDto>().ContainsMany(e => e.Transactions);
         builder.EntityType<CustomerDto>().ContainsRequired(e => e.Country);
-        builder.ComplexType<CustomerUpdateDto>();
+        builder.ComplexType<CustomerPatchDto>();
         builder.EntityType<CustomerDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CustomerDto>().Ignore(e => e.Etag);
 
@@ -88,7 +88,7 @@ internal static class ODataServiceCollectionExtensions
 		builder.EntityType<PaymentDetailDto>().HasKey(e => new { e.Id });
         builder.EntityType<PaymentDetailDto>().ContainsRequired(e => e.Customer);
         builder.EntityType<PaymentDetailDto>().ContainsRequired(e => e.PaymentProvider);
-        builder.ComplexType<PaymentDetailUpdateDto>();
+        builder.ComplexType<PaymentDetailPatchDto>();
         builder.EntityType<PaymentDetailDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<PaymentDetailDto>().Ignore(e => e.Etag);
 
@@ -96,7 +96,7 @@ internal static class ODataServiceCollectionExtensions
 		builder.EntityType<TransactionDto>().HasKey(e => new { e.Id });
         builder.EntityType<TransactionDto>().ContainsRequired(e => e.Customer);
         builder.EntityType<TransactionDto>().ContainsRequired(e => e.Booking);
-        builder.ComplexType<TransactionUpdateDto>();
+        builder.ComplexType<TransactionPatchDto>();
         builder.EntityType<TransactionDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TransactionDto>().Ignore(e => e.Etag);
 
@@ -104,7 +104,7 @@ internal static class ODataServiceCollectionExtensions
 		builder.EntityType<EmployeeDto>().HasKey(e => new { e.Id });
         builder.EntityType<EmployeeDto>().ContainsMany(e => e.EmployeePhoneNumbers).AutoExpand = true;
         builder.EntityType<EmployeeDto>().ContainsOptional(e => e.CashStockOrder);
-        builder.ComplexType<EmployeeUpdateDto>();
+        builder.ComplexType<EmployeePatchDto>();
         builder.EntityType<EmployeeDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<EmployeeDto>().Ignore(e => e.Etag);
 
@@ -119,7 +119,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<LandLordDto>("LandLords");
 		builder.EntityType<LandLordDto>().HasKey(e => new { e.Id });
         builder.EntityType<LandLordDto>().ContainsMany(e => e.VendingMachines);
-        builder.ComplexType<LandLordUpdateDto>();
+        builder.ComplexType<LandLordPatchDto>();
         builder.EntityType<LandLordDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<LandLordDto>().Ignore(e => e.Etag);
 
@@ -127,14 +127,14 @@ internal static class ODataServiceCollectionExtensions
 		builder.EntityType<MinimumCashStockDto>().HasKey(e => new { e.Id });
         builder.EntityType<MinimumCashStockDto>().ContainsMany(e => e.VendingMachines);
         builder.EntityType<MinimumCashStockDto>().ContainsRequired(e => e.Currency);
-        builder.ComplexType<MinimumCashStockUpdateDto>();
+        builder.ComplexType<MinimumCashStockPatchDto>();
         builder.EntityType<MinimumCashStockDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<MinimumCashStockDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<PaymentProviderDto>("PaymentProviders");
 		builder.EntityType<PaymentProviderDto>().HasKey(e => new { e.Id });
         builder.EntityType<PaymentProviderDto>().ContainsMany(e => e.PaymentDetails);
-        builder.ComplexType<PaymentProviderUpdateDto>();
+        builder.ComplexType<PaymentProviderPatchDto>();
         builder.EntityType<PaymentProviderDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<PaymentProviderDto>().Ignore(e => e.Etag);
 
@@ -145,7 +145,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<VendingMachineDto>().ContainsMany(e => e.Bookings);
         builder.EntityType<VendingMachineDto>().ContainsMany(e => e.CashStockOrders);
         builder.EntityType<VendingMachineDto>().ContainsMany(e => e.MinimumCashStocks);
-        builder.ComplexType<VendingMachineUpdateDto>();
+        builder.ComplexType<VendingMachinePatchDto>();
         builder.EntityType<VendingMachineDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<VendingMachineDto>().Ignore(e => e.Etag);
 
@@ -153,7 +153,7 @@ internal static class ODataServiceCollectionExtensions
 		builder.EntityType<CashStockOrderDto>().HasKey(e => new { e.Id });
         builder.EntityType<CashStockOrderDto>().ContainsRequired(e => e.VendingMachine);
         builder.EntityType<CashStockOrderDto>().ContainsRequired(e => e.Employee);
-        builder.ComplexType<CashStockOrderUpdateDto>();
+        builder.ComplexType<CashStockOrderPatchDto>();
         builder.EntityType<CashStockOrderDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CashStockOrderDto>().Ignore(e => e.Etag);
 

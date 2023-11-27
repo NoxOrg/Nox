@@ -101,7 +101,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityOwnedRelationshipZeroOrOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityOwnedRelationshipZeroOrOneUpdateDto> testEntityOwnedRelationshipZeroOrOne)
+    public virtual async Task<ActionResult<TestEntityOwnedRelationshipZeroOrOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<PatchTestEntityOwnedRelationshipZeroOrOneUpdateDto> testEntityOwnedRelationshipZeroOrOne)
     {
         if (!ModelState.IsValid || testEntityOwnedRelationshipZeroOrOne is null)
         {

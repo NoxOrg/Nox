@@ -21,6 +21,15 @@ public partial class EntityUniqueConstraintsWithForeignKeyUpdateDto : EntityUniq
 }
 
 /// <summary>
+/// Patch entity EntityUniqueConstraintsWithForeignKey: Entity created for testing constraints with Foreign Key.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class EntityUniqueConstraintsWithForeignKeyPatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Entity created for testing constraints with Foreign Key
 /// </summary>
 public partial class EntityUniqueConstraintsWithForeignKeyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.EntityUniqueConstraintsWithForeignKey>

@@ -21,6 +21,15 @@ public partial class TestEntityExactlyOneToZeroOrOneUpdateDto : TestEntityExactl
 }
 
 /// <summary>
+/// Patch entity TestEntityExactlyOneToZeroOrOne: .
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class TestEntityExactlyOneToZeroOrOnePatchDto: TestEntityExactlyOneToZeroOrOneUpdateDto
+{
+    
+}
+
+/// <summary>
 /// 
 /// </summary>
 public partial class TestEntityExactlyOneToZeroOrOneUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityExactlyOneToZeroOrOne>

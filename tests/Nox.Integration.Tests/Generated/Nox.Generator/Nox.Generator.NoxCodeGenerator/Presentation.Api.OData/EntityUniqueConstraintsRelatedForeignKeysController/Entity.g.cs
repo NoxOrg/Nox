@@ -101,7 +101,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<EntityUniqueConstraintsRelatedForeignKeyDto>> Patch([FromRoute] System.Int32 key, [FromBody] Delta<EntityUniqueConstraintsRelatedForeignKeyUpdateDto> entityUniqueConstraintsRelatedForeignKey)
+    public virtual async Task<ActionResult<EntityUniqueConstraintsRelatedForeignKeyDto>> Patch([FromRoute] System.Int32 key, [FromBody] Delta<PatchEntityUniqueConstraintsRelatedForeignKeyUpdateDto> entityUniqueConstraintsRelatedForeignKey)
     {
         if (!ModelState.IsValid || entityUniqueConstraintsRelatedForeignKey is null)
         {

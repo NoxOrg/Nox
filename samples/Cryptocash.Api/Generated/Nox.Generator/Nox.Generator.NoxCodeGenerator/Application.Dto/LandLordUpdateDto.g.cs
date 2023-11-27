@@ -21,6 +21,15 @@ public partial class LandLordUpdateDto : LandLordUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity LandLord: Landlord related data.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class LandLordPatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Landlord related data
 /// </summary>
 public partial class LandLordUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.LandLord>

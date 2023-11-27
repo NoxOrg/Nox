@@ -21,6 +21,15 @@ public partial class CommissionUpdateDto : CommissionUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity Commission: Exchange commission rate and amount.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class CommissionPatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Exchange commission rate and amount
 /// </summary>
 public partial class CommissionUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Commission>

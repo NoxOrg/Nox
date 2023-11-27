@@ -21,6 +21,15 @@ public partial class MinimumCashStockUpdateDto : MinimumCashStockUpdateDtoBase
 }
 
 /// <summary>
+/// Patch entity MinimumCashStock: Minimum cash stock required for vending machine.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class MinimumCashStockPatchDto: { { className} }
+{
+
+}
+
+/// <summary>
 /// Minimum cash stock required for vending machine
 /// </summary>
 public partial class MinimumCashStockUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.MinimumCashStock>

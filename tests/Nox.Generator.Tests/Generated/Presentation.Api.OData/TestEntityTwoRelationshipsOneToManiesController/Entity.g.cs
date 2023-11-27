@@ -71,7 +71,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateTestEntityTwoRelationshipsOneToManyCommand(testEntityTwoRelationshipsOneToMany, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -101,11 +101,11 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToManyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityTwoRelationshipsOneToManyUpdateDto> testEntityTwoRelationshipsOneToMany)
+    public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToManyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<PatchTestEntityTwoRelationshipsOneToManyUpdateDto> testEntityTwoRelationshipsOneToMany)
     {
         if (!ModelState.IsValid || testEntityTwoRelationshipsOneToMany is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

@@ -21,6 +21,15 @@ public partial class TestEntityWithNuidUpdateDto : TestEntityWithNuidUpdateDtoBa
 }
 
 /// <summary>
+/// Patch entity TestEntityWithNuid: Entity created for testing nuid.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class TestEntityWithNuidPatchDto: TestEntityWithNuidUpdateDto
+{
+    
+}
+
+/// <summary>
 /// Entity created for testing nuid
 /// </summary>
 public partial class TestEntityWithNuidUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityWithNuid>

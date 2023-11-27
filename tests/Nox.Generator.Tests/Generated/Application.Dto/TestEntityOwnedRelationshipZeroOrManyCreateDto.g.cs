@@ -44,5 +44,5 @@ public abstract class TestEntityOwnedRelationshipZeroOrManyCreateDtoBase : IEnti
     /// <summary>
     /// TestEntityOwnedRelationshipZeroOrMany Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrMany ZeroOrMany SecondTestEntityOwnedRelationshipZeroOrManies
     /// </summary>
-    public virtual List<SecondTestEntityOwnedRelationshipZeroOrManyCreateDto> SecondTestEntityOwnedRelationshipZeroOrManies { get; set; } = new();
+    public virtual List<SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto> SecondTestEntityOwnedRelationshipZeroOrManies { get; set; } = new();
 }

@@ -21,6 +21,15 @@ public partial class {{className}} : {{className}}Base
 }
 
 /// <summary>
+/// Patch entity {{entity.Name}}: {{entity.Description  | string.rstrip}}.
+/// </summary>
+/// <remarks>Registered in OData for Delta feature. It is not suppose to extend this, extend update Dto instead</remarks>
+public partial class {{entity.Name}}PatchDto: {{className}}
+{
+    {{# TODO create a subtemplate concept to apply both to Patch and Update Dto }}
+}
+
+/// <summary>
 /// {{entity.Description  | string.rstrip}}
 /// </summary>
 public partial class {{className}}Base: EntityDtoBase, IEntityDto<DomainNamespace.{{entity.Name}}>
