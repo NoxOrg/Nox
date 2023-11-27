@@ -80,8 +80,6 @@ namespace Nox.Types.EntityFramework.Configurations
             ConfigureOwnedRelationships(CodeGenConventions, builder, entity);
 
             ConfigureUniqueAttributeConstraints(builder, entity);
-
-            ConfigureAutoNumberAttributeSequences(modelBuilder, entity);
         }
 
         public virtual void ConfigureLocalizedEntity(
@@ -504,7 +502,5 @@ namespace Nox.Types.EntityFramework.Configurations
         {
             return builder.HasIndex(propertyNames).HasDatabaseName(constraintName).IsUnique();
         }
-
-        protected virtual void ConfigureAutoNumberAttributeSequences(ModelBuilder modelBuilder, Entity entity) { }
     }
 }
