@@ -4,7 +4,7 @@ using Nox.Types.EntityFramework.Types;
 
 using System.Globalization;
 
-namespace Nox.EntityFramework.SqlServer;
+namespace Nox.EntityFramework.SqlServer.Types;
 
 public class SqlServerVolumeDatabaseConfigurator : VolumeDatabaseConfigurator, ISqlServerNoxTypeDatabaseConfigurator
 {
