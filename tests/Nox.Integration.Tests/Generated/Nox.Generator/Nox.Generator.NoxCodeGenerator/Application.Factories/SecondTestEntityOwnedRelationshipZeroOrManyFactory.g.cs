@@ -26,14 +26,9 @@ namespace TestWebApp.Application.Factories;
 internal abstract class SecondTestEntityOwnedRelationshipZeroOrManyFactoryBase : IEntityFactory<SecondTestEntityOwnedRelationshipZeroOrManyEntity, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
-    public SecondTestEntityOwnedRelationshipZeroOrManyFactoryBase
-    (
-        IRepository repository
-        )
+    public SecondTestEntityOwnedRelationshipZeroOrManyFactoryBase()
     {
-        _repository = repository;
     }
 
     public virtual SecondTestEntityOwnedRelationshipZeroOrManyEntity CreateEntity(SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto createDto)
@@ -61,7 +56,7 @@ internal abstract class SecondTestEntityOwnedRelationshipZeroOrManyFactoryBase :
     private TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrMany ToEntity(SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto createDto)
     {
         var entity = new TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrMany();
-        entity.Id = SecondTestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
+        entity.Id = SecondTestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(createDto.Id!);
         entity.TextTestField2 = TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrManyMetadata.CreateTextTestField2(createDto.TextTestField2);
         return entity;
     }
@@ -92,9 +87,4 @@ internal abstract class SecondTestEntityOwnedRelationshipZeroOrManyFactoryBase :
 
 internal partial class SecondTestEntityOwnedRelationshipZeroOrManyFactory : SecondTestEntityOwnedRelationshipZeroOrManyFactoryBase
 {
-    public SecondTestEntityOwnedRelationshipZeroOrManyFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

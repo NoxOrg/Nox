@@ -13,11 +13,8 @@ internal class QueryLocalizedGenerator : ApplicationEntityDependentGeneratorBase
     {
         var templateName = @"Application.Queries.QueryLocalized";
 
-        foreach (var entity in entities.Where(x => x.IsLocalized))
+        foreach (var entity in entities.Where(e => e.IsLocalized && !e.IsOwnedEntity))
         {
-            if (entity.IsOwnedEntity)
-                continue;
-
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)

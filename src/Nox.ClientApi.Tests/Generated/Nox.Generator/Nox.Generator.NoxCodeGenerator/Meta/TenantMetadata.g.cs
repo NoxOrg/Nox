@@ -57,6 +57,13 @@ public partial class TenantMetadata
         
     
         /// <summary>
+        /// Factory for property 'TenantBrandId'
+        /// </summary>
+        public static Nox.Types.AutoNumber CreateTenantBrandId(System.Int64 value)
+            => Nox.Types.AutoNumber.FromDatabase(value);
+        
+    
+        /// <summary>
         /// Factory for property 'WorkplaceId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateWorkplaceId(System.Int64 value)

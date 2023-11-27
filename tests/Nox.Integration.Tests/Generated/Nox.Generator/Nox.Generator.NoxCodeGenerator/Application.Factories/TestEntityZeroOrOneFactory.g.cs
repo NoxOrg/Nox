@@ -26,14 +26,9 @@ namespace TestWebApp.Application.Factories;
 internal abstract class TestEntityZeroOrOneFactoryBase : IEntityFactory<TestEntityZeroOrOneEntity, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
-    public TestEntityZeroOrOneFactoryBase
-    (
-        IRepository repository
-        )
+    public TestEntityZeroOrOneFactoryBase()
     {
-        _repository = repository;
     }
 
     public virtual TestEntityZeroOrOneEntity CreateEntity(TestEntityZeroOrOneCreateDto createDto)
@@ -92,9 +87,4 @@ internal abstract class TestEntityZeroOrOneFactoryBase : IEntityFactory<TestEnti
 
 internal partial class TestEntityZeroOrOneFactory : TestEntityZeroOrOneFactoryBase
 {
-    public TestEntityZeroOrOneFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

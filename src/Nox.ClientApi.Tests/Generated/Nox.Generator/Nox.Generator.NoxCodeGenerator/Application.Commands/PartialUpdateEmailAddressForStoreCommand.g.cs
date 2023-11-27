@@ -15,29 +15,31 @@ using ClientApi.Application.Dto;
 using EmailAddressEntity = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Commands;
-public partial record PartialUpdateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
+public partial record PartialUpdateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
 
 internal partial class PartialUpdateEmailAddressForStoreCommandHandler: PartialUpdateEmailAddressForStoreCommandHandlerBase
 {
 	public PartialUpdateEmailAddressForStoreCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: CommandBase<PartialUpdateEmailAddressForStoreCommand, EmailAddressEntity>, IRequestHandler <PartialUpdateEmailAddressForStoreCommand, EmailAddressKeyDto?>
 {
-	public AppDbContext DbContext { get; }
-	public IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> EntityFactory { get; }
+	private readonly AppDbContext _dbContext;
+	private readonly IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> _entityFactory;
 
-	public PartialUpdateEmailAddressForStoreCommandHandlerBase(
-        AppDbContext dbContext,
+	protected PartialUpdateEmailAddressForStoreCommandHandlerBase(
+		AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> entityFactory) : base(noxSolution)
+		IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> entityFactory)
+		: base(noxSolution)
 	{
-		DbContext = dbContext;
-		EntityFactory = entityFactory;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
 	}
 
 	public virtual async Task<EmailAddressKeyDto?> Handle(PartialUpdateEmailAddressForStoreCommand request, CancellationToken cancellationToken)
@@ -46,12 +48,12 @@ internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: Com
 		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await DbContext.Stores.FindAsync(keyId);
+		var parentEntity = await _dbContext.Stores.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
-		await DbContext.Entry(parentEntity).Reference(e => e.EmailAddress).LoadAsync(cancellationToken);
+		await _dbContext.Entry(parentEntity).Reference(e => e.EmailAddress).LoadAsync(cancellationToken);
 		var entity = parentEntity.EmailAddress;
 		
 		if (entity == null)
@@ -59,13 +61,13 @@ internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: Com
 			return null;
 		}
 
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, DefaultCultureCode);
+		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		_dbContext.Entry(entity).State = EntityState.Modified;
+		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
 			return null;

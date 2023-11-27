@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿
+﻿// Generated
 
 #nullable enable
 
@@ -8,17 +9,13 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
-using Nox.Extensions;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Commands;
-
-public partial record UpdateCountryLocalNamesForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameUpsertDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
+public partial record UpdateCountryLocalNamesForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto, CountryLocalNameUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
 
 internal partial class UpdateCountryLocalNamesForCountryCommandHandler : UpdateCountryLocalNamesForCountryCommandHandlerBase
 {
@@ -33,15 +30,16 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandler : UpdateC
 
 internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : CommandBase<UpdateCountryLocalNamesForCountryCommand, CountryLocalNameEntity>, IRequestHandler <UpdateCountryLocalNamesForCountryCommand, CountryLocalNameKeyDto?>
 {
-	public AppDbContext DbContext { get; }
+	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> _entityFactory;
 
-	public UpdateCountryLocalNamesForCountryCommandHandlerBase(
+	protected UpdateCountryLocalNamesForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> entityFactory) : base(noxSolution)
+		IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> entityFactory)
+		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
 		_entityFactory = entityFactory;
 	}
 
@@ -50,25 +48,27 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
-		var parentEntity = await DbContext.Countries.FindAsync(keyId);
+		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
-		await DbContext.Entry(parentEntity).Collection(p => p.CountryLocalNames).LoadAsync(cancellationToken);
-		var ownedId = ClientApi.Domain.CountryLocalNameMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
+		await _dbContext.Entry(parentEntity).Collection(p => p.CountryLocalNames).LoadAsync(cancellationToken);
+		var ownedId = ClientApi.Domain.CountryLocalNameMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, DefaultCultureCode);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+
+
+		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
 			return null;
@@ -76,12 +76,5 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 
 		return new CountryLocalNameKeyDto(entity.Id.Value);
 	}
-}
 
-public class UpdateCountryLocalNamesForCountryValidator : AbstractValidator<UpdateCountryLocalNamesForCountryCommand>
-{
-    public UpdateCountryLocalNamesForCountryValidator(ILogger<UpdateCountryLocalNamesForCountryCommand> logger)
-    {
-		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
-    }
 }

@@ -19,7 +19,7 @@ public partial record GetWorkplaceByIdQuery(CultureCode cultureCode, System.Int6
 
 internal partial class GetWorkplaceByIdQueryHandler : GetWorkplaceByIdQueryHandlerBase
 {
-    public  GetWorkplaceByIdQueryHandler(DtoDbContext dataDbContext) : base(dataDbContext)
+    public GetWorkplaceByIdQueryHandler(DtoDbContext dataDbContext) : base(dataDbContext)
     {
 
     }
@@ -27,7 +27,7 @@ internal partial class GetWorkplaceByIdQueryHandler : GetWorkplaceByIdQueryHandl
 
 internal abstract class GetWorkplaceByIdQueryHandlerBase:  QueryBase<IQueryable<WorkplaceDto>>, IRequestHandler<GetWorkplaceByIdQuery, IQueryable<WorkplaceDto>>
 {
-    public  GetWorkplaceByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    protected GetWorkplaceByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
@@ -45,19 +45,15 @@ internal abstract class GetWorkplaceByIdQueryHandlerBase:  QueryBase<IQueryable<
             from itemLocalized in joinedData.Where(l => item.Id == l.Id).DefaultIfEmpty()
             select new WorkplaceDto()
             {
-        Id = item.Id,
-        Name = item.Name,
-        ReferenceNumber = item.ReferenceNumber,
-        Description = itemLocalized.Description ?? "[" + item.Description + "]",
-        Greeting = item.Greeting,
-        CountryId = item.CountryId,
-        Etag = item.Etag
+                Id = item.Id,
+                Name = item.Name,
+                Description = itemLocalized.Description ?? "[" + item.Description + "]",
+                Greeting = item.Greeting,
+                CountryId = item.CountryId,
+                Etag = item.Etag
             };
 
-        var sqlStatement = linqQueryBuilder.ToQueryString()
-            .Replace("DECLARE", "-- DECLARE")
-            .Replace($"= @__{nameof(request)}_{nameof(request.keyId)}_0", $"= '{request.keyId}'")
-            .Replace($"WHERE @__{nameof(cultureCode)}_1", $"WHERE '{cultureCode}'");
+        var sqlStatement = linqQueryBuilder.ToQueryString();
 
         IQueryable<WorkplaceDto> getItemsQuery =
             from item in DataDbContext.Workplaces.FromSqlRaw(sqlStatement)

@@ -26,9 +26,8 @@ namespace TestWebApp.Presentation.Api.OData;
          
 
 
-
 public abstract partial class TestEntityLocalizationsControllerBase
-{
+{  
     
     [HttpPut("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/{cultureCode}")]
     public virtual async Task<ActionResult<TestEntityLocalizationLocalizedDto>> PutTestEntityLocalizationLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode, [FromBody] TestEntityLocalizationLocalizedUpsertDto testEntityLocalizationLocalizedUpsertDto)

@@ -28,6 +28,30 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Tenants/{key}`
   - Description: Delete an existing Tenant.
 
+## Owned Relationships Endpoints
+
+### TenantBrand
+
+#### Get TenantBrands
+- **GET** `/api/Tenants/{key}/TenantBrands`
+  - Description: Retrieve all TenantBrands for a specific Tenant.
+
+#### Create TenantBrand
+- **POST** `/api/Tenants/{key}/TenantBrands`
+  - Description: Create a new TenantBrand for a specific Tenant.
+
+#### Update TenantBrand
+- **PUT** `/api/Tenants/{key}/TenantBrands/{relatedKey}`
+  - Description: Update an existing TenantBrand for a specific Tenant.
+  
+#### Partially Update TenantBrand
+- **PATCH** `/api/Tenants/{key}/TenantBrands/{relatedKey}`
+  - Description: Partially update an existing TenantBrand for a specific Tenant.
+
+#### Delete TenantBrand
+- **DELETE** `/api/Tenants/{key}/TenantBrands/{relatedKey}`
+  - Description: Delete an existing TenantBrand for a specific Tenant.
+
 ## Relationships Endpoints
 
 ### Workplace

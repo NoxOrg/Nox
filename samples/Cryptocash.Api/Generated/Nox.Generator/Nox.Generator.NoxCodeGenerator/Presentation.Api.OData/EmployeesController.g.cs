@@ -12,7 +12,6 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
-using Nox.Application.Dto;
 using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -34,7 +33,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
+            return BadRequest(ModelState);
         }
         var item = (await _mediator.Send(new GetEmployeeByIdQuery(key))).SingleOrDefault();
         
@@ -52,7 +51,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
+            return BadRequest(ModelState);
         }
         var child = await TryGetEmployeePhoneNumbers(key, new EmployeePhoneNumberKeyDto(relatedKey));
         if (child == null)
@@ -67,11 +66,11 @@ public abstract partial class EmployeesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
+            return BadRequest(ModelState);
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new CreateEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), employeePhoneNumber, etag));
+        var createdKey = await _mediator.Send(new CreateEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), employeePhoneNumber, _cultureCode, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -86,15 +85,16 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<EmployeePhoneNumberDto>> PutToEmployeePhoneNumbers(System.Int64 key, [FromBody] EmployeePhoneNumberUpsertDto employeePhoneNumber)
+    [HttpPut("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
+    public virtual async Task<ActionResult<EmployeePhoneNumberDto>> PutToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] EmployeePhoneNumberUpsertDto employeePhoneNumber)
     {
         if (!ModelState.IsValid)
         {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
+            return BadRequest(ModelState);
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), employeePhoneNumber, etag));
+        var updatedKey = await _mediator.Send(new UpdateEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey), employeePhoneNumber, _cultureCode, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -109,11 +109,12 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PatchToEmployeePhoneNumbers(System.Int64 key, [FromBody] Delta<EmployeePhoneNumberUpsertDto> employeePhoneNumber)
+    [HttpPatch("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
+    public virtual async Task<ActionResult> PatchToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberUpsertDto> employeePhoneNumber)
     {
         if (!ModelState.IsValid || employeePhoneNumber is null)
         {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
+            return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
@@ -125,13 +126,8 @@ public abstract partial class EmployeesControllerBase : ODataController
             }           
         }
         
-        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
-        {
-            throw new Nox.Exceptions.BadRequestException("Id is required.");
-        }
-        
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(updateProperties["Id"]), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey), updateProperties, _cultureCode, etag));
         
         if (updated is null)
         {
@@ -151,7 +147,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
+            return BadRequest(ModelState);
         }
         var result = await _mediator.Send(new DeleteEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey)));
         if (!result)
@@ -173,11 +169,11 @@ public abstract partial class EmployeesControllerBase : ODataController
     
     #region Relationships
     
-    public virtual async Task<ActionResult> CreateRefToCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> CreateRefToCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
+            return BadRequest(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefEmployeeToCashStockOrderCommand(new EmployeeKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
@@ -189,7 +185,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> GetRefToCashStockOrder([FromRoute] System.Int64 key)
+    public async Task<ActionResult> GetRefToCashStockOrder([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.CashStockOrder).SingleOrDefault();
         if (related is null)
@@ -201,11 +197,11 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(references);
     }
     
-    public virtual async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
+            return BadRequest(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefEmployeeToCashStockOrderCommand(new EmployeeKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
@@ -217,11 +213,11 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key)
+    public async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
+            return BadRequest(ModelState);
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefEmployeeToCashStockOrderCommand(new EmployeeKeyDto(key)));
@@ -237,7 +233,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
+            return BadRequest(ModelState);
         }
         
         cashStockOrder.EmployeeId = key;
@@ -263,7 +259,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
+            return BadRequest(ModelState);
         }
         
         var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.CashStockOrder).SingleOrDefault();
@@ -283,11 +279,11 @@ public abstract partial class EmployeesControllerBase : ODataController
     }
     
     [HttpDelete("/api/Employees/{key}/CashStockOrder")]
-    public virtual async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Int64 key)
+    public async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
+            return BadRequest(ModelState);
         }
         
         var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.CashStockOrder).SingleOrDefault();

@@ -26,14 +26,9 @@ namespace ClientApi.Application.Factories;
 internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
-    public StoreLicenseFactoryBase
-    (
-        IRepository repository
-        )
+    public StoreLicenseFactoryBase()
     {
-        _repository = repository;
     }
 
     public virtual StoreLicenseEntity CreateEntity(StoreLicenseCreateDto createDto)
@@ -91,9 +86,4 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
 
 internal partial class StoreLicenseFactory : StoreLicenseFactoryBase
 {
-    public StoreLicenseFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

@@ -19,7 +19,7 @@ public partial record GetTestEntityLocalizationByIdQuery(CultureCode cultureCode
 
 internal partial class GetTestEntityLocalizationByIdQueryHandler : GetTestEntityLocalizationByIdQueryHandlerBase
 {
-    public  GetTestEntityLocalizationByIdQueryHandler(DtoDbContext dataDbContext) : base(dataDbContext)
+    public GetTestEntityLocalizationByIdQueryHandler(DtoDbContext dataDbContext) : base(dataDbContext)
     {
 
     }
@@ -27,7 +27,7 @@ internal partial class GetTestEntityLocalizationByIdQueryHandler : GetTestEntity
 
 internal abstract class GetTestEntityLocalizationByIdQueryHandlerBase:  QueryBase<IQueryable<TestEntityLocalizationDto>>, IRequestHandler<GetTestEntityLocalizationByIdQuery, IQueryable<TestEntityLocalizationDto>>
 {
-    public  GetTestEntityLocalizationByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    protected GetTestEntityLocalizationByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
@@ -45,16 +45,16 @@ internal abstract class GetTestEntityLocalizationByIdQueryHandlerBase:  QueryBas
             from itemLocalized in joinedData.Where(l => item.Id == l.Id).DefaultIfEmpty()
             select new TestEntityLocalizationDto()
             {
-        Id = item.Id,
-        TextFieldToLocalize = itemLocalized.TextFieldToLocalize ?? "[" + item.TextFieldToLocalize + "]",
-        NumberField = item.NumberField,
-        Etag = item.Etag
+                Id = item.Id,
+                TextFieldToLocalize = itemLocalized.TextFieldToLocalize ?? "[" + item.TextFieldToLocalize + "]",
+                NumberField = item.NumberField,
+                Etag = item.Etag
             };
 
         var sqlStatement = linqQueryBuilder.ToQueryString()
             .Replace("DECLARE", "-- DECLARE")
             .Replace($"= @__{nameof(request)}_{nameof(request.keyId)}_0", $"= '{request.keyId}'")
-            .Replace($"WHERE @__{nameof(cultureCode)}_1", $"WHERE '{cultureCode}'");
+            .Replace($"@__{nameof(cultureCode)}_1", $"'{cultureCode}'");
 
         IQueryable<TestEntityLocalizationDto> getItemsQuery =
             from item in DataDbContext.TestEntityLocalizations.FromSqlRaw(sqlStatement)

@@ -26,14 +26,9 @@ namespace TestWebApp.Application.Factories;
 internal abstract class EntityUniqueConstraintsWithForeignKeyFactoryBase : IEntityFactory<EntityUniqueConstraintsWithForeignKeyEntity, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
-    public EntityUniqueConstraintsWithForeignKeyFactoryBase
-    (
-        IRepository repository
-        )
+    public EntityUniqueConstraintsWithForeignKeyFactoryBase()
     {
-        _repository = repository;
     }
 
     public virtual EntityUniqueConstraintsWithForeignKeyEntity CreateEntity(EntityUniqueConstraintsWithForeignKeyCreateDto createDto)
@@ -110,9 +105,4 @@ internal abstract class EntityUniqueConstraintsWithForeignKeyFactoryBase : IEnti
 
 internal partial class EntityUniqueConstraintsWithForeignKeyFactory : EntityUniqueConstraintsWithForeignKeyFactoryBase
 {
-    public EntityUniqueConstraintsWithForeignKeyFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

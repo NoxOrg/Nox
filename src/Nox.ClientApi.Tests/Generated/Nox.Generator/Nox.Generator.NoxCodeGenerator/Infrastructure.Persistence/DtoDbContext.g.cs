@@ -59,6 +59,7 @@ internal class DtoDbContext : DbContext
         public virtual DbSet<TenantDto> Tenants { get; set; } = null!;
         public virtual DbSet<ClientDto> Clients { get; set; } = null!;
     public virtual DbSet<WorkplaceLocalizedDto> WorkplacesLocalized { get; set; } = null!;
+    public virtual DbSet<TenantBrandLocalizedDto> TenantBrandsLocalized { get; set; } = null!;
     public virtual DbSet<DtoNameSpace.CountryContinentDto> CountriesContinents { get; set; } = null!;
     public virtual DbSet<DtoNameSpace.CountryContinentLocalizedDto> CountriesContinentsLocalized { get; set; } = null!;
     public virtual DbSet<DtoNameSpace.StoreStatusDto> StoresStatuses { get; set; } = null!;

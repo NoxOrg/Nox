@@ -1,4 +1,5 @@
-﻿// Generated
+﻿{{-entityUpdateDto = entity.IsOwnedEntity ? (entity.Name + "UpsertDto") : (entity.Name + "UpdateDto") -}}
+// Generated
 
 #nullable enable
 
@@ -16,7 +17,7 @@ internal partial class {{className}} : {{className}}Base
 {
 }
 
-internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedEntityName}}, {{entity.Name}}Entity, {{entity.Name}}UpdateDto>
+internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedEntityName}}, {{entity.Name}}Entity, {{entityUpdateDto}}>
 {
     public virtual {{localizedEntityName}} CreateLocalizedEntity({{entity.Name}}Entity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
@@ -36,7 +37,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
         return localizedEntity;
     }
 
-    public virtual void UpdateLocalizedEntity({{ localizedEntityName}} localizedEntity, {{entity.Name}}UpdateDto updateDto)
+    public virtual void UpdateLocalizedEntity({{ localizedEntityName}} localizedEntity, {{entityUpdateDto}} updateDto)
     {
         {{- for attribute in entityLocalizedAttributes }}
         localizedEntity.{{attribute.Name}} = updateDto.{{attribute.Name}} == null

@@ -14,6 +14,7 @@ Member|Type|Description
 ------|----|-----------
 Id|Nuid|
 Name|Text|Teanant Name
+TenantBrandId|AutoNumber|
 WorkplaceId|AutoNumber|Workplace unique identifier
 
 
@@ -27,6 +28,7 @@ Member|Type|Description
 ------|----|-----------
 Id|Nuid|
 Name|Text|Teanant Name
+TenantBrandId|AutoNumber|
 WorkplaceId|AutoNumber|Workplace unique identifier
 
 
@@ -40,5 +42,6 @@ Member|Type|Description
 ------|----|-----------
 Id|Nuid|
 Name|Text|Teanant Name
+TenantBrandId|AutoNumber|
 WorkplaceId|AutoNumber|Workplace unique identifier
 

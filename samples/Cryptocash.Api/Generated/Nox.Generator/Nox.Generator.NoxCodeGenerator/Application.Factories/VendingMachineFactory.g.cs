@@ -26,14 +26,9 @@ namespace Cryptocash.Application.Factories;
 internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachineEntity, VendingMachineCreateDto, VendingMachineUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
-    public VendingMachineFactoryBase
-    (
-        IRepository repository
-        )
+    public VendingMachineFactoryBase()
     {
-        _repository = repository;
     }
 
     public virtual VendingMachineEntity CreateEntity(VendingMachineCreateDto createDto)
@@ -180,9 +175,4 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
 
 internal partial class VendingMachineFactory : VendingMachineFactoryBase
 {
-    public VendingMachineFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

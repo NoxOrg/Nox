@@ -26,14 +26,9 @@ namespace TestWebApp.Application.Factories;
 internal abstract class SecondTestEntityTwoRelationshipsOneToOneFactoryBase : IEntityFactory<SecondTestEntityTwoRelationshipsOneToOneEntity, SecondTestEntityTwoRelationshipsOneToOneCreateDto, SecondTestEntityTwoRelationshipsOneToOneUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
-    public SecondTestEntityTwoRelationshipsOneToOneFactoryBase
-    (
-        IRepository repository
-        )
+    public SecondTestEntityTwoRelationshipsOneToOneFactoryBase()
     {
-        _repository = repository;
     }
 
     public virtual SecondTestEntityTwoRelationshipsOneToOneEntity CreateEntity(SecondTestEntityTwoRelationshipsOneToOneCreateDto createDto)
@@ -92,9 +87,4 @@ internal abstract class SecondTestEntityTwoRelationshipsOneToOneFactoryBase : IE
 
 internal partial class SecondTestEntityTwoRelationshipsOneToOneFactory : SecondTestEntityTwoRelationshipsOneToOneFactoryBase
 {
-    public SecondTestEntityTwoRelationshipsOneToOneFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }
