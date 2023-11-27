@@ -16,7 +16,50 @@
       "Amount": 0.01,
       "CurrencyCode": "CHF"
     },
-    "BankNotes": [],
+    "BankNotes": [
+      {
+        "CashNote": "CHF10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "CHF"
+        }
+      },
+      {
+        "CashNote": "CHF20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "CHF"
+        }
+      },
+      {
+        "CashNote": "CHF50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "CHF"
+        }
+      },
+      {
+        "CashNote": "CHF100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "CHF"
+        }
+      },
+      {
+        "CashNote": "CHF200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "CHF"
+        }
+      },
+      {
+        "CashNote": "CHF1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "CHF"
+        }
+      }
+    ],
     "ExchangeRates": []
   }
 ]

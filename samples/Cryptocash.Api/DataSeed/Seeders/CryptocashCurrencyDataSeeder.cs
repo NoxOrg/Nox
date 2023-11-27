@@ -19,7 +19,7 @@ internal class CryptocashCurrencyDataSeeder : DataSeederBase<CurrencyDto, Curren
 
     protected override Currency TransformToEntity(CurrencyDto model)
     {
-        return new() {
+        Currency rtnCurrency = new() {
             Id = CurrencyCode3.From(model.Id!),
             Name = Text.From(model.Name!),
             CurrencyIsoNumeric = CurrencyNumber.From(model.CurrencyIsoNumeric!),
@@ -34,5 +34,21 @@ internal class CryptocashCurrencyDataSeeder : DataSeederBase<CurrencyDto, Curren
             MinorSymbol = Text.From(model.MinorSymbol!),
             MinorToMajorValue = Money.From(model.MinorToMajorValue!.Amount, model.MinorToMajorValue!.CurrencyCode)
         };
+
+        if (model.BankNotes != null)
+        {
+            foreach (BankNoteDto currentBankNote in model.BankNotes)
+            {
+                rtnCurrency.CreateRefToBankNotes(
+                    new()
+                    {
+                        CashNote = Text.From(currentBankNote.CashNote),
+                        Value = Money.From(currentBankNote!.Value.Amount, currentBankNote!.Value!.CurrencyCode)                        
+                    }
+                );
+            }
+        }
+
+        return rtnCurrency;
     }
 }
