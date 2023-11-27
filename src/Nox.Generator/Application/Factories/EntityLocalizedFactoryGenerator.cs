@@ -20,11 +20,9 @@ internal class EntityLocalizedFactoryGenerator : INoxCodeGenerator
         context.CancellationToken.ThrowIfCancellationRequested();
 
         if (codeGeneratorState.Solution.Domain is null)
-        {
             return;
-        }
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(e => e.IsLocalized))
+        foreach (var entity in codeGeneratorState.Solution.Domain.GetLocalizedEntities())
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 

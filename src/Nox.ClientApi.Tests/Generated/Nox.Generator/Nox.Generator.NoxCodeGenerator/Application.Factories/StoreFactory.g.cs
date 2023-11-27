@@ -26,17 +26,12 @@ namespace ClientApi.Application.Factories;
 internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
     protected IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> EmailAddressFactory {get;}
 
-    public StoreFactoryBase
-    (
-        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> emailaddressfactory,
-        IRepository repository
-        )
+    public StoreFactoryBase(
+        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> emailaddressfactory)
     {
         EmailAddressFactory = emailaddressfactory;
-        _repository = repository;
     }
 
     public virtual StoreEntity CreateEntity(StoreCreateDto createDto)
@@ -98,7 +93,6 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         {
             entity.Status = ClientApi.Domain.StoreMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>());
         }
-	    UpdateOwnedEntities(entity, updateDto, cultureCode);
     }
 
     private void PartialUpdateEntityInternal(StoreEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -158,31 +152,13 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-
-	private void UpdateOwnedEntities(StoreEntity entity, StoreUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
-	{
-		if(updateDto.EmailAddress is null)
-        {
-            if(entity.EmailAddress is not null) 
-                _repository.DeleteOwned(entity.EmailAddress);
-			entity.DeleteAllRefToEmailAddress();
-        }
-		else
-		{
-            if(entity.EmailAddress is not null)
-                EmailAddressFactory.UpdateEntity(entity.EmailAddress, updateDto.EmailAddress, cultureCode);
-            else
-			    entity.CreateRefToEmailAddress(EmailAddressFactory.CreateEntity(updateDto.EmailAddress));
-		}
-	}
 }
 
 internal partial class StoreFactory : StoreFactoryBase
 {
     public StoreFactory
     (
-        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> emailaddressfactory,
-        IRepository repository
-    ) : base(emailaddressfactory, repository)
+        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> emailaddressfactory
+    ) : base(emailaddressfactory)
     {}
 }

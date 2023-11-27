@@ -14,8 +14,6 @@ erDiagram
     }
     Country||--o{CountryLocalName : "is also know as"
     Country||--o|CountryBarCode : "is also coded as"
-    Country||--o{CountryTimeZone : "uses"
-    Country||--o{Holiday : "owned"
     CountryLocalName {
     }
     CountryBarCode {
@@ -43,9 +41,8 @@ erDiagram
     }
     Tenant {
     }
-    CountryTimeZone {
-    }
-    Holiday {
+    Tenant||--o{TenantBrand : "Brands owned by the tenant"
+    TenantBrand {
     }
     EmailAddress {
     }
@@ -74,7 +71,6 @@ Name|Text|The Country Name     Set a unique name for the country Do not use abbr
 .|Required, MinLength: 4, MaxLength: 63
 Population|Number|Population Number of People living in the country.|MaxValue: 1500000000
 CountryDebt|Money|The Money.|MinValue: 100000
-CapitalCityLocation|LatLong|The capital location.|
 FirstLanguageCode|LanguageCode|First Official Language.|
 ShortDescription|Formula|The Formula.|
 CountryIsoNumeric|CountryNumber|Country's iso number id.|
@@ -83,8 +79,6 @@ GoogleMapsUrl|Url|Country's map via google maps.|
 StartOfWeek|DayOfWeek|Country's start of week day.|
 Continent|Enumeration|Country Continent.|Values: System.Collections.Generic.List`1[Nox.Types.EnumerationValues]
 CountryLocalNameId|AutoNumber|The unique identifier.|Required, Owned Entity
-CountryTimeZoneId|TimeZoneCode|Country's related time zone code.|Required, Owned Entity
-HolidayId|Guid|Country's holiday unique identifier.|Required, Owned Entity
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -124,40 +118,6 @@ Member|Type|Description|Info
 Id|AutoNumber|The unique identifier.|Required, Primary Key
 Name|Text|Local name.|Required, MinLength: 4, MaxLength: 63
 NativeName|Text|Local name in native tongue.|MinLength: 4, MaxLength: 63
-
-
-
-
-### Country.CountryTimeZone (Owned by Country)
-
-Time zone related to country.
-
-[Domain Events](./domainEvents/CountryTimeZoneDomainEvents.md)
-
-#### <u>Members (Keys, Attributes & Relationships)</u>
-
-Member|Type|Description|Info
----------|----|----------|-------
-Id|TimeZoneCode|Country's related time zone code.|Required, Primary Key
-Name|Text|Time Zone Name.|MinLength: 4, MaxLength: 63
-
-
-
-
-### Country.Holiday (Owned by Country)
-
-Holiday related to country.
-
-[Domain Events](./domainEvents/HolidayDomainEvents.md)
-
-#### <u>Members (Keys, Attributes & Relationships)</u>
-
-Member|Type|Description|Info
----------|----|----------|-------
-Id|Guid|Country's holiday unique identifier.|Required, Primary Key
-Name|Text|Country holiday name.|Required, MinLength: 4, MaxLength: 63
-Type|Text|Country holiday type.|MinLength: 4, MaxLength: 63
-Date|Date|Country holiday date.|
 
 
 
@@ -344,6 +304,7 @@ Member|Type|Description|Info
 ---------|----|----------|-------
 Id|Nuid||Required, Primary Key, Separator: -, PropertyNames: System.String[]
 Name|Text|Teanant Name.|Required, MinLength: 4, MaxLength: 63
+TenantBrandId|AutoNumber||Required, Owned Entity
 WorkplaceId|AutoNumber|Workplace unique identifier.|Required, Foreign Key
 
 
@@ -352,6 +313,23 @@ WorkplaceId|AutoNumber|Workplace unique identifier.|Required, Foreign Key
 Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
 -----------|-----------|--------------|----|---------------|------------------
 Workplaces where the tenant is active|ZeroOrMany|Workplace|TenantWorkplaces|Yes|Yes
+
+
+### Tenant.TenantBrand (Owned by Tenant)
+
+Tenant Brand.
+
+[Domain Events](./domainEvents/TenantBrandDomainEvents.md)
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Description|Info
+---------|----|----------|-------
+Id|AutoNumber||Required, Primary Key
+Name|Text|Teanant Brand Name.|Required, MinLength: 4, MaxLength: 63
+Description|Text|Teanant Brand Description.|Required, MinLength: 4, IsLocalized: true
+
+
 
 
 ### Workplace
@@ -368,7 +346,6 @@ Member|Type|Description|Info
 ---------|----|----------|-------
 Id|AutoNumber|Workplace unique identifier.|Required, Primary Key
 Name|Text|Workplace Name.|Required, MinLength: 4, MaxLength: 63
-ReferenceNumber|ReferenceNumber|Workplace Code.|StartsAt: 10, IncrementsBy: 5
 Description|Text|Workplace Description.|MinLength: 4, IsLocalized: true
 Greeting|Formula|The Formula.|
 CountryId|AutoNumber|The unique identifier.|Required, Foreign Key, StartsAt: 10, IncrementsBy: 5

@@ -32,4 +32,8 @@ public partial class TenantUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamesp
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;
+    /// <summary>
+    /// Tenant Brands owned by the tenant ZeroOrMany TenantBrands
+    /// </summary>
+    public virtual List<TenantBrandUpsertDto> TenantBrands { get; set; } = new();
 }

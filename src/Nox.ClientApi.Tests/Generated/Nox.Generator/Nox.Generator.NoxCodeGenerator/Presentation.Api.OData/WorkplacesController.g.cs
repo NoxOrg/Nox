@@ -253,7 +253,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         tenant.WorkplacesId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateTenantCommand(tenant, _cultureCode));
         
-        var createdItem = (await _mediator.Send(new GetTenantByIdQuery(createdKey.keyId))).SingleOrDefault();
+        var createdItem = (await _mediator.Send(new GetTenantByIdQuery(_cultureCode, createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
     }
