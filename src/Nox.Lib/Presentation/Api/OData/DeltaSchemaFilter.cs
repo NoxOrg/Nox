@@ -14,6 +14,12 @@ internal class DeltaSchemaFilter : ISchemaFilter
         }
 
         var objectType = context.Type.GetGenericArguments()[0];
+
+        if(!context.SchemaRepository.Schemas.ContainsKey(objectType.Name))
+        {
+            context.SchemaGenerator.GenerateSchema(objectType, context.SchemaRepository);
+        }
+
         var objectSchema = context.SchemaRepository.Schemas[objectType.Name];
 
         schema.Properties = objectSchema.Properties;
