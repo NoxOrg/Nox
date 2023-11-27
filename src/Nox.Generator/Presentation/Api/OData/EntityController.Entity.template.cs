@@ -68,7 +68,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     }
 
     [EnableQuery]
-    public async Task<SingleResult<{{entity.Name}}Dto>> Get({{ primaryKeysRoute }})
+    public virtual async Task<SingleResult<{{entity.Name}}Dto>> Get({{ primaryKeysRoute }})
     {
         var result = await _mediator.Send(new Get{{ entity.Name }}ByIdQuery({{if entity.IsLocalized}}_cultureCode, {{end}}{{ primaryKeysQuery }}));
         return SingleResult.Create(result);

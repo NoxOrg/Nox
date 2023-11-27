@@ -61,7 +61,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
     }
 
     [EnableQuery]
-    public async Task<SingleResult<TestEntityLocalizationDto>> Get([FromRoute] System.String key)
+    public virtual async Task<SingleResult<TestEntityLocalizationDto>> Get([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_cultureCode, key));
         return SingleResult.Create(result);

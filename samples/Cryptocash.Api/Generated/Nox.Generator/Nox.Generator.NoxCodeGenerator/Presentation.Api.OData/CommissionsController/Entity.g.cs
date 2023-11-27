@@ -61,7 +61,7 @@ public abstract partial class CommissionsControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<CommissionDto>> Get([FromRoute] System.Int64 key)
+    public virtual async Task<SingleResult<CommissionDto>> Get([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new GetCommissionByIdQuery(key));
         return SingleResult.Create(result);

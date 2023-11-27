@@ -61,7 +61,7 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
     }
 
     [EnableQuery]
-    public async Task<SingleResult<SecondTestEntityOneOrManyDto>> Get([FromRoute] System.String key)
+    public virtual async Task<SingleResult<SecondTestEntityOneOrManyDto>> Get([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new GetSecondTestEntityOneOrManyByIdQuery(key));
         return SingleResult.Create(result);

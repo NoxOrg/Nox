@@ -61,7 +61,7 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<CashStockOrderDto>> Get([FromRoute] System.Int64 key)
+    public virtual async Task<SingleResult<CashStockOrderDto>> Get([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new GetCashStockOrderByIdQuery(key));
         return SingleResult.Create(result);

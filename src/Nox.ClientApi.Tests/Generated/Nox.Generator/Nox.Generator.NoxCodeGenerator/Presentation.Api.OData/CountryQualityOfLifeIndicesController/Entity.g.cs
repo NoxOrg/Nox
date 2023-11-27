@@ -61,7 +61,7 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
     }
 
     [EnableQuery]
-    public async Task<SingleResult<CountryQualityOfLifeIndexDto>> Get([FromRoute] System.Int64 keyCountryId, [FromRoute] System.Int64 keyId)
+    public virtual async Task<SingleResult<CountryQualityOfLifeIndexDto>> Get([FromRoute] System.Int64 keyCountryId, [FromRoute] System.Int64 keyId)
     {
         var result = await _mediator.Send(new GetCountryQualityOfLifeIndexByIdQuery(keyCountryId, keyId));
         return SingleResult.Create(result);
