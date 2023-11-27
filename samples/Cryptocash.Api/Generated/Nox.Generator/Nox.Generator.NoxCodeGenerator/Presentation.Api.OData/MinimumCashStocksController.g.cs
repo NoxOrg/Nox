@@ -44,6 +44,24 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpPut("/api/MinimumCashStocks/{key}/VendingMachines/$ref")]
+    public async Task<ActionResult> UpdateRefToVendingMachinesNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeyDto = referencesDto.References.Select(x => new VendingMachineKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefMinimumCashStockToVendingMachinesCommand(new MinimumCashStockKeyDto(key), relatedKeyDto));
+        if (!updatedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> GetRefToVendingMachines([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();

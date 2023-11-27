@@ -44,6 +44,24 @@ public abstract partial class LandLordsControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpPut("/api/LandLords/{key}/VendingMachines/$ref")]
+    public async Task<ActionResult> UpdateRefToVendingMachinesNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeyDto = referencesDto.References.Select(x => new VendingMachineKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefLandLordToVendingMachinesCommand(new LandLordKeyDto(key), relatedKeyDto));
+        if (!updatedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> GetRefToVendingMachines([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();

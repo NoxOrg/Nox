@@ -44,6 +44,24 @@ public abstract partial class TenantsControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpPut("/api/v1/Tenants/{key}/Workplaces/$ref")]
+    public async Task<ActionResult> UpdateRefToWorkplacesNonConventional([FromRoute] System.UInt32 key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeyDto = referencesDto.References.Select(x => new WorkplaceKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefTenantToWorkplacesCommand(new TenantKeyDto(key), relatedKeyDto));
+        if (!updatedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> GetRefToWorkplaces([FromRoute] System.UInt32 key)
     {
         var related = (await _mediator.Send(new GetTenantByIdQuery(key))).Select(x => x.Workplaces).SingleOrDefault();

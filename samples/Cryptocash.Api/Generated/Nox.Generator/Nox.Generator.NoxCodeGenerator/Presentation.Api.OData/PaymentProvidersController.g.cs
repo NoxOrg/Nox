@@ -44,6 +44,24 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpPut("/api/PaymentProviders/{key}/PaymentDetails/$ref")]
+    public async Task<ActionResult> UpdateRefToPaymentDetailsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeyDto = referencesDto.References.Select(x => new PaymentDetailKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefPaymentProviderToPaymentDetailsCommand(new PaymentProviderKeyDto(key), relatedKeyDto));
+        if (!updatedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> GetRefToPaymentDetails([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetPaymentProviderByIdQuery(key))).Select(x => x.PaymentDetails).SingleOrDefault();

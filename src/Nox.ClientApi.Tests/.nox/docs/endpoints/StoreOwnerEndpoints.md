@@ -43,6 +43,8 @@ This document provides information about the various endpoints available in our 
 #### Update Store relation
 - **PUT** `/api/StoreOwners/{key}/Stores/{relatedKey}/$ref`
   - Description: Updates an existing Store relation for a specific StoreOwner.
+- **PUT** `/api/StoreOwners/{key}/Stores/$ref`
+  - Description: Updates the Store relations for a specific StoreOwner.
 
 #### Delete Store relation
 - **DELETE** `/api/StoreOwners/{key}/Stores/{relatedKey}/$ref`

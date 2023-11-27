@@ -44,6 +44,24 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
         return NoContent();
     }
     
+    [HttpPut("/api/v1/EntityUniqueConstraintsRelatedForeignKeys/{key}/EntityUniqueConstraintsWithForeignKeys/$ref")]
+    public async Task<ActionResult> UpdateRefToEntityUniqueConstraintsWithForeignKeysNonConventional([FromRoute] System.Int32 key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeyDto = referencesDto.References.Select(x => new EntityUniqueConstraintsWithForeignKeyKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefEntityUniqueConstraintsRelatedForeignKeyToEntityUniqueConstraintsWithForeignKeysCommand(new EntityUniqueConstraintsRelatedForeignKeyKeyDto(key), relatedKeyDto));
+        if (!updatedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> GetRefToEntityUniqueConstraintsWithForeignKeys([FromRoute] System.Int32 key)
     {
         var related = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key))).Select(x => x.EntityUniqueConstraintsWithForeignKeys).SingleOrDefault();

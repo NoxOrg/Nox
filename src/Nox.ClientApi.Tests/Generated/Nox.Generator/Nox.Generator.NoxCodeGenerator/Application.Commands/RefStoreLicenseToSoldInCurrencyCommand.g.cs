@@ -19,10 +19,12 @@ using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Commands;
 
-public abstract record RefStoreLicenseToSoldInCurrencyCommand(StoreLicenseKeyDto EntityKeyDto, CurrencyKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefStoreLicenseToSoldInCurrencyCommand(StoreLicenseKeyDto EntityKeyDto) : IRequest <bool>;
+
+#region CreateRefTo
 
 public partial record CreateRefStoreLicenseToSoldInCurrencyCommand(StoreLicenseKeyDto EntityKeyDto, CurrencyKeyDto RelatedEntityKeyDto)
-	: RefStoreLicenseToSoldInCurrencyCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefStoreLicenseToSoldInCurrencyCommand(EntityKeyDto);
 
 internal partial class CreateRefStoreLicenseToSoldInCurrencyCommandHandler
 	: RefStoreLicenseToSoldInCurrencyCommandHandlerBase<CreateRefStoreLicenseToSoldInCurrencyCommand>
@@ -31,12 +33,35 @@ internal partial class CreateRefStoreLicenseToSoldInCurrencyCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Create)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(CreateRefStoreLicenseToSoldInCurrencyCommand request)
+    {
+		var entity = await GetStoreLicense(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetCurrency(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.CreateRefToSoldInCurrency(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion CreateRefTo
+
+#region DeleteRefTo
+
 public record DeleteRefStoreLicenseToSoldInCurrencyCommand(StoreLicenseKeyDto EntityKeyDto, CurrencyKeyDto RelatedEntityKeyDto)
-	: RefStoreLicenseToSoldInCurrencyCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefStoreLicenseToSoldInCurrencyCommand(EntityKeyDto);
 
 internal partial class DeleteRefStoreLicenseToSoldInCurrencyCommandHandler
 	: RefStoreLicenseToSoldInCurrencyCommandHandlerBase<DeleteRefStoreLicenseToSoldInCurrencyCommand>
@@ -45,12 +70,35 @@ internal partial class DeleteRefStoreLicenseToSoldInCurrencyCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Delete)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteRefStoreLicenseToSoldInCurrencyCommand request)
+    {
+        var entity = await GetStoreLicense(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetCurrency(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.DeleteRefToSoldInCurrency(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion DeleteRefTo
+
+#region DeleteAllRefTo
+
 public record DeleteAllRefStoreLicenseToSoldInCurrencyCommand(StoreLicenseKeyDto EntityKeyDto)
-	: RefStoreLicenseToSoldInCurrencyCommand(EntityKeyDto, null);
+	: RefStoreLicenseToSoldInCurrencyCommand(EntityKeyDto);
 
 internal partial class DeleteAllRefStoreLicenseToSoldInCurrencyCommandHandler
 	: RefStoreLicenseToSoldInCurrencyCommandHandlerBase<DeleteAllRefStoreLicenseToSoldInCurrencyCommand>
@@ -59,68 +107,67 @@ internal partial class DeleteAllRefStoreLicenseToSoldInCurrencyCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteAllRefStoreLicenseToSoldInCurrencyCommand request)
+    {
+        var entity = await GetStoreLicense(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+		entity.DeleteAllRefToSoldInCurrency();
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
+
+#endregion DeleteAllRefTo
 
 internal abstract class RefStoreLicenseToSoldInCurrencyCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreLicenseEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreLicenseToSoldInCurrencyCommand
 {
 	public AppDbContext DbContext { get; }
 
-	public RelationshipAction Action { get; }
-
-	public enum RelationshipAction { Create, Delete, DeleteAll };
-
 	public RefStoreLicenseToSoldInCurrencyCommandHandlerBase(
         AppDbContext dbContext,
-		NoxSolution noxSolution,
-		RelationshipAction action)
+		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		Action = action;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.EntityKeyDto.keyId);
-		var entity = await DbContext.StoreLicenses.FindAsync(keyId);
-		if (entity == null)
+		return await ExecuteAsync(request);
+	}
+
+	protected abstract Task<bool> ExecuteAsync(TRequest request);
+
+	protected async Task<StoreLicenseEntity?> GetStoreLicense(StoreLicenseKeyDto entityKeyDto)
+	{
+		var keyId = ClientApi.Domain.StoreLicenseMetadata.CreateId(entityKeyDto.keyId);
+		return await DbContext.StoreLicenses.FindAsync(keyId);
+	}
+
+	protected async Task<ClientApi.Domain.Currency?> GetCurrency(CurrencyKeyDto relatedEntityKeyDto)
+	{
+		var relatedKeyId = ClientApi.Domain.CurrencyMetadata.CreateId(relatedEntityKeyDto.keyId);
+		return await DbContext.Currencies.FindAsync(relatedKeyId);
+	}
+
+	protected async Task<bool> SaveChangesAsync(TRequest request, StoreLicenseEntity entity)
+	{
+		await OnCompletedAsync(request, entity);
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
 		{
 			return false;
 		}
-
-		ClientApi.Domain.Currency? relatedEntity = null!;
-		if(request.RelatedEntityKeyDto is not null)
-		{
-			var relatedKeyId = ClientApi.Domain.CurrencyMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
-			relatedEntity = await DbContext.Currencies.FindAsync(relatedKeyId);
-			if (relatedEntity == null)
-			{
-				return false;
-			}
-		}
-
-		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToSoldInCurrency(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToSoldInCurrency(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				entity.DeleteAllRefToSoldInCurrency();
-				break;
-		}
-
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
 		return true;
 	}
 }

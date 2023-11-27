@@ -296,6 +296,24 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpPut("/api/v1/Countries/{key}/Workplaces/$ref")]
+    public async Task<ActionResult> UpdateRefToWorkplacesNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeyDto = referencesDto.References.Select(x => new WorkplaceKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCountryToWorkplacesCommand(new CountryKeyDto(key), relatedKeyDto));
+        if (!updatedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> GetRefToWorkplaces([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Workplaces).SingleOrDefault();

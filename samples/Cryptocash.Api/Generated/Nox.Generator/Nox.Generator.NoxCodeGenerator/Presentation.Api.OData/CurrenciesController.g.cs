@@ -321,6 +321,24 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpPut("/api/Currencies/{key}/Countries/$ref")]
+    public async Task<ActionResult> UpdateRefToCountriesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeyDto = referencesDto.References.Select(x => new CountryKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCurrencyToCountriesCommand(new CurrencyKeyDto(key), relatedKeyDto));
+        if (!updatedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> GetRefToCountries([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Select(x => x.Countries).SingleOrDefault();
@@ -448,6 +466,24 @@ public abstract partial class CurrenciesControllerBase : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefCurrencyToMinimumCashStocksCommand(new CurrencyKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/Currencies/{key}/MinimumCashStocks/$ref")]
+    public async Task<ActionResult> UpdateRefToMinimumCashStocksNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeyDto = referencesDto.References.Select(x => new MinimumCashStockKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCurrencyToMinimumCashStocksCommand(new CurrencyKeyDto(key), relatedKeyDto));
+        if (!updatedRef)
         {
             return NotFound();
         }

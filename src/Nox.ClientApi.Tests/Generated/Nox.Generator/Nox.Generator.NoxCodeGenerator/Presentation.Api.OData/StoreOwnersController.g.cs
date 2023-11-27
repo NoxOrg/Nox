@@ -44,6 +44,24 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpPut("/api/v1/StoreOwners/{key}/Stores/$ref")]
+    public async Task<ActionResult> UpdateRefToStoresNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeyDto = referencesDto.References.Select(x => new StoreKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefStoreOwnerToStoresCommand(new StoreOwnerKeyDto(key), relatedKeyDto));
+        if (!updatedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> GetRefToStores([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).Select(x => x.Stores).SingleOrDefault();

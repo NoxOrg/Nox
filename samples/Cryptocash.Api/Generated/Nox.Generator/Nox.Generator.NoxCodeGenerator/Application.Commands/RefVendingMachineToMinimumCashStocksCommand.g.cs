@@ -19,10 +19,12 @@ using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefVendingMachineToMinimumCashStocksCommand(VendingMachineKeyDto EntityKeyDto, MinimumCashStockKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefVendingMachineToMinimumCashStocksCommand(VendingMachineKeyDto EntityKeyDto) : IRequest <bool>;
+
+#region CreateRefTo
 
 public partial record CreateRefVendingMachineToMinimumCashStocksCommand(VendingMachineKeyDto EntityKeyDto, MinimumCashStockKeyDto RelatedEntityKeyDto)
-	: RefVendingMachineToMinimumCashStocksCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefVendingMachineToMinimumCashStocksCommand(EntityKeyDto);
 
 internal partial class CreateRefVendingMachineToMinimumCashStocksCommandHandler
 	: RefVendingMachineToMinimumCashStocksCommandHandlerBase<CreateRefVendingMachineToMinimumCashStocksCommand>
@@ -31,12 +33,78 @@ internal partial class CreateRefVendingMachineToMinimumCashStocksCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Create)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(CreateRefVendingMachineToMinimumCashStocksCommand request)
+    {
+		var entity = await GetVendingMachine(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetMinimumCashStock(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.CreateRefToMinimumCashStocks(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion CreateRefTo
+
+#region UpdateRefTo
+
+public partial record UpdateRefVendingMachineToMinimumCashStocksCommand(VendingMachineKeyDto EntityKeyDto, List<MinimumCashStockKeyDto> RelatedEntityKeyDto)
+	: RefVendingMachineToMinimumCashStocksCommand(EntityKeyDto);
+
+internal partial class UpdateRefVendingMachineToMinimumCashStocksCommandHandler
+	: RefVendingMachineToMinimumCashStocksCommandHandlerBase<UpdateRefVendingMachineToMinimumCashStocksCommand>
+{
+	public UpdateRefVendingMachineToMinimumCashStocksCommandHandler(
+        AppDbContext dbContext,
+		NoxSolution noxSolution
+		)
+		: base(dbContext, noxSolution)
+	{ }
+
+	protected override async Task<bool> ExecuteAsync(UpdateRefVendingMachineToMinimumCashStocksCommand request)
+    {
+		var entity = await GetVendingMachine(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntities = new List<Cryptocash.Domain.MinimumCashStock>();
+		foreach(var keyDto in request.RelatedEntityKeyDto)
+		{
+			var relatedEntity = await GetMinimumCashStock(keyDto);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
+			relatedEntities.Add(relatedEntity);
+		}
+
+		await DbContext.Entry(entity).Collection(x => x.MinimumCashStocks).LoadAsync();
+		entity.UpdateRefToMinimumCashStocks(relatedEntities);
+
+		return await SaveChangesAsync(request, entity);
+    }
+}
+
+#endregion UpdateRefTo
+
+#region DeleteRefTo
+
 public record DeleteRefVendingMachineToMinimumCashStocksCommand(VendingMachineKeyDto EntityKeyDto, MinimumCashStockKeyDto RelatedEntityKeyDto)
-	: RefVendingMachineToMinimumCashStocksCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefVendingMachineToMinimumCashStocksCommand(EntityKeyDto);
 
 internal partial class DeleteRefVendingMachineToMinimumCashStocksCommandHandler
 	: RefVendingMachineToMinimumCashStocksCommandHandlerBase<DeleteRefVendingMachineToMinimumCashStocksCommand>
@@ -45,12 +113,35 @@ internal partial class DeleteRefVendingMachineToMinimumCashStocksCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Delete)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteRefVendingMachineToMinimumCashStocksCommand request)
+    {
+        var entity = await GetVendingMachine(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetMinimumCashStock(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.DeleteRefToMinimumCashStocks(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion DeleteRefTo
+
+#region DeleteAllRefTo
+
 public record DeleteAllRefVendingMachineToMinimumCashStocksCommand(VendingMachineKeyDto EntityKeyDto)
-	: RefVendingMachineToMinimumCashStocksCommand(EntityKeyDto, null);
+	: RefVendingMachineToMinimumCashStocksCommand(EntityKeyDto);
 
 internal partial class DeleteAllRefVendingMachineToMinimumCashStocksCommandHandler
 	: RefVendingMachineToMinimumCashStocksCommandHandlerBase<DeleteAllRefVendingMachineToMinimumCashStocksCommand>
@@ -59,69 +150,68 @@ internal partial class DeleteAllRefVendingMachineToMinimumCashStocksCommandHandl
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteAllRefVendingMachineToMinimumCashStocksCommand request)
+    {
+        var entity = await GetVendingMachine(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+		await DbContext.Entry(entity).Collection(x => x.MinimumCashStocks).LoadAsync();
+		entity.DeleteAllRefToMinimumCashStocks();
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
+
+#endregion DeleteAllRefTo
 
 internal abstract class RefVendingMachineToMinimumCashStocksCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachineEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToMinimumCashStocksCommand
 {
 	public AppDbContext DbContext { get; }
 
-	public RelationshipAction Action { get; }
-
-	public enum RelationshipAction { Create, Delete, DeleteAll };
-
 	public RefVendingMachineToMinimumCashStocksCommandHandlerBase(
         AppDbContext dbContext,
-		NoxSolution noxSolution,
-		RelationshipAction action)
+		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		Action = action;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityKeyDto.keyId);
-		var entity = await DbContext.VendingMachines.FindAsync(keyId);
-		if (entity == null)
+		return await ExecuteAsync(request);
+	}
+
+	protected abstract Task<bool> ExecuteAsync(TRequest request);
+
+	protected async Task<VendingMachineEntity?> GetVendingMachine(VendingMachineKeyDto entityKeyDto)
+	{
+		var keyId = Cryptocash.Domain.VendingMachineMetadata.CreateId(entityKeyDto.keyId);
+		return await DbContext.VendingMachines.FindAsync(keyId);
+	}
+
+	protected async Task<Cryptocash.Domain.MinimumCashStock?> GetMinimumCashStock(MinimumCashStockKeyDto relatedEntityKeyDto)
+	{
+		var relatedKeyId = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(relatedEntityKeyDto.keyId);
+		return await DbContext.MinimumCashStocks.FindAsync(relatedKeyId);
+	}
+
+	protected async Task<bool> SaveChangesAsync(TRequest request, VendingMachineEntity entity)
+	{
+		await OnCompletedAsync(request, entity);
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
 		{
 			return false;
 		}
-
-		Cryptocash.Domain.MinimumCashStock? relatedEntity = null!;
-		if(request.RelatedEntityKeyDto is not null)
-		{
-			var relatedKeyId = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
-			relatedEntity = await DbContext.MinimumCashStocks.FindAsync(relatedKeyId);
-			if (relatedEntity == null)
-			{
-				return false;
-			}
-		}
-
-		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToMinimumCashStocks(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToMinimumCashStocks(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				await DbContext.Entry(entity).Collection(x => x.MinimumCashStocks).LoadAsync();
-				entity.DeleteAllRefToMinimumCashStocks();
-				break;
-		}
-
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
 		return true;
 	}
 }
