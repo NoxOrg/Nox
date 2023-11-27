@@ -1,0 +1,8 @@
+#
+# integration.application.nox.yaml
+#
+# yaml-language-server: $schema=../../../../schemas/application.json
+#
+
+integrations:
+  - $ref: ./integrations/query-to-table.integration.nox.yaml

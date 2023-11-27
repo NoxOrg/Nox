@@ -22,7 +22,7 @@ public class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDatabaseProvi
     {
     }
 
-    public virtual DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
+    public virtual DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer, string? migrationsAssembly = null)
     {
         return optionsBuilder
             .UseSqlite(dbServer.Options,

@@ -159,7 +159,7 @@ namespace Nox.Configuration
                 .AddNoxMediatR(_clientAssembly)
                 .AddNoxFactories(noxAndEntryAssemblies)
                 .AddEtlBox()
-                .AddNoxIntegrations()
+                .AddNoxIntegrations(noxSolution)
                 .AddNoxProviders()
                 .AddNoxDtos();
 

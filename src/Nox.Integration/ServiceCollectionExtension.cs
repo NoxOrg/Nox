@@ -9,9 +9,10 @@ namespace Nox.Integration;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddNoxIntegrations(this IServiceCollection services)
+    public static IServiceCollection AddNoxIntegrations(this IServiceCollection services, NoxSolution solution)
     {
         services.TryAddSingleton<INoxIntegrationContext, NoxIntegrationContext>();
+        
         return services;
     }
 

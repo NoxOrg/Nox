@@ -1,11 +1,11 @@
 using System.Dynamic;
 using ETLBox;
-using ETLBox.SqlServer;
 using ETLBox.DataFlow;
+using ETLBox.SqlServer;
 using Nox.Integration.Abstractions.Adapters;
 using Nox.Integration.Exceptions;
 
-namespace Nox.Integration.Adapters;
+namespace Nox.Integration.Adapters.SqlServer;
 
 public class SqlServerSendAdapter: INoxDatabaseSendAdapter
 {

@@ -123,7 +123,7 @@ public class CoreTests
             .WithFile("./files/test_integration.solution.nox.yaml")
             .Build();
         services.AddSingleton<NoxSolution>(solution);
-        services.AddNoxIntegrations();
+        services.AddNoxIntegrations(solution);
         var provider = services.BuildServiceProvider();
         var context = provider.GetRequiredService<INoxIntegrationContext>();
         var result = await context.ExecuteIntegrationAsync("SqlToSqlIntegration");

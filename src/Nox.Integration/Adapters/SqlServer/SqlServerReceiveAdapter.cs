@@ -1,10 +1,10 @@
 using System.Dynamic;
 using ETLBox;
+using ETLBox.DataFlow;
 using ETLBox.SqlServer;
 using Nox.Integration.Abstractions.Adapters;
-using ETLBox.DataFlow;
 
-namespace Nox.Integration.Adapters;
+namespace Nox.Integration.Adapters.SqlServer;
 
 public class SqlServerReceiveAdapter: INoxDatabaseReceiveAdapter
 {

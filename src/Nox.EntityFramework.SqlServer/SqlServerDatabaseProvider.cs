@@ -51,7 +51,7 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
         }
     }
 
-    public virtual DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
+    public virtual DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer, string? migrationsAssembly = null)
     {
         var csb = new SqlConnectionStringBuilder(dbServer.Options)
         {
@@ -66,7 +66,15 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
         return optionsBuilder
             //.UseLazyLoadingProxies()
             .UseSqlServer(ConnectionString,
-                opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
+                opts =>
+                {
+                    opts.MigrationsHistoryTable("MigrationsHistory", "migrations");
+                    if (!string.IsNullOrEmpty(migrationsAssembly))
+                    {
+                        opts.MigrationsAssembly(migrationsAssembly);
+                    }
+                });
+        
     }
 
     public string ToTableNameForSql(string table, string schema)

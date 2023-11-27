@@ -1,0 +1,37 @@
+#
+# SampleSync.integration.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/integration.json
+#
+
+name: SampleQueryToTableSync
+
+description: Synchronization of Country data from a sample sql database table using a query statement, to a Nox entity store database table.
+
+mergeType: mergeNew
+
+schedule:
+  start: Every week on Sunday at 3am
+  runOnStartup: true
+
+source:
+  name: SampleSource
+  description: Curated dataset of country information.
+  dataConnectionName: SqlCountrySource
+
+  sourceAdapterType: databaseQuery
+  
+  queryOptions:
+    query: SELECT * FROM dbo.Countries
+    minimumExpectedRecords: 10
+
+transformationType: customTransform
+
+target:
+  name: CountryTable
+  description: The country table of the Cryptocash database
+  dataConnectionName: CryptocashEtlDb
+  targetAdapterType: databaseTable
+  tableOptions:
+    tableName: Countries
+

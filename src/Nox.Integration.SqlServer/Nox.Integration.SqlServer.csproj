@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
@@ -7,9 +7,9 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <PackageId>Nox.Integration</PackageId>
+        <PackageId>Nox.Integration.SqlServer</PackageId>
         <Authors>The Nox Factory</Authors>
-        <Description>Nox integration library</Description>
+        <Description>Nox integration library for Microsoft Sql Server</Description>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <Copyright>Copyright (c) The Nox Factory 2022</Copyright>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -29,20 +29,24 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.14">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.14" />
+    </ItemGroup>
+
+    <ItemGroup>
         <None Include="../../docs/images/nox.png" Pack="true" PackagePath="" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="ETLBox" Version="3.0.2" />
-      <PackageReference Include="ETLBox.SqlServer" Version="3.0.2" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.14" />
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+      <Folder Include="Extensions\" />
+      <Folder Include="Migrations\" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
-      <ProjectReference Include="..\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
+      <ProjectReference Include="..\Nox.Integration\Nox.Integration.csproj" />
     </ItemGroup>
     
 </Project>
