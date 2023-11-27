@@ -1,3 +1,4 @@
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Exceptions;
@@ -45,6 +46,15 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
     public void AddIntegration(INoxIntegration instance)
     {
         _integrations[instance.Name] = instance;
+    }
+
+    public void ExecuteStartupIntegrations()
+    {
+        var startupIntegrations = _integrations.Where(i => i.Value.Schedule is { RunOnStartup: true });
+        foreach (var integration in startupIntegrations)
+        {
+            ExecuteIntegrationAsync(integration.Key).ConfigureAwait(false);
+        }
     }
 }
 

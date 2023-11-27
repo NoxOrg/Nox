@@ -19,4 +19,4 @@ application: true
 infrastructure: true
 
 # Generates APi's
-presentation: true
+presentation: false

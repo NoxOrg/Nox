@@ -7,6 +7,11 @@ public class IntegrationDesignTimeContextFactory: IDesignTimeDbContextFactory<No
 {
     public NoxIntegrationDbContext CreateDbContext(string[] args)
     {
+        foreach (var arg in args)
+        {
+            Console.WriteLine($"Arg: {arg}");
+        }
+        
         var optionsBuilder = new DbContextOptionsBuilder<NoxIntegrationDbContext>();
         optionsBuilder.UseSqlServer("", options =>
         {

@@ -10,7 +10,6 @@ using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Configuration;
 using Nox.Infrastructure;
 using Nox.Infrastructure.Persistence;
-
 using Cryptocash.Application.Dto;
 using DtoNameSpace = Cryptocash.Application.Dto;
 
@@ -47,7 +46,6 @@ internal class DtoDbContext : DbContext
         _noxDtoDatabaseConfigurator = noxDtoDatabaseConfigurator;
         _codeGenConventions = codeGeneratorState;
     }
-
     
         public virtual DbSet<BookingDto> Bookings { get; set; } = null!;
         public virtual DbSet<CommissionDto> Commissions { get; set; } = null!;

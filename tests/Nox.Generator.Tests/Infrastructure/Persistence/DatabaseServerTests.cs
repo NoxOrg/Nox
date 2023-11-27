@@ -36,28 +36,4 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
             .AssertFileExistsAndContent("Country.expected.g.cs", "Domain.Country.g.cs");
     }
 
-    [Fact]
-    public void Must_generate_db_context_even_if_no_entities_defined()
-    {
-        var path = "files/yaml/infrastructure/";
-
-        var sources = new[]
-        {
-            $"./{path}generator.nox.yaml",
-            $"./{path}empty-domain.solution.nox.yaml"
-        };
-
-        var filesShouldExist = new[]
-        {
-            "Infrastructure.Persistence.AppDbContext.g.cs"
-        };
-
-        GeneratorFixture.GenerateSourceCodeFor(sources)
-            .AssertOutputResult()
-            .AssertFileCount(3, filesShouldExist)
-            .AssertContent()
-            .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .AssertFileExistsAndContent("AppDbContext.minimal.expected.g.cs", "Infrastructure.Persistence.AppDbContext.g.cs")
-            .AssertFileExistsAndContent("DtoDbContext.minimal.expected.g.cs", "Infrastructure.Persistence.DtoDbContext.g.cs");
-    }
 }

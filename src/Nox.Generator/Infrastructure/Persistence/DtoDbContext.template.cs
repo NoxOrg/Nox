@@ -1,7 +1,6 @@
 // Generated
 #nullable enable
 
-{{- if codeGeneratorState.Solution.Domain != null }}
 using Microsoft.EntityFrameworkCore;
 using Nox;
 using Nox.Solution;
@@ -12,6 +11,7 @@ using Nox.Configuration;
 using Nox.Infrastructure;
 using Nox.Infrastructure.Persistence;
 
+{{- if codeGeneratorState.Solution.Domain != null }}
 using {{codeGeneratorState.RootNameSpace}}.Application.Dto;
 using DtoNameSpace = {{codeGeneratorState.DtoNameSpace}};
 {{- end }}

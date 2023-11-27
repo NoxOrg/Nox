@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Net;
 
 using MediatR;
-using Microsoft.CodeAnalysis;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -27,10 +27,8 @@ using Nox.Solution;
 using Nox.Configuration;
 using Nox.Infrastructure;
 
-{{- if codeGeneratorState.Solution.Domain != null }}
 using DomainNameSpace = {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
-{{- end }}
 
 namespace {{codeGeneratorState.PersistenceNameSpace}};
 
@@ -57,11 +55,9 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             _clientAssemblyProvider = clientAssemblyProvider;
             _codeGenConventions = codeGeneratorState;
         }
-    {{- if codeGeneratorState.Solution.Domain?.Entities != null }}
     {{ for entity in solution.Domain.Entities -}}
     {{- if (!entity.IsOwnedEntity) }}
     public virtual DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
-    {{- end }}
     {{- end }}
     {{- end }}
     {{ for entity in entitiesToLocalize -}}
@@ -138,12 +134,10 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
     }
 
     private void ConfigureAuditable(ModelBuilder modelBuilder)
-    { 
-    {{- if codeGeneratorState.Solution.Domain?.Entities != null }}    
+    {
     {{- for entity in solution.Domain.Entities }}
     {{- if entity.Persistence?.IsAudited }}
         modelBuilder.Entity<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}>().HasQueryFilter(p => p.DeletedAtUtc == null);
-    {{- end }}
     {{- end }}
     {{- end }}
     }

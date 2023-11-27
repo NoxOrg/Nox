@@ -11,7 +11,9 @@ using Nox;
 using Nox.Solution;
 using Nox.Configuration;
 using Nox.Types.EntityFramework.Abstractions;
+{{- if codeGeneratorState.Solution.Domain?.Entities != null }}
 using {{ solutionName }}.Infrastructure.Persistence;
+{{- end}}
 {{- if configPresentation == true }}
 using {{ solutionName }}.Presentation.Api.OData;
 {{- end }}
@@ -37,8 +39,10 @@ internal static class {{className}}
     {
         services.AddNoxLib(webApplicationBuilder, configurator =>
         {
+            {{- if codeGeneratorState.Solution.Domain?.Entities != null }}
             configurator.WithDatabaseContexts<AppDbContext, DtoDbContext>();
             configurator.WithMessagingTransactionalOutbox<AppDbContext>();
+            {{- end }}
             configureNox?.Invoke(configurator);
         });
         {{- if configPresentation == true }}

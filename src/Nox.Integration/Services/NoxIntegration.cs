@@ -6,6 +6,7 @@ using Nox.Integration.Abstractions;
 using Nox.Integration.Abstractions.Adapters;
 using Nox.Integration.Exceptions;
 using Nox.Integration.Extensions.Send;
+using Nox.Solution;
 
 namespace Nox.Integration.Services;
 
@@ -15,6 +16,7 @@ internal sealed class NoxIntegration: INoxIntegration
     
     public string Name { get; }
     public string? Description { get; }
+    public IntegrationSchedule? Schedule { get; }
     public IntegrationMergeType MergeType { get; }
     
     public IntegrationTransformType TransformType { get; }
@@ -27,6 +29,7 @@ internal sealed class NoxIntegration: INoxIntegration
     {
         _logger = logger;
         Name = definition.Name;
+        Schedule = definition.Schedule;
         Description = definition.Description;
         MergeType = definition.MergeType;
         TransformType = definition.TransformationType;

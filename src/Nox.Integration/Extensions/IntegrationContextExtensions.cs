@@ -8,7 +8,7 @@ namespace Nox.Integration.Extensions;
 
 public static class IntegrationContextExtensions
 {
-    public static INoxIntegration WithReceiveAdapter(this INoxIntegration instance, IntegrationSource sourceDefinition, IReadOnlyList<DataConnection>? dataConnections)
+    internal static INoxIntegration WithReceiveAdapter(this INoxIntegration instance, IntegrationSource sourceDefinition, IReadOnlyList<DataConnection>? dataConnections)
     {
         switch (sourceDefinition.SourceAdapterType)
         {
@@ -50,7 +50,7 @@ public static class IntegrationContextExtensions
         return dataConnectionDefinition;
     }
 
-    public static INoxIntegration WithSendAdapter(this INoxIntegration instance, IntegrationTarget targetDefinition, IReadOnlyList<DataConnection>? dataConnections)
+    internal static INoxIntegration WithSendAdapter(this INoxIntegration instance, IntegrationTarget targetDefinition, IReadOnlyList<DataConnection>? dataConnections)
     {
         switch (targetDefinition.TargetAdapterType)
         {
@@ -91,7 +91,7 @@ public static class IntegrationContextExtensions
         return dataConnectionDefinition;
     }
 
-    public static INoxIntegration WithSchedule(this INoxIntegration instance, IntegrationSchedule schedule)
+    internal static INoxIntegration WithSchedule(this INoxIntegration instance, IntegrationSchedule schedule)
     {
         //todo add the integration to the hangfire job scheduler.
         return instance;

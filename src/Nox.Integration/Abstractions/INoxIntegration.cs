@@ -1,11 +1,14 @@
 using Nox.Integration.Abstractions.Adapters;
+using Nox.Solution;
 
 namespace Nox.Integration.Abstractions;
 
-public interface INoxIntegration
+internal interface INoxIntegration
 {
     string Name { get; }
     string? Description { get; }
+    
+    internal IntegrationSchedule? Schedule { get; }
     
     internal IntegrationMergeType MergeType { get; }
     

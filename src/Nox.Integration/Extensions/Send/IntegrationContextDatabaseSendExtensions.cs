@@ -7,7 +7,7 @@ namespace Nox.Integration.Extensions.Send;
 
 public static class IntegrationContextDatabaseSendExtensions
 {
-    public static INoxIntegration WithDatabaseTableSendAdapter(this INoxIntegration instance, IntegrationTargetTableOptions options, DataConnection dataConnectionDefinition)
+    internal static INoxIntegration WithDatabaseTableSendAdapter(this INoxIntegration instance, IntegrationTargetTableOptions options, DataConnection dataConnectionDefinition)
     {
         switch (dataConnectionDefinition.Provider)
         {
@@ -35,7 +35,7 @@ public static class IntegrationContextDatabaseSendExtensions
         return adapter;
     }
     
-    public static INoxIntegration WithStoredProcedureSendAdapter(this INoxIntegration instance, IntegrationTargetStoredProcedureOptions options, DataConnection dataConnectionDefinition)
+    internal static INoxIntegration WithStoredProcedureSendAdapter(this INoxIntegration instance, IntegrationTargetStoredProcedureOptions options, DataConnection dataConnectionDefinition)
     {
         switch (dataConnectionDefinition.Provider)
         {
