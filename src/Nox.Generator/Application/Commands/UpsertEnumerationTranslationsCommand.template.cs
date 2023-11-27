@@ -22,7 +22,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 {{-upsertCommand = 'Upsert' +  (entity.PluralName) +  (Pluralize (enumAtt.Attribute.Name)) + 'TranslationsCommand' }}
 {{-contextProperty = (entity.PluralName) +  (Pluralize (enumAtt.Attribute.Name)) }}
 {{-enumEntity = enumAtt.EntityNameForLocalizedEnumeration }}
-public partial record  {{upsertCommand}}(IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}> {{enumAtt.EntityDtoNameForLocalizedEnumeration}}s) : IRequest<CultureCode>;
+public partial record  {{upsertCommand}}(IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}> {{enumAtt.EntityDtoNameForLocalizedEnumeration}}s) : IRequest<IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>>;
 
 internal partial class {{upsertCommand}}Handler : {{upsertCommand}}HandlerBase
 {
@@ -32,7 +32,7 @@ internal partial class {{upsertCommand}}Handler : {{upsertCommand}}HandlerBase
 	{
 	}
 }
-internal abstract class {{upsertCommand}}HandlerBase : CommandBase<{{upsertCommand}}, {{enumEntity}}>, IRequestHandler<{{upsertCommand}}, CultureCode>
+internal abstract class {{upsertCommand}}HandlerBase : CommandBase<{{upsertCommand}}, {{enumEntity}}>, IRequestHandler<{{upsertCommand}}, IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>>
 {
 	public AppDbContext DbContext { get; }
 
@@ -43,7 +43,7 @@ internal abstract class {{upsertCommand}}HandlerBase : CommandBase<{{upsertComma
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<CultureCode> Handle({{upsertCommand}} command, CancellationToken cancellationToken)
+	public virtual async Task<IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>> Handle({{upsertCommand}} command, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
@@ -70,7 +70,7 @@ internal abstract class {{upsertCommand}}HandlerBase : CommandBase<{{upsertComma
 			throw new CultureCodeMismatchException($"Culture code {cultureCode} does not match.");
 		}
 		
-		var ids = command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Select(dto=> Enumeration.From(dto.Id)).ToList();
+		var ids = command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Select(dto=> dto.Id).ToList();
 		var query =
 			from Enum in DbContext.{{contextProperty}}
 			join localized in DbContext.{{contextProperty}}Localized
@@ -81,13 +81,13 @@ internal abstract class {{upsertCommand}}HandlerBase : CommandBase<{{upsertComma
 		
 		var queryResult = await query.AsNoTracking().ToListAsync(cancellationToken);
 			
-		if(!(queryResult.Count == ids.Count && queryResult.All(x=> ids.Contains(x.Id))))
+		if(!(queryResult.Count == ids.Count && queryResult.All(x=> ids.Contains(x.Id.Value))))
 		{
 			throw new InvalidEnumIdsException($"Provided ids are invalid for {nameof(DbContext.{{contextProperty}})}.");
 		}
 		
 		var localizedEntities = 
-			command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Select(dto => new {{enumAtt.EntityNameForLocalizedEnumeration}} {Id = Enumeration.From(dto.Id), CultureCode = cultureCodeValue, Name = dto.Name}).ToList();
+			command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Select(dto => new {{enumAtt.EntityNameForLocalizedEnumeration}} {Id = Enumeration.FromDatabase(dto.Id), CultureCode = cultureCodeValue, Name = dto.Name}).ToList();
 
 		if (queryResult.First().LocalizedId == null)
 		{
@@ -102,14 +102,14 @@ internal abstract class {{upsertCommand}}HandlerBase : CommandBase<{{upsertComma
 		{
 			command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.ForEach(dto =>
 			{
-				var e = new {{enumAtt.EntityNameForEnumeration}} { Id = Enumeration.From(dto.Id), Name = dto.Name };
+				var e = new {{enumAtt.EntityNameForEnumeration}} { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
 				DbContext.Entry(e).State = EntityState.Modified;
 			});
 		}
 
 		await OnBatchCompletedAsync(command, localizedEntities);
 		await DbContext.SaveChangesAsync(cancellationToken);
-		return cultureCodeValue;
+		return command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s;
 	}
 }
 

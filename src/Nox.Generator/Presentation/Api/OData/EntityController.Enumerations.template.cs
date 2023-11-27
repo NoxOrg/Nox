@@ -5,6 +5,7 @@ using System.Collections.Generic;
 {{- cultureCode = ToLowerFirstChar codeGeneratorState.LocalizationCultureField}}
 #nullable enable
 using Microsoft.AspNetCore.Mvc;
+using Nox.Application.Dto;
 
 using DtoNameSpace = {{codeGeneratorState.DtoNameSpace}};
 using ApplicationQueriesNameSpace = {{codeGeneratorState.ApplicationQueriesNameSpace}};
@@ -25,7 +26,7 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
     {{- if (enumAtt.Attribute.EnumerationTypeOptions.IsLocalized) }}
     {{-}}
     [HttpGet("{{solution.Infrastructure.Endpoints.ApiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}>>> Get{{Pluralize (enumAtt.Attribute.Name)}}LocalizedNonConventional()
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>>> Get{{Pluralize (enumAtt.Attribute.Name)}}LocalizedNonConventional()
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}TranslationsQuery());                        
         return Ok(result);        
@@ -39,10 +40,9 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
     }
 
     [HttpPut("{{solution.Infrastructure.Endpoints.ApiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}>>> Put{{Pluralize (enumAtt.Attribute.Name)}}LocalizedNonConventional([FromBody] DtoNameSpace.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}[] {{ToLowerFirstChar enumAtt.EntityDtoNameForLocalizedEnumeration}}s)
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>>> Put{{Pluralize (enumAtt.Attribute.Name)}}LocalizedNonConventional([FromBody] EnumerationLocalizedList<DtoNameSpace.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}> {{ToLowerFirstChar enumAtt.EntityDtoNameForLocalizedEnumeration}}s)
     {            
-        var cultureCode = await _mediator.Send(new ApplicationCommandsNameSpace.Upsert{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}TranslationsCommand({{ToLowerFirstChar enumAtt.EntityDtoNameForLocalizedEnumeration}}s));                        
-        var result = await _mediator.Send(new ApplicationQueriesNameSpace.Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}Query(cultureCode));                        
+        var result = await _mediator.Send(new ApplicationCommandsNameSpace.Upsert{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}TranslationsCommand({{ToLowerFirstChar enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Items));                        
         return Ok(result);       
     }
    

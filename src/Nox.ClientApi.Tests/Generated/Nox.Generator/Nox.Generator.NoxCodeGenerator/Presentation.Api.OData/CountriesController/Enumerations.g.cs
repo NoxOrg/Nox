@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 #nullable enable
 using Microsoft.AspNetCore.Mvc;
+using Nox.Application.Dto;
 
 using DtoNameSpace = ClientApi.Application.Dto;
 using ApplicationQueriesNameSpace = ClientApi.Application.Queries;
@@ -19,7 +20,7 @@ public abstract partial class CountriesControllerBase
         return Ok(result);        
     }
     [HttpGet("/api/v1/Countries/CountryContinentsLocalized")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.CountryContinentDto>>> GetContinentsLocalizedNonConventional()
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.CountryContinentLocalizedDto>>> GetContinentsLocalizedNonConventional()
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetCountriesContinentsTranslationsQuery());                        
         return Ok(result);        
@@ -33,10 +34,9 @@ public abstract partial class CountriesControllerBase
     }
 
     [HttpPut("/api/v1/Countries/CountryContinentsLocalized")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.CountryContinentDto>>> PutContinentsLocalizedNonConventional([FromBody] IEnumerable<DtoNameSpace.CountryContinentLocalizedDto> countryContinentLocalizedDtos)
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.CountryContinentLocalizedDto>>> PutContinentsLocalizedNonConventional([FromBody] EnumerationLocalizedList<DtoNameSpace.CountryContinentLocalizedDto> countryContinentLocalizedDtos)
     {            
-        var cultureCode = await _mediator.Send(new ApplicationCommandsNameSpace.UpsertCountriesContinentsTranslationsCommand(countryContinentLocalizedDtos));                        
-        var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetCountriesContinentsQuery(cultureCode));                        
+        var result = await _mediator.Send(new ApplicationCommandsNameSpace.UpsertCountriesContinentsTranslationsCommand(countryContinentLocalizedDtos.Items));                        
         return Ok(result);       
     } 
 }

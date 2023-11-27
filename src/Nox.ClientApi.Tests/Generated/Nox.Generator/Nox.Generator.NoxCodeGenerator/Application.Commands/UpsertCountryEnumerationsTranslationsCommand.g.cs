@@ -16,7 +16,7 @@ using ClientApi.Application.Dto;
 using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
-public partial record  UpsertCountriesContinentsTranslationsCommand(IEnumerable<CountryContinentLocalizedDto> CountryContinentLocalizedDtos) : IRequest<CultureCode>;
+public partial record  UpsertCountriesContinentsTranslationsCommand(IEnumerable<CountryContinentLocalizedDto> CountryContinentLocalizedDtos) : IRequest<IEnumerable<CountryContinentLocalizedDto>>;
 
 internal partial class UpsertCountriesContinentsTranslationsCommandHandler : UpsertCountriesContinentsTranslationsCommandHandlerBase
 {
@@ -26,7 +26,7 @@ internal partial class UpsertCountriesContinentsTranslationsCommandHandler : Ups
 	{
 	}
 }
-internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase : CommandBase<UpsertCountriesContinentsTranslationsCommand, CountryContinentLocalized>, IRequestHandler<UpsertCountriesContinentsTranslationsCommand, CultureCode>
+internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase : CommandBase<UpsertCountriesContinentsTranslationsCommand, CountryContinentLocalized>, IRequestHandler<UpsertCountriesContinentsTranslationsCommand, IEnumerable<CountryContinentLocalizedDto>>
 {
 	public AppDbContext DbContext { get; }
 
@@ -37,7 +37,7 @@ internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase 
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<CultureCode> Handle(UpsertCountriesContinentsTranslationsCommand command, CancellationToken cancellationToken)
+	public virtual async Task<IEnumerable<CountryContinentLocalizedDto>> Handle(UpsertCountriesContinentsTranslationsCommand command, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
@@ -64,7 +64,7 @@ internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase 
 			throw new CultureCodeMismatchException($"Culture code {cultureCode} does not match.");
 		}
 		
-		var ids = command.CountryContinentLocalizedDtos.Select(dto=> Enumeration.From(dto.Id)).ToList();
+		var ids = command.CountryContinentLocalizedDtos.Select(dto=> dto.Id).ToList();
 		var query =
 			from Enum in DbContext.CountriesContinents
 			join localized in DbContext.CountriesContinentsLocalized
@@ -75,13 +75,13 @@ internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase 
 		
 		var queryResult = await query.AsNoTracking().ToListAsync(cancellationToken);
 			
-		if(!(queryResult.Count == ids.Count && queryResult.All(x=> ids.Contains(x.Id))))
+		if(!(queryResult.Count == ids.Count && queryResult.All(x=> ids.Contains(x.Id.Value))))
 		{
 			throw new InvalidEnumIdsException($"Provided ids are invalid for {nameof(DbContext.CountriesContinents)}.");
 		}
 		
 		var localizedEntities = 
-			command.CountryContinentLocalizedDtos.Select(dto => new CountryContinentLocalized {Id = Enumeration.From(dto.Id), CultureCode = cultureCodeValue, Name = dto.Name}).ToList();
+			command.CountryContinentLocalizedDtos.Select(dto => new CountryContinentLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = cultureCodeValue, Name = dto.Name}).ToList();
 
 		if (queryResult.First().LocalizedId == null)
 		{
@@ -96,13 +96,13 @@ internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase 
 		{
 			command.CountryContinentLocalizedDtos.ForEach(dto =>
 			{
-				var e = new CountryContinent { Id = Enumeration.From(dto.Id), Name = dto.Name };
+				var e = new CountryContinent { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
 				DbContext.Entry(e).State = EntityState.Modified;
 			});
 		}
 
 		await OnBatchCompletedAsync(command, localizedEntities);
 		await DbContext.SaveChangesAsync(cancellationToken);
-		return cultureCodeValue;
+		return command.CountryContinentLocalizedDtos;
 	}
 }
