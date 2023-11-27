@@ -6,6 +6,8 @@ using Cryptocash.Application.Dto;
 using AutoMapper;
 using MassTransit.Transports;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Nox.Extensions;
+using Microsoft.Azure.Amqp.Framing;
 
 namespace Cryptocash.Infrastructure;
 
@@ -22,7 +24,20 @@ internal class CryptocashEmployeeDataSeeder : DataSeederBase<EmployeeDto, Employ
 
     protected override Employee TransformToEntity(EmployeeDto model)
     {
-        return new() {
+        Date? tempLastWorkingDay = null;
+        if (model.LastWorkingDay.HasValue)
+        {
+            tempLastWorkingDay = Date.From(model.LastWorkingDay!.Value);
+        }
+
+        return new()
+        {
+            FirstName = Text.From(model.FirstName!),
+            LastName = Text.From(model.LastName!),
+            EmailAddress = Email.From(model.EmailAddress!),
+            FirstWorkingDay = Date.From(model.FirstWorkingDay!),
+            LastWorkingDay = tempLastWorkingDay,
+            Address = StreetAddress.From(model.Address)
         };
     }
 }

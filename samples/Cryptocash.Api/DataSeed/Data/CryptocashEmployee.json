@@ -1,2 +1,22 @@
 ﻿[
+  {
+    "Id": 1,
+    "FirstName": "Veronika",
+    "LastName": "Inouye",
+    "EmailAddress": "vinouye@cryptocashtest.com",
+    "FirstWorkingDay": "2023-05-01T09:00:00+01:00",
+    "LastWorkingDay": null,
+    "Address": {
+      "StreetNumber": "6",
+      "AddressLine1": "Greenleaf Ave",
+      "AddressLine2": "San Jose",
+      "Route": "route",
+      "Locality": "locality",
+      "Neighborhood": "neighbourhood",
+      "AdministrativeArea1": "Santa Clara",
+      "AdministrativeArea2": "CA",
+      "PostalCode": "9511",
+      "CountryId": "CH"
+    }
+  }
 ]
