@@ -30,7 +30,7 @@ internal class CryptocashEmployeeDataSeeder : DataSeederBase<EmployeeDto, Employ
             tempLastWorkingDay = Date.From(model.LastWorkingDay!.Value);
         }
 
-        return new()
+        Employee rtnEmployee = new()
         {
             FirstName = Text.From(model.FirstName!),
             LastName = Text.From(model.LastName!),
@@ -39,5 +39,21 @@ internal class CryptocashEmployeeDataSeeder : DataSeederBase<EmployeeDto, Employ
             LastWorkingDay = tempLastWorkingDay,
             Address = StreetAddress.From(model.Address)
         };
+
+        if (model.EmployeePhoneNumbers != null)
+        {
+            foreach (EmployeePhoneNumberDto currentPhone in model.EmployeePhoneNumbers)
+            {
+                rtnEmployee.CreateRefToEmployeePhoneNumbers(
+                    new()
+                    {
+                        PhoneNumber = PhoneNumber.From(currentPhone.PhoneNumber),
+                        PhoneNumberType = Text.From(currentPhone.PhoneNumberType)
+                    }
+                );
+            }
+        }             
+
+        return rtnEmployee;
     }
 }

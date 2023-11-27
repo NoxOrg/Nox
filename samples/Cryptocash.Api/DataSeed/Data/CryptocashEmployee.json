@@ -17,6 +17,16 @@
       "AdministrativeArea2": "CA",
       "PostalCode": "9511",
       "CountryId": "CH"
-    }
+    },
+    "EmployeePhoneNumbers": [
+      {
+        "PhoneNumberType": "Office",
+        "PhoneNumber": "01483 654321"
+      },
+      {
+        "PhoneNumberType": "PersonalMobile",
+        "PhoneNumber": "077401 654321"
+      }
+    ]
   }
 ]
