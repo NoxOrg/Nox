@@ -49,6 +49,20 @@ internal class CryptocashCurrencyDataSeeder : DataSeederBase<CurrencyDto, Curren
             }
         }
 
+        if (model.ExchangeRates != null)
+        {
+            foreach (ExchangeRateDto currentExchangeRate in model.ExchangeRates)
+            {
+                rtnCurrency.CreateRefToExchangeRates(
+                    new()
+                    {
+                        EffectiveRate = Number.From(currentExchangeRate.EffectiveRate),
+                        EffectiveAt = Nox.Types.DateTime.From(currentExchangeRate.EffectiveAt)
+                    }
+                );
+            } 
+        }
+
         return rtnCurrency;
     }
 }

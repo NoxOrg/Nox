@@ -60,6 +60,11 @@
         }
       }
     ],
-    "ExchangeRates": []
+    "ExchangeRates": [
+      {
+        "EffectiveRate": 3,
+        "EffectiveAt": "2023-11-27T17:01:21.9333333Z"
+      }
+    ]
   }
 ]
