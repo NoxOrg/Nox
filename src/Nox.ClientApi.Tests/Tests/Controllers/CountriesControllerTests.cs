@@ -302,6 +302,31 @@ namespace ClientApi.Tests.Tests.Controllers
             ownedResult!.Name.Should().Be(expectedLocalName);
         }
 
+        [Fact]
+        public async Task PostToCountryLocalNames_WithId_ShouldFail()
+        {
+            // Arrange
+            var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+                new CountryCreateDto
+                {
+                    Name = _fixture.Create<string>(),
+                    Population = 44000000
+                });
+            var headers = CreateEtagHeader(result!.Etag);
+
+            //Act
+            var ownedResult = await PostAsync($"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(CountryDto.CountryLocalNames)}",
+                new CountryLocalNameUpsertDto
+                {
+                    Id = 1,
+                    Name = _fixture.Create<string>()
+                },
+                headers);
+
+            //Assert
+            ownedResult.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
         #endregion POST to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
 
         #region POST to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryBarCode
@@ -343,7 +368,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region PUT
 
-        #region PUT to Owned Entities /api/{EntityPluralName}/{key}/{OwnedEntityPluralName}/{relatedKey} => api/countries/1/CountryLocalNames/1
+        #region PUT to Owned Entities /api/{EntityPluralName}/{key}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
 
         [Fact]
         public async Task PutToCountryLocalNames_ShouldUpdateCountryLocalName()
@@ -360,9 +385,10 @@ namespace ClientApi.Tests.Tests.Controllers
             var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
             var headers = CreateEtagHeader(getCountryResponse!.Etag);
             var ownedResult = await PutAsync<CountryLocalNameUpsertDto, CountryLocalNameDto>(
-                $"{Endpoints.CountriesUrl}/{getCountryResponse!.Id}/{nameof(dto.CountryLocalNames)}/{getCountryResponse!.CountryLocalNames[0].Id}",
+                $"{Endpoints.CountriesUrl}/{getCountryResponse!.Id}/{nameof(dto.CountryLocalNames)}",
                 new CountryLocalNameUpsertDto
                 {
+                    Id = getCountryResponse!.CountryLocalNames[0].Id,
                     Name = expectedOwnedName
                 }, headers);
 
@@ -370,6 +396,31 @@ namespace ClientApi.Tests.Tests.Controllers
             ownedResult.Should().NotBeNull();
             ownedResult!.Id.Should().Be(getCountryResponse!.CountryLocalNames[0].Id);
             ownedResult!.Name.Should().Be(expectedOwnedName);
+        }
+
+        [Fact]
+        public async Task PutToCountryLocalNames_WithoutId_ShouldFail()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>() { new CountryLocalNameUpsertDto() { Name = _fixture.Create<string>() } }
+            };
+            var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
+            // Act
+            var headers = CreateEtagHeader(postCountryResponse!.Etag);
+            var ownedResult = await PutAsync(
+                $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}/{nameof(dto.CountryLocalNames)}",
+                new CountryLocalNameUpsertDto
+                {
+                    Name = _fixture.Create<string>()
+                }, 
+                headers,
+                throwOnError: false);
+
+            //Assert
+            ownedResult!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         #endregion PUT to Owned Entities /api/{EntityPluralName}/{key}/{OwnedEntityPluralName}/{relatedKey} => api/countries/1/CountryLocalNames/1
@@ -413,7 +464,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region PATCH
 
-        #region PATCH to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
+        #region PATCH to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
 
         [Fact]
         public async Task PatchToCountryLocalNames_ShouldUpdateCountryLocalName()
@@ -424,20 +475,28 @@ namespace ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                CountryLocalNames = new List<CountryLocalNameUpsertDto>() { new CountryLocalNameUpsertDto() {
-                    Name = _fixture.Create<string>(),
-                    NativeName = expectedOwnedNativeName
-                } }
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>() 
+                {
+                    new CountryLocalNameUpsertDto() 
+                    {
+                        Name = _fixture.Create<string>(),
+                        NativeName = expectedOwnedNativeName
+                    }
+                }
             };
-            var dictionary = new Dictionary<string, object>();
-            dictionary.Add("Name", expectedOwnedName);
-
-            // Act
             var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
             var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+            var dictionary = new Dictionary<string, object>
+            {
+                { "Id", getCountryResponse!.CountryLocalNames[0].Id },
+                { "Name", expectedOwnedName }
+            };
+
+            // Act
             var headers = CreateEtagHeader(getCountryResponse!.Etag);
             var ownedResult = await PatchAsync<Dictionary<string, object>, CountryLocalNameDto>(
-                $"{Endpoints.CountriesUrl}/{getCountryResponse!.Id}/{nameof(dto.CountryLocalNames)}/{getCountryResponse!.CountryLocalNames[0].Id}",
+                $"{Endpoints.CountriesUrl}/{getCountryResponse!.Id}/{nameof(dto.CountryLocalNames)}",
                 dictionary,
                 headers);
 
@@ -448,7 +507,42 @@ namespace ClientApi.Tests.Tests.Controllers
             ownedResult!.NativeName.Should().Be(expectedOwnedNativeName);
         }
 
-        #endregion PATCH to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
+        [Fact]
+        public async Task PatchToCountryLocalNames_WithoutId_ShouldFail()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>()
+                {
+                    new CountryLocalNameUpsertDto()
+                    {
+                        Name = _fixture.Create<string>(),
+                        NativeName = _fixture.Create<string>()
+                    }
+                }
+            };
+            var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
+            var dictionary = new Dictionary<string, object>
+            {
+                { "Name", _fixture.Create<string>() }
+            };
+
+            // Act
+            var headers = CreateEtagHeader(postCountryResponse!.Etag);
+            var ownedResult = await PatchAsync(
+                $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}/{nameof(dto.CountryLocalNames)}",
+                dictionary,
+                headers,
+                throwOnError: false);
+
+            //Assert
+            ownedResult.Should().NotBeNull();
+            ownedResult!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        #endregion PATCH to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
 
         #region PATCH to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryLocalNames
 

@@ -29,7 +29,7 @@ public abstract class SecondTestEntityOwnedRelationshipOneOrManyUpsertDtoBase: E
     /// <summary>
     /// 
     /// </summary>
-    public System.String? Id { get; set; }
+    public virtual System.String? Id { get; set; }
 
     /// <summary>
     ///      

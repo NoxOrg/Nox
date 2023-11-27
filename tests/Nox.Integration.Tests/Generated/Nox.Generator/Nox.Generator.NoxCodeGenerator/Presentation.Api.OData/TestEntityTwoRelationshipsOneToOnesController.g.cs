@@ -32,7 +32,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefTestEntityTwoRelationshipsOneToOneToTestRelationshipOneCommand(new TestEntityTwoRelationshipsOneToOneKeyDto(key), new SecondTestEntityTwoRelationshipsOneToOneKeyDto(relatedKey)));
@@ -60,7 +60,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         secondTestEntityTwoRelationshipsOneToOne.TestRelationshipOneOnOtherSideId = key;
@@ -86,7 +86,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipOne).SingleOrDefault();
@@ -109,7 +109,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefTestEntityTwoRelationshipsOneToOneToTestRelationshipTwoCommand(new TestEntityTwoRelationshipsOneToOneKeyDto(key), new SecondTestEntityTwoRelationshipsOneToOneKeyDto(relatedKey)));
@@ -137,7 +137,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         secondTestEntityTwoRelationshipsOneToOne.TestRelationshipTwoOnOtherSideId = key;
@@ -163,7 +163,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipTwo).SingleOrDefault();
