@@ -16,7 +16,7 @@ using TestWebApp.Application.Dto;
 using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
 
 namespace TestWebApp.Application.Commands;
-public partial record  UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand(IEnumerable<TestEntityForTypesEnumerationTestFieldLocalizedDto> TestEntityForTypesEnumerationTestFieldLocalizedDtos) : IRequest<CultureCode>;
+public partial record  UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand(IEnumerable<TestEntityForTypesEnumerationTestFieldLocalizedDto> TestEntityForTypesEnumerationTestFieldLocalizedDtos) : IRequest<IEnumerable<TestEntityForTypesEnumerationTestFieldLocalizedDto>>;
 
 internal partial class UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandler : UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase
 {
@@ -26,7 +26,7 @@ internal partial class UpsertTestEntityForTypesEnumerationTestFieldsTranslations
 	{
 	}
 }
-internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase : CommandBase<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand, TestEntityForTypesEnumerationTestFieldLocalized>, IRequestHandler<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand, CultureCode>
+internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase : CommandBase<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand, TestEntityForTypesEnumerationTestFieldLocalized>, IRequestHandler<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand, IEnumerable<TestEntityForTypesEnumerationTestFieldLocalizedDto>>
 {
 	public AppDbContext DbContext { get; }
 
@@ -37,7 +37,7 @@ internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslation
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<CultureCode> Handle(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand command, CancellationToken cancellationToken)
+	public virtual async Task<IEnumerable<TestEntityForTypesEnumerationTestFieldLocalizedDto>> Handle(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand command, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
@@ -64,7 +64,7 @@ internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslation
 			throw new CultureCodeMismatchException($"Culture code {cultureCode} does not match.");
 		}
 		
-		var ids = command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Select(dto=> Enumeration.From(dto.Id)).ToList();
+		var ids = command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Select(dto=> dto.Id).ToList();
 		var query =
 			from Enum in DbContext.TestEntityForTypesEnumerationTestFields
 			join localized in DbContext.TestEntityForTypesEnumerationTestFieldsLocalized
@@ -75,13 +75,13 @@ internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslation
 		
 		var queryResult = await query.AsNoTracking().ToListAsync(cancellationToken);
 			
-		if(!(queryResult.Count == ids.Count && queryResult.All(x=> ids.Contains(x.Id))))
+		if(!(queryResult.Count == ids.Count && queryResult.All(x=> ids.Contains(x.Id.Value))))
 		{
 			throw new InvalidEnumIdsException($"Provided ids are invalid for {nameof(DbContext.TestEntityForTypesEnumerationTestFields)}.");
 		}
 		
 		var localizedEntities = 
-			command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Select(dto => new TestEntityForTypesEnumerationTestFieldLocalized {Id = Enumeration.From(dto.Id), CultureCode = cultureCodeValue, Name = dto.Name}).ToList();
+			command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Select(dto => new TestEntityForTypesEnumerationTestFieldLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = cultureCodeValue, Name = dto.Name}).ToList();
 
 		if (queryResult.First().LocalizedId == null)
 		{
@@ -96,13 +96,13 @@ internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslation
 		{
 			command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.ForEach(dto =>
 			{
-				var e = new TestEntityForTypesEnumerationTestField { Id = Enumeration.From(dto.Id), Name = dto.Name };
+				var e = new TestEntityForTypesEnumerationTestField { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
 				DbContext.Entry(e).State = EntityState.Modified;
 			});
 		}
 
 		await OnBatchCompletedAsync(command, localizedEntities);
 		await DbContext.SaveChangesAsync(cancellationToken);
-		return cultureCodeValue;
+		return command.TestEntityForTypesEnumerationTestFieldLocalizedDtos;
 	}
 }
