@@ -67,6 +67,8 @@ This document provides information about the various endpoints available in our 
 #### Update CashStockOrder relation
 - **PUT** `/api/Employees/{key}/EmployeeReviewingCashStockOrder/{relatedKey}/$ref`
   - Description: Updates an existing CashStockOrder relation for a specific Employee.
+- **PUT** `/api/Employees/{key}/EmployeeReviewingCashStockOrder/$ref`
+  - Description: Updates the CashStockOrder relations for a specific Employee.
 
 #### Delete CashStockOrder relation
 - **DELETE** `/api/Employees/{key}/EmployeeReviewingCashStockOrder/{relatedKey}/$ref`

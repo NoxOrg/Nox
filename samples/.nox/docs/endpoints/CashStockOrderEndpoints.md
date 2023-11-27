@@ -43,6 +43,8 @@ This document provides information about the various endpoints available in our 
 #### Update VendingMachine relation
 - **PUT** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/{relatedKey}/$ref`
   - Description: Updates an existing VendingMachine relation for a specific CashStockOrder.
+- **PUT** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/$ref`
+  - Description: Updates the VendingMachine relations for a specific CashStockOrder.
 
 #### Delete VendingMachine relation
 - **DELETE** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/{relatedKey}/$ref`
@@ -65,6 +67,8 @@ This document provides information about the various endpoints available in our 
 #### Update Employee relation
 - **PUT** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/{relatedKey}/$ref`
   - Description: Updates an existing Employee relation for a specific CashStockOrder.
+- **PUT** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/$ref`
+  - Description: Updates the Employee relations for a specific CashStockOrder.
 
 #### Delete Employee relation
 - **DELETE** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/{relatedKey}/$ref`

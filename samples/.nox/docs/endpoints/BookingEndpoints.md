@@ -43,6 +43,8 @@ This document provides information about the various endpoints available in our 
 #### Update Customer relation
 - **PUT** `/api/Bookings/{key}/BookingForCustomer/{relatedKey}/$ref`
   - Description: Updates an existing Customer relation for a specific Booking.
+- **PUT** `/api/Bookings/{key}/BookingForCustomer/$ref`
+  - Description: Updates the Customer relations for a specific Booking.
 
 #### Delete Customer relation
 - **DELETE** `/api/Bookings/{key}/BookingForCustomer/{relatedKey}/$ref`
@@ -65,6 +67,8 @@ This document provides information about the various endpoints available in our 
 #### Update VendingMachine relation
 - **PUT** `/api/Bookings/{key}/BookingRelatedVendingMachine/{relatedKey}/$ref`
   - Description: Updates an existing VendingMachine relation for a specific Booking.
+- **PUT** `/api/Bookings/{key}/BookingRelatedVendingMachine/$ref`
+  - Description: Updates the VendingMachine relations for a specific Booking.
 
 #### Delete VendingMachine relation
 - **DELETE** `/api/Bookings/{key}/BookingRelatedVendingMachine/{relatedKey}/$ref`
@@ -87,6 +91,8 @@ This document provides information about the various endpoints available in our 
 #### Update Commission relation
 - **PUT** `/api/Bookings/{key}/BookingFeesForCommission/{relatedKey}/$ref`
   - Description: Updates an existing Commission relation for a specific Booking.
+- **PUT** `/api/Bookings/{key}/BookingFeesForCommission/$ref`
+  - Description: Updates the Commission relations for a specific Booking.
 
 #### Delete Commission relation
 - **DELETE** `/api/Bookings/{key}/BookingFeesForCommission/{relatedKey}/$ref`
@@ -109,6 +115,8 @@ This document provides information about the various endpoints available in our 
 #### Update Transaction relation
 - **PUT** `/api/Bookings/{key}/BookingRelatedTransaction/{relatedKey}/$ref`
   - Description: Updates an existing Transaction relation for a specific Booking.
+- **PUT** `/api/Bookings/{key}/BookingRelatedTransaction/$ref`
+  - Description: Updates the Transaction relations for a specific Booking.
 
 #### Delete Transaction relation
 - **DELETE** `/api/Bookings/{key}/BookingRelatedTransaction/{relatedKey}/$ref`

@@ -65,6 +65,8 @@ This document provides information about the various endpoints available in our 
 #### Update People relation
 - **PUT** `/api/Countries/{key}/Inhabitants/{relatedKey}/$ref`
   - Description: Updates an existing People relation for a specific Country.
+- **PUT** `/api/Countries/{key}/Inhabitants/$ref`
+  - Description: Updates the People relations for a specific Country.
 
 ## Custom Commands
 
