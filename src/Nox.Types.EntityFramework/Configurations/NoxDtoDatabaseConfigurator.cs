@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nox.Infrastructure;
 using Nox.Solution;
 using Nox.Solution.Extensions;
 using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
+
 
 namespace Nox.Types.EntityFramework.Configurations;
 
@@ -19,7 +20,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         _clientAssemblyProvider = clientAssemblyProvider;
     }
 
-    public void ConfigureDto(IEntityBuilder builder, Entity entity)
+    public void ConfigureDto(EntityTypeBuilder builder, Entity entity)
     {
         ConfigureKeys(builder, entity);
 
@@ -30,14 +31,14 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         ConfigureOwnedRelationships(builder, entity);
     }
 
-    public void ConfigureLocalizedDto(IEntityBuilder builder, Entity entity)
+    public void ConfigureLocalizedDto(EntityTypeBuilder builder, Entity entity)
     {
         var localizedEntity = entity.ShallowCopy(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name));
 
         ConfigureKeys(builder, localizedEntity);
     }
 
-    private static void ConfigureKeys(IEntityBuilder builder, Entity entity)
+    private static void ConfigureKeys(EntityTypeBuilder builder, Entity entity)
     {
         foreach (var key in entity.GetKeys())
         {
@@ -45,7 +46,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         }
     }
 
-    private void ConfigureAttributes(IEntityBuilder builder, Entity entity)
+    private void ConfigureAttributes(EntityTypeBuilder builder, Entity entity)
     {
         foreach (var attribute in entity.Attributes!)
         {
@@ -71,7 +72,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         }
     }
 
-    private void ConfigureRelationships(IEntityBuilder builder, Entity entity)
+    private void ConfigureRelationships(EntityTypeBuilder builder, Entity entity)
     {
         foreach (var relationshipToCreate in entity.Relationships)
         {
@@ -82,7 +83,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         }
     }
 
-    private void ConfigureRelationship(IEntityBuilder builder, Entity entity, EntityRelationship relationship)
+    private void ConfigureRelationship(EntityTypeBuilder builder, Entity entity, EntityRelationship relationship)
     {
         var navigationPropertyName = entity.GetNavigationPropertyName(relationship);
         var reversedNavigationPropertyName = relationship.Related.Entity.GetNavigationPropertyName(relationship.Related.EntityRelationship);
@@ -118,7 +119,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         }
     }
 
-    private void ConfigureOwnedRelationships(IEntityBuilder builder, Entity entity)
+    private void ConfigureOwnedRelationships(EntityTypeBuilder builder, Entity entity)
     {
         foreach (var relationshipToCreate in entity.OwnedRelationships)
         {
@@ -126,7 +127,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         }
     }
 
-    private void ConfigureOwnedRelationship(IEntityBuilder builder, Entity entity, EntityRelationship relationship)
+    private void ConfigureOwnedRelationship(EntityTypeBuilder builder, Entity entity, EntityRelationship relationship)
     {
         var relatedEntityTypeName = _codeGenConventions.GetEntityDtoTypeFullName(relationship.Related.Entity.Name + "Dto");
         var navigationPropertyName = entity.GetNavigationPropertyName(relationship);

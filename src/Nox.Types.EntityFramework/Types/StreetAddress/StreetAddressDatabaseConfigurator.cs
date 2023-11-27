@@ -2,8 +2,9 @@
 using Nox.Solution;
 using Nox.Types.Extensions;
 using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Nox.Types.EntityFramework.Types;
 
@@ -17,12 +18,13 @@ public class StreetAddressDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
-        bool isKey)
+        bool isKey,
+        ModelBuilder modelBuilder,
+        EntityTypeBuilder entityTypeBuilder)
     {
-        builder.OwnsOne(typeof(StreetAddress), property.Name,
+        entityTypeBuilder.OwnsOne(typeof(StreetAddress), property.Name,
             x =>
             {
                 x.Ignore(nameof(StreetAddress.Value));

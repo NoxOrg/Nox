@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
 namespace Nox.Types.EntityFramework.Types;
 
@@ -12,15 +12,15 @@ public class MoneyDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
-        bool isKey)
+        bool isKey,
+        ModelBuilder modelBuilder, EntityTypeBuilder entityTypeBuilder)
     {
         // TODO: Default values from static property in the Nox.Type
          var typeOptions = property.MoneyTypeOptions ?? new MoneyTypeOptions();
 
-        builder
+        entityTypeBuilder
             .OwnsOne(typeof(Money), property.Name)
             .Ignore(nameof(Money.Value))
             .Property(nameof(Money.Amount))

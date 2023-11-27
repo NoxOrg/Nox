@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Types.EntityFramework.Types;
 
 namespace Nox.EntityFramework.SqlServer.Types;
@@ -11,8 +11,13 @@ public class SqlServerAutoNumberDatabaseConfigurator : AutoNumberDatabaseConfigu
 {
     public override bool IsDefault => false;
 
-    public override void ConfigureEntityProperty(NoxCodeGenConventions noxSolutionCodeGeneratorState, IEntityBuilder builder,
-        NoxSimpleTypeDefinition property, Entity entity, bool isKey)
+    public override void ConfigureEntityProperty(
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
+        NoxSimpleTypeDefinition property,
+        Entity entity,
+        bool isKey,
+        ModelBuilder modelBuilder,
+        EntityTypeBuilder builder)
     {
 
         // If a normal attribute or key then it should be auto-incremented.
@@ -35,6 +40,6 @@ public class SqlServerAutoNumberDatabaseConfigurator : AutoNumberDatabaseConfigu
                 .HasDefaultValueSql($"NEXT VALUE FOR Seq{entity.Name}{property.Name}");
 
         }
-        base.ConfigureEntityProperty(noxSolutionCodeGeneratorState, builder, property, entity, isKey);
+        base.ConfigureEntityProperty(noxSolutionCodeGeneratorState, property, entity, isKey, modelBuilder, builder);
     }
 }
