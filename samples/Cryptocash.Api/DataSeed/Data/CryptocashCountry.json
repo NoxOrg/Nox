@@ -1,2 +1,22 @@
 ﻿[
+  {
+    "Id": "CH",
+    "Name": "Switzerland",
+    "OfficialName": "Swiss Confederation",
+    "CountryIsoNumeric": 756,
+    "CountryIsoAlpha3": "CHE",
+    "FlagEmoji": "CH",
+    "GoogleMapsUrl": "https://goo.gl/maps/uVuZcXaxSx5jLyEC9",
+    "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/51701",
+    "StartOfWeek": 1,
+    "CurrencyId": "CHF",
+    "GeoCoords": {
+      "Latitude": 46.92,
+      "Longitude": 7.47
+    },
+    "FlagSvg": null,
+    "FlagPng": null,
+    "CoatOfArmsSvg": null,
+    "CoatOfArmsPng": null
+  }
 ]
