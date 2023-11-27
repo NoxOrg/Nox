@@ -18,7 +18,7 @@ using Cryptocash.Application.Dto;
 using BankNoteEntity = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Commands;
-public partial record CreateBankNotesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteUpsertDto EntityDto, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
+public partial record CreateBankNotesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
 
 internal partial class CreateBankNotesForCurrencyCommandHandler : CreateBankNotesForCurrencyCommandHandlerBase
 {
@@ -35,10 +35,11 @@ internal abstract class CreateBankNotesForCurrencyCommandHandlerBase : CommandBa
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> _entityFactory;
 
-	public CreateBankNotesForCurrencyCommandHandlerBase(
+	protected CreateBankNotesForCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> entityFactory) : base(noxSolution)
+		IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> entityFactory)
+		: base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -61,6 +62,7 @@ internal abstract class CreateBankNotesForCurrencyCommandHandlerBase : CommandBa
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+
 		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{

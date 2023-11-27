@@ -27,9 +27,7 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
-    public BookingFactoryBase
-    (
-        )
+    public BookingFactoryBase()
     {
     }
 

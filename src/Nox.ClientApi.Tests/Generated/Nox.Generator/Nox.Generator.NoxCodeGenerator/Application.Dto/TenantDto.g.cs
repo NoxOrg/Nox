@@ -64,6 +64,11 @@ public abstract class TenantDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.
     /// </summary>
     public virtual List<WorkplaceDto> Workplaces { get; set; } = new();
 
+    /// <summary>
+    /// Tenant Brands owned by the tenant ZeroOrMany TenantBrands
+    /// </summary>
+    public virtual List<TenantBrandDto> TenantBrands { get; set; } = new();
+
     [JsonPropertyName("@odata.etag")]
     public System.Guid Etag { get; init; }
 }

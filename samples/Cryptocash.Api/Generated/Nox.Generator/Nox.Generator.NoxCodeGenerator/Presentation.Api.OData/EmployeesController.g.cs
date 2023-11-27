@@ -70,7 +70,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new CreateEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), employeePhoneNumber, etag));
+        var createdKey = await _mediator.Send(new CreateEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), employeePhoneNumber, _cultureCode, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -94,7 +94,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey), employeePhoneNumber, etag));
+        var updatedKey = await _mediator.Send(new UpdateEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey), employeePhoneNumber, _cultureCode, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -127,7 +127,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey), updateProperties, _cultureCode, etag));
         
         if (updated is null)
         {

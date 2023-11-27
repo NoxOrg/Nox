@@ -28,10 +28,8 @@ internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEnti
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     protected IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrMany, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto> SecondTestEntityOwnedRelationshipZeroOrManyFactory {get;}
 
-    public TestEntityOwnedRelationshipZeroOrManyFactoryBase
-    (
-        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrMany, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto> secondtestentityownedrelationshipzeroormanyfactory
-        )
+    public TestEntityOwnedRelationshipZeroOrManyFactoryBase(
+        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrMany, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto> secondtestentityownedrelationshipzeroormanyfactory)
     {
         SecondTestEntityOwnedRelationshipZeroOrManyFactory = secondtestentityownedrelationshipzeroormanyfactory;
     }

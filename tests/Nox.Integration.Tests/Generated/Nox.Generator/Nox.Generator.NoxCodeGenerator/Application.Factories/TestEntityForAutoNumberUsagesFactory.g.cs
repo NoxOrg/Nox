@@ -27,9 +27,7 @@ internal abstract class TestEntityForAutoNumberUsagesFactoryBase : IEntityFactor
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
-    public TestEntityForAutoNumberUsagesFactoryBase
-    (
-        )
+    public TestEntityForAutoNumberUsagesFactoryBase()
     {
     }
 

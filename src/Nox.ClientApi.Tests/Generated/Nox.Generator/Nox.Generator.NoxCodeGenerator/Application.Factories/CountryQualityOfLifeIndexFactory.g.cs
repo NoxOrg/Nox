@@ -27,9 +27,7 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
-    public CountryQualityOfLifeIndexFactoryBase
-    (
-        )
+    public CountryQualityOfLifeIndexFactoryBase()
     {
     }
 

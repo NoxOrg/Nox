@@ -18,7 +18,7 @@ using ClientApi.Application.Dto;
 using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Commands;
-public partial record CreateCountryLocalNamesForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameUpsertDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
+public partial record CreateCountryLocalNamesForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
 
 internal partial class CreateCountryLocalNamesForCountryCommandHandler : CreateCountryLocalNamesForCountryCommandHandlerBase
 {
@@ -35,10 +35,11 @@ internal abstract class CreateCountryLocalNamesForCountryCommandHandlerBase : Co
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> _entityFactory;
 
-	public CreateCountryLocalNamesForCountryCommandHandlerBase(
+	protected CreateCountryLocalNamesForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> entityFactory) : base(noxSolution)
+		IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> entityFactory)
+		: base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -61,6 +62,7 @@ internal abstract class CreateCountryLocalNamesForCountryCommandHandlerBase : Co
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+
 		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{

@@ -75,7 +75,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new CreateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), countryLocalName, etag));
+        var createdKey = await _mediator.Send(new CreateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), countryLocalName, _cultureCode, etag));
         if (createdKey == null)
         {
             return NotFound();

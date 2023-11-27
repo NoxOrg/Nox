@@ -27,9 +27,7 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
-    public StoreLicenseFactoryBase
-    (
-        )
+    public StoreLicenseFactoryBase()
     {
     }
 

@@ -27,9 +27,7 @@ internal abstract class TestEntityExactlyOneToOneOrManyFactoryBase : IEntityFact
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
-    public TestEntityExactlyOneToOneOrManyFactoryBase
-    (
-        )
+    public TestEntityExactlyOneToOneOrManyFactoryBase()
     {
     }
 

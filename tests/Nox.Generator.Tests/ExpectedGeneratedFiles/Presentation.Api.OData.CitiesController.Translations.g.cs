@@ -26,11 +26,9 @@ namespace SampleWebApp.Presentation.Api.OData;
          
 
 
-
 public abstract partial class CitiesControllerBase
-{
-    
-    [HttpPut("/api/v1/Cities/{key}/CitiesLocalized/{cultureCode}")]
+{  
+    [HttpPut("/Cities/{key}/CitiesLocalized/{cultureCode}")]
     public virtual async Task<ActionResult<CityLocalizedDto>> PutCityLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode, [FromBody] CityLocalizedUpsertDto cityLocalizedUpsertDto)
     {
         if (!ModelState.IsValid)
@@ -59,7 +57,7 @@ public abstract partial class CitiesControllerBase
     }
 
 
-    [HttpGet("/api/v1/Cities/{key}/CitiesLocalized/")]
+    [HttpGet("/Cities/{key}/CitiesLocalized/")]
     public virtual async Task<ActionResult<IQueryable<CityLocalizedDto>>> GetCityLocalizedNonConventional( [FromRoute] System.String key)
     {
         var result = (await _mediator.Send(new GetCityTranslationsQuery(key)));

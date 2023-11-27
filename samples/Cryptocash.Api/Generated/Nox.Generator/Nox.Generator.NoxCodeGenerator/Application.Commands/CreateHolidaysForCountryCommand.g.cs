@@ -18,7 +18,7 @@ using Cryptocash.Application.Dto;
 using HolidayEntity = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Commands;
-public partial record CreateHolidaysForCountryCommand(CountryKeyDto ParentKeyDto, HolidayUpsertDto EntityDto, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
+public partial record CreateHolidaysForCountryCommand(CountryKeyDto ParentKeyDto, HolidayUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
 
 internal partial class CreateHolidaysForCountryCommandHandler : CreateHolidaysForCountryCommandHandlerBase
 {
@@ -35,10 +35,11 @@ internal abstract class CreateHolidaysForCountryCommandHandlerBase : CommandBase
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> _entityFactory;
 
-	public CreateHolidaysForCountryCommandHandlerBase(
+	protected CreateHolidaysForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> entityFactory) : base(noxSolution)
+		IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> entityFactory)
+		: base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -61,6 +62,7 @@ internal abstract class CreateHolidaysForCountryCommandHandlerBase : CommandBase
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+
 		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{

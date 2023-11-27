@@ -27,9 +27,7 @@ internal abstract class SecondTestEntityOwnedRelationshipZeroOrManyFactoryBase :
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
-    public SecondTestEntityOwnedRelationshipZeroOrManyFactoryBase
-    (
-        )
+    public SecondTestEntityOwnedRelationshipZeroOrManyFactoryBase()
     {
     }
 

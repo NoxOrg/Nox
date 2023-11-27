@@ -129,6 +129,35 @@ internal abstract partial class TenantBase : EntityBase, IEntityConcurrent
     public virtual void DeleteAllRefToWorkplaces()
     {
         Workplaces.Clear();
+    }﻿
+
+    /// <summary>
+    /// Tenant Brands owned by the tenant ZeroOrMany TenantBrands
+    /// </summary>
+    public virtual List<TenantBrand> TenantBrands { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new TenantBrand entity.
+    /// </summary>
+    public virtual void CreateRefToTenantBrands(TenantBrand relatedTenantBrand)
+    {
+        TenantBrands.Add(relatedTenantBrand);
+    }
+    
+    /// <summary>
+    /// Deletes owned TenantBrand entity.
+    /// </summary>
+    public virtual void DeleteRefToTenantBrands(TenantBrand relatedTenantBrand)
+    {
+        TenantBrands.Remove(relatedTenantBrand);
+    }
+    
+    /// <summary>
+    /// Deletes all owned TenantBrand entities.
+    /// </summary>
+    public virtual void DeleteAllRefToTenantBrands()
+    {
+        TenantBrands.Clear();
     }
 
     /// <summary>

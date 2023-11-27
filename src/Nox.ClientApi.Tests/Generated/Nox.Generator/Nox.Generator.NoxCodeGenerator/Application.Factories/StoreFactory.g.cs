@@ -28,10 +28,8 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     protected IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> EmailAddressFactory {get;}
 
-    public StoreFactoryBase
-    (
-        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> emailaddressfactory
-        )
+    public StoreFactoryBase(
+        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> emailaddressfactory)
     {
         EmailAddressFactory = emailaddressfactory;
     }

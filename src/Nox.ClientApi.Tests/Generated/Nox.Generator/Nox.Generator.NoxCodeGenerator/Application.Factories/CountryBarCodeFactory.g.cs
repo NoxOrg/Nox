@@ -27,9 +27,7 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
-    public CountryBarCodeFactoryBase
-    (
-        )
+    public CountryBarCodeFactoryBase()
     {
     }
 

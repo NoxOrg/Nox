@@ -15,7 +15,7 @@ using TestWebApp.Application.Dto;
 using SecondTestEntityOwnedRelationshipExactlyOneEntity = TestWebApp.Domain.SecondTestEntityOwnedRelationshipExactlyOne;
 
 namespace TestWebApp.Application.Commands;
-public partial record UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(TestEntityOwnedRelationshipExactlyOneKeyDto ParentKeyDto, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto EntityDto, System.Guid? Etag) : IRequest <SecondTestEntityOwnedRelationshipExactlyOneKeyDto?>;
+public partial record UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(TestEntityOwnedRelationshipExactlyOneKeyDto ParentKeyDto, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <SecondTestEntityOwnedRelationshipExactlyOneKeyDto?>;
 
 
 internal partial class UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommandHandler : UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommandHandlerBase
@@ -31,15 +31,16 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestE
 
 internal partial class UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommandHandlerBase : CommandBase<UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand, SecondTestEntityOwnedRelationshipExactlyOneEntity>, IRequestHandler <UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand, SecondTestEntityOwnedRelationshipExactlyOneKeyDto?>
 {
-	public AppDbContext DbContext { get; }
+	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<SecondTestEntityOwnedRelationshipExactlyOneEntity, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto> _entityFactory;
 
-	public UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommandHandlerBase(
+	protected UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<SecondTestEntityOwnedRelationshipExactlyOneEntity, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto> entityFactory) : base(noxSolution)
+		IEntityFactory<SecondTestEntityOwnedRelationshipExactlyOneEntity, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto> entityFactory)
+		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
 		_entityFactory = entityFactory;
 	}
 
@@ -48,12 +49,12 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestE
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOneMetadata.CreateId(request.ParentKeyDto.keyId);
-		var parentEntity = await DbContext.TestEntityOwnedRelationshipExactlyOnes.FindAsync(keyId);
+		var parentEntity = await _dbContext.TestEntityOwnedRelationshipExactlyOnes.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
-		await DbContext.Entry(parentEntity).Reference(e => e.SecondTestEntityOwnedRelationshipExactlyOne).LoadAsync(cancellationToken);
+		await _dbContext.Entry(parentEntity).Reference(e => e.SecondTestEntityOwnedRelationshipExactlyOne).LoadAsync(cancellationToken);
 		var entity = parentEntity.SecondTestEntityOwnedRelationshipExactlyOne;
 		
 		if (entity == null)
@@ -65,8 +66,10 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestE
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+
+
+		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
 			return null;
@@ -74,4 +77,5 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestE
 
 		return new SecondTestEntityOwnedRelationshipExactlyOneKeyDto();
 	}
+
 }

@@ -15,7 +15,7 @@ using Cryptocash.Application.Dto;
 using EmployeePhoneNumberEntity = Cryptocash.Domain.EmployeePhoneNumber;
 
 namespace Cryptocash.Application.Commands;
-public partial record UpdateEmployeePhoneNumbersForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberKeyDto EntityKeyDto, EmployeePhoneNumberUpsertDto EntityDto, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
+public partial record UpdateEmployeePhoneNumbersForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberKeyDto EntityKeyDto, EmployeePhoneNumberUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
 
 internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandler : UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase
 {
@@ -30,15 +30,16 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandler : Upd
 
 internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase : CommandBase<UpdateEmployeePhoneNumbersForEmployeeCommand, EmployeePhoneNumberEntity>, IRequestHandler <UpdateEmployeePhoneNumbersForEmployeeCommand, EmployeePhoneNumberKeyDto?>
 {
-	public AppDbContext DbContext { get; }
+	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> _entityFactory;
 
-	public UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase(
+	protected UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> entityFactory) : base(noxSolution)
+		IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> entityFactory)
+		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
 		_entityFactory = entityFactory;
 	}
 
@@ -47,12 +48,12 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.EmployeeMetadata.CreateId(request.ParentKeyDto.keyId);
-		var parentEntity = await DbContext.Employees.FindAsync(keyId);
+		var parentEntity = await _dbContext.Employees.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
-		await DbContext.Entry(parentEntity).Collection(p => p.EmployeePhoneNumbers).LoadAsync(cancellationToken);
+		await _dbContext.Entry(parentEntity).Collection(p => p.EmployeePhoneNumbers).LoadAsync(cancellationToken);
 		var ownedId = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
@@ -64,8 +65,10 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+
+
+		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
 			return null;
@@ -73,4 +76,5 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 
 		return new EmployeePhoneNumberKeyDto(entity.Id.Value);
 	}
+
 }

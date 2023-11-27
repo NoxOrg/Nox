@@ -15,7 +15,7 @@ using TestWebApp.Application.Dto;
 using SecondTestEntityOwnedRelationshipZeroOrManyEntity = TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrMany;
 
 namespace TestWebApp.Application.Commands;
-public partial record UpdateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(TestEntityOwnedRelationshipZeroOrManyKeyDto ParentKeyDto, SecondTestEntityOwnedRelationshipZeroOrManyKeyDto EntityKeyDto, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto EntityDto, System.Guid? Etag) : IRequest <SecondTestEntityOwnedRelationshipZeroOrManyKeyDto?>;
+public partial record UpdateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(TestEntityOwnedRelationshipZeroOrManyKeyDto ParentKeyDto, SecondTestEntityOwnedRelationshipZeroOrManyKeyDto EntityKeyDto, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <SecondTestEntityOwnedRelationshipZeroOrManyKeyDto?>;
 
 internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommandHandler : UpdateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase
 {
@@ -30,15 +30,16 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrManiesForTes
 
 internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase : CommandBase<UpdateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand, SecondTestEntityOwnedRelationshipZeroOrManyEntity>, IRequestHandler <UpdateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand, SecondTestEntityOwnedRelationshipZeroOrManyKeyDto?>
 {
-	public AppDbContext DbContext { get; }
+	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<SecondTestEntityOwnedRelationshipZeroOrManyEntity, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto> _entityFactory;
 
-	public UpdateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase(
+	protected UpdateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<SecondTestEntityOwnedRelationshipZeroOrManyEntity, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto> entityFactory) : base(noxSolution)
+		IEntityFactory<SecondTestEntityOwnedRelationshipZeroOrManyEntity, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto> entityFactory)
+		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
 		_entityFactory = entityFactory;
 	}
 
@@ -47,12 +48,12 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrManiesForTes
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(request.ParentKeyDto.keyId);
-		var parentEntity = await DbContext.TestEntityOwnedRelationshipZeroOrManies.FindAsync(keyId);
+		var parentEntity = await _dbContext.TestEntityOwnedRelationshipZeroOrManies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
-		await DbContext.Entry(parentEntity).Collection(p => p.SecondTestEntityOwnedRelationshipZeroOrManies).LoadAsync(cancellationToken);
+		await _dbContext.Entry(parentEntity).Collection(p => p.SecondTestEntityOwnedRelationshipZeroOrManies).LoadAsync(cancellationToken);
 		var ownedId = TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.SecondTestEntityOwnedRelationshipZeroOrManies.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
@@ -64,8 +65,10 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrManiesForTes
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+
+
+		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
 			return null;
@@ -73,4 +76,5 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrManiesForTes
 
 		return new SecondTestEntityOwnedRelationshipZeroOrManyKeyDto(entity.Id.Value);
 	}
+
 }

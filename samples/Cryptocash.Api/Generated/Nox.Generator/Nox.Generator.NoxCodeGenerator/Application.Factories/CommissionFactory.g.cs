@@ -27,9 +27,7 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
-    public CommissionFactoryBase
-    (
-        )
+    public CommissionFactoryBase()
     {
     }
 

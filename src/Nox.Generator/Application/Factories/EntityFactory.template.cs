@@ -37,12 +37,10 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
     protected IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}UpsertDto, {{ownedEntity}}UpsertDto> {{ownedEntity}}Factory {get;}
     {{- end }}
 
-    public {{className}}Base
-    (
+    public {{className}}Base(
         {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
         IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}UpsertDto, {{ownedEntity}}UpsertDto> {{fieldFactoryName ownedEntity}}{{if !for.last}},{{end}}
-        {{- end }}
-        )
+        {{- end -}})
     {
         {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
         {{ ownedEntity}}Factory = {{fieldFactoryName ownedEntity}};

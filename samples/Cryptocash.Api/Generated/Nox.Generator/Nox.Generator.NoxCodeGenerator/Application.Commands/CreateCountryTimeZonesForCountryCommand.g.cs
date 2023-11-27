@@ -18,7 +18,7 @@ using Cryptocash.Application.Dto;
 using CountryTimeZoneEntity = Cryptocash.Domain.CountryTimeZone;
 
 namespace Cryptocash.Application.Commands;
-public partial record CreateCountryTimeZonesForCountryCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneUpsertDto EntityDto, System.Guid? Etag) : IRequest <CountryTimeZoneKeyDto?>;
+public partial record CreateCountryTimeZonesForCountryCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryTimeZoneKeyDto?>;
 
 internal partial class CreateCountryTimeZonesForCountryCommandHandler : CreateCountryTimeZonesForCountryCommandHandlerBase
 {
@@ -35,10 +35,11 @@ internal abstract class CreateCountryTimeZonesForCountryCommandHandlerBase : Com
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> _entityFactory;
 
-	public CreateCountryTimeZonesForCountryCommandHandlerBase(
+	protected CreateCountryTimeZonesForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> entityFactory) : base(noxSolution)
+		IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> entityFactory)
+		: base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -61,6 +62,7 @@ internal abstract class CreateCountryTimeZonesForCountryCommandHandlerBase : Com
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+
 		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{

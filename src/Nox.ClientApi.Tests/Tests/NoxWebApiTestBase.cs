@@ -59,7 +59,6 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
         AddHeaders(httpClient, headers ?? new());
 
         var result = await httpClient.GetAsync(requestUrl);
-
         result.EnsureSuccessStatusCode();
 
         result.Headers.Single(h => h.Key == "OData-Version").Value.First().Should().Be("4.0");

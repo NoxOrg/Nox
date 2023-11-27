@@ -53,7 +53,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new CreateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(new TestEntityOwnedRelationshipZeroOrOneKeyDto(key), secondTestEntityOwnedRelationshipZeroOrOne, etag));
+        var createdKey = await _mediator.Send(new CreateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(new TestEntityOwnedRelationshipZeroOrOneKeyDto(key), secondTestEntityOwnedRelationshipZeroOrOne, _cultureCode, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -76,7 +76,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(new TestEntityOwnedRelationshipZeroOrOneKeyDto(key), secondTestEntityOwnedRelationshipZeroOrOne, etag));
+        var updatedKey = await _mediator.Send(new UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(new TestEntityOwnedRelationshipZeroOrOneKeyDto(key), secondTestEntityOwnedRelationshipZeroOrOne, _cultureCode, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -108,7 +108,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(new TestEntityOwnedRelationshipZeroOrOneKeyDto(key), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(new TestEntityOwnedRelationshipZeroOrOneKeyDto(key), updateProperties, _cultureCode, etag));
         
         if (updated is null)
         {

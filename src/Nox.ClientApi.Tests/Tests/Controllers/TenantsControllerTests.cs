@@ -18,7 +18,7 @@ namespace ClientApi.Tests.Controllers
         {
         }
             [Fact]
-        public async Task Post_ToEntityWithNuid_NuidIsCreated()
+        public async Task CreateTenant_ToEntityWithNuid_NuidIsCreated()
         {
             // Arrange
             var createDto = new TenantCreateDto
@@ -37,7 +37,7 @@ namespace ClientApi.Tests.Controllers
         }
 
         [Fact]
-        public async Task Put_Name_ShouldFailWithNuidException()
+        public async Task UpdateTenantName_ShouldFailWithNuidException()
         {
             // Arrange
             var createDto = new TenantCreateDto
@@ -60,6 +60,122 @@ namespace ClientApi.Tests.Controllers
             //Assert            
             putResult!.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
+
+        #region Owned Entities
+
+        #region Localizations
+
+        [Fact]
+        public async Task CreateTenant_WhenProvidingTenantBrandDefaultLanguageDescription_CreatesLocalization()
+        {
+            // Arrange
+            var enTenant = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                TenantBrands = new List<TenantBrandUpsertDto>
+                {
+                    new()
+                    {
+                        Name = "Regus",
+                        Description = "Regus is part of a collective of global and regional workspace brands that form the IWG network.",
+                    },
+                },
+            };
+
+            // Act
+            var postResult = await CreateTenantAsync(enTenant);
+
+            var enResult = await GetTenantByIdAsync(postResult!.Id, language: "en-US");
+
+            // Assert
+            enResult.Should().NotBeNull();
+            enResult!.Id.Should().Be(postResult.Id);
+            enResult.Name.Should().Be(enTenant.Name);
+            enResult.TenantBrands[0].Name.Should().Be(enTenant.TenantBrands[0].Name);
+            enResult.TenantBrands[0].Description.Should().Be(enTenant.TenantBrands[0].Description);
+        }
+
+        [Fact]
+        public async Task CreateTenant_WhenProvidingTenantBrandNotDefaultLanguageDescription_CreatesLocalization()
+        {
+            // Arrange
+            var frTenant = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                TenantBrands = new List<TenantBrandUpsertDto>
+                {
+                    new()
+                    {
+                        Name = "Regus",
+                        Description = "Regus fait partie d’un collectif de marques mondiales et régionales d’espaces de travail qui forment le réseau IWG.",
+                    },
+                },
+            };
+
+            // Act
+            var postResult = await CreateTenantAsync(frTenant);
+
+            var frResult = await GetTenantByIdAsync(postResult!.Id, language: "fr-FR");
+
+            // Assert
+            frResult.Should().NotBeNull();
+            frResult!.Id.Should().Be(postResult.Id);
+            frResult.Name.Should().Be(frTenant.Name);
+            frResult.TenantBrands[0].Name.Should().Be(frTenant.TenantBrands[0].Name);
+            frResult.TenantBrands[0].Description.Should().Be(frTenant.TenantBrands[0].Description);
+        }
+
+        [Fact]
+        public async Task CreateTenantAndUpdateTenantBrands_WithTenantBrandDescription_CreatesCorrectLocalizations()
+        {
+            // Arrange
+            var tenantId = (await CreateTenantAsync(new TenantCreateDto { Name = "IWG plc" }))!.Id;
+
+            var enTenantBrand = new TenantBrandUpsertDto
+            {
+                Name = "Regus",
+                Description = "Regus is part of a collective of global and regional workspace brands that form the IWG network.",
+            };
+
+            var frTenantBrand = new TenantBrandUpsertDto
+            {
+                Name = "Regus",
+                Description = "Regus fait partie d’un collectif de marques mondiales et régionales d’espaces de travail qui forment le réseau IWG.",
+            };
+
+            var deTenantBrand = new TenantBrandUpsertDto
+            {
+                Name = "Regus",
+                Description = "Regus ist Teil eines Kollektivs globaler und regionaler Arbeitsplatzmarken, die das IWG-Netzwerk bilden.",
+            };
+
+            // Act
+            var postResult = await CreateTenantBrandAsync(tenantId, enTenantBrand, language: "en-US");
+            _ = await UpdateTenantBrandAsync(tenantId, postResult!.Id, frTenantBrand, language: "fr-FR");
+            _ = await PartiallyUpdateTenantBrandAsync(tenantId, postResult!.Id, deTenantBrand, language: "de-DE");
+
+            var enResult = await GetTenantByIdAsync(tenantId, language: "en-US");
+            var frResult = await GetTenantByIdAsync(tenantId, language: "fr-FR");
+            var deResult = await GetTenantByIdAsync(tenantId, language: "de-DE");
+            var itResult = await GetTenantByIdAsync(tenantId, language: "it-IT");
+
+            // Assert
+            enResult.Should().NotBeNull();
+            enResult!.TenantBrands[0].Description.Should().Be(enTenantBrand.Description);
+
+            frResult.Should().NotBeNull();
+            frResult!.TenantBrands[0].Description.Should().Be(frTenantBrand.Description);
+
+            deResult.Should().NotBeNull();
+            deResult!.TenantBrands[0].Description.Should().Be(deTenantBrand.Description);
+
+            itResult.Should().NotBeNull();
+            itResult!.TenantBrands[0].Description.Should().Be("[" + enTenantBrand.Description + "]");
+        }
+
+        #endregion Localizations
+
+        #endregion Owned Entities
 
         #region Many to Many Relations
 
@@ -113,5 +229,36 @@ namespace ClientApi.Tests.Controllers
         }
 
         #endregion Many to Many Relations
+
+        #region Utils
+
+        private async Task<TenantDto?> CreateTenantAsync(TenantCreateDto tenant, string? language = null)
+            => await PostAsync<TenantCreateDto, TenantDto>($"{Endpoints.TenantsUrl}{CreateLangParam(language)}", tenant);
+
+        private async Task<TenantDto?> GetTenantByIdAsync(uint id, string? language = null)
+            => await GetODataSimpleResponseAsync<TenantDto>($"{Endpoints.TenantsUrl}/{id}{CreateLangParam(language)}");
+
+        private async Task<TenantBrandDto?> CreateTenantBrandAsync(uint tenantId, TenantBrandUpsertDto tenantBrand, string? language = null)
+        {
+            var etag = (await GetTenantByIdAsync(tenantId))!.Etag;
+            return await PostAsync<TenantBrandUpsertDto, TenantBrandDto>($"{Endpoints.TenantsUrl}/{tenantId}/TenantBrands{CreateLangParam(language)}", tenantBrand, CreateEtagHeader(etag));
+        }
+
+        private async Task<TenantBrandDto?> UpdateTenantBrandAsync(uint tenantId, long tenantBrandId, TenantBrandUpsertDto tenantBrand, string? language = null)
+        {
+            var etag = (await GetTenantByIdAsync(tenantId))!.Etag;
+            return await PutAsync<TenantBrandUpsertDto, TenantBrandDto>($"{Endpoints.TenantsUrl}/{tenantId}/TenantBrands/{tenantBrandId}{CreateLangParam(language)}", tenantBrand, CreateEtagHeader(etag));
+        }
+
+        private async Task<TenantBrandDto?> PartiallyUpdateTenantBrandAsync(uint tenantId, long tenantBrandId, TenantBrandUpsertDto tenantBrand, string? language = null)
+        {
+            var etag = (await GetTenantByIdAsync(tenantId))!.Etag;
+            return await PatchAsync<TenantBrandUpsertDto, TenantBrandDto>($"{Endpoints.TenantsUrl}/{tenantId}/TenantBrands/{tenantBrandId}{CreateLangParam(language)}", tenantBrand, CreateEtagHeader(etag));
+        }
+
+        private static string CreateLangParam(string? language = null)
+            => string.IsNullOrWhiteSpace(language) ? string.Empty : $"?lang={language}";
+
+        #endregion
     }
 }

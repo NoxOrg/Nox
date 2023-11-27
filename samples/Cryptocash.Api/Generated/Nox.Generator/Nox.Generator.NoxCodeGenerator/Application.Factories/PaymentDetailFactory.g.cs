@@ -27,9 +27,7 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetailE
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
-    public PaymentDetailFactoryBase
-    (
-        )
+    public PaymentDetailFactoryBase()
     {
     }
 

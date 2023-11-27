@@ -26,11 +26,12 @@ namespace ClientApi.Application.Factories;
 internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    protected IEntityFactory<ClientApi.Domain.TenantBrand, TenantBrandUpsertDto, TenantBrandUpsertDto> TenantBrandFactory {get;}
 
-    public TenantFactoryBase
-    (
-        )
+    public TenantFactoryBase(
+        IEntityFactory<ClientApi.Domain.TenantBrand, TenantBrandUpsertDto, TenantBrandUpsertDto> tenantbrandfactory)
     {
+        TenantBrandFactory = tenantbrandfactory;
     }
 
     public virtual TenantEntity CreateEntity(TenantCreateDto createDto)
@@ -60,6 +61,7 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
         var entity = new ClientApi.Domain.Tenant();
         entity.Name = ClientApi.Domain.TenantMetadata.CreateName(createDto.Name);
 		entity.EnsureId();
+        createDto.TenantBrands.ForEach(dto => entity.CreateRefToTenantBrands(TenantBrandFactory.CreateEntity(dto)));
         return entity;
     }
 
@@ -91,4 +93,9 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
 
 internal partial class TenantFactory : TenantFactoryBase
 {
+    public TenantFactory
+    (
+        IEntityFactory<ClientApi.Domain.TenantBrand, TenantBrandUpsertDto, TenantBrandUpsertDto> tenantbrandfactory
+    ) : base(tenantbrandfactory)
+    {}
 }

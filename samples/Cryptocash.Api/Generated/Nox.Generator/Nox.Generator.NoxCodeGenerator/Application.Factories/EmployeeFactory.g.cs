@@ -28,10 +28,8 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     protected IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> EmployeePhoneNumberFactory {get;}
 
-    public EmployeeFactoryBase
-    (
-        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> employeephonenumberfactory
-        )
+    public EmployeeFactoryBase(
+        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> employeephonenumberfactory)
     {
         EmployeePhoneNumberFactory = employeephonenumberfactory;
     }

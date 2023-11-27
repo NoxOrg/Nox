@@ -12,11 +12,9 @@ internal class ByIdQueryLocalizedGenerator : ApplicationEntityDependentGenerator
     protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
     {
         var templateName = @"Application.Queries.ByIdQueryLocalized";
-        foreach (var entity in entities.Where(x => x.IsLocalized))
-        {
-            if (entity.IsOwnedEntity)
-                continue;
 
+        foreach (var entity in entities.Where(e => (e.IsLocalized || e.HasLocalizedOwnedRelationships) && !e.IsOwnedEntity))
+        {
             context.CancellationToken.ThrowIfCancellationRequested();
 
             var primaryKeys = string.Join(", ", entity.Keys.Select(k => $"{codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));

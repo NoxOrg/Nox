@@ -27,9 +27,7 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
-    public CashStockOrderFactoryBase
-    (
-        )
+    public CashStockOrderFactoryBase()
     {
     }
 

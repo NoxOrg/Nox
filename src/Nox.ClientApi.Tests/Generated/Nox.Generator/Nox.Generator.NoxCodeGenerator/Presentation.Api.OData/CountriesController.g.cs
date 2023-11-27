@@ -70,7 +70,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new CreateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), countryLocalName, etag));
+        var createdKey = await _mediator.Send(new CreateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), countryLocalName, _cultureCode, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -94,7 +94,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), countryLocalName, etag));
+        var updatedKey = await _mediator.Send(new UpdateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), countryLocalName, _cultureCode, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -127,7 +127,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), updateProperties, _cultureCode, etag));
         
         if (updated is null)
         {
@@ -189,7 +189,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new CreateCountryBarCodeForCountryCommand(new CountryKeyDto(key), countryBarCode, etag));
+        var createdKey = await _mediator.Send(new CreateCountryBarCodeForCountryCommand(new CountryKeyDto(key), countryBarCode, _cultureCode, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -212,7 +212,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateCountryBarCodeForCountryCommand(new CountryKeyDto(key), countryBarCode, etag));
+        var updatedKey = await _mediator.Send(new UpdateCountryBarCodeForCountryCommand(new CountryKeyDto(key), countryBarCode, _cultureCode, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -244,7 +244,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCountryBarCodeForCountryCommand(new CountryKeyDto(key), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateCountryBarCodeForCountryCommand(new CountryKeyDto(key), updateProperties, _cultureCode, etag));
         
         if (updated is null)
         {

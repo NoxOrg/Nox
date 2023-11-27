@@ -41,6 +41,9 @@ erDiagram
     }
     Tenant {
     }
+    Tenant||--o{TenantBrand : "Brands owned by the tenant"
+    TenantBrand {
+    }
     EmailAddress {
     }
 
@@ -301,6 +304,7 @@ Member|Type|Description|Info
 ---------|----|----------|-------
 Id|Nuid||Required, Primary Key, Separator: -, PropertyNames: System.String[]
 Name|Text|Teanant Name.|Required, MinLength: 4, MaxLength: 63
+TenantBrandId|AutoNumber||Required, Owned Entity
 WorkplaceId|AutoNumber|Workplace unique identifier.|Required, Foreign Key
 
 
@@ -309,6 +313,23 @@ WorkplaceId|AutoNumber|Workplace unique identifier.|Required, Foreign Key
 Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
 -----------|-----------|--------------|----|---------------|------------------
 Workplaces where the tenant is active|ZeroOrMany|Workplace|TenantWorkplaces|Yes|Yes
+
+
+### Tenant.TenantBrand (Owned by Tenant)
+
+Tenant Brand.
+
+[Domain Events](./domainEvents/TenantBrandDomainEvents.md)
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Description|Info
+---------|----|----------|-------
+Id|AutoNumber||Required, Primary Key
+Name|Text|Teanant Brand Name.|Required, MinLength: 4, MaxLength: 63
+Description|Text|Teanant Brand Description.|Required, MinLength: 4, IsLocalized: true
+
+
 
 
 ### Workplace

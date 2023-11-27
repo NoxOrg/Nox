@@ -27,9 +27,7 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
-    public CountryTimeZoneFactoryBase
-    (
-        )
+    public CountryTimeZoneFactoryBase()
     {
     }
 

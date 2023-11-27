@@ -34,7 +34,8 @@ internal abstract class GetTenantsQueryHandlerBase : QueryBase<IQueryable<Tenant
     public virtual Task<IQueryable<TenantDto>> Handle(GetTenantsQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<TenantDto>)DataDbContext.Tenants
-            .AsNoTracking();
+            .AsNoTracking()
+            .Include(e => e.TenantBrands);
        return Task.FromResult(OnResponse(item));
     }
 }

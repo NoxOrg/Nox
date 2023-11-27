@@ -18,7 +18,7 @@ using ClientApi.Application.Dto;
 using EmailAddressEntity = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Commands;
-public partial record CreateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, EmailAddressUpsertDto EntityDto, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
+public partial record CreateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, EmailAddressUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
 
 internal partial class CreateEmailAddressForStoreCommandHandler : CreateEmailAddressForStoreCommandHandlerBase
 {
@@ -35,10 +35,11 @@ internal abstract class CreateEmailAddressForStoreCommandHandlerBase : CommandBa
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> _entityFactory;
 
-	public CreateEmailAddressForStoreCommandHandlerBase(
+	protected CreateEmailAddressForStoreCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> entityFactory) : base(noxSolution)
+		IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> entityFactory)
+		: base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -61,6 +62,7 @@ internal abstract class CreateEmailAddressForStoreCommandHandlerBase : CommandBa
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+
 		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{

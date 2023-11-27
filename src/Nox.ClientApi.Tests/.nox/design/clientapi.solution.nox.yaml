@@ -39,6 +39,8 @@ domain:
     - $ref: ./Entities/currency.entity.nox.yaml
   
     - $ref: ./Entities/tenant.entity.nox.yaml
+  
+    - $ref: ./Entities/tenant-brand.entity.nox.yaml
 
     - name: EmailAddress #owned by store
       description: Verified Email Address
@@ -102,6 +104,7 @@ application:
     supportedCultures:
       - fr-FR
       - de-DE
+      - it-IT
       - en-US
     defaultCulture: en-US 
 

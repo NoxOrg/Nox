@@ -70,7 +70,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new CreateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), countryTimeZone, etag));
+        var createdKey = await _mediator.Send(new CreateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), countryTimeZone, _cultureCode, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -94,7 +94,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey), countryTimeZone, etag));
+        var updatedKey = await _mediator.Send(new UpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey), countryTimeZone, _cultureCode, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -127,7 +127,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey), updateProperties, _cultureCode, etag));
         
         if (updated is null)
         {
@@ -206,7 +206,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new CreateHolidaysForCountryCommand(new CountryKeyDto(key), holiday, etag));
+        var createdKey = await _mediator.Send(new CreateHolidaysForCountryCommand(new CountryKeyDto(key), holiday, _cultureCode, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -230,7 +230,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateHolidaysForCountryCommand(new CountryKeyDto(key), new HolidayKeyDto(relatedKey), holiday, etag));
+        var updatedKey = await _mediator.Send(new UpdateHolidaysForCountryCommand(new CountryKeyDto(key), new HolidayKeyDto(relatedKey), holiday, _cultureCode, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -263,7 +263,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateHolidaysForCountryCommand(new CountryKeyDto(key), new HolidayKeyDto(relatedKey), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateHolidaysForCountryCommand(new CountryKeyDto(key), new HolidayKeyDto(relatedKey), updateProperties, _cultureCode, etag));
         
         if (updated is null)
         {

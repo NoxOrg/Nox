@@ -18,7 +18,7 @@ using Cryptocash.Application.Dto;
 using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Commands;
-public partial record CreateExchangeRatesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateUpsertDto EntityDto, System.Guid? Etag) : IRequest <ExchangeRateKeyDto?>;
+public partial record CreateExchangeRatesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <ExchangeRateKeyDto?>;
 
 internal partial class CreateExchangeRatesForCurrencyCommandHandler : CreateExchangeRatesForCurrencyCommandHandlerBase
 {
@@ -35,10 +35,11 @@ internal abstract class CreateExchangeRatesForCurrencyCommandHandlerBase : Comma
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> _entityFactory;
 
-	public CreateExchangeRatesForCurrencyCommandHandlerBase(
+	protected CreateExchangeRatesForCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> entityFactory) : base(noxSolution)
+		IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> entityFactory)
+		: base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -61,6 +62,7 @@ internal abstract class CreateExchangeRatesForCurrencyCommandHandlerBase : Comma
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+
 		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
