@@ -33,7 +33,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var item = (await _mediator.Send(new GetTestEntityOwnedRelationshipZeroOrManyByIdQuery(key))).SingleOrDefault();
         
@@ -51,7 +51,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetSecondTestEntityOwnedRelationshipZeroOrManies(key, new SecondTestEntityOwnedRelationshipZeroOrManyKeyDto(relatedKey));
         if (child == null)
@@ -66,7 +66,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -89,7 +89,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -112,7 +112,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
     {
         if (!ModelState.IsValid || secondTestEntityOwnedRelationshipZeroOrMany is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
@@ -126,7 +126,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
         
         if(!updateProperties.ContainsKey("Id"))
         {
-            return BadRequest("Id is required.");
+            throw new Nox.Exceptions.BadRequestException("Id is required.");
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -150,7 +150,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new DeleteSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(new TestEntityOwnedRelationshipZeroOrManyKeyDto(key), new SecondTestEntityOwnedRelationshipZeroOrManyKeyDto(relatedKey)));
         if (!result)

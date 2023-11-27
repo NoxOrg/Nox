@@ -32,7 +32,7 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommand(new ThirdTestEntityExactlyOneKeyDto(key), new ThirdTestEntityZeroOrOneKeyDto(relatedKey)));
@@ -60,7 +60,7 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         thirdTestEntityZeroOrOne.ThirdTestEntityExactlyOneId = key;
@@ -86,7 +86,7 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(key))).Select(x => x.ThirdTestEntityZeroOrOne).SingleOrDefault();

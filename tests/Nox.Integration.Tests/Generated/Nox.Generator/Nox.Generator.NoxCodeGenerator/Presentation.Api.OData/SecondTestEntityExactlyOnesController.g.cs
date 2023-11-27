@@ -32,7 +32,7 @@ public abstract partial class SecondTestEntityExactlyOnesControllerBase : ODataC
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefSecondTestEntityExactlyOneToTestEntityExactlyOneCommand(new SecondTestEntityExactlyOneKeyDto(key), new TestEntityExactlyOneKeyDto(relatedKey)));
@@ -60,7 +60,7 @@ public abstract partial class SecondTestEntityExactlyOnesControllerBase : ODataC
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         testEntityExactlyOne.SecondTestEntityExactlyOneId = key;
@@ -86,7 +86,7 @@ public abstract partial class SecondTestEntityExactlyOnesControllerBase : ODataC
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(key))).Select(x => x.TestEntityExactlyOne).SingleOrDefault();
