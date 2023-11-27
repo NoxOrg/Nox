@@ -32,6 +32,8 @@
       <AdditionalFiles Include="Design\infrastructure\sample.infrastructure.nox.yaml">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </AdditionalFiles>
+      <None Remove="generator.nox.yaml" />
+      <AdditionalFiles Include="generator.nox.yaml" />
     </ItemGroup>
 
     <ItemGroup>

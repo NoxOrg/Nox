@@ -1,22 +1,7 @@
 // Generated
 #nullable enable
 
-{{- if codeGeneratorState.Solution.Domain != null }}
-using Microsoft.EntityFrameworkCore;
-using Nox;
-using Nox.Solution;
-using Nox.Extensions;
-using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
-using Nox.Configuration;
-using Nox.Infrastructure;
-using Nox.Infrastructure.Persistence;
-
-using {{codeGeneratorState.RootNameSpace}}.Application.Dto;
-using DtoNameSpace = {{codeGeneratorState.DtoNameSpace}};
-{{- end }}
-
-namespace {{codeGeneratorState.RootNameSpace}}.Infrastructure.Persistence;
+namespace SampleWebApp.Infrastructure.Persistence;
 
 internal class DtoDbContext : DbContext
 {
@@ -50,30 +35,12 @@ internal class DtoDbContext : DbContext
         _codeGenConventions = codeGeneratorState;
     }
 
-    {{- if codeGeneratorState.Solution.Domain?.Entities != null }}
-    {{ for entity in entities }}
-    public virtual DbSet<{{ entity.Name }}Dto> {{ entity.PluralName }} { get; set; } = null!;
-    {{- end }}
-    {{- end }}
-    {{- for entity in entitiesToLocalize }}
-    public virtual DbSet<{{GetEntityDtoNameForLocalizedType entity.Name}}> {{GetEntityNameForLocalizedType entity.PluralName}} { get; set; } = null!;
-    {{- end }}
-
-    {{- for entityAtt in enumerationAttributes #Setup Entity Enumerations}}
-    {{- for enumAtt in entityAtt.Attributes}}
-    public virtual DbSet<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}> {{enumAtt.DbSetNameForEnumeration}} { get; set; } = null!;
-    {{- if enumAtt.Attribute.EnumerationTypeOptions.IsLocalized}}
-    public virtual DbSet<DtoNameSpace.{{ enumAtt.EntityNameForLocalizedEnumeration}}> {{enumAtt.DbSetNameForLocalizedEnumeration}} { get; set; } = null!;
-    {{- end }}
-    {{- end }}
-    {{- end }}
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "{{codeGeneratorState.RootNameSpace}}", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
+            _dbProvider.ConfigureDbContext(optionsBuilder, "SampleWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
         }
     }
 
@@ -114,13 +81,6 @@ internal class DtoDbContext : DbContext
     }
 
 private void ConfigureAuditable(ModelBuilder modelBuilder)
-    { 
-    {{- if codeGeneratorState.Solution.Domain?.Entities != null }}  
-    {{- for entity in entities }}
-    {{- if entity.Persistence?.IsAudited }}
-        modelBuilder.Entity<{{entity.Name}}Dto>().HasQueryFilter(e => e.DeletedAtUtc == null);
-    {{- end }}
-    {{- end }}
-    {{- end }}
+    {
     }
 }

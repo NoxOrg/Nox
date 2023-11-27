@@ -71,9 +71,9 @@ internal abstract class TemplateBuilderBase
     /// <summary>
     /// Extend the default model with a extended property to the extendedModel
     /// </summary>
-    public TemplateBuilderBase WithObject(string name, object value)
+    public TemplateBuilderBase WithObject(string name, object? value)
     {
-        _model[name] = value;
+        if (value != null) _model[name] = value;
         return this;
     }
 

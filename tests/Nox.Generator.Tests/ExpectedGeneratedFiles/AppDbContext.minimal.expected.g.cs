@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -11,9 +11,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-{{- if  codeGeneratorState.Solution.Infrastructure?.Messaging != null}}
-using MassTransit;
-{{- end }}
 
 using Nox;
 using Nox.Abstractions;
@@ -27,12 +24,7 @@ using Nox.Solution;
 using Nox.Configuration;
 using Nox.Infrastructure;
 
-{{- if codeGeneratorState.Solution.Domain != null }}
-using DomainNameSpace = {{codeGeneratorState.DomainNameSpace}};
-using {{codeGeneratorState.DomainNameSpace}};
-{{- end }}
-
-namespace {{codeGeneratorState.PersistenceNameSpace}};
+namespace SampleWebApp.Infrastructure.Persistence;
 
 internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
 {
@@ -57,32 +49,14 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             _clientAssemblyProvider = clientAssemblyProvider;
             _codeGenConventions = codeGeneratorState;
         }
-    {{- if codeGeneratorState.Solution.Domain?.Entities != null }}
-    {{ for entity in solution.Domain.Entities -}}
-    {{- if (!entity.IsOwnedEntity) }}
-    public virtual DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
-    {{- end }}
-    {{- end }}
-    {{- end }}
-    {{ for entity in entitiesToLocalize -}}
-    public virtual DbSet<{{codeGeneratorState.DomainNameSpace}}.{{GetEntityNameForLocalizedType entity.Name}}> {{GetEntityNameForLocalizedType entity.PluralName}} { get; set; } = null!;
-    {{- end }}
-
-    {{- for entityAtt in enumerationAttributes #Setup Entity Enumerations}}
-    {{- for enumAtt in entityAtt.Attributes}}
-    public virtual DbSet<DomainNameSpace.{{enumAtt.EntityNameForEnumeration}}> {{enumAtt.DbSetNameForEnumeration}} { get; set; } = null!;
-    {{- if enumAtt.Attribute.EnumerationTypeOptions.IsLocalized}}
-    public virtual DbSet<DomainNameSpace.{{ enumAtt.EntityNameForLocalizedEnumeration}}> {{enumAtt.DbSetNameForLocalizedEnumeration}} { get; set; } = null!;
-    {{- end }}
-    {{- end }}
-    {{- end }}
+    
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "{{solution.Name}}", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
+            _dbProvider.ConfigureDbContext(optionsBuilder, "SampleWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
         }
     }
 
@@ -91,15 +65,9 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
         base.OnModelCreating(modelBuilder);
 
         ConfigureAuditable(modelBuilder);
-
-        {{- if  codeGeneratorState.Solution.Infrastructure?.Messaging != null}}
-        modelBuilder.AddInboxStateEntity();
-        modelBuilder.AddOutboxMessageEntity();
-        modelBuilder.AddOutboxStateEntity();
-        {{- end }}
         foreach (var entity in _noxSolution.Domain!.Entities)
         {
-            Console.WriteLine($"{{className}} Configure database for Entity {entity.Name}");
+            Console.WriteLine($"AppDbContext Configure database for Entity {entity.Name}");
             ConfigureEnumeratedAttributes(modelBuilder, entity);
 
             // Ignore owned entities configuration as they are configured inside entity constructor
@@ -127,24 +95,17 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
     {
         foreach(var enumAttribute in entity.Attributes.Where(attribute => attribute.Type == NoxType.Enumeration))
             {
-                ConfigureEnumeration(modelBuilder.Entity($"{{codeGeneratorState.DomainNameSpace}}.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}"), enumAttribute.EnumerationTypeOptions!);
+                ConfigureEnumeration(modelBuilder.Entity($"SampleWebApp.Domain.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}"), enumAttribute.EnumerationTypeOptions!);
                 if (enumAttribute.EnumerationTypeOptions!.IsLocalized)
                 {
-                    var enumLocalizedType = _clientAssemblyProvider.GetType($"{{codeGeneratorState.DomainNameSpace}}.{_codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, enumAttribute.Name)}")!;
-                    var enumType = _clientAssemblyProvider.GetType($"{{codeGeneratorState.DomainNameSpace}}.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}")!;
+                    var enumLocalizedType = _clientAssemblyProvider.GetType($"SampleWebApp.Domain.{_codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, enumAttribute.Name)}")!;
+                    var enumType = _clientAssemblyProvider.GetType($"SampleWebApp.Domain.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}")!;
                     ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType, enumAttribute.EnumerationTypeOptions!, _noxSolution.Application!.Localization!.DefaultCulture);
                 }
             }
     }
 
     private void ConfigureAuditable(ModelBuilder modelBuilder)
-    { 
-    {{- if codeGeneratorState.Solution.Domain?.Entities != null }}    
-    {{- for entity in solution.Domain.Entities }}
-    {{- if entity.Persistence?.IsAudited }}
-        modelBuilder.Entity<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}>().HasQueryFilter(p => p.DeletedAtUtc == null);
-    {{- end }}
-    {{- end }}
-    {{- end }}
+    {
     }
 }

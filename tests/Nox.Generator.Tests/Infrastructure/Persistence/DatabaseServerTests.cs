@@ -54,9 +54,10 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
 
         GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileCount(10, filesShouldExist)
+            .AssertFileCount(3, filesShouldExist)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .AssertFileExistsAndContent("Country.expected.g.cs", "Domain.Country.g.cs");
+            .AssertFileExistsAndContent("AppDbContext.minimal.expected.g.cs", "Infrastructure.Persistence.AppDbContext.g.cs")
+            .AssertFileExistsAndContent("DtoDbContext.minimal.expected.g.cs", "Infrastructure.Persistence.DtoDbContext.g.cs");
     }
 }

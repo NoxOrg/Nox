@@ -22,20 +22,20 @@ internal class DtoDbContextGenerator : INoxCodeGenerator
         context.CancellationToken.ThrowIfCancellationRequested();
 
 
-        if (noxCodeGenCodeConventions.Solution.Domain is null)
+        if (noxCodeGenCodeConventions.Solution.Domain is null && noxCodeGenCodeConventions.Solution.Application?.Integrations is null)
         {
             return;
         }
 
         const string templateName = @"Infrastructure.Persistence.DtoDbContext";
         
-        var entities = noxCodeGenCodeConventions.Solution.Domain.Entities
+        var entities = noxCodeGenCodeConventions.Solution.Domain?.Entities
             .Where(e => !e.IsOwnedEntity).ToList();
 
-        var entitiesToLocalize = noxCodeGenCodeConventions.Solution.Domain.Entities
+        var entitiesToLocalize = noxCodeGenCodeConventions.Solution.Domain?.Entities
             .Where(entity => entity.IsLocalized);
 
-        var enumerationAttributes = noxCodeGenCodeConventions.Solution.Domain.Entities
+        var enumerationAttributes = noxCodeGenCodeConventions.Solution.Domain?.Entities
             .Select(entity =>
             new {
                 Entity = entity,
