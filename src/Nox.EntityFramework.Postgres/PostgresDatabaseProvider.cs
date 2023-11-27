@@ -4,7 +4,6 @@ using Nox.Infrastructure;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Types.EntityFramework.Enums;
 using Npgsql;
 
@@ -23,7 +22,7 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
     {
     }
 
-    protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)
+    protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(EntityTypeBuilder builder, Entity entity)
     {
         var result = base.ConfigureUniqueAttributeConstraints(builder, entity);
         foreach (var indexBuilder in result)

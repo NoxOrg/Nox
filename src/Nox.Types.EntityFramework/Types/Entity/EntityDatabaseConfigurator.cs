@@ -1,6 +1,8 @@
-﻿using Nox.Solution;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
+
 using Nox.Types.EntityFramework.Exceptions;
 
 namespace Nox.Types.EntityFramework.Types;
@@ -12,10 +14,10 @@ public class EntityDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
-        bool isKey)
+        bool isKey,
+        ModelBuilder modelBuilder, EntityTypeBuilder entityTypeBuilder)
     {
         // Nothing to do, all done by EF Automatically
     }

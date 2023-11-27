@@ -6,7 +6,6 @@ using Nox;
 using Nox.Solution;
 using Nox.Extensions;
 using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Configuration;
 using Nox.Infrastructure;
 using Nox.Infrastructure.Persistence;
@@ -118,7 +117,7 @@ internal class DtoDbContext : DbContext
                 var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
                     ?? throw new TypeNotFoundException(dtoName);
 
-                _noxDtoDatabaseConfigurator.ConfigureDto(new EntityBuilderAdapter(modelBuilder.Entity(type).ToTable(entity.Persistence.TableName)), entity);
+                _noxDtoDatabaseConfigurator.ConfigureDto(modelBuilder.Entity(type).ToTable(entity.Persistence.TableName), entity);
 
                 if (entity.IsLocalized)
                 {
@@ -127,7 +126,7 @@ internal class DtoDbContext : DbContext
                     type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
                         ?? throw new TypeNotFoundException(dtoName);
 
-                    _noxDtoDatabaseConfigurator.ConfigureLocalizedDto(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
+                    _noxDtoDatabaseConfigurator.ConfigureLocalizedDto(modelBuilder.Entity(type!), entity);
                 }
             }
         }

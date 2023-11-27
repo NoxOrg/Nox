@@ -6,7 +6,6 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Types.EntityFramework.Enums;
 
 namespace Nox.EntityFramework.SqlServer;
@@ -24,7 +23,7 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
     {
     }
 
-    protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)
+    protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(EntityTypeBuilder builder, Entity entity)
     {
         var result = base.ConfigureUniqueAttributeConstraints(builder, entity);
 
