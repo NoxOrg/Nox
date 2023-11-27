@@ -54,7 +54,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new CreateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), secondTestEntityOwnedRelationshipExactlyOne, etag));
+        var createdKey = await _mediator.Send(new CreateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), secondTestEntityOwnedRelationshipExactlyOne, _cultureCode, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -77,7 +77,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), secondTestEntityOwnedRelationshipExactlyOne, etag));
+        var updatedKey = await _mediator.Send(new UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), secondTestEntityOwnedRelationshipExactlyOne, _cultureCode, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -110,7 +110,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), updateProperties, _cultureCode, etag));
         
         if (updated is null)
         {

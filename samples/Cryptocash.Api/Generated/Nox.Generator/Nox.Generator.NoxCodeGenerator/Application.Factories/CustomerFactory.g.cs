@@ -26,14 +26,9 @@ namespace Cryptocash.Application.Factories;
 internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
-    public CustomerFactoryBase
-    (
-        IRepository repository
-        )
+    public CustomerFactoryBase()
     {
-        _repository = repository;
     }
 
     public virtual CustomerEntity CreateEntity(CustomerCreateDto createDto)
@@ -148,9 +143,4 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
 
 internal partial class CustomerFactory : CustomerFactoryBase
 {
-    public CustomerFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

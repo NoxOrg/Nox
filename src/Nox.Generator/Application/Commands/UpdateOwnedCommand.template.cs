@@ -29,24 +29,33 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 	public Update{{relationshipName}}For{{parent.Name}}CommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory{{if entity.IsLocalized }},
+		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpsertDto> entityLocalizedFactory{{ end -}})
+		: base(dbContext, noxSolution, entityFactory{{- if entity.IsLocalized }}, entityLocalizedFactory{{ end -}})
 	{
 	}
 }
 
 internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase : CommandBase<Update{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <Update{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
 {
-	public AppDbContext DbContext { get; }
+	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> _entityFactory;
+	{{- if entity.IsLocalized }}
+	protected readonly IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpsertDto> _entityLocalizedFactory;
+	{{- end }}
 
-	public Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase(
+	protected Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory) : base(noxSolution)
+		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory{{if entity.IsLocalized }},
+		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpsertDto> entityLocalizedFactory{{ end -}})
+		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
 		_entityFactory = entityFactory;
+		{{- if entity.IsLocalized }} 
+		_entityLocalizedFactory = entityLocalizedFactory;
+		{{- end }}
 	}
 
 	public virtual async Task<{{entity.Name}}KeyDto?> Handle(Update{{relationshipName}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
@@ -57,7 +66,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		{{- for key in parent.Keys }}
 		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
-		var parentEntity = await DbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
+		var parentEntity = await _dbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
 		if (parentEntity == null)
 		{
 			return null;
@@ -67,7 +76,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		await DbContext.Entry(parentEntity).Reference(e => e.{{relationshipName}}).LoadAsync(cancellationToken);
 		var entity = parentEntity.{{relationshipName}};
 		{{ else }}
-		await DbContext.Entry(parentEntity).Collection(p => p.{{relationshipName}}).LoadAsync(cancellationToken);
+		await _dbContext.Entry(parentEntity).Collection(p => p.{{relationshipName}}).LoadAsync(cancellationToken);
 		{{- for key in entity.Keys }}
 		var owned{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{key.Name}}.NonNullValue<{{keyType key}}>());
 		{{- end }}
@@ -78,20 +87,42 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, DefaultCultureCode);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+		{{- if entity.IsLocalized }}
+		await UpdateLocalizedEntityAsync(entity, request.EntityDto, request.CultureCode);
+		{{- end }}
+
+
+		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
 			return null;
 		}
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
+	}	
+	{{- if entity.IsLocalized }}
+
+	private async Task UpdateLocalizedEntityAsync({{entity.Name}}Entity entity, {{entity.Name}}UpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+		var entityLocalized = await _dbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
+		if(entityLocalized is null)
+		{
+			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+			_dbContext.{{entity.PluralName}}Localized.Add(entityLocalized);
+		}
+		else
+		{
+			_dbContext.Entry(entityLocalized).State = EntityState.Modified;
+		}
+
+		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
 	}
-}
+	{{- end }}
 
 {{- if (entity.Keys | array.size) > 0 }}
 

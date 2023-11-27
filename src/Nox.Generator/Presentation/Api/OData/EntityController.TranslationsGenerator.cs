@@ -24,12 +24,12 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
 
         const string templateName = @"Presentation.Api.OData.EntityController.Translations";
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(e=>e.IsLocalized))
+        foreach (var entity in codeGeneratorState.Solution.Domain.GetLocalizedEntities().Where(e => !e.IsOwnedEntity))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
             var keysForRouting = GetPrimaryKeysQuery(entity).Split(',').Select(x => x.Trim()).ToList();
-            
+
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"{entity.PluralName}Controller")
                 .WithFileNamePrefix("Presentation.Api.OData")

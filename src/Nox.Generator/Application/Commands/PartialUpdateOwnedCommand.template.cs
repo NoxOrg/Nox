@@ -16,31 +16,41 @@ using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Na
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 {{- if isSingleRelationship }}
-public partial record PartialUpdate{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+public partial record PartialUpdate{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 {{ else }}
-public partial record PartialUpdate{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+public partial record PartialUpdate{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 {{- end }}
 internal partial class PartialUpdate{{relationshipName}}For{{parent.Name}}CommandHandler: PartialUpdate{{relationshipName}}For{{parent.Name}}CommandHandlerBase
 {
 	public PartialUpdate{{relationshipName}}For{{parent.Name}}CommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory{{if entity.IsLocalized }},
+		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpsertDto> entityLocalizedFactory{{ end -}})
+		: base(dbContext, noxSolution, entityFactory{{- if entity.IsLocalized }}, entityLocalizedFactory{{ end -}})
 	{
 	}
 }
 internal abstract class PartialUpdate{{relationshipName}}For{{parent.Name}}CommandHandlerBase: CommandBase<PartialUpdate{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <PartialUpdate{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
 {
-	public AppDbContext DbContext { get; }
-	public IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> EntityFactory { get; }
+	private readonly AppDbContext _dbContext;
+	private readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> _entityFactory;
+	{{- if entity.IsLocalized }}
+	protected readonly IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpsertDto> _entityLocalizedFactory;
+	{{- end }}
 
-	public PartialUpdate{{relationshipName}}For{{parent.Name}}CommandHandlerBase(
-        AppDbContext dbContext,
+	protected PartialUpdate{{relationshipName}}For{{parent.Name}}CommandHandlerBase(
+		AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory) : base(noxSolution)
+		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory{{if entity.IsLocalized }},
+		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpsertDto> entityLocalizedFactory{{ end -}})
+		: base(noxSolution)
 	{
-		DbContext = dbContext;
-		EntityFactory = entityFactory;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
+		{{- if entity.IsLocalized }} 
+		_entityLocalizedFactory = entityLocalizedFactory;
+		{{- end }}
 	}
 
 	public virtual async Task<{{entity.Name}}KeyDto?> Handle(PartialUpdate{{relationshipName}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
@@ -52,17 +62,17 @@ internal abstract class PartialUpdate{{relationshipName}}For{{parent.Name}}Comma
 		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
 
-		var parentEntity = await DbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
+		var parentEntity = await _dbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
 		if (parentEntity == null)
 		{
 			return null;
 		}
 
 		{{- if isSingleRelationship }}
-		await DbContext.Entry(parentEntity).Reference(e => e.{{relationshipName}}).LoadAsync(cancellationToken);
+		await _dbContext.Entry(parentEntity).Reference(e => e.{{relationshipName}}).LoadAsync(cancellationToken);
 		var entity = parentEntity.{{relationshipName}};
 		{{ else }}
-		await DbContext.Entry(parentEntity).Collection(p => p.{{relationshipName}}).LoadAsync(cancellationToken);
+		await _dbContext.Entry(parentEntity).Collection(p => p.{{relationshipName}}).LoadAsync(cancellationToken);
 		{{- for key in entity.Keys }}
 		var owned{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
@@ -73,13 +83,16 @@ internal abstract class PartialUpdate{{relationshipName}}For{{parent.Name}}Comma
 			return null;
 		}
 
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, DefaultCultureCode);
+		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		_dbContext.Entry(entity).State = EntityState.Modified;
+		{{- if entity.IsLocalized }}
+		await PartiallyUpdateLocalizedEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
+		{{- end }}
+		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
 			return null;
@@ -87,4 +100,22 @@ internal abstract class PartialUpdate{{relationshipName}}For{{parent.Name}}Comma
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}
+	{{- if entity.IsLocalized }}
+
+	private async Task PartiallyUpdateLocalizedEntityAsync({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+	{
+		var entityLocalized = await _dbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
+		if(entityLocalized is null)
+		{
+			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode, copyEntityAttributes: false);
+			_dbContext.{{entity.PluralName}}Localized.Add(entityLocalized);
+		}
+		else
+		{
+			_dbContext.Entry(entityLocalized).State = EntityState.Modified;
+		}
+
+		_entityLocalizedFactory.PartialUpdateLocalizedEntity(entityLocalized, updatedProperties);
+	}
+	{{- end }}
 }

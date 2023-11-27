@@ -30,9 +30,8 @@ namespace {{ codeGeneratorState.ODataNameSpace }};
 {{ end }}
 {{- cultureCode = ToLowerFirstChar codeGeneratorState.LocalizationCultureField}}
 
-
-public abstract partial class {{ className }}Base
-{
+public abstract partial class {{className}}Base
+{  
     
     [HttpPut("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.PluralName}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
     public virtual async Task<ActionResult<{{entity.Name}}LocalizedDto>> Put{{entity.Name}}Localized( {{ primaryKeysRoute }}, [FromRoute] System.String {{cultureCode}}, [FromBody] {{entity.Name}}LocalizedUpsertDto {{ToLowerFirstChar entity.Name}}LocalizedUpsertDto)

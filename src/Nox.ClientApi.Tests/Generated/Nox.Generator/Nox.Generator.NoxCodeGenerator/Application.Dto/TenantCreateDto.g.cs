@@ -42,4 +42,9 @@ public abstract class TenantCreateDtoBase : IEntityDto<DomainNamespace.Tenant>
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<WorkplaceCreateDto> Workplaces { get; set; } = new();
+
+    /// <summary>
+    /// Tenant Brands owned by the tenant ZeroOrMany TenantBrands
+    /// </summary>
+    public virtual List<TenantBrandUpsertDto> TenantBrands { get; set; } = new();
 }

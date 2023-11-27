@@ -15,28 +15,30 @@ using ClientApi.Application.Dto;
 using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Commands;
-public partial record PartialUpdateCountryLocalNamesForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
+public partial record PartialUpdateCountryLocalNamesForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
 internal partial class PartialUpdateCountryLocalNamesForCountryCommandHandler: PartialUpdateCountryLocalNamesForCountryCommandHandlerBase
 {
 	public PartialUpdateCountryLocalNamesForCountryCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateCountryLocalNamesForCountryCommandHandlerBase: CommandBase<PartialUpdateCountryLocalNamesForCountryCommand, CountryLocalNameEntity>, IRequestHandler <PartialUpdateCountryLocalNamesForCountryCommand, CountryLocalNameKeyDto?>
 {
-	public AppDbContext DbContext { get; }
-	public IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> EntityFactory { get; }
+	private readonly AppDbContext _dbContext;
+	private readonly IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> _entityFactory;
 
-	public PartialUpdateCountryLocalNamesForCountryCommandHandlerBase(
-        AppDbContext dbContext,
+	protected PartialUpdateCountryLocalNamesForCountryCommandHandlerBase(
+		AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> entityFactory) : base(noxSolution)
+		IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> entityFactory)
+		: base(noxSolution)
 	{
-		DbContext = dbContext;
-		EntityFactory = entityFactory;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
 	}
 
 	public virtual async Task<CountryLocalNameKeyDto?> Handle(PartialUpdateCountryLocalNamesForCountryCommand request, CancellationToken cancellationToken)
@@ -45,12 +47,12 @@ internal abstract class PartialUpdateCountryLocalNamesForCountryCommandHandlerBa
 		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await DbContext.Countries.FindAsync(keyId);
+		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
-		await DbContext.Entry(parentEntity).Collection(p => p.CountryLocalNames).LoadAsync(cancellationToken);
+		await _dbContext.Entry(parentEntity).Collection(p => p.CountryLocalNames).LoadAsync(cancellationToken);
 		var ownedId = ClientApi.Domain.CountryLocalNameMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
@@ -58,13 +60,13 @@ internal abstract class PartialUpdateCountryLocalNamesForCountryCommandHandlerBa
 			return null;
 		}
 
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, DefaultCultureCode);
+		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		_dbContext.Entry(entity).State = EntityState.Modified;
+		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
 			return null;

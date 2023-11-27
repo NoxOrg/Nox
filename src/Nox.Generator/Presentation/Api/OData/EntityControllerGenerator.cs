@@ -186,8 +186,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         var navigationName = parent.GetNavigationPropertyName(relationship);
         code.AppendLine($"protected async Task<{child.Name}Dto?> TryGet{navigationName}({GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, {child.Name}KeyDto childKeyDto)");
 
+        var localizationPart = parent.IsLocalized || parent.HasLocalizedOwnedRelationships ? "_cultureCode, " : string.Empty;
         code.StartBlock();
-        code.AppendLine($"var parent = (await _mediator.Send(new Get{parent.Name}ByIdQuery({GetPrimaryKeysQuery(parent)}))).SingleOrDefault();");
+        code.AppendLine($"var parent = (await _mediator.Send(new Get{parent.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(parent)}))).SingleOrDefault();");
 
         var param = string.Join(" && ", child.Keys.Select(k => $"x.{k.Name} == childKeyDto.key{k.Name}"));
         code.AppendLine($"return parent?.{navigationName}.SingleOrDefault(x => {param});");
@@ -244,7 +245,8 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"throw new Nox.Exceptions.BadRequestException(ModelState);");
         code.EndBlock();
 
-        code.AppendLine($"var item = (await _mediator.Send(new Get{parent.Name}ByIdQuery({GetPrimaryKeysQuery(parent)}))).SingleOrDefault();");
+        var localizationPart = parent.IsLocalized || parent.HasLocalizedOwnedRelationships ? "_cultureCode, " : string.Empty;
+        code.AppendLine($"var item = (await _mediator.Send(new Get{parent.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(parent)}))).SingleOrDefault();");
         code.AppendLine();
         code.AppendLine($"if (item is null)");
         code.StartBlock();
@@ -386,7 +388,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         if (isSingleRelationship)
             code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{navigationName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
-                $"updateProperties, etag));");
+                $"updateProperties, _cultureCode, etag));");
         else
             code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{navigationName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
@@ -638,7 +640,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"public virtual async Task<ActionResult> GetRefTo{navigationName}" +
             $"({GetPrimaryKeysRoute(entity, solution)})");
 
-        var localizationParameter = entity.IsLocalized ? "_cultureCode, " : "";
+        var localizationParameter = entity.IsLocalized || entity.HasLocalizedOwnedRelationships ? "_cultureCode, " : "";
         code.StartBlock();
         code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationParameter}{GetPrimaryKeysQuery(entity)})))" +
             $".Select(x => x.{navigationName}).SingleOrDefault();");
@@ -675,7 +677,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         var relatedEntity = relationship.Related.Entity;
         var navigationName = entity.GetNavigationPropertyName(relationship);
         var isSingleRelationship = relationship.WithSingleEntity();
-        var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
+        var localizationPart = entity.IsLocalized || entity.HasLocalizedOwnedRelationships ? "_cultureCode, " : "";
 
         code.AppendLine($"[EnableQuery]");
         if (isSingleRelationship)
@@ -716,7 +718,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
         var relatedEntity = relationship.Related.Entity;
         var navigationName = entity.GetNavigationPropertyName(relationship);
-        var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
 
         code.AppendLine($"[EnableQuery]"); 
         code.AppendLine($"[HttpGet(\"{solution.Presentation.ApiConfiguration.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{navigationName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
@@ -726,7 +727,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.StartBlock();
 
         var param = string.Join(" && ", relatedEntity.Keys.Select(k => $"x.{k.Name} == relatedKey{(relatedEntity.Keys.Count > 1 ? k.Name : "")}"));
-        code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+        code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
             $".SelectMany(x => x.{navigationName}).Where(x => {param});");
         code.AppendLine($"if (!related.Any())");
         code.StartBlock();
@@ -759,7 +760,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.EndBlock();
         code.AppendLine();
 
-        var localizationPart = relatedEntity.IsLocalized ? "_cultureCode, " : "";
+        var localizationPart = relatedEntity.IsLocalized || relatedEntity.HasLocalizedOwnedRelationships ? "_cultureCode, " : "";
         if(reversedRelationship.WithSingleEntity())
             code.AppendLine($"{relatedEntity.Name.ToLowerFirstChar()}.{reversednavigationName}Id = key;");
         else
@@ -803,7 +804,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.EndBlock();
         code.AppendLine();
 
-        var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
+        var localizationPart = entity.IsLocalized || entity.HasLocalizedOwnedRelationships ? "_cultureCode, " : "";
 
         if (isSingleRelationship)
         {
@@ -858,7 +859,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.EndBlock();
         code.AppendLine();
 
-        var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
+        var localizationPart = entity.IsLocalized || entity.HasLocalizedOwnedRelationships ? "_cultureCode, " : "";
         var param = string.Join(" && ", relatedEntity.Keys.Select(k => $"x.{k.Name} == relatedKey{(relatedEntity.Keys.Count > 1 ? k.Name : "")}"));
         code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
             $".SelectMany(x => x.{navigationName})" +
@@ -901,7 +902,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.EndBlock();
         code.AppendLine();
 
-        var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
+        var localizationPart = entity.IsLocalized || entity.HasLocalizedOwnedRelationships ? "_cultureCode, " : "";
         if (relationship.WithSingleEntity)
             code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
                 $".Select(x => x.{navigationName}).SingleOrDefault();");

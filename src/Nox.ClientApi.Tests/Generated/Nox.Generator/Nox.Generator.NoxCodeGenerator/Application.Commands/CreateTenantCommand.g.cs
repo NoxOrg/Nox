@@ -88,3 +88,13 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 		return new TenantKeyDto(entityToCreate.Id.Value);
 	}
 }
+
+public class CreateTenantValidator : AbstractValidator<CreateTenantCommand>
+{
+    public CreateTenantValidator()
+    {
+		RuleFor(x => x.EntityDto.TenantBrands)
+			.Must(owned => owned.All(x => x.Id == null))
+			.WithMessage("TenantBrands.Id must be null as it is auto generated.");
+    }
+}
