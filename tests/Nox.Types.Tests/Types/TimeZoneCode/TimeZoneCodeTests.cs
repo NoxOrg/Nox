@@ -17,7 +17,7 @@ public class TimeZoneCodeTests
     [Fact]
     public void TimeZoneCode_Constructor_WithUnsupportedTimeZoneCode_ThrowsValidationException()
     {
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
+        var exception = Assert.Throws<NoxTypeValidationException>(() => _ =
           Nox.Types.TimeZoneCode.From("ABC")
         );
 

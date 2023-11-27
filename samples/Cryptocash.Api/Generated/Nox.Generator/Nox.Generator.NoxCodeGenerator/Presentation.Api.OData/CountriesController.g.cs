@@ -46,7 +46,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}")]
+    [HttpGet("/api/Countries/{key}/CountryTimeZones/{relatedKey}")]
     public virtual async Task<ActionResult<CountryTimeZoneDto>> GetCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -145,7 +145,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}")]
+    [HttpDelete("/api/Countries/{key}/CountryTimeZones/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteCountryTimeZoneNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -185,7 +185,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Countries/{key}/Holidays/{relatedKey}")]
+    [HttpGet("/api/Countries/{key}/Holidays/{relatedKey}")]
     public virtual async Task<ActionResult<HolidayDto>> GetHolidaysNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -284,7 +284,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("/api/v1/Countries/{key}/Holidays/{relatedKey}")]
+    [HttpDelete("/api/Countries/{key}/Holidays/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteHolidayNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -463,7 +463,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Countries/{key}/Commissions/{relatedKey}")]
+    [HttpGet("/api/Countries/{key}/Commissions/{relatedKey}")]
     public virtual async Task<SingleResult<CommissionDto>> GetCommissionsNonConventional(System.String key, System.Int64 relatedKey)
     {
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Commissions).Where(x => x.Id == relatedKey);
@@ -474,7 +474,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/Countries/{key}/Commissions/{relatedKey}")]
+    [HttpPut("/api/Countries/{key}/Commissions/{relatedKey}")]
     public virtual async Task<ActionResult<CommissionDto>> PutToCommissionsNonConventional(System.String key, System.Int64 relatedKey, [FromBody] CommissionUpdateDto commission)
     {
         if (!ModelState.IsValid)
@@ -498,7 +498,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Countries/{key}/Commissions/{relatedKey}")]
+    [HttpDelete("/api/Countries/{key}/Commissions/{relatedKey}")]
     public async Task<ActionResult> DeleteToCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -613,7 +613,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Countries/{key}/VendingMachines/{relatedKey}")]
+    [HttpGet("/api/Countries/{key}/VendingMachines/{relatedKey}")]
     public virtual async Task<SingleResult<VendingMachineDto>> GetVendingMachinesNonConventional(System.String key, System.Guid relatedKey)
     {
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.VendingMachines).Where(x => x.Id == relatedKey);
@@ -624,7 +624,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/Countries/{key}/VendingMachines/{relatedKey}")]
+    [HttpPut("/api/Countries/{key}/VendingMachines/{relatedKey}")]
     public virtual async Task<ActionResult<VendingMachineDto>> PutToVendingMachinesNonConventional(System.String key, System.Guid relatedKey, [FromBody] VendingMachineUpdateDto vendingMachine)
     {
         if (!ModelState.IsValid)
@@ -648,7 +648,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Countries/{key}/VendingMachines/{relatedKey}")]
+    [HttpDelete("/api/Countries/{key}/VendingMachines/{relatedKey}")]
     public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -672,7 +672,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/Countries/{key}/VendingMachines")]
+    [HttpDelete("/api/Countries/{key}/VendingMachines")]
     public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
@@ -785,7 +785,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Countries/{key}/Customers/{relatedKey}")]
+    [HttpGet("/api/Countries/{key}/Customers/{relatedKey}")]
     public virtual async Task<SingleResult<CustomerDto>> GetCustomersNonConventional(System.String key, System.Int64 relatedKey)
     {
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Customers).Where(x => x.Id == relatedKey);
@@ -796,7 +796,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/Countries/{key}/Customers/{relatedKey}")]
+    [HttpPut("/api/Countries/{key}/Customers/{relatedKey}")]
     public virtual async Task<ActionResult<CustomerDto>> PutToCustomersNonConventional(System.String key, System.Int64 relatedKey, [FromBody] CustomerUpdateDto customer)
     {
         if (!ModelState.IsValid)
@@ -820,7 +820,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Countries/{key}/Customers/{relatedKey}")]
+    [HttpDelete("/api/Countries/{key}/Customers/{relatedKey}")]
     public async Task<ActionResult> DeleteToCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -844,7 +844,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/Countries/{key}/Customers")]
+    [HttpDelete("/api/Countries/{key}/Customers")]
     public async Task<ActionResult> DeleteToCustomers([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)

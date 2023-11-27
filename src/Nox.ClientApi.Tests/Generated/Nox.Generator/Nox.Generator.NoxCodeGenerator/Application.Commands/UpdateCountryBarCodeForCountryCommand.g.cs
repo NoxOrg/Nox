@@ -55,6 +55,7 @@ internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : Comman
 		{
 			return null;
 		}
+		await DbContext.Entry(parentEntity).Reference(e => e.CountryBarCode).LoadAsync(cancellationToken);
 		var entity = parentEntity.CountryBarCode;
 		
 		if (entity == null)

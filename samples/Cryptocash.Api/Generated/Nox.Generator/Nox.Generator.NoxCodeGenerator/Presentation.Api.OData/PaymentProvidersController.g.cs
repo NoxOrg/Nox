@@ -119,7 +119,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
+    [HttpGet("/api/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
     public virtual async Task<SingleResult<PaymentDetailDto>> GetPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         var related = (await _mediator.Send(new GetPaymentProviderByIdQuery(key))).SelectMany(x => x.PaymentDetails).Where(x => x.Id == relatedKey);
@@ -130,7 +130,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
+    [HttpPut("/api/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
     public virtual async Task<ActionResult<PaymentDetailDto>> PutToPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] PaymentDetailUpdateDto paymentDetail)
     {
         if (!ModelState.IsValid)
@@ -154,7 +154,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
+    [HttpDelete("/api/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
     public async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -178,7 +178,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/PaymentProviders/{key}/PaymentDetails")]
+    [HttpDelete("/api/PaymentProviders/{key}/PaymentDetails")]
     public async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)

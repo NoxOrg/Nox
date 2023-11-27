@@ -1,0 +1,37 @@
+#
+# domain.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: TestService
+
+description: Yaml file for testing domain
+
+overview: https://regusit.atlassian.net/wiki/spaces/IE/pages/2546237453/QUARK+-+IWG+Engineering
+
+domain:
+
+  entities:  
+
+    - name: Currency
+      description: The list of currencies
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 3
+            maxLength: 3
+      attributes:
+        - name: Code
+          description: Currency Code
+          type: referenceNumber
+          referenceNumberTypeOptions:
+            # prefix: "C-" #prefix is mandatory
+            suffixCheckSumDigit: false
+          isRequired: true

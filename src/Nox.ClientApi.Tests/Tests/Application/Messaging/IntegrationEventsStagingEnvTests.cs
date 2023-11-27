@@ -39,7 +39,7 @@ namespace ClientApi.Tests.Application.Messaging
             };
 
             // Act
-            var headers = CreateEtagHeader(createResult?.Etag);
+            var headers = CreateEtagHeader(createResult!.Etag);
             var updateResult = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{createResult!.Id}", updateDto, headers);
 
             //Assert

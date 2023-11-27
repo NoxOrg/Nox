@@ -17,7 +17,7 @@ public class EmailTests
     {
         var testEmail = "It's a test designed to provoke an emotional response - Holden";
 
-        Assert.Throws<TypeValidationException>(() => _ =
+        Assert.Throws<NoxTypeValidationException>(() => _ =
             Email.From(testEmail)
         );
     }

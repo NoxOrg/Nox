@@ -51,6 +51,7 @@ internal abstract class PartialUpdateCountryBarCodeForCountryCommandHandlerBase:
 		{
 			return null;
 		}
+		await DbContext.Entry(parentEntity).Reference(e => e.CountryBarCode).LoadAsync(cancellationToken);
 		var entity = parentEntity.CountryBarCode;
 		
 		if (entity == null)
@@ -63,7 +64,7 @@ internal abstract class PartialUpdateCountryBarCodeForCountryCommandHandlerBase:
 
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
+		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{

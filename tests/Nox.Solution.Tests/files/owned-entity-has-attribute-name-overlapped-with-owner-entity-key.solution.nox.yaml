@@ -1,0 +1,91 @@
+#
+# owned-entity-has-attribute-name-overlapped-with-owner-entity-key.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: TestService
+
+description: Yaml file for testing domain
+
+overview: https://regusit.atlassian.net/wiki/spaces/IE/pages/2546237453/QUARK+-+IWG+Engineering
+
+domain:
+
+  entities:
+
+    - name: Currency
+      description: The list of currencies
+
+      persistence: 
+        isAudited: false
+
+      keys:
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+        - name: Name        
+          description: The currency name
+          type: text          
+          isRequired: true
+          textTypeOptions:
+            isUnicode: false
+            minLength: 10
+            maxLength: 20
+
+    - name: Country
+      description: The list of countries
+
+      persistence: 
+        isAudited: false
+
+      attributes:
+        - name: Name        
+          description: The country's common name
+          type: text          
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      ownedRelationships:
+
+        - name: CountryLegalCurrencies
+          description: accepted currencies
+          relationship: zeroOrMany
+          entity: Currency
+
+    - name: Continent
+      description: The list of continents
+
+      persistence: 
+        isAudited: true
+
+      keys:
+        - name: Name
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+        - name: Area        
+          description: The continent's are
+          type: area          
+          isRequired: false
+
+      ownedRelationships:
+
+        - name: ContinentIncludesCountry
+          description: includes
+          relationship: zeroOrOne
+          entity: Country

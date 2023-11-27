@@ -55,6 +55,7 @@ internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandBas
 		{
 			return null;
 		}
+		await DbContext.Entry(parentEntity).Collection(p => p.BankNotes).LoadAsync(cancellationToken);
 		var ownedId = Cryptocash.Domain.BankNoteMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
 		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)

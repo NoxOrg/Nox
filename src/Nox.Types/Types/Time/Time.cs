@@ -71,7 +71,7 @@ public sealed class Time : ValueObject<TimeOnly, Time>
 
         if (!result.IsValid)
         {
-            throw new TypeValidationException(result.Errors);
+            throw new NoxTypeValidationException(result.Errors);
         }
 
         return newObject;

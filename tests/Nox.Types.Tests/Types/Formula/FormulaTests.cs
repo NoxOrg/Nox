@@ -51,7 +51,7 @@ public class FormulaTests
             Returns = FormulaReturnType.@bool,
         });
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox Formula type as expression value {expression} contains invalid sequence of brackets.") });
     }
 

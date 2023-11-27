@@ -188,6 +188,9 @@ public enum NoxType : uint
     [SimpleType(typeof(string))]
     PhoneNumber = 3655711066,
 
+    [SimpleType(typeof(string), Update = false, Create = false)]
+    ReferenceNumber = 330838042u,
+
     [SimpleType(typeof(decimal))]
     Temperature = 1744108624,
 

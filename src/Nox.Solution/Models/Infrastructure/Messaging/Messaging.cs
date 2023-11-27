@@ -3,6 +3,10 @@ using Nox.Yaml.Attributes;
 
 namespace Nox.Solution;
 
+[GenerateJsonSchema]
+[Title("The definition namespace for messaging settings pertaining to a Nox solution.")]
+[Description("Defines settings pertinent to solution messaging here. These include IntegrationEventServer provider (RabbitMQ, Azure ServiceBus, Amazon SQS etc) and additional server connection details.")]
+[AdditionalProperties(false)]
 public class Messaging
 {
     [Required]

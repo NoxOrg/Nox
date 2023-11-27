@@ -113,6 +113,8 @@
           { "$ref": "environment.json" },
           {
             "additionalProperties": false, 
+            "required": ["$ref"],
+            "type": "object",
             "properties": {
               "$ref": {
                 "type": "string",
@@ -130,6 +132,8 @@
         { "$ref": "versionControl.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",
@@ -156,6 +160,8 @@
           { "$ref": "teamMember.json" },
           {
             "additionalProperties": false, 
+            "required": ["$ref"],
+            "type": "object",
             "properties": {
               "$ref": {
                 "type": "string",
@@ -173,6 +179,8 @@
         { "$ref": "domain.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",
@@ -188,6 +196,8 @@
         { "$ref": "infrastructure.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",
@@ -203,6 +213,25 @@
         { "$ref": "application.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "presentation": {    
+      "anyOf": [
+        { "$ref": "presentation.json" },
+        {
+          "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",

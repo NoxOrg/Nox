@@ -35,7 +35,14 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
 
     public virtual RatingProgramEntity CreateEntity(RatingProgramCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(RatingProgramEntity entity, RatingProgramUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

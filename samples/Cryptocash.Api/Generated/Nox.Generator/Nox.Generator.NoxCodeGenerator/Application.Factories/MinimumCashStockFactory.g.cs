@@ -35,7 +35,14 @@ internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCash
 
     public virtual MinimumCashStockEntity CreateEntity(MinimumCashStockCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(MinimumCashStockEntity entity, MinimumCashStockUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

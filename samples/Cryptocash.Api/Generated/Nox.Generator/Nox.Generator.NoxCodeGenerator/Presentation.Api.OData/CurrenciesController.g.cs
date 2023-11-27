@@ -46,7 +46,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Currencies/{key}/BankNotes/{relatedKey}")]
+    [HttpGet("/api/Currencies/{key}/BankNotes/{relatedKey}")]
     public virtual async Task<ActionResult<BankNoteDto>> GetBankNotesNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -145,7 +145,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("/api/v1/Currencies/{key}/BankNotes/{relatedKey}")]
+    [HttpDelete("/api/Currencies/{key}/BankNotes/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteBankNoteNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -185,7 +185,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Currencies/{key}/ExchangeRates/{relatedKey}")]
+    [HttpGet("/api/Currencies/{key}/ExchangeRates/{relatedKey}")]
     public virtual async Task<ActionResult<ExchangeRateDto>> GetExchangeRatesNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -284,7 +284,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("/api/v1/Currencies/{key}/ExchangeRates/{relatedKey}")]
+    [HttpDelete("/api/Currencies/{key}/ExchangeRates/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteExchangeRateNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -386,7 +386,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Currencies/{key}/Countries/{relatedKey}")]
+    [HttpGet("/api/Currencies/{key}/Countries/{relatedKey}")]
     public virtual async Task<SingleResult<CountryDto>> GetCountriesNonConventional(System.String key, System.String relatedKey)
     {
         var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.Countries).Where(x => x.Id == relatedKey);
@@ -397,7 +397,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/Currencies/{key}/Countries/{relatedKey}")]
+    [HttpPut("/api/Currencies/{key}/Countries/{relatedKey}")]
     public virtual async Task<ActionResult<CountryDto>> PutToCountriesNonConventional(System.String key, System.String relatedKey, [FromBody] CountryUpdateDto country)
     {
         if (!ModelState.IsValid)
@@ -421,7 +421,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Currencies/{key}/Countries/{relatedKey}")]
+    [HttpDelete("/api/Currencies/{key}/Countries/{relatedKey}")]
     public async Task<ActionResult> DeleteToCountries([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -536,7 +536,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
+    [HttpGet("/api/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
     public virtual async Task<SingleResult<MinimumCashStockDto>> GetMinimumCashStocksNonConventional(System.String key, System.Int64 relatedKey)
     {
         var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Where(x => x.Id == relatedKey);
@@ -547,7 +547,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
+    [HttpPut("/api/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
     public virtual async Task<ActionResult<MinimumCashStockDto>> PutToMinimumCashStocksNonConventional(System.String key, System.Int64 relatedKey, [FromBody] MinimumCashStockUpdateDto minimumCashStock)
     {
         if (!ModelState.IsValid)
@@ -571,7 +571,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
+    [HttpDelete("/api/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
     public async Task<ActionResult> DeleteToMinimumCashStocks([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -595,7 +595,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/Currencies/{key}/MinimumCashStocks")]
+    [HttpDelete("/api/Currencies/{key}/MinimumCashStocks")]
     public async Task<ActionResult> DeleteToMinimumCashStocks([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)

@@ -55,6 +55,7 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 		{
 			return null;
 		}
+		await DbContext.Entry(parentEntity).Collection(p => p.CountryLocalNames).LoadAsync(cancellationToken);
 		var ownedId = ClientApi.Domain.CountryLocalNameMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
 		var entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)

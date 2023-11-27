@@ -49,6 +49,7 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 		{
 			return false;
 		}
+		await DbContext.Entry(parentEntity).Reference(e => e.EmailAddress).LoadAsync(cancellationToken);
 		var entity = parentEntity.EmailAddress;
 		if (entity == null)
 		{
@@ -59,8 +60,8 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		
+		DbContext.Entry(entity).State = EntityState.Deleted;
 
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)

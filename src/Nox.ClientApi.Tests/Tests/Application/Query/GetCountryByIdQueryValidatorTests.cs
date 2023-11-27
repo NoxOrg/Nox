@@ -26,10 +26,10 @@ namespace ClientApi.Tests.Tests.Controllers
         {
             // Act
             var result = await GetAsync($"{Endpoints.CountriesUrl}/301");
-            var response = await result.Content.ReadFromJsonAsync<SimpleResponse>();
+            var response = await result.Content.ReadFromJsonAsync<ApplicationErrorCodeResponse>();
             // Assert
-            response!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            response!.Message.Should().Contain("No permissions for keys greater than 300");
+            result!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            response!.Error.Code.Should().Be("request_validation_exception");
         }
 
         /// <summary>

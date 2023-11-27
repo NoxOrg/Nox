@@ -46,7 +46,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
+    [HttpGet("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
     public virtual async Task<ActionResult<EmployeePhoneNumberDto>> GetEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -145,7 +145,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("/api/v1/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
+    [HttpDelete("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteEmployeePhoneNumberNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -281,7 +281,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Employees/{key}/CashStockOrder")]
+    [HttpDelete("/api/Employees/{key}/CashStockOrder")]
     public async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)

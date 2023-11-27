@@ -16,7 +16,7 @@ public sealed class Markdown : ValueObject<string, Markdown>
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public new static Markdown From(string value) => From(value, new MarkdownTypeOptions());
 
     /// <summary>
@@ -25,7 +25,7 @@ public sealed class Markdown : ValueObject<string, Markdown>
     /// <param name="value"></param>
     /// <param name="typeOptions"></param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Markdown From(string value, MarkdownTypeOptions typeOptions)
     {
         var newObject = new Markdown
@@ -38,7 +38,7 @@ public sealed class Markdown : ValueObject<string, Markdown>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

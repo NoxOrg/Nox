@@ -35,7 +35,14 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
 
     public virtual WorkplaceEntity CreateEntity(WorkplaceCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

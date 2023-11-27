@@ -38,7 +38,14 @@ internal abstract class TestEntityOwnedRelationshipOneOrManyFactoryBase : IEntit
 
     public virtual TestEntityOwnedRelationshipOneOrManyEntity CreateEntity(TestEntityOwnedRelationshipOneOrManyCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(TestEntityOwnedRelationshipOneOrManyEntity entity, TestEntityOwnedRelationshipOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

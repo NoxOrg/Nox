@@ -25,7 +25,7 @@ public class YearTests
         var action = () => Year.From(value);
 
         // Assert
-        action.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox Year type as value {value} is less than the minimum specified value of 1900") });
+        action.Should().Throw<NoxTypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox Year type as value {value} is less than the minimum specified value of 1900") });
     }
 
     [Theory]
@@ -39,7 +39,7 @@ public class YearTests
         var action = () => Year.From(value);
 
         // Assert
-        action.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox Year type a value {value} is greater than the maximum specified value of 3000") });
+        action.Should().Throw<NoxTypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox Year type a value {value} is greater than the maximum specified value of 3000") });
     }
 
     [Fact]
@@ -89,7 +89,7 @@ public class YearTests
         var action = () => Year.From(yearValue, new YearTypeOptions { AllowFutureOnly = true });
 
         // Assert 
-        action.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox Year type a value 2020 is less than the current year") });
+        action.Should().Throw<NoxTypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox Year type a value 2020 is less than the current year") });
     }
 
     [Fact]
@@ -102,7 +102,7 @@ public class YearTests
         var action = () => Year.From(yearValue, new YearTypeOptions { MaxValue = 10 });
 
         // Assert 
-        action.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox Year type a value 1900 is greater than the maximum specified value of 10") });
+        action.Should().Throw<NoxTypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox Year type a value 1900 is greater than the maximum specified value of 10") });
     }
 
     [Fact]
@@ -115,6 +115,6 @@ public class YearTests
         var action = () => Year.From(yearValue, new YearTypeOptions { MinValue = 50 });
 
         // Assert 
-        action.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox Year type as value 1 is less than the minimum specified value of 50") });
+        action.Should().Throw<NoxTypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox Year type as value 1 is less than the minimum specified value of 50") });
     }
 }

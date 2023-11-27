@@ -19,6 +19,8 @@
         { "$ref": "databaseServer.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",
@@ -34,6 +36,8 @@
         { "$ref": "cacheServer.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",
@@ -49,6 +53,8 @@
         { "$ref": "searchServer.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",
@@ -64,6 +70,8 @@
         { "$ref": "eventSourceServer.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",

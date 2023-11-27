@@ -16,7 +16,5 @@ dataTransferObjects:
           maxLength: 2
           minLength: 2
 
-#JS 17Nov23 - Temporarily commented this out until schemas are in sync 
-#integrations:
-#
-#  - $ref: ./integrations/CountrySync.integration.nox.yaml
+integrations:
+  - $ref: ./integrations/CountrySync.integration.nox.yaml

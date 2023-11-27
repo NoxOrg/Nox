@@ -51,6 +51,7 @@ internal abstract class PartialUpdateSecondTestEntityOwnedRelationshipZeroOrOneF
 		{
 			return null;
 		}
+		await DbContext.Entry(parentEntity).Reference(e => e.SecondTestEntityOwnedRelationshipZeroOrOne).LoadAsync(cancellationToken);
 		var entity = parentEntity.SecondTestEntityOwnedRelationshipZeroOrOne;
 		
 		if (entity == null)
@@ -63,7 +64,7 @@ internal abstract class PartialUpdateSecondTestEntityOwnedRelationshipZeroOrOneF
 
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
+		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{

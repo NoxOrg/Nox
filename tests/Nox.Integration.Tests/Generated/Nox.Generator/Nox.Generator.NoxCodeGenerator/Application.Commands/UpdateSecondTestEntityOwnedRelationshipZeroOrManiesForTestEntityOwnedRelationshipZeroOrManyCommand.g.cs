@@ -55,6 +55,7 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrManiesForTes
 		{
 			return null;
 		}
+		await DbContext.Entry(parentEntity).Collection(p => p.SecondTestEntityOwnedRelationshipZeroOrManies).LoadAsync(cancellationToken);
 		var ownedId = TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.String>());
 		var entity = parentEntity.SecondTestEntityOwnedRelationshipZeroOrManies.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)

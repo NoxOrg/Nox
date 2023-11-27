@@ -159,6 +159,7 @@ namespace Nox.Configuration
                 .AddNoxMediatR(_clientAssembly)
                 .AddNoxFactories(noxAndEntryAssemblies)
                 .AddEtlBox()
+                .AddNoxIntegrations()
                 .AddNoxProviders()
                 .AddNoxDtos();
 
@@ -248,6 +249,7 @@ namespace Nox.Configuration
             services.AddSwaggerGen(opts =>
             {
                 opts.SchemaFilter<DeltaSchemaFilter>();
+                opts.DocumentFilter<ApiRouteMappingDocumentFilter>();
             });
         }
 

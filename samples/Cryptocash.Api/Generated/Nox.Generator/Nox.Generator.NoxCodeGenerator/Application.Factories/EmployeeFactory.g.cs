@@ -38,7 +38,14 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
 
     public virtual EmployeeEntity CreateEntity(EmployeeCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(EmployeeEntity entity, EmployeeUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

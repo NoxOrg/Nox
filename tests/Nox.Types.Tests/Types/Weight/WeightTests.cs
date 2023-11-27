@@ -45,7 +45,7 @@ public class WeightTests
             var action = () =>
                 Weight.From(7.5, new WeightTypeOptions { MaxValue = 5, Units = WeightTypeUnit.Kilogram });
 
-            action.Should().Throw<TypeValidationException>()
+            action.Should().Throw<NoxTypeValidationException>()
                 .And.Errors.Should().BeEquivalentTo(new[]
                 {
                     new ValidationFailure("Value",
@@ -64,7 +64,7 @@ public class WeightTests
             var action = () =>
                 Weight.From(7.5, new WeightTypeOptions { MinValue = 10, Units = WeightTypeUnit.Kilogram });
 
-            action.Should().Throw<TypeValidationException>()
+            action.Should().Throw<NoxTypeValidationException>()
                 .And.Errors.Should().BeEquivalentTo(new[]
                 {
                     new ValidationFailure("Value",
@@ -80,7 +80,7 @@ public class WeightTests
     {
         var action = () => Weight.From(-100);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Weight type as negative weight value -100 is not allowed.") });
     }
 
@@ -89,7 +89,7 @@ public class WeightTests
     {
         var action = () => Weight.From(double.NaN);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value NaN is not allowed.") });
     }
 
@@ -99,7 +99,7 @@ public class WeightTests
         var action = () => Weight.From(double.PositiveInfinity);
 
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
     }
 
@@ -108,7 +108,7 @@ public class WeightTests
     {
         var action = () => Weight.From(double.NegativeInfinity);
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
     }
 

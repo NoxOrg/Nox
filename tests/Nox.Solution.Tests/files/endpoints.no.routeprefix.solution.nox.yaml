@@ -15,4 +15,8 @@ infrastructure:
 
   endpoints:
     
-    apiRoutePrefix:   
+presentation:
+
+    apiConfiguration: 
+
+        apiRoutePrefix:   

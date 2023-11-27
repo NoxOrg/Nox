@@ -55,6 +55,7 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 		{
 			return null;
 		}
+		await DbContext.Entry(parentEntity).Collection(p => p.ExchangeRates).LoadAsync(cancellationToken);
 		var ownedId = Cryptocash.Domain.ExchangeRateMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
 		var entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)

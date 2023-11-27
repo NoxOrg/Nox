@@ -1,3 +1,5 @@
+using Cryptocash.Domain;
+using Cryptocash.Infrastructure.Persistence;
 using Nox;
 using System;
 
@@ -18,8 +20,6 @@ builder.AddNox();
 
 var app = builder.Build();
 
-app.UseNox();
-
 // For Development only
 //{
 //    using var scope = app.Services.CreateScope();
@@ -33,6 +33,9 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseNox();
+
 app.MapControllers();
+
 
 app.Run();

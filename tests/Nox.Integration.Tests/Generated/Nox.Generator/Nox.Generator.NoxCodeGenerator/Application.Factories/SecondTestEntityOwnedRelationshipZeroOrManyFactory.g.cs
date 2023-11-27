@@ -35,7 +35,14 @@ internal abstract class SecondTestEntityOwnedRelationshipZeroOrManyFactoryBase :
 
     public virtual SecondTestEntityOwnedRelationshipZeroOrManyEntity CreateEntity(SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(SecondTestEntityOwnedRelationshipZeroOrManyEntity entity, SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto updateDto, Nox.Types.CultureCode cultureCode)

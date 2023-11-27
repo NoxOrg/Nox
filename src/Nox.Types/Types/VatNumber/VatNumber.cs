@@ -89,7 +89,7 @@ public sealed class VatNumber : ValueObject<(string Number, CountryCode CountryC
 
             result.Errors.Add(new ValidationFailure(nameof(countryCode), $"Invalid alpha-2 country code specified ('{countryCode}')."));
 
-            throw new TypeValidationException(result.Errors);
+            throw new NoxTypeValidationException(result.Errors);
         }
         return From(value, code);
     }

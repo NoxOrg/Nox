@@ -72,7 +72,7 @@ internal record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomai
 /// </summary>
 internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
 {
-{{- for key in entity.Keys }}
+{{- for key in entityKeys }}
     /// <summary>
     /// {{key.Description | string.rstrip}}    
     /// </summary>
@@ -108,15 +108,15 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
      /// <summary>
     /// Ensures that a Guid Id is set or will be generate a new one
     /// </summary>
-	public virtual void Ensure{{ key.Name}}(System.Guid guid)
+	public virtual void Ensure{{ key.Name}}(System.Guid? guid)
 	{
-		if(System.Guid.Empty.Equals(guid))
+		if(guid is null || System.Guid.Empty.Equals(guid))
 		{
 			{{key.Name}} = Nox.Types.Guid.From(System.Guid.NewGuid());
 		}
 		else
 		{
-			{{key.Name}} = Nox.Types.Guid.From(guid);
+			{{key.Name}} = Nox.Types.Guid.From(guid!.Value);
 		}
 	}
     {{- else -}}

@@ -35,7 +35,14 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
 
     public virtual ExchangeRateEntity CreateEntity(ExchangeRateUpsertDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(ExchangeRateEntity entity, ExchangeRateUpsertDto updateDto, Nox.Types.CultureCode cultureCode)

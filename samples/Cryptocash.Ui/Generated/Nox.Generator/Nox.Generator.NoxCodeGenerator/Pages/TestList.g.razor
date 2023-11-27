@@ -133,6 +133,42 @@
                                                     <MudItem xs="6">
                                                         <UiEditDayOfWeek_g Title="DayOfWeek" CultureInfo="testCultureInfo" />
                                                     </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditDate_g Title="Date" CultureInfo="testCultureInfo" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditTime_g 
+                                                            DisplayMinute="true" 
+                                                            DisplaySecond="true" 
+                                                            DisplayMillisecond="false" 
+                                                            CultureInfo="@testCultureInfo"                                                            
+                                                            TitleHour="Hour"
+                                                            TitleMinute="Minute"
+                                                            TitleSecond="Second"/>
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditDateTime_g DisplayMinute="true"
+                                                            DisplaySecond="false"
+                                                            DisplayMillisecond="false"
+                                                            CultureInfo="@testCultureInfo"
+                                                            TitleDateTime="DateTime"
+                                                            TitleHour="Hour"
+                                                            TitleMinute="Minute"
+                                                            TitleSecond="Second" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditDateTimeRange_g DisplayMinute="true"
+                                                            DisplaySecond="false"
+                                                            DisplayMillisecond="false"
+                                                            CultureInfo="@testCultureInfo"
+                                                            TitleDateTimeRange="DateTimeRange"
+                                                            TitleHourStart="Start Hour"
+                                                            TitleMinuteStart="Start Minute"
+                                                            TitleSecondStart="Start Second"
+                                                            TitleHourEnd="End Hour"
+                                                            TitleMinuteEnd="End Minute"
+                                                            TitleSecondEnd="End Second" />
+                                                    </MudItem>
                                                 </MudGrid>
                                             </MudTabPanel>
                                         </MudTabs>
@@ -224,6 +260,11 @@
                         CultureInfo testCultureInfo = CultureInfo.GetCultureInfo("en-GB");
                         byte testMonth = 1;
                         byte testDay = 1;
+                        int testHour = 11;
+                        int testMinute = 22;
+                        int testSecond = 33;
+                        DateTime? testDate = DateTime.Now;
+                        DateTime? testDateEnd = DateTime.Now.AddHours(23);
 
                         <MudTable ServerData="@(new Func<TableState, Task<TableData<CustomerDto>>>(ServerReload))"
                                   T="CustomerDto"
@@ -254,6 +295,10 @@
                                 <MudTh>EntityZeroOrMany</MudTh>
                                 <MudTh>Month</MudTh>
                                 <MudTh>DayOfWeek</MudTh>
+                                <MudTh>Time</MudTh>
+                                <MudTh>Date</MudTh>
+                                <MudTh>DateTime</MudTh>
+                                <MudTh>DateTimeRange</MudTh>
                             </HeaderContent>
                             <RowTemplate> 
                                 <MudTd Style="vertical-align:top;">
@@ -312,6 +357,18 @@
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <UiViewDayOfWeek_g DayOfWeek="@testDay" CultureInfo="@testCultureInfo" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <UiViewTime_g Hour="@testHour" Minute="@testMinute" Second="@testSecond" CultureInfo="@testCultureInfo" Format="HH:mm:ss"/>
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <UiViewDate_g Date="@testDate" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy"/>
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <UiViewDateTime_g DateTime="@testDate" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy HH:mm:ss" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <UiViewDateTimeRange_g DateTimeStart="@testDate" DateTimeEnd="@testDateEnd" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy HH:mm:ss" />
                                 </MudTd>
                             </RowTemplate>
                             <NoRecordsContent>

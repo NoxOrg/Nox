@@ -119,7 +119,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Customers/{key}/PaymentDetails/{relatedKey}")]
+    [HttpGet("/api/Customers/{key}/PaymentDetails/{relatedKey}")]
     public virtual async Task<SingleResult<PaymentDetailDto>> GetPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.PaymentDetails).Where(x => x.Id == relatedKey);
@@ -130,7 +130,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/Customers/{key}/PaymentDetails/{relatedKey}")]
+    [HttpPut("/api/Customers/{key}/PaymentDetails/{relatedKey}")]
     public virtual async Task<ActionResult<PaymentDetailDto>> PutToPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] PaymentDetailUpdateDto paymentDetail)
     {
         if (!ModelState.IsValid)
@@ -154,7 +154,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Customers/{key}/PaymentDetails/{relatedKey}")]
+    [HttpDelete("/api/Customers/{key}/PaymentDetails/{relatedKey}")]
     public async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -178,7 +178,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/Customers/{key}/PaymentDetails")]
+    [HttpDelete("/api/Customers/{key}/PaymentDetails")]
     public async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -291,7 +291,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Customers/{key}/Bookings/{relatedKey}")]
+    [HttpGet("/api/Customers/{key}/Bookings/{relatedKey}")]
     public virtual async Task<SingleResult<BookingDto>> GetBookingsNonConventional(System.Int64 key, System.Guid relatedKey)
     {
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Bookings).Where(x => x.Id == relatedKey);
@@ -302,7 +302,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/Customers/{key}/Bookings/{relatedKey}")]
+    [HttpPut("/api/Customers/{key}/Bookings/{relatedKey}")]
     public virtual async Task<ActionResult<BookingDto>> PutToBookingsNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] BookingUpdateDto booking)
     {
         if (!ModelState.IsValid)
@@ -326,7 +326,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Customers/{key}/Bookings/{relatedKey}")]
+    [HttpDelete("/api/Customers/{key}/Bookings/{relatedKey}")]
     public async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -350,7 +350,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/Customers/{key}/Bookings")]
+    [HttpDelete("/api/Customers/{key}/Bookings")]
     public async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -463,7 +463,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Customers/{key}/Transactions/{relatedKey}")]
+    [HttpGet("/api/Customers/{key}/Transactions/{relatedKey}")]
     public virtual async Task<SingleResult<TransactionDto>> GetTransactionsNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Transactions).Where(x => x.Id == relatedKey);
@@ -474,7 +474,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/Customers/{key}/Transactions/{relatedKey}")]
+    [HttpPut("/api/Customers/{key}/Transactions/{relatedKey}")]
     public virtual async Task<ActionResult<TransactionDto>> PutToTransactionsNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] TransactionUpdateDto transaction)
     {
         if (!ModelState.IsValid)
@@ -498,7 +498,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Customers/{key}/Transactions/{relatedKey}")]
+    [HttpDelete("/api/Customers/{key}/Transactions/{relatedKey}")]
     public async Task<ActionResult> DeleteToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -522,7 +522,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/Customers/{key}/Transactions")]
+    [HttpDelete("/api/Customers/{key}/Transactions")]
     public async Task<ActionResult> DeleteToTransactions([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)

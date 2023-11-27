@@ -9,5 +9,5 @@ databaseServer:
     provider: sqlServer
     options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True
     serverUri: localhost
-    user: sa  
+    user: sa 
     password: Developer*123

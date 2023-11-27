@@ -35,7 +35,14 @@ internal abstract class TestEntityZeroOrManyToOneOrManyFactoryBase : IEntityFact
 
     public virtual TestEntityZeroOrManyToOneOrManyEntity CreateEntity(TestEntityZeroOrManyToOneOrManyCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(TestEntityZeroOrManyToOneOrManyEntity entity, TestEntityZeroOrManyToOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

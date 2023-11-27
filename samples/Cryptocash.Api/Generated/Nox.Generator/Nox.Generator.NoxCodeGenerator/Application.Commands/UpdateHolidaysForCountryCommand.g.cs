@@ -55,6 +55,7 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<
 		{
 			return null;
 		}
+		await DbContext.Entry(parentEntity).Collection(p => p.Holidays).LoadAsync(cancellationToken);
 		var ownedId = Cryptocash.Domain.HolidayMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
 		var entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)

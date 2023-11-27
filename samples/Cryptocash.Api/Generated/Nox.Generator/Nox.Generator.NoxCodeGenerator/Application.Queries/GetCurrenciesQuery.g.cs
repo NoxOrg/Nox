@@ -34,7 +34,9 @@ internal abstract class GetCurrenciesQueryHandlerBase : QueryBase<IQueryable<Cur
     public virtual Task<IQueryable<CurrencyDto>> Handle(GetCurrenciesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<CurrencyDto>)DataDbContext.Currencies
-            .AsNoTracking();
+            .AsNoTracking()
+            .Include(e => e.BankNotes)
+            .Include(e => e.ExchangeRates);
        return Task.FromResult(OnResponse(item));
     }
 }

@@ -35,7 +35,14 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
 
     public virtual CountryTimeZoneEntity CreateEntity(CountryTimeZoneUpsertDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(CountryTimeZoneEntity entity, CountryTimeZoneUpsertDto updateDto, Nox.Types.CultureCode cultureCode)

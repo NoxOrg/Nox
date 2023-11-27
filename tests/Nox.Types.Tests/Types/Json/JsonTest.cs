@@ -39,7 +39,7 @@ public class JsonTest
     public void Json_Constructor_InValidJson_ShouldThrowException(string jsonString)
     {
         // Arrange & Act
-        var exception = Assert.Throws<TypeValidationException>(() => _ = Json.From(jsonString, new JsonTypeOptions { }));
+        var exception = Assert.Throws<NoxTypeValidationException>(() => _ = Json.From(jsonString, new JsonTypeOptions { }));
 
         //Assert
         exception.Errors.First().ErrorMessage.Should().StartWith($"Could not create a Nox Json type with value {jsonString} due to JsonException");
@@ -114,7 +114,7 @@ public class JsonTest
         var jsonString = @"{""bad json]";
 
         // Assert
-        var exception = Assert.Throws<TypeValidationException>(() => _ = Json.From(jsonString));
+        var exception = Assert.Throws<NoxTypeValidationException>(() => _ = Json.From(jsonString));
     }
 
     [Fact]

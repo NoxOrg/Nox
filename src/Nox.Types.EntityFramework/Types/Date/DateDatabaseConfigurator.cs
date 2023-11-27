@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
 namespace Nox.Types.EntityFramework.Types;
 
@@ -14,12 +13,12 @@ public class DateDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
-        bool isKey)
+        bool isKey,
+        ModelBuilder modelBuilder, EntityTypeBuilder entityTypeBuilder)
     {
-        builder
+        entityTypeBuilder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
             .HasConversion<DateConverter>()

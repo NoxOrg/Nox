@@ -55,6 +55,7 @@ internal partial class UpdateEmailAddressForStoreCommandHandlerBase : CommandBas
 		{
 			return null;
 		}
+		await DbContext.Entry(parentEntity).Reference(e => e.EmailAddress).LoadAsync(cancellationToken);
 		var entity = parentEntity.EmailAddress;
 		
 		if (entity == null)

@@ -35,7 +35,14 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
 
     public virtual BookingEntity CreateEntity(BookingCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(BookingEntity entity, BookingUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

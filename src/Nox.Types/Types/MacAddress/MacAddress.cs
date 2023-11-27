@@ -18,7 +18,7 @@ public sealed class MacAddress : ValueObject<string, MacAddress>
     /// </summary>
     /// <param name="macAddressText">The string value to create the <see cref="MacAddress"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public new static MacAddress From(string macAddressText)
     {
         TryParse(macAddressText, out string macAddressValue);
@@ -32,7 +32,7 @@ public sealed class MacAddress : ValueObject<string, MacAddress>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;
@@ -43,7 +43,7 @@ public sealed class MacAddress : ValueObject<string, MacAddress>
     /// </summary>
     /// <param name="macAddressHexNumber">The ulong value to create the <see cref="MacAddress"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static MacAddress From(ulong macAddressHexNumber)
     {
         var macAddressValue = PadToMacAddressLength(macAddressHexNumber.ToString("X2", CultureInfo.InvariantCulture));
@@ -55,7 +55,7 @@ public sealed class MacAddress : ValueObject<string, MacAddress>
     /// </summary>
     /// <param name="macAddressBytes">The byte array value to create the <see cref="MacAddress"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static MacAddress From(byte[] macAddressBytes)
     {
         var macAddressValue = ConvertToHexString(macAddressBytes);

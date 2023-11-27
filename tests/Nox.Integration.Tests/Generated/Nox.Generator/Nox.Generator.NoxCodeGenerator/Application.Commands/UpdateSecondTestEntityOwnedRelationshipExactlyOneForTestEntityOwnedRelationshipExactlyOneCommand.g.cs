@@ -55,6 +55,7 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestE
 		{
 			return null;
 		}
+		await DbContext.Entry(parentEntity).Reference(e => e.SecondTestEntityOwnedRelationshipExactlyOne).LoadAsync(cancellationToken);
 		var entity = parentEntity.SecondTestEntityOwnedRelationshipExactlyOne;
 		
 		if (entity == null)

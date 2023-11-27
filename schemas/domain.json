@@ -23,6 +23,8 @@
           { "$ref": "entity.json" },
           {
             "additionalProperties": false, 
+            "required": ["$ref"],
+            "type": "object",
             "properties": {
               "$ref": {
                 "type": "string",

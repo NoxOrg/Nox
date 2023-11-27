@@ -33,7 +33,7 @@ public class TranslatedTextTests
         var translatedTestString = "إنه اختبار مصمم لإثارة استجابة عاطفية - هولدن";
         var arabicCultureCode = CultureCode.From("ar");
 
-        var exception =  Assert.Throws<TypeValidationException>(() => _ =
+        var exception =  Assert.Throws<NoxTypeValidationException>(() => _ =
             TranslatedText.From((arabicCultureCode, translatedTestString), new TranslatedTextTypeOptions { MaxLength = 15 })
         );
 
@@ -46,7 +46,7 @@ public class TranslatedTextTests
         var translatedTestString = "إنه اختبار مصمم لإثارة استجابة عاطفية - هولدن";
         var arabicCultureCode = CultureCode.From("ar");
 
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
+        var exception = Assert.Throws<NoxTypeValidationException>(() => _ =
             TranslatedText.From((arabicCultureCode, translatedTestString), new TranslatedTextTypeOptions { MinLength = 100 })
             ); 
 

@@ -23,6 +23,8 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
@@ -154,3 +156,28 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 		return new {{entity.Name}}KeyDto({{primaryKeysQuery}});
 	}
 }
+
+{{- if (entity.OwnedRelationships | array.size) > 0 }}
+
+public class Create{{entity.Name}}Validator : AbstractValidator<Create{{entity.Name}}Command>
+{
+    public Create{{entity.Name}}Validator()
+    {
+		{{- for ownedRelationship in entity.OwnedRelationships }}
+			{{- if ownedRelationship.WithMultiEntity }}
+				{{- relationshipName = GetNavigationPropertyName entity ownedRelationship }}
+				{{- key = ownedRelationship.Related.Entity.Keys | array.first }}
+					{{- if !IsNoxTypeCreatable key.Type }}
+		RuleFor(x => x.EntityDto.{{relationshipName}})
+			.Must(owned => owned.All(x => x.{{key.Name}} == null))
+			.WithMessage("{{relationshipName}}.{{key.Name}} must be null as it is auto generated.");
+					{{- else }}
+		RuleFor(x => x.EntityDto.{{relationshipName}})
+			.Must(owned => owned.All(x => x.{{key.Name}} != null))
+			.WithMessage("{{relationshipName}}.{{key.Name}} is required.");
+					{{- end }}
+			{{- end }}
+        {{- end }}
+    }
+}
+{{- end }}
