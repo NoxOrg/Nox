@@ -21,7 +21,6 @@ public static class DataSeedExtensions
             .AddScoped<IDataSeeder, CryptocashCommissionDataSeeder>()
             .AddScoped<IDataSeeder, CryptocashCountryTimeZoneDataSeeder>()            
             .AddScoped<IDataSeeder, CryptocashCustomerDataSeeder>()            
-            .AddScoped<IDataSeeder, CryptocashEmployeePhoneNumberDataSeeder>()
             .AddScoped<IDataSeeder, CryptocashExchangeRateDataSeeder>()
             .AddScoped<IDataSeeder, CryptocashHolidayDataSeeder>()
             .AddScoped<IDataSeeder, CryptocashLandLordDataSeeder>()
