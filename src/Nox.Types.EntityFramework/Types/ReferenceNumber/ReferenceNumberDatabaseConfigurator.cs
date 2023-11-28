@@ -47,7 +47,7 @@ public class ReferenceNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .IsRequired(property.IsRequired)
             .HasMaxLength(10 + 28 + 1)// Prefix Max Lenght  + Sequence Max Lenght + CheckSum Digit
             .HasConversion<ReferenceNumberConverter>();
-        
+
         if (!isKey)
         {
             entityTypeBuilder
@@ -55,6 +55,11 @@ public class ReferenceNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
                 .IsUnique();
         }
 
+        CreateSequence(noxSolutionCodeGeneratorState, property, entity, modelBuilder, typeOptions);
+    }
+
+    protected virtual void CreateSequence(NoxCodeGenConventions noxSolutionCodeGeneratorState, NoxSimpleTypeDefinition property, Entity entity, ModelBuilder modelBuilder, ReferenceNumberTypeOptions typeOptions)
+    {
         modelBuilder.HasSequence<long>(noxSolutionCodeGeneratorState.GetDatabaseSequenceName(entity.Name, property.Name))
             .StartsAt(typeOptions.StartsAt)
             .IncrementsBy(typeOptions.IncrementsBy);
