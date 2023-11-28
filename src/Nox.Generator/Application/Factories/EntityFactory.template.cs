@@ -84,7 +84,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         entity.{{key.Name}} = {{entity.Name}}Metadata.Create{{key.Name}}(createDto.{{key.Name}}{{if entity.IsOwnedEntity}}.NonNullValue<{{keyType key}}>(){{end}});
         {{- end }}
         {{- for attribute in entity.Attributes }}
-            {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" || attribute.Type == "AutoNumber" -}}
+            {{- if !IsNoxTypeCreatable attribute.Type -}}
                 {{ continue; }}
             {{- end}}
         {{- if !attribute.IsRequired }}
@@ -125,7 +125,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
     private void UpdateEntityInternal({{entity.Name}}Entity entity, {{entityUpdateDto}} updateDto, Nox.Types.CultureCode cultureCode)
     {
         {{- for attribute in entity.Attributes }}
-            {{- if !IsNoxTypeReadable attribute.Type || !IsNoxTypeUpdatable attribute.Type -}}
+            {{- if !IsNoxTypeUpdatable attribute.Type -}}
                 {{ continue; }}
             {{- end}}
         {{ if attribute.IsLocalized }}if(IsDefaultCultureCode(cultureCode)) {{ end }}
@@ -159,7 +159,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
     private void PartialUpdateEntityInternal({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         {{- for attribute in entity.Attributes }}
-            {{- if !IsNoxTypeReadable attribute.Type || !IsNoxTypeUpdatable attribute.Type -}}
+            {{- if !IsNoxTypeUpdatable attribute.Type -}}
                 {{ continue; }}
             {{- end}}
 
