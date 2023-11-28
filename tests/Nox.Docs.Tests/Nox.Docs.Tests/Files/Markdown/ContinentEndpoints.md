@@ -27,6 +27,8 @@ This document provides information about the various endpoints available in our 
 #### Update Country relation
 - **PUT** `/api/Continents/{key}/CountriesOnContinent/{relatedKey}/$ref`
   - Description: Updates an existing Country relation for a specific Continent.
+- **PUT** `/api/Continents/{key}/CountriesOnContinent/$ref`
+  - Description: Updates the Country relations for a specific Continent.
 
 #### Delete Country relation
 - **DELETE** `/api/Continents/{key}/CountriesOnContinent/{relatedKey}/$ref`

@@ -43,6 +43,8 @@ This document provides information about the various endpoints available in our 
 #### Update PaymentDetail relation
 - **PUT** `/api/Customers/{key}/CustomerRelatedPaymentDetails/{relatedKey}/$ref`
   - Description: Updates an existing PaymentDetail relation for a specific Customer.
+- **PUT** `/api/Customers/{key}/CustomerRelatedPaymentDetails/$ref`
+  - Description: Updates the PaymentDetail relations for a specific Customer.
 
 #### Delete PaymentDetail relation
 - **DELETE** `/api/Customers/{key}/CustomerRelatedPaymentDetails/{relatedKey}/$ref`
@@ -65,6 +67,8 @@ This document provides information about the various endpoints available in our 
 #### Update Booking relation
 - **PUT** `/api/Customers/{key}/CustomerRelatedBookings/{relatedKey}/$ref`
   - Description: Updates an existing Booking relation for a specific Customer.
+- **PUT** `/api/Customers/{key}/CustomerRelatedBookings/$ref`
+  - Description: Updates the Booking relations for a specific Customer.
 
 #### Delete Booking relation
 - **DELETE** `/api/Customers/{key}/CustomerRelatedBookings/{relatedKey}/$ref`
@@ -87,6 +91,8 @@ This document provides information about the various endpoints available in our 
 #### Update Transaction relation
 - **PUT** `/api/Customers/{key}/CustomerRelatedTransactions/{relatedKey}/$ref`
   - Description: Updates an existing Transaction relation for a specific Customer.
+- **PUT** `/api/Customers/{key}/CustomerRelatedTransactions/$ref`
+  - Description: Updates the Transaction relations for a specific Customer.
 
 #### Delete Transaction relation
 - **DELETE** `/api/Customers/{key}/CustomerRelatedTransactions/{relatedKey}/$ref`
@@ -109,6 +115,8 @@ This document provides information about the various endpoints available in our 
 #### Update Country relation
 - **PUT** `/api/Customers/{key}/CustomerBaseCountry/{relatedKey}/$ref`
   - Description: Updates an existing Country relation for a specific Customer.
+- **PUT** `/api/Customers/{key}/CustomerBaseCountry/$ref`
+  - Description: Updates the Country relations for a specific Customer.
 
 #### Delete Country relation
 - **DELETE** `/api/Customers/{key}/CustomerBaseCountry/{relatedKey}/$ref`

@@ -89,6 +89,8 @@ This document provides information about the various endpoints available in our 
 #### Update Country relation
 - **PUT** `/api/Currencies/{key}/CurrencyUsedByCountry/{relatedKey}/$ref`
   - Description: Updates an existing Country relation for a specific Currency.
+- **PUT** `/api/Currencies/{key}/CurrencyUsedByCountry/$ref`
+  - Description: Updates the Country relations for a specific Currency.
 
 #### Delete Country relation
 - **DELETE** `/api/Currencies/{key}/CurrencyUsedByCountry/{relatedKey}/$ref`
@@ -111,6 +113,8 @@ This document provides information about the various endpoints available in our 
 #### Update MinimumCashStock relation
 - **PUT** `/api/Currencies/{key}/CurrencyUsedByMinimumCashStocks/{relatedKey}/$ref`
   - Description: Updates an existing MinimumCashStock relation for a specific Currency.
+- **PUT** `/api/Currencies/{key}/CurrencyUsedByMinimumCashStocks/$ref`
+  - Description: Updates the MinimumCashStock relations for a specific Currency.
 
 #### Delete MinimumCashStock relation
 - **DELETE** `/api/Currencies/{key}/CurrencyUsedByMinimumCashStocks/{relatedKey}/$ref`
