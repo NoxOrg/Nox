@@ -17,6 +17,83 @@
     "FlagSvg": null,
     "FlagPng": null,
     "CoatOfArmsSvg": null,
-    "CoatOfArmsPng": null
+    "CoatOfArmsPng": null,
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
+    "Holidays": [
+      {
+        "Name": "New Year\u0027s Day",
+        "Type": "public",
+        "Date": "2023-01-01"
+      },
+      {
+        "Name": "Maundy Thursday",
+        "Type": "observance",
+        "Date": "2023-04-06"
+      },
+      {
+        "Name": "Good Friday",
+        "Type": "public",
+        "Date": "2023-04-07"
+      },
+      {
+        "Name": "Easter Sunday",
+        "Type": "public",
+        "Date": "2023-04-09"
+      },
+      {
+        "Name": "Easter Monday",
+        "Type": "public",
+        "Date": "2023-04-10"
+      },
+      {
+        "Name": "Mother\u0027s Day",
+        "Type": "observance",
+        "Date": "2023-05-14"
+      },
+      {
+        "Name": "Ascension Day",
+        "Type": "public",
+        "Date": "2023-05-18"
+      },
+      {
+        "Name": "Pentecost",
+        "Type": "public",
+        "Date": "2023-05-28"
+      },
+      {
+        "Name": "Whit Monday",
+        "Type": "public",
+        "Date": "2023-05-29"
+      },
+      {
+        "Name": "V\u00E4tertag",
+        "Type": "observance",
+        "Date": "2023-06-04"
+      },
+      {
+        "Name": "Bundesfeiertag",
+        "Type": "public",
+        "Date": "2023-08-01"
+      },
+      {
+        "Name": "Federal Day of Thanksgiving, Repentance and Prayer",
+        "Type": "public",
+        "Date": "2023-09-17"
+      },
+      {
+        "Name": "Christmas Day",
+        "Type": "public",
+        "Date": "2023-12-25"
+      },
+      {
+        "Name": "Boxing Day",
+        "Type": "public",
+        "Date": "2023-12-26"
+      }
+    ]
   }
 ]

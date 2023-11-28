@@ -22,7 +22,7 @@ internal class CryptocashCountryDataSeeder : DataSeederBase<CountryDto, Country>
 
     protected override Country TransformToEntity(CountryDto model)
     {
-        return new() {
+        Country rtnCountry = new() {
             Id = CountryCode2.From(model.Id),
             Name = Text.From(model.Name!),
             OfficialName = Text.From(model.OfficialName!),
@@ -39,5 +39,35 @@ internal class CryptocashCountryDataSeeder : DataSeederBase<CountryDto, Country>
             StartOfWeek = Nox.Types.DayOfWeek.From((ushort)model?.StartOfWeek!),
             CurrencyId = CurrencyCode3.From(model?.CurrencyId!)
         };
+
+        if (model?.CountryTimeZones != null)
+        {
+            foreach (CountryTimeZoneDto currentCountryTimeZone in model.CountryTimeZones)
+            {
+                rtnCountry.CreateRefToCountryTimeZones(
+                    new()
+                    {
+                        TimeZoneCode = TimeZoneCode.From(currentCountryTimeZone.TimeZoneCode)
+                    }
+                );
+            }
+        }
+
+        if (model?.Holidays != null)
+        {
+            foreach (HolidayDto currentHoliday in model.Holidays)
+            {
+                rtnCountry.CreateRefToHolidays(
+                    new()
+                    {
+                        Name = Text.From(currentHoliday.Name),
+                        Type = Text.From(currentHoliday.Type),
+                        Date = Date.From(currentHoliday.Date)
+                    }
+                );
+            }
+        }
+
+        return rtnCountry;
     }
 }
