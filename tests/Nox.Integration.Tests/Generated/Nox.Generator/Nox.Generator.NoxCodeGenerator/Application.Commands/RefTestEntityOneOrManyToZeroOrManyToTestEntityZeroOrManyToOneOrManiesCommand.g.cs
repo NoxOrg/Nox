@@ -60,7 +60,7 @@ internal partial class CreateRefTestEntityOneOrManyToZeroOrManyToTestEntityZeroO
 
 #region UpdateRefTo
 
-public partial record UpdateRefTestEntityOneOrManyToZeroOrManyToTestEntityZeroOrManyToOneOrManiesCommand(TestEntityOneOrManyToZeroOrManyKeyDto EntityKeyDto, List<TestEntityZeroOrManyToOneOrManyKeyDto> RelatedEntityKeyDto)
+public partial record UpdateRefTestEntityOneOrManyToZeroOrManyToTestEntityZeroOrManyToOneOrManiesCommand(TestEntityOneOrManyToZeroOrManyKeyDto EntityKeyDto, List<TestEntityZeroOrManyToOneOrManyKeyDto> RelatedEntitiesKeysDtos)
 	: RefTestEntityOneOrManyToZeroOrManyToTestEntityZeroOrManyToOneOrManiesCommand(EntityKeyDto);
 
 internal partial class UpdateRefTestEntityOneOrManyToZeroOrManyToTestEntityZeroOrManyToOneOrManiesCommandHandler
@@ -82,7 +82,7 @@ internal partial class UpdateRefTestEntityOneOrManyToZeroOrManyToTestEntityZeroO
 		}
 
 		var relatedEntities = new List<TestWebApp.Domain.TestEntityZeroOrManyToOneOrMany>();
-		foreach(var keyDto in request.RelatedEntityKeyDto)
+		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
 			var relatedEntity = await GetTestEntityZeroOrManyToOneOrMany(keyDto);
 			if (relatedEntity == null)

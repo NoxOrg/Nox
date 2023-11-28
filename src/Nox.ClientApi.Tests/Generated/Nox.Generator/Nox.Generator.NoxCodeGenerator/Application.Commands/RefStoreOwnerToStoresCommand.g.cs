@@ -60,7 +60,7 @@ internal partial class CreateRefStoreOwnerToStoresCommandHandler
 
 #region UpdateRefTo
 
-public partial record UpdateRefStoreOwnerToStoresCommand(StoreOwnerKeyDto EntityKeyDto, List<StoreKeyDto> RelatedEntityKeyDto)
+public partial record UpdateRefStoreOwnerToStoresCommand(StoreOwnerKeyDto EntityKeyDto, List<StoreKeyDto> RelatedEntitiesKeysDtos)
 	: RefStoreOwnerToStoresCommand(EntityKeyDto);
 
 internal partial class UpdateRefStoreOwnerToStoresCommandHandler
@@ -82,7 +82,7 @@ internal partial class UpdateRefStoreOwnerToStoresCommandHandler
 		}
 
 		var relatedEntities = new List<ClientApi.Domain.Store>();
-		foreach(var keyDto in request.RelatedEntityKeyDto)
+		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
 			var relatedEntity = await GetStore(keyDto);
 			if (relatedEntity == null)

@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -52,8 +53,8 @@ public abstract partial class CustomersControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var relatedKeyDto = referencesDto.References.Select(x => new PaymentDetailKeyDto(x)).ToList();
-        var updatedRef = await _mediator.Send(new UpdateRefCustomerToPaymentDetailsCommand(new CustomerKeyDto(key), relatedKeyDto));
+        var relatedKeysDto = referencesDto.References.Select(x => new PaymentDetailKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCustomerToPaymentDetailsCommand(new CustomerKeyDto(key), relatedKeysDto));
         if (!updatedRef)
         {
             return NotFound();
@@ -242,8 +243,8 @@ public abstract partial class CustomersControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var relatedKeyDto = referencesDto.References.Select(x => new BookingKeyDto(x)).ToList();
-        var updatedRef = await _mediator.Send(new UpdateRefCustomerToBookingsCommand(new CustomerKeyDto(key), relatedKeyDto));
+        var relatedKeysDto = referencesDto.References.Select(x => new BookingKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCustomerToBookingsCommand(new CustomerKeyDto(key), relatedKeysDto));
         if (!updatedRef)
         {
             return NotFound();
@@ -432,8 +433,8 @@ public abstract partial class CustomersControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var relatedKeyDto = referencesDto.References.Select(x => new TransactionKeyDto(x)).ToList();
-        var updatedRef = await _mediator.Send(new UpdateRefCustomerToTransactionsCommand(new CustomerKeyDto(key), relatedKeyDto));
+        var relatedKeysDto = referencesDto.References.Select(x => new TransactionKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCustomerToTransactionsCommand(new CustomerKeyDto(key), relatedKeysDto));
         if (!updatedRef)
         {
             return NotFound();

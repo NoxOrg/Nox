@@ -60,7 +60,7 @@ internal partial class CreateRefEntityUniqueConstraintsRelatedForeignKeyToEntity
 
 #region UpdateRefTo
 
-public partial record UpdateRefEntityUniqueConstraintsRelatedForeignKeyToEntityUniqueConstraintsWithForeignKeysCommand(EntityUniqueConstraintsRelatedForeignKeyKeyDto EntityKeyDto, List<EntityUniqueConstraintsWithForeignKeyKeyDto> RelatedEntityKeyDto)
+public partial record UpdateRefEntityUniqueConstraintsRelatedForeignKeyToEntityUniqueConstraintsWithForeignKeysCommand(EntityUniqueConstraintsRelatedForeignKeyKeyDto EntityKeyDto, List<EntityUniqueConstraintsWithForeignKeyKeyDto> RelatedEntitiesKeysDtos)
 	: RefEntityUniqueConstraintsRelatedForeignKeyToEntityUniqueConstraintsWithForeignKeysCommand(EntityKeyDto);
 
 internal partial class UpdateRefEntityUniqueConstraintsRelatedForeignKeyToEntityUniqueConstraintsWithForeignKeysCommandHandler
@@ -82,7 +82,7 @@ internal partial class UpdateRefEntityUniqueConstraintsRelatedForeignKeyToEntity
 		}
 
 		var relatedEntities = new List<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey>();
-		foreach(var keyDto in request.RelatedEntityKeyDto)
+		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
 			var relatedEntity = await GetEntityUniqueConstraintsWithForeignKey(keyDto);
 			if (relatedEntity == null)

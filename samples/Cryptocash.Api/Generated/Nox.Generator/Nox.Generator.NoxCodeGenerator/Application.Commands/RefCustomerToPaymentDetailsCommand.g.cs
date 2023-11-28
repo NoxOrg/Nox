@@ -60,7 +60,7 @@ internal partial class CreateRefCustomerToPaymentDetailsCommandHandler
 
 #region UpdateRefTo
 
-public partial record UpdateRefCustomerToPaymentDetailsCommand(CustomerKeyDto EntityKeyDto, List<PaymentDetailKeyDto> RelatedEntityKeyDto)
+public partial record UpdateRefCustomerToPaymentDetailsCommand(CustomerKeyDto EntityKeyDto, List<PaymentDetailKeyDto> RelatedEntitiesKeysDtos)
 	: RefCustomerToPaymentDetailsCommand(EntityKeyDto);
 
 internal partial class UpdateRefCustomerToPaymentDetailsCommandHandler
@@ -82,7 +82,7 @@ internal partial class UpdateRefCustomerToPaymentDetailsCommandHandler
 		}
 
 		var relatedEntities = new List<Cryptocash.Domain.PaymentDetail>();
-		foreach(var keyDto in request.RelatedEntityKeyDto)
+		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
 			var relatedEntity = await GetPaymentDetail(keyDto);
 			if (relatedEntity == null)

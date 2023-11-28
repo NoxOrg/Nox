@@ -63,7 +63,7 @@ internal partial class CreateRef{{entity.Name}}To{{relationshipName}}CommandHand
 
 #region UpdateRefTo
 
-public partial record UpdateRef{{entity.Name}}To{{relationshipName}}Command({{entity.Name}}KeyDto EntityKeyDto, List<{{relatedEntity.Name}}KeyDto> RelatedEntityKeyDto)
+public partial record UpdateRef{{entity.Name}}To{{relationshipName}}Command({{entity.Name}}KeyDto EntityKeyDto, List<{{relatedEntity.Name}}KeyDto> RelatedEntitiesKeysDtos)
 	: Ref{{entity.Name}}To{{relationshipName}}Command(EntityKeyDto);
 
 internal partial class UpdateRef{{entity.Name}}To{{relationshipName}}CommandHandler
@@ -85,7 +85,7 @@ internal partial class UpdateRef{{entity.Name}}To{{relationshipName}}CommandHand
 		}
 
 		var relatedEntities = new List<{{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}>();
-		foreach(var keyDto in request.RelatedEntityKeyDto)
+		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
 			var relatedEntity = await Get{{relatedEntity.Name}}(keyDto);
 			if (relatedEntity == null)

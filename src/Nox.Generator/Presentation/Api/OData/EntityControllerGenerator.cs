@@ -63,6 +63,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine("using System;");
             code.AppendLine("using System.Net.Http.Headers;");
             code.AppendLine("using Nox.Application;");
+            code.AppendLine("using Nox.Application.Dto;");
             code.AppendLine("using Nox.Extensions;");
 
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
@@ -550,9 +551,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"throw new Nox.Exceptions.BadRequestException(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var relatedKeyDto = referencesDto.References.Select(x => new {relatedEntity.Name}KeyDto(x)).ToList();");
+        code.AppendLine($"var relatedKeysDto = referencesDto.References.Select(x => new {relatedEntity.Name}KeyDto(x)).ToList();");
         code.AppendLine($"var updatedRef = await _mediator.Send(new UpdateRef{entity.Name}To{navigationName}Command(" +
-            $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)}), relatedKeyDto));");
+            $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)}), relatedKeysDto));");
         code.AppendLine($"if (!updatedRef)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");

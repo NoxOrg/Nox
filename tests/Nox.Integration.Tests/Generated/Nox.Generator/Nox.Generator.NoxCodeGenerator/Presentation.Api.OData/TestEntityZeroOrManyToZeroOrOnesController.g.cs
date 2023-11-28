@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -52,8 +53,8 @@ public abstract partial class TestEntityZeroOrManyToZeroOrOnesControllerBase : O
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var relatedKeyDto = referencesDto.References.Select(x => new TestEntityZeroOrOneToZeroOrManyKeyDto(x)).ToList();
-        var updatedRef = await _mediator.Send(new UpdateRefTestEntityZeroOrManyToZeroOrOneToTestEntityZeroOrOneToZeroOrManiesCommand(new TestEntityZeroOrManyToZeroOrOneKeyDto(key), relatedKeyDto));
+        var relatedKeysDto = referencesDto.References.Select(x => new TestEntityZeroOrOneToZeroOrManyKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefTestEntityZeroOrManyToZeroOrOneToTestEntityZeroOrOneToZeroOrManiesCommand(new TestEntityZeroOrManyToZeroOrOneKeyDto(key), relatedKeysDto));
         if (!updatedRef)
         {
             return NotFound();

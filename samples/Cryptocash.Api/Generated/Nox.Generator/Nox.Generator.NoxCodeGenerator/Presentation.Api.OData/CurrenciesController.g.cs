@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -335,8 +336,8 @@ public abstract partial class CurrenciesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var relatedKeyDto = referencesDto.References.Select(x => new CountryKeyDto(x)).ToList();
-        var updatedRef = await _mediator.Send(new UpdateRefCurrencyToCountriesCommand(new CurrencyKeyDto(key), relatedKeyDto));
+        var relatedKeysDto = referencesDto.References.Select(x => new CountryKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCurrencyToCountriesCommand(new CurrencyKeyDto(key), relatedKeysDto));
         if (!updatedRef)
         {
             return NotFound();
@@ -487,8 +488,8 @@ public abstract partial class CurrenciesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var relatedKeyDto = referencesDto.References.Select(x => new MinimumCashStockKeyDto(x)).ToList();
-        var updatedRef = await _mediator.Send(new UpdateRefCurrencyToMinimumCashStocksCommand(new CurrencyKeyDto(key), relatedKeyDto));
+        var relatedKeysDto = referencesDto.References.Select(x => new MinimumCashStockKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCurrencyToMinimumCashStocksCommand(new CurrencyKeyDto(key), relatedKeysDto));
         if (!updatedRef)
         {
             return NotFound();

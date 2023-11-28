@@ -60,7 +60,7 @@ internal partial class CreateRefCountryToCommissionsCommandHandler
 
 #region UpdateRefTo
 
-public partial record UpdateRefCountryToCommissionsCommand(CountryKeyDto EntityKeyDto, List<CommissionKeyDto> RelatedEntityKeyDto)
+public partial record UpdateRefCountryToCommissionsCommand(CountryKeyDto EntityKeyDto, List<CommissionKeyDto> RelatedEntitiesKeysDtos)
 	: RefCountryToCommissionsCommand(EntityKeyDto);
 
 internal partial class UpdateRefCountryToCommissionsCommandHandler
@@ -82,7 +82,7 @@ internal partial class UpdateRefCountryToCommissionsCommandHandler
 		}
 
 		var relatedEntities = new List<Cryptocash.Domain.Commission>();
-		foreach(var keyDto in request.RelatedEntityKeyDto)
+		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
 			var relatedEntity = await GetCommission(keyDto);
 			if (relatedEntity == null)

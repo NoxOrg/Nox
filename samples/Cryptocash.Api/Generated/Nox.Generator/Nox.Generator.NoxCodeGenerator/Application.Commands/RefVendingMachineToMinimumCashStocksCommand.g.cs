@@ -60,7 +60,7 @@ internal partial class CreateRefVendingMachineToMinimumCashStocksCommandHandler
 
 #region UpdateRefTo
 
-public partial record UpdateRefVendingMachineToMinimumCashStocksCommand(VendingMachineKeyDto EntityKeyDto, List<MinimumCashStockKeyDto> RelatedEntityKeyDto)
+public partial record UpdateRefVendingMachineToMinimumCashStocksCommand(VendingMachineKeyDto EntityKeyDto, List<MinimumCashStockKeyDto> RelatedEntitiesKeysDtos)
 	: RefVendingMachineToMinimumCashStocksCommand(EntityKeyDto);
 
 internal partial class UpdateRefVendingMachineToMinimumCashStocksCommandHandler
@@ -82,7 +82,7 @@ internal partial class UpdateRefVendingMachineToMinimumCashStocksCommandHandler
 		}
 
 		var relatedEntities = new List<Cryptocash.Domain.MinimumCashStock>();
-		foreach(var keyDto in request.RelatedEntityKeyDto)
+		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
 			var relatedEntity = await GetMinimumCashStock(keyDto);
 			if (relatedEntity == null)

@@ -60,7 +60,7 @@ internal partial class CreateRefCustomerToBookingsCommandHandler
 
 #region UpdateRefTo
 
-public partial record UpdateRefCustomerToBookingsCommand(CustomerKeyDto EntityKeyDto, List<BookingKeyDto> RelatedEntityKeyDto)
+public partial record UpdateRefCustomerToBookingsCommand(CustomerKeyDto EntityKeyDto, List<BookingKeyDto> RelatedEntitiesKeysDtos)
 	: RefCustomerToBookingsCommand(EntityKeyDto);
 
 internal partial class UpdateRefCustomerToBookingsCommandHandler
@@ -82,7 +82,7 @@ internal partial class UpdateRefCustomerToBookingsCommandHandler
 		}
 
 		var relatedEntities = new List<Cryptocash.Domain.Booking>();
-		foreach(var keyDto in request.RelatedEntityKeyDto)
+		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
 			var relatedEntity = await GetBooking(keyDto);
 			if (relatedEntity == null)

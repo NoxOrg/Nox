@@ -60,7 +60,7 @@ internal partial class CreateRefCurrencyToStoreLicenseSoldInCommandHandler
 
 #region UpdateRefTo
 
-public partial record UpdateRefCurrencyToStoreLicenseSoldInCommand(CurrencyKeyDto EntityKeyDto, List<StoreLicenseKeyDto> RelatedEntityKeyDto)
+public partial record UpdateRefCurrencyToStoreLicenseSoldInCommand(CurrencyKeyDto EntityKeyDto, List<StoreLicenseKeyDto> RelatedEntitiesKeysDtos)
 	: RefCurrencyToStoreLicenseSoldInCommand(EntityKeyDto);
 
 internal partial class UpdateRefCurrencyToStoreLicenseSoldInCommandHandler
@@ -82,7 +82,7 @@ internal partial class UpdateRefCurrencyToStoreLicenseSoldInCommandHandler
 		}
 
 		var relatedEntities = new List<ClientApi.Domain.StoreLicense>();
-		foreach(var keyDto in request.RelatedEntityKeyDto)
+		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
 			var relatedEntity = await GetStoreLicense(keyDto);
 			if (relatedEntity == null)

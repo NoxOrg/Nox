@@ -60,7 +60,7 @@ internal partial class CreateRefSecondTestEntityTwoRelationshipsManyToManyToTest
 
 #region UpdateRefTo
 
-public partial record UpdateRefSecondTestEntityTwoRelationshipsManyToManyToTestRelationshipOneOnOtherSideCommand(SecondTestEntityTwoRelationshipsManyToManyKeyDto EntityKeyDto, List<TestEntityTwoRelationshipsManyToManyKeyDto> RelatedEntityKeyDto)
+public partial record UpdateRefSecondTestEntityTwoRelationshipsManyToManyToTestRelationshipOneOnOtherSideCommand(SecondTestEntityTwoRelationshipsManyToManyKeyDto EntityKeyDto, List<TestEntityTwoRelationshipsManyToManyKeyDto> RelatedEntitiesKeysDtos)
 	: RefSecondTestEntityTwoRelationshipsManyToManyToTestRelationshipOneOnOtherSideCommand(EntityKeyDto);
 
 internal partial class UpdateRefSecondTestEntityTwoRelationshipsManyToManyToTestRelationshipOneOnOtherSideCommandHandler
@@ -82,7 +82,7 @@ internal partial class UpdateRefSecondTestEntityTwoRelationshipsManyToManyToTest
 		}
 
 		var relatedEntities = new List<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany>();
-		foreach(var keyDto in request.RelatedEntityKeyDto)
+		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
 			var relatedEntity = await GetTestEntityTwoRelationshipsManyToMany(keyDto);
 			if (relatedEntity == null)

@@ -60,7 +60,7 @@ internal partial class CreateRefVendingMachineToCashStockOrdersCommandHandler
 
 #region UpdateRefTo
 
-public partial record UpdateRefVendingMachineToCashStockOrdersCommand(VendingMachineKeyDto EntityKeyDto, List<CashStockOrderKeyDto> RelatedEntityKeyDto)
+public partial record UpdateRefVendingMachineToCashStockOrdersCommand(VendingMachineKeyDto EntityKeyDto, List<CashStockOrderKeyDto> RelatedEntitiesKeysDtos)
 	: RefVendingMachineToCashStockOrdersCommand(EntityKeyDto);
 
 internal partial class UpdateRefVendingMachineToCashStockOrdersCommandHandler
@@ -82,7 +82,7 @@ internal partial class UpdateRefVendingMachineToCashStockOrdersCommandHandler
 		}
 
 		var relatedEntities = new List<Cryptocash.Domain.CashStockOrder>();
-		foreach(var keyDto in request.RelatedEntityKeyDto)
+		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
 			var relatedEntity = await GetCashStockOrder(keyDto);
 			if (relatedEntity == null)

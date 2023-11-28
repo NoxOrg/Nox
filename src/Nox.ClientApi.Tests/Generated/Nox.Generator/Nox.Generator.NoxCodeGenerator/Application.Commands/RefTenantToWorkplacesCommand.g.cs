@@ -60,7 +60,7 @@ internal partial class CreateRefTenantToWorkplacesCommandHandler
 
 #region UpdateRefTo
 
-public partial record UpdateRefTenantToWorkplacesCommand(TenantKeyDto EntityKeyDto, List<WorkplaceKeyDto> RelatedEntityKeyDto)
+public partial record UpdateRefTenantToWorkplacesCommand(TenantKeyDto EntityKeyDto, List<WorkplaceKeyDto> RelatedEntitiesKeysDtos)
 	: RefTenantToWorkplacesCommand(EntityKeyDto);
 
 internal partial class UpdateRefTenantToWorkplacesCommandHandler
@@ -82,7 +82,7 @@ internal partial class UpdateRefTenantToWorkplacesCommandHandler
 		}
 
 		var relatedEntities = new List<ClientApi.Domain.Workplace>();
-		foreach(var keyDto in request.RelatedEntityKeyDto)
+		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
 			var relatedEntity = await GetWorkplace(keyDto);
 			if (relatedEntity == null)

@@ -60,7 +60,7 @@ internal partial class CreateRefCountryToCustomersCommandHandler
 
 #region UpdateRefTo
 
-public partial record UpdateRefCountryToCustomersCommand(CountryKeyDto EntityKeyDto, List<CustomerKeyDto> RelatedEntityKeyDto)
+public partial record UpdateRefCountryToCustomersCommand(CountryKeyDto EntityKeyDto, List<CustomerKeyDto> RelatedEntitiesKeysDtos)
 	: RefCountryToCustomersCommand(EntityKeyDto);
 
 internal partial class UpdateRefCountryToCustomersCommandHandler
@@ -82,7 +82,7 @@ internal partial class UpdateRefCountryToCustomersCommandHandler
 		}
 
 		var relatedEntities = new List<Cryptocash.Domain.Customer>();
-		foreach(var keyDto in request.RelatedEntityKeyDto)
+		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
 			var relatedEntity = await GetCustomer(keyDto);
 			if (relatedEntity == null)

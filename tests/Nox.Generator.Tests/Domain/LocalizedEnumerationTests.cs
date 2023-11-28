@@ -23,7 +23,7 @@ public class LocalizedEnumerationTests
 
         GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileCount(84, filesShouldExist)
+            .AssertFileCount(83, filesShouldExist)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
             .AssertFileExistsAndContent("Presentation.Api.OData.CountriesController.Enumerations.Expected.g.cs", "Presentation.Api.OData.CountriesController.Enumerations.g.cs")

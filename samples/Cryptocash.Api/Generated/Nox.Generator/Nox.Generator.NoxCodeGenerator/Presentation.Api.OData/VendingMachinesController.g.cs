@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -206,8 +207,8 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var relatedKeyDto = referencesDto.References.Select(x => new BookingKeyDto(x)).ToList();
-        var updatedRef = await _mediator.Send(new UpdateRefVendingMachineToBookingsCommand(new VendingMachineKeyDto(key), relatedKeyDto));
+        var relatedKeysDto = referencesDto.References.Select(x => new BookingKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefVendingMachineToBookingsCommand(new VendingMachineKeyDto(key), relatedKeysDto));
         if (!updatedRef)
         {
             return NotFound();
@@ -396,8 +397,8 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var relatedKeyDto = referencesDto.References.Select(x => new CashStockOrderKeyDto(x)).ToList();
-        var updatedRef = await _mediator.Send(new UpdateRefVendingMachineToCashStockOrdersCommand(new VendingMachineKeyDto(key), relatedKeyDto));
+        var relatedKeysDto = referencesDto.References.Select(x => new CashStockOrderKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefVendingMachineToCashStockOrdersCommand(new VendingMachineKeyDto(key), relatedKeysDto));
         if (!updatedRef)
         {
             return NotFound();
@@ -586,8 +587,8 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var relatedKeyDto = referencesDto.References.Select(x => new MinimumCashStockKeyDto(x)).ToList();
-        var updatedRef = await _mediator.Send(new UpdateRefVendingMachineToMinimumCashStocksCommand(new VendingMachineKeyDto(key), relatedKeyDto));
+        var relatedKeysDto = referencesDto.References.Select(x => new MinimumCashStockKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefVendingMachineToMinimumCashStocksCommand(new VendingMachineKeyDto(key), relatedKeysDto));
         if (!updatedRef)
         {
             return NotFound();

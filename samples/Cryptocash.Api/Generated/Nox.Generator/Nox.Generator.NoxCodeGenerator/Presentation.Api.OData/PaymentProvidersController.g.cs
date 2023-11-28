@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -52,8 +53,8 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var relatedKeyDto = referencesDto.References.Select(x => new PaymentDetailKeyDto(x)).ToList();
-        var updatedRef = await _mediator.Send(new UpdateRefPaymentProviderToPaymentDetailsCommand(new PaymentProviderKeyDto(key), relatedKeyDto));
+        var relatedKeysDto = referencesDto.References.Select(x => new PaymentDetailKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefPaymentProviderToPaymentDetailsCommand(new PaymentProviderKeyDto(key), relatedKeysDto));
         if (!updatedRef)
         {
             return NotFound();

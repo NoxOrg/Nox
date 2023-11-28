@@ -8,6 +8,7 @@ using Xunit.Abstractions;
 using ClientApi.Tests.Controllers;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Humanizer;
+using Nox.Application.Dto;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
