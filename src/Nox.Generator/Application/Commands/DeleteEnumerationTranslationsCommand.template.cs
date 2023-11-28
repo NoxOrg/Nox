@@ -3,6 +3,7 @@
 #nullable enable
 
 using MediatR;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Application.Exceptions;
@@ -44,11 +45,6 @@ internal abstract class {{deleteCommand}}HandlerBase : CommandBase<{{deleteComma
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
 
-		if(NoxSolution.Application?.Localization?.DefaultCulture == command.CultureCode.Value)
-		{
-			throw new DefaultCultureCodeDeletionException($"Default culture code {command.CultureCode.Value} cannot be deleted.");
-		}
-		
 		var localizedEnums = await DbContext.{{entity.PluralName}}{{Pluralize (enumAtt.Attribute.Name)}}Localized.Where(x => x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
 		
 		if(localizedEnums == null || localizedEnums.Count == 0)
@@ -65,4 +61,20 @@ internal abstract class {{deleteCommand}}HandlerBase : CommandBase<{{deleteComma
 	}
 }
 
+public class {{deleteCommand}}Validator : AbstractValidator<{{deleteCommand}}>
+{
+	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("{{codeGeneratorState.Solution.Application.Localization.DefaultCulture}}");
+
+    public {{deleteCommand}}Validator()
+    {
+		RuleFor(x => x.{{codeGeneratorState.LocalizationCultureField}})
+			.NotNull().NotEmpty()
+			.WithMessage($"{%{{}%}nameof({{deleteCommand}}){%{}}%} : {%{{}%}nameof({{deleteCommand}}.{{codeGeneratorState.LocalizationCultureField}}){%{}}%} is required."); 
+		
+		RuleFor(x => x.{{codeGeneratorState.LocalizationCultureField}})
+			.Must(x => x != _defaultCultureCode)
+			.WithMessage($"{%{{}%}nameof({{deleteCommand}}){%{}}%} : {%{{}%}nameof({{deleteCommand}}.{{codeGeneratorState.LocalizationCultureField}}){%{}}%} cannot be the default culture code: {_defaultCultureCode.Value}.");
+			
+    }
+}	
 {{- end}}

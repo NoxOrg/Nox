@@ -4,7 +4,6 @@ using FluentAssertions;
 using MassTransit.Testing;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using MediatR;
 using Xunit.Abstractions;
 
 namespace ClientApi.Tests;
@@ -31,8 +30,6 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
     protected ITestHarness MassTransitTestHarness => _appFactory.GetTestHarness();
 
-    protected IMediator Mediator => _appFactory.Services.CreateScope().ServiceProvider.GetService<IMediator>()!;
-    
     /// <summary>
     ///  Get collection result from Odata End Point
     /// </summary>

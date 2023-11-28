@@ -3,7 +3,9 @@
 #nullable enable
 
 using MediatR;
+using FluentValidation;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Application.Exceptions;
@@ -35,6 +37,7 @@ internal partial class {{upsertCommand}}Handler : {{upsertCommand}}HandlerBase
 internal abstract class {{upsertCommand}}HandlerBase : CommandBase<{{upsertCommand}}, {{enumEntity}}>, IRequestHandler<{{upsertCommand}}, IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>>
 {
 	public AppDbContext DbContext { get; }
+	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("{{codeGeneratorState.Solution.Application.Localization.DefaultCulture}}");
 
 	public {{upsertCommand}}HandlerBase(
         AppDbContext dbContext,
@@ -51,66 +54,56 @@ internal abstract class {{upsertCommand}}HandlerBase : CommandBase<{{upsertComma
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
 		
-		if(command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s == null || command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Count() == 0)
-		{
-			throw new ArgumentNullException($"No {nameof(command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s)} found.");
-		}
+		var cultureCodes = command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.DistinctBy(d=>d.CultureCode).Select(d=>CultureCode.From(d.CultureCode)).ToList();
 		
-		var cultureCode = command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.First().CultureCode;
-		var supportedCultureCodes = NoxSolution.Application?.Localization?.SupportedCultures?.ToHashSet();
-		var cultureCodeValue = Nox.Types.CultureCode.From(cultureCode);
+		var localizedEntities = await DbContext.{{contextProperty}}Localized.Where(x => cultureCodes.Contains(x.CultureCode)).AsNoTracking().ToListAsync(cancellationToken);
 		
-		if (supportedCultureCodes == null || !supportedCultureCodes.Contains(cultureCode))
-		{
-			throw new CultureCodeNotSupportedException($"Culture code {cultureCode} not supported.");
-		}
+		var entities = new List<{{enumEntity}}>();
 		
-		if (!command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.All(x => x.CultureCode == cultureCode))
+		command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Where(dto=> !localizedEntities.Any(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode))).ForEach(dto =>
 		{
-			throw new CultureCodeMismatchException($"Culture code {cultureCode} does not match.");
-		}
+			var e = new {{enumEntity}} {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
+			DbContext.Entry(e).State = EntityState.Added;
+			entities.Add(e);
+		});
 		
-		var ids = command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Select(dto=> dto.Id).ToList();
-		var query =
-			from Enum in DbContext.{{contextProperty}}
-			join localized in DbContext.{{contextProperty}}Localized
-				on  new {Id = Enum.Id, Culture = cultureCodeValue}  equals new  {Id = localized.Id, Culture = localized.CultureCode} into localizedEnumsJoin
-			from LocalizedEnum in localizedEnumsJoin.DefaultIfEmpty()
-			select new { Enum.Id, LocalizedId = LocalizedEnum.Id };
+		command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Where(dto=> localizedEntities.Any(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode))).ForEach(dto =>
+		{
+			var e = new {{enumEntity}} {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
+			DbContext.Entry(e).State = EntityState.Modified;
+			entities.Add(e);
+		});
 		
+		command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Where(dto=>dto.CultureCode == _defaultCultureCode.Value).ForEach(dto =>
+		{
+			var e = new {{enumAtt.EntityNameForEnumeration}} { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
+			DbContext.Entry(e).State = EntityState.Modified;
+		});
 		
-		var queryResult = await query.AsNoTracking().ToListAsync(cancellationToken);
-			
-		if(!(queryResult.Count == ids.Count && queryResult.All(x=> ids.Contains(x.Id.Value))))
-		{
-			throw new InvalidEnumIdsException($"Provided ids are invalid for {nameof(DbContext.{{contextProperty}})}.");
-		}
-		
-		var localizedEntities = 
-			command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Select(dto => new {{enumAtt.EntityNameForLocalizedEnumeration}} {Id = Enumeration.FromDatabase(dto.Id), CultureCode = cultureCodeValue, Name = dto.Name}).ToList();
-
-		if (queryResult.First().LocalizedId == null)
-		{
-			DbContext.{{contextProperty}}Localized.AddRange(localizedEntities);
-		}
-		else
-		{
-			localizedEntities.ForEach(e=> DbContext.Entry(e).State = EntityState.Modified);
-		}
-
-		if (NoxSolution.Application?.Localization?.DefaultCulture == cultureCode)
-		{
-			command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.ForEach(dto =>
-			{
-				var e = new {{enumAtt.EntityNameForEnumeration}} { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
-				DbContext.Entry(e).State = EntityState.Modified;
-			});
-		}
 
 		await OnBatchCompletedAsync(command, localizedEntities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s;
 	}
 }
-
+public class {{upsertCommand}}Validator : AbstractValidator<{{upsertCommand}}>
+{
+	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("{{codeGeneratorState.Solution.Application.Localization.DefaultCulture}}");
+	private static readonly string[] _supportedCultureCodes = new string[]
+	{
+		{{- for cultureCode in codeGeneratorState.Solution.Application.Localization.SupportedCultures }}
+		"{{cultureCode}}",
+		{{- end}}
+	};
+    public {{upsertCommand}}Validator(NoxSolution noxSolution)
+    {
+		RuleFor(x => x.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s)
+			.Must(x => x != null && x.Count() > 0)
+			.WithMessage($"{%{{}%}nameof({{upsertCommand}}){%{}}%} : {%{{}%}nameof({{upsertCommand}}.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s){%{}}%} is required.");
+		
+		RuleForEach(x => x.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s)
+			.Must(x => _supportedCultureCodes.Contains(x.CultureCode))
+			.WithMessage((_,x) => $"{%{{}%}nameof({{upsertCommand}}){%{}}%} : {%{{}%}nameof({{upsertCommand}}.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s){%{}}%} contains unsupported culture code: {x.CultureCode}.");
+    }
+}
 {{- end}}
