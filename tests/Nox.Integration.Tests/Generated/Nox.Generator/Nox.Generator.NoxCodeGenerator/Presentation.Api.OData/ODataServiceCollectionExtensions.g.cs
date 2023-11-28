@@ -310,7 +310,11 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntitySet<TestEntityForAutoNumberUsagesDto>("TestEntityForAutoNumberUsages");
 		builder.EntityType<TestEntityForAutoNumberUsagesDto>().HasKey(e => new { e.Id });
-        builder.ComplexType<TestEntityForAutoNumberUsagesUpdateDto>(); 
+        builder.ComplexType<TestEntityForAutoNumberUsagesUpdateDto>();
+
+        builder.EntitySet<ForReferenceNumberDto>("ForReferenceNumbers");
+		builder.EntityType<ForReferenceNumberDto>().HasKey(e => new { e.Id });
+        builder.ComplexType<ForReferenceNumberUpdateDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<TestEntityForTypesDto>()
                             .Collection

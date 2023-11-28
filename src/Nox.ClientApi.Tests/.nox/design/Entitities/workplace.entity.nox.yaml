@@ -25,6 +25,16 @@ attributes:
       maxLength: 63
     isRequired: true
 
+  - name: ReferenceNumber
+    description: Workplace Code
+    type: referenceNumber
+    referenceNumberTypeOptions:
+      startsAt: 10
+      incrementsBy: 5
+      prefix: "WP-"
+      suffixCheckSumDigit: true
+    isRequired: false
+
   - name: Description
     description: Workplace Description
     type: text

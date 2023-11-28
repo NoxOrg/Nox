@@ -47,7 +47,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             IUserProvider userProvider,
             ISystemProvider systemProvider,
             NoxCodeGenConventions codeGeneratorState
-        ) : base(publisher, userProvider, systemProvider, options)
+        ) : base(publisher, userProvider, systemProvider, databaseProvider, options)
         {
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
