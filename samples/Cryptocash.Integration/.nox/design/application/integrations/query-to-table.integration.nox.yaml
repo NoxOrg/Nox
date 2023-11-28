@@ -41,4 +41,10 @@ target:
   targetAdapterType: databaseTable
   tableOptions:
     tableName: Countries
+    watermark:
+      sequentialKeyColumns: 
+        - Id
+      dateColumns: 
+        - CreateDate
+        - EditDate
 

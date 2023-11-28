@@ -89,7 +89,7 @@
           "properties": {
             "dateColumns": {    
               "title": "Column(s) in datetime format used for watermark purpose.",
-              "description": "List datetime columns to be compared to target data to indicate if data has changed.",
+              "description": "List of datetime columns to be compared to target data to indicate if data has changed. These columns will also be used to filter data on the source.",
               "oneOf": [
                 {
                   "type": "array"

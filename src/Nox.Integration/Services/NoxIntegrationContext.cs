@@ -52,5 +52,18 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
     {
         _integrations[instance.Name] = instance;
     }
+    
+    public void ExecuteStartupIntegrations()
+    {
+        var startupIntegrations = _integrations.Where(i => i.Value.Schedule is { RunOnStartup: true });
+        foreach (var integration in startupIntegrations)
+        {
+            Task.Run(async () => await ExecuteIntegrationAsync(integration.Key)).ContinueWith((t) =>
+            {
+                if (t.IsFaulted) _logger.LogError(t.Exception, $"Error executing {integration.Key} integration at startup.");
+                if (t.IsCompletedSuccessfully) _logger.LogInformation($"Successfully executed {integration.Key} integration at startup.");
+            });
+        }
+    }
 }
 

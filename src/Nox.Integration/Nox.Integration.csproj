@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
@@ -40,7 +40,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
       <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
+      <ProjectReference Include="..\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
     </ItemGroup>
     
 </Project>
