@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Nox.Integration.Abstractions;
 
 internal interface INoxIntegrationContext

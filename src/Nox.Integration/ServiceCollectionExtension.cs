@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Nox.Integration.Abstractions;
@@ -19,6 +20,12 @@ public static class ServiceCollectionExtension
     public static IServiceCollection RegisterTransformHandler(this IServiceCollection services, Type handlerType)
     {
         services.AddTransient(typeof(INoxCustomTransformHandler), handlerType);
+        return services;
+    }
+    
+    public static IServiceCollection RegisterTransformHandler<THandler>(this IServiceCollection services) where THandler: INoxCustomTransformHandler
+    {
+        services.AddTransient(typeof(INoxCustomTransformHandler), typeof(THandler));
         return services;
     }
 }

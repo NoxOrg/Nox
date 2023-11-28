@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 using Nox.Integration.Abstractions;
@@ -24,8 +29,8 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
         foreach (var integrationDefinition in _solution.Application!.Integrations!)
         {
             var instance = new NoxIntegration(_logger, integrationDefinition);
-            instance.WithReceiveAdapter(integrationDefinition.Source, _solution.Infrastructure?.Dependencies?.DataConnections);
-            instance.WithSendAdapter(integrationDefinition.Target, _solution.Infrastructure?.Dependencies?.DataConnections);
+            instance.WithReceiveAdapter(integrationDefinition.Source, _solution.DataConnections);
+            instance.WithSendAdapter(integrationDefinition.Target, _solution.DataConnections);
             _integrations[instance.Name] = instance;
         }
     }
@@ -34,12 +39,18 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
     {
         try
         {
-            var result = await _integrations[name].ExecuteAsync(_handlers?[name]);
+            INoxCustomTransformHandler? handler = null;
+            if (_handlers != null && _handlers.TryGetValue(name, out var foundHandler))
+            {
+                handler = foundHandler;
+            }
+            
+            var result = await _integrations[name].ExecuteAsync(handler);
             return result;
         }
         catch (Exception ex)
         {
-            throw new NoxIntegrationException($"Integration {name} does not exist in the Integration Context: {ex.Message}");
+            throw new NoxIntegrationException($"Failed to execute integration: {name}. {ex.Message}");
         }
     }
 
@@ -53,7 +64,11 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
         var startupIntegrations = _integrations.Where(i => i.Value.Schedule is { RunOnStartup: true });
         foreach (var integration in startupIntegrations)
         {
-            ExecuteIntegrationAsync(integration.Key).ConfigureAwait(false);
+            Task.Run(async () => await ExecuteIntegrationAsync(integration.Key)).ContinueWith((t) =>
+            {
+                if (t.IsFaulted) _logger.LogError(t.Exception, $"Error executing integration: {integration.Key} at startup.");
+                if (t.IsCompletedSuccessfully) _logger.LogInformation($"Successfully executed integration: {integration.Key} at startup.");
+            });
         }
     }
 }

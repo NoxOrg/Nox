@@ -1,10 +1,10 @@
 #
-# sql-country-source.dataConnection.nox.yaml
+# country-source-data.dataConnection.nox.yaml
 #
 # yaml-language-server: $schema=../../../../../../schemas/dataConnection.json
 #
 
-name: SqlCountrySource
+name: CountrySource
 provider: sqlServer
 options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;encrypt=false
 serverUri: localhost

@@ -4,7 +4,7 @@
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Integration.CustomTransformHandlers;
 
-internal abstract class {{className}}
+public abstract class {{className}}
 {
     public string IntegrationName => "{{integration.Name}}";
 }

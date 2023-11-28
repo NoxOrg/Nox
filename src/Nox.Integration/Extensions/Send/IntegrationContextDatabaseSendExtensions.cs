@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Data.SqlClient;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Adapters;

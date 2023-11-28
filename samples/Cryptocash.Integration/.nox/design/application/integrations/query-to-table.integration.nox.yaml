@@ -17,18 +17,25 @@ schedule:
 source:
   name: SampleSource
   description: Curated dataset of country information.
-  dataConnectionName: SqlCountrySource
-
+  dataConnectionName: CountrySource
+  watermark:
+    sequentialKeyColumns:
+      - Id
+    dateColumns: 
+      - CreateDate
+      - EditDate
+  
+  
   sourceAdapterType: databaseQuery
   
   queryOptions:
-    query: SELECT * FROM dbo.Countries
+    query: SELECT CountryId, Name, Population, CreateDate, EditDate FROM dbo.CountryMaster
     minimumExpectedRecords: 10
 
 transformationType: customTransform
 
 target:
-  name: CountryTable
+  name: SampleTarget
   description: The country table of the Cryptocash database
   dataConnectionName: CryptocashEtlDb
   targetAdapterType: databaseTable

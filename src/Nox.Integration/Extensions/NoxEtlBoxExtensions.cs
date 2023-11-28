@@ -1,4 +1,5 @@
-﻿using ETLBoxOffice.LicenseManager;
+﻿using System;
+using ETLBoxOffice.LicenseManager;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Services;

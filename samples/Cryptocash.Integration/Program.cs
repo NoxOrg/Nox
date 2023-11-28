@@ -1,4 +1,6 @@
+using Cryptocash.Integration.Integrations.SampleQueryToTableSync;
 using Nox;
+using Nox.Integration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.AddNox();
+//You have to register all your integration custom transformation handlers.
+builder.Services.RegisterTransformHandler<SampleQueryToTableSyncTransformHandler>();
 
 //builder.AddNox((noxOptions) => noxOptions.WithoutNoxLogging());
 
