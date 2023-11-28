@@ -48,6 +48,7 @@ internal partial class DeleteBankNotesForCurrencyCommandHandlerBase : CommandBas
 		{
 			return false;
 		}
+		await DbContext.Entry(parentEntity).Collection(p => p.BankNotes).LoadAsync(cancellationToken);
 		var ownedId = Cryptocash.Domain.BankNoteMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
@@ -56,7 +57,6 @@ internal partial class DeleteBankNotesForCurrencyCommandHandlerBase : CommandBas
 		}
 		parentEntity.BankNotes.Remove(entity);
 		await OnCompletedAsync(request, entity);
-
 		DbContext.Entry(entity).State = EntityState.Deleted;
 
 		var result = await DbContext.SaveChangesAsync(cancellationToken);

@@ -29,7 +29,7 @@ public abstract class CountryTimeZoneUpsertDtoBase: EntityDtoBase, IEntityDto<Do
     /// <summary>
     /// Country's time zone unique identifier
     /// </summary>
-    public System.Int64? Id { get; set; }
+    public virtual System.Int64? Id { get; set; }
 
     /// <summary>
     /// Country's related time zone code     

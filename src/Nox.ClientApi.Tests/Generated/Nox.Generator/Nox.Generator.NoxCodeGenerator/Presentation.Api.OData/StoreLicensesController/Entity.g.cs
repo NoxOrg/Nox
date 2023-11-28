@@ -61,7 +61,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<StoreLicenseDto>> Get([FromRoute] System.Int64 key)
+    public virtual async Task<SingleResult<StoreLicenseDto>> Get([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new GetStoreLicenseByIdQuery(key));
         return SingleResult.Create(result);

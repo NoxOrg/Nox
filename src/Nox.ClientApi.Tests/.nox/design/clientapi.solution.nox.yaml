@@ -65,7 +65,7 @@ infrastructure:
     databaseServer: # tests will override this configuration
       name: ClientApi
       provider: sqlServer
-      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
       serverUri: localhost
       user: sa
       password: Developer*123

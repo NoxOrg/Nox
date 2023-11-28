@@ -291,7 +291,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
-            var headers = CreateEtagHeader(result?.Etag);
+            var headers = CreateEtagHeader(result!.Etag);
 
             //Act
             var ownedResult = await PostAsync<CountryLocalNameUpsertDto, CountryLocalNameDto>($"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(createDto.CountryLocalNames)}", localNameDto, headers);
@@ -300,6 +300,31 @@ namespace ClientApi.Tests.Tests.Controllers
             ownedResult.Should().NotBeNull();
             ownedResult!.Id.Should().BeGreaterThan(0);
             ownedResult!.Name.Should().Be(expectedLocalName);
+        }
+
+        [Fact]
+        public async Task PostToCountryLocalNames_WithId_ShouldFail()
+        {
+            // Arrange
+            var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+                new CountryCreateDto
+                {
+                    Name = _fixture.Create<string>(),
+                    Population = 44000000
+                });
+            var headers = CreateEtagHeader(result!.Etag);
+
+            //Act
+            var ownedResult = await PostAsync($"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(CountryDto.CountryLocalNames)}",
+                new CountryLocalNameUpsertDto
+                {
+                    Id = 1,
+                    Name = _fixture.Create<string>()
+                },
+                headers);
+
+            //Assert
+            ownedResult.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         #endregion POST to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
@@ -324,7 +349,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
-            var headers = CreateEtagHeader(result?.Etag);
+            var headers = CreateEtagHeader(result!.Etag);
 
             //Act
             var ownedResult = await PostAsync<CountryBarCodeUpsertDto, CountryBarCodeDto>($"{Endpoints.CountriesUrl}/{result!.Id}/CountryBarCode", barCodeDto, headers);
@@ -343,7 +368,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region PUT
 
-        #region PUT to Owned Entities /api/{EntityPluralName}/{key}/{OwnedEntityPluralName}/{relatedKey} => api/countries/1/CountryLocalNames/1
+        #region PUT to Owned Entities /api/{EntityPluralName}/{key}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
 
         [Fact]
         public async Task PutToCountryLocalNames_ShouldUpdateCountryLocalName()
@@ -358,11 +383,12 @@ namespace ClientApi.Tests.Tests.Controllers
             // Act
             var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
             var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
-            var headers = CreateEtagHeader(getCountryResponse?.Etag);
+            var headers = CreateEtagHeader(getCountryResponse!.Etag);
             var ownedResult = await PutAsync<CountryLocalNameUpsertDto, CountryLocalNameDto>(
-                $"{Endpoints.CountriesUrl}/{getCountryResponse!.Id}/{nameof(dto.CountryLocalNames)}/{getCountryResponse!.CountryLocalNames[0].Id}",
+                $"{Endpoints.CountriesUrl}/{getCountryResponse!.Id}/{nameof(dto.CountryLocalNames)}",
                 new CountryLocalNameUpsertDto
                 {
+                    Id = getCountryResponse!.CountryLocalNames[0].Id,
                     Name = expectedOwnedName
                 }, headers);
 
@@ -370,6 +396,31 @@ namespace ClientApi.Tests.Tests.Controllers
             ownedResult.Should().NotBeNull();
             ownedResult!.Id.Should().Be(getCountryResponse!.CountryLocalNames[0].Id);
             ownedResult!.Name.Should().Be(expectedOwnedName);
+        }
+
+        [Fact]
+        public async Task PutToCountryLocalNames_WithoutId_ShouldFail()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>() { new CountryLocalNameUpsertDto() { Name = _fixture.Create<string>() } }
+            };
+            var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
+            // Act
+            var headers = CreateEtagHeader(postCountryResponse!.Etag);
+            var ownedResult = await PutAsync(
+                $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}/{nameof(dto.CountryLocalNames)}",
+                new CountryLocalNameUpsertDto
+                {
+                    Name = _fixture.Create<string>()
+                }, 
+                headers,
+                throwOnError: false);
+
+            //Assert
+            ownedResult!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         #endregion PUT to Owned Entities /api/{EntityPluralName}/{key}/{OwnedEntityPluralName}/{relatedKey} => api/countries/1/CountryLocalNames/1
@@ -388,7 +439,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
             // Act
             var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
-            var headers = CreateEtagHeader(postCountryResponse?.Etag);
+            var headers = CreateEtagHeader(postCountryResponse!.Etag);
             var putToCountryBarCodeResponse = await PutAsync<CountryBarCodeUpsertDto, CountryBarCodeDto>(
                 $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}/CountryBarCode",
                 new CountryBarCodeUpsertDto
@@ -413,7 +464,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region PATCH
 
-        #region PATCH to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
+        #region PATCH to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
 
         [Fact]
         public async Task PatchToCountryLocalNames_ShouldUpdateCountryLocalName()
@@ -424,20 +475,28 @@ namespace ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                CountryLocalNames = new List<CountryLocalNameUpsertDto>() { new CountryLocalNameUpsertDto() {
-                    Name = _fixture.Create<string>(),
-                    NativeName = expectedOwnedNativeName
-                } }
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>() 
+                {
+                    new CountryLocalNameUpsertDto() 
+                    {
+                        Name = _fixture.Create<string>(),
+                        NativeName = expectedOwnedNativeName
+                    }
+                }
             };
-            var dictionary = new Dictionary<string, object>();
-            dictionary.Add("Name", expectedOwnedName);
-
-            // Act
             var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
             var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
-            var headers = CreateEtagHeader(getCountryResponse?.Etag);
+
+            var dictionary = new Dictionary<string, object>
+            {
+                { "Id", getCountryResponse!.CountryLocalNames[0].Id },
+                { "Name", expectedOwnedName }
+            };
+
+            // Act
+            var headers = CreateEtagHeader(getCountryResponse!.Etag);
             var ownedResult = await PatchAsync<Dictionary<string, object>, CountryLocalNameDto>(
-                $"{Endpoints.CountriesUrl}/{getCountryResponse!.Id}/{nameof(dto.CountryLocalNames)}/{getCountryResponse!.CountryLocalNames[0].Id}",
+                $"{Endpoints.CountriesUrl}/{getCountryResponse!.Id}/{nameof(dto.CountryLocalNames)}",
                 dictionary,
                 headers);
 
@@ -448,7 +507,42 @@ namespace ClientApi.Tests.Tests.Controllers
             ownedResult!.NativeName.Should().Be(expectedOwnedNativeName);
         }
 
-        #endregion PATCH to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
+        [Fact]
+        public async Task PatchToCountryLocalNames_WithoutId_ShouldFail()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>()
+                {
+                    new CountryLocalNameUpsertDto()
+                    {
+                        Name = _fixture.Create<string>(),
+                        NativeName = _fixture.Create<string>()
+                    }
+                }
+            };
+            var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
+            var dictionary = new Dictionary<string, object>
+            {
+                { "Name", _fixture.Create<string>() }
+            };
+
+            // Act
+            var headers = CreateEtagHeader(postCountryResponse!.Etag);
+            var ownedResult = await PatchAsync(
+                $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}/{nameof(dto.CountryLocalNames)}",
+                dictionary,
+                headers,
+                throwOnError: false);
+
+            //Assert
+            ownedResult.Should().NotBeNull();
+            ownedResult!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        #endregion PATCH to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
 
         #region PATCH to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryLocalNames
 
@@ -472,7 +566,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
-            var headers = CreateEtagHeader(postCountryResponse?.Etag);
+            var headers = CreateEtagHeader(postCountryResponse!.Etag);
             var ownedResult = await PatchAsync<Dictionary<string, object>, CountryBarCodeDto>(
                 $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}/CountryBarCode",
                 dictionary,
@@ -607,7 +701,7 @@ namespace ClientApi.Tests.Tests.Controllers
             // Arrange
             var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, 
                 new CountryCreateDto { Name = _fixture.Create<string>() });
-            var headers = CreateEtagHeader(countryResponse?.Etag);
+            var headers = CreateEtagHeader(countryResponse!.Etag);
             var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}",
                 new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
@@ -663,7 +757,7 @@ namespace ClientApi.Tests.Tests.Controllers
             // Arrange
             var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, 
                 new CountryCreateDto { Name = _fixture.Create<string>() });
-            var headers = CreateEtagHeader(countryResponse?.Etag);
+            var headers = CreateEtagHeader(countryResponse!.Etag);
             var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}",
                 new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
@@ -852,7 +946,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryCreateDto);
 
             // Act
-            var headers = CreateEtagHeader(countryResponse?.Etag);
+            var headers = CreateEtagHeader(countryResponse!.Etag);
             var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}",
                 new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
@@ -975,7 +1069,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}",
                 new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
 
-            var headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
+            var headers = CreateEtagHeader(postToWorkplaceResponse!.Etag);
             var deleteWorkplaceResponse = await DeleteAsync(
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{postToWorkplaceResponse!.Id}",
                 headers);
@@ -1011,7 +1105,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}",
                 new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
 
-            var headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
+            var headers = CreateEtagHeader(postToWorkplaceResponse!.Etag);
             var deleteWorkplaceResponse = await DeleteAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}", headers);
 
             const string oDataRequest = $"$expand={nameof(CountryDto.Workplaces)}";
@@ -1048,7 +1142,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryCreateDto);
             var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplaceCreateDto);
 
-            var headers = CreateEtagHeader(countryResponse?.Etag);
+            var headers = CreateEtagHeader(countryResponse!.Etag);
             var updateCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}",
                 new CountryUpdateDto
                 {
@@ -1171,7 +1265,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var expectedDescription = _fixture.Create<string>();
 
             // Act
-            var headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
+            var headers = CreateEtagHeader(postToWorkplaceResponse!.Etag);
             var putToWorkplaceResponse = await PutAsync<WorkplaceUpdateDto>(
                 $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{postToWorkplaceResponse!.Id}",
                 new WorkplaceUpdateDto() { 
@@ -1306,7 +1400,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var postResult = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
-            var headers = CreateEtagHeader(postResult?.Etag);
+            var headers = CreateEtagHeader(postResult!.Etag);
             var putResult = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
@@ -1330,7 +1424,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var postResult = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
-            var headers = CreateEtagHeader(postResult?.Etag);
+            var headers = CreateEtagHeader(postResult!.Etag);
 
             var putResult = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{postResult!.Id}", updateDto, headers);
 
@@ -1354,7 +1448,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
             // Act
             var postResult = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
-            var headers = CreateEtagHeader(postResult?.Etag);
+            var headers = CreateEtagHeader(postResult!.Etag);
             var putResult = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
@@ -1519,7 +1613,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
-            var headers = CreateEtagHeader(result?.Etag);
+            var headers = CreateEtagHeader(result!.Etag);
 
             await DeleteAsync($"{Endpoints.CountriesUrl}/{result!.Id}", headers);
 
@@ -1568,7 +1662,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var postResult = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
-            var headers = CreateEtagHeader(postResult?.Etag);
+            var headers = CreateEtagHeader(postResult!.Etag);
             var putResult = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{postResult!.Id}", updateDto, headers);
 
             // Assert
@@ -1614,7 +1708,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
-            var headers = CreateEtagHeader(result?.Etag);
+            var headers = CreateEtagHeader(result!.Etag);
 
             var country = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{result!.Id}");
 
@@ -1713,7 +1807,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var countryCreatedResult = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
 
             // Act
-            var headers = CreateEtagHeader(countryCreatedResult?.Etag);
+            var headers = CreateEtagHeader(countryCreatedResult!.Etag);
             var countryShortName = new CountryLocalNameUpsertDto() { Name = "ShortName" };
             var countryShortNameResult = await PostAsync($"{Endpoints.CountriesUrl}/{countryCreatedResult!.Id}/{nameof(createDto.CountryLocalNames)}", countryShortName, headers);
 

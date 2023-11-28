@@ -34,7 +34,8 @@ internal abstract class GetEmployeesQueryHandlerBase : QueryBase<IQueryable<Empl
     public virtual Task<IQueryable<EmployeeDto>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<EmployeeDto>)DataDbContext.Employees
-            .AsNoTracking();
+            .AsNoTracking()
+            .Include(e => e.EmployeePhoneNumbers);
        return Task.FromResult(OnResponse(item));
     }
 }

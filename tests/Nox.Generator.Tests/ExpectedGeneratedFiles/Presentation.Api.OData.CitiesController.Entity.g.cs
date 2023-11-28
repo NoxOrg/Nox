@@ -61,7 +61,7 @@ public abstract partial class CitiesControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<CityDto>> Get([FromRoute] System.String key)
+    public virtual async Task<SingleResult<CityDto>> Get([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new GetCityByIdQuery(_cultureCode, key));
         return SingleResult.Create(result);

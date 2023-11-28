@@ -1,5 +1,6 @@
-﻿using Nox.Solution;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nox.Solution;
 
 namespace Nox.Types.EntityFramework.Abstractions;
 
@@ -17,11 +18,16 @@ public interface INoxTypeDatabaseConfigurator
     bool IsDefault { get; }
 
     /// <summary>
-    /// Configure ModelBuilder Property for a Type
+    /// Configure database entity property for <see cref="NoxType"/>
     /// </summary>
 
-    void ConfigureEntityProperty(NoxCodeGenConventions noxSolutionCodeGeneratorState, IEntityBuilder builder,
-        NoxSimpleTypeDefinition property, Entity entity, bool isKey);
+    void ConfigureEntityProperty(
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
+        NoxSimpleTypeDefinition property,
+        Entity entity,
+        bool isKey,
+        ModelBuilder modelBuilder,
+        EntityTypeBuilder entityTypeBuilder);
 
     /// <summary>
     /// Compute the Key Property Name for a Type.

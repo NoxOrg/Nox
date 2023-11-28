@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
@@ -33,16 +33,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="ETLBox" Version="3.0.2" />
-      <PackageReference Include="ETLBox.SqlServer" Version="3.0.2" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.14" />
+      <PackageReference Include="ETLBox" Version="3.1.0" />
+      <PackageReference Include="ETLBox.SqlServer" Version="3.1.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
-      <ProjectReference Include="..\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
     </ItemGroup>
     
 </Project>

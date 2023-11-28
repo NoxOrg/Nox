@@ -61,7 +61,7 @@ public abstract partial class CompoundKeysEntitiesControllerBase : ODataControll
     }
 
     [EnableQuery]
-    public async Task<SingleResult<CompoundKeysEntityDto>> Get([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
+    public virtual async Task<SingleResult<CompoundKeysEntityDto>> Get([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
     {
         var result = await _mediator.Send(new GetCompoundKeysEntityByIdQuery(keyId1, keyId2));
         return SingleResult.Create(result);

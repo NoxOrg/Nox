@@ -35,6 +35,8 @@ internal abstract class GetCurrencyByIdQueryHandlerBase:  QueryBase<IQueryable<C
     {    
         var query = DataDbContext.Currencies
             .AsNoTracking()
+            .Include(e => e.BankNotes)
+            .Include(e => e.ExchangeRates)
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

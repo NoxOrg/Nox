@@ -200,12 +200,28 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         ValidateThatOwnedEntitiesAreNotAuditable(result);
         ValidateThatOwnedEntitiesHaveNoRelationships(result);
         ValidateThatOwnedEntitiesNotLocalized(result);
+        ValidateThatOwnedEntitiesDontHaveAttributeNamesWithOwnerEntityKeyNames(result);
+        ValidateThatAllOwnerEntitiesHaveSimpleKeys(result);
         ValidateThatAllRelatedEntitiesHaveSimpleKeys(result);
         ValidateUniqueAttributeConstraints(result);
+        ValidateThatReferenceNumberPrefix(result);
 
         return result;
     }
 
+    #region Validation Methods
+    private void ValidateThatReferenceNumberPrefix(ValidationResult result)
+    {
+        var attributesWithInvalidOptions = KeysAndAttributes
+            .Where(n => n.Type == NoxType.ReferenceNumber)
+            .Where(n => string.IsNullOrEmpty(n.ReferenceNumberTypeOptions?.Prefix) || n.ReferenceNumberTypeOptions?.Prefix.Length > 10);            
+
+
+        foreach (var invalid in attributesWithInvalidOptions)
+        {
+            result.Errors.Add(new ValidationFailure(invalid.Name, $"ReferenceNumber [{invalid.Name}] on entity [{Name}] Prefix invalid. Prefix is required with a max length of 10."));
+        }
+    }
     private void ValidateThatMemberNamesAreNotDuplicated(ValidationResult result, NoxSolution topNode)
     {
         // Check that all names are unique
@@ -241,9 +257,9 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
 
     private void ValidateThatKeysExistWhenNeeded(ValidationResult result)
     {
-        if(!IsOwnedEntity) 
+        if (!IsOwnedEntity)
         {
-            if (Keys.Count() == 0) 
+            if (Keys.Count() == 0)
                 result.Errors.Add(new ValidationFailure(nameof(Keys), $"Keys are mandatory for entity [{Name}]."));
 
             return;
@@ -252,7 +268,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         // Owned entities
         var ownerRelationships = OwnerEntity!.OwnedRelationships.Where(r => r.Entity.Equals(Name));
 
-        if(ownerRelationships.Count() > 1) 
+        if (ownerRelationships.Count() > 1)
         {
             result.Errors.Add(new ValidationFailure(nameof(Keys), $"Multiple ownerships of entity [{Name}] exists on entity [{OwnerEntity!.Name}]."));
             return;
@@ -273,7 +289,6 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
                 result.Errors.Add(new ValidationFailure(nameof(Keys), $"Keys are invalid for owned entity [{Name}] with ZeroOrOne/ExactlyOne relationship from [{OwnerEntity!.Name}]."));
 
         }
-
     }
 
     private void ValidateThatKeysAreAppropriateType(ValidationResult result)
@@ -337,7 +352,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
 
         var owningEntities = parentNode
             .Entities
-            .SelectMany(e => e.AllRelationships, (e,r) => new { e.Name, r.Entity })
+            .SelectMany(e => e.AllRelationships, (e, r) => new { e.Name, r.Entity })
             .Where(o => o.Entity.Equals(Name))
             .Select(o => o.Name);
 
@@ -361,7 +376,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
     {
         if (!IsOwnedEntity) return;
 
-        if(Relationships.Count() == 0) return;
+        if (Relationships.Count() == 0) return;
 
         result.Errors.Add(
             new ValidationFailure(nameof(Relationships), $"Entity [{Name}] is owned and can't have relationships.")
@@ -380,6 +395,30 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         }
     }
 
+    private void ValidateThatOwnedEntitiesDontHaveAttributeNamesWithOwnerEntityKeyNames(ValidationResult result)
+    {
+        if (!IsOwnedEntity) return;
+        if (OwnerEntity!.OwnedRelationships.All(rel => rel.Entity == Name && rel.WithMultiEntity)) return;
+
+        var ownerEntityKeys = OwnerEntity!.Keys.Select(key => key.Name);
+        var attributeNames = Attributes!.Where(attr => ownerEntityKeys!.Contains(attr.Name)).Select(attr => attr.Name);
+
+        foreach (var attrName in attributeNames)
+        {
+            result.Errors.Add(
+                new ValidationFailure(attrName, $"Attribute [{attrName}] on owned entity [{Name}] has conflicting name with owner entity [{OwnerEntity.Name}] key."));
+        }
+    }
+
+    private void ValidateThatAllOwnerEntitiesHaveSimpleKeys(ValidationResult result)
+    {
+        if(OwnedRelationships.Any() && HasCompositeKey)
+        {
+            result.Errors.Add(
+                new ValidationFailure(Name, $"Entity [{Name}] is an owner entity and can't have composite key.")
+            );
+        }
+    }
 
     private void ValidateThatAllRelatedEntitiesHaveSimpleKeys(ValidationResult result)
     {
@@ -413,9 +452,9 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         // Validate that there are no duplicate unique constraints in entity
         var messages2 = UniqueAttributeConstraints
             .Select(c => new { c.Name, Keys = string.Join(",", c.AttributeNames.Concat(c.RelationshipNames).OrderBy(e => e)) })
-            .GroupBy( o => o.Keys )
-            .Where( g => g.Count() > 1)
-            .Select(g => $"Unique constraints [{string.Join(",", g.Select(g=>g.Name))}] refers to non-unique keys [{g.Key}] on entity [{Name}]");
+            .GroupBy(o => o.Keys)
+            .Where(g => g.Count() > 1)
+            .Select(g => $"Unique constraints [{string.Join(",", g.Select(g => g.Name))}] refers to non-unique keys [{g.Key}] on entity [{Name}]");
 
         foreach (var message in messages2)
         {
@@ -475,6 +514,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
             result.Errors.Add(new ValidationFailure(nameof(Name), message));
         }
     }
+    #endregion
 
     public virtual NoxSimpleTypeDefinition? GetAttributeByName(string entityName)
     {

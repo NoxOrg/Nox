@@ -62,7 +62,7 @@ namespace ClientApi.Tests.Tests.Controllers
             // Arrange
             var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
                 new WorkplaceCreateDto { Name = _fixture.Create<string>() });
-            var headers = CreateEtagHeader(workplaceResponse?.Etag);
+            var headers = CreateEtagHeader(workplaceResponse!.Etag);
             var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(
                 $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
                 new CountryCreateDto() { Name = _fixture.Create<string>() },
@@ -189,7 +189,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 new WorkplaceCreateDto { Name = _fixture.Create<string>() });
 
             // Act
-            var headers = CreateEtagHeader(workplaceResponse?.Etag);
+            var headers = CreateEtagHeader(workplaceResponse!.Etag);
             var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(
                 $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
                 new CountryCreateDto() { Name = _fixture.Create<string>() },
@@ -269,7 +269,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var expectedName = _fixture.Create<string>();
 
             // Act
-            var headers = CreateEtagHeader(postToCountryResponse?.Etag);
+            var headers = CreateEtagHeader(postToCountryResponse!.Etag);
             var putToCountryResponse = await PutAsync<CountryUpdateDto>(
                 $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
                 new CountryUpdateDto()
@@ -377,7 +377,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
                 new CountryCreateDto() { Name = _fixture.Create<string>() });
 
-            var headers = CreateEtagHeader(postToCountryResponse?.Etag);
+            var headers = CreateEtagHeader(postToCountryResponse!.Etag);
             var deleteCountryResponse = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}", headers);
 
             const string oDataRequest = $"$expand={nameof(WorkplaceDto.Country)}";
@@ -522,7 +522,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("en-US"));
 
             var headers = CreateHeaders(
-                CreateEtagHeader(postResult?.Etag),
+                CreateEtagHeader(postResult!.Etag),
                 CreateAcceptLanguageHeader("en-US"));
 
             await PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}", updateDto, headers);
@@ -555,7 +555,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("en-US"));
-            await PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}?lang=fr-FR", updateDto, CreateEtagHeader(postResult?.Etag));
+            await PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}?lang=fr-FR", updateDto, CreateEtagHeader(postResult!.Etag));
 
             var enResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
             var frResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}?lang=fr-FR", CreateAcceptLanguageHeader("en-US")))?.ToList();
@@ -600,13 +600,13 @@ namespace ClientApi.Tests.Tests.Controllers
             var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("en-US"));
 
             var headers1 = CreateHeaders(
-                CreateEtagHeader(postResult?.Etag),
+                CreateEtagHeader(postResult!.Etag),
                 CreateAcceptLanguageHeader("fr-FR"));
 
             var putResult1 = await PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}", update1Dto, headers1);
             
             var headers2 = CreateHeaders(
-                CreateEtagHeader(putResult1?.Etag),
+                CreateEtagHeader(putResult1!.Etag),
                 CreateAcceptLanguageHeader("fr-FR"));
 
             await PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}", update2Dto, headers2);
@@ -647,7 +647,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("en-US"));
 
             var headers = CreateHeaders(
-                CreateEtagHeader(postResult?.Etag),
+                CreateEtagHeader(postResult!.Etag),
                 CreateAcceptLanguageHeader("en-US"));
 
             await PatchAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}", updateDto, headers);
@@ -679,7 +679,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("en-US"));
-            await PatchAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}?lang=fr-FR", updateDto, CreateEtagHeader(postResult?.Etag));
+            await PatchAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}?lang=fr-FR", updateDto, CreateEtagHeader(postResult!.Etag));
 
             var enResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
             var frResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}?lang=fr-FR", CreateAcceptLanguageHeader("en-US")))?.ToList();
@@ -722,7 +722,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var result = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
 
             var headers = CreateHeaders(
-                CreateEtagHeader(postResult?.Etag),
+                CreateEtagHeader(postResult!.Etag),
                 CreateAcceptLanguageHeader("en-US"));
             
             var localizedDto =  await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplacesLocalized/tr-TR", upsertDto, headers, false);
@@ -883,7 +883,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto);
 
-            var headers = CreateEtagHeader(postResult?.Etag);
+            var headers = CreateEtagHeader(postResult!.Etag);
 
             // Act
             var putResult = await PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}", updateDto, headers);
@@ -934,7 +934,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto);
-            var headers = CreateEtagHeader(result?.Etag);
+            var headers = CreateEtagHeader(result!.Etag);
 
             // Act
             await DeleteAsync($"{Endpoints.WorkplacesUrl}/{result!.Id}", headers);

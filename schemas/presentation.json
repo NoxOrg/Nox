@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "The definition namespace for presentation components pertaining to a Nox solution.",
+  "description": "Define components pertinent to solution API and UI here.Contains all settings affecting the presentation of the solution.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "properties": {
+    "apiConfiguration": {    
+      "anyOf": [
+        { "$ref": "apiConfiguration.json" },
+        {
+          "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

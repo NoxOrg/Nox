@@ -18,11 +18,12 @@ namespace Nox
         public static INoxBuilder UseNox(this IApplicationBuilder builder,
             bool useSerilogRequestLogging = true)
         {
+
             // Enabling http requests logging
             if (useSerilogRequestLogging)
                 builder.UseSerilogRequestLogging();
 
-            builder.UseMiddleware<NoxExceptionHanderMiddleware>();
+            builder.UseMiddleware<NoxApiMiddleware>().UseRouting();
 
             builder.UseRequestLocalization();
 
@@ -30,7 +31,6 @@ namespace Nox
 #if DEBUG
             noxBuilder.UseODataRouteDebug();
 #endif
-
             var hostingEnvironment = builder
                 .ApplicationServices
                 .GetRequiredService<IHostEnvironment>();
@@ -41,6 +41,9 @@ namespace Nox
                 builder.UseSwagger();
                 builder.UseSwaggerUI();
             }
+
+            builder.UseMiddleware<NoxExceptionHanderMiddleware>();
+
 
             noxBuilder.UseEtlBox(checkLicense: !isDevelopment);
 

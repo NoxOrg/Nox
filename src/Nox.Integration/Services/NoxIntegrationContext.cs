@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Exceptions;
@@ -50,26 +44,13 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
         }
         catch (Exception ex)
         {
-            throw new NoxIntegrationException($"Failed to execute integration: {name}. {ex.Message}");
+            throw new NoxIntegrationException($"Failed to execute integration: {name}, {ex.Message}");
         }
     }
 
     public void AddIntegration(INoxIntegration instance)
     {
         _integrations[instance.Name] = instance;
-    }
-
-    public void ExecuteStartupIntegrations()
-    {
-        var startupIntegrations = _integrations.Where(i => i.Value.Schedule is { RunOnStartup: true });
-        foreach (var integration in startupIntegrations)
-        {
-            Task.Run(async () => await ExecuteIntegrationAsync(integration.Key)).ContinueWith((t) =>
-            {
-                if (t.IsFaulted) _logger.LogError(t.Exception, $"Error executing integration: {integration.Key} at startup.");
-                if (t.IsCompletedSuccessfully) _logger.LogInformation($"Successfully executed integration: {integration.Key} at startup.");
-            });
-        }
     }
 }
 

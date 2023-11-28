@@ -48,6 +48,7 @@ internal partial class DeleteExchangeRatesForCurrencyCommandHandlerBase : Comman
 		{
 			return false;
 		}
+		await DbContext.Entry(parentEntity).Collection(p => p.ExchangeRates).LoadAsync(cancellationToken);
 		var ownedId = Cryptocash.Domain.ExchangeRateMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
@@ -56,7 +57,6 @@ internal partial class DeleteExchangeRatesForCurrencyCommandHandlerBase : Comman
 		}
 		parentEntity.ExchangeRates.Remove(entity);
 		await OnCompletedAsync(request, entity);
-
 		DbContext.Entry(entity).State = EntityState.Deleted;
 
 		var result = await DbContext.SaveChangesAsync(cancellationToken);

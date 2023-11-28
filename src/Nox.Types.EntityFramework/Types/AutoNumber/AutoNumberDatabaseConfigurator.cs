@@ -1,6 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
 namespace Nox.Types.EntityFramework.Types;
 
@@ -26,18 +27,19 @@ public class AutoNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
     /// This method is called by the NoxSolutionCodeGeneratorState during the code generation process to set up the entity property in the database.
     /// </summary>
     /// <param name="noxSolutionCodeGeneratorState">The state of the Nox solution code generator.</param>
-    /// <param name="builder">The EntityTypeBuilder to configure the entity.</param>
     /// <param name="property">The NoxSimpleTypeDefinition representing the property being configured.</param>
     /// <param name="entity">The Entity to which the property belongs.</param>
     /// <param name="isKey">A flag indicating whether the property is a key property.</param>
+    /// <param name="modelBuilder"></param>
+    /// <param name="entityTypeBuilder"></param>
     public virtual void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
-        bool isKey)
+        bool isKey,
+        ModelBuilder modelBuilder, EntityTypeBuilder entityTypeBuilder)
     {
-        builder
+        entityTypeBuilder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
             .HasConversion<AutoNumberConverter>();
