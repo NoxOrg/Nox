@@ -16,7 +16,7 @@ using CountryQualityOfLifeIndexEntity = ClientApi.Domain.CountryQualityOfLifeInd
 
 namespace ClientApi.Application.Commands;
 
-public record PartialUpdateCountryQualityOfLifeIndexCommand(System.Int64 keyCountryId, System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryQualityOfLifeIndexKeyDto?>;
+public partial record PartialUpdateCountryQualityOfLifeIndexCommand(System.Int64 keyCountryId, System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryQualityOfLifeIndexKeyDto?>;
 
 internal class PartialUpdateCountryQualityOfLifeIndexCommandHandler : PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase
 {

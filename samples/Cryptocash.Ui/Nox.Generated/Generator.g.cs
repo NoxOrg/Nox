@@ -32,8 +32,6 @@
 - cryptocash.messaging.nox.yaml
 - cryptocash.persistence.nox.yaml
 - countriesByName.apiRouteMapping.nox.yaml
-- test-mapping1.apiRouteMapping.nox.yaml
-- test-mapping2.apiRouteMapping.nox.yaml
 - cryptocash.apiConfiguration.nox.yaml
 - cryptocash.presentation.nox.yaml
 - BankNoteDomainEvents.md

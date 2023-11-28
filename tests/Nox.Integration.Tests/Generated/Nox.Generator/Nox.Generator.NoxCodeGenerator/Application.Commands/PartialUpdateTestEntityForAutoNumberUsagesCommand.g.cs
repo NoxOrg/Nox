@@ -16,7 +16,7 @@ using TestEntityForAutoNumberUsagesEntity = TestWebApp.Domain.TestEntityForAutoN
 
 namespace TestWebApp.Application.Commands;
 
-public record PartialUpdateTestEntityForAutoNumberUsagesCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityForAutoNumberUsagesKeyDto?>;
+public partial record PartialUpdateTestEntityForAutoNumberUsagesCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityForAutoNumberUsagesKeyDto?>;
 
 internal class PartialUpdateTestEntityForAutoNumberUsagesCommandHandler : PartialUpdateTestEntityForAutoNumberUsagesCommandHandlerBase
 {
