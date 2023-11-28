@@ -13,6 +13,6 @@ public class IntegrationTargetWatermark
     public IReadOnlyList<string>? SequentialKeyColumns { get; internal set; }
     
     [Title("Column(s) in datetime format used for watermark purpose.")]
-    [Description("List od datetime columns to be compared to source data to determine if data has changed.")]
+    [Description("List of datetime columns to be compared to source data to determine if data has changed.")]
     public IReadOnlyList<string>? DateColumns { get; internal set; }
 }
