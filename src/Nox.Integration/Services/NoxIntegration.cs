@@ -6,6 +6,7 @@ using Nox.Integration.Abstractions;
 using Nox.Integration.Abstractions.Adapters;
 using Nox.Integration.Exceptions;
 using Nox.Integration.Extensions.Send;
+using Nox.Solution;
 
 namespace Nox.Integration.Services;
 
@@ -20,8 +21,8 @@ internal sealed class NoxIntegration: INoxIntegration
     public IntegrationTransformType TransformType { get; }
     public INoxReceiveAdapter? ReceiveAdapter { get; set; }
     public INoxSendAdapter? SendAdapter { get; set; }
-    public List<string>? IdColumns { get; } = null;
-    public List<string>? DateColumns { get; } = null;
+    public List<string>? IdColumns { get; private set; } = null;
+    public List<string>? DateColumns { get; private set; } = null;
 
     public NoxIntegration(ILogger logger, Solution.Integration definition)
     {
@@ -30,26 +31,7 @@ internal sealed class NoxIntegration: INoxIntegration
         Description = definition.Description;
         MergeType = definition.MergeType;
         TransformType = definition.TransformationType;
-
-        if (definition.Target.TableOptions?.Watermark == null) return;
-        
-        var watermark = definition.Target.TableOptions.Watermark;
-        if (watermark.SequentialKeyColumns != null && watermark.SequentialKeyColumns.Any())
-        {
-            IdColumns = new List<string>();
-            foreach (var keyColumn in watermark.SequentialKeyColumns)
-            {
-                IdColumns.Add(keyColumn);
-            }
-        }
-        if (watermark.DateColumns != null && watermark.DateColumns.Any())
-        {
-            DateColumns = new List<string>();
-            foreach (var dateColumn in watermark.DateColumns)
-            {
-                DateColumns.Add(dateColumn);
-            }
-        }
+        AddTargetWatermark(definition.Target);
     }
     
     public async Task<bool> ExecuteAsync(INoxCustomTransformHandler? handler = null)
@@ -152,4 +134,28 @@ internal sealed class NoxIntegration: INoxIntegration
     {
         return Task.FromResult(true);
     }
+
+    private void AddTargetWatermark(IntegrationTarget target)
+    {
+        if (target.TableOptions?.Watermark == null) return;
+        
+        var watermark = target.TableOptions.Watermark;
+        if (watermark.SequentialKeyColumns != null && watermark.SequentialKeyColumns.Any())
+        {
+            IdColumns = new List<string>();
+            foreach (var keyColumn in watermark.SequentialKeyColumns)
+            {
+                IdColumns.Add(keyColumn);
+            }
+        }
+        if (watermark.DateColumns != null && watermark.DateColumns.Any())
+        {
+            DateColumns = new List<string>();
+            foreach (var dateColumn in watermark.DateColumns)
+            {
+                DateColumns.Add(dateColumn);
+            }
+        }
+    }
+    
 }
