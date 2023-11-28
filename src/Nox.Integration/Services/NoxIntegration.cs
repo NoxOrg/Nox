@@ -30,8 +30,10 @@ internal sealed class NoxIntegration: INoxIntegration
         Description = definition.Description;
         MergeType = definition.MergeType;
         TransformType = definition.TransformationType;
-        if (definition.Source.Watermark == null) return;
-        var watermark = definition.Source.Watermark;
+
+        if (definition.Target.TableOptions?.Watermark == null) return;
+        
+        var watermark = definition.Target.TableOptions.Watermark;
         if (watermark.SequentialKeyColumns != null && watermark.SequentialKeyColumns.Any())
         {
             IdColumns = new List<string>();
