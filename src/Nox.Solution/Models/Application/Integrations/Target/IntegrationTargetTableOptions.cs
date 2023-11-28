@@ -18,6 +18,8 @@ public class IntegrationTargetTableOptions : YamlConfigNode<NoxSolution,Integrat
     [Description("The name of the schema in which the table resides.")]
     public string SchemaName { get; set; } = string.Empty;
 
+    public  IntegrationTargetWatermark? Watermark { get; set; }
+
     public override void SetDefaults(NoxSolution topNode, IntegrationTarget parentNode, string yamlPath)
     {
         DefaultConnectionProvider(topNode, parentNode);

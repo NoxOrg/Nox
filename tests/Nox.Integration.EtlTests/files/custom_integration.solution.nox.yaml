@@ -35,20 +35,18 @@ application:
           query: SELECT CountryId, Name, Population, CreateDate, EditDate FROM CountryMaster
           minimumExpectedRecords: 5
 
-        watermark:
-          dateColumns:
-            - "CreateDate"
-            - "EditDate"
-          sequentialKeyColumns:
-            - "Id"
-
       target:
         name: SampleTarget
         dataConnectionName: EtlSample
         targetAdapterType: databaseTable
         tableOptions:
           tableName: Country
-
+          watermark:
+            dateColumns:
+              - "CreateDate"
+              - "EditDate"
+            sequentialKeyColumns:
+              - "Id"
 
 infrastructure:
   
