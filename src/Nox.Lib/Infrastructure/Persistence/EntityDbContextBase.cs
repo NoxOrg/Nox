@@ -10,6 +10,8 @@ using System.Net;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Reflection.Emit;
 using Nox.Types.EntityFramework.Types;
+using Nox.Types.EntityFramework.Abstractions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Nox.Infrastructure.Persistence
 {
@@ -18,18 +20,20 @@ namespace Nox.Infrastructure.Persistence
         protected readonly IPublisher _publisher;
         protected readonly IUserProvider _userProvider;
         protected readonly ISystemProvider _systemProvider;
-
+        protected readonly INoxDatabaseProvider _databaseProvider;
 
         protected EntityDbContextBase(
             IPublisher publisher,
             IUserProvider userProvider,
             ISystemProvider systemProvider,
+            INoxDatabaseProvider databaseProvider,
             DbContextOptions options
             ) : base(options)
         {
             _publisher = publisher;
             _userProvider = userProvider;
             _systemProvider = systemProvider;
+            _databaseProvider = databaseProvider;
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
@@ -43,6 +47,23 @@ namespace Nox.Infrastructure.Persistence
             catch (DbUpdateConcurrencyException)
             {
                 throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided", HttpStatusCode.Conflict);
+            }
+        }
+
+        public virtual async Task<long> GetSequenceNextValueAsync(string sequenceName)
+        {
+            var connection = base.Database.GetDbConnection();            
+            try
+            {
+                await connection.OpenAsync();
+                using var cmd = connection.CreateCommand();
+                cmd.CommandText = _databaseProvider.GetSqlStatementForSequenceNextValue(sequenceName);
+                var result = await cmd.ExecuteScalarAsync();
+                return (long)result!;
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
         protected virtual async Task HandleDomainEvents()
@@ -67,7 +88,6 @@ namespace Nox.Infrastructure.Persistence
                 TrackConcurrency(entry);
             }
         }
-
         protected virtual void AuditEntity(EntityEntry<AuditableEntityBase> entry)
         {
             var user = _userProvider.GetUser();
@@ -91,7 +111,6 @@ namespace Nox.Infrastructure.Persistence
                     break;
             }
         }
-
         private void ReattachOwnedEntries<T>(EntityEntry<AuditableEntityBase> parentEntry)
             where T : class
         {
@@ -172,7 +191,7 @@ namespace Nox.Infrastructure.Persistence
         protected virtual void ConfigureEnumeration(EntityTypeBuilder enumModelBuilder, EnumerationTypeOptions enumTypeOptions)
         {
             enumModelBuilder.HasKey(nameof(EnumerationBase.Id));
-            
+
             enumModelBuilder
                 .Property(nameof(EnumerationBase.Id))
                 .HasConversion<EnumerationConverter>();
@@ -180,7 +199,7 @@ namespace Nox.Infrastructure.Persistence
             enumModelBuilder
                 .Property(nameof(EnumerationBase.Name))
                 .IsRequired(true);
- 
+
             foreach (var enumValue in enumTypeOptions.Values)
             {
                 enumModelBuilder.HasData(new { Id = Enumeration.From(enumValue.Id, enumTypeOptions), Name = enumValue.Name });
@@ -205,7 +224,7 @@ namespace Nox.Infrastructure.Persistence
                 .IsFixedLength(false)
                 .HasMaxLength(10)
                 .HasConversion<CultureCodeConverter>();
-            
+
             enumModelBuilder
                 .HasOne(enumType)
                 .WithMany()

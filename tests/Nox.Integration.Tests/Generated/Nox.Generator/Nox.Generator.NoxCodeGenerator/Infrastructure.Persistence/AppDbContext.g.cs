@@ -45,7 +45,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             IUserProvider userProvider,
             ISystemProvider systemProvider,
             NoxCodeGenConventions codeGeneratorState
-        ) : base(publisher, userProvider, systemProvider, options)
+        ) : base(publisher, userProvider, systemProvider, databaseProvider, options)
         {
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
@@ -94,6 +94,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
     public virtual DbSet<TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey> EntityUniqueConstraintsRelatedForeignKeys { get; set; } = null!;
     public virtual DbSet<TestWebApp.Domain.TestEntityLocalization> TestEntityLocalizations { get; set; } = null!;
     public virtual DbSet<TestWebApp.Domain.TestEntityForAutoNumberUsages> TestEntityForAutoNumberUsages { get; set; } = null!;
+    public virtual DbSet<TestWebApp.Domain.ForReferenceNumber> ForReferenceNumbers { get; set; } = null!;
     public virtual DbSet<TestWebApp.Domain.TestEntityLocalizationLocalized> TestEntityLocalizationsLocalized { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.TestEntityForTypesEnumerationTestField> TestEntityForTypesEnumerationTestFields { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.TestEntityForTypesEnumerationTestFieldLocalized> TestEntityForTypesEnumerationTestFieldsLocalized { get; set; } = null!;

@@ -1,16 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <IsPackable>false</IsPackable>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     </PropertyGroup>
 
   <ItemGroup>
@@ -57,16 +50,8 @@
     </ItemGroup>
 
     <!--  Copy to output all files under ExpectedGeneratedFiles-->
-    <ItemGroup>
-        <Compile Remove="files\Program.cs"/>
-        <Compile Include="ExpectedGeneratedFiles\Application.Integration.Custom.expected.g.cs" />
-        <Compile Include="ExpectedGeneratedFiles\Application.Integration.CustomTransform.expected.g.cs" />
-        <Compile Include="ExpectedGeneratedFiles\Application.Integration.CustomTransform.expected.g.cs" />
-        <None Include="files\Program.cs">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
+    <ItemGroup>                
         <Compile Remove="ExpectedGeneratedFiles\**\*.*"/>
-
         <None Include="ExpectedGeneratedFiles\**\*.*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
