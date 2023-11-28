@@ -16,7 +16,7 @@ using ThirdTestEntityExactlyOneEntity = TestWebApp.Domain.ThirdTestEntityExactly
 
 namespace TestWebApp.Application.Commands;
 
-public record PartialUpdateThirdTestEntityExactlyOneCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <ThirdTestEntityExactlyOneKeyDto?>;
+public partial record PartialUpdateThirdTestEntityExactlyOneCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <ThirdTestEntityExactlyOneKeyDto?>;
 
 internal class PartialUpdateThirdTestEntityExactlyOneCommandHandler : PartialUpdateThirdTestEntityExactlyOneCommandHandlerBase
 {

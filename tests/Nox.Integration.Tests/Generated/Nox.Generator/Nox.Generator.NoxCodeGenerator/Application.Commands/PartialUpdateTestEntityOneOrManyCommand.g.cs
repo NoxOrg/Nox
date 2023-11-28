@@ -16,7 +16,7 @@ using TestEntityOneOrManyEntity = TestWebApp.Domain.TestEntityOneOrMany;
 
 namespace TestWebApp.Application.Commands;
 
-public record PartialUpdateTestEntityOneOrManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityOneOrManyKeyDto?>;
+public partial record PartialUpdateTestEntityOneOrManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityOneOrManyKeyDto?>;
 
 internal class PartialUpdateTestEntityOneOrManyCommandHandler : PartialUpdateTestEntityOneOrManyCommandHandlerBase
 {

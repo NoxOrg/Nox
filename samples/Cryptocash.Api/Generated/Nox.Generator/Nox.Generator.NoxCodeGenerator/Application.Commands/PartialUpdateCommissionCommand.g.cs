@@ -16,7 +16,7 @@ using CommissionEntity = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdateCommissionCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CommissionKeyDto?>;
+public partial record PartialUpdateCommissionCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CommissionKeyDto?>;
 
 internal class PartialUpdateCommissionCommandHandler : PartialUpdateCommissionCommandHandlerBase
 {

@@ -16,7 +16,7 @@ using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
 
 namespace TestWebApp.Application.Commands;
 
-public record PartialUpdateTestEntityForTypesCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityForTypesKeyDto?>;
+public partial record PartialUpdateTestEntityForTypesCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityForTypesKeyDto?>;
 
 internal class PartialUpdateTestEntityForTypesCommandHandler : PartialUpdateTestEntityForTypesCommandHandlerBase
 {

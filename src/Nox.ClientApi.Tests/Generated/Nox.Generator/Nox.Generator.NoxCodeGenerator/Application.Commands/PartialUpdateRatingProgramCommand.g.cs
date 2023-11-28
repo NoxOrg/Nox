@@ -16,7 +16,7 @@ using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Commands;
 
-public record PartialUpdateRatingProgramCommand(System.Guid keyStoreId, System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <RatingProgramKeyDto?>;
+public partial record PartialUpdateRatingProgramCommand(System.Guid keyStoreId, System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <RatingProgramKeyDto?>;
 
 internal class PartialUpdateRatingProgramCommandHandler : PartialUpdateRatingProgramCommandHandlerBase
 {

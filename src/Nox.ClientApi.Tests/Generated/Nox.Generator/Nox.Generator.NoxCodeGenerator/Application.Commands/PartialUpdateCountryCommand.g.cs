@@ -16,7 +16,7 @@ using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public record PartialUpdateCountryCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryKeyDto?>;
+public partial record PartialUpdateCountryCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryKeyDto?>;
 
 internal class PartialUpdateCountryCommandHandler : PartialUpdateCountryCommandHandlerBase
 {

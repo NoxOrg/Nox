@@ -16,7 +16,7 @@ using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Commands;
 
-public record PartialUpdateStoreLicenseCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <StoreLicenseKeyDto?>;
+public partial record PartialUpdateStoreLicenseCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <StoreLicenseKeyDto?>;
 
 internal class PartialUpdateStoreLicenseCommandHandler : PartialUpdateStoreLicenseCommandHandlerBase
 {

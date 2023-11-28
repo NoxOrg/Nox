@@ -49,7 +49,8 @@ public class ApiRouteMappingDocumentFilter : IDocumentFilter
             var operation = new OpenApiOperation
             {
                 OperationId = route.Route,
-                Summary = route.Description
+                Summary = route.Description,
+                
             };
 
             // assign tag
@@ -97,19 +98,22 @@ public class ApiRouteMappingDocumentFilter : IDocumentFilter
 
             // adding response to operation
             operation.Responses.Add("200", response);
-
-            // create path item
-            var pathItem = new OpenApiPathItem();
-            
-            // add operation to the path
-            pathItem.AddOperation(RouteHttpVerbToOperationType(route.HttpVerb), operation);
-         
             
             // finally add the path to document
-            newPaths.Add(
-                $"{_solution.Presentation.ApiConfiguration.ApiRoutePrefix}{route.Route}"
-                , pathItem);
-        
+            var routeKey = $"{_solution.Presentation.ApiConfiguration.ApiRoutePrefix}{route.Route}";
+            if (newPaths.TryGetValue(routeKey, out var existing))
+            {
+                existing.Operations.Add(RouteHttpVerbToOperationType(route.HttpVerb), operation);
+            }
+            else
+            {
+                // create path item
+                var pathItem = new OpenApiPathItem();
+            
+                // add operation to the path
+                pathItem.AddOperation(RouteHttpVerbToOperationType(route.HttpVerb), operation);
+                newPaths.Add(routeKey, pathItem);    
+            }
         }
 
         openApiDocument.Paths.ToList()

@@ -16,7 +16,7 @@ using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
-public record PartialUpdateStoreCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <StoreKeyDto?>;
+public partial record PartialUpdateStoreCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <StoreKeyDto?>;
 
 internal class PartialUpdateStoreCommandHandler : PartialUpdateStoreCommandHandlerBase
 {
