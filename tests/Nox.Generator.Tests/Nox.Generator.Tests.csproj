@@ -27,8 +27,8 @@
   </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
-        <PackageReference Include="xunit" Version="2.6.2"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+        <PackageReference Include="xunit" Version="2.6.2" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.5.4">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -40,18 +40,18 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj"/>
+        <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" />
+        <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj" />
+        <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />
+        <ProjectReference Include="..\..\src\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj" />
+        <ProjectReference Include="..\..\src\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
+        <ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
+        <ProjectReference Include="..\..\src\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
     </ItemGroup>
 
     <!--  Copy to output all files under ExpectedGeneratedFiles-->
     <ItemGroup>                
-        <Compile Remove="ExpectedGeneratedFiles\**\*.*"/>
+        <Compile Remove="ExpectedGeneratedFiles\**\*.*" />
         <None Include="ExpectedGeneratedFiles\**\*.*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
@@ -61,10 +61,6 @@
         <None Include="files\**\*.*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Generated\"/>
     </ItemGroup>
 
 </Project>
