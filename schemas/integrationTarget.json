@@ -57,6 +57,65 @@
                   "type": "null"
                 }
               ]
+            },
+            "watermark": {    
+              "title": "Definition namespace for watermark columns on the integration target data.",
+              "description": "This section lists the column(s) on the target data used to determine whether a record is new or has been updated.",
+              "oneOf": [
+                {
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "properties": {
+                "sequentialKeyColumns": {    
+                  "title": "Sequential key column used for watermark purpose.",
+                  "description": "Specify one or more sequential key columns to be compared to source data to determine if a record exits in the target.",
+                  "oneOf": [
+                    {
+                      "type": "array"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "items":   {
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "dateColumns": {    
+                  "title": "Column(s) in datetime format used for watermark purpose.",
+                  "description": "List of datetime columns to be compared to source data to determine if data has changed.",
+                  "oneOf": [
+                    {
+                      "type": "array"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "items":   {
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
             }
           },
           "additionalProperties": false

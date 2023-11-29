@@ -16,7 +16,7 @@ using ForReferenceNumberEntity = TestWebApp.Domain.ForReferenceNumber;
 
 namespace TestWebApp.Application.Commands;
 
-public record PartialUpdateForReferenceNumberCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <ForReferenceNumberKeyDto?>;
+public partial record PartialUpdateForReferenceNumberCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <ForReferenceNumberKeyDto?>;
 
 internal class PartialUpdateForReferenceNumberCommandHandler : PartialUpdateForReferenceNumberCommandHandlerBase
 {

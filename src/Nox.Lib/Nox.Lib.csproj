@@ -64,7 +64,6 @@
 		<ProjectReference Include="..\Nox.Monitoring.ElasticApm\Nox.Monitoring.ElasticApm.csproj" />
 		<ProjectReference Include="..\Nox.Secrets\Nox.Secrets.csproj" />
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
-		<ProjectReference Include="..\Nox.Yaml\Nox.Yaml.csproj" />
 		<ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
 		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" PrivateAssets="all" />
 		<ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
