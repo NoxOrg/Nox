@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
-using Nox.Application.Exceptions;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
