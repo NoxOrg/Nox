@@ -48,10 +48,10 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             IUserProvider userProvider,
             ISystemProvider systemProvider,
             NoxCodeGenConventions codeGeneratorState,
-            ILogger<Nox.Infrastructure.Persistence.EntityDbContextBase> logger
+            ILogger<AppDbContext> logger
         ) : base(publisher, userProvider, systemProvider, databaseProvider, logger, options)
-        {
-            _noxSolution = noxSolution;
+    {
+        _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
             _codeGenConventions = codeGeneratorState;

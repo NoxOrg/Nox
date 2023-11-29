@@ -66,10 +66,11 @@ namespace Nox.Infrastructure.Messaging
                 cloudEvent.SetAttributeFromString("xuserid", _userProvider.GetUser().ToString());
                 cloudEvent.Validate();
 
+                message.SetCloudEvent(cloudEvent);
                 publishContext = sendContext;
             });
 
-            _logger.LogInformation($"Published integration event '{typeof(T)}' to '{publishContext?.DestinationAddress?.AbsolutePath}'. Name: '{eventName}' Source: '{source}' MessageId: '{publishContext?.MessageId?.ToString()}'");
+            _logger.LogInformation($"Published integration event '{typeof(T)}' to '{publishContext?.DestinationAddress?.AbsolutePath}'. Name: '{eventName}' Source: '{source}' MessageId: '{message.Id}'");
         }
     }
 }
