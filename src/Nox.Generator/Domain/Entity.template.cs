@@ -1,5 +1,4 @@
-﻿// Generated
-{{func pascalCaseToCamelCase(pascal)
+﻿{{-func pascalCaseToCamelCase(pascal)
 		$result = ""
 	if pascal != ""
 		$first = pascal | string.slice1 0
@@ -10,7 +9,9 @@
 
 	ret $result
 
-end}}
+end-}}
+// Generated
+
 #nullable enable
 
 using System;
