@@ -12,15 +12,19 @@ namespace Nox.EntityFramework.SqlServer;
 
 public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider
 {
+    private readonly NoxDataStoreTypeFlags _storeType;
+    
     public NoxDataStoreTypeFlags StoreTypes { get; private set; }
 
     public string ConnectionString { get; protected set; } = string.Empty;
     
     public SqlServerDatabaseProvider(
+        NoxDataStoreTypeFlags storeType,
         IEnumerable<INoxTypeDatabaseConfigurator> configurators, 
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
         INoxClientAssemblyProvider clientAssemblyProvider): base(configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider, typeof(ISqlServerNoxTypeDatabaseConfigurator))
     {
+        _storeType = storeType;
     }
 
     protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(EntityTypeBuilder builder, Entity entity)

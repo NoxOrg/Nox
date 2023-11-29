@@ -1,19 +1,19 @@
-using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Services;
-using Microsoft.Extensions.Logging;
-using Nox.Solution;
 
-namespace Nox.Integration;
+namespace Nox.Integration.Extensions;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddNoxIntegrations(this IServiceCollection services, NoxSolution solution)
+    public static IServiceCollection AddNoxIntegrations(this IServiceCollection services, Action<NoxIntegrationOptionsBuilder>? integrationOptionsAction = null)
     {
         services.TryAddSingleton<INoxIntegrationContext, NoxIntegrationContext>();
-        
+        services.TryAddSingleton<INoxIntegrationDbContextFactory, NoxIntegrationDbContextFactory>();
+        services.AddDbContext<NoxIntegrationDbContext>();
+        var optionsBuilder = new NoxIntegrationOptionsBuilder(services);
+        integrationOptionsAction?.Invoke(optionsBuilder);
         return services;
     }
 

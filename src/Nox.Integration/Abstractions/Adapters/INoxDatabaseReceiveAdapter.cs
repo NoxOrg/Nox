@@ -1,5 +1,3 @@
-using ETLBox;
-
 namespace Nox.Integration.Abstractions.Adapters;
 
 public interface INoxDatabaseReceiveAdapter: INoxReceiveAdapter

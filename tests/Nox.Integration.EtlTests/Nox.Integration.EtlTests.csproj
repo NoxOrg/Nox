@@ -26,7 +26,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\src\Nox.Integration.SqlServer\Nox.Integration.SqlServer.csproj" />
         <ProjectReference Include="..\..\src\Nox.Integration\Nox.Integration.csproj" />
+        <ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
         <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj" />
     </ItemGroup>
 

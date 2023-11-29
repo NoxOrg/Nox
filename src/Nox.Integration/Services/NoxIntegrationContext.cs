@@ -1,3 +1,5 @@
+using Elastic.Apm;
+using Elastic.Apm.Api;
 using Microsoft.Extensions.Logging;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Exceptions;
@@ -13,7 +15,11 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
     private readonly NoxSolution _solution;
     private readonly IDictionary<string, INoxCustomTransformHandler>? _handlers;
     
-    public NoxIntegrationContext(ILogger<INoxIntegrationContext> logger, NoxSolution solution, IEnumerable<INoxCustomTransformHandler>? handlers = null)
+    public NoxIntegrationContext(
+        ILogger<INoxIntegrationContext> logger, 
+        NoxSolution solution, 
+        INoxIntegrationDbContextFactory dbContextFactory,
+        IEnumerable<INoxCustomTransformHandler>? handlers = null)
     {
         _logger = logger;
         _integrations = new Dictionary<string, INoxIntegration>();
@@ -22,25 +28,25 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
         
         foreach (var integrationDefinition in _solution.Application!.Integrations!)
         {
-            var instance = new NoxIntegration(_logger, integrationDefinition);
+            var instance = new NoxIntegration(_logger, integrationDefinition, dbContextFactory);
             instance.WithReceiveAdapter(integrationDefinition.Source, _solution.DataConnections);
             instance.WithSendAdapter(integrationDefinition.Target, _solution.DataConnections);
             _integrations[instance.Name] = instance;
         }
     }
 
-    public async Task<bool> ExecuteIntegrationAsync(string name)
+    public async Task ExecuteIntegrationAsync(string name)
     {
         try
         {
+            var apmTransaction = Agent.Tracer.StartTransaction(name, ApiConstants.ActionExec);
             INoxCustomTransformHandler? handler = null;
             if (_handlers != null && _handlers.TryGetValue(name, out var foundHandler))
             {
                 handler = foundHandler;
             }
             
-            var result = await _integrations[name].ExecuteAsync(handler);
-            return result;
+            await _integrations[name].ExecuteAsync(apmTransaction, handler);
         }
         catch (Exception ex)
         {

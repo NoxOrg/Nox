@@ -1,6 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nox.Integration.Abstractions;
+using Nox.Integration.Extensions;
+using Nox.Integration.SqlServer;
 using Nox.Solution;
 
 namespace Nox.Integration.EtlTests;
@@ -22,12 +24,14 @@ public class CustomTransformTests
             .Build();
         services
             .AddSingleton(solution)
-            .AddNoxIntegrations(solution)
+            .AddNoxIntegrations(opts =>
+            {
+                opts.WithSqlServerStore();
+            })
             .RegisterTransformHandler(typeof(TestNoxCustomTransformHandler))
             .RegisterTransformHandler(typeof(AnotherNoxCustomTransformHandler));
         var provider = services.BuildServiceProvider();
         var context = provider.GetRequiredService<INoxIntegrationContext>();
-        var result = await context.ExecuteIntegrationAsync("SqlToSqlCustomIntegration");
-        Assert.True(result);
+        await context.ExecuteIntegrationAsync("SqlToSqlCustomIntegration");
     }
 }

@@ -1,6 +1,7 @@
 using Cryptocash.Integration.Integrations.SampleQueryToTableSync;
 using Nox;
 using Nox.Integration;
+using Nox.Integration.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -33,6 +33,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.25.1" />
       <PackageReference Include="ETLBox" Version="3.1.0" />
       <PackageReference Include="ETLBox.SqlServer" Version="3.1.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />

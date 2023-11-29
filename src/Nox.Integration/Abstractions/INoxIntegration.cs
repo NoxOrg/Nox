@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Elastic.Apm.Api;
 using Nox.Integration.Abstractions.Adapters;
 using Nox.Solution;
 
@@ -19,10 +18,12 @@ internal interface INoxIntegration
     internal INoxReceiveAdapter? ReceiveAdapter { get; set; }
     internal INoxSendAdapter? SendAdapter { get; set; }
     
-    List<string>? IdColumns { get; }
-    List<string>? DateColumns { get; }
+    List<string>? TargetIdColumns { get; }
+    List<string>? TargetDateColumns { get; }
     
-    internal Task<bool> ExecuteAsync(INoxCustomTransformHandler? handler = null);
+    List<string>? SourceFilterColumns { get; }
+    
+    internal Task ExecuteAsync(ITransaction apmTransaction, INoxCustomTransformHandler? handler = null);
 
     //todo mapping handler, custom or AutoMapper.
     // If custom, it should create a handler that a user can implement and use to map fields.

@@ -41,11 +41,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Extensions\" />
       <Folder Include="Migrations\" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
       <ProjectReference Include="..\Nox.Integration\Nox.Integration.csproj" />
     </ItemGroup>
     

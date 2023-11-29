@@ -30,7 +30,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<AdditionalFiles Include="../.nox/design/**/*.yaml" LinkBase=".nox/design">
+		<AdditionalFiles Include="../.nox/design/**/*.yaml" LinkBase="Design">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</AdditionalFiles>
 		<AdditionalFiles Include="../.nox/docs/**/*.md" LinkBase="Docs">
