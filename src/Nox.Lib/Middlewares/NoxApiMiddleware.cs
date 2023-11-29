@@ -12,7 +12,7 @@ public class NoxApiMiddleware
 
     private readonly RequestDelegate _next;
 
-    private readonly List<RouteMatcher> _matchers = new();
+    private readonly Dictionary<string, List<RouteMatcher>> _matchers = new();
 
     public NoxApiMiddleware(RequestDelegate next, NoxSolution solution)
     {
@@ -22,7 +22,13 @@ public class NoxApiMiddleware
 
         foreach (var route in solution.Presentation.ApiConfiguration.ApiRouteMappings)
         {
-            _matchers.Add(new RouteMatcher(route, _apiPrefix));
+            if (!_matchers.TryGetValue(route.HttpVerbString, out List<RouteMatcher>? matchers))
+            {
+                matchers = new List<RouteMatcher>();
+                _matchers.Add(route.HttpVerbString, matchers);
+            }
+
+            matchers.Add(new RouteMatcher(route, _apiPrefix));
         }
     }
 
@@ -42,11 +48,17 @@ public class NoxApiMiddleware
             return;
         }
 
+        if (!_matchers.TryGetValue(context.Request.Method, out List<RouteMatcher>? matchers))
+        {
+            await _next(context);
+            return;
+        }
+
         RouteValueDictionary? urlParameters = null;
 
         ApiRouteMapping? apiRoute = null;
 
-        foreach (var matcher in _matchers)
+        foreach (var matcher in matchers)
         {
             urlParameters = matcher.Match(path);
 
@@ -58,14 +70,6 @@ public class NoxApiMiddleware
         }
 
         if (urlParameters == null || apiRoute == null)
-        {
-            await _next(context);
-            return;
-        }
-
-        Debug.WriteLine(context.Request.Path.Value);
-
-        if (!apiRoute.HttpVerbString.Equals(context.Request.Method))
         {
             await _next(context);
             return;
@@ -90,12 +94,9 @@ public class NoxApiMiddleware
             translatedTarget = translatedTarget.Replace($"{{{kvp.Key}}}", kvp.Value.ToString());
         }
 
-        context.Request.Headers.Add("X-Nox-Internal-ApiRouteMapping", 
-            new[] { $"{context.Request.Path}?{context.Request.QueryString}" });
-
         var parts = translatedTarget.Split('?', 2);
 
-        context.Request.Path = new PathString(_apiPrefix+parts[0]);
+        context.Request.Path = new PathString(_apiPrefix + parts[0]);
 
         if (parts.Length > 1)
         {
