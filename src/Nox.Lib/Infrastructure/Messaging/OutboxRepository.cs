@@ -34,8 +34,6 @@ namespace Nox.Infrastructure.Messaging
 
         public async Task AddAsync<T>(T integrationEvent) where T : IIntegrationEvent
         {
-            _logger.LogInformation($"Publish message {typeof(T)} to {_bus.GetType()}");
-
             var integrationEventAttribute = integrationEvent.GetType().GetCustomAttribute<IntegrationEventTypeAttribute>();
             var domainContext = integrationEventAttribute?.DomainContext;
             var eventName = integrationEventAttribute?.EventName;
@@ -50,13 +48,17 @@ namespace Nox.Infrastructure.Messaging
             }
 
             var message = new CloudEventMessage<T>(integrationEvent) { UserId = _userProvider.GetUser().ToString() };
+            var source = new Uri($"https://{_messagePrefix}{_noxSolution.PlatformId}.com/{_noxSolution.Name}");
+
+            _logger.LogInformation($"Publishing integration event '{typeof(T)}'. Name: '{eventName}' Source: '{source}'");
+            PublishContext<CloudEventMessage<T>>? publishContext = null;
 
             await _bus.Publish(message, sendContext =>
             {
                 var cloudEvent = new CloudEvent();
                 cloudEvent.Data = integrationEvent;
                 cloudEvent.Id = sendContext.MessageId.ToString();
-                cloudEvent.Source = new Uri($"https://{_messagePrefix}{_noxSolution.PlatformId}.com/{_noxSolution.Name}");
+                cloudEvent.Source = source;
                 cloudEvent.Time = sendContext.SentTime;
                 cloudEvent.Type = $"{_noxSolution.PlatformId}.{_noxSolution.Name}.{domainContext}.v{_noxSolution.Version}.{eventName}";
                 cloudEvent.DataSchema = new System.Uri($"https://{_messagePrefix}{_noxSolution.PlatformId}.com/schemas/{_noxSolution.Name}/{domainContext}/v{_noxSolution.Version}/{eventName}.json");
@@ -64,8 +66,10 @@ namespace Nox.Infrastructure.Messaging
                 cloudEvent.SetAttributeFromString("xuserid", _userProvider.GetUser().ToString());
                 cloudEvent.Validate();
 
-                message.SetCloudEvent(cloudEvent);
+                publishContext = sendContext;
             });
+
+            _logger.LogInformation($"Published integration event '{typeof(T)}' to '{publishContext?.DestinationAddress?.AbsolutePath}'. Name: '{eventName}' Source: '{source}' MessageId: '{publishContext?.MessageId?.ToString()}'");
         }
     }
 }
