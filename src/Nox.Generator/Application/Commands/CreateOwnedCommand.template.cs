@@ -86,7 +86,7 @@ internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandl
 
 public class Create{{relationshipName}}For{{parent.Name}}Validator : AbstractValidator<Create{{relationshipName}}For{{parent.Name}}Command>
 {
-    public Create{{relationshipName}}For{{parent.Name}}Validator(ILogger<Create{{relationshipName}}For{{parent.Name}}Command> logger)
+    public Create{{relationshipName}}For{{parent.Name}}Validator()
     {
 		{{- for key in entity.Keys }}
             {{- if !IsNoxTypeCreatable key.Type }}

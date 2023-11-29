@@ -11,6 +11,7 @@ using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Extensions;
 
 namespace Cryptocash.Domain;
 
@@ -150,6 +151,15 @@ internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcu
     public virtual void CreateRefToEmployeePhoneNumbers(EmployeePhoneNumber relatedEmployeePhoneNumber)
     {
         EmployeePhoneNumbers.Add(relatedEmployeePhoneNumber);
+    }
+    
+    /// <summary>
+    /// Updates all owned EmployeePhoneNumber entities.
+    /// </summary>
+    public virtual void UpdateRefToEmployeePhoneNumbers(List<EmployeePhoneNumber> relatedEmployeePhoneNumber)
+    {
+        EmployeePhoneNumbers.Clear();
+        EmployeePhoneNumbers.AddRange(relatedEmployeePhoneNumber);
     }
     
     /// <summary>

@@ -175,6 +175,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             entity.OpenStreetMapsUrl = Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(updateDto.OpenStreetMapsUrl.ToValueFromNonNull<System.String>());
         }
         entity.StartOfWeek = Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(updateDto.StartOfWeek.NonNullValue<System.UInt16>());
+	    UpdateOwnedEntities(entity, updateDto, cultureCode);
     }
 
     private void PartialUpdateEntityInternal(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -304,6 +305,60 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
+
+	private void UpdateOwnedEntities(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+
+		if(updateDto.CountryTimeZones is null)
+			entity.DeleteAllRefToCountryTimeZones();
+		else
+		{
+			var updatedCountryTimeZones = new List<Cryptocash.Domain.CountryTimeZone>();
+			foreach(var ownedUpsertDto in updateDto.CountryTimeZones)
+			{
+				if(ownedUpsertDto.Id is null)
+					updatedCountryTimeZones.Add(CountryTimeZoneFactory.CreateEntity(ownedUpsertDto));
+				else
+				{
+					var key = Cryptocash.Domain.CountryTimeZoneMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
+					var ownedEntity = entity.CountryTimeZones.FirstOrDefault(x => x.Id == key);
+					if(ownedEntity is null)
+						throw new RelatedEntityNotFoundException("CountryTimeZones.Id", key.ToString());
+					else
+					{
+						CountryTimeZoneFactory.UpdateEntity(ownedEntity, ownedUpsertDto, cultureCode);
+						updatedCountryTimeZones.Add(ownedEntity);
+					}
+				}
+			}
+			entity.UpdateRefToCountryTimeZones(updatedCountryTimeZones);
+		}
+
+		if(updateDto.Holidays is null)
+			entity.DeleteAllRefToHolidays();
+		else
+		{
+			var updatedHolidays = new List<Cryptocash.Domain.Holiday>();
+			foreach(var ownedUpsertDto in updateDto.Holidays)
+			{
+				if(ownedUpsertDto.Id is null)
+					updatedHolidays.Add(HolidayFactory.CreateEntity(ownedUpsertDto));
+				else
+				{
+					var key = Cryptocash.Domain.HolidayMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
+					var ownedEntity = entity.Holidays.FirstOrDefault(x => x.Id == key);
+					if(ownedEntity is null)
+						throw new RelatedEntityNotFoundException("Holidays.Id", key.ToString());
+					else
+					{
+						HolidayFactory.UpdateEntity(ownedEntity, ownedUpsertDto, cultureCode);
+						updatedHolidays.Add(ownedEntity);
+					}
+				}
+			}
+			entity.UpdateRefToHolidays(updatedHolidays);
+		}
+	}
 }
 
 internal partial class CountryFactory : CountryFactoryBase

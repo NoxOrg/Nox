@@ -11,6 +11,7 @@ using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Extensions;
 
 namespace TestWebApp.Domain;
 
@@ -103,11 +104,22 @@ internal abstract partial class TestEntityOwnedRelationshipOneOrManyBase : Audit
     }
     
     /// <summary>
+    /// Updates all owned SecondTestEntityOwnedRelationshipOneOrMany entities.
+    /// </summary>
+    public virtual void UpdateRefToSecondTestEntityOwnedRelationshipOneOrManies(List<SecondTestEntityOwnedRelationshipOneOrMany> relatedSecondTestEntityOwnedRelationshipOneOrMany)
+    {
+        if(!relatedSecondTestEntityOwnedRelationshipOneOrMany.HasAtLeastOneItem())
+            throw new RelationshipDeletionException($"The relationship cannot be updated.");
+        SecondTestEntityOwnedRelationshipOneOrManies.Clear();
+        SecondTestEntityOwnedRelationshipOneOrManies.AddRange(relatedSecondTestEntityOwnedRelationshipOneOrMany);
+    }
+    
+    /// <summary>
     /// Deletes owned SecondTestEntityOwnedRelationshipOneOrMany entity.
     /// </summary>
     public virtual void DeleteRefToSecondTestEntityOwnedRelationshipOneOrManies(SecondTestEntityOwnedRelationshipOneOrMany relatedSecondTestEntityOwnedRelationshipOneOrMany)
     {
-        if(SecondTestEntityOwnedRelationshipOneOrManies.Count() < 2)
+        if(SecondTestEntityOwnedRelationshipOneOrManies.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         SecondTestEntityOwnedRelationshipOneOrManies.Remove(relatedSecondTestEntityOwnedRelationshipOneOrMany);
     }
@@ -117,7 +129,7 @@ internal abstract partial class TestEntityOwnedRelationshipOneOrManyBase : Audit
     /// </summary>
     public virtual void DeleteAllRefToSecondTestEntityOwnedRelationshipOneOrManies()
     {
-        if(SecondTestEntityOwnedRelationshipOneOrManies.Count() < 2)
+        if(SecondTestEntityOwnedRelationshipOneOrManies.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         SecondTestEntityOwnedRelationshipOneOrManies.Clear();
     }

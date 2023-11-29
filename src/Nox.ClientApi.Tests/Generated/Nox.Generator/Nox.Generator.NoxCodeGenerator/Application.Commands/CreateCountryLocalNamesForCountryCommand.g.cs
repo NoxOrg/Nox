@@ -75,7 +75,7 @@ internal abstract class CreateCountryLocalNamesForCountryCommandHandlerBase : Co
 
 public class CreateCountryLocalNamesForCountryValidator : AbstractValidator<CreateCountryLocalNamesForCountryCommand>
 {
-    public CreateCountryLocalNamesForCountryValidator(ILogger<CreateCountryLocalNamesForCountryCommand> logger)
+    public CreateCountryLocalNamesForCountryValidator()
     {
 		RuleFor(x => x.EntityDto.Id).Null().WithMessage("Id must be null as it is auto generated.");
     }

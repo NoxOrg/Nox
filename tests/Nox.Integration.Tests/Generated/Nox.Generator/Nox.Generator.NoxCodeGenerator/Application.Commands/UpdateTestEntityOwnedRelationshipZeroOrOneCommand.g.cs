@@ -10,6 +10,7 @@ using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
 using Nox.Extensions;
+using FluentValidation;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
@@ -56,6 +57,9 @@ internal abstract class UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandler
 		{
 			return null;
 		}
+		await DbContext.Entry(entity).Reference(x => x.SecondTestEntityOwnedRelationshipZeroOrOne).LoadAsync();
+		if(entity.SecondTestEntityOwnedRelationshipZeroOrOne is not null)
+			DbContext.Entry(entity.SecondTestEntityOwnedRelationshipZeroOrOne).State = EntityState.Deleted;
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
@@ -71,4 +75,11 @@ internal abstract class UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandler
 
 		return new TestEntityOwnedRelationshipZeroOrOneKeyDto(entity.Id.Value);
 	}
+}
+
+public class UpdateTestEntityOwnedRelationshipZeroOrOneValidator : AbstractValidator<UpdateTestEntityOwnedRelationshipZeroOrOneCommand>
+{
+    public UpdateTestEntityOwnedRelationshipZeroOrOneValidator()
+    {
+    }
 }

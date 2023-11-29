@@ -148,6 +148,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         {
             entity.Continent = ClientApi.Domain.CountryMetadata.CreateContinent(updateDto.Continent.ToValueFromNonNull<System.Int32>());
         }
+	    UpdateOwnedEntities(entity, updateDto, cultureCode);
     }
 
     private void PartialUpdateEntityInternal(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -239,6 +240,42 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
+
+	private void UpdateOwnedEntities(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+
+		if(updateDto.CountryLocalNames is null)
+			entity.DeleteAllRefToCountryLocalNames();
+		else
+		{
+			var updatedCountryLocalNames = new List<ClientApi.Domain.CountryLocalName>();
+			foreach(var ownedUpsertDto in updateDto.CountryLocalNames)
+			{
+				if(ownedUpsertDto.Id is null)
+					updatedCountryLocalNames.Add(CountryLocalNameFactory.CreateEntity(ownedUpsertDto));
+				else
+				{
+					var key = ClientApi.Domain.CountryLocalNameMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
+					var ownedEntity = entity.CountryLocalNames.FirstOrDefault(x => x.Id == key);
+					if(ownedEntity is null)
+						throw new RelatedEntityNotFoundException("CountryLocalNames.Id", key.ToString());
+					else
+					{
+						CountryLocalNameFactory.UpdateEntity(ownedEntity, ownedUpsertDto, cultureCode);
+						updatedCountryLocalNames.Add(ownedEntity);
+					}
+				}
+			}
+			entity.UpdateRefToCountryLocalNames(updatedCountryLocalNames);
+		}
+
+		if(updateDto.CountryBarCode is null)
+			entity.DeleteAllRefToCountryBarCode();
+		else
+		{
+			entity.CreateRefToCountryBarCode(CountryBarCodeFactory.CreateEntity(updateDto.CountryBarCode));
+		}
+	}
 }
 
 internal partial class CountryFactory : CountryFactoryBase

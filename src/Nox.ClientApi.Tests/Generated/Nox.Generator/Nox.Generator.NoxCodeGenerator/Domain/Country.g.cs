@@ -11,6 +11,7 @@ using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Extensions;
 
 namespace ClientApi.Domain;
 
@@ -184,6 +185,15 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     public virtual void CreateRefToCountryLocalNames(CountryLocalName relatedCountryLocalName)
     {
         CountryLocalNames.Add(relatedCountryLocalName);
+    }
+    
+    /// <summary>
+    /// Updates all owned CountryLocalName entities.
+    /// </summary>
+    public virtual void UpdateRefToCountryLocalNames(List<CountryLocalName> relatedCountryLocalName)
+    {
+        CountryLocalNames.Clear();
+        CountryLocalNames.AddRange(relatedCountryLocalName);
     }
     
     /// <summary>

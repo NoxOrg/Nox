@@ -86,6 +86,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         {
             entity.LastWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(updateDto.LastWorkingDay.ToValueFromNonNull<System.DateTime>());
         }
+	    UpdateOwnedEntities(entity, updateDto, cultureCode);
     }
 
     private void PartialUpdateEntityInternal(EmployeeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -158,6 +159,35 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
+
+	private void UpdateOwnedEntities(EmployeeEntity entity, EmployeeUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+
+		if(updateDto.EmployeePhoneNumbers is null)
+			entity.DeleteAllRefToEmployeePhoneNumbers();
+		else
+		{
+			var updatedEmployeePhoneNumbers = new List<Cryptocash.Domain.EmployeePhoneNumber>();
+			foreach(var ownedUpsertDto in updateDto.EmployeePhoneNumbers)
+			{
+				if(ownedUpsertDto.Id is null)
+					updatedEmployeePhoneNumbers.Add(EmployeePhoneNumberFactory.CreateEntity(ownedUpsertDto));
+				else
+				{
+					var key = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
+					var ownedEntity = entity.EmployeePhoneNumbers.FirstOrDefault(x => x.Id == key);
+					if(ownedEntity is null)
+						throw new RelatedEntityNotFoundException("EmployeePhoneNumbers.Id", key.ToString());
+					else
+					{
+						EmployeePhoneNumberFactory.UpdateEntity(ownedEntity, ownedUpsertDto, cultureCode);
+						updatedEmployeePhoneNumbers.Add(ownedEntity);
+					}
+				}
+			}
+			entity.UpdateRefToEmployeePhoneNumbers(updatedEmployeePhoneNumbers);
+		}
+	}
 }
 
 internal partial class EmployeeFactory : EmployeeFactoryBase

@@ -75,7 +75,7 @@ internal abstract class CreateBankNotesForCurrencyCommandHandlerBase : CommandBa
 
 public class CreateBankNotesForCurrencyValidator : AbstractValidator<CreateBankNotesForCurrencyCommand>
 {
-    public CreateBankNotesForCurrencyValidator(ILogger<CreateBankNotesForCurrencyCommand> logger)
+    public CreateBankNotesForCurrencyValidator()
     {
 		RuleFor(x => x.EntityDto.Id).Null().WithMessage("Id must be null as it is auto generated.");
     }

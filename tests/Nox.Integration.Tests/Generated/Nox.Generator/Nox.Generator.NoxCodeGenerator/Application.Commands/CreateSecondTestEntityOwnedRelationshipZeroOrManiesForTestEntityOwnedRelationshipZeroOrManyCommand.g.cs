@@ -75,7 +75,7 @@ internal abstract class CreateSecondTestEntityOwnedRelationshipZeroOrManiesForTe
 
 public class CreateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyValidator : AbstractValidator<CreateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand>
 {
-    public CreateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyValidator(ILogger<CreateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand> logger)
+    public CreateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyValidator()
     {
 		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
     }

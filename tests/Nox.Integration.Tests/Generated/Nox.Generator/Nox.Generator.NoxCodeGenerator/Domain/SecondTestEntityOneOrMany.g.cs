@@ -11,6 +11,7 @@ using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Extensions;
 
 namespace TestWebApp.Domain;
 
@@ -101,7 +102,7 @@ internal abstract partial class SecondTestEntityOneOrManyBase : AuditableEntityB
 
     public virtual void UpdateRefToTestEntityOneOrManies(List<TestEntityOneOrMany> relatedTestEntityOneOrMany)
     {
-        if(relatedTestEntityOneOrMany is null || relatedTestEntityOneOrMany.Count < 2)
+        if(!relatedTestEntityOneOrMany.HasAtLeastOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
         TestEntityOneOrManies.Clear();
         TestEntityOneOrManies.AddRange(relatedTestEntityOneOrMany);
@@ -109,14 +110,14 @@ internal abstract partial class SecondTestEntityOneOrManyBase : AuditableEntityB
 
     public virtual void DeleteRefToTestEntityOneOrManies(TestEntityOneOrMany relatedTestEntityOneOrMany)
     {
-        if(TestEntityOneOrManies.Count() < 2)
+        if(TestEntityOneOrManies.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestEntityOneOrManies.Remove(relatedTestEntityOneOrMany);
     }
 
     public virtual void DeleteAllRefToTestEntityOneOrManies()
     {
-        if(TestEntityOneOrManies.Count() < 2)
+        if(TestEntityOneOrManies.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestEntityOneOrManies.Clear();
     }

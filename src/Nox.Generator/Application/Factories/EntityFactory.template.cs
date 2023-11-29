@@ -154,6 +154,10 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 		entity.Ensure{{key.Name}}();
 		    {{- end }}
 		{{- end }}
+
+        {{- if (entity.OwnedRelationships | array.size) > 0 }}
+	    UpdateOwnedEntities(entity, updateDto, cultureCode);    
+		{{- end }}
     }
 
     private void PartialUpdateEntityInternal({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -190,6 +194,50 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
+
+    {{- if (entity.OwnedRelationships | array.size) > 0 }}
+
+	private void UpdateOwnedEntities({{entity.Name}}Entity entity, {{entityUpdateDto}} updateDto, Nox.Types.CultureCode cultureCode)
+	{
+		{{- for ownedRelationship in entity.OwnedRelationships }}
+			{{- navigationName = GetNavigationPropertyName entity ownedRelationship }}
+			{{- key = ownedRelationship.Related.Entity.Keys | array.first }}
+
+		if(updateDto.{{navigationName}} is null)
+			entity.DeleteAllRefTo{{navigationName}}();
+		else
+		{
+			{{- if ownedRelationship.WithSingleEntity }}
+			entity.CreateRefTo{{navigationName}}({{ownedRelationship.Entity}}Factory.CreateEntity(updateDto.{{navigationName}}));
+			{{- else # WithMultiEntity }}
+			var updated{{navigationName}} = new List<{{codeGeneratorState.DomainNameSpace}}.{{ownedRelationship.Entity}}>();
+			foreach(var ownedUpsertDto in updateDto.{{navigationName}})
+			{
+				if(ownedUpsertDto.{{key.Name}} is null)
+					updated{{navigationName}}.Add({{ownedRelationship.Entity}}Factory.CreateEntity(ownedUpsertDto));
+				else
+				{
+					var key = {{codeGeneratorState.DomainNameSpace}}.{{ownedRelationship.Entity}}Metadata.Create{{key.Name}}(ownedUpsertDto.{{key.Name}}.NonNullValue<{{keyType key}}>());
+					var ownedEntity = entity.{{navigationName}}.FirstOrDefault(x => x.{{key.Name}} == key);
+					if(ownedEntity is null)
+						{{- if !IsNoxTypeCreatable key.Type }}
+						throw new RelatedEntityNotFoundException("{{navigationName}}.{{key.Name}}", key.ToString());
+                        {{- else }}
+						updated{{navigationName}}.Add({{ownedRelationship.Entity}}Factory.CreateEntity(ownedUpsertDto));
+						{{- end }}
+					else
+					{
+						{{ownedRelationship.Entity}}Factory.UpdateEntity(ownedEntity, ownedUpsertDto, cultureCode);
+						updated{{navigationName}}.Add(ownedEntity);
+					}
+				}
+			}
+			entity.UpdateRefTo{{navigationName}}(updated{{navigationName}});
+			{{- end }}
+		}
+		{{- end }}
+	}
+	{{- end }}
 }
 
 internal partial class {{className}} : {{className}}Base

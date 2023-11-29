@@ -1,4 +1,7 @@
-﻿﻿﻿// Generated
+﻿{{- func keyType(key)
+   ret (key.Type == "EntityId") ? (SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity) : (SinglePrimitiveTypeForKey key)
+end -}}
+﻿﻿// Generated
 
 #nullable enable
 
@@ -10,6 +13,7 @@ using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
 using Nox.Extensions;
+using FluentValidation;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
@@ -68,6 +72,26 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 			return null;
 		}
 
+		{{- for relationship in entity.OwnedRelationships }}
+            {{- navigationName = GetNavigationPropertyName entity relationship }}
+			{{- if relationship.WithSingleEntity }}
+		await DbContext.Entry(entity).Reference(x => x.{{navigationName}}).LoadAsync();
+		if(entity.{{navigationName}} is not null)
+			DbContext.Entry(entity.{{navigationName}}).State = EntityState.Deleted;
+			{{- else }}
+			{{- key = relationship.Related.Entity.Keys | array.first }}
+		await DbContext.Entry(entity).Collection(x => x.{{navigationName}}).LoadAsync();
+		var keysToUpdate{{navigationName}} = request.EntityDto.{{navigationName}}
+			.Where(x => x.{{key.Name}} != null)
+			.Select(x => {{codeGeneratorState.DomainNameSpace}}.{{relationship.Entity}}Metadata.Create{{key.Name}}(x.{{key.Name}}.NonNullValue<{{keyType key}}>()));
+		foreach(var ownedEntity in entity.{{navigationName}})
+		{
+			if(!keysToUpdate{{navigationName}}.Any(x => x == ownedEntity.{{key.Name}}))
+				DbContext.Entry(ownedEntity).State = EntityState.Deleted;
+		}
+			{{- end }}
+		{{- end }}
+
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 
 		{{- if !entity.IsOwnedEntity }}
@@ -108,3 +132,24 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 	}
 	{{- end }}
 }
+
+{{- if (entity.OwnedRelationships | array.size) > 0 }}
+
+public class Update{{entity.Name}}Validator : AbstractValidator<Update{{entity.Name}}Command>
+{
+    public Update{{entity.Name}}Validator()
+    {
+		{{- for ownedRelationship in entity.OwnedRelationships }}
+			{{- if ownedRelationship.WithMultiEntity }}
+				{{- relationshipName = GetNavigationPropertyName entity ownedRelationship }}
+				{{- key = ownedRelationship.Related.Entity.Keys | array.first }}
+					{{- if IsNoxTypeCreatable key.Type }}
+		RuleFor(x => x.EntityDto.{{relationshipName}})
+			.Must(owned => owned.All(x => x.{{key.Name}} != null))
+			.WithMessage("{{relationshipName}}.{{key.Name}} is required.");
+					{{- end }}
+			{{- end }}
+        {{- end }}
+    }
+}
+{{- end }}

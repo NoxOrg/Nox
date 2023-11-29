@@ -8,6 +8,7 @@ using Xunit.Abstractions;
 using ClientApi.Tests.Controllers;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Humanizer;
+using static MassTransit.ValidationResultExtensions;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -459,6 +460,242 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         #endregion PUT to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{key}/{OwnedEntityName} => api/countries/1/CountryBarCode
+
+        #region PUT Entity with Owned Entities /api/{EntityPluralName}/{key} => api/countries/1
+        [Fact]
+        public async Task Put_WithCountryBarCode_Success()
+        {
+            // Arrange
+            var expectedBarCodeName = _fixture.Create<string>();
+            var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+                new CountryCreateDto
+                {
+                    Name = _fixture.Create<string>(),
+                    CountryBarCode = new CountryBarCodeUpsertDto() { BarCodeName = _fixture.Create<string>() }
+                });
+
+            // Act
+            var headers = CreateEtagHeader(postCountryResponse!.Etag);
+            var putCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>(
+                $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}",
+                new CountryUpdateDto
+                {
+                    Name = postCountryResponse!.Name,
+                    CountryBarCode = new CountryBarCodeUpsertDto() { BarCodeName = expectedBarCodeName }
+                },
+                headers
+            );
+
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+            //Assert
+            putCountryResponse.Should().NotBeNull();
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
+            getCountryResponse!.CountryBarCode.Should().NotBeNull();
+            getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
+        }
+
+        [Fact]
+        public async Task Put_EmptyCountryBarCode_Success()
+        {
+            // Arrange
+            var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+                new CountryCreateDto
+                {
+                    Name = _fixture.Create<string>(),
+                    CountryBarCode = new CountryBarCodeUpsertDto() { BarCodeName = _fixture.Create<string>() }
+                });
+
+            // Act
+            var headers = CreateEtagHeader(postCountryResponse!.Etag);
+            var putCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>(
+                $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}",
+                new CountryUpdateDto
+                {
+                    Name = postCountryResponse!.Name,
+                    CountryBarCode = null
+                },
+                headers
+            );
+
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+            //Assert
+            putCountryResponse.Should().NotBeNull();
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.CountryBarCode.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task Put_WithCountryLocalNames_FromEmptyToList_Success()
+        {
+            // Arrange
+            var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+                new CountryCreateDto
+                {
+                    Name = _fixture.Create<string>()
+                });
+
+            // Act
+            var headers = CreateEtagHeader(postCountryResponse!.Etag);
+            var putCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>(
+                $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}",
+                new CountryUpdateDto
+                {
+                    Name = postCountryResponse!.Name,
+                    CountryLocalNames = new List<CountryLocalNameUpsertDto>
+                    {
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() }
+                    }
+                },
+                headers
+            );
+
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+            //Assert
+            putCountryResponse.Should().NotBeNull();
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.CountryLocalNames.Should().NotBeNull();
+            getCountryResponse!.CountryLocalNames!.Should().HaveCount(3);
+        }
+
+        [Fact]
+        public async Task Put_WithCountryLocalNames_FromListToEmpty_Success()
+        {
+            // Arrange
+            var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+                new CountryCreateDto
+                {
+                    Name = _fixture.Create<string>(),
+                    CountryLocalNames = new List<CountryLocalNameUpsertDto>
+                    {
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() }
+                    }
+                });
+
+            // Act
+            var headers = CreateEtagHeader(postCountryResponse!.Etag);
+            var putCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>(
+                $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}",
+                new CountryUpdateDto
+                {
+                    Name = postCountryResponse!.Name,
+                    CountryLocalNames = new List<CountryLocalNameUpsertDto>()
+                },
+                headers
+            );
+
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+            //Assert
+            putCountryResponse.Should().NotBeNull();
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.CountryLocalNames.Should().NotBeNull();
+            getCountryResponse!.CountryLocalNames!.Should().HaveCount(0);
+        }
+
+        [Fact]
+        public async Task Put_WithCountryLocalNames_FromListToList_Success()
+        {
+            // Arrange
+            var expectedName = _fixture.Create<string>();
+            var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+                new CountryCreateDto
+                {
+                    Name = _fixture.Create<string>(),
+                    CountryLocalNames = new List<CountryLocalNameUpsertDto>
+                    {
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() }
+                    }
+                });
+            var initialGetCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+            // Act
+            var headers = CreateEtagHeader(postCountryResponse!.Etag);
+            var putCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>(
+                $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}",
+                new CountryUpdateDto
+                {
+                    Name = postCountryResponse!.Name,
+                    CountryLocalNames = new List<CountryLocalNameUpsertDto>
+                    {
+                        new CountryLocalNameUpsertDto { Id = initialGetCountryResponse!.CountryLocalNames.ElementAt(0).Id, Name = expectedName },
+                        new CountryLocalNameUpsertDto { Id = initialGetCountryResponse!.CountryLocalNames.ElementAt(1).Id, Name = expectedName },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() }
+                    }
+                },
+                headers
+            );
+
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+            //Assert
+            putCountryResponse.Should().NotBeNull();
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.CountryLocalNames.Should().NotBeNull();
+            getCountryResponse!.CountryLocalNames!.Should().HaveCount(4);
+            getCountryResponse!.CountryLocalNames!.Should().Contain(x => x.Id == initialGetCountryResponse!.CountryLocalNames.ElementAt(0).Id);
+            getCountryResponse!.CountryLocalNames!.Should().Contain(x => x.Id == initialGetCountryResponse!.CountryLocalNames.ElementAt(1).Id);
+            getCountryResponse!.CountryLocalNames!.First(x => x.Id == initialGetCountryResponse!.CountryLocalNames.ElementAt(0).Id)!.Name.Should().Be(expectedName);
+            getCountryResponse!.CountryLocalNames!.First(x => x.Id == initialGetCountryResponse!.CountryLocalNames.ElementAt(1).Id)!.Name.Should().Be(expectedName);
+            getCountryResponse!.CountryLocalNames!.Should().NotContain(x => x.Id == initialGetCountryResponse!.CountryLocalNames.ElementAt(2).Id);
+        }
+
+        [Fact]
+        public async Task Put_WithCountryLocalNames_InvalidId_Fails()
+        {
+            // Arrange
+            var expectedName = _fixture.Create<string>();
+            var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+                new CountryCreateDto
+                {
+                    Name = _fixture.Create<string>(),
+                    CountryLocalNames = new List<CountryLocalNameUpsertDto>
+                    {
+                        new CountryLocalNameUpsertDto { Name = expectedName },
+                        new CountryLocalNameUpsertDto { Name = expectedName }
+                    }
+                });
+            var initialGetCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+            // Act
+            var headers = CreateEtagHeader(postCountryResponse!.Etag);
+            var putCountryResponse = await PutAsync(
+                $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}",
+                new CountryUpdateDto
+                {
+                    Name = postCountryResponse!.Name,
+                    CountryLocalNames = new List<CountryLocalNameUpsertDto>
+                    {
+                        new CountryLocalNameUpsertDto { Id = initialGetCountryResponse!.CountryLocalNames.ElementAt(0).Id, Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Id = initialGetCountryResponse!.CountryLocalNames.ElementAt(0).Id + 100, Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() }
+                    }
+                },
+                headers,
+                throwOnError: false
+            );
+
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+            //Assert
+            putCountryResponse.Should().NotBeNull();
+            putCountryResponse!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.CountryLocalNames.Should().NotBeNull();
+            getCountryResponse!.CountryLocalNames!.Should().HaveCount(2);
+            getCountryResponse!.CountryLocalNames!.Should().AllSatisfy(x => x.Name.Should().Be(expectedName));
+        }
+        #endregion
 
         #endregion PUT
 

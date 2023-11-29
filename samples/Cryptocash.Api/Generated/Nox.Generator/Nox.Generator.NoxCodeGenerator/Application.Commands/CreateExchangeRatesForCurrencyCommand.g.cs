@@ -75,7 +75,7 @@ internal abstract class CreateExchangeRatesForCurrencyCommandHandlerBase : Comma
 
 public class CreateExchangeRatesForCurrencyValidator : AbstractValidator<CreateExchangeRatesForCurrencyCommand>
 {
-    public CreateExchangeRatesForCurrencyValidator(ILogger<CreateExchangeRatesForCurrencyCommand> logger)
+    public CreateExchangeRatesForCurrencyValidator()
     {
 		RuleFor(x => x.EntityDto.Id).Null().WithMessage("Id must be null as it is auto generated.");
     }

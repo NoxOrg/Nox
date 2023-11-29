@@ -10,6 +10,7 @@ using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
 using Nox.Extensions;
+using FluentValidation;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
@@ -56,6 +57,15 @@ internal abstract class UpdateTestEntityOwnedRelationshipOneOrManyCommandHandler
 		{
 			return null;
 		}
+		await DbContext.Entry(entity).Collection(x => x.SecondTestEntityOwnedRelationshipOneOrManies).LoadAsync();
+		var keysToUpdateSecondTestEntityOwnedRelationshipOneOrManies = request.EntityDto.SecondTestEntityOwnedRelationshipOneOrManies
+			.Where(x => x.Id != null)
+			.Select(x => TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrManyMetadata.CreateId(x.Id.NonNullValue<System.String>()));
+		foreach(var ownedEntity in entity.SecondTestEntityOwnedRelationshipOneOrManies)
+		{
+			if(!keysToUpdateSecondTestEntityOwnedRelationshipOneOrManies.Any(x => x == ownedEntity.Id))
+				DbContext.Entry(ownedEntity).State = EntityState.Deleted;
+		}
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
@@ -71,4 +81,14 @@ internal abstract class UpdateTestEntityOwnedRelationshipOneOrManyCommandHandler
 
 		return new TestEntityOwnedRelationshipOneOrManyKeyDto(entity.Id.Value);
 	}
+}
+
+public class UpdateTestEntityOwnedRelationshipOneOrManyValidator : AbstractValidator<UpdateTestEntityOwnedRelationshipOneOrManyCommand>
+{
+    public UpdateTestEntityOwnedRelationshipOneOrManyValidator()
+    {
+		RuleFor(x => x.EntityDto.SecondTestEntityOwnedRelationshipOneOrManies)
+			.Must(owned => owned.All(x => x.Id != null))
+			.WithMessage("SecondTestEntityOwnedRelationshipOneOrManies.Id is required.");
+    }
 }

@@ -95,6 +95,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         {
             entity.Status = ClientApi.Domain.StoreMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>());
         }
+	    UpdateOwnedEntities(entity, updateDto, cultureCode);
     }
 
     private void PartialUpdateEntityInternal(StoreEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -154,6 +155,17 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
+
+	private void UpdateOwnedEntities(StoreEntity entity, StoreUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+
+		if(updateDto.EmailAddress is null)
+			entity.DeleteAllRefToEmailAddress();
+		else
+		{
+			entity.CreateRefToEmailAddress(EmailAddressFactory.CreateEntity(updateDto.EmailAddress));
+		}
+	}
 }
 
 internal partial class StoreFactory : StoreFactoryBase

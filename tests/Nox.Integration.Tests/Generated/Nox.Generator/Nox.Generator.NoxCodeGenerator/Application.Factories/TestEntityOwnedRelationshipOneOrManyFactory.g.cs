@@ -70,6 +70,7 @@ internal abstract class TestEntityOwnedRelationshipOneOrManyFactoryBase : IEntit
     private void UpdateEntityInternal(TestEntityOwnedRelationshipOneOrManyEntity entity, TestEntityOwnedRelationshipOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField = TestWebApp.Domain.TestEntityOwnedRelationshipOneOrManyMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
+	    UpdateOwnedEntities(entity, updateDto, cultureCode);
     }
 
     private void PartialUpdateEntityInternal(TestEntityOwnedRelationshipOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -89,6 +90,35 @@ internal abstract class TestEntityOwnedRelationshipOneOrManyFactoryBase : IEntit
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
+
+	private void UpdateOwnedEntities(TestEntityOwnedRelationshipOneOrManyEntity entity, TestEntityOwnedRelationshipOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+
+		if(updateDto.SecondTestEntityOwnedRelationshipOneOrManies is null)
+			entity.DeleteAllRefToSecondTestEntityOwnedRelationshipOneOrManies();
+		else
+		{
+			var updatedSecondTestEntityOwnedRelationshipOneOrManies = new List<TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrMany>();
+			foreach(var ownedUpsertDto in updateDto.SecondTestEntityOwnedRelationshipOneOrManies)
+			{
+				if(ownedUpsertDto.Id is null)
+					updatedSecondTestEntityOwnedRelationshipOneOrManies.Add(SecondTestEntityOwnedRelationshipOneOrManyFactory.CreateEntity(ownedUpsertDto));
+				else
+				{
+					var key = TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrManyMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.String>());
+					var ownedEntity = entity.SecondTestEntityOwnedRelationshipOneOrManies.FirstOrDefault(x => x.Id == key);
+					if(ownedEntity is null)
+						updatedSecondTestEntityOwnedRelationshipOneOrManies.Add(SecondTestEntityOwnedRelationshipOneOrManyFactory.CreateEntity(ownedUpsertDto));
+					else
+					{
+						SecondTestEntityOwnedRelationshipOneOrManyFactory.UpdateEntity(ownedEntity, ownedUpsertDto, cultureCode);
+						updatedSecondTestEntityOwnedRelationshipOneOrManies.Add(ownedEntity);
+					}
+				}
+			}
+			entity.UpdateRefToSecondTestEntityOwnedRelationshipOneOrManies(updatedSecondTestEntityOwnedRelationshipOneOrManies);
+		}
+	}
 }
 
 internal partial class TestEntityOwnedRelationshipOneOrManyFactory : TestEntityOwnedRelationshipOneOrManyFactoryBase
