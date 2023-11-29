@@ -3,10 +3,11 @@
 #nullable enable
 
 using MediatR;
+using FluentValidation;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
-using Nox.Application.Exceptions;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
@@ -29,6 +30,7 @@ internal partial class UpsertTestEntityForTypesEnumerationTestFieldsTranslations
 internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase : CommandBase<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand, TestEntityForTypesEnumerationTestFieldLocalized>, IRequestHandler<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand, IEnumerable<TestEntityForTypesEnumerationTestFieldLocalizedDto>>
 {
 	public AppDbContext DbContext { get; }
+	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
 	public UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase(
         AppDbContext dbContext,
@@ -45,64 +47,56 @@ internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslation
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
 		
-		if(command.TestEntityForTypesEnumerationTestFieldLocalizedDtos == null || command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Count() == 0)
-		{
-			throw new ArgumentNullException($"No {nameof(command.TestEntityForTypesEnumerationTestFieldLocalizedDtos)} found.");
-		}
+		var cultureCodes = command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.DistinctBy(d=>d.CultureCode).Select(d=>CultureCode.From(d.CultureCode)).ToList();
 		
-		var cultureCode = command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.First().CultureCode;
-		var supportedCultureCodes = NoxSolution.Application?.Localization?.SupportedCultures?.ToHashSet();
-		var cultureCodeValue = Nox.Types.CultureCode.From(cultureCode);
+		var localizedEntities = await DbContext.TestEntityForTypesEnumerationTestFieldsLocalized.Where(x => cultureCodes.Contains(x.CultureCode)).AsNoTracking().ToListAsync(cancellationToken);
 		
-		if (supportedCultureCodes == null || !supportedCultureCodes.Contains(cultureCode))
-		{
-			throw new CultureCodeNotSupportedException($"Culture code {cultureCode} not supported.");
-		}
+		var entities = new List<TestEntityForTypesEnumerationTestFieldLocalized>();
 		
-		if (!command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.All(x => x.CultureCode == cultureCode))
+		command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Where(dto=> !localizedEntities.Any(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode))).ForEach(dto =>
 		{
-			throw new CultureCodeMismatchException($"Culture code {cultureCode} does not match.");
-		}
+			var e = new TestEntityForTypesEnumerationTestFieldLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
+			DbContext.Entry(e).State = EntityState.Added;
+			entities.Add(e);
+		});
 		
-		var ids = command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Select(dto=> dto.Id).ToList();
-		var query =
-			from Enum in DbContext.TestEntityForTypesEnumerationTestFields
-			join localized in DbContext.TestEntityForTypesEnumerationTestFieldsLocalized
-				on  new {Id = Enum.Id, Culture = cultureCodeValue}  equals new  {Id = localized.Id, Culture = localized.CultureCode} into localizedEnumsJoin
-			from LocalizedEnum in localizedEnumsJoin.DefaultIfEmpty()
-			select new { Enum.Id, LocalizedId = LocalizedEnum.Id };
+		command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Where(dto=> localizedEntities.Any(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode))).ForEach(dto =>
+		{
+			var e = new TestEntityForTypesEnumerationTestFieldLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
+			DbContext.Entry(e).State = EntityState.Modified;
+			entities.Add(e);
+		});
 		
+		command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Where(dto=>dto.CultureCode == _defaultCultureCode.Value).ForEach(dto =>
+		{
+			var e = new TestEntityForTypesEnumerationTestField { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
+			DbContext.Entry(e).State = EntityState.Modified;
+		});
 		
-		var queryResult = await query.AsNoTracking().ToListAsync(cancellationToken);
-			
-		if(!(queryResult.Count == ids.Count && queryResult.All(x=> ids.Contains(x.Id.Value))))
-		{
-			throw new InvalidEnumIdsException($"Provided ids are invalid for {nameof(DbContext.TestEntityForTypesEnumerationTestFields)}.");
-		}
-		
-		var localizedEntities = 
-			command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Select(dto => new TestEntityForTypesEnumerationTestFieldLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = cultureCodeValue, Name = dto.Name}).ToList();
-
-		if (queryResult.First().LocalizedId == null)
-		{
-			DbContext.TestEntityForTypesEnumerationTestFieldsLocalized.AddRange(localizedEntities);
-		}
-		else
-		{
-			localizedEntities.ForEach(e=> DbContext.Entry(e).State = EntityState.Modified);
-		}
-
-		if (NoxSolution.Application?.Localization?.DefaultCulture == cultureCode)
-		{
-			command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.ForEach(dto =>
-			{
-				var e = new TestEntityForTypesEnumerationTestField { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
-				DbContext.Entry(e).State = EntityState.Modified;
-			});
-		}
 
 		await OnBatchCompletedAsync(command, localizedEntities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return command.TestEntityForTypesEnumerationTestFieldLocalizedDtos;
 	}
+}
+public class UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandValidator : AbstractValidator<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand>
+{
+	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+	private static readonly string[] _supportedCultureCodes = new string[] { "en-US", };
+	private static readonly int[] _supportedIds = new int[] { 1, 2, 3, };
+	
+    public UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandValidator(NoxSolution noxSolution)
+    {
+		RuleFor(x => x.TestEntityForTypesEnumerationTestFieldLocalizedDtos)
+			.Must(x => x != null && x.Count() > 0)
+			.WithMessage($"{nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand)} : {nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand.TestEntityForTypesEnumerationTestFieldLocalizedDtos)} is required.");
+		
+		RuleForEach(x => x.TestEntityForTypesEnumerationTestFieldLocalizedDtos)
+			.Must(x => _supportedCultureCodes.Contains(x.CultureCode))
+			.WithMessage((_,x) => $"{nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand)} : {nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand.TestEntityForTypesEnumerationTestFieldLocalizedDtos)} contains unsupported culture code: {x.CultureCode}.");
+		
+		RuleForEach(x => x.TestEntityForTypesEnumerationTestFieldLocalizedDtos)
+			.Must(x => _supportedIds.Contains(x.Id))
+			.WithMessage((_,x) => $"{nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand)} : {nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand.TestEntityForTypesEnumerationTestFieldLocalizedDtos)} contains unsupported Id: {x.Id}.");
+    }
 }

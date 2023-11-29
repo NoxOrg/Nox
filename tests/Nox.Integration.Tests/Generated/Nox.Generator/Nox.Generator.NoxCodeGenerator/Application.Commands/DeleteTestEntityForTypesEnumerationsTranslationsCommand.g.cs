@@ -6,7 +6,6 @@ using MediatR;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
-using Nox.Application.Exceptions;
 using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
