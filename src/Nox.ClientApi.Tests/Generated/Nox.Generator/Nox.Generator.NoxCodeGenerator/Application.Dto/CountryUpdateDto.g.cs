@@ -80,4 +80,8 @@ public partial class CountryUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNames
     /// Country is also coded as ZeroOrOne CountryBarCodes
     /// </summary>
     public virtual CountryBarCodeUpsertDto? CountryBarCode { get; set; } = null!;
+    /// <summary>
+    /// Country uses ZeroOrMany CountryTimeZones
+    /// </summary>
+    public virtual List<CountryTimeZoneUpsertDto> CountryTimeZones { get; set; } = new();
 }

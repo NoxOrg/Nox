@@ -4,6 +4,7 @@
 
 // Found files ->
 //  - clientapi.solution.nox.yaml
+//  - country-time-zone.entity.nox.yaml
 //  - country.entity.nox.yaml
 //  - countrybarcode.entity.nox.yaml
 //  - countrylocalname.entity.nox.yaml
