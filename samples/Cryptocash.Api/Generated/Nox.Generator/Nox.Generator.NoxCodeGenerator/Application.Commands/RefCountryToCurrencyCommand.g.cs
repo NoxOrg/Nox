@@ -19,10 +19,12 @@ using CountryEntity = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefCountryToCurrencyCommand(CountryKeyDto EntityKeyDto, CurrencyKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefCountryToCurrencyCommand(CountryKeyDto EntityKeyDto) : IRequest <bool>;
+
+#region CreateRefTo
 
 public partial record CreateRefCountryToCurrencyCommand(CountryKeyDto EntityKeyDto, CurrencyKeyDto RelatedEntityKeyDto)
-	: RefCountryToCurrencyCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefCountryToCurrencyCommand(EntityKeyDto);
 
 internal partial class CreateRefCountryToCurrencyCommandHandler
 	: RefCountryToCurrencyCommandHandlerBase<CreateRefCountryToCurrencyCommand>
@@ -31,12 +33,35 @@ internal partial class CreateRefCountryToCurrencyCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Create)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(CreateRefCountryToCurrencyCommand request)
+    {
+		var entity = await GetCountry(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetCurrency(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.CreateRefToCurrency(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion CreateRefTo
+
+#region DeleteRefTo
+
 public record DeleteRefCountryToCurrencyCommand(CountryKeyDto EntityKeyDto, CurrencyKeyDto RelatedEntityKeyDto)
-	: RefCountryToCurrencyCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefCountryToCurrencyCommand(EntityKeyDto);
 
 internal partial class DeleteRefCountryToCurrencyCommandHandler
 	: RefCountryToCurrencyCommandHandlerBase<DeleteRefCountryToCurrencyCommand>
@@ -45,12 +70,35 @@ internal partial class DeleteRefCountryToCurrencyCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Delete)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteRefCountryToCurrencyCommand request)
+    {
+        var entity = await GetCountry(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetCurrency(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.DeleteRefToCurrency(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion DeleteRefTo
+
+#region DeleteAllRefTo
+
 public record DeleteAllRefCountryToCurrencyCommand(CountryKeyDto EntityKeyDto)
-	: RefCountryToCurrencyCommand(EntityKeyDto, null);
+	: RefCountryToCurrencyCommand(EntityKeyDto);
 
 internal partial class DeleteAllRefCountryToCurrencyCommandHandler
 	: RefCountryToCurrencyCommandHandlerBase<DeleteAllRefCountryToCurrencyCommand>
@@ -59,68 +107,67 @@ internal partial class DeleteAllRefCountryToCurrencyCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteAllRefCountryToCurrencyCommand request)
+    {
+        var entity = await GetCountry(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+		entity.DeleteAllRefToCurrency();
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
+
+#endregion DeleteAllRefTo
 
 internal abstract class RefCountryToCurrencyCommandHandlerBase<TRequest> : CommandBase<TRequest, CountryEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToCurrencyCommand
 {
 	public AppDbContext DbContext { get; }
 
-	public RelationshipAction Action { get; }
-
-	public enum RelationshipAction { Create, Delete, DeleteAll };
-
 	public RefCountryToCurrencyCommandHandlerBase(
         AppDbContext dbContext,
-		NoxSolution noxSolution,
-		RelationshipAction action)
+		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		Action = action;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityKeyDto.keyId);
-		var entity = await DbContext.Countries.FindAsync(keyId);
-		if (entity == null)
+		return await ExecuteAsync(request);
+	}
+
+	protected abstract Task<bool> ExecuteAsync(TRequest request);
+
+	protected async Task<CountryEntity?> GetCountry(CountryKeyDto entityKeyDto)
+	{
+		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(entityKeyDto.keyId);
+		return await DbContext.Countries.FindAsync(keyId);
+	}
+
+	protected async Task<Cryptocash.Domain.Currency?> GetCurrency(CurrencyKeyDto relatedEntityKeyDto)
+	{
+		var relatedKeyId = Cryptocash.Domain.CurrencyMetadata.CreateId(relatedEntityKeyDto.keyId);
+		return await DbContext.Currencies.FindAsync(relatedKeyId);
+	}
+
+	protected async Task<bool> SaveChangesAsync(TRequest request, CountryEntity entity)
+	{
+		await OnCompletedAsync(request, entity);
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
 		{
 			return false;
 		}
-
-		Cryptocash.Domain.Currency? relatedEntity = null!;
-		if(request.RelatedEntityKeyDto is not null)
-		{
-			var relatedKeyId = Cryptocash.Domain.CurrencyMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
-			relatedEntity = await DbContext.Currencies.FindAsync(relatedKeyId);
-			if (relatedEntity == null)
-			{
-				return false;
-			}
-		}
-
-		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToCurrency(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToCurrency(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				entity.DeleteAllRefToCurrency();
-				break;
-		}
-
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
 		return true;
 	}
 }

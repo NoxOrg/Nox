@@ -19,10 +19,12 @@ using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 
-public abstract record RefWorkplaceToCountryCommand(WorkplaceKeyDto EntityKeyDto, CountryKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefWorkplaceToCountryCommand(WorkplaceKeyDto EntityKeyDto) : IRequest <bool>;
+
+#region CreateRefTo
 
 public partial record CreateRefWorkplaceToCountryCommand(WorkplaceKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
-	: RefWorkplaceToCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefWorkplaceToCountryCommand(EntityKeyDto);
 
 internal partial class CreateRefWorkplaceToCountryCommandHandler
 	: RefWorkplaceToCountryCommandHandlerBase<CreateRefWorkplaceToCountryCommand>
@@ -31,12 +33,35 @@ internal partial class CreateRefWorkplaceToCountryCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Create)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(CreateRefWorkplaceToCountryCommand request)
+    {
+		var entity = await GetWorkplace(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetCountry(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.CreateRefToCountry(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion CreateRefTo
+
+#region DeleteRefTo
+
 public record DeleteRefWorkplaceToCountryCommand(WorkplaceKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
-	: RefWorkplaceToCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefWorkplaceToCountryCommand(EntityKeyDto);
 
 internal partial class DeleteRefWorkplaceToCountryCommandHandler
 	: RefWorkplaceToCountryCommandHandlerBase<DeleteRefWorkplaceToCountryCommand>
@@ -45,12 +70,35 @@ internal partial class DeleteRefWorkplaceToCountryCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Delete)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteRefWorkplaceToCountryCommand request)
+    {
+        var entity = await GetWorkplace(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetCountry(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.DeleteRefToCountry(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion DeleteRefTo
+
+#region DeleteAllRefTo
+
 public record DeleteAllRefWorkplaceToCountryCommand(WorkplaceKeyDto EntityKeyDto)
-	: RefWorkplaceToCountryCommand(EntityKeyDto, null);
+	: RefWorkplaceToCountryCommand(EntityKeyDto);
 
 internal partial class DeleteAllRefWorkplaceToCountryCommandHandler
 	: RefWorkplaceToCountryCommandHandlerBase<DeleteAllRefWorkplaceToCountryCommand>
@@ -59,68 +107,67 @@ internal partial class DeleteAllRefWorkplaceToCountryCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteAllRefWorkplaceToCountryCommand request)
+    {
+        var entity = await GetWorkplace(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+		entity.DeleteAllRefToCountry();
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
+
+#endregion DeleteAllRefTo
 
 internal abstract class RefWorkplaceToCountryCommandHandlerBase<TRequest> : CommandBase<TRequest, WorkplaceEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefWorkplaceToCountryCommand
 {
 	public AppDbContext DbContext { get; }
 
-	public RelationshipAction Action { get; }
-
-	public enum RelationshipAction { Create, Delete, DeleteAll };
-
 	public RefWorkplaceToCountryCommandHandlerBase(
         AppDbContext dbContext,
-		NoxSolution noxSolution,
-		RelationshipAction action)
+		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		Action = action;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(request.EntityKeyDto.keyId);
-		var entity = await DbContext.Workplaces.FindAsync(keyId);
-		if (entity == null)
+		return await ExecuteAsync(request);
+	}
+
+	protected abstract Task<bool> ExecuteAsync(TRequest request);
+
+	protected async Task<WorkplaceEntity?> GetWorkplace(WorkplaceKeyDto entityKeyDto)
+	{
+		var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(entityKeyDto.keyId);
+		return await DbContext.Workplaces.FindAsync(keyId);
+	}
+
+	protected async Task<ClientApi.Domain.Country?> GetCountry(CountryKeyDto relatedEntityKeyDto)
+	{
+		var relatedKeyId = ClientApi.Domain.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
+		return await DbContext.Countries.FindAsync(relatedKeyId);
+	}
+
+	protected async Task<bool> SaveChangesAsync(TRequest request, WorkplaceEntity entity)
+	{
+		await OnCompletedAsync(request, entity);
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
 		{
 			return false;
 		}
-
-		ClientApi.Domain.Country? relatedEntity = null!;
-		if(request.RelatedEntityKeyDto is not null)
-		{
-			var relatedKeyId = ClientApi.Domain.CountryMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
-			relatedEntity = await DbContext.Countries.FindAsync(relatedKeyId);
-			if (relatedEntity == null)
-			{
-				return false;
-			}
-		}
-
-		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToCountry(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToCountry(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				entity.DeleteAllRefToCountry();
-				break;
-		}
-
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
 		return true;
 	}
 }

@@ -19,10 +19,12 @@ using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefBookingToCustomerCommand(BookingKeyDto EntityKeyDto, CustomerKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefBookingToCustomerCommand(BookingKeyDto EntityKeyDto) : IRequest <bool>;
+
+#region CreateRefTo
 
 public partial record CreateRefBookingToCustomerCommand(BookingKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
-	: RefBookingToCustomerCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefBookingToCustomerCommand(EntityKeyDto);
 
 internal partial class CreateRefBookingToCustomerCommandHandler
 	: RefBookingToCustomerCommandHandlerBase<CreateRefBookingToCustomerCommand>
@@ -31,12 +33,35 @@ internal partial class CreateRefBookingToCustomerCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Create)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(CreateRefBookingToCustomerCommand request)
+    {
+		var entity = await GetBooking(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetCustomer(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.CreateRefToCustomer(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion CreateRefTo
+
+#region DeleteRefTo
+
 public record DeleteRefBookingToCustomerCommand(BookingKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
-	: RefBookingToCustomerCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefBookingToCustomerCommand(EntityKeyDto);
 
 internal partial class DeleteRefBookingToCustomerCommandHandler
 	: RefBookingToCustomerCommandHandlerBase<DeleteRefBookingToCustomerCommand>
@@ -45,12 +70,35 @@ internal partial class DeleteRefBookingToCustomerCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Delete)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteRefBookingToCustomerCommand request)
+    {
+        var entity = await GetBooking(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetCustomer(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.DeleteRefToCustomer(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion DeleteRefTo
+
+#region DeleteAllRefTo
+
 public record DeleteAllRefBookingToCustomerCommand(BookingKeyDto EntityKeyDto)
-	: RefBookingToCustomerCommand(EntityKeyDto, null);
+	: RefBookingToCustomerCommand(EntityKeyDto);
 
 internal partial class DeleteAllRefBookingToCustomerCommandHandler
 	: RefBookingToCustomerCommandHandlerBase<DeleteAllRefBookingToCustomerCommand>
@@ -59,68 +107,67 @@ internal partial class DeleteAllRefBookingToCustomerCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteAllRefBookingToCustomerCommand request)
+    {
+        var entity = await GetBooking(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+		entity.DeleteAllRefToCustomer();
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
+
+#endregion DeleteAllRefTo
 
 internal abstract class RefBookingToCustomerCommandHandlerBase<TRequest> : CommandBase<TRequest, BookingEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefBookingToCustomerCommand
 {
 	public AppDbContext DbContext { get; }
 
-	public RelationshipAction Action { get; }
-
-	public enum RelationshipAction { Create, Delete, DeleteAll };
-
 	public RefBookingToCustomerCommandHandlerBase(
         AppDbContext dbContext,
-		NoxSolution noxSolution,
-		RelationshipAction action)
+		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		Action = action;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.BookingMetadata.CreateId(request.EntityKeyDto.keyId);
-		var entity = await DbContext.Bookings.FindAsync(keyId);
-		if (entity == null)
+		return await ExecuteAsync(request);
+	}
+
+	protected abstract Task<bool> ExecuteAsync(TRequest request);
+
+	protected async Task<BookingEntity?> GetBooking(BookingKeyDto entityKeyDto)
+	{
+		var keyId = Cryptocash.Domain.BookingMetadata.CreateId(entityKeyDto.keyId);
+		return await DbContext.Bookings.FindAsync(keyId);
+	}
+
+	protected async Task<Cryptocash.Domain.Customer?> GetCustomer(CustomerKeyDto relatedEntityKeyDto)
+	{
+		var relatedKeyId = Cryptocash.Domain.CustomerMetadata.CreateId(relatedEntityKeyDto.keyId);
+		return await DbContext.Customers.FindAsync(relatedKeyId);
+	}
+
+	protected async Task<bool> SaveChangesAsync(TRequest request, BookingEntity entity)
+	{
+		await OnCompletedAsync(request, entity);
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
 		{
 			return false;
 		}
-
-		Cryptocash.Domain.Customer? relatedEntity = null!;
-		if(request.RelatedEntityKeyDto is not null)
-		{
-			var relatedKeyId = Cryptocash.Domain.CustomerMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
-			relatedEntity = await DbContext.Customers.FindAsync(relatedKeyId);
-			if (relatedEntity == null)
-			{
-				return false;
-			}
-		}
-
-		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToCustomer(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToCustomer(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				entity.DeleteAllRefToCustomer();
-				break;
-		}
-
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
 		return true;
 	}
 }

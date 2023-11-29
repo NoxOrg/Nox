@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -37,6 +38,24 @@ public abstract partial class CustomersControllerBase : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefCustomerToPaymentDetailsCommand(new CustomerKeyDto(key), new PaymentDetailKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/Customers/{key}/PaymentDetails/$ref")]
+    public async Task<ActionResult> UpdateRefToPaymentDetailsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new PaymentDetailKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCustomerToPaymentDetailsCommand(new CustomerKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -216,6 +235,24 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpPut("/api/Customers/{key}/Bookings/$ref")]
+    public async Task<ActionResult> UpdateRefToBookingsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new BookingKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCustomerToBookingsCommand(new CustomerKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> GetRefToBookings([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.Bookings).SingleOrDefault();
@@ -381,6 +418,24 @@ public abstract partial class CustomersControllerBase : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefCustomerToTransactionsCommand(new CustomerKeyDto(key), new TransactionKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/Customers/{key}/Transactions/$ref")]
+    public async Task<ActionResult> UpdateRefToTransactionsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new TransactionKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCustomerToTransactionsCommand(new CustomerKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }

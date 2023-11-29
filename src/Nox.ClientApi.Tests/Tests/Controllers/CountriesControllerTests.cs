@@ -9,6 +9,7 @@ using ClientApi.Tests.Controllers;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Humanizer;
 using static MassTransit.ValidationResultExtensions;
+using Nox.Application.Dto;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -1524,6 +1525,112 @@ namespace ClientApi.Tests.Tests.Controllers
             getCountryResponse!.Workplaces!.First().Id.Should().Be(postToWorkplaceResponse!.Id);
             getCountryResponse!.Workplaces!.First().Description.Should().Be(expectedDescription);
             getCountryResponse!.Workplaces!.First().Name.Should().Be(postToWorkplaceResponse!.Name);
+        }
+
+        #endregion
+
+        #region PUT Update ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/countries/1/Workplaces/$ref
+
+        [Fact]
+        public async Task Put_UpdateRefCountryToWorkplaces_FromEmptyToList_Success()
+        {
+            // Arrange
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, 
+                new CountryCreateDto { Name = _fixture.Create<string>() });
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, 
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+
+            // Act
+            var headers = CreateEtagHeader(countryResponse!.Etag);
+            var updateRefResponse = await PutAsync<ReferencesDto<Int64>>(
+                $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/$ref",
+                new ReferencesDto<Int64>
+                {
+                    References = new List<Int64> { workplaceResponse!.Id }
+                },
+                headers);
+
+            const string oDataRequest = $"$expand={nameof(CountryDto.Workplaces)}";
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.Workplaces.Should().NotBeNull();
+            getCountryResponse!.Workplaces!.Should().HaveCount(1);
+            getCountryResponse!.Workplaces!.First().Name.Should().Be(workplaceResponse!.Name);
+        }
+
+        [Fact]
+        public async Task Put_UpdateRefCountryToWorkplaces_FromListToEmpty_Success()
+        {
+            // Arrange
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, 
+                new CountryCreateDto { Name = _fixture.Create<string>() });
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, 
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+            var createRefResponse = await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/Workplaces/{workplaceResponse!.Id}/$ref");
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}");
+
+            // Act
+            var headers = CreateEtagHeader(getCountryResponse!.Etag);
+            var updateRefResponse = await PutAsync<ReferencesDto<Int64>>(
+                $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/$ref",
+                new ReferencesDto<Int64>
+                {
+                    References = new List<Int64>()
+                },
+                headers);
+
+            const string oDataRequest = $"$expand={nameof(CountryDto.Workplaces)}";
+            getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.Workplaces.Should().NotBeNull();
+            getCountryResponse!.Workplaces!.Should().HaveCount(0);
+        }
+
+        [Fact]
+        public async Task Put_UpdateRefCountryToWorkplaces_FromListToList_Success()
+        {
+            // Arrange
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, new CountryCreateDto { Name = _fixture.Create<string>() });
+            var workplaceResponse1 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+            var workplaceResponse2 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+            var workplaceResponse3 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+            var workplaceResponse4 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+            var workplaceResponse5 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+            await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/Workplaces/{workplaceResponse1!.Id}/$ref");
+            await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/Workplaces/{workplaceResponse2!.Id}/$ref");
+            await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/Workplaces/{workplaceResponse3!.Id}/$ref");
+
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}");
+
+            // Act
+            var headers = CreateEtagHeader(getCountryResponse!.Etag);
+            var updateRefResponse = await PutAsync<ReferencesDto<Int64>>(
+                $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/$ref",
+                new ReferencesDto<Int64>
+                {
+                    References = new List<Int64> { workplaceResponse2!.Id, workplaceResponse4!.Id, workplaceResponse5!.Id }
+                },
+                headers);
+
+            const string oDataRequest = $"$expand={nameof(CountryDto.Workplaces)}";
+            getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.Workplaces.Should().NotBeNull();
+            getCountryResponse!.Workplaces!.Should().HaveCount(3);
+            getCountryResponse!.Workplaces!.Should().Contain(w => w.Id.Equals(workplaceResponse2!.Id));
+            getCountryResponse!.Workplaces!.Should().Contain(w => w.Id.Equals(workplaceResponse4!.Id));
+            getCountryResponse!.Workplaces!.Should().Contain(w => w.Id.Equals(workplaceResponse5!.Id));
+            getCountryResponse!.Workplaces!.Should().NotContain(w => w.Id.Equals(workplaceResponse1!.Id));
+            getCountryResponse!.Workplaces!.Should().NotContain(w => w.Id.Equals(workplaceResponse3!.Id));
         }
 
         #endregion

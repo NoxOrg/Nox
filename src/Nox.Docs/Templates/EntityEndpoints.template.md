@@ -68,6 +68,8 @@ This document provides information about the various endpoints available in our 
 #### Update {{relationship.Entity}} relation
 - **PUT** `/api/{{entity.PluralName}}/{key}/{{relationship.Name}}/{relatedKey}/$ref`
   - Description: Updates an existing {{relationship.Entity}} relation for a specific {{entity.Name}}.
+- **PUT** `/api/{{entity.PluralName}}/{key}/{{relationship.Name}}/$ref`
+  - Description: Updates the {{relationship.Entity}} relations for a specific {{entity.Name}}.
 {{ end }}{{ if relationship.Related.Entity.Persistence.Delete.IsEnabled }}
 #### Delete {{relationship.Entity}} relation
 - **DELETE** `/api/{{entity.PluralName}}/{key}/{{relationship.Name}}/{relatedKey}/$ref`

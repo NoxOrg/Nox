@@ -1,6 +1,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 using Nox.Infrastructure;
 using Nox.Solution;
 using Nox.Types;
@@ -71,5 +72,10 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
     public void UnSetStoreTypeFlag(NoxDataStoreTypeFlags storeTypeFlag)
     {
         StoreTypes &= storeTypeFlag;
+    }
+
+    public string GetSqlStatementForSequenceNextValue(string sequenceName)
+    {
+       return $"SELECT NEXT VALUE FOR {sequenceName}"; 
     }
 }

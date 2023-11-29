@@ -61,4 +61,10 @@ public class NoxCodeGenConventions
     public string GetEntityDtoTypeFullName(string dtoName) => $"{DtoNameSpace}.{dtoName}";
 
     public static string GetForeignKeyPropertyName(Entity entity, EntityRelationship relationship) => $"{entity.GetNavigationPropertyName(relationship)}Id";
+
+    /// <summary>
+    /// Computes the Database Sequence Name to be used by an Entity Attribute
+    /// </summary>
+    /// <remarks>lower case so its fully compatible with postgres</remarks>
+    public string GetDatabaseSequenceName(string entityName, string attributeName) => $"Seq{entityName}{attributeName}".ToLowerInvariant();
 }

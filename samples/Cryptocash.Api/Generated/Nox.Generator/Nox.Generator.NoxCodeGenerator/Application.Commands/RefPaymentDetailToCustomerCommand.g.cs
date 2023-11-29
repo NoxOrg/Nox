@@ -19,10 +19,12 @@ using PaymentDetailEntity = Cryptocash.Domain.PaymentDetail;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefPaymentDetailToCustomerCommand(PaymentDetailKeyDto EntityKeyDto, CustomerKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefPaymentDetailToCustomerCommand(PaymentDetailKeyDto EntityKeyDto) : IRequest <bool>;
+
+#region CreateRefTo
 
 public partial record CreateRefPaymentDetailToCustomerCommand(PaymentDetailKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
-	: RefPaymentDetailToCustomerCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefPaymentDetailToCustomerCommand(EntityKeyDto);
 
 internal partial class CreateRefPaymentDetailToCustomerCommandHandler
 	: RefPaymentDetailToCustomerCommandHandlerBase<CreateRefPaymentDetailToCustomerCommand>
@@ -31,12 +33,35 @@ internal partial class CreateRefPaymentDetailToCustomerCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Create)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(CreateRefPaymentDetailToCustomerCommand request)
+    {
+		var entity = await GetPaymentDetail(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetCustomer(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.CreateRefToCustomer(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion CreateRefTo
+
+#region DeleteRefTo
+
 public record DeleteRefPaymentDetailToCustomerCommand(PaymentDetailKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
-	: RefPaymentDetailToCustomerCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefPaymentDetailToCustomerCommand(EntityKeyDto);
 
 internal partial class DeleteRefPaymentDetailToCustomerCommandHandler
 	: RefPaymentDetailToCustomerCommandHandlerBase<DeleteRefPaymentDetailToCustomerCommand>
@@ -45,12 +70,35 @@ internal partial class DeleteRefPaymentDetailToCustomerCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Delete)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteRefPaymentDetailToCustomerCommand request)
+    {
+        var entity = await GetPaymentDetail(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetCustomer(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.DeleteRefToCustomer(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion DeleteRefTo
+
+#region DeleteAllRefTo
+
 public record DeleteAllRefPaymentDetailToCustomerCommand(PaymentDetailKeyDto EntityKeyDto)
-	: RefPaymentDetailToCustomerCommand(EntityKeyDto, null);
+	: RefPaymentDetailToCustomerCommand(EntityKeyDto);
 
 internal partial class DeleteAllRefPaymentDetailToCustomerCommandHandler
 	: RefPaymentDetailToCustomerCommandHandlerBase<DeleteAllRefPaymentDetailToCustomerCommand>
@@ -59,68 +107,67 @@ internal partial class DeleteAllRefPaymentDetailToCustomerCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteAllRefPaymentDetailToCustomerCommand request)
+    {
+        var entity = await GetPaymentDetail(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+		entity.DeleteAllRefToCustomer();
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
+
+#endregion DeleteAllRefTo
 
 internal abstract class RefPaymentDetailToCustomerCommandHandlerBase<TRequest> : CommandBase<TRequest, PaymentDetailEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefPaymentDetailToCustomerCommand
 {
 	public AppDbContext DbContext { get; }
 
-	public RelationshipAction Action { get; }
-
-	public enum RelationshipAction { Create, Delete, DeleteAll };
-
 	public RefPaymentDetailToCustomerCommandHandlerBase(
         AppDbContext dbContext,
-		NoxSolution noxSolution,
-		RelationshipAction action)
+		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		Action = action;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.PaymentDetailMetadata.CreateId(request.EntityKeyDto.keyId);
-		var entity = await DbContext.PaymentDetails.FindAsync(keyId);
-		if (entity == null)
+		return await ExecuteAsync(request);
+	}
+
+	protected abstract Task<bool> ExecuteAsync(TRequest request);
+
+	protected async Task<PaymentDetailEntity?> GetPaymentDetail(PaymentDetailKeyDto entityKeyDto)
+	{
+		var keyId = Cryptocash.Domain.PaymentDetailMetadata.CreateId(entityKeyDto.keyId);
+		return await DbContext.PaymentDetails.FindAsync(keyId);
+	}
+
+	protected async Task<Cryptocash.Domain.Customer?> GetCustomer(CustomerKeyDto relatedEntityKeyDto)
+	{
+		var relatedKeyId = Cryptocash.Domain.CustomerMetadata.CreateId(relatedEntityKeyDto.keyId);
+		return await DbContext.Customers.FindAsync(relatedKeyId);
+	}
+
+	protected async Task<bool> SaveChangesAsync(TRequest request, PaymentDetailEntity entity)
+	{
+		await OnCompletedAsync(request, entity);
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
 		{
 			return false;
 		}
-
-		Cryptocash.Domain.Customer? relatedEntity = null!;
-		if(request.RelatedEntityKeyDto is not null)
-		{
-			var relatedKeyId = Cryptocash.Domain.CustomerMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
-			relatedEntity = await DbContext.Customers.FindAsync(relatedKeyId);
-			if (relatedEntity == null)
-			{
-				return false;
-			}
-		}
-
-		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToCustomer(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToCustomer(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				entity.DeleteAllRefToCustomer();
-				break;
-		}
-
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
 		return true;
 	}
 }

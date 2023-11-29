@@ -180,68 +180,68 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 {{- end}}
 {{- ######################################### Relationships ###################################################### -}}
 {{- for relationship in entity.Relationships }}
-    {{- relationshipName = GetNavigationPropertyName entity relationship }}
+    {{- navigationName = GetNavigationPropertyName entity relationship }}
 
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}> {{relationshipName}} { get; private set; } = new();
+    public virtual List<{{relationship.Entity}}> {{navigationName}} { get; private set; } = new();
     {{- else}}
-    public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationshipName}} { get; private set; } = null!;
+    public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{navigationName}} { get; private set; } = null!;
     {{- if relationship.IsForeignKeyOnThisSide}}
 
     /// <summary>
     /// Foreign key for relationship {{relationship.Relationship}} to entity {{relationship.Entity}}
     /// </summary>
-    public Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationshipName}}Id { get; set; } = null!;
+    public Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{navigationName}}Id { get; set; } = null!;
     {{- end}}
     {{-end}}
 
-    public virtual void CreateRefTo{{relationshipName}}({{relationship.Entity}} related{{relationship.Entity}})
+    public virtual void CreateRefTo{{navigationName}}({{relationship.Entity}} related{{relationship.Entity}})
     {
         {{- if relationship.WithSingleEntity }}
-        {{relationshipName}} = related{{relationship.Entity}};
+        {{navigationName}} = related{{relationship.Entity}};
         {{- else}}
-        {{relationshipName}}.Add(related{{relationship.Entity}});
+        {{navigationName}}.Add(related{{relationship.Entity}});
         {{- end }}
     }
 
     {{- if relationship.WithMultiEntity }}
 
-    public virtual void UpdateRefTo{{relationshipName}}(List<{{relationship.Entity}}> related{{relationship.Entity}})
+    public virtual void UpdateRefTo{{navigationName}}(List<{{relationship.Entity}}> related{{relationship.Entity}})
     {
         {{- if relationship.Relationship == "OneOrMany" }}
         if(!related{{relationship.Entity}}.HasAtLeastOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
         {{- end }}
-        {{relationshipName}}.Clear();
-        {{relationshipName}}.AddRange(related{{relationship.Entity}});
+        {{navigationName}}.Clear();
+        {{navigationName}}.AddRange(related{{relationship.Entity}});
     }
     {{- end }}
 
-    public virtual void DeleteRefTo{{relationshipName}}({{relationship.Entity}} related{{relationship.Entity}})
+    public virtual void DeleteRefTo{{navigationName}}({{relationship.Entity}} related{{relationship.Entity}})
     {
         {{- if relationship.WithSingleEntity }}
 
         {{- if relationship.Relationship == "ExactlyOne" }}
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         {{- else }}
-        {{relationshipName}} = null;
+        {{navigationName}} = null;
         {{- end }}
 
         {{- else}}
 
         {{- if relationship.Relationship == "OneOrMany" }}
-        if({{relationshipName}}.HasExactlyOneItem())
+        if({{navigationName}}.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         {{- end }}
-        {{relationshipName}}.Remove(related{{relationship.Entity}});
+        {{navigationName}}.Remove(related{{relationship.Entity}});
 
         {{- end }}
     }
 
-    public virtual void DeleteAllRefTo{{relationshipName}}()
+    public virtual void DeleteAllRefTo{{navigationName}}()
     {
         {{- if relationship.WithSingleEntity }}
 
@@ -249,19 +249,19 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         {{- else }}
         {{- if relationship.IsForeignKeyOnThisSide }}
-        {{relationshipName}}Id = null;
+        {{navigationName}}Id = null;
         {{- else }}
-        {{relationshipName}} = null;
+        {{navigationName}} = null;
         {{- end }}
         {{- end }}
 
         {{- else}}
 
         {{- if relationship.Relationship == "OneOrMany" }}
-        if({{relationshipName}}.HasExactlyOneItem())
+        if({{navigationName}}.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         {{- end }}
-        {{relationshipName}}.Clear();
+        {{navigationName}}.Clear();
 
         {{- end }}
     }

@@ -70,4 +70,9 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
     {
         StoreTypes &= storeTypeFlag;
     }
+
+    public string GetSqlStatementForSequenceNextValue(string sequenceName)
+    {
+        return $"SELECT nextval('{sequenceName}')";
+    }
 }

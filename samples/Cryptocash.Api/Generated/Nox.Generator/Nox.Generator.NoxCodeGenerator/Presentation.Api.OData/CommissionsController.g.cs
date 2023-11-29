@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -169,6 +170,24 @@ public abstract partial class CommissionsControllerBase : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefCommissionToBookingsCommand(new CommissionKeyDto(key), new BookingKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/Commissions/{key}/Bookings/$ref")]
+    public async Task<ActionResult> UpdateRefToBookingsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new BookingKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCommissionToBookingsCommand(new CommissionKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
