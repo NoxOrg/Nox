@@ -61,7 +61,7 @@ public abstract partial class TestEntityWithNuidsControllerBase : ODataControlle
     }
 
     [EnableQuery]
-    public async Task<SingleResult<TestEntityWithNuidDto>> Get([FromRoute] System.UInt32 key)
+    public virtual async Task<SingleResult<TestEntityWithNuidDto>> Get([FromRoute] System.UInt32 key)
     {
         var result = await _mediator.Send(new GetTestEntityWithNuidByIdQuery(key));
         return SingleResult.Create(result);
@@ -71,7 +71,7 @@ public abstract partial class TestEntityWithNuidsControllerBase : ODataControlle
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateTestEntityWithNuidCommand(testEntityWithNuid, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class TestEntityWithNuidsControllerBase : ODataControlle
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -105,7 +105,7 @@ public abstract partial class TestEntityWithNuidsControllerBase : ODataControlle
     {
         if (!ModelState.IsValid || testEntityWithNuid is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

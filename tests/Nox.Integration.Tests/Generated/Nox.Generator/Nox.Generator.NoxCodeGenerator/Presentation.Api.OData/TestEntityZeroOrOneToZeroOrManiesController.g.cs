@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -32,7 +33,7 @@ public abstract partial class TestEntityZeroOrOneToZeroOrManiesControllerBase : 
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommand(new TestEntityZeroOrOneToZeroOrManyKeyDto(key), new TestEntityZeroOrManyToZeroOrOneKeyDto(relatedKey)));
@@ -60,7 +61,7 @@ public abstract partial class TestEntityZeroOrOneToZeroOrManiesControllerBase : 
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommand(new TestEntityZeroOrOneToZeroOrManyKeyDto(key), new TestEntityZeroOrManyToZeroOrOneKeyDto(relatedKey)));
@@ -76,7 +77,7 @@ public abstract partial class TestEntityZeroOrOneToZeroOrManiesControllerBase : 
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommand(new TestEntityZeroOrOneToZeroOrManyKeyDto(key)));
@@ -92,7 +93,7 @@ public abstract partial class TestEntityZeroOrOneToZeroOrManiesControllerBase : 
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         testEntityZeroOrManyToZeroOrOne.TestEntityZeroOrOneToZeroOrManiesId = new List<System.String> { key };
@@ -118,7 +119,7 @@ public abstract partial class TestEntityZeroOrOneToZeroOrManiesControllerBase : 
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetTestEntityZeroOrOneToZeroOrManyByIdQuery(key))).Select(x => x.TestEntityZeroOrManyToZeroOrOne).SingleOrDefault();
@@ -142,7 +143,7 @@ public abstract partial class TestEntityZeroOrOneToZeroOrManiesControllerBase : 
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetTestEntityZeroOrOneToZeroOrManyByIdQuery(key))).Select(x => x.TestEntityZeroOrManyToZeroOrOne).SingleOrDefault();

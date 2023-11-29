@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -32,7 +33,7 @@ public abstract partial class TestEntityExactlyOneToZeroOrOnesControllerBase : O
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefTestEntityExactlyOneToZeroOrOneToTestEntityZeroOrOneToExactlyOneCommand(new TestEntityExactlyOneToZeroOrOneKeyDto(key), new TestEntityZeroOrOneToExactlyOneKeyDto(relatedKey)));
@@ -60,7 +61,7 @@ public abstract partial class TestEntityExactlyOneToZeroOrOnesControllerBase : O
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         testEntityZeroOrOneToExactlyOne.TestEntityExactlyOneToZeroOrOneId = key;
@@ -86,7 +87,7 @@ public abstract partial class TestEntityExactlyOneToZeroOrOnesControllerBase : O
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetTestEntityExactlyOneToZeroOrOneByIdQuery(key))).Select(x => x.TestEntityZeroOrOneToExactlyOne).SingleOrDefault();

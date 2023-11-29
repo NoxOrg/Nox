@@ -38,7 +38,14 @@ internal abstract class TestEntityOwnedRelationshipExactlyOneFactoryBase : IEnti
 
     public virtual TestEntityOwnedRelationshipExactlyOneEntity CreateEntity(TestEntityOwnedRelationshipExactlyOneCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(TestEntityOwnedRelationshipExactlyOneEntity entity, TestEntityOwnedRelationshipExactlyOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

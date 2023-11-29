@@ -43,6 +43,8 @@ This document provides information about the various endpoints available in our 
 #### Update VendingMachine relation
 - **PUT** `/api/LandLords/{key}/ContractedAreasForVendingMachines/{relatedKey}/$ref`
   - Description: Updates an existing VendingMachine relation for a specific LandLord.
+- **PUT** `/api/LandLords/{key}/ContractedAreasForVendingMachines/$ref`
+  - Description: Updates the VendingMachine relations for a specific LandLord.
 
 #### Delete VendingMachine relation
 - **DELETE** `/api/LandLords/{key}/ContractedAreasForVendingMachines/{relatedKey}/$ref`

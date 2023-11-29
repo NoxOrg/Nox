@@ -48,6 +48,7 @@ internal partial class DeleteCountryLocalNamesForCountryCommandHandlerBase : Com
 		{
 			return false;
 		}
+		await DbContext.Entry(parentEntity).Collection(p => p.CountryLocalNames).LoadAsync(cancellationToken);
 		var ownedId = ClientApi.Domain.CountryLocalNameMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
@@ -56,7 +57,6 @@ internal partial class DeleteCountryLocalNamesForCountryCommandHandlerBase : Com
 		}
 		parentEntity.CountryLocalNames.Remove(entity);
 		await OnCompletedAsync(request, entity);
-
 		DbContext.Entry(entity).State = EntityState.Deleted;
 
 		var result = await DbContext.SaveChangesAsync(cancellationToken);

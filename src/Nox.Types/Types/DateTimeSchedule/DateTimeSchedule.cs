@@ -37,7 +37,7 @@ public class DateTimeSchedule : ValueObject<string, DateTimeSchedule>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

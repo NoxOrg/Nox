@@ -41,6 +41,8 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
         _serviceProvider = services.BuildServiceProvider();
     }
 
+    public NoxCodeGenConventions NoxCodeGenConventions => _serviceProvider.GetRequiredService<NoxCodeGenConventions>();
+
     public DbContext DataContext
     {
         get

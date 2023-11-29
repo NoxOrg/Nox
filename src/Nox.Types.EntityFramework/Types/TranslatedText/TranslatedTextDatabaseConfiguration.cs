@@ -1,6 +1,7 @@
-﻿using Nox.Solution;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
 namespace Nox.Types.EntityFramework.Types;
 
@@ -24,18 +25,20 @@ public class TranslatedTextDatabaseConfiguration : INoxTypeDatabaseConfigurator
     /// Configures the entity property.
     /// </summary>
     /// <param name="noxSolutionCodeGeneratorState">The nox solution code generator state.</param>
-    /// <param name="builder">The builder.</param>
     /// <param name="property">The property.</param>
     /// <param name="entity">The entity.</param>
     /// <param name="isKey">If true, is key.</param>
+    /// <param name="modelBuilder"></param>
+    /// <param name="entityTypeBuilder"></param>
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
-        bool isKey)
+        bool isKey,
+        ModelBuilder modelBuilder,
+        EntityTypeBuilder entityTypeBuilder)
     {
-        builder.OwnsOne(typeof(TranslatedText), property.Name,
+        entityTypeBuilder.OwnsOne(typeof(TranslatedText), property.Name,
             x =>
             {
                 x.Ignore(nameof(TranslatedText.Value));

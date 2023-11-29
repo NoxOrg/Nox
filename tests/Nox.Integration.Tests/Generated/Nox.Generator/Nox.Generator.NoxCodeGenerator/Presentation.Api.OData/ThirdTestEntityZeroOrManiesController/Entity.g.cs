@@ -61,7 +61,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
     }
 
     [EnableQuery]
-    public async Task<SingleResult<ThirdTestEntityZeroOrManyDto>> Get([FromRoute] System.String key)
+    public virtual async Task<SingleResult<ThirdTestEntityZeroOrManyDto>> Get([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new GetThirdTestEntityZeroOrManyByIdQuery(key));
         return SingleResult.Create(result);
@@ -71,7 +71,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateThirdTestEntityZeroOrManyCommand(thirdTestEntityZeroOrMany, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -105,7 +105,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
     {
         if (!ModelState.IsValid || thirdTestEntityZeroOrMany is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

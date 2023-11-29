@@ -45,7 +45,7 @@ public class IpAddressTests
     [InlineData("192.168.1.")]  //  missing octets with trailing dot
     public void IpAddress_Constructor_WithInvalidIPv4Value_ThrowsException(string ipV4Value)
     {
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
+        var exception = Assert.Throws<NoxTypeValidationException>(() => _ =
             IpAddress.From(ipV4Value)
         );
 
@@ -81,7 +81,7 @@ public class IpAddressTests
     [InlineData("gggg:0db8::1")]                                //  invalid characters
     public void IpAddress_Constructor_WithInvalidIPv6Value_ThrowsException(string ipV6Value)
     {
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
+        var exception = Assert.Throws<NoxTypeValidationException>(() => _ =
             IpAddress.From(ipV6Value)
         );
 
@@ -92,7 +92,7 @@ public class IpAddressTests
     public void IpAddress_Constructor_WithVeryLargeInvalidIPv6Value_ThrowsException()
     {
         var ipV6Value = "2001:0db8:85a3:00000:0000:8a2e:0370:7334:2001:0db8:85a3:00000:0000:8a2e:0370:7334";
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
+        var exception = Assert.Throws<NoxTypeValidationException>(() => _ =
             IpAddress.From(ipV6Value)
         );
 

@@ -28,7 +28,7 @@ public class Month : ValueObject<byte, Month>
     /// </summary>
     /// <param name="value">The value to be used for the value object.</param>
     /// <returns>The newly created value object instance.</returns>
-    /// <exception cref="TypeValidationException">Thrown when the validation of the value object fails.</exception>
+    /// <exception cref="NoxTypeValidationException">Thrown when the validation of the value object fails.</exception>
     public static Month From(int value)
     {
         var month = new Month() { Value = (byte)value, _value = value};
@@ -36,7 +36,7 @@ public class Month : ValueObject<byte, Month>
         var validationResult = month.Validate();
         if(!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return month;

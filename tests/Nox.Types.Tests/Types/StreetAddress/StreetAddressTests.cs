@@ -50,7 +50,7 @@ public class StreetAddressTests
             AddressLine1 = "Line 1"
         });
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .WithMessage($"The Nox type validation failed with 1 error(s). PropertyName: PostalCode. Error: PostalCode '123456' for country with ID '{countryCode}' is invalid.")
             .And.Errors.Should().BeEquivalentTo(new[]
             {
@@ -91,7 +91,7 @@ public class StreetAddressTests
             CountryId = CountryCode.CH
         });
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[]
             {
                 new ValidationFailure("StreetNumber", "Could not create a Nox StreetAddress type with a StreetNumber with length greater than max allowed length of 32."),
@@ -118,7 +118,7 @@ public class StreetAddressTests
             CountryId = CountryCode.GB
         });
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .WithMessage("The Nox type validation failed with 1 error(s). PropertyName: AddressLine1. Error: Could not create a Nox StreetAddress type with an empty AddressLine1.")
             .And.Errors.Should().BeEquivalentTo(new[]
             {
@@ -140,7 +140,7 @@ public class StreetAddressTests
             CountryId = CountryCode.GB
         });
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .WithMessage(@"The Nox type validation failed with 2 error(s). PropertyName: PostalCode. Error: PostalCode '' for country with ID 'GB' is invalid.
 PropertyName: PostalCode. Error: Could not create a Nox StreetAddress type with an empty PostalCode.")
             .And.Errors.Should().BeEquivalentTo(new[]
@@ -164,7 +164,7 @@ PropertyName: PostalCode. Error: Could not create a Nox StreetAddress type with 
             PostalCode = "KT16 0RS",
         });
 
-        action.Should().Throw<TypeValidationException>()
+        action.Should().Throw<NoxTypeValidationException>()
             .WithMessage("The Nox type validation failed with 1 error(s). PropertyName: CountryId. Error: Country with ID '0' is invalid.")
             .And.Errors.Should().BeEquivalentTo(new[]
             {

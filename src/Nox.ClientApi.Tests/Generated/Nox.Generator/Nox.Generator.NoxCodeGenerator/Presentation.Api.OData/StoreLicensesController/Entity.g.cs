@@ -61,7 +61,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<StoreLicenseDto>> Get([FromRoute] System.Int64 key)
+    public virtual async Task<SingleResult<StoreLicenseDto>> Get([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new GetStoreLicenseByIdQuery(key));
         return SingleResult.Create(result);
@@ -71,7 +71,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateStoreLicenseCommand(storeLicense, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -105,7 +105,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     {
         if (!ModelState.IsValid || storeLicense is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

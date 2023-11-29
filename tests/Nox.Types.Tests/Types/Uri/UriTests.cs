@@ -88,7 +88,7 @@ public class UriTests
     {
         Action init = () => { var url = Uri.From(badUri); };
 
-        init.Should().Throw<TypeValidationException>();
+        init.Should().Throw<NoxTypeValidationException>();
     }
 
     [Fact]
@@ -98,6 +98,6 @@ public class UriTests
         
         Action init = () => { Uri.From(longUri); };
         
-        init.Should().Throw<TypeValidationException>();
+        init.Should().Throw<NoxTypeValidationException>();
     }
 }

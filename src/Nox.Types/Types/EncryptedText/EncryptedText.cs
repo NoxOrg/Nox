@@ -26,7 +26,7 @@ public sealed class EncryptedText : ValueObject<byte[], EncryptedText>
     /// <param name="value">Plain text to be encrypted.</param>
     /// <param name="typeOptions">Options used for encryption.</param>
     /// <returns>Encrypted text.</returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static EncryptedText FromPlainText(string value, EncryptedTextTypeOptions typeOptions)
     {
         var newObject = new EncryptedText
@@ -38,7 +38,7 @@ public sealed class EncryptedText : ValueObject<byte[], EncryptedText>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

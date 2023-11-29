@@ -345,6 +345,7 @@ Member|Type|Description|Info
 ---------|----|----------|-------
 Id|AutoNumber|Workplace unique identifier.|Required, Primary Key
 Name|Text|Workplace Name.|Required, MinLength: 4, MaxLength: 63
+ReferenceNumber|ReferenceNumber|Workplace Code.|StartsAt: 10, IncrementsBy: 5
 Description|Text|Workplace Description.|MinLength: 4, IsLocalized: true
 Greeting|Formula|The Formula.|
 CountryId|AutoNumber|The unique identifier.|Required, Foreign Key, StartsAt: 10, IncrementsBy: 5

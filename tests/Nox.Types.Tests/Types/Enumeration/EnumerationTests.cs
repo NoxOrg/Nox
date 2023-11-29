@@ -62,7 +62,7 @@ public class EnumerationTests
         var action = () => Enumeration.From(42, _options);
 
         // Assert 
-        action.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(
+        action.Should().Throw<NoxTypeValidationException>().And.Errors.Should().BeEquivalentTo(
             new[] { new ValidationFailure("Value", "No enumerator exists with an Id of '42'") });
     }
 
@@ -72,7 +72,7 @@ public class EnumerationTests
         var action = () => Enumeration.From("Option 42", _options);
 
         // Assert 
-        action.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(
+        action.Should().Throw<NoxTypeValidationException>().And.Errors.Should().BeEquivalentTo(
             new[] { new ValidationFailure("Value", "No enumerator exists with an Description of 'Option 42'.") });
 
     }

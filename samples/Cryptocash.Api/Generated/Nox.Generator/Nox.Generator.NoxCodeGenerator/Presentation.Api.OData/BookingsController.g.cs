@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -32,7 +33,7 @@ public abstract partial class BookingsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefBookingToCustomerCommand(new BookingKeyDto(key), new CustomerKeyDto(relatedKey)));
@@ -60,7 +61,7 @@ public abstract partial class BookingsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         customer.BookingsId = new List<System.Guid> { key };
@@ -86,7 +87,7 @@ public abstract partial class BookingsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Customer).SingleOrDefault();
@@ -109,7 +110,7 @@ public abstract partial class BookingsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefBookingToVendingMachineCommand(new BookingKeyDto(key), new VendingMachineKeyDto(relatedKey)));
@@ -137,7 +138,7 @@ public abstract partial class BookingsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         vendingMachine.BookingsId = new List<System.Guid> { key };
@@ -163,7 +164,7 @@ public abstract partial class BookingsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.VendingMachine).SingleOrDefault();
@@ -186,7 +187,7 @@ public abstract partial class BookingsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefBookingToCommissionCommand(new BookingKeyDto(key), new CommissionKeyDto(relatedKey)));
@@ -214,7 +215,7 @@ public abstract partial class BookingsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         commission.BookingsId = new List<System.Guid> { key };
@@ -240,7 +241,7 @@ public abstract partial class BookingsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Commission).SingleOrDefault();
@@ -263,7 +264,7 @@ public abstract partial class BookingsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefBookingToTransactionCommand(new BookingKeyDto(key), new TransactionKeyDto(relatedKey)));
@@ -291,7 +292,7 @@ public abstract partial class BookingsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         transaction.BookingId = key;
@@ -317,7 +318,7 @@ public abstract partial class BookingsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Transaction).SingleOrDefault();

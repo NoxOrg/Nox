@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -32,11 +33,29 @@ public abstract partial class CustomersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefCustomerToPaymentDetailsCommand(new CustomerKeyDto(key), new PaymentDetailKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/Customers/{key}/PaymentDetails/$ref")]
+    public async Task<ActionResult> UpdateRefToPaymentDetailsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new PaymentDetailKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCustomerToPaymentDetailsCommand(new CustomerKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -64,7 +83,7 @@ public abstract partial class CustomersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefCustomerToPaymentDetailsCommand(new CustomerKeyDto(key), new PaymentDetailKeyDto(relatedKey)));
@@ -80,7 +99,7 @@ public abstract partial class CustomersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefCustomerToPaymentDetailsCommand(new CustomerKeyDto(key)));
@@ -96,7 +115,7 @@ public abstract partial class CustomersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         paymentDetail.CustomerId = key;
@@ -119,7 +138,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Customers/{key}/PaymentDetails/{relatedKey}")]
+    [HttpGet("/api/Customers/{key}/PaymentDetails/{relatedKey}")]
     public virtual async Task<SingleResult<PaymentDetailDto>> GetPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.PaymentDetails).Where(x => x.Id == relatedKey);
@@ -130,12 +149,12 @@ public abstract partial class CustomersControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/Customers/{key}/PaymentDetails/{relatedKey}")]
+    [HttpPut("/api/Customers/{key}/PaymentDetails/{relatedKey}")]
     public virtual async Task<ActionResult<PaymentDetailDto>> PutToPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] PaymentDetailUpdateDto paymentDetail)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.PaymentDetails).Any(x => x.Id == relatedKey);
@@ -154,12 +173,12 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Customers/{key}/PaymentDetails/{relatedKey}")]
+    [HttpDelete("/api/Customers/{key}/PaymentDetails/{relatedKey}")]
     public async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.PaymentDetails).Any(x => x.Id == relatedKey);
@@ -178,12 +197,12 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/Customers/{key}/PaymentDetails")]
+    [HttpDelete("/api/Customers/{key}/PaymentDetails")]
     public async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.PaymentDetails).SingleOrDefault();
@@ -204,11 +223,29 @@ public abstract partial class CustomersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefCustomerToBookingsCommand(new CustomerKeyDto(key), new BookingKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/Customers/{key}/Bookings/$ref")]
+    public async Task<ActionResult> UpdateRefToBookingsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new BookingKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCustomerToBookingsCommand(new CustomerKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -236,7 +273,7 @@ public abstract partial class CustomersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefCustomerToBookingsCommand(new CustomerKeyDto(key), new BookingKeyDto(relatedKey)));
@@ -252,7 +289,7 @@ public abstract partial class CustomersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefCustomerToBookingsCommand(new CustomerKeyDto(key)));
@@ -268,7 +305,7 @@ public abstract partial class CustomersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         booking.CustomerId = key;
@@ -291,7 +328,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Customers/{key}/Bookings/{relatedKey}")]
+    [HttpGet("/api/Customers/{key}/Bookings/{relatedKey}")]
     public virtual async Task<SingleResult<BookingDto>> GetBookingsNonConventional(System.Int64 key, System.Guid relatedKey)
     {
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Bookings).Where(x => x.Id == relatedKey);
@@ -302,12 +339,12 @@ public abstract partial class CustomersControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/Customers/{key}/Bookings/{relatedKey}")]
+    [HttpPut("/api/Customers/{key}/Bookings/{relatedKey}")]
     public virtual async Task<ActionResult<BookingDto>> PutToBookingsNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] BookingUpdateDto booking)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
@@ -326,12 +363,12 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Customers/{key}/Bookings/{relatedKey}")]
+    [HttpDelete("/api/Customers/{key}/Bookings/{relatedKey}")]
     public async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
@@ -350,12 +387,12 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/Customers/{key}/Bookings")]
+    [HttpDelete("/api/Customers/{key}/Bookings")]
     public async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.Bookings).SingleOrDefault();
@@ -376,11 +413,29 @@ public abstract partial class CustomersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefCustomerToTransactionsCommand(new CustomerKeyDto(key), new TransactionKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/Customers/{key}/Transactions/$ref")]
+    public async Task<ActionResult> UpdateRefToTransactionsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new TransactionKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCustomerToTransactionsCommand(new CustomerKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -408,7 +463,7 @@ public abstract partial class CustomersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefCustomerToTransactionsCommand(new CustomerKeyDto(key), new TransactionKeyDto(relatedKey)));
@@ -424,7 +479,7 @@ public abstract partial class CustomersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefCustomerToTransactionsCommand(new CustomerKeyDto(key)));
@@ -440,7 +495,7 @@ public abstract partial class CustomersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         transaction.CustomerId = key;
@@ -463,7 +518,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Customers/{key}/Transactions/{relatedKey}")]
+    [HttpGet("/api/Customers/{key}/Transactions/{relatedKey}")]
     public virtual async Task<SingleResult<TransactionDto>> GetTransactionsNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Transactions).Where(x => x.Id == relatedKey);
@@ -474,12 +529,12 @@ public abstract partial class CustomersControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/Customers/{key}/Transactions/{relatedKey}")]
+    [HttpPut("/api/Customers/{key}/Transactions/{relatedKey}")]
     public virtual async Task<ActionResult<TransactionDto>> PutToTransactionsNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] TransactionUpdateDto transaction)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Transactions).Any(x => x.Id == relatedKey);
@@ -498,12 +553,12 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Customers/{key}/Transactions/{relatedKey}")]
+    [HttpDelete("/api/Customers/{key}/Transactions/{relatedKey}")]
     public async Task<ActionResult> DeleteToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Transactions).Any(x => x.Id == relatedKey);
@@ -522,12 +577,12 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/Customers/{key}/Transactions")]
+    [HttpDelete("/api/Customers/{key}/Transactions")]
     public async Task<ActionResult> DeleteToTransactions([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.Transactions).SingleOrDefault();
@@ -548,7 +603,7 @@ public abstract partial class CustomersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefCustomerToCountryCommand(new CustomerKeyDto(key), new CountryKeyDto(relatedKey)));
@@ -576,7 +631,7 @@ public abstract partial class CustomersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         country.CustomersId = new List<System.Int64> { key };
@@ -602,7 +657,7 @@ public abstract partial class CustomersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.Country).SingleOrDefault();

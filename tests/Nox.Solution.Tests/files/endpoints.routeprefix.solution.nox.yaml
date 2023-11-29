@@ -18,4 +18,6 @@ infrastructure:
 
   endpoints:
     
+presentation:
+  apiConfiguration: 
     apiRoutePrefix: testapi

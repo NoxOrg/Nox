@@ -17,7 +17,7 @@ using SecondTestEntityExactlyOneEntity = TestWebApp.Domain.SecondTestEntityExact
 
 namespace TestWebApp.Application.Commands;
 
-public record UpdateSecondTestEntityExactlyOneCommand(System.String keyId, SecondTestEntityExactlyOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<SecondTestEntityExactlyOneKeyDto?>;
+public partial record UpdateSecondTestEntityExactlyOneCommand(System.String keyId, SecondTestEntityExactlyOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<SecondTestEntityExactlyOneKeyDto?>;
 
 internal partial class UpdateSecondTestEntityExactlyOneCommandHandler : UpdateSecondTestEntityExactlyOneCommandHandlerBase
 {

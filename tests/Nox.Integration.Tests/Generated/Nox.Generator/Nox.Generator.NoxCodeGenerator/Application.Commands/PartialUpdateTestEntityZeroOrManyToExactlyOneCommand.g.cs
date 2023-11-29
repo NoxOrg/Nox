@@ -16,7 +16,7 @@ using TestEntityZeroOrManyToExactlyOneEntity = TestWebApp.Domain.TestEntityZeroO
 
 namespace TestWebApp.Application.Commands;
 
-public record PartialUpdateTestEntityZeroOrManyToExactlyOneCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityZeroOrManyToExactlyOneKeyDto?>;
+public partial record PartialUpdateTestEntityZeroOrManyToExactlyOneCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityZeroOrManyToExactlyOneKeyDto?>;
 
 internal class PartialUpdateTestEntityZeroOrManyToExactlyOneCommandHandler : PartialUpdateTestEntityZeroOrManyToExactlyOneCommandHandlerBase
 {

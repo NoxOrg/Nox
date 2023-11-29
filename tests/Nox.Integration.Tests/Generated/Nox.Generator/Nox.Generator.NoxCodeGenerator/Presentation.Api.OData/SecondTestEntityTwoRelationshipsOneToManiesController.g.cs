@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -32,7 +33,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefSecondTestEntityTwoRelationshipsOneToManyToTestRelationshipOneOnOtherSideCommand(new SecondTestEntityTwoRelationshipsOneToManyKeyDto(key), new TestEntityTwoRelationshipsOneToManyKeyDto(relatedKey)));
@@ -60,7 +61,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefSecondTestEntityTwoRelationshipsOneToManyToTestRelationshipOneOnOtherSideCommand(new SecondTestEntityTwoRelationshipsOneToManyKeyDto(key), new TestEntityTwoRelationshipsOneToManyKeyDto(relatedKey)));
@@ -76,7 +77,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefSecondTestEntityTwoRelationshipsOneToManyToTestRelationshipOneOnOtherSideCommand(new SecondTestEntityTwoRelationshipsOneToManyKeyDto(key)));
@@ -92,7 +93,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         testEntityTwoRelationshipsOneToMany.TestRelationshipOneId = new List<System.String> { key };
@@ -118,7 +119,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipOneOnOtherSide).SingleOrDefault();
@@ -142,7 +143,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipOneOnOtherSide).SingleOrDefault();
@@ -164,7 +165,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefSecondTestEntityTwoRelationshipsOneToManyToTestRelationshipTwoOnOtherSideCommand(new SecondTestEntityTwoRelationshipsOneToManyKeyDto(key), new TestEntityTwoRelationshipsOneToManyKeyDto(relatedKey)));
@@ -192,7 +193,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefSecondTestEntityTwoRelationshipsOneToManyToTestRelationshipTwoOnOtherSideCommand(new SecondTestEntityTwoRelationshipsOneToManyKeyDto(key), new TestEntityTwoRelationshipsOneToManyKeyDto(relatedKey)));
@@ -208,7 +209,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefSecondTestEntityTwoRelationshipsOneToManyToTestRelationshipTwoOnOtherSideCommand(new SecondTestEntityTwoRelationshipsOneToManyKeyDto(key)));
@@ -224,7 +225,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         testEntityTwoRelationshipsOneToMany.TestRelationshipTwoId = new List<System.String> { key };
@@ -250,7 +251,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipTwoOnOtherSide).SingleOrDefault();
@@ -274,7 +275,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipTwoOnOtherSide).SingleOrDefault();

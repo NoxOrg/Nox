@@ -61,7 +61,7 @@ public abstract partial class TestEntityZeroOrManiesControllerBase : ODataContro
     }
 
     [EnableQuery]
-    public async Task<SingleResult<TestEntityZeroOrManyDto>> Get([FromRoute] System.String key)
+    public virtual async Task<SingleResult<TestEntityZeroOrManyDto>> Get([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new GetTestEntityZeroOrManyByIdQuery(key));
         return SingleResult.Create(result);
@@ -71,7 +71,7 @@ public abstract partial class TestEntityZeroOrManiesControllerBase : ODataContro
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateTestEntityZeroOrManyCommand(testEntityZeroOrMany, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class TestEntityZeroOrManiesControllerBase : ODataContro
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -105,7 +105,7 @@ public abstract partial class TestEntityZeroOrManiesControllerBase : ODataContro
     {
         if (!ModelState.IsValid || testEntityZeroOrMany is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

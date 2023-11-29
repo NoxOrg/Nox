@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -32,11 +33,29 @@ public abstract partial class TestEntityOneOrManyToZeroOrOnesControllerBase : OD
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefTestEntityOneOrManyToZeroOrOneToTestEntityZeroOrOneToOneOrManiesCommand(new TestEntityOneOrManyToZeroOrOneKeyDto(key), new TestEntityZeroOrOneToOneOrManyKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/TestEntityOneOrManyToZeroOrOnes/{key}/TestEntityZeroOrOneToOneOrManies/$ref")]
+    public async Task<ActionResult> UpdateRefToTestEntityZeroOrOneToOneOrManiesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new TestEntityZeroOrOneToOneOrManyKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefTestEntityOneOrManyToZeroOrOneToTestEntityZeroOrOneToOneOrManiesCommand(new TestEntityOneOrManyToZeroOrOneKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -64,7 +83,7 @@ public abstract partial class TestEntityOneOrManyToZeroOrOnesControllerBase : OD
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefTestEntityOneOrManyToZeroOrOneToTestEntityZeroOrOneToOneOrManiesCommand(new TestEntityOneOrManyToZeroOrOneKeyDto(key), new TestEntityZeroOrOneToOneOrManyKeyDto(relatedKey)));
@@ -80,7 +99,7 @@ public abstract partial class TestEntityOneOrManyToZeroOrOnesControllerBase : OD
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         testEntityZeroOrOneToOneOrMany.TestEntityOneOrManyToZeroOrOneId = key;
@@ -119,7 +138,7 @@ public abstract partial class TestEntityOneOrManyToZeroOrOnesControllerBase : OD
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetTestEntityOneOrManyToZeroOrOneByIdQuery(key))).SelectMany(x => x.TestEntityZeroOrOneToOneOrManies).Any(x => x.Id == relatedKey);
@@ -143,7 +162,7 @@ public abstract partial class TestEntityOneOrManyToZeroOrOnesControllerBase : OD
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetTestEntityOneOrManyToZeroOrOneByIdQuery(key))).SelectMany(x => x.TestEntityZeroOrOneToOneOrManies).Any(x => x.Id == relatedKey);

@@ -37,14 +37,14 @@ public sealed class Password : ValueObject<(string HashedPassword, string Salt),
     /// <param name="value">Plain text that will be hashed</param>
     /// <param name="options"><see cref="PasswordTypeOptions"/></param>
     /// <returns>New instance of <see cref="Password"/></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Password From(string value, PasswordTypeOptions options)
     {
         var validationResult = Validate(value, options);
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         var newObject = new Password
@@ -60,7 +60,7 @@ public sealed class Password : ValueObject<(string HashedPassword, string Salt),
     /// </summary>
     /// <param name="value">Plain text that will be hashed</param>
     /// <returns>New instance of <see cref="Password"/></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Password From(string value)
         => From(value, new PasswordTypeOptions());
 

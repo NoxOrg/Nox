@@ -35,7 +35,14 @@ internal abstract class TestEntityLocalizationFactoryBase : IEntityFactory<TestE
 
     public virtual TestEntityLocalizationEntity CreateEntity(TestEntityLocalizationCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(TestEntityLocalizationEntity entity, TestEntityLocalizationUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

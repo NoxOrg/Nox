@@ -61,7 +61,7 @@ public abstract partial class RatingProgramsControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<RatingProgramDto>> Get([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId)
+    public virtual async Task<SingleResult<RatingProgramDto>> Get([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId)
     {
         var result = await _mediator.Send(new GetRatingProgramByIdQuery(keyStoreId, keyId));
         return SingleResult.Create(result);
@@ -71,7 +71,7 @@ public abstract partial class RatingProgramsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateRatingProgramCommand(ratingProgram, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class RatingProgramsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -105,7 +105,7 @@ public abstract partial class RatingProgramsControllerBase : ODataController
     {
         if (!ModelState.IsValid || ratingProgram is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

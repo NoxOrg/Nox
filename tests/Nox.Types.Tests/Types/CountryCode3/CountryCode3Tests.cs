@@ -16,7 +16,7 @@ public class CountryCode3Tests
     [Fact]
     public void CreatingCountryCode3_UnsupportedCountryCode3_ThrowsValidationException()
     {
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
+        var exception = Assert.Throws<NoxTypeValidationException>(() => _ =
             Nox.Types.CountryCode3.From("ABC")
         );
 

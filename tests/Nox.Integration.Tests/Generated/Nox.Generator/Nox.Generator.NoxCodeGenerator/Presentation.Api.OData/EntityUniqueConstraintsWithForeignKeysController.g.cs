@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -32,7 +33,7 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand(new EntityUniqueConstraintsWithForeignKeyKeyDto(key), new EntityUniqueConstraintsRelatedForeignKeyKeyDto(relatedKey)));
@@ -60,7 +61,7 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         entityUniqueConstraintsRelatedForeignKey.EntityUniqueConstraintsWithForeignKeysId = new List<System.Guid> { key };
@@ -86,7 +87,7 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(key))).Select(x => x.EntityUniqueConstraintsRelatedForeignKey).SingleOrDefault();

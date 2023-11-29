@@ -237,6 +237,14 @@ domain:
             isUnicode: false
             minLength: 3
             maxLength: 3
+      attributes:
+        - name: Code
+          description: Currency Code
+          type: referenceNumber
+          referenceNumberTypeOptions:
+            prefix: "C-"
+            suffixCheckSumDigit: false
+          isRequired: true
 
       relationships:
 

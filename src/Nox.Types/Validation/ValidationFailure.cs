@@ -1,6 +1,6 @@
 ﻿namespace Nox.Types;
 
-public class ValidationFailure
+public sealed class ValidationFailure
 {
     public string Variable { get; private set; }
     public string ErrorMessage { get; private set; }

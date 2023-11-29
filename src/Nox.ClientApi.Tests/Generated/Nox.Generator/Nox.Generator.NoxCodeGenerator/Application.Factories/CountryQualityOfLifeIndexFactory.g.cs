@@ -35,7 +35,14 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
 
     public virtual CountryQualityOfLifeIndexEntity CreateEntity(CountryQualityOfLifeIndexCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(CountryQualityOfLifeIndexEntity entity, CountryQualityOfLifeIndexUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

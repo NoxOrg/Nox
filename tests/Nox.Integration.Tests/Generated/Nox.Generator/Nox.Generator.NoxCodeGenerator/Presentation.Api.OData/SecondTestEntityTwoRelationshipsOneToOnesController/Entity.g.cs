@@ -61,7 +61,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
     }
 
     [EnableQuery]
-    public async Task<SingleResult<SecondTestEntityTwoRelationshipsOneToOneDto>> Get([FromRoute] System.String key)
+    public virtual async Task<SingleResult<SecondTestEntityTwoRelationshipsOneToOneDto>> Get([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key));
         return SingleResult.Create(result);
@@ -71,7 +71,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateSecondTestEntityTwoRelationshipsOneToOneCommand(secondTestEntityTwoRelationshipsOneToOne, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -105,7 +105,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
     {
         if (!ModelState.IsValid || secondTestEntityTwoRelationshipsOneToOne is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

@@ -61,7 +61,7 @@ public abstract partial class CompoundKeysEntitiesControllerBase : ODataControll
     }
 
     [EnableQuery]
-    public async Task<SingleResult<CompoundKeysEntityDto>> Get([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
+    public virtual async Task<SingleResult<CompoundKeysEntityDto>> Get([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
     {
         var result = await _mediator.Send(new GetCompoundKeysEntityByIdQuery(keyId1, keyId2));
         return SingleResult.Create(result);
@@ -71,7 +71,7 @@ public abstract partial class CompoundKeysEntitiesControllerBase : ODataControll
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateCompoundKeysEntityCommand(compoundKeysEntity, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class CompoundKeysEntitiesControllerBase : ODataControll
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -105,7 +105,7 @@ public abstract partial class CompoundKeysEntitiesControllerBase : ODataControll
     {
         if (!ModelState.IsValid || compoundKeysEntity is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

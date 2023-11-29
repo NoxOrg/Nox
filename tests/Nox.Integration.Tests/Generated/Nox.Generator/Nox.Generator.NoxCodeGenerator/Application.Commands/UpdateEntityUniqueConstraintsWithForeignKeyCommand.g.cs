@@ -17,7 +17,7 @@ using EntityUniqueConstraintsWithForeignKeyEntity = TestWebApp.Domain.EntityUniq
 
 namespace TestWebApp.Application.Commands;
 
-public record UpdateEntityUniqueConstraintsWithForeignKeyCommand(System.Guid keyId, EntityUniqueConstraintsWithForeignKeyUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<EntityUniqueConstraintsWithForeignKeyKeyDto?>;
+public partial record UpdateEntityUniqueConstraintsWithForeignKeyCommand(System.Guid keyId, EntityUniqueConstraintsWithForeignKeyUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<EntityUniqueConstraintsWithForeignKeyKeyDto?>;
 
 internal partial class UpdateEntityUniqueConstraintsWithForeignKeyCommandHandler : UpdateEntityUniqueConstraintsWithForeignKeyCommandHandlerBase
 {

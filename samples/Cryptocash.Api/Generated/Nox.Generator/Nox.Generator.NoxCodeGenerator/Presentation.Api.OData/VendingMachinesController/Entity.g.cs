@@ -61,7 +61,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<VendingMachineDto>> Get([FromRoute] System.Guid key)
+    public virtual async Task<SingleResult<VendingMachineDto>> Get([FromRoute] System.Guid key)
     {
         var result = await _mediator.Send(new GetVendingMachineByIdQuery(key));
         return SingleResult.Create(result);
@@ -71,7 +71,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -105,7 +105,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid || vendingMachine is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

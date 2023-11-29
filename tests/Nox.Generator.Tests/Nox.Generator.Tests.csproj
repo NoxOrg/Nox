@@ -1,16 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <IsPackable>false</IsPackable>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +12,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Azure.Identity" Version="1.10.4" />
     <PackageReference Include="Microsoft.Build.Locator" Version="1.6.10" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.8.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.7.0" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.14" />
@@ -30,12 +23,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.8.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.7.0" />
   </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
-        <PackageReference Include="xunit" Version="2.6.2"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+        <PackageReference Include="xunit" Version="2.6.2" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.5.4">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -47,23 +40,18 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj"/>
+        <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" />
+        <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj" />
+        <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />
+        <ProjectReference Include="..\..\src\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj" />
+        <ProjectReference Include="..\..\src\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
+        <ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
+        <ProjectReference Include="..\..\src\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
     </ItemGroup>
 
     <!--  Copy to output all files under ExpectedGeneratedFiles-->
-    <ItemGroup>
-        <Compile Remove="files\Program.cs"/>
-        <None Include="files\Program.cs">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <Compile Remove="ExpectedGeneratedFiles\**\*.*"/>
-
+    <ItemGroup>                
+        <Compile Remove="ExpectedGeneratedFiles\**\*.*" />
         <None Include="ExpectedGeneratedFiles\**\*.*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
@@ -73,10 +61,6 @@
         <None Include="files\**\*.*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Generated\"/>
     </ItemGroup>
 
 </Project>

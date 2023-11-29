@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
 namespace Nox.Types.EntityFramework.Types;
 
@@ -14,11 +13,11 @@ public class DateTimeRangeDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public virtual void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
-        Entity entity, bool isKey)
+        Entity entity,
+        bool isKey, ModelBuilder modelBuilder, EntityTypeBuilder entityTypeBuilder)
     {
-        builder
+        entityTypeBuilder
             .OwnsOne(typeof(DateTimeRange), property.Name, dtr =>
             {
                 dtr.Property(nameof(DateTimeRange.Start))

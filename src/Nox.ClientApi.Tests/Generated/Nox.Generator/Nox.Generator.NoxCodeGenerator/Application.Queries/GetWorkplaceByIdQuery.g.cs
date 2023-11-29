@@ -47,6 +47,7 @@ internal abstract class GetWorkplaceByIdQueryHandlerBase:  QueryBase<IQueryable<
             {
         Id = item.Id,
         Name = item.Name,
+        ReferenceNumber = item.ReferenceNumber,
         Description = itemLocalized.Description ?? "[" + item.Description + "]",
         Greeting = item.Greeting,
         CountryId = item.CountryId,

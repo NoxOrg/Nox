@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -32,11 +33,29 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefSecondTestEntityZeroOrManyToTestEntityZeroOrManiesCommand(new SecondTestEntityZeroOrManyKeyDto(key), new TestEntityZeroOrManyKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/SecondTestEntityZeroOrManies/{key}/TestEntityZeroOrManies/$ref")]
+    public async Task<ActionResult> UpdateRefToTestEntityZeroOrManiesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new TestEntityZeroOrManyKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefSecondTestEntityZeroOrManyToTestEntityZeroOrManiesCommand(new SecondTestEntityZeroOrManyKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -64,7 +83,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefSecondTestEntityZeroOrManyToTestEntityZeroOrManiesCommand(new SecondTestEntityZeroOrManyKeyDto(key), new TestEntityZeroOrManyKeyDto(relatedKey)));
@@ -80,7 +99,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefSecondTestEntityZeroOrManyToTestEntityZeroOrManiesCommand(new SecondTestEntityZeroOrManyKeyDto(key)));
@@ -96,7 +115,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         testEntityZeroOrMany.SecondTestEntityZeroOrManiesId = new List<System.String> { key };
@@ -135,7 +154,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetSecondTestEntityZeroOrManyByIdQuery(key))).SelectMany(x => x.TestEntityZeroOrManies).Any(x => x.Id == relatedKey);
@@ -159,7 +178,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetSecondTestEntityZeroOrManyByIdQuery(key))).SelectMany(x => x.TestEntityZeroOrManies).Any(x => x.Id == relatedKey);
@@ -183,7 +202,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetSecondTestEntityZeroOrManyByIdQuery(key))).Select(x => x.TestEntityZeroOrManies).SingleOrDefault();

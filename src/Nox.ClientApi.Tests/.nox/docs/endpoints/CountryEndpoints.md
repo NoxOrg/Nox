@@ -111,6 +111,8 @@ This document provides information about the various endpoints available in our 
 #### Update Workplace relation
 - **PUT** `/api/Countries/{key}/PhysicalWorkplaces/{relatedKey}/$ref`
   - Description: Updates an existing Workplace relation for a specific Country.
+- **PUT** `/api/Countries/{key}/PhysicalWorkplaces/$ref`
+  - Description: Updates the Workplace relations for a specific Country.
 
 #### Delete Workplace relation
 - **DELETE** `/api/Countries/{key}/PhysicalWorkplaces/{relatedKey}/$ref`

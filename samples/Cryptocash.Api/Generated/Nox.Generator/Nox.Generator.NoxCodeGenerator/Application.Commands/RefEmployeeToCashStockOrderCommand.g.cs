@@ -19,10 +19,12 @@ using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefEmployeeToCashStockOrderCommand(EmployeeKeyDto EntityKeyDto, CashStockOrderKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefEmployeeToCashStockOrderCommand(EmployeeKeyDto EntityKeyDto) : IRequest <bool>;
+
+#region CreateRefTo
 
 public partial record CreateRefEmployeeToCashStockOrderCommand(EmployeeKeyDto EntityKeyDto, CashStockOrderKeyDto RelatedEntityKeyDto)
-	: RefEmployeeToCashStockOrderCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefEmployeeToCashStockOrderCommand(EntityKeyDto);
 
 internal partial class CreateRefEmployeeToCashStockOrderCommandHandler
 	: RefEmployeeToCashStockOrderCommandHandlerBase<CreateRefEmployeeToCashStockOrderCommand>
@@ -31,12 +33,35 @@ internal partial class CreateRefEmployeeToCashStockOrderCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Create)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(CreateRefEmployeeToCashStockOrderCommand request)
+    {
+		var entity = await GetEmployee(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetCashStockOrder(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.CreateRefToCashStockOrder(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion CreateRefTo
+
+#region DeleteRefTo
+
 public record DeleteRefEmployeeToCashStockOrderCommand(EmployeeKeyDto EntityKeyDto, CashStockOrderKeyDto RelatedEntityKeyDto)
-	: RefEmployeeToCashStockOrderCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefEmployeeToCashStockOrderCommand(EntityKeyDto);
 
 internal partial class DeleteRefEmployeeToCashStockOrderCommandHandler
 	: RefEmployeeToCashStockOrderCommandHandlerBase<DeleteRefEmployeeToCashStockOrderCommand>
@@ -45,12 +70,35 @@ internal partial class DeleteRefEmployeeToCashStockOrderCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Delete)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteRefEmployeeToCashStockOrderCommand request)
+    {
+        var entity = await GetEmployee(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetCashStockOrder(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.DeleteRefToCashStockOrder(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion DeleteRefTo
+
+#region DeleteAllRefTo
+
 public record DeleteAllRefEmployeeToCashStockOrderCommand(EmployeeKeyDto EntityKeyDto)
-	: RefEmployeeToCashStockOrderCommand(EntityKeyDto, null);
+	: RefEmployeeToCashStockOrderCommand(EntityKeyDto);
 
 internal partial class DeleteAllRefEmployeeToCashStockOrderCommandHandler
 	: RefEmployeeToCashStockOrderCommandHandlerBase<DeleteAllRefEmployeeToCashStockOrderCommand>
@@ -59,68 +107,67 @@ internal partial class DeleteAllRefEmployeeToCashStockOrderCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteAllRefEmployeeToCashStockOrderCommand request)
+    {
+        var entity = await GetEmployee(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+		entity.DeleteAllRefToCashStockOrder();
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
+
+#endregion DeleteAllRefTo
 
 internal abstract class RefEmployeeToCashStockOrderCommandHandlerBase<TRequest> : CommandBase<TRequest, EmployeeEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefEmployeeToCashStockOrderCommand
 {
 	public AppDbContext DbContext { get; }
 
-	public RelationshipAction Action { get; }
-
-	public enum RelationshipAction { Create, Delete, DeleteAll };
-
 	public RefEmployeeToCashStockOrderCommandHandlerBase(
         AppDbContext dbContext,
-		NoxSolution noxSolution,
-		RelationshipAction action)
+		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		Action = action;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.EmployeeMetadata.CreateId(request.EntityKeyDto.keyId);
-		var entity = await DbContext.Employees.FindAsync(keyId);
-		if (entity == null)
+		return await ExecuteAsync(request);
+	}
+
+	protected abstract Task<bool> ExecuteAsync(TRequest request);
+
+	protected async Task<EmployeeEntity?> GetEmployee(EmployeeKeyDto entityKeyDto)
+	{
+		var keyId = Cryptocash.Domain.EmployeeMetadata.CreateId(entityKeyDto.keyId);
+		return await DbContext.Employees.FindAsync(keyId);
+	}
+
+	protected async Task<Cryptocash.Domain.CashStockOrder?> GetCashStockOrder(CashStockOrderKeyDto relatedEntityKeyDto)
+	{
+		var relatedKeyId = Cryptocash.Domain.CashStockOrderMetadata.CreateId(relatedEntityKeyDto.keyId);
+		return await DbContext.CashStockOrders.FindAsync(relatedKeyId);
+	}
+
+	protected async Task<bool> SaveChangesAsync(TRequest request, EmployeeEntity entity)
+	{
+		await OnCompletedAsync(request, entity);
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
 		{
 			return false;
 		}
-
-		Cryptocash.Domain.CashStockOrder? relatedEntity = null!;
-		if(request.RelatedEntityKeyDto is not null)
-		{
-			var relatedKeyId = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
-			relatedEntity = await DbContext.CashStockOrders.FindAsync(relatedKeyId);
-			if (relatedEntity == null)
-			{
-				return false;
-			}
-		}
-
-		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToCashStockOrder(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToCashStockOrder(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				entity.DeleteAllRefToCashStockOrder();
-				break;
-		}
-
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
 		return true;
 	}
 }

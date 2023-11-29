@@ -35,7 +35,14 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
 
     public virtual BankNoteEntity CreateEntity(BankNoteUpsertDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(BankNoteEntity entity, BankNoteUpsertDto updateDto, Nox.Types.CultureCode cultureCode)

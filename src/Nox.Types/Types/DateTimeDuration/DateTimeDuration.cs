@@ -26,7 +26,7 @@ public sealed class DateTimeDuration : ValueObject<long, DateTimeDuration>
     /// <remarks>
     /// There are 10 000 ticks in a millisecond
     /// </remarks>
-    /// <exception cref="Nox.Types.TypeValidationException"></exception>
+    /// <exception cref="Nox.Types.NoxTypeValidationException"></exception>
     public static DateTimeDuration From(long ticks, DateTimeDurationTypeOptions options)
     {
         var newObject = new DateTimeDuration
@@ -40,7 +40,7 @@ public sealed class DateTimeDuration : ValueObject<long, DateTimeDuration>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;
@@ -53,7 +53,7 @@ public sealed class DateTimeDuration : ValueObject<long, DateTimeDuration>
     /// <remarks>
     /// There are 10 000 ticks in a millisecond
     /// </remarks>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public new static DateTimeDuration From(long ticks)
         => From(ticks, new());
 
@@ -63,7 +63,7 @@ public sealed class DateTimeDuration : ValueObject<long, DateTimeDuration>
     /// <param name="timeSpan">The time span to create date time duration from.</param>
     /// <param name="options">The options.</param>
     /// <returns></returns>
-    /// <exception cref="Nox.Types.TypeValidationException"></exception>
+    /// <exception cref="Nox.Types.NoxTypeValidationException"></exception>
     public static DateTimeDuration From(TimeSpan timeSpan, DateTimeDurationTypeOptions options)
         => From(timeSpan.Duration().Ticks, options);
 
@@ -71,7 +71,7 @@ public sealed class DateTimeDuration : ValueObject<long, DateTimeDuration>
     /// Creates a new instance of <see cref="DateTimeDuration"/> object.
     /// </summary>
     /// <param name="timeSpan">The time span to create date time duration from.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static DateTimeDuration From(TimeSpan timeSpan)
         => From(timeSpan, new());
 
@@ -84,7 +84,7 @@ public sealed class DateTimeDuration : ValueObject<long, DateTimeDuration>
     /// <param name="seconds">The seconds.</param>
     /// <param name="milliseconds">The milliseconds.</param>
     /// <param name="options">The options.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static DateTimeDuration From(int days, int hours, int minutes, int seconds, int milliseconds, DateTimeDurationTypeOptions? options = null)
         => From(new TimeSpan(days, hours, minutes, seconds, milliseconds), options ?? new());
 
@@ -96,7 +96,7 @@ public sealed class DateTimeDuration : ValueObject<long, DateTimeDuration>
     /// <param name="minutes">The minutes.</param>
     /// <param name="seconds">The seconds.</param>
     /// <param name="options">The options.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static DateTimeDuration From(int days, int hours, int minutes, int seconds, DateTimeDurationTypeOptions? options = null)
         => From(new TimeSpan(days, hours, minutes, seconds), options ?? new());
 
@@ -107,7 +107,7 @@ public sealed class DateTimeDuration : ValueObject<long, DateTimeDuration>
     /// <param name="minutes">The minutes.</param>
     /// <param name="seconds">The seconds.</param>
     /// <param name="options">The options.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static DateTimeDuration From(int hours, int minutes, int seconds, DateTimeDurationTypeOptions? options = null)
         => From(new TimeSpan(hours, minutes, seconds), options ?? new());
 
@@ -116,7 +116,7 @@ public sealed class DateTimeDuration : ValueObject<long, DateTimeDuration>
     /// </summary>
     /// <param name="days">The days.</param>
     /// <param name="options">The options.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static DateTimeDuration FromDays(double days, DateTimeDurationTypeOptions? options = null)
         => From(TimeSpan.FromDays(days), options ?? new());
 
@@ -125,7 +125,7 @@ public sealed class DateTimeDuration : ValueObject<long, DateTimeDuration>
     /// </summary>
     /// <param name="hours">The hours.</param>
     /// <param name="options">The options.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static DateTimeDuration FromHours(double hours, DateTimeDurationTypeOptions? options = null)
         => From(TimeSpan.FromHours(hours), options ?? new());
 
@@ -134,7 +134,7 @@ public sealed class DateTimeDuration : ValueObject<long, DateTimeDuration>
     /// </summary>
     /// <param name="minutes">The minutes.</param>
     /// <param name="options">The options.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static DateTimeDuration FromMinutes(double minutes, DateTimeDurationTypeOptions? options = null)
         => From(TimeSpan.FromMinutes(minutes), options ?? new());
 
@@ -143,7 +143,7 @@ public sealed class DateTimeDuration : ValueObject<long, DateTimeDuration>
     /// </summary>
     /// <param name="seconds">The seconds.</param>
     /// <param name="options">The options.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static DateTimeDuration FromSeconds(double seconds, DateTimeDurationTypeOptions? options = null)
         => From(TimeSpan.FromSeconds(seconds), options ?? new());
 
@@ -152,7 +152,7 @@ public sealed class DateTimeDuration : ValueObject<long, DateTimeDuration>
     /// </summary>
     /// <param name="milliseconds">The milliseconds.</param>
     /// <param name="options">The options.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static DateTimeDuration FromMilliseconds(double milliseconds, DateTimeDurationTypeOptions? options = null)
         => From(TimeSpan.FromMilliseconds(milliseconds), options ?? new());
 

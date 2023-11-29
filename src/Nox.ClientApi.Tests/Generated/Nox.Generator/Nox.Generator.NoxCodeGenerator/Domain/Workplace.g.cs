@@ -63,6 +63,12 @@ internal abstract partial class WorkplaceBase : EntityBase, IEntityConcurrent
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
+    /// Workplace Code    
+    /// </summary>
+    /// <remarks>Optional.</remarks>   
+    public Nox.Types.ReferenceNumber? ReferenceNumber { get; set; } = null!;
+
+    /// <summary>
     /// Workplace Description    
     /// </summary>
     /// <remarks>Optional.</remarks>   

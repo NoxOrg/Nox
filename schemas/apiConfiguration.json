@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "The definition namespace for default endpoints pertaining to a Nox solution.",
+  "description": "Define default endpoints pertinent to a Nox solution here. These include endpoints for API and BFF servers.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "properties": {
+    "apiRoutePrefix": {    
+      "title": "The api route prefix, defaults to api/v1 or to api/vMajor({Solution.Version}) if Version is set in the root of the Solution.",
+      "description": "Defines the prefix for all Api routes end points.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "apiRouteMappings": {    
+      "oneOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "items":   {
+        "anyOf": [
+          { "$ref": "apiRouteMapping.json" },
+          {
+            "additionalProperties": false, 
+            "required": ["$ref"],
+            "type": "object",
+            "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^[^\\s]*$"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "additionalProperties": false
+}

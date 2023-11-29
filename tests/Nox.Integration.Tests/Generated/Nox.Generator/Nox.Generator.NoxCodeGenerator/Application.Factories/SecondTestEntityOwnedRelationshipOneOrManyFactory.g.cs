@@ -35,7 +35,14 @@ internal abstract class SecondTestEntityOwnedRelationshipOneOrManyFactoryBase : 
 
     public virtual SecondTestEntityOwnedRelationshipOneOrManyEntity CreateEntity(SecondTestEntityOwnedRelationshipOneOrManyUpsertDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(SecondTestEntityOwnedRelationshipOneOrManyEntity entity, SecondTestEntityOwnedRelationshipOneOrManyUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
@@ -51,7 +58,7 @@ internal abstract class SecondTestEntityOwnedRelationshipOneOrManyFactoryBase : 
     private TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrMany ToEntity(SecondTestEntityOwnedRelationshipOneOrManyUpsertDto createDto)
     {
         var entity = new TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrMany();
-        entity.Id = SecondTestEntityOwnedRelationshipOneOrManyMetadata.CreateId(createDto.Id!);
+        entity.Id = SecondTestEntityOwnedRelationshipOneOrManyMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
         entity.TextTestField2 = TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrManyMetadata.CreateTextTestField2(createDto.TextTestField2);
         return entity;
     }

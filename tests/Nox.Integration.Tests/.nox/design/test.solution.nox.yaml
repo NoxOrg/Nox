@@ -1549,4 +1549,32 @@ domain:
             minLength: 1
             maxLength: 63
           isRequired: true  
+
+    - name: ForReferenceNumber
+      description: Entity created for testing auto number usages
         
+      persistence:
+        isAudited: false
+        
+      keys:
+
+      - name: Id
+        description: Workplace Id
+        type: referenceNumber
+        referenceNumberTypeOptions:
+          startsAt: 10
+          incrementsBy: 5
+          prefix: "ID-"
+          suffixCheckSumDigit: true
+        isRequired: true
+      
+      attributes:
+      - name: WorkplaceNumber
+        description: Workplace Number
+        type: referenceNumber
+        referenceNumberTypeOptions:
+          startsAt: 100
+          incrementsBy: 1
+          prefix: "WKP-"
+          suffixCheckSumDigit: true
+        isRequired: false

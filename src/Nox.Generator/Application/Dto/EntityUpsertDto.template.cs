@@ -31,9 +31,9 @@ public abstract class {{className}}Base: EntityDtoBase, IEntityDto<DomainNamespa
     /// {{key.Description  | string.rstrip}}
     /// </summary>    
     {{- if key.Type == "EntityId" }}
-    public {{SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity}}? {{key.Name}}
+    public virtual {{SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity}}? {{key.Name}}
     {{- else }}
-    public {{SinglePrimitiveTypeForKey key}}? {{key.Name}} { get; set; }
+    public virtual {{SinglePrimitiveTypeForKey key}}? {{key.Name}} { get; set; }
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}

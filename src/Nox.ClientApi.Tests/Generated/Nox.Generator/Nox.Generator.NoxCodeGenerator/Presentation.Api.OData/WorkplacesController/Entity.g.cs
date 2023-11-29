@@ -61,7 +61,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<WorkplaceDto>> Get([FromRoute] System.Int64 key)
+    public virtual async Task<SingleResult<WorkplaceDto>> Get([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key));
         return SingleResult.Create(result);
@@ -71,7 +71,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -105,7 +105,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     {
         if (!ModelState.IsValid || workplace is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

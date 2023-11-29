@@ -237,10 +237,10 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
         return await DeleteAsync(requestUrl, new(), throwOnError);
     }
 
-    public Dictionary<string, IEnumerable<string>> CreateEtagHeader(System.Guid? etag)
+    public Dictionary<string, IEnumerable<string>> CreateEtagHeader(Guid etag)
         => new()
         {
-                { "If-Match", new List<string> { $"\"{etag}\"" } }
+                { "If-Match",new [] { etag.ToString() } }
         };
 
     public Dictionary<string, IEnumerable<string>> CreateAcceptLanguageHeader(params string[] language)
@@ -268,7 +268,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
     {
         foreach (var header in headers)
         {
-            httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            httpClient.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
         }
     }
 

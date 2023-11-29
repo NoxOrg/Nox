@@ -67,6 +67,8 @@ This document provides information about the various endpoints available in our 
 #### Update StoreOwner relation
 - **PUT** `/api/Stores/{key}/Ownership/{relatedKey}/$ref`
   - Description: Updates an existing StoreOwner relation for a specific Store.
+- **PUT** `/api/Stores/{key}/Ownership/$ref`
+  - Description: Updates the StoreOwner relations for a specific Store.
 
 #### Delete StoreOwner relation
 - **DELETE** `/api/Stores/{key}/Ownership/{relatedKey}/$ref`
@@ -89,6 +91,8 @@ This document provides information about the various endpoints available in our 
 #### Update StoreLicense relation
 - **PUT** `/api/Stores/{key}/License/{relatedKey}/$ref`
   - Description: Updates an existing StoreLicense relation for a specific Store.
+- **PUT** `/api/Stores/{key}/License/$ref`
+  - Description: Updates the StoreLicense relations for a specific Store.
 
 #### Delete StoreLicense relation
 - **DELETE** `/api/Stores/{key}/License/{relatedKey}/$ref`

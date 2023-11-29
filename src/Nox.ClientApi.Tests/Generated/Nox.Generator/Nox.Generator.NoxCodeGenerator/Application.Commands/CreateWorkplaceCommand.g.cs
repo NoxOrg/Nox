@@ -11,6 +11,8 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;

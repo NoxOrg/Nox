@@ -19,10 +19,12 @@ using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefCustomerToCountryCommand(CustomerKeyDto EntityKeyDto, CountryKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefCustomerToCountryCommand(CustomerKeyDto EntityKeyDto) : IRequest <bool>;
+
+#region CreateRefTo
 
 public partial record CreateRefCustomerToCountryCommand(CustomerKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
-	: RefCustomerToCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefCustomerToCountryCommand(EntityKeyDto);
 
 internal partial class CreateRefCustomerToCountryCommandHandler
 	: RefCustomerToCountryCommandHandlerBase<CreateRefCustomerToCountryCommand>
@@ -31,12 +33,35 @@ internal partial class CreateRefCustomerToCountryCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Create)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(CreateRefCustomerToCountryCommand request)
+    {
+		var entity = await GetCustomer(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetCountry(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.CreateRefToCountry(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion CreateRefTo
+
+#region DeleteRefTo
+
 public record DeleteRefCustomerToCountryCommand(CustomerKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
-	: RefCustomerToCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefCustomerToCountryCommand(EntityKeyDto);
 
 internal partial class DeleteRefCustomerToCountryCommandHandler
 	: RefCustomerToCountryCommandHandlerBase<DeleteRefCustomerToCountryCommand>
@@ -45,12 +70,35 @@ internal partial class DeleteRefCustomerToCountryCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Delete)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteRefCustomerToCountryCommand request)
+    {
+        var entity = await GetCustomer(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetCountry(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.DeleteRefToCountry(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion DeleteRefTo
+
+#region DeleteAllRefTo
+
 public record DeleteAllRefCustomerToCountryCommand(CustomerKeyDto EntityKeyDto)
-	: RefCustomerToCountryCommand(EntityKeyDto, null);
+	: RefCustomerToCountryCommand(EntityKeyDto);
 
 internal partial class DeleteAllRefCustomerToCountryCommandHandler
 	: RefCustomerToCountryCommandHandlerBase<DeleteAllRefCustomerToCountryCommand>
@@ -59,68 +107,67 @@ internal partial class DeleteAllRefCustomerToCountryCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteAllRefCustomerToCountryCommand request)
+    {
+        var entity = await GetCustomer(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+		entity.DeleteAllRefToCountry();
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
+
+#endregion DeleteAllRefTo
 
 internal abstract class RefCustomerToCountryCommandHandlerBase<TRequest> : CommandBase<TRequest, CustomerEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCustomerToCountryCommand
 {
 	public AppDbContext DbContext { get; }
 
-	public RelationshipAction Action { get; }
-
-	public enum RelationshipAction { Create, Delete, DeleteAll };
-
 	public RefCustomerToCountryCommandHandlerBase(
         AppDbContext dbContext,
-		NoxSolution noxSolution,
-		RelationshipAction action)
+		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		Action = action;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityKeyDto.keyId);
-		var entity = await DbContext.Customers.FindAsync(keyId);
-		if (entity == null)
+		return await ExecuteAsync(request);
+	}
+
+	protected abstract Task<bool> ExecuteAsync(TRequest request);
+
+	protected async Task<CustomerEntity?> GetCustomer(CustomerKeyDto entityKeyDto)
+	{
+		var keyId = Cryptocash.Domain.CustomerMetadata.CreateId(entityKeyDto.keyId);
+		return await DbContext.Customers.FindAsync(keyId);
+	}
+
+	protected async Task<Cryptocash.Domain.Country?> GetCountry(CountryKeyDto relatedEntityKeyDto)
+	{
+		var relatedKeyId = Cryptocash.Domain.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
+		return await DbContext.Countries.FindAsync(relatedKeyId);
+	}
+
+	protected async Task<bool> SaveChangesAsync(TRequest request, CustomerEntity entity)
+	{
+		await OnCompletedAsync(request, entity);
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
 		{
 			return false;
 		}
-
-		Cryptocash.Domain.Country? relatedEntity = null!;
-		if(request.RelatedEntityKeyDto is not null)
-		{
-			var relatedKeyId = Cryptocash.Domain.CountryMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
-			relatedEntity = await DbContext.Countries.FindAsync(relatedKeyId);
-			if (relatedEntity == null)
-			{
-				return false;
-			}
-		}
-
-		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToCountry(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToCountry(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				entity.DeleteAllRefToCountry();
-				break;
-		}
-
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
 		return true;
 	}
 }

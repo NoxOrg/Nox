@@ -35,7 +35,14 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
 
     public virtual TestEntityForTypesEntity CreateEntity(TestEntityForTypesCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(TestEntityForTypesEntity entity, TestEntityForTypesUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
@@ -72,7 +79,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
         entity.SetIfNotNull(createDto.DateTimeRangeTestField, (entity) => entity.DateTimeRangeTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeRangeTestField(createDto.DateTimeRangeTestField.NonNullValue<DateTimeRangeDto>()));
         entity.SetIfNotNull(createDto.DistanceTestField, (entity) => entity.DistanceTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateDistanceTestField(createDto.DistanceTestField.NonNullValue<System.Decimal>()));
         entity.SetIfNotNull(createDto.EmailTestField, (entity) => entity.EmailTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateEmailTestField(createDto.EmailTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.EncryptedTextTestField, (entity) => entity.EncryptedTextTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateEncryptedTextTestField(createDto.EncryptedTextTestField.NonNullValue<System.Byte[]>()));
         entity.SetIfNotNull(createDto.GuidTestField, (entity) => entity.GuidTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateGuidTestField(createDto.GuidTestField.NonNullValue<System.Guid>()));
+        entity.SetIfNotNull(createDto.HashedTextTestField, (entity) => entity.HashedTextTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateHashedTextTestField(createDto.HashedTextTestField.NonNullValue<HashedTextDto>()));
         entity.SetIfNotNull(createDto.InternetDomainTestField, (entity) => entity.InternetDomainTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateInternetDomainTestField(createDto.InternetDomainTestField.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.IpAddressV4TestField, (entity) => entity.IpAddressV4TestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateIpAddressV4TestField(createDto.IpAddressV4TestField.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.IpAddressV6TestField, (entity) => entity.IpAddressV6TestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateIpAddressV6TestField(createDto.IpAddressV6TestField.NonNullValue<System.String>()));
@@ -80,6 +89,7 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
         entity.SetIfNotNull(createDto.LengthTestField, (entity) => entity.LengthTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateLengthTestField(createDto.LengthTestField.NonNullValue<System.Decimal>()));
         entity.SetIfNotNull(createDto.MacAddressTestField, (entity) => entity.MacAddressTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateMacAddressTestField(createDto.MacAddressTestField.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.MonthTestField, (entity) => entity.MonthTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateMonthTestField(createDto.MonthTestField.NonNullValue<System.Byte>()));
+        entity.SetIfNotNull(createDto.PasswordTestField, (entity) => entity.PasswordTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreatePasswordTestField(createDto.PasswordTestField.NonNullValue<PasswordDto>()));
         entity.SetIfNotNull(createDto.PercentageTestField, (entity) => entity.PercentageTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreatePercentageTestField(createDto.PercentageTestField.NonNullValue<System.Single>()));
         entity.SetIfNotNull(createDto.PhoneNumberTestField, (entity) => entity.PhoneNumberTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreatePhoneNumberTestField(createDto.PhoneNumberTestField.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.TemperatureTestField, (entity) => entity.TemperatureTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateTemperatureTestField(createDto.TemperatureTestField.NonNullValue<System.Decimal>()));

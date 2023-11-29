@@ -1,4 +1,6 @@
-﻿namespace Nox.Exceptions
+﻿using Nox.Presentation.Api;
+
+namespace Nox.Exceptions
 {
 
     /// <summary>

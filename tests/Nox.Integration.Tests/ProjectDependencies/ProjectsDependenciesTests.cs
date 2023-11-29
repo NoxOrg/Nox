@@ -88,12 +88,13 @@ namespace Nox.Tests.ProjectDependencies
         public void Nox_Abstraction_References_Nox_Types_And_Solution_Only()
         {
             var projectDependencies =
-                _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxAbstractions.Id);
+                _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectTransitivelyDependsOn(_fixture.NoxAbstractions.Id);
 
-            projectDependencies.Should().HaveCount(2);
+            projectDependencies.Should().HaveCount(3);
 
             projectDependencies.SingleOrDefault(d => d.Id == _fixture.NoxTypesProject.Id.Id).Should().NotBeNull();
-            projectDependencies.SingleOrDefault(d => d.Id == _fixture.NoxSolution.Id.Id).Should().NotBeNull();
+            projectDependencies.SingleOrDefault(d => d.Id == _fixture.NoxTypesAbstractionsProject.Id.Id).Should().NotBeNull();
+            projectDependencies.SingleOrDefault(d => d.Id == _fixture.NoxYamlProject.Id.Id).Should().NotBeNull();
         }
         #region Nox.Solution
         [Fact]

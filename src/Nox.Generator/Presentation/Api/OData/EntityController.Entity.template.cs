@@ -68,7 +68,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     }
 
     [EnableQuery]
-    public async Task<SingleResult<{{entity.Name}}Dto>> Get({{ primaryKeysRoute }})
+    public virtual async Task<SingleResult<{{entity.Name}}Dto>> Get({{ primaryKeysRoute }})
     {
         var result = await _mediator.Send(new Get{{ entity.Name }}ByIdQuery({{if entity.IsLocalized}}_cultureCode, {{end}}{{ primaryKeysQuery }}));
         return SingleResult.Create(result);
@@ -79,7 +79,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new Create{{entity.Name}}Command({{ToLowerFirstChar entity.Name}}, _cultureCode));
@@ -94,7 +94,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         {{~ if !entity.IsOwnedEntity }}
         var etag = Request.GetDecodedEtagHeader();
@@ -117,7 +117,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     {
         if (!ModelState.IsValid || {{ToLowerFirstChar entity.Name}} is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

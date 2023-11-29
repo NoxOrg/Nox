@@ -12,6 +12,8 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -79,4 +81,14 @@ internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmp
 		await DbContext.SaveChangesAsync();
 		return new EmployeeKeyDto(entityToCreate.Id.Value);
 	}
+}
+
+public class CreateEmployeeValidator : AbstractValidator<CreateEmployeeCommand>
+{
+    public CreateEmployeeValidator()
+    {
+		RuleFor(x => x.EntityDto.EmployeePhoneNumbers)
+			.Must(owned => owned.All(x => x.Id == null))
+			.WithMessage("EmployeePhoneNumbers.Id must be null as it is auto generated.");
+    }
 }

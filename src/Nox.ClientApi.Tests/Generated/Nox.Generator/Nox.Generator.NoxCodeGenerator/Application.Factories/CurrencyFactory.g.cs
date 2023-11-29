@@ -35,7 +35,14 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 
     public virtual CurrencyEntity CreateEntity(CurrencyCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(CurrencyEntity entity, CurrencyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

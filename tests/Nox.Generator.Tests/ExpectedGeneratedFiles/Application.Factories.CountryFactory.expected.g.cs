@@ -35,7 +35,14 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 
     public virtual CountryEntity CreateEntity(CountryCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
@@ -67,6 +74,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         entity.GeoWorldRegion = SampleWebApp.Domain.CountryMetadata.CreateGeoWorldRegion(createDto.GeoWorldRegion);
         entity.SetIfNotNull(createDto.Population, (entity) => entity.Population =SampleWebApp.Domain.CountryMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>()));
         entity.SetIfNotNull(createDto.TopLevelDomains, (entity) => entity.TopLevelDomains =SampleWebApp.Domain.CountryMetadata.CreateTopLevelDomains(createDto.TopLevelDomains.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.EncryptedTextField, (entity) => entity.EncryptedTextField =SampleWebApp.Domain.CountryMetadata.CreateEncryptedTextField(createDto.EncryptedTextField.NonNullValue<System.Byte[]>()));
+        entity.SetIfNotNull(createDto.HashedTextField, (entity) => entity.HashedTextField =SampleWebApp.Domain.CountryMetadata.CreateHashedTextField(createDto.HashedTextField.NonNullValue<HashedTextDto>()));
+        entity.SetIfNotNull(createDto.PasswordField, (entity) => entity.PasswordField =SampleWebApp.Domain.CountryMetadata.CreatePasswordField(createDto.PasswordField.NonNullValue<PasswordDto>()));
         return entity;
     }
 

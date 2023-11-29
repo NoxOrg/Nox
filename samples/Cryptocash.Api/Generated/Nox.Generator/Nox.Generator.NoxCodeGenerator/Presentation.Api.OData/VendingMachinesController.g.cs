@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -32,7 +33,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefVendingMachineToCountryCommand(new VendingMachineKeyDto(key), new CountryKeyDto(relatedKey)));
@@ -60,7 +61,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         country.VendingMachinesId = new List<System.Guid> { key };
@@ -86,7 +87,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
@@ -109,7 +110,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefVendingMachineToLandLordCommand(new VendingMachineKeyDto(key), new LandLordKeyDto(relatedKey)));
@@ -137,7 +138,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         landLord.VendingMachinesId = new List<System.Guid> { key };
@@ -163,7 +164,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.LandLord).SingleOrDefault();
@@ -186,11 +187,29 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefVendingMachineToBookingsCommand(new VendingMachineKeyDto(key), new BookingKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/VendingMachines/{key}/Bookings/$ref")]
+    public async Task<ActionResult> UpdateRefToBookingsNonConventional([FromRoute] System.Guid key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new BookingKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefVendingMachineToBookingsCommand(new VendingMachineKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -218,7 +237,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefVendingMachineToBookingsCommand(new VendingMachineKeyDto(key), new BookingKeyDto(relatedKey)));
@@ -234,7 +253,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToBookingsCommand(new VendingMachineKeyDto(key)));
@@ -250,7 +269,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         booking.VendingMachineId = key;
@@ -273,7 +292,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/VendingMachines/{key}/Bookings/{relatedKey}")]
+    [HttpGet("/api/VendingMachines/{key}/Bookings/{relatedKey}")]
     public virtual async Task<SingleResult<BookingDto>> GetBookingsNonConventional(System.Guid key, System.Guid relatedKey)
     {
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.Bookings).Where(x => x.Id == relatedKey);
@@ -284,12 +303,12 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/VendingMachines/{key}/Bookings/{relatedKey}")]
+    [HttpPut("/api/VendingMachines/{key}/Bookings/{relatedKey}")]
     public virtual async Task<ActionResult<BookingDto>> PutToBookingsNonConventional(System.Guid key, System.Guid relatedKey, [FromBody] BookingUpdateDto booking)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
@@ -308,12 +327,12 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/VendingMachines/{key}/Bookings/{relatedKey}")]
+    [HttpDelete("/api/VendingMachines/{key}/Bookings/{relatedKey}")]
     public async Task<ActionResult> DeleteToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
@@ -332,12 +351,12 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/VendingMachines/{key}/Bookings")]
+    [HttpDelete("/api/VendingMachines/{key}/Bookings")]
     public async Task<ActionResult> DeleteToBookings([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.Bookings).SingleOrDefault();
@@ -358,11 +377,29 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefVendingMachineToCashStockOrdersCommand(new VendingMachineKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/VendingMachines/{key}/CashStockOrders/$ref")]
+    public async Task<ActionResult> UpdateRefToCashStockOrdersNonConventional([FromRoute] System.Guid key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new CashStockOrderKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefVendingMachineToCashStockOrdersCommand(new VendingMachineKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -390,7 +427,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefVendingMachineToCashStockOrdersCommand(new VendingMachineKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
@@ -406,7 +443,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToCashStockOrdersCommand(new VendingMachineKeyDto(key)));
@@ -422,7 +459,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         cashStockOrder.VendingMachineId = key;
@@ -445,7 +482,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/VendingMachines/{key}/CashStockOrders/{relatedKey}")]
+    [HttpGet("/api/VendingMachines/{key}/CashStockOrders/{relatedKey}")]
     public virtual async Task<SingleResult<CashStockOrderDto>> GetCashStockOrdersNonConventional(System.Guid key, System.Int64 relatedKey)
     {
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.CashStockOrders).Where(x => x.Id == relatedKey);
@@ -456,12 +493,12 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/VendingMachines/{key}/CashStockOrders/{relatedKey}")]
+    [HttpPut("/api/VendingMachines/{key}/CashStockOrders/{relatedKey}")]
     public virtual async Task<ActionResult<CashStockOrderDto>> PutToCashStockOrdersNonConventional(System.Guid key, System.Int64 relatedKey, [FromBody] CashStockOrderUpdateDto cashStockOrder)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.CashStockOrders).Any(x => x.Id == relatedKey);
@@ -480,12 +517,12 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/VendingMachines/{key}/CashStockOrders/{relatedKey}")]
+    [HttpDelete("/api/VendingMachines/{key}/CashStockOrders/{relatedKey}")]
     public async Task<ActionResult> DeleteToCashStockOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.CashStockOrders).Any(x => x.Id == relatedKey);
@@ -504,12 +541,12 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/VendingMachines/{key}/CashStockOrders")]
+    [HttpDelete("/api/VendingMachines/{key}/CashStockOrders")]
     public async Task<ActionResult> DeleteToCashStockOrders([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.CashStockOrders).SingleOrDefault();
@@ -530,11 +567,29 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefVendingMachineToMinimumCashStocksCommand(new VendingMachineKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/VendingMachines/{key}/MinimumCashStocks/$ref")]
+    public async Task<ActionResult> UpdateRefToMinimumCashStocksNonConventional([FromRoute] System.Guid key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new MinimumCashStockKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefVendingMachineToMinimumCashStocksCommand(new VendingMachineKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -562,7 +617,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefVendingMachineToMinimumCashStocksCommand(new VendingMachineKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
@@ -578,7 +633,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToMinimumCashStocksCommand(new VendingMachineKeyDto(key)));
@@ -594,7 +649,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         minimumCashStock.VendingMachinesId = new List<System.Guid> { key };
@@ -617,7 +672,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/VendingMachines/{key}/MinimumCashStocks/{relatedKey}")]
+    [HttpGet("/api/VendingMachines/{key}/MinimumCashStocks/{relatedKey}")]
     public virtual async Task<SingleResult<MinimumCashStockDto>> GetMinimumCashStocksNonConventional(System.Guid key, System.Int64 relatedKey)
     {
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Where(x => x.Id == relatedKey);
@@ -628,12 +683,12 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/VendingMachines/{key}/MinimumCashStocks/{relatedKey}")]
+    [HttpPut("/api/VendingMachines/{key}/MinimumCashStocks/{relatedKey}")]
     public virtual async Task<ActionResult<MinimumCashStockDto>> PutToMinimumCashStocksNonConventional(System.Guid key, System.Int64 relatedKey, [FromBody] MinimumCashStockUpdateDto minimumCashStock)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Any(x => x.Id == relatedKey);
@@ -652,12 +707,12 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/VendingMachines/{key}/MinimumCashStocks/{relatedKey}")]
+    [HttpDelete("/api/VendingMachines/{key}/MinimumCashStocks/{relatedKey}")]
     public async Task<ActionResult> DeleteToMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Any(x => x.Id == relatedKey);
@@ -676,12 +731,12 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/VendingMachines/{key}/MinimumCashStocks")]
+    [HttpDelete("/api/VendingMachines/{key}/MinimumCashStocks")]
     public async Task<ActionResult> DeleteToMinimumCashStocks([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.MinimumCashStocks).SingleOrDefault();

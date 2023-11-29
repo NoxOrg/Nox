@@ -65,7 +65,9 @@ public class NoxSolution : YamlConfigNode<NoxSolution>
 
     public Infrastructure Infrastructure { get; internal set; } = new();
 
-    public Application? Application { get; internal set; } = new Application();
+    public Application? Application { get; internal set; } = new ();
+
+    public Presentation Presentation { get; internal set; } = new ();
 
     [YamlIgnore]
     public IReadOnlyList<DataConnection> DataConnections => _dataConnections.Values.ToList();

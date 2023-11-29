@@ -34,7 +34,7 @@ public class Number : ValueObject<QuantityValue, Number>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

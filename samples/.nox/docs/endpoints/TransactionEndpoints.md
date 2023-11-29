@@ -43,6 +43,8 @@ This document provides information about the various endpoints available in our 
 #### Update Customer relation
 - **PUT** `/api/Transactions/{key}/TransactionForCustomer/{relatedKey}/$ref`
   - Description: Updates an existing Customer relation for a specific Transaction.
+- **PUT** `/api/Transactions/{key}/TransactionForCustomer/$ref`
+  - Description: Updates the Customer relations for a specific Transaction.
 
 #### Delete Customer relation
 - **DELETE** `/api/Transactions/{key}/TransactionForCustomer/{relatedKey}/$ref`
@@ -65,6 +67,8 @@ This document provides information about the various endpoints available in our 
 #### Update Booking relation
 - **PUT** `/api/Transactions/{key}/TransactionForBooking/{relatedKey}/$ref`
   - Description: Updates an existing Booking relation for a specific Transaction.
+- **PUT** `/api/Transactions/{key}/TransactionForBooking/$ref`
+  - Description: Updates the Booking relations for a specific Transaction.
 
 #### Delete Booking relation
 - **DELETE** `/api/Transactions/{key}/TransactionForBooking/{relatedKey}/$ref`

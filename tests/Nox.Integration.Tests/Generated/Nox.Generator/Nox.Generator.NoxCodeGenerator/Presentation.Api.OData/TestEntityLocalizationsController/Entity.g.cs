@@ -61,7 +61,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
     }
 
     [EnableQuery]
-    public async Task<SingleResult<TestEntityLocalizationDto>> Get([FromRoute] System.String key)
+    public virtual async Task<SingleResult<TestEntityLocalizationDto>> Get([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_cultureCode, key));
         return SingleResult.Create(result);
@@ -71,7 +71,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateTestEntityLocalizationCommand(testEntityLocalization, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -105,7 +105,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
     {
         if (!ModelState.IsValid || testEntityLocalization is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

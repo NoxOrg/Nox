@@ -11,6 +11,8 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -69,4 +71,12 @@ internal abstract class CreateEmployeePhoneNumbersForEmployeeCommandHandlerBase 
 
 		return new EmployeePhoneNumberKeyDto(entity.Id.Value);
 	}
+}
+
+public class CreateEmployeePhoneNumbersForEmployeeValidator : AbstractValidator<CreateEmployeePhoneNumbersForEmployeeCommand>
+{
+    public CreateEmployeePhoneNumbersForEmployeeValidator(ILogger<CreateEmployeePhoneNumbersForEmployeeCommand> logger)
+    {
+		RuleFor(x => x.EntityDto.Id).Null().WithMessage("Id must be null as it is auto generated.");
+    }
 }

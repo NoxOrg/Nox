@@ -36,7 +36,7 @@ public class CreateCountryCommandHandlerTests : NoxWebApiTestBase
 
         // Act
         var postResult = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryDto);
-        var headers = CreateEtagHeader(postResult?.Etag);
+        var headers = CreateEtagHeader(postResult!.Etag);
         var putResult = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{postResult!.Id}", countryUpdateDto, headers);
 
         //Assert

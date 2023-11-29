@@ -16,7 +16,7 @@ using EntityUniqueConstraintsRelatedForeignKeyEntity = TestWebApp.Domain.EntityU
 
 namespace TestWebApp.Application.Commands;
 
-public record PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand(System.Int32 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EntityUniqueConstraintsRelatedForeignKeyKeyDto?>;
+public partial record PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand(System.Int32 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EntityUniqueConstraintsRelatedForeignKeyKeyDto?>;
 
 internal class PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandler : PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase
 {

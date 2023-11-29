@@ -50,57 +50,65 @@ public class CoreTests
             {
                 Watermark = new IntegrationSourceWatermark
                 {
-                    SequentialKeyColumns = new List<string>
-                    {
-                        "Id"
-                    },
                     DateColumns = new List<string>
                     {
                         "CreateDate",
                         "EditDate"
                     }
+                },
+                SourceAdapterType = IntegrationSourceAdapterType.DatabaseQuery,
+                DataConnectionName = "CountrySource",
+                QueryOptions = new IntegrationSourceQueryOptions
+                {
+                    Query = "SELECT CountryId AS Id, Name, Population, CreateDate, EditDate FROM CountryMaster",
+                    MinimumExpectedRecords = 1
+                }
+            },
+            Target = new IntegrationTarget
+            {
+                Name = "TestTarget",
+                Description = "Integration target for testing.",
+                TargetAdapterType = IntegrationTargetAdapterType.DatabaseTable,
+                DataConnectionName = "EtlSample",
+                TableOptions = new IntegrationTargetTableOptions
+                {
+                    TableName = "Country",
+                    Watermark = new IntegrationTargetWatermark
+                    {
+                        SequentialKeyColumns = new List<string>
+                        {
+                            "Id"
+                        },
+                        DateColumns = new List<string>
+                        {
+                            "CreateDate",
+                            "EditDate"
+                        }
+                    }
+                }
+            }
+        };
+
+        var solution = new NoxSolution
+        {
+            Application = new Application
+            {
+                Integrations = new List<Solution.Integration> { definition }
+            },
+            Infrastructure = new Infrastructure
+            {
+                Dependencies = new Dependencies
+                {
+                    DataConnections = dataConnections
                 }
             }
         };
 
         var integration = new NoxIntegration(logger, definition)
-            .WithReceiveAdapter(new IntegrationSource
-            {
-                Name = "TestSource",
-                Description = "Integration Source for testing",
-                SourceAdapterType = IntegrationSourceAdapterType.DatabaseQuery,
-                QueryOptions = new IntegrationSourceQueryOptions
-                {
-                    Query = "SELECT CountryId AS Id, Name, Population, CreateDate, EditDate FROM CountryMaster",
-                    MinimumExpectedRecords = 10
-                },
-                DataConnectionName = "CountrySource",
-                Watermark = new IntegrationSourceWatermark
-                {
-                    SequentialKeyColumns = new []
-                    {
-                        "Id"
-                    },
-                    DateColumns = new[]
-                    {
-                        "CreateDate",
-                        "EditDate"
-                    }
-                }
-            }, dataConnections)
-            .WithSendAdapter(new IntegrationTarget
-            {
-                Name = "TestTarget",
-                Description = "Integration target for testing.",
-                TargetAdapterType = IntegrationTargetAdapterType.DatabaseTable,
-                TableOptions = new IntegrationTargetTableOptions
-                {
-                    TableName = "Country"
-                },
-                DataConnectionName = "EtlSample"
-            }, dataConnections);
+            .WithReceiveAdapter(definition.Source, dataConnections)
+            .WithSendAdapter(definition.Target, dataConnections);
 
-        var context = new NoxIntegrationContext(logger, new NoxSolution());
+        var context = new NoxIntegrationContext(logger, solution);
         context.AddIntegration(integration);
         var result = await context.ExecuteIntegrationAsync("EtlTest");
         Assert.True(result);
@@ -123,7 +131,7 @@ public class CoreTests
             .WithFile("./files/test_integration.solution.nox.yaml")
             .Build();
         services.AddSingleton<NoxSolution>(solution);
-        services.AddNoxIntegrations(solution);
+        services.AddNoxIntegrations();
         var provider = services.BuildServiceProvider();
         var context = provider.GetRequiredService<INoxIntegrationContext>();
         var result = await context.ExecuteIntegrationAsync("SqlToSqlIntegration");

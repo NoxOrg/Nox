@@ -61,7 +61,7 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
     }
 
     [EnableQuery]
-    public async Task<SingleResult<CountryQualityOfLifeIndexDto>> Get([FromRoute] System.Int64 keyCountryId, [FromRoute] System.Int64 keyId)
+    public virtual async Task<SingleResult<CountryQualityOfLifeIndexDto>> Get([FromRoute] System.Int64 keyCountryId, [FromRoute] System.Int64 keyId)
     {
         var result = await _mediator.Send(new GetCountryQualityOfLifeIndexByIdQuery(keyCountryId, keyId));
         return SingleResult.Create(result);
@@ -71,7 +71,7 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateCountryQualityOfLifeIndexCommand(countryQualityOfLifeIndex, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -105,7 +105,7 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
     {
         if (!ModelState.IsValid || countryQualityOfLifeIndex is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

@@ -41,7 +41,7 @@ public class Volume : ValueObject<QuantityValue, Volume>
     /// </summary>
     /// <param name="value">The origin value to create the <see cref="Volume"/> with</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public new static Volume From(QuantityValue value)
         => From(value, new VolumeTypeOptions());
 
@@ -51,7 +51,7 @@ public class Volume : ValueObject<QuantityValue, Volume>
     /// <param name="value">Value to create a <see cref="Volume"/>.</param>
     /// <param name="unit">Unit to create a <see cref="Volume"/>.</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Volume From(QuantityValue value, VolumeTypeUnit unit)
         => From(value, new VolumeTypeOptions { Unit = unit });
 
@@ -61,7 +61,7 @@ public class Volume : ValueObject<QuantityValue, Volume>
     /// <param name="value">Value to create a <see cref="Volume"/>.</param>
     /// <param name="options">Options to create a <see cref="Volume"/>.</param>
     /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Volume From(QuantityValue value, VolumeTypeOptions options)
     {
         var newObject = new Volume
@@ -75,7 +75,7 @@ public class Volume : ValueObject<QuantityValue, Volume>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

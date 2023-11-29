@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -32,7 +33,7 @@ public abstract partial class CommissionsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefCommissionToCountryCommand(new CommissionKeyDto(key), new CountryKeyDto(relatedKey)));
@@ -60,7 +61,7 @@ public abstract partial class CommissionsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefCommissionToCountryCommand(new CommissionKeyDto(key), new CountryKeyDto(relatedKey)));
@@ -76,7 +77,7 @@ public abstract partial class CommissionsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefCommissionToCountryCommand(new CommissionKeyDto(key)));
@@ -92,7 +93,7 @@ public abstract partial class CommissionsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         country.CommissionsId = new List<System.Int64> { key };
@@ -118,7 +119,7 @@ public abstract partial class CommissionsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
@@ -137,12 +138,12 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Commissions/{key}/Country")]
+    [HttpDelete("/api/Commissions/{key}/Country")]
     public async Task<ActionResult> DeleteToCountry([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
@@ -164,11 +165,29 @@ public abstract partial class CommissionsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefCommissionToBookingsCommand(new CommissionKeyDto(key), new BookingKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/Commissions/{key}/Bookings/$ref")]
+    public async Task<ActionResult> UpdateRefToBookingsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new BookingKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCommissionToBookingsCommand(new CommissionKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -196,7 +215,7 @@ public abstract partial class CommissionsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefCommissionToBookingsCommand(new CommissionKeyDto(key), new BookingKeyDto(relatedKey)));
@@ -212,7 +231,7 @@ public abstract partial class CommissionsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefCommissionToBookingsCommand(new CommissionKeyDto(key)));
@@ -228,7 +247,7 @@ public abstract partial class CommissionsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         booking.CommissionId = key;
@@ -251,7 +270,7 @@ public abstract partial class CommissionsControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/Commissions/{key}/Bookings/{relatedKey}")]
+    [HttpGet("/api/Commissions/{key}/Bookings/{relatedKey}")]
     public virtual async Task<SingleResult<BookingDto>> GetBookingsNonConventional(System.Int64 key, System.Guid relatedKey)
     {
         var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).SelectMany(x => x.Bookings).Where(x => x.Id == relatedKey);
@@ -262,12 +281,12 @@ public abstract partial class CommissionsControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/Commissions/{key}/Bookings/{relatedKey}")]
+    [HttpPut("/api/Commissions/{key}/Bookings/{relatedKey}")]
     public virtual async Task<ActionResult<BookingDto>> PutToBookingsNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] BookingUpdateDto booking)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
@@ -286,12 +305,12 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/Commissions/{key}/Bookings/{relatedKey}")]
+    [HttpDelete("/api/Commissions/{key}/Bookings/{relatedKey}")]
     public async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
@@ -310,12 +329,12 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/Commissions/{key}/Bookings")]
+    [HttpDelete("/api/Commissions/{key}/Bookings")]
     public async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.Bookings).SingleOrDefault();

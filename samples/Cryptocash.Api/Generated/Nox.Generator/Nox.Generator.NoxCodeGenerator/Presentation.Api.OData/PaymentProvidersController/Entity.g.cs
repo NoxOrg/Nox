@@ -61,7 +61,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<PaymentProviderDto>> Get([FromRoute] System.Int64 key)
+    public virtual async Task<SingleResult<PaymentProviderDto>> Get([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new GetPaymentProviderByIdQuery(key));
         return SingleResult.Create(result);
@@ -71,7 +71,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreatePaymentProviderCommand(paymentProvider, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -105,7 +105,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
     {
         if (!ModelState.IsValid || paymentProvider is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

@@ -19,7 +19,7 @@ public class CountryNumberTests
     [InlineData(1000u)]
     public void CountryNumber_Constructor_WithUnallowedValue_ThrowsException(ushort value)
     {
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
+        var exception = Assert.Throws<NoxTypeValidationException>(() => _ =
             CountryNumber.From(value)
         );
 

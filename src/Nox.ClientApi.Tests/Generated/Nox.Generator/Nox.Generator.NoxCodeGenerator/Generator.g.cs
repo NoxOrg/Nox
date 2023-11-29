@@ -52,6 +52,7 @@
 //  - Nox.Generator.Application.Queries.QueryLocalizedGenerator
 //  - Nox.Generator.Application.Queries.TranslationsByIdQueryGenerator
 //  - Nox.Generator.Application.Queries.TranslationsQueryGenerator
+//  - Nox.Generator.Application.Integration.CustomTransformHandlerGenerator
 //  - Nox.Generator.Application.Factories.EntityFactoryGenerator
 //  - Nox.Generator.Application.Factories.EntityLocalizedFactoryGenerator
 //  - Nox.Generator.Application.Extensions.EntityExtensionsGenerator
@@ -75,4 +76,5 @@
 //  - Nox.Generator.Application.Commands.UpdateOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.NavigationMenuGenerator
 //  - Nox.Generator.Application.Commands.NavigationMenuRazor
+// Nox.Generator.Application.Integration.CustomTransformHandlerGenerator Skipping generator because no integrations defined
 // SUCCESS.

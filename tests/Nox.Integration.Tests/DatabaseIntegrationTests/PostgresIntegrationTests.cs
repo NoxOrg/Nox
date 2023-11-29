@@ -6,11 +6,25 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 public class PostgresIntegrationTests : NoxIntegrationContainerTestBase<NoxTestPostgreContainerFixture>
 {
     private readonly NoxCommonTestCaseFactory _noxCommonTestCases;
-
-    public PostgresIntegrationTests(NoxTestPostgreContainerFixture containerFixture) : base(containerFixture)
+    private readonly ReferenceNumberTests _referenceNumberTests;
+    public PostgresIntegrationTests(NoxTestPostgreContainerFixture fixture) : base(fixture)
     {
-        _noxCommonTestCases = new NoxCommonTestCaseFactory(containerFixture);
+        _noxCommonTestCases = new NoxCommonTestCaseFactory(fixture);
+        _referenceNumberTests = new ReferenceNumberTests(fixture);
     }
+
+    [Fact]
+    public async Task WhenGetSequenceNextValue_ShouldSucceed()
+    {
+        await _referenceNumberTests.WhenGetSequenceNextValue_ShouldSucceed();
+    }
+
+    [Fact]
+    public async Task WhenCreateReferenceNumberAttribute_ShouldBeUnique()
+    {
+        await _referenceNumberTests.WhenCreateReferenceNumberAttribute_ShouldBeUnique();
+    }
+
 
     [Fact]
     public void GeneratedEntity_Postgres_CanSaveAndReadFields_AllTypes()

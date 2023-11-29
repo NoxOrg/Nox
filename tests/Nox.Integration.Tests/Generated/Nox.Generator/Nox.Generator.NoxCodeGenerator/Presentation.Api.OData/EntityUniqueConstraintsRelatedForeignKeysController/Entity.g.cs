@@ -61,7 +61,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     }
 
     [EnableQuery]
-    public async Task<SingleResult<EntityUniqueConstraintsRelatedForeignKeyDto>> Get([FromRoute] System.Int32 key)
+    public virtual async Task<SingleResult<EntityUniqueConstraintsRelatedForeignKeyDto>> Get([FromRoute] System.Int32 key)
     {
         var result = await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key));
         return SingleResult.Create(result);
@@ -71,7 +71,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateEntityUniqueConstraintsRelatedForeignKeyCommand(entityUniqueConstraintsRelatedForeignKey, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -105,7 +105,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     {
         if (!ModelState.IsValid || entityUniqueConstraintsRelatedForeignKey is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

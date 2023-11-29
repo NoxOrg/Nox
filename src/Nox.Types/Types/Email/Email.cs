@@ -44,7 +44,7 @@ public sealed class Email : ValueObject<string, Email>
 
         if (!validationResult.IsValid)
         {
-            throw new  TypeValidationException(validationResult.Errors);
+            throw new  NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;

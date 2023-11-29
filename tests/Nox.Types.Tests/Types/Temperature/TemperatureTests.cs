@@ -30,7 +30,7 @@ public class TemperatureTests
     {
         Action comparison = () => Temperature.From(double.NaN, TemperatureTypeUnit.Fahrenheit);
 
-        comparison.Should().Throw<TypeValidationException>();
+        comparison.Should().Throw<NoxTypeValidationException>();
     }
 
     [Fact]

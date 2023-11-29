@@ -44,7 +44,7 @@ public class GuidTests
 
         var act = () => Guid.From(emptyGuid);
 
-        act.Should().Throw<TypeValidationException>()
+        act.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[]
             {
                 new ValidationFailure("Value",
@@ -57,7 +57,7 @@ public class GuidTests
     {
         var act = () => Guid.From(System.Guid.Empty);
 
-        act.Should().Throw<TypeValidationException>()
+        act.Should().Throw<NoxTypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[]
             {
                 new ValidationFailure("Value",

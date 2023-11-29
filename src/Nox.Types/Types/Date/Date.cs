@@ -18,7 +18,7 @@ public sealed class Date : ValueObject<DateOnly, Date>
     /// </summary>
     /// <param name="date">The date time to create date from.</param>
     /// <param name="dateTypeOptions">The date type options.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Date From(DateOnly date, DateTypeOptions dateTypeOptions)
     {
         var newObject = new Date
@@ -31,7 +31,7 @@ public sealed class Date : ValueObject<DateOnly, Date>
 
         if (!validationResult.IsValid)
         {
-            throw new TypeValidationException(validationResult.Errors);
+            throw new NoxTypeValidationException(validationResult.Errors);
         }
 
         return newObject;
@@ -44,7 +44,7 @@ public sealed class Date : ValueObject<DateOnly, Date>
     /// <param name="month">The month.</param>
     /// <param name="day">The day.</param>
     /// <param name="dateTypeOptions">The date type options.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Date From(int year, int month, int day, DateTypeOptions? dateTypeOptions = null)
     {
         var date = new DateOnly(year, month, day);
@@ -56,7 +56,7 @@ public sealed class Date : ValueObject<DateOnly, Date>
     /// </summary>
     /// <param name="dateTime">The date time.</param>
     /// <param name="dateTypeOptions">The date type options.</param>
-    /// <exception cref="TypeValidationException"></exception>
+    /// <exception cref="NoxTypeValidationException"></exception>
     public static Date From(System.DateTime dateTime, DateTypeOptions? dateTypeOptions = null)
     {
         var date = DateOnly.FromDateTime(dateTime);

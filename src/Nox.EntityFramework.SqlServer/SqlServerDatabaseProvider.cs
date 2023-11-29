@@ -1,12 +1,12 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 using Nox.Infrastructure;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Types.EntityFramework.Enums;
 
 namespace Nox.EntityFramework.SqlServer;
@@ -24,7 +24,7 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
     {
     }
 
-    protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)
+    protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(EntityTypeBuilder builder, Entity entity)
     {
         var result = base.ConfigureUniqueAttributeConstraints(builder, entity);
 
@@ -35,22 +35,7 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
 
         return result;
     }
-    
-    protected override void ConfigureAutoNumberAttributeSequences(ModelBuilder modelBuilder, Entity entity)
-    {
-        if (entity.Attributes is not { Count: > 0 }) return;
-        foreach (var property in entity.Attributes.Where(e=>e.Type == NoxType.AutoNumber))
-        {
-            var typeOptions = property.AutoNumberTypeOptions ?? new AutoNumberTypeOptions();
-                
-            var seqName = $"Seq{entity.Name}{property.Name}";
-                
-            modelBuilder.HasSequence<long>(seqName)
-                .StartsAt(typeOptions.StartsAt)
-                .IncrementsBy(typeOptions.IncrementsBy);
-        }
-    }
-
+       
     public virtual DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
     {
         var csb = new SqlConnectionStringBuilder(dbServer.Options)
@@ -87,5 +72,10 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
     public void UnSetStoreTypeFlag(NoxDataStoreTypeFlags storeTypeFlag)
     {
         StoreTypes &= storeTypeFlag;
+    }
+
+    public string GetSqlStatementForSequenceNextValue(string sequenceName)
+    {
+       return $"SELECT NEXT VALUE FOR {sequenceName}"; 
     }
 }

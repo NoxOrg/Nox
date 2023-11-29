@@ -44,6 +44,25 @@ public partial class WorkplaceMetadata
         
     
         /// <summary>
+        /// Type options for property 'ReferenceNumber'
+        /// </summary>
+        public static Nox.Types.ReferenceNumberTypeOptions ReferenceNumberTypeOptions {get; private set;} = new ()
+        {
+            StartsAt = 10,
+            IncrementsBy = 5,
+            Prefix = "WP-",
+            SuffixCheckSumDigit = true,
+        };
+    
+    
+        /// <summary>
+        /// Factory for property 'ReferenceNumber'
+        /// </summary>
+        public static Nox.Types.ReferenceNumber CreateReferenceNumber(System.String value)
+            => Nox.Types.ReferenceNumber.From(value, ReferenceNumberTypeOptions);
+        
+    
+        /// <summary>
         /// Type options for property 'Description'
         /// </summary>
         public static Nox.Types.TextTypeOptions DescriptionTypeOptions {get; private set;} = new ()
@@ -114,6 +133,15 @@ public partial class WorkplaceMetadata
             => solution.Domain!
                 .GetEntityByName("Workplace")
                 .GetAttributeByName("Name")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'ReferenceNumber'
+        /// </summary>
+        public static TypeUserInterface? ReferenceNumberUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Workplace")
+                .GetAttributeByName("ReferenceNumber")?
                 .UserInterface;
 
         /// <summary>

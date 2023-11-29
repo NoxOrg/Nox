@@ -61,7 +61,7 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
     }
 
     [EnableQuery]
-    public async Task<SingleResult<TestEntityExactlyOneToOneOrManyDto>> Get([FromRoute] System.String key)
+    public virtual async Task<SingleResult<TestEntityExactlyOneToOneOrManyDto>> Get([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new GetTestEntityExactlyOneToOneOrManyByIdQuery(key));
         return SingleResult.Create(result);
@@ -71,7 +71,7 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var createdKey = await _mediator.Send(new CreateTestEntityExactlyOneToOneOrManyCommand(testEntityExactlyOneToOneOrMany, _cultureCode));
@@ -85,7 +85,7 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var etag = Request.GetDecodedEtagHeader();
@@ -105,7 +105,7 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
     {
         if (!ModelState.IsValid || testEntityExactlyOneToOneOrMany is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
         var updatedProperties = new Dictionary<string, dynamic>();

@@ -43,6 +43,8 @@ This document provides information about the various endpoints available in our 
 #### Update Customer relation
 - **PUT** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer/{relatedKey}/$ref`
   - Description: Updates an existing Customer relation for a specific PaymentDetail.
+- **PUT** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer/$ref`
+  - Description: Updates the Customer relations for a specific PaymentDetail.
 
 #### Delete Customer relation
 - **DELETE** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer/{relatedKey}/$ref`
@@ -65,6 +67,8 @@ This document provides information about the various endpoints available in our 
 #### Update PaymentProvider relation
 - **PUT** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider/{relatedKey}/$ref`
   - Description: Updates an existing PaymentProvider relation for a specific PaymentDetail.
+- **PUT** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider/$ref`
+  - Description: Updates the PaymentProvider relations for a specific PaymentDetail.
 
 #### Delete PaymentProvider relation
 - **DELETE** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider/{relatedKey}/$ref`

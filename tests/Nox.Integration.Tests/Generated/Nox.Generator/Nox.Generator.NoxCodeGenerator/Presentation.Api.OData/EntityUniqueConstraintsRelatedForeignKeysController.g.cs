@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -32,11 +33,29 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefEntityUniqueConstraintsRelatedForeignKeyToEntityUniqueConstraintsWithForeignKeysCommand(new EntityUniqueConstraintsRelatedForeignKeyKeyDto(key), new EntityUniqueConstraintsWithForeignKeyKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/EntityUniqueConstraintsRelatedForeignKeys/{key}/EntityUniqueConstraintsWithForeignKeys/$ref")]
+    public async Task<ActionResult> UpdateRefToEntityUniqueConstraintsWithForeignKeysNonConventional([FromRoute] System.Int32 key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new EntityUniqueConstraintsWithForeignKeyKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefEntityUniqueConstraintsRelatedForeignKeyToEntityUniqueConstraintsWithForeignKeysCommand(new EntityUniqueConstraintsRelatedForeignKeyKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -64,7 +83,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefEntityUniqueConstraintsRelatedForeignKeyToEntityUniqueConstraintsWithForeignKeysCommand(new EntityUniqueConstraintsRelatedForeignKeyKeyDto(key), new EntityUniqueConstraintsWithForeignKeyKeyDto(relatedKey)));
@@ -80,7 +99,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefEntityUniqueConstraintsRelatedForeignKeyToEntityUniqueConstraintsWithForeignKeysCommand(new EntityUniqueConstraintsRelatedForeignKeyKeyDto(key)));
@@ -96,7 +115,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         entityUniqueConstraintsWithForeignKey.EntityUniqueConstraintsRelatedForeignKeyId = key;
@@ -135,7 +154,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key))).SelectMany(x => x.EntityUniqueConstraintsWithForeignKeys).Any(x => x.Id == relatedKey);
@@ -159,7 +178,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key))).SelectMany(x => x.EntityUniqueConstraintsWithForeignKeys).Any(x => x.Id == relatedKey);
@@ -183,7 +202,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key))).Select(x => x.EntityUniqueConstraintsWithForeignKeys).SingleOrDefault();

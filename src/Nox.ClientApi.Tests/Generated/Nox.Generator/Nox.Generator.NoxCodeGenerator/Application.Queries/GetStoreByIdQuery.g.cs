@@ -35,6 +35,7 @@ internal abstract class GetStoreByIdQueryHandlerBase:  QueryBase<IQueryable<Stor
     {    
         var query = DataDbContext.Stores
             .AsNoTracking()
+            .Include(e => e.EmailAddress)
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

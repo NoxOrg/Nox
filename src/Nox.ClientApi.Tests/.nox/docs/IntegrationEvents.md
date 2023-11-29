@@ -160,6 +160,7 @@ Member|Type|Description
 ------|----|-----------
 Id|System.Int64|Workplace unique identifier
 Name|System.String|Workplace Name
+ReferenceNumber|System.String|Workplace Code
 Description|System.String|Workplace Description
 Greeting|System.String|The Formula
 CountryId|System.Int64|The unique identifier

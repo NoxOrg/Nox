@@ -35,6 +35,7 @@ internal abstract class GetEmployeeByIdQueryHandlerBase:  QueryBase<IQueryable<E
     {    
         var query = DataDbContext.Employees
             .AsNoTracking()
+            .Include(e => e.EmployeePhoneNumbers)
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

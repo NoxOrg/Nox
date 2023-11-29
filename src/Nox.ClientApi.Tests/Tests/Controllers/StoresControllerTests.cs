@@ -248,7 +248,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
             var licensePostResponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, licenseCreateDto);
 
-            var headers = CreateEtagHeader(licensePostResponse?.Etag);
+            var headers = CreateEtagHeader(licensePostResponse!.Etag);
             await DeleteAsync($"{Endpoints.StoreLicensesUrl}/{licensePostResponse!.Id}", headers);
 
             var createDto = new StoreCreateDto
@@ -345,7 +345,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var result = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, createDto);
-            var headers = CreateEtagHeader(result?.Etag);
+            var headers = CreateEtagHeader(result!.Etag);
 
             await DeleteAsync($"{Endpoints.StoresUrl}/{result!.Id}", headers);
 

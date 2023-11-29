@@ -4,6 +4,9 @@
 {{- func fieldFactoryName
     ret (string.downcase $0 + "Factory")
 end -}}
+{{- func keyType(key)
+   ret (key.Type == "EntityId") ? (SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity) : (SinglePrimitiveTypeForKey key)
+end -}}
 // Generated
 
 #nullable enable
@@ -51,7 +54,14 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 
     public virtual {{entity.Name}}Entity CreateEntity({{entityCreateDto}} createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity({{entity.Name}}Entity entity, {{entityUpdateDto}} updateDto, Nox.Types.CultureCode cultureCode)
@@ -71,10 +81,10 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
             {{- if !IsNoxTypeCreatable key.Type || key.Type == "Guid" -}}
                 {{ continue; -}}
             {{- end }}
-        entity.{{key.Name}} = {{entity.Name}}Metadata.Create{{key.Name}}(createDto.{{key.Name}}{{if entity.IsOwnedEntity}}!{{end}});
+        entity.{{key.Name}} = {{entity.Name}}Metadata.Create{{key.Name}}(createDto.{{key.Name}}{{if entity.IsOwnedEntity}}.NonNullValue<{{keyType key}}>(){{end}});
         {{- end }}
         {{- for attribute in entity.Attributes }}
-            {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" || attribute.Type == "AutoNumber" -}}
+            {{- if !IsNoxTypeCreatable attribute.Type -}}
                 {{ continue; }}
             {{- end}}
         {{- if !attribute.IsRequired }}
@@ -115,7 +125,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
     private void UpdateEntityInternal({{entity.Name}}Entity entity, {{entityUpdateDto}} updateDto, Nox.Types.CultureCode cultureCode)
     {
         {{- for attribute in entity.Attributes }}
-            {{- if !IsNoxTypeReadable attribute.Type || !IsNoxTypeUpdatable attribute.Type -}}
+            {{- if !IsNoxTypeUpdatable attribute.Type -}}
                 {{ continue; }}
             {{- end}}
         {{ if attribute.IsLocalized }}if(IsDefaultCultureCode(cultureCode)) {{ end }}
@@ -149,7 +159,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
     private void PartialUpdateEntityInternal({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         {{- for attribute in entity.Attributes }}
-            {{- if !IsNoxTypeReadable attribute.Type || !IsNoxTypeUpdatable attribute.Type -}}
+            {{- if !IsNoxTypeUpdatable attribute.Type -}}
                 {{ continue; }}
             {{- end}}
 

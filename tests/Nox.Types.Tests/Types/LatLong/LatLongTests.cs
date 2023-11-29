@@ -16,7 +16,7 @@ public class LatLongTests
     [Fact]
     public void LatLong_Constructor_WithOutOfRangeLatitude_ThrowsValidationException()
     {
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
+        var exception = Assert.Throws<NoxTypeValidationException>(() => _ =
           LatLong.From(100, 0)
         );
 
@@ -26,7 +26,7 @@ public class LatLongTests
     [Fact]
     public void LatLong_Constructor_WithOutOfRangeLongitude_ThrowsValidationException()
     {
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
+        var exception = Assert.Throws<NoxTypeValidationException>(() => _ =
           LatLong.From(0, 200)
         );
 

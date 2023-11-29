@@ -24,13 +24,13 @@ source:
     query: SELECT * FROM dbo.Countries
     minimumExpectedRecords: 10
     
-transformationType: defaultTransform    
+transformationType: customTransform
 
 target:
-  name: CountryEntities
-  description: The country entites of the domain
+  name: CountryTable
+  description: The country table of the Cryptocash database
   dataConnectionName: CryptocashDb
   targetAdapterType: databaseTable
-  databaseOptions:
+  tableOptions:
     tableName: Countries
 

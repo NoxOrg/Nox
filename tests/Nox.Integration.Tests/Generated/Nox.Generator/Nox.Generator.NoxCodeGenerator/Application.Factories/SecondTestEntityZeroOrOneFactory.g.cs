@@ -35,7 +35,14 @@ internal abstract class SecondTestEntityZeroOrOneFactoryBase : IEntityFactory<Se
 
     public virtual SecondTestEntityZeroOrOneEntity CreateEntity(SecondTestEntityZeroOrOneCreateDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(SecondTestEntityZeroOrOneEntity entity, SecondTestEntityZeroOrOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)

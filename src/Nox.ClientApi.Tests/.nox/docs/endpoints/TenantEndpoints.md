@@ -43,6 +43,8 @@ This document provides information about the various endpoints available in our 
 #### Update Workplace relation
 - **PUT** `/api/Tenants/{key}/TenantWorkplaces/{relatedKey}/$ref`
   - Description: Updates an existing Workplace relation for a specific Tenant.
+- **PUT** `/api/Tenants/{key}/TenantWorkplaces/$ref`
+  - Description: Updates the Workplace relations for a specific Tenant.
 
 #### Delete Workplace relation
 - **DELETE** `/api/Tenants/{key}/TenantWorkplaces/{relatedKey}/$ref`
