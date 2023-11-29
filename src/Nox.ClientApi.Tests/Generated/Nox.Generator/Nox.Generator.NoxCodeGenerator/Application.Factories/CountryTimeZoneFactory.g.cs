@@ -35,7 +35,14 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
 
     public virtual CountryTimeZoneEntity CreateEntity(CountryTimeZoneUpsertDto createDto)
     {
-        return ToEntity(createDto);
+        try
+        {
+            return ToEntity(createDto);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual void UpdateEntity(CountryTimeZoneEntity entity, CountryTimeZoneUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
@@ -51,7 +58,7 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
     private ClientApi.Domain.CountryTimeZone ToEntity(CountryTimeZoneUpsertDto createDto)
     {
         var entity = new ClientApi.Domain.CountryTimeZone();
-        entity.Id = CountryTimeZoneMetadata.CreateId(createDto.Id!);
+        entity.Id = CountryTimeZoneMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
         entity.SetIfNotNull(createDto.Name, (entity) => entity.Name =ClientApi.Domain.CountryTimeZoneMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
         return entity;
     }

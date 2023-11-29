@@ -285,7 +285,7 @@ public abstract partial class CountriesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var item = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
         
@@ -303,7 +303,7 @@ public abstract partial class CountriesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetCountryTimeZones(key, new CountryTimeZoneKeyDto(relatedKey));
         if (child == null)
@@ -318,7 +318,7 @@ public abstract partial class CountriesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -337,16 +337,15 @@ public abstract partial class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}")]
-    public virtual async Task<ActionResult<CountryTimeZoneDto>> PutToCountryTimeZonesNonConventional(System.Int64 key, System.String relatedKey, [FromBody] CountryTimeZoneUpsertDto countryTimeZone)
+    public virtual async Task<ActionResult<CountryTimeZoneDto>> PutToCountryTimeZones(System.Int64 key, [FromBody] CountryTimeZoneUpsertDto countryTimeZone)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey), countryTimeZone, etag));
+        var updatedKey = await _mediator.Send(new UpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), countryTimeZone, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -361,12 +360,11 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToCountryTimeZonesNonConventional(System.Int64 key, System.String relatedKey, [FromBody] Delta<CountryTimeZoneUpsertDto> countryTimeZone)
+    public virtual async Task<ActionResult> PatchToCountryTimeZones(System.Int64 key, [FromBody] Delta<CountryTimeZoneUpsertDto> countryTimeZone)
     {
         if (!ModelState.IsValid || countryTimeZone is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
@@ -378,8 +376,13 @@ public abstract partial class CountriesControllerBase : ODataController
             }           
         }
         
+        if(!updateProperties.ContainsKey("Id"))
+        {
+            throw new Nox.Exceptions.BadRequestException("Id is required.");
+        }
+        
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(updateProperties["Id"]), updateProperties, etag));
         
         if (updated is null)
         {
@@ -399,7 +402,7 @@ public abstract partial class CountriesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new DeleteCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey)));
         if (!result)

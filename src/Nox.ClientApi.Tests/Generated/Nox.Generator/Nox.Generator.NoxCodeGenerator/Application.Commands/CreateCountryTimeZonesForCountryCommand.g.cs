@@ -11,6 +11,8 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -69,4 +71,12 @@ internal abstract class CreateCountryTimeZonesForCountryCommandHandlerBase : Com
 
 		return new CountryTimeZoneKeyDto(entity.Id.Value);
 	}
+}
+
+public class CreateCountryTimeZonesForCountryValidator : AbstractValidator<CreateCountryTimeZonesForCountryCommand>
+{
+    public CreateCountryTimeZonesForCountryValidator(ILogger<CreateCountryTimeZonesForCountryCommand> logger)
+    {
+		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
+    }
 }
