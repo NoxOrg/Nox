@@ -69,6 +69,8 @@ namespace Nox.Types.EntityFramework.Configurations
             EntityTypeBuilder builder,
             Entity entity)
         {
+            ConfigureTableName(builder, entity);
+
             ConfigureKeys(CodeGenConventions, builder, modelBuilder, entity, entity.GetKeys());
 
             ConfigureAttributes(CodeGenConventions, builder, modelBuilder, entity);
@@ -80,6 +82,11 @@ namespace Nox.Types.EntityFramework.Configurations
             ConfigureOwnedRelationships(CodeGenConventions, builder, entity);
 
             ConfigureUniqueAttributeConstraints(builder, entity);
+        }
+
+        private void ConfigureTableName(EntityTypeBuilder builder, Entity entity)
+        {
+            builder.ToTable(CodeGenConventions.Solution.Domain!.GetEntityByName(entity.Name).Persistence.TableName);
         }
 
         public virtual void ConfigureLocalizedEntity(

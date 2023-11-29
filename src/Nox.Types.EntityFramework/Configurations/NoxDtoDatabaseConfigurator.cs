@@ -22,6 +22,8 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 
     public void ConfigureDto(EntityTypeBuilder builder, Entity entity)
     {
+        ConfigureTableName(builder, entity);
+
         ConfigureKeys(builder, entity);
 
         ConfigureAttributes(builder, entity);
@@ -30,7 +32,10 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 
         ConfigureOwnedRelationships(builder, entity);
     }
-
+    private void ConfigureTableName(EntityTypeBuilder builder, Entity entity)
+    {
+        builder.ToTable(_codeGenConventions.Solution.Domain!.GetEntityByName(entity.Name).Persistence.TableName);
+    }
     public void ConfigureLocalizedDto(EntityTypeBuilder builder, Entity entity)
     {
         var localizedEntity = entity.ShallowCopy(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name));
