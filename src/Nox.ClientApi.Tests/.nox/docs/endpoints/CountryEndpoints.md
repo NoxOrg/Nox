@@ -35,17 +35,19 @@ This document provides information about the various endpoints available in our 
 #### Get CountryLocalNames
 - **GET** `/api/Countries/{key}/CountryLocalNames`
   - Description: Retrieve all CountryLocalNames for a specific Country.
+- **GET** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
+  - Description: Retrieve a CountryLocalName by ID for a specific Country.
 
 #### Create CountryLocalName
 - **POST** `/api/Countries/{key}/CountryLocalNames`
   - Description: Create a new CountryLocalName for a specific Country.
 
 #### Update CountryLocalName
-- **PUT** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
+- **PUT** `/api/Countries/{key}/CountryLocalNames`
   - Description: Update an existing CountryLocalName for a specific Country.
   
 #### Partially Update CountryLocalName
-- **PATCH** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
+- **PATCH** `/api/Countries/{key}/CountryLocalNames`
   - Description: Partially update an existing CountryLocalName for a specific Country.
 
 #### Delete CountryLocalName
@@ -63,11 +65,11 @@ This document provides information about the various endpoints available in our 
   - Description: Create a new CountryBarCode for a specific Country.
 
 #### Update CountryBarCode
-- **PUT** `/api/Countries/{key}/CountryBarCodes/{relatedKey}`
+- **PUT** `/api/Countries/{key}/CountryBarCodes`
   - Description: Update an existing CountryBarCode for a specific Country.
   
 #### Partially Update CountryBarCode
-- **PATCH** `/api/Countries/{key}/CountryBarCodes/{relatedKey}`
+- **PATCH** `/api/Countries/{key}/CountryBarCodes`
   - Description: Partially update an existing CountryBarCode for a specific Country.
 
 #### Delete CountryBarCode
