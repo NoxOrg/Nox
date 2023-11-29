@@ -4,7 +4,7 @@ namespace Nox.Secrets.Tests;
 
 public class UserSecretTests
 { 
-      [Theory]
+      [Theory (Skip = "Only available if you have started the hashicorp vault docker container")]
       [InlineData("SimpleSecret", "This is a simple secret")]
       [InlineData("NestedSecretSection.NestedSecret", "This is a nested secret")]
       [InlineData("NestedSecretSection.DeeperSecretSection.DeeperSecret", "This is a deeper secret")]

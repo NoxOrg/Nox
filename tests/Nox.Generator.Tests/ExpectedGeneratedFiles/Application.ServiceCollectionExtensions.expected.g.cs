@@ -11,7 +11,6 @@ using Nox;
 using Nox.Solution;
 using Nox.Configuration;
 using Nox.Types.EntityFramework.Abstractions;
-using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Presentation.Api.OData;
 
 
@@ -35,8 +34,6 @@ internal static class ServiceCollectionExtensions
     {
         services.AddNoxLib(webApplicationBuilder, configurator =>
         {
-            configurator.WithDatabaseContexts<AppDbContext, DtoDbContext>();
-            configurator.WithMessagingTransactionalOutbox<AppDbContext>();
             configureNox?.Invoke(configurator);
         });
         services.AddNoxOdata(configureNoxOdata);

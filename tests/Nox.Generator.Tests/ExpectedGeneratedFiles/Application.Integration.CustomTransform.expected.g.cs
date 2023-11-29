@@ -4,7 +4,7 @@
 
 namespace SampleIntegrationSolution.Application.Integration.CustomTransformHandlers;
 
-internal abstract class SampleIntegrationCustomTransformHandlerBase
+public abstract class SampleIntegrationCustomTransformHandlerBase
 {
     public string IntegrationName => "SampleIntegration";
 }
