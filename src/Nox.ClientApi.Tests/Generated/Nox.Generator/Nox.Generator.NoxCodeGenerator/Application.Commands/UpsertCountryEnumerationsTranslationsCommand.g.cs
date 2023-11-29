@@ -3,7 +3,9 @@
 #nullable enable
 
 using MediatR;
+using FluentValidation;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Application.Exceptions;
@@ -29,6 +31,7 @@ internal partial class UpsertCountriesContinentsTranslationsCommandHandler : Ups
 internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase : CommandBase<UpsertCountriesContinentsTranslationsCommand, CountryContinentLocalized>, IRequestHandler<UpsertCountriesContinentsTranslationsCommand, IEnumerable<CountryContinentLocalizedDto>>
 {
 	public AppDbContext DbContext { get; }
+	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
 	public UpsertCountriesContinentsTranslationsCommandHandlerBase(
         AppDbContext dbContext,
@@ -45,64 +48,56 @@ internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase 
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
 		
-		if(command.CountryContinentLocalizedDtos == null || command.CountryContinentLocalizedDtos.Count() == 0)
-		{
-			throw new ArgumentNullException($"No {nameof(command.CountryContinentLocalizedDtos)} found.");
-		}
+		var cultureCodes = command.CountryContinentLocalizedDtos.DistinctBy(d=>d.CultureCode).Select(d=>CultureCode.From(d.CultureCode)).ToList();
 		
-		var cultureCode = command.CountryContinentLocalizedDtos.First().CultureCode;
-		var supportedCultureCodes = NoxSolution.Application?.Localization?.SupportedCultures?.ToHashSet();
-		var cultureCodeValue = Nox.Types.CultureCode.From(cultureCode);
+		var localizedEntities = await DbContext.CountriesContinentsLocalized.Where(x => cultureCodes.Contains(x.CultureCode)).AsNoTracking().ToListAsync(cancellationToken);
 		
-		if (supportedCultureCodes == null || !supportedCultureCodes.Contains(cultureCode))
-		{
-			throw new CultureCodeNotSupportedException($"Culture code {cultureCode} not supported.");
-		}
+		var entities = new List<CountryContinentLocalized>();
 		
-		if (!command.CountryContinentLocalizedDtos.All(x => x.CultureCode == cultureCode))
+		command.CountryContinentLocalizedDtos.Where(dto=> !localizedEntities.Any(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode))).ForEach(dto =>
 		{
-			throw new CultureCodeMismatchException($"Culture code {cultureCode} does not match.");
-		}
+			var e = new CountryContinentLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
+			DbContext.Entry(e).State = EntityState.Added;
+			entities.Add(e);
+		});
 		
-		var ids = command.CountryContinentLocalizedDtos.Select(dto=> dto.Id).ToList();
-		var query =
-			from Enum in DbContext.CountriesContinents
-			join localized in DbContext.CountriesContinentsLocalized
-				on  new {Id = Enum.Id, Culture = cultureCodeValue}  equals new  {Id = localized.Id, Culture = localized.CultureCode} into localizedEnumsJoin
-			from LocalizedEnum in localizedEnumsJoin.DefaultIfEmpty()
-			select new { Enum.Id, LocalizedId = LocalizedEnum.Id };
+		command.CountryContinentLocalizedDtos.Where(dto=> localizedEntities.Any(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode))).ForEach(dto =>
+		{
+			var e = new CountryContinentLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
+			DbContext.Entry(e).State = EntityState.Modified;
+			entities.Add(e);
+		});
 		
+		command.CountryContinentLocalizedDtos.Where(dto=>dto.CultureCode == _defaultCultureCode.Value).ForEach(dto =>
+		{
+			var e = new CountryContinent { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
+			DbContext.Entry(e).State = EntityState.Modified;
+		});
 		
-		var queryResult = await query.AsNoTracking().ToListAsync(cancellationToken);
-			
-		if(!(queryResult.Count == ids.Count && queryResult.All(x=> ids.Contains(x.Id.Value))))
-		{
-			throw new InvalidEnumIdsException($"Provided ids are invalid for {nameof(DbContext.CountriesContinents)}.");
-		}
-		
-		var localizedEntities = 
-			command.CountryContinentLocalizedDtos.Select(dto => new CountryContinentLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = cultureCodeValue, Name = dto.Name}).ToList();
-
-		if (queryResult.First().LocalizedId == null)
-		{
-			DbContext.CountriesContinentsLocalized.AddRange(localizedEntities);
-		}
-		else
-		{
-			localizedEntities.ForEach(e=> DbContext.Entry(e).State = EntityState.Modified);
-		}
-
-		if (NoxSolution.Application?.Localization?.DefaultCulture == cultureCode)
-		{
-			command.CountryContinentLocalizedDtos.ForEach(dto =>
-			{
-				var e = new CountryContinent { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
-				DbContext.Entry(e).State = EntityState.Modified;
-			});
-		}
 
 		await OnBatchCompletedAsync(command, localizedEntities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return command.CountryContinentLocalizedDtos;
 	}
+}
+public class UpsertCountriesContinentsTranslationsCommandValidator : AbstractValidator<UpsertCountriesContinentsTranslationsCommand>
+{
+	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+	private static readonly string[] _supportedCultureCodes = new string[] { "fr-FR", "de-DE", "en-US", };
+	private static readonly int[] _supportedIds = new int[] { 1, 2, 3, 4, 5, };
+	
+    public UpsertCountriesContinentsTranslationsCommandValidator(NoxSolution noxSolution)
+    {
+		RuleFor(x => x.CountryContinentLocalizedDtos)
+			.Must(x => x != null && x.Count() > 0)
+			.WithMessage($"{nameof(UpsertCountriesContinentsTranslationsCommand)} : {nameof(UpsertCountriesContinentsTranslationsCommand.CountryContinentLocalizedDtos)} is required.");
+		
+		RuleForEach(x => x.CountryContinentLocalizedDtos)
+			.Must(x => _supportedCultureCodes.Contains(x.CultureCode))
+			.WithMessage((_,x) => $"{nameof(UpsertCountriesContinentsTranslationsCommand)} : {nameof(UpsertCountriesContinentsTranslationsCommand.CountryContinentLocalizedDtos)} contains unsupported culture code: {x.CultureCode}.");
+		
+		RuleForEach(x => x.CountryContinentLocalizedDtos)
+			.Must(x => _supportedIds.Contains(x.Id))
+			.WithMessage((_,x) => $"{nameof(UpsertCountriesContinentsTranslationsCommand)} : {nameof(UpsertCountriesContinentsTranslationsCommand.CountryContinentLocalizedDtos)} contains unsupported Id: {x.Id}.");
+    }
 }

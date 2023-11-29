@@ -3,6 +3,7 @@
 #nullable enable
 
 using MediatR;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Application.Exceptions;
@@ -39,11 +40,6 @@ internal abstract class DeleteTestEntityForTypesEnumerationTestFieldsTranslation
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
 
-		if(NoxSolution.Application?.Localization?.DefaultCulture == command.CultureCode.Value)
-		{
-			throw new DefaultCultureCodeDeletionException($"Default culture code {command.CultureCode.Value} cannot be deleted.");
-		}
-		
 		var localizedEnums = await DbContext.TestEntityForTypesEnumerationTestFieldsLocalized.Where(x => x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
 		
 		if(localizedEnums == null || localizedEnums.Count == 0)
@@ -58,4 +54,21 @@ internal abstract class DeleteTestEntityForTypesEnumerationTestFieldsTranslation
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}
+}
+
+public class DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandValidator : AbstractValidator<DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand>
+{
+	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+
+    public DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandValidator()
+    {
+		RuleFor(x => x.CultureCode)
+			.NotNull().NotEmpty()
+			.WithMessage($"{nameof(DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand)} : {nameof(DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand.CultureCode)} is required."); 
+		
+		RuleFor(x => x.CultureCode)
+			.Must(x => x != _defaultCultureCode)
+			.WithMessage($"{nameof(DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand)} : {nameof(DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand.CultureCode)} cannot be the default culture code: {_defaultCultureCode.Value}.");
+			
+    }
 }
