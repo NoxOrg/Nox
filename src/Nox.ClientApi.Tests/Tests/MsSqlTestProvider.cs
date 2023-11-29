@@ -18,11 +18,18 @@ public class MsSqlTestProvider : SqlServerDatabaseProvider
         ConnectionString = connectionString;
     }
 
-    public override DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
+    public override DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer, string? migrationsAssembly = null)
     {
         return optionsBuilder
             //.UseLazyLoadingProxies()
             .UseSqlServer(ConnectionString,
-             opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
+                opts =>
+                {
+                    opts.MigrationsHistoryTable("MigrationsHistory", "migrations");
+                    if (!string.IsNullOrWhiteSpace(migrationsAssembly))
+                    {
+                        opts.MigrationsAssembly(migrationsAssembly);
+                    }
+                });
     }
 }

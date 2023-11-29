@@ -4,7 +4,7 @@
 
 namespace Cryptocash.Application.Integration.CustomTransformHandlers;
 
-internal abstract class CountrySyncCustomTransformHandlerBase
+public abstract class CountrySyncCustomTransformHandlerBase
 {
     public string IntegrationName => "CountrySync";
 }

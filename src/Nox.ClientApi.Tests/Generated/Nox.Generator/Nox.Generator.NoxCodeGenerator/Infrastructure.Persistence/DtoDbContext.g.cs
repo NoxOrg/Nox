@@ -9,7 +9,6 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.Configuration;
 using Nox.Infrastructure;
 using Nox.Infrastructure.Persistence;
-
 using ClientApi.Application.Dto;
 using DtoNameSpace = ClientApi.Application.Dto;
 
@@ -46,7 +45,6 @@ internal class DtoDbContext : DbContext
         _noxDtoDatabaseConfigurator = noxDtoDatabaseConfigurator;
         _codeGenConventions = codeGeneratorState;
     }
-
     
         public virtual DbSet<CountryDto> Countries { get; set; } = null!;
         public virtual DbSet<RatingProgramDto> RatingPrograms { get; set; } = null!;

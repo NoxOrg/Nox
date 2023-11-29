@@ -7,11 +7,7 @@ namespace Nox.Secrets.Tests;
 
 public class HashicorpTests
 {
-#if DEBUG
-    [Fact]
-#else
     [Fact (Skip = "Only available if you have started the hashicorp vault docker container")]
-#endif  
     public void Can_Retrieve_a_secret()
     {
         var services = new ServiceCollection();

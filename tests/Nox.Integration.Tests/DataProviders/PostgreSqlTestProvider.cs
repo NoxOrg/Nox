@@ -18,7 +18,7 @@ internal class PostgreSqlTestProvider : PostgresDatabaseProvider
         ConnectionString = connectionString;
     }
 
-    public override DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
+    public override DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer, string? migrationsAssembly = null)
     {
         return optionsBuilder.UseNpgsql(ConnectionString, opts =>
         {

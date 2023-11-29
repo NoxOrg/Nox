@@ -12,11 +12,7 @@ public class ResolverTests: IClassFixture<SecretsFixture>
         _fixture = fixture;
     }
     
-#if DEBUG
-    [Fact]
-#else
     [Fact (Skip = "Only available if you have started the hashicorp vault docker container")]
-#endif  
     public void Result_Must_be_empty_if_secret_does_not_exist()
     {
         var resolver = _fixture.ServiceProvider.GetRequiredService<INoxSecretsResolver>();
@@ -31,11 +27,7 @@ public class ResolverTests: IClassFixture<SecretsFixture>
         Assert.Empty(result);
     }
     
-#if DEBUG
-    [Theory]
-#else
     [Theory (Skip = "Only available if you have started the hashicorp vault docker container")]
-#endif
     [InlineData("org-only-secret", "This is an organization only secret")]
     [InlineData("sln-only-secret", "This is a solution only secret")]
     [InlineData("user-secret", "This secret only exists in user secrets")]

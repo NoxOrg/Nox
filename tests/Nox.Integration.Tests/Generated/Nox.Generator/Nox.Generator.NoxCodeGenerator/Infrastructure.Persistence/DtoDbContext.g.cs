@@ -9,7 +9,6 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.Configuration;
 using Nox.Infrastructure;
 using Nox.Infrastructure.Persistence;
-
 using TestWebApp.Application.Dto;
 using DtoNameSpace = TestWebApp.Application.Dto;
 
@@ -46,7 +45,6 @@ internal class DtoDbContext : DbContext
         _noxDtoDatabaseConfigurator = noxDtoDatabaseConfigurator;
         _codeGenConventions = codeGeneratorState;
     }
-
     
         public virtual DbSet<TestEntityZeroOrOneDto> TestEntityZeroOrOnes { get; set; } = null!;
         public virtual DbSet<SecondTestEntityZeroOrOneDto> SecondTestEntityZeroOrOnes { get; set; } = null!;

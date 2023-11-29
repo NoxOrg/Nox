@@ -10,9 +10,9 @@ namespace Nox.Integration.EtlTests;
 public class CoreTests
 {
 #if DEBUG
-    [Fact]
-#else
     [Fact (Skip = "This test can only be run locally if you have a loal sql server instance and have created the CountrySource database using ./files/Create_CoutrySource.sql")]
+#else
+    [Fact]
 #endif 
     public async Task Can_Execute_an_integration()
     {
@@ -91,11 +91,11 @@ public class CoreTests
 
         var solution = new NoxSolution
         {
-            Application = new Application
+            Application = new Solution.Application()
             {
                 Integrations = new List<Solution.Integration> { definition }
             },
-            Infrastructure = new Infrastructure
+            Infrastructure = new Solution.Infrastructure
             {
                 Dependencies = new Dependencies
                 {
@@ -115,10 +115,10 @@ public class CoreTests
     }
 
 #if DEBUG
-    [Fact]
-#else
     [Fact (Skip = "This test can only be run locally if you have a loal sql server instance and have created the CountrySource database using ./files/Create_CoutrySource.sql")]
-#endif     
+#else
+    [Fact]
+#endif  
     public async Task Can_Execute_an_Integration_From_Yaml_Definition()
     {
         var services = new ServiceCollection();
