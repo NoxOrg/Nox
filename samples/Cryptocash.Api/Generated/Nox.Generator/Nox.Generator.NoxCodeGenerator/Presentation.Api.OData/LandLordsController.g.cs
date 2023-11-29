@@ -28,7 +28,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> CreateRefToVendingMachines([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -44,7 +44,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToVendingMachines([FromRoute] System.Int64 key)
+    public async Task<ActionResult> GetRefToVendingMachines([FromRoute] System.Guid key)
     {
         var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();
         if (related is null)
@@ -60,7 +60,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -76,7 +76,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key)
+    public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
@@ -92,7 +92,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToVendingMachines([FromRoute] System.Int64 key, [FromBody] VendingMachineCreateDto vendingMachine)
+    public virtual async Task<ActionResult> PostToVendingMachines([FromRoute] System.Guid key, [FromBody] VendingMachineCreateDto vendingMachine)
     {
         if (!ModelState.IsValid)
         {
@@ -108,7 +108,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     }
     
     [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<VendingMachineDto>>> GetVendingMachines(System.Int64 key)
+    public virtual async Task<ActionResult<IQueryable<VendingMachineDto>>> GetVendingMachines(System.Guid key)
     {
         var entity = (await _mediator.Send(new GetLandLordByIdQuery(key))).SelectMany(x => x.VendingMachines);
         if (!entity.Any())
@@ -120,7 +120,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     
     [EnableQuery]
     [HttpGet("/api/v1/LandLords/{key}/VendingMachines/{relatedKey}")]
-    public virtual async Task<SingleResult<VendingMachineDto>> GetVendingMachinesNonConventional(System.Int64 key, System.Guid relatedKey)
+    public virtual async Task<SingleResult<VendingMachineDto>> GetVendingMachinesNonConventional(System.Guid key, System.Guid relatedKey)
     {
         var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).SelectMany(x => x.VendingMachines).Where(x => x.Id == relatedKey);
         if (!related.Any())
@@ -131,7 +131,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     }
     
     [HttpPut("/api/v1/LandLords/{key}/VendingMachines/{relatedKey}")]
-    public virtual async Task<ActionResult<VendingMachineDto>> PutToVendingMachinesNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] VendingMachineUpdateDto vendingMachine)
+    public virtual async Task<ActionResult<VendingMachineDto>> PutToVendingMachinesNonConventional(System.Guid key, System.Guid relatedKey, [FromBody] VendingMachineUpdateDto vendingMachine)
     {
         if (!ModelState.IsValid)
         {
@@ -155,7 +155,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     }
     
     [HttpDelete("/api/v1/LandLords/{key}/VendingMachines/{relatedKey}")]
-    public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -179,7 +179,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     }
     
     [HttpDelete("/api/v1/LandLords/{key}/VendingMachines")]
-    public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Int64 key)
+    public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {

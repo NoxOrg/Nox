@@ -102,6 +102,13 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     [Required(ErrorMessage = "StartOfWeek is required")]
     
     public virtual System.UInt16 StartOfWeek { get; set; } = default!;
+    /// <summary>
+    /// Country's population     
+    /// </summary>
+    /// <remarks>Required</remarks>
+    [Required(ErrorMessage = "Population is required")]
+    
+    public virtual System.Int32 Population { get; set; } = default!;
 
     /// <summary>
     /// Country used by ExactlyOne Currencies

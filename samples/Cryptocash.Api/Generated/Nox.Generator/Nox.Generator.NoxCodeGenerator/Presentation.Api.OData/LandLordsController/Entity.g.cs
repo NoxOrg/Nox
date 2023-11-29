@@ -61,7 +61,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<LandLordDto>> Get([FromRoute] System.Int64 key)
+    public async Task<SingleResult<LandLordDto>> Get([FromRoute] System.Guid key)
     {
         var result = await _mediator.Send(new GetLandLordByIdQuery(key));
         return SingleResult.Create(result);
@@ -81,7 +81,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         return Created(item);
     }
 
-    public virtual async Task<ActionResult<LandLordDto>> Put([FromRoute] System.Int64 key, [FromBody] LandLordUpdateDto landLord)
+    public virtual async Task<ActionResult<LandLordDto>> Put([FromRoute] System.Guid key, [FromBody] LandLordUpdateDto landLord)
     {
         if (!ModelState.IsValid)
         {
@@ -101,7 +101,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<LandLordDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordUpdateDto> landLord)
+    public virtual async Task<ActionResult<LandLordDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<LandLordUpdateDto> landLord)
     {
         if (!ModelState.IsValid || landLord is null)
         {
@@ -131,7 +131,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteLandLordByIdCommand(key, etag));

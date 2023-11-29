@@ -24,19 +24,13 @@ internal class CryptocashEmployeeDataSeeder : DataSeederBase<EmployeeDto, Employ
 
     protected override Employee TransformToEntity(EmployeeDto model)
     {
-        Date? tempLastWorkingDay = null;
-        if (model.LastWorkingDay.HasValue)
-        {
-            tempLastWorkingDay = Date.From(model.LastWorkingDay!.Value);
-        }
-
         Employee rtnEmployee = new()
         {
             FirstName = Text.From(model.FirstName!),
             LastName = Text.From(model.LastName!),
             EmailAddress = Email.From(model.EmailAddress!),
             FirstWorkingDay = Date.From(model.FirstWorkingDay!),
-            LastWorkingDay = tempLastWorkingDay,
+            LastWorkingDay = model.LastWorkingDay == null ? null : Date.From(model.LastWorkingDay!.Value),
             Address = StreetAddress.From(model.Address)
         };
 

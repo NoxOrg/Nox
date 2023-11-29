@@ -91,12 +91,12 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		}
 		if(request.EntityDto.LandLordId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.LandLordMetadata.CreateId(request.EntityDto.LandLordId.NonNullValue<System.Int64>());
+			var relatedKey = Cryptocash.Domain.LandLordMetadata.CreateId(request.EntityDto.LandLordId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.LandLords.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToLandLord(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("LandLord", request.EntityDto.LandLordId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("LandLord", request.EntityDto.LandLordId.NonNullValue<System.Guid>().ToString());
 		}
 		else if(request.EntityDto.LandLord is not null)
 		{

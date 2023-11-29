@@ -16,7 +16,7 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
-public record LandLordKeyDto(System.Int64 keyId);
+public record LandLordKeyDto(System.Guid keyId);
 
 /// <summary>
 /// Update LandLord
@@ -56,7 +56,7 @@ public abstract class LandLordDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     /// <summary>
     /// Landlord unique identifier
     /// </summary>    
-    public System.Int64 Id { get; set; } = default!;
+    public System.Guid Id { get; set; } = default!;
 
     /// <summary>
     /// Landlord name     

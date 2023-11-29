@@ -95,8 +95,8 @@ public partial class VendingMachineMetadata
         /// <summary>
         /// Factory for property 'LandLordId'
         /// </summary>
-        public static Nox.Types.AutoNumber CreateLandLordId(System.Int64 value)
-            => Nox.Types.AutoNumber.FromDatabase(value);
+        public static Nox.Types.Guid CreateLandLordId(System.Guid value)
+            => Nox.Types.Guid.From(value);
         
     
         /// <summary>
