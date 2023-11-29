@@ -1,7 +1,9 @@
+using System.Net;
 using Nox.Solution;
 using Nox.Docs.Extensions;
 using FluentAssertions;
 using Scriban;
+using Nox.Types;
 
 namespace Nox.Docs.Tests;
 
@@ -27,10 +29,23 @@ public class ScribanTemplateExtensionsTests
         var noxSolution = new NoxSolutionBuilder()
             .WithFile("./Files/Design/sample-for-endpoints.solution.nox.yaml")
             .Build();
+        var entity = noxSolution.Domain!.Entities.First(x => x.Name == "Country");
+        
+        var enumerationAttributes =
+            entity
+                .Attributes
+                .Where(attribute => attribute.Type == NoxType.Enumeration)
+                .Select(attribute => new {
+                    Attribute = attribute,
+                    EntityNameForEnumeration = $"{entity.Name}{attribute.Name}Dto",
+                    EntityNameForLocalizedEnumeration =  $"{entity.Name}{attribute.Name}LocalizedDto",
+                    IsLocalized = attribute.EnumerationTypeOptions?.IsLocalized == true
+                });
 
         var model = new Dictionary<string, object>
         {
-            ["entity"] = noxSolution.Domain!.Entities.First(x => x.Name == "Country"),
+            ["entity"] = entity,
+            ["enumerationAttributes"] = enumerationAttributes,
         };
 
         var template = "Nox.Docs.Templates.EntityEndpoints.template.md".ReadScribanTemplate();
