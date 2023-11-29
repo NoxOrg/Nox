@@ -88,7 +88,7 @@ namespace Nox.Tests.ProjectDependencies
         public void Nox_Abstraction_References_Nox_Types_And_Solution_Only()
         {
             var projectDependencies =
-                _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxAbstractions.Id);
+                _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectTransitivelyDependsOn(_fixture.NoxAbstractions.Id);
 
             projectDependencies.Should().HaveCount(3);
 
