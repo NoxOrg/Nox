@@ -69,6 +69,10 @@ public abstract partial class WorkplacesControllerBase : ODataController
 
     public virtual async Task<ActionResult<WorkplaceDto>> Post([FromBody] WorkplaceCreateDto workplace)
     {
+        if(workplace is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class WorkplacesControllerBase : ODataController
 
     public virtual async Task<ActionResult<WorkplaceDto>> Put([FromRoute] System.Int64 key, [FromBody] WorkplaceUpdateDto workplace)
     {
+        if(workplace is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -103,7 +111,11 @@ public abstract partial class WorkplacesControllerBase : ODataController
 
     public virtual async Task<ActionResult<WorkplaceDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<WorkplaceUpdateDto> workplace)
     {
-        if (!ModelState.IsValid || workplace is null)
+        if(workplace is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

@@ -69,6 +69,10 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
 
     public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToManyDto>> Post([FromBody] TestEntityTwoRelationshipsOneToManyCreateDto testEntityTwoRelationshipsOneToMany)
     {
+        if(testEntityTwoRelationshipsOneToMany is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
 
     public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToManyDto>> Put([FromRoute] System.String key, [FromBody] TestEntityTwoRelationshipsOneToManyUpdateDto testEntityTwoRelationshipsOneToMany)
     {
+        if(testEntityTwoRelationshipsOneToMany is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -103,7 +111,11 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
 
     public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToManyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityTwoRelationshipsOneToManyUpdateDto> testEntityTwoRelationshipsOneToMany)
     {
-        if (!ModelState.IsValid || testEntityTwoRelationshipsOneToMany is null)
+        if(testEntityTwoRelationshipsOneToMany is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

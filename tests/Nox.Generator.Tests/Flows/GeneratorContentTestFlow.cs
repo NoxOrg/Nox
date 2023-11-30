@@ -35,6 +35,20 @@ internal class GeneratorContentTestFlow : IGeneratorContentTestFlow
 
         return this;
     }
+    public IGeneratorContentTestFlow AssertFileExists(string expectedFileName)
+    {
+        var generatedSources = _generatorRunResult.GeneratedSources;
+        var actualFileContent = generatedSources.FirstOrDefault(s => s.HintName.Replace("/", ".") == expectedFileName).SourceText?.ToString();
+        var filePath = Path.Combine(_expectedFilesFolder, expectedFileName);
+
+        var expectedFileContent = File.ReadAllText(filePath);
+
+        generatedSources
+            .Should()
+            .Contain(s => s.HintName.Replace("/", ".") == expectedFileName, $"{expectedFileName} not generated");
+
+        return this;
+    }
 
     public void SourceContains(string sourceName, string content)
     {

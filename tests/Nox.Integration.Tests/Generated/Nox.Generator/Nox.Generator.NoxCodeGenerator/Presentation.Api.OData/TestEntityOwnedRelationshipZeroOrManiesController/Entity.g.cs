@@ -69,6 +69,10 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
 
     public virtual async Task<ActionResult<TestEntityOwnedRelationshipZeroOrManyDto>> Post([FromBody] TestEntityOwnedRelationshipZeroOrManyCreateDto testEntityOwnedRelationshipZeroOrMany)
     {
+        if(testEntityOwnedRelationshipZeroOrMany is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
 
     public virtual async Task<ActionResult<TestEntityOwnedRelationshipZeroOrManyDto>> Put([FromRoute] System.String key, [FromBody] TestEntityOwnedRelationshipZeroOrManyUpdateDto testEntityOwnedRelationshipZeroOrMany)
     {
+        if(testEntityOwnedRelationshipZeroOrMany is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -103,7 +111,11 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
 
     public virtual async Task<ActionResult<TestEntityOwnedRelationshipZeroOrManyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityOwnedRelationshipZeroOrManyUpdateDto> testEntityOwnedRelationshipZeroOrMany)
     {
-        if (!ModelState.IsValid || testEntityOwnedRelationshipZeroOrMany is null)
+        if(testEntityOwnedRelationshipZeroOrMany is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

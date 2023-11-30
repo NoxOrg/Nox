@@ -69,6 +69,10 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
 
     public virtual async Task<ActionResult<TestEntityZeroOrOneDto>> Post([FromBody] TestEntityZeroOrOneCreateDto testEntityZeroOrOne)
     {
+        if(testEntityZeroOrOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
 
     public virtual async Task<ActionResult<TestEntityZeroOrOneDto>> Put([FromRoute] System.String key, [FromBody] TestEntityZeroOrOneUpdateDto testEntityZeroOrOne)
     {
+        if(testEntityZeroOrOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -103,7 +111,11 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
 
     public virtual async Task<ActionResult<TestEntityZeroOrOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityZeroOrOneUpdateDto> testEntityZeroOrOne)
     {
-        if (!ModelState.IsValid || testEntityZeroOrOne is null)
+        if(testEntityZeroOrOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

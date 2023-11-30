@@ -69,6 +69,10 @@ public abstract partial class CountriesControllerBase : ODataController
 
     public virtual async Task<ActionResult<CountryDto>> Post([FromBody] CountryCreateDto country)
     {
+        if(country is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class CountriesControllerBase : ODataController
 
     public virtual async Task<ActionResult<CountryDto>> Put([FromRoute] System.Int64 key, [FromBody] CountryUpdateDto country)
     {
+        if(country is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -103,7 +111,11 @@ public abstract partial class CountriesControllerBase : ODataController
 
     public virtual async Task<ActionResult<CountryDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CountryUpdateDto> country)
     {
-        if (!ModelState.IsValid || country is null)
+        if(country is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

@@ -69,6 +69,10 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
 
     public virtual async Task<ActionResult<PaymentProviderDto>> Post([FromBody] PaymentProviderCreateDto paymentProvider)
     {
+        if(paymentProvider is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
 
     public virtual async Task<ActionResult<PaymentProviderDto>> Put([FromRoute] System.Int64 key, [FromBody] PaymentProviderUpdateDto paymentProvider)
     {
+        if(paymentProvider is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -103,7 +111,11 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
 
     public virtual async Task<ActionResult<PaymentProviderDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PaymentProviderUpdateDto> paymentProvider)
     {
-        if (!ModelState.IsValid || paymentProvider is null)
+        if(paymentProvider is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

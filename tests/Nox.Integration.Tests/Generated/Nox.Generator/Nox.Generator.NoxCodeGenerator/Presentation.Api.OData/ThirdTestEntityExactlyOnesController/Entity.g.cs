@@ -69,6 +69,10 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
 
     public virtual async Task<ActionResult<ThirdTestEntityExactlyOneDto>> Post([FromBody] ThirdTestEntityExactlyOneCreateDto thirdTestEntityExactlyOne)
     {
+        if(thirdTestEntityExactlyOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
 
     public virtual async Task<ActionResult<ThirdTestEntityExactlyOneDto>> Put([FromRoute] System.String key, [FromBody] ThirdTestEntityExactlyOneUpdateDto thirdTestEntityExactlyOne)
     {
+        if(thirdTestEntityExactlyOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -103,7 +111,11 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
 
     public virtual async Task<ActionResult<ThirdTestEntityExactlyOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<ThirdTestEntityExactlyOneUpdateDto> thirdTestEntityExactlyOne)
     {
-        if (!ModelState.IsValid || thirdTestEntityExactlyOne is null)
+        if(thirdTestEntityExactlyOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

@@ -69,6 +69,10 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
 
     public virtual async Task<ActionResult<MinimumCashStockDto>> Post([FromBody] MinimumCashStockCreateDto minimumCashStock)
     {
+        if(minimumCashStock is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
 
     public virtual async Task<ActionResult<MinimumCashStockDto>> Put([FromRoute] System.Int64 key, [FromBody] MinimumCashStockUpdateDto minimumCashStock)
     {
+        if(minimumCashStock is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -103,7 +111,11 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
 
     public virtual async Task<ActionResult<MinimumCashStockDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<MinimumCashStockUpdateDto> minimumCashStock)
     {
-        if (!ModelState.IsValid || minimumCashStock is null)
+        if(minimumCashStock is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
