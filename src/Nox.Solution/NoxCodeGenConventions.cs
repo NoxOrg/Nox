@@ -1,4 +1,6 @@
-﻿namespace Nox.Solution;
+﻿using System.Linq;
+
+namespace Nox.Solution;
 
 /// <summary>
 /// Code generation conventions for namespaces, class names, etc...
@@ -29,6 +31,23 @@ public class NoxCodeGenConventions
     /// </summary>
     public string GetEntityNameForEnumeration(string entityName, string attributeName) => $"{entityName}{attributeName}";
     public string GetEntityDtoNameForEnumeration(string entityName, string attributeName) => $"{entityName}{attributeName}Dto";
+
+    /// <summary>
+    /// Gets the name of the enum property ensuring it is a valid C# identifier.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <returns></returns>
+    public string GetEnumPropertyName(string name)
+    {
+        string sanitizedName = new string(name.Replace(" ", "_")
+            .Where(c => char.IsLetterOrDigit(c) || c == '_').ToArray());
+
+        if (char.IsDigit(sanitizedName.First()))
+            sanitizedName = $"_{sanitizedName}";
+
+        return sanitizedName;
+    }
+
     /// <summary>
     /// Computes the Entity Type Full Name that holds the values of an enumeration attribute
     /// </summary>
