@@ -41,6 +41,8 @@ internal static class {{className}}
             configurator.WithMessagingTransactionalOutbox<AppDbContext>();
             configureNox?.Invoke(configurator);
         });
+        services.AddScoped(typeof(Nox.Domain.IRepository), serviceProvider => serviceProvider.GetRequiredService<AppDbContext>());
+        
         {{- if configPresentation == true }}
         services.AddNoxOdata(configureNoxOdata);
         {{- end }}

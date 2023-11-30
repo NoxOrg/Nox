@@ -8,14 +8,12 @@ using Nox.Abstractions;
 using Nox.Types;
 using System.Net;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 using Nox.Types.EntityFramework.Types;
 using Nox.Types.EntityFramework.Abstractions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Nox.Infrastructure.Persistence
 {
-    public abstract class EntityDbContextBase : DbContext
+    public abstract class EntityDbContextBase : DbContext, IRepository
     {
         protected readonly IPublisher _publisher;
         protected readonly IUserProvider _userProvider;
@@ -35,7 +33,22 @@ namespace Nox.Infrastructure.Persistence
             _systemProvider = systemProvider;
             _databaseProvider = databaseProvider;
         }
-
+        #region IRepository
+        /// <summary>
+        /// Deletes Entity
+        /// </summary>
+        public void Delete<T>(T entity) where T : Nox.Domain.IEntity
+        {
+            Remove(entity);
+        }
+        /// <summary>
+        /// Deletes Owned Entity
+        /// </summary>
+        public void DeleteOwned<T>(T entity) where T : Nox.Domain.IOwnedEntity
+        {
+            Remove(entity);
+        }
+        #endregion
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             try
