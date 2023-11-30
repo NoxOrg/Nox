@@ -23,8 +23,8 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
         foreach (var integrationDefinition in _solution.Application!.Integrations!)
         {
             var instance = new NoxIntegration(_logger, integrationDefinition);
-            instance.WithReceiveAdapter(integrationDefinition.Source, _solution.Infrastructure?.Dependencies?.DataConnections);
-            instance.WithSendAdapter(integrationDefinition.Target, _solution.Infrastructure?.Dependencies?.DataConnections);
+            instance.WithReceiveAdapter(integrationDefinition.Source, _solution.DataConnections);
+            instance.WithSendAdapter(integrationDefinition.Target, _solution.DataConnections);
             _integrations[instance.Name] = instance;
         }
     }
@@ -33,12 +33,18 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
     {
         try
         {
-            var result = await _integrations[name].ExecuteAsync(_handlers?[name]);
+            INoxCustomTransformHandler? handler = null;
+            if (_handlers != null && _handlers.TryGetValue(name, out var foundHandler))
+            {
+                handler = foundHandler;
+            }
+            
+            var result = await _integrations[name].ExecuteAsync(handler);
             return result;
         }
         catch (Exception ex)
         {
-            throw new NoxIntegrationException($"Integration {name} does not exist in the Integration Context: {ex.Message}");
+            throw new NoxIntegrationException($"Failed to execute integration: {name}, {ex.Message}");
         }
     }
 

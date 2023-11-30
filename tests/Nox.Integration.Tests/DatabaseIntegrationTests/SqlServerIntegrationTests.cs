@@ -6,11 +6,28 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 public class SqlServerIntegrationTests : NoxIntegrationContainerTestBase<NoxTestMsSqlContainerFixture>
 {
     private readonly NoxCommonTestCaseFactory _noxCommonTestCases;
+    private readonly ReferenceNumberTests _referenceNumberTests;
+
 
     public SqlServerIntegrationTests(NoxTestMsSqlContainerFixture fixture) : base(fixture)
     {
         _noxCommonTestCases = new NoxCommonTestCaseFactory(fixture);
+        _referenceNumberTests = new ReferenceNumberTests(fixture);
     }
+
+    [Fact]
+    public async Task WhenGetSequenceNextValue_ShouldSucceed()
+    {
+        await _referenceNumberTests.WhenGetSequenceNextValue_ShouldSucceed();
+    }
+
+    [Fact]
+    public async Task WhenCreateReferenceNumberAttribute_ShouldBeUnique()
+    {
+        await _referenceNumberTests.WhenCreateReferenceNumberAttribute_ShouldBeUnique();
+    }
+
+    
 
     [Fact]
     public void GeneratedEntity_SqlServer_CanSaveAndReadFields_AllTypes()

@@ -34,7 +34,8 @@ internal abstract class GetStoresQueryHandlerBase : QueryBase<IQueryable<StoreDt
     public virtual Task<IQueryable<StoreDto>> Handle(GetStoresQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<StoreDto>)DataDbContext.Stores
-            .AsNoTracking();
+            .AsNoTracking()
+            .Include(e => e.EmailAddress);
        return Task.FromResult(OnResponse(item));
     }
 }

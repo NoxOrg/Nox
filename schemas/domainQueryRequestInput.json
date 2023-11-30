@@ -58,6 +58,8 @@
                   { "$ref": "type.json" },
                   {
                     "additionalProperties": false, 
+                    "required": ["$ref"],
+                    "type": "object",
                     "properties": {
                       "$ref": {
                         "type": "string",
@@ -88,6 +90,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -178,6 +182,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -261,6 +267,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -312,6 +320,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -423,6 +433,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -474,6 +486,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -559,6 +573,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -610,6 +626,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -703,6 +721,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -754,6 +774,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -875,6 +897,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -926,6 +950,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -1009,6 +1035,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -1060,6 +1088,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -1171,6 +1201,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -1222,6 +1254,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -1318,6 +1352,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -1370,6 +1406,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -1436,6 +1474,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -1487,6 +1527,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -1603,6 +1645,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -1654,6 +1698,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -1750,6 +1796,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -1801,6 +1849,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -1893,6 +1943,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -1944,6 +1996,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -2031,6 +2085,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -2082,6 +2138,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -2176,6 +2234,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -2227,6 +2287,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -2310,6 +2372,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -2361,6 +2425,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -2472,6 +2538,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -2523,6 +2591,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -2616,6 +2686,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -2667,6 +2739,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -2962,6 +3036,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -3013,6 +3089,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -3116,6 +3194,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -3167,6 +3247,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -3260,6 +3342,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -3311,6 +3395,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -3682,6 +3768,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -3733,6 +3821,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -3826,6 +3916,160 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
+                      "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri",
+                          "pattern": "^[^\\s]*$"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "isReadonly": {    
+                  "title": "Is this attribute readonly? Boolean value.",
+                  "description": "Indicates whether this attribute is readonly. Defaults to false.",
+                  "oneOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "required": [
+                "name",
+                "type",
+                "referenceNumberTypeOptions"
+              ],
+              "properties": {
+                "objectTypeOptions": {    
+                  "oneOf": [
+                    {
+                      "type": "object"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "required": [
+                    "attributes"
+                  ],
+                  "properties": {
+                    "attributes": {    
+                      "type": "array",
+                      "items":   {
+                        "anyOf": [
+                          { "$ref": "type.json" },
+                          {
+                            "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
+                            "properties": {
+                              "$ref": {
+                                "type": "string",
+                                "format": "uri",
+                                "pattern": "^[^\\s]*$"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "name": {    
+                  "title": "The name of the attribute. Contains no spaces.",
+                  "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+                  "type": "string",
+                  "pattern": "^[^\\s]*$"
+                },
+                "description": {    
+                  "title": "The description of the attribute.",
+                  "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "type": {    
+                  "const": "referenceNumber"
+                },
+                "referenceNumberTypeOptions": {    
+                  "type": "object",
+                  "properties": {
+                    "startsAt": {    
+                      "oneOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "incrementsBy": {    
+                      "oneOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "prefix": {    
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "suffixCheckSumDigit": {    
+                      "oneOf": [
+                        {
+                          "type": "boolean"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "isRequired": {    
+                  "title": "Is the attribute required? Boolean value.",
+                  "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+                  "oneOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "userInterface": {    
+                  "anyOf": [
+                    { "$ref": "typeUserInterface.json" },
+                    {
+                      "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -3877,6 +4121,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -3968,6 +4214,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -4019,6 +4267,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -4137,6 +4387,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -4188,6 +4440,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -4271,6 +4525,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -4322,6 +4578,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -4420,6 +4678,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -4471,6 +4731,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -4584,6 +4846,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -4635,6 +4899,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -4959,6 +5225,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -5010,6 +5278,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -5121,6 +5391,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -5172,6 +5444,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -5283,6 +5557,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -5334,6 +5610,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -5427,6 +5705,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -5479,6 +5759,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -5561,6 +5843,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -5605,6 +5889,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -5695,6 +5981,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -5778,6 +6066,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -5829,6 +6119,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -5940,6 +6232,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -5991,6 +6285,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -6076,6 +6372,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -6127,6 +6425,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -6220,6 +6520,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -6271,6 +6573,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -6392,6 +6696,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -6443,6 +6749,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -6526,6 +6834,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -6577,6 +6887,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -6688,6 +7000,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -6739,6 +7053,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -6835,6 +7151,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -6887,6 +7205,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -6953,6 +7273,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -7004,6 +7326,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -7120,6 +7444,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -7171,6 +7497,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -7267,6 +7595,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -7318,6 +7648,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -7410,6 +7742,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -7461,6 +7795,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -7548,6 +7884,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -7599,6 +7937,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -7693,6 +8033,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -7744,6 +8086,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -7827,6 +8171,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -7878,6 +8224,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -7989,6 +8337,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -8040,6 +8390,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -8133,6 +8485,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -8184,6 +8538,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -8479,6 +8835,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -8530,6 +8888,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -8633,6 +8993,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -8684,6 +9046,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -8777,6 +9141,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -8828,6 +9194,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -9199,6 +9567,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -9250,6 +9620,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -9343,6 +9715,160 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
+                      "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri",
+                          "pattern": "^[^\\s]*$"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "isReadonly": {    
+                  "title": "Is this attribute readonly? Boolean value.",
+                  "description": "Indicates whether this attribute is readonly. Defaults to false.",
+                  "oneOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "required": [
+                "name",
+                "type",
+                "referenceNumberTypeOptions"
+              ],
+              "properties": {
+                "objectTypeOptions": {    
+                  "oneOf": [
+                    {
+                      "type": "object"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "required": [
+                    "attributes"
+                  ],
+                  "properties": {
+                    "attributes": {    
+                      "type": "array",
+                      "items":   {
+                        "anyOf": [
+                          { "$ref": "type.json" },
+                          {
+                            "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
+                            "properties": {
+                              "$ref": {
+                                "type": "string",
+                                "format": "uri",
+                                "pattern": "^[^\\s]*$"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "name": {    
+                  "title": "The name of the attribute. Contains no spaces.",
+                  "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+                  "type": "string",
+                  "pattern": "^[^\\s]*$"
+                },
+                "description": {    
+                  "title": "The description of the attribute.",
+                  "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "type": {    
+                  "const": "referenceNumber"
+                },
+                "referenceNumberTypeOptions": {    
+                  "type": "object",
+                  "properties": {
+                    "startsAt": {    
+                      "oneOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "incrementsBy": {    
+                      "oneOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "prefix": {    
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "suffixCheckSumDigit": {    
+                      "oneOf": [
+                        {
+                          "type": "boolean"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "isRequired": {    
+                  "title": "Is the attribute required? Boolean value.",
+                  "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+                  "oneOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "userInterface": {    
+                  "anyOf": [
+                    { "$ref": "typeUserInterface.json" },
+                    {
+                      "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -9394,6 +9920,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -9485,6 +10013,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -9536,6 +10066,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -9654,6 +10186,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -9705,6 +10239,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -9788,6 +10324,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -9839,6 +10377,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -9937,6 +10477,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -9988,6 +10530,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -10101,6 +10645,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -10152,6 +10698,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -10476,6 +11024,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -10527,6 +11077,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -10638,6 +11190,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -10689,6 +11243,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -10800,6 +11356,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -10851,6 +11409,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -10944,6 +11504,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -10996,6 +11558,8 @@
                           { "$ref": "type.json" },
                           {
                             "additionalProperties": false, 
+                            "required": ["$ref"],
+                            "type": "object",
                             "properties": {
                               "$ref": {
                                 "type": "string",
@@ -11078,6 +11642,8 @@
                     { "$ref": "typeUserInterface.json" },
                     {
                       "additionalProperties": false, 
+                      "required": ["$ref"],
+                      "type": "object",
                       "properties": {
                         "$ref": {
                           "type": "string",
@@ -11122,6 +11688,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -11223,6 +11791,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -11352,6 +11922,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -11455,6 +12027,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -11566,6 +12140,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -11705,6 +12281,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -11806,6 +12384,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -11935,6 +12515,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -12049,6 +12631,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -12134,6 +12718,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -12268,6 +12854,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -12382,6 +12970,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -12492,6 +13082,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -12597,6 +13189,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -12709,6 +13303,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -12810,6 +13406,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -12939,6 +13537,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -13050,6 +13650,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -13363,6 +13965,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -13484,6 +14088,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -13595,6 +14201,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -13984,6 +14592,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -14095,6 +14705,125 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "type",
+        "referenceNumberTypeOptions"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": {    
+          "const": "referenceNumber"
+        },
+        "referenceNumberTypeOptions": {    
+          "type": "object",
+          "properties": {
+            "startsAt": {    
+              "oneOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "incrementsBy": {    
+              "oneOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "prefix": {    
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "suffixCheckSumDigit": {    
+              "oneOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -14204,6 +14933,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -14340,6 +15071,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -14441,6 +15174,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -14557,6 +15292,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -14688,6 +15425,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -15030,6 +15769,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -15159,6 +15900,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -15288,6 +16031,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -15399,6 +16144,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",
@@ -15497,6 +16244,8 @@
             { "$ref": "typeUserInterface.json" },
             {
               "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
               "properties": {
                 "$ref": {
                   "type": "string",

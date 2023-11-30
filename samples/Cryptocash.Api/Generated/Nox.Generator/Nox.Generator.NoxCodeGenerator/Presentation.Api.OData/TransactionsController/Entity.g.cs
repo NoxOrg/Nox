@@ -61,7 +61,7 @@ public abstract partial class TransactionsControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<TransactionDto>> Get([FromRoute] System.Int64 key)
+    public virtual async Task<SingleResult<TransactionDto>> Get([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new GetTransactionByIdQuery(key));
         return SingleResult.Create(result);

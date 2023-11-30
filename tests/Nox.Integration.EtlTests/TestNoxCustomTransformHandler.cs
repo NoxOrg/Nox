@@ -4,12 +4,10 @@ using Nox.Solution;
 
 namespace Nox.Integration.EtlTests;
 
-public class TestNoxCustomTransformHandler: INoxCustomTransformHandler
+public class TestNoxCustomTransformHandler: TestNoxCustomTransformHandlerBase, INoxCustomTransformHandler
 {
     private readonly NoxSolution _solution;
     
-    public string IntegrationName => "SqlToSqlCustomIntegration";
-
     public TestNoxCustomTransformHandler(NoxSolution solution)
     {
         _solution = solution;

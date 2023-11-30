@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Solution.Extensions;
 
 namespace Nox.Generator.Domain;
 
@@ -28,6 +29,7 @@ internal class EntitiesGenerator : INoxCodeGenerator
                 .WithClassName(entity.Name)
                 .WithFileNamePrefix($"Domain")
                 .WithObject("entity", entity)
+                .WithObject("entityKeys", entity.GetKeys())
                 .GenerateSourceCodeFromResource("Domain.Entity");
         }
     }

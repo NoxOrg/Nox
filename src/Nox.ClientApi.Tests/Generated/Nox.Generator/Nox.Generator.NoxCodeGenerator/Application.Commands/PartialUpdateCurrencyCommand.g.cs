@@ -16,7 +16,7 @@ using CurrencyEntity = ClientApi.Domain.Currency;
 
 namespace ClientApi.Application.Commands;
 
-public record PartialUpdateCurrencyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CurrencyKeyDto?>;
+public partial record PartialUpdateCurrencyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CurrencyKeyDto?>;
 
 internal class PartialUpdateCurrencyCommandHandler : PartialUpdateCurrencyCommandHandlerBase
 {

@@ -61,7 +61,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<PaymentProviderDto>> Get([FromRoute] System.Int64 key)
+    public virtual async Task<SingleResult<PaymentProviderDto>> Get([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new GetPaymentProviderByIdQuery(key));
         return SingleResult.Create(result);

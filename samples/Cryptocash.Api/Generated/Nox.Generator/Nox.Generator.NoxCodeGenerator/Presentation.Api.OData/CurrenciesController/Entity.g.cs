@@ -61,7 +61,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<CurrencyDto>> Get([FromRoute] System.String key)
+    public virtual async Task<SingleResult<CurrencyDto>> Get([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new GetCurrencyByIdQuery(key));
         return SingleResult.Create(result);

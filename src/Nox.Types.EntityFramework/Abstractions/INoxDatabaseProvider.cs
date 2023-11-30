@@ -13,4 +13,9 @@ public interface INoxDatabaseProvider
     string ToTableNameForSqlRaw(string table, string schema);
     void SetStoreTypeFlag(NoxDataStoreTypeFlags storeType);
     void UnSetStoreTypeFlag(NoxDataStoreTypeFlags storeTypeFlag);
+
+    /// <summary>
+    /// Raw SQL to Select Sequence Next Value
+    /// </summary>
+    string GetSqlStatementForSequenceNextValue(string sequenceName);
 }

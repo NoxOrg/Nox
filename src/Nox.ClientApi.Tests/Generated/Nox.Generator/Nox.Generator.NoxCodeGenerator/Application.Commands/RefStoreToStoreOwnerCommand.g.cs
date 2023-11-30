@@ -19,10 +19,12 @@ using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
-public abstract record RefStoreToStoreOwnerCommand(StoreKeyDto EntityKeyDto, StoreOwnerKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefStoreToStoreOwnerCommand(StoreKeyDto EntityKeyDto) : IRequest <bool>;
+
+#region CreateRefTo
 
 public partial record CreateRefStoreToStoreOwnerCommand(StoreKeyDto EntityKeyDto, StoreOwnerKeyDto RelatedEntityKeyDto)
-	: RefStoreToStoreOwnerCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefStoreToStoreOwnerCommand(EntityKeyDto);
 
 internal partial class CreateRefStoreToStoreOwnerCommandHandler
 	: RefStoreToStoreOwnerCommandHandlerBase<CreateRefStoreToStoreOwnerCommand>
@@ -31,12 +33,35 @@ internal partial class CreateRefStoreToStoreOwnerCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Create)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(CreateRefStoreToStoreOwnerCommand request)
+    {
+		var entity = await GetStore(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetStoreOwner(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.CreateRefToStoreOwner(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion CreateRefTo
+
+#region DeleteRefTo
+
 public record DeleteRefStoreToStoreOwnerCommand(StoreKeyDto EntityKeyDto, StoreOwnerKeyDto RelatedEntityKeyDto)
-	: RefStoreToStoreOwnerCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefStoreToStoreOwnerCommand(EntityKeyDto);
 
 internal partial class DeleteRefStoreToStoreOwnerCommandHandler
 	: RefStoreToStoreOwnerCommandHandlerBase<DeleteRefStoreToStoreOwnerCommand>
@@ -45,12 +70,35 @@ internal partial class DeleteRefStoreToStoreOwnerCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Delete)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteRefStoreToStoreOwnerCommand request)
+    {
+        var entity = await GetStore(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetStoreOwner(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.DeleteRefToStoreOwner(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion DeleteRefTo
+
+#region DeleteAllRefTo
+
 public record DeleteAllRefStoreToStoreOwnerCommand(StoreKeyDto EntityKeyDto)
-	: RefStoreToStoreOwnerCommand(EntityKeyDto, null);
+	: RefStoreToStoreOwnerCommand(EntityKeyDto);
 
 internal partial class DeleteAllRefStoreToStoreOwnerCommandHandler
 	: RefStoreToStoreOwnerCommandHandlerBase<DeleteAllRefStoreToStoreOwnerCommand>
@@ -59,68 +107,67 @@ internal partial class DeleteAllRefStoreToStoreOwnerCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteAllRefStoreToStoreOwnerCommand request)
+    {
+        var entity = await GetStore(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+		entity.DeleteAllRefToStoreOwner();
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
+
+#endregion DeleteAllRefTo
 
 internal abstract class RefStoreToStoreOwnerCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreToStoreOwnerCommand
 {
 	public AppDbContext DbContext { get; }
 
-	public RelationshipAction Action { get; }
-
-	public enum RelationshipAction { Create, Delete, DeleteAll };
-
 	public RefStoreToStoreOwnerCommandHandlerBase(
         AppDbContext dbContext,
-		NoxSolution noxSolution,
-		RelationshipAction action)
+		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		Action = action;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.EntityKeyDto.keyId);
-		var entity = await DbContext.Stores.FindAsync(keyId);
-		if (entity == null)
+		return await ExecuteAsync(request);
+	}
+
+	protected abstract Task<bool> ExecuteAsync(TRequest request);
+
+	protected async Task<StoreEntity?> GetStore(StoreKeyDto entityKeyDto)
+	{
+		var keyId = ClientApi.Domain.StoreMetadata.CreateId(entityKeyDto.keyId);
+		return await DbContext.Stores.FindAsync(keyId);
+	}
+
+	protected async Task<ClientApi.Domain.StoreOwner?> GetStoreOwner(StoreOwnerKeyDto relatedEntityKeyDto)
+	{
+		var relatedKeyId = ClientApi.Domain.StoreOwnerMetadata.CreateId(relatedEntityKeyDto.keyId);
+		return await DbContext.StoreOwners.FindAsync(relatedKeyId);
+	}
+
+	protected async Task<bool> SaveChangesAsync(TRequest request, StoreEntity entity)
+	{
+		await OnCompletedAsync(request, entity);
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
 		{
 			return false;
 		}
-
-		ClientApi.Domain.StoreOwner? relatedEntity = null!;
-		if(request.RelatedEntityKeyDto is not null)
-		{
-			var relatedKeyId = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
-			relatedEntity = await DbContext.StoreOwners.FindAsync(relatedKeyId);
-			if (relatedEntity == null)
-			{
-				return false;
-			}
-		}
-
-		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToStoreOwner(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToStoreOwner(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				entity.DeleteAllRefToStoreOwner();
-				break;
-		}
-
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
 		return true;
 	}
 }

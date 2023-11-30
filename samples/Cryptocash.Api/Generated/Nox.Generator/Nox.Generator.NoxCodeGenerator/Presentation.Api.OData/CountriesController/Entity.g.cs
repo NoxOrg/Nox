@@ -61,7 +61,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<CountryDto>> Get([FromRoute] System.String key)
+    public virtual async Task<SingleResult<CountryDto>> Get([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new GetCountryByIdQuery(key));
         return SingleResult.Create(result);

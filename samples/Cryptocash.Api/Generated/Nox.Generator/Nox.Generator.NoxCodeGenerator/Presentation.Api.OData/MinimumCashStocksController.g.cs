@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -28,15 +29,33 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> CreateRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefMinimumCashStockToVendingMachinesCommand(new MinimumCashStockKeyDto(key), new VendingMachineKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/MinimumCashStocks/{key}/VendingMachines/$ref")]
+    public async Task<ActionResult> UpdateRefToVendingMachinesNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new VendingMachineKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefMinimumCashStockToVendingMachinesCommand(new MinimumCashStockKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -60,11 +79,11 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefMinimumCashStockToVendingMachinesCommand(new MinimumCashStockKeyDto(key), new VendingMachineKeyDto(relatedKey)));
@@ -80,7 +99,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefMinimumCashStockToVendingMachinesCommand(new MinimumCashStockKeyDto(key)));
@@ -96,7 +115,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         vendingMachine.MinimumCashStocksId = new List<System.Int64> { key };
@@ -119,7 +138,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
+    [HttpGet("/api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
     public virtual async Task<SingleResult<VendingMachineDto>> GetVendingMachinesNonConventional(System.Int64 key, System.Guid relatedKey)
     {
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines).Where(x => x.Id == relatedKey);
@@ -130,12 +149,12 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
+    [HttpPut("/api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
     public virtual async Task<ActionResult<VendingMachineDto>> PutToVendingMachinesNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] VendingMachineUpdateDto vendingMachine)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
@@ -154,12 +173,12 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
+    [HttpDelete("/api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
     public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
@@ -178,12 +197,12 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/MinimumCashStocks/{key}/VendingMachines")]
+    [HttpDelete("/api/MinimumCashStocks/{key}/VendingMachines")]
     public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();
@@ -200,11 +219,11 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefMinimumCashStockToCurrencyCommand(new MinimumCashStockKeyDto(key), new CurrencyKeyDto(relatedKey)));
@@ -232,7 +251,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         currency.MinimumCashStocksId = new List<System.Int64> { key };
@@ -258,7 +277,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Select(x => x.Currency).SingleOrDefault();

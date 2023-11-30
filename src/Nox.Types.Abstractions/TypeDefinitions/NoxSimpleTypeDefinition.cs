@@ -95,6 +95,10 @@ public class NoxSimpleTypeDefinition : YamlConfigNode<object,object>
     [IfEquals(nameof(Type), NoxType.Percentage)]
     public PercentageTypeOptions? PercentageTypeOptions { get; set; }
 
+    [IfEquals(nameof(Type), NoxType.ReferenceNumber)]
+    [Required]
+    public ReferenceNumberTypeOptions? ReferenceNumberTypeOptions { get; set; }
+
     [IfEquals(nameof(Type), NoxType.Temperature)]
     public TemperatureTypeOptions? TemperatureTypeOptions { get; set; }
 

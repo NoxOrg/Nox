@@ -48,6 +48,7 @@ internal partial class DeleteEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 		{
 			return false;
 		}
+		await DbContext.Entry(parentEntity).Collection(p => p.EmployeePhoneNumbers).LoadAsync(cancellationToken);
 		var ownedId = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
@@ -56,7 +57,6 @@ internal partial class DeleteEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 		}
 		parentEntity.EmployeePhoneNumbers.Remove(entity);
 		await OnCompletedAsync(request, entity);
-
 		DbContext.Entry(entity).State = EntityState.Deleted;
 
 		var result = await DbContext.SaveChangesAsync(cancellationToken);

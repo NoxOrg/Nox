@@ -35,17 +35,19 @@ This document provides information about the various endpoints available in our 
 #### Get CountryTimeZones
 - **GET** `/api/Countries/{key}/CountryTimeZones`
   - Description: Retrieve all CountryTimeZones for a specific Country.
+- **GET** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
+  - Description: Retrieve a CountryTimeZone by ID for a specific Country.
 
 #### Create CountryTimeZone
 - **POST** `/api/Countries/{key}/CountryTimeZones`
   - Description: Create a new CountryTimeZone for a specific Country.
 
 #### Update CountryTimeZone
-- **PUT** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
+- **PUT** `/api/Countries/{key}/CountryTimeZones`
   - Description: Update an existing CountryTimeZone for a specific Country.
   
 #### Partially Update CountryTimeZone
-- **PATCH** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
+- **PATCH** `/api/Countries/{key}/CountryTimeZones`
   - Description: Partially update an existing CountryTimeZone for a specific Country.
 
 #### Delete CountryTimeZone
@@ -57,17 +59,19 @@ This document provides information about the various endpoints available in our 
 #### Get Holidays
 - **GET** `/api/Countries/{key}/Holidays`
   - Description: Retrieve all Holidays for a specific Country.
+- **GET** `/api/Countries/{key}/Holidays/{relatedKey}`
+  - Description: Retrieve a Holiday by ID for a specific Country.
 
 #### Create Holiday
 - **POST** `/api/Countries/{key}/Holidays`
   - Description: Create a new Holiday for a specific Country.
 
 #### Update Holiday
-- **PUT** `/api/Countries/{key}/Holidays/{relatedKey}`
+- **PUT** `/api/Countries/{key}/Holidays`
   - Description: Update an existing Holiday for a specific Country.
   
 #### Partially Update Holiday
-- **PATCH** `/api/Countries/{key}/Holidays/{relatedKey}`
+- **PATCH** `/api/Countries/{key}/Holidays`
   - Description: Partially update an existing Holiday for a specific Country.
 
 #### Delete Holiday
@@ -89,6 +93,8 @@ This document provides information about the various endpoints available in our 
 #### Update Currency relation
 - **PUT** `/api/Countries/{key}/CountryUsedByCurrency/{relatedKey}/$ref`
   - Description: Updates an existing Currency relation for a specific Country.
+- **PUT** `/api/Countries/{key}/CountryUsedByCurrency/$ref`
+  - Description: Updates the Currency relations for a specific Country.
 
 #### Delete Currency relation
 - **DELETE** `/api/Countries/{key}/CountryUsedByCurrency/{relatedKey}/$ref`
@@ -111,6 +117,8 @@ This document provides information about the various endpoints available in our 
 #### Update Commission relation
 - **PUT** `/api/Countries/{key}/CountryUsedByCommissions/{relatedKey}/$ref`
   - Description: Updates an existing Commission relation for a specific Country.
+- **PUT** `/api/Countries/{key}/CountryUsedByCommissions/$ref`
+  - Description: Updates the Commission relations for a specific Country.
 
 #### Delete Commission relation
 - **DELETE** `/api/Countries/{key}/CountryUsedByCommissions/{relatedKey}/$ref`
@@ -133,6 +141,8 @@ This document provides information about the various endpoints available in our 
 #### Update VendingMachine relation
 - **PUT** `/api/Countries/{key}/CountryUsedByVendingMachines/{relatedKey}/$ref`
   - Description: Updates an existing VendingMachine relation for a specific Country.
+- **PUT** `/api/Countries/{key}/CountryUsedByVendingMachines/$ref`
+  - Description: Updates the VendingMachine relations for a specific Country.
 
 #### Delete VendingMachine relation
 - **DELETE** `/api/Countries/{key}/CountryUsedByVendingMachines/{relatedKey}/$ref`
@@ -155,6 +165,8 @@ This document provides information about the various endpoints available in our 
 #### Update Customer relation
 - **PUT** `/api/Countries/{key}/CountryUsedByCustomers/{relatedKey}/$ref`
   - Description: Updates an existing Customer relation for a specific Country.
+- **PUT** `/api/Countries/{key}/CountryUsedByCustomers/$ref`
+  - Description: Updates the Customer relations for a specific Country.
 
 #### Delete Customer relation
 - **DELETE** `/api/Countries/{key}/CountryUsedByCustomers/{relatedKey}/$ref`

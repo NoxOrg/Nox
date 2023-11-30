@@ -1,5 +1,4 @@
-﻿﻿
-﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -9,13 +8,17 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Extensions;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using BankNoteEntity = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Commands;
-public partial record UpdateBankNotesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto, BankNoteUpsertDto EntityDto, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
+
+public partial record UpdateBankNotesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteUpsertDto EntityDto, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
 
 internal partial class UpdateBankNotesForCurrencyCommandHandler : UpdateBankNotesForCurrencyCommandHandlerBase
 {
@@ -52,7 +55,8 @@ internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandBas
 		{
 			return null;
 		}
-		var ownedId = Cryptocash.Domain.BankNoteMetadata.CreateId(request.EntityKeyDto.keyId);
+		await DbContext.Entry(parentEntity).Collection(p => p.BankNotes).LoadAsync(cancellationToken);
+		var ownedId = Cryptocash.Domain.BankNoteMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
 		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
@@ -72,4 +76,12 @@ internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandBas
 
 		return new BankNoteKeyDto(entity.Id.Value);
 	}
+}
+
+public class UpdateBankNotesForCurrencyValidator : AbstractValidator<UpdateBankNotesForCurrencyCommand>
+{
+    public UpdateBankNotesForCurrencyValidator(ILogger<UpdateBankNotesForCurrencyCommand> logger)
+    {
+		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
+    }
 }

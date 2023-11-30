@@ -19,10 +19,12 @@ using CommissionEntity = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefCommissionToBookingsCommand(CommissionKeyDto EntityKeyDto, BookingKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefCommissionToBookingsCommand(CommissionKeyDto EntityKeyDto) : IRequest <bool>;
+
+#region CreateRefTo
 
 public partial record CreateRefCommissionToBookingsCommand(CommissionKeyDto EntityKeyDto, BookingKeyDto RelatedEntityKeyDto)
-	: RefCommissionToBookingsCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefCommissionToBookingsCommand(EntityKeyDto);
 
 internal partial class CreateRefCommissionToBookingsCommandHandler
 	: RefCommissionToBookingsCommandHandlerBase<CreateRefCommissionToBookingsCommand>
@@ -31,12 +33,78 @@ internal partial class CreateRefCommissionToBookingsCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Create)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(CreateRefCommissionToBookingsCommand request)
+    {
+		var entity = await GetCommission(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetBooking(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.CreateRefToBookings(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion CreateRefTo
+
+#region UpdateRefTo
+
+public partial record UpdateRefCommissionToBookingsCommand(CommissionKeyDto EntityKeyDto, List<BookingKeyDto> RelatedEntitiesKeysDtos)
+	: RefCommissionToBookingsCommand(EntityKeyDto);
+
+internal partial class UpdateRefCommissionToBookingsCommandHandler
+	: RefCommissionToBookingsCommandHandlerBase<UpdateRefCommissionToBookingsCommand>
+{
+	public UpdateRefCommissionToBookingsCommandHandler(
+        AppDbContext dbContext,
+		NoxSolution noxSolution
+		)
+		: base(dbContext, noxSolution)
+	{ }
+
+	protected override async Task<bool> ExecuteAsync(UpdateRefCommissionToBookingsCommand request)
+    {
+		var entity = await GetCommission(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntities = new List<Cryptocash.Domain.Booking>();
+		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
+		{
+			var relatedEntity = await GetBooking(keyDto);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
+			relatedEntities.Add(relatedEntity);
+		}
+
+		await DbContext.Entry(entity).Collection(x => x.Bookings).LoadAsync();
+		entity.UpdateRefToBookings(relatedEntities);
+
+		return await SaveChangesAsync(request, entity);
+    }
+}
+
+#endregion UpdateRefTo
+
+#region DeleteRefTo
+
 public record DeleteRefCommissionToBookingsCommand(CommissionKeyDto EntityKeyDto, BookingKeyDto RelatedEntityKeyDto)
-	: RefCommissionToBookingsCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefCommissionToBookingsCommand(EntityKeyDto);
 
 internal partial class DeleteRefCommissionToBookingsCommandHandler
 	: RefCommissionToBookingsCommandHandlerBase<DeleteRefCommissionToBookingsCommand>
@@ -45,12 +113,35 @@ internal partial class DeleteRefCommissionToBookingsCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Delete)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteRefCommissionToBookingsCommand request)
+    {
+        var entity = await GetCommission(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetBooking(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.DeleteRefToBookings(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion DeleteRefTo
+
+#region DeleteAllRefTo
+
 public record DeleteAllRefCommissionToBookingsCommand(CommissionKeyDto EntityKeyDto)
-	: RefCommissionToBookingsCommand(EntityKeyDto, null);
+	: RefCommissionToBookingsCommand(EntityKeyDto);
 
 internal partial class DeleteAllRefCommissionToBookingsCommandHandler
 	: RefCommissionToBookingsCommandHandlerBase<DeleteAllRefCommissionToBookingsCommand>
@@ -59,69 +150,68 @@ internal partial class DeleteAllRefCommissionToBookingsCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteAllRefCommissionToBookingsCommand request)
+    {
+        var entity = await GetCommission(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+		await DbContext.Entry(entity).Collection(x => x.Bookings).LoadAsync();
+		entity.DeleteAllRefToBookings();
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
+
+#endregion DeleteAllRefTo
 
 internal abstract class RefCommissionToBookingsCommandHandlerBase<TRequest> : CommandBase<TRequest, CommissionEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCommissionToBookingsCommand
 {
 	public AppDbContext DbContext { get; }
 
-	public RelationshipAction Action { get; }
-
-	public enum RelationshipAction { Create, Delete, DeleteAll };
-
 	public RefCommissionToBookingsCommandHandlerBase(
         AppDbContext dbContext,
-		NoxSolution noxSolution,
-		RelationshipAction action)
+		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		Action = action;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.CommissionMetadata.CreateId(request.EntityKeyDto.keyId);
-		var entity = await DbContext.Commissions.FindAsync(keyId);
-		if (entity == null)
+		return await ExecuteAsync(request);
+	}
+
+	protected abstract Task<bool> ExecuteAsync(TRequest request);
+
+	protected async Task<CommissionEntity?> GetCommission(CommissionKeyDto entityKeyDto)
+	{
+		var keyId = Cryptocash.Domain.CommissionMetadata.CreateId(entityKeyDto.keyId);
+		return await DbContext.Commissions.FindAsync(keyId);
+	}
+
+	protected async Task<Cryptocash.Domain.Booking?> GetBooking(BookingKeyDto relatedEntityKeyDto)
+	{
+		var relatedKeyId = Cryptocash.Domain.BookingMetadata.CreateId(relatedEntityKeyDto.keyId);
+		return await DbContext.Bookings.FindAsync(relatedKeyId);
+	}
+
+	protected async Task<bool> SaveChangesAsync(TRequest request, CommissionEntity entity)
+	{
+		await OnCompletedAsync(request, entity);
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
 		{
 			return false;
 		}
-
-		Cryptocash.Domain.Booking? relatedEntity = null!;
-		if(request.RelatedEntityKeyDto is not null)
-		{
-			var relatedKeyId = Cryptocash.Domain.BookingMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
-			relatedEntity = await DbContext.Bookings.FindAsync(relatedKeyId);
-			if (relatedEntity == null)
-			{
-				return false;
-			}
-		}
-
-		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToBookings(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToBookings(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				await DbContext.Entry(entity).Collection(x => x.Bookings).LoadAsync();
-				entity.DeleteAllRefToBookings();
-				break;
-		}
-
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
 		return true;
 	}
 }

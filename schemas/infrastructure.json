@@ -16,6 +16,8 @@
         { "$ref": "persistence.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",
@@ -27,100 +29,46 @@
       ]
     },
     "messaging": {    
-      "title": "The definition namespace for messaging settings pertaining to a Nox solution.",
-      "description": "Defines settings pertinent to solution messaging here. These include IntegrationEventServer provider (RabbitMQ, Azure ServiceBus, Amazon SQS etc) and additional server connection details.",
-      "oneOf": [
+      "anyOf": [
+        { "$ref": "messaging.json" },
         {
-          "type": "object"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "required": [
-        "integrationEventServer"
-      ],
-      "properties": {
-        "integrationEventServer": {    
-          "anyOf": [
-            { "$ref": "messagingServer.json" },
-            {
-              "additionalProperties": false, 
-              "properties": {
-                "$ref": {
-                  "type": "string",
-                  "format": "uri",
-                  "pattern": "^[^\\s]*$"
-                }
-              }
+          "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
             }
-          ]
+          }
         }
-      },
-      "additionalProperties": false
+      ]
     },
     "endpoints": {    
-      "title": "The definition namespace for default endpoints pertaining to a Nox solution.",
-      "description": "Define default endpoints pertinent to a Nox solution here. These include endpoints for API and BFF servers.",
-      "oneOf": [
+      "anyOf": [
+        { "$ref": "endpoints.json" },
         {
-          "type": "object"
-        },
-        {
-          "type": "null"
+          "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
         }
-      ],
-      "properties": {
-        "apiRoutePrefix": {    
-          "title": "The api route prefix, defaults to api/v1 or to api/vMajor({Solution.Version}) if Version is set in the root of the Solution.",
-          "description": "Defines the prefix for all Api routes end points.",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "apiServer": {    
-          "anyOf": [
-            { "$ref": "apiServer.json" },
-            {
-              "additionalProperties": false, 
-              "properties": {
-                "$ref": {
-                  "type": "string",
-                  "format": "uri",
-                  "pattern": "^[^\\s]*$"
-                }
-              }
-            }
-          ]
-        },
-        "bffServer": {    
-          "anyOf": [
-            { "$ref": "bffServer.json" },
-            {
-              "additionalProperties": false, 
-              "properties": {
-                "$ref": {
-                  "type": "string",
-                  "format": "uri",
-                  "pattern": "^[^\\s]*$"
-                }
-              }
-            }
-          ]
-        }
-      },
-      "additionalProperties": false
+      ]
     },
     "dependencies": {    
       "anyOf": [
         { "$ref": "dependencies.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",
@@ -136,6 +84,8 @@
         { "$ref": "security.json" },
         {
           "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
           "properties": {
             "$ref": {
               "type": "string",

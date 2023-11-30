@@ -61,7 +61,7 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
     }
 
     [EnableQuery]
-    public async Task<SingleResult<TestEntityForAutoNumberUsagesDto>> Get([FromRoute] System.Int64 key)
+    public virtual async Task<SingleResult<TestEntityForAutoNumberUsagesDto>> Get([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new GetTestEntityForAutoNumberUsagesByIdQuery(key));
         return SingleResult.Create(result);

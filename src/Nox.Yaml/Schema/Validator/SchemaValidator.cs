@@ -109,37 +109,40 @@ internal class SchemaValidator
 
             if (objType.IsIntegerType())
             {
-                if (!property.Type.Contains("integer") && !property.Type.Contains("number"))
+                if (!property.Type.Contains("integer") 
+                    && !property.Type.Contains("number")
+                    && !property.Type.Contains("any"))
                     _errors.Add($"Invalid integer value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
             }
 
             else if (objType.IsNumericType())
             {
-                if (!property.Type.Contains("number"))
+                if (!property.Type.Contains("number")
+                    && !property.Type.Contains("any"))
                     _errors.Add($"Invalid number value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
             }
 
             else if (obj.Value is string)
             {
-                if (!property.Type.Contains("string"))
+                if (!property.Type.Contains("string") && !property.Type.Contains("any"))
                     _errors.Add($"Invalid string value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
             }
 
             else if (obj.Value is bool)
             {
-                if (!property.Type.Contains("boolean"))
+                if (!property.Type.Contains("boolean") && !property.Type.Contains("any"))
                     _errors.Add($"Invalid bool value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
             }
 
             else if (objType.IsArray)
             {
-                if (!property.Type.Contains("array"))
+                if (!property.Type.Contains("array") && !property.Type.Contains("any"))
                     _errors.Add($"Invalid array value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
             }
 
             else if (objType.IsDictionary())
             {
-                if (!property.Type.Contains("object"))
+                if (!property.Type.Contains("object") && !property.Type.Contains("any"))
                     _errors.Add($"Invalid object value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
             }
 
@@ -179,9 +182,11 @@ internal class SchemaValidator
             {
                 foreach (var item in (IList)obj.Value!)
                 {
-                    var obj2 = (Dictionary<string, (object? Value, YamlLineInfo LineInfo)>)item;
-                    Validate(obj2, property.Items);
-                    arrayItems.Add(obj2);
+                    if (TryCastToDictionaryOrThrow(item, fileInfo, out var obj2))
+                    {
+                        Validate(obj2, property.Items);
+                        arrayItems.Add(obj2);
+                    }
                 }
             }
 
@@ -261,5 +266,21 @@ internal class SchemaValidator
     private static string ToFileInfoString(YamlLineInfo? lineInfo)
     {
         return lineInfo == null ? string.Empty : $"(at line {lineInfo.Line} in {lineInfo.FileName})";
+    }
+
+    private bool TryCastToDictionaryOrThrow(object item, string fileInfo, 
+        out Dictionary<string, (object? Value, YamlLineInfo LineInfo)> obj)
+    {
+        try
+        {
+            obj = (Dictionary<string, (object? Value, YamlLineInfo LineInfo)>)item;
+            return true;
+        }
+        catch (InvalidCastException)
+        {
+            _errors.Add($"Value of [{item}] is expected to be an object but isn't. {fileInfo}");
+            obj = null!;
+            return false;
+        }
     }
 }

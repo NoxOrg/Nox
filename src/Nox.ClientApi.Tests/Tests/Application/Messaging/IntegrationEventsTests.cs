@@ -83,7 +83,7 @@ namespace ClientApi.Tests.Application.Messaging
             };
 
             // Act
-            var headers = CreateEtagHeader(createResult?.Etag);
+            var headers = CreateEtagHeader(createResult!.Etag);
             var updateResult = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{createResult!.Id}", updateDto, headers);
 
             //Assert
@@ -106,7 +106,7 @@ namespace ClientApi.Tests.Application.Messaging
             var createResult = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
 
             // Act
-            var headers = CreateEtagHeader(createResult?.Etag);
+            var headers = CreateEtagHeader(createResult!.Etag);
             var deleteResult = await DeleteAsync($"{Endpoints.CountriesUrl}/{createResult!.Id}", headers);
 
             //Assert
@@ -137,7 +137,7 @@ namespace ClientApi.Tests.Application.Messaging
             var createResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto);
 
             // Act
-            var headers = CreateEtagHeader(createResult?.Etag);
+            var headers = CreateEtagHeader(createResult!.Etag);
             var deleteResult = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{createResult!.Id}", headers);
 
             //Assert
@@ -166,7 +166,7 @@ namespace ClientApi.Tests.Application.Messaging
             };
 
             // Act
-            var headers = CreateEtagHeader(createResult?.Etag);
+            var headers = CreateEtagHeader(createResult!.Etag);
             var updateResult = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{createResult!.Id}", updateDto, headers);
 
             //Assert

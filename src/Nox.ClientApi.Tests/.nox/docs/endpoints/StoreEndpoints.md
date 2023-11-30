@@ -30,28 +30,6 @@ This document provides information about the various endpoints available in our 
 
 ## Owned Relationships Endpoints
 
-### EmailAddress
-
-#### Get EmailAddresses
-- **GET** `/api/Stores/{key}/EmailAddresses`
-  - Description: Retrieve all EmailAddresses for a specific Store.
-
-#### Create EmailAddress
-- **POST** `/api/Stores/{key}/EmailAddresses`
-  - Description: Create a new EmailAddress for a specific Store.
-
-#### Update EmailAddress
-- **PUT** `/api/Stores/{key}/EmailAddresses/{relatedKey}`
-  - Description: Update an existing EmailAddress for a specific Store.
-  
-#### Partially Update EmailAddress
-- **PATCH** `/api/Stores/{key}/EmailAddresses/{relatedKey}`
-  - Description: Partially update an existing EmailAddress for a specific Store.
-
-#### Delete EmailAddress
-- **DELETE** `/api/Stores/{key}/EmailAddresses/{relatedKey}`
-  - Description: Delete an existing EmailAddress for a specific Store.
-
 ## Relationships Endpoints
 
 ### StoreOwner
@@ -67,6 +45,8 @@ This document provides information about the various endpoints available in our 
 #### Update StoreOwner relation
 - **PUT** `/api/Stores/{key}/Ownership/{relatedKey}/$ref`
   - Description: Updates an existing StoreOwner relation for a specific Store.
+- **PUT** `/api/Stores/{key}/Ownership/$ref`
+  - Description: Updates the StoreOwner relations for a specific Store.
 
 #### Delete StoreOwner relation
 - **DELETE** `/api/Stores/{key}/Ownership/{relatedKey}/$ref`
@@ -89,6 +69,8 @@ This document provides information about the various endpoints available in our 
 #### Update StoreLicense relation
 - **PUT** `/api/Stores/{key}/License/{relatedKey}/$ref`
   - Description: Updates an existing StoreLicense relation for a specific Store.
+- **PUT** `/api/Stores/{key}/License/$ref`
+  - Description: Updates the StoreLicense relations for a specific Store.
 
 #### Delete StoreLicense relation
 - **DELETE** `/api/Stores/{key}/License/{relatedKey}/$ref`

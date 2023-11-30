@@ -61,7 +61,7 @@ public abstract partial class TestEntityWithNuidsControllerBase : ODataControlle
     }
 
     [EnableQuery]
-    public async Task<SingleResult<TestEntityWithNuidDto>> Get([FromRoute] System.UInt32 key)
+    public virtual async Task<SingleResult<TestEntityWithNuidDto>> Get([FromRoute] System.UInt32 key)
     {
         var result = await _mediator.Send(new GetTestEntityWithNuidByIdQuery(key));
         return SingleResult.Create(result);

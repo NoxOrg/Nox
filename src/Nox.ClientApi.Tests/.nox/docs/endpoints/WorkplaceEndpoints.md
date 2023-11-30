@@ -43,6 +43,8 @@ This document provides information about the various endpoints available in our 
 #### Update Country relation
 - **PUT** `/api/Workplaces/{key}/BelongsToCountry/{relatedKey}/$ref`
   - Description: Updates an existing Country relation for a specific Workplace.
+- **PUT** `/api/Workplaces/{key}/BelongsToCountry/$ref`
+  - Description: Updates the Country relations for a specific Workplace.
 
 #### Delete Country relation
 - **DELETE** `/api/Workplaces/{key}/BelongsToCountry/{relatedKey}/$ref`
@@ -65,6 +67,8 @@ This document provides information about the various endpoints available in our 
 #### Update Tenant relation
 - **PUT** `/api/Workplaces/{key}/TenantsInWorkplace/{relatedKey}/$ref`
   - Description: Updates an existing Tenant relation for a specific Workplace.
+- **PUT** `/api/Workplaces/{key}/TenantsInWorkplace/$ref`
+  - Description: Updates the Tenant relations for a specific Workplace.
 
 #### Delete Tenant relation
 - **DELETE** `/api/Workplaces/{key}/TenantsInWorkplace/{relatedKey}/$ref`

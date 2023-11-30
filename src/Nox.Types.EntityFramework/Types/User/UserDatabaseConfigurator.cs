@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
 namespace Nox.Types.EntityFramework.Types;
 
@@ -12,14 +12,15 @@ public class UserDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
-        bool isKey)
+        bool isKey,
+        ModelBuilder modelBuilder, 
+        EntityTypeBuilder entityTypeBuilder)
     {
         var userOptions = property.UserTypeOptions ?? new UserTypeOptions();
 
-        builder
+        entityTypeBuilder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
             .HasMaxLength(userOptions.MaxLength)

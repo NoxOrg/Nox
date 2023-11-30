@@ -61,7 +61,7 @@ public abstract partial class RatingProgramsControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<RatingProgramDto>> Get([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId)
+    public virtual async Task<SingleResult<RatingProgramDto>> Get([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId)
     {
         var result = await _mediator.Send(new GetRatingProgramByIdQuery(keyStoreId, keyId));
         return SingleResult.Create(result);

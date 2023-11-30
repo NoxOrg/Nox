@@ -15,6 +15,15 @@ public sealed class BadRequestException : Exception, IApplicationException
             ErrorCode = errorCode;
         }
     }
+    public BadRequestException(string message, string? errorCode = null) : base(message)
+    {
+        ErrorDetails = message;
+
+        if (errorCode != null)
+        {
+            ErrorCode = errorCode;
+        }
+    }
 
     public HttpStatusCode? StatusCode => HttpStatusCode.BadRequest;
 

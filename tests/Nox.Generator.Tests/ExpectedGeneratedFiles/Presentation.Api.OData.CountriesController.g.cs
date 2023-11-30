@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using SampleWebApp.Application;
 using SampleWebApp.Application.Dto;
@@ -38,7 +39,7 @@ public abstract partial class CountriesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var item = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
         
@@ -56,7 +57,7 @@ public abstract partial class CountriesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetCountryLocalNames(key, new CountryLocalNameKeyDto(relatedKey));
         if (child == null)
@@ -71,7 +72,7 @@ public abstract partial class CountriesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -95,7 +96,7 @@ public abstract partial class CountriesControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new DeleteCountryLocalNamesForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey)));
         if (!result)

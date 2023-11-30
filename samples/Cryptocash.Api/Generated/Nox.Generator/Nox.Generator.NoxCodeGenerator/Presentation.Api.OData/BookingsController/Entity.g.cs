@@ -61,7 +61,7 @@ public abstract partial class BookingsControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<BookingDto>> Get([FromRoute] System.Guid key)
+    public virtual async Task<SingleResult<BookingDto>> Get([FromRoute] System.Guid key)
     {
         var result = await _mediator.Send(new GetBookingByIdQuery(key));
         return SingleResult.Create(result);

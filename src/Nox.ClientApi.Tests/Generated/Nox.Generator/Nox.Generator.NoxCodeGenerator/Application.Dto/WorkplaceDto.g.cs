@@ -43,6 +43,8 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
         else
             result.Add("Name", new [] { "Name is Required." });
     
+        if (this.ReferenceNumber is not null)
+            ExecuteActionAndCollectValidationExceptions("ReferenceNumber", () => DomainNamespace.WorkplaceMetadata.CreateReferenceNumber(this.ReferenceNumber.NonNullValue<System.String>()), result);
         if (this.Description is not null)
             ExecuteActionAndCollectValidationExceptions("Description", () => DomainNamespace.WorkplaceMetadata.CreateDescription(this.Description.NonNullValue<System.String>()), result); 
 
@@ -60,6 +62,12 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
     /// </summary>
     /// <remarks>Required.</remarks>    
     public System.String Name { get; set; } = default!;
+
+    /// <summary>
+    /// Workplace Code     
+    /// </summary>
+    /// <remarks>Optional.</remarks>    
+    public System.String? ReferenceNumber { get; set; }
 
     /// <summary>
     /// Workplace Description     

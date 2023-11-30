@@ -57,6 +57,7 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 		}
 
 		{{- if isSingleRelationship }}
+		await DbContext.Entry(parentEntity).Reference(e => e.{{relationshipName}}).LoadAsync(cancellationToken);
 		var entity = parentEntity.{{relationshipName}};
 		if (entity == null)
 		{
@@ -67,8 +68,8 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		{{ else }}
+		await DbContext.Entry(parentEntity).Collection(p => p.{{relationshipName}}).LoadAsync(cancellationToken);
 		{{- for key in entity.Keys }}
 		var owned{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
@@ -80,8 +81,8 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 		parentEntity.{{relationshipName}}.Remove(entity);
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(entity).State = EntityState.Deleted;
 		{{- end }}
+		DbContext.Entry(entity).State = EntityState.Deleted;
 
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)

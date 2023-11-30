@@ -52,7 +52,7 @@ namespace ClientApi.Tests.Controllers
 
             var postResult = await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TenantsUrl, createDto);
 
-            var headers = CreateEtagHeader(postResult?.Etag);
+            var headers = CreateEtagHeader(postResult!.Etag);
 
             // Act
             var putResult = await PutAsync<TenantUpdateDto>($"{Endpoints.TenantsUrl}/{postResult!.Id}", updateDto, headers, false);

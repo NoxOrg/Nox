@@ -50,6 +50,7 @@ internal abstract class PartialUpdateCountryTimeZonesForCountryCommandHandlerBas
 		{
 			return null;
 		}
+		await DbContext.Entry(parentEntity).Collection(p => p.CountryTimeZones).LoadAsync(cancellationToken);
 		var ownedId = Cryptocash.Domain.CountryTimeZoneMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
@@ -62,7 +63,7 @@ internal abstract class PartialUpdateCountryTimeZonesForCountryCommandHandlerBas
 
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
+		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{

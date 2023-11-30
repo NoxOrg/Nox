@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -28,15 +29,33 @@ public abstract partial class LandLordsControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToVendingMachines([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> CreateRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var createdRef = await _mediator.Send(new CreateRefLandLordToVendingMachinesCommand(new LandLordKeyDto(key), new VendingMachineKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/LandLords/{key}/VendingMachines/$ref")]
+    public async Task<ActionResult> UpdateRefToVendingMachinesNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new VendingMachineKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefLandLordToVendingMachinesCommand(new LandLordKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -60,11 +79,11 @@ public abstract partial class LandLordsControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefLandLordToVendingMachinesCommand(new LandLordKeyDto(key), new VendingMachineKeyDto(relatedKey)));
@@ -80,7 +99,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefLandLordToVendingMachinesCommand(new LandLordKeyDto(key)));
@@ -96,7 +115,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         vendingMachine.LandLordId = key;
@@ -119,7 +138,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/LandLords/{key}/VendingMachines/{relatedKey}")]
+    [HttpGet("/api/LandLords/{key}/VendingMachines/{relatedKey}")]
     public virtual async Task<SingleResult<VendingMachineDto>> GetVendingMachinesNonConventional(System.Guid key, System.Guid relatedKey)
     {
         var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).SelectMany(x => x.VendingMachines).Where(x => x.Id == relatedKey);
@@ -130,12 +149,12 @@ public abstract partial class LandLordsControllerBase : ODataController
         return SingleResult.Create(related);
     }
     
-    [HttpPut("/api/v1/LandLords/{key}/VendingMachines/{relatedKey}")]
+    [HttpPut("/api/LandLords/{key}/VendingMachines/{relatedKey}")]
     public virtual async Task<ActionResult<VendingMachineDto>> PutToVendingMachinesNonConventional(System.Guid key, System.Guid relatedKey, [FromBody] VendingMachineUpdateDto vendingMachine)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
@@ -154,12 +173,12 @@ public abstract partial class LandLordsControllerBase : ODataController
         return Ok();
     }
     
-    [HttpDelete("/api/v1/LandLords/{key}/VendingMachines/{relatedKey}")]
+    [HttpDelete("/api/LandLords/{key}/VendingMachines/{relatedKey}")]
     public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
@@ -178,12 +197,12 @@ public abstract partial class LandLordsControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("/api/v1/LandLords/{key}/VendingMachines")]
+    [HttpDelete("/api/LandLords/{key}/VendingMachines")]
     public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();

@@ -13,7 +13,7 @@ keys:
     type: entityId
     isRequired: true
     entityIdTypeOptions:
-     entity: Country
+      entity: Country
    
   - name: Id
     isRequired: true

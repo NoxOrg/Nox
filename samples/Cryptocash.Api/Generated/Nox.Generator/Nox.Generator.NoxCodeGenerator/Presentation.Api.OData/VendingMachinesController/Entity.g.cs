@@ -61,7 +61,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     }
 
     [EnableQuery]
-    public async Task<SingleResult<VendingMachineDto>> Get([FromRoute] System.Guid key)
+    public virtual async Task<SingleResult<VendingMachineDto>> Get([FromRoute] System.Guid key)
     {
         var result = await _mediator.Send(new GetVendingMachineByIdQuery(key));
         return SingleResult.Create(result);

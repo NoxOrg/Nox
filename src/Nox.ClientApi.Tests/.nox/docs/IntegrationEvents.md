@@ -122,6 +122,7 @@ GoogleMapsUrl|System.String|Country's map via google maps
 StartOfWeek|System.UInt16|Country's start of week day
 Continent|System.Int32|Country Continent
 CountryLocalNameId|System.Int64|The unique identifier
+CountryTimeZoneId|System.String|Country's related time zone code
 
 
 ### `WorkplaceDeleted`
@@ -159,6 +160,7 @@ Member|Type|Description
 ------|----|-----------
 Id|System.Int64|Workplace unique identifier
 Name|System.String|Workplace Name
+ReferenceNumber|System.String|Workplace Code
 Description|System.String|Workplace Description
 Greeting|System.String|The Formula
 CountryId|System.Int64|The unique identifier

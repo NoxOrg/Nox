@@ -1,0 +1,251 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Definition and mapping of API endpoints to internal OData routes.",
+  "description": "Defines custom endpoints for this solution and how they map to generated internal OData endpoints.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "anyOf": [
+    {
+      "required": [
+        "name",
+        "httpVerb",
+        "route",
+        "targetUrl",
+        "requestBodyType",
+        "jsonBodyType",
+        "responseOutput"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the API route. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a descriptive noun and be unique within a solution. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the API route.",
+          "description": "A descriptive phrase that explains the nature and function of this API route mapping.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "httpVerb": {    
+          "title": "The Http verb to map.",
+          "description": "Valid verbs are get, put, post, patch and delete.",
+          "type": "string",
+          "enum": [
+            "delete",
+            "get",
+            "patch",
+            "post",
+            "put"
+          ]
+        },
+        "route": {    
+          "title": "The inbound API route. Contains no spaces.",
+          "description": "Specifies the inbound endpoint for this route mapping. Must be a valid Uri. Parameters specified within '{}' characters, eg. /Customers/HighestRanked?limit={Count}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "targetUrl": {    
+          "title": "The outbound API route to map the . Contains no spaces.",
+          "description": "Specifies the outbound URL endpoint for this route mapping. Must be a valid Uri. The input parameters can be mapped to the output, eg. /Customers?$orderByDesc=Rating&$top={Count}",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "requestInput": {    
+          "oneOf": [
+            {
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "items":   {
+            "anyOf": [
+              { "$ref": "jsonTypeDefinition.json" },
+              {
+                "additionalProperties": false, 
+                "required": ["$ref"],
+                "type": "object",
+                "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri",
+                    "pattern": "^[^\\s]*$"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "requestBodyType": {    
+          "const": "json"
+        },
+        "jsonBodyType": {    
+          "anyOf": [
+            { "$ref": "jsonTypeDefinition.json" },
+            {
+              "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "responseOutput": {    
+          "anyOf": [
+            { "$ref": "jsonTypeDefinition.json" },
+            {
+              "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "name",
+        "httpVerb",
+        "route",
+        "targetUrl",
+        "responseOutput"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the API route. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a descriptive noun and be unique within a solution. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the API route.",
+          "description": "A descriptive phrase that explains the nature and function of this API route mapping.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "httpVerb": {    
+          "title": "The Http verb to map.",
+          "description": "Valid verbs are get, put, post, patch and delete.",
+          "type": "string",
+          "enum": [
+            "delete",
+            "get",
+            "patch",
+            "post",
+            "put"
+          ]
+        },
+        "route": {    
+          "title": "The inbound API route. Contains no spaces.",
+          "description": "Specifies the inbound endpoint for this route mapping. Must be a valid Uri. Parameters specified within '{}' characters, eg. /Customers/HighestRanked?limit={Count}.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "targetUrl": {    
+          "title": "The outbound API route to map the . Contains no spaces.",
+          "description": "Specifies the outbound URL endpoint for this route mapping. Must be a valid Uri. The input parameters can be mapped to the output, eg. /Customers?$orderByDesc=Rating&$top={Count}",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "requestInput": {    
+          "oneOf": [
+            {
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "items":   {
+            "anyOf": [
+              { "$ref": "jsonTypeDefinition.json" },
+              {
+                "additionalProperties": false, 
+                "required": ["$ref"],
+                "type": "object",
+                "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri",
+                    "pattern": "^[^\\s]*$"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "requestBodyType": {    
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "csv",
+                "html",
+                "none",
+                "other",
+                "xml"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "responseOutput": {    
+          "anyOf": [
+            { "$ref": "jsonTypeDefinition.json" },
+            {
+              "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

@@ -11,6 +11,8 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -69,4 +71,12 @@ internal abstract class CreateCountryLocalNamesForCountryCommandHandlerBase : Co
 
 		return new CountryLocalNameKeyDto(entity.Id.Value);
 	}
+}
+
+public class CreateCountryLocalNamesForCountryValidator : AbstractValidator<CreateCountryLocalNamesForCountryCommand>
+{
+    public CreateCountryLocalNamesForCountryValidator(ILogger<CreateCountryLocalNamesForCountryCommand> logger)
+    {
+		RuleFor(x => x.EntityDto.Id).Null().WithMessage("Id must be null as it is auto generated.");
+    }
 }

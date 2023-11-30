@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -33,7 +34,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var item = (await _mediator.Send(new GetTestEntityOwnedRelationshipZeroOrOneByIdQuery(key))).SingleOrDefault();
         
@@ -49,7 +50,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -72,7 +73,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -91,11 +92,11 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PatchToSecondTestEntityOwnedRelationshipZeroOrOne(System.String key, [FromBody] Delta<SecondTestEntityOwnedRelationshipZeroOrOneDto> secondTestEntityOwnedRelationshipZeroOrOne)
+    public virtual async Task<ActionResult> PatchToSecondTestEntityOwnedRelationshipZeroOrOne(System.String key, [FromBody] Delta<SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto> secondTestEntityOwnedRelationshipZeroOrOne)
     {
         if (!ModelState.IsValid || secondTestEntityOwnedRelationshipZeroOrOne is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
@@ -106,6 +107,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
                 updateProperties[propertyName] = value;                
             }           
         }
+        
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new PartialUpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(new TestEntityOwnedRelationshipZeroOrOneKeyDto(key), updateProperties, etag));
@@ -128,7 +130,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new DeleteSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(new TestEntityOwnedRelationshipZeroOrOneKeyDto(key)));
         if (!result)
