@@ -61,7 +61,7 @@ internal abstract class PartialUpdateSecondTestEntityOwnedRelationshipZeroOrOneF
 			return null;
 		}
 
-		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, DefaultCultureCode);
+		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
