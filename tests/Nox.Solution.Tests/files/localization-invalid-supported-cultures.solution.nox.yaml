@@ -1,0 +1,22 @@
+#
+# localization-invalid-supported-cultures.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+name: MinimalService
+description: Minimal yaml file for tests
+
+application: 
+  localization: 
+    defaultCulture: en-US
+    supportedCultures:
+      - tR
+      - en
+      - eng 
+      - en-US
+      - Sr-SR
+      - sr-SR-Latn
+      - sr-SR-Cyrl
+      - sr-SR-CYRL
+      - invalid
