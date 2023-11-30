@@ -7,11 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 {{~ for noxType in compoundTypes ~}}
-{{~ if noxType.NoxType != "LatLong2" ~}}
-{{~ 
-        size = noxType.Components | array.size 
-        lastName = noxType.Components[size-1].Name
-    ~}}
 [Owned]
 public class {{noxType.NoxType}}Dto: I{{noxType.NoxType}}, IWritable{{noxType.NoxType}}
 {    
@@ -21,7 +16,7 @@ public class {{noxType.NoxType}}Dto: I{{noxType.NoxType}}, IWritable{{noxType.No
 
     public {{noxType.NoxType}}Dto(            
             {{- for component in noxType.Components -}}
-            {{component.UnderlyingType}} {{ToLowerFirstChar component.Name}}{{- if component.Name != lastName -}},{{- end -}}
+            {{component.UnderlyingType}} {{ToLowerFirstChar component.Name}}{{if !for.last}},{{end}}
             {{- end -}}
     )
     {
@@ -33,5 +28,4 @@ public class {{noxType.NoxType}}Dto: I{{noxType.NoxType}}, IWritable{{noxType.No
     public {{component.UnderlyingType}}{{ if !component.IsRequired}}?{{end}} {{component.Name}} { get;set;}
     {{~ end ~}}
 }
-{{~ end ~}}
 {{~ end ~}}
