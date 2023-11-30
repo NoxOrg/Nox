@@ -32,7 +32,7 @@ public class QueryTests : IClassFixture<GeneratorFixture>
 
         GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileCount(8, filesShouldExist)
+            .AssertFileCount(9, filesShouldExist)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
             .AssertFileExistsAndContent("Dto.CountryCreateDto.expected.g.cs", "Application.Dto.CountryCreateDto.g.cs")

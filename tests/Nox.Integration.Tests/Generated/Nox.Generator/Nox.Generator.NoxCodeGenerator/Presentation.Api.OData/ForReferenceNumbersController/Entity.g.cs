@@ -109,7 +109,7 @@ public abstract partial class ForReferenceNumbersControllerBase : ODataControlle
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<ForReferenceNumberDto>> Patch([FromRoute] System.String key, [FromBody] Delta<ForReferenceNumberUpdateDto> forReferenceNumber)
+    public virtual async Task<ActionResult<ForReferenceNumberDto>> Patch([FromRoute] System.String key, [FromBody] Delta<ForReferenceNumberPartialUpdateDto> forReferenceNumber)
     {
         if(forReferenceNumber is null)
         {

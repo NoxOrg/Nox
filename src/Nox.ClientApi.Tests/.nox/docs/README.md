@@ -71,6 +71,7 @@ Name|Text|The Country Name     Set a unique name for the country Do not use abbr
 .|Required, MinLength: 4, MaxLength: 63
 Population|Number|Population Number of People living in the country.|MaxValue: 1500000000
 CountryDebt|Money|The Money.|MinValue: 100000
+CapitalCityLocation|LatLong|The capital location.|
 FirstLanguageCode|LanguageCode|First Official Language.|
 ShortDescription|Formula|The Formula.|
 CountryIsoNumeric|CountryNumber|Country's iso number id.|

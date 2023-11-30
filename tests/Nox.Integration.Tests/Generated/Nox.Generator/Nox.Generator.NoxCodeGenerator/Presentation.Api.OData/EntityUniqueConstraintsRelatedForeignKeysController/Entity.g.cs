@@ -109,7 +109,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<EntityUniqueConstraintsRelatedForeignKeyDto>> Patch([FromRoute] System.Int32 key, [FromBody] Delta<EntityUniqueConstraintsRelatedForeignKeyUpdateDto> entityUniqueConstraintsRelatedForeignKey)
+    public virtual async Task<ActionResult<EntityUniqueConstraintsRelatedForeignKeyDto>> Patch([FromRoute] System.Int32 key, [FromBody] Delta<EntityUniqueConstraintsRelatedForeignKeyPartialUpdateDto> entityUniqueConstraintsRelatedForeignKey)
     {
         if(entityUniqueConstraintsRelatedForeignKey is null)
         {

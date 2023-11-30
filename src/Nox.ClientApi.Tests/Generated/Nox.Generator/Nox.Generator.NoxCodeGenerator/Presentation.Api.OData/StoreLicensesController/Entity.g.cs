@@ -109,7 +109,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<StoreLicenseDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<StoreLicenseUpdateDto> storeLicense)
+    public virtual async Task<ActionResult<StoreLicenseDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<StoreLicensePartialUpdateDto> storeLicense)
     {
         if(storeLicense is null)
         {

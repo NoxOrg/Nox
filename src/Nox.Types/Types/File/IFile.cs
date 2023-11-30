@@ -6,3 +6,9 @@ public interface IFile
     ulong SizeInBytes { get; }
     string Url { get; }
 }
+public interface IWritableFile
+{
+    string PrettyName { set; }
+    ulong SizeInBytes { set; }
+    string Url { set; }
+}

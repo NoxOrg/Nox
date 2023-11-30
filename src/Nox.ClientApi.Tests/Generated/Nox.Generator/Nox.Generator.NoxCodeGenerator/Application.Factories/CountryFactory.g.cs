@@ -70,6 +70,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         entity.Name = ClientApi.Domain.CountryMetadata.CreateName(createDto.Name);
         entity.SetIfNotNull(createDto.Population, (entity) => entity.Population =ClientApi.Domain.CountryMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>()));
         entity.SetIfNotNull(createDto.CountryDebt, (entity) => entity.CountryDebt =ClientApi.Domain.CountryMetadata.CreateCountryDebt(createDto.CountryDebt.NonNullValue<MoneyDto>()));
+        entity.SetIfNotNull(createDto.CapitalCityLocation, (entity) => entity.CapitalCityLocation =ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(createDto.CapitalCityLocation.NonNullValue<LatLongDto>()));
         entity.SetIfNotNull(createDto.FirstLanguageCode, (entity) => entity.FirstLanguageCode =ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(createDto.FirstLanguageCode.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.CountryIsoNumeric, (entity) => entity.CountryIsoNumeric =ClientApi.Domain.CountryMetadata.CreateCountryIsoNumeric(createDto.CountryIsoNumeric.NonNullValue<System.UInt16>()));
         entity.SetIfNotNull(createDto.CountryIsoAlpha3, (entity) => entity.CountryIsoAlpha3 =ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(createDto.CountryIsoAlpha3.NonNullValue<System.String>()));
@@ -103,6 +104,14 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         else
         {
             entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(updateDto.CountryDebt.ToValueFromNonNull<MoneyDto>());
+        }
+        if(updateDto.CapitalCityLocation is null)
+        {
+             entity.CapitalCityLocation = null;
+        }
+        else
+        {
+            entity.CapitalCityLocation = ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(updateDto.CapitalCityLocation.ToValueFromNonNull<LatLongDto>());
         }
         if(updateDto.FirstLanguageCode is null)
         {
@@ -183,6 +192,15 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             else
             {
                 entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(CountryDebtUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("CapitalCityLocation", out var CapitalCityLocationUpdateValue))
+        {
+            if (CapitalCityLocationUpdateValue == null) { entity.CapitalCityLocation = null; }
+            else
+            {
+                entity.CapitalCityLocation = ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(CapitalCityLocationUpdateValue);
             }
         }
 

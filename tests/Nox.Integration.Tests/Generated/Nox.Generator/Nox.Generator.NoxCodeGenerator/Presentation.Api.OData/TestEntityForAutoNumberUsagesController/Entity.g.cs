@@ -109,7 +109,7 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityForAutoNumberUsagesDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<TestEntityForAutoNumberUsagesUpdateDto> testEntityForAutoNumberUsages)
+    public virtual async Task<ActionResult<TestEntityForAutoNumberUsagesDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<TestEntityForAutoNumberUsagesPartialUpdateDto> testEntityForAutoNumberUsages)
     {
         if(testEntityForAutoNumberUsages is null)
         {

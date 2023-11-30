@@ -109,7 +109,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<CountryDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CountryUpdateDto> country)
+    public virtual async Task<ActionResult<CountryDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CountryPartialUpdateDto> country)
     {
         if(country is null)
         {
