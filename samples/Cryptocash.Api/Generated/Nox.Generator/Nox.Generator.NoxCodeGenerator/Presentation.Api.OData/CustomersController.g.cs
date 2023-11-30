@@ -29,7 +29,7 @@ public abstract partial class CustomersControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -79,7 +79,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -219,7 +219,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> CreateRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -269,7 +269,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -409,7 +409,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -459,7 +459,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -599,7 +599,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {

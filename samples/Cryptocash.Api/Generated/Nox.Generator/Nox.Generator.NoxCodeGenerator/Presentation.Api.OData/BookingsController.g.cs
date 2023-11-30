@@ -29,7 +29,7 @@ public abstract partial class BookingsControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToCustomer([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCustomer([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -106,7 +106,7 @@ public abstract partial class BookingsControllerBase : ODataController
         return Ok();
     }
     
-    public async Task<ActionResult> CreateRefToVendingMachine([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> CreateRefToVendingMachine([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -183,7 +183,7 @@ public abstract partial class BookingsControllerBase : ODataController
         return Ok();
     }
     
-    public async Task<ActionResult> CreateRefToCommission([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCommission([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -260,7 +260,7 @@ public abstract partial class BookingsControllerBase : ODataController
         return Ok();
     }
     
-    public async Task<ActionResult> CreateRefToTransaction([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTransaction([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {

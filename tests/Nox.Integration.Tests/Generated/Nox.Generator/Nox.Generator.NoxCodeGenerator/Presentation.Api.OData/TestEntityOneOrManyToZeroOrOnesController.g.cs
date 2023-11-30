@@ -29,7 +29,7 @@ public abstract partial class TestEntityOneOrManyToZeroOrOnesControllerBase : OD
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToTestEntityZeroOrOneToOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTestEntityZeroOrOneToOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -79,7 +79,7 @@ public abstract partial class TestEntityOneOrManyToZeroOrOnesControllerBase : OD
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToTestEntityZeroOrOneToOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToTestEntityZeroOrOneToOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {

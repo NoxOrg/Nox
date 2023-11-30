@@ -29,7 +29,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToCountry([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCountry([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -106,7 +106,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok();
     }
     
-    public async Task<ActionResult> CreateRefToLandLord([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToLandLord([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -183,7 +183,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok();
     }
     
-    public async Task<ActionResult> CreateRefToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> CreateRefToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -233,7 +233,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -373,7 +373,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToCashStockOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCashStockOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -423,7 +423,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCashStockOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToCashStockOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -563,7 +563,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -613,7 +613,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {

@@ -508,7 +508,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     private static void GenerateCreateRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
     {
         var relatedEntity = relationship.Related.Entity;
-        code.AppendLine($"public async Task<ActionResult> CreateRefTo{entity.GetNavigationPropertyName(relationship)}" +
+        code.AppendLine($"public virtual async Task<ActionResult> CreateRefTo{entity.GetNavigationPropertyName(relationship)}" +
             $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
 
         code.StartBlock();
@@ -575,7 +575,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         var relatedEntity = relationship.Related.Entity;
         var navigationName = entity.GetNavigationPropertyName(relationship);
 
-        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{navigationName}" +
+        code.AppendLine($"public virtual async Task<ActionResult> DeleteRefTo{navigationName}" +
             $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
 
         code.StartBlock();
