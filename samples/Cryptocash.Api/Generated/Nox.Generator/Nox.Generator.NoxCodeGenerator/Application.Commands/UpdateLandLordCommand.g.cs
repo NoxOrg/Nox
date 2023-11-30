@@ -17,7 +17,7 @@ using LandLordEntity = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateLandLordCommand(System.Int64 keyId, LandLordUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<LandLordKeyDto?>;
+public partial record UpdateLandLordCommand(System.Guid keyId, LandLordUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<LandLordKeyDto?>;
 
 internal partial class UpdateLandLordCommandHandler : UpdateLandLordCommandHandlerBase
 {

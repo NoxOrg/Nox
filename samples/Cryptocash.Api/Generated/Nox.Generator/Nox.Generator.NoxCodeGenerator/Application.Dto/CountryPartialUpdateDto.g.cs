@@ -79,4 +79,8 @@ public partial class CountryPartialUpdateDtoBase: EntityDtoBase, IEntityDto<Doma
     /// Country's start of week day
     /// </summary>
     public virtual System.UInt16 StartOfWeek { get; set; } = default!;
+    /// <summary>
+    /// Country's population
+    /// </summary>
+    public virtual System.Int32 Population { get; set; } = default!;
 }

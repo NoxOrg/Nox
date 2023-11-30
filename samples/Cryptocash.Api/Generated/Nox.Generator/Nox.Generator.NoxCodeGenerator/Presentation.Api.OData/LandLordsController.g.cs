@@ -29,7 +29,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     
     #region Relationships
     
-    public virtual async Task<ActionResult> CreateRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> CreateRefToVendingMachines([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -46,7 +46,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     }
     
     [HttpPut("/api/LandLords/{key}/VendingMachines/$ref")]
-    public async Task<ActionResult> UpdateRefToVendingMachinesNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    public async Task<ActionResult> UpdateRefToVendingMachinesNonConventional([FromRoute] System.Guid key, [FromBody] ReferencesDto<System.Guid> referencesDto)
     {
         if (!ModelState.IsValid)
         {

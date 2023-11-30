@@ -52,6 +52,10 @@ public partial class CurrencyPartialUpdateDtoBase: EntityDtoBase, IEntityDto<Dom
     /// </summary>
     public virtual System.Boolean SpaceBetweenAmountAndSymbol { get; set; } = default!;
     /// <summary>
+    /// Currency's symbol position
+    /// </summary>
+    public virtual System.Boolean SymbolOnLeft { get; set; } = default!;
+    /// <summary>
     /// Currency's numeric decimal digits
     /// </summary>
     public virtual System.Int32 DecimalDigits { get; set; } = default!;
