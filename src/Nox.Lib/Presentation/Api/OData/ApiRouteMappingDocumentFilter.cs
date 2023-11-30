@@ -1,11 +1,6 @@
-﻿using Azure.Security.KeyVault.Keys;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
-using Nox.Docs.Extensions;
-using Nox.Domain;
 using Nox.Solution;
-using Nox.Types;
-using Nox.Types.Extensions;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Nox.OData;
@@ -50,34 +45,34 @@ public class ApiRouteMappingDocumentFilter : IDocumentFilter
             {
                 OperationId = route.Route,
                 Summary = route.Description,
-                
+
             };
 
             // assign tag
             operation.Tags.Add(new OpenApiTag { Name = route.Name });
 
             // create parameter properties
-            route.ParameterDefaults
-                .Select(t => new OpenApiParameter()
-                    {
-                        Name = t.Key,
-                        AllowEmptyValue = true,
-                        Description = $"Default = {t.Value}",
-                    }
-                )
-                .ToList()
-                .ForEach( p => operation.Parameters.Add(p) );
-
-            
-
-            // create response properties
-            var properties = (route.ResponseOutput.ObjectTypeOptions?.Attributes ?? Array.Empty<NoxSimpleTypeDefinition>())
-                .ToDictionary(t => t.Name, t => new OpenApiSchema()
+            foreach (var inputParam in route.RequestInput)
+            {
+                var p = new OpenApiParameter
                 {
-                    Type = t.Type.ToString(),
-                    Description = t.Description,
+                    Name = inputParam.Name,
+                    Description = inputParam.Description ?? string.Empty,
+                    AllowEmptyValue = !inputParam.IsRequired,
+                    Schema = new OpenApiSchema()
+                    {
+                        Type = inputParam.JsonTypeString,
+                    }
+                };
+
+                if (inputParam.Default is not null)
+                {
+                    p.Schema.Default = DefaultToOpenApiAny(inputParam);
                 }
-                );
+
+                operation.Parameters.Add(p);
+            }
+
 
             // create response
             var response = new OpenApiResponse
@@ -86,19 +81,14 @@ public class ApiRouteMappingDocumentFilter : IDocumentFilter
             };
 
             // add response type
-            response.Content.Add("application/json;odata.metadata=minimal;odata.streaming=true", new OpenApiMediaType
+            response.Content.Add(route.ResponseContentTypeString, new OpenApiMediaType
             {
-                Schema = new OpenApiSchema
-                {
-                    Type = "object", 
-                    AdditionalPropertiesAllowed = false,
-                    Properties = properties,
-                }
+                Schema = ToOpenApiSchema(route.ResponseOutput)
             });
 
             // adding response to operation
             operation.Responses.Add("200", response);
-            
+
             // finally add the path to document
             var routeKey = $"{_solution.Presentation.ApiConfiguration.ApiRoutePrefix}{route.Route}";
             if (newPaths.TryGetValue(routeKey, out var existing))
@@ -109,10 +99,10 @@ public class ApiRouteMappingDocumentFilter : IDocumentFilter
             {
                 // create path item
                 var pathItem = new OpenApiPathItem();
-            
+
                 // add operation to the path
                 pathItem.AddOperation(RouteHttpVerbToOperationType(route.HttpVerb), operation);
-                newPaths.Add(routeKey, pathItem);    
+                newPaths.Add(routeKey, pathItem);
             }
         }
 
@@ -121,6 +111,59 @@ public class ApiRouteMappingDocumentFilter : IDocumentFilter
 
         openApiDocument.Paths = newPaths;
 
+
+    }
+
+    private static OpenApiSchema ToOpenApiSchema(JsonTypeDefinition typeDefinition)
+    {
+
+        var schema = new OpenApiSchema
+        {
+            AdditionalPropertiesAllowed = false,
+            Description = typeDefinition.Description,
+        };
+
+        switch (typeDefinition.Type)
+        {
+            case JsonType.Number:
+                schema.Type = "number";
+                break;
+
+            case JsonType.String:
+                schema.Type = "string";
+                break;
+
+            case JsonType.DateString:
+                schema.Type = "string";
+                schema.Format = "date";
+                break;
+
+            case JsonType.Boolean:
+                schema.Type = "boolean";
+                break;
+
+            case JsonType.Array:
+                schema.Type = "array";
+                schema.Items = ToOpenApiSchema(typeDefinition.Items);
+                break;
+
+            case JsonType.Object:
+                schema.Type = "object";
+                schema.Properties = typeDefinition.Attributes
+                    .ToDictionary(t => t.Name, ToOpenApiSchema);
+                break;
+
+            case JsonType.Null:
+                schema.Type = "null";
+                break;
+
+            default:
+                break;
+        }
+
+
+
+        return schema;
     }
 
     private static OperationType RouteHttpVerbToOperationType(HttpVerb httpVerb)
@@ -133,6 +176,22 @@ public class ApiRouteMappingDocumentFilter : IDocumentFilter
             HttpVerb.Delete => OperationType.Delete,
             HttpVerb.Patch => OperationType.Patch,
             _ => throw new NotSupportedException()
+        };
+    }
+
+
+    private static IOpenApiAny? DefaultToOpenApiAny(JsonTypeDefinition t)
+    {
+        if (t.Default is null) return null;
+
+        return t.Type switch
+        {
+            JsonType.Number => new OpenApiDouble(Convert.ToDouble(t.Default)),
+            JsonType.String => new OpenApiString((string)t.Default),
+            JsonType.DateString => new OpenApiString((string)t.Default),
+            JsonType.Boolean => new OpenApiBoolean(Convert.ToBoolean(t.Default)),
+            JsonType.Null => new OpenApiNull(),
+            _ => throw new NotImplementedException(),
         };
     }
 
