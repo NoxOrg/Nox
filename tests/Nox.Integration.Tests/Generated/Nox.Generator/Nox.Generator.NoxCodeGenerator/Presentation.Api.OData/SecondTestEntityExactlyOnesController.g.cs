@@ -29,7 +29,7 @@ public abstract partial class SecondTestEntityExactlyOnesControllerBase : ODataC
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToTestEntityExactlyOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTestEntityExactlyOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {

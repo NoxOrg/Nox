@@ -29,7 +29,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> CreateRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -79,7 +79,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -219,7 +219,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {

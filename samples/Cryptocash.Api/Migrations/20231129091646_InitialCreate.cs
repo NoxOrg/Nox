@@ -211,12 +211,12 @@ namespace Cryptocash.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BankNote",
+                name: "BankNotes",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CurrencyId = table.Column<string>(type: "char(3)", nullable: false),
+                    CurrencyId = table.Column<string>(type: "char(3)", nullable: true),
                     AsAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CashNote = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     Value_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
@@ -224,9 +224,9 @@ namespace Cryptocash.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BankNote", x => x.Id);
+                    table.PrimaryKey("PK_BankNotes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BankNote_Currencies_CurrencyId",
+                        name: "FK_BankNotes_Currencies_CurrencyId",
                         column: x => x.CurrencyId,
                         principalTable: "Currencies",
                         principalColumn: "Id",
@@ -283,7 +283,7 @@ namespace Cryptocash.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExchangeRate",
+                name: "ExchangeRates",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -295,9 +295,9 @@ namespace Cryptocash.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExchangeRate", x => x.Id);
+                    table.PrimaryKey("PK_ExchangeRates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ExchangeRate_Currencies_CurrencyId",
+                        name: "FK_ExchangeRates_Currencies_CurrencyId",
                         column: x => x.CurrencyId,
                         principalTable: "Currencies",
                         principalColumn: "Id",
@@ -335,21 +335,21 @@ namespace Cryptocash.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployeePhoneNumber",
+                name: "EmployeePhoneNumbers",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeId = table.Column<long>(type: "bigint", nullable: false),
+                    EmployeeId = table.Column<long>(type: "bigint", nullable: true),
                     AsAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PhoneNumberType = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeePhoneNumber", x => x.Id);
+                    table.PrimaryKey("PK_EmployeePhoneNumbers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EmployeePhoneNumber_Employees_EmployeeId",
+                        name: "FK_EmployeePhoneNumbers_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id",
@@ -387,7 +387,7 @@ namespace Cryptocash.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CountryTimeZone",
+                name: "CountryTimeZones",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -398,9 +398,9 @@ namespace Cryptocash.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CountryTimeZone", x => x.Id);
+                    table.PrimaryKey("PK_CountryTimeZones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CountryTimeZone_Countries_CountryId",
+                        name: "FK_CountryTimeZones_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id",
@@ -450,12 +450,12 @@ namespace Cryptocash.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Holiday",
+                name: "Holidays",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CountryId = table.Column<string>(type: "char(2)", nullable: false),
+                    CountryId = table.Column<string>(type: "char(2)", nullable: true),
                     AsAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     Type = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
@@ -463,9 +463,9 @@ namespace Cryptocash.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Holiday", x => x.Id);
+                    table.PrimaryKey("PK_Holidays", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Holiday_Countries_CountryId",
+                        name: "FK_Holidays_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id",
@@ -715,8 +715,8 @@ namespace Cryptocash.Api.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BankNote_CurrencyId",
-                table: "BankNote",
+                name: "IX_BankNotes_CurrencyId",
+                table: "BankNotes",
                 column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
@@ -756,8 +756,8 @@ namespace Cryptocash.Api.Migrations
                 column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CountryTimeZone_CountryId",
-                table: "CountryTimeZone",
+                name: "IX_CountryTimeZones_CountryId",
+                table: "CountryTimeZones",
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
@@ -766,18 +766,18 @@ namespace Cryptocash.Api.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeePhoneNumber_EmployeeId",
-                table: "EmployeePhoneNumber",
+                name: "IX_EmployeePhoneNumbers_EmployeeId",
+                table: "EmployeePhoneNumbers",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExchangeRate_CurrencyId",
-                table: "ExchangeRate",
+                name: "IX_ExchangeRates_CurrencyId",
+                table: "ExchangeRates",
                 column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Holiday_CountryId",
-                table: "Holiday",
+                name: "IX_Holidays_CountryId",
+                table: "Holidays",
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
@@ -860,22 +860,22 @@ namespace Cryptocash.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BankNote");
+                name: "BankNotes");
 
             migrationBuilder.DropTable(
                 name: "CashStockOrders");
 
             migrationBuilder.DropTable(
-                name: "CountryTimeZone");
+                name: "CountryTimeZones");
 
             migrationBuilder.DropTable(
-                name: "EmployeePhoneNumber");
+                name: "EmployeePhoneNumbers");
 
             migrationBuilder.DropTable(
-                name: "ExchangeRate");
+                name: "ExchangeRates");
 
             migrationBuilder.DropTable(
-                name: "Holiday");
+                name: "Holidays");
 
             migrationBuilder.DropTable(
                 name: "InboxState");

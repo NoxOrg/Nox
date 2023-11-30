@@ -36,7 +36,8 @@ internal abstract class GetCountriesQueryHandlerBase : QueryBase<IQueryable<Coun
         var item = (IQueryable<CountryDto>)DataDbContext.Countries
             .AsNoTracking()
             .Include(e => e.CountryLocalNames)
-            .Include(e => e.CountryBarCode);
+            .Include(e => e.CountryBarCode)
+            .Include(e => e.CountryTimeZones);
        return Task.FromResult(OnResponse(item));
     }
 }

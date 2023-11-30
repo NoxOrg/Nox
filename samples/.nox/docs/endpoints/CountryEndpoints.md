@@ -35,17 +35,19 @@ This document provides information about the various endpoints available in our 
 #### Get CountryTimeZones
 - **GET** `/api/Countries/{key}/CountryTimeZones`
   - Description: Retrieve all CountryTimeZones for a specific Country.
+- **GET** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
+  - Description: Retrieve a CountryTimeZone by ID for a specific Country.
 
 #### Create CountryTimeZone
 - **POST** `/api/Countries/{key}/CountryTimeZones`
   - Description: Create a new CountryTimeZone for a specific Country.
 
 #### Update CountryTimeZone
-- **PUT** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
+- **PUT** `/api/Countries/{key}/CountryTimeZones`
   - Description: Update an existing CountryTimeZone for a specific Country.
   
 #### Partially Update CountryTimeZone
-- **PATCH** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
+- **PATCH** `/api/Countries/{key}/CountryTimeZones`
   - Description: Partially update an existing CountryTimeZone for a specific Country.
 
 #### Delete CountryTimeZone
@@ -57,17 +59,19 @@ This document provides information about the various endpoints available in our 
 #### Get Holidays
 - **GET** `/api/Countries/{key}/Holidays`
   - Description: Retrieve all Holidays for a specific Country.
+- **GET** `/api/Countries/{key}/Holidays/{relatedKey}`
+  - Description: Retrieve a Holiday by ID for a specific Country.
 
 #### Create Holiday
 - **POST** `/api/Countries/{key}/Holidays`
   - Description: Create a new Holiday for a specific Country.
 
 #### Update Holiday
-- **PUT** `/api/Countries/{key}/Holidays/{relatedKey}`
+- **PUT** `/api/Countries/{key}/Holidays`
   - Description: Update an existing Holiday for a specific Country.
   
 #### Partially Update Holiday
-- **PATCH** `/api/Countries/{key}/Holidays/{relatedKey}`
+- **PATCH** `/api/Countries/{key}/Holidays`
   - Description: Partially update an existing Holiday for a specific Country.
 
 #### Delete Holiday

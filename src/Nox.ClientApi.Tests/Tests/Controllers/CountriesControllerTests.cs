@@ -6,8 +6,6 @@ using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
 using ClientApi.Tests.Controllers;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using Humanizer;
 using Nox.Application.Dto;
 
 namespace ClientApi.Tests.Tests.Controllers
@@ -270,6 +268,26 @@ namespace ClientApi.Tests.Tests.Controllers
             result!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
+        [Fact]
+        public async Task Post_CountryTimeZoneWithoutId_ShouldFail()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryTimeZones = new List<CountryTimeZoneUpsertDto>()
+                {
+                    new CountryTimeZoneUpsertDto() { Name = _fixture.Create<string>() }
+                }
+            };
+            // Act
+            var result = await PostAsync(Endpoints.CountriesUrl, dto);
+
+            //Assert
+            result.Should().NotBeNull();
+            result!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
         #endregion POST Entity With Owned Entities /api/{EntityPluralName} => api/countries
 
         #region POST to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
@@ -364,6 +382,69 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         #endregion POST to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryBarCode
+
+        #region POST to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryTimeZones
+
+        [Fact]
+        public async Task PostToCountryTimeZones_WithId_ShouldAddToCountryTimeZone()
+        {
+            // Arrange
+            var expectedId = "EST";
+            var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+                new CountryCreateDto
+                {
+                    Name = _fixture.Create<string>(),
+                    Population = _fixture.Create<int>()
+                });
+            var headers = CreateEtagHeader(result!.Etag);
+
+            //Act
+            var ownedResult = await PostAsync<CountryTimeZoneUpsertDto, CountryTimeZoneDto>(
+                $"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(CountryDto.CountryTimeZones)}",
+                new CountryTimeZoneUpsertDto
+                {
+                    Id = expectedId,
+                    Name = _fixture.Create<string>()
+                },
+                headers);
+
+            var getWorkplacesResponse = await GetODataSimpleResponseAsync<CountryDto>(
+                $"{Endpoints.CountriesUrl}/{result!.Id}");
+
+            //Assert
+            getWorkplacesResponse.Should().NotBeNull();
+            getWorkplacesResponse!.CountryTimeZones.Should().NotBeNull();
+            getWorkplacesResponse!.CountryTimeZones!.Should().HaveCount(1);
+            getWorkplacesResponse!.CountryTimeZones!.First().Id.Should().Be(expectedId);
+        }
+
+        [Fact]
+        public async Task PostToCountryTimeZones_WithoutId_ShouldFail()
+        {
+            // Arrange
+            var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+                new CountryCreateDto
+                {
+                    Name = _fixture.Create<string>(),
+                    Population = _fixture.Create<int>()
+                });
+            var headers = CreateEtagHeader(result!.Etag);
+
+            //Act
+            var ownedResult = await PostAsync(
+                $"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(CountryDto.CountryTimeZones)}",
+                new CountryTimeZoneUpsertDto
+                {
+                    Name = _fixture.Create<string>()
+                },
+                headers);
+
+            //Assert
+            ownedResult.Should().NotBeNull();
+            ownedResult!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        #endregion
 
         #endregion POST
 
@@ -460,6 +541,37 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         #endregion PUT to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{key}/{OwnedEntityName} => api/countries/1/CountryBarCode
+
+        #region PUT to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryTimeZones
+
+        [Fact]
+        public async Task PutToCountryTimeZones_WithoutId_ShouldFail()
+        {
+            // Arrange
+            var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+                new CountryCreateDto
+                {
+                    Name = _fixture.Create<string>(),
+                    Population = _fixture.Create<int>()
+                });
+            var headers = CreateEtagHeader(result!.Etag);
+
+            //Act
+            var ownedResult = await PutAsync(
+                $"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(CountryDto.CountryTimeZones)}",
+                new CountryTimeZoneUpsertDto
+                {
+                    Name = _fixture.Create<string>()
+                },
+                headers,
+                throwOnError: false);
+
+            //Assert
+            ownedResult.Should().NotBeNull();
+            ownedResult!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        #endregion
 
         #endregion PUT
 

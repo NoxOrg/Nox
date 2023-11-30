@@ -53,6 +53,12 @@ public class NoxApiMiddleware
             return;
         }
 
+        if (!_matchers.TryGetValue(context.Request.Method, out List<RouteMatcher>? matchers))
+        {
+            await _next(context);
+            return;
+        }
+
         RouteValueDictionary? urlParameters = null;
 
         ApiRouteMapping? apiRoute = null;
