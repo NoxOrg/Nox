@@ -109,7 +109,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityOwnedRelationshipExactlyOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityOwnedRelationshipExactlyOneUpdateDto> testEntityOwnedRelationshipExactlyOne)
+    public virtual async Task<ActionResult<TestEntityOwnedRelationshipExactlyOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityOwnedRelationshipExactlyOnePartialUpdateDto> testEntityOwnedRelationshipExactlyOne)
     {
         if(testEntityOwnedRelationshipExactlyOne is null)
         {

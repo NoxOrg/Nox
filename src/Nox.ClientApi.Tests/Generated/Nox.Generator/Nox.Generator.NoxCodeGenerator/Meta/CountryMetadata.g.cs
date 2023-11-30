@@ -82,6 +82,13 @@ public partial class CountryMetadata
         
     
         /// <summary>
+        /// Factory for property 'CapitalCityLocation'
+        /// </summary>
+        public static Nox.Types.LatLong CreateCapitalCityLocation(ILatLong value)
+            => Nox.Types.LatLong.From(value);
+        
+    
+        /// <summary>
         /// Factory for property 'FirstLanguageCode'
         /// </summary>
         public static Nox.Types.LanguageCode CreateFirstLanguageCode(System.String value)
@@ -216,6 +223,15 @@ public partial class CountryMetadata
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("CountryDebt")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'CapitalCityLocation'
+        /// </summary>
+        public static TypeUserInterface? CapitalCityLocationUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("CapitalCityLocation")?
                 .UserInterface;
 
         /// <summary>

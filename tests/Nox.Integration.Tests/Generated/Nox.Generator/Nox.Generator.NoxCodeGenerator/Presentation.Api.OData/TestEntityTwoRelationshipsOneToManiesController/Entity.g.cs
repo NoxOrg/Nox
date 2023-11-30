@@ -109,7 +109,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToManyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityTwoRelationshipsOneToManyUpdateDto> testEntityTwoRelationshipsOneToMany)
+    public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToManyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityTwoRelationshipsOneToManyPartialUpdateDto> testEntityTwoRelationshipsOneToMany)
     {
         if(testEntityTwoRelationshipsOneToMany is null)
         {

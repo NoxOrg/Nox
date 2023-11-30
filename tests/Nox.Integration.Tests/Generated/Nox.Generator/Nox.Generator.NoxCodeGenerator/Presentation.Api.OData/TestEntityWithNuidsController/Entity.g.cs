@@ -109,7 +109,7 @@ public abstract partial class TestEntityWithNuidsControllerBase : ODataControlle
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityWithNuidDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<TestEntityWithNuidUpdateDto> testEntityWithNuid)
+    public virtual async Task<ActionResult<TestEntityWithNuidDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<TestEntityWithNuidPartialUpdateDto> testEntityWithNuid)
     {
         if(testEntityWithNuid is null)
         {

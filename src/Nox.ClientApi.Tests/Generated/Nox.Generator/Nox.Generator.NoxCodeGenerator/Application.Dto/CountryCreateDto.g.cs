@@ -45,6 +45,11 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// <remarks>Optional</remarks>
     public virtual MoneyDto? CountryDebt { get; set; }
     /// <summary>
+    /// The capital location     
+    /// </summary>
+    /// <remarks>Optional</remarks>
+    public virtual LatLongDto? CapitalCityLocation { get; set; }
+    /// <summary>
     /// First Official Language     
     /// </summary>
     /// <remarks>Optional</remarks>

@@ -75,6 +75,12 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     public Nox.Types.Money? CountryDebt { get; set; } = null!;
 
     /// <summary>
+    /// The capital location    
+    /// </summary>
+    /// <remarks>Optional.</remarks>   
+    public Nox.Types.LatLong? CapitalCityLocation { get; set; } = null!;
+
+    /// <summary>
     /// First Official Language    
     /// </summary>
     /// <remarks>Optional.</remarks>   

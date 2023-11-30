@@ -109,7 +109,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<WorkplaceDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<WorkplaceUpdateDto> workplace)
+    public virtual async Task<ActionResult<WorkplaceDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<WorkplacePartialUpdateDto> workplace)
     {
         if(workplace is null)
         {

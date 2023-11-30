@@ -47,6 +47,8 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
             ExecuteActionAndCollectValidationExceptions("Population", () => DomainNamespace.CountryMetadata.CreatePopulation(this.Population.NonNullValue<System.Int32>()), result);
         if (this.CountryDebt is not null)
             ExecuteActionAndCollectValidationExceptions("CountryDebt", () => DomainNamespace.CountryMetadata.CreateCountryDebt(this.CountryDebt.NonNullValue<MoneyDto>()), result);
+        if (this.CapitalCityLocation is not null)
+            ExecuteActionAndCollectValidationExceptions("CapitalCityLocation", () => DomainNamespace.CountryMetadata.CreateCapitalCityLocation(this.CapitalCityLocation.NonNullValue<LatLongDto>()), result);
         if (this.FirstLanguageCode is not null)
             ExecuteActionAndCollectValidationExceptions("FirstLanguageCode", () => DomainNamespace.CountryMetadata.CreateFirstLanguageCode(this.FirstLanguageCode.NonNullValue<System.String>()), result); 
         if (this.CountryIsoNumeric is not null)
@@ -86,6 +88,12 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     /// </summary>
     /// <remarks>Optional.</remarks>    
     public MoneyDto? CountryDebt { get; set; }
+
+    /// <summary>
+    /// The capital location     
+    /// </summary>
+    /// <remarks>Optional.</remarks>    
+    public LatLongDto? CapitalCityLocation { get; set; }
 
     /// <summary>
     /// First Official Language     

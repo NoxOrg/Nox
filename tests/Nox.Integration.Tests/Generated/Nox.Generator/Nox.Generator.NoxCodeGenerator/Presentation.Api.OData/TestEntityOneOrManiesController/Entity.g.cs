@@ -109,7 +109,7 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityOneOrManyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityOneOrManyUpdateDto> testEntityOneOrMany)
+    public virtual async Task<ActionResult<TestEntityOneOrManyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityOneOrManyPartialUpdateDto> testEntityOneOrMany)
     {
         if(testEntityOneOrMany is null)
         {

@@ -6,3 +6,9 @@ public interface IImage
     int SizeInBytes { get; }
     string Url { get; }
 }
+public interface IWritableImage
+{
+    string PrettyName { set; }
+    int SizeInBytes { set; }
+    string Url { set; }
+}

@@ -109,7 +109,7 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<SecondTestEntityOneOrManyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<SecondTestEntityOneOrManyUpdateDto> secondTestEntityOneOrMany)
+    public virtual async Task<ActionResult<SecondTestEntityOneOrManyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<SecondTestEntityOneOrManyPartialUpdateDto> secondTestEntityOneOrMany)
     {
         if(secondTestEntityOneOrMany is null)
         {
