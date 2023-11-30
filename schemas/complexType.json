@@ -3161,7 +3161,7 @@
                         "oneOf": [
                           {
                             "type": "string",
-                            "pattern": "^[a-z]{2}-[A-Z]{2}$"
+                            "pattern": "^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$"
                           },
                           {
                             "type": "null"
@@ -8961,7 +8961,7 @@
                         "oneOf": [
                           {
                             "type": "string",
-                            "pattern": "^[a-z]{2}-[A-Z]{2}$"
+                            "pattern": "^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$"
                           },
                           {
                             "type": "null"
@@ -14057,7 +14057,7 @@
                 "oneOf": [
                   {
                     "type": "string",
-                    "pattern": "^[a-z]{2}-[A-Z]{2}$"
+                    "pattern": "^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$"
                   },
                   {
                     "type": "null"

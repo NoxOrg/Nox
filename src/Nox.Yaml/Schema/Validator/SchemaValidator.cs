@@ -1,15 +1,13 @@
-﻿using Nox.Yaml.Parser;
-using Nox.Yaml.Extensions;
+﻿using Nox.Yaml.Extensions;
+using Nox.Yaml.Parser;
 using Nox.Yaml.Schema.Generator;
 using System.Collections;
-using System.IO;
 using System.Text.RegularExpressions;
 
 namespace Nox.Yaml.Schema.Validator;
 
 internal class SchemaValidator
 {
-
     private readonly List<string> _errors = new();
 
     private readonly Dictionary<string, (object? Value, YamlLineInfo LineInfo)> _topObject;
@@ -38,11 +36,25 @@ internal class SchemaValidator
         // Extract global unique property keys for later validation
         if (schemaProperty.UniqueChildProperty is not null && schemaProperty.Name is not null)
         {
-            _globallyUniqueKeys.Push(new (schemaProperty.Name, schemaProperty.UniqueChildProperty.PropertyKey, new HashSet<string>()));
+            _globallyUniqueKeys.Push(new(schemaProperty.Name, schemaProperty.UniqueChildProperty.PropertyKey, new HashSet<string>()));
         }
-        var globalUniqueProperties = _globallyUniqueKeys.Select(e => e.Property).ToArray();
 
-        var requiredProperties = 
+        ValidateRequiredProperties(objectInstance, schemaProperty);
+
+        ValidateDisallowedProperties(objectInstance, schemaProperty);
+
+        ValidateProperties(objectInstance, schemaProperty);
+
+        // Extract global unique property keys for later validation
+        if (schemaProperty.UniqueChildProperty is not null)
+        {
+            _globallyUniqueKeys.Pop();
+        }
+    }
+
+    private void ValidateRequiredProperties(Dictionary<string, (object? Value, YamlLineInfo LineInfo)> objectInstance, SchemaProperty schemaProperty)
+    {
+        var requiredProperties =
             (schemaProperty.AnyOf is null ? schemaProperty.Required : null)
             ?? Enumerable.Empty<string>();
 
@@ -58,7 +70,10 @@ internal class SchemaValidator
 
             _errors.Add($"Missing property [\"{required}\"] is required. {fileInfo}");
         }
+    }
 
+    private void ValidateDisallowedProperties(Dictionary<string, (object? Value, YamlLineInfo LineInfo)> objectInstance, SchemaProperty schemaProperty)
+    {
         // Check for disallowed additionalProperties
         if (schemaProperty.AdditionalProperties == false)
         {
@@ -77,8 +92,12 @@ internal class SchemaValidator
                 _errors.Add($"Disallowed property [\"{prop.Key}\"]. {fileInfo}");
             }
         }
+    }
 
-        // Recurse
+    private void ValidateProperties(Dictionary<string, (object? Value, YamlLineInfo LineInfo)> objectInstance, SchemaProperty schemaProperty)
+    {
+        var globalUniqueProperties = _globallyUniqueKeys.Select(e => e.Property).ToArray();
+
         foreach (var property in schemaProperty.GetChildSchemaProperties(objectInstance))
         {
             if (property.Ignore)
@@ -98,7 +117,8 @@ internal class SchemaValidator
 
             // Check values to allowed schema types
 
-            // compiler check - can't be null for required fields at this point and all other fields will allow null
+            // compiler check - can't be null for required fields at this point and all other fields
+            // will allow null
             if (obj.Value is null || property.Type is null)
             {
                 continue;
@@ -112,31 +132,26 @@ internal class SchemaValidator
                 if (!property.Type.Contains("integer") && !property.Type.Contains("number"))
                     _errors.Add($"Invalid integer value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
             }
-
             else if (objType.IsNumericType())
             {
                 if (!property.Type.Contains("number"))
                     _errors.Add($"Invalid number value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
             }
-
             else if (obj.Value is string)
             {
                 if (!property.Type.Contains("string"))
                     _errors.Add($"Invalid string value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
             }
-
             else if (obj.Value is bool)
             {
                 if (!property.Type.Contains("boolean"))
                     _errors.Add($"Invalid bool value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
             }
-
             else if (objType.IsArray)
             {
                 if (!property.Type.Contains("array"))
                     _errors.Add($"Invalid array value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
             }
-
             else if (objType.IsDictionary())
             {
                 if (!property.Type.Contains("object"))
@@ -145,7 +160,7 @@ internal class SchemaValidator
 
             // end type checks
 
-            if( objType.IsIntegerType() || objType.IsNumericType())
+            if (objType.IsIntegerType() || objType.IsNumericType())
             {
                 if (property.Minimum is double minValue)
                 {
@@ -155,7 +170,7 @@ internal class SchemaValidator
                     }
                 }
 
-                if (property.Maximum is double maxValue) 
+                if (property.Maximum is double maxValue)
                 {
                     if (obj.Value is not null && Convert.ToDouble(obj.Value) > maxValue)
                     {
@@ -186,78 +201,84 @@ internal class SchemaValidator
                     }
                 }
             }
-
-            // Check for valid enumerators
-            if (property.Enum is not null)
+            else if (property.Type == "array"
+                && property.UnderlyingType.IsGenericType
+                && property.Items is not null
+                && objType.IsArray)
             {
-                if (obj.Value is string strEnum)
+                foreach (var item in (IList)obj.Value!)
                 {
-                    if (!property.Enum.Contains(strEnum))
-                    {
-                        _errors.Add($"Invalid value [\"{strEnum}\"] for property [{property.Name}]. {fileInfo}");
-                    }
+                    ValidatePropertyValue(globalUniqueProperties, property, item, fileInfo, arrayItems);
                 }
             }
 
-            // Check pattern
-            if (property.Pattern is not null)
-            {
-                if (obj.Value is string strPattern)
-                {
-                    if (!Regex.IsMatch(strPattern,property.Pattern,RegexOptions.Compiled,TimeSpan.FromSeconds(1)))
-                    {
-                        _errors.Add($"The value [\"{strPattern}\"] for property [{property.Name}] does not match pattern [{property.Pattern}]. {fileInfo}");
-                    }
-                }
-
-            }
-
-            // Check MustExistIn (does value exist in another list by key)
-            if (property.ExistsInCollection is not null && obj.Value is string strExistsIn)
-            {
-                if (!property.ExistsInCollection.IsValid(strExistsIn, _topObject, fileInfo))
-                {
-                    _errors.Add($"No entry exists for property [{property.Name}] with value [\"{strExistsIn}\"] in [{property.ExistsInCollection.Path}]. {fileInfo}");
-                }
-            }
-
-            // Check MustBeUniqueOn (are values unique in a list)
-            if (property.UniqueItemProperties is not null)
-            {
-                if (!property.UniqueItemProperties.IsValid(arrayItems))
-                {
-                    _errors.Add($"The collection [{property.Name}] contains duplicate for values [{property.UniqueItemProperties.Duplicates}] based on property [{property.UniqueItemProperties.Keys}]. {fileInfo}");
-                }
-            }
-
-            // Check Global Uniquenes if property matches
-            if (property.Name is not null &&  globalUniqueProperties.Contains(property.Name))
-            {
-                foreach(var (Parent, _, Values) in _globallyUniqueKeys.Where(e => e.Property.Equals(property.Name))) 
-                {
-                    if (obj.Value is null) continue;
-
-                    var strValue = obj.Value.ToString();
-
-                    if (Values.Contains(strValue))
-                    {
-                        _errors.Add($"The key [{property.Name}] contains a global duplicate [\"{strValue}\"] in the [{Parent}] heirachy. {fileInfo}");
-                    }
-                    else
-                    {
-                        Values.Add(strValue);
-                    }
-                }
-            }
-
+            ValidatePropertyValue(globalUniqueProperties, property, obj.Value, fileInfo, arrayItems);
         }
+    }
 
-        // Extract global unique property keys for later validation
-        if (schemaProperty.UniqueChildProperty is not null)
+    private void ValidatePropertyValue(string[] globalUniqueProperties, SchemaProperty property, object? objValue, string fileInfo, List<Dictionary<string, (object? Value, YamlLineInfo LineInfo)>> arrayItems)
+    {
+        // Check for valid enumerators
+        if (property.Enum is not null)
         {
-            _globallyUniqueKeys.Pop();
+            if (objValue is string strEnum)
+            {
+                if (!property.Enum.Contains(strEnum))
+                {
+                    _errors.Add($"Invalid value [\"{strEnum}\"] for property [{property.Name}]. {fileInfo}");
+                }
+            }
         }
 
+        // Check pattern
+        if (property.Pattern is not null)
+        {
+            if (objValue is string strPattern)
+            {
+                if (!Regex.IsMatch(strPattern, property.Pattern, RegexOptions.Compiled, TimeSpan.FromSeconds(1)))
+                {
+                    _errors.Add($"The value [\"{strPattern}\"] for property [{property.Name}] does not match pattern [{property.Pattern}]. {fileInfo}");
+                }
+            }
+        }
+
+        // Check MustExistIn (does value exist in another list by key)
+        if (property.ExistsInCollection is not null && objValue is string strExistsIn)
+        {
+            if (!property.ExistsInCollection.IsValid(strExistsIn, _topObject, fileInfo))
+            {
+                _errors.Add($"No entry exists for property [{property.Name}] with value [\"{strExistsIn}\"] in [{property.ExistsInCollection.Path}]. {fileInfo}");
+            }
+        }
+
+        // Check MustBeUniqueOn (are values unique in a list)
+        if (property.UniqueItemProperties is not null)
+        {
+            if (!property.UniqueItemProperties.IsValid(arrayItems))
+            {
+                _errors.Add($"The collection [{property.Name}] contains duplicate for values [{property.UniqueItemProperties.Duplicates}] based on property [{property.UniqueItemProperties.Keys}]. {fileInfo}");
+            }
+        }
+
+        // Check Global Uniquenes if property matches
+        if (property.Name is not null && globalUniqueProperties.Contains(property.Name))
+        {
+            foreach (var (Parent, _, Values) in _globallyUniqueKeys.Where(e => e.Property.Equals(property.Name)))
+            {
+                if (objValue is null) continue;
+
+                var strValue = objValue.ToString();
+
+                if (Values.Contains(strValue))
+                {
+                    _errors.Add($"The key [{property.Name}] contains a global duplicate [\"{strValue}\"] in the [{Parent}] heirachy. {fileInfo}");
+                }
+                else
+                {
+                    Values.Add(strValue);
+                }
+            }
+        }
     }
 
     private static string ToFileInfoString(YamlLineInfo? lineInfo)
@@ -265,7 +286,7 @@ internal class SchemaValidator
         return lineInfo == null ? string.Empty : $"(at line {lineInfo.Line} in {lineInfo.FileName})";
     }
 
-    private bool TryCastToDictionaryOrThrow(object item, string fileInfo, 
+    private bool TryCastToDictionaryOrThrow(object item, string fileInfo,
         out Dictionary<string, (object? Value, YamlLineInfo LineInfo)> obj)
     {
         try

@@ -1,20 +1,20 @@
+using FluentAssertions;
 using Nox.Yaml.Schema;
 
 namespace Nox.Solution.Tests;
 
 public class NoxSolutionSchemaGenerate
 {
-
     private readonly string _path = FindOrCreateFolderInProjectRoot("schemas");
 
     [Fact]
     public void Can_create_a_json_schema_for_yaml()
     {
-
         DeleteAllPreviousSchemas();
 
-        NoxSchemaGenerator.GenerateJsonSchemas<NoxSolution>(_path);
+        var action = () => NoxSchemaGenerator.GenerateJsonSchemas<NoxSolution>(_path);
 
+        action.Should().NotThrow();
     }
 
     private void DeleteAllPreviousSchemas()

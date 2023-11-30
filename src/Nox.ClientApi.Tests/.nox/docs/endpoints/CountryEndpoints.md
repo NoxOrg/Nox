@@ -81,17 +81,19 @@ This document provides information about the various endpoints available in our 
 #### Get CountryTimeZones
 - **GET** `/api/Countries/{key}/CountryTimeZones`
   - Description: Retrieve all CountryTimeZones for a specific Country.
+- **GET** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
+  - Description: Retrieve a CountryTimeZone by ID for a specific Country.
 
 #### Create CountryTimeZone
 - **POST** `/api/Countries/{key}/CountryTimeZones`
   - Description: Create a new CountryTimeZone for a specific Country.
 
 #### Update CountryTimeZone
-- **PUT** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
+- **PUT** `/api/Countries/{key}/CountryTimeZones`
   - Description: Update an existing CountryTimeZone for a specific Country.
   
 #### Partially Update CountryTimeZone
-- **PATCH** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
+- **PATCH** `/api/Countries/{key}/CountryTimeZones`
   - Description: Partially update an existing CountryTimeZone for a specific Country.
 
 #### Delete CountryTimeZone
