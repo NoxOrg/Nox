@@ -1,11 +1,1565 @@
 ﻿[
   {
+    "Id": "AED",
+    "Name": "Emirati Dirham",
+    "CurrencyIsoNumeric": 784,
+    "Symbol": "د.إ.‏",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dirham",
+    "MajorSymbol": ".د.ب",
+    "MinorName": "fils",
+    "MinorSymbol": "فلس",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "AED"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "5.د.ب",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "AED"
+        }
+      },
+      {
+        "CashNote": "10.د.ب",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "AED"
+        }
+      },
+      {
+        "CashNote": "20.د.ب",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "AED"
+        }
+      },
+      {
+        "CashNote": "50.د.ب",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "AED"
+        }
+      },
+      {
+        "CashNote": "100.د.ب",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "AED"
+        }
+      },
+      {
+        "CashNote": "200.د.ب",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "AED"
+        }
+      },
+      {
+        "CashNote": "500.د.ب",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "AED"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "ALL",
+    "Name": "Albanian lek",
+    "CurrencyIsoNumeric": 8,
+    "Symbol": "Lek",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "DecimalDigits": 2,
+    "MajorName": "lek",
+    "MajorSymbol": "lek",
+    "MinorName": "Qindarkë",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "ALL"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "Lek200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "ALL"
+        }
+      },
+      {
+        "CashNote": "Lek500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "ALL"
+        }
+      },
+      {
+        "CashNote": "Lek1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "ALL"
+        }
+      },
+      {
+        "CashNote": "Lek2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "ALL"
+        }
+      },
+      {
+        "CashNote": "Lek5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "ALL"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "AMD",
+    "Name": "Armenian dram",
+    "CurrencyIsoNumeric": 51,
+    "Symbol": "֏",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "dram",
+    "MajorSymbol": "",
+    "MinorName": "luma",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "AMD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "AMD"
+        }
+      },
+      {
+        "CashNote": "1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "AMD"
+        }
+      },
+      {
+        "CashNote": "5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "AMD"
+        }
+      },
+      {
+        "CashNote": "10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "AMD"
+        }
+      },
+      {
+        "CashNote": "20000",
+        "Value": {
+          "Amount": 20000,
+          "CurrencyCode": "AMD"
+        }
+      },
+      {
+        "CashNote": "50000",
+        "Value": {
+          "Amount": 50000,
+          "CurrencyCode": "AMD"
+        }
+      },
+      {
+        "CashNote": "100000",
+        "Value": {
+          "Amount": 100000,
+          "CurrencyCode": "AMD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "ANG",
+    "Name": "Dutch Guilder",
+    "CurrencyIsoNumeric": 532,
+    "Symbol": "ƒ",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "guilder",
+    "MajorSymbol": "ƒ",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "ANG"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "ƒ10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "ANG"
+        }
+      },
+      {
+        "CashNote": "ƒ25",
+        "Value": {
+          "Amount": 25,
+          "CurrencyCode": "ANG"
+        }
+      },
+      {
+        "CashNote": "ƒ50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "ANG"
+        }
+      },
+      {
+        "CashNote": "ƒ100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "ANG"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "ARS",
+    "Name": "Argentine peso",
+    "CurrencyIsoNumeric": 32,
+    "Symbol": "$",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "peso",
+    "MajorSymbol": "$",
+    "MinorName": "centavo",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "ARS"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "ARS"
+        }
+      },
+      {
+        "CashNote": "$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "ARS"
+        }
+      },
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "ARS"
+        }
+      },
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "ARS"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "ARS"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "ARS"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "AUD",
+    "Name": "Australian Dollar",
+    "CurrencyIsoNumeric": 36,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "$",
+    "MinorName": "cent",
+    "MinorSymbol": "c",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "AUD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "5$",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "AUD"
+        }
+      },
+      {
+        "CashNote": "10$",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "AUD"
+        }
+      },
+      {
+        "CashNote": "20$",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "AUD"
+        }
+      },
+      {
+        "CashNote": "50$",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "AUD"
+        }
+      },
+      {
+        "CashNote": "100$",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "AUD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "AWG",
+    "Name": "Arubin florin",
+    "CurrencyIsoNumeric": 533,
+    "Symbol": "ƒ",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "florin",
+    "MajorSymbol": "ƒ",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "AWG"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "ƒl0",
+        "Value": {
+          "CurrencyCode": "AWG"
+        }
+      },
+      {
+        "CashNote": "ƒ25",
+        "Value": {
+          "Amount": 25,
+          "CurrencyCode": "AWG"
+        }
+      },
+      {
+        "CashNote": "ƒ50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "AWG"
+        }
+      },
+      {
+        "CashNote": "ƒ100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "AWG"
+        }
+      },
+      {
+        "CashNote": "ƒ500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "AWG"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "AZN",
+    "Name": "Azerbaijani manat",
+    "CurrencyIsoNumeric": 944,
+    "Symbol": "₼",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "manat",
+    "MajorSymbol": "ман",
+    "MinorName": "Qepik",
+    "MinorSymbol": "qr",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "AZN"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "ман1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "AZN"
+        }
+      },
+      {
+        "CashNote": "ман5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "AZN"
+        }
+      },
+      {
+        "CashNote": "ман10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "AZN"
+        }
+      },
+      {
+        "CashNote": "ман20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "AZN"
+        }
+      },
+      {
+        "CashNote": "ман50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "AZN"
+        }
+      },
+      {
+        "CashNote": "ман100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "AZN"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "BAM",
+    "Name": "Bosnian Convertible Marka",
+    "CurrencyIsoNumeric": 977,
+    "Symbol": "КМ",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "convertible marks",
+    "MajorSymbol": "KM",
+    "MinorName": "fening",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "BAM"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "KM10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "BAM"
+        }
+      },
+      {
+        "CashNote": "KM20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "BAM"
+        }
+      },
+      {
+        "CashNote": "KM50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "BAM"
+        }
+      },
+      {
+        "CashNote": "KM100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "BAM"
+        }
+      },
+      {
+        "CashNote": "KM200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "BAM"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "BBD",
+    "Name": "Barbadian dollar",
+    "CurrencyIsoNumeric": 52,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "$",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "BBD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "BBD"
+        }
+      },
+      {
+        "CashNote": "$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "BBD"
+        }
+      },
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "BBD"
+        }
+      },
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "BBD"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "BBD"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "BBD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "BDT",
+    "Name": "Bangladeshi Taka",
+    "CurrencyIsoNumeric": 50,
+    "Symbol": "৳",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "MajorName": "Taka",
+    "MajorSymbol": "Tk",
+    "MinorName": "Poisha",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "BDT"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "Tk2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "BDT"
+        }
+      },
+      {
+        "CashNote": "Tk5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "BDT"
+        }
+      },
+      {
+        "CashNote": "Tk10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "BDT"
+        }
+      },
+      {
+        "CashNote": "Tk20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "BDT"
+        }
+      },
+      {
+        "CashNote": "Tk50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "BDT"
+        }
+      },
+      {
+        "CashNote": "Tk100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "BDT"
+        }
+      },
+      {
+        "CashNote": "Tk500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "BDT"
+        }
+      },
+      {
+        "CashNote": "Tk1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "BDT"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "BGN",
+    "Name": "Bulgarian lev",
+    "CurrencyIsoNumeric": 975,
+    "Symbol": "лв.",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "lev",
+    "MajorSymbol": "лв",
+    "MinorName": "stotinki",
+    "MinorSymbol": "стотинки",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "BGN"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "лв2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "BGN"
+        }
+      },
+      {
+        "CashNote": "лв5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "BGN"
+        }
+      },
+      {
+        "CashNote": "лв10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "BGN"
+        }
+      },
+      {
+        "CashNote": "лв20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "BGN"
+        }
+      },
+      {
+        "CashNote": "лв50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "BGN"
+        }
+      },
+      {
+        "CashNote": "лв100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "BGN"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "BHD",
+    "Name": "Bahraini Dinar",
+    "CurrencyIsoNumeric": 48,
+    "Symbol": "د.ب.‏",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 3,
+    "MajorName": "dinar",
+    "MajorSymbol": ".د.ب or BD",
+    "MinorName": "fils",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.001,
+      "CurrencyCode": "BHD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "1.د.ب",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "BHD"
+        }
+      },
+      {
+        "CashNote": "5.د.ب",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "BHD"
+        }
+      },
+      {
+        "CashNote": "10.د.ب",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "BHD"
+        }
+      },
+      {
+        "CashNote": "50.د.ب",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "BHD"
+        }
+      },
+      {
+        "CashNote": "100.د.ب",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "BHD"
+        }
+      },
+      {
+        "CashNote": "500.د.ب",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "BHD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "BIF",
+    "Name": "Burundian Franc",
+    "CurrencyIsoNumeric": 108,
+    "Symbol": "FBu",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "MajorName": "franc",
+    "MajorSymbol": "",
+    "MinorName": "centime",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "BIF"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "BIF"
+        }
+      },
+      {
+        "CashNote": "20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "BIF"
+        }
+      },
+      {
+        "CashNote": "50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "BIF"
+        }
+      },
+      {
+        "CashNote": "100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "BIF"
+        }
+      },
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "BIF"
+        }
+      },
+      {
+        "CashNote": "1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "BIF"
+        }
+      },
+      {
+        "CashNote": "2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "BIF"
+        }
+      },
+      {
+        "CashNote": "5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "BIF"
+        }
+      },
+      {
+        "CashNote": "10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "BIF"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "BMD",
+    "Name": "Bermudian dollar",
+    "CurrencyIsoNumeric": 60,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "$",
+    "MinorName": "cent",
+    "MinorSymbol": "¢",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "BMD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "BMD"
+        }
+      },
+      {
+        "CashNote": "$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "BMD"
+        }
+      },
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "BMD"
+        }
+      },
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "BMD"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "BMD"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "BMD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "BND",
+    "Name": "Bruneian Dollar",
+    "CurrencyIsoNumeric": 96,
+    "Symbol": "$",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SymbolOnLeft": true,
+    "MajorName": "dollar",
+    "MajorSymbol": "$",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "BND"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "BND"
+        }
+      },
+      {
+        "CashNote": "$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "BND"
+        }
+      },
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "BND"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "BOB",
+    "Name": "Bolivian Boliviano",
+    "CurrencyIsoNumeric": 68,
+    "Symbol": "Bs",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "boliviano",
+    "MajorSymbol": "$b",
+    "MinorName": "centavo",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "BOB"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$b10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "BOB"
+        }
+      },
+      {
+        "CashNote": "$b20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "BOB"
+        }
+      },
+      {
+        "CashNote": "$b50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "BOB"
+        }
+      },
+      {
+        "CashNote": "$b100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "BOB"
+        }
+      },
+      {
+        "CashNote": "$b200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "BOB"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "BRL",
+    "Name": "Brazilian real",
+    "CurrencyIsoNumeric": 986,
+    "Symbol": "R$",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "real",
+    "MajorSymbol": "R$",
+    "MinorName": "centavo",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "BRL"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "R$2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "BRL"
+        }
+      },
+      {
+        "CashNote": "R$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "BRL"
+        }
+      },
+      {
+        "CashNote": "R$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "BRL"
+        }
+      },
+      {
+        "CashNote": "R$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "BRL"
+        }
+      },
+      {
+        "CashNote": "R$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "BRL"
+        }
+      },
+      {
+        "CashNote": "R$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "BRL"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "BSD",
+    "Name": "Bahamian dollar",
+    "CurrencyIsoNumeric": 44,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "B$",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "BSD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "BSD"
+        }
+      },
+      {
+        "CashNote": "$2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "BSD"
+        }
+      },
+      {
+        "CashNote": "$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "BSD"
+        }
+      },
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "BSD"
+        }
+      },
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "BSD"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "BSD"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "BSD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "BTN",
+    "Name": "Bhutanese Ngultrum",
+    "CurrencyIsoNumeric": 64,
+    "Symbol": "Nu.",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 1,
+    "MajorName": "Ngultrum",
+    "MajorSymbol": "Nu.",
+    "MinorName": "Chhertum",
+    "MinorSymbol": "Ch.",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "BTN"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "BTN"
+        }
+      },
+      {
+        "CashNote": "5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "BTN"
+        }
+      },
+      {
+        "CashNote": "10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "BTN"
+        }
+      },
+      {
+        "CashNote": "20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "BTN"
+        }
+      },
+      {
+        "CashNote": "50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "BTN"
+        }
+      },
+      {
+        "CashNote": "100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "BTN"
+        }
+      },
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "BTN"
+        }
+      },
+      {
+        "CashNote": "1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "BTN"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "BWP",
+    "Name": "Botswana Pula",
+    "CurrencyIsoNumeric": 72,
+    "Symbol": "P",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Pula",
+    "MajorSymbol": "P",
+    "MinorName": "Thebe",
+    "MinorSymbol": "t",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "BWP"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "P10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "BWP"
+        }
+      },
+      {
+        "CashNote": "P20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "BWP"
+        }
+      },
+      {
+        "CashNote": "P50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "BWP"
+        }
+      },
+      {
+        "CashNote": "P100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "BWP"
+        }
+      },
+      {
+        "CashNote": "P200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "BWP"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "BYN",
+    "Name": "Belarusian ruble",
+    "CurrencyIsoNumeric": 933,
+    "Symbol": "р.",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "ruble",
+    "MajorSymbol": "р",
+    "MinorName": "kapeyka",
+    "MinorSymbol": "к",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "BYN"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "BYN"
+        }
+      },
+      {
+        "CashNote": "10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "BYN"
+        }
+      },
+      {
+        "CashNote": "20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "BYN"
+        }
+      },
+      {
+        "CashNote": "50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "BYN"
+        }
+      },
+      {
+        "CashNote": "100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "BYN"
+        }
+      },
+      {
+        "CashNote": "200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "BYN"
+        }
+      },
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "BYN"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "BZD",
+    "Name": "Belize dollar",
+    "CurrencyIsoNumeric": 84,
+    "Symbol": "BZ$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "BZ$",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "BZD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "BZ$2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "BZD"
+        }
+      },
+      {
+        "CashNote": "BZ$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "BZD"
+        }
+      },
+      {
+        "CashNote": "BZ$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "BZD"
+        }
+      },
+      {
+        "CashNote": "BZ$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "BZD"
+        }
+      },
+      {
+        "CashNote": "BZ$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "BZD"
+        }
+      },
+      {
+        "CashNote": "BZ$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "BZD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "CAD",
+    "Name": "Canadian Dollar",
+    "CurrencyIsoNumeric": 124,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "$",
+    "MinorName": "cent",
+    "MinorSymbol": "¢",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "CAD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "5$",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "CAD"
+        }
+      },
+      {
+        "CashNote": "10$",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "CAD"
+        }
+      },
+      {
+        "CashNote": "20$",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "CAD"
+        }
+      },
+      {
+        "CashNote": "50$",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "CAD"
+        }
+      },
+      {
+        "CashNote": "100$",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "CAD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
     "Id": "CHF",
     "Name": "Swiss Franc",
     "CurrencyIsoNumeric": 756,
     "Symbol": "CHF",
-    "ThousandsSeparator": "\\u0027",
-    "DecimalSeparator": ",",
+    "ThousandsSeparator": "'",
+    "DecimalSeparator": ".",
     "SpaceBetweenAmountAndSymbol": true,
     "SymbolOnLeft": true,
     "DecimalDigits": 2,
@@ -17,6 +1571,8 @@
       "Amount": 0.01,
       "CurrencyCode": "CHF"
     },
+    "Countries": [],
+    "MinimumCashStocks": [],
     "BankNotes": [
       {
         "CashNote": "CHF10",
@@ -61,73 +1617,7496 @@
         }
       }
     ],
-    "ExchangeRates": [
+    "ExchangeRates": []
+  },
+  {
+    "Id": "CLP",
+    "Name": "Chilean Peso",
+    "CurrencyIsoNumeric": 152,
+    "Symbol": "$",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "MajorName": "peso",
+    "MajorSymbol": "$",
+    "MinorName": "centavo",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "CLP"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
       {
-        "EffectiveRate": 3,
-        "EffectiveAt": "2023-11-27T17:01:21.9333333Z"
+        "CashNote": "$1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "CLP"
+        }
+      },
+      {
+        "CashNote": "$2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "CLP"
+        }
+      },
+      {
+        "CashNote": "$5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "CLP"
+        }
+      },
+      {
+        "CashNote": "$10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "CLP"
+        }
+      },
+      {
+        "CashNote": "$20000",
+        "Value": {
+          "Amount": 20000,
+          "CurrencyCode": "CLP"
+        }
       }
-    ]
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "CNY",
+    "Name": "Yuan or chinese renminbi",
+    "CurrencyIsoNumeric": 156,
+    "Symbol": "¥",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "yuan",
+    "MajorSymbol": "¥",
+    "MinorName": "fēn",
+    "MinorSymbol": "分",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "CNY"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "¥1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "CNY"
+        }
+      },
+      {
+        "CashNote": "¥5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "CNY"
+        }
+      },
+      {
+        "CashNote": "¥10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "CNY"
+        }
+      },
+      {
+        "CashNote": "¥20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "CNY"
+        }
+      },
+      {
+        "CashNote": "¥50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "CNY"
+        }
+      },
+      {
+        "CashNote": "¥100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "CNY"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "COP",
+    "Name": "Colombian peso",
+    "CurrencyIsoNumeric": 170,
+    "Symbol": "$",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "peso",
+    "MajorSymbol": "$",
+    "MinorName": "centavo",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "COP"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "COP"
+        }
+      },
+      {
+        "CashNote": "$2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "COP"
+        }
+      },
+      {
+        "CashNote": "$5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "COP"
+        }
+      },
+      {
+        "CashNote": "$10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "COP"
+        }
+      },
+      {
+        "CashNote": "$20000",
+        "Value": {
+          "Amount": 20000,
+          "CurrencyCode": "COP"
+        }
+      },
+      {
+        "CashNote": "$50000",
+        "Value": {
+          "Amount": 50000,
+          "CurrencyCode": "COP"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "CRC",
+    "Name": "Costa Rican colón",
+    "CurrencyIsoNumeric": 188,
+    "Symbol": "₡",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "colón",
+    "MajorSymbol": "₡",
+    "MinorName": "céntimo",
+    "MinorSymbol": "₡",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "CRC"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "₡1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "CRC"
+        }
+      },
+      {
+        "CashNote": "₡2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "CRC"
+        }
+      },
+      {
+        "CashNote": "₡5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "CRC"
+        }
+      },
+      {
+        "CashNote": "₡10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "CRC"
+        }
+      },
+      {
+        "CashNote": "₡20000",
+        "Value": {
+          "Amount": 20000,
+          "CurrencyCode": "CRC"
+        }
+      },
+      {
+        "CashNote": "₡50000",
+        "Value": {
+          "Amount": 50000,
+          "CurrencyCode": "CRC"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "CUC",
+    "Name": "Cuban convertible peso",
+    "CurrencyIsoNumeric": 931,
+    "Symbol": "CUC",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "peso",
+    "MajorSymbol": "$",
+    "MinorName": "centavo",
+    "MinorSymbol": "¢",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "CUC"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "CUC"
+        }
+      },
+      {
+        "CashNote": "$3",
+        "Value": {
+          "Amount": 3,
+          "CurrencyCode": "CUC"
+        }
+      },
+      {
+        "CashNote": "$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "CUC"
+        }
+      },
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "CUC"
+        }
+      },
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "CUC"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "CUC"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "CUC"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "CUP",
+    "Name": "Cuban peso",
+    "CurrencyIsoNumeric": 192,
+    "Symbol": "$MN",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "peso",
+    "MajorSymbol": "₱",
+    "MinorName": "centavo",
+    "MinorSymbol": "¢",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "CUP"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "CUP"
+        }
+      },
+      {
+        "CashNote": "$3",
+        "Value": {
+          "Amount": 3,
+          "CurrencyCode": "CUP"
+        }
+      },
+      {
+        "CashNote": "$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "CUP"
+        }
+      },
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "CUP"
+        }
+      },
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "CUP"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "CUP"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "CUP"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "CVE",
+    "Name": "Cape Verdean Escudo",
+    "CurrencyIsoNumeric": 132,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "escudo",
+    "MajorSymbol": "$",
+    "MinorName": "centavo",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "CVE"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "CVE"
+        }
+      },
+      {
+        "CashNote": "$500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "CVE"
+        }
+      },
+      {
+        "CashNote": "$1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "CVE"
+        }
+      },
+      {
+        "CashNote": "$2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "CVE"
+        }
+      },
+      {
+        "CashNote": "$2500",
+        "Value": {
+          "Amount": 2500,
+          "CurrencyCode": "CVE"
+        }
+      },
+      {
+        "CashNote": "$5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "CVE"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "DJF",
+    "Name": "Djiboutian Franc",
+    "CurrencyIsoNumeric": 262,
+    "Symbol": "Fdj",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "MajorName": "franc",
+    "MajorSymbol": "fdj",
+    "MinorName": "centime",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "DJF"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "1000fdj",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "DJF"
+        }
+      },
+      {
+        "CashNote": "2000fdj",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "DJF"
+        }
+      },
+      {
+        "CashNote": "5000fdj",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "DJF"
+        }
+      },
+      {
+        "CashNote": "10000fdj",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "DJF"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "DKK",
+    "Name": "Danish krone",
+    "CurrencyIsoNumeric": 208,
+    "Symbol": "kr.",
+    "ThousandsSeparator": "",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "kroner",
+    "MajorSymbol": "kr",
+    "MinorName": "kroner",
+    "MinorSymbol": "øre",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "DKK"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "kr50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "DKK"
+        }
+      },
+      {
+        "CashNote": "kr100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "DKK"
+        }
+      },
+      {
+        "CashNote": "kr200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "DKK"
+        }
+      },
+      {
+        "CashNote": "kr500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "DKK"
+        }
+      },
+      {
+        "CashNote": "kr1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "DKK"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "DOP",
+    "Name": "Dominican peso",
+    "CurrencyIsoNumeric": 214,
+    "Symbol": "RD$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "peso",
+    "MajorSymbol": "$",
+    "MinorName": "centavo",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "DOP"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "DOP"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "DOP"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "DOP"
+        }
+      },
+      {
+        "CashNote": "$200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "DOP"
+        }
+      },
+      {
+        "CashNote": "$500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "DOP"
+        }
+      },
+      {
+        "CashNote": "$1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "DOP"
+        }
+      },
+      {
+        "CashNote": "$2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "DOP"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "DZD",
+    "Name": "Algerian Dinar",
+    "CurrencyIsoNumeric": 12,
+    "Symbol": "د.ج.‏",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dinar",
+    "MajorSymbol": "جد",
+    "MinorName": "Santeem",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "DZD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "DZD"
+        }
+      },
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "DZD"
+        }
+      },
+      {
+        "CashNote": "1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "DZD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "EGP",
+    "Name": "Egyptian Pound",
+    "CurrencyIsoNumeric": 818,
+    "Symbol": "ج.م.‏",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "pound",
+    "MajorSymbol": "£ ",
+    "MinorName": "piastre",
+    "MinorSymbol": "Pt",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "EGP"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "Pt5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "EGP"
+        }
+      },
+      {
+        "CashNote": "Pt10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "EGP"
+        }
+      },
+      {
+        "CashNote": "Pt25",
+        "Value": {
+          "Amount": 25,
+          "CurrencyCode": "EGP"
+        }
+      },
+      {
+        "CashNote": "Pt50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "EGP"
+        }
+      },
+      {
+        "CashNote": "£1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "EGP"
+        }
+      },
+      {
+        "CashNote": "£5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "EGP"
+        }
+      },
+      {
+        "CashNote": "£10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "EGP"
+        }
+      },
+      {
+        "CashNote": "£20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "EGP"
+        }
+      },
+      {
+        "CashNote": "£50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "EGP"
+        }
+      },
+      {
+        "CashNote": "£100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "EGP"
+        }
+      },
+      {
+        "CashNote": "£200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "EGP"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "ERN",
+    "Name": "Eritrean nakfa",
+    "CurrencyIsoNumeric": 232,
+    "Symbol": "Nfk",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "DecimalDigits": 2,
+    "MajorName": "nafka",
+    "MajorSymbol": "ናቕፋ",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "ERN"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "1ናቕፋ",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "ERN"
+        }
+      },
+      {
+        "CashNote": "5ናቕፋ",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "ERN"
+        }
+      },
+      {
+        "CashNote": "10ናቕፋ",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "ERN"
+        }
+      },
+      {
+        "CashNote": "20ናቕፋ",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "ERN"
+        }
+      },
+      {
+        "CashNote": "50ናቕፋ",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "ERN"
+        }
+      },
+      {
+        "CashNote": "100ናቕፋ",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "ERN"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "ETB",
+    "Name": "Ethiopian Birr",
+    "CurrencyIsoNumeric": 230,
+    "Symbol": "ETB",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Birr",
+    "MajorSymbol": "Br",
+    "MinorName": "santim",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "ETB"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "Br1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "ETB"
+        }
+      },
+      {
+        "CashNote": "Br5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "ETB"
+        }
+      },
+      {
+        "CashNote": "Br10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "ETB"
+        }
+      },
+      {
+        "CashNote": "Br50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "ETB"
+        }
+      },
+      {
+        "CashNote": "Br100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "ETB"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "EUR",
+    "Name": "Euro",
+    "CurrencyIsoNumeric": 978,
+    "Symbol": "€",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "euro",
+    "MajorSymbol": "€",
+    "MinorName": "cent",
+    "MinorSymbol": "c",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "EUR"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "€5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "EUR"
+        }
+      },
+      {
+        "CashNote": "€10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "EUR"
+        }
+      },
+      {
+        "CashNote": "€20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "EUR"
+        }
+      },
+      {
+        "CashNote": "€50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "EUR"
+        }
+      },
+      {
+        "CashNote": "€100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "EUR"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "FJD",
+    "Name": "Fijian dollar",
+    "CurrencyIsoNumeric": 242,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "$",
+    "MinorName": "cent",
+    "MinorSymbol": "¢",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "FJD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "FJD"
+        }
+      },
+      {
+        "CashNote": "$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "FJD"
+        }
+      },
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "FJD"
+        }
+      },
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "FJD"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "FJD"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "FJD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "FKP",
+    "Name": "Falkland Island Pound",
+    "CurrencyIsoNumeric": 238,
+    "Symbol": "£",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "pound",
+    "MajorSymbol": "£",
+    "MinorName": "penny",
+    "MinorSymbol": "p",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "FKP"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "£5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "FKP"
+        }
+      },
+      {
+        "CashNote": "£10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "FKP"
+        }
+      },
+      {
+        "CashNote": "£20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "FKP"
+        }
+      },
+      {
+        "CashNote": "£50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "FKP"
+        }
+      }
+    ],
+    "ExchangeRates": []
   },
   {
     "Id": "GBP",
     "Name": "British Pound",
     "CurrencyIsoNumeric": 826,
-    "Symbol": "\u00A3",
+    "Symbol": "£",
     "ThousandsSeparator": ",",
     "DecimalSeparator": ".",
-    "SpaceBetweenAmountAndSymbol": false,
     "SymbolOnLeft": true,
     "DecimalDigits": 2,
     "MajorName": "pound",
-    "MajorSymbol": "\u00A3",
+    "MajorSymbol": "£",
     "MinorName": "penny",
     "MinorSymbol": "p",
     "MinorToMajorValue": {
       "Amount": 0.01,
       "CurrencyCode": "GBP"
     },
+    "Countries": [],
+    "MinimumCashStocks": [],
     "BankNotes": [
       {
-        "CashNote": "\u00A35",
+        "CashNote": "£5",
         "Value": {
           "Amount": 5,
           "CurrencyCode": "GBP"
         }
       },
       {
-        "CashNote": "\u00A310",
+        "CashNote": "£10",
         "Value": {
           "Amount": 10,
           "CurrencyCode": "GBP"
         }
       },
       {
-        "CashNote": "\u00A320",
+        "CashNote": "£20",
         "Value": {
           "Amount": 20,
           "CurrencyCode": "GBP"
         }
       },
       {
-        "CashNote": "\u00A350",
+        "CashNote": "£50",
         "Value": {
           "Amount": 50,
           "CurrencyCode": "GBP"
         }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "GEL",
+    "Name": "Georgian lari",
+    "CurrencyIsoNumeric": 981,
+    "Symbol": "GEL",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "lari",
+    "MajorSymbol": "ლ",
+    "MinorName": "tetri",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "GEL"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "ლ5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "GEL"
+        }
       },
       {
-        "CashNote": "\u00A3100",
+        "CashNote": "ლ10",
         "Value": {
-          "Amount": 100,
-          "CurrencyCode": "GBP"
+          "Amount": 10,
+          "CurrencyCode": "GEL"
+        }
+      },
+      {
+        "CashNote": "ლ20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "GEL"
+        }
+      },
+      {
+        "CashNote": "ლ50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "GEL"
         }
       }
     ],
-    "ExchangeRates": [
+    "ExchangeRates": []
+  },
+  {
+    "Id": "GHS",
+    "Name": "Ghanaian Cedi",
+    "CurrencyIsoNumeric": 936,
+    "Symbol": "₵",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Cedi",
+    "MajorSymbol": "GH¢",
+    "MinorName": "Pesewa",
+    "MinorSymbol": "Gp",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "GHS"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
       {
-        "EffectiveRate": 5,
-        "EffectiveAt": "2023-11-27T17:01:21.9333333Z"
+        "CashNote": "GH¢5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "GHS"
+        }
+      },
+      {
+        "CashNote": "GH¢10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "GHS"
+        }
+      },
+      {
+        "CashNote": "GH¢20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "GHS"
+        }
+      },
+      {
+        "CashNote": "GH¢50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "GHS"
+        }
       }
-    ]
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "GIP",
+    "Name": "Gibraltar pound",
+    "CurrencyIsoNumeric": 292,
+    "Symbol": "£",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "pound",
+    "MajorSymbol": "£",
+    "MinorName": "penny",
+    "MinorSymbol": "p",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "GIP"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "£5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "GIP"
+        }
+      },
+      {
+        "CashNote": "£10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "GIP"
+        }
+      },
+      {
+        "CashNote": "£20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "GIP"
+        }
+      },
+      {
+        "CashNote": "£50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "GIP"
+        }
+      },
+      {
+        "CashNote": "£100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "GIP"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "GMD",
+    "Name": "Gambian dalasi",
+    "CurrencyIsoNumeric": 270,
+    "Symbol": "D",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "DecimalDigits": 2,
+    "MajorName": "dalasi",
+    "MajorSymbol": "",
+    "MinorName": "butut",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "GMD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "5 dalasis",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "GMD"
+        }
+      },
+      {
+        "CashNote": "10 dalasis",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "GMD"
+        }
+      },
+      {
+        "CashNote": "25 dalasis",
+        "Value": {
+          "Amount": 25,
+          "CurrencyCode": "GMD"
+        }
+      },
+      {
+        "CashNote": "50 dalasis",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "GMD"
+        }
+      },
+      {
+        "CashNote": "100 dalasis",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "GMD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "GNF",
+    "Name": "Guinean Franc",
+    "CurrencyIsoNumeric": 324,
+    "Symbol": "FG",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "MajorName": "franc",
+    "MajorSymbol": "",
+    "MinorName": "centime",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "GNF"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "GNF"
+        }
+      },
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "GNF"
+        }
+      },
+      {
+        "CashNote": "1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "GNF"
+        }
+      },
+      {
+        "CashNote": "5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "GNF"
+        }
+      },
+      {
+        "CashNote": "10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "GNF"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "GTQ",
+    "Name": "Guatemalan Quetzal",
+    "CurrencyIsoNumeric": 320,
+    "Symbol": "Q",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "quetzales",
+    "MajorSymbol": "Q",
+    "MinorName": "centavo",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "GTQ"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "GTQ"
+        }
+      },
+      {
+        "CashNote": "Q1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "GTQ"
+        }
+      },
+      {
+        "CashNote": "Q5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "GTQ"
+        }
+      },
+      {
+        "CashNote": "Q10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "GTQ"
+        }
+      },
+      {
+        "CashNote": "Q20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "GTQ"
+        }
+      },
+      {
+        "CashNote": "Q50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "GTQ"
+        }
+      },
+      {
+        "CashNote": "Q100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "GTQ"
+        }
+      },
+      {
+        "CashNote": "Q200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "GTQ"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "GYD",
+    "Name": "Guyanese dollar",
+    "CurrencyIsoNumeric": 328,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "$",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "GYD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "GYD"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "GYD"
+        }
+      },
+      {
+        "CashNote": "$500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "GYD"
+        }
+      },
+      {
+        "CashNote": "$1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "GYD"
+        }
+      },
+      {
+        "CashNote": "$5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "GYD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "HKD",
+    "Name": "Hong Kong dollar",
+    "CurrencyIsoNumeric": 344,
+    "Symbol": "HK$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "HK$",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "HKD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "HK$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "HKD"
+        }
+      },
+      {
+        "CashNote": "HK$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "HKD"
+        }
+      },
+      {
+        "CashNote": "HK$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "HKD"
+        }
+      },
+      {
+        "CashNote": "HK$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "HKD"
+        }
+      },
+      {
+        "CashNote": "HK$500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "HKD"
+        }
+      },
+      {
+        "CashNote": "HK$1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "HKD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "HNL",
+    "Name": "Honduran lempira",
+    "CurrencyIsoNumeric": 340,
+    "Symbol": "L.",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "lempira",
+    "MajorSymbol": "L",
+    "MinorName": "centavo",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "HNL"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "L1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "HNL"
+        }
+      },
+      {
+        "CashNote": "L2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "HNL"
+        }
+      },
+      {
+        "CashNote": "L5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "HNL"
+        }
+      },
+      {
+        "CashNote": "L10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "HNL"
+        }
+      },
+      {
+        "CashNote": "L20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "HNL"
+        }
+      },
+      {
+        "CashNote": "L50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "HNL"
+        }
+      },
+      {
+        "CashNote": "L100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "HNL"
+        }
+      },
+      {
+        "CashNote": "L500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "HNL"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "HTG",
+    "Name": "Haitian gourde",
+    "CurrencyIsoNumeric": 332,
+    "Symbol": "G",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "gourde",
+    "MajorSymbol": "G",
+    "MinorName": "centime",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "HTG"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "G10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "HTG"
+        }
+      },
+      {
+        "CashNote": "G25",
+        "Value": {
+          "Amount": 25,
+          "CurrencyCode": "HTG"
+        }
+      },
+      {
+        "CashNote": "G50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "HTG"
+        }
+      },
+      {
+        "CashNote": "G100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "HTG"
+        }
+      },
+      {
+        "CashNote": "G250",
+        "Value": {
+          "Amount": 250,
+          "CurrencyCode": "HTG"
+        }
+      },
+      {
+        "CashNote": "G500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "HTG"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "HUF",
+    "Name": "Hungarian forint",
+    "CurrencyIsoNumeric": 348,
+    "Symbol": "Ft",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "forint",
+    "MajorSymbol": "Ft",
+    "MinorName": "fillér",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "HUF"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "Ft500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "HUF"
+        }
+      },
+      {
+        "CashNote": "Ft1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "HUF"
+        }
+      },
+      {
+        "CashNote": "Ft2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "HUF"
+        }
+      },
+      {
+        "CashNote": "Ft5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "HUF"
+        }
+      },
+      {
+        "CashNote": "Ft10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "HUF"
+        }
+      },
+      {
+        "CashNote": "Ft20000",
+        "Value": {
+          "Amount": 20000,
+          "CurrencyCode": "HUF"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "IDR",
+    "Name": "Indonesian Rupiah",
+    "CurrencyIsoNumeric": 360,
+    "Symbol": "Rp",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SymbolOnLeft": true,
+    "MajorName": "Rupiah",
+    "MajorSymbol": "Rp",
+    "MinorName": "Sen",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "IDR"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "Rp1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "IDR"
+        }
+      },
+      {
+        "CashNote": "Rp2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "IDR"
+        }
+      },
+      {
+        "CashNote": "Rp5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "IDR"
+        }
+      },
+      {
+        "CashNote": "Rp10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "IDR"
+        }
+      },
+      {
+        "CashNote": "Rp20000",
+        "Value": {
+          "Amount": 20000,
+          "CurrencyCode": "IDR"
+        }
+      },
+      {
+        "CashNote": "Rp50000",
+        "Value": {
+          "Amount": 50000,
+          "CurrencyCode": "IDR"
+        }
+      },
+      {
+        "CashNote": "Rp100000",
+        "Value": {
+          "Amount": 100000,
+          "CurrencyCode": "IDR"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "ILS",
+    "Name": "Israeli Shekel",
+    "CurrencyIsoNumeric": 376,
+    "Symbol": "₪",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Shekel",
+    "MajorSymbol": "₪",
+    "MinorName": "Agorat",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "ILS"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "20₪",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "ILS"
+        }
+      },
+      {
+        "CashNote": "50₪",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "ILS"
+        }
+      },
+      {
+        "CashNote": "100₪",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "ILS"
+        }
+      },
+      {
+        "CashNote": "200₪",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "ILS"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "INR",
+    "Name": "Indian Rupee",
+    "CurrencyIsoNumeric": 356,
+    "Symbol": "₹",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Rupee",
+    "MajorSymbol": "₹",
+    "MinorName": "paisa",
+    "MinorSymbol": "p",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "INR"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "INR"
+        }
+      },
+      {
+        "CashNote": "10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "INR"
+        }
+      },
+      {
+        "CashNote": "20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "INR"
+        }
+      },
+      {
+        "CashNote": "50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "INR"
+        }
+      },
+      {
+        "CashNote": "100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "INR"
+        }
+      },
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "INR"
+        }
+      },
+      {
+        "CashNote": "1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "INR"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "IQD",
+    "Name": "Iraqi Dinar",
+    "CurrencyIsoNumeric": 368,
+    "Symbol": "د.ع.‏",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dinar",
+    "MajorSymbol": "ع.د",
+    "MinorName": "fils",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.001,
+      "CurrencyCode": "IQD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "50ع.د",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "IQD"
+        }
+      },
+      {
+        "CashNote": "100ع.د",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "IQD"
+        }
+      },
+      {
+        "CashNote": "250ع.د",
+        "Value": {
+          "Amount": 250,
+          "CurrencyCode": "IQD"
+        }
+      },
+      {
+        "CashNote": "500ع.د",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "IQD"
+        }
+      },
+      {
+        "CashNote": "1000ع.د",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "IQD"
+        }
+      },
+      {
+        "CashNote": "5000ع.د",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "IQD"
+        }
+      },
+      {
+        "CashNote": "10000ع.د",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "IQD"
+        }
+      },
+      {
+        "CashNote": "25000ع.د",
+        "Value": {
+          "Amount": 25000,
+          "CurrencyCode": "IQD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "IRR",
+    "Name": "Iranian Rial",
+    "CurrencyIsoNumeric": 364,
+    "Symbol": "﷼",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": "/",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "rial",
+    "MajorSymbol": "",
+    "MinorName": "dinar",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "IRR"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "IRR"
+        }
+      },
+      {
+        "CashNote": "200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "IRR"
+        }
+      },
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "IRR"
+        }
+      },
+      {
+        "CashNote": "1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "IRR"
+        }
+      },
+      {
+        "CashNote": "2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "IRR"
+        }
+      },
+      {
+        "CashNote": "5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "IRR"
+        }
+      },
+      {
+        "CashNote": "10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "IRR"
+        }
+      },
+      {
+        "CashNote": "20000",
+        "Value": {
+          "Amount": 20000,
+          "CurrencyCode": "IRR"
+        }
+      },
+      {
+        "CashNote": "50000",
+        "Value": {
+          "Amount": 50000,
+          "CurrencyCode": "IRR"
+        }
+      },
+      {
+        "CashNote": "100000",
+        "Value": {
+          "Amount": 100000,
+          "CurrencyCode": "IRR"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "ISK",
+    "Name": "Icelandic Krona",
+    "CurrencyIsoNumeric": 352,
+    "Symbol": "kr.",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "MajorName": "krona",
+    "MajorSymbol": "kr",
+    "MinorName": "eyrir",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "ISK"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "kr500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "ISK"
+        }
+      },
+      {
+        "CashNote": "kr1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "ISK"
+        }
+      },
+      {
+        "CashNote": "kr2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "ISK"
+        }
+      },
+      {
+        "CashNote": "kr5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "ISK"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "JMD",
+    "Name": "Jamaican dollar",
+    "CurrencyIsoNumeric": 388,
+    "Symbol": "J$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "J$",
+    "MinorName": "cent",
+    "MinorSymbol": "c",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "JMD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "JMD"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "JMD"
+        }
+      },
+      {
+        "CashNote": "$500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "JMD"
+        }
+      },
+      {
+        "CashNote": "$1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "JMD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "JOD",
+    "Name": "Jordanian Dinar",
+    "CurrencyIsoNumeric": 400,
+    "Symbol": "د.ا.‏",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 3,
+    "MajorName": "Dinar",
+    "MajorSymbol": "",
+    "MinorName": "qirsh ou piastre",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "JOD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "1 dinar",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "JOD"
+        }
+      },
+      {
+        "CashNote": "5 dinar",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "JOD"
+        }
+      },
+      {
+        "CashNote": "10 dinar",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "JOD"
+        }
+      },
+      {
+        "CashNote": "20 dinar",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "JOD"
+        }
+      },
+      {
+        "CashNote": "50 dinar",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "JOD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "JPY",
+    "Name": "Japanese yen",
+    "CurrencyIsoNumeric": 392,
+    "Symbol": "¥",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "MajorName": "yen",
+    "MajorSymbol": "¥",
+    "MinorName": "sen",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "JPY"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "¥1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "JPY"
+        }
+      },
+      {
+        "CashNote": "¥2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "JPY"
+        }
+      },
+      {
+        "CashNote": "¥5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "JPY"
+        }
+      },
+      {
+        "CashNote": "¥10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "JPY"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "KES",
+    "Name": "Kenyan Shilling",
+    "CurrencyIsoNumeric": 404,
+    "Symbol": "KSh",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Shilling",
+    "MajorSymbol": "KSh",
+    "MinorName": "cent",
+    "MinorSymbol": "c",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "KES"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "KSh50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "KES"
+        }
+      },
+      {
+        "CashNote": "KSh100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "KES"
+        }
+      },
+      {
+        "CashNote": "KSh200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "KES"
+        }
+      },
+      {
+        "CashNote": "KSh500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "KES"
+        }
+      },
+      {
+        "CashNote": "KSh1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "KES"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "KGS",
+    "Name": "Kyrgyzstani som",
+    "CurrencyIsoNumeric": 417,
+    "Symbol": "сом",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": "-",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "som",
+    "MajorSymbol": "лв",
+    "MinorName": "tyiyn",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "KGS"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "лв20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "KGS"
+        }
+      },
+      {
+        "CashNote": "лв50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "KGS"
+        }
+      },
+      {
+        "CashNote": "лв100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "KGS"
+        }
+      },
+      {
+        "CashNote": "лв200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "KGS"
+        }
+      },
+      {
+        "CashNote": "лв500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "KGS"
+        }
+      },
+      {
+        "CashNote": "лв1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "KGS"
+        }
+      },
+      {
+        "CashNote": "лв5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "KGS"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "KHR",
+    "Name": "Cambodian Riel",
+    "CurrencyIsoNumeric": 116,
+    "Symbol": "៛",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "MajorName": "riel",
+    "MajorSymbol": "៛",
+    "MinorName": "kak",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.1,
+      "CurrencyCode": "KHR"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "៛50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "KHR"
+        }
+      },
+      {
+        "CashNote": "៛100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "KHR"
+        }
+      },
+      {
+        "CashNote": "៛200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "KHR"
+        }
+      },
+      {
+        "CashNote": "៛500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "KHR"
+        }
+      },
+      {
+        "CashNote": "៛1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "KHR"
+        }
+      },
+      {
+        "CashNote": "៛2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "KHR"
+        }
+      },
+      {
+        "CashNote": "៛5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "KHR"
+        }
+      },
+      {
+        "CashNote": "៛10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "KHR"
+        }
+      },
+      {
+        "CashNote": "៛20000",
+        "Value": {
+          "Amount": 20000,
+          "CurrencyCode": "KHR"
+        }
+      },
+      {
+        "CashNote": "៛50000",
+        "Value": {
+          "Amount": 50000,
+          "CurrencyCode": "KHR"
+        }
+      },
+      {
+        "CashNote": "៛100000",
+        "Value": {
+          "Amount": 100000,
+          "CurrencyCode": "KHR"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "KMF",
+    "Name": "Comoran Franc",
+    "CurrencyIsoNumeric": 174,
+    "Symbol": "CF",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "DecimalDigits": 2,
+    "MajorName": "franc",
+    "MajorSymbol": "",
+    "MinorName": "centime",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "KMF"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "KMF"
+        }
+      },
+      {
+        "CashNote": "2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "KMF"
+        }
+      },
+      {
+        "CashNote": "5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "KMF"
+        }
+      },
+      {
+        "CashNote": "10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "KMF"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "KPW",
+    "Name": "North Korean won",
+    "CurrencyIsoNumeric": 408,
+    "Symbol": "₩",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "MajorName": "won",
+    "MajorSymbol": "₩",
+    "MinorName": "chon",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "KPW"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "₩5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "KPW"
+        }
+      },
+      {
+        "CashNote": "₩10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "KPW"
+        }
+      },
+      {
+        "CashNote": "₩50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "KPW"
+        }
+      },
+      {
+        "CashNote": "₩100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "KPW"
+        }
+      },
+      {
+        "CashNote": "₩200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "KPW"
+        }
+      },
+      {
+        "CashNote": "₩500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "KPW"
+        }
+      },
+      {
+        "CashNote": "₩1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "KPW"
+        }
+      },
+      {
+        "CashNote": "₩2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "KPW"
+        }
+      },
+      {
+        "CashNote": "₩5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "KPW"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "KRW",
+    "Name": "South Korean won",
+    "CurrencyIsoNumeric": 410,
+    "Symbol": "₩",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "MajorName": "won",
+    "MajorSymbol": "₩",
+    "MinorName": "jeon",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "KRW"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "₩1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "KRW"
+        }
+      },
+      {
+        "CashNote": "₩5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "KRW"
+        }
+      },
+      {
+        "CashNote": "₩10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "KRW"
+        }
+      },
+      {
+        "CashNote": "₩50000",
+        "Value": {
+          "Amount": 50000,
+          "CurrencyCode": "KRW"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "KWD",
+    "Name": "Kuwaiti Dinar",
+    "CurrencyIsoNumeric": 414,
+    "Symbol": "د.ك.‏",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 3,
+    "MajorName": "dinar",
+    "MajorSymbol": "ك",
+    "MinorName": "fils",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.001,
+      "CurrencyCode": "KWD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "250",
+        "Value": {
+          "Amount": 250,
+          "CurrencyCode": "KWD"
+        }
+      },
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "KWD"
+        }
+      },
+      {
+        "CashNote": "1ك",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "KWD"
+        }
+      },
+      {
+        "CashNote": "5ك",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "KWD"
+        }
+      },
+      {
+        "CashNote": "10ك",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "KWD"
+        }
+      },
+      {
+        "CashNote": "20ك",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "KWD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "KYD",
+    "Name": "Caymanian Dollar",
+    "CurrencyIsoNumeric": 136,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "$",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "KYD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "KYD"
+        }
+      },
+      {
+        "CashNote": "$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "KYD"
+        }
+      },
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "KYD"
+        }
+      },
+      {
+        "CashNote": "$25",
+        "Value": {
+          "Amount": 25,
+          "CurrencyCode": "KYD"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "KYD"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "KYD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "KZT",
+    "Name": "Kazakhstani tenge",
+    "CurrencyIsoNumeric": 398,
+    "Symbol": "₸",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": "-",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "tenge",
+    "MajorSymbol": "₸",
+    "MinorName": "tïın",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "KZT"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "KZT"
+        }
+      },
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "KZT"
+        }
+      },
+      {
+        "CashNote": "1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "KZT"
+        }
+      },
+      {
+        "CashNote": "2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "KZT"
+        }
+      },
+      {
+        "CashNote": "5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "KZT"
+        }
+      },
+      {
+        "CashNote": "10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "KZT"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "LAK",
+    "Name": "Lao or Laotian Kip",
+    "CurrencyIsoNumeric": 418,
+    "Symbol": "₭",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "MajorName": "Kip",
+    "MajorSymbol": "₭",
+    "MinorName": "Att",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "LAK"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "₭500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "LAK"
+        }
+      },
+      {
+        "CashNote": "₭1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "LAK"
+        }
+      },
+      {
+        "CashNote": "₭2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "LAK"
+        }
+      },
+      {
+        "CashNote": "₭5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "LAK"
+        }
+      },
+      {
+        "CashNote": "₭10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "LAK"
+        }
+      },
+      {
+        "CashNote": "₭20000",
+        "Value": {
+          "Amount": 20000,
+          "CurrencyCode": "LAK"
+        }
+      },
+      {
+        "CashNote": "₭50000",
+        "Value": {
+          "Amount": 50000,
+          "CurrencyCode": "LAK"
+        }
+      },
+      {
+        "CashNote": "₭100000",
+        "Value": {
+          "Amount": 100000,
+          "CurrencyCode": "LAK"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "LBP",
+    "Name": "Lebanese Pound",
+    "CurrencyIsoNumeric": 422,
+    "Symbol": "ل.ل.‏",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "pound",
+    "MajorSymbol": "ل.ل",
+    "MinorName": "piastre",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "LBP"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "1000ل.ل",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "LBP"
+        }
+      },
+      {
+        "CashNote": "5000ل.ل",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "LBP"
+        }
+      },
+      {
+        "CashNote": "10000ل.ل",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "LBP"
+        }
+      },
+      {
+        "CashNote": "20000ل.ل",
+        "Value": {
+          "Amount": 20000,
+          "CurrencyCode": "LBP"
+        }
+      },
+      {
+        "CashNote": "50000ل.ل",
+        "Value": {
+          "Amount": 50000,
+          "CurrencyCode": "LBP"
+        }
+      },
+      {
+        "CashNote": "100000ل.ل",
+        "Value": {
+          "Amount": 100000,
+          "CurrencyCode": "LBP"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "LKR",
+    "Name": "Sri Lankan Rupee",
+    "CurrencyIsoNumeric": 144,
+    "Symbol": "₨",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "MajorName": "Rupee",
+    "MajorSymbol": "Rs",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "LKR"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "RS10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "LKR"
+        }
+      },
+      {
+        "CashNote": "RS20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "LKR"
+        }
+      },
+      {
+        "CashNote": "Rs50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "LKR"
+        }
+      },
+      {
+        "CashNote": "Rs100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "LKR"
+        }
+      },
+      {
+        "CashNote": "Rs500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "LKR"
+        }
+      },
+      {
+        "CashNote": "Rs1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "LKR"
+        }
+      },
+      {
+        "CashNote": "Rs2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "LKR"
+        }
+      },
+      {
+        "CashNote": "Rs5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "LKR"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "LRD",
+    "Name": "Liberian Dollar",
+    "CurrencyIsoNumeric": 430,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "$",
+    "MinorName": "cent",
+    "MinorSymbol": "¢",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "LRD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "LRD"
+        }
+      },
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "LRD"
+        }
+      },
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "LRD"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "LRD"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "LRD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "LSL",
+    "Name": "Lesotho loti",
+    "CurrencyIsoNumeric": 426,
+    "Symbol": "M",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "DecimalDigits": 2,
+    "MajorName": "loti (maloti)",
+    "MajorSymbol": "L or M",
+    "MinorName": "sente (lisente)",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "LSL"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "M10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "LSL"
+        }
+      },
+      {
+        "CashNote": "M20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "LSL"
+        }
+      },
+      {
+        "CashNote": "M50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "LSL"
+        }
+      },
+      {
+        "CashNote": "M100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "LSL"
+        }
+      },
+      {
+        "CashNote": "M200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "LSL"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "LYD",
+    "Name": "Libyan Dinar",
+    "CurrencyIsoNumeric": 434,
+    "Symbol": "د.ل.‏",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 3,
+    "MajorName": "dinar",
+    "MajorSymbol": " د.ل",
+    "MinorName": "dirham",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "LYD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "1 dinar",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "LYD"
+        }
+      },
+      {
+        "CashNote": "5 dinars",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "LYD"
+        }
+      },
+      {
+        "CashNote": "10 dinars",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "LYD"
+        }
+      },
+      {
+        "CashNote": "20 dinars",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "LYD"
+        }
+      },
+      {
+        "CashNote": "50 dinars",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "LYD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "MAD",
+    "Name": "Moroccan Dirham",
+    "CurrencyIsoNumeric": 504,
+    "Symbol": "د.م.‏",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dirham",
+    "MajorSymbol": "م.د.",
+    "MinorName": "santim",
+    "MinorSymbol": "santimat",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "MAD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "20 dirhams",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "MAD"
+        }
+      },
+      {
+        "CashNote": "50 dirhams",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "MAD"
+        }
+      },
+      {
+        "CashNote": "100 dirhams",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "MAD"
+        }
+      },
+      {
+        "CashNote": "200 dirhams",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "MAD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "MDL",
+    "Name": "Moldovan Leu",
+    "CurrencyIsoNumeric": 498,
+    "Symbol": "lei",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "Leu",
+    "MajorSymbol": "L",
+    "MinorName": "Ban",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "MDL"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "MDL"
+        }
+      },
+      {
+        "CashNote": "5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "MDL"
+        }
+      },
+      {
+        "CashNote": "10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "MDL"
+        }
+      },
+      {
+        "CashNote": "20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "MDL"
+        }
+      },
+      {
+        "CashNote": "50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "MDL"
+        }
+      },
+      {
+        "CashNote": "100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "MDL"
+        }
+      },
+      {
+        "CashNote": "200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "MDL"
+        }
+      },
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "MDL"
+        }
+      },
+      {
+        "CashNote": "1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "MDL"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "MGA",
+    "Name": "Malagasy Ariary",
+    "CurrencyIsoNumeric": 969,
+    "Symbol": "Ar",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "MajorName": "Ariary",
+    "MajorSymbol": "Ar",
+    "MinorName": "Iraimbilanja",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.2,
+      "CurrencyCode": "MGA"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "Ar100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "MGA"
+        }
+      },
+      {
+        "CashNote": "Ar200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "MGA"
+        }
+      },
+      {
+        "CashNote": "Ar500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "MGA"
+        }
+      },
+      {
+        "CashNote": "Ar1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "MGA"
+        }
+      },
+      {
+        "CashNote": "Ar2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "MGA"
+        }
+      },
+      {
+        "CashNote": "Ar5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "MGA"
+        }
+      },
+      {
+        "CashNote": "Ar10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "MGA"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "MKD",
+    "Name": "Macedonian Denar",
+    "CurrencyIsoNumeric": 807,
+    "Symbol": "ден.",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "denar",
+    "MajorSymbol": "ден",
+    "MinorName": "deni",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "MKD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "ден10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "MKD"
+        }
+      },
+      {
+        "CashNote": "ден50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "MKD"
+        }
+      },
+      {
+        "CashNote": "ден100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "MKD"
+        }
+      },
+      {
+        "CashNote": "ден200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "MKD"
+        }
+      },
+      {
+        "CashNote": "ден500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "MKD"
+        }
+      },
+      {
+        "CashNote": "ден1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "MKD"
+        }
+      },
+      {
+        "CashNote": "ден2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "MKD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "MMK",
+    "Name": "Burmese Kyat",
+    "CurrencyIsoNumeric": 104,
+    "Symbol": "K",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Kyat",
+    "MajorSymbol": "K",
+    "MinorName": "Pya",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "MMK"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "MMK"
+        }
+      },
+      {
+        "CashNote": "K1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "MMK"
+        }
+      },
+      {
+        "CashNote": "K5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "MMK"
+        }
+      },
+      {
+        "CashNote": "K10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "MMK"
+        }
+      },
+      {
+        "CashNote": "K20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "MMK"
+        }
+      },
+      {
+        "CashNote": "K50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "MMK"
+        }
+      },
+      {
+        "CashNote": "K100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "MMK"
+        }
+      },
+      {
+        "CashNote": "K200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "MMK"
+        }
+      },
+      {
+        "CashNote": "K500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "MMK"
+        }
+      },
+      {
+        "CashNote": "K1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "MMK"
+        }
+      },
+      {
+        "CashNote": "K5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "MMK"
+        }
+      },
+      {
+        "CashNote": "K10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "MMK"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "MNT",
+    "Name": "Mongolian Tughrik",
+    "CurrencyIsoNumeric": 496,
+    "Symbol": "₮",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": ",",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Tughrik",
+    "MajorSymbol": "₮",
+    "MinorName": "Möngö",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "MNT"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "₮10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "MNT"
+        }
+      },
+      {
+        "CashNote": "₮20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "MNT"
+        }
+      },
+      {
+        "CashNote": "₮100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "MNT"
+        }
+      },
+      {
+        "CashNote": "₮500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "MNT"
+        }
+      },
+      {
+        "CashNote": "₮1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "MNT"
+        }
+      },
+      {
+        "CashNote": "₮5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "MNT"
+        }
+      },
+      {
+        "CashNote": "₮10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "MNT"
+        }
+      },
+      {
+        "CashNote": "₮20000",
+        "Value": {
+          "Amount": 20000,
+          "CurrencyCode": "MNT"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "MOP",
+    "Name": "Macau Pataca",
+    "CurrencyIsoNumeric": 446,
+    "Symbol": "MOP$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "pataca",
+    "MajorSymbol": "MOP$",
+    "MinorName": "ho",
+    "MinorSymbol": "毫",
+    "MinorToMajorValue": {
+      "Amount": 0.1,
+      "CurrencyCode": "MOP"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "MOP$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "MOP"
+        }
+      },
+      {
+        "CashNote": "MOP$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "MOP"
+        }
+      },
+      {
+        "CashNote": "MOP$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "MOP"
+        }
+      },
+      {
+        "CashNote": "MOP$500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "MOP"
+        }
+      },
+      {
+        "CashNote": "MOP$1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "MOP"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "MUR",
+    "Name": "Mauritian rupee",
+    "CurrencyIsoNumeric": 480,
+    "Symbol": "₨",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "rupee",
+    "MajorSymbol": "Rs",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "MUR"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "Rs25",
+        "Value": {
+          "Amount": 25,
+          "CurrencyCode": "MUR"
+        }
+      },
+      {
+        "CashNote": "Rs50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "MUR"
+        }
+      },
+      {
+        "CashNote": "Rs100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "MUR"
+        }
+      },
+      {
+        "CashNote": "Rs200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "MUR"
+        }
+      },
+      {
+        "CashNote": "Rs500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "MUR"
+        }
+      },
+      {
+        "CashNote": "Rs1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "MUR"
+        }
+      },
+      {
+        "CashNote": "RS2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "MUR"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "MVR",
+    "Name": "Maldivian Rufiyaa",
+    "CurrencyIsoNumeric": 462,
+    "Symbol": "MVR",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 1,
+    "MajorName": "Rufiyaa",
+    "MajorSymbol": "rf",
+    "MinorName": "laari",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "MVR"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "MVR"
+        }
+      },
+      {
+        "CashNote": "10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "MVR"
+        }
+      },
+      {
+        "CashNote": "20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "MVR"
+        }
+      },
+      {
+        "CashNote": "50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "MVR"
+        }
+      },
+      {
+        "CashNote": "100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "MVR"
+        }
+      },
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "MVR"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "MWK",
+    "Name": "Malawian Kwacha",
+    "CurrencyIsoNumeric": 454,
+    "Symbol": "MK",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Kwacha",
+    "MajorSymbol": "MK",
+    "MinorName": "Tambala",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "MWK"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "MK5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "MWK"
+        }
+      },
+      {
+        "CashNote": "MK10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "MWK"
+        }
+      },
+      {
+        "CashNote": "MK20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "MWK"
+        }
+      },
+      {
+        "CashNote": "MK50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "MWK"
+        }
+      },
+      {
+        "CashNote": "MK100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "MWK"
+        }
+      },
+      {
+        "CashNote": "MK200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "MWK"
+        }
+      },
+      {
+        "CashNote": "MK500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "MWK"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "MXN",
+    "Name": "Mexico Peso",
+    "CurrencyIsoNumeric": 484,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "$",
+    "MinorName": "centavo",
+    "MinorSymbol": "¢",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "MXN"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "MXN"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "MXN"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "MXN"
+        }
+      },
+      {
+        "CashNote": "$200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "MXN"
+        }
+      },
+      {
+        "CashNote": "$500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "MXN"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "MYR",
+    "Name": "Malaysian Ringgit",
+    "CurrencyIsoNumeric": 458,
+    "Symbol": "RM",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Ringgit",
+    "MajorSymbol": "RM",
+    "MinorName": "Sen",
+    "MinorSymbol": "Sen",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "MYR"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "RM1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "MYR"
+        }
+      },
+      {
+        "CashNote": "RM5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "MYR"
+        }
+      },
+      {
+        "CashNote": "RM10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "MYR"
+        }
+      },
+      {
+        "CashNote": "RM50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "MYR"
+        }
+      },
+      {
+        "CashNote": "RM100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "MYR"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "MZN",
+    "Name": "Mozambican Metical",
+    "CurrencyIsoNumeric": 943,
+    "Symbol": "MT",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "MajorName": "metical",
+    "MajorSymbol": "MT",
+    "MinorName": "centavo",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "MZN"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "MT20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "MZN"
+        }
+      },
+      {
+        "CashNote": "MT50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "MZN"
+        }
+      },
+      {
+        "CashNote": "MT100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "MZN"
+        }
+      },
+      {
+        "CashNote": "MT200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "MZN"
+        }
+      },
+      {
+        "CashNote": "MT500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "MZN"
+        }
+      },
+      {
+        "CashNote": "MT1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "MZN"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "NAD",
+    "Name": "Namibian Dollar",
+    "CurrencyIsoNumeric": 516,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "$",
+    "MinorName": "cent",
+    "MinorSymbol": "c",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "NAD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "NAD"
+        }
+      },
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "NAD"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "NAD"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "NAD"
+        }
+      },
+      {
+        "CashNote": "$200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "NAD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "NGN",
+    "Name": "Nigerian Naira",
+    "CurrencyIsoNumeric": 566,
+    "Symbol": "₦",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Naira",
+    "MajorSymbol": "₦",
+    "MinorName": "Kobo",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "NGN"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "₦5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "NGN"
+        }
+      },
+      {
+        "CashNote": "₦10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "NGN"
+        }
+      },
+      {
+        "CashNote": "₦20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "NGN"
+        }
+      },
+      {
+        "CashNote": "₦50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "NGN"
+        }
+      },
+      {
+        "CashNote": "₦100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "NGN"
+        }
+      },
+      {
+        "CashNote": "₦200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "NGN"
+        }
+      },
+      {
+        "CashNote": "₦500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "NGN"
+        }
+      },
+      {
+        "CashNote": "₦1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "NGN"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "NIO",
+    "Name": "Nicaraguan córdoba",
+    "CurrencyIsoNumeric": 558,
+    "Symbol": "C$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "córdoba",
+    "MajorSymbol": "C$",
+    "MinorName": "centavo",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "NIO"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "C$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "NIO"
+        }
+      },
+      {
+        "CashNote": "C$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "NIO"
+        }
+      },
+      {
+        "CashNote": "C$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "NIO"
+        }
+      },
+      {
+        "CashNote": "C$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "NIO"
+        }
+      },
+      {
+        "CashNote": "C$200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "NIO"
+        }
+      },
+      {
+        "CashNote": "C$500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "NIO"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "NOK",
+    "Name": "Norwegian krone",
+    "CurrencyIsoNumeric": 578,
+    "Symbol": "kr",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Krone",
+    "MajorSymbol": "kr",
+    "MinorName": "øre",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "NOK"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "kr50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "NOK"
+        }
+      },
+      {
+        "CashNote": "kr100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "NOK"
+        }
+      },
+      {
+        "CashNote": "kr200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "NOK"
+        }
+      },
+      {
+        "CashNote": "kr500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "NOK"
+        }
+      },
+      {
+        "CashNote": "kr1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "NOK"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "NPR",
+    "Name": "Nepalese Rupee",
+    "CurrencyIsoNumeric": 524,
+    "Symbol": "₨",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Rupee",
+    "MajorSymbol": "Rs",
+    "MinorName": "Paisa",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "NPR"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "Rs5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "NPR"
+        }
+      },
+      {
+        "CashNote": "RS10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "NPR"
+        }
+      },
+      {
+        "CashNote": "Rs25",
+        "Value": {
+          "Amount": 25,
+          "CurrencyCode": "NPR"
+        }
+      },
+      {
+        "CashNote": "Rs50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "NPR"
+        }
+      },
+      {
+        "CashNote": "Rs100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "NPR"
+        }
+      },
+      {
+        "CashNote": "Rs500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "NPR"
+        }
+      },
+      {
+        "CashNote": "Rs1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "NPR"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "NZD",
+    "Name": "New Zealand Dollar",
+    "CurrencyIsoNumeric": 554,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "$",
+    "MinorName": "cent",
+    "MinorSymbol": "c",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "NZD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "NZD"
+        }
+      },
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "NZD"
+        }
+      },
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "NZD"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "NZD"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "NZD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "OMR",
+    "Name": "Omani Rial",
+    "CurrencyIsoNumeric": 512,
+    "Symbol": "﷼",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 3,
+    "MajorName": "rial",
+    "MajorSymbol": "ع.ر.",
+    "MinorName": "baisa",
+    "MinorSymbol": "bz",
+    "MinorToMajorValue": {
+      "Amount": 0.001,
+      "CurrencyCode": "OMR"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "bz100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "OMR"
+        }
+      },
+      {
+        "CashNote": "bz200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "OMR"
+        }
+      },
+      {
+        "CashNote": "bz500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "OMR"
+        }
+      },
+      {
+        "CashNote": "1ع.ر.",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "OMR"
+        }
+      },
+      {
+        "CashNote": "5ع.ر.",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "OMR"
+        }
+      },
+      {
+        "CashNote": "10ع.ر.",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "OMR"
+        }
+      },
+      {
+        "CashNote": "20ع.ر.",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "OMR"
+        }
+      },
+      {
+        "CashNote": "50ع.ر.",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "OMR"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "PAB",
+    "Name": "Balboa panamérn",
+    "CurrencyIsoNumeric": 590,
+    "Symbol": "B/.",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "balboa",
+    "MajorSymbol": "B/",
+    "MinorName": "Centésimo",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "PAB"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "PAB"
+        }
+      },
+      {
+        "CashNote": "$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "PAB"
+        }
+      },
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "PAB"
+        }
+      },
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "PAB"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "PAB"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "PAB"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "PEN",
+    "Name": "Peruvian nuevo sol",
+    "CurrencyIsoNumeric": 604,
+    "Symbol": "S/.",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "nuevo sol",
+    "MajorSymbol": "S/",
+    "MinorName": "céntimo",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "PEN"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "S/10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "PEN"
+        }
+      },
+      {
+        "CashNote": "S/20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "PEN"
+        }
+      },
+      {
+        "CashNote": "S/50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "PEN"
+        }
+      },
+      {
+        "CashNote": "S/100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "PEN"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "PGK",
+    "Name": "Papua New Guinean Kina",
+    "CurrencyIsoNumeric": 598,
+    "Symbol": "K",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Kina",
+    "MajorSymbol": "K",
+    "MinorName": "Toea",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "PGK"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "K2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "PGK"
+        }
+      },
+      {
+        "CashNote": "K5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "PGK"
+        }
+      },
+      {
+        "CashNote": "K10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "PGK"
+        }
+      },
+      {
+        "CashNote": "K20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "PGK"
+        }
+      },
+      {
+        "CashNote": "K50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "PGK"
+        }
+      },
+      {
+        "CashNote": "K100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "PGK"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "PHP",
+    "Name": "Philippine Peso",
+    "CurrencyIsoNumeric": 608,
+    "Symbol": "₱",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Peso",
+    "MajorSymbol": "₱",
+    "MinorName": "Sentimo",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "PHP"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "₱20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "PHP"
+        }
+      },
+      {
+        "CashNote": "₱50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "PHP"
+        }
+      },
+      {
+        "CashNote": "₱100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "PHP"
+        }
+      },
+      {
+        "CashNote": "₱200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "PHP"
+        }
+      },
+      {
+        "CashNote": "₱500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "PHP"
+        }
+      },
+      {
+        "CashNote": "₱1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "PHP"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "PKR",
+    "Name": "Pakistani Rupee",
+    "CurrencyIsoNumeric": 586,
+    "Symbol": "₨",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Rupee",
+    "MajorSymbol": "Rs",
+    "MinorName": "Paisa",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "PKR"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "RS10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "PKR"
+        }
+      },
+      {
+        "CashNote": "Rs50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "PKR"
+        }
+      },
+      {
+        "CashNote": "Rs100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "PKR"
+        }
+      },
+      {
+        "CashNote": "Rs500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "PKR"
+        }
+      },
+      {
+        "CashNote": "Rs1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "PKR"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "PLN",
+    "Name": "Polish złoty",
+    "CurrencyIsoNumeric": 985,
+    "Symbol": "zł",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "złoty",
+    "MajorSymbol": "zł",
+    "MinorName": "Grosz",
+    "MinorSymbol": "gr",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "PLN"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "zł10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "PLN"
+        }
+      },
+      {
+        "CashNote": "zł20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "PLN"
+        }
+      },
+      {
+        "CashNote": "zł50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "PLN"
+        }
+      },
+      {
+        "CashNote": "zł100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "PLN"
+        }
+      },
+      {
+        "CashNote": "zł200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "PLN"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "PYG",
+    "Name": "Paraguayan guarani",
+    "CurrencyIsoNumeric": 600,
+    "Symbol": "₲",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "guarani",
+    "MajorSymbol": "₲",
+    "MinorName": "céntimo",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "PYG"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "₲1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "PYG"
+        }
+      },
+      {
+        "CashNote": "₲2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "PYG"
+        }
+      },
+      {
+        "CashNote": "₲5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "PYG"
+        }
+      },
+      {
+        "CashNote": "₲10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "PYG"
+        }
+      },
+      {
+        "CashNote": "₲20000",
+        "Value": {
+          "Amount": 20000,
+          "CurrencyCode": "PYG"
+        }
+      },
+      {
+        "CashNote": "₲50000",
+        "Value": {
+          "Amount": 50000,
+          "CurrencyCode": "PYG"
+        }
+      },
+      {
+        "CashNote": "₲100000",
+        "Value": {
+          "Amount": 100000,
+          "CurrencyCode": "PYG"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "QAR",
+    "Name": "Qatari Riyal",
+    "CurrencyIsoNumeric": 634,
+    "Symbol": "﷼",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "riyal",
+    "MajorSymbol": "ق.ر ",
+    "MinorName": "dirham",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "QAR"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "1ق.ر",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "QAR"
+        }
+      },
+      {
+        "CashNote": "5ق.ر",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "QAR"
+        }
+      },
+      {
+        "CashNote": "10ق.ر",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "QAR"
+        }
+      },
+      {
+        "CashNote": "50ق.ر",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "QAR"
+        }
+      },
+      {
+        "CashNote": "100ق.ر",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "QAR"
+        }
+      },
+      {
+        "CashNote": "500ق.ر",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "QAR"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "RON",
+    "Name": "Romanian leu",
+    "CurrencyIsoNumeric": 946,
+    "Symbol": "L",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "leu",
+    "MajorSymbol": "lei",
+    "MinorName": "bani",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "RON"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "lei1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "RON"
+        }
+      },
+      {
+        "CashNote": "lei5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "RON"
+        }
+      },
+      {
+        "CashNote": "lei10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "RON"
+        }
+      },
+      {
+        "CashNote": "lei50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "RON"
+        }
+      },
+      {
+        "CashNote": "lei100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "RON"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "RSD",
+    "Name": "Serbian Dinar",
+    "CurrencyIsoNumeric": 941,
+    "Symbol": "Дин.",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "dinar",
+    "MajorSymbol": "РСД",
+    "MinorName": "para",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "RSD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "РСД10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "RSD"
+        }
+      },
+      {
+        "CashNote": "РСД20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "RSD"
+        }
+      },
+      {
+        "CashNote": "РСД50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "RSD"
+        }
+      },
+      {
+        "CashNote": "РСД100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "RSD"
+        }
+      },
+      {
+        "CashNote": "РСД200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "RSD"
+        }
+      },
+      {
+        "CashNote": "РСД500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "RSD"
+        }
+      },
+      {
+        "CashNote": "РСД1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "RSD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "RUB",
+    "Name": "Russian Rouble",
+    "CurrencyIsoNumeric": 643,
+    "Symbol": "₽",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "rouble",
+    "MajorSymbol": "₽",
+    "MinorName": "kopeyka",
+    "MinorSymbol": "к",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "RUB"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "RUB"
+        }
+      },
+      {
+        "CashNote": "100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "RUB"
+        }
+      },
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "RUB"
+        }
+      },
+      {
+        "CashNote": "1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "RUB"
+        }
+      },
+      {
+        "CashNote": "5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "RUB"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "RWF",
+    "Name": "Rwandan franc",
+    "CurrencyIsoNumeric": 646,
+    "Symbol": "RWF",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "franc",
+    "MajorSymbol": "FRw, RF, R₣",
+    "MinorName": "centime",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "RWF"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "500R₣",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "RWF"
+        }
+      },
+      {
+        "CashNote": "1000R₣",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "RWF"
+        }
+      },
+      {
+        "CashNote": "2000R₣",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "RWF"
+        }
+      },
+      {
+        "CashNote": "5000R₣",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "RWF"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "SAR",
+    "Name": "Saudi Arabian Riyal",
+    "CurrencyIsoNumeric": 682,
+    "Symbol": "﷼",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "riyal",
+    "MajorSymbol": "ر.س",
+    "MinorName": "Halala",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "SAR"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "1ر.س",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "SAR"
+        }
+      },
+      {
+        "CashNote": "5ر.س",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "SAR"
+        }
+      },
+      {
+        "CashNote": "10ر.س",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "SAR"
+        }
+      },
+      {
+        "CashNote": "20ر.س",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "SAR"
+        }
+      },
+      {
+        "CashNote": "50ر.س",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "SAR"
+        }
+      },
+      {
+        "CashNote": "100ر.س",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "SAR"
+        }
+      },
+      {
+        "CashNote": "500ر.س",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "SAR"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "SBD",
+    "Name": "Solomon Islander Dollar",
+    "CurrencyIsoNumeric": 90,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "SI$",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "SBD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "SI$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "SBD"
+        }
+      },
+      {
+        "CashNote": "SI$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "SBD"
+        }
+      },
+      {
+        "CashNote": "SI$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "SBD"
+        }
+      },
+      {
+        "CashNote": "SI$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "SBD"
+        }
+      },
+      {
+        "CashNote": "SI$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "SBD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "SCR",
+    "Name": "Seychellois Rupee",
+    "CurrencyIsoNumeric": 690,
+    "Symbol": "₨",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "rupee",
+    "MajorSymbol": "Rs",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "SCR"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "Rs50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "SCR"
+        }
+      },
+      {
+        "CashNote": "Rs100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "SCR"
+        }
+      },
+      {
+        "CashNote": "Rs500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "SCR"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "SEK",
+    "Name": "Swedish krona",
+    "CurrencyIsoNumeric": 752,
+    "Symbol": "kr",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "krona",
+    "MajorSymbol": "kr",
+    "MinorName": "ören",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "SEK"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "kr20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "SEK"
+        }
+      },
+      {
+        "CashNote": "kr50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "SEK"
+        }
+      },
+      {
+        "CashNote": "kr100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "SEK"
+        }
+      },
+      {
+        "CashNote": "kr500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "SEK"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "SGD",
+    "Name": "Singapore Dollar",
+    "CurrencyIsoNumeric": 702,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "$",
+    "MinorName": "cent",
+    "MinorSymbol": "S¢",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "SGD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "SGD"
+        }
+      },
+      {
+        "CashNote": "$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "SGD"
+        }
+      },
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "SGD"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "SGD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "SLL",
+    "Name": "Sierra Leonean Leone",
+    "CurrencyIsoNumeric": 694,
+    "Symbol": "Le",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Leone",
+    "MajorSymbol": "Le",
+    "MinorName": "cent",
+    "MinorSymbol": "c",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "SLL"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "Le1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "SLL"
+        }
+      },
+      {
+        "CashNote": "Le2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "SLL"
+        }
+      },
+      {
+        "CashNote": "Le5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "SLL"
+        }
+      },
+      {
+        "CashNote": "Le10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "SLL"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "SOS",
+    "Name": "Somali Shilling",
+    "CurrencyIsoNumeric": 706,
+    "Symbol": "S",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "shilling",
+    "MajorSymbol": "S",
+    "MinorName": "senti",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "SOS"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "S5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "SOS"
+        }
+      },
+      {
+        "CashNote": "S10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "SOS"
+        }
+      },
+      {
+        "CashNote": "S20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "SOS"
+        }
+      },
+      {
+        "CashNote": "S50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "SOS"
+        }
+      },
+      {
+        "CashNote": "S100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "SOS"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "SRD",
+    "Name": "Surinamese dollar",
+    "CurrencyIsoNumeric": 968,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "$",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "SRD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "SRD"
+        }
+      },
+      {
+        "CashNote": "$2½",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "SRD"
+        }
+      },
+      {
+        "CashNote": "$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "SRD"
+        }
+      },
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "SRD"
+        }
+      },
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "SRD"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "SRD"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "SRD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "SYP",
+    "Name": "Syrian Pound",
+    "CurrencyIsoNumeric": 760,
+    "Symbol": "£",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "pound",
+    "MajorSymbol": "£",
+    "MinorName": "piastre",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "SYP"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "£5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "SYP"
+        }
+      },
+      {
+        "CashNote": "£10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "SYP"
+        }
+      },
+      {
+        "CashNote": "£25",
+        "Value": {
+          "Amount": 25,
+          "CurrencyCode": "SYP"
+        }
+      },
+      {
+        "CashNote": "£50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "SYP"
+        }
+      },
+      {
+        "CashNote": "£100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "SYP"
+        }
+      },
+      {
+        "CashNote": "£200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "SYP"
+        }
+      },
+      {
+        "CashNote": "£500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "SYP"
+        }
+      },
+      {
+        "CashNote": "£1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "SYP"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "SZL",
+    "Name": "Swazi Lilangeni",
+    "CurrencyIsoNumeric": 748,
+    "Symbol": "E",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Lilangeni or emalangeni",
+    "MajorSymbol": "L or E",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "SZL"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "E10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "SZL"
+        }
+      },
+      {
+        "CashNote": "E20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "SZL"
+        }
+      },
+      {
+        "CashNote": "E50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "SZL"
+        }
+      },
+      {
+        "CashNote": "E100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "SZL"
+        }
+      },
+      {
+        "CashNote": "E200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "SZL"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "THB",
+    "Name": "Thai Baht",
+    "CurrencyIsoNumeric": 764,
+    "Symbol": "฿",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "baht",
+    "MajorSymbol": "฿",
+    "MinorName": "satang",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "THB"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "฿20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "THB"
+        }
+      },
+      {
+        "CashNote": "฿50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "THB"
+        }
+      },
+      {
+        "CashNote": "฿100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "THB"
+        }
+      },
+      {
+        "CashNote": "฿500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "THB"
+        }
+      },
+      {
+        "CashNote": "฿1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "THB"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "TND",
+    "Name": "Tunisian Dinar",
+    "CurrencyIsoNumeric": 788,
+    "Symbol": "د.ت.‏",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 3,
+    "MajorName": "dinar",
+    "MajorSymbol": "",
+    "MinorName": "milim or millime",
+    "MinorSymbol": "ت.د",
+    "MinorToMajorValue": {
+      "Amount": 0.001,
+      "CurrencyCode": "TND"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "TND"
+        }
+      },
+      {
+        "CashNote": "10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "TND"
+        }
+      },
+      {
+        "CashNote": "20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "TND"
+        }
+      },
+      {
+        "CashNote": "50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "TND"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "TOP",
+    "Name": "Tongan Pa'anga",
+    "CurrencyIsoNumeric": 776,
+    "Symbol": "T$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "hau",
+    "MajorSymbol": "T$",
+    "MinorName": "seniti",
+    "MinorSymbol": "¢",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "TOP"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "T$1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "TOP"
+        }
+      },
+      {
+        "CashNote": "T$2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "TOP"
+        }
+      },
+      {
+        "CashNote": "T$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "TOP"
+        }
+      },
+      {
+        "CashNote": "T$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "TOP"
+        }
+      },
+      {
+        "CashNote": "T$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "TOP"
+        }
+      },
+      {
+        "CashNote": "T$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "TOP"
+        }
+      },
+      {
+        "CashNote": "T$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "TOP"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "TRY",
+    "Name": "Turkish Lira",
+    "CurrencyIsoNumeric": 949,
+    "Symbol": "₺",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "lira",
+    "MajorSymbol": "₺",
+    "MinorName": "kuruş",
+    "MinorSymbol": "Kr",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "TRY"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "TRY"
+        }
+      },
+      {
+        "CashNote": "10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "TRY"
+        }
+      },
+      {
+        "CashNote": "20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "TRY"
+        }
+      },
+      {
+        "CashNote": "50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "TRY"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "TTD",
+    "Name": "Trinidadian dollar",
+    "CurrencyIsoNumeric": 780,
+    "Symbol": "TT$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "TT$",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "TTD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "TT$1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "TTD"
+        }
+      },
+      {
+        "CashNote": "TT$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "TTD"
+        }
+      },
+      {
+        "CashNote": "TT$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "TTD"
+        }
+      },
+      {
+        "CashNote": "TT$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "TTD"
+        }
+      },
+      {
+        "CashNote": "TT$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "TTD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "TWD",
+    "Name": "Taiwan New Dollar",
+    "CurrencyIsoNumeric": 901,
+    "Symbol": "NT$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "NT$",
+    "MinorName": "jiao",
+    "MinorSymbol": "角",
+    "MinorToMajorValue": {
+      "Amount": 0.1,
+      "CurrencyCode": "TWD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "NT$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "TWD"
+        }
+      },
+      {
+        "CashNote": "NT$500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "TWD"
+        }
+      },
+      {
+        "CashNote": "NT$1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "TWD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "TZS",
+    "Name": "Tanzanian Shilling",
+    "CurrencyIsoNumeric": 834,
+    "Symbol": "TSh",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Shilling",
+    "MajorSymbol": "Sh",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "TZS"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "TZS"
+        }
+      },
+      {
+        "CashNote": "1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "TZS"
+        }
+      },
+      {
+        "CashNote": "2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "TZS"
+        }
+      },
+      {
+        "CashNote": "5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "TZS"
+        }
+      },
+      {
+        "CashNote": "10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "TZS"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "UAH",
+    "Name": "Ukrainian Hryvnia",
+    "CurrencyIsoNumeric": 980,
+    "Symbol": "₴",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": ",",
+    "DecimalDigits": 2,
+    "MajorName": "Hryvnia",
+    "MajorSymbol": "₴",
+    "MinorName": "Kopiyka",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "UAH"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "₴1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "UAH"
+        }
+      },
+      {
+        "CashNote": "₴2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "UAH"
+        }
+      },
+      {
+        "CashNote": "₴5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "UAH"
+        }
+      },
+      {
+        "CashNote": "₴10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "UAH"
+        }
+      },
+      {
+        "CashNote": "₴20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "UAH"
+        }
+      },
+      {
+        "CashNote": "₴50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "UAH"
+        }
+      },
+      {
+        "CashNote": "₴100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "UAH"
+        }
+      },
+      {
+        "CashNote": "₴200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "UAH"
+        }
+      },
+      {
+        "CashNote": "₴500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "UAH"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "UGX",
+    "Name": "Ugandan Shilling",
+    "CurrencyIsoNumeric": 800,
+    "Symbol": "USh",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Shilling",
+    "MajorSymbol": "USh",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "UGX"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "USh2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "UGX"
+        }
+      },
+      {
+        "CashNote": "USh5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "UGX"
+        }
+      },
+      {
+        "CashNote": "USh10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "UGX"
+        }
+      },
+      {
+        "CashNote": "USh20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "UGX"
+        }
+      },
+      {
+        "CashNote": "USh50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "UGX"
+        }
+      },
+      {
+        "CashNote": "USh100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "UGX"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "USD",
+    "Name": "US Dollar",
+    "CurrencyIsoNumeric": 840,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "$",
+    "MinorName": "cent",
+    "MinorSymbol": "¢",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "USD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "USD"
+        }
+      },
+      {
+        "CashNote": "$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "USD"
+        }
+      },
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "USD"
+        }
+      },
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "USD"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "USD"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "USD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "UYU",
+    "Name": "Uruguayan peso",
+    "CurrencyIsoNumeric": 858,
+    "Symbol": "$U",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "peso",
+    "MajorSymbol": "$U",
+    "MinorName": "centésimo",
+    "MinorSymbol": "¢",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "UYU"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$U20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "UYU"
+        }
+      },
+      {
+        "CashNote": "$U50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "UYU"
+        }
+      },
+      {
+        "CashNote": "$U100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "UYU"
+        }
+      },
+      {
+        "CashNote": "$U200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "UYU"
+        }
+      },
+      {
+        "CashNote": "$U500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "UYU"
+        }
+      },
+      {
+        "CashNote": "$U1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "UYU"
+        }
+      },
+      {
+        "CashNote": "$U2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "UYU"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "UZS",
+    "Name": "Uzbekistani som",
+    "CurrencyIsoNumeric": 860,
+    "Symbol": "сўм",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": ",",
+    "SpaceBetweenAmountAndSymbol": true,
+    "DecimalDigits": 2,
+    "MajorName": "som",
+    "MajorSymbol": "лв",
+    "MinorName": "Tiyin",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "UZS"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "лв1",
+        "Value": {
+          "Amount": 1,
+          "CurrencyCode": "UZS"
+        }
+      },
+      {
+        "CashNote": "лв3",
+        "Value": {
+          "Amount": 3,
+          "CurrencyCode": "UZS"
+        }
+      },
+      {
+        "CashNote": "лв5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "UZS"
+        }
+      },
+      {
+        "CashNote": "лв10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "UZS"
+        }
+      },
+      {
+        "CashNote": "лв25",
+        "Value": {
+          "Amount": 25,
+          "CurrencyCode": "UZS"
+        }
+      },
+      {
+        "CashNote": "лв50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "UZS"
+        }
+      },
+      {
+        "CashNote": "лв100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "UZS"
+        }
+      },
+      {
+        "CashNote": "лв200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "UZS"
+        }
+      },
+      {
+        "CashNote": "лв500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "UZS"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "VND",
+    "Name": "Vietnamese Dong",
+    "CurrencyIsoNumeric": 704,
+    "Symbol": "₫",
+    "ThousandsSeparator": ".",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "MajorName": "dong",
+    "MajorSymbol": "₫",
+    "MinorName": "xu",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "VND"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "₫100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "VND"
+        }
+      },
+      {
+        "CashNote": "₫200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "VND"
+        }
+      },
+      {
+        "CashNote": "₫500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "VND"
+        }
+      },
+      {
+        "CashNote": "₫1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "VND"
+        }
+      },
+      {
+        "CashNote": "₫2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "VND"
+        }
+      },
+      {
+        "CashNote": "₫5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "VND"
+        }
+      },
+      {
+        "CashNote": "₫10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "VND"
+        }
+      },
+      {
+        "CashNote": "₫20000",
+        "Value": {
+          "Amount": 20000,
+          "CurrencyCode": "VND"
+        }
+      },
+      {
+        "CashNote": "₫50000",
+        "Value": {
+          "Amount": 50000,
+          "CurrencyCode": "VND"
+        }
+      },
+      {
+        "CashNote": "₫100000",
+        "Value": {
+          "Amount": 100000,
+          "CurrencyCode": "VND"
+        }
+      },
+      {
+        "CashNote": "₫200000",
+        "Value": {
+          "Amount": 200000,
+          "CurrencyCode": "VND"
+        }
+      },
+      {
+        "CashNote": "₫500000",
+        "Value": {
+          "Amount": 500000,
+          "CurrencyCode": "VND"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "VUV",
+    "Name": "Ni-Vanuatu Vatu",
+    "CurrencyIsoNumeric": 548,
+    "Symbol": "VT",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "MajorName": "vatu",
+    "MajorSymbol": "VT",
+    "MinorName": "",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 1,
+      "CurrencyCode": "VUV"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "100VT",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "VUV"
+        }
+      },
+      {
+        "CashNote": "200VT",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "VUV"
+        }
+      },
+      {
+        "CashNote": "500VT",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "VUV"
+        }
+      },
+      {
+        "CashNote": "1000VT",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "VUV"
+        }
+      },
+      {
+        "CashNote": "2000VT",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "VUV"
+        }
+      },
+      {
+        "CashNote": "5000VT",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "VUV"
+        }
+      },
+      {
+        "CashNote": "10000VT",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "VUV"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "WST",
+    "Name": "Samoan Tālā",
+    "CurrencyIsoNumeric": 882,
+    "Symbol": "WS$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "tālā",
+    "MajorSymbol": "$",
+    "MinorName": "sene",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "WST"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "$2",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "WST"
+        }
+      },
+      {
+        "CashNote": "$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "WST"
+        }
+      },
+      {
+        "CashNote": "$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "WST"
+        }
+      },
+      {
+        "CashNote": "$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "WST"
+        }
+      },
+      {
+        "CashNote": "$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "WST"
+        }
+      },
+      {
+        "CashNote": "$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "WST"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "XCD",
+    "Name": "East Caribbean dollar",
+    "CurrencyIsoNumeric": 951,
+    "Symbol": "$",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "dollar",
+    "MajorSymbol": "EC$",
+    "MinorName": "cent",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "XCD"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "EC$5",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "XCD"
+        }
+      },
+      {
+        "CashNote": "EC$10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "XCD"
+        }
+      },
+      {
+        "CashNote": "EC$20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "XCD"
+        }
+      },
+      {
+        "CashNote": "EC$50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "XCD"
+        }
+      },
+      {
+        "CashNote": "EC$100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "XCD"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "XOF",
+    "Name": "CFA Franc",
+    "CurrencyIsoNumeric": 952,
+    "Symbol": "F",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": ",",
+    "DecimalDigits": 2,
+    "MajorName": "franc",
+    "MajorSymbol": "",
+    "MinorName": "centime",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "XOF"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "XOF"
+        }
+      },
+      {
+        "CashNote": "1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "XOF"
+        }
+      },
+      {
+        "CashNote": "2000",
+        "Value": {
+          "Amount": 2000,
+          "CurrencyCode": "XOF"
+        }
+      },
+      {
+        "CashNote": "5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "XOF"
+        }
+      },
+      {
+        "CashNote": "10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "XOF"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "XPF",
+    "Name": "CFP Franc",
+    "CurrencyIsoNumeric": 953,
+    "Symbol": "F",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "DecimalDigits": 2,
+    "MajorName": "franc",
+    "MajorSymbol": "",
+    "MinorName": "centime",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "XPF"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "XPF"
+        }
+      },
+      {
+        "CashNote": "1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "XPF"
+        }
+      },
+      {
+        "CashNote": "5000",
+        "Value": {
+          "Amount": 5000,
+          "CurrencyCode": "XPF"
+        }
+      },
+      {
+        "CashNote": "10000",
+        "Value": {
+          "Amount": 10000,
+          "CurrencyCode": "XPF"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "YER",
+    "Name": "Yemeni Rial",
+    "CurrencyIsoNumeric": 886,
+    "Symbol": "﷼",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "rial",
+    "MajorSymbol": "",
+    "MinorName": "fils",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "YER"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "YER"
+        }
+      },
+      {
+        "CashNote": "100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "YER"
+        }
+      },
+      {
+        "CashNote": "200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "YER"
+        }
+      },
+      {
+        "CashNote": "250",
+        "Value": {
+          "Amount": 250,
+          "CurrencyCode": "YER"
+        }
+      },
+      {
+        "CashNote": "500",
+        "Value": {
+          "Amount": 500,
+          "CurrencyCode": "YER"
+        }
+      },
+      {
+        "CashNote": "1000",
+        "Value": {
+          "Amount": 1000,
+          "CurrencyCode": "YER"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "ZAR",
+    "Name": "South African Rand",
+    "CurrencyIsoNumeric": 710,
+    "Symbol": "R",
+    "ThousandsSeparator": " ",
+    "DecimalSeparator": ",",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Rand",
+    "MajorSymbol": "R",
+    "MinorName": "cent",
+    "MinorSymbol": "c",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "ZAR"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "R10",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "ZAR"
+        }
+      },
+      {
+        "CashNote": "R20",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "ZAR"
+        }
+      },
+      {
+        "CashNote": "R50",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "ZAR"
+        }
+      },
+      {
+        "CashNote": "R100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "ZAR"
+        }
+      },
+      {
+        "CashNote": "R200",
+        "Value": {
+          "Amount": 200,
+          "CurrencyCode": "ZAR"
+        }
+      }
+    ],
+    "ExchangeRates": []
+  },
+  {
+    "Id": "ZMW",
+    "Name": "Zambian Kwacha",
+    "CurrencyIsoNumeric": 967,
+    "Symbol": "ZK",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "Kwacha",
+    "MajorSymbol": "ZMK",
+    "MinorName": "ngwee",
+    "MinorSymbol": "",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "ZMW"
+    },
+    "Countries": [],
+    "MinimumCashStocks": [],
+    "BankNotes": [
+      {
+        "CashNote": "2 kwacha",
+        "Value": {
+          "Amount": 2,
+          "CurrencyCode": "ZMW"
+        }
+      },
+      {
+        "CashNote": "5 kwacha",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "ZMW"
+        }
+      },
+      {
+        "CashNote": "10 kwacha",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "ZMW"
+        }
+      },
+      {
+        "CashNote": "20 kwacha",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "ZMW"
+        }
+      },
+      {
+        "CashNote": "50 kwacha",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "ZMW"
+        }
+      },
+      {
+        "CashNote": "100 kwacha",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "ZMW"
+        }
+      }
+    ],
+    "ExchangeRates": []
   }
 ]

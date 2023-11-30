@@ -43,7 +43,9 @@ public class CryptocashCurrencyDtoDataCreationTests
                         && !String.IsNullOrWhiteSpace(currentCurrency.IsoCode)
                         && !String.IsNullOrWhiteSpace(currentCurrency.IsoNumber)
                         && !String.IsNullOrWhiteSpace(currentCurrency.Symbol)
-                        && Enum.IsDefined(typeof(Nox.Types.CurrencyCode), currentCurrency.IsoCode))
+                        && Enum.IsDefined(typeof(Nox.Types.CurrencyCode), currentCurrency.IsoCode)
+                        && Enum.IsDefined(typeof(Nox.Types.CurrencyCode), (int)Convert_IsoNumberReference_to_Dto(currentCurrency.IsoNumber))
+                        )
                     {
                         CreatedData.Add(
                         new()
