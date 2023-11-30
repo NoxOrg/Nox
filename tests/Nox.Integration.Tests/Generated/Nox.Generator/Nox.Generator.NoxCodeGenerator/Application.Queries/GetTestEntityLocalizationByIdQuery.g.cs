@@ -51,10 +51,7 @@ internal abstract class GetTestEntityLocalizationByIdQueryHandlerBase:  QueryBas
                 Etag = item.Etag
             };
 
-        var sqlStatement = linqQueryBuilder.ToQueryString()
-            .Replace("DECLARE", "-- DECLARE")
-            .Replace($"= @__{nameof(request)}_{nameof(request.keyId)}_0", $"= '{request.keyId}'")
-            .Replace($"@__{nameof(cultureCode)}_1", $"'{cultureCode}'");
+        var sqlStatement = linqQueryBuilder.ToQueryString();
 
         IQueryable<TestEntityLocalizationDto> getItemsQuery =
             from item in DataDbContext.TestEntityLocalizations.FromSqlRaw(sqlStatement)
