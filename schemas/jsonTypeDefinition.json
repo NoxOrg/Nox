@@ -1,0 +1,213 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "anyOf": [
+    {
+      "required": [
+        "name",
+        "type",
+        "items"
+      ],
+      "properties": {
+        "name": {    
+          "type": "string"
+        },
+        "description": {    
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": {    
+          "const": "array"
+        },
+        "items": {    
+          "anyOf": [
+            { "$ref": "jsonTypeDefinition.json" },
+            {
+              "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isRequired": {    
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "array",
+                "object"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "type",
+        "attributes"
+      ],
+      "properties": {
+        "name": {    
+          "type": "string"
+        },
+        "description": {    
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": {    
+          "const": "object"
+        },
+        "attributes": {    
+          "type": "array",
+          "items":   {
+            "anyOf": [
+              { "$ref": "jsonTypeDefinition.json" },
+              {
+                "additionalProperties": false, 
+                "required": ["$ref"],
+                "type": "object",
+                "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri",
+                    "pattern": "^[^\\s]*$"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "isRequired": {    
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "array",
+                "object"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "type": "string"
+        },
+        "description": {    
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": {    
+          "type": "string",
+          "enum": [
+            "boolean",
+            "dateString",
+            "null",
+            "number",
+            "string"
+          ]
+        },
+        "isRequired": {    
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "array",
+                "object"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}
