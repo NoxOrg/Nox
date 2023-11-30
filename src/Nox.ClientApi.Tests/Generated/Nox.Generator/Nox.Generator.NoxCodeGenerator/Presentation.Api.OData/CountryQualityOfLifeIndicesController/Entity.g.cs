@@ -69,6 +69,10 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
 
     public virtual async Task<ActionResult<CountryQualityOfLifeIndexDto>> Post([FromBody] CountryQualityOfLifeIndexCreateDto countryQualityOfLifeIndex)
     {
+        if(countryQualityOfLifeIndex is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
 
     public virtual async Task<ActionResult<CountryQualityOfLifeIndexDto>> Put([FromRoute] System.Int64 keyCountryId, [FromRoute] System.Int64 keyId, [FromBody] CountryQualityOfLifeIndexUpdateDto countryQualityOfLifeIndex)
     {
+        if(countryQualityOfLifeIndex is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -103,7 +111,11 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
 
     public virtual async Task<ActionResult<CountryQualityOfLifeIndexDto>> Patch([FromRoute] System.Int64 keyCountryId, [FromRoute] System.Int64 keyId, [FromBody] Delta<CountryQualityOfLifeIndexUpdateDto> countryQualityOfLifeIndex)
     {
-        if (!ModelState.IsValid || countryQualityOfLifeIndex is null)
+        if(countryQualityOfLifeIndex is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

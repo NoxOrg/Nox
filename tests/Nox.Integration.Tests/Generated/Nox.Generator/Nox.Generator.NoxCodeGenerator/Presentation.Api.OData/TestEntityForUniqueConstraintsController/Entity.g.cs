@@ -69,6 +69,10 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
 
     public virtual async Task<ActionResult<TestEntityForUniqueConstraintsDto>> Post([FromBody] TestEntityForUniqueConstraintsCreateDto testEntityForUniqueConstraints)
     {
+        if(testEntityForUniqueConstraints is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
 
     public virtual async Task<ActionResult<TestEntityForUniqueConstraintsDto>> Put([FromRoute] System.String key, [FromBody] TestEntityForUniqueConstraintsUpdateDto testEntityForUniqueConstraints)
     {
+        if(testEntityForUniqueConstraints is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -103,7 +111,11 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
 
     public virtual async Task<ActionResult<TestEntityForUniqueConstraintsDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityForUniqueConstraintsUpdateDto> testEntityForUniqueConstraints)
     {
-        if (!ModelState.IsValid || testEntityForUniqueConstraints is null)
+        if(testEntityForUniqueConstraints is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

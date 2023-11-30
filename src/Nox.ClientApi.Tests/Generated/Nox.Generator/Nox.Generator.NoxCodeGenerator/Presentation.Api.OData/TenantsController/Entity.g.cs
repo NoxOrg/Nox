@@ -69,6 +69,10 @@ public abstract partial class TenantsControllerBase : ODataController
 
     public virtual async Task<ActionResult<TenantDto>> Post([FromBody] TenantCreateDto tenant)
     {
+        if(tenant is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class TenantsControllerBase : ODataController
 
     public virtual async Task<ActionResult<TenantDto>> Put([FromRoute] System.UInt32 key, [FromBody] TenantUpdateDto tenant)
     {
+        if(tenant is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -103,7 +111,11 @@ public abstract partial class TenantsControllerBase : ODataController
 
     public virtual async Task<ActionResult<TenantDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<TenantUpdateDto> tenant)
     {
-        if (!ModelState.IsValid || tenant is null)
+        if(tenant is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

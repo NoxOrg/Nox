@@ -69,6 +69,10 @@ public abstract partial class VendingMachinesControllerBase : ODataController
 
     public virtual async Task<ActionResult<VendingMachineDto>> Post([FromBody] VendingMachineCreateDto vendingMachine)
     {
+        if(vendingMachine is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class VendingMachinesControllerBase : ODataController
 
     public virtual async Task<ActionResult<VendingMachineDto>> Put([FromRoute] System.Guid key, [FromBody] VendingMachineUpdateDto vendingMachine)
     {
+        if(vendingMachine is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -103,7 +111,11 @@ public abstract partial class VendingMachinesControllerBase : ODataController
 
     public virtual async Task<ActionResult<VendingMachineDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<VendingMachineUpdateDto> vendingMachine)
     {
-        if (!ModelState.IsValid || vendingMachine is null)
+        if(vendingMachine is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
