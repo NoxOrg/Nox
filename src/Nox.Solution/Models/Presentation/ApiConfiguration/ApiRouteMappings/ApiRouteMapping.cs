@@ -55,7 +55,7 @@ public class ApiRouteMapping : YamlConfigNode<NoxSolution, ApiConfiguration>
     public string HttpVerbString { get; private set; } = null!;
 
     [YamlIgnore]
-    public string ContentTypeString { get; private set; } = null!;
+    public string RequestContentTypeString { get; private set; } = null!;
 
     [YamlIgnore]
     public string ResponseContentTypeString { get; private set; } = null!;
@@ -65,7 +65,7 @@ public class ApiRouteMapping : YamlConfigNode<NoxSolution, ApiConfiguration>
         Route = SanitizeEndpoint(Route);
         TargetUrl = SanitizeEndpoint(TargetUrl);
         HttpVerbString = HttpVerbToHttpVerbString(HttpVerb);
-        ContentTypeString = ToContentTypeString(RequestBodyType);
+        RequestContentTypeString = ToContentTypeString(RequestBodyType);
         ResponseContentTypeString = ToContentTypeString(ContentBodyType.Json);
     }
 

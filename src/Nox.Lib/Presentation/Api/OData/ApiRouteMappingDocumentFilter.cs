@@ -45,7 +45,6 @@ public class ApiRouteMappingDocumentFilter : IDocumentFilter
             {
                 OperationId = route.Route,
                 Summary = route.Description,
-
             };
 
             // assign tag
@@ -71,6 +70,23 @@ public class ApiRouteMappingDocumentFilter : IDocumentFilter
                 }
 
                 operation.Parameters.Add(p);
+            }
+
+            // add request body if it's supplied
+
+            if (route.JsonBodyType is not null)
+            {
+                operation.RequestBody = new OpenApiRequestBody()
+                {
+                    Required = true,
+                    Content = new Dictionary<string, OpenApiMediaType>()
+                    {
+                        [route.RequestContentTypeString] = new OpenApiMediaType
+                        {
+                            Schema = ToOpenApiSchema(route.JsonBodyType)
+                        }
+                    }
+                };
             }
 
 
