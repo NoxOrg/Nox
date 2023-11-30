@@ -61,7 +61,7 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, DefaultCultureCode);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 
