@@ -29,7 +29,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -106,7 +106,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         return Ok();
     }
     
-    public async Task<ActionResult> CreateRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
