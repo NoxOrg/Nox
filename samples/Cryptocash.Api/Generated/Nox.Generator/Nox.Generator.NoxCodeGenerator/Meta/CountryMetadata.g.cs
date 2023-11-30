@@ -154,6 +154,13 @@ public partial class CountryMetadata
         
     
         /// <summary>
+        /// Factory for property 'Population'
+        /// </summary>
+        public static Nox.Types.Number CreatePopulation(System.Int32 value)
+            => Nox.Types.Number.From(value);
+        
+    
+        /// <summary>
         /// Factory for property 'CountryTimeZoneId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateCountryTimeZoneId(System.Int64 value)
@@ -289,5 +296,14 @@ public partial class CountryMetadata
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("StartOfWeek")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Population'
+        /// </summary>
+        public static TypeUserInterface? PopulationUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("Population")?
                 .UserInterface;
 }

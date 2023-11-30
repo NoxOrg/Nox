@@ -95,6 +95,13 @@ public partial class CountryUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNames
     
     public virtual System.UInt16 StartOfWeek { get; set; } = default!;
     /// <summary>
+    /// Country's population     
+    /// </summary>
+    /// <remarks>Required.</remarks>
+    [Required(ErrorMessage = "Population is required")]
+    
+    public virtual System.Int32 Population { get; set; } = default!;
+    /// <summary>
     /// Country owned OneOrMany CountryTimeZones
     /// </summary>
     public virtual List<CountryTimeZoneUpsertDto> CountryTimeZones { get; set; } = new();

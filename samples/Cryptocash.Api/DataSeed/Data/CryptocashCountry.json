@@ -1,0 +1,198 @@
+﻿[
+  {
+    "Id": "CH",
+    "Name": "Switzerland",
+    "OfficialName": "Swiss Confederation",
+    "CountryIsoNumeric": 756,
+    "CountryIsoAlpha3": "CHE",
+    "FlagEmoji": "CH",
+    "GoogleMapsUrl": "https://goo.gl/maps/uVuZcXaxSx5jLyEC9",
+    "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/51701",
+    "StartOfWeek": 1,
+    "CurrencyId": "CHF",
+    "Population": 8654622,
+    "GeoCoords": {
+      "Latitude": 46.92,
+      "Longitude": 7.47
+    },
+    "FlagSvg": null,
+    "FlagPng": null,
+    "CoatOfArmsSvg": null,
+    "CoatOfArmsPng": null,
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
+    "Holidays": [
+      {
+        "Name": "New Year\u0027s Day",
+        "Type": "public",
+        "Date": "2023-01-01"
+      },
+      {
+        "Name": "Maundy Thursday",
+        "Type": "observance",
+        "Date": "2023-04-06"
+      },
+      {
+        "Name": "Good Friday",
+        "Type": "public",
+        "Date": "2023-04-07"
+      },
+      {
+        "Name": "Easter Sunday",
+        "Type": "public",
+        "Date": "2023-04-09"
+      },
+      {
+        "Name": "Easter Monday",
+        "Type": "public",
+        "Date": "2023-04-10"
+      },
+      {
+        "Name": "Mother\u0027s Day",
+        "Type": "observance",
+        "Date": "2023-05-14"
+      },
+      {
+        "Name": "Ascension Day",
+        "Type": "public",
+        "Date": "2023-05-18"
+      },
+      {
+        "Name": "Pentecost",
+        "Type": "public",
+        "Date": "2023-05-28"
+      },
+      {
+        "Name": "Whit Monday",
+        "Type": "public",
+        "Date": "2023-05-29"
+      },
+      {
+        "Name": "V\u00E4tertag",
+        "Type": "observance",
+        "Date": "2023-06-04"
+      },
+      {
+        "Name": "Bundesfeiertag",
+        "Type": "public",
+        "Date": "2023-08-01"
+      },
+      {
+        "Name": "Federal Day of Thanksgiving, Repentance and Prayer",
+        "Type": "public",
+        "Date": "2023-09-17"
+      },
+      {
+        "Name": "Christmas Day",
+        "Type": "public",
+        "Date": "2023-12-25"
+      },
+      {
+        "Name": "Boxing Day",
+        "Type": "public",
+        "Date": "2023-12-26"
+      }
+    ]
+  },
+  {
+    "Id": "GB",
+    "Name": "United Kingdom",
+    "OfficialName": "United Kingdom of Great Britain and Northern Ireland",
+    "CountryIsoNumeric": 826,
+    "CountryIsoAlpha3": "GBR",
+    "FlagEmoji": "\uD83C\uDDEC\uD83C\uDDE7",
+    "GoogleMapsUrl": "https://goo.gl/maps/FoDtc3UKMkFsXAjHA",
+    "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/62149",
+    "StartOfWeek": 1,
+    "CurrencyId": "GBP",
+    "Population": 67215293,
+    "GeoCoords": {
+      "Latitude": 54,
+      "Longitude": -2
+    },
+    "FlagSvg": null,
+    "FlagPng": null,
+    "CoatOfArmsSvg": null,
+    "CoatOfArmsPng": null,
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "UTC"
+      }
+    ],
+    "Holidays": [
+      {
+        "Name": "New Year\u0027s Day",
+        "Type": "public",
+        "Date": "2023-01-01"
+      },
+      {
+        "Name": "Maundy Thursday",
+        "Type": "observance",
+        "Date": "2023-04-06"
+      },
+      {
+        "Name": "Good Friday",
+        "Type": "public",
+        "Date": "2023-04-07"
+      },
+      {
+        "Name": "Easter Sunday",
+        "Type": "public",
+        "Date": "2023-04-09"
+      },
+      {
+        "Name": "Easter Monday",
+        "Type": "public",
+        "Date": "2023-04-10"
+      },
+      {
+        "Name": "Mother\u0027s Day",
+        "Type": "observance",
+        "Date": "2023-05-14"
+      },
+      {
+        "Name": "Ascension Day",
+        "Type": "public",
+        "Date": "2023-05-18"
+      },
+      {
+        "Name": "Pentecost",
+        "Type": "public",
+        "Date": "2023-05-28"
+      },
+      {
+        "Name": "Whit Monday",
+        "Type": "public",
+        "Date": "2023-05-29"
+      },
+      {
+        "Name": "V\u00E4tertag",
+        "Type": "observance",
+        "Date": "2023-06-04"
+      },
+      {
+        "Name": "Bundesfeiertag",
+        "Type": "public",
+        "Date": "2023-08-01"
+      },
+      {
+        "Name": "Federal Day of Thanksgiving, Repentance and Prayer",
+        "Type": "public",
+        "Date": "2023-09-17"
+      },
+      {
+        "Name": "Christmas Day",
+        "Type": "public",
+        "Date": "2023-12-25"
+      },
+      {
+        "Name": "Boxing Day",
+        "Type": "public",
+        "Date": "2023-12-26"
+      }
+    ]
+  }
+]

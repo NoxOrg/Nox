@@ -363,6 +363,9 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(2083)
                         .HasColumnType("nvarchar(2083)");
 
+                    b.Property<int>("Population")
+                        .HasColumnType("int");
+
                     b.Property<ushort>("StartOfWeek")
                         .HasColumnType("int");
 
@@ -500,6 +503,9 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(63)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
+
+                    b.Property<bool>("SymbolOnLeft")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ThousandsSeparator")
                         .HasMaxLength(63)
@@ -774,11 +780,9 @@ namespace Cryptocash.Api.Migrations
 
             modelBuilder.Entity("Cryptocash.Domain.LandLord", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<Guid>("Id")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
@@ -1174,8 +1178,9 @@ namespace Cryptocash.Api.Migrations
                     b.Property<decimal?>("InstallationFootPrint")
                         .HasColumnType("DECIMAL(21, 6)");
 
-                    b.Property<long>("LandLordId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("LandLordId")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastUpdatedAtUtc")
                         .HasColumnType("datetime2");
@@ -1750,9 +1755,82 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("CountryId");
                         });
 
+                    b.OwnsMany("Cryptocash.Domain.CountryTimeZone", "CountryTimeZones", b1 =>
+                        {
+                            b1.Property<long>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bigint");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<long>("Id"));
+
+                            b1.Property<DateTime>("AsAt")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("CountryId")
+                                .IsRequired()
+                                .HasColumnType("char(2)");
+
+                            b1.Property<string>("TimeZoneCode")
+                                .IsRequired()
+                                .HasMaxLength(5)
+                                .IsUnicode(false)
+                                .HasColumnType("varchar(5)");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("CountryId");
+
+                            b1.ToTable("CountryTimeZone");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CountryId");
+                        });
+
+                    b.OwnsMany("Cryptocash.Domain.Holiday", "Holidays", b1 =>
+                        {
+                            b1.Property<long>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bigint");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<long>("Id"));
+
+                            b1.Property<DateTime>("AsAt")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("CountryId")
+                                .IsRequired()
+                                .HasColumnType("char(2)");
+
+                            b1.Property<DateTime>("Date")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasMaxLength(63)
+                                .IsUnicode(true)
+                                .HasColumnType("nvarchar(63)");
+
+                            b1.Property<string>("Type")
+                                .IsRequired()
+                                .HasMaxLength(63)
+                                .IsUnicode(true)
+                                .HasColumnType("nvarchar(63)");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("CountryId");
+
+                            b1.ToTable("Holiday");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CountryId");
+                        });
+
                     b.Navigation("CoatOfArmsPng");
 
                     b.Navigation("CoatOfArmsSvg");
+
+                    b.Navigation("CountryTimeZones");
 
                     b.Navigation("Currency");
 
@@ -1761,10 +1839,65 @@ namespace Cryptocash.Api.Migrations
                     b.Navigation("FlagSvg");
 
                     b.Navigation("GeoCoords");
+
+                    b.Navigation("Holidays");
                 });
 
             modelBuilder.Entity("Cryptocash.Domain.CountryTimeZone", b =>
                 {
+                    b.OwnsMany("Cryptocash.Domain.BankNote", "BankNotes", b1 =>
+                        {
+                            b1.Property<long>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bigint");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<long>("Id"));
+
+                            b1.Property<DateTime>("AsAt")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("CashNote")
+                                .IsRequired()
+                                .HasMaxLength(63)
+                                .IsUnicode(true)
+                                .HasColumnType("nvarchar(63)");
+
+                            b1.Property<string>("CurrencyId")
+                                .IsRequired()
+                                .HasColumnType("char(3)");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("CurrencyId");
+
+                            b1.ToTable("BankNote");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CurrencyId");
+
+                            b1.OwnsOne("Nox.Types.Money", "Value", b2 =>
+                                {
+                                    b2.Property<long>("BankNoteId")
+                                        .HasColumnType("bigint");
+
+                                    b2.Property<decimal>("Amount")
+                                        .HasColumnType("decimal(13, 4)");
+
+                                    b2.Property<int>("CurrencyCode")
+                                        .HasColumnType("int");
+
+                                    b2.HasKey("BankNoteId");
+
+                                    b2.ToTable("BankNote");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("BankNoteId");
+                                });
+
+                            b1.Navigation("Value")
+                                .IsRequired();
+                        });
+                        
                     b.HasOne("Cryptocash.Domain.Country", null)
                         .WithMany("CountryTimeZones")
                         .HasForeignKey("CountryId")
@@ -1792,6 +1925,41 @@ namespace Cryptocash.Api.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("CurrencyId");
                         });
+
+                    b.OwnsMany("Cryptocash.Domain.ExchangeRate", "ExchangeRates", b1 =>
+                        {
+                            b1.Property<long>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bigint");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<long>("Id"));
+
+                            b1.Property<DateTime>("AsAt")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("CurrencyId")
+                                .IsRequired()
+                                .HasColumnType("char(3)");
+
+                            b1.Property<DateTimeOffset>("EffectiveAt")
+                                .HasColumnType("datetimeoffset");
+
+                            b1.Property<int>("EffectiveRate")
+                                .HasColumnType("int");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("CurrencyId");
+
+                            b1.ToTable("ExchangeRate");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CurrencyId");
+                        });
+
+                    b.Navigation("BankNotes");
+
+                    b.Navigation("ExchangeRates");
 
                     b.Navigation("MinorToMajorValue")
                         .IsRequired();
@@ -1924,6 +2092,37 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("EmployeeId");
                         });
 
+                    b.OwnsMany("Cryptocash.Domain.EmployeePhoneNumber", "EmployeePhoneNumbers", b1 =>
+                        {
+                            b1.Property<long>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bigint");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<long>("Id"));
+
+                            b1.Property<DateTime>("AsAt")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<long>("EmployeeId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("PhoneNumber")
+                                .IsRequired()
+                                .HasMaxLength(30)
+                                .HasColumnType("nvarchar(30)");
+
+                            b1.Property<string>("PhoneNumberType")
+                                .IsRequired()
+                                .HasMaxLength(63)
+                                .IsUnicode(true)
+                                .HasColumnType("nvarchar(63)");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("EmployeeId");
+
+                            b1.ToTable("EmployeePhoneNumber");
+                            
                     b.Navigation("Address")
                         .IsRequired();
                 });
@@ -1945,6 +2144,8 @@ namespace Cryptocash.Api.Migrations
                         .IsRequired();
                 });
 
+                    b.Navigation("EmployeePhoneNumbers");
+                    
             modelBuilder.Entity("Cryptocash.Domain.Holiday", b =>
                 {
                     b.HasOne("Cryptocash.Domain.Country", null)
@@ -1957,8 +2158,8 @@ namespace Cryptocash.Api.Migrations
                 {
                     b.OwnsOne("Nox.Types.StreetAddress", "Address", b1 =>
                         {
-                            b1.Property<long>("LandLordId")
-                                .HasColumnType("bigint");
+                            b1.Property<Guid>("LandLordId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("AddressLine1")
                                 .IsRequired()

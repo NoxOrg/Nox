@@ -106,7 +106,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok();
     }
     
-    public virtual async Task<ActionResult> CreateRefToLandLord([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToLandLord([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {

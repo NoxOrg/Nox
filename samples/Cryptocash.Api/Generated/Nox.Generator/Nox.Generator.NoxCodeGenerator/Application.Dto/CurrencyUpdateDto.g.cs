@@ -64,6 +64,13 @@ public partial class CurrencyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainName
     
     public virtual System.Boolean SpaceBetweenAmountAndSymbol { get; set; } = default!;
     /// <summary>
+    /// Currency's symbol position     
+    /// </summary>
+    /// <remarks>Required.</remarks>
+    [Required(ErrorMessage = "SymbolOnLeft is required")]
+    
+    public virtual System.Boolean SymbolOnLeft { get; set; } = default!;
+    /// <summary>
     /// Currency's numeric decimal digits     
     /// </summary>
     /// <remarks>Required.</remarks>

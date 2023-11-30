@@ -130,7 +130,7 @@ public abstract class VendingMachineDtoBase : EntityDtoBase, IEntityDto<DomainNa
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64? LandLordId { get; set; } = default!;
+    public System.Guid? LandLordId { get; set; } = default!;
     public virtual LandLordDto? LandLord { get; set; } = null!;
 
     /// <summary>

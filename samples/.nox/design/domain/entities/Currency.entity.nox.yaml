@@ -107,6 +107,18 @@ attributes:
       showOnCreateForm: true
       showOnUpdateForm: true
 
+  - name: SymbolOnLeft
+    description: Currency's symbol position
+    type: boolean
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
   - name: DecimalDigits
     description: Currency's numeric decimal digits
     type: number     

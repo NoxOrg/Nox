@@ -188,6 +188,18 @@ attributes:
       showOnCreateForm: true
       showOnUpdateForm: true 
 
+  - name: Population
+    description: Country's population
+    type: number     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true 
+
 ownedRelationships:
 
   - name: CountryOwnedTimeZones
