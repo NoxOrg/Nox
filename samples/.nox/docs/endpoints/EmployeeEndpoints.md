@@ -35,17 +35,19 @@ This document provides information about the various endpoints available in our 
 #### Get EmployeePhoneNumbers
 - **GET** `/api/Employees/{key}/EmployeePhoneNumbers`
   - Description: Retrieve all EmployeePhoneNumbers for a specific Employee.
+- **GET** `/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}`
+  - Description: Retrieve a EmployeePhoneNumber by ID for a specific Employee.
 
 #### Create EmployeePhoneNumber
 - **POST** `/api/Employees/{key}/EmployeePhoneNumbers`
   - Description: Create a new EmployeePhoneNumber for a specific Employee.
 
 #### Update EmployeePhoneNumber
-- **PUT** `/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}`
+- **PUT** `/api/Employees/{key}/EmployeePhoneNumbers`
   - Description: Update an existing EmployeePhoneNumber for a specific Employee.
   
 #### Partially Update EmployeePhoneNumber
-- **PATCH** `/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}`
+- **PATCH** `/api/Employees/{key}/EmployeePhoneNumbers`
   - Description: Partially update an existing EmployeePhoneNumber for a specific Employee.
 
 #### Delete EmployeePhoneNumber

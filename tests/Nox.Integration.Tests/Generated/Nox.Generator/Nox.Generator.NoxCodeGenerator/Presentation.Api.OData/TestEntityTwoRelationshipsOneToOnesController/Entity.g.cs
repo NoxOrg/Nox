@@ -69,6 +69,10 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
 
     public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToOneDto>> Post([FromBody] TestEntityTwoRelationshipsOneToOneCreateDto testEntityTwoRelationshipsOneToOne)
     {
+        if(testEntityTwoRelationshipsOneToOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
 
     public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToOneDto>> Put([FromRoute] System.String key, [FromBody] TestEntityTwoRelationshipsOneToOneUpdateDto testEntityTwoRelationshipsOneToOne)
     {
+        if(testEntityTwoRelationshipsOneToOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -101,9 +109,13 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityTwoRelationshipsOneToOneUpdateDto> testEntityTwoRelationshipsOneToOne)
+    public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityTwoRelationshipsOneToOnePartialUpdateDto> testEntityTwoRelationshipsOneToOne)
     {
-        if (!ModelState.IsValid || testEntityTwoRelationshipsOneToOne is null)
+        if(testEntityTwoRelationshipsOneToOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

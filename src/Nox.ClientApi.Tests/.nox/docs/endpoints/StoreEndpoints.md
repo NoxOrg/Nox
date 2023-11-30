@@ -30,28 +30,6 @@ This document provides information about the various endpoints available in our 
 
 ## Owned Relationships Endpoints
 
-### EmailAddress
-
-#### Get EmailAddresses
-- **GET** `/api/Stores/{key}/EmailAddresses`
-  - Description: Retrieve all EmailAddresses for a specific Store.
-
-#### Create EmailAddress
-- **POST** `/api/Stores/{key}/EmailAddresses`
-  - Description: Create a new EmailAddress for a specific Store.
-
-#### Update EmailAddress
-- **PUT** `/api/Stores/{key}/EmailAddresses/{relatedKey}`
-  - Description: Update an existing EmailAddress for a specific Store.
-  
-#### Partially Update EmailAddress
-- **PATCH** `/api/Stores/{key}/EmailAddresses/{relatedKey}`
-  - Description: Partially update an existing EmailAddress for a specific Store.
-
-#### Delete EmailAddress
-- **DELETE** `/api/Stores/{key}/EmailAddresses/{relatedKey}`
-  - Description: Delete an existing EmailAddress for a specific Store.
-
 ## Relationships Endpoints
 
 ### StoreOwner

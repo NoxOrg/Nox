@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cryptocash.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231129091646_InitialCreate")]
+    [Migration("20231130164538_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -366,6 +366,9 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(2083)
                         .HasColumnType("nvarchar(2083)");
 
+                    b.Property<int>("Population")
+                        .HasColumnType("int");
+
                     b.Property<ushort>("StartOfWeek")
                         .HasColumnType("int");
 
@@ -503,6 +506,9 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(63)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
+
+                    b.Property<bool>("SymbolOnLeft")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ThousandsSeparator")
                         .HasMaxLength(63)
@@ -777,11 +783,9 @@ namespace Cryptocash.Api.Migrations
 
             modelBuilder.Entity("Cryptocash.Domain.LandLord", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<Guid>("Id")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
@@ -1177,8 +1181,9 @@ namespace Cryptocash.Api.Migrations
                     b.Property<decimal?>("InstallationFootPrint")
                         .HasColumnType("DECIMAL(21, 6)");
 
-                    b.Property<long>("LandLordId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("LandLordId")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastUpdatedAtUtc")
                         .HasColumnType("datetime2");
@@ -1960,8 +1965,8 @@ namespace Cryptocash.Api.Migrations
                 {
                     b.OwnsOne("Nox.Types.StreetAddress", "Address", b1 =>
                         {
-                            b1.Property<long>("LandLordId")
-                                .HasColumnType("bigint");
+                            b1.Property<Guid>("LandLordId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("AddressLine1")
                                 .IsRequired()

@@ -69,6 +69,10 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
 
     public virtual async Task<ActionResult<TestEntityForAutoNumberUsagesDto>> Post([FromBody] TestEntityForAutoNumberUsagesCreateDto testEntityForAutoNumberUsages)
     {
+        if(testEntityForAutoNumberUsages is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
 
     public virtual async Task<ActionResult<TestEntityForAutoNumberUsagesDto>> Put([FromRoute] System.Int64 key, [FromBody] TestEntityForAutoNumberUsagesUpdateDto testEntityForAutoNumberUsages)
     {
+        if(testEntityForAutoNumberUsages is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -101,9 +109,13 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityForAutoNumberUsagesDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<TestEntityForAutoNumberUsagesUpdateDto> testEntityForAutoNumberUsages)
+    public virtual async Task<ActionResult<TestEntityForAutoNumberUsagesDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<TestEntityForAutoNumberUsagesPartialUpdateDto> testEntityForAutoNumberUsages)
     {
-        if (!ModelState.IsValid || testEntityForAutoNumberUsages is null)
+        if(testEntityForAutoNumberUsages is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

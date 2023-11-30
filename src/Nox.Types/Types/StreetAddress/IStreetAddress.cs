@@ -13,3 +13,16 @@ public interface IStreetAddress
     string? Route { get; }
     string? StreetNumber { get; }
 }
+public interface IWritableStreetAddress
+{
+    string AddressLine1 { set; }
+    string? AddressLine2 { set; }
+    string? AdministrativeArea1 { set; }
+    string? AdministrativeArea2 { set; }
+    CountryCode CountryId { set; }
+    string? Locality { set; }
+    string? Neighborhood { set; }
+    string PostalCode { set; }
+    string? Route { set; }
+    string? StreetNumber { set; }
+}

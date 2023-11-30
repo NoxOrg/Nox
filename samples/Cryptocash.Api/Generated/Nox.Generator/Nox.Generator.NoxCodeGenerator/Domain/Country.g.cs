@@ -133,6 +133,12 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     /// </summary>
     /// <remarks>Required.</remarks>   
     public Nox.Types.DayOfWeek StartOfWeek { get; set; } = null!;
+
+    /// <summary>
+    /// Country's population    
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.Number Population { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

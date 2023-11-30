@@ -61,7 +61,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     }
 
     [EnableQuery]
-    public virtual async Task<SingleResult<LandLordDto>> Get([FromRoute] System.Int64 key)
+    public virtual async Task<SingleResult<LandLordDto>> Get([FromRoute] System.Guid key)
     {
         var result = await _mediator.Send(new GetLandLordByIdQuery(key));
         return SingleResult.Create(result);
@@ -69,6 +69,10 @@ public abstract partial class LandLordsControllerBase : ODataController
 
     public virtual async Task<ActionResult<LandLordDto>> Post([FromBody] LandLordCreateDto landLord)
     {
+        if(landLord is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -81,8 +85,12 @@ public abstract partial class LandLordsControllerBase : ODataController
         return Created(item);
     }
 
-    public virtual async Task<ActionResult<LandLordDto>> Put([FromRoute] System.Int64 key, [FromBody] LandLordUpdateDto landLord)
+    public virtual async Task<ActionResult<LandLordDto>> Put([FromRoute] System.Guid key, [FromBody] LandLordUpdateDto landLord)
     {
+        if(landLord is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -101,9 +109,13 @@ public abstract partial class LandLordsControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<LandLordDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordUpdateDto> landLord)
+    public virtual async Task<ActionResult<LandLordDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<LandLordPartialUpdateDto> landLord)
     {
-        if (!ModelState.IsValid || landLord is null)
+        if(landLord is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
@@ -131,7 +143,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteLandLordByIdCommand(key, etag));

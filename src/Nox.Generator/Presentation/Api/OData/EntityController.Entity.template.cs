@@ -77,6 +77,10 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     {{~ if entity.Persistence == null || entity.Persistence.Create.IsEnabled }}
     public virtual async Task<ActionResult<{{ entity.Name }}Dto>> Post([FromBody] {{entity.Name}}CreateDto {{ToLowerFirstChar entity.Name}})
     {
+        if({{ToLowerFirstChar entity.Name}} is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -92,6 +96,10 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     {{~ if entity.Persistence == null || entity.Persistence.Update.IsEnabled }}
     public virtual async Task<ActionResult<{{entity.Name}}Dto>> Put({{ primaryKeysRoute }}, [FromBody] {{entity.Name}}UpdateDto {{ToLowerFirstChar entity.Name}})
     {
+        if({{ToLowerFirstChar entity.Name}} is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -113,9 +121,13 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<{{entity.Name}}Dto>> Patch({{ primaryKeysRoute }}, [FromBody] Delta<{{entity.Name}}UpdateDto> {{ToLowerFirstChar entity.Name}})
+    public virtual async Task<ActionResult<{{entity.Name}}Dto>> Patch({{ primaryKeysRoute }}, [FromBody] Delta<{{entity.Name}}PartialUpdateDto> {{ToLowerFirstChar entity.Name}})
     {
-        if (!ModelState.IsValid || {{ToLowerFirstChar entity.Name}} is null)
+        if({{ToLowerFirstChar entity.Name}} is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

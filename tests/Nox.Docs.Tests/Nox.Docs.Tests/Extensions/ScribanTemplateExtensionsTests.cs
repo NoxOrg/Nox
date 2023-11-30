@@ -1,6 +1,7 @@
 using Nox.Solution;
 using Nox.Docs.Extensions;
 using FluentAssertions;
+using Scriban;
 
 namespace Nox.Docs.Tests;
 
@@ -14,9 +15,9 @@ public class ScribanTemplateExtensionsTests
         var actual = "Nox.Docs.Templates.EntityEndpoints.template.md".ReadScribanTemplate();
 
         // Assert
-        var expected = ReadMarkdownFile("EntityEndpoints.template.md");
+        var expected = Template.Parse(ReadMarkdownFile("EntityEndpoints.template.md"));
 
-        actual.Page.ToString().Should().Be(expected);
+        actual.Page.ToString().Should().Be(expected.Page.ToString());
     }
 
     [Fact]

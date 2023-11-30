@@ -53,6 +53,6 @@ internal class NoxTypeDtoExtensionsGenerator : INoxCodeGenerator
         return noxType
             .ToMemberInfo()
             .GetCustomAttributes<CompoundComponent>()
-            .Select(c => $"{noxType}.{c.Name}");
+            .Select(c => $"{noxType}.{c.Name}!");
     }
 }

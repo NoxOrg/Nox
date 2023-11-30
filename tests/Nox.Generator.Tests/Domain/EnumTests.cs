@@ -23,7 +23,7 @@ public class EnumTests : IClassFixture<GeneratorFixture>
 
         GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileCount(11, "Domain.CountryEnums.g.cs")
+            .AssertFileCount(12, "Domain.CountryEnums.g.cs")
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
             .AssertFileExistsAndContent("Domain.CountryEnums.expected.g.cs", "Domain.CountryEnums.g.cs");

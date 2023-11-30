@@ -1,0 +1,60 @@
+﻿[
+  {
+    "Id": "ad346d68-6c14-48c5-866c-d53b1f21e59e",
+    "MacAddress": "DD11223344BB",
+    "PublicIp": "80.123.80.124",
+    "SerialNumber": "SN654322",
+    "InstallationFootPrint": 19.7,
+    "CountryId": "GB",
+    "LandLordId": "4C7D7BA1-8996-4D23-B019-6CD23D6E87FA",
+    "GeoLocation": {
+      "Latitude": 52.347252,
+      "Longitude": -0.179049
+    },
+    "StreetAddress": {
+      "StreetNumber": "29",
+      "AddressLine1": "Ermin Street",
+      "AddressLine2": "",
+      "Route": "",
+      "Locality": "",
+      "Neighborhood": "",
+      "AdministrativeArea1": "Wyton",
+      "AdministrativeArea2": "",
+      "PostalCode": "PE17 9AU",
+      "CountryId": "GB"
+    },
+    "RentPerSquareMetre": {
+      "Amount": 7.5,
+      "CurrencyCode": "GBP"
+    }
+  },
+  {
+    "Id": "7b64f5e8-93d9-4c81-a1d9-f0eab61cae80",
+    "MacAddress": "DD11223344AA",
+    "PublicIp": "80.123.80.123",
+    "SerialNumber": "SN654321",
+    "InstallationFootPrint": 10.5,
+    "CountryId": "CH",
+    "LandLordId": "DAD33CB0-1763-446A-A914-4A4F53E62A29",
+    "GeoLocation": {
+      "Latitude": 47.622845,
+      "Longitude": 8.931423
+    },
+    "StreetAddress": {
+      "StreetNumber": "40",
+      "AddressLine1": "Rosenweg",
+      "AddressLine2": "",
+      "Route": "",
+      "Locality": "",
+      "Neighborhood": "",
+      "AdministrativeArea1": "Lanzenneunforn",
+      "AdministrativeArea2": "Herdern",
+      "PostalCode": "8506",
+      "CountryId": "CH"
+    },
+    "RentPerSquareMetre": {
+      "Amount": 5.5,
+      "CurrencyCode": "CHF"
+    }
+  }
+]

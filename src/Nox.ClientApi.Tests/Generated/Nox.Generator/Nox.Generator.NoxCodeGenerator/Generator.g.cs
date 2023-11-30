@@ -4,6 +4,7 @@
 
 // Found files ->
 //  - clientapi.solution.nox.yaml
+//  - country-time-zone.entity.nox.yaml
 //  - country.entity.nox.yaml
 //  - countrybarcode.entity.nox.yaml
 //  - countrylocalname.entity.nox.yaml
@@ -61,6 +62,7 @@
 //  - Nox.Generator.Application.Dto.EntityDtoEnumerationGenerator
 //  - Nox.Generator.Application.Dto.EntityLocalizedDtoGenerator
 //  - Nox.Generator.Application.Dto.EntityLocalizedUpsertDtoGenerator
+//  - Nox.Generator.Application.Dto.EntityPartialUpdateDtoGenerator
 //  - Nox.Generator.Application.Dto.EntityUpdateDtoGenerator
 //  - Nox.Generator.Application.Dto.EntityUpsertDtoGenerator
 //  - Nox.Generator.Application.Dto.NoxTypeDtoGenerator

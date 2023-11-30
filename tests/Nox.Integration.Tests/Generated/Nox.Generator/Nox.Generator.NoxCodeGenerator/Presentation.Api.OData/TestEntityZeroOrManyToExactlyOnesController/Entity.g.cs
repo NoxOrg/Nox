@@ -69,6 +69,10 @@ public abstract partial class TestEntityZeroOrManyToExactlyOnesControllerBase : 
 
     public virtual async Task<ActionResult<TestEntityZeroOrManyToExactlyOneDto>> Post([FromBody] TestEntityZeroOrManyToExactlyOneCreateDto testEntityZeroOrManyToExactlyOne)
     {
+        if(testEntityZeroOrManyToExactlyOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class TestEntityZeroOrManyToExactlyOnesControllerBase : 
 
     public virtual async Task<ActionResult<TestEntityZeroOrManyToExactlyOneDto>> Put([FromRoute] System.String key, [FromBody] TestEntityZeroOrManyToExactlyOneUpdateDto testEntityZeroOrManyToExactlyOne)
     {
+        if(testEntityZeroOrManyToExactlyOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -101,9 +109,13 @@ public abstract partial class TestEntityZeroOrManyToExactlyOnesControllerBase : 
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityZeroOrManyToExactlyOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityZeroOrManyToExactlyOneUpdateDto> testEntityZeroOrManyToExactlyOne)
+    public virtual async Task<ActionResult<TestEntityZeroOrManyToExactlyOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityZeroOrManyToExactlyOnePartialUpdateDto> testEntityZeroOrManyToExactlyOne)
     {
-        if (!ModelState.IsValid || testEntityZeroOrManyToExactlyOne is null)
+        if(testEntityZeroOrManyToExactlyOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

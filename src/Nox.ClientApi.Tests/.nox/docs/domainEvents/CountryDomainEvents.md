@@ -17,6 +17,7 @@ Name|Text|The Country Name     Set a unique name for the country Do not use abbr
 
 Population|Number|Population Number of People living in the country
 CountryDebt|Money|The Money
+CapitalCityLocation|LatLong|The capital location
 FirstLanguageCode|LanguageCode|First Official Language
 ShortDescription|Formula|The Formula
 CountryIsoNumeric|CountryNumber|Country's iso number id
@@ -25,6 +26,7 @@ GoogleMapsUrl|Url|Country's map via google maps
 StartOfWeek|DayOfWeek|Country's start of week day
 Continent|Enumeration|Country Continent
 CountryLocalNameId|AutoNumber|The unique identifier
+CountryTimeZoneId|TimeZoneCode|Country's related time zone code
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -41,6 +43,7 @@ Name|Text|The Country Name     Set a unique name for the country Do not use abbr
 
 Population|Number|Population Number of People living in the country
 CountryDebt|Money|The Money
+CapitalCityLocation|LatLong|The capital location
 FirstLanguageCode|LanguageCode|First Official Language
 ShortDescription|Formula|The Formula
 CountryIsoNumeric|CountryNumber|Country's iso number id
@@ -49,6 +52,7 @@ GoogleMapsUrl|Url|Country's map via google maps
 StartOfWeek|DayOfWeek|Country's start of week day
 Continent|Enumeration|Country Continent
 CountryLocalNameId|AutoNumber|The unique identifier
+CountryTimeZoneId|TimeZoneCode|Country's related time zone code
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -65,6 +69,7 @@ Name|Text|The Country Name     Set a unique name for the country Do not use abbr
 
 Population|Number|Population Number of People living in the country
 CountryDebt|Money|The Money
+CapitalCityLocation|LatLong|The capital location
 FirstLanguageCode|LanguageCode|First Official Language
 ShortDescription|Formula|The Formula
 CountryIsoNumeric|CountryNumber|Country's iso number id
@@ -73,5 +78,6 @@ GoogleMapsUrl|Url|Country's map via google maps
 StartOfWeek|DayOfWeek|Country's start of week day
 Continent|Enumeration|Country Continent
 CountryLocalNameId|AutoNumber|The unique identifier
+CountryTimeZoneId|TimeZoneCode|Country's related time zone code
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

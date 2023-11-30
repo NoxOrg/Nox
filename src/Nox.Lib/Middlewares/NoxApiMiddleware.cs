@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Template;
 using Nox.Solution;
-using System.Diagnostics;
 
 namespace Nox.Lib;
 
@@ -34,15 +33,15 @@ public class NoxApiMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        var path = context.Request.Path;
+        var requestPath = context.Request.Path;
 
-        if (!path.HasValue)
+        if (!requestPath.HasValue)
         {
             await _next(context);
             return;
         }
 
-        if (!path.StartsWithSegments(_apiPrefix))
+        if (!requestPath.StartsWithSegments(_apiPrefix))
         {
             await _next(context);
             return;
@@ -60,7 +59,7 @@ public class NoxApiMiddleware
 
         foreach (var matcher in matchers)
         {
-            urlParameters = matcher.Match(path);
+            urlParameters = matcher.Match(requestPath);
 
             if (urlParameters != null)
             {
@@ -79,19 +78,31 @@ public class NoxApiMiddleware
 
         foreach (var kvp in context.Request.Query)
         {
-            translatedTarget = translatedTarget.Replace($"{{{kvp.Key}}}", kvp.Value.ToString());
+            if (translatedTarget.Contains($"{{{kvp.Key}}}"))
+            {
+                translatedTarget = translatedTarget.Replace($"{{{kvp.Key}}}", kvp.Value.ToString());
+            }
         }
 
         foreach (var kvp in urlParameters)
         {
-            translatedTarget = translatedTarget.Replace($"{{{kvp.Key}}}", kvp.Value?.ToString());
+            if (translatedTarget.Contains($"{{{kvp.Key}}}"))
+            {
+                translatedTarget = translatedTarget.Replace($"{{{kvp.Key}}}", kvp.Value?.ToString());
+            }
         }
 
-        foreach (var kvp in apiRoute.ParameterDefaults!)
+        foreach (var input in apiRoute.RequestInput)
         {
-            if (kvp.Value is null) continue;
+            if (input.Default is not null && translatedTarget.Contains($"{{{input.Name}}}"))
+            {
+                translatedTarget = translatedTarget.Replace($"{{{input.Name}}}", input.Default.ToString());
+            }
+        }
 
-            translatedTarget = translatedTarget.Replace($"{{{kvp.Key}}}", kvp.Value.ToString());
+        if (translatedTarget.Contains($"{{$RouteQuery}}"))
+        {
+            translatedTarget = translatedTarget.Replace($"{{$RouteQuery}}", context.Request.QueryString.ToString().TrimStart('?'));
         }
 
         var parts = translatedTarget.Split('?', 2);
@@ -101,6 +112,10 @@ public class NoxApiMiddleware
         if (parts.Length > 1)
         {
             context.Request.QueryString = new QueryString("?" + parts[1]);
+        }
+        else
+        {
+            context.Request.QueryString = new QueryString();
         }
 
         await _next(context);

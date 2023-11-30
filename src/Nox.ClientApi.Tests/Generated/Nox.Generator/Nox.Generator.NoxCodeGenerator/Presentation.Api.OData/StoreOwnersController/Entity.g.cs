@@ -69,6 +69,10 @@ public abstract partial class StoreOwnersControllerBase : ODataController
 
     public virtual async Task<ActionResult<StoreOwnerDto>> Post([FromBody] StoreOwnerCreateDto storeOwner)
     {
+        if(storeOwner is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class StoreOwnersControllerBase : ODataController
 
     public virtual async Task<ActionResult<StoreOwnerDto>> Put([FromRoute] System.String key, [FromBody] StoreOwnerUpdateDto storeOwner)
     {
+        if(storeOwner is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -101,9 +109,13 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<StoreOwnerDto>> Patch([FromRoute] System.String key, [FromBody] Delta<StoreOwnerUpdateDto> storeOwner)
+    public virtual async Task<ActionResult<StoreOwnerDto>> Patch([FromRoute] System.String key, [FromBody] Delta<StoreOwnerPartialUpdateDto> storeOwner)
     {
-        if (!ModelState.IsValid || storeOwner is null)
+        if(storeOwner is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

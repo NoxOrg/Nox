@@ -4,6 +4,7 @@ using Nox.Yaml.Extensions;
 using System.Collections.Concurrent;
 using System.Reflection;
 using YamlDotNet.Serialization;
+using System.Diagnostics;
 
 namespace Nox.Yaml.Schema.Generator;
 
@@ -299,8 +300,8 @@ internal class SchemaProperty
                     {
                         Name = dependentFieldName,
                         Enum = enums,
-                        IsNullable = false,
-                        IsRequired = true
+                        IsNullable = nonConditional.Value.IsNullable,
+                        IsRequired = nonConditional.Value.IsRequired,
                     };
                 }
                 else
@@ -360,6 +361,8 @@ internal class SchemaProperty
         else if (type.IsDictionary()) return "object";
 
         else if (type.IsEnumerable()) return "array";
+
+        else if (type == typeof(object)) return "any"; 
 
         return "object";
     }
