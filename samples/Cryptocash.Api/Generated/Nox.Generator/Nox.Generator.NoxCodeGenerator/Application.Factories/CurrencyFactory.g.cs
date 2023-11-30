@@ -26,17 +26,20 @@ namespace Cryptocash.Application.Factories;
 internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
     protected IEntityFactory<Cryptocash.Domain.BankNote, BankNoteUpsertDto, BankNoteUpsertDto> BankNoteFactory {get;}
     protected IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> ExchangeRateFactory {get;}
 
     public CurrencyFactoryBase
     (
         IEntityFactory<Cryptocash.Domain.BankNote, BankNoteUpsertDto, BankNoteUpsertDto> banknotefactory,
-        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> exchangeratefactory
+        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> exchangeratefactory,
+        IRepository repository
         )
     {
         BankNoteFactory = banknotefactory;
         ExchangeRateFactory = exchangeratefactory;
+        _repository = repository;
     }
 
     public virtual CurrencyEntity CreateEntity(CurrencyCreateDto createDto)
@@ -71,6 +74,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         entity.SetIfNotNull(createDto.ThousandsSeparator, (entity) => entity.ThousandsSeparator =Cryptocash.Domain.CurrencyMetadata.CreateThousandsSeparator(createDto.ThousandsSeparator.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.DecimalSeparator, (entity) => entity.DecimalSeparator =Cryptocash.Domain.CurrencyMetadata.CreateDecimalSeparator(createDto.DecimalSeparator.NonNullValue<System.String>()));
         entity.SpaceBetweenAmountAndSymbol = Cryptocash.Domain.CurrencyMetadata.CreateSpaceBetweenAmountAndSymbol(createDto.SpaceBetweenAmountAndSymbol);
+        entity.SymbolOnLeft = Cryptocash.Domain.CurrencyMetadata.CreateSymbolOnLeft(createDto.SymbolOnLeft);
         entity.DecimalDigits = Cryptocash.Domain.CurrencyMetadata.CreateDecimalDigits(createDto.DecimalDigits);
         entity.MajorName = Cryptocash.Domain.CurrencyMetadata.CreateMajorName(createDto.MajorName);
         entity.MajorSymbol = Cryptocash.Domain.CurrencyMetadata.CreateMajorSymbol(createDto.MajorSymbol);
@@ -104,6 +108,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
             entity.DecimalSeparator = Cryptocash.Domain.CurrencyMetadata.CreateDecimalSeparator(updateDto.DecimalSeparator.ToValueFromNonNull<System.String>());
         }
         entity.SpaceBetweenAmountAndSymbol = Cryptocash.Domain.CurrencyMetadata.CreateSpaceBetweenAmountAndSymbol(updateDto.SpaceBetweenAmountAndSymbol.NonNullValue<System.Boolean>());
+        entity.SymbolOnLeft = Cryptocash.Domain.CurrencyMetadata.CreateSymbolOnLeft(updateDto.SymbolOnLeft.NonNullValue<System.Boolean>());
         entity.DecimalDigits = Cryptocash.Domain.CurrencyMetadata.CreateDecimalDigits(updateDto.DecimalDigits.NonNullValue<System.Int32>());
         entity.MajorName = Cryptocash.Domain.CurrencyMetadata.CreateMajorName(updateDto.MajorName.NonNullValue<System.String>());
         entity.MajorSymbol = Cryptocash.Domain.CurrencyMetadata.CreateMajorSymbol(updateDto.MajorSymbol.NonNullValue<System.String>());
@@ -175,6 +180,17 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
             }
             {
                 entity.SpaceBetweenAmountAndSymbol = Cryptocash.Domain.CurrencyMetadata.CreateSpaceBetweenAmountAndSymbol(SpaceBetweenAmountAndSymbolUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("SymbolOnLeft", out var SymbolOnLeftUpdateValue))
+        {
+            if (SymbolOnLeftUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'SymbolOnLeft' can't be null");
+            }
+            {
+                entity.SymbolOnLeft = Cryptocash.Domain.CurrencyMetadata.CreateSymbolOnLeft(SymbolOnLeftUpdateValue);
             }
         }
 
@@ -250,9 +266,11 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 
 	private void UpdateOwnedEntities(CurrencyEntity entity, CurrencyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
-
-		if(updateDto.BankNotes is null)
+        if(!updateDto.BankNotes.Any())
+        { 
+            _repository.DeleteOwnedRange(entity.BankNotes);
 			entity.DeleteAllRefToBankNotes();
+        }
 		else
 		{
 			var updatedBankNotes = new List<Cryptocash.Domain.BankNote>();
@@ -273,11 +291,15 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 					}
 				}
 			}
+            _repository.DeleteOwnedRange<Cryptocash.Domain.BankNote>(
+                entity.BankNotes.Where(x => !updatedBankNotes.Any(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToBankNotes(updatedBankNotes);
 		}
-
-		if(updateDto.ExchangeRates is null)
+        if(!updateDto.ExchangeRates.Any())
+        { 
+            _repository.DeleteOwnedRange(entity.ExchangeRates);
 			entity.DeleteAllRefToExchangeRates();
+        }
 		else
 		{
 			var updatedExchangeRates = new List<Cryptocash.Domain.ExchangeRate>();
@@ -298,6 +320,8 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 					}
 				}
 			}
+            _repository.DeleteOwnedRange<Cryptocash.Domain.ExchangeRate>(
+                entity.ExchangeRates.Where(x => !updatedExchangeRates.Any(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToExchangeRates(updatedExchangeRates);
 		}
 	}
@@ -308,7 +332,8 @@ internal partial class CurrencyFactory : CurrencyFactoryBase
     public CurrencyFactory
     (
         IEntityFactory<Cryptocash.Domain.BankNote, BankNoteUpsertDto, BankNoteUpsertDto> banknotefactory,
-        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> exchangeratefactory
-    ) : base(banknotefactory,exchangeratefactory)
+        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> exchangeratefactory,
+        IRepository repository
+    ) : base(banknotefactory,exchangeratefactory, repository)
     {}
 }

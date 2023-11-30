@@ -198,16 +198,16 @@ namespace ClientApi.Tests.Controllers
         {
             // Arrange
             var expectedStreetAddressDto = new StreetAddressDto(
-                StreetNumber: "3000",
-                AddressLine1: "Hillswood Business Park",
-                AddressLine2: null!,
-                Route: "Hillswood Drive",
-                Locality: "Lyne",
-                Neighborhood: null!,
-                AdministrativeArea1: "England",
-                AdministrativeArea2: "Surrey",
-                PostalCode: "KT16 0RS",
-                CountryId: CountryCode.GB);
+                 "3000",
+                "Hillswood Business Park",
+                null!,
+                "Hillswood Drive",
+                "Lyne",
+                null!,
+                "England",
+                "Surrey",
+                "KT16 0RS",
+                CountryCode.GB);
 
             var createDto = new StoreOwnerCreateDto
             {
@@ -230,16 +230,16 @@ namespace ClientApi.Tests.Controllers
         {
             // Arrange
             var expectedStreetAddressDto = new StreetAddressDto(
-                StreetNumber: null!,
-                AddressLine1: "3000 Hillswood Business Park",
-                AddressLine2: null!,
-                Route: null!,
-                Locality: null!,
-                Neighborhood: null!,
-                AdministrativeArea1: null!,
-                AdministrativeArea2: null!,
-                PostalCode: "KT16 0RS",
-                CountryId: CountryCode.GB);
+                 null!,
+                 "3000 Hillswood Business Park",
+                 null!,
+                 null!,
+                 null!,
+                 null!,
+                 null!,
+                 null!,
+                 "KT16 0RS",
+                 CountryCode.GB);
 
             var createDto = new StoreOwnerCreateDto
             {
@@ -266,16 +266,16 @@ namespace ClientApi.Tests.Controllers
                 Id = "002",
                 Name = _fixture.Create<string>(),
                 StreetAddress = new StreetAddressDto(
-                    StreetNumber: null!,
-                    AddressLine1: null!,
-                    AddressLine2: null!,
-                    Route: null!,
-                    Locality: null!,
-                    Neighborhood: null!,
-                    AdministrativeArea1: null!,
-                    AdministrativeArea2: null!,
-                    PostalCode: "KT16 0RS",
-                    CountryId: CountryCode.GB),
+                     null!,
+                     null!,
+                     null!,
+                     null!,
+                     null!,
+                     null!,
+                     null!,
+                     null!,
+                     "KT16 0RS",
+                     CountryCode.GB),
             };
 
             // Act
@@ -294,16 +294,16 @@ namespace ClientApi.Tests.Controllers
                 Id = "002",
                 Name = _fixture.Create<string>(),
                 StreetAddress = new StreetAddressDto(
-                    StreetNumber: null!,
-                    AddressLine1: "3000 Hillswood Business Park",
-                    AddressLine2: null!,
-                    Route: null!,
-                    Locality: null!,
-                    Neighborhood: null!,
-                    AdministrativeArea1: null!,
-                    AdministrativeArea2: null!,
-                    PostalCode: null!,
-                    CountryId: CountryCode.GB),
+                     null!,
+                     "3000 Hillswood Business Park",
+                     null!,
+                     null!,
+                     null!,
+                     null!,
+                     null!,
+                     null!,
+                     null!,
+                     CountryCode.GB),
             };
 
             // Act
@@ -322,16 +322,16 @@ namespace ClientApi.Tests.Controllers
                 Id = "002",
                 Name = _fixture.Create<string>(),
                 StreetAddress = new StreetAddressDto(
-                    StreetNumber: null!,
-                    AddressLine1: "3000 Hillswood Business Park",
-                    AddressLine2: null!,
-                    Route: null!,
-                    Locality: null!,
-                    Neighborhood: null!,
-                    AdministrativeArea1: null!,
-                    AdministrativeArea2: null!,
-                    PostalCode: "KT16 0RS",
-                    CountryId: (CountryCode)0),
+                     null!,
+                     "3000 Hillswood Business Park",
+                     null!,
+                     null!,
+                     null!,
+                     null!,
+                     null!,
+                     null!,
+                     "KT16 0RS",
+                    (CountryCode)0),
             };
 
             // Act
@@ -398,16 +398,16 @@ namespace ClientApi.Tests.Controllers
             {
                 Name = _fixture.Create<string>(),
                 Address = new StreetAddressDto(
-                    StreetNumber: null!,
-                    AddressLine1: "3000 Hillswood Business Park",
-                    AddressLine2: null!,
-                    Route: null!,
-                    Locality: null!,
-                    Neighborhood: null!,
-                    AdministrativeArea1: null!,
-                    AdministrativeArea2: null!,
-                    PostalCode: "KT16 0RS",
-                    CountryId: CountryCode.GB),
+                     null!,
+                     "3000 Hillswood Business Park",
+                     null!,
+                     null!,
+                     null!,
+                     null!,
+                     null!,
+                     null!,
+                     "KT16 0RS",
+                     CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
             };
 

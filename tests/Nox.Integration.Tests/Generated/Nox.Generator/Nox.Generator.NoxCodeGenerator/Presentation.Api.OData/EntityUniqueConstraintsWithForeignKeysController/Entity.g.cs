@@ -69,6 +69,10 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
 
     public virtual async Task<ActionResult<EntityUniqueConstraintsWithForeignKeyDto>> Post([FromBody] EntityUniqueConstraintsWithForeignKeyCreateDto entityUniqueConstraintsWithForeignKey)
     {
+        if(entityUniqueConstraintsWithForeignKey is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
 
     public virtual async Task<ActionResult<EntityUniqueConstraintsWithForeignKeyDto>> Put([FromRoute] System.Guid key, [FromBody] EntityUniqueConstraintsWithForeignKeyUpdateDto entityUniqueConstraintsWithForeignKey)
     {
+        if(entityUniqueConstraintsWithForeignKey is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -101,9 +109,13 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<EntityUniqueConstraintsWithForeignKeyDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<EntityUniqueConstraintsWithForeignKeyUpdateDto> entityUniqueConstraintsWithForeignKey)
+    public virtual async Task<ActionResult<EntityUniqueConstraintsWithForeignKeyDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<EntityUniqueConstraintsWithForeignKeyPartialUpdateDto> entityUniqueConstraintsWithForeignKey)
     {
-        if (!ModelState.IsValid || entityUniqueConstraintsWithForeignKey is null)
+        if(entityUniqueConstraintsWithForeignKey is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

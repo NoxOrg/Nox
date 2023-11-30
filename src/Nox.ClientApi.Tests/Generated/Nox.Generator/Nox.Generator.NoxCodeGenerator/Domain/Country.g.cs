@@ -76,6 +76,12 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     public Nox.Types.Money? CountryDebt { get; set; } = null!;
 
     /// <summary>
+    /// The capital location    
+    /// </summary>
+    /// <remarks>Optional.</remarks>   
+    public Nox.Types.LatLong? CapitalCityLocation { get; set; } = null!;
+
+    /// <summary>
     /// First Official Language    
     /// </summary>
     /// <remarks>Optional.</remarks>   
@@ -239,6 +245,44 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     public virtual void DeleteAllRefToCountryBarCode()
     {
         CountryBarCode = null;
+    }﻿
+
+    /// <summary>
+    /// Country uses ZeroOrMany CountryTimeZones
+    /// </summary>
+    public virtual List<CountryTimeZone> CountryTimeZones { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new CountryTimeZone entity.
+    /// </summary>
+    public virtual void CreateRefToCountryTimeZones(CountryTimeZone relatedCountryTimeZone)
+    {
+        CountryTimeZones.Add(relatedCountryTimeZone);
+    }
+    
+    /// <summary>
+    /// Updates all owned CountryTimeZone entities.
+    /// </summary>
+    public virtual void UpdateRefToCountryTimeZones(List<CountryTimeZone> relatedCountryTimeZone)
+    {
+        CountryTimeZones.Clear();
+        CountryTimeZones.AddRange(relatedCountryTimeZone);
+    }
+    
+    /// <summary>
+    /// Deletes owned CountryTimeZone entity.
+    /// </summary>
+    public virtual void DeleteRefToCountryTimeZones(CountryTimeZone relatedCountryTimeZone)
+    {
+        CountryTimeZones.Remove(relatedCountryTimeZone);
+    }
+    
+    /// <summary>
+    /// Deletes all owned CountryTimeZone entities.
+    /// </summary>
+    public virtual void DeleteAllRefToCountryTimeZones()
+    {
+        CountryTimeZones.Clear();
     }
 
     /// <summary>

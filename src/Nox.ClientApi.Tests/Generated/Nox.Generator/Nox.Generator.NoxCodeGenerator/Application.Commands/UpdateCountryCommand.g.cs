@@ -59,6 +59,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		}
 		await DbContext.Entry(entity).Collection(x => x.CountryLocalNames).LoadAsync();
 		await DbContext.Entry(entity).Reference(x => x.CountryBarCode).LoadAsync();
+		await DbContext.Entry(entity).Collection(x => x.CountryTimeZones).LoadAsync();
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
@@ -80,5 +81,8 @@ public class UpdateCountryValidator : AbstractValidator<UpdateCountryCommand>
 {
     public UpdateCountryValidator()
     {
+		RuleFor(x => x.EntityDto.CountryTimeZones)
+			.Must(owned => owned.All(x => x.Id != null))
+			.WithMessage("CountryTimeZones.Id is required.");
     }
 }

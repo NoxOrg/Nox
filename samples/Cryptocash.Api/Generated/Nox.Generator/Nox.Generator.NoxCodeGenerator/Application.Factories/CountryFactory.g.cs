@@ -26,17 +26,20 @@ namespace Cryptocash.Application.Factories;
 internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
     protected IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> CountryTimeZoneFactory {get;}
     protected IEntityFactory<Cryptocash.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> HolidayFactory {get;}
 
     public CountryFactoryBase
     (
         IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
-        IEntityFactory<Cryptocash.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory
+        IEntityFactory<Cryptocash.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory,
+        IRepository repository
         )
     {
         CountryTimeZoneFactory = countrytimezonefactory;
         HolidayFactory = holidayfactory;
+        _repository = repository;
     }
 
     public virtual CountryEntity CreateEntity(CountryCreateDto createDto)
@@ -78,6 +81,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         entity.SetIfNotNull(createDto.GoogleMapsUrl, (entity) => entity.GoogleMapsUrl =Cryptocash.Domain.CountryMetadata.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.OpenStreetMapsUrl, (entity) => entity.OpenStreetMapsUrl =Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(createDto.OpenStreetMapsUrl.NonNullValue<System.String>()));
         entity.StartOfWeek = Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(createDto.StartOfWeek);
+        entity.Population = Cryptocash.Domain.CountryMetadata.CreatePopulation(createDto.Population);
         createDto.CountryTimeZones.ForEach(dto => entity.CreateRefToCountryTimeZones(CountryTimeZoneFactory.CreateEntity(dto)));
         createDto.Holidays.ForEach(dto => entity.CreateRefToHolidays(HolidayFactory.CreateEntity(dto)));
         return entity;
@@ -175,6 +179,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             entity.OpenStreetMapsUrl = Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(updateDto.OpenStreetMapsUrl.ToValueFromNonNull<System.String>());
         }
         entity.StartOfWeek = Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(updateDto.StartOfWeek.NonNullValue<System.UInt16>());
+        entity.Population = Cryptocash.Domain.CountryMetadata.CreatePopulation(updateDto.Population.NonNullValue<System.Int32>());
 	    UpdateOwnedEntities(entity, updateDto, cultureCode);
     }
 
@@ -301,6 +306,17 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
                 entity.StartOfWeek = Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(StartOfWeekUpdateValue);
             }
         }
+
+        if (updatedProperties.TryGetValue("Population", out var PopulationUpdateValue))
+        {
+            if (PopulationUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Population' can't be null");
+            }
+            {
+                entity.Population = Cryptocash.Domain.CountryMetadata.CreatePopulation(PopulationUpdateValue);
+            }
+        }
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
@@ -308,9 +324,11 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 
 	private void UpdateOwnedEntities(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
-
-		if(updateDto.CountryTimeZones is null)
+        if(!updateDto.CountryTimeZones.Any())
+        { 
+            _repository.DeleteOwnedRange(entity.CountryTimeZones);
 			entity.DeleteAllRefToCountryTimeZones();
+        }
 		else
 		{
 			var updatedCountryTimeZones = new List<Cryptocash.Domain.CountryTimeZone>();
@@ -331,11 +349,15 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 					}
 				}
 			}
+            _repository.DeleteOwnedRange<Cryptocash.Domain.CountryTimeZone>(
+                entity.CountryTimeZones.Where(x => !updatedCountryTimeZones.Any(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToCountryTimeZones(updatedCountryTimeZones);
 		}
-
-		if(updateDto.Holidays is null)
+        if(!updateDto.Holidays.Any())
+        { 
+            _repository.DeleteOwnedRange(entity.Holidays);
 			entity.DeleteAllRefToHolidays();
+        }
 		else
 		{
 			var updatedHolidays = new List<Cryptocash.Domain.Holiday>();
@@ -356,6 +378,8 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 					}
 				}
 			}
+            _repository.DeleteOwnedRange<Cryptocash.Domain.Holiday>(
+                entity.Holidays.Where(x => !updatedHolidays.Any(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToHolidays(updatedHolidays);
 		}
 	}
@@ -366,7 +390,8 @@ internal partial class CountryFactory : CountryFactoryBase
     public CountryFactory
     (
         IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
-        IEntityFactory<Cryptocash.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory
-    ) : base(countrytimezonefactory,holidayfactory)
+        IEntityFactory<Cryptocash.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory,
+        IRepository repository
+    ) : base(countrytimezonefactory,holidayfactory, repository)
     {}
 }

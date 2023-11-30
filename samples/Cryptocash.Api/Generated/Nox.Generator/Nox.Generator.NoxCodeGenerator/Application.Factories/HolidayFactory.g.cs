@@ -26,11 +26,14 @@ namespace Cryptocash.Application.Factories;
 internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public HolidayFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual HolidayEntity CreateEntity(HolidayUpsertDto createDto)
@@ -114,4 +117,9 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
 
 internal partial class HolidayFactory : HolidayFactoryBase
 {
+    public HolidayFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

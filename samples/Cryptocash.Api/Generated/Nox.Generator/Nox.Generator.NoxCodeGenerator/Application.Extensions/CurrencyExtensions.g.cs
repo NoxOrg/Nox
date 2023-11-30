@@ -20,6 +20,7 @@ internal static class CurrencyExtensions
         dto.SetIfNotNull(entity?.ThousandsSeparator, (dto) => dto.ThousandsSeparator =entity!.ThousandsSeparator!.Value);
         dto.SetIfNotNull(entity?.DecimalSeparator, (dto) => dto.DecimalSeparator =entity!.DecimalSeparator!.Value);
         dto.SetIfNotNull(entity?.SpaceBetweenAmountAndSymbol, (dto) => dto.SpaceBetweenAmountAndSymbol =entity!.SpaceBetweenAmountAndSymbol!.Value);
+        dto.SetIfNotNull(entity?.SymbolOnLeft, (dto) => dto.SymbolOnLeft =entity!.SymbolOnLeft!.Value);
         dto.SetIfNotNull(entity?.DecimalDigits, (dto) => dto.DecimalDigits =entity!.DecimalDigits!.Value);
         dto.SetIfNotNull(entity?.MajorName, (dto) => dto.MajorName =entity!.MajorName!.Value);
         dto.SetIfNotNull(entity?.MajorSymbol, (dto) => dto.MajorSymbol =entity!.MajorSymbol!.Value);

@@ -26,11 +26,14 @@ namespace Cryptocash.Application.Factories;
 internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public CountryTimeZoneFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual CountryTimeZoneEntity CreateEntity(CountryTimeZoneUpsertDto createDto)
@@ -88,4 +91,9 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
 
 internal partial class CountryTimeZoneFactory : CountryTimeZoneFactoryBase
 {
+    public CountryTimeZoneFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

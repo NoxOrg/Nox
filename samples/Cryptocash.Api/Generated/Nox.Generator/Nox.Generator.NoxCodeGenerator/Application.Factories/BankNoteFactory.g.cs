@@ -26,11 +26,14 @@ namespace Cryptocash.Application.Factories;
 internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public BankNoteFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual BankNoteEntity CreateEntity(BankNoteUpsertDto createDto)
@@ -101,4 +104,9 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
 
 internal partial class BankNoteFactory : BankNoteFactoryBase
 {
+    public BankNoteFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

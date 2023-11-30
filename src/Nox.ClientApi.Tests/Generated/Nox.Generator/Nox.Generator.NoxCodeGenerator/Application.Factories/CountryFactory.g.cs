@@ -29,16 +29,19 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
     private readonly IRepository _repository;
     protected IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> CountryLocalNameFactory {get;}
     protected IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> CountryBarCodeFactory {get;}
+    protected IEntityFactory<ClientApi.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> CountryTimeZoneFactory {get;}
 
     public CountryFactoryBase
     (
         IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> countrylocalnamefactory,
         IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory,
+        IEntityFactory<ClientApi.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
         IRepository repository
         )
     {
         CountryLocalNameFactory = countrylocalnamefactory;
         CountryBarCodeFactory = countrybarcodefactory;
+        CountryTimeZoneFactory = countrytimezonefactory;
         _repository = repository;
     }
 
@@ -70,6 +73,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         entity.Name = ClientApi.Domain.CountryMetadata.CreateName(createDto.Name);
         entity.SetIfNotNull(createDto.Population, (entity) => entity.Population =ClientApi.Domain.CountryMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>()));
         entity.SetIfNotNull(createDto.CountryDebt, (entity) => entity.CountryDebt =ClientApi.Domain.CountryMetadata.CreateCountryDebt(createDto.CountryDebt.NonNullValue<MoneyDto>()));
+        entity.SetIfNotNull(createDto.CapitalCityLocation, (entity) => entity.CapitalCityLocation =ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(createDto.CapitalCityLocation.NonNullValue<LatLongDto>()));
         entity.SetIfNotNull(createDto.FirstLanguageCode, (entity) => entity.FirstLanguageCode =ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(createDto.FirstLanguageCode.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.CountryIsoNumeric, (entity) => entity.CountryIsoNumeric =ClientApi.Domain.CountryMetadata.CreateCountryIsoNumeric(createDto.CountryIsoNumeric.NonNullValue<System.UInt16>()));
         entity.SetIfNotNull(createDto.CountryIsoAlpha3, (entity) => entity.CountryIsoAlpha3 =ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(createDto.CountryIsoAlpha3.NonNullValue<System.String>()));
@@ -81,6 +85,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         {
             entity.CreateRefToCountryBarCode(CountryBarCodeFactory.CreateEntity(createDto.CountryBarCode));
         }
+        createDto.CountryTimeZones.ForEach(dto => entity.CreateRefToCountryTimeZones(CountryTimeZoneFactory.CreateEntity(dto)));
         return entity;
     }
 
@@ -102,6 +107,14 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         else
         {
             entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(updateDto.CountryDebt.ToValueFromNonNull<MoneyDto>());
+        }
+        if(updateDto.CapitalCityLocation is null)
+        {
+             entity.CapitalCityLocation = null;
+        }
+        else
+        {
+            entity.CapitalCityLocation = ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(updateDto.CapitalCityLocation.ToValueFromNonNull<LatLongDto>());
         }
         if(updateDto.FirstLanguageCode is null)
         {
@@ -183,6 +196,15 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             else
             {
                 entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(CountryDebtUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("CapitalCityLocation", out var CapitalCityLocationUpdateValue))
+        {
+            if (CapitalCityLocationUpdateValue == null) { entity.CapitalCityLocation = null; }
+            else
+            {
+                entity.CapitalCityLocation = ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(CapitalCityLocationUpdateValue);
             }
         }
 
@@ -288,6 +310,35 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             else
 			    entity.CreateRefToCountryBarCode(CountryBarCodeFactory.CreateEntity(updateDto.CountryBarCode));
 		}
+        if(!updateDto.CountryTimeZones.Any())
+        { 
+            _repository.DeleteOwnedRange(entity.CountryTimeZones);
+			entity.DeleteAllRefToCountryTimeZones();
+        }
+		else
+		{
+			var updatedCountryTimeZones = new List<ClientApi.Domain.CountryTimeZone>();
+			foreach(var ownedUpsertDto in updateDto.CountryTimeZones)
+			{
+				if(ownedUpsertDto.Id is null)
+					updatedCountryTimeZones.Add(CountryTimeZoneFactory.CreateEntity(ownedUpsertDto));
+				else
+				{
+					var key = ClientApi.Domain.CountryTimeZoneMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.String>());
+					var ownedEntity = entity.CountryTimeZones.FirstOrDefault(x => x.Id == key);
+					if(ownedEntity is null)
+						updatedCountryTimeZones.Add(CountryTimeZoneFactory.CreateEntity(ownedUpsertDto));
+					else
+					{
+						CountryTimeZoneFactory.UpdateEntity(ownedEntity, ownedUpsertDto, cultureCode);
+						updatedCountryTimeZones.Add(ownedEntity);
+					}
+				}
+			}
+            _repository.DeleteOwnedRange<ClientApi.Domain.CountryTimeZone>(
+                entity.CountryTimeZones.Where(x => !updatedCountryTimeZones.Any(upd => upd.Id == x.Id)).ToList());
+			entity.UpdateRefToCountryTimeZones(updatedCountryTimeZones);
+		}
 	}
 }
 
@@ -297,7 +348,8 @@ internal partial class CountryFactory : CountryFactoryBase
     (
         IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> countrylocalnamefactory,
         IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory,
+        IEntityFactory<ClientApi.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
         IRepository repository
-    ) : base(countrylocalnamefactory,countrybarcodefactory, repository)
+    ) : base(countrylocalnamefactory,countrybarcodefactory,countrytimezonefactory, repository)
     {}
 }

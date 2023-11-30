@@ -67,6 +67,8 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
             ExecuteActionAndCollectValidationExceptions("OpenStreetMapsUrl", () => DomainNamespace.CountryMetadata.CreateOpenStreetMapsUrl(this.OpenStreetMapsUrl.NonNullValue<System.String>()), result);
         ExecuteActionAndCollectValidationExceptions("StartOfWeek", () => DomainNamespace.CountryMetadata.CreateStartOfWeek(this.StartOfWeek), result);
     
+        ExecuteActionAndCollectValidationExceptions("Population", () => DomainNamespace.CountryMetadata.CreatePopulation(this.Population), result);
+    
 
         return result;
     }
@@ -154,6 +156,12 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     /// </summary>
     /// <remarks>Required.</remarks>    
     public System.UInt16 StartOfWeek { get; set; } = default!;
+
+    /// <summary>
+    /// Country's population     
+    /// </summary>
+    /// <remarks>Required.</remarks>    
+    public System.Int32 Population { get; set; } = default!;
 
     /// <summary>
     /// Country used by ExactlyOne Currencies

@@ -5,16 +5,31 @@
 #
 
 name: CountriesByName
+description: Get country names in alphabetical order. 
 httpVerb: get
 route: /CountriesByName/{Count}
-targetUrl: /Countries?$orderby=Name&$top={Count}&$select=Name
-parameterDefaults:
-  Count: 10
+targetUrl: /Countries?$orderby=Name&$top={Count}&$select=Name&{$RouteQuery}
+
+requestInput:
+  - name: Count
+    description: The number of country names to get
+    type: number
+    default: 10
+
+requestBodyType: json
+
+jsonBodyType: 
+  name: SampleRequest
+  type: object
+  attributes:
+    - name: filter
+      type: string
+
 responseOutput: 
   name: TopCountriesResult
-  type: object
-  objectTypeOptions: 
-    attributes:
-      - name: Name
-        description: The name of the country
-        type: text
+  description: List of country names in alphabetical order
+  type: array
+  items:
+    name: Name
+    description: The name of the country
+    type: string

@@ -26,14 +26,17 @@ namespace Cryptocash.Application.Factories;
 internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
     protected IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> EmployeePhoneNumberFactory {get;}
 
     public EmployeeFactoryBase
     (
-        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> employeephonenumberfactory
+        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> employeephonenumberfactory,
+        IRepository repository
         )
     {
         EmployeePhoneNumberFactory = employeephonenumberfactory;
+        _repository = repository;
     }
 
     public virtual EmployeeEntity CreateEntity(EmployeeCreateDto createDto)
@@ -162,9 +165,11 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
 
 	private void UpdateOwnedEntities(EmployeeEntity entity, EmployeeUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
-
-		if(updateDto.EmployeePhoneNumbers is null)
+        if(!updateDto.EmployeePhoneNumbers.Any())
+        { 
+            _repository.DeleteOwnedRange(entity.EmployeePhoneNumbers);
 			entity.DeleteAllRefToEmployeePhoneNumbers();
+        }
 		else
 		{
 			var updatedEmployeePhoneNumbers = new List<Cryptocash.Domain.EmployeePhoneNumber>();
@@ -185,6 +190,8 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
 					}
 				}
 			}
+            _repository.DeleteOwnedRange<Cryptocash.Domain.EmployeePhoneNumber>(
+                entity.EmployeePhoneNumbers.Where(x => !updatedEmployeePhoneNumbers.Any(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToEmployeePhoneNumbers(updatedEmployeePhoneNumbers);
 		}
 	}
@@ -194,7 +201,8 @@ internal partial class EmployeeFactory : EmployeeFactoryBase
 {
     public EmployeeFactory
     (
-        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> employeephonenumberfactory
-    ) : base(employeephonenumberfactory)
+        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> employeephonenumberfactory,
+        IRepository repository
+    ) : base(employeephonenumberfactory, repository)
     {}
 }

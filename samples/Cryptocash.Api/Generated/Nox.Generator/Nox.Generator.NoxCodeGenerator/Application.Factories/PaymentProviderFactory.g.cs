@@ -26,11 +26,14 @@ namespace Cryptocash.Application.Factories;
 internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public PaymentProviderFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual PaymentProviderEntity CreateEntity(PaymentProviderCreateDto createDto)
@@ -101,4 +104,9 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
 
 internal partial class PaymentProviderFactory : PaymentProviderFactoryBase
 {
+    public PaymentProviderFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

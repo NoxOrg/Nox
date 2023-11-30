@@ -26,6 +26,7 @@ CoatOfArmsPng|Image|Country's coat of arms in png format
 GoogleMapsUrl|Url|Country's map via google maps
 OpenStreetMapsUrl|Url|Country's map via open street maps
 StartOfWeek|DayOfWeek|Country's start of week day
+Population|Number|Country's population
 CountryTimeZoneId|AutoNumber|Country's time zone unique identifier
 HolidayId|AutoNumber|Country's holiday unique identifier
 CurrencyId|CurrencyCode3|Currency unique identifier
@@ -54,6 +55,7 @@ CoatOfArmsPng|Image|Country's coat of arms in png format
 GoogleMapsUrl|Url|Country's map via google maps
 OpenStreetMapsUrl|Url|Country's map via open street maps
 StartOfWeek|DayOfWeek|Country's start of week day
+Population|Number|Country's population
 CountryTimeZoneId|AutoNumber|Country's time zone unique identifier
 HolidayId|AutoNumber|Country's holiday unique identifier
 CurrencyId|CurrencyCode3|Currency unique identifier
@@ -82,6 +84,7 @@ CoatOfArmsPng|Image|Country's coat of arms in png format
 GoogleMapsUrl|Url|Country's map via google maps
 OpenStreetMapsUrl|Url|Country's map via open street maps
 StartOfWeek|DayOfWeek|Country's start of week day
+Population|Number|Country's population
 CountryTimeZoneId|AutoNumber|Country's time zone unique identifier
 HolidayId|AutoNumber|Country's holiday unique identifier
 CurrencyId|CurrencyCode3|Currency unique identifier

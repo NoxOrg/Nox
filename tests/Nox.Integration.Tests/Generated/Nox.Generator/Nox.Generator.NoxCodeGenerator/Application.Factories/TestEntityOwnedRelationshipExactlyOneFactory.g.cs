@@ -26,14 +26,17 @@ namespace TestWebApp.Application.Factories;
 internal abstract class TestEntityOwnedRelationshipExactlyOneFactoryBase : IEntityFactory<TestEntityOwnedRelationshipExactlyOneEntity, TestEntityOwnedRelationshipExactlyOneCreateDto, TestEntityOwnedRelationshipExactlyOneUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
     protected IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipExactlyOne, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto> SecondTestEntityOwnedRelationshipExactlyOneFactory {get;}
 
     public TestEntityOwnedRelationshipExactlyOneFactoryBase
     (
-        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipExactlyOne, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto> secondtestentityownedrelationshipexactlyonefactory
+        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipExactlyOne, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto> secondtestentityownedrelationshipexactlyonefactory,
+        IRepository repository
         )
     {
         SecondTestEntityOwnedRelationshipExactlyOneFactory = secondtestentityownedrelationshipexactlyonefactory;
+        _repository = repository;
     }
 
     public virtual TestEntityOwnedRelationshipExactlyOneEntity CreateEntity(TestEntityOwnedRelationshipExactlyOneCreateDto createDto)
@@ -96,12 +99,18 @@ internal abstract class TestEntityOwnedRelationshipExactlyOneFactoryBase : IEnti
 
 	private void UpdateOwnedEntities(TestEntityOwnedRelationshipExactlyOneEntity entity, TestEntityOwnedRelationshipExactlyOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
-
 		if(updateDto.SecondTestEntityOwnedRelationshipExactlyOne is null)
+        {
+            if(entity.SecondTestEntityOwnedRelationshipExactlyOne is not null) 
+                _repository.DeleteOwned(entity.SecondTestEntityOwnedRelationshipExactlyOne);
 			entity.DeleteAllRefToSecondTestEntityOwnedRelationshipExactlyOne();
+        }
 		else
 		{
-			entity.CreateRefToSecondTestEntityOwnedRelationshipExactlyOne(SecondTestEntityOwnedRelationshipExactlyOneFactory.CreateEntity(updateDto.SecondTestEntityOwnedRelationshipExactlyOne));
+            if(entity.SecondTestEntityOwnedRelationshipExactlyOne is not null)
+                SecondTestEntityOwnedRelationshipExactlyOneFactory.UpdateEntity(entity.SecondTestEntityOwnedRelationshipExactlyOne, updateDto.SecondTestEntityOwnedRelationshipExactlyOne, cultureCode);
+            else
+			    entity.CreateRefToSecondTestEntityOwnedRelationshipExactlyOne(SecondTestEntityOwnedRelationshipExactlyOneFactory.CreateEntity(updateDto.SecondTestEntityOwnedRelationshipExactlyOne));
 		}
 	}
 }
@@ -110,7 +119,8 @@ internal partial class TestEntityOwnedRelationshipExactlyOneFactory : TestEntity
 {
     public TestEntityOwnedRelationshipExactlyOneFactory
     (
-        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipExactlyOne, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto> secondtestentityownedrelationshipexactlyonefactory
-    ) : base(secondtestentityownedrelationshipexactlyonefactory)
+        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipExactlyOne, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto> secondtestentityownedrelationshipexactlyonefactory,
+        IRepository repository
+    ) : base(secondtestentityownedrelationshipexactlyonefactory, repository)
     {}
 }

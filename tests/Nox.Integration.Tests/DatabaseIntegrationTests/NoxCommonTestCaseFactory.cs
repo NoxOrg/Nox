@@ -1153,7 +1153,7 @@ public class NoxCommonTestCaseFactory
         var text1 = Text.From("TX1");
         var text2 = Text.From("TX2");
 
-        var factory = new TestEntityForAutoNumberUsagesFactory();
+        var factory = new TestEntityForAutoNumberUsagesFactory(DataContext);
 
         var newItemDto = new TestEntityForAutoNumberUsagesCreateDto
         {

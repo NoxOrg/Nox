@@ -26,11 +26,14 @@ namespace TestWebApp.Application.Factories;
 internal abstract class TestEntityLocalizationFactoryBase : IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public TestEntityLocalizationFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual TestEntityLocalizationEntity CreateEntity(TestEntityLocalizationCreateDto createDto)
@@ -102,4 +105,9 @@ internal abstract class TestEntityLocalizationFactoryBase : IEntityFactory<TestE
 
 internal partial class TestEntityLocalizationFactory : TestEntityLocalizationFactoryBase
 {
+    public TestEntityLocalizationFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

@@ -101,7 +101,7 @@ public abstract partial class CitiesControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<CityDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CityUpdateDto> city)
+    public virtual async Task<ActionResult<CityDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CityPartialUpdateDto> city)
     {
         if (!ModelState.IsValid || city is null)
         {

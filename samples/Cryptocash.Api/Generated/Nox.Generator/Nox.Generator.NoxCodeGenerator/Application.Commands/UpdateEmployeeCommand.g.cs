@@ -58,14 +58,6 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 			return null;
 		}
 		await DbContext.Entry(entity).Collection(x => x.EmployeePhoneNumbers).LoadAsync();
-		var keysToUpdateEmployeePhoneNumbers = request.EntityDto.EmployeePhoneNumbers
-			.Where(x => x.Id != null)
-			.Select(x => Cryptocash.Domain.EmployeePhoneNumberMetadata.CreateId(x.Id.NonNullValue<System.Int64>()));
-		foreach(var ownedEntity in entity.EmployeePhoneNumbers)
-		{
-			if(!keysToUpdateEmployeePhoneNumbers.Any(x => x == ownedEntity.Id))
-				DbContext.Entry(ownedEntity).State = EntityState.Deleted;
-		}
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

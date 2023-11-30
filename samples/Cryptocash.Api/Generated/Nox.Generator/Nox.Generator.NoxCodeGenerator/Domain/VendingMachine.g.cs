@@ -173,7 +173,7 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity LandLord
     /// </summary>
-    public Nox.Types.AutoNumber LandLordId { get; set; } = null!;
+    public Nox.Types.Guid LandLordId { get; set; } = null!;
 
     public virtual void CreateRefToLandLord(LandLord relatedLandLord)
     {

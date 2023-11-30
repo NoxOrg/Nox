@@ -16,10 +16,7 @@ namespace Cryptocash.Ui.Generated.Component
         public LandLordDto LandLord { get; set; }
 
         [Parameter]
-        public System.Int64? LandLordId { get; set; }
-
-        [Parameter]
-        public System.Int64 LandLordIdLong { get; set; }
+        public System.Guid? LandLordId { get; set; }
 
         public string CurrentLandLordIdStr { get; set; }
 
@@ -33,10 +30,7 @@ namespace Cryptocash.Ui.Generated.Component
         public EventCallback<LandLordDto> LandLordChanged { get; set; }
 
         [Parameter]
-        public EventCallback<System.Int64?> LandLordIdChanged { get; set; }
-
-        [Parameter]
-        public EventCallback<System.Int64> LandLordIdLongChanged { get; set; }
+        public EventCallback<System.Guid?> LandLordIdChanged { get; set; }
 
         #endregion
 
@@ -45,31 +39,22 @@ namespace Cryptocash.Ui.Generated.Component
         /// </summary>
         protected override void OnInitialized()
         {
-            if (LandLordIdLong > 0)
-            {
-                LandLordId = LandLordIdLong;
-                CurrentLandLordIdStr = LandLordIdLong.ToString();
-            }
+            CurrentLandLordIdStr = LandLordId.ToString();
         }
 
         protected async Task OnLandLordIdChanged(string newValue)
         {
             CurrentLandLordIdStr = newValue;
 
-            long CurrentLandLordId = 0;
-
-            if (!string.IsNullOrWhiteSpace(CurrentLandLordIdStr)
-                && long.TryParse(CurrentLandLordIdStr, out CurrentLandLordId))
+            if (!string.IsNullOrWhiteSpace(CurrentLandLordIdStr))
             {
-                LandLord = LandLordSelectionList.FirstOrDefault(LandLord => long.Equals(LandLord.Id, CurrentLandLordId));
+                LandLord = LandLordSelectionList.FirstOrDefault(LandLord => LandLord.Id.ToString().Equals(CurrentLandLordIdStr));
                 await LandLordChanged.InvokeAsync(LandLord);
 
                 if (LandLord != null)
                 {
                     LandLordId = LandLord.Id;
-                    LandLordIdLong = (long)LandLordId;
                     await LandLordIdChanged.InvokeAsync(LandLordId);
-                    await LandLordIdLongChanged.InvokeAsync(LandLordIdLong);
                 }   
             }            
         }

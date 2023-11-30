@@ -69,6 +69,10 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
 
     public virtual async Task<ActionResult<SecondTestEntityZeroOrOneDto>> Post([FromBody] SecondTestEntityZeroOrOneCreateDto secondTestEntityZeroOrOne)
     {
+        if(secondTestEntityZeroOrOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
 
     public virtual async Task<ActionResult<SecondTestEntityZeroOrOneDto>> Put([FromRoute] System.String key, [FromBody] SecondTestEntityZeroOrOneUpdateDto secondTestEntityZeroOrOne)
     {
+        if(secondTestEntityZeroOrOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -101,9 +109,13 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<SecondTestEntityZeroOrOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<SecondTestEntityZeroOrOneUpdateDto> secondTestEntityZeroOrOne)
+    public virtual async Task<ActionResult<SecondTestEntityZeroOrOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<SecondTestEntityZeroOrOnePartialUpdateDto> secondTestEntityZeroOrOne)
     {
-        if (!ModelState.IsValid || secondTestEntityZeroOrOne is null)
+        if(secondTestEntityZeroOrOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

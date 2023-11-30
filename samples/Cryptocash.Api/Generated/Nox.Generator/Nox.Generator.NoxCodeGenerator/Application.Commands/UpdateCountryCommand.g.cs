@@ -58,23 +58,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 			return null;
 		}
 		await DbContext.Entry(entity).Collection(x => x.CountryTimeZones).LoadAsync();
-		var keysToUpdateCountryTimeZones = request.EntityDto.CountryTimeZones
-			.Where(x => x.Id != null)
-			.Select(x => Cryptocash.Domain.CountryTimeZoneMetadata.CreateId(x.Id.NonNullValue<System.Int64>()));
-		foreach(var ownedEntity in entity.CountryTimeZones)
-		{
-			if(!keysToUpdateCountryTimeZones.Any(x => x == ownedEntity.Id))
-				DbContext.Entry(ownedEntity).State = EntityState.Deleted;
-		}
 		await DbContext.Entry(entity).Collection(x => x.Holidays).LoadAsync();
-		var keysToUpdateHolidays = request.EntityDto.Holidays
-			.Where(x => x.Id != null)
-			.Select(x => Cryptocash.Domain.HolidayMetadata.CreateId(x.Id.NonNullValue<System.Int64>()));
-		foreach(var ownedEntity in entity.Holidays)
-		{
-			if(!keysToUpdateHolidays.Any(x => x == ownedEntity.Id))
-				DbContext.Entry(ownedEntity).State = EntityState.Deleted;
-		}
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

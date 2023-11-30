@@ -69,6 +69,10 @@ public abstract partial class TestEntityForTypesControllerBase : ODataController
 
     public virtual async Task<ActionResult<TestEntityForTypesDto>> Post([FromBody] TestEntityForTypesCreateDto testEntityForTypes)
     {
+        if(testEntityForTypes is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class TestEntityForTypesControllerBase : ODataController
 
     public virtual async Task<ActionResult<TestEntityForTypesDto>> Put([FromRoute] System.String key, [FromBody] TestEntityForTypesUpdateDto testEntityForTypes)
     {
+        if(testEntityForTypes is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -101,9 +109,13 @@ public abstract partial class TestEntityForTypesControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityForTypesDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityForTypesUpdateDto> testEntityForTypes)
+    public virtual async Task<ActionResult<TestEntityForTypesDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityForTypesPartialUpdateDto> testEntityForTypes)
     {
-        if (!ModelState.IsValid || testEntityForTypes is null)
+        if(testEntityForTypes is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

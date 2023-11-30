@@ -8,7 +8,9 @@ using Nox.Yaml.Serialization;
 namespace Nox.Yaml.Schema.Generator;
 
 internal class SchemaGenerator
-{ 
+{
+
+    private static readonly string[] _anyTypeList = new[] { "string", "number", "boolean", "array", "object" };
 
     private readonly HashSet<Type> _generatedSchemas = new();
 
@@ -242,9 +244,18 @@ internal class SchemaGenerator
 
     private static void WriteTypeInfo(SchemaProperty schemaProperty, JsonSerializer js)
     {
-        
-        js.AppendProperty("type", schemaProperty.Type!);
-        
+
+        if (schemaProperty.Type is null) return;
+
+        if(schemaProperty.Type.Equals("any"))
+        {
+            js.AppendProperty("type", _anyTypeList);
+        }
+        else
+        {
+            js.AppendProperty("type", schemaProperty.Type);
+        }
+
         if (schemaProperty.Format is not null)
             js.AppendProperty("format", schemaProperty.Format);
 

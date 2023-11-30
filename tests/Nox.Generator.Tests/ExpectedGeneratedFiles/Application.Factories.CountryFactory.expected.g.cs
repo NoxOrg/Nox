@@ -26,11 +26,14 @@ namespace SampleWebApp.Application.Factories;
 internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public CountryFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual CountryEntity CreateEntity(CountryCreateDto createDto)
@@ -304,4 +307,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 
 internal partial class CountryFactory : CountryFactoryBase
 {
+    public CountryFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

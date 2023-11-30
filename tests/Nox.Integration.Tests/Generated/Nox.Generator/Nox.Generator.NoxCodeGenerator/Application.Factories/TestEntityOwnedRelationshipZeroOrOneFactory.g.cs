@@ -26,14 +26,17 @@ namespace TestWebApp.Application.Factories;
 internal abstract class TestEntityOwnedRelationshipZeroOrOneFactoryBase : IEntityFactory<TestEntityOwnedRelationshipZeroOrOneEntity, TestEntityOwnedRelationshipZeroOrOneCreateDto, TestEntityOwnedRelationshipZeroOrOneUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
     protected IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOne, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto> SecondTestEntityOwnedRelationshipZeroOrOneFactory {get;}
 
     public TestEntityOwnedRelationshipZeroOrOneFactoryBase
     (
-        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOne, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto> secondtestentityownedrelationshipzerooronefactory
+        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOne, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto> secondtestentityownedrelationshipzerooronefactory,
+        IRepository repository
         )
     {
         SecondTestEntityOwnedRelationshipZeroOrOneFactory = secondtestentityownedrelationshipzerooronefactory;
+        _repository = repository;
     }
 
     public virtual TestEntityOwnedRelationshipZeroOrOneEntity CreateEntity(TestEntityOwnedRelationshipZeroOrOneCreateDto createDto)
@@ -96,12 +99,18 @@ internal abstract class TestEntityOwnedRelationshipZeroOrOneFactoryBase : IEntit
 
 	private void UpdateOwnedEntities(TestEntityOwnedRelationshipZeroOrOneEntity entity, TestEntityOwnedRelationshipZeroOrOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
-
 		if(updateDto.SecondTestEntityOwnedRelationshipZeroOrOne is null)
+        {
+            if(entity.SecondTestEntityOwnedRelationshipZeroOrOne is not null) 
+                _repository.DeleteOwned(entity.SecondTestEntityOwnedRelationshipZeroOrOne);
 			entity.DeleteAllRefToSecondTestEntityOwnedRelationshipZeroOrOne();
+        }
 		else
 		{
-			entity.CreateRefToSecondTestEntityOwnedRelationshipZeroOrOne(SecondTestEntityOwnedRelationshipZeroOrOneFactory.CreateEntity(updateDto.SecondTestEntityOwnedRelationshipZeroOrOne));
+            if(entity.SecondTestEntityOwnedRelationshipZeroOrOne is not null)
+                SecondTestEntityOwnedRelationshipZeroOrOneFactory.UpdateEntity(entity.SecondTestEntityOwnedRelationshipZeroOrOne, updateDto.SecondTestEntityOwnedRelationshipZeroOrOne, cultureCode);
+            else
+			    entity.CreateRefToSecondTestEntityOwnedRelationshipZeroOrOne(SecondTestEntityOwnedRelationshipZeroOrOneFactory.CreateEntity(updateDto.SecondTestEntityOwnedRelationshipZeroOrOne));
 		}
 	}
 }
@@ -110,7 +119,8 @@ internal partial class TestEntityOwnedRelationshipZeroOrOneFactory : TestEntityO
 {
     public TestEntityOwnedRelationshipZeroOrOneFactory
     (
-        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOne, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto> secondtestentityownedrelationshipzerooronefactory
-    ) : base(secondtestentityownedrelationshipzerooronefactory)
+        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOne, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto> secondtestentityownedrelationshipzerooronefactory,
+        IRepository repository
+    ) : base(secondtestentityownedrelationshipzerooronefactory, repository)
     {}
 }

@@ -94,6 +94,12 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
     public Nox.Types.Boolean SpaceBetweenAmountAndSymbol { get; set; } = null!;
 
     /// <summary>
+    /// Currency's symbol position    
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.Boolean SymbolOnLeft { get; set; } = null!;
+
+    /// <summary>
     /// Currency's numeric decimal digits    
     /// </summary>
     /// <remarks>Required.</remarks>   

@@ -39,6 +39,7 @@ internal static class ServiceCollectionExtensions
             configurator.WithMessagingTransactionalOutbox<AppDbContext>();
             configureNox?.Invoke(configurator);
         });
+        services.AddScoped(typeof(Nox.Domain.IRepository), serviceProvider => serviceProvider.GetRequiredService<AppDbContext>());
         services.AddNoxOdata(configureNoxOdata);
         return services;
     }

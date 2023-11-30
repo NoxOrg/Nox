@@ -31,6 +31,7 @@ namespace Cryptocash.Api.Migrations
                     ThousandsSeparator = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
                     DecimalSeparator = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
                     SpaceBetweenAmountAndSymbol = table.Column<bool>(type: "bit", nullable: false),
+                    SymbolOnLeft = table.Column<bool>(type: "bit", nullable: false),
                     DecimalDigits = table.Column<int>(type: "int", nullable: false),
                     MajorName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     MajorSymbol = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
@@ -109,8 +110,7 @@ namespace Cryptocash.Api.Migrations
                 name: "LandLords",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -269,6 +269,7 @@ namespace Cryptocash.Api.Migrations
                     GoogleMapsUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true),
                     OpenStreetMapsUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true),
                     StartOfWeek = table.Column<int>(type: "int", nullable: false),
+                    Population = table.Column<int>(type: "int", nullable: false),
                     CurrencyId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -505,7 +506,7 @@ namespace Cryptocash.Api.Migrations
                     RentPerSquareMetre_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: true),
                     RentPerSquareMetre_CurrencyCode = table.Column<int>(type: "int", nullable: true),
                     CountryId = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
-                    LandLordId = table.Column<long>(type: "bigint", nullable: false),
+                    LandLordId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
