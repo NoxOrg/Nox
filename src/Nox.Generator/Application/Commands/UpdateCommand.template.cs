@@ -76,19 +76,8 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
             {{- navigationName = GetNavigationPropertyName entity relationship }}
 			{{- if relationship.WithSingleEntity }}
 		await DbContext.Entry(entity).Reference(x => x.{{navigationName}}).LoadAsync();
-		if(entity.{{navigationName}} is not null)
-			DbContext.Entry(entity.{{navigationName}}).State = EntityState.Deleted;
 			{{- else }}
-			{{- key = relationship.Related.Entity.Keys | array.first }}
 		await DbContext.Entry(entity).Collection(x => x.{{navigationName}}).LoadAsync();
-		var keysToUpdate{{navigationName}} = request.EntityDto.{{navigationName}}
-			.Where(x => x.{{key.Name}} != null)
-			.Select(x => {{codeGeneratorState.DomainNameSpace}}.{{relationship.Entity}}Metadata.Create{{key.Name}}(x.{{key.Name}}.NonNullValue<{{keyType key}}>()));
-		foreach(var ownedEntity in entity.{{navigationName}})
-		{
-			if(!keysToUpdate{{navigationName}}.Any(x => x == ownedEntity.{{key.Name}}))
-				DbContext.Entry(ownedEntity).State = EntityState.Deleted;
-		}
 			{{- end }}
 		{{- end }}
 

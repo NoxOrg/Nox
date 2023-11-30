@@ -26,17 +26,20 @@ namespace ClientApi.Application.Factories;
 internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
     protected IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> CountryLocalNameFactory {get;}
     protected IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> CountryBarCodeFactory {get;}
 
     public CountryFactoryBase
     (
         IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> countrylocalnamefactory,
-        IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory
+        IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory,
+        IRepository repository
         )
     {
         CountryLocalNameFactory = countrylocalnamefactory;
         CountryBarCodeFactory = countrybarcodefactory;
+        _repository = repository;
     }
 
     public virtual CountryEntity CreateEntity(CountryCreateDto createDto)
@@ -243,9 +246,11 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 
 	private void UpdateOwnedEntities(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
-
-		if(updateDto.CountryLocalNames is null)
+        if(!updateDto.CountryLocalNames.Any())
+        { 
+            _repository.DeleteOwnedRange(entity.CountryLocalNames);
 			entity.DeleteAllRefToCountryLocalNames();
+        }
 		else
 		{
 			var updatedCountryLocalNames = new List<ClientApi.Domain.CountryLocalName>();
@@ -266,14 +271,22 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 					}
 				}
 			}
+            _repository.DeleteOwnedRange<ClientApi.Domain.CountryLocalName>(
+                entity.CountryLocalNames.Where(x => !updatedCountryLocalNames.Any(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToCountryLocalNames(updatedCountryLocalNames);
 		}
-
 		if(updateDto.CountryBarCode is null)
+        {
+            if(entity.CountryBarCode is not null) 
+                _repository.DeleteOwned(entity.CountryBarCode);
 			entity.DeleteAllRefToCountryBarCode();
+        }
 		else
 		{
-			entity.CreateRefToCountryBarCode(CountryBarCodeFactory.CreateEntity(updateDto.CountryBarCode));
+            if(entity.CountryBarCode is not null)
+                CountryBarCodeFactory.UpdateEntity(entity.CountryBarCode, updateDto.CountryBarCode, cultureCode);
+            else
+			    entity.CreateRefToCountryBarCode(CountryBarCodeFactory.CreateEntity(updateDto.CountryBarCode));
 		}
 	}
 }
@@ -283,7 +296,8 @@ internal partial class CountryFactory : CountryFactoryBase
     public CountryFactory
     (
         IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> countrylocalnamefactory,
-        IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory
-    ) : base(countrylocalnamefactory,countrybarcodefactory)
+        IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory,
+        IRepository repository
+    ) : base(countrylocalnamefactory,countrybarcodefactory, repository)
     {}
 }

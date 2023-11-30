@@ -10,6 +10,7 @@ using System.Net;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Types.EntityFramework.Types;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Extensions;
 
 namespace Nox.Infrastructure.Persistence
 {
@@ -33,6 +34,7 @@ namespace Nox.Infrastructure.Persistence
             _systemProvider = systemProvider;
             _databaseProvider = databaseProvider;
         }
+
         #region IRepository
         /// <summary>
         /// Deletes Entity
@@ -48,7 +50,17 @@ namespace Nox.Infrastructure.Persistence
         {
             Remove(entity);
         }
+
+        /// <summary>
+        /// Deletes a range of Owned Entities
+        /// </summary>
+        public void DeleteOwnedRange<T>(IEnumerable<T> entities) where T : Nox.Domain.IOwnedEntity
+        {
+            if (entities.Any())
+                entities.ForEach(e => DeleteOwned(e));
+        }
         #endregion
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             try

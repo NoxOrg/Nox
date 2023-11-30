@@ -58,8 +58,6 @@ internal abstract class UpdateStoreCommandHandlerBase : CommandBase<UpdateStoreC
 			return null;
 		}
 		await DbContext.Entry(entity).Reference(x => x.EmailAddress).LoadAsync();
-		if(entity.EmailAddress is not null)
-			DbContext.Entry(entity.EmailAddress).State = EntityState.Deleted;
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

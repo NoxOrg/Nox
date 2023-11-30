@@ -26,11 +26,14 @@ namespace ClientApi.Application.Factories;
 internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public CountryLocalNameFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual CountryLocalNameEntity CreateEntity(CountryLocalNameUpsertDto createDto)
@@ -106,4 +109,9 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
 
 internal partial class CountryLocalNameFactory : CountryLocalNameFactoryBase
 {
+    public CountryLocalNameFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

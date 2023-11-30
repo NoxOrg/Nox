@@ -58,17 +58,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 			return null;
 		}
 		await DbContext.Entry(entity).Collection(x => x.CountryLocalNames).LoadAsync();
-		var keysToUpdateCountryLocalNames = request.EntityDto.CountryLocalNames
-			.Where(x => x.Id != null)
-			.Select(x => ClientApi.Domain.CountryLocalNameMetadata.CreateId(x.Id.NonNullValue<System.Int64>()));
-		foreach(var ownedEntity in entity.CountryLocalNames)
-		{
-			if(!keysToUpdateCountryLocalNames.Any(x => x == ownedEntity.Id))
-				DbContext.Entry(ownedEntity).State = EntityState.Deleted;
-		}
 		await DbContext.Entry(entity).Reference(x => x.CountryBarCode).LoadAsync();
-		if(entity.CountryBarCode is not null)
-			DbContext.Entry(entity.CountryBarCode).State = EntityState.Deleted;
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

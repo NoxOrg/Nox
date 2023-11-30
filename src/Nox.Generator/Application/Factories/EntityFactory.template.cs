@@ -35,6 +35,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Factories;
 internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity, {{entityCreateDto}}, {{entityUpdateDto}}>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("{{codeGeneratorState.Solution.Application.Localization.DefaultCulture}}");
+    private readonly IRepository _repository;
 
     {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
     protected IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}UpsertDto, {{ownedEntity}}UpsertDto> {{ownedEntity}}Factory {get;}
@@ -43,13 +44,15 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
     public {{className}}Base
     (
         {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
-        IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}UpsertDto, {{ownedEntity}}UpsertDto> {{fieldFactoryName ownedEntity}}{{if !for.last}},{{end}}
+        IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}UpsertDto, {{ownedEntity}}UpsertDto> {{fieldFactoryName ownedEntity}},
         {{- end }}
+        IRepository repository
         )
     {
         {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
         {{ ownedEntity}}Factory = {{fieldFactoryName ownedEntity}};
         {{- end }}
+        _repository = repository;
     }
 
     public virtual {{entity.Name}}Entity CreateEntity({{entityCreateDto}} createDto)
@@ -202,13 +205,26 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 		{{- for ownedRelationship in entity.OwnedRelationships }}
 			{{- navigationName = GetNavigationPropertyName entity ownedRelationship }}
 			{{- key = ownedRelationship.Related.Entity.Keys | array.first }}
-
+        
+        {{- if ownedRelationship.WithSingleEntity }}
 		if(updateDto.{{navigationName}} is null)
+        {
+            if(entity.{{navigationName}} is not null) 
+                _repository.DeleteOwned(entity.{{navigationName}});
+        {{- else }}
+        if(!updateDto.{{navigationName}}.Any())
+        { 
+            _repository.DeleteOwnedRange(entity.{{navigationName}});
+        {{- end }}
 			entity.DeleteAllRefTo{{navigationName}}();
+        }
 		else
 		{
 			{{- if ownedRelationship.WithSingleEntity }}
-			entity.CreateRefTo{{navigationName}}({{ownedRelationship.Entity}}Factory.CreateEntity(updateDto.{{navigationName}}));
+            if(entity.{{navigationName}} is not null)
+                {{ownedRelationship.Entity}}Factory.UpdateEntity(entity.{{navigationName}}, updateDto.{{navigationName}}, cultureCode);
+            else
+			    entity.CreateRefTo{{navigationName}}({{ownedRelationship.Entity}}Factory.CreateEntity(updateDto.{{navigationName}}));
 			{{- else # WithMultiEntity }}
 			var updated{{navigationName}} = new List<{{codeGeneratorState.DomainNameSpace}}.{{ownedRelationship.Entity}}>();
 			foreach(var ownedUpsertDto in updateDto.{{navigationName}})
@@ -232,6 +248,8 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 					}
 				}
 			}
+            _repository.DeleteOwnedRange<{{codeGeneratorState.DomainNameSpace}}.{{ownedRelationship.Entity}}>(
+                entity.{{navigationName}}.Where(x => !updated{{navigationName}}.Any(upd => upd.{{key.Name}} == x.{{key.Name}})).ToList());
 			entity.UpdateRefTo{{navigationName}}(updated{{navigationName}});
 			{{- end }}
 		}
@@ -242,13 +260,12 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 
 internal partial class {{className}} : {{className}}Base
 {
-    {{- if ownedEntities | array.size > 0 #Factories for owned entitites}}
     public {{className}}
     (
         {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
-        IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}UpsertDto, {{ownedEntity}}UpsertDto> {{fieldFactoryName ownedEntity}}{{if !for.last}},{{end}}
+        IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}UpsertDto, {{ownedEntity}}UpsertDto> {{fieldFactoryName ownedEntity}},
         {{- end }}
-    ) : base({{ ownedEntities | array.each @fieldFactoryName | array.join "," }})
+        IRepository repository
+    ) : base({{ ownedEntities | array.each @fieldFactoryName | array.join "," }}{{if ownedEntities | array.size > 0 }},{{end}} repository)
     {}
-    {{- end }}
 }
