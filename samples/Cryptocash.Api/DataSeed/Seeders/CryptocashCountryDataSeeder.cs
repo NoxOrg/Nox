@@ -37,7 +37,8 @@ internal class CryptocashCountryDataSeeder : DataSeederBase<CountryDto, Country>
             GoogleMapsUrl = Url.From(model?.GoogleMapsUrl!),
             OpenStreetMapsUrl = Url.From(model?.OpenStreetMapsUrl!),
             StartOfWeek = Nox.Types.DayOfWeek.From((ushort)model?.StartOfWeek!),
-            CurrencyId = CurrencyCode3.From(model?.CurrencyId!)
+            CurrencyId = CurrencyCode3.From(model?.CurrencyId!),
+            Population = model?.Population == null ? Number.From(0) : Number.From(model!.Population!)
         };
 
         if (model?.CountryTimeZones != null)

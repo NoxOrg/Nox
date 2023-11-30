@@ -27,6 +27,7 @@ internal class CryptocashCurrencyDataSeeder : DataSeederBase<CurrencyDto, Curren
             ThousandsSeparator = Text.From(model.ThousandsSeparator!),
             DecimalSeparator = Text.From(model.DecimalSeparator!),
             SpaceBetweenAmountAndSymbol = Nox.Types.Boolean.From(model.SpaceBetweenAmountAndSymbol!),
+            SymbolOnLeft = Nox.Types.Boolean.From(model.SymbolOnLeft!),
             DecimalDigits = Number.From(model.DecimalDigits!),
             MajorName = Text.From(model.MajorName!),
             MajorSymbol = Text.From(model.MajorSymbol!),

@@ -31,6 +31,7 @@ namespace Cryptocash.Api.Migrations
                     ThousandsSeparator = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
                     DecimalSeparator = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
                     SpaceBetweenAmountAndSymbol = table.Column<bool>(type: "bit", nullable: false),
+                    SymbolOnLeft = table.Column<bool>(type: "bit", nullable: false),
                     DecimalDigits = table.Column<int>(type: "int", nullable: false),
                     MajorName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     MajorSymbol = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),

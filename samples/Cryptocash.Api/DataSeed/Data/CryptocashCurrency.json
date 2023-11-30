@@ -7,6 +7,7 @@
     "ThousandsSeparator": "\\u0027",
     "DecimalSeparator": ",",
     "SpaceBetweenAmountAndSymbol": true,
+    "SymbolOnLeft": true,
     "DecimalDigits": 2,
     "MajorName": "franc",
     "MajorSymbol": "CHF",
@@ -63,6 +64,68 @@
     "ExchangeRates": [
       {
         "EffectiveRate": 3,
+        "EffectiveAt": "2023-11-27T17:01:21.9333333Z"
+      }
+    ]
+  },
+  {
+    "Id": "GBP",
+    "Name": "British Pound",
+    "CurrencyIsoNumeric": 826,
+    "Symbol": "\u00A3",
+    "ThousandsSeparator": ",",
+    "DecimalSeparator": ".",
+    "SpaceBetweenAmountAndSymbol": false,
+    "SymbolOnLeft": true,
+    "DecimalDigits": 2,
+    "MajorName": "pound",
+    "MajorSymbol": "\u00A3",
+    "MinorName": "penny",
+    "MinorSymbol": "p",
+    "MinorToMajorValue": {
+      "Amount": 0.01,
+      "CurrencyCode": "GBP"
+    },
+    "BankNotes": [
+      {
+        "CashNote": "\u00A35",
+        "Value": {
+          "Amount": 5,
+          "CurrencyCode": "GBP"
+        }
+      },
+      {
+        "CashNote": "\u00A310",
+        "Value": {
+          "Amount": 10,
+          "CurrencyCode": "GBP"
+        }
+      },
+      {
+        "CashNote": "\u00A320",
+        "Value": {
+          "Amount": 20,
+          "CurrencyCode": "GBP"
+        }
+      },
+      {
+        "CashNote": "\u00A350",
+        "Value": {
+          "Amount": 50,
+          "CurrencyCode": "GBP"
+        }
+      },
+      {
+        "CashNote": "\u00A3100",
+        "Value": {
+          "Amount": 100,
+          "CurrencyCode": "GBP"
+        }
+      }
+    ],
+    "ExchangeRates": [
+      {
+        "EffectiveRate": 5,
         "EffectiveAt": "2023-11-27T17:01:21.9333333Z"
       }
     ]

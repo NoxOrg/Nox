@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cryptocash.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231129085447_InitialCreate")]
+    [Migration("20231129160220_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -451,6 +451,9 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(63)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
+
+                    b.Property<bool>("SymbolOnLeft")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ThousandsSeparator")
                         .HasMaxLength(63)

@@ -449,6 +449,9 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
+                    b.Property<bool>("SymbolOnLeft")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ThousandsSeparator")
                         .HasMaxLength(63)
                         .IsUnicode(true)

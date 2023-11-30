@@ -1,2 +1,34 @@
 ﻿[
+  {
+    "Id": "dad33cb0-1763-446a-a914-4a4f53e62a29",
+    "Name": "Landlord A",
+    "Address": {
+      "StreetNumber": "40",
+      "AddressLine1": "Rosenweg",
+      "AddressLine2": "Landlord A",
+      "Route": "",
+      "Locality": "",
+      "Neighborhood": "",
+      "AdministrativeArea1": "Lanzenneunforn",
+      "AdministrativeArea2": "Herdern",
+      "PostalCode": "8506",
+      "CountryId": "CH"
+    }
+  },
+  {
+    "Id": "4c7d7ba1-8996-4d23-b019-6cd23d6e87fa",
+    "Name": "Landlord B",
+    "Address": {
+      "StreetNumber": "29",
+      "AddressLine1": "Ermin Street",
+      "AddressLine2": "Landlord B",
+      "Route": "",
+      "Locality": "",
+      "Neighborhood": "",
+      "AdministrativeArea1": "Wyton",
+      "AdministrativeArea2": "",
+      "PostalCode": "PE17 9AU",
+      "CountryId": "GB"
+    }
+  }
 ]
