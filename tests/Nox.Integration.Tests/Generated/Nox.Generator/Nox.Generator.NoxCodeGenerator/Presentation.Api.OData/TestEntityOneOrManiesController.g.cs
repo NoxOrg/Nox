@@ -46,7 +46,7 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
     }
     
     [HttpPut("/api/v1/TestEntityOneOrManies/{key}/SecondTestEntityOneOrManies/$ref")]
-    public async Task<ActionResult> UpdateRefToSecondTestEntityOneOrManiesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToSecondTestEntityOneOrManiesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -63,7 +63,7 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToSecondTestEntityOneOrManies([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToSecondTestEntityOneOrManies([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityOneOrManyByIdQuery(key))).Select(x => x.SecondTestEntityOneOrManies).SingleOrDefault();
         if (related is null)
@@ -158,7 +158,7 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
     }
     
     [HttpDelete("/api/v1/TestEntityOneOrManies/{key}/SecondTestEntityOneOrManies/{relatedKey}")]
-    public async Task<ActionResult> DeleteToSecondTestEntityOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteToSecondTestEntityOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {

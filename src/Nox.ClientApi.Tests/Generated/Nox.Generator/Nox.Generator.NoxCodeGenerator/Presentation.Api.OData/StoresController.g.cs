@@ -50,7 +50,7 @@ public abstract partial class StoresControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToStoreOwner([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> GetRefToStoreOwner([FromRoute] System.Guid key)
     {
         var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.StoreOwner).SingleOrDefault();
         if (related is null)
@@ -78,7 +78,7 @@ public abstract partial class StoresControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToStoreOwner([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> DeleteRefToStoreOwner([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
@@ -144,7 +144,7 @@ public abstract partial class StoresControllerBase : ODataController
     }
     
     [HttpDelete("/api/v1/Stores/{key}/StoreOwner")]
-    public async Task<ActionResult> DeleteToStoreOwner([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> DeleteToStoreOwner([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
@@ -182,7 +182,7 @@ public abstract partial class StoresControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToStoreLicense([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> GetRefToStoreLicense([FromRoute] System.Guid key)
     {
         var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.StoreLicense).SingleOrDefault();
         if (related is null)
@@ -210,7 +210,7 @@ public abstract partial class StoresControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToStoreLicense([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> DeleteRefToStoreLicense([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
@@ -276,7 +276,7 @@ public abstract partial class StoresControllerBase : ODataController
     }
     
     [HttpDelete("/api/v1/Stores/{key}/StoreLicense")]
-    public async Task<ActionResult> DeleteToStoreLicense([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> DeleteToStoreLicense([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {

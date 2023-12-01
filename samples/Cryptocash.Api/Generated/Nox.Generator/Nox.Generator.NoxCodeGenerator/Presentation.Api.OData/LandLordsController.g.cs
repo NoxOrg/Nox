@@ -46,7 +46,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     }
     
     [HttpPut("/api/LandLords/{key}/VendingMachines/$ref")]
-    public async Task<ActionResult> UpdateRefToVendingMachinesNonConventional([FromRoute] System.Guid key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToVendingMachinesNonConventional([FromRoute] System.Guid key, [FromBody] ReferencesDto<System.Guid> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -63,7 +63,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToVendingMachines([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> GetRefToVendingMachines([FromRoute] System.Guid key)
     {
         var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();
         if (related is null)
@@ -95,7 +95,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
@@ -174,7 +174,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     }
     
     [HttpDelete("/api/LandLords/{key}/VendingMachines/{relatedKey}")]
-    public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -198,7 +198,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     }
     
     [HttpDelete("/api/LandLords/{key}/VendingMachines")]
-    public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {

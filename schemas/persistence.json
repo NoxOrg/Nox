@@ -81,6 +81,23 @@
           }
         }
       ]
+    },
+    "integrationStoreServer": {    
+      "anyOf": [
+        { "$ref": "integrationStoreServer.json" },
+        {
+          "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
     }
   },
   "additionalProperties": false

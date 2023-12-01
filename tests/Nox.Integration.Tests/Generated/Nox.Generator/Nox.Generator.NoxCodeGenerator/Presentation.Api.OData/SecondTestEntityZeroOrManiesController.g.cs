@@ -46,7 +46,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
     }
     
     [HttpPut("/api/v1/SecondTestEntityZeroOrManies/{key}/TestEntityZeroOrManies/$ref")]
-    public async Task<ActionResult> UpdateRefToTestEntityZeroOrManiesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToTestEntityZeroOrManiesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -63,7 +63,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTestEntityZeroOrManies([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToTestEntityZeroOrManies([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetSecondTestEntityZeroOrManyByIdQuery(key))).Select(x => x.TestEntityZeroOrManies).SingleOrDefault();
         if (related is null)
@@ -95,7 +95,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToTestEntityZeroOrManies([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteRefToTestEntityZeroOrManies([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -174,7 +174,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
     }
     
     [HttpDelete("/api/v1/SecondTestEntityZeroOrManies/{key}/TestEntityZeroOrManies/{relatedKey}")]
-    public async Task<ActionResult> DeleteToTestEntityZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteToTestEntityZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -198,7 +198,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
     }
     
     [HttpDelete("/api/v1/SecondTestEntityZeroOrManies/{key}/TestEntityZeroOrManies")]
-    public async Task<ActionResult> DeleteToTestEntityZeroOrManies([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteToTestEntityZeroOrManies([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {

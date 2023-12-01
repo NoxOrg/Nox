@@ -329,7 +329,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
     }
     
     [HttpPut("/api/Currencies/{key}/Countries/$ref")]
-    public async Task<ActionResult> UpdateRefToCountriesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToCountriesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -346,7 +346,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCountries([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToCountries([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Select(x => x.Countries).SingleOrDefault();
         if (related is null)
@@ -441,7 +441,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
     }
     
     [HttpDelete("/api/Currencies/{key}/Countries/{relatedKey}")]
-    public async Task<ActionResult> DeleteToCountries([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteToCountries([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -481,7 +481,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
     }
     
     [HttpPut("/api/Currencies/{key}/MinimumCashStocks/$ref")]
-    public async Task<ActionResult> UpdateRefToMinimumCashStocksNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToMinimumCashStocksNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.Int64> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -498,7 +498,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToMinimumCashStocks([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToMinimumCashStocks([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Select(x => x.MinimumCashStocks).SingleOrDefault();
         if (related is null)
@@ -530,7 +530,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -609,7 +609,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
     }
     
     [HttpDelete("/api/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
-    public async Task<ActionResult> DeleteToMinimumCashStocks([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteToMinimumCashStocks([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -633,7 +633,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
     }
     
     [HttpDelete("/api/Currencies/{key}/MinimumCashStocks")]
-    public async Task<ActionResult> DeleteToMinimumCashStocks([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteToMinimumCashStocks([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
