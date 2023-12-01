@@ -11,15 +11,13 @@ namespace Nox.Solution.Tests;
 public class LocalizationTests
 {
     [Fact]
-    public void ApplyDefaults_ShouldAddDefaultCulture_WhenNotInSupportedCultures()
+    public void SetDefaults_ShouldAddDefaultCulture_WhenNotInSupportedCultures()
     {
         var solution = new NoxSolutionBuilder()
               .WithFile($"./files/localization-without-default-culture-in-supported-cultures.solution.nox.yaml")
               .Build();
 
-        solution.Application!.Localization!.ApplyDefaults();
-
-        var defaultCulture = solution.Application.Localization.DefaultCulture;
+        var defaultCulture = solution.Application!.Localization!.DefaultCulture;
         var supportedCultures = solution.Application.Localization.SupportedCultures;
 
         defaultCulture.Should().Be("en-US");
@@ -27,15 +25,13 @@ public class LocalizationTests
     }
 
     [Fact]
-    public void ApplyDefaults_ShouldRemoveRedundantSupportedCultures()
+    public void SetDefaults_ShouldRemoveRedundantSupportedCultures()
     {
         var solution = new NoxSolutionBuilder()
               .WithFile($"./files/localization-with-redundant-supported-cultures.solution.nox.yaml")
               .Build();
 
-        solution.Application!.Localization!.ApplyDefaults();
-
-        var defaultCulture = solution.Application.Localization.DefaultCulture;
+        var defaultCulture = solution.Application!.Localization!.DefaultCulture;
         var supportedCultures = solution.Application.Localization.SupportedCultures;
 
         defaultCulture.Should().Be("en-US");
