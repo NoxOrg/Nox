@@ -8,7 +8,7 @@ using Nox.Integration.Exceptions;
 
 namespace Nox.Integration.Adapters.SqlServer;
 
-public class SqlServerSendAdapter: INoxDatabaseSendAdapter
+public class SqlServerTableSendAdapter: INoxDatabaseSendAdapter
 {
     public IntegrationTargetAdapterType AdapterType => IntegrationTargetAdapterType.DatabaseTable;
     public string? StoredProcedure { get; }
@@ -19,7 +19,7 @@ public class SqlServerSendAdapter: INoxDatabaseSendAdapter
 
     public string? SchemaName { get; }
 
-    public SqlServerSendAdapter(string connectionString, string? schemaName, string? storedProcedure, string? tableName)
+    public SqlServerTableSendAdapter(string connectionString, string? schemaName, string? storedProcedure, string? tableName)
     {
         if (string.IsNullOrWhiteSpace(storedProcedure) && string.IsNullOrWhiteSpace(tableName))
         {

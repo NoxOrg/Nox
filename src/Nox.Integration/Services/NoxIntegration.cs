@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
-using System.Threading.Tasks;
 using Elastic.Apm.Api;
 using ETLBox;
 using ETLBox.DataFlow;
@@ -14,7 +10,6 @@ using Nox.Integration.Constants;
 using Nox.Integration.Exceptions;
 using Nox.Integration.Extensions.Send;
 using Nox.Solution;
-using Nox.Solution.Extensions;
 
 namespace Nox.Integration.Services;
 
@@ -22,6 +17,7 @@ internal sealed class NoxIntegration: INoxIntegration
 {
     private readonly ILogger _logger;
     private readonly INoxIntegrationDbContextFactory _dbContextFactory;
+    private IntegrationMergeStates? _mergeStates;
     
     public string Name { get; }
     public string? Description { get; }
@@ -51,7 +47,12 @@ internal sealed class NoxIntegration: INoxIntegration
     
     public async Task ExecuteAsync(ITransaction apmTransaction, INoxCustomTransformHandler? handler = null)
     {
-        var lastMergeStates = await GetMergeStates();
+        _mergeStates = await GetMergeStates();
+        if (SourceFilterColumns != null && SourceFilterColumns.Any())
+        {
+            ReceiveAdapter!.ApplyFilter(SourceFilterColumns, _mergeStates);    
+        }
+        
         switch (MergeType)
         {
             case IntegrationMergeType.MergeNew:
@@ -61,13 +62,13 @@ internal sealed class NoxIntegration: INoxIntegration
                 await apmTransaction.CaptureSpan("AddNew", ApiConstants.ActionExec, async() => await ExecuteAddNew(handler));
                 break;
         }
+        await SetLastMergeStates();
     }
 
     private async Task ExecuteMergeNew(INoxCustomTransformHandler? handler)
     {
         var source = ReceiveAdapter!.DataFlowSource;
-        //todo: filter source using merge state
-
+        
 
         IDataFlowSource<ExpandoObject>? transformSource = null;
         
@@ -108,16 +109,14 @@ internal sealed class NoxIntegration: INoxIntegration
                 inserts++;
                 //Fire events
                 //if(entityCreatedMsg is not null) SendChangeEvent(loader, row, entityCreatedMsg, NoxEventSource.EtlMerge);
-                //Update merge state
-                //UpdateMergeStates(lastMergeDateTimeStampInfo, record);
+                UpdateMergeStates(record);
             }
             else if ((ChangeAction)record["ChangeAction"]! == ChangeAction.Update)
             {
                 updates++;
                 //Fire events
                 //if (entityUpdatedMsg is not null) SendChangeEvent(loader, row, entityUpdatedMsg, NoxEventSource.EtlMerge);
-                //Update merge state
-                //UpdateMergeStates(lastMergeDateTimeStampInfo, record);
+                UpdateMergeStates(record);
             }
             else if ((ChangeAction)record["ChangeAction"]! == ChangeAction.Exists)
             {
@@ -151,7 +150,7 @@ internal sealed class NoxIntegration: INoxIntegration
         if (watermark.DateColumns != null && watermark.DateColumns.Any())
         {
             SourceFilterColumns = new List<string>();
-            foreach (var filterColumn in SourceFilterColumns)
+            foreach (var filterColumn in watermark.DateColumns)
             {
                 SourceFilterColumns.Add(filterColumn);
             }
@@ -219,16 +218,17 @@ internal sealed class NoxIntegration: INoxIntegration
         {
             await RemoveDefaultMergeTimestamp(dbContext);
         }
-        
+
+        await dbContext.SaveChangesAsync();
         return result;
     }
 
     private async Task<DateTime> GetLastMergeTimestamp(NoxIntegrationDbContext dbContext, string filterName)
     {
-        var result = IntegrationContextConstants.MinSqlMergeData;
+        var result = IntegrationContextConstants.MinSqlMergeDate;
         var timestamp = await dbContext.MergeStates!.FirstOrDefaultAsync(ts =>
-            ts.Integration!.Equals(Name, StringComparison.OrdinalIgnoreCase) &&
-            ts.Property!.Equals(filterName, StringComparison.OrdinalIgnoreCase));
+            ts.Integration!.Equals(Name) &&
+            ts.Property!.Equals(filterName));
         if (timestamp != null)
         {
             result = timestamp.LastDateLoadedUtc;
@@ -250,7 +250,7 @@ internal sealed class NoxIntegration: INoxIntegration
     private async Task RemoveNonDefaultMergeTimestamps(NoxIntegrationDbContext dbContext)
     {
         var timestamp = await dbContext.MergeStates!.FirstOrDefaultAsync(ts =>
-            ts.Integration!.Equals(Name, StringComparison.OrdinalIgnoreCase) &&
+            ts.Integration!.Equals(Name) &&
             ts.Property!.Equals(IntegrationContextConstants.DefaultFilterProperty));
         if (timestamp != null) dbContext.MergeStates!.Remove(timestamp);
     }
@@ -258,12 +258,73 @@ internal sealed class NoxIntegration: INoxIntegration
     private async Task RemoveDefaultMergeTimestamp(NoxIntegrationDbContext dbContext)
     {
         var timestamps = await dbContext.MergeStates!.Where(ts =>
-            ts.Integration!.Equals(Name, StringComparison.OrdinalIgnoreCase) &&
+            ts.Integration!.Equals(Name) &&
             !ts.Property!.Equals(IntegrationContextConstants.DefaultFilterProperty)).ToListAsync();
         if (timestamps.Any())
         {
             dbContext.MergeStates!.RemoveRange(timestamps);
         }
     }
-    
+
+    private void UpdateMergeStates(IDictionary<string, object?> record)
+    {
+        if (_mergeStates == null) return;
+        foreach (var filterColumn in _mergeStates.Keys)
+        {
+            if (record.TryGetValue(filterColumn, out var filterColumnValue))
+            {
+                if (filterColumnValue == null) continue;
+                
+                if (DateTime.TryParse(filterColumnValue.ToString(), out var fieldValue))
+                {
+                    if (fieldValue > _mergeStates[filterColumn].LastDateLoadedUtc)
+                    {
+                        var changeEntry = _mergeStates[filterColumn];
+                        changeEntry.LastDateLoadedUtc = fieldValue;
+                        changeEntry.IsUpdated = true;
+                        _mergeStates[filterColumn] = changeEntry;
+                    }
+                }
+            }
+            else
+            {
+                if (record.TryGetValue("ChangeDate", out var changeDate))
+                {
+                    if (changeDate == null) continue;
+                    
+                    if (DateTime.TryParse(changeDate.ToString(), out var changeDateValue))
+                    {
+                        var changeEntry = _mergeStates[IntegrationContextConstants.DefaultFilterProperty];
+                        changeEntry.LastDateLoadedUtc = changeDateValue.ToUniversalTime();
+                        changeEntry.IsUpdated = true;
+                        _mergeStates[IntegrationContextConstants.DefaultFilterProperty] = changeEntry;    
+                    }
+                }
+            }
+        }
+    }
+
+    private async Task SetLastMergeStates()
+    {
+        if (_mergeStates == null) return;
+        
+        var dbContext = _dbContextFactory.CreateContext();
+        foreach (var (filterColumn, mergeState) in _mergeStates)
+        {
+            if (mergeState.IsUpdated)
+            {
+                await SetLastMergeState(dbContext, filterColumn, mergeState.LastDateLoadedUtc);
+            }
+        }
+
+        await dbContext.SaveChangesAsync();
+    }
+
+    private async Task SetLastMergeState(NoxIntegrationDbContext dbContext, string propertyName, DateTime lastMergeDateTime)
+    {
+        var timestamp = await dbContext.MergeStates!.SingleAsync(ts =>
+            ts.Integration!.Equals(Name) &&
+            ts.Property!.Equals(propertyName));
+        timestamp.LastDateLoadedUtc = lastMergeDateTime;
+    }
 }

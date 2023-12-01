@@ -11,36 +11,21 @@ using Nox.Solution;
 
 namespace Nox.Integration.EtlTests;
 
-public class CoreTests
+public class CoreTests: IClassFixture<SqlServerIntegrationFixture>
 {
-// #if DEBUG
-//     [Fact (Skip = "This test can only be run locally if you have a loal sql server instance and have created the CountrySource database using ./files/Create_CoutrySource.sql")]
-// #else
-//     [Fact]
-// #endif  
-    [Fact]    
-    public async Task Can_Execute_an_Integration_From_Yaml_Definition()
+    private readonly SqlServerIntegrationFixture _sqlFixture;
+
+    public CoreTests(SqlServerIntegrationFixture sqlFixture)
     {
-        var services = new ServiceCollection();
-        services.AddLogging(configure =>
-        {
-            configure.AddConsole();
-        });
+        _sqlFixture = sqlFixture;
+    }
 
-        var solution = new NoxSolutionBuilder()
-            .WithFile("./files/test_integration.solution.nox.yaml")
-            .Build();
-
-        services.AddSingleton<NoxSolution>(solution);
-        services.AddSingleton(new NoxCodeGenConventions(solution));
-        services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
-        
-        services.AddNoxIntegrations(opts =>
-        {
-            opts.WithSqlServerStore();
-        });
-        var provider = services.BuildServiceProvider();
-        var context = provider.GetRequiredService<INoxIntegrationContext>();
-        await context.ExecuteIntegrationAsync("SqlToSqlIntegration");
+    
+    [Fact (Skip = "This test can only be run locally if you have a local sql server instance and have created the CountrySource database using ./files/Create_CountrySource.sql")]
+    public Task Can_Execute_an_Integration_From_Yaml_Definition()
+    {
+        _sqlFixture.Initialize("./files/Minimal/minimal.solution.nox.yaml");
+        var context = _sqlFixture.ServiceProvider!.GetRequiredService<INoxIntegrationContext>();
+        return context.ExecuteIntegrationAsync("SqlToSqlIntegration");
     }
 }

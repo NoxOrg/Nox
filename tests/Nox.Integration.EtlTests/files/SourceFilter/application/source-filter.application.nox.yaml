@@ -1,0 +1,2 @@
+integrations:
+  - $ref: ./integrations/SqlToSqlFilter.integration.nox.yaml

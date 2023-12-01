@@ -22,7 +22,7 @@ public static class IntegrationContextDatabaseSendExtensions
         return instance;
     }
     
-    internal static SqlServerSendAdapter CreateSqlServerTableAdapter(string integrationName, IntegrationTargetTableOptions options, DataConnection dataConnectionDefinition)
+    internal static SqlServerTableSendAdapter CreateSqlServerTableAdapter(string integrationName, IntegrationTargetTableOptions options, DataConnection dataConnectionDefinition)
     {
         var csb = new SqlConnectionStringBuilder(dataConnectionDefinition.Options)
         {
@@ -32,7 +32,7 @@ public static class IntegrationContextDatabaseSendExtensions
             InitialCatalog = dataConnectionDefinition.Name,
             ApplicationName = integrationName
         };
-        var adapter = new SqlServerSendAdapter(csb.ConnectionString, options.SchemaName, null, options.TableName);
+        var adapter = new SqlServerTableSendAdapter(csb.ConnectionString, options.SchemaName, null, options.TableName);
         return adapter;
     }
     
@@ -50,7 +50,7 @@ public static class IntegrationContextDatabaseSendExtensions
         return instance;
     }
     
-    internal static SqlServerSendAdapter CreateSqlServerProcAdapter(string integrationName, IntegrationTargetStoredProcedureOptions options, DataConnection dataConnectionDefinition)
+    internal static SqlServerTableSendAdapter CreateSqlServerProcAdapter(string integrationName, IntegrationTargetStoredProcedureOptions options, DataConnection dataConnectionDefinition)
     {
         var csb = new SqlConnectionStringBuilder(dataConnectionDefinition.Options)
         {
@@ -60,7 +60,7 @@ public static class IntegrationContextDatabaseSendExtensions
             InitialCatalog = dataConnectionDefinition.Name,
             ApplicationName = integrationName
         };
-        var adapter = new SqlServerSendAdapter(csb.ConnectionString, options.SchemaName, options.StoredProcedure, null);
+        var adapter = new SqlServerTableSendAdapter(csb.ConnectionString, options.SchemaName, options.StoredProcedure, null);
         return adapter;
     }
 }

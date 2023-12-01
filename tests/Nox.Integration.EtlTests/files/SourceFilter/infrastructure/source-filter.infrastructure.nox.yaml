@@ -1,0 +1,5 @@
+dependencies:
+  $ref: ./dependencies/source-filter.dependencies.nox.yaml
+  
+persistence:
+  $ref: ./persistence/source-filter.persistence.nox.yaml
