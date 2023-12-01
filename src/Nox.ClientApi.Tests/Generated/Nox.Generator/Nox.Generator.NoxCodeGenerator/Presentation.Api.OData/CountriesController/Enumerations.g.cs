@@ -35,10 +35,15 @@ public abstract partial class CountriesControllerBase
 
     [HttpPut("/api/v1/Countries/CountryContinentsLocalized")]
     public virtual async Task<ActionResult<IQueryable<DtoNameSpace.CountryContinentLocalizedDto>>> PutContinentsLocalizedNonConventional([FromBody] EnumerationLocalizedList<DtoNameSpace.CountryContinentLocalizedDto> countryContinentLocalizedDtos)
-    {     
+    {   
+        
+        if (countryContinentLocalizedDtos is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new ApplicationCommandsNameSpace.UpsertCountriesContinentsTranslationsCommand(countryContinentLocalizedDtos.Items));                        
         return Ok(result);       

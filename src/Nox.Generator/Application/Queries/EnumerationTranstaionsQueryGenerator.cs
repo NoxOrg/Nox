@@ -16,10 +16,6 @@ internal class EnumerationTranslationsQueryGenerator : ApplicationEntityDependen
 
         foreach (var entity in entities)
         {
-            //TODO: Add check for owned entities
-            // if (entity.IsOwnedEntity)
-            //     continue;
-
             context.CancellationToken.ThrowIfCancellationRequested();
 
             var enumerationAttributes =

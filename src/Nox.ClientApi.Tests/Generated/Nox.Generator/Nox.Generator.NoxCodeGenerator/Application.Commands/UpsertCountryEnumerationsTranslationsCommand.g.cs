@@ -43,9 +43,6 @@ internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase 
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
-
-		cancellationToken.ThrowIfCancellationRequested();
-		await OnExecutingAsync(command);
 		
 		var cultureCodes = command.CountryContinentLocalizedDtos.DistinctBy(d=>d.CultureCode).Select(d=>CultureCode.From(d.CultureCode)).ToList();
 		
@@ -74,7 +71,7 @@ internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase 
 		});
 		
 
-		await OnBatchCompletedAsync(command, localizedEntities);
+		await OnBatchCompletedAsync(command, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return command.CountryContinentLocalizedDtos;
 	}
@@ -82,7 +79,7 @@ internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase 
 public class UpsertCountriesContinentsTranslationsCommandValidator : AbstractValidator<UpsertCountriesContinentsTranslationsCommand>
 {
 	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-	private static readonly string[] _supportedCultureCodes = new string[] { "fr-FR", "de-DE", "en-US", };
+	private static readonly Nox.Types.CultureCode[] _supportedCultureCodes = new Nox.Types.CultureCode[] { Nox.Types.CultureCode.From("fr-FR"), Nox.Types.CultureCode.From("de-DE"), Nox.Types.CultureCode.From("en-US"), };
 	private static readonly int[] _supportedIds = new int[] { 1, 2, 3, 4, 5, };
 	
     public UpsertCountriesContinentsTranslationsCommandValidator(NoxSolution noxSolution)
@@ -92,7 +89,7 @@ public class UpsertCountriesContinentsTranslationsCommandValidator : AbstractVal
 			.WithMessage($"{nameof(UpsertCountriesContinentsTranslationsCommand)} : {nameof(UpsertCountriesContinentsTranslationsCommand.CountryContinentLocalizedDtos)} is required.");
 		
 		RuleForEach(x => x.CountryContinentLocalizedDtos)
-			.Must(x => _supportedCultureCodes.Contains(x.CultureCode))
+			.Must(x => _supportedCultureCodes.Contains(Nox.Types.CultureCode.From(x.CultureCode)))
 			.WithMessage((_,x) => $"{nameof(UpsertCountriesContinentsTranslationsCommand)} : {nameof(UpsertCountriesContinentsTranslationsCommand.CountryContinentLocalizedDtos)} contains unsupported culture code: {x.CultureCode}.");
 		
 		RuleForEach(x => x.CountryContinentLocalizedDtos)
