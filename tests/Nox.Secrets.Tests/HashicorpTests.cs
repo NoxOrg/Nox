@@ -7,7 +7,7 @@ namespace Nox.Secrets.Tests;
 
 public class HashicorpTests
 {
-    [Fact (Skip = "Only available if you have started the hashicorp vault docker container")]
+    [Fact (Skip = "This test can only be run if you have access to the Azure nox-EDA1DB500EBCEB02 key vault with your azure login")]
     public void Can_Retrieve_a_secret()
     {
         var services = new ServiceCollection();

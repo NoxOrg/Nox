@@ -18,4 +18,6 @@ public class Persistence
     public SearchServer? SearchServer { get; internal set; }
 
     public EventSourceServer? EventSourceServer { get; internal set; }
+    
+    public IntegrationStoreServer? IntegrationStoreServer { get; internal set; }
 }

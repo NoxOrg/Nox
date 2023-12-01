@@ -12,7 +12,7 @@ public class ResolverTests: IClassFixture<SecretsFixture>
         _fixture = fixture;
     }
     
-    [Fact (Skip = "Only available if you have started the hashicorp vault docker container")]
+    [Fact (Skip = "This test can only be run if you have access to the Azure nox-EDA1DB500EBCEB02 key vault with your azure login")] 
     public void Result_Must_be_empty_if_secret_does_not_exist()
     {
         var resolver = _fixture.ServiceProvider.GetRequiredService<INoxSecretsResolver>();
