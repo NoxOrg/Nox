@@ -33,6 +33,28 @@ public class CultureCodeTests
     }
     
     [Fact]
+    public void CultureCodeWithValidInput_TryFrom_ShouldCreate()
+    {
+        // Arrange & Act
+        var result = CultureCode.TryFrom("tr-TR", out var culture);
+
+        // Assert
+        Assert.True(result);
+        Assert.Equal("tr-TR", culture!.Value);
+    }
+    
+    [Fact]
+    public void CultureCodeWithInvalidInput_TryFrom_ShouldNotCreate()
+    {
+        // Arrange & Act
+        var result = CultureCode.TryFrom("aaaa", out var culture);
+
+        // Assert
+        Assert.False(result);
+        Assert.Null(culture);
+    }
+    
+    [Fact]
     public void Culture_Equality_Tests()
     {
         // Arrange & Act

@@ -62,10 +62,6 @@ public class DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandVal
     public DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandValidator()
     {
 		RuleFor(x => x.CultureCode)
-			.NotNull().NotEmpty()
-			.WithMessage($"{nameof(DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand)} : {nameof(DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand.CultureCode)} is required."); 
-		
-		RuleFor(x => x.CultureCode)
 			.Must(x => x != _defaultCultureCode)
 			.WithMessage($"{nameof(DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand)} : {nameof(DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand.CultureCode)} cannot be the default culture code: {_defaultCultureCode.Value}.");
 			

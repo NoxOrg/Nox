@@ -67,10 +67,6 @@ public class {{deleteCommand}}Validator : AbstractValidator<{{deleteCommand}}>
     public {{deleteCommand}}Validator()
     {
 		RuleFor(x => x.{{codeGeneratorState.LocalizationCultureField}})
-			.NotNull().NotEmpty()
-			.WithMessage($"{%{{}%}nameof({{deleteCommand}}){%{}}%} : {%{{}%}nameof({{deleteCommand}}.{{codeGeneratorState.LocalizationCultureField}}){%{}}%} is required."); 
-		
-		RuleFor(x => x.{{codeGeneratorState.LocalizationCultureField}})
 			.Must(x => x != _defaultCultureCode)
 			.WithMessage($"{%{{}%}nameof({{deleteCommand}}){%{}}%} : {%{{}%}nameof({{deleteCommand}}.{{codeGeneratorState.LocalizationCultureField}}){%{}}%} cannot be the default culture code: {_defaultCultureCode.Value}.");
 			

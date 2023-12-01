@@ -1,15 +1,15 @@
-﻿// Generated
+// Generated
 
 using System.Collections.Generic;
 #nullable enable
 using Microsoft.AspNetCore.Mvc;
 using Nox.Application.Dto;
 
-using DtoNameSpace = ClientApi.Application.Dto;
-using ApplicationQueriesNameSpace = ClientApi.Application.Queries;
-using ApplicationCommandsNameSpace = ClientApi.Application.Commands;
+using DtoNameSpace = SampleWebApp.Application.Dto;
+using ApplicationQueriesNameSpace = SampleWebApp.Application.Queries;
+using ApplicationCommandsNameSpace = SampleWebApp.Application.Commands;
 
-namespace ClientApi.Presentation.Api.OData;
+namespace SampleWebApp.Presentation.Api.OData;
 
 public abstract partial class CountriesControllerBase
 {

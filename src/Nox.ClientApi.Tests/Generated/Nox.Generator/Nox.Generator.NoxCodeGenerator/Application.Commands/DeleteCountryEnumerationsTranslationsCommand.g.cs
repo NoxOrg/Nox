@@ -62,10 +62,6 @@ public class DeleteCountriesContinentsTranslationsCommandValidator : AbstractVal
     public DeleteCountriesContinentsTranslationsCommandValidator()
     {
 		RuleFor(x => x.CultureCode)
-			.NotNull().NotEmpty()
-			.WithMessage($"{nameof(DeleteCountriesContinentsTranslationsCommand)} : {nameof(DeleteCountriesContinentsTranslationsCommand.CultureCode)} is required."); 
-		
-		RuleFor(x => x.CultureCode)
 			.Must(x => x != _defaultCultureCode)
 			.WithMessage($"{nameof(DeleteCountriesContinentsTranslationsCommand)} : {nameof(DeleteCountriesContinentsTranslationsCommand.CultureCode)} cannot be the default culture code: {_defaultCultureCode.Value}.");
 			

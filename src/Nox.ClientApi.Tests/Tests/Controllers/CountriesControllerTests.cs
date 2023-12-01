@@ -2004,6 +2004,359 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
 
     #endregion
 
+    #region Enumeration Localization
+
+     [Fact]
+        public async Task WhenEnumerationValuesProvided_ShouldCreateTranslations()
+        {
+            // Arrange & Act
+            var result = await PutNewCountryContinents();
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.Value.Should().HaveCount(5);
+        }
+
+        [Fact]
+        public async Task WhenEnumerationValuesProvidedWithEmptyName_ShouldReturnBadRequest()
+        {
+            // Arrange & Act
+            var request = new EnumerationLocalizedList<CountryContinentLocalizedDto>();
+            var continents = new[]
+            {
+                new CountryContinentLocalizedDto { Id = 1, Name = "Europe", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 2, Name = "Asie", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 3, Name = "Afrique", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 4, Name = "Amérique", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 5, CultureCode = "fr-FR" }
+            };
+            request.Items = continents;
+            var headers = CreateHeaders(CreateAcceptLanguageHeader("fr-FR"));
+
+            // Act
+            var result = await PutAsync(Endpoints.CountriesUrl + "/CountryContinentsLocalized", request, headers, throwOnError:false);
+
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+
+        [Fact]
+        public async Task WhenEnumerationValuesProvidedWithUnsupportedCultureCode_ShouldReturnBadRequest()
+        {
+            // Arrange & Act
+            var request = new EnumerationLocalizedList<CountryContinentLocalizedDto>();
+            var continents = new[]
+            {
+                new CountryContinentLocalizedDto { Id = 1, Name = "Avrupa", CultureCode = "tr-TR" },
+                new CountryContinentLocalizedDto { Id = 2, Name = "Asie", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 3, Name = "Afrique", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 4, Name = "Amérique", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 5, Name = "Océanie",  CultureCode = "fr-FR" }
+            };
+            request.Items = continents;
+            var headers = CreateHeaders(CreateAcceptLanguageHeader("fr-FR"));
+
+            // Act
+            var result = await PutAsync(Endpoints.CountriesUrl + "/CountryContinentsLocalized", request, headers, throwOnError:false);
+
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+        [Fact]
+        public async Task WhenEnumerationValuesProvidedWithInvalidId_ShouldReturnBadRequest()
+        {
+            // Arrange & Act
+            var request = new EnumerationLocalizedList<CountryContinentLocalizedDto>();
+            var continents = new[]
+            {
+                new CountryContinentLocalizedDto { Id = 1, Name = "Europe", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 2, Name = "Asie", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 3, Name = "Afrique", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 4, Name = "Amérique", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 15, Name = "Océanie",  CultureCode = "fr-FR" }
+            };
+            request.Items = continents;
+            var headers = CreateHeaders(CreateAcceptLanguageHeader("fr-FR"));
+
+            // Act
+            var result = await PutAsync(Endpoints.CountriesUrl + "/CountryContinentsLocalized", request, headers, throwOnError:false);
+
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+
+        [Fact]
+        public async Task WhenGetEnumerationLocalized_ShouldReturnLocalizedEnumeration()
+        {
+            // initial           
+            var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentLocalizedDto>>(Endpoints.CountriesUrl + "/CountryContinentsLocalized"))?.ToList();
+
+            result.Should().NotBeNull();
+            result!.Count.Should().Be(5);
+
+            // Arrange
+            await PutNewCountryContinents();
+
+            // Act
+            result = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentLocalizedDto>>(Endpoints.CountriesUrl + "/CountryContinentsLocalized"))?.ToList();
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.Count.Should().Be(10);
+            result.Should().Contain(x => x.Name == "Afrique" && x.CultureCode == "fr-FR");
+            result.Should().Contain(x => x.Name == "Africa" && x.CultureCode == "en-US");
+
+        }
+
+        [Fact]
+        public async Task WhenUpdateEnumeration_ShouldUpdateTranslationsButNotDefault()
+        {
+            // initial
+            await PutNewCountryContinents();
+
+
+            var initialSet = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentLocalizedDto>>(Endpoints.CountriesUrl + "/CountryContinentsLocalized"))?.ToList();
+
+
+            initialSet.Should().NotBeNull();
+            initialSet!.Count.Should().Be(10);
+            initialSet.Should().Contain(x => x.Name == "Afrique" && x.CultureCode == "fr-FR");
+            initialSet.Should().Contain(x => x.Name == "Africa" && x.CultureCode == "en-US");
+
+            // Arrange
+            var continentLocalizedDtos =  new[]
+            {
+                new CountryContinentLocalizedDto { Id = 1, Name = "Europe", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 2, Name = "Asiee", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 3, Name = "Afrique", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 4, Name = "Amérique", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 5, Name = "Océanie", CultureCode = "fr-FR" }
+            };
+
+            // Act
+            await PutNewCountryContinents(continentLocalizedDtos);
+
+            // Assert
+
+            var continentTranslations = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentLocalizedDto>>(Endpoints.CountriesUrl + "/CountryContinentsLocalized"))?.ToList();
+
+            continentTranslations.Should().NotBeNull();
+            continentTranslations!.Count.Should().Be(10);
+            continentTranslations.Should().Contain(x => x.Name == "Asiee" && x.CultureCode == "fr-FR");
+            continentTranslations.Should().Contain(x => x.Name == "Asia" && x.CultureCode == "en-US");
+
+            var continents = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/CountryContinents"))?.ToList();
+
+            continents.Should().NotBeNull();
+            continents!.Count.Should().Be(5);
+            continents.Should().Contain(x => x.Name == "Asia");
+
+        }
+
+        [Fact]
+        public async Task WhenUpdateDefaultEnumerationTranslations_ShouldUpdateTranslationsAndDefaults()
+        {
+            // initial
+            await PutNewCountryContinents();
+
+
+            var initialSet = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentLocalizedDto>>(Endpoints.CountriesUrl + "/CountryContinentsLocalized"))?.ToList();
+
+
+            initialSet.Should().NotBeNull();
+            initialSet!.Count.Should().Be(10);
+            initialSet.Should().Contain(x => x.Name == "Afrique" && x.CultureCode == "fr-FR");
+            initialSet.Should().Contain(x => x.Name == "Africa" && x.CultureCode == "en-US");
+
+            // Arrange 
+            var continentLocalizedDtos =  new[] //en-US
+            {
+                new CountryContinentLocalizedDto() { Id = 1, Name = "Europe", CultureCode = "en-US" },
+                new CountryContinentLocalizedDto() { Id = 2, Name = "Asiaa", CultureCode = "en-US" },
+                new CountryContinentLocalizedDto() { Id = 3, Name = "Africa", CultureCode = "en-US" },
+                new CountryContinentLocalizedDto() { Id = 4, Name = "America", CultureCode = "en-US" },
+                new CountryContinentLocalizedDto() { Id = 5, Name = "Oceania", CultureCode = "en-US" }
+            };
+
+            // Act
+            await PutNewCountryContinents(continentLocalizedDtos);
+
+            // Assert
+
+            var continentTranslations = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentLocalizedDto>>(Endpoints.CountriesUrl + "/CountryContinentsLocalized"))?.ToList();
+
+            continentTranslations.Should().NotBeNull();
+            continentTranslations!.Count.Should().Be(10);
+            continentTranslations.Should().Contain(x => x.Name == "Asie" && x.CultureCode == "fr-FR");
+            continentTranslations.Should().Contain(x => x.Name == "Asiaa" && x.CultureCode == "en-US");
+
+            var continents = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/CountryContinents"))?.ToList();
+
+            continents.Should().NotBeNull();
+            continents!.Count.Should().Be(5);
+            continents.Should().Contain(x => x.Name == "Asiaa");
+
+        }
+
+        [Fact]
+        public async Task WhenDeleteEnumerationsTranslations_ShouldRemoveTranslations()
+        {
+            // initial
+            await PutNewCountryContinents();
+
+
+            var initialSet = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentLocalizedDto>>(Endpoints.CountriesUrl + "/CountryContinentsLocalized"))?.ToList();
+
+
+            initialSet.Should().NotBeNull();
+            initialSet!.Count.Should().Be(10);
+            initialSet.Should().Contain(x => x.Name == "Afrique" && x.CultureCode == "fr-FR");
+            initialSet.Should().Contain(x => x.Name == "Africa" && x.CultureCode == "en-US");
+
+            // Arrange
+            await DeleteAsync($"{Endpoints.CountriesUrl}/CountryContinentsLocalized/fr-FR");
+
+            // Act
+            var continentTranslations = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentLocalizedDto>>(Endpoints.CountriesUrl + "/CountryContinentsLocalized"))?.ToList();
+
+            // Assert
+            continentTranslations.Should().NotBeNull();
+            continentTranslations!.Count.Should().Be(5);
+            continentTranslations.Should().NotContain(x => x.CultureCode == "fr-FR");
+            continentTranslations.Should().Contain(x => x.CultureCode == "en-US");
+        }
+        
+        [Fact]
+        public async Task WhenDeleteEnumerationsTranslationsWithInvalidCultureCode_ShouldReturnBadRequest()
+        {
+            // initial
+            await PutNewCountryContinents();
+
+
+            var initialSet = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentLocalizedDto>>(Endpoints.CountriesUrl + "/CountryContinentsLocalized"))?.ToList();
+
+
+            initialSet.Should().NotBeNull();
+            initialSet!.Count.Should().Be(10);
+            initialSet.Should().Contain(x => x.Name == "Afrique" && x.CultureCode == "fr-FR");
+            initialSet.Should().Contain(x => x.Name == "Africa" && x.CultureCode == "en-US");
+
+            // Arrange && arrange
+            var result =  await DeleteAsync($"{Endpoints.CountriesUrl}/CountryContinentsLocalized/aaaa", false);
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+
+        [Fact]
+        public async Task WhenDeleteEnumerationsForDefaultCulture_ShouldReturnBadRequest()
+        {
+            // initial
+            await PutNewCountryContinents();
+
+
+            var initialSet = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentLocalizedDto>>(Endpoints.CountriesUrl + "/CountryContinentsLocalized"))?.ToList();
+
+
+            initialSet.Should().NotBeNull();
+            initialSet!.Count.Should().Be(10);
+            initialSet.Should().Contain(x => x.Name == "Afrique" && x.CultureCode == "fr-FR");
+            initialSet.Should().Contain(x => x.Name == "Africa" && x.CultureCode == "en-US");
+
+            // Arrange && Act
+            var result = await DeleteAsync($"{Endpoints.CountriesUrl}/CountryContinentsLocalized/en-US", false);
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+        }
+
+        [Fact]
+        public async Task WhenProvideEnumerationsWithMixedValidCultureCode_ShouldProcessAllSuccessfully()
+        {
+            // initial
+            await PutNewCountryContinents();
+
+            var initialSet = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentLocalizedDto>>(Endpoints.CountriesUrl + "/CountryContinentsLocalized"))?.ToList();
+
+
+            initialSet.Should().NotBeNull();
+            initialSet!.Count.Should().Be(10);
+            initialSet.Should().Contain(x => x.Name == "Afrique" && x.CultureCode == "fr-FR");
+            initialSet.Should().Contain(x => x.Name == "Africa" && x.CultureCode == "en-US");
+
+            // Arrange 
+            var continentLocalizedDtos =  new[]
+            {
+                //de-DE
+                new CountryContinentLocalizedDto() { Id = 1, Name = "Europa", CultureCode = "de-DE" },
+                new CountryContinentLocalizedDto() { Id = 2, Name = "Asien", CultureCode = "de-DE" },
+                new CountryContinentLocalizedDto() { Id = 3, Name = "Afrika", CultureCode = "de-DE" },
+                new CountryContinentLocalizedDto() { Id = 4, Name = "Amerika", CultureCode = "de-DE" },
+                new CountryContinentLocalizedDto() { Id = 5, Name = "Ozeanien", CultureCode = "de-DE" },
+                //fr-FR
+                new CountryContinentLocalizedDto() { Id = 4, Name = "Amériquee", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto() { Id = 5, Name = "Océaniee", CultureCode = "fr-FR" },
+                //en-US
+                new CountryContinentLocalizedDto() { Id = 1, Name = "Europee", CultureCode = "en-US" },
+
+            };
+
+            // Act 
+
+            await PutNewCountryContinents(continentLocalizedDtos);
+
+            // Assert
+            var continentTranslations = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentLocalizedDto>>(Endpoints.CountriesUrl + "/CountryContinentsLocalized"))?.ToList();
+
+            continentTranslations.Should().NotBeNull();
+            continentTranslations!.Count.Should().Be(15);
+            continentTranslations.Should().Contain(x => x.Name == "Asien" && x.CultureCode == "de-DE");
+            continentTranslations.Should().Contain(x => x.Name == "Asia" && x.CultureCode == "en-US");
+            continentTranslations.Should().Contain(x => x.Name == "Afrique" && x.CultureCode == "fr-FR");
+            continentTranslations.Should().Contain(x => x.Name == "Africa" && x.CultureCode == "en-US");
+            continentTranslations.Should().Contain(x => x.Name == "Amériquee" && x.CultureCode == "fr-FR");
+            continentTranslations.Should().Contain(x => x.Name == "Océaniee" && x.CultureCode == "fr-FR");
+            continentTranslations.Should().Contain(x => x.Name == "Europee" && x.CultureCode == "en-US");
+
+
+
+        }
+
+
+        private async Task<ODataCollectionResponse<IEnumerable<CountryContinentLocalizedDto>>?> PutNewCountryContinents(CountryContinentLocalizedDto[]? countryContinents = null)
+        {
+            var request = new EnumerationLocalizedList<CountryContinentLocalizedDto>();
+            var continents = countryContinents ?? new[]
+            {
+                new CountryContinentLocalizedDto { Id = 1, Name = "Europe", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 2, Name = "Asie", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 3, Name = "Afrique", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 4, Name = "Amérique", CultureCode = "fr-FR" },
+                new CountryContinentLocalizedDto { Id = 5, Name = "Océanie", CultureCode = "fr-FR" }
+            };
+            request.Items = continents;
+
+            // Act
+            var result =
+                await PutAsync<EnumerationLocalizedList<CountryContinentLocalizedDto>,
+                    ODataCollectionResponse<IEnumerable<CountryContinentLocalizedDto>>>(
+                    Endpoints.CountriesUrl + "/CountryContinentsLocalized", request);
+            return result;
+        }
+
+
     #endregion
 
     #endregion RELATIONSHIPS EXAMPLES       
