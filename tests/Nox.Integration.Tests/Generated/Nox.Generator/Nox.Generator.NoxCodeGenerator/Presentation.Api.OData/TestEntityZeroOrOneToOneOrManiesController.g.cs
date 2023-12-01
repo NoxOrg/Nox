@@ -45,7 +45,7 @@ public abstract partial class TestEntityZeroOrOneToOneOrManiesControllerBase : O
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTestEntityOneOrManyToZeroOrOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToTestEntityOneOrManyToZeroOrOne([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityZeroOrOneToOneOrManyByIdQuery(key))).Select(x => x.TestEntityOneOrManyToZeroOrOne).SingleOrDefault();
         if (related is null)
@@ -73,7 +73,7 @@ public abstract partial class TestEntityZeroOrOneToOneOrManiesControllerBase : O
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToTestEntityOneOrManyToZeroOrOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteRefToTestEntityOneOrManyToZeroOrOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -139,7 +139,7 @@ public abstract partial class TestEntityZeroOrOneToOneOrManiesControllerBase : O
     }
     
     [HttpDelete("/api/v1/TestEntityZeroOrOneToOneOrManies/{key}/TestEntityOneOrManyToZeroOrOne")]
-    public async Task<ActionResult> DeleteToTestEntityOneOrManyToZeroOrOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteToTestEntityOneOrManyToZeroOrOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {

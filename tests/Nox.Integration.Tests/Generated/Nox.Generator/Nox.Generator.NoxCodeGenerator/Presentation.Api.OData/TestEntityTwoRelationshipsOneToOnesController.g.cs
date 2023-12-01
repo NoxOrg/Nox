@@ -45,7 +45,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTestRelationshipOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToTestRelationshipOne([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipOne).SingleOrDefault();
         if (related is null)
@@ -122,7 +122,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTestRelationshipTwo([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToTestRelationshipTwo([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipTwo).SingleOrDefault();
         if (related is null)

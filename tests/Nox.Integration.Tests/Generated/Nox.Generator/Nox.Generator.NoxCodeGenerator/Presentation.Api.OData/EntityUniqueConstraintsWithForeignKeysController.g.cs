@@ -45,7 +45,7 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToEntityUniqueConstraintsRelatedForeignKey([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> GetRefToEntityUniqueConstraintsRelatedForeignKey([FromRoute] System.Guid key)
     {
         var related = (await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(key))).Select(x => x.EntityUniqueConstraintsRelatedForeignKey).SingleOrDefault();
         if (related is null)

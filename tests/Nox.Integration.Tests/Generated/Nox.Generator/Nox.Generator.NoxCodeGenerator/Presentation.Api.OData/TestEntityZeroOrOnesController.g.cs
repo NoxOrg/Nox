@@ -45,7 +45,7 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToSecondTestEntityZeroOrOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToSecondTestEntityZeroOrOne([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Select(x => x.SecondTestEntityZeroOrOne).SingleOrDefault();
         if (related is null)
@@ -73,7 +73,7 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToSecondTestEntityZeroOrOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteRefToSecondTestEntityZeroOrOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -139,7 +139,7 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
     }
     
     [HttpDelete("/api/v1/TestEntityZeroOrOnes/{key}/SecondTestEntityZeroOrOne")]
-    public async Task<ActionResult> DeleteToSecondTestEntityZeroOrOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteToSecondTestEntityZeroOrOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {

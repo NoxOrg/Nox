@@ -45,7 +45,7 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToVendingMachine([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToVendingMachine([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.VendingMachine).SingleOrDefault();
         if (related is null)
@@ -122,7 +122,7 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToEmployee([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToEmployee([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.Employee).SingleOrDefault();
         if (related is null)

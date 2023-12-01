@@ -46,7 +46,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
     }
     
     [HttpPut("/api/v1/ThirdTestEntityZeroOrManies/{key}/ThirdTestEntityOneOrManies/$ref")]
-    public async Task<ActionResult> UpdateRefToThirdTestEntityOneOrManiesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToThirdTestEntityOneOrManiesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -63,7 +63,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToThirdTestEntityOneOrManies([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToThirdTestEntityOneOrManies([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetThirdTestEntityZeroOrManyByIdQuery(key))).Select(x => x.ThirdTestEntityOneOrManies).SingleOrDefault();
         if (related is null)
@@ -95,7 +95,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToThirdTestEntityOneOrManies([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteRefToThirdTestEntityOneOrManies([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -174,7 +174,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
     }
     
     [HttpDelete("/api/v1/ThirdTestEntityZeroOrManies/{key}/ThirdTestEntityOneOrManies/{relatedKey}")]
-    public async Task<ActionResult> DeleteToThirdTestEntityOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteToThirdTestEntityOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -198,7 +198,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
     }
     
     [HttpDelete("/api/v1/ThirdTestEntityZeroOrManies/{key}/ThirdTestEntityOneOrManies")]
-    public async Task<ActionResult> DeleteToThirdTestEntityOneOrManies([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteToThirdTestEntityOneOrManies([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {

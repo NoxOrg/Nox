@@ -189,7 +189,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCashStockOrder([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToCashStockOrder([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.CashStockOrder).SingleOrDefault();
         if (related is null)
@@ -217,7 +217,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
@@ -283,7 +283,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     }
     
     [HttpDelete("/api/Employees/{key}/CashStockOrder")]
-    public async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
