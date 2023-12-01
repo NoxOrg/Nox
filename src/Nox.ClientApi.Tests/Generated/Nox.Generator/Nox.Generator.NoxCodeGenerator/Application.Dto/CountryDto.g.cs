@@ -158,6 +158,11 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     /// Country uses ZeroOrMany CountryTimeZones
     /// </summary>
     public virtual List<CountryTimeZoneDto> CountryTimeZones { get; set; } = new();
+
+    /// <summary>
+    /// Country owned ZeroOrMany Holidays
+    /// </summary>
+    public virtual List<HolidayDto> Holidays { get; set; } = new();
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

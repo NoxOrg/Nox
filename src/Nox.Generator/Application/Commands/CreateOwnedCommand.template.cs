@@ -89,7 +89,8 @@ public class Create{{relationshipName}}For{{parent.Name}}Validator : AbstractVal
     public Create{{relationshipName}}For{{parent.Name}}Validator()
     {
 		{{- for key in entity.Keys }}
-            {{- if !IsNoxTypeCreatable key.Type }}
+			{{- if key.Type == "Guid" }} {{ continue; }}
+            {{- else if !IsNoxTypeCreatable key.Type }}
 		RuleFor(x => x.EntityDto.{{key.Name}}).Null().WithMessage("{{key.Name}} must be null as it is auto generated.");
 			{{- else }}
 		RuleFor(x => x.EntityDto.{{key.Name}}).NotNull().WithMessage("{{key.Name}} is required.");

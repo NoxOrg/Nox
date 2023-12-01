@@ -119,6 +119,11 @@ ownedRelationships:
     relationship: zeroOrMany
     entity: CountryTimeZone
 
+  - name: CountryOwnedHolidays
+    description: owned
+    relationship: zeroOrMany
+    entity: Holiday
+
 relationships:
 
     - name: PhysicalWorkplaces

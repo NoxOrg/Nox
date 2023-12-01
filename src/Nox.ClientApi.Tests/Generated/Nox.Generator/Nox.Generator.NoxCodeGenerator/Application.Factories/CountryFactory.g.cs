@@ -30,18 +30,21 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
     protected IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> CountryLocalNameFactory {get;}
     protected IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> CountryBarCodeFactory {get;}
     protected IEntityFactory<ClientApi.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> CountryTimeZoneFactory {get;}
+    protected IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> HolidayFactory {get;}
 
     public CountryFactoryBase
     (
         IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> countrylocalnamefactory,
         IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory,
         IEntityFactory<ClientApi.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
+        IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory,
         IRepository repository
         )
     {
         CountryLocalNameFactory = countrylocalnamefactory;
         CountryBarCodeFactory = countrybarcodefactory;
         CountryTimeZoneFactory = countrytimezonefactory;
+        HolidayFactory = holidayfactory;
         _repository = repository;
     }
 
@@ -86,6 +89,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             entity.CreateRefToCountryBarCode(CountryBarCodeFactory.CreateEntity(createDto.CountryBarCode));
         }
         createDto.CountryTimeZones.ForEach(dto => entity.CreateRefToCountryTimeZones(CountryTimeZoneFactory.CreateEntity(dto)));
+        createDto.Holidays.ForEach(dto => entity.CreateRefToHolidays(HolidayFactory.CreateEntity(dto)));
         return entity;
     }
 
@@ -339,6 +343,35 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
                 entity.CountryTimeZones.Where(x => !updatedCountryTimeZones.Any(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToCountryTimeZones(updatedCountryTimeZones);
 		}
+        if(!updateDto.Holidays.Any())
+        { 
+            _repository.DeleteOwnedRange(entity.Holidays);
+			entity.DeleteAllRefToHolidays();
+        }
+		else
+		{
+			var updatedHolidays = new List<ClientApi.Domain.Holiday>();
+			foreach(var ownedUpsertDto in updateDto.Holidays)
+			{
+				if(ownedUpsertDto.Id is null)
+					updatedHolidays.Add(HolidayFactory.CreateEntity(ownedUpsertDto));
+				else
+				{
+					var key = ClientApi.Domain.HolidayMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Guid>());
+					var ownedEntity = entity.Holidays.FirstOrDefault(x => x.Id == key);
+					if(ownedEntity is null)
+						updatedHolidays.Add(HolidayFactory.CreateEntity(ownedUpsertDto));
+					else
+					{
+						HolidayFactory.UpdateEntity(ownedEntity, ownedUpsertDto, cultureCode);
+						updatedHolidays.Add(ownedEntity);
+					}
+				}
+			}
+            _repository.DeleteOwnedRange<ClientApi.Domain.Holiday>(
+                entity.Holidays.Where(x => !updatedHolidays.Any(upd => upd.Id == x.Id)).ToList());
+			entity.UpdateRefToHolidays(updatedHolidays);
+		}
 	}
 }
 
@@ -349,7 +382,8 @@ internal partial class CountryFactory : CountryFactoryBase
         IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> countrylocalnamefactory,
         IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory,
         IEntityFactory<ClientApi.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
+        IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory,
         IRepository repository
-    ) : base(countrylocalnamefactory,countrybarcodefactory,countrytimezonefactory, repository)
+    ) : base(countrylocalnamefactory,countrybarcodefactory,countrytimezonefactory,holidayfactory, repository)
     {}
 }

@@ -99,6 +99,6 @@ public class CreateCountryValidator : AbstractValidator<CreateCountryCommand>
 			.WithMessage("CountryLocalNames.Id must be null as it is auto generated.");
 		RuleFor(x => x.EntityDto.CountryTimeZones)
 			.Must(owned => owned.All(x => x.Id != null))
-			.WithMessage("CountryTimeZones.Id is required.");
+			.WithMessage("CountryTimeZones.Id is required."); 
     }
 }

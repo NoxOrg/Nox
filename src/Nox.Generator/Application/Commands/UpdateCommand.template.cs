@@ -129,7 +129,8 @@ public class Update{{entity.Name}}Validator : AbstractValidator<Update{{entity.N
 			{{- if ownedRelationship.WithMultiEntity }}
 				{{- relationshipName = GetNavigationPropertyName entity ownedRelationship }}
 				{{- key = ownedRelationship.Related.Entity.Keys | array.first }}
-					{{- if IsNoxTypeCreatable key.Type }}
+					{{- if key.Type == "Guid" }} {{ continue; }}
+					{{- else if IsNoxTypeCreatable key.Type }}
 		RuleFor(x => x.EntityDto.{{relationshipName}})
 			.ForEach(item => 
 			{

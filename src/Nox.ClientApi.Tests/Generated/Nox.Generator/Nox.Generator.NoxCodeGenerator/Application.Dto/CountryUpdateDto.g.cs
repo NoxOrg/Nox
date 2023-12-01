@@ -89,4 +89,8 @@ public partial class CountryUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNames
     /// Country uses ZeroOrMany CountryTimeZones
     /// </summary>
     public virtual List<CountryTimeZoneUpsertDto> CountryTimeZones { get; set; } = new();
+    /// <summary>
+    /// Country owned ZeroOrMany Holidays
+    /// </summary>
+    public virtual List<HolidayUpsertDto> Holidays { get; set; } = new();
 }

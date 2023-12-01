@@ -288,6 +288,35 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         result!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
+    [Fact]
+    public async Task Post_WithHolidays_Success()
+    {
+        // Arrange
+        var dto = new CountryCreateDto
+        {
+            Name = _fixture.Create<string>(),
+            Holidays = new List<HolidayUpsertDto>()
+            {
+                new HolidayUpsertDto() { Name = _fixture.Create<string>() },
+                new HolidayUpsertDto() 
+                {
+                    Id = _fixture.Create<System.Guid>(),
+                    Name = _fixture.Create<string>() 
+                }
+            }
+        };
+        // Act
+        var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
+        var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{result!.Id}");
+
+        //Assert
+        result.Should().NotBeNull();
+        getCountryResponse.Should().NotBeNull();
+        getCountryResponse!.Holidays.Should().NotBeNull();
+        getCountryResponse!.Holidays!.Should().HaveCount(2);
+        getCountryResponse!.Holidays!.Should().Contain(x => x.Id == dto.Holidays.Last().Id);
+    }
+
     #endregion POST Entity With Owned Entities /api/{EntityPluralName} => api/countries
 
     #region POST to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
@@ -446,6 +475,49 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
 
     #endregion
 
+    #region POST to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/Holidays
+
+    [Fact]
+    public async Task PostToHolidays_WithAndWithoutId_Success()
+    {
+        // Arrange
+        var expectedId = _fixture.Create<System.Guid>();
+        var country = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Population = _fixture.Create<int>()
+            });
+        var headers = CreateEtagHeader(country!.Etag);
+
+        //Act
+        var ownedResponse = await PostAsync<HolidayUpsertDto, HolidayDto>(
+            $"{Endpoints.CountriesUrl}/{country!.Id}/{nameof(CountryDto.Holidays)}",
+            new HolidayUpsertDto
+            {
+                Id = expectedId,
+                Name = _fixture.Create<string>()
+            },
+            headers);
+        headers = CreateEtagHeader((await GetODataSimpleResponseAsync<CountryDto>(
+            $"{Endpoints.CountriesUrl}/{country!.Id}"))!.Etag);
+        await PostAsync<HolidayUpsertDto, HolidayDto>(
+            $"{Endpoints.CountriesUrl}/{country!.Id}/{nameof(CountryDto.Holidays)}",
+            new HolidayUpsertDto { Name = _fixture.Create<string>() },
+            headers);
+
+        var getWorkplacesResponse = await GetODataSimpleResponseAsync<CountryDto>(
+            $"{Endpoints.CountriesUrl}/{country!.Id}");
+
+        //Assert
+        getWorkplacesResponse.Should().NotBeNull();
+        getWorkplacesResponse!.Holidays.Should().NotBeNull();
+        getWorkplacesResponse!.Holidays!.Should().HaveCount(2);
+        getWorkplacesResponse!.Holidays!.First().Id.Should().Be(expectedId);
+    }
+
+    #endregion
+
     #endregion POST
 
     #region PUT
@@ -573,6 +645,360 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
 
     #endregion
 
+    #region PUT to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/Holidays
+
+    [Fact]
+    public async Task PutToHolidays_WithoutId_ShouldFail()
+    {
+        // Arrange
+        var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Population = _fixture.Create<int>(),
+                Holidays = new List<HolidayUpsertDto> { new HolidayUpsertDto { Name = _fixture.Create<string>() } }
+            });
+        var headers = CreateEtagHeader(result!.Etag);
+
+        //Act
+        var ownedResult = await PutAsync(
+            $"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(CountryDto.Holidays)}",
+            new HolidayUpsertDto
+            {
+                Name = _fixture.Create<string>()
+            },
+            headers,
+            throwOnError: false);
+
+        //Assert
+        ownedResult.Should().NotBeNull();
+        ownedResult!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task PutToHolidays_Success()
+    {
+        // Arrange
+        var holidayId = _fixture.Create<System.Guid>();
+        var expectedName = _fixture.Create<string>();
+        var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Population = _fixture.Create<int>(),
+                Holidays = new List<HolidayUpsertDto> { new HolidayUpsertDto { Id = holidayId, Name = _fixture.Create<string>() } }
+            });
+        var headers = CreateEtagHeader(result!.Etag);
+
+        //Act
+        var ownedResult = await PutAsync(
+            $"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(CountryDto.Holidays)}",
+            new HolidayUpsertDto
+            {
+                Id = holidayId,
+                Name = expectedName
+            },
+            headers);
+
+        var getWorkplacesResponse = await GetODataSimpleResponseAsync<CountryDto>(
+           $"{Endpoints.CountriesUrl}/{result!.Id}");
+
+        //Assert
+        getWorkplacesResponse.Should().NotBeNull();
+        getWorkplacesResponse!.Holidays.Should().NotBeNull();
+        getWorkplacesResponse!.Holidays!.Should().HaveCount(1);
+        getWorkplacesResponse!.Holidays!.First().Id.Should().Be(holidayId);
+        getWorkplacesResponse!.Holidays!.First().Name.Should().Be(expectedName);
+    }
+
+    #endregion
+
+    #region PUT Entity with Owned Entities /api/{EntityPluralName}/{key} => api/countries/1
+    [Fact]
+    public async Task Put_WithCountryBarCode_Success()
+    {
+        // Arrange
+        var expectedBarCodeName = _fixture.Create<string>();
+        var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryBarCode = new CountryBarCodeUpsertDto() { BarCodeName = _fixture.Create<string>() }
+            });
+
+        // Act
+        var headers = CreateEtagHeader(postCountryResponse!.Etag);
+        var putCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>(
+            $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}",
+            new CountryUpdateDto
+            {
+                Name = postCountryResponse!.Name,
+                CountryBarCode = new CountryBarCodeUpsertDto() { BarCodeName = expectedBarCodeName }
+            },
+            headers
+        );
+
+        var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+        //Assert
+        putCountryResponse.Should().NotBeNull();
+        getCountryResponse.Should().NotBeNull();
+        getCountryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
+        getCountryResponse!.CountryBarCode.Should().NotBeNull();
+        getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
+    }
+
+    [Fact]
+    public async Task Put_EmptyCountryBarCode_Success()
+    {
+        // Arrange
+        var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryBarCode = new CountryBarCodeUpsertDto() { BarCodeName = _fixture.Create<string>() }
+            });
+
+        // Act
+        var headers = CreateEtagHeader(postCountryResponse!.Etag);
+        var putCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>(
+            $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}",
+            new CountryUpdateDto
+            {
+                Name = postCountryResponse!.Name,
+                CountryBarCode = null
+            },
+            headers
+        );
+
+        var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+        //Assert
+        putCountryResponse.Should().NotBeNull();
+        getCountryResponse.Should().NotBeNull();
+        getCountryResponse!.CountryBarCode.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task Put_WithCountryLocalNames_FromEmptyToList_Success()
+    {
+        // Arrange
+        var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto
+            {
+                Name = _fixture.Create<string>()
+            });
+
+        // Act
+        var headers = CreateEtagHeader(postCountryResponse!.Etag);
+        var putCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>(
+            $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}",
+            new CountryUpdateDto
+            {
+                Name = postCountryResponse!.Name,
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>
+                {
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() }
+                }
+            },
+            headers
+        );
+
+        var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+        //Assert
+        putCountryResponse.Should().NotBeNull();
+        getCountryResponse.Should().NotBeNull();
+        getCountryResponse!.CountryLocalNames.Should().NotBeNull();
+        getCountryResponse!.CountryLocalNames!.Should().HaveCount(3);
+    }
+
+    [Fact]
+    public async Task Put_WithCountryLocalNames_FromListToEmpty_Success()
+    {
+        // Arrange
+        var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>
+                {
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() }
+                }
+            });
+
+        // Act
+        var headers = CreateEtagHeader(postCountryResponse!.Etag);
+        var putCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>(
+            $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}",
+            new CountryUpdateDto
+            {
+                Name = postCountryResponse!.Name,
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>()
+            },
+            headers
+        );
+
+        var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+        //Assert
+        putCountryResponse.Should().NotBeNull();
+        getCountryResponse.Should().NotBeNull();
+        getCountryResponse!.CountryLocalNames.Should().NotBeNull();
+        getCountryResponse!.CountryLocalNames!.Should().HaveCount(0);
+    }
+
+    [Fact]
+    public async Task Put_WithCountryLocalNames_FromListToList_Success()
+    {
+        // Arrange
+        var expectedName = _fixture.Create<string>();
+        var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>
+                {
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() }
+                }
+            });
+        var initialGetCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+        // Act
+        var headers = CreateEtagHeader(postCountryResponse!.Etag);
+        var putCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>(
+            $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}",
+            new CountryUpdateDto
+            {
+                Name = postCountryResponse!.Name,
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>
+                {
+                        new CountryLocalNameUpsertDto { Id = initialGetCountryResponse!.CountryLocalNames.ElementAt(0).Id, Name = expectedName },
+                        new CountryLocalNameUpsertDto { Id = initialGetCountryResponse!.CountryLocalNames.ElementAt(1).Id, Name = expectedName },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() }
+                }
+            },
+            headers
+        );
+
+        var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+        //Assert
+        putCountryResponse.Should().NotBeNull();
+        getCountryResponse.Should().NotBeNull();
+        getCountryResponse!.CountryLocalNames.Should().NotBeNull();
+        getCountryResponse!.CountryLocalNames!.Should().HaveCount(4);
+        getCountryResponse!.CountryLocalNames!.Should().Contain(x => x.Id == initialGetCountryResponse!.CountryLocalNames.ElementAt(0).Id);
+        getCountryResponse!.CountryLocalNames!.Should().Contain(x => x.Id == initialGetCountryResponse!.CountryLocalNames.ElementAt(1).Id);
+        getCountryResponse!.CountryLocalNames!.First(x => x.Id == initialGetCountryResponse!.CountryLocalNames.ElementAt(0).Id)!.Name.Should().Be(expectedName);
+        getCountryResponse!.CountryLocalNames!.First(x => x.Id == initialGetCountryResponse!.CountryLocalNames.ElementAt(1).Id)!.Name.Should().Be(expectedName);
+        getCountryResponse!.CountryLocalNames!.Should().NotContain(x => x.Id == initialGetCountryResponse!.CountryLocalNames.ElementAt(2).Id);
+    }
+
+    [Fact]
+    public async Task Put_WithCountryLocalNames_InvalidId_Fails()
+    {
+        // Arrange
+        var expectedName = _fixture.Create<string>();
+        var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>
+                {
+                        new CountryLocalNameUpsertDto { Name = expectedName },
+                        new CountryLocalNameUpsertDto { Name = expectedName }
+                }
+            });
+        var initialGetCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+        // Act
+        var headers = CreateEtagHeader(postCountryResponse!.Etag);
+        var putCountryResponse = await PutAsync(
+            $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}",
+            new CountryUpdateDto
+            {
+                Name = postCountryResponse!.Name,
+                CountryLocalNames = new List<CountryLocalNameUpsertDto>
+                {
+                        new CountryLocalNameUpsertDto { Id = initialGetCountryResponse!.CountryLocalNames.ElementAt(0).Id, Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Id = initialGetCountryResponse!.CountryLocalNames.ElementAt(0).Id + 100, Name = _fixture.Create<string>() },
+                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() }
+                }
+            },
+            headers,
+            throwOnError: false
+        );
+
+        var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+        //Assert
+        putCountryResponse.Should().NotBeNull();
+        putCountryResponse!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        getCountryResponse.Should().NotBeNull();
+        getCountryResponse!.CountryLocalNames.Should().NotBeNull();
+        getCountryResponse!.CountryLocalNames!.Should().HaveCount(2);
+        getCountryResponse!.CountryLocalNames!.Should().AllSatisfy(x => x.Name.Should().Be(expectedName));
+    }
+
+    [Fact]
+    public async Task Put_WithHolidays_FromListToList_Success()
+    {
+        // Arrange
+        var expectedName = _fixture.Create<string>();
+        var expectedId = _fixture.Create<System.Guid>();
+        var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Holidays = new List<HolidayUpsertDto>
+                {
+                        new HolidayUpsertDto { Name = _fixture.Create<string>() },
+                        new HolidayUpsertDto { Name = _fixture.Create<string>() },
+                        new HolidayUpsertDto { Name = _fixture.Create<string>() }
+                }
+            });
+        var initialGetCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+        // Act
+        var headers = CreateEtagHeader(postCountryResponse!.Etag);
+        var putCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>(
+            $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}",
+            new CountryUpdateDto
+            {
+                Name = postCountryResponse!.Name,
+                Holidays = new List<HolidayUpsertDto>
+                {
+                        new HolidayUpsertDto { Id = initialGetCountryResponse!.Holidays.ElementAt(0).Id, Name = expectedName },
+                        new HolidayUpsertDto { Id = expectedId, Name = _fixture.Create<string>() },
+                        new HolidayUpsertDto { Name = _fixture.Create<string>() },
+                }
+            },
+            headers
+        );
+
+        var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
+
+        //Assert
+        putCountryResponse.Should().NotBeNull();
+        getCountryResponse.Should().NotBeNull();
+        getCountryResponse!.Holidays.Should().NotBeNull();
+        getCountryResponse!.Holidays!.Should().HaveCount(3);
+        getCountryResponse!.Holidays!.Should().Contain(x => x.Id == initialGetCountryResponse!.Holidays.ElementAt(0).Id);
+        getCountryResponse!.Holidays!.Should().Contain(x => x.Id == expectedId);
+        getCountryResponse!.Holidays!.First(x => x.Id == initialGetCountryResponse!.Holidays.ElementAt(0).Id)!.Name.Should().Be(expectedName);
+        getCountryResponse!.Holidays!.Should().NotContain(x => x.Id == initialGetCountryResponse!.Holidays.ElementAt(1).Id);
+        getCountryResponse!.Holidays!.Should().NotContain(x => x.Id == initialGetCountryResponse!.Holidays.ElementAt(2).Id);
+    }
+    #endregion
+
     #endregion PUT
 
     #region PATCH
@@ -657,7 +1083,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
 
     #endregion PATCH to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
 
-    #region PATCH to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryLocalNames
+    #region PATCH to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryBarCode
 
     [Fact]
     public async Task PatchToCountryBarCode_ShouldUpdateCountryBarCode()
@@ -698,6 +1124,73 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
     }
 
     #endregion PATCH to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryLocalNames
+
+    #region PATCH to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/Holidays
+
+    [Fact]
+    public async Task PatchToHolidays_WithoutId_ShouldFail()
+    {
+        // Arrange
+        var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Population = _fixture.Create<int>(),
+                Holidays = new List<HolidayUpsertDto> { new HolidayUpsertDto { Name = _fixture.Create<string>() } }
+            });
+        var headers = CreateEtagHeader(result!.Etag);
+
+        //Act
+        var ownedResult = await PatchAsync(
+            $"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(CountryDto.Holidays)}",
+            new HolidayUpsertDto
+            {
+                Name = _fixture.Create<string>()
+            },
+            headers,
+            throwOnError: false);
+
+        //Assert
+        ownedResult.Should().NotBeNull();
+        ownedResult!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task PatchToHolidays_Success()
+    {
+        // Arrange
+        var holidayId = _fixture.Create<System.Guid>();
+        var expectedName = _fixture.Create<string>();
+        var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Population = _fixture.Create<int>(),
+                Holidays = new List<HolidayUpsertDto> { new HolidayUpsertDto { Id = holidayId, Name = _fixture.Create<string>() } }
+            });
+        var headers = CreateEtagHeader(result!.Etag);
+
+        //Act
+        await PatchAsync($"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(CountryDto.Holidays)}",
+            new HolidayUpsertDto
+            {
+                Id = holidayId,
+                Name = expectedName
+            },
+            headers);
+
+        var getWorkplacesResponse = await GetODataSimpleResponseAsync<CountryDto>(
+           $"{Endpoints.CountriesUrl}/{result!.Id}");
+
+        //Assert
+        getWorkplacesResponse.Should().NotBeNull();
+        getWorkplacesResponse!.Holidays.Should().NotBeNull();
+        getWorkplacesResponse!.Holidays!.Should().HaveCount(1);
+        getWorkplacesResponse!.Holidays!.First().Id.Should().Be(holidayId);
+        getWorkplacesResponse!.Holidays!.First().Name.Should().Be(expectedName);
+    }
+
+    #endregion
 
     #endregion PATCH
 

@@ -100,6 +100,30 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
   - Description: Delete an existing CountryTimeZone for a specific Country.
 
+### Holiday
+
+#### Get Holidays
+- **GET** `/api/Countries/{key}/Holidays`
+  - Description: Retrieve all Holidays for a specific Country.
+- **GET** `/api/Countries/{key}/Holidays/{relatedKey}`
+  - Description: Retrieve a Holiday by ID for a specific Country.
+
+#### Create Holiday
+- **POST** `/api/Countries/{key}/Holidays`
+  - Description: Create a new Holiday for a specific Country.
+
+#### Update Holiday
+- **PUT** `/api/Countries/{key}/Holidays`
+  - Description: Update an existing Holiday for a specific Country.
+  
+#### Partially Update Holiday
+- **PATCH** `/api/Countries/{key}/Holidays`
+  - Description: Partially update an existing Holiday for a specific Country.
+
+#### Delete Holiday
+- **DELETE** `/api/Countries/{key}/Holidays/{relatedKey}`
+  - Description: Delete an existing Holiday for a specific Country.
+
 ## Relationships Endpoints
 
 ### Workplace

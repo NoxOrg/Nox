@@ -15,6 +15,7 @@ erDiagram
     Country||--o{CountryLocalName : "is also know as"
     Country||--o|CountryBarCode : "is also coded as"
     Country||--o{CountryTimeZone : "uses"
+    Country||--o{Holiday : "owned"
     CountryLocalName {
     }
     CountryBarCode {
@@ -43,6 +44,8 @@ erDiagram
     Tenant {
     }
     CountryTimeZone {
+    }
+    Holiday {
     }
     EmailAddress {
     }
@@ -81,6 +84,7 @@ StartOfWeek|DayOfWeek|Country's start of week day.|
 Continent|Enumeration|Country Continent.|Values: System.Collections.Generic.List`1[Nox.Types.EnumerationValues]
 CountryLocalNameId|AutoNumber|The unique identifier.|Required, Owned Entity
 CountryTimeZoneId|TimeZoneCode|Country's related time zone code.|Required, Owned Entity
+HolidayId|Guid|Country's holiday unique identifier.|Required, Owned Entity
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -136,6 +140,24 @@ Member|Type|Description|Info
 ---------|----|----------|-------
 Id|TimeZoneCode|Country's related time zone code.|Required, Primary Key
 Name|Text|Time Zone Name.|MinLength: 4, MaxLength: 63
+
+
+
+
+### Country.Holiday (Owned by Country)
+
+Holiday related to country.
+
+[Domain Events](./domainEvents/HolidayDomainEvents.md)
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Description|Info
+---------|----|----------|-------
+Id|Guid|Country's holiday unique identifier.|Required, Primary Key
+Name|Text|Country holiday name.|Required, MinLength: 4, MaxLength: 63
+Type|Text|Country holiday type.|MinLength: 4, MaxLength: 63
+Date|Date|Country holiday date.|
 
 
 

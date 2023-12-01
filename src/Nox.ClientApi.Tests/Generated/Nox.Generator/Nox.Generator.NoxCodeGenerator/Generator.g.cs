@@ -10,6 +10,7 @@
 //  - countrylocalname.entity.nox.yaml
 //  - countryqualityoflifeindex.entity.nox.yaml
 //  - currency.entity.nox.yaml
+//  - holiday.entity.nox.yaml
 //  - ratingprogram.entity.nox.yaml
 //  - store-license.entity.nox.yaml
 //  - store-owner.entity.nox.yaml
