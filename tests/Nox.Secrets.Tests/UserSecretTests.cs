@@ -4,7 +4,7 @@ namespace Nox.Secrets.Tests;
 
 public class UserSecretTests
 { 
-      [Theory]
+      [Theory (Skip = "This test can only be run if you have configured user secrets")]
       [InlineData("SimpleSecret", "This is a simple secret")]
       [InlineData("NestedSecretSection.NestedSecret", "This is a nested secret")]
       [InlineData("NestedSecretSection.DeeperSecretSection.DeeperSecret", "This is a deeper secret")]

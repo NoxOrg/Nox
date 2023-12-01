@@ -7,11 +7,7 @@ namespace Nox.Integration.EtlTests;
 
 public class CustomTransformTests
 {
-#if DEBUG
-    [Fact]
-#else
     [Fact (Skip = "This test can only be run locally if you have a loal sql server instance and have created the CountrySource database using ./files/Create_CoutrySource.sql")]
-#endif
     public async Task Can_Execute_an_integration_using_custom_transform()
     {
         var services = new ServiceCollection();

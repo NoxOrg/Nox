@@ -73,7 +73,9 @@ Errors ->
 PropertyName: . Error: Disallowed property ["requestBodyType"]. (at line 19 in countriesByName.apiRouteMapping.nox.yaml)
 PropertyName: . Error: Disallowed property ["jsonBodyType"]. (at line 21 in countriesByName.apiRouteMapping.nox.yaml)
 PropertyName: . Error: Disallowed property ["items"]. (at line 32 in countriesByName.apiRouteMapping.nox.yaml)   at Nox.Solution.Schema.NoxSchemaValidator.Deserialize[T](YamlReferenceResolver yamlRefResolver)
+   at Nox.Yaml.YamlConfigurationReader`2.ResolveAndLoadConfiguration()
    at Nox.Yaml.YamlConfigurationReader`2.Read()
+   at Nox.Solution.NoxSolutionBuilder.Build()
    at Nox.Generator.Tasks.NoxFileGenerator.TryGetNoxSolution(NoxSolution& solution) in /home/runner/work/Nox.Generator/Nox.Generator/src/Nox.Generator.Tasks/NoxFileGenerator.cs:line 195
    at Nox.Generator.Tasks.NoxFileGenerator.GenerateFiles() in /home/runner/work/Nox.Generator/Nox.Generator/src/Nox.Generator.Tasks/NoxFileGenerator.cs:line 45
 */

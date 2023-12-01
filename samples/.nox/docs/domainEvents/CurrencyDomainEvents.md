@@ -19,6 +19,7 @@ Symbol|Text|Currency's symbol
 ThousandsSeparator|Text|Currency's numeric thousands notation separator
 DecimalSeparator|Text|Currency's numeric decimal notation separator
 SpaceBetweenAmountAndSymbol|Boolean|Currency's numeric space between amount and symbol
+SymbolOnLeft|Boolean|Currency's symbol position
 DecimalDigits|Number|Currency's numeric decimal digits
 MajorName|Text|Currency's major name
 MajorSymbol|Text|Currency's major display symbol
@@ -45,6 +46,7 @@ Symbol|Text|Currency's symbol
 ThousandsSeparator|Text|Currency's numeric thousands notation separator
 DecimalSeparator|Text|Currency's numeric decimal notation separator
 SpaceBetweenAmountAndSymbol|Boolean|Currency's numeric space between amount and symbol
+SymbolOnLeft|Boolean|Currency's symbol position
 DecimalDigits|Number|Currency's numeric decimal digits
 MajorName|Text|Currency's major name
 MajorSymbol|Text|Currency's major display symbol
@@ -71,6 +73,7 @@ Symbol|Text|Currency's symbol
 ThousandsSeparator|Text|Currency's numeric thousands notation separator
 DecimalSeparator|Text|Currency's numeric decimal notation separator
 SpaceBetweenAmountAndSymbol|Boolean|Currency's numeric space between amount and symbol
+SymbolOnLeft|Boolean|Currency's symbol position
 DecimalDigits|Number|Currency's numeric decimal digits
 MajorName|Text|Currency's major name
 MajorSymbol|Text|Currency's major display symbol
