@@ -45,7 +45,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCountry([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToCountry([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Country).SingleOrDefault();
         if (related is null)
@@ -73,7 +73,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
@@ -139,7 +139,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     }
     
     [HttpDelete("/api/v1/Workplaces/{key}/Country")]
-    public async Task<ActionResult> DeleteToCountry([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteToCountry([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
@@ -178,7 +178,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     }
     
     [HttpPut("/api/v1/Workplaces/{key}/Tenants/$ref")]
-    public async Task<ActionResult> UpdateRefToTenantsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.UInt32> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToTenantsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.UInt32> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -195,7 +195,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTenants([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToTenants([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Tenants).SingleOrDefault();
         if (related is null)
@@ -227,7 +227,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToTenants([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteRefToTenants([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
@@ -306,7 +306,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     }
     
     [HttpDelete("/api/v1/Workplaces/{key}/Tenants/{relatedKey}")]
-    public async Task<ActionResult> DeleteToTenants([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
+    public virtual async Task<ActionResult> DeleteToTenants([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -330,7 +330,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     }
     
     [HttpDelete("/api/v1/Workplaces/{key}/Tenants")]
-    public async Task<ActionResult> DeleteToTenants([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteToTenants([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {

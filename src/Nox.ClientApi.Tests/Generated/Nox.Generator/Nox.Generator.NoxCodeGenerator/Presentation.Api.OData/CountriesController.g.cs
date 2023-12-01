@@ -441,7 +441,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpPut("/api/v1/Countries/{key}/Workplaces/$ref")]
-    public async Task<ActionResult> UpdateRefToWorkplacesNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToWorkplacesNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Int64> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -458,7 +458,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToWorkplaces([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToWorkplaces([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Workplaces).SingleOrDefault();
         if (related is null)
@@ -490,7 +490,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
@@ -569,7 +569,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpDelete("/api/v1/Countries/{key}/Workplaces/{relatedKey}")]
-    public async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -593,7 +593,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpDelete("/api/v1/Countries/{key}/Workplaces")]
-    public async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {

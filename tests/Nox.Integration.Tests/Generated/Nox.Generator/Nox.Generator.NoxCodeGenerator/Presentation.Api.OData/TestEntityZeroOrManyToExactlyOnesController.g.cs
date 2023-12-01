@@ -46,7 +46,7 @@ public abstract partial class TestEntityZeroOrManyToExactlyOnesControllerBase : 
     }
     
     [HttpPut("/api/v1/TestEntityZeroOrManyToExactlyOnes/{key}/TestEntityExactlyOneToZeroOrManies/$ref")]
-    public async Task<ActionResult> UpdateRefToTestEntityExactlyOneToZeroOrManiesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToTestEntityExactlyOneToZeroOrManiesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -63,7 +63,7 @@ public abstract partial class TestEntityZeroOrManyToExactlyOnesControllerBase : 
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTestEntityExactlyOneToZeroOrManies([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToTestEntityExactlyOneToZeroOrManies([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityZeroOrManyToExactlyOneByIdQuery(key))).Select(x => x.TestEntityExactlyOneToZeroOrManies).SingleOrDefault();
         if (related is null)
@@ -95,7 +95,7 @@ public abstract partial class TestEntityZeroOrManyToExactlyOnesControllerBase : 
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToTestEntityExactlyOneToZeroOrManies([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteRefToTestEntityExactlyOneToZeroOrManies([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -174,7 +174,7 @@ public abstract partial class TestEntityZeroOrManyToExactlyOnesControllerBase : 
     }
     
     [HttpDelete("/api/v1/TestEntityZeroOrManyToExactlyOnes/{key}/TestEntityExactlyOneToZeroOrManies/{relatedKey}")]
-    public async Task<ActionResult> DeleteToTestEntityExactlyOneToZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteToTestEntityExactlyOneToZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -198,7 +198,7 @@ public abstract partial class TestEntityZeroOrManyToExactlyOnesControllerBase : 
     }
     
     [HttpDelete("/api/v1/TestEntityZeroOrManyToExactlyOnes/{key}/TestEntityExactlyOneToZeroOrManies")]
-    public async Task<ActionResult> DeleteToTestEntityExactlyOneToZeroOrManies([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteToTestEntityExactlyOneToZeroOrManies([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
