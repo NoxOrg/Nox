@@ -45,7 +45,7 @@ public abstract partial class TestEntityExactlyOneToZeroOrManiesControllerBase :
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTestEntityZeroOrManyToExactlyOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToTestEntityZeroOrManyToExactlyOne([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityExactlyOneToZeroOrManyByIdQuery(key))).Select(x => x.TestEntityZeroOrManyToExactlyOne).SingleOrDefault();
         if (related is null)

@@ -46,7 +46,7 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
     }
     
     [HttpPut("/api/v1/ThirdTestEntityOneOrManies/{key}/ThirdTestEntityZeroOrManies/$ref")]
-    public async Task<ActionResult> UpdateRefToThirdTestEntityZeroOrManiesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToThirdTestEntityZeroOrManiesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -63,7 +63,7 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToThirdTestEntityZeroOrManies([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToThirdTestEntityZeroOrManies([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(key))).Select(x => x.ThirdTestEntityZeroOrManies).SingleOrDefault();
         if (related is null)
@@ -158,7 +158,7 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
     }
     
     [HttpDelete("/api/v1/ThirdTestEntityOneOrManies/{key}/ThirdTestEntityZeroOrManies/{relatedKey}")]
-    public async Task<ActionResult> DeleteToThirdTestEntityZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteToThirdTestEntityZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {

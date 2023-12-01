@@ -46,7 +46,7 @@ public abstract partial class StoreOwnersControllerBase : ODataController
     }
     
     [HttpPut("/api/v1/StoreOwners/{key}/Stores/$ref")]
-    public async Task<ActionResult> UpdateRefToStoresNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToStoresNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.Guid> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -63,7 +63,7 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToStores([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToStores([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).Select(x => x.Stores).SingleOrDefault();
         if (related is null)
@@ -158,7 +158,7 @@ public abstract partial class StoreOwnersControllerBase : ODataController
     }
     
     [HttpDelete("/api/v1/StoreOwners/{key}/Stores/{relatedKey}")]
-    public async Task<ActionResult> DeleteToStores([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> DeleteToStores([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {

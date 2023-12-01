@@ -45,7 +45,7 @@ public abstract partial class TransactionsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCustomer([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToCustomer([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetTransactionByIdQuery(key))).Select(x => x.Customer).SingleOrDefault();
         if (related is null)
@@ -122,7 +122,7 @@ public abstract partial class TransactionsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToBooking([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToBooking([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetTransactionByIdQuery(key))).Select(x => x.Booking).SingleOrDefault();
         if (related is null)

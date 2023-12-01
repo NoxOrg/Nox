@@ -541,7 +541,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
         var navigationName = entity.GetNavigationPropertyName(relationship); 
         code.AppendLine($"[HttpPut(\"{solution.Presentation.ApiConfiguration.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{navigationName}/$ref\")]");
-        code.AppendLine($"public async Task<ActionResult> UpdateRefTo{navigationName}NonConventional" +
+        code.AppendLine($"public virtual async Task<ActionResult> UpdateRefTo{navigationName}NonConventional" +
             $"({GetPrimaryKeysRoute(entity, solution)}, " +
             $"[FromBody] ReferencesDto<{solution.GetSinglePrimitiveTypeForKey(relatedEntity.Keys[0])}> referencesDto)");
 
@@ -607,7 +607,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
         var navigationName = entity.GetNavigationPropertyName(relationship);
 
-        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{navigationName}({GetPrimaryKeysRoute(entity, solution)})");
+        code.AppendLine($"public virtual async Task<ActionResult> DeleteRefTo{navigationName}({GetPrimaryKeysRoute(entity, solution)})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -635,7 +635,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     {
         var relatedEntity = relationship.Related.Entity;
         var navigationName = entity.GetNavigationPropertyName(relationship);
-        code.AppendLine($"public async Task<ActionResult> GetRefTo{navigationName}" +
+        code.AppendLine($"public virtual async Task<ActionResult> GetRefTo{navigationName}" +
             $"({GetPrimaryKeysRoute(entity, solution)})");
 
         var localizationParameter = entity.IsLocalized ? "_cultureCode, " : "";
@@ -848,7 +848,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         var navigationName = entity.GetNavigationPropertyName(relationship);
 
         code.AppendLine($"[HttpDelete(\"{solution.Presentation.ApiConfiguration.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{navigationName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
-        code.AppendLine($"public async Task<ActionResult> DeleteTo{navigationName}" +
+        code.AppendLine($"public virtual async Task<ActionResult> DeleteTo{navigationName}" +
             $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
 
         code.StartBlock();
@@ -892,7 +892,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         var navigationName = entity.GetNavigationPropertyName(relationship);
 
         code.AppendLine($"[HttpDelete(\"{solution.Presentation.ApiConfiguration.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{navigationName}\")]");
-        code.AppendLine($"public async Task<ActionResult> DeleteTo{navigationName}({GetPrimaryKeysRoute(entity, solution)})");
+        code.AppendLine($"public virtual async Task<ActionResult> DeleteTo{navigationName}({GetPrimaryKeysRoute(entity, solution)})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");

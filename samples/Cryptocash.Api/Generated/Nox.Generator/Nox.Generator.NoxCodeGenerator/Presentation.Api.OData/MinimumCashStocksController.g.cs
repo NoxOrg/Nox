@@ -46,7 +46,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
     }
     
     [HttpPut("/api/MinimumCashStocks/{key}/VendingMachines/$ref")]
-    public async Task<ActionResult> UpdateRefToVendingMachinesNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToVendingMachinesNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Guid> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -63,7 +63,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToVendingMachines([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToVendingMachines([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();
         if (related is null)
@@ -95,7 +95,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
@@ -174,7 +174,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
     }
     
     [HttpDelete("/api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
-    public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -198,7 +198,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
     }
     
     [HttpDelete("/api/MinimumCashStocks/{key}/VendingMachines")]
-    public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
@@ -235,7 +235,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCurrency([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToCurrency([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Select(x => x.Currency).SingleOrDefault();
         if (related is null)
