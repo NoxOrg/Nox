@@ -21,7 +21,7 @@ SerialNumber|Text|Vending machine serial number
 InstallationFootPrint|Area|Vending machine installation area
 RentPerSquareMetre|Money|Landlord rent amount based on area of the vending machine installation
 CountryId|CountryCode2|Country unique identifier
-LandLordId|AutoNumber|Landlord unique identifier
+LandLordId|Guid|Landlord unique identifier
 MinimumCashStockId|AutoNumber|Vending machine cash stock unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -43,7 +43,7 @@ SerialNumber|Text|Vending machine serial number
 InstallationFootPrint|Area|Vending machine installation area
 RentPerSquareMetre|Money|Landlord rent amount based on area of the vending machine installation
 CountryId|CountryCode2|Country unique identifier
-LandLordId|AutoNumber|Landlord unique identifier
+LandLordId|Guid|Landlord unique identifier
 MinimumCashStockId|AutoNumber|Vending machine cash stock unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -65,7 +65,7 @@ SerialNumber|Text|Vending machine serial number
 InstallationFootPrint|Area|Vending machine installation area
 RentPerSquareMetre|Money|Landlord rent amount based on area of the vending machine installation
 CountryId|CountryCode2|Country unique identifier
-LandLordId|AutoNumber|Landlord unique identifier
+LandLordId|Guid|Landlord unique identifier
 MinimumCashStockId|AutoNumber|Vending machine cash stock unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

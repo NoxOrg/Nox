@@ -12,7 +12,7 @@ This event is triggered when a new LandLord is created.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Landlord unique identifier
+Id|Guid|Landlord unique identifier
 Name|Text|Landlord name
 Address|StreetAddress|Landlord's street address
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
@@ -26,7 +26,7 @@ This event is triggered when an existing LandLord is updated.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Landlord unique identifier
+Id|Guid|Landlord unique identifier
 Name|Text|Landlord name
 Address|StreetAddress|Landlord's street address
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
@@ -40,7 +40,7 @@ This event is triggered when an existing LandLord is deleted.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Landlord unique identifier
+Id|Guid|Landlord unique identifier
 Name|Text|Landlord name
 Address|StreetAddress|Landlord's street address
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
