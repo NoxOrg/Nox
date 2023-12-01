@@ -7,11 +7,7 @@ namespace Nox.Secrets.Tests;
 
 public class AzureTests
 {
-#if DEBUG
-    [Fact]
-#else
-    [Fact (Skip = "This test can only be run if you have access to the Azure nox-EDA1DB500EBCEB02 key vault with your azure login")]
-#endif  
+    [Fact (Skip = "This test can only be run if you have access to the Azure nox-EDA1DB500EBCEB02 key vault with your azure login")] 
     public void Can_Retrieve_a_secret()
     {
         var services = new ServiceCollection();
