@@ -146,7 +146,7 @@ public abstract partial class CommissionsControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteCommissionByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteCommissionByIdCommand(new List<CommissionKeyDto> { new CommissionKeyDto(key) }, etag));
 
         if (!result)
         {

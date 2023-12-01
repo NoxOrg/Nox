@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
+using ClientApi.Application.Dto;
 using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 
-public partial record DeleteWorkplaceByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteWorkplaceByIdCommand(IEnumerable<WorkplaceKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteWorkplaceByIdCommandHandler : DeleteWorkplaceByIdCommandHandlerBase
 {
@@ -38,17 +39,22 @@ internal abstract class DeleteWorkplaceByIdCommandHandlerBase : CommandBase<Dele
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.Workplaces.FindAsync(keyId);
-		if (entity == null)
+		
+		foreach(var keyDto in request.KeyDtos)
 		{
-			return false;
+			var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.Workplaces.FindAsync(keyId);
+			if (entity == null)
+			{
+				return false;
+			}
+
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;DbContext.Workplaces.Remove(entity);
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		await OnCompletedAsync(request, new WorkplaceEntity());
 
-		await OnCompletedAsync(request, entity);DbContext.Workplaces.Remove(entity);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

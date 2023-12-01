@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
 using TestEntityTwoRelationshipsOneToOneEntity = TestWebApp.Domain.TestEntityTwoRelationshipsOneToOne;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record DeleteTestEntityTwoRelationshipsOneToOneByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteTestEntityTwoRelationshipsOneToOneByIdCommand(IEnumerable<TestEntityTwoRelationshipsOneToOneKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteTestEntityTwoRelationshipsOneToOneByIdCommandHandler : DeleteTestEntityTwoRelationshipsOneToOneByIdCommandHandlerBase
 {
@@ -38,18 +39,23 @@ internal abstract class DeleteTestEntityTwoRelationshipsOneToOneByIdCommandHandl
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.TestEntityTwoRelationshipsOneToOneMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.TestEntityTwoRelationshipsOneToOnes.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted == true)
+		
+		foreach(var keyDto in request.KeyDtos)
 		{
-			return false;
+			var keyId = TestWebApp.Domain.TestEntityTwoRelationshipsOneToOneMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.TestEntityTwoRelationshipsOneToOnes.FindAsync(keyId);
+			if (entity == null || entity.IsDeleted == true)
+			{
+				return false;
+			}
+
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+			DbContext.Entry(entity).State = EntityState.Deleted;
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		await OnCompletedAsync(request, new TestEntityTwoRelationshipsOneToOneEntity());
 
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

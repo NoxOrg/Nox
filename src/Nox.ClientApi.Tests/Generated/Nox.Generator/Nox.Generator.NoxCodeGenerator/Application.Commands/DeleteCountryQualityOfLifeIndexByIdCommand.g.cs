@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
+using ClientApi.Application.Dto;
 using CountryQualityOfLifeIndexEntity = ClientApi.Domain.CountryQualityOfLifeIndex;
 
 namespace ClientApi.Application.Commands;
 
-public partial record DeleteCountryQualityOfLifeIndexByIdCommand(System.Int64 keyCountryId, System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteCountryQualityOfLifeIndexByIdCommand(IEnumerable<CountryQualityOfLifeIndexKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteCountryQualityOfLifeIndexByIdCommandHandler : DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase
 {
@@ -38,18 +39,23 @@ internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase : 
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyCountryId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateCountryId(request.keyCountryId);
-		var keyId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.CountryQualityOfLifeIndices.FindAsync(keyCountryId, keyId);
-		if (entity == null)
+		
+		foreach(var keyDto in request.KeyDtos)
 		{
-			return false;
+			var keyCountryId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateCountryId(keyDto.keyCountryId);
+			var keyId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.CountryQualityOfLifeIndices.FindAsync(keyCountryId, keyId);
+			if (entity == null)
+			{
+				return false;
+			}
+
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;DbContext.CountryQualityOfLifeIndices.Remove(entity);
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		await OnCompletedAsync(request, new CountryQualityOfLifeIndexEntity());
 
-		await OnCompletedAsync(request, entity);DbContext.CountryQualityOfLifeIndices.Remove(entity);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

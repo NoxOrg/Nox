@@ -146,7 +146,7 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
     public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteSecondTestEntityOneOrManyByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteSecondTestEntityOneOrManyByIdCommand(new List<SecondTestEntityOneOrManyKeyDto> { new SecondTestEntityOneOrManyKeyDto(key) }, etag));
 
         if (!result)
         {

@@ -342,7 +342,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteBookingByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteBookingByIdCommand(new List<BookingKeyDto> { new BookingKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -366,10 +366,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteBookingByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteBookingByIdCommand(related.Select(item => new BookingKeyDto(item.Id)), etag));
         return NoContent();
     }
     
@@ -532,7 +529,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteCashStockOrderByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteCashStockOrderByIdCommand(new List<CashStockOrderKeyDto> { new CashStockOrderKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -556,10 +553,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteCashStockOrderByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteCashStockOrderByIdCommand(related.Select(item => new CashStockOrderKeyDto(item.Id)), etag));
         return NoContent();
     }
     
@@ -722,7 +716,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteMinimumCashStockByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteMinimumCashStockByIdCommand(new List<MinimumCashStockKeyDto> { new MinimumCashStockKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -746,10 +740,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteMinimumCashStockByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteMinimumCashStockByIdCommand(related.Select(item => new MinimumCashStockKeyDto(item.Id)), etag));
         return NoContent();
     }
     

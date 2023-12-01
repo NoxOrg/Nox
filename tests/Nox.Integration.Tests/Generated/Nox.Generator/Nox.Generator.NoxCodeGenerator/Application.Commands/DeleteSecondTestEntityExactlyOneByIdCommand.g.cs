@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
 using SecondTestEntityExactlyOneEntity = TestWebApp.Domain.SecondTestEntityExactlyOne;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record DeleteSecondTestEntityExactlyOneByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteSecondTestEntityExactlyOneByIdCommand(IEnumerable<SecondTestEntityExactlyOneKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteSecondTestEntityExactlyOneByIdCommandHandler : DeleteSecondTestEntityExactlyOneByIdCommandHandlerBase
 {
@@ -38,18 +39,23 @@ internal abstract class DeleteSecondTestEntityExactlyOneByIdCommandHandlerBase :
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.SecondTestEntityExactlyOneMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.SecondTestEntityExactlyOnes.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted == true)
+		
+		foreach(var keyDto in request.KeyDtos)
 		{
-			return false;
+			var keyId = TestWebApp.Domain.SecondTestEntityExactlyOneMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.SecondTestEntityExactlyOnes.FindAsync(keyId);
+			if (entity == null || entity.IsDeleted == true)
+			{
+				return false;
+			}
+
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+			DbContext.Entry(entity).State = EntityState.Deleted;
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		await OnCompletedAsync(request, new SecondTestEntityExactlyOneEntity());
 
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

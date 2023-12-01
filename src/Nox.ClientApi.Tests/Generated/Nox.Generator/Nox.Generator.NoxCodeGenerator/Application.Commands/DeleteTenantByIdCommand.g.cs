@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
+using ClientApi.Application.Dto;
 using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
 
-public partial record DeleteTenantByIdCommand(System.UInt32 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteTenantByIdCommand(IEnumerable<TenantKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteTenantByIdCommandHandler : DeleteTenantByIdCommandHandlerBase
 {
@@ -38,17 +39,22 @@ internal abstract class DeleteTenantByIdCommandHandlerBase : CommandBase<DeleteT
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.TenantMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.Tenants.FindAsync(keyId);
-		if (entity == null)
+		
+		foreach(var keyDto in request.KeyDtos)
 		{
-			return false;
+			var keyId = ClientApi.Domain.TenantMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.Tenants.FindAsync(keyId);
+			if (entity == null)
+			{
+				return false;
+			}
+
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;DbContext.Tenants.Remove(entity);
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		await OnCompletedAsync(request, new TenantEntity());
 
-		await OnCompletedAsync(request, entity);DbContext.Tenants.Remove(entity);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

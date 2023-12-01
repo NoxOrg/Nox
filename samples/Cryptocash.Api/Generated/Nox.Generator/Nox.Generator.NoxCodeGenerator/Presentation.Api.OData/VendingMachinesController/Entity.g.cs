@@ -146,7 +146,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteVendingMachineByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteVendingMachineByIdCommand(new List<VendingMachineKeyDto> { new VendingMachineKeyDto(key) }, etag));
 
         if (!result)
         {

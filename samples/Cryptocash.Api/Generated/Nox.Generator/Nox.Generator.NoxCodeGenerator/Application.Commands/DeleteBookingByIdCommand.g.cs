@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
 using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteBookingByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteBookingByIdCommand(IEnumerable<BookingKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteBookingByIdCommandHandler : DeleteBookingByIdCommandHandlerBase
 {
@@ -38,18 +39,23 @@ internal abstract class DeleteBookingByIdCommandHandlerBase : CommandBase<Delete
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.BookingMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.Bookings.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted == true)
+		
+		foreach(var keyDto in request.KeyDtos)
 		{
-			return false;
+			var keyId = Cryptocash.Domain.BookingMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.Bookings.FindAsync(keyId);
+			if (entity == null || entity.IsDeleted == true)
+			{
+				return false;
+			}
+
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+			DbContext.Entry(entity).State = EntityState.Deleted;
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		await OnCompletedAsync(request, new BookingEntity());
 
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

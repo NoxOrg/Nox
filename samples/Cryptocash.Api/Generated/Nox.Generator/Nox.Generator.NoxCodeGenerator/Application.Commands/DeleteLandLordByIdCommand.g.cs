@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
 using LandLordEntity = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteLandLordByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteLandLordByIdCommand(IEnumerable<LandLordKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteLandLordByIdCommandHandler : DeleteLandLordByIdCommandHandlerBase
 {
@@ -38,18 +39,23 @@ internal abstract class DeleteLandLordByIdCommandHandlerBase : CommandBase<Delet
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.LandLordMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.LandLords.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted == true)
+		
+		foreach(var keyDto in request.KeyDtos)
 		{
-			return false;
+			var keyId = Cryptocash.Domain.LandLordMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.LandLords.FindAsync(keyId);
+			if (entity == null || entity.IsDeleted == true)
+			{
+				return false;
+			}
+
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+			DbContext.Entry(entity).State = EntityState.Deleted;
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		await OnCompletedAsync(request, new LandLordEntity());
 
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

@@ -455,7 +455,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteCountryByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteCountryByIdCommand(new List<CountryKeyDto> { new CountryKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -623,7 +623,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteMinimumCashStockByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteMinimumCashStockByIdCommand(new List<MinimumCashStockKeyDto> { new MinimumCashStockKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -647,10 +647,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteMinimumCashStockByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteMinimumCashStockByIdCommand(related.Select(item => new MinimumCashStockKeyDto(item.Id)), etag));
         return NoContent();
     }
     

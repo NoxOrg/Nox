@@ -146,7 +146,7 @@ public abstract partial class ForReferenceNumbersControllerBase : ODataControlle
     public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteForReferenceNumberByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteForReferenceNumberByIdCommand(new List<ForReferenceNumberKeyDto> { new ForReferenceNumberKeyDto(key) }, etag));
 
         if (!result)
         {

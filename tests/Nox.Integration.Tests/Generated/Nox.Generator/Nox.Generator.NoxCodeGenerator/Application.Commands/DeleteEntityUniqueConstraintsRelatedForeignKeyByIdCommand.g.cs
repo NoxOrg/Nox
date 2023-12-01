@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
 using EntityUniqueConstraintsRelatedForeignKeyEntity = TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record DeleteEntityUniqueConstraintsRelatedForeignKeyByIdCommand(System.Int32 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteEntityUniqueConstraintsRelatedForeignKeyByIdCommand(IEnumerable<EntityUniqueConstraintsRelatedForeignKeyKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteEntityUniqueConstraintsRelatedForeignKeyByIdCommandHandler : DeleteEntityUniqueConstraintsRelatedForeignKeyByIdCommandHandlerBase
 {
@@ -38,17 +39,22 @@ internal abstract class DeleteEntityUniqueConstraintsRelatedForeignKeyByIdComman
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.EntityUniqueConstraintsRelatedForeignKeys.FindAsync(keyId);
-		if (entity == null)
+		
+		foreach(var keyDto in request.KeyDtos)
 		{
-			return false;
+			var keyId = TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.EntityUniqueConstraintsRelatedForeignKeys.FindAsync(keyId);
+			if (entity == null)
+			{
+				return false;
+			}
+
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;DbContext.EntityUniqueConstraintsRelatedForeignKeys.Remove(entity);
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		await OnCompletedAsync(request, new EntityUniqueConstraintsRelatedForeignKeyEntity());
 
-		await OnCompletedAsync(request, entity);DbContext.EntityUniqueConstraintsRelatedForeignKeys.Remove(entity);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

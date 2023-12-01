@@ -188,7 +188,7 @@ public abstract partial class TenantsControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteWorkplaceByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteWorkplaceByIdCommand(new List<WorkplaceKeyDto> { new WorkplaceKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -212,10 +212,7 @@ public abstract partial class TenantsControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteWorkplaceByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteWorkplaceByIdCommand(related.Select(item => new WorkplaceKeyDto(item.Id)), etag));
         return NoContent();
     }
     

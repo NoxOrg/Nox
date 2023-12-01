@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
 using EntityUniqueConstraintsWithForeignKeyEntity = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record DeleteEntityUniqueConstraintsWithForeignKeyByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteEntityUniqueConstraintsWithForeignKeyByIdCommand(IEnumerable<EntityUniqueConstraintsWithForeignKeyKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteEntityUniqueConstraintsWithForeignKeyByIdCommandHandler : DeleteEntityUniqueConstraintsWithForeignKeyByIdCommandHandlerBase
 {
@@ -38,17 +39,22 @@ internal abstract class DeleteEntityUniqueConstraintsWithForeignKeyByIdCommandHa
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.EntityUniqueConstraintsWithForeignKeys.FindAsync(keyId);
-		if (entity == null)
+		
+		foreach(var keyDto in request.KeyDtos)
 		{
-			return false;
+			var keyId = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.EntityUniqueConstraintsWithForeignKeys.FindAsync(keyId);
+			if (entity == null)
+			{
+				return false;
+			}
+
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;DbContext.EntityUniqueConstraintsWithForeignKeys.Remove(entity);
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		await OnCompletedAsync(request, new EntityUniqueConstraintsWithForeignKeyEntity());
 
-		await OnCompletedAsync(request, entity);DbContext.EntityUniqueConstraintsWithForeignKeys.Remove(entity);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

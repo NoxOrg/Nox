@@ -188,7 +188,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteThirdTestEntityOneOrManyByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteThirdTestEntityOneOrManyByIdCommand(new List<ThirdTestEntityOneOrManyKeyDto> { new ThirdTestEntityOneOrManyKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -212,10 +212,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteThirdTestEntityOneOrManyByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteThirdTestEntityOneOrManyByIdCommand(related.Select(item => new ThirdTestEntityOneOrManyKeyDto(item.Id)), etag));
         return NoContent();
     }
     

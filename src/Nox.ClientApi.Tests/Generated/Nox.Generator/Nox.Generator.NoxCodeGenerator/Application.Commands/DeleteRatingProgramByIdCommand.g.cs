@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
+using ClientApi.Application.Dto;
 using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Commands;
 
-public partial record DeleteRatingProgramByIdCommand(System.Guid keyStoreId, System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteRatingProgramByIdCommand(IEnumerable<RatingProgramKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteRatingProgramByIdCommandHandler : DeleteRatingProgramByIdCommandHandlerBase
 {
@@ -38,18 +39,23 @@ internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandBase<
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyStoreId = ClientApi.Domain.RatingProgramMetadata.CreateStoreId(request.keyStoreId);
-		var keyId = ClientApi.Domain.RatingProgramMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.RatingPrograms.FindAsync(keyStoreId, keyId);
-		if (entity == null)
+		
+		foreach(var keyDto in request.KeyDtos)
 		{
-			return false;
+			var keyStoreId = ClientApi.Domain.RatingProgramMetadata.CreateStoreId(keyDto.keyStoreId);
+			var keyId = ClientApi.Domain.RatingProgramMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.RatingPrograms.FindAsync(keyStoreId, keyId);
+			if (entity == null)
+			{
+				return false;
+			}
+
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;DbContext.RatingPrograms.Remove(entity);
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		await OnCompletedAsync(request, new RatingProgramEntity());
 
-		await OnCompletedAsync(request, entity);DbContext.RatingPrograms.Remove(entity);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

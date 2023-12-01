@@ -172,7 +172,7 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommand(new List<SecondTestEntityTwoRelationshipsManyToManyKeyDto> { new SecondTestEntityTwoRelationshipsManyToManyKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -324,7 +324,7 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommand(new List<SecondTestEntityTwoRelationshipsManyToManyKeyDto> { new SecondTestEntityTwoRelationshipsManyToManyKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();

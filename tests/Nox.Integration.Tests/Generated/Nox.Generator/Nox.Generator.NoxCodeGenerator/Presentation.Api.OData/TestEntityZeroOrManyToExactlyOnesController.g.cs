@@ -188,7 +188,7 @@ public abstract partial class TestEntityZeroOrManyToExactlyOnesControllerBase : 
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteTestEntityExactlyOneToZeroOrManyByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteTestEntityExactlyOneToZeroOrManyByIdCommand(new List<TestEntityExactlyOneToZeroOrManyKeyDto> { new TestEntityExactlyOneToZeroOrManyKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -212,10 +212,7 @@ public abstract partial class TestEntityZeroOrManyToExactlyOnesControllerBase : 
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteTestEntityExactlyOneToZeroOrManyByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteTestEntityExactlyOneToZeroOrManyByIdCommand(related.Select(item => new TestEntityExactlyOneToZeroOrManyKeyDto(item.Id)), etag));
         return NoContent();
     }
     

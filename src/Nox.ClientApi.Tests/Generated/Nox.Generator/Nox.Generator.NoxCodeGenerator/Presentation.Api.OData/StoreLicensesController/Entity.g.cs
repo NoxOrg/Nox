@@ -146,7 +146,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteStoreLicenseByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteStoreLicenseByIdCommand(new List<StoreLicenseKeyDto> { new StoreLicenseKeyDto(key) }, etag));
 
         if (!result)
         {

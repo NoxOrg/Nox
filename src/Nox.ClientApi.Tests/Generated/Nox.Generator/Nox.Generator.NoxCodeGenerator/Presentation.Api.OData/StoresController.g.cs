@@ -158,7 +158,7 @@ public abstract partial class StoresControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteStoreOwnerByIdCommand(related.Id, etag));
+        var deleted = await _mediator.Send(new DeleteStoreOwnerByIdCommand(new List<StoreOwnerKeyDto> { new StoreOwnerKeyDto(related.Id) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -290,7 +290,7 @@ public abstract partial class StoresControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteStoreLicenseByIdCommand(related.Id, etag));
+        var deleted = await _mediator.Send(new DeleteStoreLicenseByIdCommand(new List<StoreLicenseKeyDto> { new StoreLicenseKeyDto(related.Id) }, etag));
         if (!deleted)
         {
             return NotFound();
