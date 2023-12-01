@@ -17,7 +17,7 @@ using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateBookingCommand(System.Guid keyId, BookingUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<BookingKeyDto?>;
+public partial record UpdateBookingCommand(System.Guid keyId, BookingUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<BookingKeyDto?>;
 
 internal partial class UpdateBookingCommandHandler : UpdateBookingCommandHandlerBase
 {

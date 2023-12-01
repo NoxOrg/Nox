@@ -26,7 +26,11 @@ public partial class LandLordCreateDto : LandLordCreateDtoBase
 /// Landlord related data.
 /// </summary>
 public abstract class LandLordCreateDtoBase : IEntityDto<DomainNamespace.LandLord>
-{
+{/// <summary>
+    /// Landlord unique identifier     
+    /// </summary>
+    /// <remarks>Optional.</remarks>
+    public System.Guid Id { get; set; } = default!;
     /// <summary>
     /// Landlord name     
     /// </summary>

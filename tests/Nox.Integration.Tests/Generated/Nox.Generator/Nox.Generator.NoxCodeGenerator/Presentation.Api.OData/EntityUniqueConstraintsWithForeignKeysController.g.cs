@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -28,7 +29,7 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToEntityUniqueConstraintsRelatedForeignKey([FromRoute] System.Guid key, [FromRoute] System.Int32 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToEntityUniqueConstraintsRelatedForeignKey([FromRoute] System.Guid key, [FromRoute] System.Int32 relatedKey)
     {
         if (!ModelState.IsValid)
         {

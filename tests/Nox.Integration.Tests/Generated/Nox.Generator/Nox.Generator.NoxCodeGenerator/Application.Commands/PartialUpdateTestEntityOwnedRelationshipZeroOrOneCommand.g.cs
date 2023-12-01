@@ -16,7 +16,7 @@ using TestEntityOwnedRelationshipZeroOrOneEntity = TestWebApp.Domain.TestEntityO
 
 namespace TestWebApp.Application.Commands;
 
-public record PartialUpdateTestEntityOwnedRelationshipZeroOrOneCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityOwnedRelationshipZeroOrOneKeyDto?>;
+public partial record PartialUpdateTestEntityOwnedRelationshipZeroOrOneCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityOwnedRelationshipZeroOrOneKeyDto?>;
 
 internal class PartialUpdateTestEntityOwnedRelationshipZeroOrOneCommandHandler : PartialUpdateTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase
 {

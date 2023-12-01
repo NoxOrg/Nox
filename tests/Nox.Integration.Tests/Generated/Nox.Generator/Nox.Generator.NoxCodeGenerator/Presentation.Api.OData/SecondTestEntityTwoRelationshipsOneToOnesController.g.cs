@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -28,7 +29,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToTestRelationshipOneOnOtherSide([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTestRelationshipOneOnOtherSide([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -56,7 +57,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToTestRelationshipOneOnOtherSide([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToTestRelationshipOneOnOtherSide([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -160,7 +161,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToTestRelationshipTwoOnOtherSide([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTestRelationshipTwoOnOtherSide([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -188,7 +189,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToTestRelationshipTwoOnOtherSide([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToTestRelationshipTwoOnOtherSide([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {

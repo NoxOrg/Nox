@@ -69,6 +69,10 @@ public abstract partial class RatingProgramsControllerBase : ODataController
 
     public virtual async Task<ActionResult<RatingProgramDto>> Post([FromBody] RatingProgramCreateDto ratingProgram)
     {
+        if(ratingProgram is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class RatingProgramsControllerBase : ODataController
 
     public virtual async Task<ActionResult<RatingProgramDto>> Put([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId, [FromBody] RatingProgramUpdateDto ratingProgram)
     {
+        if(ratingProgram is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -101,9 +109,13 @@ public abstract partial class RatingProgramsControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<RatingProgramDto>> Patch([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId, [FromBody] Delta<RatingProgramUpdateDto> ratingProgram)
+    public virtual async Task<ActionResult<RatingProgramDto>> Patch([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId, [FromBody] Delta<RatingProgramPartialUpdateDto> ratingProgram)
     {
-        if (!ModelState.IsValid || ratingProgram is null)
+        if(ratingProgram is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

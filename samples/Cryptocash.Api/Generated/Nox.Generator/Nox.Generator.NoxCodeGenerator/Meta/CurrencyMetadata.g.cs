@@ -118,6 +118,13 @@ public partial class CurrencyMetadata
         
     
         /// <summary>
+        /// Factory for property 'SymbolOnLeft'
+        /// </summary>
+        public static Nox.Types.Boolean CreateSymbolOnLeft(System.Boolean value)
+            => Nox.Types.Boolean.From(value);
+        
+    
+        /// <summary>
         /// Factory for property 'DecimalDigits'
         /// </summary>
         public static Nox.Types.Number CreateDecimalDigits(System.Int32 value)
@@ -277,6 +284,15 @@ public partial class CurrencyMetadata
             => solution.Domain!
                 .GetEntityByName("Currency")
                 .GetAttributeByName("SpaceBetweenAmountAndSymbol")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'SymbolOnLeft'
+        /// </summary>
+        public static TypeUserInterface? SymbolOnLeftUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Currency")
+                .GetAttributeByName("SymbolOnLeft")?
                 .UserInterface;
 
         /// <summary>

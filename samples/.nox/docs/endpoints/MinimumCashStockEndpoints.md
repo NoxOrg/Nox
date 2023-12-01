@@ -43,6 +43,8 @@ This document provides information about the various endpoints available in our 
 #### Update VendingMachine relation
 - **PUT** `/api/MinimumCashStocks/{key}/MinimumCashStocksRequiredByVendingMachines/{relatedKey}/$ref`
   - Description: Updates an existing VendingMachine relation for a specific MinimumCashStock.
+- **PUT** `/api/MinimumCashStocks/{key}/MinimumCashStocksRequiredByVendingMachines/$ref`
+  - Description: Updates the VendingMachine relations for a specific MinimumCashStock.
 
 #### Delete VendingMachine relation
 - **DELETE** `/api/MinimumCashStocks/{key}/MinimumCashStocksRequiredByVendingMachines/{relatedKey}/$ref`
@@ -65,6 +67,8 @@ This document provides information about the various endpoints available in our 
 #### Update Currency relation
 - **PUT** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency/{relatedKey}/$ref`
   - Description: Updates an existing Currency relation for a specific MinimumCashStock.
+- **PUT** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency/$ref`
+  - Description: Updates the Currency relations for a specific MinimumCashStock.
 
 #### Delete Currency relation
 - **DELETE** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency/{relatedKey}/$ref`

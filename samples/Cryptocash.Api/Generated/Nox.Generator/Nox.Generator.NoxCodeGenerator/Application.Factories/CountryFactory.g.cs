@@ -78,6 +78,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         entity.SetIfNotNull(createDto.GoogleMapsUrl, (entity) => entity.GoogleMapsUrl =Cryptocash.Domain.CountryMetadata.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.OpenStreetMapsUrl, (entity) => entity.OpenStreetMapsUrl =Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(createDto.OpenStreetMapsUrl.NonNullValue<System.String>()));
         entity.StartOfWeek = Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(createDto.StartOfWeek);
+        entity.Population = Cryptocash.Domain.CountryMetadata.CreatePopulation(createDto.Population);
         createDto.CountryTimeZones.ForEach(dto => entity.CreateRefToCountryTimeZones(CountryTimeZoneFactory.CreateEntity(dto)));
         createDto.Holidays.ForEach(dto => entity.CreateRefToHolidays(HolidayFactory.CreateEntity(dto)));
         return entity;
@@ -175,6 +176,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             entity.OpenStreetMapsUrl = Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(updateDto.OpenStreetMapsUrl.ToValueFromNonNull<System.String>());
         }
         entity.StartOfWeek = Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(updateDto.StartOfWeek.NonNullValue<System.UInt16>());
+        entity.Population = Cryptocash.Domain.CountryMetadata.CreatePopulation(updateDto.Population.NonNullValue<System.Int32>());
     }
 
     private void PartialUpdateEntityInternal(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -298,6 +300,17 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             }
             {
                 entity.StartOfWeek = Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(StartOfWeekUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Population", out var PopulationUpdateValue))
+        {
+            if (PopulationUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Population' can't be null");
+            }
+            {
+                entity.Population = Cryptocash.Domain.CountryMetadata.CreatePopulation(PopulationUpdateValue);
             }
         }
     }

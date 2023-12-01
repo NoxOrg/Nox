@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -28,7 +29,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToThirdTestEntityOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToThirdTestEntityOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -37,6 +38,24 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
         
         var createdRef = await _mediator.Send(new CreateRefThirdTestEntityZeroOrManyToThirdTestEntityOneOrManiesCommand(new ThirdTestEntityZeroOrManyKeyDto(key), new ThirdTestEntityOneOrManyKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/ThirdTestEntityZeroOrManies/{key}/ThirdTestEntityOneOrManies/$ref")]
+    public async Task<ActionResult> UpdateRefToThirdTestEntityOneOrManiesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new ThirdTestEntityOneOrManyKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefThirdTestEntityZeroOrManyToThirdTestEntityOneOrManiesCommand(new ThirdTestEntityZeroOrManyKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -60,7 +79,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToThirdTestEntityOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToThirdTestEntityOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {

@@ -87,6 +87,7 @@ internal class DtoDbContext : DbContext
         public virtual DbSet<EntityUniqueConstraintsRelatedForeignKeyDto> EntityUniqueConstraintsRelatedForeignKeys { get; set; } = null!;
         public virtual DbSet<TestEntityLocalizationDto> TestEntityLocalizations { get; set; } = null!;
         public virtual DbSet<TestEntityForAutoNumberUsagesDto> TestEntityForAutoNumberUsages { get; set; } = null!;
+        public virtual DbSet<ForReferenceNumberDto> ForReferenceNumbers { get; set; } = null!;
     public virtual DbSet<TestEntityLocalizationLocalizedDto> TestEntityLocalizationsLocalized { get; set; } = null!;
     public virtual DbSet<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto> TestEntityForTypesEnumerationTestFields { get; set; } = null!;
     public virtual DbSet<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto> TestEntityForTypesEnumerationTestFieldsLocalized { get; set; } = null!;

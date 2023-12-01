@@ -114,6 +114,7 @@ Name|System.String|The Country Name     Set a unique name for the country Do not
 
 Population|System.Int32|Population Number of People living in the country
 CountryDebt|MoneyDto|The Money
+CapitalCityLocation|LatLongDto|The capital location
 FirstLanguageCode|System.String|First Official Language
 ShortDescription|System.String|The Formula
 CountryIsoNumeric|System.UInt16|Country's iso number id
@@ -122,6 +123,7 @@ GoogleMapsUrl|System.String|Country's map via google maps
 StartOfWeek|System.UInt16|Country's start of week day
 Continent|System.Int32|Country Continent
 CountryLocalNameId|System.Int64|The unique identifier
+CountryTimeZoneId|System.String|Country's related time zone code
 
 
 ### `WorkplaceDeleted`
@@ -159,6 +161,7 @@ Member|Type|Description
 ------|----|-----------
 Id|System.Int64|Workplace unique identifier
 Name|System.String|Workplace Name
+ReferenceNumber|System.String|Workplace Code
 Description|System.String|Workplace Description
 Greeting|System.String|The Formula
 CountryId|System.Int64|The unique identifier

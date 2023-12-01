@@ -16,7 +16,7 @@ using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
 
-public record PartialUpdateTenantCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantKeyDto?>;
+public partial record PartialUpdateTenantCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantKeyDto?>;
 
 internal class PartialUpdateTenantCommandHandler : PartialUpdateTenantCommandHandlerBase
 {

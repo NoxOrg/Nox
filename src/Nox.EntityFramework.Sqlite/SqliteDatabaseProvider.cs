@@ -48,4 +48,9 @@ public class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDatabaseProvi
     {
         StoreTypes &= storeTypeFlag;
     }
+
+    public string GetSqlStatementForSequenceNextValue(string sequenceName)
+    {
+        throw new NotSupportedException();
+    }
 }

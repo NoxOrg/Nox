@@ -39,6 +39,8 @@ This document provides information about the various endpoints available in our 
 #### Update Country relation
 - **PUT** `/api/Peoples/{key}/CountriesInhabitedByPeople/{relatedKey}/$ref`
   - Description: Updates an existing Country relation for a specific People.
+- **PUT** `/api/Peoples/{key}/CountriesInhabitedByPeople/$ref`
+  - Description: Updates the Country relations for a specific People.
 
 #### Delete Country relation
 - **DELETE** `/api/Peoples/{key}/CountriesInhabitedByPeople/{relatedKey}/$ref`

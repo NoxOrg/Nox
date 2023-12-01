@@ -17,7 +17,7 @@ using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateVendingMachineCommand(System.Guid keyId, VendingMachineUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<VendingMachineKeyDto?>;
+public partial record UpdateVendingMachineCommand(System.Guid keyId, VendingMachineUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<VendingMachineKeyDto?>;
 
 internal partial class UpdateVendingMachineCommandHandler : UpdateVendingMachineCommandHandlerBase
 {

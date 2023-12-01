@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -28,7 +29,7 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToThirdTestEntityExactlyOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToThirdTestEntityExactlyOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -56,7 +57,7 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToThirdTestEntityExactlyOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToThirdTestEntityExactlyOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {

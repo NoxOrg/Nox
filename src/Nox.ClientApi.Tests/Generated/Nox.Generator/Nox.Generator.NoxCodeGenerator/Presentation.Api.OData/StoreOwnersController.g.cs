@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
@@ -28,7 +29,7 @@ public abstract partial class StoreOwnersControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToStores([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> CreateRefToStores([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -37,6 +38,24 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefStoreOwnerToStoresCommand(new StoreOwnerKeyDto(key), new StoreKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/StoreOwners/{key}/Stores/$ref")]
+    public async Task<ActionResult> UpdateRefToStoresNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new StoreKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefStoreOwnerToStoresCommand(new StoreOwnerKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -60,7 +79,7 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToStores([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToStores([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {

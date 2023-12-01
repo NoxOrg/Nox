@@ -69,6 +69,10 @@ public abstract partial class TestEntityExactlyOneToZeroOrOnesControllerBase : O
 
     public virtual async Task<ActionResult<TestEntityExactlyOneToZeroOrOneDto>> Post([FromBody] TestEntityExactlyOneToZeroOrOneCreateDto testEntityExactlyOneToZeroOrOne)
     {
+        if(testEntityExactlyOneToZeroOrOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class TestEntityExactlyOneToZeroOrOnesControllerBase : O
 
     public virtual async Task<ActionResult<TestEntityExactlyOneToZeroOrOneDto>> Put([FromRoute] System.String key, [FromBody] TestEntityExactlyOneToZeroOrOneUpdateDto testEntityExactlyOneToZeroOrOne)
     {
+        if(testEntityExactlyOneToZeroOrOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -101,9 +109,13 @@ public abstract partial class TestEntityExactlyOneToZeroOrOnesControllerBase : O
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityExactlyOneToZeroOrOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityExactlyOneToZeroOrOneUpdateDto> testEntityExactlyOneToZeroOrOne)
+    public virtual async Task<ActionResult<TestEntityExactlyOneToZeroOrOneDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityExactlyOneToZeroOrOnePartialUpdateDto> testEntityExactlyOneToZeroOrOne)
     {
-        if (!ModelState.IsValid || testEntityExactlyOneToZeroOrOne is null)
+        if(testEntityExactlyOneToZeroOrOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

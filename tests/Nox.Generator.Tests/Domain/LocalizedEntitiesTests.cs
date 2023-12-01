@@ -23,7 +23,7 @@ public class LocalizedEntitiesTests : IClassFixture<GeneratorFixture>
 
         GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileCount(13, "Domain.CountryLocalized.g.cs", "Application.Dto.CountryLocalizedDto.g.cs")
+            .AssertFileCount(14, "Domain.CountryLocalized.g.cs", "Application.Dto.CountryLocalizedDto.g.cs")
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
             .AssertFileExistsAndContent("CountryLocalized.expected.g.cs", "Domain.CountryLocalized.g.cs")

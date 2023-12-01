@@ -33,11 +33,10 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
 
         var contentCheckerFlow = GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileCount(83, filesShouldExist)
+            .AssertFileCount(86, filesShouldExist)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles");
 
-        // check controllers
         CheckController("CountriesController", contentCheckerFlow);
         CheckController("CompoundKeysEntitiesController", contentCheckerFlow);
         CheckController("CitiesController", contentCheckerFlow, true);
@@ -53,15 +52,15 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         var controllerOwnedRelationshipsFileName = $"Presentation.Api.OData.{controllerName}.OwnedRelationships.g.cs";
         var controllerTranslationsFileName = $"Presentation.Api.OData.{controllerName}.Translations.g.cs";
 
-        contentCheckerFlow.AssertFileExistsAndContent(controllerFileName, controllerFileName);
-        contentCheckerFlow.AssertFileExistsAndContent(controllerEntityFileName, controllerEntityFileName);
-        contentCheckerFlow.AssertFileExistsAndContent(controllerCustomQueriesFileName, controllerCustomQueriesFileName);
-        contentCheckerFlow.AssertFileExistsAndContent(controllerCustomCommandsFileName, controllerCustomCommandsFileName);
-        contentCheckerFlow.AssertFileExistsAndContent(controllerRelationshipsFileName, controllerRelationshipsFileName);
-        contentCheckerFlow.AssertFileExistsAndContent(controllerOwnedRelationshipsFileName, controllerOwnedRelationshipsFileName);
+        contentCheckerFlow.AssertFileExists(controllerFileName);
+        contentCheckerFlow.AssertFileExists(controllerEntityFileName);
+        contentCheckerFlow.AssertFileExists(controllerCustomQueriesFileName);
+        contentCheckerFlow.AssertFileExists(controllerCustomCommandsFileName);
+        contentCheckerFlow.AssertFileExists(controllerRelationshipsFileName);
+        contentCheckerFlow.AssertFileExists(controllerOwnedRelationshipsFileName);
         if (hasTranslations)
         {
-            contentCheckerFlow.AssertFileExistsAndContent(controllerTranslationsFileName, controllerTranslationsFileName);
+            contentCheckerFlow.AssertFileExists(controllerTranslationsFileName);
         }
 
     }

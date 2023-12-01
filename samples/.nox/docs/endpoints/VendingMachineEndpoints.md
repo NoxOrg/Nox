@@ -43,6 +43,8 @@ This document provides information about the various endpoints available in our 
 #### Update Country relation
 - **PUT** `/api/VendingMachines/{key}/VendingMachineInstallationCountry/{relatedKey}/$ref`
   - Description: Updates an existing Country relation for a specific VendingMachine.
+- **PUT** `/api/VendingMachines/{key}/VendingMachineInstallationCountry/$ref`
+  - Description: Updates the Country relations for a specific VendingMachine.
 
 #### Delete Country relation
 - **DELETE** `/api/VendingMachines/{key}/VendingMachineInstallationCountry/{relatedKey}/$ref`
@@ -65,6 +67,8 @@ This document provides information about the various endpoints available in our 
 #### Update LandLord relation
 - **PUT** `/api/VendingMachines/{key}/VendingMachineContractedAreaLandLord/{relatedKey}/$ref`
   - Description: Updates an existing LandLord relation for a specific VendingMachine.
+- **PUT** `/api/VendingMachines/{key}/VendingMachineContractedAreaLandLord/$ref`
+  - Description: Updates the LandLord relations for a specific VendingMachine.
 
 #### Delete LandLord relation
 - **DELETE** `/api/VendingMachines/{key}/VendingMachineContractedAreaLandLord/{relatedKey}/$ref`
@@ -87,6 +91,8 @@ This document provides information about the various endpoints available in our 
 #### Update Booking relation
 - **PUT** `/api/VendingMachines/{key}/VendingMachineRelatedBookings/{relatedKey}/$ref`
   - Description: Updates an existing Booking relation for a specific VendingMachine.
+- **PUT** `/api/VendingMachines/{key}/VendingMachineRelatedBookings/$ref`
+  - Description: Updates the Booking relations for a specific VendingMachine.
 
 #### Delete Booking relation
 - **DELETE** `/api/VendingMachines/{key}/VendingMachineRelatedBookings/{relatedKey}/$ref`
@@ -109,6 +115,8 @@ This document provides information about the various endpoints available in our 
 #### Update CashStockOrder relation
 - **PUT** `/api/VendingMachines/{key}/VendingMachineRelatedCashStockOrders/{relatedKey}/$ref`
   - Description: Updates an existing CashStockOrder relation for a specific VendingMachine.
+- **PUT** `/api/VendingMachines/{key}/VendingMachineRelatedCashStockOrders/$ref`
+  - Description: Updates the CashStockOrder relations for a specific VendingMachine.
 
 #### Delete CashStockOrder relation
 - **DELETE** `/api/VendingMachines/{key}/VendingMachineRelatedCashStockOrders/{relatedKey}/$ref`
@@ -131,6 +139,8 @@ This document provides information about the various endpoints available in our 
 #### Update MinimumCashStock relation
 - **PUT** `/api/VendingMachines/{key}/VendingMachineRequiredMinimumCashStocks/{relatedKey}/$ref`
   - Description: Updates an existing MinimumCashStock relation for a specific VendingMachine.
+- **PUT** `/api/VendingMachines/{key}/VendingMachineRequiredMinimumCashStocks/$ref`
+  - Description: Updates the MinimumCashStock relations for a specific VendingMachine.
 
 #### Delete MinimumCashStock relation
 - **DELETE** `/api/VendingMachines/{key}/VendingMachineRequiredMinimumCashStocks/{relatedKey}/$ref`

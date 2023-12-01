@@ -19,10 +19,12 @@ using EntityUniqueConstraintsWithForeignKeyEntity = TestWebApp.Domain.EntityUniq
 
 namespace TestWebApp.Application.Commands;
 
-public abstract record RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand(EntityUniqueConstraintsWithForeignKeyKeyDto EntityKeyDto, EntityUniqueConstraintsRelatedForeignKeyKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand(EntityUniqueConstraintsWithForeignKeyKeyDto EntityKeyDto) : IRequest <bool>;
+
+#region CreateRefTo
 
 public partial record CreateRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand(EntityUniqueConstraintsWithForeignKeyKeyDto EntityKeyDto, EntityUniqueConstraintsRelatedForeignKeyKeyDto RelatedEntityKeyDto)
-	: RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand(EntityKeyDto);
 
 internal partial class CreateRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommandHandler
 	: RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase<CreateRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand>
@@ -31,12 +33,35 @@ internal partial class CreateRefEntityUniqueConstraintsWithForeignKeyToEntityUni
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Create)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(CreateRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand request)
+    {
+		var entity = await GetEntityUniqueConstraintsWithForeignKey(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetEntityUniqueConstraintsRelatedForeignKey(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.CreateRefToEntityUniqueConstraintsRelatedForeignKey(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion CreateRefTo
+
+#region DeleteRefTo
+
 public record DeleteRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand(EntityUniqueConstraintsWithForeignKeyKeyDto EntityKeyDto, EntityUniqueConstraintsRelatedForeignKeyKeyDto RelatedEntityKeyDto)
-	: RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand(EntityKeyDto);
 
 internal partial class DeleteRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommandHandler
 	: RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase<DeleteRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand>
@@ -45,12 +70,35 @@ internal partial class DeleteRefEntityUniqueConstraintsWithForeignKeyToEntityUni
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Delete)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand request)
+    {
+        var entity = await GetEntityUniqueConstraintsWithForeignKey(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetEntityUniqueConstraintsRelatedForeignKey(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.DeleteRefToEntityUniqueConstraintsRelatedForeignKey(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion DeleteRefTo
+
+#region DeleteAllRefTo
+
 public record DeleteAllRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand(EntityUniqueConstraintsWithForeignKeyKeyDto EntityKeyDto)
-	: RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand(EntityKeyDto, null);
+	: RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand(EntityKeyDto);
 
 internal partial class DeleteAllRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommandHandler
 	: RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase<DeleteAllRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand>
@@ -59,68 +107,67 @@ internal partial class DeleteAllRefEntityUniqueConstraintsWithForeignKeyToEntity
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteAllRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand request)
+    {
+        var entity = await GetEntityUniqueConstraintsWithForeignKey(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+		entity.DeleteAllRefToEntityUniqueConstraintsRelatedForeignKey();
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
+
+#endregion DeleteAllRefTo
 
 internal abstract class RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase<TRequest> : CommandBase<TRequest, EntityUniqueConstraintsWithForeignKeyEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand
 {
 	public AppDbContext DbContext { get; }
 
-	public RelationshipAction Action { get; }
-
-	public enum RelationshipAction { Create, Delete, DeleteAll };
-
 	public RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase(
         AppDbContext dbContext,
-		NoxSolution noxSolution,
-		RelationshipAction action)
+		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		Action = action;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(request.EntityKeyDto.keyId);
-		var entity = await DbContext.EntityUniqueConstraintsWithForeignKeys.FindAsync(keyId);
-		if (entity == null)
+		return await ExecuteAsync(request);
+	}
+
+	protected abstract Task<bool> ExecuteAsync(TRequest request);
+
+	protected async Task<EntityUniqueConstraintsWithForeignKeyEntity?> GetEntityUniqueConstraintsWithForeignKey(EntityUniqueConstraintsWithForeignKeyKeyDto entityKeyDto)
+	{
+		var keyId = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(entityKeyDto.keyId);
+		return await DbContext.EntityUniqueConstraintsWithForeignKeys.FindAsync(keyId);
+	}
+
+	protected async Task<TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey?> GetEntityUniqueConstraintsRelatedForeignKey(EntityUniqueConstraintsRelatedForeignKeyKeyDto relatedEntityKeyDto)
+	{
+		var relatedKeyId = TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(relatedEntityKeyDto.keyId);
+		return await DbContext.EntityUniqueConstraintsRelatedForeignKeys.FindAsync(relatedKeyId);
+	}
+
+	protected async Task<bool> SaveChangesAsync(TRequest request, EntityUniqueConstraintsWithForeignKeyEntity entity)
+	{
+		await OnCompletedAsync(request, entity);
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
 		{
 			return false;
 		}
-
-		TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey? relatedEntity = null!;
-		if(request.RelatedEntityKeyDto is not null)
-		{
-			var relatedKeyId = TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
-			relatedEntity = await DbContext.EntityUniqueConstraintsRelatedForeignKeys.FindAsync(relatedKeyId);
-			if (relatedEntity == null)
-			{
-				return false;
-			}
-		}
-
-		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToEntityUniqueConstraintsRelatedForeignKey(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToEntityUniqueConstraintsRelatedForeignKey(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				entity.DeleteAllRefToEntityUniqueConstraintsRelatedForeignKey();
-				break;
-		}
-
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
 		return true;
 	}
 }

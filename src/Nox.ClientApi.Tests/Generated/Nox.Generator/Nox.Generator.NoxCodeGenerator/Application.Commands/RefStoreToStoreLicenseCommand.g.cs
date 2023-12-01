@@ -19,10 +19,12 @@ using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
-public abstract record RefStoreToStoreLicenseCommand(StoreKeyDto EntityKeyDto, StoreLicenseKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefStoreToStoreLicenseCommand(StoreKeyDto EntityKeyDto) : IRequest <bool>;
+
+#region CreateRefTo
 
 public partial record CreateRefStoreToStoreLicenseCommand(StoreKeyDto EntityKeyDto, StoreLicenseKeyDto RelatedEntityKeyDto)
-	: RefStoreToStoreLicenseCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefStoreToStoreLicenseCommand(EntityKeyDto);
 
 internal partial class CreateRefStoreToStoreLicenseCommandHandler
 	: RefStoreToStoreLicenseCommandHandlerBase<CreateRefStoreToStoreLicenseCommand>
@@ -31,12 +33,35 @@ internal partial class CreateRefStoreToStoreLicenseCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Create)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(CreateRefStoreToStoreLicenseCommand request)
+    {
+		var entity = await GetStore(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetStoreLicense(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.CreateRefToStoreLicense(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion CreateRefTo
+
+#region DeleteRefTo
+
 public record DeleteRefStoreToStoreLicenseCommand(StoreKeyDto EntityKeyDto, StoreLicenseKeyDto RelatedEntityKeyDto)
-	: RefStoreToStoreLicenseCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefStoreToStoreLicenseCommand(EntityKeyDto);
 
 internal partial class DeleteRefStoreToStoreLicenseCommandHandler
 	: RefStoreToStoreLicenseCommandHandlerBase<DeleteRefStoreToStoreLicenseCommand>
@@ -45,12 +70,35 @@ internal partial class DeleteRefStoreToStoreLicenseCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Delete)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteRefStoreToStoreLicenseCommand request)
+    {
+        var entity = await GetStore(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetStoreLicense(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.DeleteRefToStoreLicense(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion DeleteRefTo
+
+#region DeleteAllRefTo
+
 public record DeleteAllRefStoreToStoreLicenseCommand(StoreKeyDto EntityKeyDto)
-	: RefStoreToStoreLicenseCommand(EntityKeyDto, null);
+	: RefStoreToStoreLicenseCommand(EntityKeyDto);
 
 internal partial class DeleteAllRefStoreToStoreLicenseCommandHandler
 	: RefStoreToStoreLicenseCommandHandlerBase<DeleteAllRefStoreToStoreLicenseCommand>
@@ -59,68 +107,67 @@ internal partial class DeleteAllRefStoreToStoreLicenseCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteAllRefStoreToStoreLicenseCommand request)
+    {
+        var entity = await GetStore(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+		entity.DeleteAllRefToStoreLicense();
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
+
+#endregion DeleteAllRefTo
 
 internal abstract class RefStoreToStoreLicenseCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreToStoreLicenseCommand
 {
 	public AppDbContext DbContext { get; }
 
-	public RelationshipAction Action { get; }
-
-	public enum RelationshipAction { Create, Delete, DeleteAll };
-
 	public RefStoreToStoreLicenseCommandHandlerBase(
         AppDbContext dbContext,
-		NoxSolution noxSolution,
-		RelationshipAction action)
+		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		Action = action;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.EntityKeyDto.keyId);
-		var entity = await DbContext.Stores.FindAsync(keyId);
-		if (entity == null)
+		return await ExecuteAsync(request);
+	}
+
+	protected abstract Task<bool> ExecuteAsync(TRequest request);
+
+	protected async Task<StoreEntity?> GetStore(StoreKeyDto entityKeyDto)
+	{
+		var keyId = ClientApi.Domain.StoreMetadata.CreateId(entityKeyDto.keyId);
+		return await DbContext.Stores.FindAsync(keyId);
+	}
+
+	protected async Task<ClientApi.Domain.StoreLicense?> GetStoreLicense(StoreLicenseKeyDto relatedEntityKeyDto)
+	{
+		var relatedKeyId = ClientApi.Domain.StoreLicenseMetadata.CreateId(relatedEntityKeyDto.keyId);
+		return await DbContext.StoreLicenses.FindAsync(relatedKeyId);
+	}
+
+	protected async Task<bool> SaveChangesAsync(TRequest request, StoreEntity entity)
+	{
+		await OnCompletedAsync(request, entity);
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
 		{
 			return false;
 		}
-
-		ClientApi.Domain.StoreLicense? relatedEntity = null!;
-		if(request.RelatedEntityKeyDto is not null)
-		{
-			var relatedKeyId = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
-			relatedEntity = await DbContext.StoreLicenses.FindAsync(relatedKeyId);
-			if (relatedEntity == null)
-			{
-				return false;
-			}
-		}
-
-		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToStoreLicense(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToStoreLicense(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				entity.DeleteAllRefToStoreLicense();
-				break;
-		}
-
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
 		return true;
 	}
 }

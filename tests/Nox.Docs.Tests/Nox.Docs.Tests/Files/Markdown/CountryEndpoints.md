@@ -35,6 +35,8 @@ This document provides information about the various endpoints available in our 
 #### Get CountryLocalNames
 - **GET** `/api/Countries/{key}/CountryLocalNames`
   - Description: Retrieve all CountryLocalNames for a specific Country.
+- **GET** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
+  - Description: Retrieve a CountryLocalNames by ID for a specific Country.
 
 #### Create CountryLocalNames
 - **POST** `/api/Countries/{key}/CountryLocalNames`
@@ -65,6 +67,8 @@ This document provides information about the various endpoints available in our 
 #### Update People relation
 - **PUT** `/api/Countries/{key}/Inhabitants/{relatedKey}/$ref`
   - Description: Updates an existing People relation for a specific Country.
+- **PUT** `/api/Countries/{key}/Inhabitants/$ref`
+  - Description: Updates the People relations for a specific Country.
 
 ## Custom Commands
 

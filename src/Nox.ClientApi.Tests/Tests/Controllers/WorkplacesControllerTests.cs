@@ -6,6 +6,7 @@ using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
 using ClientApi.Tests.Controllers;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using static MassTransit.ValidationResultExtensions;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -862,6 +863,19 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion LOCALIZATIONS
 
+        [Fact]
+        public async Task WhenRequestHasInvalidFieldType_ShouldReturnBadRequestInvalid()
+        {
+            
+            //Act
+            var postResult = await PostAsync(Endpoints.WorkplacesUrl, new { CountryId = "aaa"});
+            var response = await postResult.Content.ReadFromJsonAsync<ApplicationErrorCodeResponse>();
+
+            //Assert
+            postResult.StatusCode.Should().Be(HttpStatusCode.BadRequest);   
+            response!.Error.Code.Should().Be("bad_request_invalid_field");
+        }
+      
         [Fact]
         public async Task Put_Description_ShouldUpdate()
         {

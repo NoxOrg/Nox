@@ -1,16 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <IsPackable>false</IsPackable>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     </PropertyGroup>
 
   <ItemGroup>
@@ -34,8 +27,8 @@
   </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
-        <PackageReference Include="xunit" Version="2.6.2"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+        <PackageReference Include="xunit" Version="2.6.2" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.5.4">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -47,26 +40,18 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj"/>
-        <ProjectReference Include="..\..\src\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj"/>
+        <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" />
+        <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj" />
+        <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />
+        <ProjectReference Include="..\..\src\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj" />
+        <ProjectReference Include="..\..\src\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
+        <ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
+        <ProjectReference Include="..\..\src\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
     </ItemGroup>
 
     <!--  Copy to output all files under ExpectedGeneratedFiles-->
-    <ItemGroup>
-        <Compile Remove="files\Program.cs"/>
-        <Compile Include="ExpectedGeneratedFiles\Application.Integration.Custom.expected.g.cs" />
-        <Compile Include="ExpectedGeneratedFiles\Application.Integration.CustomTransform.expected.g.cs" />
-        <Compile Include="ExpectedGeneratedFiles\Application.Integration.CustomTransform.expected.g.cs" />
-        <None Include="files\Program.cs">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <Compile Remove="ExpectedGeneratedFiles\**\*.*"/>
-
+    <ItemGroup>                
+        <Compile Remove="ExpectedGeneratedFiles\**\*.*" />
         <None Include="ExpectedGeneratedFiles\**\*.*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
@@ -76,10 +61,6 @@
         <None Include="files\**\*.*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Generated\"/>
     </ItemGroup>
 
 </Project>

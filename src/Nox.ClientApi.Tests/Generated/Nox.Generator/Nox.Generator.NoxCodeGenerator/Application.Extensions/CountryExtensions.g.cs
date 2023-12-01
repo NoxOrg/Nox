@@ -17,6 +17,7 @@ internal static class CountryExtensions
         dto.SetIfNotNull(entity?.Name, (dto) => dto.Name =entity!.Name!.Value);
         dto.SetIfNotNull(entity?.Population, (dto) => dto.Population =entity!.Population!.Value);
         dto.SetIfNotNull(entity?.CountryDebt, (dto) => dto.CountryDebt =entity!.CountryDebt!.ToDto());
+        dto.SetIfNotNull(entity?.CapitalCityLocation, (dto) => dto.CapitalCityLocation =entity!.CapitalCityLocation!.ToDto());
         dto.SetIfNotNull(entity?.FirstLanguageCode, (dto) => dto.FirstLanguageCode =entity!.FirstLanguageCode!.Value);
         dto.SetIfNotNull(entity?.ShortDescription, (dto) => dto.ShortDescription =entity!.ShortDescription!.ToString());
         dto.SetIfNotNull(entity?.CountryIsoNumeric, (dto) => dto.CountryIsoNumeric =entity!.CountryIsoNumeric!.Value);
@@ -27,6 +28,7 @@ internal static class CountryExtensions
         dto.SetIfNotNull(entity?.Workplaces, (dto) => dto.Workplaces = entity!.Workplaces.Select(e => e.ToDto()).ToList());
         dto.SetIfNotNull(entity?.CountryLocalNames, (dto) => dto.CountryLocalNames = entity!.CountryLocalNames.Select(e => e.ToDto()).ToList());
         dto.SetIfNotNull(entity?.CountryBarCode, (dto) => dto.CountryBarCode = entity!.CountryBarCode!.ToDto());
+        dto.SetIfNotNull(entity?.CountryTimeZones, (dto) => dto.CountryTimeZones = entity!.CountryTimeZones.Select(e => e.ToDto()).ToList());
 
         return dto;
     }

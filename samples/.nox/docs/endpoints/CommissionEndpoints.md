@@ -43,6 +43,8 @@ This document provides information about the various endpoints available in our 
 #### Update Country relation
 - **PUT** `/api/Commissions/{key}/CommissionFeesForCountry/{relatedKey}/$ref`
   - Description: Updates an existing Country relation for a specific Commission.
+- **PUT** `/api/Commissions/{key}/CommissionFeesForCountry/$ref`
+  - Description: Updates the Country relations for a specific Commission.
 
 #### Delete Country relation
 - **DELETE** `/api/Commissions/{key}/CommissionFeesForCountry/{relatedKey}/$ref`
@@ -65,6 +67,8 @@ This document provides information about the various endpoints available in our 
 #### Update Booking relation
 - **PUT** `/api/Commissions/{key}/CommissionFeesForBooking/{relatedKey}/$ref`
   - Description: Updates an existing Booking relation for a specific Commission.
+- **PUT** `/api/Commissions/{key}/CommissionFeesForBooking/$ref`
+  - Description: Updates the Booking relations for a specific Commission.
 
 #### Delete Booking relation
 - **DELETE** `/api/Commissions/{key}/CommissionFeesForBooking/{relatedKey}/$ref`

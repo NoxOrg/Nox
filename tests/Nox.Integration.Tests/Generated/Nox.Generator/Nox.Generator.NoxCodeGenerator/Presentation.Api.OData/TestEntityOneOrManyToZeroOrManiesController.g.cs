@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -28,7 +29,7 @@ public abstract partial class TestEntityOneOrManyToZeroOrManiesControllerBase : 
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToTestEntityZeroOrManyToOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTestEntityZeroOrManyToOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -37,6 +38,24 @@ public abstract partial class TestEntityOneOrManyToZeroOrManiesControllerBase : 
         
         var createdRef = await _mediator.Send(new CreateRefTestEntityOneOrManyToZeroOrManyToTestEntityZeroOrManyToOneOrManiesCommand(new TestEntityOneOrManyToZeroOrManyKeyDto(key), new TestEntityZeroOrManyToOneOrManyKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/TestEntityOneOrManyToZeroOrManies/{key}/TestEntityZeroOrManyToOneOrManies/$ref")]
+    public async Task<ActionResult> UpdateRefToTestEntityZeroOrManyToOneOrManiesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new TestEntityZeroOrManyToOneOrManyKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefTestEntityOneOrManyToZeroOrManyToTestEntityZeroOrManyToOneOrManiesCommand(new TestEntityOneOrManyToZeroOrManyKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -60,7 +79,7 @@ public abstract partial class TestEntityOneOrManyToZeroOrManiesControllerBase : 
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToTestEntityZeroOrManyToOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToTestEntityZeroOrManyToOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {

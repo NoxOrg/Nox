@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
@@ -33,7 +34,7 @@ public abstract partial class StoresControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToStoreOwner([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToStoreOwner([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -61,7 +62,7 @@ public abstract partial class StoresControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToStoreOwner([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToStoreOwner([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -165,7 +166,7 @@ public abstract partial class StoresControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToStoreLicense([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToStoreLicense([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -193,7 +194,7 @@ public abstract partial class StoresControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToStoreLicense([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToStoreLicense([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {

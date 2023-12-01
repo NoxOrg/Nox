@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
@@ -28,7 +29,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToStore([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> CreateRefToStore([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -105,7 +106,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Ok();
     }
     
-    public async Task<ActionResult> CreateRefToDefaultCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToDefaultCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -133,7 +134,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToDefaultCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToDefaultCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -237,7 +238,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToSoldInCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToSoldInCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -265,7 +266,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToSoldInCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToSoldInCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {

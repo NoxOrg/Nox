@@ -16,7 +16,7 @@ using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdateEmployeeCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EmployeeKeyDto?>;
+public partial record PartialUpdateEmployeeCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EmployeeKeyDto?>;
 
 internal class PartialUpdateEmployeeCommandHandler : PartialUpdateEmployeeCommandHandlerBase
 {

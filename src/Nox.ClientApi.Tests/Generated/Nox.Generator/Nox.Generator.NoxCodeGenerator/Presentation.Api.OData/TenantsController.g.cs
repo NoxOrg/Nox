@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
@@ -28,7 +29,7 @@ public abstract partial class TenantsControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToWorkplaces([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToWorkplaces([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -37,6 +38,24 @@ public abstract partial class TenantsControllerBase : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefTenantToWorkplacesCommand(new TenantKeyDto(key), new WorkplaceKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/Tenants/{key}/Workplaces/$ref")]
+    public async Task<ActionResult> UpdateRefToWorkplacesNonConventional([FromRoute] System.UInt32 key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new WorkplaceKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefTenantToWorkplacesCommand(new TenantKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -60,7 +79,7 @@ public abstract partial class TenantsControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {

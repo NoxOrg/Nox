@@ -4,7 +4,7 @@ using System.Net;
 
 namespace Nox.Exceptions;
 
-public sealed class BadRequestException : Exception, IApplicationException
+public class BadRequestException : Exception, IApplicationException
 {
     public BadRequestException(ModelStateDictionary modelState, string? errorCode = null) : base("bad request")
     {

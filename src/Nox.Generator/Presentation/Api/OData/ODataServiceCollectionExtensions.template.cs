@@ -21,6 +21,15 @@ internal static class ODataServiceCollectionExtensions
     public static void AddNoxOdata(this IServiceCollection services, Action<ODataModelBuilder>? configure)
     {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
+        
+        // Odata requires/likes complex type to be registered before entity types and sets
+        {{- for entity in solution.Domain.Entities }}
+            {{- if entity.IsOwnedEntity }}
+        builder.ComplexType<{{entity.Name}}UpsertDto>();
+            {{- else }}
+        builder.ComplexType<{{entity.Name}}PartialUpdateDto>();
+            {{- end }}
+        {{- end }}
 
         {{- for entity in solution.Domain.Entities }}
         {{~ if (array.size entity.Keys) > 0 #we can not have entityset without keys}}
@@ -51,11 +60,7 @@ internal static class ODataServiceCollectionExtensions
                 {{- end }}
             {{- end }}
         {{- end }}
-        {{- if entity.IsOwnedEntity }}
-        builder.ComplexType<{{entity.Name}}UpsertDto>();
-        {{- else }}
-        builder.ComplexType<{{entity.Name}}UpdateDto>();
-        {{- end }}
+        
 
         {{- if entity.IsLocalized }}
         builder.EntityType<{{entity.Name}}LocalizedDto>().HasKey(e => new { {{ $delim = "" -}} {{ for key in entity.Keys -}} {{$delim}}e.{{key.Name}}{{ $delim = ", " }}{{ end }} });

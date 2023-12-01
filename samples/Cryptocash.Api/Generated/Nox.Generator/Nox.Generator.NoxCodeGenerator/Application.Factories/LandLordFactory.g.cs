@@ -60,6 +60,7 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, Lan
         var entity = new Cryptocash.Domain.LandLord();
         entity.Name = Cryptocash.Domain.LandLordMetadata.CreateName(createDto.Name);
         entity.Address = Cryptocash.Domain.LandLordMetadata.CreateAddress(createDto.Address);
+        entity.EnsureId(createDto.Id);
         return entity;
     }
 

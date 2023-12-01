@@ -43,6 +43,8 @@ This document provides information about the various endpoints available in our 
 #### Update StoreLicense relation
 - **PUT** `/api/Currencies/{key}/StoreLicenseDefault/{relatedKey}/$ref`
   - Description: Updates an existing StoreLicense relation for a specific Currency.
+- **PUT** `/api/Currencies/{key}/StoreLicenseDefault/$ref`
+  - Description: Updates the StoreLicense relations for a specific Currency.
 
 #### Delete StoreLicense relation
 - **DELETE** `/api/Currencies/{key}/StoreLicenseDefault/{relatedKey}/$ref`
@@ -65,6 +67,8 @@ This document provides information about the various endpoints available in our 
 #### Update StoreLicense relation
 - **PUT** `/api/Currencies/{key}/StoreLicenseSoldIn/{relatedKey}/$ref`
   - Description: Updates an existing StoreLicense relation for a specific Currency.
+- **PUT** `/api/Currencies/{key}/StoreLicenseSoldIn/$ref`
+  - Description: Updates the StoreLicense relations for a specific Currency.
 
 #### Delete StoreLicense relation
 - **DELETE** `/api/Currencies/{key}/StoreLicenseSoldIn/{relatedKey}/$ref`

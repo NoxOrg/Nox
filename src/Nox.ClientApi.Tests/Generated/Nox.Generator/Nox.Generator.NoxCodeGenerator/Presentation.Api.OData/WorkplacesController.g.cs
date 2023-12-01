@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
@@ -28,7 +29,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -56,7 +57,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -160,7 +161,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToTenants([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTenants([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -169,6 +170,24 @@ public abstract partial class WorkplacesControllerBase : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefWorkplaceToTenantsCommand(new WorkplaceKeyDto(key), new TenantKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/Workplaces/{key}/Tenants/$ref")]
+    public async Task<ActionResult> UpdateRefToTenantsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.UInt32> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new TenantKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefWorkplaceToTenantsCommand(new WorkplaceKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -192,7 +211,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToTenants([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToTenants([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
     {
         if (!ModelState.IsValid)
         {

@@ -19,10 +19,12 @@ using TestEntityOneOrManyToExactlyOneEntity = TestWebApp.Domain.TestEntityOneOrM
 
 namespace TestWebApp.Application.Commands;
 
-public abstract record RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand(TestEntityOneOrManyToExactlyOneKeyDto EntityKeyDto, TestEntityExactlyOneToOneOrManyKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand(TestEntityOneOrManyToExactlyOneKeyDto EntityKeyDto) : IRequest <bool>;
+
+#region CreateRefTo
 
 public partial record CreateRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand(TestEntityOneOrManyToExactlyOneKeyDto EntityKeyDto, TestEntityExactlyOneToOneOrManyKeyDto RelatedEntityKeyDto)
-	: RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand(EntityKeyDto);
 
 internal partial class CreateRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommandHandler
 	: RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommandHandlerBase<CreateRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand>
@@ -31,12 +33,78 @@ internal partial class CreateRefTestEntityOneOrManyToExactlyOneToTestEntityExact
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Create)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(CreateRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand request)
+    {
+		var entity = await GetTestEntityOneOrManyToExactlyOne(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetTestEntityExactlyOneToOneOrMany(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.CreateRefToTestEntityExactlyOneToOneOrManies(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion CreateRefTo
+
+#region UpdateRefTo
+
+public partial record UpdateRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand(TestEntityOneOrManyToExactlyOneKeyDto EntityKeyDto, List<TestEntityExactlyOneToOneOrManyKeyDto> RelatedEntitiesKeysDtos)
+	: RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand(EntityKeyDto);
+
+internal partial class UpdateRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommandHandler
+	: RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommandHandlerBase<UpdateRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand>
+{
+	public UpdateRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommandHandler(
+        AppDbContext dbContext,
+		NoxSolution noxSolution
+		)
+		: base(dbContext, noxSolution)
+	{ }
+
+	protected override async Task<bool> ExecuteAsync(UpdateRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand request)
+    {
+		var entity = await GetTestEntityOneOrManyToExactlyOne(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntities = new List<TestWebApp.Domain.TestEntityExactlyOneToOneOrMany>();
+		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
+		{
+			var relatedEntity = await GetTestEntityExactlyOneToOneOrMany(keyDto);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
+			relatedEntities.Add(relatedEntity);
+		}
+
+		await DbContext.Entry(entity).Collection(x => x.TestEntityExactlyOneToOneOrManies).LoadAsync();
+		entity.UpdateRefToTestEntityExactlyOneToOneOrManies(relatedEntities);
+
+		return await SaveChangesAsync(request, entity);
+    }
+}
+
+#endregion UpdateRefTo
+
+#region DeleteRefTo
+
 public record DeleteRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand(TestEntityOneOrManyToExactlyOneKeyDto EntityKeyDto, TestEntityExactlyOneToOneOrManyKeyDto RelatedEntityKeyDto)
-	: RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand(EntityKeyDto, RelatedEntityKeyDto);
+	: RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand(EntityKeyDto);
 
 internal partial class DeleteRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommandHandler
 	: RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommandHandlerBase<DeleteRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand>
@@ -45,12 +113,35 @@ internal partial class DeleteRefTestEntityOneOrManyToExactlyOneToTestEntityExact
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.Delete)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand request)
+    {
+        var entity = await GetTestEntityOneOrManyToExactlyOne(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		var relatedEntity = await GetTestEntityExactlyOneToOneOrMany(request.RelatedEntityKeyDto);
+		if (relatedEntity == null)
+		{
+			return false;
+		}
+
+		entity.DeleteRefToTestEntityExactlyOneToOneOrManies(relatedEntity);
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
 
+#endregion DeleteRefTo
+
+#region DeleteAllRefTo
+
 public record DeleteAllRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand(TestEntityOneOrManyToExactlyOneKeyDto EntityKeyDto)
-	: RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand(EntityKeyDto, null);
+	: RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand(EntityKeyDto);
 
 internal partial class DeleteAllRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommandHandler
 	: RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommandHandlerBase<DeleteAllRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand>
@@ -59,69 +150,68 @@ internal partial class DeleteAllRefTestEntityOneOrManyToExactlyOneToTestEntityEx
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution)
 	{ }
+
+	protected override async Task<bool> ExecuteAsync(DeleteAllRefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand request)
+    {
+        var entity = await GetTestEntityOneOrManyToExactlyOne(request.EntityKeyDto);
+		if (entity == null)
+		{
+			return false;
+		}
+		await DbContext.Entry(entity).Collection(x => x.TestEntityExactlyOneToOneOrManies).LoadAsync();
+		entity.DeleteAllRefToTestEntityExactlyOneToOneOrManies();
+
+		return await SaveChangesAsync(request, entity);
+    }
 }
+
+#endregion DeleteAllRefTo
 
 internal abstract class RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommandHandlerBase<TRequest> : CommandBase<TRequest, TestEntityOneOrManyToExactlyOneEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommand
 {
 	public AppDbContext DbContext { get; }
 
-	public RelationshipAction Action { get; }
-
-	public enum RelationshipAction { Create, Delete, DeleteAll };
-
 	public RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManiesCommandHandlerBase(
         AppDbContext dbContext,
-		NoxSolution noxSolution,
-		RelationshipAction action)
+		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		Action = action;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.TestEntityOneOrManyToExactlyOneMetadata.CreateId(request.EntityKeyDto.keyId);
-		var entity = await DbContext.TestEntityOneOrManyToExactlyOnes.FindAsync(keyId);
-		if (entity == null)
+		return await ExecuteAsync(request);
+	}
+
+	protected abstract Task<bool> ExecuteAsync(TRequest request);
+
+	protected async Task<TestEntityOneOrManyToExactlyOneEntity?> GetTestEntityOneOrManyToExactlyOne(TestEntityOneOrManyToExactlyOneKeyDto entityKeyDto)
+	{
+		var keyId = TestWebApp.Domain.TestEntityOneOrManyToExactlyOneMetadata.CreateId(entityKeyDto.keyId);
+		return await DbContext.TestEntityOneOrManyToExactlyOnes.FindAsync(keyId);
+	}
+
+	protected async Task<TestWebApp.Domain.TestEntityExactlyOneToOneOrMany?> GetTestEntityExactlyOneToOneOrMany(TestEntityExactlyOneToOneOrManyKeyDto relatedEntityKeyDto)
+	{
+		var relatedKeyId = TestWebApp.Domain.TestEntityExactlyOneToOneOrManyMetadata.CreateId(relatedEntityKeyDto.keyId);
+		return await DbContext.TestEntityExactlyOneToOneOrManies.FindAsync(relatedKeyId);
+	}
+
+	protected async Task<bool> SaveChangesAsync(TRequest request, TestEntityOneOrManyToExactlyOneEntity entity)
+	{
+		await OnCompletedAsync(request, entity);
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
 		{
 			return false;
 		}
-
-		TestWebApp.Domain.TestEntityExactlyOneToOneOrMany? relatedEntity = null!;
-		if(request.RelatedEntityKeyDto is not null)
-		{
-			var relatedKeyId = TestWebApp.Domain.TestEntityExactlyOneToOneOrManyMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
-			relatedEntity = await DbContext.TestEntityExactlyOneToOneOrManies.FindAsync(relatedKeyId);
-			if (relatedEntity == null)
-			{
-				return false;
-			}
-		}
-
-		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToTestEntityExactlyOneToOneOrManies(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToTestEntityExactlyOneToOneOrManies(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				await DbContext.Entry(entity).Collection(x => x.TestEntityExactlyOneToOneOrManies).LoadAsync();
-				entity.DeleteAllRefToTestEntityExactlyOneToOneOrManies();
-				break;
-		}
-
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
 		return true;
 	}
 }

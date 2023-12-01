@@ -17,7 +17,7 @@ using TestEntityZeroOrManyEntity = TestWebApp.Domain.TestEntityZeroOrMany;
 
 namespace TestWebApp.Application.Commands;
 
-public record UpdateTestEntityZeroOrManyCommand(System.String keyId, TestEntityZeroOrManyUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityZeroOrManyKeyDto?>;
+public partial record UpdateTestEntityZeroOrManyCommand(System.String keyId, TestEntityZeroOrManyUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityZeroOrManyKeyDto?>;
 
 internal partial class UpdateTestEntityZeroOrManyCommandHandler : UpdateTestEntityZeroOrManyCommandHandlerBase
 {

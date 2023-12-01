@@ -17,7 +17,7 @@ using TestEntityLocalizationEntity = TestWebApp.Domain.TestEntityLocalization;
 
 namespace TestWebApp.Application.Commands;
 
-public record UpdateTestEntityLocalizationCommand(System.String keyId, TestEntityLocalizationUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityLocalizationKeyDto?>;
+public partial record UpdateTestEntityLocalizationCommand(System.String keyId, TestEntityLocalizationUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityLocalizationKeyDto?>;
 
 internal partial class UpdateTestEntityLocalizationCommandHandler : UpdateTestEntityLocalizationCommandHandlerBase
 {

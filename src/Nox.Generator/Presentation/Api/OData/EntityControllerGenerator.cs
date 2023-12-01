@@ -63,6 +63,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine("using System;");
             code.AppendLine("using System.Net.Http.Headers;");
             code.AppendLine("using Nox.Application;");
+            code.AppendLine("using Nox.Application.Dto;");
             code.AppendLine("using Nox.Extensions;");
 
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
@@ -474,6 +475,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                 if (relationship.CanManageReference)
                 {
                     if (CanCreate(entity)) GenerateCreateRefTo(entity, relationship, code, solution);
+                    if (CanUpdate(entity)) GenerateUpdateAllRefTo(entity, relationship, code, solution);
                     if (CanRead(entity)) GenerateGetRefTo(entity, relationship, code, solution);
                     if (CanDelete(entity))
                     {
@@ -506,7 +508,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     private static void GenerateCreateRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
     {
         var relatedEntity = relationship.Related.Entity;
-        code.AppendLine($"public async Task<ActionResult> CreateRefTo{entity.GetNavigationPropertyName(relationship)}" +
+        code.AppendLine($"public virtual async Task<ActionResult> CreateRefTo{entity.GetNavigationPropertyName(relationship)}" +
             $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
 
         code.StartBlock();
@@ -530,6 +532,41 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
     }
 
+    private static void GenerateUpdateAllRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
+    {
+        var relatedEntity = relationship.Related.Entity;
+
+        if (relationship.WithSingleEntity || relatedEntity.Keys.Count() > 1)
+            return;
+
+        var navigationName = entity.GetNavigationPropertyName(relationship); 
+        code.AppendLine($"[HttpPut(\"{solution.Presentation.ApiConfiguration.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{navigationName}/$ref\")]");
+        code.AppendLine($"public async Task<ActionResult> UpdateRefTo{navigationName}NonConventional" +
+            $"({GetPrimaryKeysRoute(entity, solution)}, " +
+            $"[FromBody] ReferencesDto<{solution.GetSinglePrimitiveTypeForKey(relatedEntity.Keys[0])}> referencesDto)");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"throw new Nox.Exceptions.BadRequestException(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"var relatedKeysDto = referencesDto.References.Select(x => new {relatedEntity.Name}KeyDto(x)).ToList();");
+        code.AppendLine($"var updatedRef = await _mediator.Send(new UpdateRef{entity.Name}To{navigationName}Command(" +
+            $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)}), relatedKeysDto));");
+        code.AppendLine($"if (!updatedRef)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+
+        code.AppendLine($"return NoContent();");
+
+        // End method
+        code.EndBlock();
+        code.AppendLine();
+    }
+
     private static void GenerateDeleteRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
     {
         if (relationship.Relationship == EntityRelationshipType.ExactlyOne)
@@ -538,7 +575,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         var relatedEntity = relationship.Related.Entity;
         var navigationName = entity.GetNavigationPropertyName(relationship);
 
-        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{navigationName}" +
+        code.AppendLine($"public virtual async Task<ActionResult> DeleteRefTo{navigationName}" +
             $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
 
         code.StartBlock();

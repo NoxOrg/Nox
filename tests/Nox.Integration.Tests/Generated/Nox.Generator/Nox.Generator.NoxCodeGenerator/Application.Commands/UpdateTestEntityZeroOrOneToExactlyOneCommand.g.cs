@@ -17,7 +17,7 @@ using TestEntityZeroOrOneToExactlyOneEntity = TestWebApp.Domain.TestEntityZeroOr
 
 namespace TestWebApp.Application.Commands;
 
-public record UpdateTestEntityZeroOrOneToExactlyOneCommand(System.String keyId, TestEntityZeroOrOneToExactlyOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityZeroOrOneToExactlyOneKeyDto?>;
+public partial record UpdateTestEntityZeroOrOneToExactlyOneCommand(System.String keyId, TestEntityZeroOrOneToExactlyOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityZeroOrOneToExactlyOneKeyDto?>;
 
 internal partial class UpdateTestEntityZeroOrOneToExactlyOneCommandHandler : UpdateTestEntityZeroOrOneToExactlyOneCommandHandlerBase
 {

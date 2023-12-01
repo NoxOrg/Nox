@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -28,7 +29,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -37,6 +38,24 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         
         var createdRef = await _mediator.Send(new CreateRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommand(new TestEntityTwoRelationshipsOneToManyKeyDto(key), new SecondTestEntityTwoRelationshipsOneToManyKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipOne/$ref")]
+    public async Task<ActionResult> UpdateRefToTestRelationshipOneNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new SecondTestEntityTwoRelationshipsOneToManyKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommand(new TestEntityTwoRelationshipsOneToManyKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -60,7 +79,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -200,7 +219,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -209,6 +228,24 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         
         var createdRef = await _mediator.Send(new CreateRefTestEntityTwoRelationshipsOneToManyToTestRelationshipTwoCommand(new TestEntityTwoRelationshipsOneToManyKeyDto(key), new SecondTestEntityTwoRelationshipsOneToManyKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipTwo/$ref")]
+    public async Task<ActionResult> UpdateRefToTestRelationshipTwoNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new SecondTestEntityTwoRelationshipsOneToManyKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefTestEntityTwoRelationshipsOneToManyToTestRelationshipTwoCommand(new TestEntityTwoRelationshipsOneToManyKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -232,7 +269,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {

@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -28,7 +29,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToEntityUniqueConstraintsWithForeignKeys([FromRoute] System.Int32 key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> CreateRefToEntityUniqueConstraintsWithForeignKeys([FromRoute] System.Int32 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -37,6 +38,24 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
         
         var createdRef = await _mediator.Send(new CreateRefEntityUniqueConstraintsRelatedForeignKeyToEntityUniqueConstraintsWithForeignKeysCommand(new EntityUniqueConstraintsRelatedForeignKeyKeyDto(key), new EntityUniqueConstraintsWithForeignKeyKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/EntityUniqueConstraintsRelatedForeignKeys/{key}/EntityUniqueConstraintsWithForeignKeys/$ref")]
+    public async Task<ActionResult> UpdateRefToEntityUniqueConstraintsWithForeignKeysNonConventional([FromRoute] System.Int32 key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new EntityUniqueConstraintsWithForeignKeyKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefEntityUniqueConstraintsRelatedForeignKeyToEntityUniqueConstraintsWithForeignKeysCommand(new EntityUniqueConstraintsRelatedForeignKeyKeyDto(key), relatedKeysDto));
+        if (!updatedRef)
         {
             return NotFound();
         }
@@ -60,7 +79,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToEntityUniqueConstraintsWithForeignKeys([FromRoute] System.Int32 key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToEntityUniqueConstraintsWithForeignKeys([FromRoute] System.Int32 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {

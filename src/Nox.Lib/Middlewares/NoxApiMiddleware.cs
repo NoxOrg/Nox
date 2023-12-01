@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Template;
 using Nox.Solution;
-using System.Diagnostics;
 
 namespace Nox.Lib;
 
@@ -12,7 +11,7 @@ public class NoxApiMiddleware
 
     private readonly RequestDelegate _next;
 
-    private readonly List<RouteMatcher> _matchers = new();
+    private readonly Dictionary<string, List<RouteMatcher>> _matchers = new();
 
     public NoxApiMiddleware(RequestDelegate next, NoxSolution solution)
     {
@@ -22,21 +21,33 @@ public class NoxApiMiddleware
 
         foreach (var route in solution.Presentation.ApiConfiguration.ApiRouteMappings)
         {
-            _matchers.Add(new RouteMatcher(route, _apiPrefix));
+            if (!_matchers.TryGetValue(route.HttpVerbString, out List<RouteMatcher>? matchers))
+            {
+                matchers = new List<RouteMatcher>();
+                _matchers.Add(route.HttpVerbString, matchers);
+            }
+
+            matchers.Add(new RouteMatcher(route, _apiPrefix));
         }
     }
 
     public async Task InvokeAsync(HttpContext context)
     {
-        var path = context.Request.Path;
+        var requestPath = context.Request.Path;
 
-        if (!path.HasValue)
+        if (!requestPath.HasValue)
         {
             await _next(context);
             return;
         }
 
-        if (!path.StartsWithSegments(_apiPrefix))
+        if (!requestPath.StartsWithSegments(_apiPrefix))
+        {
+            await _next(context);
+            return;
+        }
+
+        if (!_matchers.TryGetValue(context.Request.Method, out List<RouteMatcher>? matchers))
         {
             await _next(context);
             return;
@@ -46,9 +57,9 @@ public class NoxApiMiddleware
 
         ApiRouteMapping? apiRoute = null;
 
-        foreach (var matcher in _matchers)
+        foreach (var matcher in matchers)
         {
-            urlParameters = matcher.Match(path);
+            urlParameters = matcher.Match(requestPath);
 
             if (urlParameters != null)
             {
@@ -63,43 +74,48 @@ public class NoxApiMiddleware
             return;
         }
 
-        Debug.WriteLine(context.Request.Path.Value);
-
-        if (!apiRoute.HttpVerbString.Equals(context.Request.Method))
-        {
-            await _next(context);
-            return;
-        }
-
         var translatedTarget = apiRoute.TargetUrl;
 
         foreach (var kvp in context.Request.Query)
         {
-            translatedTarget = translatedTarget.Replace($"{{{kvp.Key}}}", kvp.Value.ToString());
+            if (translatedTarget.Contains($"{{{kvp.Key}}}"))
+            {
+                translatedTarget = translatedTarget.Replace($"{{{kvp.Key}}}", kvp.Value.ToString());
+            }
         }
 
         foreach (var kvp in urlParameters)
         {
-            translatedTarget = translatedTarget.Replace($"{{{kvp.Key}}}", kvp.Value?.ToString());
+            if (translatedTarget.Contains($"{{{kvp.Key}}}"))
+            {
+                translatedTarget = translatedTarget.Replace($"{{{kvp.Key}}}", kvp.Value?.ToString());
+            }
         }
 
-        foreach (var kvp in apiRoute.ParameterDefaults!)
+        foreach (var input in apiRoute.RequestInput)
         {
-            if (kvp.Value is null) continue;
-
-            translatedTarget = translatedTarget.Replace($"{{{kvp.Key}}}", kvp.Value.ToString());
+            if (input.Default is not null && translatedTarget.Contains($"{{{input.Name}}}"))
+            {
+                translatedTarget = translatedTarget.Replace($"{{{input.Name}}}", input.Default.ToString());
+            }
         }
 
-        context.Request.Headers.Add("X-Nox-Internal-ApiRouteMapping", 
-            new[] { $"{context.Request.Path}?{context.Request.QueryString}" });
+        if (translatedTarget.Contains($"{{$RouteQuery}}"))
+        {
+            translatedTarget = translatedTarget.Replace($"{{$RouteQuery}}", context.Request.QueryString.ToString().TrimStart('?'));
+        }
 
         var parts = translatedTarget.Split('?', 2);
 
-        context.Request.Path = new PathString(_apiPrefix+parts[0]);
+        context.Request.Path = new PathString(_apiPrefix + parts[0]);
 
         if (parts.Length > 1)
         {
             context.Request.QueryString = new QueryString("?" + parts[1]);
+        }
+        else
+        {
+            context.Request.QueryString = new QueryString();
         }
 
         await _next(context);
