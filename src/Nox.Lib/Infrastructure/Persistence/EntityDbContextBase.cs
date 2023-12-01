@@ -14,7 +14,7 @@ using Nox.Extensions;
 
 namespace Nox.Infrastructure.Persistence
 {
-    public abstract class EntityDbContextBase : DbContext, IRepository
+    public abstract class EntityDbContextBase : DbContext
     {
         protected readonly IPublisher _publisher;
         protected readonly IUserProvider _userProvider;
@@ -34,32 +34,6 @@ namespace Nox.Infrastructure.Persistence
             _systemProvider = systemProvider;
             _databaseProvider = databaseProvider;
         }
-
-        #region IRepository
-        /// <summary>
-        /// Deletes Entity
-        /// </summary>
-        public void Delete<T>(T entity) where T : Nox.Domain.IEntity
-        {
-            Remove(entity);
-        }
-        /// <summary>
-        /// Deletes Owned Entity
-        /// </summary>
-        public void DeleteOwned<T>(T entity) where T : Nox.Domain.IOwnedEntity
-        {
-            Remove(entity);
-        }
-
-        /// <summary>
-        /// Deletes a range of Owned Entities
-        /// </summary>
-        public void DeleteOwnedRange<T>(IEnumerable<T> entities) where T : Nox.Domain.IOwnedEntity
-        {
-            if (entities.Any())
-                entities.ForEach(e => DeleteOwned(e));
-        }
-        #endregion
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

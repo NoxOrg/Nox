@@ -80,7 +80,10 @@ public class UpdateTestEntityOwnedRelationshipOneOrManyValidator : AbstractValid
     public UpdateTestEntityOwnedRelationshipOneOrManyValidator()
     {
 		RuleFor(x => x.EntityDto.SecondTestEntityOwnedRelationshipOneOrManies)
-			.Must(owned => owned.All(x => x.Id != null))
-			.WithMessage("SecondTestEntityOwnedRelationshipOneOrManies.Id is required.");
+			.ForEach(item => 
+			{
+				item.Must(owned => owned.Id != null)
+					.WithMessage((item, index) => $"SecondTestEntityOwnedRelationshipOneOrManies[{index}].Id is required.");
+			});
     }
 }

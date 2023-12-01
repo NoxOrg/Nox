@@ -1,7 +1,4 @@
-﻿{{- func keyType(key)
-   ret (key.Type == "EntityId") ? (SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity) : (SinglePrimitiveTypeForKey key)
-end -}}
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -134,8 +131,11 @@ public class Update{{entity.Name}}Validator : AbstractValidator<Update{{entity.N
 				{{- key = ownedRelationship.Related.Entity.Keys | array.first }}
 					{{- if IsNoxTypeCreatable key.Type }}
 		RuleFor(x => x.EntityDto.{{relationshipName}})
-			.Must(owned => owned.All(x => x.{{key.Name}} != null))
-			.WithMessage("{{relationshipName}}.{{key.Name}} is required.");
+			.ForEach(item => 
+			{
+				item.Must(owned => owned.{{key.Name}} != null)
+					.WithMessage((item, index) => $"{{relationshipName}}[{index}].{{key.Name}} is required.");
+			});
 					{{- end }}
 			{{- end }}
         {{- end }}

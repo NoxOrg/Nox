@@ -82,7 +82,10 @@ public class UpdateCountryValidator : AbstractValidator<UpdateCountryCommand>
     public UpdateCountryValidator()
     {
 		RuleFor(x => x.EntityDto.CountryTimeZones)
-			.Must(owned => owned.All(x => x.Id != null))
-			.WithMessage("CountryTimeZones.Id is required.");
+			.ForEach(item => 
+			{
+				item.Must(owned => owned.Id != null)
+					.WithMessage((item, index) => $"CountryTimeZones[{index}].Id is required.");
+			});
     }
 }
