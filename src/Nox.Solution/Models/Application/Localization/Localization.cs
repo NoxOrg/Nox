@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using Nox.Yaml.Attributes;
 
 namespace Nox.Solution;
@@ -13,11 +16,19 @@ public class Localization
     [Description("The list of culture codes that the solution supports.")]
     [Pattern(@"^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$")]
     [Required]
-    public IReadOnlyList<string> SupportedCultures { get; set; } = new List<string>() { "en-US" };
+    public IReadOnlyCollection<string> SupportedCultures { get; set; } = new HashSet<string>() { "en-US" };
 
     [Title("The default culture code for the solution.")]
     [Description("The default culture code used for formatting and translation.")]
     [Pattern(@"^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$")]
     [Required]
     public string DefaultCulture { get; set; } = "en-US";
+
+    internal void ApplyDefaults()
+    {
+        if (!SupportedCultures.Contains(DefaultCulture))
+        {
+            SupportedCultures = SupportedCultures.Append(DefaultCulture).ToImmutableHashSet();
+        }
+    }
 }
