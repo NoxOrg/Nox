@@ -27,6 +27,7 @@ public static class NoxSolutionReadmeGenerationExtensions
         CreateFolderIfDoesNotExist(filePath);
 
         File.WriteAllText(filePath, fileContent);
+            .Replace("\n","\r\n"));
     }
 
     private static void CreateFolderIfDoesNotExist(string filePath)
