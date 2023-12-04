@@ -11,10 +11,8 @@ This document provides information about the various endpoints available in our 
 ### Get Countries
 - **GET** `/api/Countries`
   - Description: Retrieve information about Countries.
-
 - **GET** `/api/Countries/{key}/CountriesLocalized`
   - Description: Retrieve all CountriesLocalized for a specific Country.
-
 ### Create Country
 - **POST** `/api/Countries`
   - Description: Create a new Country.
@@ -22,10 +20,8 @@ This document provides information about the various endpoints available in our 
 ### Update Country
 - **PUT** `/api/Countries/{key}`
   - Description: Update an existing Country.
-
 - **PUT** `/api/Countries/{key}/CountriesLocalized/{cultureCode}`
   - Description: Update or create values of CountryLocalized for a specific Country. Requires a payload with the new value of CountryLocalizedUpsertDto.
-
 ### Partially Update Country
 - **PATCH** `/api/Countries/{key}`
   - Description: Partially update an existing Country.

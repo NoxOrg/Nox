@@ -12,7 +12,6 @@ This document provides information about the various endpoints available in our 
 - **GET** `/api/Peoples`
   - Description: Retrieve information about Peoples.
 
-
 ### Create People
 - **POST** `/api/Peoples`
   - Description: Create a new People.
@@ -20,7 +19,6 @@ This document provides information about the various endpoints available in our 
 ### Update People
 - **PUT** `/api/Peoples/{key}`
   - Description: Update an existing People.
-
 
 ### Partially Update People
 - **PATCH** `/api/Peoples/{key}`
