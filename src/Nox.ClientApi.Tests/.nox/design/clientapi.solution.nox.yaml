@@ -41,7 +41,9 @@ domain:
     - $ref: ./Entities/tenant.entity.nox.yaml
   
     - $ref: ./Entities/country-time-zone.entity.nox.yaml
-  
+    
+    - $ref: ./Entities/client.entity.nox.yaml
+    
     - $ref: ./Entities/holiday.entity.nox.yaml
 
     - name: EmailAddress #owned by store

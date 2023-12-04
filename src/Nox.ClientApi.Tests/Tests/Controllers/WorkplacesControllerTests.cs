@@ -7,16 +7,20 @@ using Xunit.Abstractions;
 using ClientApi.Tests.Controllers;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using static MassTransit.ValidationResultExtensions;
+using Nox.Application.Dto;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class WorkplacesControllerTests : NoxWebApiTestBase
     {
+        private readonly EndPointsFixture _endPointFixture;
         public WorkplacesControllerTests(ITestOutputHelper testOutput,
             TestDatabaseContainerService containerService)
             : base(testOutput, containerService)
         {
+            //TODO receive it on the constructor
+            _endPointFixture = new EndPointsFixture(nameof(ClientApi.Domain.Workplace));
         }
 
         #region RELATIONSHIPS
@@ -1130,6 +1134,45 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         #region Many to Many Relations
+
+        /// <summary>
+        /// Update references in a ManyToManyRelationship
+        /// </summary>
+        /// <returns></returns>
+        [Fact(Skip="Issue while saving the entity")]
+        public async Task Put_UpdateRefWorkplaceToTenants_InManyToManyRelationship_Success()
+        {
+            // Arrange
+            var tenant = (await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TenantsUrl,
+               new TenantCreateDto() { Name = _fixture.Create<string>() }));
+            var workplace = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+
+            // Act
+            var headers = CreateEtagHeader(workplace!.Etag);
+
+            await PutAsync(
+                _endPointFixture
+                .EndPointForEntity
+                .WithEntityKey(workplace!.Id)
+                .WithRelatedEntity(nameof(ClientApi.Domain.Tenant))
+                .WithRefs()
+                .BuildUrl(),
+                new ReferencesDto<uint>
+                {
+                    References = new List<uint> { tenant!.Id }
+                },
+                headers);
+
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.Tenants)}";
+            var result = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplace!.Id}?{oDataRequest}");
+
+            //Assert
+            result.Should().NotBeNull();
+            result!.Tenants.Should().NotBeNull();
+            result!.Tenants!.Should().HaveCount(1);
+            result!.Tenants!.First().Id.Should().Be(tenant.Id);
+        }
 
         [Fact(Skip = "Tests are failing due to issue with related entities that have a Nuid id.")]
         public async Task WhenCreateWorkPlaceWithMultipleTenants_RelationNeedsToBeCreated()

@@ -15,7 +15,6 @@ internal static class EntityUniqueConstraintsRelatedForeignKeyExtensions
         var dto = new EntityUniqueConstraintsRelatedForeignKeyDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
         dto.SetIfNotNull(entity?.TextField, (dto) => dto.TextField =entity!.TextField!.Value);
-        dto.SetIfNotNull(entity?.EntityUniqueConstraintsWithForeignKeys, (dto) => dto.EntityUniqueConstraintsWithForeignKeys = entity!.EntityUniqueConstraintsWithForeignKeys.Select(e => e.ToDto()).ToList());
 
         return dto;
     }

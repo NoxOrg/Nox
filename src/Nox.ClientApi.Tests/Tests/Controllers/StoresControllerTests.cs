@@ -3,6 +3,7 @@ using ClientApi.Application.Dto;
 using ClientApi.Tests.Controllers;
 using FluentAssertions;
 using FluentAssertions.Common;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Net;
 using Xunit.Abstractions;
@@ -12,10 +13,14 @@ namespace ClientApi.Tests.Tests.Controllers
     [Collection("Sequential")]
     public class StoresControllerTests : NoxWebApiTestBase
     {
+        private readonly EndPointsFixture _endPointFixture;
         public StoresControllerTests(ITestOutputHelper testOutput,
+
             TestDatabaseContainerService containerService)
             : base(testOutput, containerService)
         {
+            //TODO receive it on the constructor
+            _endPointFixture = new EndPointsFixture(nameof(ClientApi.Domain.Store));
         }
 
         #region Store Examples
@@ -278,6 +283,46 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         #endregion POST Entity with Deleted RelationshipId /api/{EntityPluralName} => api/stores
+
+        #region  PUT Update ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/stores/1/clients/$ref
+        /// <summary>
+        /// Update references in a ManyToManyRelationship
+        /// </summary>
+        /// <returns></returns>
+        [Fact()]        
+        public async Task Put_UpdateRefStoreToClients_InManyToManyRelationship_Success()
+        {
+            // Arrange
+            var store = await CreateStore();
+            var clientId = System.Guid.NewGuid();
+            await PostAsync<ClientCreateDto, ClientDto>(Endpoints.ClientsUrl, new ClientCreateDto() { Name = "client",Id = clientId });
+
+            // Act
+            var headers = CreateEtagHeader(store!.Etag);
+
+            await PutAsync(
+                _endPointFixture
+                .EndPointForEntity
+                .WithEntityKey(store!.Id)
+                .WithRelatedEntity(nameof(ClientApi.Domain.Client))
+                .WithRefs()
+                .BuildUrl(),
+                new ReferencesDto<System.Guid>
+                {
+                    References = new List<System.Guid> { clientId }
+                },
+                headers);
+
+            const string oDataRequest = $"$expand={nameof(StoreDto.Clients)}";
+            var getStoreResponse = await GetODataSimpleResponseAsync<StoreDto>($"{Endpoints.StoresUrl}/{store!.Id}?{oDataRequest}");
+
+            //Assert
+            getStoreResponse.Should().NotBeNull();            
+            getStoreResponse!.Clients.Should().NotBeNull();
+            getStoreResponse!.Clients!.Should().HaveCount(1);
+            getStoreResponse!.Clients!.First().Id.Should().Be(clientId);
+        }
+        #endregion
 
         [Fact]
         public async Task CanNotNavigateTo_EmailAddress()

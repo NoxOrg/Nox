@@ -80,6 +80,14 @@ public abstract class StoreCreateDtoBase : IEntityDto<DomainNamespace.Store>
     public virtual StoreLicenseCreateDto? StoreLicense { get; set; } = default!;
 
     /// <summary>
+    /// Store clients of the store ZeroOrMany Clients
+    /// </summary>
+    public virtual List<System.Guid> ClientsId { get; set; } = new();
+    
+    [System.Text.Json.Serialization.JsonIgnore]
+    public virtual List<ClientCreateDto> Clients { get; set; } = new();
+
+    /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
     public virtual EmailAddressUpsertDto? EmailAddress { get; set; } = null!;
