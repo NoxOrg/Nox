@@ -11,7 +11,7 @@ public class SqlServerDateRangeDatabaseConfigurator : DateTimeRangeDatabaseConfi
     public override bool IsDefault => false;
 
     public override void ConfigureEntityProperty(NoxCodeGenConventions noxSolutionCodeGeneratorState, 
-        NoxSimpleTypeDefinition property,
+        AttributeConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder, 

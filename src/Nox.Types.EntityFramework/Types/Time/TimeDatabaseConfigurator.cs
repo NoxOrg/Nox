@@ -19,7 +19,7 @@ public class TimeDatabaseConfigurator : INoxTypeDatabaseConfigurator
     /// <inheritdoc/>
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        NoxSimpleTypeDefinition property,
+        AttributeConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder,

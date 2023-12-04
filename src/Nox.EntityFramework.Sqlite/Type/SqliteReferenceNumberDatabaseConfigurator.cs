@@ -9,7 +9,7 @@ public class SqliteReferenceNumberDatabaseConfigurator : ReferenceNumberDatabase
 {
     public override bool IsDefault => false;
 
-    protected override void CreateSequence(NoxCodeGenConventions noxSolutionCodeGeneratorState, NoxSimpleTypeDefinition property, Entity entity, ModelBuilder modelBuilder, ReferenceNumberTypeOptions typeOptions)
+    protected override void CreateSequence(NoxCodeGenConventions noxSolutionCodeGeneratorState, AttributeConfiguration property, Entity entity, ModelBuilder modelBuilder, ReferenceNumberTypeOptions typeOptions)
     {
         //SQL Lite does not support sequences
     }

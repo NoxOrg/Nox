@@ -12,7 +12,7 @@ public class NuidDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        NoxSimpleTypeDefinition property,
+        AttributeConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder, 

@@ -14,7 +14,7 @@ public class SqlServerAutoNumberDatabaseConfigurator : AutoNumberDatabaseConfigu
 
     public override void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        NoxSimpleTypeDefinition property,
+        AttributeConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder,
@@ -27,7 +27,7 @@ public class SqlServerAutoNumberDatabaseConfigurator : AutoNumberDatabaseConfigu
 
         if (isKey)
         {
-            var typeOptions = property.AutoNumberTypeOptions ??= new AutoNumberTypeOptions();
+            var typeOptions = property.AutoNumberTypeOptions ?? new AutoNumberTypeOptions();
             var metadata = builder
                 .Property(property.Name).ValueGeneratedOnAdd()
                 .Metadata;
@@ -36,7 +36,7 @@ public class SqlServerAutoNumberDatabaseConfigurator : AutoNumberDatabaseConfigu
         }
         else if (shouldAutoincrement)
         {
-            ConfigureSequence(modelBuilder, entity, property, property.AutoNumberTypeOptions ??= new AutoNumberTypeOptions());
+            ConfigureSequence(modelBuilder, entity, property, property.AutoNumberTypeOptions ?? new AutoNumberTypeOptions());
 
             builder
                 .Property(property.Name)
@@ -45,7 +45,7 @@ public class SqlServerAutoNumberDatabaseConfigurator : AutoNumberDatabaseConfigu
         }
         base.ConfigureEntityProperty(noxSolutionCodeGeneratorState, property, entity, isKey, modelBuilder, builder);
     }
-    private void ConfigureSequence(ModelBuilder modelBuilder, Entity entity, NoxSimpleTypeDefinition property, AutoNumberTypeOptions typeOptions)
+    private void ConfigureSequence(ModelBuilder modelBuilder, Entity entity, AttributeConfiguration property, AutoNumberTypeOptions typeOptions)
     {
         var seqName = $"Seq{entity.Name}{property.Name}";
 

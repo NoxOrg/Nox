@@ -2,7 +2,6 @@ using Nox.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 
 namespace Nox.Solution.Extensions;
 
@@ -66,6 +65,13 @@ public static class EntityExtensions
             var localized = property.ShallowCopy();
             localized.IsRequired = false;
             return localized;
+        });
+    
+    public static IEnumerable<AttributeConfiguration> GetLocalizedAttributesToConfigure(this Entity entity)
+        => entity.Attributes.Where(x => x.IsLocalized).Select(property =>
+        {
+            var configuration = property.ToLocalizedAttributeConfiguration();
+            return configuration;
         });
 
     public static IEnumerable<NoxSimpleTypeDefinition> GetLocalizedAttributes(this Entity entity) => entity.Attributes.Where(x => x.IsLocalized);

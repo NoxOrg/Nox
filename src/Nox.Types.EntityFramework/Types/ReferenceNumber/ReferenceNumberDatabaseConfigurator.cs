@@ -34,13 +34,13 @@ public class ReferenceNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
     /// <param name="entityTypeBuilder"></param>
     public virtual void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        NoxSimpleTypeDefinition property,
+        AttributeConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder,
         EntityTypeBuilder entityTypeBuilder)
     {
-        var typeOptions = property.ReferenceNumberTypeOptions ??= new ReferenceNumberTypeOptions();
+        var typeOptions = property.ReferenceNumberTypeOptions ?? new ReferenceNumberTypeOptions();
 
         entityTypeBuilder
             .Property(property.Name)
@@ -58,7 +58,7 @@ public class ReferenceNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
         CreateSequence(noxSolutionCodeGeneratorState, property, entity, modelBuilder, typeOptions);
     }
 
-    protected virtual void CreateSequence(NoxCodeGenConventions noxSolutionCodeGeneratorState, NoxSimpleTypeDefinition property, Entity entity, ModelBuilder modelBuilder, ReferenceNumberTypeOptions typeOptions)
+    protected virtual void CreateSequence(NoxCodeGenConventions noxSolutionCodeGeneratorState, AttributeConfiguration property, Entity entity, ModelBuilder modelBuilder, ReferenceNumberTypeOptions typeOptions)
     {
         modelBuilder.HasSequence<long>(noxSolutionCodeGeneratorState.GetDatabaseSequenceName(entity.Name, property.Name))
             .StartsAt(typeOptions.StartsAt)

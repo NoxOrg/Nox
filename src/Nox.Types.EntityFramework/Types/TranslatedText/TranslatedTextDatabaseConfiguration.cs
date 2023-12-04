@@ -32,7 +32,7 @@ public class TranslatedTextDatabaseConfiguration : INoxTypeDatabaseConfigurator
     /// <param name="entityTypeBuilder"></param>
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        NoxSimpleTypeDefinition property,
+        AttributeConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder,
