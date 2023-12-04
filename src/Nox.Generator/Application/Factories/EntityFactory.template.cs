@@ -214,7 +214,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         {{- else }}
         if(!updateDto.{{navigationName}}.Any())
         { 
-            _repository.DeleteOwnedRange(entity.{{navigationName}});
+            _repository.DeleteOwned(entity.{{navigationName}});
         {{- end }}
 			entity.DeleteAllRefTo{{navigationName}}();
         }
@@ -248,7 +248,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 					}
 				}
 			}
-            _repository.DeleteOwnedRange<{{codeGeneratorState.DomainNameSpace}}.{{ownedRelationship.Entity}}>(
+            _repository.DeleteOwned<{{codeGeneratorState.DomainNameSpace}}.{{ownedRelationship.Entity}}>(
                 entity.{{navigationName}}.Where(x => !updated{{navigationName}}.Any(upd => upd.{{key.Name}} == x.{{key.Name}})).ToList());
 			entity.UpdateRefTo{{navigationName}}(updated{{navigationName}});
 			{{- end }}

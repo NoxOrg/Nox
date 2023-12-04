@@ -167,7 +167,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
 	{
         if(!updateDto.EmployeePhoneNumbers.Any())
         { 
-            _repository.DeleteOwnedRange(entity.EmployeePhoneNumbers);
+            _repository.DeleteOwned(entity.EmployeePhoneNumbers);
 			entity.DeleteAllRefToEmployeePhoneNumbers();
         }
 		else
@@ -190,7 +190,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
 					}
 				}
 			}
-            _repository.DeleteOwnedRange<Cryptocash.Domain.EmployeePhoneNumber>(
+            _repository.DeleteOwned<Cryptocash.Domain.EmployeePhoneNumber>(
                 entity.EmployeePhoneNumbers.Where(x => !updatedEmployeePhoneNumbers.Any(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToEmployeePhoneNumbers(updatedEmployeePhoneNumbers);
 		}

@@ -16,5 +16,5 @@ public interface IRepository
     /// <summary>
     /// Deletes a range of Owned Entities
     /// </summary>
-    void DeleteOwnedRange<T>(IEnumerable<T> entities) where T : IOwnedEntity;
+    void DeleteOwned<T>(IEnumerable<T> entities) where T : IOwnedEntity;
 }

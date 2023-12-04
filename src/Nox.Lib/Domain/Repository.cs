@@ -21,7 +21,7 @@ public class Repository : IRepository
     {
         _dbContext.Remove(entity);
     }
-    public void DeleteOwnedRange<T>(IEnumerable<T> entities) where T : IOwnedEntity
+    public void DeleteOwned<T>(IEnumerable<T> entities) where T : IOwnedEntity
     {
         if (entities.Any())
             entities.ForEach(e => DeleteOwned(e));

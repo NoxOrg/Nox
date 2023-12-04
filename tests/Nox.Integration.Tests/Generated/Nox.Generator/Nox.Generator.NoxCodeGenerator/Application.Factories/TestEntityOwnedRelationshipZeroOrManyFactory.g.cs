@@ -98,7 +98,7 @@ internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEnti
 	{
         if(!updateDto.SecondTestEntityOwnedRelationshipZeroOrManies.Any())
         { 
-            _repository.DeleteOwnedRange(entity.SecondTestEntityOwnedRelationshipZeroOrManies);
+            _repository.DeleteOwned(entity.SecondTestEntityOwnedRelationshipZeroOrManies);
 			entity.DeleteAllRefToSecondTestEntityOwnedRelationshipZeroOrManies();
         }
 		else
@@ -121,7 +121,7 @@ internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEnti
 					}
 				}
 			}
-            _repository.DeleteOwnedRange<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrMany>(
+            _repository.DeleteOwned<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrMany>(
                 entity.SecondTestEntityOwnedRelationshipZeroOrManies.Where(x => !updatedSecondTestEntityOwnedRelationshipZeroOrManies.Any(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToSecondTestEntityOwnedRelationshipZeroOrManies(updatedSecondTestEntityOwnedRelationshipZeroOrManies);
 		}
