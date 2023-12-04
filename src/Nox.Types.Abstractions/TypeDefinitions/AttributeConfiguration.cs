@@ -1,16 +1,37 @@
 namespace Nox.Types;
 
+/// <summary>
+/// Represents the configuration for an attribute, encapsulating various settings and options.
+/// </summary>
 public class AttributeConfiguration
 {
+    /// <summary>
+    /// Initializes a new instance of the AttributeConfiguration class using a NoxSimpleTypeDefinition.
+    /// </summary>
+    /// <param name="property">The NoxSimpleTypeDefinition to configure the attribute.</param>
     public AttributeConfiguration(NoxSimpleTypeDefinition property)
         : this(property, property.Name, property.Description, property.IsReadonly, property.IsRequired)
     {
     }
+
+    /// <summary>
+    /// Initializes a new instance of the AttributeConfiguration class with a required status specification.
+    /// </summary>
+    /// <param name="property">The NoxSimpleTypeDefinition to configure the attribute.</param>
+    /// <param name="isRequired">Indicates if the attribute is required.</param>
     public AttributeConfiguration(NoxSimpleTypeDefinition property, bool isRequired)
         : this(property, property.Name, property.Description, property.IsReadonly, isRequired)
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the AttributeConfiguration class with detailed parameters.
+    /// </summary>
+    /// <param name="property">The NoxSimpleTypeDefinition to configure the attribute.</param>
+    /// <param name="name">The name of the attribute.</param>
+    /// <param name="description">The description of the attribute.</param>
+    /// <param name="isReadonly">Indicates if the attribute is readonly.</param>
+    /// <param name="isRequired">Indicates if the attribute is required.</param>
     public AttributeConfiguration(
         NoxSimpleTypeDefinition property,
         string name,
