@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
 using TestEntityExactlyOneEntity = TestWebApp.Domain.TestEntityExactlyOne;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record DeleteTestEntityExactlyOneByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteTestEntityExactlyOneByIdCommand(IEnumerable<TestEntityExactlyOneKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteTestEntityExactlyOneByIdCommandHandler : DeleteTestEntityExactlyOneByIdCommandHandlerBase
 {
@@ -23,7 +24,7 @@ internal class DeleteTestEntityExactlyOneByIdCommandHandler : DeleteTestEntityEx
 	{
 	}
 }
-internal abstract class DeleteTestEntityExactlyOneByIdCommandHandlerBase : CommandBase<DeleteTestEntityExactlyOneByIdCommand, TestEntityExactlyOneEntity>, IRequestHandler<DeleteTestEntityExactlyOneByIdCommand, bool>
+internal abstract class DeleteTestEntityExactlyOneByIdCommandHandlerBase : CommandCollectionBase<DeleteTestEntityExactlyOneByIdCommand, TestEntityExactlyOneEntity>, IRequestHandler<DeleteTestEntityExactlyOneByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -38,18 +39,25 @@ internal abstract class DeleteTestEntityExactlyOneByIdCommandHandlerBase : Comma
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.TestEntityExactlyOneMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.TestEntityExactlyOnes.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted == true)
+		
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<TestEntityExactlyOneEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
-			return false;
+			var keyId = TestWebApp.Domain.TestEntityExactlyOneMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.TestEntityExactlyOnes.FindAsync(keyId);
+			if (entity == null || entity.IsDeleted == true)
+			{
+				return false;
+			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+			entities.Add(entity);			
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Deleted;
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

@@ -146,7 +146,7 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
     public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 keyCountryId, [FromRoute] System.Int64 keyId)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteCountryQualityOfLifeIndexByIdCommand(keyCountryId, keyId, etag));
+        var result = await _mediator.Send(new DeleteCountryQualityOfLifeIndexByIdCommand(new List<CountryQualityOfLifeIndexKeyDto> { new CountryQualityOfLifeIndexKeyDto(keyCountryId, keyId) }, etag));
 
         if (!result)
         {

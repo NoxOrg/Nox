@@ -870,7 +870,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
         var relatedKeyQuery = $"{GetPrimaryKeysQuery(relatedEntity, "relatedKey")}";
         code.AppendLine($"var etag = Request.GetDecodedEtagHeader();");
-        code.AppendLine($"var deleted = await _mediator.Send(new Delete{relatedEntity.Name}ByIdCommand({relatedKeyQuery}, etag));");
+        code.AppendLine($"var deleted = await _mediator.Send(new Delete{relatedEntity.Name}ByIdCommand(" +
+            $"new List<{relatedEntity.Name}KeyDto> {{ new {relatedEntity.Name}KeyDto({relatedKeyQuery}) }}, " +
+            $"etag));");
         code.AppendLine($"if (!deleted)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
@@ -918,22 +920,18 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         if (relationship.WithSingleEntity)
         {
             code.AppendLine($"var deleted = await _mediator.Send(new Delete{relatedEntity.Name}ByIdCommand(" +
-                $"{GetPrimaryKeysQuery(relatedEntity, "related.", true)}, " +
-                $"etag));"); 
+                $"new List<{relatedEntity.Name}KeyDto> {{ new {relatedEntity.Name}KeyDto({GetPrimaryKeysQuery(relatedEntity, "related.", true)}) }}, " +
+                $"etag));");
             code.AppendLine($"if (!deleted)");
             code.StartBlock();
             code.AppendLine($"return NotFound();");
             code.EndBlock();
         }
         else
-        {
-            code.AppendLine($"foreach(var item in related)");
-            code.StartBlock();
             code.AppendLine($"await _mediator.Send(new Delete{relatedEntity.Name}ByIdCommand(" +
-                $"{GetPrimaryKeysQuery(relatedEntity, "item.", true)}, " +
+                $"related.Select(item => new {relatedEntity.Name}KeyDto({GetPrimaryKeysQuery(relatedEntity, "item.", true)})), " +
                 $"etag));");
-            code.EndBlock();
-        }
+
         code.AppendLine($"return NoContent();");
         code.EndBlock();
         code.AppendLine();

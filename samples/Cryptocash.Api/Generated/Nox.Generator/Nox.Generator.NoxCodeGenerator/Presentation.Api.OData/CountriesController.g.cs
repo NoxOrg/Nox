@@ -532,7 +532,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteCommissionByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteCommissionByIdCommand(new List<CommissionKeyDto> { new CommissionKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -700,7 +700,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteVendingMachineByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteVendingMachineByIdCommand(new List<VendingMachineKeyDto> { new VendingMachineKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -724,10 +724,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteVendingMachineByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteVendingMachineByIdCommand(related.Select(item => new VendingMachineKeyDto(item.Id)), etag));
         return NoContent();
     }
     
@@ -890,7 +887,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteCustomerByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteCustomerByIdCommand(new List<CustomerKeyDto> { new CustomerKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -914,10 +911,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteCustomerByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteCustomerByIdCommand(related.Select(item => new CustomerKeyDto(item.Id)), etag));
         return NoContent();
     }
     

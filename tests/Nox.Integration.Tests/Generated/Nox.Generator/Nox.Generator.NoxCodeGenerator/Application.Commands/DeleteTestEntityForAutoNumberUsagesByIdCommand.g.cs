@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
 using TestEntityForAutoNumberUsagesEntity = TestWebApp.Domain.TestEntityForAutoNumberUsages;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record DeleteTestEntityForAutoNumberUsagesByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteTestEntityForAutoNumberUsagesByIdCommand(IEnumerable<TestEntityForAutoNumberUsagesKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteTestEntityForAutoNumberUsagesByIdCommandHandler : DeleteTestEntityForAutoNumberUsagesByIdCommandHandlerBase
 {
@@ -23,7 +24,7 @@ internal class DeleteTestEntityForAutoNumberUsagesByIdCommandHandler : DeleteTes
 	{
 	}
 }
-internal abstract class DeleteTestEntityForAutoNumberUsagesByIdCommandHandlerBase : CommandBase<DeleteTestEntityForAutoNumberUsagesByIdCommand, TestEntityForAutoNumberUsagesEntity>, IRequestHandler<DeleteTestEntityForAutoNumberUsagesByIdCommand, bool>
+internal abstract class DeleteTestEntityForAutoNumberUsagesByIdCommandHandlerBase : CommandCollectionBase<DeleteTestEntityForAutoNumberUsagesByIdCommand, TestEntityForAutoNumberUsagesEntity>, IRequestHandler<DeleteTestEntityForAutoNumberUsagesByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -38,17 +39,25 @@ internal abstract class DeleteTestEntityForAutoNumberUsagesByIdCommandHandlerBas
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.TestEntityForAutoNumberUsages.FindAsync(keyId);
-		if (entity == null)
+		
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<TestEntityForAutoNumberUsagesEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
-			return false;
+			var keyId = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.TestEntityForAutoNumberUsages.FindAsync(keyId);
+			if (entity == null)
+			{
+				return false;
+			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+			entities.Add(entity);			
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
-		await OnCompletedAsync(request, entity);DbContext.TestEntityForAutoNumberUsages.Remove(entity);
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

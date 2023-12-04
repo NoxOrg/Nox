@@ -146,7 +146,7 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeletePaymentDetailByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeletePaymentDetailByIdCommand(new List<PaymentDetailKeyDto> { new PaymentDetailKeyDto(key) }, etag));
 
         if (!result)
         {

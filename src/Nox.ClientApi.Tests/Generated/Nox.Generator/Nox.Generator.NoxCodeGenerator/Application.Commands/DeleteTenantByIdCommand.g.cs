@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
+using ClientApi.Application.Dto;
 using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
 
-public partial record DeleteTenantByIdCommand(System.UInt32 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteTenantByIdCommand(IEnumerable<TenantKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteTenantByIdCommandHandler : DeleteTenantByIdCommandHandlerBase
 {
@@ -23,7 +24,7 @@ internal class DeleteTenantByIdCommandHandler : DeleteTenantByIdCommandHandlerBa
 	{
 	}
 }
-internal abstract class DeleteTenantByIdCommandHandlerBase : CommandBase<DeleteTenantByIdCommand, TenantEntity>, IRequestHandler<DeleteTenantByIdCommand, bool>
+internal abstract class DeleteTenantByIdCommandHandlerBase : CommandCollectionBase<DeleteTenantByIdCommand, TenantEntity>, IRequestHandler<DeleteTenantByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -38,17 +39,25 @@ internal abstract class DeleteTenantByIdCommandHandlerBase : CommandBase<DeleteT
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.TenantMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.Tenants.FindAsync(keyId);
-		if (entity == null)
+		
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<TenantEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
-			return false;
+			var keyId = ClientApi.Domain.TenantMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.Tenants.FindAsync(keyId);
+			if (entity == null)
+			{
+				return false;
+			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+			entities.Add(entity);			
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
-		await OnCompletedAsync(request, entity);DbContext.Tenants.Remove(entity);
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

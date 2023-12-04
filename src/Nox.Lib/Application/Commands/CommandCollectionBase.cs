@@ -4,21 +4,20 @@ using Nox.Solution;
 namespace Nox.Application.Commands;
 
 /// <summary>
-/// Base Implementation for a Nox Command that will affect a single Entity
+/// Base Implementation for a Nox Command that will affect multiple Entities
 /// </summary>
-public abstract class CommandBase<TRequest, TEntity> : INoxCommand where TEntity : IEntity
+public abstract class CommandCollectionBase<TRequest, TEntity> : INoxCommand where TEntity : IEntity
 {
     protected NoxSolution NoxSolution { get; }
 
     protected Types.CultureCode DefaultCultureCode;
 
-
-    protected CommandBase(NoxSolution noxSolution)
+    protected CommandCollectionBase(NoxSolution noxSolution)
     {
         NoxSolution = noxSolution;
         DefaultCultureCode = Types.CultureCode.From(NoxSolution!.Application!.Localization!.DefaultCulture);
     }
-   
+
     /// <summary>
     /// Executing the command handler, use this method to override or update the request
     /// </summary>
@@ -28,9 +27,9 @@ public abstract class CommandBase<TRequest, TEntity> : INoxCommand where TEntity
 
     /// <summary>
     /// Command handler completed
-    /// Use this method to override, update, validate or other run custom logic regarding the affected Entity
+    /// Use this method to override, update, validate or other run custom logic regarding affected Entities
     /// </summary>
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
-    protected virtual Task OnCompletedAsync(TRequest request, TEntity entity) { return Task.CompletedTask; }
+    protected virtual Task OnCompletedAsync(TRequest request, ICollection<TEntity> entitites) { return Task.CompletedTask; }
 }

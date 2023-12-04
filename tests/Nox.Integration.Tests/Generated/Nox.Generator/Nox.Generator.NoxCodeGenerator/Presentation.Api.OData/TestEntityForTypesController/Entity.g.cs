@@ -146,7 +146,7 @@ public abstract partial class TestEntityForTypesControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteTestEntityForTypesByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteTestEntityForTypesByIdCommand(new List<TestEntityForTypesKeyDto> { new TestEntityForTypesKeyDto(key) }, etag));
 
         if (!result)
         {

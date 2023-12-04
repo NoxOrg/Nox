@@ -297,7 +297,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteCashStockOrderByIdCommand(related.Id, etag));
+        var deleted = await _mediator.Send(new DeleteCashStockOrderByIdCommand(new List<CashStockOrderKeyDto> { new CashStockOrderKeyDto(related.Id) }, etag));
         if (!deleted)
         {
             return NotFound();

@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
 using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteVendingMachineByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteVendingMachineByIdCommand(IEnumerable<VendingMachineKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteVendingMachineByIdCommandHandler : DeleteVendingMachineByIdCommandHandlerBase
 {
@@ -23,7 +24,7 @@ internal class DeleteVendingMachineByIdCommandHandler : DeleteVendingMachineById
 	{
 	}
 }
-internal abstract class DeleteVendingMachineByIdCommandHandlerBase : CommandBase<DeleteVendingMachineByIdCommand, VendingMachineEntity>, IRequestHandler<DeleteVendingMachineByIdCommand, bool>
+internal abstract class DeleteVendingMachineByIdCommandHandlerBase : CommandCollectionBase<DeleteVendingMachineByIdCommand, VendingMachineEntity>, IRequestHandler<DeleteVendingMachineByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -38,18 +39,25 @@ internal abstract class DeleteVendingMachineByIdCommandHandlerBase : CommandBase
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.VendingMachines.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted == true)
+		
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<VendingMachineEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
-			return false;
+			var keyId = Cryptocash.Domain.VendingMachineMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.VendingMachines.FindAsync(keyId);
+			if (entity == null || entity.IsDeleted == true)
+			{
+				return false;
+			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+			entities.Add(entity);			
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Deleted;
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

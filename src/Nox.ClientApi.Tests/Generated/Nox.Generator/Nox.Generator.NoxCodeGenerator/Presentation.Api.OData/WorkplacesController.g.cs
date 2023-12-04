@@ -153,7 +153,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteCountryByIdCommand(related.Id, etag));
+        var deleted = await _mediator.Send(new DeleteCountryByIdCommand(new List<CountryKeyDto> { new CountryKeyDto(related.Id) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -320,7 +320,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteTenantByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteTenantByIdCommand(new List<TenantKeyDto> { new TenantKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -344,10 +344,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteTenantByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteTenantByIdCommand(related.Select(item => new TenantKeyDto(item.Id)), etag));
         return NoContent();
     }
     

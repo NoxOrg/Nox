@@ -188,7 +188,7 @@ public abstract partial class CustomersControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeletePaymentDetailByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeletePaymentDetailByIdCommand(new List<PaymentDetailKeyDto> { new PaymentDetailKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -212,10 +212,7 @@ public abstract partial class CustomersControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeletePaymentDetailByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeletePaymentDetailByIdCommand(related.Select(item => new PaymentDetailKeyDto(item.Id)), etag));
         return NoContent();
     }
     
@@ -378,7 +375,7 @@ public abstract partial class CustomersControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteBookingByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteBookingByIdCommand(new List<BookingKeyDto> { new BookingKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -402,10 +399,7 @@ public abstract partial class CustomersControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteBookingByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteBookingByIdCommand(related.Select(item => new BookingKeyDto(item.Id)), etag));
         return NoContent();
     }
     
@@ -568,7 +562,7 @@ public abstract partial class CustomersControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteTransactionByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteTransactionByIdCommand(new List<TransactionKeyDto> { new TransactionKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -592,10 +586,7 @@ public abstract partial class CustomersControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteTransactionByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteTransactionByIdCommand(related.Select(item => new TransactionKeyDto(item.Id)), etag));
         return NoContent();
     }
     

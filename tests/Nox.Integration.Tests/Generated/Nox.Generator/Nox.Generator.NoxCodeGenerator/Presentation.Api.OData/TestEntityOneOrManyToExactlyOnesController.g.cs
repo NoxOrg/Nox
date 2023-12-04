@@ -172,7 +172,7 @@ public abstract partial class TestEntityOneOrManyToExactlyOnesControllerBase : O
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteTestEntityExactlyOneToOneOrManyByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteTestEntityExactlyOneToOneOrManyByIdCommand(new List<TestEntityExactlyOneToOneOrManyKeyDto> { new TestEntityExactlyOneToOneOrManyKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();

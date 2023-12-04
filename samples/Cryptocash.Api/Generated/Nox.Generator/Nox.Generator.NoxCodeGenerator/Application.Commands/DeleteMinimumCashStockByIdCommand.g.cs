@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
 using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteMinimumCashStockByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteMinimumCashStockByIdCommand(IEnumerable<MinimumCashStockKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteMinimumCashStockByIdCommandHandler : DeleteMinimumCashStockByIdCommandHandlerBase
 {
@@ -23,7 +24,7 @@ internal class DeleteMinimumCashStockByIdCommandHandler : DeleteMinimumCashStock
 	{
 	}
 }
-internal abstract class DeleteMinimumCashStockByIdCommandHandlerBase : CommandBase<DeleteMinimumCashStockByIdCommand, MinimumCashStockEntity>, IRequestHandler<DeleteMinimumCashStockByIdCommand, bool>
+internal abstract class DeleteMinimumCashStockByIdCommandHandlerBase : CommandCollectionBase<DeleteMinimumCashStockByIdCommand, MinimumCashStockEntity>, IRequestHandler<DeleteMinimumCashStockByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -38,18 +39,25 @@ internal abstract class DeleteMinimumCashStockByIdCommandHandlerBase : CommandBa
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted == true)
+		
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<MinimumCashStockEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
-			return false;
+			var keyId = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);
+			if (entity == null || entity.IsDeleted == true)
+			{
+				return false;
+			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+			entities.Add(entity);			
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Deleted;
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

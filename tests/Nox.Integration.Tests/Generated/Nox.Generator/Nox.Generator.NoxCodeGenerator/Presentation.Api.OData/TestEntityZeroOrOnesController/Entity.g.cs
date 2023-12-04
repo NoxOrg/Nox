@@ -146,7 +146,7 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
     public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteTestEntityZeroOrOneByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteTestEntityZeroOrOneByIdCommand(new List<TestEntityZeroOrOneKeyDto> { new TestEntityZeroOrOneKeyDto(key) }, etag));
 
         if (!result)
         {

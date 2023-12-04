@@ -146,7 +146,7 @@ public abstract partial class TestEntityZeroOrManiesControllerBase : ODataContro
     public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteTestEntityZeroOrManyByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteTestEntityZeroOrManyByIdCommand(new List<TestEntityZeroOrManyKeyDto> { new TestEntityZeroOrManyKeyDto(key) }, etag));
 
         if (!result)
         {

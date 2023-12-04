@@ -146,7 +146,7 @@ public abstract partial class StoreOwnersControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteStoreOwnerByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteStoreOwnerByIdCommand(new List<StoreOwnerKeyDto> { new StoreOwnerKeyDto(key) }, etag));
 
         if (!result)
         {

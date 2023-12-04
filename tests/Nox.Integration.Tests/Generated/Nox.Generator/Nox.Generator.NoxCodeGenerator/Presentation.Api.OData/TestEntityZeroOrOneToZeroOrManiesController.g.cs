@@ -153,7 +153,7 @@ public abstract partial class TestEntityZeroOrOneToZeroOrManiesControllerBase : 
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteTestEntityZeroOrManyToZeroOrOneByIdCommand(related.Id, etag));
+        var deleted = await _mediator.Send(new DeleteTestEntityZeroOrManyToZeroOrOneByIdCommand(new List<TestEntityZeroOrManyToZeroOrOneKeyDto> { new TestEntityZeroOrManyToZeroOrOneKeyDto(related.Id) }, etag));
         if (!deleted)
         {
             return NotFound();
