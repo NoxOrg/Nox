@@ -474,9 +474,9 @@ namespace Nox.Types.EntityFramework.Configurations
             ModelBuilder modelBuilder,
             Entity entity)
         {
-            var localizedAttributes = entity.GetLocalizedAttributesToConfigure();
+            var localizedAttributesConfigurations = entity.GetLocalizedAttributesConfigurations();
 
-            foreach (var property in localizedAttributes)
+            foreach (var property in localizedAttributesConfigurations)
             {
                 if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
                 {

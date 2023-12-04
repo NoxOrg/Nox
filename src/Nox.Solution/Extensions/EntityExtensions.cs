@@ -53,8 +53,8 @@ public static class EntityExtensions
         }
     }
     
-    public static IEnumerable<AttributeConfiguration> GetLocalizedAttributesToConfigure(this Entity entity)
-        => entity.Attributes.Where(x => x.IsLocalized).Select(property =>
+    public static IEnumerable<AttributeConfiguration> GetLocalizedAttributesConfigurations(this Entity entity)
+        => entity.GetLocalizedAttributes().Select(property =>
         {
             var configuration = property.ToLocalizedAttributeConfiguration();
             return configuration;
