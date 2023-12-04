@@ -57,6 +57,8 @@ internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenan
 		{
 			return null;
 		}
+		await DbContext.Entry(entity).Collection(x => x.TenantBrands).LoadAsync();
+		await DbContext.Entry(entity).Reference(x => x.TenantContact).LoadAsync();
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
@@ -72,4 +74,11 @@ internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenan
 
 		return new TenantKeyDto(entity.Id.Value);
 	}
+}
+
+public class UpdateTenantValidator : AbstractValidator<UpdateTenantCommand>
+{
+    public UpdateTenantValidator()
+    {
+    }
 }

@@ -26,9 +26,13 @@ namespace ClientApi.Application.Factories;
 internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
-    public CountryQualityOfLifeIndexFactoryBase()
+    public CountryQualityOfLifeIndexFactoryBase(
+        IRepository repository
+        )
     {
+        _repository = repository;
     }
 
     public virtual CountryQualityOfLifeIndexEntity CreateEntity(CountryQualityOfLifeIndexCreateDto createDto)
@@ -87,4 +91,9 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
 
 internal partial class CountryQualityOfLifeIndexFactory : CountryQualityOfLifeIndexFactoryBase
 {
+    public CountryQualityOfLifeIndexFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

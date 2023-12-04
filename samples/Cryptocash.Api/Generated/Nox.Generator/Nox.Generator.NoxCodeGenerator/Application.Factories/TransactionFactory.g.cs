@@ -26,9 +26,13 @@ namespace Cryptocash.Application.Factories;
 internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
-    public TransactionFactoryBase()
+    public TransactionFactoryBase(
+        IRepository repository
+        )
     {
+        _repository = repository;
     }
 
     public virtual TransactionEntity CreateEntity(TransactionCreateDto createDto)
@@ -125,4 +129,9 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
 
 internal partial class TransactionFactory : TransactionFactoryBase
 {
+    public TransactionFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Application.Dto;
 using Nox.Extensions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
@@ -33,7 +34,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var item = (await _mediator.Send(new GetTestEntityOwnedRelationshipOneOrManyByIdQuery(key))).SingleOrDefault();
         
@@ -51,7 +52,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetSecondTestEntityOwnedRelationshipOneOrManies(key, new SecondTestEntityOwnedRelationshipOneOrManyKeyDto(relatedKey));
         if (child == null)
@@ -66,7 +67,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -85,16 +86,15 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
         return Created(child);
     }
     
-    [HttpPut("/api/v1/TestEntityOwnedRelationshipOneOrManies/{key}/SecondTestEntityOwnedRelationshipOneOrManies/{relatedKey}")]
-    public virtual async Task<ActionResult<SecondTestEntityOwnedRelationshipOneOrManyDto>> PutToSecondTestEntityOwnedRelationshipOneOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] SecondTestEntityOwnedRelationshipOneOrManyUpsertDto secondTestEntityOwnedRelationshipOneOrMany)
+    public virtual async Task<ActionResult<SecondTestEntityOwnedRelationshipOneOrManyDto>> PutToSecondTestEntityOwnedRelationshipOneOrManies(System.String key, [FromBody] SecondTestEntityOwnedRelationshipOneOrManyUpsertDto secondTestEntityOwnedRelationshipOneOrMany)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateSecondTestEntityOwnedRelationshipOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand(new TestEntityOwnedRelationshipOneOrManyKeyDto(key), new SecondTestEntityOwnedRelationshipOneOrManyKeyDto(relatedKey), secondTestEntityOwnedRelationshipOneOrMany, _cultureCode, etag));
+        var updatedKey = await _mediator.Send(new UpdateSecondTestEntityOwnedRelationshipOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand(new TestEntityOwnedRelationshipOneOrManyKeyDto(key), secondTestEntityOwnedRelationshipOneOrMany, _cultureCode, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -109,12 +109,11 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
         return Ok(child);
     }
     
-    [HttpPatch("/api/v1/TestEntityOwnedRelationshipOneOrManies/{key}/SecondTestEntityOwnedRelationshipOneOrManies/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToSecondTestEntityOwnedRelationshipOneOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] Delta<SecondTestEntityOwnedRelationshipOneOrManyUpsertDto> secondTestEntityOwnedRelationshipOneOrMany)
+    public virtual async Task<ActionResult> PatchToSecondTestEntityOwnedRelationshipOneOrManies(System.String key, [FromBody] Delta<SecondTestEntityOwnedRelationshipOneOrManyUpsertDto> secondTestEntityOwnedRelationshipOneOrMany)
     {
         if (!ModelState.IsValid || secondTestEntityOwnedRelationshipOneOrMany is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
@@ -126,8 +125,13 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
             }           
         }
         
+        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
+        {
+            throw new Nox.Exceptions.BadRequestException("Id is required.");
+        }
+        
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityOwnedRelationshipOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand(new TestEntityOwnedRelationshipOneOrManyKeyDto(key), new SecondTestEntityOwnedRelationshipOneOrManyKeyDto(relatedKey), updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityOwnedRelationshipOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand(new TestEntityOwnedRelationshipOneOrManyKeyDto(key), new SecondTestEntityOwnedRelationshipOneOrManyKeyDto(updateProperties["Id"]), updateProperties, _cultureCode, etag));
         
         if (updated is null)
         {
@@ -147,7 +151,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new DeleteSecondTestEntityOwnedRelationshipOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand(new TestEntityOwnedRelationshipOneOrManyKeyDto(key), new SecondTestEntityOwnedRelationshipOneOrManyKeyDto(relatedKey)));
         if (!result)

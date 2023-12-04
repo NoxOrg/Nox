@@ -26,9 +26,13 @@ namespace ClientApi.Application.Factories;
 internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
-    public TenantBrandFactoryBase()
+    public TenantBrandFactoryBase(
+        IRepository repository
+        )
     {
+        _repository = repository;
     }
 
     public virtual TenantBrandEntity CreateEntity(TenantBrandUpsertDto createDto)
@@ -99,4 +103,9 @@ internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntit
 
 internal partial class TenantBrandFactory : TenantBrandFactoryBase
 {
+    public TenantBrandFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }
