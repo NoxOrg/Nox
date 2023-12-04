@@ -180,7 +180,7 @@ namespace Nox.Infrastructure.Persistence
         {
             var tasks = domainEvents.Select(domainEvent =>
             {
-                _logger.LogInformation($"Publishing domain event '{domainEvent.GetType()}'");
+                _logger.LogInformation("Publishing domain event '{Type}'", domainEvent.GetType());
                 return _publisher.Publish(domainEvent);
             });
             await Task.WhenAll(tasks);

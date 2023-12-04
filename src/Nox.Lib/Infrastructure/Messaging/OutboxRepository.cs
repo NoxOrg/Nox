@@ -54,7 +54,9 @@ namespace Nox.Infrastructure.Messaging
             var source = new Uri($"https://{_messagePrefix}{_noxSolution.PlatformId}.com/{_noxSolution.Name}");
             var dataSchema = new System.Uri($"https://{_messagePrefix}{_noxSolution.PlatformId}.com/schemas/{_noxSolution.Name}/{domainContext}/v{_noxSolution.Version}/{eventName}.json");
             
-            _logger.LogInformation($"Publishing integration event '{typeof(T)}'. Name: '{eventName}' Source: '{source}' Type: '{type}' DataSchema: '{dataSchema}'");
+            _logger.LogInformation("Publishing integration event '{Type}'. Name: '{EventName}' Source: '{Source}' Type: '{EventType}' DataSchema: '{DataSchema}'",
+                typeof(T), eventName, source, type, dataSchema);
+
             PublishContext<CloudEventMessage<T>>? publishContext = null;
 
             await _bus.Publish(message, sendContext =>
@@ -74,7 +76,8 @@ namespace Nox.Infrastructure.Messaging
                 publishContext = sendContext;
             });
 
-            _logger.LogInformation($"Published integration event '{typeof(T)}' to '{publishContext?.DestinationAddress?.AbsolutePath}'. Name: '{eventName}' Source: '{source}' Type: '{type}' DataSchema: '{dataSchema}' MessageId: '{message.Id}'");
+            _logger.LogInformation("Published integration event '{Type}' to '{PublishDestination}'. Name: '{EventName}' Source: '{EventSource}' Type: '{EventType}' DataSchema: '{DataSchema}' MessageId: '{MessageId}'",
+                typeof(T), publishContext?.DestinationAddress?.AbsolutePath, eventName, source, type, dataSchema, message.Id);
         }
     }
 }
