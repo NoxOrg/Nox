@@ -2,6 +2,7 @@
 using Nox.Generator.Application.Commands;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Solution.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,13 +17,13 @@ internal class TranslationsQueryGenerator : ApplicationEntityDependentGeneratorB
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            var primaryKeys = string.Join(", ", entity.Keys.Select(k => $"{codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
+            var primaryKeys = string.Join(", ", entity.GetKeys().Select(k => $"{codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
 
-            
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Get{entity.Name}TranslationsQuery")
                 .WithFileNamePrefix($"Application.Queries")
                 .WithObject("entity", entity)
+                .WithObject("entityKeys", entity.GetKeys())
                 .WithObject("primaryKeys", primaryKeys)
                 .GenerateSourceCodeFromResource(templateName);
         }  

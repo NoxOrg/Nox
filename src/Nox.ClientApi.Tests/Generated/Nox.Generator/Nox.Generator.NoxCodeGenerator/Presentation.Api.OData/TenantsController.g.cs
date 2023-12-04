@@ -36,7 +36,7 @@ public abstract partial class TenantsControllerBase : ODataController
         {
             return BadRequest(ModelState);
         }
-        var item = (await _mediator.Send(new GetTenantByIdQuery(_cultureCode, key))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetTenantByIdQuery(key))).SingleOrDefault();
         
         if (item is null)
         {
@@ -161,8 +161,119 @@ public abstract partial class TenantsControllerBase : ODataController
     
     protected async Task<TenantBrandDto?> TryGetTenantBrands(System.UInt32 key, TenantBrandKeyDto childKeyDto)
     {
-        var parent = (await _mediator.Send(new GetTenantByIdQuery(_cultureCode, key))).SingleOrDefault();
+        var parent = (await _mediator.Send(new GetTenantByIdQuery(key))).SingleOrDefault();
         return parent?.TenantBrands.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<TenantContactDto>> GetTenantContact([FromRoute] System.UInt32 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var item = (await _mediator.Send(new GetTenantByIdQuery(key))).SingleOrDefault();
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.TenantContact);
+    }
+    
+    public virtual async Task<ActionResult> PostToTenantContact([FromRoute] System.UInt32 key, [FromBody] TenantContactUpsertDto tenantContact)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var createdKey = await _mediator.Send(new CreateTenantContactForTenantCommand(new TenantKeyDto(key), tenantContact, _cultureCode, etag));
+        if (createdKey == null)
+        {
+            return NotFound();
+        }
+        
+        var child = (await _mediator.Send(new GetTenantByIdQuery(key))).SingleOrDefault()?.TenantContact;
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
+    }
+    
+    public virtual async Task<ActionResult<TenantContactDto>> PutToTenantContact(System.UInt32 key, [FromBody] TenantContactUpsertDto tenantContact)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updatedKey = await _mediator.Send(new UpdateTenantContactForTenantCommand(new TenantKeyDto(key), tenantContact, _cultureCode, etag));
+        if (updatedKey == null)
+        {
+            return NotFound();
+        }
+        
+        var child = (await _mediator.Send(new GetTenantByIdQuery(key))).SingleOrDefault()?.TenantContact;
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    public virtual async Task<ActionResult> PatchToTenantContact(System.UInt32 key, [FromBody] Delta<TenantContactDto> tenantContact)
+    {
+        if (!ModelState.IsValid || tenantContact is null)
+        {
+            return BadRequest(ModelState);
+        }
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in tenantContact.GetChangedPropertyNames())
+        {
+            if(tenantContact.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTenantContactForTenantCommand(new TenantKeyDto(key), updateProperties, _cultureCode, etag));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        var child = (await _mediator.Send(new GetTenantByIdQuery(key))).SingleOrDefault()?.TenantContact;
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    [HttpDelete("/api/v1/Tenants/{key}/TenantContact")]
+    public virtual async Task<ActionResult> DeleteTenantContactNonConventional(System.UInt32 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _mediator.Send(new DeleteTenantContactForTenantCommand(new TenantKeyDto(key)));
+        if (!result)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
     }
     
     #endregion
@@ -206,7 +317,7 @@ public abstract partial class TenantsControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToWorkplaces([FromRoute] System.UInt32 key)
     {
-        var related = (await _mediator.Send(new GetTenantByIdQuery(_cultureCode, key))).Select(x => x.Workplaces).SingleOrDefault();
+        var related = (await _mediator.Send(new GetTenantByIdQuery(key))).Select(x => x.Workplaces).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -262,7 +373,7 @@ public abstract partial class TenantsControllerBase : ODataController
         workplace.TenantsId = new List<System.UInt32> { key };
         var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
         
-        var createdItem = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, createdKey.keyId))).SingleOrDefault();
+        var createdItem = (await _mediator.Send(new GetWorkplaceByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
     }
@@ -270,7 +381,7 @@ public abstract partial class TenantsControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> GetWorkplaces(System.UInt32 key)
     {
-        var entity = (await _mediator.Send(new GetTenantByIdQuery(_cultureCode, key))).SelectMany(x => x.Workplaces);
+        var entity = (await _mediator.Send(new GetTenantByIdQuery(key))).SelectMany(x => x.Workplaces);
         if (!entity.Any())
         {
             return NotFound();
@@ -282,7 +393,7 @@ public abstract partial class TenantsControllerBase : ODataController
     [HttpGet("/api/v1/Tenants/{key}/Workplaces/{relatedKey}")]
     public virtual async Task<SingleResult<WorkplaceDto>> GetWorkplacesNonConventional(System.UInt32 key, System.Int64 relatedKey)
     {
-        var related = (await _mediator.Send(new GetTenantByIdQuery(_cultureCode, key))).SelectMany(x => x.Workplaces).Where(x => x.Id == relatedKey);
+        var related = (await _mediator.Send(new GetTenantByIdQuery(key))).SelectMany(x => x.Workplaces).Where(x => x.Id == relatedKey);
         if (!related.Any())
         {
             return SingleResult.Create<WorkplaceDto>(Enumerable.Empty<WorkplaceDto>().AsQueryable());
@@ -298,7 +409,7 @@ public abstract partial class TenantsControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetTenantByIdQuery(_cultureCode, key))).SelectMany(x => x.Workplaces).Any(x => x.Id == relatedKey);
+        var related = (await _mediator.Send(new GetTenantByIdQuery(key))).SelectMany(x => x.Workplaces).Any(x => x.Id == relatedKey);
         if (!related)
         {
             return NotFound();
@@ -322,7 +433,7 @@ public abstract partial class TenantsControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetTenantByIdQuery(_cultureCode, key))).SelectMany(x => x.Workplaces).Any(x => x.Id == relatedKey);
+        var related = (await _mediator.Send(new GetTenantByIdQuery(key))).SelectMany(x => x.Workplaces).Any(x => x.Id == relatedKey);
         if (!related)
         {
             return NotFound();
@@ -346,7 +457,7 @@ public abstract partial class TenantsControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetTenantByIdQuery(_cultureCode, key))).Select(x => x.Workplaces).SingleOrDefault();
+        var related = (await _mediator.Send(new GetTenantByIdQuery(key))).Select(x => x.Workplaces).SingleOrDefault();
         if (related == null)
         {
             return NotFound();

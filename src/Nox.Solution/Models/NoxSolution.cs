@@ -1,4 +1,5 @@
-﻿using Nox.Types;
+﻿using Nox.Solution.Extensions;
+using Nox.Types;
 using Nox.Types.Extensions;
 using Nox.Yaml;
 using Nox.Yaml.Attributes;
@@ -157,7 +158,7 @@ public class NoxSolution : YamlConfigNode<NoxSolution>
     {
         var entity = Domain!.Entities.Single(entity => entity.Name.Equals(entityName));
 
-        return entity.Keys!.Single().Type;
+        return entity.GetKeys()!.Single().Type;
     }
 
     /// <summary>

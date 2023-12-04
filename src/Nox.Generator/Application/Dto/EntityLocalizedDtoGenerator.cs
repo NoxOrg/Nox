@@ -30,6 +30,7 @@ internal class EntityLocalizedDtoGenerator : INoxCodeGenerator
                 .WithClassName(NoxCodeGenConventions.GetEntityDtoNameForLocalizedType(entity.Name))
                 .WithFileNamePrefix("Application.Dto")
                 .WithObject("entity", entity)
+                .WithObject("entityKeys", entity.GetKeys())
                 .WithObject("entityLocalizedAttributes", entity.GetLocalizedAttributes())
                 .GenerateSourceCodeFromResource("Application.Dto.EntityLocalizedDto");
         }

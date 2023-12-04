@@ -99,4 +99,6 @@ public class TestDatabaseContainerService : IAsyncLifetime, ITestDatabaseService
         }
         return _dockerContainer.DisposeAsync().AsTask();
     }
+
+    public DatabaseServerProvider GetDatabaseServerProvider() => DbProviderKind;
 }
