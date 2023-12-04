@@ -3,6 +3,8 @@ using MassTransit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
+
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Solution;
@@ -34,8 +36,6 @@ namespace Nox.Infrastructure.Messaging
 
         public async Task AddAsync<T>(T integrationEvent) where T : IIntegrationEvent
         {
-            _logger.LogInformation($"Publish message {typeof(T)} to {_bus.GetType()}");
-
             var integrationEventAttribute = integrationEvent.GetType().GetCustomAttribute<IntegrationEventTypeAttribute>();
             var domainContext = integrationEventAttribute?.DomainContext;
             var eventName = integrationEventAttribute?.EventName;
@@ -50,22 +50,34 @@ namespace Nox.Infrastructure.Messaging
             }
 
             var message = new CloudEventMessage<T>(integrationEvent) { UserId = _userProvider.GetUser().ToString() };
+            var type = $"{_noxSolution.PlatformId}.{_noxSolution.Name}.{domainContext}.v{_noxSolution.Version}.{eventName}";
+            var source = new Uri($"https://{_messagePrefix}{_noxSolution.PlatformId}.com/{_noxSolution.Name}");
+            var dataSchema = new System.Uri($"https://{_messagePrefix}{_noxSolution.PlatformId}.com/schemas/{_noxSolution.Name}/{domainContext}/v{_noxSolution.Version}/{eventName}.json");
+            
+            _logger.LogInformation("Publishing integration event '{Type}'. Name: '{EventName}' Source: '{Source}' Type: '{EventType}' DataSchema: '{DataSchema}'",
+                typeof(T), eventName, source, type, dataSchema);
+
+            PublishContext<CloudEventMessage<T>>? publishContext = null;
 
             await _bus.Publish(message, sendContext =>
             {
                 var cloudEvent = new CloudEvent();
                 cloudEvent.Data = integrationEvent;
                 cloudEvent.Id = sendContext.MessageId.ToString();
-                cloudEvent.Source = new Uri($"https://{_messagePrefix}{_noxSolution.PlatformId}.com/{_noxSolution.Name}");
+                cloudEvent.Source = source;
                 cloudEvent.Time = sendContext.SentTime;
-                cloudEvent.Type = $"{_noxSolution.PlatformId}.{_noxSolution.Name}.{domainContext}.v{_noxSolution.Version}.{eventName}";
-                cloudEvent.DataSchema = new System.Uri($"https://{_messagePrefix}{_noxSolution.PlatformId}.com/schemas/{_noxSolution.Name}/{domainContext}/v{_noxSolution.Version}/{eventName}.json");
+                cloudEvent.Type = type;
+                cloudEvent.DataSchema = dataSchema;
                 cloudEvent.DataContentType = "application/json";
                 cloudEvent.SetAttributeFromString("xuserid", _userProvider.GetUser().ToString());
                 cloudEvent.Validate();
 
                 message.SetCloudEvent(cloudEvent);
+                publishContext = sendContext;
             });
+
+            _logger.LogInformation("Published integration event '{Type}' to '{PublishDestination}'. Name: '{EventName}' Source: '{EventSource}' Type: '{EventType}' DataSchema: '{DataSchema}' MessageId: '{MessageId}'",
+                typeof(T), publishContext?.DestinationAddress?.AbsolutePath, eventName, source, type, dataSchema, message.Id);
         }
     }
 }
