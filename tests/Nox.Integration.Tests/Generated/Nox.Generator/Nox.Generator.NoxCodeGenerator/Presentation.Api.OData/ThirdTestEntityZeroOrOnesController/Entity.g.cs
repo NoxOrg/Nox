@@ -120,15 +120,7 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
-        var updatedProperties = new Dictionary<string, dynamic>();
-
-        foreach (var propertyName in thirdTestEntityZeroOrOne.GetChangedPropertyNames())
-        {
-            if (thirdTestEntityZeroOrOne.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updatedProperties[propertyName] = value;
-            }
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<ThirdTestEntityZeroOrOnePartialUpdateDto>(thirdTestEntityZeroOrOne);
 
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateThirdTestEntityZeroOrOneCommand(key, updatedProperties, _cultureCode, etag));

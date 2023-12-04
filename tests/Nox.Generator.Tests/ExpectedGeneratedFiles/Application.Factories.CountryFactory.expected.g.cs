@@ -245,7 +245,17 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (GeoCoordUpdateValue == null) { entity.GeoCoord = null; }
             else
             {
-                entity.GeoCoord = SampleWebApp.Domain.CountryMetadata.CreateGeoCoord(GeoCoordUpdateValue);
+                var updated = entity.GeoCoord ?? new Nox.Types.LatLong();
+                foreach(var pair in GeoCoordUpdateValue)
+                {
+                    var property = typeof(Nox.Types.LatLong).GetProperty(pair.Key);
+                    if (property != null)
+                    {
+                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
+                        property.SetValue(updated, propertyValue);
+                    }
+                }
+                entity.GeoCoord = SampleWebApp.Domain.CountryMetadata.CreateGeoCoord(updated);
             }
         }
 

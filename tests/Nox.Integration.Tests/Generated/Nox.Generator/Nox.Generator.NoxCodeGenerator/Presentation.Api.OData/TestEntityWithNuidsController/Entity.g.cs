@@ -120,15 +120,7 @@ public abstract partial class TestEntityWithNuidsControllerBase : ODataControlle
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
-        var updatedProperties = new Dictionary<string, dynamic>();
-
-        foreach (var propertyName in testEntityWithNuid.GetChangedPropertyNames())
-        {
-            if (testEntityWithNuid.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updatedProperties[propertyName] = value;
-            }
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<TestEntityWithNuidPartialUpdateDto>(testEntityWithNuid);
 
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityWithNuidCommand(key, updatedProperties, _cultureCode, etag));

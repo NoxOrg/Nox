@@ -199,7 +199,17 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (CountryDebtUpdateValue == null) { entity.CountryDebt = null; }
             else
             {
-                entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(CountryDebtUpdateValue);
+                var updated = entity.CountryDebt ?? new Nox.Types.Money();
+                foreach(var pair in CountryDebtUpdateValue)
+                {
+                    var property = typeof(Nox.Types.Money).GetProperty(pair.Key);
+                    if (property != null)
+                    {
+                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
+                        property.SetValue(updated, propertyValue);
+                    }
+                }
+                entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(updated);
             }
         }
 
@@ -208,7 +218,17 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (CapitalCityLocationUpdateValue == null) { entity.CapitalCityLocation = null; }
             else
             {
-                entity.CapitalCityLocation = ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(CapitalCityLocationUpdateValue);
+                var updated = entity.CapitalCityLocation ?? new Nox.Types.LatLong();
+                foreach(var pair in CapitalCityLocationUpdateValue)
+                {
+                    var property = typeof(Nox.Types.LatLong).GetProperty(pair.Key);
+                    if (property != null)
+                    {
+                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
+                        property.SetValue(updated, propertyValue);
+                    }
+                }
+                entity.CapitalCityLocation = ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(updated);
             }
         }
 

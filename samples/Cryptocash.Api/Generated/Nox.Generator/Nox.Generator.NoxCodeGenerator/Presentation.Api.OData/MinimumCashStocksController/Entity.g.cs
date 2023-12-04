@@ -120,15 +120,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
-        var updatedProperties = new Dictionary<string, dynamic>();
-
-        foreach (var propertyName in minimumCashStock.GetChangedPropertyNames())
-        {
-            if (minimumCashStock.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updatedProperties[propertyName] = value;
-            }
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<MinimumCashStockPartialUpdateDto>(minimumCashStock);
 
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateMinimumCashStockCommand(key, updatedProperties, _cultureCode, etag));

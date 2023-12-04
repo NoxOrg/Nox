@@ -80,7 +80,17 @@ internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCash
                 throw new ArgumentException("Attribute 'Amount' can't be null");
             }
             {
-                entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(AmountUpdateValue);
+                var updated = entity.Amount ?? new Nox.Types.Money();
+                foreach(var pair in AmountUpdateValue)
+                {
+                    var property = typeof(Nox.Types.Money).GetProperty(pair.Key);
+                    if (property != null)
+                    {
+                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
+                        property.SetValue(updated, propertyValue);
+                    }
+                }
+                entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(updated);
             }
         }
     }

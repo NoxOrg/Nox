@@ -182,7 +182,21 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
             else
             {{- end }}
             {
+                {{- if componentsInfo[attribute.Name].IsSimpleType }}
                 entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue);
+                {{- else }}
+                var updated = entity.{{attribute.Name}} ?? new Nox.Types.{{attribute.Type}}();
+                foreach(var pair in {{attribute.Name}}UpdateValue)
+                {
+                    var property = typeof(Nox.Types.{{attribute.Type}}).GetProperty(pair.Key);
+                    if (property != null)
+                    {
+                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
+                        property.SetValue(updated, propertyValue);
+                    }
+                }
+                entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updated);
+                {{- end }}
             }
         }
 

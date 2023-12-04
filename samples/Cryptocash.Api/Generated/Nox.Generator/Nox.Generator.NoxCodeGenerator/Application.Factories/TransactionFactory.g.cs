@@ -108,7 +108,17 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
                 throw new ArgumentException("Attribute 'Amount' can't be null");
             }
             {
-                entity.Amount = Cryptocash.Domain.TransactionMetadata.CreateAmount(AmountUpdateValue);
+                var updated = entity.Amount ?? new Nox.Types.Money();
+                foreach(var pair in AmountUpdateValue)
+                {
+                    var property = typeof(Nox.Types.Money).GetProperty(pair.Key);
+                    if (property != null)
+                    {
+                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
+                        property.SetValue(updated, propertyValue);
+                    }
+                }
+                entity.Amount = Cryptocash.Domain.TransactionMetadata.CreateAmount(updated);
             }
         }
 

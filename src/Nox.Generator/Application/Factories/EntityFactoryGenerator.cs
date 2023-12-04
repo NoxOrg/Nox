@@ -1,6 +1,10 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Types;
+using Nox.Types.Extensions;
+using System;
+using System.Linq;
 
 namespace Nox.Generator.Application.Factories;
 
@@ -28,11 +32,26 @@ internal class EntityFactoryGenerator : INoxCodeGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
+            var componentsInfo = entity.Attributes
+               .ToDictionary(r => r.Name, key => new {
+                   IsSimpleType = key.Type.IsSimpleType(),
+                   ComponentType = GetSingleComponentSimpleType(key)
+               });
+
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"{entity.Name}Factory")
                 .WithFileNamePrefix($"Application.Factories")
                 .WithObject("entity", entity)
+                .WithObject("componentsInfo", componentsInfo)
                 .GenerateSourceCodeFromResource(templateName);
         }
+    }
+
+    private static Type? GetSingleComponentSimpleType(NoxSimpleTypeDefinition attribute)
+    {
+        if (!attribute.Type.IsSimpleType())
+            return null;
+
+        return attribute.Type.GetComponents(attribute).FirstOrDefault().Value;
     }
 }

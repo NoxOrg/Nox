@@ -120,15 +120,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
-        var updatedProperties = new Dictionary<string, dynamic>();
-
-        foreach (var propertyName in testEntityLocalization.GetChangedPropertyNames())
-        {
-            if (testEntityLocalization.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updatedProperties[propertyName] = value;
-            }
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<TestEntityLocalizationPartialUpdateDto>(testEntityLocalization);
 
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityLocalizationCommand(key, updatedProperties, _cultureCode, etag));

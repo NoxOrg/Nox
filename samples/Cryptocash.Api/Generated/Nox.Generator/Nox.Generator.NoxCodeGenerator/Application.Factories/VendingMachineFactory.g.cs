@@ -129,7 +129,17 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
                 throw new ArgumentException("Attribute 'GeoLocation' can't be null");
             }
             {
-                entity.GeoLocation = Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(GeoLocationUpdateValue);
+                var updated = entity.GeoLocation ?? new Nox.Types.LatLong();
+                foreach(var pair in GeoLocationUpdateValue)
+                {
+                    var property = typeof(Nox.Types.LatLong).GetProperty(pair.Key);
+                    if (property != null)
+                    {
+                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
+                        property.SetValue(updated, propertyValue);
+                    }
+                }
+                entity.GeoLocation = Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(updated);
             }
         }
 
@@ -140,7 +150,17 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
                 throw new ArgumentException("Attribute 'StreetAddress' can't be null");
             }
             {
-                entity.StreetAddress = Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(StreetAddressUpdateValue);
+                var updated = entity.StreetAddress ?? new Nox.Types.StreetAddress();
+                foreach(var pair in StreetAddressUpdateValue)
+                {
+                    var property = typeof(Nox.Types.StreetAddress).GetProperty(pair.Key);
+                    if (property != null)
+                    {
+                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
+                        property.SetValue(updated, propertyValue);
+                    }
+                }
+                entity.StreetAddress = Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(updated);
             }
         }
 
@@ -169,7 +189,17 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
             if (RentPerSquareMetreUpdateValue == null) { entity.RentPerSquareMetre = null; }
             else
             {
-                entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(RentPerSquareMetreUpdateValue);
+                var updated = entity.RentPerSquareMetre ?? new Nox.Types.Money();
+                foreach(var pair in RentPerSquareMetreUpdateValue)
+                {
+                    var property = typeof(Nox.Types.Money).GetProperty(pair.Key);
+                    if (property != null)
+                    {
+                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
+                        property.SetValue(updated, propertyValue);
+                    }
+                }
+                entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(updated);
             }
         }
     }

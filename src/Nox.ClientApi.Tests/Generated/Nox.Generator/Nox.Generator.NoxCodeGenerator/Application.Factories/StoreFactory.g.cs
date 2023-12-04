@@ -122,7 +122,17 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
                 throw new ArgumentException("Attribute 'Address' can't be null");
             }
             {
-                entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(AddressUpdateValue);
+                var updated = entity.Address ?? new Nox.Types.StreetAddress();
+                foreach(var pair in AddressUpdateValue)
+                {
+                    var property = typeof(Nox.Types.StreetAddress).GetProperty(pair.Key);
+                    if (property != null)
+                    {
+                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
+                        property.SetValue(updated, propertyValue);
+                    }
+                }
+                entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(updated);
             }
         }
 
@@ -133,7 +143,17 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
                 throw new ArgumentException("Attribute 'Location' can't be null");
             }
             {
-                entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(LocationUpdateValue);
+                var updated = entity.Location ?? new Nox.Types.LatLong();
+                foreach(var pair in LocationUpdateValue)
+                {
+                    var property = typeof(Nox.Types.LatLong).GetProperty(pair.Key);
+                    if (property != null)
+                    {
+                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
+                        property.SetValue(updated, propertyValue);
+                    }
+                }
+                entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(updated);
             }
         }
 
