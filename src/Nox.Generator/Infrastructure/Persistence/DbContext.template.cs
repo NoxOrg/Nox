@@ -11,6 +11,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Logging;
 {{- if  codeGeneratorState.Solution.Infrastructure?.Messaging != null}}
 using MassTransit;
 {{- end }}
@@ -46,10 +47,11 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             INoxClientAssemblyProvider clientAssemblyProvider,
             IUserProvider userProvider,
             ISystemProvider systemProvider,
-            NoxCodeGenConventions codeGeneratorState
-        ) : base(publisher, userProvider, systemProvider, databaseProvider, options)
-        {
-            _noxSolution = noxSolution;
+            NoxCodeGenConventions codeGeneratorState,
+            ILogger<AppDbContext> logger
+        ) : base(publisher, userProvider, systemProvider, databaseProvider, logger, options)
+    {
+        _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
             _codeGenConventions = codeGeneratorState;

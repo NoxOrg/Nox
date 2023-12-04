@@ -138,7 +138,7 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
     public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteTestEntityExactlyOneByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteTestEntityExactlyOneByIdCommand(new List<TestEntityExactlyOneKeyDto> { new TestEntityExactlyOneKeyDto(key) }, etag));
 
         if (!result)
         {

@@ -138,7 +138,7 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteCashStockOrderByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteCashStockOrderByIdCommand(new List<CashStockOrderKeyDto> { new CashStockOrderKeyDto(key) }, etag));
 
         if (!result)
         {

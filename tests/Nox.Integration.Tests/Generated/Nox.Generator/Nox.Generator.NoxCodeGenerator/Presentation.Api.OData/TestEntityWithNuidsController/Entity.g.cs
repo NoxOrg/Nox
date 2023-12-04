@@ -138,7 +138,7 @@ public abstract partial class TestEntityWithNuidsControllerBase : ODataControlle
     public virtual async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteTestEntityWithNuidByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteTestEntityWithNuidByIdCommand(new List<TestEntityWithNuidKeyDto> { new TestEntityWithNuidKeyDto(key) }, etag));
 
         if (!result)
         {

@@ -16,8 +16,6 @@ internal static class CurrencyExtensions
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
         dto.SetIfNotNull(entity?.Name, (dto) => dto.Name =entity!.Name!.Value);
         dto.SetIfNotNull(entity?.Symbol, (dto) => dto.Symbol =entity!.Symbol!.Value);
-        dto.SetIfNotNull(entity?.StoreLicenseDefault, (dto) => dto.StoreLicenseDefault = entity!.StoreLicenseDefault.Select(e => e.ToDto()).ToList());
-        dto.SetIfNotNull(entity?.StoreLicenseSoldIn, (dto) => dto.StoreLicenseSoldIn = entity!.StoreLicenseSoldIn.Select(e => e.ToDto()).ToList());
 
         return dto;
     }

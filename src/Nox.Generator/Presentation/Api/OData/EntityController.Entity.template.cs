@@ -155,9 +155,9 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     {
         {{- if !entity.IsOwnedEntity }}
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new Delete{{entity.Name}}ByIdCommand({{ primaryKeysQuery }}, etag));
+        var result = await _mediator.Send(new Delete{{entity.Name}}ByIdCommand(new List<{{entity.Name}}KeyDto> { new {{entity.Name}}KeyDto({{ primaryKeysQuery }}) }, etag));
         {{- else }}
-        var result = await _mediator.Send(new Delete{{entity.Name}}ByIdCommand({{ primaryKeysQuery }}));
+        var result = await _mediator.Send(new Delete{{entity.Name}}ByIdCommand(new List<{{entity.Name}}KeyDto> { new {{entity.Name}}KeyDto({{ primaryKeysQuery }}) }));
         {{- end }}
 
         if (!result)

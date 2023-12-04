@@ -172,7 +172,7 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteSecondTestEntityOneOrManyByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteSecondTestEntityOneOrManyByIdCommand(new List<SecondTestEntityOneOrManyKeyDto> { new SecondTestEntityOneOrManyKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();

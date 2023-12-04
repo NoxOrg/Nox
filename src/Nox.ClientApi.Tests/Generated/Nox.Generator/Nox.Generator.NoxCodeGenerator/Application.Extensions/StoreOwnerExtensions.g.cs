@@ -20,7 +20,6 @@ internal static class StoreOwnerExtensions
         dto.SetIfNotNull(entity?.StreetAddress, (dto) => dto.StreetAddress =entity!.StreetAddress!.ToDto());
         dto.SetIfNotNull(entity?.LocalGreeting, (dto) => dto.LocalGreeting =entity!.LocalGreeting!.ToDto());
         dto.SetIfNotNull(entity?.Notes, (dto) => dto.Notes =entity!.Notes!.Value);
-        dto.SetIfNotNull(entity?.Stores, (dto) => dto.Stores = entity!.Stores.Select(e => e.ToDto()).ToList());
 
         return dto;
     }

@@ -57,6 +57,7 @@ internal class DtoDbContext : DbContext
         public virtual DbSet<StoreLicenseDto> StoreLicenses { get; set; } = null!;
         public virtual DbSet<CurrencyDto> Currencies { get; set; } = null!;
         public virtual DbSet<TenantDto> Tenants { get; set; } = null!;
+        public virtual DbSet<ClientDto> Clients { get; set; } = null!;
     public virtual DbSet<WorkplaceLocalizedDto> WorkplacesLocalized { get; set; } = null!;
     public virtual DbSet<DtoNameSpace.CountryContinentDto> CountriesContinents { get; set; } = null!;
     public virtual DbSet<DtoNameSpace.CountryContinentLocalizedDto> CountriesContinentsLocalized { get; set; } = null!;
@@ -108,5 +109,6 @@ private void ConfigureAuditable(ModelBuilder modelBuilder)
         modelBuilder.Entity<StoreOwnerDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<StoreLicenseDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<CurrencyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<ClientDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
     }
 }

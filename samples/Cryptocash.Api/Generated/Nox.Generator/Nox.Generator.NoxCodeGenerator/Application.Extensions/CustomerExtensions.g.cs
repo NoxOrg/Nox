@@ -19,10 +19,6 @@ internal static class CustomerExtensions
         dto.SetIfNotNull(entity?.EmailAddress, (dto) => dto.EmailAddress =entity!.EmailAddress!.Value);
         dto.SetIfNotNull(entity?.Address, (dto) => dto.Address =entity!.Address!.ToDto());
         dto.SetIfNotNull(entity?.MobileNumber, (dto) => dto.MobileNumber =entity!.MobileNumber!.Value);
-        dto.SetIfNotNull(entity?.PaymentDetails, (dto) => dto.PaymentDetails = entity!.PaymentDetails.Select(e => e.ToDto()).ToList());
-        dto.SetIfNotNull(entity?.Bookings, (dto) => dto.Bookings = entity!.Bookings.Select(e => e.ToDto()).ToList());
-        dto.SetIfNotNull(entity?.Transactions, (dto) => dto.Transactions = entity!.Transactions.Select(e => e.ToDto()).ToList());
-        dto.SetIfNotNull(entity?.CountryId, (dto) => dto.CountryId = entity!.CountryId!.Value);
 
         return dto;
     }

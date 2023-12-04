@@ -138,7 +138,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteWorkplaceByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteWorkplaceByIdCommand(new List<WorkplaceKeyDto> { new WorkplaceKeyDto(key) }, etag));
 
         if (!result)
         {

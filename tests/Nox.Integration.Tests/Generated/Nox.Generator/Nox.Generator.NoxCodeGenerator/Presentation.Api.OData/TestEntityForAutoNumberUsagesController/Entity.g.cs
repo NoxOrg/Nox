@@ -138,7 +138,7 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
     public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteTestEntityForAutoNumberUsagesByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteTestEntityForAutoNumberUsagesByIdCommand(new List<TestEntityForAutoNumberUsagesKeyDto> { new TestEntityForAutoNumberUsagesKeyDto(key) }, etag));
 
         if (!result)
         {

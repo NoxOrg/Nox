@@ -138,7 +138,7 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
     public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteTestEntityForUniqueConstraintsByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteTestEntityForUniqueConstraintsByIdCommand(new List<TestEntityForUniqueConstraintsKeyDto> { new TestEntityForUniqueConstraintsKeyDto(key) }, etag));
 
         if (!result)
         {

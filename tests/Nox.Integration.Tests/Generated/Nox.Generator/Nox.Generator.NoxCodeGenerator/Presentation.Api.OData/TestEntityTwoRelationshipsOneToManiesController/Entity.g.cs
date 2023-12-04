@@ -138,7 +138,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
     public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteTestEntityTwoRelationshipsOneToManyByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteTestEntityTwoRelationshipsOneToManyByIdCommand(new List<TestEntityTwoRelationshipsOneToManyKeyDto> { new TestEntityTwoRelationshipsOneToManyKeyDto(key) }, etag));
 
         if (!result)
         {

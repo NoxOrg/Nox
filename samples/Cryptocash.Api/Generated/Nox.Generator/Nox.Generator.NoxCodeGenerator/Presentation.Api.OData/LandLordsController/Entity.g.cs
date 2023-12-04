@@ -138,7 +138,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteLandLordByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteLandLordByIdCommand(new List<LandLordKeyDto> { new LandLordKeyDto(key) }, etag));
 
         if (!result)
         {

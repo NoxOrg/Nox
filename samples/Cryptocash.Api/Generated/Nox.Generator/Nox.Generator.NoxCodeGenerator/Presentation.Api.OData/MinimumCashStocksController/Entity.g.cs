@@ -138,7 +138,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteMinimumCashStockByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteMinimumCashStockByIdCommand(new List<MinimumCashStockKeyDto> { new MinimumCashStockKeyDto(key) }, etag));
 
         if (!result)
         {

@@ -138,7 +138,7 @@ public abstract partial class TransactionsControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteTransactionByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteTransactionByIdCommand(new List<TransactionKeyDto> { new TransactionKeyDto(key) }, etag));
 
         if (!result)
         {

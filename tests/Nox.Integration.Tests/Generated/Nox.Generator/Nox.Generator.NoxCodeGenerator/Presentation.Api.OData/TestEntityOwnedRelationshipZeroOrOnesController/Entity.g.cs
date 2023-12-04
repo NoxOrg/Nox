@@ -138,7 +138,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
     public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteTestEntityOwnedRelationshipZeroOrOneByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteTestEntityOwnedRelationshipZeroOrOneByIdCommand(new List<TestEntityOwnedRelationshipZeroOrOneKeyDto> { new TestEntityOwnedRelationshipZeroOrOneKeyDto(key) }, etag));
 
         if (!result)
         {

@@ -138,7 +138,7 @@ public abstract partial class RatingProgramsControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteRatingProgramByIdCommand(keyStoreId, keyId, etag));
+        var result = await _mediator.Send(new DeleteRatingProgramByIdCommand(new List<RatingProgramKeyDto> { new RatingProgramKeyDto(keyStoreId, keyId) }, etag));
 
         if (!result)
         {

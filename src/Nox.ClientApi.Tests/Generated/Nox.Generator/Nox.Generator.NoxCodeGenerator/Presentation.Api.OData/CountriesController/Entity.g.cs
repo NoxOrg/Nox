@@ -138,7 +138,7 @@ public abstract partial class CountriesControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteCountryByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteCountryByIdCommand(new List<CountryKeyDto> { new CountryKeyDto(key) }, etag));
 
         if (!result)
         {

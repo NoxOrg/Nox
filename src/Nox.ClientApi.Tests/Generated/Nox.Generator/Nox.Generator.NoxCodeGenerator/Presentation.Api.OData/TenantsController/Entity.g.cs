@@ -138,7 +138,7 @@ public abstract partial class TenantsControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteTenantByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteTenantByIdCommand(new List<TenantKeyDto> { new TenantKeyDto(key) }, etag));
 
         if (!result)
         {

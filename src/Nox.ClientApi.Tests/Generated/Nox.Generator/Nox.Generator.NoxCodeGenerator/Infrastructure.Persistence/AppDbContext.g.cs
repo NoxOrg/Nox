@@ -11,6 +11,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Logging;
 using MassTransit;
 
 using Nox;
@@ -44,10 +45,11 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             INoxClientAssemblyProvider clientAssemblyProvider,
             IUserProvider userProvider,
             ISystemProvider systemProvider,
-            NoxCodeGenConventions codeGeneratorState
-        ) : base(publisher, userProvider, systemProvider, databaseProvider, options)
-        {
-            _noxSolution = noxSolution;
+            NoxCodeGenConventions codeGeneratorState,
+            ILogger<AppDbContext> logger
+        ) : base(publisher, userProvider, systemProvider, databaseProvider, logger, options)
+    {
+        _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
             _codeGenConventions = codeGeneratorState;
@@ -62,6 +64,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
     public virtual DbSet<ClientApi.Domain.StoreLicense> StoreLicenses { get; set; } = null!;
     public virtual DbSet<ClientApi.Domain.Currency> Currencies { get; set; } = null!;
     public virtual DbSet<ClientApi.Domain.Tenant> Tenants { get; set; } = null!;
+    public virtual DbSet<ClientApi.Domain.Client> Clients { get; set; } = null!;
     public virtual DbSet<ClientApi.Domain.WorkplaceLocalized> WorkplacesLocalized { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.CountryContinent> CountriesContinents { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.CountryContinentLocalized> CountriesContinentsLocalized { get; set; } = null!;
@@ -125,5 +128,6 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
         modelBuilder.Entity<ClientApi.Domain.StoreOwner>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.StoreLicense>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.Currency>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<ClientApi.Domain.Client>().HasQueryFilter(p => p.DeletedAtUtc == null);
     }
 }

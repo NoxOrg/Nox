@@ -138,7 +138,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteCurrencyByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteCurrencyByIdCommand(new List<CurrencyKeyDto> { new CurrencyKeyDto(key) }, etag));
 
         if (!result)
         {

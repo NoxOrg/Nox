@@ -138,7 +138,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     public virtual async Task<ActionResult> Delete([FromRoute] System.Int32 key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteEntityUniqueConstraintsRelatedForeignKeyByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteEntityUniqueConstraintsRelatedForeignKeyByIdCommand(new List<EntityUniqueConstraintsRelatedForeignKeyKeyDto> { new EntityUniqueConstraintsRelatedForeignKeyKeyDto(key) }, etag));
 
         if (!result)
         {

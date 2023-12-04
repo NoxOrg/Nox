@@ -138,7 +138,7 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
     public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteThirdTestEntityZeroOrOneByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteThirdTestEntityZeroOrOneByIdCommand(new List<ThirdTestEntityZeroOrOneKeyDto> { new ThirdTestEntityZeroOrOneKeyDto(key) }, etag));
 
         if (!result)
         {

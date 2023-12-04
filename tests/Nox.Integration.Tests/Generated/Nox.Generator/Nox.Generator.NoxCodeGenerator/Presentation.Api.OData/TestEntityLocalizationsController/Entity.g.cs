@@ -138,7 +138,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
     public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteTestEntityLocalizationByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteTestEntityLocalizationByIdCommand(new List<TestEntityLocalizationKeyDto> { new TestEntityLocalizationKeyDto(key) }, etag));
 
         if (!result)
         {

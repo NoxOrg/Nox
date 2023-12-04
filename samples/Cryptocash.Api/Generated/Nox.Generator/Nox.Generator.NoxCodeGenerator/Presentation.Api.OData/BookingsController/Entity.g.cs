@@ -138,7 +138,7 @@ public abstract partial class BookingsControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteBookingByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteBookingByIdCommand(new List<BookingKeyDto> { new BookingKeyDto(key) }, etag));
 
         if (!result)
         {

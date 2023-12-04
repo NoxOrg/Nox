@@ -172,7 +172,7 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteStoreByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteStoreByIdCommand(new List<StoreKeyDto> { new StoreKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();

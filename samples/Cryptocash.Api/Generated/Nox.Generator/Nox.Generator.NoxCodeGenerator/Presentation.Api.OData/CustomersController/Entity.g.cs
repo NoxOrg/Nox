@@ -138,7 +138,7 @@ public abstract partial class CustomersControllerBase : ODataController
     public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteCustomerByIdCommand(key, etag));
+        var result = await _mediator.Send(new DeleteCustomerByIdCommand(new List<CustomerKeyDto> { new CustomerKeyDto(key) }, etag));
 
         if (!result)
         {

@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
 using SecondTestEntityZeroOrOneEntity = TestWebApp.Domain.SecondTestEntityZeroOrOne;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record DeleteSecondTestEntityZeroOrOneByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteSecondTestEntityZeroOrOneByIdCommand(IEnumerable<SecondTestEntityZeroOrOneKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteSecondTestEntityZeroOrOneByIdCommandHandler : DeleteSecondTestEntityZeroOrOneByIdCommandHandlerBase
 {
@@ -23,7 +24,7 @@ internal class DeleteSecondTestEntityZeroOrOneByIdCommandHandler : DeleteSecondT
 	{
 	}
 }
-internal abstract class DeleteSecondTestEntityZeroOrOneByIdCommandHandlerBase : CommandBase<DeleteSecondTestEntityZeroOrOneByIdCommand, SecondTestEntityZeroOrOneEntity>, IRequestHandler<DeleteSecondTestEntityZeroOrOneByIdCommand, bool>
+internal abstract class DeleteSecondTestEntityZeroOrOneByIdCommandHandlerBase : CommandCollectionBase<DeleteSecondTestEntityZeroOrOneByIdCommand, SecondTestEntityZeroOrOneEntity>, IRequestHandler<DeleteSecondTestEntityZeroOrOneByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -38,18 +39,25 @@ internal abstract class DeleteSecondTestEntityZeroOrOneByIdCommandHandlerBase : 
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.SecondTestEntityZeroOrOneMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.SecondTestEntityZeroOrOnes.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted == true)
+		
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<SecondTestEntityZeroOrOneEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
-			return false;
+			var keyId = TestWebApp.Domain.SecondTestEntityZeroOrOneMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.SecondTestEntityZeroOrOnes.FindAsync(keyId);
+			if (entity == null || entity.IsDeleted == true)
+			{
+				return false;
+			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+			entities.Add(entity);			
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Deleted;
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

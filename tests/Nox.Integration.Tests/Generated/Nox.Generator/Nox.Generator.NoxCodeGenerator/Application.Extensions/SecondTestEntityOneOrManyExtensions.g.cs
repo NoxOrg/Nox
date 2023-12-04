@@ -15,7 +15,6 @@ internal static class SecondTestEntityOneOrManyExtensions
         var dto = new SecondTestEntityOneOrManyDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
         dto.SetIfNotNull(entity?.TextTestField2, (dto) => dto.TextTestField2 =entity!.TextTestField2!.Value);
-        dto.SetIfNotNull(entity?.TestEntityOneOrManies, (dto) => dto.TestEntityOneOrManies = entity!.TestEntityOneOrManies.Select(e => e.ToDto()).ToList());
 
         return dto;
     }

@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
+using ClientApi.Application.Dto;
 using CountryQualityOfLifeIndexEntity = ClientApi.Domain.CountryQualityOfLifeIndex;
 
 namespace ClientApi.Application.Commands;
 
-public partial record DeleteCountryQualityOfLifeIndexByIdCommand(System.Int64 keyCountryId, System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteCountryQualityOfLifeIndexByIdCommand(IEnumerable<CountryQualityOfLifeIndexKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteCountryQualityOfLifeIndexByIdCommandHandler : DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase
 {
@@ -23,7 +24,7 @@ internal class DeleteCountryQualityOfLifeIndexByIdCommandHandler : DeleteCountry
 	{
 	}
 }
-internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase : CommandBase<DeleteCountryQualityOfLifeIndexByIdCommand, CountryQualityOfLifeIndexEntity>, IRequestHandler<DeleteCountryQualityOfLifeIndexByIdCommand, bool>
+internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase : CommandCollectionBase<DeleteCountryQualityOfLifeIndexByIdCommand, CountryQualityOfLifeIndexEntity>, IRequestHandler<DeleteCountryQualityOfLifeIndexByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -38,18 +39,26 @@ internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase : 
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyCountryId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateCountryId(request.keyCountryId);
-		var keyId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.CountryQualityOfLifeIndices.FindAsync(keyCountryId, keyId);
-		if (entity == null)
+		
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<CountryQualityOfLifeIndexEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
-			return false;
+			var keyCountryId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateCountryId(keyDto.keyCountryId);
+			var keyId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.CountryQualityOfLifeIndices.FindAsync(keyCountryId, keyId);
+			if (entity == null)
+			{
+				return false;
+			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+			entities.Add(entity);			
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
-		await OnCompletedAsync(request, entity);DbContext.CountryQualityOfLifeIndices.Remove(entity);
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}
