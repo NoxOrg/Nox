@@ -12,6 +12,7 @@ This document provides information about the various endpoints available in our 
 - **GET** `/api/Continents`
   - Description: Retrieve information about Continents.
 
+
 ## Relationships Endpoints
 
 ### Country

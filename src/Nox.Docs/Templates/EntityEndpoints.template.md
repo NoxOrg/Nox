@@ -11,6 +11,9 @@ This document provides information about the various endpoints available in our 
 ### Get {{entity.PluralName}}
 - **GET** `/api/{{entity.PluralName}}`
   - Description: Retrieve information about {{entity.PluralName}}.
+{{ if entity.IsLocalized }}
+- **GET** `/api/{{entity.PluralName}}/{key}/{{entity.PluralName}}Localized`
+  - Description: Retrieve all {{entity.PluralName}}Localized for a specific {{entity.Name}}.{{ end }}
 {{ end }}{{ if entity.Persistence.Create.IsEnabled }}
 ### Create {{entity.Name}}
 - **POST** `/api/{{entity.PluralName}}`
@@ -19,6 +22,9 @@ This document provides information about the various endpoints available in our 
 ### Update {{entity.Name}}
 - **PUT** `/api/{{entity.PluralName}}/{key}`
   - Description: Update an existing {{entity.Name}}.
+{{ if entity.IsLocalized }}
+- **PUT** `/api/{{entity.PluralName}}/{key}/{{entity.PluralName}}Localized/{cultureCode}`
+  - Description: Update or create values of {{entity.Name}}Localized for a specific {{entity.Name}}. Requires a payload with the new value of {{entity.Name}}LocalizedUpsertDto.{{ end }}
 
 ### Partially Update {{entity.Name}}
 - **PATCH** `/api/{{entity.PluralName}}/{key}`
