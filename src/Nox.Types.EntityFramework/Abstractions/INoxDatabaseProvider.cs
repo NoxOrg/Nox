@@ -6,13 +6,11 @@ namespace Nox.Types.EntityFramework.Abstractions;
 
 public interface INoxDatabaseProvider
 {
-    NoxDataStoreTypeFlags StoreTypes { get; }
+    NoxDataStoreType StoreType { get; }
     string ConnectionString { get; }
     DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer, string? migrationsAssembly = null);
     string ToTableNameForSql(string table, string schema);
     string ToTableNameForSqlRaw(string table, string schema);
-    void SetStoreTypeFlag(NoxDataStoreTypeFlags storeType);
-    void UnSetStoreTypeFlag(NoxDataStoreTypeFlags storeTypeFlag);
 
     /// <summary>
     /// Raw SQL to Select Sequence Next Value

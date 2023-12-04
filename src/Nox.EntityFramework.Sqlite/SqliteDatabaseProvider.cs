@@ -12,14 +12,24 @@ namespace Nox.EntityFramework.Sqlite;
 public class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDatabaseProvider
 {
     public string ConnectionString { get; protected set; } = string.Empty;
-    public NoxDataStoreTypeFlags StoreTypes { get; private set; }
+    public NoxDataStoreType StoreType { get; }
 
     public SqliteDatabaseProvider(
         IEnumerable<INoxTypeDatabaseConfigurator> configurators,
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
         INoxClientAssemblyProvider clientAssemblyProvider
+    ) : this(NoxDataStoreType.EntityStore, configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider)
+    {
+    }
+    
+    public SqliteDatabaseProvider(
+        NoxDataStoreType storeType,
+        IEnumerable<INoxTypeDatabaseConfigurator> configurators,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
+        INoxClientAssemblyProvider clientAssemblyProvider
         ) : base(configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider, typeof(ISqliteNoxTypeDatabaseConfigurator))
     {
+        StoreType = storeType;
     }
 
     public virtual DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer, string? migrationsAssembly = null)
@@ -37,16 +47,6 @@ public class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDatabaseProvi
     public string ToTableNameForSqlRaw(string table, string schema)
     {
         throw new NotImplementedException();
-    }
-
-    public void SetStoreTypeFlag(NoxDataStoreTypeFlags storeType)
-    {
-        StoreTypes |= storeType;
-    }
-
-    public void UnSetStoreTypeFlag(NoxDataStoreTypeFlags storeTypeFlag)
-    {
-        StoreTypes &= storeTypeFlag;
     }
 
     public string GetSqlStatementForSequenceNextValue(string sequenceName)

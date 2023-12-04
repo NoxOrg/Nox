@@ -105,6 +105,9 @@
       <None Update="files\SourceFilter\source-filter.solution.nox.yaml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="files\CustomHandler\infrastructure\persistence\custom.persistence.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

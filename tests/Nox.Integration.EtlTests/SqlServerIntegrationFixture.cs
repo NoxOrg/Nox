@@ -6,17 +6,20 @@ using Nox.Infrastructure;
 using Nox.Integration.Extensions;
 using Nox.Integration.SqlServer;
 using Nox.Solution;
+using Nox.Types.EntityFramework;
+using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Integration.EtlTests;
 
 public class SqlServerIntegrationFixture
 {
     public IServiceProvider? ServiceProvider { get; private set; }
+    public IServiceCollection? Services { get; private set; } 
     
-    public void Initialize(string yamlFile)
+    public void Configure(string yamlFile)
     {
-        var services = new ServiceCollection();
-        services.AddLogging(configure =>
+        Services = new ServiceCollection();
+        Services.AddLogging(configure =>
         {
             configure.AddConsole();
         });
@@ -25,15 +28,20 @@ public class SqlServerIntegrationFixture
             .WithFile(yamlFile)
             .Build();
 
-        services.AddSingleton<NoxSolution>(solution);
-        services.AddSingleton(new NoxCodeGenConventions(solution));
-        services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
+        Services.AddSingleton<INoxDatabaseProviderResolver, NoxDatabaseProviderResolver>();
+        Services.AddSingleton<NoxSolution>(solution);
+        Services.AddSingleton(new NoxCodeGenConventions(solution));
+        Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
         
-        services.AddNoxIntegrations(opts =>
+        Services.AddNoxIntegrations(opts =>
         {
             opts.WithSqlServerStore();
         });
-        ServiceProvider = services.BuildServiceProvider();
         
+    }
+
+    public void Initialize()
+    {
+        ServiceProvider = Services!.BuildServiceProvider();
     }
 }

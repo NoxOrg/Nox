@@ -14,7 +14,7 @@ public class MsSqlTestProvider : SqlServerDatabaseProvider
         IEnumerable<INoxTypeDatabaseConfigurator> configurators,
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
         INoxClientAssemblyProvider clientAssemblyProvider
-        ) : base(NoxDataStoreTypeFlags.EntityStore, configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider)
+        ) : base(NoxDataStoreType.EntityStore, configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider)
     {
         ConnectionString = connectionString;
     }

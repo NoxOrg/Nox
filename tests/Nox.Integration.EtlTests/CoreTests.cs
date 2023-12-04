@@ -22,10 +22,12 @@ public class CoreTests: IClassFixture<SqlServerIntegrationFixture>
 
     
     [Fact (Skip = "This test can only be run locally if you have a local sql server instance and have created the CountrySource database using ./files/Create_CountrySource.sql")]
-    public Task Can_Execute_an_Integration_From_Yaml_Definition()
+    //[Fact]
+    public async Task Can_Execute_an_Integration_From_Yaml_Definition()
     {
-        _sqlFixture.Initialize("./files/Minimal/minimal.solution.nox.yaml");
+        _sqlFixture.Configure("./files/Minimal/minimal.solution.nox.yaml");
+        _sqlFixture.Initialize();
         var context = _sqlFixture.ServiceProvider!.GetRequiredService<INoxIntegrationContext>();
-        return context.ExecuteIntegrationAsync("SqlToSqlIntegration");
+        await context.ExecuteIntegrationAsync("SqlToSqlIntegration");
     }
 }

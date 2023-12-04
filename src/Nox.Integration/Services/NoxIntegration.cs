@@ -251,7 +251,7 @@ internal sealed class NoxIntegration: INoxIntegration
     {
         var timestamp = await dbContext.MergeStates!.FirstOrDefaultAsync(ts =>
             ts.Integration!.Equals(Name) &&
-            ts.Property!.Equals(IntegrationContextConstants.DefaultFilterProperty));
+            !ts.Property!.Equals(IntegrationContextConstants.DefaultFilterProperty));
         if (timestamp != null) dbContext.MergeStates!.Remove(timestamp);
     }
 
@@ -322,6 +322,7 @@ internal sealed class NoxIntegration: INoxIntegration
 
     private async Task SetLastMergeState(NoxIntegrationDbContext dbContext, string propertyName, DateTime lastMergeDateTime)
     {
+        Console.WriteLine(dbContext.MergeStates!.Count());
         var timestamp = await dbContext.MergeStates!.SingleAsync(ts =>
             ts.Integration!.Equals(Name) &&
             ts.Property!.Equals(propertyName));

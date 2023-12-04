@@ -13,19 +13,25 @@ namespace Nox.EntityFramework.SqlServer;
 
 public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider
 {
-    private readonly NoxDataStoreTypeFlags _storeType;
-    
-    public NoxDataStoreTypeFlags StoreTypes { get; private set; }
+    public NoxDataStoreType StoreType { get; }
 
     public string ConnectionString { get; protected set; } = string.Empty;
     
     public SqlServerDatabaseProvider(
-        NoxDataStoreTypeFlags storeType,
+        IEnumerable<INoxTypeDatabaseConfigurator> configurators, 
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
+        INoxClientAssemblyProvider clientAssemblyProvider): this(NoxDataStoreType.EntityStore, configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider)
+    {
+        
+    }
+    
+    public SqlServerDatabaseProvider(
+        NoxDataStoreType storeType,
         IEnumerable<INoxTypeDatabaseConfigurator> configurators, 
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
         INoxClientAssemblyProvider clientAssemblyProvider): base(configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider, typeof(ISqlServerNoxTypeDatabaseConfigurator))
     {
-        _storeType = storeType;
+        StoreType = storeType;
     }
 
     protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(EntityTypeBuilder builder, Entity entity)
@@ -73,16 +79,6 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
     public string ToTableNameForSqlRaw(string table, string schema)
     {
         throw new NotImplementedException();
-    }
-
-    public void SetStoreTypeFlag(NoxDataStoreTypeFlags storeType)
-    {
-        StoreTypes |= storeType;
-    }
-
-    public void UnSetStoreTypeFlag(NoxDataStoreTypeFlags storeTypeFlag)
-    {
-        StoreTypes &= storeTypeFlag;
     }
 
     public string GetSqlStatementForSequenceNextValue(string sequenceName)

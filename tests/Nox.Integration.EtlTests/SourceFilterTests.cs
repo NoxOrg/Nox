@@ -18,7 +18,8 @@ public class SourceFilterTests: IClassFixture<SqlServerIntegrationFixture>
     //[Fact]
     public Task Can_filter_sql_server_query()
     {
-        _sqlFixture.Initialize("./files/SourceFilter/source-filter.solution.nox.yaml");
+        _sqlFixture.Configure("./files/SourceFilter/source-filter.solution.nox.yaml");
+        _sqlFixture.Initialize();
         var context = _sqlFixture.ServiceProvider!.GetRequiredService<INoxIntegrationContext>();
         return context.ExecuteIntegrationAsync("SqlToSqlIntegration");
     }

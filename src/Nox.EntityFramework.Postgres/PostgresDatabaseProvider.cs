@@ -12,14 +12,24 @@ namespace Nox.EntityFramework.Postgres;
 public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider 
 {
     public string ConnectionString { get; protected set; } = string.Empty;
-    public NoxDataStoreTypeFlags StoreTypes { get; private set; }
+    public NoxDataStoreType StoreType { get; }
     
     public PostgresDatabaseProvider(
         IEnumerable<INoxTypeDatabaseConfigurator> configurators,
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
         INoxClientAssemblyProvider clientAssemblyProvider
+    ) : this(NoxDataStoreType.EntityStore, configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider)
+    {
+    }
+    
+    public PostgresDatabaseProvider(
+        NoxDataStoreType storeType,
+        IEnumerable<INoxTypeDatabaseConfigurator> configurators,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
+        INoxClientAssemblyProvider clientAssemblyProvider
         ) : base(configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider, typeof(IPostgresNoxTypeDatabaseConfigurator))
     {
+        StoreType = storeType;
     }
 
     protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(EntityTypeBuilder builder, Entity entity)
@@ -59,16 +69,6 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
     public string ToTableNameForSqlRaw(string table, string schema)
     {
         throw new NotImplementedException();
-    }
-
-    public void SetStoreTypeFlag(NoxDataStoreTypeFlags storeType)
-    {
-        StoreTypes |= storeType;
-    }
-
-    public void UnSetStoreTypeFlag(NoxDataStoreTypeFlags storeTypeFlag)
-    {
-        StoreTypes &= storeTypeFlag;
     }
 
     public string GetSqlStatementForSequenceNextValue(string sequenceName)

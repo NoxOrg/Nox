@@ -10,7 +10,7 @@ name: CustomIntegration
 description: Yaml file for testing integrations with custom transform handlers
 
 application:
-  $ref: ./application/minimal.application.nox.yaml
+  $ref: ./application/custom.application.nox.yaml
 
 infrastructure:
   $ref: ./infrastructure/custom.infrastructure.nox.yaml

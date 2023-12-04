@@ -19,5 +19,5 @@ public class Persistence
 
     public EventSourceServer? EventSourceServer { get; internal set; }
     
-    public IntegrationStoreServer? IntegrationStoreServer { get; internal set; }
+    public DatabaseServer? IntegrationStoreServer { get; internal set; }
 }

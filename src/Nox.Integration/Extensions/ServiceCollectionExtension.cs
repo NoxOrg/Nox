@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Nox.Abstractions;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Services;
 
