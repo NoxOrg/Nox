@@ -100,6 +100,7 @@ internal static class YamlWithLineInfoParser
 
             case ScalarStyle.SingleQuoted:
             case ScalarStyle.DoubleQuoted:
+            case ScalarStyle.Folded:
                 return scalar.Value;
 
             // ... handle other styles if necessary

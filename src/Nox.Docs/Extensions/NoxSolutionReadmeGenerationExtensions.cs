@@ -26,7 +26,9 @@ public static class NoxSolutionReadmeGenerationExtensions
     {
         CreateFolderIfDoesNotExist(filePath);
 
-        File.WriteAllText(filePath, fileContent);
+        // make sure all newlines are cr+lf - messes with git otherwise
+        File.WriteAllText(filePath, fileContent
+            .ReplaceLineEndings("\r\n"));
     }
 
     private static void CreateFolderIfDoesNotExist(string filePath)

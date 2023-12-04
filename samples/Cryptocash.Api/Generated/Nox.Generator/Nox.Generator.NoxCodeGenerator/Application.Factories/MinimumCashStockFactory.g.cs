@@ -26,11 +26,14 @@ namespace Cryptocash.Application.Factories;
 internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public MinimumCashStockFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual MinimumCashStockEntity CreateEntity(MinimumCashStockCreateDto createDto)
@@ -88,4 +91,9 @@ internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCash
 
 internal partial class MinimumCashStockFactory : MinimumCashStockFactoryBase
 {
+    public MinimumCashStockFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

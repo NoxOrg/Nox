@@ -26,11 +26,14 @@ namespace ClientApi.Application.Factories;
 internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public WorkplaceFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual WorkplaceEntity CreateEntity(WorkplaceCreateDto createDto)
@@ -106,4 +109,9 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
 
 internal partial class WorkplaceFactory : WorkplaceFactoryBase
 {
+    public WorkplaceFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

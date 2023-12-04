@@ -29,7 +29,7 @@ public abstract partial class BookingsControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToCustomer([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCustomer([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -45,7 +45,7 @@ public abstract partial class BookingsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCustomer([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> GetRefToCustomer([FromRoute] System.Guid key)
     {
         var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Customer).SingleOrDefault();
         if (related is null)
@@ -106,7 +106,7 @@ public abstract partial class BookingsControllerBase : ODataController
         return Ok();
     }
     
-    public async Task<ActionResult> CreateRefToVendingMachine([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> CreateRefToVendingMachine([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -122,7 +122,7 @@ public abstract partial class BookingsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToVendingMachine([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> GetRefToVendingMachine([FromRoute] System.Guid key)
     {
         var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.VendingMachine).SingleOrDefault();
         if (related is null)
@@ -183,7 +183,7 @@ public abstract partial class BookingsControllerBase : ODataController
         return Ok();
     }
     
-    public async Task<ActionResult> CreateRefToCommission([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCommission([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -199,7 +199,7 @@ public abstract partial class BookingsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCommission([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> GetRefToCommission([FromRoute] System.Guid key)
     {
         var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Commission).SingleOrDefault();
         if (related is null)
@@ -260,7 +260,7 @@ public abstract partial class BookingsControllerBase : ODataController
         return Ok();
     }
     
-    public async Task<ActionResult> CreateRefToTransaction([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTransaction([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -276,7 +276,7 @@ public abstract partial class BookingsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTransaction([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> GetRefToTransaction([FromRoute] System.Guid key)
     {
         var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Transaction).SingleOrDefault();
         if (related is null)

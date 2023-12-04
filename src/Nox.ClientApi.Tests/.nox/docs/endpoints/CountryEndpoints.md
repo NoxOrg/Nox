@@ -35,17 +35,19 @@ This document provides information about the various endpoints available in our 
 #### Get CountryLocalNames
 - **GET** `/api/Countries/{key}/CountryLocalNames`
   - Description: Retrieve all CountryLocalNames for a specific Country.
+- **GET** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
+  - Description: Retrieve a CountryLocalName by ID for a specific Country.
 
 #### Create CountryLocalName
 - **POST** `/api/Countries/{key}/CountryLocalNames`
   - Description: Create a new CountryLocalName for a specific Country.
 
 #### Update CountryLocalName
-- **PUT** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
+- **PUT** `/api/Countries/{key}/CountryLocalNames`
   - Description: Update an existing CountryLocalName for a specific Country.
   
 #### Partially Update CountryLocalName
-- **PATCH** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
+- **PATCH** `/api/Countries/{key}/CountryLocalNames`
   - Description: Partially update an existing CountryLocalName for a specific Country.
 
 #### Delete CountryLocalName
@@ -63,16 +65,64 @@ This document provides information about the various endpoints available in our 
   - Description: Create a new CountryBarCode for a specific Country.
 
 #### Update CountryBarCode
-- **PUT** `/api/Countries/{key}/CountryBarCodes/{relatedKey}`
+- **PUT** `/api/Countries/{key}/CountryBarCodes`
   - Description: Update an existing CountryBarCode for a specific Country.
   
 #### Partially Update CountryBarCode
-- **PATCH** `/api/Countries/{key}/CountryBarCodes/{relatedKey}`
+- **PATCH** `/api/Countries/{key}/CountryBarCodes`
   - Description: Partially update an existing CountryBarCode for a specific Country.
 
 #### Delete CountryBarCode
 - **DELETE** `/api/Countries/{key}/CountryBarCodes/{relatedKey}`
   - Description: Delete an existing CountryBarCode for a specific Country.
+
+### CountryTimeZone
+
+#### Get CountryTimeZones
+- **GET** `/api/Countries/{key}/CountryTimeZones`
+  - Description: Retrieve all CountryTimeZones for a specific Country.
+- **GET** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
+  - Description: Retrieve a CountryTimeZone by ID for a specific Country.
+
+#### Create CountryTimeZone
+- **POST** `/api/Countries/{key}/CountryTimeZones`
+  - Description: Create a new CountryTimeZone for a specific Country.
+
+#### Update CountryTimeZone
+- **PUT** `/api/Countries/{key}/CountryTimeZones`
+  - Description: Update an existing CountryTimeZone for a specific Country.
+  
+#### Partially Update CountryTimeZone
+- **PATCH** `/api/Countries/{key}/CountryTimeZones`
+  - Description: Partially update an existing CountryTimeZone for a specific Country.
+
+#### Delete CountryTimeZone
+- **DELETE** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
+  - Description: Delete an existing CountryTimeZone for a specific Country.
+
+### Holiday
+
+#### Get Holidays
+- **GET** `/api/Countries/{key}/Holidays`
+  - Description: Retrieve all Holidays for a specific Country.
+- **GET** `/api/Countries/{key}/Holidays/{relatedKey}`
+  - Description: Retrieve a Holiday by ID for a specific Country.
+
+#### Create Holiday
+- **POST** `/api/Countries/{key}/Holidays`
+  - Description: Create a new Holiday for a specific Country.
+
+#### Update Holiday
+- **PUT** `/api/Countries/{key}/Holidays`
+  - Description: Update an existing Holiday for a specific Country.
+  
+#### Partially Update Holiday
+- **PATCH** `/api/Countries/{key}/Holidays`
+  - Description: Partially update an existing Holiday for a specific Country.
+
+#### Delete Holiday
+- **DELETE** `/api/Countries/{key}/Holidays/{relatedKey}`
+  - Description: Delete an existing Holiday for a specific Country.
 
 ## Relationships Endpoints
 

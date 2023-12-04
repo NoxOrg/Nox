@@ -29,7 +29,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -45,7 +45,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTestRelationshipOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToTestRelationshipOne([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipOne).SingleOrDefault();
         if (related is null)
@@ -106,7 +106,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         return Ok();
     }
     
-    public async Task<ActionResult> CreateRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -122,7 +122,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTestRelationshipTwo([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToTestRelationshipTwo([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipTwo).SingleOrDefault();
         if (related is null)

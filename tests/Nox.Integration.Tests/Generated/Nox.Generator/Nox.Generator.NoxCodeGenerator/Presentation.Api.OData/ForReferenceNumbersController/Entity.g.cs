@@ -69,6 +69,10 @@ public abstract partial class ForReferenceNumbersControllerBase : ODataControlle
 
     public virtual async Task<ActionResult<ForReferenceNumberDto>> Post([FromBody] ForReferenceNumberCreateDto forReferenceNumber)
     {
+        if(forReferenceNumber is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class ForReferenceNumbersControllerBase : ODataControlle
 
     public virtual async Task<ActionResult<ForReferenceNumberDto>> Put([FromRoute] System.String key, [FromBody] ForReferenceNumberUpdateDto forReferenceNumber)
     {
+        if(forReferenceNumber is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -101,9 +109,13 @@ public abstract partial class ForReferenceNumbersControllerBase : ODataControlle
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<ForReferenceNumberDto>> Patch([FromRoute] System.String key, [FromBody] Delta<ForReferenceNumberUpdateDto> forReferenceNumber)
+    public virtual async Task<ActionResult<ForReferenceNumberDto>> Patch([FromRoute] System.String key, [FromBody] Delta<ForReferenceNumberPartialUpdateDto> forReferenceNumber)
     {
-        if (!ModelState.IsValid || forReferenceNumber is null)
+        if(forReferenceNumber is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

@@ -26,17 +26,26 @@ namespace ClientApi.Application.Factories;
 internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
     protected IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> CountryLocalNameFactory {get;}
     protected IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> CountryBarCodeFactory {get;}
+    protected IEntityFactory<ClientApi.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> CountryTimeZoneFactory {get;}
+    protected IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> HolidayFactory {get;}
 
     public CountryFactoryBase
     (
         IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> countrylocalnamefactory,
-        IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory
+        IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory,
+        IEntityFactory<ClientApi.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
+        IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory,
+        IRepository repository
         )
     {
         CountryLocalNameFactory = countrylocalnamefactory;
         CountryBarCodeFactory = countrybarcodefactory;
+        CountryTimeZoneFactory = countrytimezonefactory;
+        HolidayFactory = holidayfactory;
+        _repository = repository;
     }
 
     public virtual CountryEntity CreateEntity(CountryCreateDto createDto)
@@ -67,6 +76,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         entity.Name = ClientApi.Domain.CountryMetadata.CreateName(createDto.Name);
         entity.SetIfNotNull(createDto.Population, (entity) => entity.Population =ClientApi.Domain.CountryMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>()));
         entity.SetIfNotNull(createDto.CountryDebt, (entity) => entity.CountryDebt =ClientApi.Domain.CountryMetadata.CreateCountryDebt(createDto.CountryDebt.NonNullValue<MoneyDto>()));
+        entity.SetIfNotNull(createDto.CapitalCityLocation, (entity) => entity.CapitalCityLocation =ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(createDto.CapitalCityLocation.NonNullValue<LatLongDto>()));
         entity.SetIfNotNull(createDto.FirstLanguageCode, (entity) => entity.FirstLanguageCode =ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(createDto.FirstLanguageCode.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.CountryIsoNumeric, (entity) => entity.CountryIsoNumeric =ClientApi.Domain.CountryMetadata.CreateCountryIsoNumeric(createDto.CountryIsoNumeric.NonNullValue<System.UInt16>()));
         entity.SetIfNotNull(createDto.CountryIsoAlpha3, (entity) => entity.CountryIsoAlpha3 =ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(createDto.CountryIsoAlpha3.NonNullValue<System.String>()));
@@ -78,6 +88,8 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         {
             entity.CreateRefToCountryBarCode(CountryBarCodeFactory.CreateEntity(createDto.CountryBarCode));
         }
+        createDto.CountryTimeZones.ForEach(dto => entity.CreateRefToCountryTimeZones(CountryTimeZoneFactory.CreateEntity(dto)));
+        createDto.Holidays.ForEach(dto => entity.CreateRefToHolidays(HolidayFactory.CreateEntity(dto)));
         return entity;
     }
 
@@ -99,6 +111,14 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         else
         {
             entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(updateDto.CountryDebt.ToValueFromNonNull<MoneyDto>());
+        }
+        if(updateDto.CapitalCityLocation is null)
+        {
+             entity.CapitalCityLocation = null;
+        }
+        else
+        {
+            entity.CapitalCityLocation = ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(updateDto.CapitalCityLocation.ToValueFromNonNull<LatLongDto>());
         }
         if(updateDto.FirstLanguageCode is null)
         {
@@ -148,6 +168,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         {
             entity.Continent = ClientApi.Domain.CountryMetadata.CreateContinent(updateDto.Continent.ToValueFromNonNull<System.Int32>());
         }
+	    UpdateOwnedEntities(entity, updateDto, cultureCode);
     }
 
     private void PartialUpdateEntityInternal(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -179,6 +200,15 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             else
             {
                 entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(CountryDebtUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("CapitalCityLocation", out var CapitalCityLocationUpdateValue))
+        {
+            if (CapitalCityLocationUpdateValue == null) { entity.CapitalCityLocation = null; }
+            else
+            {
+                entity.CapitalCityLocation = ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(CapitalCityLocationUpdateValue);
             }
         }
 
@@ -239,6 +269,110 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
+
+	private void UpdateOwnedEntities(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+        if(!updateDto.CountryLocalNames.Any())
+        { 
+            _repository.DeleteOwnedRange(entity.CountryLocalNames);
+			entity.DeleteAllRefToCountryLocalNames();
+        }
+		else
+		{
+			var updatedCountryLocalNames = new List<ClientApi.Domain.CountryLocalName>();
+			foreach(var ownedUpsertDto in updateDto.CountryLocalNames)
+			{
+				if(ownedUpsertDto.Id is null)
+					updatedCountryLocalNames.Add(CountryLocalNameFactory.CreateEntity(ownedUpsertDto));
+				else
+				{
+					var key = ClientApi.Domain.CountryLocalNameMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
+					var ownedEntity = entity.CountryLocalNames.FirstOrDefault(x => x.Id == key);
+					if(ownedEntity is null)
+						throw new RelatedEntityNotFoundException("CountryLocalNames.Id", key.ToString());
+					else
+					{
+						CountryLocalNameFactory.UpdateEntity(ownedEntity, ownedUpsertDto, cultureCode);
+						updatedCountryLocalNames.Add(ownedEntity);
+					}
+				}
+			}
+            _repository.DeleteOwnedRange<ClientApi.Domain.CountryLocalName>(
+                entity.CountryLocalNames.Where(x => !updatedCountryLocalNames.Any(upd => upd.Id == x.Id)).ToList());
+			entity.UpdateRefToCountryLocalNames(updatedCountryLocalNames);
+		}
+		if(updateDto.CountryBarCode is null)
+        {
+            if(entity.CountryBarCode is not null) 
+                _repository.DeleteOwned(entity.CountryBarCode);
+			entity.DeleteAllRefToCountryBarCode();
+        }
+		else
+		{
+            if(entity.CountryBarCode is not null)
+                CountryBarCodeFactory.UpdateEntity(entity.CountryBarCode, updateDto.CountryBarCode, cultureCode);
+            else
+			    entity.CreateRefToCountryBarCode(CountryBarCodeFactory.CreateEntity(updateDto.CountryBarCode));
+		}
+        if(!updateDto.CountryTimeZones.Any())
+        { 
+            _repository.DeleteOwnedRange(entity.CountryTimeZones);
+			entity.DeleteAllRefToCountryTimeZones();
+        }
+		else
+		{
+			var updatedCountryTimeZones = new List<ClientApi.Domain.CountryTimeZone>();
+			foreach(var ownedUpsertDto in updateDto.CountryTimeZones)
+			{
+				if(ownedUpsertDto.Id is null)
+					updatedCountryTimeZones.Add(CountryTimeZoneFactory.CreateEntity(ownedUpsertDto));
+				else
+				{
+					var key = ClientApi.Domain.CountryTimeZoneMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.String>());
+					var ownedEntity = entity.CountryTimeZones.FirstOrDefault(x => x.Id == key);
+					if(ownedEntity is null)
+						updatedCountryTimeZones.Add(CountryTimeZoneFactory.CreateEntity(ownedUpsertDto));
+					else
+					{
+						CountryTimeZoneFactory.UpdateEntity(ownedEntity, ownedUpsertDto, cultureCode);
+						updatedCountryTimeZones.Add(ownedEntity);
+					}
+				}
+			}
+            _repository.DeleteOwnedRange<ClientApi.Domain.CountryTimeZone>(
+                entity.CountryTimeZones.Where(x => !updatedCountryTimeZones.Any(upd => upd.Id == x.Id)).ToList());
+			entity.UpdateRefToCountryTimeZones(updatedCountryTimeZones);
+		}
+        if(!updateDto.Holidays.Any())
+        { 
+            _repository.DeleteOwnedRange(entity.Holidays);
+			entity.DeleteAllRefToHolidays();
+        }
+		else
+		{
+			var updatedHolidays = new List<ClientApi.Domain.Holiday>();
+			foreach(var ownedUpsertDto in updateDto.Holidays)
+			{
+				if(ownedUpsertDto.Id is null)
+					updatedHolidays.Add(HolidayFactory.CreateEntity(ownedUpsertDto));
+				else
+				{
+					var key = ClientApi.Domain.HolidayMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Guid>());
+					var ownedEntity = entity.Holidays.FirstOrDefault(x => x.Id == key);
+					if(ownedEntity is null)
+						updatedHolidays.Add(HolidayFactory.CreateEntity(ownedUpsertDto));
+					else
+					{
+						HolidayFactory.UpdateEntity(ownedEntity, ownedUpsertDto, cultureCode);
+						updatedHolidays.Add(ownedEntity);
+					}
+				}
+			}
+            _repository.DeleteOwnedRange<ClientApi.Domain.Holiday>(
+                entity.Holidays.Where(x => !updatedHolidays.Any(upd => upd.Id == x.Id)).ToList());
+			entity.UpdateRefToHolidays(updatedHolidays);
+		}
+	}
 }
 
 internal partial class CountryFactory : CountryFactoryBase
@@ -246,7 +380,10 @@ internal partial class CountryFactory : CountryFactoryBase
     public CountryFactory
     (
         IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> countrylocalnamefactory,
-        IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory
-    ) : base(countrylocalnamefactory,countrybarcodefactory)
+        IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory,
+        IEntityFactory<ClientApi.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
+        IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory,
+        IRepository repository
+    ) : base(countrylocalnamefactory,countrybarcodefactory,countrytimezonefactory,holidayfactory, repository)
     {}
 }

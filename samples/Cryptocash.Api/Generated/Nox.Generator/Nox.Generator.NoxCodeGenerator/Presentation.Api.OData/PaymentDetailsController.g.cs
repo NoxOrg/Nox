@@ -29,7 +29,7 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToCustomer([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCustomer([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -45,7 +45,7 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCustomer([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToCustomer([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetPaymentDetailByIdQuery(key))).Select(x => x.Customer).SingleOrDefault();
         if (related is null)
@@ -106,7 +106,7 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         return Ok();
     }
     
-    public async Task<ActionResult> CreateRefToPaymentProvider([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToPaymentProvider([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -122,7 +122,7 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToPaymentProvider([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToPaymentProvider([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetPaymentDetailByIdQuery(key))).Select(x => x.PaymentProvider).SingleOrDefault();
         if (related is null)

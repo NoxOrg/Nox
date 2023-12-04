@@ -1,4 +1,4 @@
-﻿# API Endpoints for the {{entity.Name}} entity
+# API Endpoints for the {{entity.Name}} entity
 
 This document provides information about the various endpoints available in our API for the {{entity.Name}} entity.
 
@@ -30,28 +30,34 @@ This document provides information about the various endpoints available in our 
 {{ end }}{{ if entity.OwnedRelationships | array.size > 0 }}
 ## Owned Relationships Endpoints
 {{ for ownedRelationship in entity.OwnedRelationships }}
+{{- if ownedRelationship.CanManageEntity }}
 ### {{ownedRelationship.Entity}}
 {{ if entity.Persistence.Read.IsEnabled && ownedRelationship.Related.Entity.Persistence.Read.IsEnabled }}
 #### Get {{ownedRelationship.EntityPlural}}
 - **GET** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
   - Description: Retrieve all {{ownedRelationship.EntityPlural}} for a specific {{entity.Name}}.
-{{ end }}{{ if entity.Persistence.Create.IsEnabled && ownedRelationship.Related.Entity.Persistence.Create.IsEnabled }}
+{{- if ownedRelationship.WithMultiEntity }}
+- **GET** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
+  - Description: Retrieve a {{ownedRelationship.Entity}} by ID for a specific {{entity.Name}}.
+{{- end }}
+{{ end }}
+{{- if entity.Persistence.Create.IsEnabled && ownedRelationship.Related.Entity.Persistence.Create.IsEnabled }}
 #### Create {{ownedRelationship.Entity}}
 - **POST** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
   - Description: Create a new {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
 {{ end }}{{ if entity.Persistence.Update.IsEnabled && ownedRelationship.Related.Entity.Persistence.Update.IsEnabled }}
 #### Update {{ownedRelationship.Entity}}
-- **PUT** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
+- **PUT** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
   - Description: Update an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
   
 #### Partially Update {{ownedRelationship.Entity}}
-- **PATCH** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
+- **PATCH** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
   - Description: Partially update an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
 {{ end }}{{ if entity.Persistence.Delete.IsEnabled && ownedRelationship.Related.Entity.Persistence.Delete.IsEnabled }}
 #### Delete {{ownedRelationship.Entity}}
 - **DELETE** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
   - Description: Delete an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
-{{ end }}{{ end -}}
+{{ end }}{{ end }}{{ end -}}
 {{ end}}{{ if entity.Relationships | array.size > 0 }}
 ## Relationships Endpoints
 {{ for relationship in entity.Relationships }}
@@ -98,4 +104,21 @@ This document provides information about the various endpoints available in our 
 {{ for relationship in entity.Relationships }}
 [{{relationship.Entity}}]({{relationship.Entity}}Endpoints.md)
 {{ end -}}
-{{ end -}}
+{{ end -}}{{ if enumerationAttributes | array.size > 0 }}
+## Enumerations Endpoints
+
+This section details the API endpoints related to enumeration attributes in a specific {{entity.Name}}.
+{{- for enumAtt in enumerationAttributes }}
+- **GET** `/api/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}`
+  - **Description**: Retrieve non-conventional values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.
+{{- if enumAtt.IsLocalized }}
+  
+- **GET** `/api/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
+  - **Description**: Retrieve localized values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.
+
+- **DELETE** `/api/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized/{cultureCode}`
+  - **Description**: Delete the localized values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific culture code in {{entity.Name}}.
+
+- **PUT** `/api/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
+  - **Description**: Update or create localized values of {{Pluralize(enumAtt.Attribute.Name)}} for a specific {{entity.Name}}. Requires a payload with the new values.
+{{end}}{{end}}{{end}}

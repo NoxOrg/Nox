@@ -11,6 +11,7 @@ using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Extensions;
 
 namespace ClientApi.Domain;
 
@@ -107,7 +108,7 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
 
     public virtual void UpdateRefToStoreLicenseDefault(List<StoreLicense> relatedStoreLicense)
     {
-        if(relatedStoreLicense is null || relatedStoreLicense.Count < 2)
+        if(!relatedStoreLicense.HasAtLeastOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
         StoreLicenseDefault.Clear();
         StoreLicenseDefault.AddRange(relatedStoreLicense);
@@ -115,14 +116,14 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
 
     public virtual void DeleteRefToStoreLicenseDefault(StoreLicense relatedStoreLicense)
     {
-        if(StoreLicenseDefault.Count() < 2)
+        if(StoreLicenseDefault.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         StoreLicenseDefault.Remove(relatedStoreLicense);
     }
 
     public virtual void DeleteAllRefToStoreLicenseDefault()
     {
-        if(StoreLicenseDefault.Count() < 2)
+        if(StoreLicenseDefault.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         StoreLicenseDefault.Clear();
     }
@@ -139,7 +140,7 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
 
     public virtual void UpdateRefToStoreLicenseSoldIn(List<StoreLicense> relatedStoreLicense)
     {
-        if(relatedStoreLicense is null || relatedStoreLicense.Count < 2)
+        if(!relatedStoreLicense.HasAtLeastOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
         StoreLicenseSoldIn.Clear();
         StoreLicenseSoldIn.AddRange(relatedStoreLicense);
@@ -147,14 +148,14 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
 
     public virtual void DeleteRefToStoreLicenseSoldIn(StoreLicense relatedStoreLicense)
     {
-        if(StoreLicenseSoldIn.Count() < 2)
+        if(StoreLicenseSoldIn.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         StoreLicenseSoldIn.Remove(relatedStoreLicense);
     }
 
     public virtual void DeleteAllRefToStoreLicenseSoldIn()
     {
-        if(StoreLicenseSoldIn.Count() < 2)
+        if(StoreLicenseSoldIn.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         StoreLicenseSoldIn.Clear();
     }

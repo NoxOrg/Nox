@@ -29,7 +29,7 @@ public abstract partial class TestEntityExactlyOneToZeroOrOnesControllerBase : O
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToTestEntityZeroOrOneToExactlyOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTestEntityZeroOrOneToExactlyOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -45,7 +45,7 @@ public abstract partial class TestEntityExactlyOneToZeroOrOnesControllerBase : O
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTestEntityZeroOrOneToExactlyOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToTestEntityZeroOrOneToExactlyOne([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityExactlyOneToZeroOrOneByIdQuery(key))).Select(x => x.TestEntityZeroOrOneToExactlyOne).SingleOrDefault();
         if (related is null)

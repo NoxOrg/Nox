@@ -125,7 +125,7 @@ public abstract partial class EmployeesControllerBase : ODataController
             }           
         }
         
-        if(!updateProperties.ContainsKey("Id"))
+        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
         {
             throw new Nox.Exceptions.BadRequestException("Id is required.");
         }
@@ -173,7 +173,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -189,7 +189,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCashStockOrder([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToCashStockOrder([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.CashStockOrder).SingleOrDefault();
         if (related is null)
@@ -201,7 +201,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -217,7 +217,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
@@ -283,7 +283,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     }
     
     [HttpDelete("/api/Employees/{key}/CashStockOrder")]
-    public async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {

@@ -35,6 +35,8 @@ This document provides information about the various endpoints available in our 
 #### Get CountryLocalNames
 - **GET** `/api/Countries/{key}/CountryLocalNames`
   - Description: Retrieve all CountryLocalNames for a specific Country.
+- **GET** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
+  - Description: Retrieve a CountryLocalNames by ID for a specific Country.
 
 #### Create CountryLocalNames
 - **POST** `/api/Countries/{key}/CountryLocalNames`
@@ -85,3 +87,18 @@ This document provides information about the various endpoints available in our 
 [Continent](ContinentEndpoints.md)
 
 [People](PeopleEndpoints.md)
+
+## Enumerations Endpoints
+
+This section details the API endpoints related to enumeration attributes in a specific Country.
+- **GET** `/api/Countries/CountryLanguages`
+  - **Description**: Retrieve non-conventional values of Languages for a specific Country.
+  
+- **GET** `/api/Countries/CountryLanguagesLocalized`
+  - **Description**: Retrieve localized values of Languages for a specific Country.
+
+- **DELETE** `/api/Countries/CountryLanguagesLocalized/{cultureCode}`
+  - **Description**: Delete the localized values of Languages for a specific culture code in Country.
+
+- **PUT** `/api/Countries/CountryLanguagesLocalized`
+  - **Description**: Update or create localized values of Languages for a specific Country. Requires a payload with the new values.

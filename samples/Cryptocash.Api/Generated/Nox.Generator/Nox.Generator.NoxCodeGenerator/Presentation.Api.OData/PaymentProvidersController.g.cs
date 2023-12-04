@@ -29,7 +29,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -46,7 +46,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
     }
     
     [HttpPut("/api/PaymentProviders/{key}/PaymentDetails/$ref")]
-    public async Task<ActionResult> UpdateRefToPaymentDetailsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToPaymentDetailsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Int64> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -63,7 +63,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToPaymentDetails([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToPaymentDetails([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetPaymentProviderByIdQuery(key))).Select(x => x.PaymentDetails).SingleOrDefault();
         if (related is null)
@@ -79,7 +79,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -95,7 +95,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
@@ -174,7 +174,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
     }
     
     [HttpDelete("/api/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
-    public async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -198,7 +198,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
     }
     
     [HttpDelete("/api/PaymentProviders/{key}/PaymentDetails")]
-    public async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {

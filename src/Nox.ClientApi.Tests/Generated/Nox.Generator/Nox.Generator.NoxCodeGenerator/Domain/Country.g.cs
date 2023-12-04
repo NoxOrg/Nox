@@ -11,6 +11,7 @@ using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Extensions;
 
 namespace ClientApi.Domain;
 
@@ -73,6 +74,12 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     /// </summary>
     /// <remarks>Optional.</remarks>   
     public Nox.Types.Money? CountryDebt { get; set; } = null!;
+
+    /// <summary>
+    /// The capital location    
+    /// </summary>
+    /// <remarks>Optional.</remarks>   
+    public Nox.Types.LatLong? CapitalCityLocation { get; set; } = null!;
 
     /// <summary>
     /// First Official Language    
@@ -187,6 +194,15 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     }
     
     /// <summary>
+    /// Updates all owned CountryLocalName entities.
+    /// </summary>
+    public virtual void UpdateRefToCountryLocalNames(List<CountryLocalName> relatedCountryLocalName)
+    {
+        CountryLocalNames.Clear();
+        CountryLocalNames.AddRange(relatedCountryLocalName);
+    }
+    
+    /// <summary>
     /// Deletes owned CountryLocalName entity.
     /// </summary>
     public virtual void DeleteRefToCountryLocalNames(CountryLocalName relatedCountryLocalName)
@@ -229,6 +245,82 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     public virtual void DeleteAllRefToCountryBarCode()
     {
         CountryBarCode = null;
+    }﻿
+
+    /// <summary>
+    /// Country uses ZeroOrMany CountryTimeZones
+    /// </summary>
+    public virtual List<CountryTimeZone> CountryTimeZones { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new CountryTimeZone entity.
+    /// </summary>
+    public virtual void CreateRefToCountryTimeZones(CountryTimeZone relatedCountryTimeZone)
+    {
+        CountryTimeZones.Add(relatedCountryTimeZone);
+    }
+    
+    /// <summary>
+    /// Updates all owned CountryTimeZone entities.
+    /// </summary>
+    public virtual void UpdateRefToCountryTimeZones(List<CountryTimeZone> relatedCountryTimeZone)
+    {
+        CountryTimeZones.Clear();
+        CountryTimeZones.AddRange(relatedCountryTimeZone);
+    }
+    
+    /// <summary>
+    /// Deletes owned CountryTimeZone entity.
+    /// </summary>
+    public virtual void DeleteRefToCountryTimeZones(CountryTimeZone relatedCountryTimeZone)
+    {
+        CountryTimeZones.Remove(relatedCountryTimeZone);
+    }
+    
+    /// <summary>
+    /// Deletes all owned CountryTimeZone entities.
+    /// </summary>
+    public virtual void DeleteAllRefToCountryTimeZones()
+    {
+        CountryTimeZones.Clear();
+    }﻿
+
+    /// <summary>
+    /// Country owned ZeroOrMany Holidays
+    /// </summary>
+    public virtual List<Holiday> Holidays { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new Holiday entity.
+    /// </summary>
+    public virtual void CreateRefToHolidays(Holiday relatedHoliday)
+    {
+        Holidays.Add(relatedHoliday);
+    }
+    
+    /// <summary>
+    /// Updates all owned Holiday entities.
+    /// </summary>
+    public virtual void UpdateRefToHolidays(List<Holiday> relatedHoliday)
+    {
+        Holidays.Clear();
+        Holidays.AddRange(relatedHoliday);
+    }
+    
+    /// <summary>
+    /// Deletes owned Holiday entity.
+    /// </summary>
+    public virtual void DeleteRefToHolidays(Holiday relatedHoliday)
+    {
+        Holidays.Remove(relatedHoliday);
+    }
+    
+    /// <summary>
+    /// Deletes all owned Holiday entities.
+    /// </summary>
+    public virtual void DeleteAllRefToHolidays()
+    {
+        Holidays.Clear();
     }
 
     /// <summary>

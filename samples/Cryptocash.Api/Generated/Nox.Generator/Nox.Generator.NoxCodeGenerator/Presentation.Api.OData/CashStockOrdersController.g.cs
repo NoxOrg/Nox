@@ -29,7 +29,7 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToVendingMachine([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> CreateRefToVendingMachine([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -45,7 +45,7 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToVendingMachine([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToVendingMachine([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.VendingMachine).SingleOrDefault();
         if (related is null)
@@ -106,7 +106,7 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         return Ok();
     }
     
-    public async Task<ActionResult> CreateRefToEmployee([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToEmployee([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -122,7 +122,7 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToEmployee([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToEmployee([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.Employee).SingleOrDefault();
         if (related is null)

@@ -75,7 +75,7 @@ internal abstract class CreateCountryTimeZonesForCountryCommandHandlerBase : Com
 
 public class CreateCountryTimeZonesForCountryValidator : AbstractValidator<CreateCountryTimeZonesForCountryCommand>
 {
-    public CreateCountryTimeZonesForCountryValidator(ILogger<CreateCountryTimeZonesForCountryCommand> logger)
+    public CreateCountryTimeZonesForCountryValidator()
     {
 		RuleFor(x => x.EntityDto.Id).Null().WithMessage("Id must be null as it is auto generated.");
     }

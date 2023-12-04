@@ -26,11 +26,14 @@ namespace TestWebApp.Application.Factories;
 internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public TestEntityForUniqueConstraintsFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual TestEntityForUniqueConstraintsEntity CreateEntity(TestEntityForUniqueConstraintsCreateDto createDto)
@@ -141,4 +144,9 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
 
 internal partial class TestEntityForUniqueConstraintsFactory : TestEntityForUniqueConstraintsFactoryBase
 {
+    public TestEntityForUniqueConstraintsFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

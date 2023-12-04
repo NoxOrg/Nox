@@ -88,7 +88,7 @@ public abstract class VendingMachineCreateDtoBase : IEntityDto<DomainNamespace.V
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
-    public System.Int64? LandLordId { get; set; } = default!;
+    public System.Guid? LandLordId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual LandLordCreateDto? LandLord { get; set; } = default!;

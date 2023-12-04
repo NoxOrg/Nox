@@ -43,6 +43,11 @@ public partial class CountryUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNames
     /// <remarks>Optional.</remarks>
     public virtual MoneyDto? CountryDebt { get; set; }
     /// <summary>
+    /// The capital location     
+    /// </summary>
+    /// <remarks>Optional.</remarks>
+    public virtual LatLongDto? CapitalCityLocation { get; set; }
+    /// <summary>
     /// First Official Language     
     /// </summary>
     /// <remarks>Optional.</remarks>
@@ -80,4 +85,12 @@ public partial class CountryUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNames
     /// Country is also coded as ZeroOrOne CountryBarCodes
     /// </summary>
     public virtual CountryBarCodeUpsertDto? CountryBarCode { get; set; } = null!;
+    /// <summary>
+    /// Country uses ZeroOrMany CountryTimeZones
+    /// </summary>
+    public virtual List<CountryTimeZoneUpsertDto> CountryTimeZones { get; set; } = new();
+    /// <summary>
+    /// Country owned ZeroOrMany Holidays
+    /// </summary>
+    public virtual List<HolidayUpsertDto> Holidays { get; set; } = new();
 }

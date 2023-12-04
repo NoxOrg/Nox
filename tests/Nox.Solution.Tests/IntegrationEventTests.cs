@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Nox.Solution.Exceptions;
 using Nox.Yaml.Exceptions;
 
 namespace Nox.Solution.Tests;
@@ -20,7 +19,7 @@ public class IntegrationEventTests
         exception.Errors.Count
             .Should().Be(1);
 
-        exception.Errors.First().ErrorMessage
+        exception.Errors[0].ErrorMessage
             .Should().Match("Missing property [\"domainContext\"] is required.*");
     }
 }

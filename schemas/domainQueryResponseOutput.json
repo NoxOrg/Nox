@@ -3160,7 +3160,8 @@
                       "items":   {
                         "oneOf": [
                           {
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$"
                           },
                           {
                             "type": "null"
@@ -8959,7 +8960,8 @@
                       "items":   {
                         "oneOf": [
                           {
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$"
                           },
                           {
                             "type": "null"
@@ -14054,7 +14056,8 @@
               "items":   {
                 "oneOf": [
                   {
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$"
                   },
                   {
                     "type": "null"

@@ -56,6 +56,8 @@ public abstract class CurrencyDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
             ExecuteActionAndCollectValidationExceptions("DecimalSeparator", () => DomainNamespace.CurrencyMetadata.CreateDecimalSeparator(this.DecimalSeparator.NonNullValue<System.String>()), result);
         ExecuteActionAndCollectValidationExceptions("SpaceBetweenAmountAndSymbol", () => DomainNamespace.CurrencyMetadata.CreateSpaceBetweenAmountAndSymbol(this.SpaceBetweenAmountAndSymbol), result);
     
+        ExecuteActionAndCollectValidationExceptions("SymbolOnLeft", () => DomainNamespace.CurrencyMetadata.CreateSymbolOnLeft(this.SymbolOnLeft), result);
+    
         ExecuteActionAndCollectValidationExceptions("DecimalDigits", () => DomainNamespace.CurrencyMetadata.CreateDecimalDigits(this.DecimalDigits), result);
     
         if (this.MajorName is not null)
@@ -128,6 +130,12 @@ public abstract class CurrencyDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     /// </summary>
     /// <remarks>Required.</remarks>    
     public System.Boolean SpaceBetweenAmountAndSymbol { get; set; } = default!;
+
+    /// <summary>
+    /// Currency's symbol position     
+    /// </summary>
+    /// <remarks>Required.</remarks>    
+    public System.Boolean SymbolOnLeft { get; set; } = default!;
 
     /// <summary>
     /// Currency's numeric decimal digits     

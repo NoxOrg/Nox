@@ -69,6 +69,10 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
 
     public virtual async Task<ActionResult<TestEntityLocalizationDto>> Post([FromBody] TestEntityLocalizationCreateDto testEntityLocalization)
     {
+        if(testEntityLocalization is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
 
     public virtual async Task<ActionResult<TestEntityLocalizationDto>> Put([FromRoute] System.String key, [FromBody] TestEntityLocalizationUpdateDto testEntityLocalization)
     {
+        if(testEntityLocalization is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -101,9 +109,13 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<TestEntityLocalizationDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityLocalizationUpdateDto> testEntityLocalization)
+    public virtual async Task<ActionResult<TestEntityLocalizationDto>> Patch([FromRoute] System.String key, [FromBody] Delta<TestEntityLocalizationPartialUpdateDto> testEntityLocalization)
     {
-        if (!ModelState.IsValid || testEntityLocalization is null)
+        if(testEntityLocalization is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

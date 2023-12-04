@@ -11,6 +11,7 @@ using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Extensions;
 
 namespace Cryptocash.Domain;
 
@@ -133,6 +134,12 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     /// </summary>
     /// <remarks>Required.</remarks>   
     public Nox.Types.DayOfWeek StartOfWeek { get; set; } = null!;
+
+    /// <summary>
+    /// Country's population    
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.Number Population { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>
@@ -198,7 +205,7 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
 
     public virtual void UpdateRefToCommissions(List<Commission> relatedCommission)
     {
-        if(relatedCommission is null || relatedCommission.Count < 2)
+        if(!relatedCommission.HasAtLeastOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
         Commissions.Clear();
         Commissions.AddRange(relatedCommission);
@@ -206,14 +213,14 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
 
     public virtual void DeleteRefToCommissions(Commission relatedCommission)
     {
-        if(Commissions.Count() < 2)
+        if(Commissions.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         Commissions.Remove(relatedCommission);
     }
 
     public virtual void DeleteAllRefToCommissions()
     {
-        if(Commissions.Count() < 2)
+        if(Commissions.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         Commissions.Clear();
     }
@@ -284,11 +291,22 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     }
     
     /// <summary>
+    /// Updates all owned CountryTimeZone entities.
+    /// </summary>
+    public virtual void UpdateRefToCountryTimeZones(List<CountryTimeZone> relatedCountryTimeZone)
+    {
+        if(!relatedCountryTimeZone.HasAtLeastOneItem())
+            throw new RelationshipDeletionException($"The relationship cannot be updated.");
+        CountryTimeZones.Clear();
+        CountryTimeZones.AddRange(relatedCountryTimeZone);
+    }
+    
+    /// <summary>
     /// Deletes owned CountryTimeZone entity.
     /// </summary>
     public virtual void DeleteRefToCountryTimeZones(CountryTimeZone relatedCountryTimeZone)
     {
-        if(CountryTimeZones.Count() < 2)
+        if(CountryTimeZones.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         CountryTimeZones.Remove(relatedCountryTimeZone);
     }
@@ -298,7 +316,7 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     /// </summary>
     public virtual void DeleteAllRefToCountryTimeZones()
     {
-        if(CountryTimeZones.Count() < 2)
+        if(CountryTimeZones.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         CountryTimeZones.Clear();
     }﻿
@@ -314,6 +332,15 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     public virtual void CreateRefToHolidays(Holiday relatedHoliday)
     {
         Holidays.Add(relatedHoliday);
+    }
+    
+    /// <summary>
+    /// Updates all owned Holiday entities.
+    /// </summary>
+    public virtual void UpdateRefToHolidays(List<Holiday> relatedHoliday)
+    {
+        Holidays.Clear();
+        Holidays.AddRange(relatedHoliday);
     }
     
     /// <summary>

@@ -29,7 +29,7 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToEntityUniqueConstraintsRelatedForeignKey([FromRoute] System.Guid key, [FromRoute] System.Int32 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToEntityUniqueConstraintsRelatedForeignKey([FromRoute] System.Guid key, [FromRoute] System.Int32 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -45,7 +45,7 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToEntityUniqueConstraintsRelatedForeignKey([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> GetRefToEntityUniqueConstraintsRelatedForeignKey([FromRoute] System.Guid key)
     {
         var related = (await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(key))).Select(x => x.EntityUniqueConstraintsRelatedForeignKey).SingleOrDefault();
         if (related is null)

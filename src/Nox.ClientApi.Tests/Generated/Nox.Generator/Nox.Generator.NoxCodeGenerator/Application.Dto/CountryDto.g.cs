@@ -47,6 +47,8 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
             ExecuteActionAndCollectValidationExceptions("Population", () => DomainNamespace.CountryMetadata.CreatePopulation(this.Population.NonNullValue<System.Int32>()), result);
         if (this.CountryDebt is not null)
             ExecuteActionAndCollectValidationExceptions("CountryDebt", () => DomainNamespace.CountryMetadata.CreateCountryDebt(this.CountryDebt.NonNullValue<MoneyDto>()), result);
+        if (this.CapitalCityLocation is not null)
+            ExecuteActionAndCollectValidationExceptions("CapitalCityLocation", () => DomainNamespace.CountryMetadata.CreateCapitalCityLocation(this.CapitalCityLocation.NonNullValue<LatLongDto>()), result);
         if (this.FirstLanguageCode is not null)
             ExecuteActionAndCollectValidationExceptions("FirstLanguageCode", () => DomainNamespace.CountryMetadata.CreateFirstLanguageCode(this.FirstLanguageCode.NonNullValue<System.String>()), result); 
         if (this.CountryIsoNumeric is not null)
@@ -86,6 +88,12 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     /// </summary>
     /// <remarks>Optional.</remarks>    
     public MoneyDto? CountryDebt { get; set; }
+
+    /// <summary>
+    /// The capital location     
+    /// </summary>
+    /// <remarks>Optional.</remarks>    
+    public LatLongDto? CapitalCityLocation { get; set; }
 
     /// <summary>
     /// First Official Language     
@@ -145,6 +153,16 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     /// Country is also coded as ZeroOrOne CountryBarCodes
     /// </summary>
     public virtual CountryBarCodeDto? CountryBarCode { get; set; } = null!;
+
+    /// <summary>
+    /// Country uses ZeroOrMany CountryTimeZones
+    /// </summary>
+    public virtual List<CountryTimeZoneDto> CountryTimeZones { get; set; } = new();
+
+    /// <summary>
+    /// Country owned ZeroOrMany Holidays
+    /// </summary>
+    public virtual List<HolidayDto> Holidays { get; set; } = new();
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

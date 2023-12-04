@@ -196,6 +196,7 @@ CoatOfArmsPng|Image|Country's coat of arms in png format.|
 GoogleMapsUrl|Url|Country's map via google maps.|
 OpenStreetMapsUrl|Url|Country's map via open street maps.|
 StartOfWeek|DayOfWeek|Country's start of week day.|Required
+Population|Number|Country's population.|Required
 CountryTimeZoneId|AutoNumber|Country's time zone unique identifier.|Required, Owned Entity
 HolidayId|AutoNumber|Country's holiday unique identifier.|Required, Owned Entity
 CurrencyId|CurrencyCode3|Currency unique identifier.|Required, Foreign Key
@@ -265,6 +266,7 @@ Symbol|Text|Currency's symbol.|Required, MinLength: 4, MaxLength: 63
 ThousandsSeparator|Text|Currency's numeric thousands notation separator.|MinLength: 4, MaxLength: 63
 DecimalSeparator|Text|Currency's numeric decimal notation separator.|MinLength: 4, MaxLength: 63
 SpaceBetweenAmountAndSymbol|Boolean|Currency's numeric space between amount and symbol.|Required
+SymbolOnLeft|Boolean|Currency's symbol position.|Required
 DecimalDigits|Number|Currency's numeric decimal digits.|Required
 MajorName|Text|Currency's major name.|Required, MinLength: 4, MaxLength: 63
 MajorSymbol|Text|Currency's major display symbol.|Required, MinLength: 4, MaxLength: 63
@@ -409,7 +411,7 @@ Landlord related data. *This entity is auditable and tracks info about who, whic
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|AutoNumber|Landlord unique identifier.|Required, Primary Key
+Id|Guid|Landlord unique identifier.|Required, Primary Key
 Name|Text|Landlord name.|Required, MinLength: 4, MaxLength: 63
 Address|StreetAddress|Landlord's street address.|Required
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
@@ -553,7 +555,7 @@ SerialNumber|Text|Vending machine serial number.|Required, MinLength: 4, MaxLeng
 InstallationFootPrint|Area|Vending machine installation area.|
 RentPerSquareMetre|Money|Landlord rent amount based on area of the vending machine installation.|
 CountryId|CountryCode2|Country unique identifier.|Required, Foreign Key
-LandLordId|AutoNumber|Landlord unique identifier.|Required, Foreign Key
+LandLordId|Guid|Landlord unique identifier.|Required, Foreign Key
 MinimumCashStockId|AutoNumber|Vending machine cash stock unique identifier.|Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

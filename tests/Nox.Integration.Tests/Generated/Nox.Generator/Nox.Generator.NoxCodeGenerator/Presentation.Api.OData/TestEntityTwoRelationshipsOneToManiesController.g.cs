@@ -29,7 +29,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -46,7 +46,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
     }
     
     [HttpPut("/api/v1/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipOne/$ref")]
-    public async Task<ActionResult> UpdateRefToTestRelationshipOneNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToTestRelationshipOneNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -63,7 +63,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTestRelationshipOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToTestRelationshipOne([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipOne).SingleOrDefault();
         if (related is null)
@@ -79,7 +79,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -95,7 +95,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToTestRelationshipOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteRefToTestRelationshipOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -174,7 +174,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
     }
     
     [HttpDelete("/api/v1/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipOne/{relatedKey}")]
-    public async Task<ActionResult> DeleteToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -198,7 +198,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
     }
     
     [HttpDelete("/api/v1/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipOne")]
-    public async Task<ActionResult> DeleteToTestRelationshipOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteToTestRelationshipOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -219,7 +219,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -236,7 +236,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
     }
     
     [HttpPut("/api/v1/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipTwo/$ref")]
-    public async Task<ActionResult> UpdateRefToTestRelationshipTwoNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToTestRelationshipTwoNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.String> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -253,7 +253,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTestRelationshipTwo([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToTestRelationshipTwo([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipTwo).SingleOrDefault();
         if (related is null)
@@ -269,7 +269,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -285,7 +285,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToTestRelationshipTwo([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteRefToTestRelationshipTwo([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -364,7 +364,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
     }
     
     [HttpDelete("/api/v1/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipTwo/{relatedKey}")]
-    public async Task<ActionResult> DeleteToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> DeleteToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -388,7 +388,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
     }
     
     [HttpDelete("/api/v1/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipTwo")]
-    public async Task<ActionResult> DeleteToTestRelationshipTwo([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteToTestRelationshipTwo([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {

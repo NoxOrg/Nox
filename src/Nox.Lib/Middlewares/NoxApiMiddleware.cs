@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Template;
+﻿using Castle.Core;
+using Microsoft.AspNetCore.Http;
 using Nox.Solution;
-using System.Diagnostics;
 
 namespace Nox.Lib;
 
@@ -34,15 +32,15 @@ public class NoxApiMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        var path = context.Request.Path;
+        var requestPath = context.Request.Path;
 
-        if (!path.HasValue)
+        if (!requestPath.HasValue)
         {
             await _next(context);
             return;
         }
 
-        if (!path.StartsWithSegments(_apiPrefix))
+        if (!requestPath.StartsWithSegments(_apiPrefix))
         {
             await _next(context);
             return;
@@ -54,44 +52,20 @@ public class NoxApiMiddleware
             return;
         }
 
-        RouteValueDictionary? urlParameters = null;
+        var apiRouteMatcher = matchers.FirstOrDefault(m => m.Match(requestPath));
 
-        ApiRouteMapping? apiRoute = null;
-
-        foreach (var matcher in matchers)
-        {
-            urlParameters = matcher.Match(path);
-
-            if (urlParameters != null)
-            {
-                apiRoute = matcher.ApiRoute;
-                break;
-            }
-        }
-
-        if (urlParameters == null || apiRoute == null)
+        if (apiRouteMatcher == null)
         {
             await _next(context);
             return;
         }
 
-        var translatedTarget = apiRoute.TargetUrl;
+        var translatedTarget = apiRouteMatcher.TransformTo(apiRouteMatcher.ApiRoute.TargetUrl);
 
-        foreach (var kvp in context.Request.Query)
+
+        if (translatedTarget.Contains($"{{$RouteQuery}}"))
         {
-            translatedTarget = translatedTarget.Replace($"{{{kvp.Key}}}", kvp.Value.ToString());
-        }
-
-        foreach (var kvp in urlParameters)
-        {
-            translatedTarget = translatedTarget.Replace($"{{{kvp.Key}}}", kvp.Value?.ToString());
-        }
-
-        foreach (var kvp in apiRoute.ParameterDefaults!)
-        {
-            if (kvp.Value is null) continue;
-
-            translatedTarget = translatedTarget.Replace($"{{{kvp.Key}}}", kvp.Value.ToString());
+            translatedTarget = translatedTarget.Replace($"{{$RouteQuery}}", context.Request.QueryString.ToString().TrimStart('?'));
         }
 
         var parts = translatedTarget.Split('?', 2);
@@ -101,6 +75,10 @@ public class NoxApiMiddleware
         if (parts.Length > 1)
         {
             context.Request.QueryString = new QueryString("?" + parts[1]);
+        }
+        else
+        {
+            context.Request.QueryString = new QueryString();
         }
 
         await _next(context);
@@ -112,56 +90,42 @@ public class NoxApiMiddleware
 internal class RouteMatcher
 {
 
-    private readonly string _template;
-
-    private readonly TemplateMatcher _matcher;
+    private readonly ApiRouteMatcher _matcher;
 
     private readonly ApiRouteMapping _apiRoute;
 
-    private const Int32 _slash = 47;
+    private IDictionary<string, object>? _values;
 
+    private const Int32 _slash = 47;
 
     public RouteMatcher(ApiRouteMapping apiRoute, string prefix)
     {
         var leadingChar = apiRoute.Route[0] == _slash ? string.Empty : "/";
 
-        _template = $"{prefix}{leadingChar}{apiRoute.Route}";
-
-        var template = TemplateParser.Parse(_template);
+        var template = $"{prefix}{leadingChar}{apiRoute.Route}";
 
         _apiRoute = apiRoute;
 
-        _matcher = new TemplateMatcher(template, GetDefaults(template));
+        _matcher = new ApiRouteMatcher(template, 
+            apiRoute
+            .RequestInput
+            .Where(i => i.Default is not null)
+            .ToDictionary(i => i.Name, i => i.Default!)
+        );
     }
 
     internal ApiRouteMapping ApiRoute => _apiRoute;
 
-    public RouteValueDictionary? Match(string requestPath)
+    public bool Match(string requestPath)
     {
-
-        var result = new RouteValueDictionary();
-
-        if (_matcher.TryMatch(requestPath, result))
-        {
-            return result;
-        }
-
-        return null;
-
+        var isMatch = _matcher.Matches(requestPath, out var values);
+        _values = values;
+        return isMatch;
     }
 
-    private static RouteValueDictionary GetDefaults(RouteTemplate parsedTemplate)
+    public string TransformTo(string toPath)
     {
-        var result = new RouteValueDictionary();
-
-        foreach (var parameter in parsedTemplate.Parameters)
-        {
-            if (parameter.DefaultValue is not null && parameter.Name is not null)
-            {
-                result.Add(parameter.Name, parameter.DefaultValue);
-            }
-        }
-
-        return result;
+        if (_values is null) return toPath;
+        return _matcher.TransformTo(toPath, _values);
     }
 }

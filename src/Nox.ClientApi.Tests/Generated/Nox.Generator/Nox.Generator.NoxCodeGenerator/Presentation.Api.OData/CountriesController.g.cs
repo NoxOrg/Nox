@@ -125,7 +125,7 @@ public abstract partial class CountriesControllerBase : ODataController
             }           
         }
         
-        if(!updateProperties.ContainsKey("Id"))
+        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
         {
             throw new Nox.Exceptions.BadRequestException("Id is required.");
         }
@@ -280,12 +280,290 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<CountryTimeZoneDto>>> GetCountryTimeZones([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        var item = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.CountryTimeZones);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}")]
+    public virtual async Task<ActionResult<CountryTimeZoneDto>> GetCountryTimeZonesNonConventional(System.Int64 key, System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        var child = await TryGetCountryTimeZones(key, new CountryTimeZoneKeyDto(relatedKey));
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    public virtual async Task<ActionResult> PostToCountryTimeZones([FromRoute] System.Int64 key, [FromBody] CountryTimeZoneUpsertDto countryTimeZone)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var createdKey = await _mediator.Send(new CreateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), countryTimeZone, etag));
+        if (createdKey == null)
+        {
+            return NotFound();
+        }
+        
+        var child = await TryGetCountryTimeZones(key, createdKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
+    }
+    
+    public virtual async Task<ActionResult<CountryTimeZoneDto>> PutToCountryTimeZones(System.Int64 key, [FromBody] CountryTimeZoneUpsertDto countryTimeZone)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updatedKey = await _mediator.Send(new UpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), countryTimeZone, etag));
+        if (updatedKey == null)
+        {
+            return NotFound();
+        }
+        
+        var child = await TryGetCountryTimeZones(key, updatedKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    public virtual async Task<ActionResult> PatchToCountryTimeZones(System.Int64 key, [FromBody] Delta<CountryTimeZoneUpsertDto> countryTimeZone)
+    {
+        if (!ModelState.IsValid || countryTimeZone is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in countryTimeZone.GetChangedPropertyNames())
+        {
+            if(countryTimeZone.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
+        {
+            throw new Nox.Exceptions.BadRequestException("Id is required.");
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(updateProperties["Id"]), updateProperties, etag));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        var child = await TryGetCountryTimeZones(key, updated);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    [HttpDelete("/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}")]
+    public virtual async Task<ActionResult> DeleteCountryTimeZoneNonConventional(System.Int64 key, System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        var result = await _mediator.Send(new DeleteCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey)));
+        if (!result)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    protected async Task<CountryTimeZoneDto?> TryGetCountryTimeZones(System.Int64 key, CountryTimeZoneKeyDto childKeyDto)
+    {
+        var parent = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
+        return parent?.CountryTimeZones.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<HolidayDto>>> GetHolidays([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        var item = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.Holidays);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Countries/{key}/Holidays/{relatedKey}")]
+    public virtual async Task<ActionResult<HolidayDto>> GetHolidaysNonConventional(System.Int64 key, System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        var child = await TryGetHolidays(key, new HolidayKeyDto(relatedKey));
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    public virtual async Task<ActionResult> PostToHolidays([FromRoute] System.Int64 key, [FromBody] HolidayUpsertDto holiday)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var createdKey = await _mediator.Send(new CreateHolidaysForCountryCommand(new CountryKeyDto(key), holiday, etag));
+        if (createdKey == null)
+        {
+            return NotFound();
+        }
+        
+        var child = await TryGetHolidays(key, createdKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
+    }
+    
+    public virtual async Task<ActionResult<HolidayDto>> PutToHolidays(System.Int64 key, [FromBody] HolidayUpsertDto holiday)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updatedKey = await _mediator.Send(new UpdateHolidaysForCountryCommand(new CountryKeyDto(key), holiday, etag));
+        if (updatedKey == null)
+        {
+            return NotFound();
+        }
+        
+        var child = await TryGetHolidays(key, updatedKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    public virtual async Task<ActionResult> PatchToHolidays(System.Int64 key, [FromBody] Delta<HolidayUpsertDto> holiday)
+    {
+        if (!ModelState.IsValid || holiday is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in holiday.GetChangedPropertyNames())
+        {
+            if(holiday.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
+        {
+            throw new Nox.Exceptions.BadRequestException("Id is required.");
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateHolidaysForCountryCommand(new CountryKeyDto(key), new HolidayKeyDto(updateProperties["Id"]), updateProperties, etag));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        var child = await TryGetHolidays(key, updated);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    [HttpDelete("/api/v1/Countries/{key}/Holidays/{relatedKey}")]
+    public virtual async Task<ActionResult> DeleteHolidayNonConventional(System.Int64 key, System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        var result = await _mediator.Send(new DeleteHolidaysForCountryCommand(new CountryKeyDto(key), new HolidayKeyDto(relatedKey)));
+        if (!result)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    protected async Task<HolidayDto?> TryGetHolidays(System.Int64 key, HolidayKeyDto childKeyDto)
+    {
+        var parent = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
+        return parent?.Holidays.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+    }
+    
     #endregion
     
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -302,7 +580,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpPut("/api/v1/Countries/{key}/Workplaces/$ref")]
-    public async Task<ActionResult> UpdateRefToWorkplacesNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToWorkplacesNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Int64> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -319,7 +597,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToWorkplaces([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToWorkplaces([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Workplaces).SingleOrDefault();
         if (related is null)
@@ -335,7 +613,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -351,7 +629,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
@@ -430,7 +708,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpDelete("/api/v1/Countries/{key}/Workplaces/{relatedKey}")]
-    public async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -454,7 +732,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpDelete("/api/v1/Countries/{key}/Workplaces")]
-    public async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {

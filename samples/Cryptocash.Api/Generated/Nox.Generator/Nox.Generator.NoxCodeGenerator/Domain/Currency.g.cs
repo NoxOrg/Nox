@@ -11,6 +11,7 @@ using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Extensions;
 
 namespace Cryptocash.Domain;
 
@@ -93,6 +94,12 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
     public Nox.Types.Boolean SpaceBetweenAmountAndSymbol { get; set; } = null!;
 
     /// <summary>
+    /// Currency's symbol position    
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.Boolean SymbolOnLeft { get; set; } = null!;
+
+    /// <summary>
     /// Currency's numeric decimal digits    
     /// </summary>
     /// <remarks>Required.</remarks>   
@@ -167,7 +174,7 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
 
     public virtual void UpdateRefToCountries(List<Country> relatedCountry)
     {
-        if(relatedCountry is null || relatedCountry.Count < 2)
+        if(!relatedCountry.HasAtLeastOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
         Countries.Clear();
         Countries.AddRange(relatedCountry);
@@ -175,14 +182,14 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
 
     public virtual void DeleteRefToCountries(Country relatedCountry)
     {
-        if(Countries.Count() < 2)
+        if(Countries.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         Countries.Remove(relatedCountry);
     }
 
     public virtual void DeleteAllRefToCountries()
     {
-        if(Countries.Count() < 2)
+        if(Countries.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         Countries.Clear();
     }
@@ -227,6 +234,15 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
     }
     
     /// <summary>
+    /// Updates all owned BankNote entities.
+    /// </summary>
+    public virtual void UpdateRefToBankNotes(List<BankNote> relatedBankNote)
+    {
+        BankNotes.Clear();
+        BankNotes.AddRange(relatedBankNote);
+    }
+    
+    /// <summary>
     /// Deletes owned BankNote entity.
     /// </summary>
     public virtual void DeleteRefToBankNotes(BankNote relatedBankNote)
@@ -256,11 +272,22 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
     }
     
     /// <summary>
+    /// Updates all owned ExchangeRate entities.
+    /// </summary>
+    public virtual void UpdateRefToExchangeRates(List<ExchangeRate> relatedExchangeRate)
+    {
+        if(!relatedExchangeRate.HasAtLeastOneItem())
+            throw new RelationshipDeletionException($"The relationship cannot be updated.");
+        ExchangeRates.Clear();
+        ExchangeRates.AddRange(relatedExchangeRate);
+    }
+    
+    /// <summary>
     /// Deletes owned ExchangeRate entity.
     /// </summary>
     public virtual void DeleteRefToExchangeRates(ExchangeRate relatedExchangeRate)
     {
-        if(ExchangeRates.Count() < 2)
+        if(ExchangeRates.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         ExchangeRates.Remove(relatedExchangeRate);
     }
@@ -270,7 +297,7 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
     /// </summary>
     public virtual void DeleteAllRefToExchangeRates()
     {
-        if(ExchangeRates.Count() < 2)
+        if(ExchangeRates.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         ExchangeRates.Clear();
     }

@@ -125,7 +125,7 @@ public abstract partial class CountriesControllerBase : ODataController
             }           
         }
         
-        if(!updateProperties.ContainsKey("Id"))
+        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
         {
             throw new Nox.Exceptions.BadRequestException("Id is required.");
         }
@@ -264,7 +264,7 @@ public abstract partial class CountriesControllerBase : ODataController
             }           
         }
         
-        if(!updateProperties.ContainsKey("Id"))
+        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
         {
             throw new Nox.Exceptions.BadRequestException("Id is required.");
         }
@@ -312,7 +312,7 @@ public abstract partial class CountriesControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToCurrency([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCurrency([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -328,7 +328,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCurrency([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToCurrency([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Currency).SingleOrDefault();
         if (related is null)
@@ -389,7 +389,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok();
     }
     
-    public async Task<ActionResult> CreateRefToCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -406,7 +406,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpPut("/api/Countries/{key}/Commissions/$ref")]
-    public async Task<ActionResult> UpdateRefToCommissionsNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToCommissionsNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.Int64> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -423,7 +423,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCommissions([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToCommissions([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Commissions).SingleOrDefault();
         if (related is null)
@@ -439,7 +439,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -518,7 +518,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpDelete("/api/Countries/{key}/Commissions/{relatedKey}")]
-    public async Task<ActionResult> DeleteToCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteToCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -541,7 +541,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToVendingMachines([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> CreateRefToVendingMachines([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -558,7 +558,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpPut("/api/Countries/{key}/VendingMachines/$ref")]
-    public async Task<ActionResult> UpdateRefToVendingMachinesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToVendingMachinesNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.Guid> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -575,7 +575,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToVendingMachines([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToVendingMachines([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();
         if (related is null)
@@ -591,7 +591,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -607,7 +607,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -686,7 +686,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpDelete("/api/Countries/{key}/VendingMachines/{relatedKey}")]
-    public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -710,7 +710,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpDelete("/api/Countries/{key}/VendingMachines")]
-    public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -731,7 +731,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -748,7 +748,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpPut("/api/Countries/{key}/Customers/$ref")]
-    public async Task<ActionResult> UpdateRefToCustomersNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToCustomersNonConventional([FromRoute] System.String key, [FromBody] ReferencesDto<System.Int64> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -765,7 +765,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCustomers([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToCustomers([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Customers).SingleOrDefault();
         if (related is null)
@@ -781,7 +781,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -797,7 +797,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToCustomers([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteRefToCustomers([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -876,7 +876,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpDelete("/api/Countries/{key}/Customers/{relatedKey}")]
-    public async Task<ActionResult> DeleteToCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteToCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -900,7 +900,7 @@ public abstract partial class CountriesControllerBase : ODataController
     }
     
     [HttpDelete("/api/Countries/{key}/Customers")]
-    public async Task<ActionResult> DeleteToCustomers([FromRoute] System.String key)
+    public virtual async Task<ActionResult> DeleteToCustomers([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {

@@ -69,6 +69,10 @@ public abstract partial class StoreLicensesControllerBase : ODataController
 
     public virtual async Task<ActionResult<StoreLicenseDto>> Post([FromBody] StoreLicenseCreateDto storeLicense)
     {
+        if(storeLicense is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -83,6 +87,10 @@ public abstract partial class StoreLicensesControllerBase : ODataController
 
     public virtual async Task<ActionResult<StoreLicenseDto>> Put([FromRoute] System.Int64 key, [FromBody] StoreLicenseUpdateDto storeLicense)
     {
+        if(storeLicense is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
@@ -101,9 +109,13 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<StoreLicenseDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<StoreLicenseUpdateDto> storeLicense)
+    public virtual async Task<ActionResult<StoreLicenseDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<StoreLicensePartialUpdateDto> storeLicense)
     {
-        if (!ModelState.IsValid || storeLicense is null)
+        if(storeLicense is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }

@@ -29,7 +29,7 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToThirdTestEntityZeroOrOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToThirdTestEntityZeroOrOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -45,7 +45,7 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToThirdTestEntityZeroOrOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult> GetRefToThirdTestEntityZeroOrOne([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(key))).Select(x => x.ThirdTestEntityZeroOrOne).SingleOrDefault();
         if (related is null)

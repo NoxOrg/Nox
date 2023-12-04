@@ -1,0 +1,42 @@
+#
+# Holiday.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: Holiday
+
+description: Holiday related to country
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: Country's holiday unique identifier 
+    type: guid
+
+attributes:
+
+  - name: Name
+    description: Country holiday name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+
+  - name: Type
+    description: Country holiday type
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: false
+
+  - name: Date
+    description: Country holiday date
+    type: date     
+    isRequired: false
+
+persistence:
+    isAudited: false

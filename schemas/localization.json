@@ -23,7 +23,7 @@
         "oneOf": [
           {
             "type": "string",
-            "pattern": "^[a-z]{2}-[A-Z]{2}$"
+            "pattern": "^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$"
           },
           {
             "type": "null"
@@ -35,7 +35,7 @@
       "title": "The default culture code for the solution.",
       "description": "The default culture code used for formatting and translation.",
       "type": "string",
-      "pattern": "^[a-z]{2}-[A-Z]{2}$"
+      "pattern": "^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$"
     }
   },
   "additionalProperties": false
