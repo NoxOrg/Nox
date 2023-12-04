@@ -26,11 +26,14 @@ namespace Cryptocash.Application.Factories;
 internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public ExchangeRateFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual ExchangeRateEntity CreateEntity(ExchangeRateUpsertDto createDto)
@@ -101,4 +104,9 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
 
 internal partial class ExchangeRateFactory : ExchangeRateFactoryBase
 {
+    public ExchangeRateFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

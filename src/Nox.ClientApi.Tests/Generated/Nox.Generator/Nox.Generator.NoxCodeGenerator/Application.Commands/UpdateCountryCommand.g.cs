@@ -10,6 +10,7 @@ using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
 using Nox.Extensions;
+using FluentValidation;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -56,6 +57,10 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		{
 			return null;
 		}
+		await DbContext.Entry(entity).Collection(x => x.CountryLocalNames).LoadAsync();
+		await DbContext.Entry(entity).Reference(x => x.CountryBarCode).LoadAsync();
+		await DbContext.Entry(entity).Collection(x => x.CountryTimeZones).LoadAsync();
+		await DbContext.Entry(entity).Collection(x => x.Holidays).LoadAsync();
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
@@ -71,4 +76,17 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 
 		return new CountryKeyDto(entity.Id.Value);
 	}
+}
+
+public class UpdateCountryValidator : AbstractValidator<UpdateCountryCommand>
+{
+    public UpdateCountryValidator()
+    {
+		RuleFor(x => x.EntityDto.CountryTimeZones)
+			.ForEach(item => 
+			{
+				item.Must(owned => owned.Id != null)
+					.WithMessage((item, index) => $"CountryTimeZones[{index}].Id is required.");
+			}); 
+    }
 }

@@ -10,6 +10,7 @@ using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
 using Nox.Extensions;
+using FluentValidation;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -56,6 +57,8 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 		{
 			return null;
 		}
+		await DbContext.Entry(entity).Collection(x => x.BankNotes).LoadAsync();
+		await DbContext.Entry(entity).Collection(x => x.ExchangeRates).LoadAsync();
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
@@ -71,4 +74,11 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 
 		return new CurrencyKeyDto(entity.Id.Value);
 	}
+}
+
+public class UpdateCurrencyValidator : AbstractValidator<UpdateCurrencyCommand>
+{
+    public UpdateCurrencyValidator()
+    {
+    }
 }

@@ -26,11 +26,14 @@ namespace Cryptocash.Application.Factories;
 internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public CommissionFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual CommissionEntity CreateEntity(CommissionCreateDto createDto)
@@ -101,4 +104,9 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
 
 internal partial class CommissionFactory : CommissionFactoryBase
 {
+    public CommissionFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

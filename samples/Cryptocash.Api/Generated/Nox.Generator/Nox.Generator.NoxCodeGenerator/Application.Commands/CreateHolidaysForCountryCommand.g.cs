@@ -75,7 +75,7 @@ internal abstract class CreateHolidaysForCountryCommandHandlerBase : CommandBase
 
 public class CreateHolidaysForCountryValidator : AbstractValidator<CreateHolidaysForCountryCommand>
 {
-    public CreateHolidaysForCountryValidator(ILogger<CreateHolidaysForCountryCommand> logger)
+    public CreateHolidaysForCountryValidator()
     {
 		RuleFor(x => x.EntityDto.Id).Null().WithMessage("Id must be null as it is auto generated.");
     }

@@ -37,7 +37,8 @@ internal abstract class GetCountriesQueryHandlerBase : QueryBase<IQueryable<Coun
             .AsNoTracking()
             .Include(e => e.CountryLocalNames)
             .Include(e => e.CountryBarCode)
-            .Include(e => e.CountryTimeZones);
+            .Include(e => e.CountryTimeZones)
+            .Include(e => e.Holidays);
        return Task.FromResult(OnResponse(item));
     }
 }

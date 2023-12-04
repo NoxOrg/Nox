@@ -197,6 +197,13 @@ public partial class CountryMetadata
         public static Nox.Types.TimeZoneCode CreateCountryTimeZoneId(System.String value)
             => Nox.Types.TimeZoneCode.From(value);
         
+    
+        /// <summary>
+        /// Factory for property 'HolidayId'
+        /// </summary>
+        public static Nox.Types.Guid CreateHolidayId(System.Guid value)
+            => Nox.Types.Guid.From(value);
+        
 
         /// <summary>
         /// User Interface for property 'Name'

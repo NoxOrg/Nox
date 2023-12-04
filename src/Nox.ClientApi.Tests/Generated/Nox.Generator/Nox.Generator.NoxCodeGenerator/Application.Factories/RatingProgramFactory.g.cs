@@ -26,11 +26,14 @@ namespace ClientApi.Application.Factories;
 internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public RatingProgramFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual RatingProgramEntity CreateEntity(RatingProgramCreateDto createDto)
@@ -94,4 +97,9 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
 
 internal partial class RatingProgramFactory : RatingProgramFactoryBase
 {
+    public RatingProgramFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

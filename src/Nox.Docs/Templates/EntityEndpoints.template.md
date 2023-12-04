@@ -1,4 +1,4 @@
-﻿# API Endpoints for the {{entity.Name}} entity
+# API Endpoints for the {{entity.Name}} entity
 
 This document provides information about the various endpoints available in our API for the {{entity.Name}} entity.
 
@@ -104,4 +104,21 @@ This document provides information about the various endpoints available in our 
 {{ for relationship in entity.Relationships }}
 [{{relationship.Entity}}]({{relationship.Entity}}Endpoints.md)
 {{ end -}}
-{{ end -}}
+{{ end -}}{{ if enumerationAttributes | array.size > 0 }}
+## Enumerations Endpoints
+
+This section details the API endpoints related to enumeration attributes in a specific {{entity.Name}}.
+{{- for enumAtt in enumerationAttributes }}
+- **GET** `/api/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}`
+  - **Description**: Retrieve non-conventional values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.
+{{- if enumAtt.IsLocalized }}
+  
+- **GET** `/api/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
+  - **Description**: Retrieve localized values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.
+
+- **DELETE** `/api/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized/{cultureCode}`
+  - **Description**: Delete the localized values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific culture code in {{entity.Name}}.
+
+- **PUT** `/api/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
+  - **Description**: Update or create localized values of {{Pluralize(enumAtt.Attribute.Name)}} for a specific {{entity.Name}}. Requires a payload with the new values.
+{{end}}{{end}}{{end}}

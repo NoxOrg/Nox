@@ -125,7 +125,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
             }           
         }
         
-        if(!updateProperties.ContainsKey("Id"))
+        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
         {
             throw new Nox.Exceptions.BadRequestException("Id is required.");
         }

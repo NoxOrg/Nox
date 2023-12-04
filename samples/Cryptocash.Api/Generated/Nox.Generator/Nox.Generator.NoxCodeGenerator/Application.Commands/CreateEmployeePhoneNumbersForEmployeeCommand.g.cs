@@ -75,7 +75,7 @@ internal abstract class CreateEmployeePhoneNumbersForEmployeeCommandHandlerBase 
 
 public class CreateEmployeePhoneNumbersForEmployeeValidator : AbstractValidator<CreateEmployeePhoneNumbersForEmployeeCommand>
 {
-    public CreateEmployeePhoneNumbersForEmployeeValidator(ILogger<CreateEmployeePhoneNumbersForEmployeeCommand> logger)
+    public CreateEmployeePhoneNumbersForEmployeeValidator()
     {
 		RuleFor(x => x.EntityDto.Id).Null().WithMessage("Id must be null as it is auto generated.");
     }

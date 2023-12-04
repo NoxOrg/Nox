@@ -45,6 +45,12 @@ internal static class {{className}}
             {{- end }}
             configureNox?.Invoke(configurator);
         });
+        services.AddScoped(typeof(Nox.Domain.IRepository), serviceProvider =>
+        {
+            var dbContext = serviceProvider.GetRequiredService<AppDbContext>();
+            return new Nox.Domain.Repository(dbContext);
+        });
+
         {{- if configPresentation == true }}
         services.AddNoxOdata(configureNoxOdata);
         {{- end }}

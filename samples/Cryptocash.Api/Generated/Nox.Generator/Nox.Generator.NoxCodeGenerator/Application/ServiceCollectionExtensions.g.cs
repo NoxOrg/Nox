@@ -12,6 +12,7 @@ using Nox.Solution;
 using Nox.Configuration;
 using Nox.Types.EntityFramework.Abstractions;
 using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Presentation.Api.OData;
 
 
 internal static class ServiceCollectionExtensions
@@ -38,6 +39,12 @@ internal static class ServiceCollectionExtensions
             configurator.WithMessagingTransactionalOutbox<AppDbContext>();
             configureNox?.Invoke(configurator);
         });
+        services.AddScoped(typeof(Nox.Domain.IRepository), serviceProvider =>
+        {
+            var dbContext = serviceProvider.GetRequiredService<AppDbContext>();
+            return new Nox.Domain.Repository(dbContext);
+        });
+        services.AddNoxOdata(configureNoxOdata);
         return services;
     }
 }

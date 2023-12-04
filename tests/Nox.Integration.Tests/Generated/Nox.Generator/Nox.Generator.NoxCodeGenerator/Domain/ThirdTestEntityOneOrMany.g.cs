@@ -11,6 +11,7 @@ using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Extensions;
 
 namespace TestWebApp.Domain;
 
@@ -101,7 +102,7 @@ internal abstract partial class ThirdTestEntityOneOrManyBase : AuditableEntityBa
 
     public virtual void UpdateRefToThirdTestEntityZeroOrManies(List<ThirdTestEntityZeroOrMany> relatedThirdTestEntityZeroOrMany)
     {
-        if(relatedThirdTestEntityZeroOrMany is null || relatedThirdTestEntityZeroOrMany.Count < 2)
+        if(!relatedThirdTestEntityZeroOrMany.HasAtLeastOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
         ThirdTestEntityZeroOrManies.Clear();
         ThirdTestEntityZeroOrManies.AddRange(relatedThirdTestEntityZeroOrMany);
@@ -109,14 +110,14 @@ internal abstract partial class ThirdTestEntityOneOrManyBase : AuditableEntityBa
 
     public virtual void DeleteRefToThirdTestEntityZeroOrManies(ThirdTestEntityZeroOrMany relatedThirdTestEntityZeroOrMany)
     {
-        if(ThirdTestEntityZeroOrManies.Count() < 2)
+        if(ThirdTestEntityZeroOrManies.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         ThirdTestEntityZeroOrManies.Remove(relatedThirdTestEntityZeroOrMany);
     }
 
     public virtual void DeleteAllRefToThirdTestEntityZeroOrManies()
     {
-        if(ThirdTestEntityZeroOrManies.Count() < 2)
+        if(ThirdTestEntityZeroOrManies.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         ThirdTestEntityZeroOrManies.Clear();
     }

@@ -8,10 +8,9 @@ using Nox.Abstractions;
 using Nox.Types;
 using System.Net;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 using Nox.Types.EntityFramework.Types;
 using Nox.Types.EntityFramework.Abstractions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Nox.Extensions;
 
 namespace Nox.Infrastructure.Persistence
 {

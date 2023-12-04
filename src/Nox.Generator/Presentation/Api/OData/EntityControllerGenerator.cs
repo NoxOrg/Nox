@@ -375,7 +375,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
         if (child.Keys.Any())
         {
-            code.AppendLine($"if(!updateProperties.ContainsKey(\"{child.Keys[0].Name}\"))");
+            code.AppendLine($"if(!updateProperties.ContainsKey(\"{child.Keys[0].Name}\") || updateProperties[\"{child.Keys[0].Name}\"] == null)");
             code.StartBlock();
             code.AppendLine($"throw new Nox.Exceptions.BadRequestException(\"{child.Keys[0].Name} is required.\");");
             code.EndBlock();

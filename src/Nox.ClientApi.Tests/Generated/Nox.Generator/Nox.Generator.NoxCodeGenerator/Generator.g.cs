@@ -10,6 +10,7 @@
 //  - countrylocalname.entity.nox.yaml
 //  - countryqualityoflifeindex.entity.nox.yaml
 //  - currency.entity.nox.yaml
+//  - holiday.entity.nox.yaml
 //  - ratingprogram.entity.nox.yaml
 //  - store-license.entity.nox.yaml
 //  - store-owner.entity.nox.yaml
@@ -29,6 +30,7 @@
 //  - Nox.Generator.Infrastructure.Persistence.DtoDbContextGenerator
 //  - Nox.Generator.Domain.EntitiesGenerator
 //  - Nox.Generator.Domain.EntityLocalizedGenerator
+//  - Nox.Generator.Domain.EnumGenerator.EnumGenerator
 //  - Nox.Generator.Domain.ModelGenerator.EntityMetaGenerator
 //  - Nox.Generator.Domain.DomainEventGenerator.DomainEventGenerator
 //  - Nox.Generator.Presentation.Api.OData.EntityDtoGenerator
