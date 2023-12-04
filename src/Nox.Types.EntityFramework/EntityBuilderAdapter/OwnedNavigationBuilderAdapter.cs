@@ -76,5 +76,10 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
         {
             return OwnedNavigationBuilder!.HasIndex(propertyNames).HasDatabaseName(constraintName).IsUnique();
         }
+
+        public IEntityBuilder ToSqlQuery(string query)
+        {
+            throw new NotSupportedException("ToSqlQuery is not supported for Owned navigation.");
+        }
     }
 }

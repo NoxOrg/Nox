@@ -2,10 +2,7 @@
 using ClientApi.Application.Dto;
 using AutoFixture;
 using System.Net;
-using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
-using ClientApi.Tests.Controllers;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace ClientApi.Tests.Controllers
 {
@@ -17,7 +14,7 @@ namespace ClientApi.Tests.Controllers
             : base(testOutput, containerService)
         {
         }
-            [Fact]
+        [Fact]
         public async Task CreateTenant_ToEntityWithNuid_NuidIsCreated()
         {
             // Arrange
@@ -113,7 +110,7 @@ namespace ClientApi.Tests.Controllers
             };
 
             // Act
-            var postResult = await CreateTenantAsync(frTenant);
+            var postResult = await CreateTenantAsync(frTenant, language: "fr-FR");
 
             var frResult = await GetTenantByIdAsync(postResult!.Id, language: "fr-FR");
 
@@ -173,6 +170,114 @@ namespace ClientApi.Tests.Controllers
             itResult!.TenantBrands[0].Description.Should().Be("[" + enTenantBrand.Description + "]");
         }
 
+        [Fact]
+        public async Task CreateTenant_WhenProvidingTenantContactDefaultLanguageDescription_CreatesLocalization()
+        {
+            // Arrange
+            var enTenant = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                TenantContact = new TenantContactUpsertDto
+                {
+                    Name = "IWG plc helpdesk",
+                    Description = "For more information please write to the email address below.",
+                    Email = "helpdesk@iwgplc.com"
+                }
+            };
+
+            // Act
+            var postResult = await CreateTenantAsync(enTenant);
+
+            var enResult = await GetTenantByIdAsync(postResult!.Id, language: "en-US");
+
+            // Assert
+            enResult.Should().NotBeNull();
+            enResult!.Id.Should().Be(postResult.Id);
+            enResult.Name.Should().Be(enTenant.Name);
+            enResult.TenantContact!.Name.Should().Be(enTenant.TenantContact.Name);
+            enResult.TenantContact.Description.Should().Be(enTenant.TenantContact.Description);
+            enResult.TenantContact.Email.Should().Be(enTenant.TenantBrands[0].Description);
+        }
+
+        [Fact]
+        public async Task CreateTenant_WhenProvidingTenantContactNotDefaultLanguageDescription_CreatesLocalization()
+        {
+            // Arrange
+            var frTenant = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                TenantContact = new TenantContactUpsertDto
+                {
+                    Name = "IWG plc helpdesk",
+                    Description = "Pour plus d'informations, veuillez écrire à l'adresse e-mail ci-dessous.",
+                    Email = "helpdesk@iwgplc.com"
+                },
+            };
+
+            // Act
+            var postResult = await CreateTenantAsync(frTenant);
+
+            var frResult = await GetTenantByIdAsync(postResult!.Id, language: "fr-FR");
+
+            // Assert
+            frResult.Should().NotBeNull();
+            frResult!.Id.Should().Be(postResult.Id);
+            frResult.Name.Should().Be(frTenant.Name);
+            frResult.TenantContact!.Name.Should().Be(frTenant.TenantContact.Name);
+            frResult.TenantContact.Description.Should().Be(frTenant.TenantContact.Description);
+        }
+
+        [Fact]
+        public async Task CreateTenantAndUpdateTenantContact_WithTenantContactDescription_CreatesCorrectLocalizations()
+        {
+            // Arrange
+            var tenantId = (await CreateTenantAsync(new TenantCreateDto { Name = "IWG plc" }))!.Id;
+
+            var enTenantContact = new TenantContactUpsertDto
+            {
+                Name = "IWG plc helpdesk",
+                Description = "For more information please write to the email address below.",
+                Email = "helpdesk@iwgplc.com"
+            };
+
+            var frTenantContact = new TenantContactUpsertDto
+            {
+                Name = "IWG plc helpdesk",
+                Description = "Pour plus d'informations, veuillez écrire à l'adresse e-mail ci-dessous.",
+                Email = "helpdesk@iwgplc.com"
+            };
+
+            var deTenantContact = new TenantContactUpsertDto
+            {
+                Name = "IWG plc helpdesk",
+                Description = "Für weitere Informationen schreiben Sie bitte an die unten angegebene E-Mail-Adresse.",
+                Email = "helpdesk@iwgplc.com"
+            };
+
+            // Act
+            await CreateTenantContactAsync(tenantId, enTenantContact, language: "en-US");
+            await UpdateTenantContactAsync(tenantId, frTenantContact, language: "fr-FR");
+            await PartiallyUpdateTenantContactAsync(tenantId, deTenantContact, language: "de-DE");
+
+            var enResult = await GetTenantByIdAsync(tenantId, language: "en-US");
+            var frResult = await GetTenantByIdAsync(tenantId, language: "fr-FR");
+            var deResult = await GetTenantByIdAsync(tenantId, language: "de-DE");
+            var itResult = await GetTenantByIdAsync(tenantId, language: "it-IT");
+
+            // Assert
+            enResult.Should().NotBeNull();
+            enResult!.TenantContact!.Description.Should().Be(enTenantContact.Description);
+
+            frResult.Should().NotBeNull();
+            frResult!.TenantContact!.Description.Should().Be(frTenantContact.Description);
+
+            deResult.Should().NotBeNull();
+            deResult!.TenantContact!.Description.Should().Be(deTenantContact.Description);
+
+            itResult.Should().NotBeNull();
+            itResult!.TenantContact!.Description.Should().Be("[" + enTenantContact.Description + "]");
+        }
+
         #endregion Localizations
 
         #endregion Owned Entities
@@ -228,12 +333,94 @@ namespace ClientApi.Tests.Controllers
             getWorkplaceResponse!.Tenants.Should().Contain(t => t.Id == tenantId2);
         }
 
+        #region Localizations
+
+        [Fact]
+        public async Task ExpandingLocalizedWorkplacesOnTenants_RetunsLocalizedDetails()
+        {
+            // Arrange
+            var workplace = await CreateWorkplaceAsync(
+                new WorkplaceCreateDto
+                {
+                    Name = "Regus - Paris Gare de Lyon",
+                    Description = "A modern, modestly sized building with parking, just minutes from the Gare de Lyon and Gare d'Austerlitz.",
+                });
+
+            var frWorkplace = new WorkplaceUpdateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "Un bâtiment moderne et de taille modeste avec parking, à quelques minutes de la Gare de Lyon et de la Gare d'Austerlitz.",
+            };
+
+            await UpdateWorkplaceAsync(workplace!.Id, frWorkplace, language: "fr-FR");
+
+            // Act
+            var tenant = await CreateTenantAsync(
+                new TenantCreateDto
+                {
+                    Name = "IWG plc",
+                    TenantBrands = new List<TenantBrandUpsertDto>
+                    {
+                        new()
+                        {
+                            Name = "Regus",
+                            Description = "Regus is part of a collective of global and regional workspace brands that form the IWG network.",
+                        },
+                    },
+                    TenantContact = new TenantContactUpsertDto
+                    {
+                        Name = "IWG plc helpdesk",
+                        Description = "For more information please write to the email address below.",
+                        Email = "helpdesk@iwgplc.com"
+                    },
+                    WorkplacesId = new() { workplace!.Id }
+                });
+
+            var frTenant = new TenantUpdateDto
+            {
+                Name = "IWG plc",
+                TenantBrands = new List<TenantBrandUpsertDto>
+                {
+                    new()
+                    {
+                        Name = "Regus",
+                        Description = "Regus fait partie d’un collectif de marques mondiales et régionales d’espaces de travail qui forment le réseau IWG.",
+                    },
+                },
+                TenantContact = new TenantContactUpsertDto
+                {
+                    Name = "IWG plc helpdesk",
+                    Description = "Pour plus d'informations, veuillez écrire à l'adresse e-mail ci-dessous.",
+                    Email = "helpdesk@iwgplc.com"
+                }
+            };
+
+            await UpdateTenantAsync(tenant!.Id, frTenant);
+
+            var frResult = await GetODataSimpleResponseAsync<TenantDto>($"{Endpoints.TenantsUrl}/{tenant.Id}?$expand={nameof(TenantDto.Workplaces)}&lang=fr-FR");
+
+            // Assert
+            frResult.Should().NotBeNull();
+            frResult!.TenantBrands[0].Description.Should().Be(frTenant.TenantBrands[0].Description);
+            frResult.TenantContact!.Description.Should().Be(frTenant.TenantContact.Description);
+            frResult.Workplaces[0].Description.Should().Be(frWorkplace.Description);
+        }
+
+
+        #endregion Localizations
+
         #endregion Many to Many Relations
 
         #region Utils
 
         private async Task<TenantDto?> CreateTenantAsync(TenantCreateDto tenant, string? language = null)
             => await PostAsync<TenantCreateDto, TenantDto>($"{Endpoints.TenantsUrl}{CreateLangParam(language)}", tenant);
+
+        private async Task<TenantDto?> UpdateTenantAsync(uint tenantId, TenantUpdateDto tenant, string? language = null)
+        {
+            var etag = (await GetTenantByIdAsync(tenantId))!.Etag;
+            return await PutAsync<TenantUpdateDto, TenantDto>($"{Endpoints.TenantsUrl}/{tenantId}{CreateLangParam(language)}", tenant, CreateEtagHeader(etag));
+        }
 
         private async Task<TenantDto?> GetTenantByIdAsync(uint id, string? language = null)
             => await GetODataSimpleResponseAsync<TenantDto>($"{Endpoints.TenantsUrl}/{id}{CreateLangParam(language)}");
@@ -255,6 +442,36 @@ namespace ClientApi.Tests.Controllers
             var etag = (await GetTenantByIdAsync(tenantId))!.Etag;
             return await PatchAsync<TenantBrandUpsertDto, TenantBrandDto>($"{Endpoints.TenantsUrl}/{tenantId}/TenantBrands/{tenantBrandId}{CreateLangParam(language)}", tenantBrand, CreateEtagHeader(etag));
         }
+
+        private async Task CreateTenantContactAsync(uint tenantId, TenantContactUpsertDto tenantContact, string? language = null)
+        {
+            var etag = (await GetTenantByIdAsync(tenantId))!.Etag;
+            await PostAsync($"{Endpoints.TenantsUrl}/{tenantId}/TenantContact{CreateLangParam(language)}", tenantContact, CreateEtagHeader(etag));
+        }
+
+        private async Task UpdateTenantContactAsync(uint tenantId, TenantContactUpsertDto tenantContact, string? language = null)
+        {
+            var etag = (await GetTenantByIdAsync(tenantId))!.Etag;
+            await PutAsync($"{Endpoints.TenantsUrl}/{tenantId}/TenantContact{CreateLangParam(language)}", tenantContact, CreateEtagHeader(etag));
+        }
+
+        private async Task PartiallyUpdateTenantContactAsync(uint tenantId, TenantContactUpsertDto tenantContact, string? language = null)
+        {
+            var etag = (await GetTenantByIdAsync(tenantId))!.Etag;
+            await PatchAsync($"{Endpoints.TenantsUrl}/{tenantId}/TenantContact{CreateLangParam(language)}", tenantContact, CreateEtagHeader(etag));
+        }
+
+        private async Task<WorkplaceDto?> CreateWorkplaceAsync(WorkplaceCreateDto workplace, string? language = null)
+            => await PostAsync<WorkplaceCreateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}{CreateLangParam(language)}", workplace);
+
+        private async Task<WorkplaceDto?> UpdateWorkplaceAsync(long workplaceId, WorkplaceUpdateDto workplace, string? language = null)
+        {
+            var etag = (await GetWorkplaceByIdAsync(workplaceId))!.Etag;
+            return await PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceId}{CreateLangParam(language)}", workplace, CreateEtagHeader(etag));
+        }
+
+        private async Task<WorkplaceDto?> GetWorkplaceByIdAsync(long id, string? language = null)
+            => await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{id}{CreateLangParam(language)}");
 
         private static string CreateLangParam(string? language = null)
             => string.IsNullOrWhiteSpace(language) ? string.Empty : $"?lang={language}";

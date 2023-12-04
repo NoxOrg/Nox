@@ -17,6 +17,7 @@ internal static class TenantExtensions
         dto.SetIfNotNull(entity?.Name, (dto) => dto.Name =entity!.Name!.Value);
         dto.SetIfNotNull(entity?.Workplaces, (dto) => dto.Workplaces = entity!.Workplaces.Select(e => e.ToDto()).ToList());
         dto.SetIfNotNull(entity?.TenantBrands, (dto) => dto.TenantBrands = entity!.TenantBrands.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.TenantContact, (dto) => dto.TenantContact = entity!.TenantContact!.ToDto());
 
         return dto;
     }

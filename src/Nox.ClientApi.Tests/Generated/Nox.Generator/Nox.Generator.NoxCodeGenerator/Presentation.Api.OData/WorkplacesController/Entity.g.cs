@@ -56,14 +56,14 @@ public abstract partial class WorkplacesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> Get()
     {
-        var result = await _mediator.Send(new GetWorkplacesQuery(_cultureCode));
+        var result = await _mediator.Send(new GetWorkplacesQuery());
         return Ok(result);
     }
 
     [EnableQuery]
     public async Task<SingleResult<WorkplaceDto>> Get([FromRoute] System.Int64 key)
     {
-        var result = await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key));
+        var result = await _mediator.Send(new GetWorkplaceByIdQuery(key));
         return SingleResult.Create(result);
     }
 
@@ -76,7 +76,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
 
         var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
 
-        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, createdKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(createdKey.keyId))).SingleOrDefault();
 
         return Created(item);
     }
@@ -96,7 +96,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }
@@ -126,7 +126,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }

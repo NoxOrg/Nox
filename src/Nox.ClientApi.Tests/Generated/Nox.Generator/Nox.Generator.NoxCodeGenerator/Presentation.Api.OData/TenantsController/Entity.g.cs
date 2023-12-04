@@ -63,7 +63,7 @@ public abstract partial class TenantsControllerBase : ODataController
     [EnableQuery]
     public async Task<SingleResult<TenantDto>> Get([FromRoute] System.UInt32 key)
     {
-        var result = await _mediator.Send(new GetTenantByIdQuery(_cultureCode, key));
+        var result = await _mediator.Send(new GetTenantByIdQuery(key));
         return SingleResult.Create(result);
     }
 
@@ -76,7 +76,7 @@ public abstract partial class TenantsControllerBase : ODataController
 
         var createdKey = await _mediator.Send(new CreateTenantCommand(tenant, _cultureCode));
 
-        var item = (await _mediator.Send(new GetTenantByIdQuery(_cultureCode, createdKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetTenantByIdQuery(createdKey.keyId))).SingleOrDefault();
 
         return Created(item);
     }
@@ -96,7 +96,7 @@ public abstract partial class TenantsControllerBase : ODataController
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetTenantByIdQuery(_cultureCode, updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetTenantByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }
@@ -126,7 +126,7 @@ public abstract partial class TenantsControllerBase : ODataController
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetTenantByIdQuery(_cultureCode, updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetTenantByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }

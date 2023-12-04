@@ -95,7 +95,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 new NoxSimpleTypeDefinition()
                 {
                     // We only support entities with single key
-                    Name = entity.Keys.Single().Name,
+                    Name = entity.GetKeys().Single().Name,
                     Type = NoxType.EntityId, // Create Foreign key to Main Entity
                     EntityIdTypeOptions = new EntityIdTypeOptions()
                     {
@@ -374,7 +374,7 @@ namespace Nox.Types.EntityFramework.Configurations
             if (TypesDatabaseConfigurations.TryGetValue(foreignEntityKeyType,
                 out var databaseConfigurationForForeignKey))
             {
-                var foreignEntityKeyDefinition = codeGeneratorState.Solution.Domain!.GetEntityByName(key.EntityIdTypeOptions!.Entity).Keys![0].ShallowCopy();
+                var foreignEntityKeyDefinition = codeGeneratorState.Solution.Domain!.GetEntityByName(key.EntityIdTypeOptions!.Entity).GetKeys()![0].ShallowCopy();
                 foreignEntityKeyDefinition.Name = key.Name;
                 foreignEntityKeyDefinition.Description = "-";
                 foreignEntityKeyDefinition.IsRequired = false;

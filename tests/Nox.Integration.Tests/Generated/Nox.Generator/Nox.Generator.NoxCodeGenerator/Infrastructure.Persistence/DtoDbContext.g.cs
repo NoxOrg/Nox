@@ -2,6 +2,7 @@
 #nullable enable
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Nox;
 using Nox.Solution;
 using Nox.Extensions;
@@ -32,20 +33,24 @@ internal class DtoDbContext : DbContext
     protected readonly INoxDtoDatabaseConfigurator _noxDtoDatabaseConfigurator;
     private readonly NoxCodeGenConventions _codeGenConventions;
 
+    private readonly IEnumerable<IInterceptor> _interceptors;
+
     public DtoDbContext(
         DbContextOptions<DtoDbContext> options,
         NoxSolution noxSolution,
         INoxDatabaseProvider databaseProvider,
         INoxClientAssemblyProvider clientAssemblyProvider,
         INoxDtoDatabaseConfigurator noxDtoDatabaseConfigurator,
-        NoxCodeGenConventions codeGeneratorState
-    ) : base(options)
+        NoxCodeGenConventions codeGeneratorState,
+        IEnumerable<IInterceptor> interceptors) 
+        : base(options)
     {
         _noxSolution = noxSolution;
         _dbProvider = databaseProvider;
         _clientAssemblyProvider = clientAssemblyProvider;
         _noxDtoDatabaseConfigurator = noxDtoDatabaseConfigurator;
         _codeGenConventions = codeGeneratorState;
+        _interceptors = interceptors;
     }
 
     
@@ -100,6 +105,7 @@ internal class DtoDbContext : DbContext
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
             _dbProvider.ConfigureDbContext(optionsBuilder, "TestWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
+            optionsBuilder.AddInterceptors(_interceptors);
         }
     }
 

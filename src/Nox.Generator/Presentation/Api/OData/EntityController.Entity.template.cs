@@ -63,14 +63,14 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<{{entity.Name}}Dto>>> Get()
     {
-        var result = await _mediator.Send(new Get{{entity.PluralName}}Query({{if entity.IsLocalized}}_cultureCode{{end}}));
+        var result = await _mediator.Send(new Get{{entity.PluralName}}Query());
         return Ok(result);
     }
 
     [EnableQuery]
     public async Task<SingleResult<{{entity.Name}}Dto>> Get({{ primaryKeysRoute }})
     {
-        var result = await _mediator.Send(new Get{{ entity.Name }}ByIdQuery({{if entity.IsLocalized || entity.HasLocalizedOwnedRelationships}}_cultureCode, {{end}}{{ primaryKeysQuery }}));
+        var result = await _mediator.Send(new Get{{ entity.Name }}ByIdQuery({{ primaryKeysQuery }}));
         return SingleResult.Create(result);
     }
     {{- end }}
@@ -84,7 +84,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
 
         var createdKey = await _mediator.Send(new Create{{entity.Name}}Command({{ToLowerFirstChar entity.Name}}, _cultureCode));
 
-        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{if entity.IsLocalized || entity.HasLocalizedOwnedRelationships}}_cultureCode, {{end}}{{ createdKeyPrimaryKeysQuery }}))).SingleOrDefault();
+        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ createdKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
         return Created(item);
     }
@@ -108,7 +108,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{if entity.IsLocalized || entity.HasLocalizedOwnedRelationships}}_cultureCode, {{end}}{{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
+        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
         return Ok(item);
     }
@@ -141,7 +141,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{if entity.IsLocalized || entity.HasLocalizedOwnedRelationships}}_cultureCode, {{end}}{{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
+        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
         return Ok(item);
     }

@@ -21,7 +21,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 /// </summary>
 public partial class {{className}}
 {
-{{- for key in entity.Keys }}
+{{- for key in entityKeys }}
     /// <summary>
     /// {{key.Description}} (Required).
     /// </summary>

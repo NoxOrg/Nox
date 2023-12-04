@@ -76,5 +76,11 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
         {
             return EntityTypeBuilder.HasIndex(propertyNames).HasDatabaseName(constraintName).IsUnique();
         }
+
+        public IEntityBuilder ToSqlQuery(string query)
+        {
+            EntityTypeBuilder.ToSqlQuery(query);
+            return this;
+        }
     }
 }

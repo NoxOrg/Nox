@@ -34,5 +34,7 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
             Action<OwnedNavigationBuilder> buildAction);
 
         public IndexBuilder HasUniqueAttributeConstraint(string[] propertyNames, string constraintName);
+
+        public IEntityBuilder ToSqlQuery(string query);
     }
 }

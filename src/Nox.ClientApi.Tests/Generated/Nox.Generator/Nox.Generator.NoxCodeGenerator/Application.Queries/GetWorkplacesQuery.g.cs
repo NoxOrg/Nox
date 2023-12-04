@@ -9,27 +9,16 @@ using Nox.Application.Commands;
 
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
-using Nox.Presentation.Api;
-using Nox.Solution;
-using Nox.Types;
 
 namespace ClientApi.Application.Queries;
 
-public partial class GetWorkplacesQuery : IRequest<IQueryable<WorkplaceDto>>
-{
-    public CultureCode CultureCode { get; set; }
-
-    public GetWorkplacesQuery(CultureCode cultureCode)
-    {
-        CultureCode = cultureCode;
-    }
-};
+public partial record GetWorkplacesQuery() : IRequest<IQueryable<WorkplaceDto>>;
 
 internal partial class GetWorkplacesQueryHandler: GetWorkplacesQueryHandlerBase
 {
     public GetWorkplacesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
-
+    
     }
 }
 
@@ -44,28 +33,8 @@ internal abstract class GetWorkplacesQueryHandlerBase : QueryBase<IQueryable<Wor
 
     public virtual Task<IQueryable<WorkplaceDto>> Handle(GetWorkplacesQuery request, CancellationToken cancellationToken)
     {
-        var cultureCode = request.CultureCode.Value;
-
-        IQueryable<WorkplaceDto> linqQueryBuilder =
-            from item in DataDbContext.Workplaces.AsNoTracking()
-            join itemLocalizedFromJoin in DataDbContext.WorkplacesLocalized on cultureCode equals itemLocalizedFromJoin.CultureCode into joinedData
-            from itemLocalized in joinedData.Where(l => item.Id == l.Id).DefaultIfEmpty()
-            select new WorkplaceDto()
-            {
-        Id = item.Id,
-        Name = item.Name,
-        Description = itemLocalized.Description ?? "[" + item.Description + "]",
-        Greeting = item.Greeting,
-        CountryId = item.CountryId,
-        Etag = item.Etag
-            };
-
-        var sqlStatement = linqQueryBuilder.ToQueryString().Replace($"WHERE @__{nameof(cultureCode)}_0", $"WHERE '{cultureCode}'");
-
-        IQueryable<WorkplaceDto> getItemsQuery =
-            from item in DataDbContext.Workplaces.FromSqlRaw(sqlStatement)
-            select item;
-
-        return Task.FromResult(OnResponse(getItemsQuery));
+        var item = (IQueryable<WorkplaceDto>)DataDbContext.Workplaces
+            .AsNoTracking();
+       return Task.FromResult(OnResponse(item));
     }
 }

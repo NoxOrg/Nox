@@ -29,6 +29,7 @@ internal class EntityLocalizedGenerator : INoxCodeGenerator
                 .WithClassName(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name))
                 .WithFileNamePrefix($"Domain")
                 .WithObject("entity", entity)
+                .WithObject("entityKeys", entity.GetKeys())
                 .WithObject("entityLocalizedAttributes", entity.GetLocalizedAttributes())
                 .GenerateSourceCodeFromResource("Domain.EntityLocalized");
         }

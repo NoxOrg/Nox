@@ -54,4 +54,6 @@ public class TestDatabaseInstanceService : IAsyncLifetime, ITestDatabaseService
     {
         return Task.CompletedTask;
     }
+
+    public DatabaseServerProvider GetDatabaseServerProvider() => DbProviderKind;
 }

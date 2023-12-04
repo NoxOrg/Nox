@@ -90,6 +90,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<TenantDto>("Tenants");
 		builder.EntityType<TenantDto>().HasKey(e => new { e.Id });
         builder.EntityType<TenantDto>().ContainsMany(e => e.TenantBrands).AutoExpand = true;
+        builder.EntityType<TenantDto>().ContainsOptional(e => e.TenantContact).AutoExpand = true;
         builder.EntityType<TenantDto>().ContainsMany(e => e.Workplaces);
         builder.ComplexType<TenantUpdateDto>();
 
@@ -98,6 +99,11 @@ internal static class ODataServiceCollectionExtensions
         builder.ComplexType<TenantBrandUpsertDto>();
         builder.EntityType<TenantBrandLocalizedDto>().HasKey(e => new { e.Id });
         builder.EntityType<TenantBrandDto>().Function("TenantBrandsLocalized").ReturnsCollection<DtoNameSpace.TenantBrandLocalizedDto>();
+
+		builder.EntityType<TenantContactDto>().HasKey(e => new {  });
+        builder.ComplexType<TenantContactUpsertDto>();
+        builder.EntityType<TenantContactLocalizedDto>().HasKey(e => new {  });
+        builder.EntityType<TenantContactDto>().Function("TenantContactsLocalized").ReturnsCollection<DtoNameSpace.TenantContactLocalizedDto>();
 
 		builder.EntityType<EmailAddressDto>().HasKey(e => new {  });
         builder.ComplexType<EmailAddressUpsertDto>(); 
