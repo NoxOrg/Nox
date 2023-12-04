@@ -302,13 +302,11 @@ namespace Nox.Types.EntityFramework.Configurations
                     $"Property {relationshipName}Id, " +
                     $"Keytype {key.Type}");
 
-                // var keyToBeConfigured = key.ShallowCopy();
-                // keyToBeConfigured.Name = $"{relationshipName}Id";
-                // keyToBeConfigured.Description = $"Foreign key for entity {relationship.Relationship.Name}";
-                // keyToBeConfigured.IsRequired = relationship.Relationship.IsRequired();
-                // keyToBeConfigured.IsReadonly = false;
-
-                var keyToBeConfigured = key.ToRelationKeyConfiguration($"{relationshipName}Id", $"Foreign key for entity {relationship.Relationship.Name}", false, relationship.Relationship.IsRequired() );
+                var keyToBeConfigured = key.ToRelationKeyConfiguration(
+                    name:$"{relationshipName}Id", 
+                    description:$"Foreign key for entity {relationship.Relationship.Name}", 
+                    isReadonly:false, 
+                    isRequired:relationship.Relationship.IsRequired() );
                 
                 databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, keyToBeConfigured, entity, isKey: false, modelBuilder: modelBuilder, entityTypeBuilder: builder);
             }
@@ -471,35 +469,19 @@ namespace Nox.Types.EntityFramework.Configurations
         }
 
         protected virtual void ConfigureLocalizedAttributes(
-            NoxCodeGenConventions codeGeneratorState,            
+            NoxCodeGenConventions codeGeneratorState,
             EntityTypeBuilder builder,
             ModelBuilder modelBuilder,
             Entity entity)
         {
-// #pragma warning disable CS0618 // Type or member is obsolete
-//             var attributes = entity.GetAttributesToLocalizeAsNotRequired().ToList();
-// #pragma warning restore CS0618 // Type or member is obsolete
-//
+            var localizedAttributes = entity.GetLocalizedAttributesToConfigure();
 
-            // foreach (var property in attributes)
-            // {
-            //     if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
-            //     {
-            //         databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, property, entity, false, modelBuilder, builder);
-            //     }
-            //     else
-            //     {
-            //         Debug.WriteLine($"Type {property.Type} not found");
-            //     }
-            // }
-            
-            var att = entity.GetLocalizedAttributesToConfigure();
-            
-            foreach (var property in att)
+            foreach (var property in localizedAttributes)
             {
                 if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
                 {
-                    databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, property, entity, false, modelBuilder, builder);
+                    databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, property, entity, false,
+                        modelBuilder, builder);
                 }
                 else
                 {
