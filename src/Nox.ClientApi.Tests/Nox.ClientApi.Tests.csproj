@@ -49,7 +49,7 @@
 	  <None Remove="Application\Commands\**" />
 	</ItemGroup>
 
-	<ItemGroup>						
+	<ItemGroup>
 		<AdditionalFiles Include="generator.nox.yaml" />
 	</ItemGroup>
 

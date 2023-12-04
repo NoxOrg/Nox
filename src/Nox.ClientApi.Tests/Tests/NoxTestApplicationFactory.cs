@@ -10,6 +10,8 @@ using Xunit.Abstractions;
 using Nox.Solution;
 using Nox.Infrastructure;
 using System;
+using SqlKata.Compilers;
+using Nox;
 
 namespace ClientApi.Tests;
 
@@ -60,17 +62,26 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
             .ConfigureTestServices(services =>
             {
                 //Override Db Provider and set container connection string
-                var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(INoxDatabaseProvider));
-                if (descriptor != null)
-                {
-                    services.Remove(descriptor);
-                }
+                RemoveIfExists(services, typeof(INoxDatabaseProvider));
+
                 services.AddSingleton(sp =>
                 {
                     return _databaseService.GetDatabaseProvider(
                         sp.GetServices<INoxTypeDatabaseConfigurator>(),
                         sp.GetRequiredService<NoxCodeGenConventions>(),
                         sp.GetRequiredService<INoxClientAssemblyProvider>());
+                });
+
+                RemoveIfExists(services, typeof(Compiler));
+                services.AddSingleton<Compiler>(sp =>
+                {
+                    return _databaseService.GetDatabaseServerProvider() switch
+                    {
+                        DatabaseServerProvider.SqlServer => new SqlServerCompiler(),
+                        DatabaseServerProvider.SqLite => new SqliteCompiler(),
+                        DatabaseServerProvider.Postgres => new PostgresCompiler(),
+                        _ => throw new NotImplementedException()
+                    };
                 });
 
                 if (_enableMessaging)
@@ -84,5 +95,14 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
             }));
 
         return host;
+    }
+
+    private void RemoveIfExists(IServiceCollection services, Type serviceType)
+    {
+        var descriptor = services.SingleOrDefault(d => d.ServiceType == serviceType);
+        if (descriptor != null)
+        {
+            services.Remove(descriptor);
+        }
     }
 }

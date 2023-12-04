@@ -36,7 +36,7 @@ public abstract partial class WorkplacesControllerBase
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var etag = (await _mediator.Send(new GetWorkplaceByIdQuery(Nox.Types.CultureCode.From(cultureCode), key))).Select(e=>e.Etag).SingleOrDefault();
+        var etag = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Select(e=>e.Etag).SingleOrDefault();
         
         if (etag == System.Guid.Empty)
         {

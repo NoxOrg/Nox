@@ -56,14 +56,14 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<TestEntityLocalizationDto>>> Get()
     {
-        var result = await _mediator.Send(new GetTestEntityLocalizationsQuery(_cultureCode));
+        var result = await _mediator.Send(new GetTestEntityLocalizationsQuery());
         return Ok(result);
     }
 
     [EnableQuery]
     public virtual async Task<SingleResult<TestEntityLocalizationDto>> Get([FromRoute] System.String key)
     {
-        var result = await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_cultureCode, key));
+        var result = await _mediator.Send(new GetTestEntityLocalizationByIdQuery(key));
         return SingleResult.Create(result);
     }
 
@@ -80,7 +80,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
 
         var createdKey = await _mediator.Send(new CreateTestEntityLocalizationCommand(testEntityLocalization, _cultureCode));
 
-        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_cultureCode, createdKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(createdKey.keyId))).SingleOrDefault();
 
         return Created(item);
     }
@@ -104,7 +104,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_cultureCode, updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }
@@ -138,7 +138,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_cultureCode, updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }

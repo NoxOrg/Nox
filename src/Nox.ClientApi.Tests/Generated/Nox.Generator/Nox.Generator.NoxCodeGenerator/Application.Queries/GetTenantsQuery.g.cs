@@ -35,7 +35,8 @@ internal abstract class GetTenantsQueryHandlerBase : QueryBase<IQueryable<Tenant
     {
         var item = (IQueryable<TenantDto>)DataDbContext.Tenants
             .AsNoTracking()
-            .Include(e => e.TenantBrands);
+            .Include(e => e.TenantBrands)
+            .Include(e => e.TenantContact);
        return Task.FromResult(OnResponse(item));
     }
 }

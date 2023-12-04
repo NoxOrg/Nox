@@ -41,6 +41,11 @@ ownedRelationships:
     relationship: zeroOrMany
     entity: TenantBrand
 
+  - name: TenantContact
+    description: Contact information for the tenant
+    relationship: zeroOrOne
+    entity: TenantContact
+
 persistence:
   isAudited: false
   create:

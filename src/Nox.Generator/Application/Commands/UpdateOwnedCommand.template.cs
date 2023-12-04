@@ -109,7 +109,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 
 	private async Task UpdateLocalizedEntityAsync({{entity.Name}}Entity entity, {{entity.Name}}UpsertDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
-		var entityLocalized = await _dbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
+		var entityLocalized = await _dbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x => x.{{entityKeys[0].Name}} == entity.{{entityKeys[0].Name}} && x.CultureCode == cultureCode);
 		if(entityLocalized is null)
 		{
 			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);

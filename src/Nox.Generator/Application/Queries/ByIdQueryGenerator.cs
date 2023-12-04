@@ -12,8 +12,7 @@ internal class ByIdQueryGenerator : ApplicationEntityDependentGeneratorBase
 {
     protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
     {
-        var templateName = @"Application.Queries.ByIdQuery";
-        foreach (var entity in entities.Where(e => !e.IsLocalized && !e.HasLocalizedOwnedRelationships && !e.IsOwnedEntity))
+        foreach (var entity in entities.Where(e => !e.IsOwnedEntity))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -24,7 +23,7 @@ internal class ByIdQueryGenerator : ApplicationEntityDependentGeneratorBase
                 .WithFileNamePrefix($"Application.Queries")
                 .WithObject("entity", entity)
                 .WithObject("primaryKeys", primaryKeys)
-                .GenerateSourceCodeFromResource(templateName);
+                .GenerateSourceCodeFromResource("Application.Queries.ByIdQuery");
         }
     }
 }
