@@ -24,7 +24,7 @@ internal class DeleteSecondTestEntityZeroOrOneByIdCommandHandler : DeleteSecondT
 	{
 	}
 }
-internal abstract class DeleteSecondTestEntityZeroOrOneByIdCommandHandlerBase : CommandBase<DeleteSecondTestEntityZeroOrOneByIdCommand, SecondTestEntityZeroOrOneEntity>, IRequestHandler<DeleteSecondTestEntityZeroOrOneByIdCommand, bool>
+internal abstract class DeleteSecondTestEntityZeroOrOneByIdCommandHandlerBase : CommandCollectionBase<DeleteSecondTestEntityZeroOrOneByIdCommand, SecondTestEntityZeroOrOneEntity>, IRequestHandler<DeleteSecondTestEntityZeroOrOneByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -40,7 +40,9 @@ internal abstract class DeleteSecondTestEntityZeroOrOneByIdCommandHandlerBase : 
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 		
-		foreach(var keyDto in request.KeyDtos)
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<SecondTestEntityZeroOrOneEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
 			var keyId = TestWebApp.Domain.SecondTestEntityZeroOrOneMetadata.CreateId(keyDto.keyId);		
 
@@ -49,13 +51,13 @@ internal abstract class DeleteSecondTestEntityZeroOrOneByIdCommandHandlerBase : 
 			{
 				return false;
 			}
-
 			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-			DbContext.Entry(entity).State = EntityState.Deleted;
+
+			entities.Add(entity);			
 		}
 
-		await OnCompletedAsync(request, new SecondTestEntityZeroOrOneEntity());
-
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

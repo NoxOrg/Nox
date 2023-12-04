@@ -24,7 +24,7 @@ internal class DeleteCommissionByIdCommandHandler : DeleteCommissionByIdCommandH
 	{
 	}
 }
-internal abstract class DeleteCommissionByIdCommandHandlerBase : CommandBase<DeleteCommissionByIdCommand, CommissionEntity>, IRequestHandler<DeleteCommissionByIdCommand, bool>
+internal abstract class DeleteCommissionByIdCommandHandlerBase : CommandCollectionBase<DeleteCommissionByIdCommand, CommissionEntity>, IRequestHandler<DeleteCommissionByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -40,7 +40,9 @@ internal abstract class DeleteCommissionByIdCommandHandlerBase : CommandBase<Del
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 		
-		foreach(var keyDto in request.KeyDtos)
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<CommissionEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
 			var keyId = Cryptocash.Domain.CommissionMetadata.CreateId(keyDto.keyId);		
 
@@ -49,13 +51,13 @@ internal abstract class DeleteCommissionByIdCommandHandlerBase : CommandBase<Del
 			{
 				return false;
 			}
-
 			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-			DbContext.Entry(entity).State = EntityState.Deleted;
+
+			entities.Add(entity);			
 		}
 
-		await OnCompletedAsync(request, new CommissionEntity());
-
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

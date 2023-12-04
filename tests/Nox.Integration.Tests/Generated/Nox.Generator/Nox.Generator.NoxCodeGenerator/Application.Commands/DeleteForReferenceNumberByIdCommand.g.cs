@@ -24,7 +24,7 @@ internal class DeleteForReferenceNumberByIdCommandHandler : DeleteForReferenceNu
 	{
 	}
 }
-internal abstract class DeleteForReferenceNumberByIdCommandHandlerBase : CommandBase<DeleteForReferenceNumberByIdCommand, ForReferenceNumberEntity>, IRequestHandler<DeleteForReferenceNumberByIdCommand, bool>
+internal abstract class DeleteForReferenceNumberByIdCommandHandlerBase : CommandCollectionBase<DeleteForReferenceNumberByIdCommand, ForReferenceNumberEntity>, IRequestHandler<DeleteForReferenceNumberByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -40,7 +40,9 @@ internal abstract class DeleteForReferenceNumberByIdCommandHandlerBase : Command
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 		
-		foreach(var keyDto in request.KeyDtos)
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<ForReferenceNumberEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
 			var keyId = TestWebApp.Domain.ForReferenceNumberMetadata.CreateId(keyDto.keyId);		
 
@@ -49,12 +51,13 @@ internal abstract class DeleteForReferenceNumberByIdCommandHandlerBase : Command
 			{
 				return false;
 			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;DbContext.ForReferenceNumbers.Remove(entity);
+			entities.Add(entity);			
 		}
 
-		await OnCompletedAsync(request, new ForReferenceNumberEntity());
-
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

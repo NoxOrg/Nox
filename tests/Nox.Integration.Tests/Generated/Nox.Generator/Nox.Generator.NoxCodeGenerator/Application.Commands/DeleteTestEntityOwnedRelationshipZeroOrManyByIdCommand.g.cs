@@ -24,7 +24,7 @@ internal class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandler : D
 	{
 	}
 }
-internal abstract class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandlerBase : CommandBase<DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand, TestEntityOwnedRelationshipZeroOrManyEntity>, IRequestHandler<DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand, bool>
+internal abstract class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandlerBase : CommandCollectionBase<DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand, TestEntityOwnedRelationshipZeroOrManyEntity>, IRequestHandler<DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -40,7 +40,9 @@ internal abstract class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHa
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 		
-		foreach(var keyDto in request.KeyDtos)
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<TestEntityOwnedRelationshipZeroOrManyEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
 			var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(keyDto.keyId);		
 
@@ -49,13 +51,13 @@ internal abstract class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHa
 			{
 				return false;
 			}
-
 			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-			DbContext.Entry(entity).State = EntityState.Deleted;
+
+			entities.Add(entity);			
 		}
 
-		await OnCompletedAsync(request, new TestEntityOwnedRelationshipZeroOrManyEntity());
-
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

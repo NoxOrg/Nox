@@ -24,7 +24,7 @@ internal class DeleteMinimumCashStockByIdCommandHandler : DeleteMinimumCashStock
 	{
 	}
 }
-internal abstract class DeleteMinimumCashStockByIdCommandHandlerBase : CommandBase<DeleteMinimumCashStockByIdCommand, MinimumCashStockEntity>, IRequestHandler<DeleteMinimumCashStockByIdCommand, bool>
+internal abstract class DeleteMinimumCashStockByIdCommandHandlerBase : CommandCollectionBase<DeleteMinimumCashStockByIdCommand, MinimumCashStockEntity>, IRequestHandler<DeleteMinimumCashStockByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -40,7 +40,9 @@ internal abstract class DeleteMinimumCashStockByIdCommandHandlerBase : CommandBa
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 		
-		foreach(var keyDto in request.KeyDtos)
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<MinimumCashStockEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
 			var keyId = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(keyDto.keyId);		
 
@@ -49,13 +51,13 @@ internal abstract class DeleteMinimumCashStockByIdCommandHandlerBase : CommandBa
 			{
 				return false;
 			}
-
 			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-			DbContext.Entry(entity).State = EntityState.Deleted;
+
+			entities.Add(entity);			
 		}
 
-		await OnCompletedAsync(request, new MinimumCashStockEntity());
-
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

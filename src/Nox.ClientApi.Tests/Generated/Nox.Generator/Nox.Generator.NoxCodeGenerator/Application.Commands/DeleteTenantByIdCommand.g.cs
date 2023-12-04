@@ -24,7 +24,7 @@ internal class DeleteTenantByIdCommandHandler : DeleteTenantByIdCommandHandlerBa
 	{
 	}
 }
-internal abstract class DeleteTenantByIdCommandHandlerBase : CommandBase<DeleteTenantByIdCommand, TenantEntity>, IRequestHandler<DeleteTenantByIdCommand, bool>
+internal abstract class DeleteTenantByIdCommandHandlerBase : CommandCollectionBase<DeleteTenantByIdCommand, TenantEntity>, IRequestHandler<DeleteTenantByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -40,7 +40,9 @@ internal abstract class DeleteTenantByIdCommandHandlerBase : CommandBase<DeleteT
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 		
-		foreach(var keyDto in request.KeyDtos)
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<TenantEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
 			var keyId = ClientApi.Domain.TenantMetadata.CreateId(keyDto.keyId);		
 
@@ -49,12 +51,13 @@ internal abstract class DeleteTenantByIdCommandHandlerBase : CommandBase<DeleteT
 			{
 				return false;
 			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;DbContext.Tenants.Remove(entity);
+			entities.Add(entity);			
 		}
 
-		await OnCompletedAsync(request, new TenantEntity());
-
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

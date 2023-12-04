@@ -24,7 +24,7 @@ internal class DeleteCountryQualityOfLifeIndexByIdCommandHandler : DeleteCountry
 	{
 	}
 }
-internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase : CommandBase<DeleteCountryQualityOfLifeIndexByIdCommand, CountryQualityOfLifeIndexEntity>, IRequestHandler<DeleteCountryQualityOfLifeIndexByIdCommand, bool>
+internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase : CommandCollectionBase<DeleteCountryQualityOfLifeIndexByIdCommand, CountryQualityOfLifeIndexEntity>, IRequestHandler<DeleteCountryQualityOfLifeIndexByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -40,7 +40,9 @@ internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase : 
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 		
-		foreach(var keyDto in request.KeyDtos)
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<CountryQualityOfLifeIndexEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
 			var keyCountryId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateCountryId(keyDto.keyCountryId);
 			var keyId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateId(keyDto.keyId);		
@@ -50,12 +52,13 @@ internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase : 
 			{
 				return false;
 			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;DbContext.CountryQualityOfLifeIndices.Remove(entity);
+			entities.Add(entity);			
 		}
 
-		await OnCompletedAsync(request, new CountryQualityOfLifeIndexEntity());
-
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

@@ -30,7 +30,7 @@ internal class Delete{{entity.Name}}ByIdCommandHandler : Delete{{entity.Name}}By
 	{
 	}
 }
-internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandBase<Delete{{entity.Name}}ByIdCommand, {{entity.Name}}Entity>, IRequestHandler<Delete{{entity.Name}}ByIdCommand, bool>
+internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandCollectionBase<Delete{{entity.Name}}ByIdCommand, {{entity.Name}}Entity>, IRequestHandler<Delete{{entity.Name}}ByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -46,7 +46,9 @@ internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandBas
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 		
-		foreach(var keyDto in request.KeyDtos)
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<{{entity.Name}}Entity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
 			{{- for key in entity.Keys }}
 			{{- keyType = SingleTypeForKey key }}
@@ -59,19 +61,14 @@ internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandBas
 				return false;
 			}
 			{{- if !entity.IsOwnedEntity }}
-
 			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 			{{- end }}
 
-			{{- if (entity.Persistence?.IsAudited ?? true) }}
-			DbContext.Entry(entity).State = EntityState.Deleted;
-			{{-else-}}
-			DbContext.{{entity.PluralName}}.Remove(entity);
-			{{- end}}
+			entities.Add(entity);			
 		}
 
-		await OnCompletedAsync(request, new {{entity.Name}}Entity());
-
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

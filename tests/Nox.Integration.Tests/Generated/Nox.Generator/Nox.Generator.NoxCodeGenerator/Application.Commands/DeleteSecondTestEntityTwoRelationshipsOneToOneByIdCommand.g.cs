@@ -24,7 +24,7 @@ internal class DeleteSecondTestEntityTwoRelationshipsOneToOneByIdCommandHandler 
 	{
 	}
 }
-internal abstract class DeleteSecondTestEntityTwoRelationshipsOneToOneByIdCommandHandlerBase : CommandBase<DeleteSecondTestEntityTwoRelationshipsOneToOneByIdCommand, SecondTestEntityTwoRelationshipsOneToOneEntity>, IRequestHandler<DeleteSecondTestEntityTwoRelationshipsOneToOneByIdCommand, bool>
+internal abstract class DeleteSecondTestEntityTwoRelationshipsOneToOneByIdCommandHandlerBase : CommandCollectionBase<DeleteSecondTestEntityTwoRelationshipsOneToOneByIdCommand, SecondTestEntityTwoRelationshipsOneToOneEntity>, IRequestHandler<DeleteSecondTestEntityTwoRelationshipsOneToOneByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -40,7 +40,9 @@ internal abstract class DeleteSecondTestEntityTwoRelationshipsOneToOneByIdComman
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 		
-		foreach(var keyDto in request.KeyDtos)
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<SecondTestEntityTwoRelationshipsOneToOneEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
 			var keyId = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOneMetadata.CreateId(keyDto.keyId);		
 
@@ -49,12 +51,13 @@ internal abstract class DeleteSecondTestEntityTwoRelationshipsOneToOneByIdComman
 			{
 				return false;
 			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;DbContext.SecondTestEntityTwoRelationshipsOneToOnes.Remove(entity);
+			entities.Add(entity);			
 		}
 
-		await OnCompletedAsync(request, new SecondTestEntityTwoRelationshipsOneToOneEntity());
-
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

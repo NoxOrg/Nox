@@ -24,7 +24,7 @@ internal class DeleteEntityUniqueConstraintsWithForeignKeyByIdCommandHandler : D
 	{
 	}
 }
-internal abstract class DeleteEntityUniqueConstraintsWithForeignKeyByIdCommandHandlerBase : CommandBase<DeleteEntityUniqueConstraintsWithForeignKeyByIdCommand, EntityUniqueConstraintsWithForeignKeyEntity>, IRequestHandler<DeleteEntityUniqueConstraintsWithForeignKeyByIdCommand, bool>
+internal abstract class DeleteEntityUniqueConstraintsWithForeignKeyByIdCommandHandlerBase : CommandCollectionBase<DeleteEntityUniqueConstraintsWithForeignKeyByIdCommand, EntityUniqueConstraintsWithForeignKeyEntity>, IRequestHandler<DeleteEntityUniqueConstraintsWithForeignKeyByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -40,7 +40,9 @@ internal abstract class DeleteEntityUniqueConstraintsWithForeignKeyByIdCommandHa
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 		
-		foreach(var keyDto in request.KeyDtos)
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<EntityUniqueConstraintsWithForeignKeyEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
 			var keyId = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(keyDto.keyId);		
 
@@ -49,12 +51,13 @@ internal abstract class DeleteEntityUniqueConstraintsWithForeignKeyByIdCommandHa
 			{
 				return false;
 			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;DbContext.EntityUniqueConstraintsWithForeignKeys.Remove(entity);
+			entities.Add(entity);			
 		}
 
-		await OnCompletedAsync(request, new EntityUniqueConstraintsWithForeignKeyEntity());
-
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

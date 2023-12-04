@@ -24,7 +24,7 @@ internal class DeleteTestEntityForAutoNumberUsagesByIdCommandHandler : DeleteTes
 	{
 	}
 }
-internal abstract class DeleteTestEntityForAutoNumberUsagesByIdCommandHandlerBase : CommandBase<DeleteTestEntityForAutoNumberUsagesByIdCommand, TestEntityForAutoNumberUsagesEntity>, IRequestHandler<DeleteTestEntityForAutoNumberUsagesByIdCommand, bool>
+internal abstract class DeleteTestEntityForAutoNumberUsagesByIdCommandHandlerBase : CommandCollectionBase<DeleteTestEntityForAutoNumberUsagesByIdCommand, TestEntityForAutoNumberUsagesEntity>, IRequestHandler<DeleteTestEntityForAutoNumberUsagesByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -40,7 +40,9 @@ internal abstract class DeleteTestEntityForAutoNumberUsagesByIdCommandHandlerBas
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 		
-		foreach(var keyDto in request.KeyDtos)
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<TestEntityForAutoNumberUsagesEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
 			var keyId = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateId(keyDto.keyId);		
 
@@ -49,12 +51,13 @@ internal abstract class DeleteTestEntityForAutoNumberUsagesByIdCommandHandlerBas
 			{
 				return false;
 			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;DbContext.TestEntityForAutoNumberUsages.Remove(entity);
+			entities.Add(entity);			
 		}
 
-		await OnCompletedAsync(request, new TestEntityForAutoNumberUsagesEntity());
-
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

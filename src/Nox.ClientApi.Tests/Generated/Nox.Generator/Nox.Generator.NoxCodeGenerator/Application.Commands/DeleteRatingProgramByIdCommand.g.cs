@@ -24,7 +24,7 @@ internal class DeleteRatingProgramByIdCommandHandler : DeleteRatingProgramByIdCo
 	{
 	}
 }
-internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandBase<DeleteRatingProgramByIdCommand, RatingProgramEntity>, IRequestHandler<DeleteRatingProgramByIdCommand, bool>
+internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandCollectionBase<DeleteRatingProgramByIdCommand, RatingProgramEntity>, IRequestHandler<DeleteRatingProgramByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -40,7 +40,9 @@ internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandBase<
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 		
-		foreach(var keyDto in request.KeyDtos)
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<RatingProgramEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
 			var keyStoreId = ClientApi.Domain.RatingProgramMetadata.CreateStoreId(keyDto.keyStoreId);
 			var keyId = ClientApi.Domain.RatingProgramMetadata.CreateId(keyDto.keyId);		
@@ -50,12 +52,13 @@ internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandBase<
 			{
 				return false;
 			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;DbContext.RatingPrograms.Remove(entity);
+			entities.Add(entity);			
 		}
 
-		await OnCompletedAsync(request, new RatingProgramEntity());
-
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}
