@@ -274,7 +274,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 	{
         if(!updateDto.CountryLocalNames.Any())
         { 
-            _repository.DeleteOwnedRange(entity.CountryLocalNames);
+            _repository.DeleteOwned(entity.CountryLocalNames);
 			entity.DeleteAllRefToCountryLocalNames();
         }
 		else
@@ -297,7 +297,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 					}
 				}
 			}
-            _repository.DeleteOwnedRange<ClientApi.Domain.CountryLocalName>(
+            _repository.DeleteOwned<ClientApi.Domain.CountryLocalName>(
                 entity.CountryLocalNames.Where(x => !updatedCountryLocalNames.Any(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToCountryLocalNames(updatedCountryLocalNames);
 		}
@@ -316,7 +316,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 		}
         if(!updateDto.CountryTimeZones.Any())
         { 
-            _repository.DeleteOwnedRange(entity.CountryTimeZones);
+            _repository.DeleteOwned(entity.CountryTimeZones);
 			entity.DeleteAllRefToCountryTimeZones();
         }
 		else
@@ -339,13 +339,13 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 					}
 				}
 			}
-            _repository.DeleteOwnedRange<ClientApi.Domain.CountryTimeZone>(
+            _repository.DeleteOwned<ClientApi.Domain.CountryTimeZone>(
                 entity.CountryTimeZones.Where(x => !updatedCountryTimeZones.Any(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToCountryTimeZones(updatedCountryTimeZones);
 		}
         if(!updateDto.Holidays.Any())
         { 
-            _repository.DeleteOwnedRange(entity.Holidays);
+            _repository.DeleteOwned(entity.Holidays);
 			entity.DeleteAllRefToHolidays();
         }
 		else
@@ -368,7 +368,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 					}
 				}
 			}
-            _repository.DeleteOwnedRange<ClientApi.Domain.Holiday>(
+            _repository.DeleteOwned<ClientApi.Domain.Holiday>(
                 entity.Holidays.Where(x => !updatedHolidays.Any(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToHolidays(updatedHolidays);
 		}

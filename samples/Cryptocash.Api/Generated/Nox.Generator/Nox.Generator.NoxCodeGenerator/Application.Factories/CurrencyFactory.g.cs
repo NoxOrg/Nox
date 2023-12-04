@@ -268,7 +268,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 	{
         if(!updateDto.BankNotes.Any())
         { 
-            _repository.DeleteOwnedRange(entity.BankNotes);
+            _repository.DeleteOwned(entity.BankNotes);
 			entity.DeleteAllRefToBankNotes();
         }
 		else
@@ -291,13 +291,13 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 					}
 				}
 			}
-            _repository.DeleteOwnedRange<Cryptocash.Domain.BankNote>(
+            _repository.DeleteOwned<Cryptocash.Domain.BankNote>(
                 entity.BankNotes.Where(x => !updatedBankNotes.Any(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToBankNotes(updatedBankNotes);
 		}
         if(!updateDto.ExchangeRates.Any())
         { 
-            _repository.DeleteOwnedRange(entity.ExchangeRates);
+            _repository.DeleteOwned(entity.ExchangeRates);
 			entity.DeleteAllRefToExchangeRates();
         }
 		else
@@ -320,7 +320,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 					}
 				}
 			}
-            _repository.DeleteOwnedRange<Cryptocash.Domain.ExchangeRate>(
+            _repository.DeleteOwned<Cryptocash.Domain.ExchangeRate>(
                 entity.ExchangeRates.Where(x => !updatedExchangeRates.Any(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToExchangeRates(updatedExchangeRates);
 		}
