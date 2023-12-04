@@ -105,6 +105,17 @@ domain:
             minLength: 4
             maxLength: 63
           isRequired: true
+          
+        - name: Languages
+          description: The country's official languages
+          type: enumeration
+          enumerationTypeOptions:
+            values:
+              - { id: 1, name: English }
+              - { id: 2, name: French }
+              - { id: 3, name: Turkish }
+            isLocalized: true
+          isRequired: false
 
       relationships:
         - name: Continents
