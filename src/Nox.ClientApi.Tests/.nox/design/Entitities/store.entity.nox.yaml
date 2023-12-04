@@ -70,6 +70,11 @@ relationships:
       relationship: zeroOrOne
       entity: StoreLicense
 
+    - name: ClientsOfStore
+      description: clients of the store
+      relationship: zeroOrMany
+      entity: Client
+
 ownedRelationships:
 
   - name: VerifiedEmails
@@ -87,7 +92,7 @@ persistence:
         isEnabled: true
     update:
         isEnabled: true
-        raiseEvents: domainEventsOnly
+        raiseEvents: domainAndIntegrationEvents
     delete:
         isEnabled: true
         raiseEvents: domainEventsOnly

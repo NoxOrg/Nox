@@ -35,6 +35,7 @@ internal static class ODataServiceCollectionExtensions
         builder.ComplexType<CurrencyPartialUpdateDto>();
         builder.ComplexType<TenantPartialUpdateDto>();
         builder.ComplexType<CountryTimeZoneUpsertDto>();
+        builder.ComplexType<ClientPartialUpdateDto>();
         builder.ComplexType<EmailAddressUpsertDto>();
 
         builder.EntitySet<CountryDto>("Countries");
@@ -62,6 +63,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<StoreDto>().ContainsOptional(e => e.EmailAddress).AutoExpand = true;
         builder.EntityType<StoreDto>().ContainsOptional(e => e.StoreOwner);
         builder.EntityType<StoreDto>().ContainsOptional(e => e.StoreLicense);
+        builder.EntityType<StoreDto>().ContainsMany(e => e.Clients);
         builder.EntityType<StoreDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<StoreDto>().Ignore(e => e.Etag);
 
@@ -99,6 +101,12 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntitySet<CountryTimeZoneDto>("CountryTimeZones");
 		builder.EntityType<CountryTimeZoneDto>().HasKey(e => new { e.Id });
+
+        builder.EntitySet<ClientDto>("Clients");
+		builder.EntityType<ClientDto>().HasKey(e => new { e.Id });
+        builder.EntityType<ClientDto>().ContainsMany(e => e.Stores);
+        builder.EntityType<ClientDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<ClientDto>().Ignore(e => e.Etag);
 
 		builder.EntityType<EmailAddressDto>().HasKey(e => new {  }); 
         // Setup Enumeration End Points

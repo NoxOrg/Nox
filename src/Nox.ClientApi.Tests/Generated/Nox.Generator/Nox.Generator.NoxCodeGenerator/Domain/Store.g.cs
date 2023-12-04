@@ -170,6 +170,32 @@ internal abstract partial class StoreBase : AuditableEntityBase, IEntityConcurre
     public virtual void DeleteAllRefToStoreLicense()
     {
         StoreLicense = null;
+    }
+
+    /// <summary>
+    /// Store clients of the store ZeroOrMany Clients
+    /// </summary>
+    public virtual List<Client> Clients { get; private set; } = new();
+
+    public virtual void CreateRefToClients(Client relatedClient)
+    {
+        Clients.Add(relatedClient);
+    }
+
+    public virtual void UpdateRefToClients(List<Client> relatedClient)
+    {
+        Clients.Clear();
+        Clients.AddRange(relatedClient);
+    }
+
+    public virtual void DeleteRefToClients(Client relatedClient)
+    {
+        Clients.Remove(relatedClient);
+    }
+
+    public virtual void DeleteAllRefToClients()
+    {
+        Clients.Clear();
     }﻿
 
     /// <summary>

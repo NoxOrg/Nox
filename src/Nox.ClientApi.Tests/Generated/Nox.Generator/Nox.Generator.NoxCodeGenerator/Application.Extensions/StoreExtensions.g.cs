@@ -19,7 +19,6 @@ internal static class StoreExtensions
         dto.SetIfNotNull(entity?.Location, (dto) => dto.Location =entity!.Location!.ToDto());
         dto.SetIfNotNull(entity?.OpeningDay, (dto) => dto.OpeningDay =entity!.OpeningDay!.Value);
         dto.SetIfNotNull(entity?.Status, (dto) => dto.Status =entity!.Status!.Value);
-        dto.SetIfNotNull(entity?.StoreOwnerId, (dto) => dto.StoreOwnerId = entity!.StoreOwnerId!.Value);
         dto.SetIfNotNull(entity?.EmailAddress, (dto) => dto.EmailAddress = entity!.EmailAddress!.ToDto());
 
         return dto;

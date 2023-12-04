@@ -112,6 +112,11 @@ public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.S
     public virtual StoreLicenseDto? StoreLicense { get; set; } = null!;
 
     /// <summary>
+    /// Store clients of the store ZeroOrMany Clients
+    /// </summary>
+    public virtual List<ClientDto> Clients { get; set; } = new();
+
+    /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
     public virtual EmailAddressDto? EmailAddress { get; set; } = null!;

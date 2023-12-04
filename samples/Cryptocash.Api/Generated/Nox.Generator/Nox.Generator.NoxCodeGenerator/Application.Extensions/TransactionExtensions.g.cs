@@ -18,8 +18,6 @@ internal static class TransactionExtensions
         dto.SetIfNotNull(entity?.ProcessedOnDateTime, (dto) => dto.ProcessedOnDateTime =entity!.ProcessedOnDateTime!.Value);
         dto.SetIfNotNull(entity?.Amount, (dto) => dto.Amount =entity!.Amount!.ToDto());
         dto.SetIfNotNull(entity?.Reference, (dto) => dto.Reference =entity!.Reference!.Value);
-        dto.SetIfNotNull(entity?.CustomerId, (dto) => dto.CustomerId = entity!.CustomerId!.Value);
-        dto.SetIfNotNull(entity?.BookingId, (dto) => dto.BookingId = entity!.BookingId!.Value);
 
         return dto;
     }
