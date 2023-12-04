@@ -1,5 +1,4 @@
-﻿﻿
-﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -9,14 +8,17 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Extensions;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using TenantContactEntity = ClientApi.Domain.TenantContact;
 
 namespace ClientApi.Application.Commands;
-public partial record UpdateTenantContactForTenantCommand(TenantKeyDto ParentKeyDto, TenantContactUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantContactKeyDto?>;
 
+public partial record UpdateTenantContactForTenantCommand(TenantKeyDto ParentKeyDto, TenantContactUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantContactKeyDto?>;
 
 internal partial class UpdateTenantContactForTenantCommandHandler : UpdateTenantContactForTenantCommandHandlerBase
 {
@@ -98,5 +100,4 @@ internal partial class UpdateTenantContactForTenantCommandHandlerBase : CommandB
 
 		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
 	}
-
 }

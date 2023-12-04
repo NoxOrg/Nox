@@ -146,6 +146,15 @@ internal abstract partial class TenantBase : EntityBase, IEntityConcurrent
     }
     
     /// <summary>
+    /// Updates all owned TenantBrand entities.
+    /// </summary>
+    public virtual void UpdateRefToTenantBrands(List<TenantBrand> relatedTenantBrand)
+    {
+        TenantBrands.Clear();
+        TenantBrands.AddRange(relatedTenantBrand);
+    }
+    
+    /// <summary>
     /// Deletes owned TenantBrand entity.
     /// </summary>
     public virtual void DeleteRefToTenantBrands(TenantBrand relatedTenantBrand)

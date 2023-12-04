@@ -26,9 +26,13 @@ namespace Cryptocash.Application.Factories;
 internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
-    public BookingFactoryBase()
+    public BookingFactoryBase(
+        IRepository repository
+        )
     {
+        _repository = repository;
     }
 
     public virtual BookingEntity CreateEntity(BookingCreateDto createDto)
@@ -185,4 +189,9 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
 
 internal partial class BookingFactory : BookingFactoryBase
 {
+    public BookingFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

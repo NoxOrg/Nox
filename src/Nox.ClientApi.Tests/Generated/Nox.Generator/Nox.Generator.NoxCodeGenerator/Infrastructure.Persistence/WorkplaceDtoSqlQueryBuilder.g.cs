@@ -31,6 +31,7 @@ public class WorkplaceDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 		var entityQuery = new Query("Workplaces")
 			.Select("Workplaces.Id")
 			.Select("Workplaces.Name")
+			.Select("Workplaces.ReferenceNumber")
 			.Select("Workplaces.Greeting")
 			.ForSqlServer(q => q.SelectRaw("COALESCE([WorkplacesLocalized].[Description], (N'[' + COALESCE([Workplaces].[Description], N'')) + N']') AS [Description]"))
 			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"WorkplacesLocalized\".\"Description\", ('##OPEN##' || COALESCE(\"Workplaces\".\"Description\", '')) || '##CLOSE##') AS \"Description\""))

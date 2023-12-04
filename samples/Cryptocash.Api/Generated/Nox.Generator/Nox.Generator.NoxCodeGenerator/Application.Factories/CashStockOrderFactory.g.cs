@@ -26,9 +26,13 @@ namespace Cryptocash.Application.Factories;
 internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
-    public CashStockOrderFactoryBase()
+    public CashStockOrderFactoryBase(
+        IRepository repository
+        )
     {
+        _repository = repository;
     }
 
     public virtual CashStockOrderEntity CreateEntity(CashStockOrderCreateDto createDto)
@@ -117,4 +121,9 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
 
 internal partial class CashStockOrderFactory : CashStockOrderFactoryBase
 {
+    public CashStockOrderFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }
