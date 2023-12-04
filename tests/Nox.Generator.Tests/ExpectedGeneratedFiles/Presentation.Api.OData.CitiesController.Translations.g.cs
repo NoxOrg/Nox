@@ -28,14 +28,15 @@ namespace SampleWebApp.Presentation.Api.OData;
 
 public abstract partial class CitiesControllerBase
 {  
-    [HttpPut("/Cities/{key}/CitiesLocalized/{cultureCode}")]
+    
+    [HttpPut("/api/v1/Cities/{key}/CitiesLocalized/{cultureCode}")]
     public virtual async Task<ActionResult<CityLocalizedDto>> PutCityLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode, [FromBody] CityLocalizedUpsertDto cityLocalizedUpsertDto)
     {
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var etag = (await _mediator.Send(new GetCityByIdQuery(Nox.Types.CultureCode.From(cultureCode), key))).Select(e=>e.Etag).SingleOrDefault();
+        var etag = (await _mediator.Send(new GetCityByIdQuery(key))).Select(e=>e.Etag).SingleOrDefault();
         
         if (etag == System.Guid.Empty)
         {
@@ -57,7 +58,7 @@ public abstract partial class CitiesControllerBase
     }
 
 
-    [HttpGet("/Cities/{key}/CitiesLocalized/")]
+    [HttpGet("/api/v1/Cities/{key}/CitiesLocalized/")]
     public virtual async Task<ActionResult<IQueryable<CityLocalizedDto>>> GetCityLocalizedNonConventional( [FromRoute] System.String key)
     {
         var result = (await _mediator.Send(new GetCityTranslationsQuery(key)));

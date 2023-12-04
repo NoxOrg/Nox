@@ -19,7 +19,7 @@ namespace {{codeGeneratorState.DomainNameSpace}};
 /// </summary>
 internal partial class {{className}} : IEntityConcurrent
 {
-{{- for key in entity.Keys }}
+{{- for key in entityKeys }}
     /// <summary>
     /// {{key.Description}} (Required).
     /// </summary>

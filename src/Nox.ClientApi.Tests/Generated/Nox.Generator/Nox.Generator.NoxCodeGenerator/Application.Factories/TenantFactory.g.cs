@@ -27,11 +27,14 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     protected IEntityFactory<ClientApi.Domain.TenantBrand, TenantBrandUpsertDto, TenantBrandUpsertDto> TenantBrandFactory {get;}
+    protected IEntityFactory<ClientApi.Domain.TenantContact, TenantContactUpsertDto, TenantContactUpsertDto> TenantContactFactory {get;}
 
     public TenantFactoryBase(
-        IEntityFactory<ClientApi.Domain.TenantBrand, TenantBrandUpsertDto, TenantBrandUpsertDto> tenantbrandfactory)
+        IEntityFactory<ClientApi.Domain.TenantBrand, TenantBrandUpsertDto, TenantBrandUpsertDto> tenantbrandfactory,
+        IEntityFactory<ClientApi.Domain.TenantContact, TenantContactUpsertDto, TenantContactUpsertDto> tenantcontactfactory)
     {
         TenantBrandFactory = tenantbrandfactory;
+        TenantContactFactory = tenantcontactfactory;
     }
 
     public virtual TenantEntity CreateEntity(TenantCreateDto createDto)
@@ -62,6 +65,10 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
         entity.Name = ClientApi.Domain.TenantMetadata.CreateName(createDto.Name);
 		entity.EnsureId();
         createDto.TenantBrands.ForEach(dto => entity.CreateRefToTenantBrands(TenantBrandFactory.CreateEntity(dto)));
+        if (createDto.TenantContact is not null)
+        {
+            entity.CreateRefToTenantContact(TenantContactFactory.CreateEntity(createDto.TenantContact));
+        }
         return entity;
     }
 
@@ -95,7 +102,8 @@ internal partial class TenantFactory : TenantFactoryBase
 {
     public TenantFactory
     (
-        IEntityFactory<ClientApi.Domain.TenantBrand, TenantBrandUpsertDto, TenantBrandUpsertDto> tenantbrandfactory
-    ) : base(tenantbrandfactory)
+        IEntityFactory<ClientApi.Domain.TenantBrand, TenantBrandUpsertDto, TenantBrandUpsertDto> tenantbrandfactory,
+        IEntityFactory<ClientApi.Domain.TenantContact, TenantContactUpsertDto, TenantContactUpsertDto> tenantcontactfactory
+    ) : base(tenantbrandfactory,tenantcontactfactory)
     {}
 }

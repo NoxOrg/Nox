@@ -47,4 +47,9 @@ public abstract class TenantCreateDtoBase : IEntityDto<DomainNamespace.Tenant>
     /// Tenant Brands owned by the tenant ZeroOrMany TenantBrands
     /// </summary>
     public virtual List<TenantBrandUpsertDto> TenantBrands { get; set; } = new();
+
+    /// <summary>
+    /// Tenant Contact information for the tenant ZeroOrOne TenantContacts
+    /// </summary>
+    public virtual TenantContactUpsertDto? TenantContact { get; set; } = null!;
 }

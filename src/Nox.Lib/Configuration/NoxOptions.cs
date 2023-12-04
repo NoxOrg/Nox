@@ -24,6 +24,9 @@ using Nox.Integration.Extensions;
 using Nox.Yaml.VariableProviders.Environment;
 using Nox.Domain;
 using System;
+using Nox.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using SqlKata.Compilers;
 
 namespace Nox.Configuration
 {
@@ -227,7 +230,24 @@ namespace Nox.Configuration
                 
                 _configureDatabaseContext?.Invoke(services);
 
-                _configureDatabaseRepository?.Invoke(services);
+                services.AddScoped<IInterceptor, LangParamDbCommandInterceptor>();
+
+                services.AddScoped<Compiler>(x =>
+                {
+                    return noxSolution.Infrastructure.Persistence!.DatabaseServer.Provider switch
+                    {
+                        DatabaseServerProvider.SqlServer => new SqlServerCompiler(),
+                        DatabaseServerProvider.Postgres => new PostgresCompiler(),
+                        DatabaseServerProvider.SqLite => new SqliteCompiler(),
+                        _ => throw new NotImplementedException()
+                    };
+                });
+
+                services.Scan(scan => scan
+                    .FromAssemblies(noxAssemblies)
+                    .AddClasses(classes => classes.AssignableTo<IEntityDtoSqlQueryBuilder>())
+                    .As<IEntityDtoSqlQueryBuilder>()
+                    .WithSingletonLifetime());
             }
         }
 
@@ -272,7 +292,7 @@ namespace Nox.Configuration
 
         private static NoxSolution CreateSolution(IServiceProvider serviceProvider)
         {
-            var secretsProvider = new SecretsVariableValueProvider<NoxSolutionBasicsOnly>( (s, v) =>
+            var secretsProvider = new SecretsVariableValueProvider<NoxSolutionBasicsOnly>((s, v) =>
             {
                 var secretsConfig = s.Infrastructure?.Security?.Secrets;
                 if (secretsConfig is not null)
@@ -281,7 +301,7 @@ namespace Nox.Configuration
                     resolver.Configure(secretsConfig, Assembly.GetEntryAssembly());
                     return resolver.Resolve(v);
                 }
-                return new Dictionary<string,string?>();
+                return new Dictionary<string, string?>();
             });
 
             return new NoxSolutionBuilder()
