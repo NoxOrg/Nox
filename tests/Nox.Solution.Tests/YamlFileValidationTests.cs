@@ -319,7 +319,7 @@ public class YamlFileValidationTests
             "Unique constraint [UniqueConstraintWithDuplicateRelationshipName] has duplicate relationship name: [BelongsToCountry]"
         };
 
-        var errors = action.Should()
+        action.Should()
             .ThrowExactly<NoxYamlValidationException>()
             .Which.Errors
             .Should().NotBeEmpty()
@@ -344,4 +344,35 @@ public class YamlFileValidationTests
         errors[1].Should().Match("Missing property [\"attributeNames\"] is required.*");
     }
 
+    [Fact]
+    public void Deserialize_WithInvalidLocalizationDefaultCulture_ThrowsException()
+    {
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/localization-invalid-default-culture.solution.nox.yaml")
+            .Build());
+
+        var errors = exception.Errors.ToArray();
+
+        Assert.Single(errors);
+
+        Assert.Equal("The value [\"eng\"] for property [defaultCulture] does not match pattern [^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$]. (at line 12 in localization-invalid-default-culture.solution.nox.yaml)", errors[0].ErrorMessage);
+    }
+
+    [Fact]
+    public void Deserialize_WithInvalidLocalizationSupportedCultures_ThrowsException()
+    {
+        var exception = Assert.Throws<NoxYamlValidationException>(() => new NoxSolutionBuilder()
+            .WithFile($"./files/localization-invalid-supported-cultures.solution.nox.yaml")
+            .Build());
+
+        var errors = exception.Errors.ToArray();
+
+        Assert.Equal(5, errors.Length);
+
+        Assert.Equal("The value [\"tR\"] for property [supportedCultures] does not match pattern [^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$]. (at line 13 in localization-invalid-supported-cultures.solution.nox.yaml)", errors[0].ErrorMessage);
+        Assert.Equal("The value [\"eng\"] for property [supportedCultures] does not match pattern [^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$]. (at line 13 in localization-invalid-supported-cultures.solution.nox.yaml)", errors[1].ErrorMessage);
+        Assert.Equal("The value [\"Sr-SR\"] for property [supportedCultures] does not match pattern [^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$]. (at line 13 in localization-invalid-supported-cultures.solution.nox.yaml)", errors[2].ErrorMessage);
+        Assert.Equal("The value [\"sr-SR-CYRL\"] for property [supportedCultures] does not match pattern [^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$]. (at line 13 in localization-invalid-supported-cultures.solution.nox.yaml)", errors[3].ErrorMessage);
+        Assert.Equal("The value [\"invalid\"] for property [supportedCultures] does not match pattern [^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$]. (at line 13 in localization-invalid-supported-cultures.solution.nox.yaml)", errors[4].ErrorMessage);
+    }
 }
