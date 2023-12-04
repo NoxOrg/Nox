@@ -2,13 +2,12 @@ namespace Nox.Types;
 
 public class AttributeConfiguration
 {
-    public AttributeConfiguration(NoxSimpleTypeDefinition property, bool isRequired)
-        : this(property, property.Name, property.Description, property.IsReadonly, isRequired)
-    {
-    }
-
     public AttributeConfiguration(NoxSimpleTypeDefinition property)
         : this(property, property.Name, property.Description, property.IsReadonly, property.IsRequired)
+    {
+    }
+    public AttributeConfiguration(NoxSimpleTypeDefinition property, bool isRequired)
+        : this(property, property.Name, property.Description, property.IsReadonly, isRequired)
     {
     }
 
@@ -19,12 +18,12 @@ public class AttributeConfiguration
         bool isReadonly,
         bool isRequired)
     {
-        IsRequired = isRequired;
         Name = name;
         Description = description;
+        IsRequired = isRequired;
+        IsReadonly = isReadonly;
         IsLocalized = property.IsLocalized;
         Type = property.Type;
-        IsReadonly = isReadonly;
         AreaTypeOptions = property.AreaTypeOptions;
         AutoNumberTypeOptions = property.AutoNumberTypeOptions;
         LengthTypeOptions = property.LengthTypeOptions;
