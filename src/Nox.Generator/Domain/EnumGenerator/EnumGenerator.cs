@@ -36,7 +36,7 @@ internal class EnumGenerator : INoxCodeGenerator
                     Values = attribute.EnumerationTypeOptions!.Values.Select(value => new
                     {
                         Name = value.Name,
-                        SanitizedName = codeGeneratorState.GetEnumPropertyName(value.Name),
+                        SanitizedName = NoxCodeGenConventions.GetEnumPropertyName(value.Name),
                         Id = value.Id
                     })
                 });
