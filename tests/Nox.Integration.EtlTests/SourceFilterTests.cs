@@ -14,8 +14,8 @@ public class SourceFilterTests: IClassFixture<SqlServerIntegrationFixture>
     }
     
     
-    //[Fact (Skip = "This test can only be run locally if you have a local sql server instance and have created the CountrySource database using ./files/Create_CoutrySource.sql")]
-    [Fact]
+    [Fact (Skip = "This test can only be run locally if you have a local sql server instance and have created the CountrySource database using ./files/Create_CoutrySource.sql")]
+    //[Fact]
     public Task Can_filter_sql_server_query()
     {
         _sqlFixture.Initialize("./files/SourceFilter/source-filter.solution.nox.yaml");
