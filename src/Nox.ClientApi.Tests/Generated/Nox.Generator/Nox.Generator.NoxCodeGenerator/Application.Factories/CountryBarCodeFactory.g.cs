@@ -26,11 +26,14 @@ namespace ClientApi.Application.Factories;
 internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCodeEntity, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public CountryBarCodeFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual CountryBarCodeEntity CreateEntity(CountryBarCodeUpsertDto createDto)
@@ -106,4 +109,9 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
 
 internal partial class CountryBarCodeFactory : CountryBarCodeFactoryBase
 {
+    public CountryBarCodeFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

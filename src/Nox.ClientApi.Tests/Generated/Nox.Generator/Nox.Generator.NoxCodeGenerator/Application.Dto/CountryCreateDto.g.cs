@@ -102,4 +102,9 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// Country uses ZeroOrMany CountryTimeZones
     /// </summary>
     public virtual List<CountryTimeZoneUpsertDto> CountryTimeZones { get; set; } = new();
+
+    /// <summary>
+    /// Country owned ZeroOrMany Holidays
+    /// </summary>
+    public virtual List<HolidayUpsertDto> Holidays { get; set; } = new();
 }

@@ -10,6 +10,7 @@ using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
 using Nox.Extensions;
+using FluentValidation;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -56,6 +57,8 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		{
 			return null;
 		}
+		await DbContext.Entry(entity).Collection(x => x.CountryTimeZones).LoadAsync();
+		await DbContext.Entry(entity).Collection(x => x.Holidays).LoadAsync();
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
@@ -71,4 +74,11 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 
 		return new CountryKeyDto(entity.Id.Value);
 	}
+}
+
+public class UpdateCountryValidator : AbstractValidator<UpdateCountryCommand>
+{
+    public UpdateCountryValidator()
+    {
+    }
 }

@@ -10,6 +10,7 @@ using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
 using Nox.Extensions;
+using FluentValidation;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
@@ -68,6 +69,15 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 			return null;
 		}
 
+		{{- for relationship in entity.OwnedRelationships }}
+            {{- navigationName = GetNavigationPropertyName entity relationship }}
+			{{- if relationship.WithSingleEntity }}
+		await DbContext.Entry(entity).Reference(x => x.{{navigationName}}).LoadAsync();
+			{{- else }}
+		await DbContext.Entry(entity).Collection(x => x.{{navigationName}}).LoadAsync();
+			{{- end }}
+		{{- end }}
+
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 
 		{{- if !entity.IsOwnedEntity }}
@@ -108,3 +118,28 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 	}
 	{{- end }}
 }
+
+{{- if (entity.OwnedRelationships | array.size) > 0 }}
+
+public class Update{{entity.Name}}Validator : AbstractValidator<Update{{entity.Name}}Command>
+{
+    public Update{{entity.Name}}Validator()
+    {
+		{{- for ownedRelationship in entity.OwnedRelationships }}
+			{{- if ownedRelationship.WithMultiEntity }}
+				{{- relationshipName = GetNavigationPropertyName entity ownedRelationship }}
+				{{- key = ownedRelationship.Related.Entity.Keys | array.first }}
+					{{- if key.Type == "Guid" }} {{ continue; }}
+					{{- else if IsNoxTypeCreatable key.Type }}
+		RuleFor(x => x.EntityDto.{{relationshipName}})
+			.ForEach(item => 
+			{
+				item.Must(owned => owned.{{key.Name}} != null)
+					.WithMessage((item, index) => $"{{relationshipName}}[{index}].{{key.Name}} is required.");
+			});
+					{{- end }}
+			{{- end }}
+        {{- end }}
+    }
+}
+{{- end }}

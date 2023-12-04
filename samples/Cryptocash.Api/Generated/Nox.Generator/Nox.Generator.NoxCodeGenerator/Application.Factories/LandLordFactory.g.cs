@@ -26,11 +26,14 @@ namespace Cryptocash.Application.Factories;
 internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public LandLordFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual LandLordEntity CreateEntity(LandLordCreateDto createDto)
@@ -102,4 +105,9 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, Lan
 
 internal partial class LandLordFactory : LandLordFactoryBase
 {
+    public LandLordFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

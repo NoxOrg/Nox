@@ -26,17 +26,20 @@ namespace Cryptocash.Application.Factories;
 internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
     protected IEntityFactory<Cryptocash.Domain.BankNote, BankNoteUpsertDto, BankNoteUpsertDto> BankNoteFactory {get;}
     protected IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> ExchangeRateFactory {get;}
 
     public CurrencyFactoryBase
     (
         IEntityFactory<Cryptocash.Domain.BankNote, BankNoteUpsertDto, BankNoteUpsertDto> banknotefactory,
-        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> exchangeratefactory
+        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> exchangeratefactory,
+        IRepository repository
         )
     {
         BankNoteFactory = banknotefactory;
         ExchangeRateFactory = exchangeratefactory;
+        _repository = repository;
     }
 
     public virtual CurrencyEntity CreateEntity(CurrencyCreateDto createDto)
@@ -112,6 +115,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         entity.MinorName = Cryptocash.Domain.CurrencyMetadata.CreateMinorName(updateDto.MinorName.NonNullValue<System.String>());
         entity.MinorSymbol = Cryptocash.Domain.CurrencyMetadata.CreateMinorSymbol(updateDto.MinorSymbol.NonNullValue<System.String>());
         entity.MinorToMajorValue = Cryptocash.Domain.CurrencyMetadata.CreateMinorToMajorValue(updateDto.MinorToMajorValue.NonNullValue<MoneyDto>());
+	    UpdateOwnedEntities(entity, updateDto, cultureCode);
     }
 
     private void PartialUpdateEntityInternal(CurrencyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -259,6 +263,68 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
+
+	private void UpdateOwnedEntities(CurrencyEntity entity, CurrencyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+        if(!updateDto.BankNotes.Any())
+        { 
+            _repository.DeleteOwnedRange(entity.BankNotes);
+			entity.DeleteAllRefToBankNotes();
+        }
+		else
+		{
+			var updatedBankNotes = new List<Cryptocash.Domain.BankNote>();
+			foreach(var ownedUpsertDto in updateDto.BankNotes)
+			{
+				if(ownedUpsertDto.Id is null)
+					updatedBankNotes.Add(BankNoteFactory.CreateEntity(ownedUpsertDto));
+				else
+				{
+					var key = Cryptocash.Domain.BankNoteMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
+					var ownedEntity = entity.BankNotes.FirstOrDefault(x => x.Id == key);
+					if(ownedEntity is null)
+						throw new RelatedEntityNotFoundException("BankNotes.Id", key.ToString());
+					else
+					{
+						BankNoteFactory.UpdateEntity(ownedEntity, ownedUpsertDto, cultureCode);
+						updatedBankNotes.Add(ownedEntity);
+					}
+				}
+			}
+            _repository.DeleteOwnedRange<Cryptocash.Domain.BankNote>(
+                entity.BankNotes.Where(x => !updatedBankNotes.Any(upd => upd.Id == x.Id)).ToList());
+			entity.UpdateRefToBankNotes(updatedBankNotes);
+		}
+        if(!updateDto.ExchangeRates.Any())
+        { 
+            _repository.DeleteOwnedRange(entity.ExchangeRates);
+			entity.DeleteAllRefToExchangeRates();
+        }
+		else
+		{
+			var updatedExchangeRates = new List<Cryptocash.Domain.ExchangeRate>();
+			foreach(var ownedUpsertDto in updateDto.ExchangeRates)
+			{
+				if(ownedUpsertDto.Id is null)
+					updatedExchangeRates.Add(ExchangeRateFactory.CreateEntity(ownedUpsertDto));
+				else
+				{
+					var key = Cryptocash.Domain.ExchangeRateMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
+					var ownedEntity = entity.ExchangeRates.FirstOrDefault(x => x.Id == key);
+					if(ownedEntity is null)
+						throw new RelatedEntityNotFoundException("ExchangeRates.Id", key.ToString());
+					else
+					{
+						ExchangeRateFactory.UpdateEntity(ownedEntity, ownedUpsertDto, cultureCode);
+						updatedExchangeRates.Add(ownedEntity);
+					}
+				}
+			}
+            _repository.DeleteOwnedRange<Cryptocash.Domain.ExchangeRate>(
+                entity.ExchangeRates.Where(x => !updatedExchangeRates.Any(upd => upd.Id == x.Id)).ToList());
+			entity.UpdateRefToExchangeRates(updatedExchangeRates);
+		}
+	}
 }
 
 internal partial class CurrencyFactory : CurrencyFactoryBase
@@ -266,7 +332,8 @@ internal partial class CurrencyFactory : CurrencyFactoryBase
     public CurrencyFactory
     (
         IEntityFactory<Cryptocash.Domain.BankNote, BankNoteUpsertDto, BankNoteUpsertDto> banknotefactory,
-        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> exchangeratefactory
-    ) : base(banknotefactory,exchangeratefactory)
+        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> exchangeratefactory,
+        IRepository repository
+    ) : base(banknotefactory,exchangeratefactory, repository)
     {}
 }

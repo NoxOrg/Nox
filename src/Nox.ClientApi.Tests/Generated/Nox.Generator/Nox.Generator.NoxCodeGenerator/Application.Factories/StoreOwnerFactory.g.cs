@@ -26,11 +26,14 @@ namespace ClientApi.Application.Factories;
 internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public StoreOwnerFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual StoreOwnerEntity CreateEntity(StoreOwnerCreateDto createDto)
@@ -174,4 +177,9 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
 
 internal partial class StoreOwnerFactory : StoreOwnerFactoryBase
 {
+    public StoreOwnerFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

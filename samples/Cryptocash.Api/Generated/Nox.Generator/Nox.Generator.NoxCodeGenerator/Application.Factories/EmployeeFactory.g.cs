@@ -26,14 +26,17 @@ namespace Cryptocash.Application.Factories;
 internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
     protected IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> EmployeePhoneNumberFactory {get;}
 
     public EmployeeFactoryBase
     (
-        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> employeephonenumberfactory
+        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> employeephonenumberfactory,
+        IRepository repository
         )
     {
         EmployeePhoneNumberFactory = employeephonenumberfactory;
+        _repository = repository;
     }
 
     public virtual EmployeeEntity CreateEntity(EmployeeCreateDto createDto)
@@ -86,6 +89,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         {
             entity.LastWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(updateDto.LastWorkingDay.ToValueFromNonNull<System.DateTime>());
         }
+	    UpdateOwnedEntities(entity, updateDto, cultureCode);
     }
 
     private void PartialUpdateEntityInternal(EmployeeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -158,13 +162,47 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
+
+	private void UpdateOwnedEntities(EmployeeEntity entity, EmployeeUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+        if(!updateDto.EmployeePhoneNumbers.Any())
+        { 
+            _repository.DeleteOwnedRange(entity.EmployeePhoneNumbers);
+			entity.DeleteAllRefToEmployeePhoneNumbers();
+        }
+		else
+		{
+			var updatedEmployeePhoneNumbers = new List<Cryptocash.Domain.EmployeePhoneNumber>();
+			foreach(var ownedUpsertDto in updateDto.EmployeePhoneNumbers)
+			{
+				if(ownedUpsertDto.Id is null)
+					updatedEmployeePhoneNumbers.Add(EmployeePhoneNumberFactory.CreateEntity(ownedUpsertDto));
+				else
+				{
+					var key = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
+					var ownedEntity = entity.EmployeePhoneNumbers.FirstOrDefault(x => x.Id == key);
+					if(ownedEntity is null)
+						throw new RelatedEntityNotFoundException("EmployeePhoneNumbers.Id", key.ToString());
+					else
+					{
+						EmployeePhoneNumberFactory.UpdateEntity(ownedEntity, ownedUpsertDto, cultureCode);
+						updatedEmployeePhoneNumbers.Add(ownedEntity);
+					}
+				}
+			}
+            _repository.DeleteOwnedRange<Cryptocash.Domain.EmployeePhoneNumber>(
+                entity.EmployeePhoneNumbers.Where(x => !updatedEmployeePhoneNumbers.Any(upd => upd.Id == x.Id)).ToList());
+			entity.UpdateRefToEmployeePhoneNumbers(updatedEmployeePhoneNumbers);
+		}
+	}
 }
 
 internal partial class EmployeeFactory : EmployeeFactoryBase
 {
     public EmployeeFactory
     (
-        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> employeephonenumberfactory
-    ) : base(employeephonenumberfactory)
+        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> employeephonenumberfactory,
+        IRepository repository
+    ) : base(employeephonenumberfactory, repository)
     {}
 }
