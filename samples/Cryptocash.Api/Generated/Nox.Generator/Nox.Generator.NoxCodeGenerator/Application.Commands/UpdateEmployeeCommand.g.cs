@@ -10,6 +10,7 @@ using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
 using Nox.Extensions;
+using FluentValidation;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -56,6 +57,7 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 		{
 			return null;
 		}
+		await DbContext.Entry(entity).Collection(x => x.EmployeePhoneNumbers).LoadAsync();
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
@@ -71,4 +73,11 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 
 		return new EmployeeKeyDto(entity.Id.Value);
 	}
+}
+
+public class UpdateEmployeeValidator : AbstractValidator<UpdateEmployeeCommand>
+{
+    public UpdateEmployeeValidator()
+    {
+    }
 }

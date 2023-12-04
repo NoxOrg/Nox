@@ -11,6 +11,7 @@ using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Extensions;
 
 namespace ClientApi.Domain;
 
@@ -131,7 +132,7 @@ internal abstract partial class StoreOwnerBase : AuditableEntityBase, IEntityCon
 
     public virtual void UpdateRefToStores(List<Store> relatedStore)
     {
-        if(relatedStore is null || relatedStore.Count < 2)
+        if(!relatedStore.HasAtLeastOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
         Stores.Clear();
         Stores.AddRange(relatedStore);
@@ -139,14 +140,14 @@ internal abstract partial class StoreOwnerBase : AuditableEntityBase, IEntityCon
 
     public virtual void DeleteRefToStores(Store relatedStore)
     {
-        if(Stores.Count() < 2)
+        if(Stores.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         Stores.Remove(relatedStore);
     }
 
     public virtual void DeleteAllRefToStores()
     {
-        if(Stores.Count() < 2)
+        if(Stores.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         Stores.Clear();
     }

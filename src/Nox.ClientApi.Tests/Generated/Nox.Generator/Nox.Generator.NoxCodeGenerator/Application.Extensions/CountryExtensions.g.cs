@@ -28,6 +28,7 @@ internal static class CountryExtensions
         dto.SetIfNotNull(entity?.CountryLocalNames, (dto) => dto.CountryLocalNames = entity!.CountryLocalNames.Select(e => e.ToDto()).ToList());
         dto.SetIfNotNull(entity?.CountryBarCode, (dto) => dto.CountryBarCode = entity!.CountryBarCode!.ToDto());
         dto.SetIfNotNull(entity?.CountryTimeZones, (dto) => dto.CountryTimeZones = entity!.CountryTimeZones.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.Holidays, (dto) => dto.Holidays = entity!.Holidays.Select(e => e.ToDto()).ToList());
 
         return dto;
     }

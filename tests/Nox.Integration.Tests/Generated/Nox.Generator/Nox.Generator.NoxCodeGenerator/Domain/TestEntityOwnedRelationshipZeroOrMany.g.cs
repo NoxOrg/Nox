@@ -11,6 +11,7 @@ using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Extensions;
 
 namespace TestWebApp.Domain;
 
@@ -100,6 +101,15 @@ internal abstract partial class TestEntityOwnedRelationshipZeroOrManyBase : Audi
     public virtual void CreateRefToSecondTestEntityOwnedRelationshipZeroOrManies(SecondTestEntityOwnedRelationshipZeroOrMany relatedSecondTestEntityOwnedRelationshipZeroOrMany)
     {
         SecondTestEntityOwnedRelationshipZeroOrManies.Add(relatedSecondTestEntityOwnedRelationshipZeroOrMany);
+    }
+    
+    /// <summary>
+    /// Updates all owned SecondTestEntityOwnedRelationshipZeroOrMany entities.
+    /// </summary>
+    public virtual void UpdateRefToSecondTestEntityOwnedRelationshipZeroOrManies(List<SecondTestEntityOwnedRelationshipZeroOrMany> relatedSecondTestEntityOwnedRelationshipZeroOrMany)
+    {
+        SecondTestEntityOwnedRelationshipZeroOrManies.Clear();
+        SecondTestEntityOwnedRelationshipZeroOrManies.AddRange(relatedSecondTestEntityOwnedRelationshipZeroOrMany);
     }
     
     /// <summary>

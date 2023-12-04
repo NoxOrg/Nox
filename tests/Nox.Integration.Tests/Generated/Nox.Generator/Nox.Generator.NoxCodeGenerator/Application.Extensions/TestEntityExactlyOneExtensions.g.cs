@@ -15,7 +15,6 @@ internal static class TestEntityExactlyOneExtensions
         var dto = new TestEntityExactlyOneDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
         dto.SetIfNotNull(entity?.TextTestField, (dto) => dto.TextTestField =entity!.TextTestField!.Value);
-        dto.SetIfNotNull(entity?.SecondTestEntityExactlyOneId, (dto) => dto.SecondTestEntityExactlyOneId = entity!.SecondTestEntityExactlyOneId!.Value);
 
         return dto;
     }

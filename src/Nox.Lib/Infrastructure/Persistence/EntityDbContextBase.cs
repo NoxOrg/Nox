@@ -8,10 +8,9 @@ using Nox.Abstractions;
 using Nox.Types;
 using System.Net;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 using Nox.Types.EntityFramework.Types;
 using Nox.Types.EntityFramework.Abstractions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Microsoft.Extensions.Logging;
 
 namespace Nox.Infrastructure.Persistence
 {
@@ -21,12 +20,14 @@ namespace Nox.Infrastructure.Persistence
         protected readonly IUserProvider _userProvider;
         protected readonly ISystemProvider _systemProvider;
         protected readonly INoxDatabaseProvider _databaseProvider;
+        protected readonly ILogger<EntityDbContextBase> _logger;
 
         protected EntityDbContextBase(
             IPublisher publisher,
             IUserProvider userProvider,
             ISystemProvider systemProvider,
             INoxDatabaseProvider databaseProvider,
+            ILogger<EntityDbContextBase> logger,
             DbContextOptions options
             ) : base(options)
         {
@@ -34,6 +35,7 @@ namespace Nox.Infrastructure.Persistence
             _userProvider = userProvider;
             _systemProvider = systemProvider;
             _databaseProvider = databaseProvider;
+            _logger = logger;
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
@@ -52,7 +54,7 @@ namespace Nox.Infrastructure.Persistence
 
         public virtual async Task<long> GetSequenceNextValueAsync(string sequenceName)
         {
-            var connection = base.Database.GetDbConnection();            
+            var connection = base.Database.GetDbConnection();
             try
             {
                 await connection.OpenAsync();
@@ -174,9 +176,13 @@ namespace Nox.Infrastructure.Persistence
             }
         }
 
-        protected virtual async Task DispatchEvents(IEnumerable<IDomainEvent> selectMany)
+        protected virtual async Task DispatchEvents(IEnumerable<IDomainEvent> domainEvents)
         {
-            var tasks = selectMany.Select(domainEvent => _publisher.Publish(domainEvent));
+            var tasks = domainEvents.Select(domainEvent =>
+            {
+                _logger.LogInformation("Publishing domain event '{Type}'", domainEvent.GetType());
+                return _publisher.Publish(domainEvent);
+            });
             await Task.WhenAll(tasks);
         }
 

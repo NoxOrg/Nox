@@ -167,7 +167,8 @@ public class Create{{entity.Name}}Validator : AbstractValidator<Create{{entity.N
 			{{- if ownedRelationship.WithMultiEntity }}
 				{{- relationshipName = GetNavigationPropertyName entity ownedRelationship }}
 				{{- key = ownedRelationship.Related.Entity.Keys | array.first }}
-					{{- if !IsNoxTypeCreatable key.Type }}
+					{{- if key.Type == "Guid" }} {{ continue; }}
+					{{- else if !IsNoxTypeCreatable key.Type }}
 		RuleFor(x => x.EntityDto.{{relationshipName}})
 			.Must(owned => owned.All(x => x.{{key.Name}} == null))
 			.WithMessage("{{relationshipName}}.{{key.Name}} must be null as it is auto generated.");

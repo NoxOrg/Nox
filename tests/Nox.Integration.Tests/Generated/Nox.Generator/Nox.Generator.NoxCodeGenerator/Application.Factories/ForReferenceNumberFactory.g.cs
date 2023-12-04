@@ -26,11 +26,14 @@ namespace TestWebApp.Application.Factories;
 internal abstract class ForReferenceNumberFactoryBase : IEntityFactory<ForReferenceNumberEntity, ForReferenceNumberCreateDto, ForReferenceNumberUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public ForReferenceNumberFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual ForReferenceNumberEntity CreateEntity(ForReferenceNumberCreateDto createDto)
@@ -75,4 +78,9 @@ internal abstract class ForReferenceNumberFactoryBase : IEntityFactory<ForRefere
 
 internal partial class ForReferenceNumberFactory : ForReferenceNumberFactoryBase
 {
+    public ForReferenceNumberFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

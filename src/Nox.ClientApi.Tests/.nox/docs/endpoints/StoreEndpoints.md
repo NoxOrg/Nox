@@ -85,3 +85,9 @@ This document provides information about the various endpoints available in our 
 [StoreOwner](StoreOwnerEndpoints.md)
 
 [StoreLicense](StoreLicenseEndpoints.md)
+
+## Enumerations Endpoints
+
+This section details the API endpoints related to enumeration attributes in a specific Store.
+- **GET** `/api/Stores/StoreStatuses`
+  - **Description**: Retrieve non-conventional values of Statuses for a specific Store.

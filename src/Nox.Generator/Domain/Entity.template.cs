@@ -1,5 +1,4 @@
-﻿// Generated
-{{func pascalCaseToCamelCase(pascal)
+﻿{{-func pascalCaseToCamelCase(pascal)
 		$result = ""
 	if pascal != ""
 		$first = pascal | string.slice1 0
@@ -10,7 +9,9 @@
 
 	ret $result
 
-end}}
+end-}}
+// Generated
+
 #nullable enable
 
 using System;
@@ -22,6 +23,7 @@ using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Extensions;
 
 namespace {{codeGeneratorState.DomainNameSpace}};
 
@@ -211,7 +213,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
     public virtual void UpdateRefTo{{navigationName}}(List<{{relationship.Entity}}> related{{relationship.Entity}})
     {
         {{- if relationship.Relationship == "OneOrMany" }}
-        if(related{{relationship.Entity}} is null || related{{relationship.Entity}}.Count < 2)
+        if(!related{{relationship.Entity}}.HasAtLeastOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
         {{- end }}
         {{navigationName}}.Clear();
@@ -232,7 +234,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{- else}}
 
         {{- if relationship.Relationship == "OneOrMany" }}
-        if({{navigationName}}.Count() < 2)
+        if({{navigationName}}.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         {{- end }}
         {{navigationName}}.Remove(related{{relationship.Entity}});
@@ -257,7 +259,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{- else}}
 
         {{- if relationship.Relationship == "OneOrMany" }}
-        if({{navigationName}}.Count() < 2)
+        if({{navigationName}}.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         {{- end }}
         {{navigationName}}.Clear();
@@ -291,6 +293,22 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{navigationName}}.Add(related{{relationship.Entity}});
         {{- end }}
     }
+
+    {{- if relationship.WithMultiEntity }}
+    
+    /// <summary>
+    /// Updates all owned {{relationship.Entity}} entities.
+    /// </summary>
+    public virtual void UpdateRefTo{{navigationName}}(List<{{relationship.Entity}}> related{{relationship.Entity}})
+    {
+        {{- if relationship.Relationship == "OneOrMany" }}
+        if(!related{{relationship.Entity}}.HasAtLeastOneItem())
+            throw new RelationshipDeletionException($"The relationship cannot be updated.");
+        {{- end }}
+        {{navigationName}}.Clear();
+        {{navigationName}}.AddRange(related{{relationship.Entity}});
+    }
+    {{- end }}
     
     /// <summary>
     /// Deletes owned {{relationship.Entity}} entity.
@@ -308,7 +326,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{- else}}
 
 			{{- if relationship.Relationship == "OneOrMany" }}
-        if({{navigationName}}.Count() < 2)
+        if({{navigationName}}.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
 			{{- end }}
         {{navigationName}}.Remove(related{{relationship.Entity}});
@@ -332,7 +350,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{- else}}
 
 			{{- if relationship.Relationship == "OneOrMany" }}
-        if({{navigationName}}.Count() < 2)
+        if({{navigationName}}.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
 			{{- end }}
         {{navigationName}}.Clear();

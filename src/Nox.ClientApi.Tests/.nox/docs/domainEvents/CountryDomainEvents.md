@@ -27,6 +27,7 @@ StartOfWeek|DayOfWeek|Country's start of week day
 Continent|Enumeration|Country Continent
 CountryLocalNameId|AutoNumber|The unique identifier
 CountryTimeZoneId|TimeZoneCode|Country's related time zone code
+HolidayId|Guid|Country's holiday unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -53,6 +54,7 @@ StartOfWeek|DayOfWeek|Country's start of week day
 Continent|Enumeration|Country Continent
 CountryLocalNameId|AutoNumber|The unique identifier
 CountryTimeZoneId|TimeZoneCode|Country's related time zone code
+HolidayId|Guid|Country's holiday unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -79,5 +81,6 @@ StartOfWeek|DayOfWeek|Country's start of week day
 Continent|Enumeration|Country Continent
 CountryLocalNameId|AutoNumber|The unique identifier
 CountryTimeZoneId|TimeZoneCode|Country's related time zone code
+HolidayId|Guid|Country's holiday unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

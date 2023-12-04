@@ -125,7 +125,7 @@ public abstract partial class CountriesControllerBase : ODataController
             }           
         }
         
-        if(!updateProperties.ContainsKey("Id"))
+        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
         {
             throw new Nox.Exceptions.BadRequestException("Id is required.");
         }
@@ -264,7 +264,7 @@ public abstract partial class CountriesControllerBase : ODataController
             }           
         }
         
-        if(!updateProperties.ContainsKey("Id"))
+        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
         {
             throw new Nox.Exceptions.BadRequestException("Id is required.");
         }

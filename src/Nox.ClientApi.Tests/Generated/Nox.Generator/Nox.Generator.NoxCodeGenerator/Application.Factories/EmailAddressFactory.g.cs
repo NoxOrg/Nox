@@ -26,11 +26,14 @@ namespace ClientApi.Application.Factories;
 internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public EmailAddressFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual EmailAddressEntity CreateEntity(EmailAddressUpsertDto createDto)
@@ -111,4 +114,9 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEnt
 
 internal partial class EmailAddressFactory : EmailAddressFactoryBase
 {
+    public EmailAddressFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

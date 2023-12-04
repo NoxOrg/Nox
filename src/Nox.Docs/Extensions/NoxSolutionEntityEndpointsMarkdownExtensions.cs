@@ -1,5 +1,6 @@
 ﻿using Nox.Docs.Models;
 using Nox.Solution;
+using Nox.Types;
 using Scriban;
 
 namespace Nox.Docs.Extensions;
@@ -34,9 +35,20 @@ public static class NoxSolutionEntityEndpointsMarkdownExtensions
         
         foreach (var entity in entities)
         {
+            var enumerationAttributes =
+                entity
+                    .Attributes
+                    .Where(attribute => attribute.Type == NoxType.Enumeration)
+                    .Select(attribute => new {
+                        Attribute = attribute,
+                        EntityNameForEnumeration = $"{entity.Name}{attribute.Name}Dto",
+                        EntityNameForLocalizedEnumeration =  $"{entity.Name}{attribute.Name}LocalizedDto",
+                        IsLocalized = attribute.EnumerationTypeOptions?.IsLocalized == true
+                    });
             var model = new Dictionary<string, object>
             {
-                ["entity"] = entity
+                ["entity"] = entity,
+                ["enumerationAttributes"] = enumerationAttributes,
             };
 
             var markdown = new EntityMarkdownFile

@@ -11,6 +11,7 @@ using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Extensions;
 
 namespace TestWebApp.Domain;
 
@@ -101,7 +102,7 @@ internal abstract partial class TestEntityTwoRelationshipsManyToManyBase : Audit
 
     public virtual void UpdateRefToTestRelationshipOne(List<SecondTestEntityTwoRelationshipsManyToMany> relatedSecondTestEntityTwoRelationshipsManyToMany)
     {
-        if(relatedSecondTestEntityTwoRelationshipsManyToMany is null || relatedSecondTestEntityTwoRelationshipsManyToMany.Count < 2)
+        if(!relatedSecondTestEntityTwoRelationshipsManyToMany.HasAtLeastOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
         TestRelationshipOne.Clear();
         TestRelationshipOne.AddRange(relatedSecondTestEntityTwoRelationshipsManyToMany);
@@ -109,14 +110,14 @@ internal abstract partial class TestEntityTwoRelationshipsManyToManyBase : Audit
 
     public virtual void DeleteRefToTestRelationshipOne(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)
     {
-        if(TestRelationshipOne.Count() < 2)
+        if(TestRelationshipOne.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestRelationshipOne.Remove(relatedSecondTestEntityTwoRelationshipsManyToMany);
     }
 
     public virtual void DeleteAllRefToTestRelationshipOne()
     {
-        if(TestRelationshipOne.Count() < 2)
+        if(TestRelationshipOne.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestRelationshipOne.Clear();
     }
@@ -133,7 +134,7 @@ internal abstract partial class TestEntityTwoRelationshipsManyToManyBase : Audit
 
     public virtual void UpdateRefToTestRelationshipTwo(List<SecondTestEntityTwoRelationshipsManyToMany> relatedSecondTestEntityTwoRelationshipsManyToMany)
     {
-        if(relatedSecondTestEntityTwoRelationshipsManyToMany is null || relatedSecondTestEntityTwoRelationshipsManyToMany.Count < 2)
+        if(!relatedSecondTestEntityTwoRelationshipsManyToMany.HasAtLeastOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
         TestRelationshipTwo.Clear();
         TestRelationshipTwo.AddRange(relatedSecondTestEntityTwoRelationshipsManyToMany);
@@ -141,14 +142,14 @@ internal abstract partial class TestEntityTwoRelationshipsManyToManyBase : Audit
 
     public virtual void DeleteRefToTestRelationshipTwo(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)
     {
-        if(TestRelationshipTwo.Count() < 2)
+        if(TestRelationshipTwo.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestRelationshipTwo.Remove(relatedSecondTestEntityTwoRelationshipsManyToMany);
     }
 
     public virtual void DeleteAllRefToTestRelationshipTwo()
     {
-        if(TestRelationshipTwo.Count() < 2)
+        if(TestRelationshipTwo.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestRelationshipTwo.Clear();
     }

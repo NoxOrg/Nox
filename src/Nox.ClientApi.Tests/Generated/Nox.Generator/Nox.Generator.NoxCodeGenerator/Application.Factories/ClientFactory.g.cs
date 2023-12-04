@@ -26,11 +26,14 @@ namespace ClientApi.Application.Factories;
 internal abstract class ClientFactoryBase : IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
     public ClientFactoryBase
     (
+        IRepository repository
         )
     {
+        _repository = repository;
     }
 
     public virtual ClientEntity CreateEntity(ClientCreateDto createDto)
@@ -89,4 +92,9 @@ internal abstract class ClientFactoryBase : IEntityFactory<ClientEntity, ClientC
 
 internal partial class ClientFactory : ClientFactoryBase
 {
+    public ClientFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

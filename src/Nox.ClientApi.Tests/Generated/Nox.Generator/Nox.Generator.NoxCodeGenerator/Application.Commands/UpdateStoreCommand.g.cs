@@ -10,6 +10,7 @@ using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
 using Nox.Extensions;
+using FluentValidation;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -56,6 +57,7 @@ internal abstract class UpdateStoreCommandHandlerBase : CommandBase<UpdateStoreC
 		{
 			return null;
 		}
+		await DbContext.Entry(entity).Reference(x => x.EmailAddress).LoadAsync();
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
@@ -71,4 +73,11 @@ internal abstract class UpdateStoreCommandHandlerBase : CommandBase<UpdateStoreC
 
 		return new StoreKeyDto(entity.Id.Value);
 	}
+}
+
+public class UpdateStoreValidator : AbstractValidator<UpdateStoreCommand>
+{
+    public UpdateStoreValidator()
+    {
+    }
 }
