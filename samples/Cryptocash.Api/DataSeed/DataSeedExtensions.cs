@@ -28,24 +28,17 @@ public static class DataSeedExtensions
 
     public static void SeedDataIfRequired(this WebApplication app)
     {
-        try
+        using var scope = app.Services.CreateScope();
+
+        // A workaround to ensure the database is created and seeded, since it could not be performed on integration test level
+        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        dbContext.Database.Migrate();
+
+        var dataSeeders = scope.ServiceProvider.GetServices<IDataSeeder>();
+
+        foreach (var dataSeeder in dataSeeders)
         {
-            using var scope = app.Services.CreateScope();
-
-            // A workaround to ensure the database is created and seeded, since it could not be performed on integration test level
-            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            dbContext.Database.Migrate();
-
-            var dataSeeders = scope.ServiceProvider.GetServices<IDataSeeder>();
-
-            foreach (var dataSeeder in dataSeeders)
-            {
-                dataSeeder.Seed();
-            }
-        }
-        catch
-        {
-            // don't throw
+            dataSeeder.Seed();
         }
     }
 }
