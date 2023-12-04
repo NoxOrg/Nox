@@ -11,6 +11,8 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -77,4 +79,12 @@ internal abstract class CreateTenantBrandsForTenantCommandHandlerBase : CommandB
 
 		return new TenantBrandKeyDto(entity.Id.Value);
 	}
+}
+
+public class CreateTenantBrandsForTenantValidator : AbstractValidator<CreateTenantBrandsForTenantCommand>
+{
+    public CreateTenantBrandsForTenantValidator()
+    {
+		RuleFor(x => x.EntityDto.Id).Null().WithMessage("Id must be null as it is auto generated.");
+    }
 }

@@ -34,7 +34,7 @@ public abstract partial class TenantsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var item = (await _mediator.Send(new GetTenantByIdQuery(key))).SingleOrDefault();
         
@@ -52,7 +52,7 @@ public abstract partial class TenantsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetTenantBrands(key, new TenantBrandKeyDto(relatedKey));
         if (child == null)
@@ -67,7 +67,7 @@ public abstract partial class TenantsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -86,16 +86,15 @@ public abstract partial class TenantsControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("/api/v1/Tenants/{key}/TenantBrands/{relatedKey}")]
-    public virtual async Task<ActionResult<TenantBrandDto>> PutToTenantBrandsNonConventional(System.UInt32 key, System.Int64 relatedKey, [FromBody] TenantBrandUpsertDto tenantBrand)
+    public virtual async Task<ActionResult<TenantBrandDto>> PutToTenantBrands(System.UInt32 key, [FromBody] TenantBrandUpsertDto tenantBrand)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateTenantBrandsForTenantCommand(new TenantKeyDto(key), new TenantBrandKeyDto(relatedKey), tenantBrand, _cultureCode, etag));
+        var updatedKey = await _mediator.Send(new UpdateTenantBrandsForTenantCommand(new TenantKeyDto(key), tenantBrand, _cultureCode, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -110,12 +109,11 @@ public abstract partial class TenantsControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("/api/v1/Tenants/{key}/TenantBrands/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToTenantBrandsNonConventional(System.UInt32 key, System.Int64 relatedKey, [FromBody] Delta<TenantBrandUpsertDto> tenantBrand)
+    public virtual async Task<ActionResult> PatchToTenantBrands(System.UInt32 key, [FromBody] Delta<TenantBrandUpsertDto> tenantBrand)
     {
         if (!ModelState.IsValid || tenantBrand is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
@@ -127,8 +125,13 @@ public abstract partial class TenantsControllerBase : ODataController
             }           
         }
         
+        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
+        {
+            throw new Nox.Exceptions.BadRequestException("Id is required.");
+        }
+        
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateTenantBrandsForTenantCommand(new TenantKeyDto(key), new TenantBrandKeyDto(relatedKey), updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateTenantBrandsForTenantCommand(new TenantKeyDto(key), new TenantBrandKeyDto(updateProperties["Id"]), updateProperties, _cultureCode, etag));
         
         if (updated is null)
         {
@@ -148,7 +151,7 @@ public abstract partial class TenantsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new DeleteTenantBrandsForTenantCommand(new TenantKeyDto(key), new TenantBrandKeyDto(relatedKey)));
         if (!result)
@@ -170,7 +173,7 @@ public abstract partial class TenantsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var item = (await _mediator.Send(new GetTenantByIdQuery(key))).SingleOrDefault();
         
@@ -186,7 +189,7 @@ public abstract partial class TenantsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -209,7 +212,7 @@ public abstract partial class TenantsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -228,11 +231,11 @@ public abstract partial class TenantsControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PatchToTenantContact(System.UInt32 key, [FromBody] Delta<TenantContactDto> tenantContact)
+    public virtual async Task<ActionResult> PatchToTenantContact(System.UInt32 key, [FromBody] Delta<TenantContactUpsertDto> tenantContact)
     {
         if (!ModelState.IsValid || tenantContact is null)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
@@ -243,6 +246,7 @@ public abstract partial class TenantsControllerBase : ODataController
                 updateProperties[propertyName] = value;                
             }           
         }
+        
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new PartialUpdateTenantContactForTenantCommand(new TenantKeyDto(key), updateProperties, _cultureCode, etag));
@@ -265,7 +269,7 @@ public abstract partial class TenantsControllerBase : ODataController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new DeleteTenantContactForTenantCommand(new TenantKeyDto(key)));
         if (!result)

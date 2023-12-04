@@ -26,9 +26,13 @@ namespace ClientApi.Application.Factories;
 internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
-    public CurrencyFactoryBase()
+    public CurrencyFactoryBase(
+        IRepository repository
+        )
     {
+        _repository = repository;
     }
 
     public virtual CurrencyEntity CreateEntity(CurrencyCreateDto createDto)
@@ -110,4 +114,9 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 
 internal partial class CurrencyFactory : CurrencyFactoryBase
 {
+    public CurrencyFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

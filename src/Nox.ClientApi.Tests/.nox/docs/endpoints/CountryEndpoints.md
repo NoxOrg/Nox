@@ -153,3 +153,18 @@ This document provides information about the various endpoints available in our 
 ## Related Entities
 
 [Workplace](WorkplaceEndpoints.md)
+
+## Enumerations Endpoints
+
+This section details the API endpoints related to enumeration attributes in a specific Country.
+- **GET** `/api/Countries/CountryContinents`
+  - **Description**: Retrieve non-conventional values of Continents for a specific Country.
+  
+- **GET** `/api/Countries/CountryContinentsLocalized`
+  - **Description**: Retrieve localized values of Continents for a specific Country.
+
+- **DELETE** `/api/Countries/CountryContinentsLocalized/{cultureCode}`
+  - **Description**: Delete the localized values of Continents for a specific culture code in Country.
+
+- **PUT** `/api/Countries/CountryContinentsLocalized`
+  - **Description**: Update or create localized values of Continents for a specific Country. Requires a payload with the new values.

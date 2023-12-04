@@ -26,9 +26,13 @@ namespace ClientApi.Application.Factories;
 internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
-    public TenantContactFactoryBase()
+    public TenantContactFactoryBase(
+        IRepository repository
+        )
     {
+        _repository = repository;
     }
 
     public virtual TenantContactEntity CreateEntity(TenantContactUpsertDto createDto)
@@ -112,4 +116,9 @@ internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactE
 
 internal partial class TenantContactFactory : TenantContactFactoryBase
 {
+    public TenantContactFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

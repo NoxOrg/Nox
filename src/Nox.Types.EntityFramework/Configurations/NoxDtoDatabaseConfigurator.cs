@@ -50,7 +50,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         ConfigureKeys(builder, keys: entity.GetKeys());
     }
 
-    private static void ConfigureKeys(IEntityBuilder builder, IReadOnlyList<NoxSimpleTypeDefinition> keys)
+    private static void ConfigureKeys(EntityTypeBuilder builder, IReadOnlyList<NoxSimpleTypeDefinition> keys)
     {
         foreach (var key in keys)
         {
@@ -161,7 +161,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         }
     }
 
-    private void ConfigureSqlQuery(IEntityBuilder builder, Entity entity)
+    private void ConfigureSqlQuery(EntityTypeBuilder builder, Entity entity)
     {
         if (entity.IsLocalized)
         {

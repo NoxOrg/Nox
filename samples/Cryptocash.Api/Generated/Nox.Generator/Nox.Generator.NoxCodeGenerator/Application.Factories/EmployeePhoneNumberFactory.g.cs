@@ -26,9 +26,13 @@ namespace Cryptocash.Application.Factories;
 internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly IRepository _repository;
 
-    public EmployeePhoneNumberFactoryBase()
+    public EmployeePhoneNumberFactoryBase(
+        IRepository repository
+        )
     {
+        _repository = repository;
     }
 
     public virtual EmployeePhoneNumberEntity CreateEntity(EmployeePhoneNumberUpsertDto createDto)
@@ -99,4 +103,9 @@ internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<Employee
 
 internal partial class EmployeePhoneNumberFactory : EmployeePhoneNumberFactoryBase
 {
+    public EmployeePhoneNumberFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
 }

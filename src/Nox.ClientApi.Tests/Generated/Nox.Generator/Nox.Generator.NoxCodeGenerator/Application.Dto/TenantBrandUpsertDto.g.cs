@@ -29,7 +29,7 @@ public abstract class TenantBrandUpsertDtoBase: EntityDtoBase, IEntityDto<Domain
     /// <summary>
     /// 
     /// </summary>
-    public System.Int64? Id { get; set; }
+    public virtual System.Int64? Id { get; set; }
 
     /// <summary>
     /// Teanant Brand Name     

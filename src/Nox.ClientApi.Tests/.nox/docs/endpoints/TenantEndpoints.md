@@ -35,17 +35,19 @@ This document provides information about the various endpoints available in our 
 #### Get TenantBrands
 - **GET** `/api/Tenants/{key}/TenantBrands`
   - Description: Retrieve all TenantBrands for a specific Tenant.
+- **GET** `/api/Tenants/{key}/TenantBrands/{relatedKey}`
+  - Description: Retrieve a TenantBrand by ID for a specific Tenant.
 
 #### Create TenantBrand
 - **POST** `/api/Tenants/{key}/TenantBrands`
   - Description: Create a new TenantBrand for a specific Tenant.
 
 #### Update TenantBrand
-- **PUT** `/api/Tenants/{key}/TenantBrands/{relatedKey}`
+- **PUT** `/api/Tenants/{key}/TenantBrands`
   - Description: Update an existing TenantBrand for a specific Tenant.
   
 #### Partially Update TenantBrand
-- **PATCH** `/api/Tenants/{key}/TenantBrands/{relatedKey}`
+- **PATCH** `/api/Tenants/{key}/TenantBrands`
   - Description: Partially update an existing TenantBrand for a specific Tenant.
 
 #### Delete TenantBrand
@@ -63,11 +65,11 @@ This document provides information about the various endpoints available in our 
   - Description: Create a new TenantContact for a specific Tenant.
 
 #### Update TenantContact
-- **PUT** `/api/Tenants/{key}/TenantContacts/{relatedKey}`
+- **PUT** `/api/Tenants/{key}/TenantContacts`
   - Description: Update an existing TenantContact for a specific Tenant.
   
 #### Partially Update TenantContact
-- **PATCH** `/api/Tenants/{key}/TenantContacts/{relatedKey}`
+- **PATCH** `/api/Tenants/{key}/TenantContacts`
   - Description: Partially update an existing TenantContact for a specific Tenant.
 
 #### Delete TenantContact

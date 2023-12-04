@@ -22,7 +22,7 @@ using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Na
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public partial record Update{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}UpsertDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+public partial record Update{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}UpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 
 internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandler : Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase
 {
@@ -73,7 +73,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		}
 
 		{{- if relationship.WithSingleEntity }}
-		await DbContext.Entry(parentEntity).Reference(e => e.{{relationshipName}}).LoadAsync(cancellationToken);
+		await _dbContext.Entry(parentEntity).Reference(e => e.{{relationshipName}}).LoadAsync(cancellationToken);
 		var entity = parentEntity.{{relationshipName}};
 		{{ else }}
 		await _dbContext.Entry(parentEntity).Collection(p => p.{{relationshipName}}).LoadAsync(cancellationToken);
@@ -123,6 +123,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
 	}
 	{{- end }}
+}
 
 {{- if (entity.Keys | array.size) > 0 }}
 

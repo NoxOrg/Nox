@@ -274,7 +274,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
         code.AppendLine("var etag = Request.GetDecodedEtagHeader();");        
         code.AppendLine($"var createdKey = await _mediator.Send(new Create{navigationName}For{parent.Name}Command(" +
-            $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), {child.Name.ToLowerFirstChar()}, etag));");
+            $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), {child.Name.ToLowerFirstChar()}, _cultureCode, etag));");
         code.AppendLine($"if (createdKey == null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
@@ -319,7 +319,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
         code.AppendLine($"var updatedKey = await _mediator.Send(new Update{navigationName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
-                $"{child.Name.ToLowerFirstChar()}, etag));");
+                $"{child.Name.ToLowerFirstChar()}, _cultureCode, etag));");
 
         code.AppendLine($"if (updatedKey == null)");
         code.StartBlock();
@@ -391,7 +391,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{navigationName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
                 $"new {child.Name}KeyDto(updateProperties[\"{child.Keys[0].Name}\"]), " +
-                $"updateProperties, etag));");
+                $"updateProperties, _cultureCode, etag));");
         code.AppendLine();
 
         code.AppendLine($"if (updated is null)");
