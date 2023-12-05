@@ -106,7 +106,7 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
 	{
         if(!updateDto.TenantBrands.Any())
         { 
-            _repository.DeleteOwnedRange(entity.TenantBrands);
+            _repository.DeleteOwned(entity.TenantBrands);
 			entity.DeleteAllRefToTenantBrands();
         }
 		else
@@ -129,7 +129,7 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
 					}
 				}
 			}
-            _repository.DeleteOwnedRange<ClientApi.Domain.TenantBrand>(
+            _repository.DeleteOwned<ClientApi.Domain.TenantBrand>(
                 entity.TenantBrands.Where(x => !updatedTenantBrands.Any(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToTenantBrands(updatedTenantBrands);
 		}

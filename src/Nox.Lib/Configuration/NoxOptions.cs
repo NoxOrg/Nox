@@ -230,6 +230,8 @@ namespace Nox.Configuration
                 
                 _configureDatabaseContext?.Invoke(services);
 
+                _configureDatabaseRepository?.Invoke(services);
+
                 services.AddScoped<IInterceptor, LangParamDbCommandInterceptor>();
 
                 services.AddScoped<Compiler>(x =>
