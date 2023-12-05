@@ -121,17 +121,9 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
                 throw new ArgumentException("Attribute 'AmountFrom' can't be null");
             }
             {
-                var updated = entity.AmountFrom ?? new Nox.Types.Money();
-                foreach(var pair in AmountFromUpdateValue)
-                {
-                    var property = typeof(Nox.Types.Money).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.AmountFrom = Cryptocash.Domain.BookingMetadata.CreateAmountFrom(updated);
+                var entityToUpdate = entity.AmountFrom is null ? new MoneyDto() : entity.AmountFrom.ToDto();
+                MoneyDto.UpdateFromDictionary(entityToUpdate, AmountFromUpdateValue);
+                entity.AmountFrom = Cryptocash.Domain.BookingMetadata.CreateAmountFrom(entityToUpdate);
             }
         }
 
@@ -142,17 +134,9 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
                 throw new ArgumentException("Attribute 'AmountTo' can't be null");
             }
             {
-                var updated = entity.AmountTo ?? new Nox.Types.Money();
-                foreach(var pair in AmountToUpdateValue)
-                {
-                    var property = typeof(Nox.Types.Money).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.AmountTo = Cryptocash.Domain.BookingMetadata.CreateAmountTo(updated);
+                var entityToUpdate = entity.AmountTo is null ? new MoneyDto() : entity.AmountTo.ToDto();
+                MoneyDto.UpdateFromDictionary(entityToUpdate, AmountToUpdateValue);
+                entity.AmountTo = Cryptocash.Domain.BookingMetadata.CreateAmountTo(entityToUpdate);
             }
         }
 
@@ -163,17 +147,9 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
                 throw new ArgumentException("Attribute 'RequestedPickUpDate' can't be null");
             }
             {
-                var updated = entity.RequestedPickUpDate ?? new Nox.Types.DateTimeRange();
-                foreach(var pair in RequestedPickUpDateUpdateValue)
-                {
-                    var property = typeof(Nox.Types.DateTimeRange).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.RequestedPickUpDate = Cryptocash.Domain.BookingMetadata.CreateRequestedPickUpDate(updated);
+                var entityToUpdate = entity.RequestedPickUpDate is null ? new DateTimeRangeDto() : entity.RequestedPickUpDate.ToDto();
+                DateTimeRangeDto.UpdateFromDictionary(entityToUpdate, RequestedPickUpDateUpdateValue);
+                entity.RequestedPickUpDate = Cryptocash.Domain.BookingMetadata.CreateRequestedPickUpDate(entityToUpdate);
             }
         }
 
@@ -182,17 +158,9 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
             if (PickedUpDateTimeUpdateValue == null) { entity.PickedUpDateTime = null; }
             else
             {
-                var updated = entity.PickedUpDateTime ?? new Nox.Types.DateTimeRange();
-                foreach(var pair in PickedUpDateTimeUpdateValue)
-                {
-                    var property = typeof(Nox.Types.DateTimeRange).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.PickedUpDateTime = Cryptocash.Domain.BookingMetadata.CreatePickedUpDateTime(updated);
+                var entityToUpdate = entity.PickedUpDateTime is null ? new DateTimeRangeDto() : entity.PickedUpDateTime.ToDto();
+                DateTimeRangeDto.UpdateFromDictionary(entityToUpdate, PickedUpDateTimeUpdateValue);
+                entity.PickedUpDateTime = Cryptocash.Domain.BookingMetadata.CreatePickedUpDateTime(entityToUpdate);
             }
         }
 
@@ -219,17 +187,9 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
             if (VatNumberUpdateValue == null) { entity.VatNumber = null; }
             else
             {
-                var updated = entity.VatNumber ?? new Nox.Types.VatNumber();
-                foreach(var pair in VatNumberUpdateValue)
-                {
-                    var property = typeof(Nox.Types.VatNumber).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.VatNumber = Cryptocash.Domain.BookingMetadata.CreateVatNumber(updated);
+                var entityToUpdate = entity.VatNumber is null ? new VatNumberDto() : entity.VatNumber.ToDto();
+                VatNumberDto.UpdateFromDictionary(entityToUpdate, VatNumberUpdateValue);
+                entity.VatNumber = Cryptocash.Domain.BookingMetadata.CreateVatNumber(entityToUpdate);
             }
         }
     }

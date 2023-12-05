@@ -122,17 +122,9 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
                 throw new ArgumentException("Attribute 'Address' can't be null");
             }
             {
-                var updated = entity.Address ?? new Nox.Types.StreetAddress();
-                foreach(var pair in AddressUpdateValue)
-                {
-                    var property = typeof(Nox.Types.StreetAddress).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(updated);
+                var entityToUpdate = entity.Address is null ? new StreetAddressDto() : entity.Address.ToDto();
+                StreetAddressDto.UpdateFromDictionary(entityToUpdate, AddressUpdateValue);
+                entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(entityToUpdate);
             }
         }
 
@@ -143,17 +135,9 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
                 throw new ArgumentException("Attribute 'Location' can't be null");
             }
             {
-                var updated = entity.Location ?? new Nox.Types.LatLong();
-                foreach(var pair in LocationUpdateValue)
-                {
-                    var property = typeof(Nox.Types.LatLong).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(updated);
+                var entityToUpdate = entity.Location is null ? new LatLongDto() : entity.Location.ToDto();
+                LatLongDto.UpdateFromDictionary(entityToUpdate, LocationUpdateValue);
+                entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(entityToUpdate);
             }
         }
 

@@ -229,17 +229,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (GeoCoordsUpdateValue == null) { entity.GeoCoords = null; }
             else
             {
-                var updated = entity.GeoCoords ?? new Nox.Types.LatLong();
-                foreach(var pair in GeoCoordsUpdateValue)
-                {
-                    var property = typeof(Nox.Types.LatLong).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.GeoCoords = Cryptocash.Domain.CountryMetadata.CreateGeoCoords(updated);
+                var entityToUpdate = entity.GeoCoords is null ? new LatLongDto() : entity.GeoCoords.ToDto();
+                LatLongDto.UpdateFromDictionary(entityToUpdate, GeoCoordsUpdateValue);
+                entity.GeoCoords = Cryptocash.Domain.CountryMetadata.CreateGeoCoords(entityToUpdate);
             }
         }
 
@@ -257,17 +249,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (FlagSvgUpdateValue == null) { entity.FlagSvg = null; }
             else
             {
-                var updated = entity.FlagSvg ?? new Nox.Types.Image();
-                foreach(var pair in FlagSvgUpdateValue)
-                {
-                    var property = typeof(Nox.Types.Image).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.FlagSvg = Cryptocash.Domain.CountryMetadata.CreateFlagSvg(updated);
+                var entityToUpdate = entity.FlagSvg is null ? new ImageDto() : entity.FlagSvg.ToDto();
+                ImageDto.UpdateFromDictionary(entityToUpdate, FlagSvgUpdateValue);
+                entity.FlagSvg = Cryptocash.Domain.CountryMetadata.CreateFlagSvg(entityToUpdate);
             }
         }
 
@@ -276,17 +260,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (FlagPngUpdateValue == null) { entity.FlagPng = null; }
             else
             {
-                var updated = entity.FlagPng ?? new Nox.Types.Image();
-                foreach(var pair in FlagPngUpdateValue)
-                {
-                    var property = typeof(Nox.Types.Image).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.FlagPng = Cryptocash.Domain.CountryMetadata.CreateFlagPng(updated);
+                var entityToUpdate = entity.FlagPng is null ? new ImageDto() : entity.FlagPng.ToDto();
+                ImageDto.UpdateFromDictionary(entityToUpdate, FlagPngUpdateValue);
+                entity.FlagPng = Cryptocash.Domain.CountryMetadata.CreateFlagPng(entityToUpdate);
             }
         }
 
@@ -295,17 +271,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (CoatOfArmsSvgUpdateValue == null) { entity.CoatOfArmsSvg = null; }
             else
             {
-                var updated = entity.CoatOfArmsSvg ?? new Nox.Types.Image();
-                foreach(var pair in CoatOfArmsSvgUpdateValue)
-                {
-                    var property = typeof(Nox.Types.Image).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.CoatOfArmsSvg = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsSvg(updated);
+                var entityToUpdate = entity.CoatOfArmsSvg is null ? new ImageDto() : entity.CoatOfArmsSvg.ToDto();
+                ImageDto.UpdateFromDictionary(entityToUpdate, CoatOfArmsSvgUpdateValue);
+                entity.CoatOfArmsSvg = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsSvg(entityToUpdate);
             }
         }
 
@@ -314,17 +282,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (CoatOfArmsPngUpdateValue == null) { entity.CoatOfArmsPng = null; }
             else
             {
-                var updated = entity.CoatOfArmsPng ?? new Nox.Types.Image();
-                foreach(var pair in CoatOfArmsPngUpdateValue)
-                {
-                    var property = typeof(Nox.Types.Image).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.CoatOfArmsPng = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsPng(updated);
+                var entityToUpdate = entity.CoatOfArmsPng is null ? new ImageDto() : entity.CoatOfArmsPng.ToDto();
+                ImageDto.UpdateFromDictionary(entityToUpdate, CoatOfArmsPngUpdateValue);
+                entity.CoatOfArmsPng = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsPng(entityToUpdate);
             }
         }
 

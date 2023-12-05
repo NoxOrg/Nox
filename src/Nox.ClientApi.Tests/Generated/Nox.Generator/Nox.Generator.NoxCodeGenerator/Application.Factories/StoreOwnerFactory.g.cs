@@ -139,17 +139,9 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
             if (VatNumberUpdateValue == null) { entity.VatNumber = null; }
             else
             {
-                var updated = entity.VatNumber ?? new Nox.Types.VatNumber();
-                foreach(var pair in VatNumberUpdateValue)
-                {
-                    var property = typeof(Nox.Types.VatNumber).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.VatNumber = ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(updated);
+                var entityToUpdate = entity.VatNumber is null ? new VatNumberDto() : entity.VatNumber.ToDto();
+                VatNumberDto.UpdateFromDictionary(entityToUpdate, VatNumberUpdateValue);
+                entity.VatNumber = ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(entityToUpdate);
             }
         }
 
@@ -158,17 +150,9 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
             if (StreetAddressUpdateValue == null) { entity.StreetAddress = null; }
             else
             {
-                var updated = entity.StreetAddress ?? new Nox.Types.StreetAddress();
-                foreach(var pair in StreetAddressUpdateValue)
-                {
-                    var property = typeof(Nox.Types.StreetAddress).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.StreetAddress = ClientApi.Domain.StoreOwnerMetadata.CreateStreetAddress(updated);
+                var entityToUpdate = entity.StreetAddress is null ? new StreetAddressDto() : entity.StreetAddress.ToDto();
+                StreetAddressDto.UpdateFromDictionary(entityToUpdate, StreetAddressUpdateValue);
+                entity.StreetAddress = ClientApi.Domain.StoreOwnerMetadata.CreateStreetAddress(entityToUpdate);
             }
         }
 
@@ -177,17 +161,9 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
             if (LocalGreetingUpdateValue == null) { entity.LocalGreeting = null; }
             else
             {
-                var updated = entity.LocalGreeting ?? new Nox.Types.TranslatedText();
-                foreach(var pair in LocalGreetingUpdateValue)
-                {
-                    var property = typeof(Nox.Types.TranslatedText).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.LocalGreeting = ClientApi.Domain.StoreOwnerMetadata.CreateLocalGreeting(updated);
+                var entityToUpdate = entity.LocalGreeting is null ? new TranslatedTextDto() : entity.LocalGreeting.ToDto();
+                TranslatedTextDto.UpdateFromDictionary(entityToUpdate, LocalGreetingUpdateValue);
+                entity.LocalGreeting = ClientApi.Domain.StoreOwnerMetadata.CreateLocalGreeting(entityToUpdate);
             }
         }
 

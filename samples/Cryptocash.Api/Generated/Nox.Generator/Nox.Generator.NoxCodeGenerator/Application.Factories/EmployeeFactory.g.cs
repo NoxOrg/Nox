@@ -135,17 +135,9 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
                 throw new ArgumentException("Attribute 'Address' can't be null");
             }
             {
-                var updated = entity.Address ?? new Nox.Types.StreetAddress();
-                foreach(var pair in AddressUpdateValue)
-                {
-                    var property = typeof(Nox.Types.StreetAddress).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.Address = Cryptocash.Domain.EmployeeMetadata.CreateAddress(updated);
+                var entityToUpdate = entity.Address is null ? new StreetAddressDto() : entity.Address.ToDto();
+                StreetAddressDto.UpdateFromDictionary(entityToUpdate, AddressUpdateValue);
+                entity.Address = Cryptocash.Domain.EmployeeMetadata.CreateAddress(entityToUpdate);
             }
         }
 

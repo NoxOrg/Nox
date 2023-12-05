@@ -129,17 +129,9 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
                 throw new ArgumentException("Attribute 'GeoLocation' can't be null");
             }
             {
-                var updated = entity.GeoLocation ?? new Nox.Types.LatLong();
-                foreach(var pair in GeoLocationUpdateValue)
-                {
-                    var property = typeof(Nox.Types.LatLong).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.GeoLocation = Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(updated);
+                var entityToUpdate = entity.GeoLocation is null ? new LatLongDto() : entity.GeoLocation.ToDto();
+                LatLongDto.UpdateFromDictionary(entityToUpdate, GeoLocationUpdateValue);
+                entity.GeoLocation = Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(entityToUpdate);
             }
         }
 
@@ -150,17 +142,9 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
                 throw new ArgumentException("Attribute 'StreetAddress' can't be null");
             }
             {
-                var updated = entity.StreetAddress ?? new Nox.Types.StreetAddress();
-                foreach(var pair in StreetAddressUpdateValue)
-                {
-                    var property = typeof(Nox.Types.StreetAddress).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.StreetAddress = Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(updated);
+                var entityToUpdate = entity.StreetAddress is null ? new StreetAddressDto() : entity.StreetAddress.ToDto();
+                StreetAddressDto.UpdateFromDictionary(entityToUpdate, StreetAddressUpdateValue);
+                entity.StreetAddress = Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(entityToUpdate);
             }
         }
 
@@ -189,17 +173,9 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
             if (RentPerSquareMetreUpdateValue == null) { entity.RentPerSquareMetre = null; }
             else
             {
-                var updated = entity.RentPerSquareMetre ?? new Nox.Types.Money();
-                foreach(var pair in RentPerSquareMetreUpdateValue)
-                {
-                    var property = typeof(Nox.Types.Money).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(updated);
+                var entityToUpdate = entity.RentPerSquareMetre is null ? new MoneyDto() : entity.RentPerSquareMetre.ToDto();
+                MoneyDto.UpdateFromDictionary(entityToUpdate, RentPerSquareMetreUpdateValue);
+                entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(entityToUpdate);
             }
         }
     }

@@ -556,17 +556,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (MoneyTestFieldUpdateValue == null) { entity.MoneyTestField = null; }
             else
             {
-                var updated = entity.MoneyTestField ?? new Nox.Types.Money();
-                foreach(var pair in MoneyTestFieldUpdateValue)
-                {
-                    var property = typeof(Nox.Types.Money).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.MoneyTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMoneyTestField(updated);
+                var entityToUpdate = entity.MoneyTestField is null ? new MoneyDto() : entity.MoneyTestField.ToDto();
+                MoneyDto.UpdateFromDictionary(entityToUpdate, MoneyTestFieldUpdateValue);
+                entity.MoneyTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMoneyTestField(entityToUpdate);
             }
         }
 
@@ -584,17 +576,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (StreetAddressTestFieldUpdateValue == null) { entity.StreetAddressTestField = null; }
             else
             {
-                var updated = entity.StreetAddressTestField ?? new Nox.Types.StreetAddress();
-                foreach(var pair in StreetAddressTestFieldUpdateValue)
-                {
-                    var property = typeof(Nox.Types.StreetAddress).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.StreetAddressTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateStreetAddressTestField(updated);
+                var entityToUpdate = entity.StreetAddressTestField is null ? new StreetAddressDto() : entity.StreetAddressTestField.ToDto();
+                StreetAddressDto.UpdateFromDictionary(entityToUpdate, StreetAddressTestFieldUpdateValue);
+                entity.StreetAddressTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateStreetAddressTestField(entityToUpdate);
             }
         }
 
@@ -630,17 +614,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (GeoCoordTestFieldUpdateValue == null) { entity.GeoCoordTestField = null; }
             else
             {
-                var updated = entity.GeoCoordTestField ?? new Nox.Types.LatLong();
-                foreach(var pair in GeoCoordTestFieldUpdateValue)
-                {
-                    var property = typeof(Nox.Types.LatLong).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.GeoCoordTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateGeoCoordTestField(updated);
+                var entityToUpdate = entity.GeoCoordTestField is null ? new LatLongDto() : entity.GeoCoordTestField.ToDto();
+                LatLongDto.UpdateFromDictionary(entityToUpdate, GeoCoordTestFieldUpdateValue);
+                entity.GeoCoordTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateGeoCoordTestField(entityToUpdate);
             }
         }
 
@@ -712,17 +688,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (DateTimeRangeTestFieldUpdateValue == null) { entity.DateTimeRangeTestField = null; }
             else
             {
-                var updated = entity.DateTimeRangeTestField ?? new Nox.Types.DateTimeRange();
-                foreach(var pair in DateTimeRangeTestFieldUpdateValue)
-                {
-                    var property = typeof(Nox.Types.DateTimeRange).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.DateTimeRangeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeRangeTestField(updated);
+                var entityToUpdate = entity.DateTimeRangeTestField is null ? new DateTimeRangeDto() : entity.DateTimeRangeTestField.ToDto();
+                DateTimeRangeDto.UpdateFromDictionary(entityToUpdate, DateTimeRangeTestFieldUpdateValue);
+                entity.DateTimeRangeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeRangeTestField(entityToUpdate);
             }
         }
 
@@ -848,17 +816,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (TranslatedTextTestFieldUpdateValue == null) { entity.TranslatedTextTestField = null; }
             else
             {
-                var updated = entity.TranslatedTextTestField ?? new Nox.Types.TranslatedText();
-                foreach(var pair in TranslatedTextTestFieldUpdateValue)
-                {
-                    var property = typeof(Nox.Types.TranslatedText).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.TranslatedTextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTranslatedTextTestField(updated);
+                var entityToUpdate = entity.TranslatedTextTestField is null ? new TranslatedTextDto() : entity.TranslatedTextTestField.ToDto();
+                TranslatedTextDto.UpdateFromDictionary(entityToUpdate, TranslatedTextTestFieldUpdateValue);
+                entity.TranslatedTextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTranslatedTextTestField(entityToUpdate);
             }
         }
 
@@ -948,17 +908,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (VatNumberTestFieldUpdateValue == null) { entity.VatNumberTestField = null; }
             else
             {
-                var updated = entity.VatNumberTestField ?? new Nox.Types.VatNumber();
-                foreach(var pair in VatNumberTestFieldUpdateValue)
-                {
-                    var property = typeof(Nox.Types.VatNumber).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.VatNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateVatNumberTestField(updated);
+                var entityToUpdate = entity.VatNumberTestField is null ? new VatNumberDto() : entity.VatNumberTestField.ToDto();
+                VatNumberDto.UpdateFromDictionary(entityToUpdate, VatNumberTestFieldUpdateValue);
+                entity.VatNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateVatNumberTestField(entityToUpdate);
             }
         }
 
@@ -985,17 +937,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (FileTestFieldUpdateValue == null) { entity.FileTestField = null; }
             else
             {
-                var updated = entity.FileTestField ?? new Nox.Types.File();
-                foreach(var pair in FileTestFieldUpdateValue)
-                {
-                    var property = typeof(Nox.Types.File).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.FileTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateFileTestField(updated);
+                var entityToUpdate = entity.FileTestField is null ? new FileDto() : entity.FileTestField.ToDto();
+                FileDto.UpdateFromDictionary(entityToUpdate, FileTestFieldUpdateValue);
+                entity.FileTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateFileTestField(entityToUpdate);
             }
         }
 
@@ -1049,17 +993,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (ImageTestFieldUpdateValue == null) { entity.ImageTestField = null; }
             else
             {
-                var updated = entity.ImageTestField ?? new Nox.Types.Image();
-                foreach(var pair in ImageTestFieldUpdateValue)
-                {
-                    var property = typeof(Nox.Types.Image).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.ImageTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateImageTestField(updated);
+                var entityToUpdate = entity.ImageTestField is null ? new ImageDto() : entity.ImageTestField.ToDto();
+                ImageDto.UpdateFromDictionary(entityToUpdate, ImageTestFieldUpdateValue);
+                entity.ImageTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateImageTestField(entityToUpdate);
             }
         }
     }

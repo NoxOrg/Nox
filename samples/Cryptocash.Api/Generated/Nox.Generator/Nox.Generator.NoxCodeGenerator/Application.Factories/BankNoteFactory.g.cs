@@ -93,17 +93,9 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
                 throw new ArgumentException("Attribute 'Value' can't be null");
             }
             {
-                var updated = entity.Value ?? new Nox.Types.Money();
-                foreach(var pair in ValueUpdateValue)
-                {
-                    var property = typeof(Nox.Types.Money).GetProperty(pair.Key);
-                    if (property != null)
-                    {
-                        var propertyValue = Convert.ChangeType(pair.Value, property.PropertyType);
-                        property.SetValue(updated, propertyValue);
-                    }
-                }
-                entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(updated);
+                var entityToUpdate = entity.Value is null ? new MoneyDto() : entity.Value.ToDto();
+                MoneyDto.UpdateFromDictionary(entityToUpdate, ValueUpdateValue);
+                entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(entityToUpdate);
             }
         }
     }

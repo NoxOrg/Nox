@@ -1,7 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.OData.Deltas;
 using Nox.Application.Dto;
-using System.Reflection;
 
 namespace Nox.Presentation.Api.OData
 {
@@ -23,12 +22,10 @@ namespace Nox.Presentation.Api.OData
             {
                 if (delta.TryGetPropertyValue(propertyName, out dynamic value))
                 {
-                    var property = typeof(T).GetProperty(propertyName);
-                    if (property is null)
-                        continue;
+                    var property = typeof(T).GetProperty(propertyName)!;
 
                     var propertyType = property.PropertyType;
-                    if (propertyType.IsClass && propertyType != typeof(string) && value != null)
+                    if (propertyType.GetInterfaces().Contains(typeof(INoxCompoundTypeDto)) && value != null)
                     {
                         var method = typeof(ODataApi).GetMethod("GetDeltaUpdatedProperties");
                         var generic = method!.MakeGenericMethod(propertyType);
