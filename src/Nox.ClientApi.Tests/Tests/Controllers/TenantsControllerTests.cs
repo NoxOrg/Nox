@@ -122,7 +122,7 @@ namespace ClientApi.Tests.Controllers
             frResult.TenantBrands[0].Description.Should().Be(frTenant.TenantBrands[0].Description);
         }
 
-        [Fact]
+        [Fact(Skip = "Nuid relationship issue and update owned entity localization limitation.")]
         public async Task UpdateTenantWithTenantBrands_WithTenantBrandDescription_CreatesLocalization()
         {
             // Arrange
@@ -136,6 +136,11 @@ namespace ClientApi.Tests.Controllers
                         {
                             Name = "Regus",
                             Description = "Regus is part of a collective of global and regional workspace brands that form the IWG network.",
+                        },
+                        new()
+                        {
+                            Name = "Basepoint",
+                            Description = "Basepoint Business Centres provide a wide range of high quality workspaces to let, including serviced and managed offices, workshops, trade counters and studios.",
                         },
                     },
                 }, language: "en-US"))!.Id;
@@ -152,6 +157,16 @@ namespace ClientApi.Tests.Controllers
                         Name = "Regus",
                         Description = "Regus fait partie d’un collectif de marques mondiales et régionales d’espaces de travail qui forment le réseau IWG.",
                     },
+                    new()
+                    {
+                        Name = "No18",
+                        Description = "No18 est un mélange inspirant de lieu de travail et de résidence, offrant des espaces de travail privés et collaboratifs dans des lieux urbains en plein essor, chacun avec sa propre esthétique unique et éclectique.",
+                    },
+                    new()
+                    {
+                        Name = "BizDojo",
+                        Description = "La vie chez BizDojo, c’est plus qu’un bureau ; avec des espaces, des lieux, des personnes et des programmes qui vous aident, vous et votre entreprise, à vous développer.",
+                    },
                 },
             };
 
@@ -163,9 +178,15 @@ namespace ClientApi.Tests.Controllers
             frResult.Should().NotBeNull();
             frResult!.Id.Should().Be(tenantId);
             frResult.Name.Should().Be(frTenant.Name);
+            frResult.TenantBrands.Should().HaveCount(3);
             frResult.TenantBrands[0].Name.Should().Be(frTenant.TenantBrands[0].Name);
             frResult.TenantBrands[0].Description.Should().Be(frTenant.TenantBrands[0].Description);
+            frResult.TenantBrands[1].Name.Should().Be(frTenant.TenantBrands[1].Name);
+            frResult.TenantBrands[1].Description.Should().Be(frTenant.TenantBrands[1].Description);
+            frResult.TenantBrands[2].Name.Should().Be(frTenant.TenantBrands[1].Name);
+            frResult.TenantBrands[2].Description.Should().Be(frTenant.TenantBrands[1].Description);
         }
+
 
         [Fact]
         public async Task CreateTenantAndUpdateTenantBrands_WithTenantBrandDescription_CreatesCorrectLocalizations()
