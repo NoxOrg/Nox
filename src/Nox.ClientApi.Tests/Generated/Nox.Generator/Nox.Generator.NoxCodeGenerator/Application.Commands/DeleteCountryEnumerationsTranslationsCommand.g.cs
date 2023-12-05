@@ -23,7 +23,7 @@ internal partial class DeleteCountriesContinentsTranslationsCommandHandler : Del
 	{
 	}
 }
-internal abstract class DeleteCountriesContinentsTranslationsCommandHandlerBase : CommandBase<DeleteCountriesContinentsTranslationsCommand, CountryContinentLocalized>, IRequestHandler<DeleteCountriesContinentsTranslationsCommand, bool>
+internal abstract class DeleteCountriesContinentsTranslationsCommandHandlerBase : CommandCollectionBase<DeleteCountriesContinentsTranslationsCommand, CountryContinentLocalized>, IRequestHandler<DeleteCountriesContinentsTranslationsCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -46,7 +46,7 @@ internal abstract class DeleteCountriesContinentsTranslationsCommandHandlerBase 
 			return false;
 		}
 		
-		await OnBatchCompletedAsync(command, localizedEnums);
+		await OnCompletedAsync(command, localizedEnums);
 		
 		DbContext.RemoveRange(localizedEnums);
 		

@@ -28,7 +28,7 @@ internal partial class {{deleteCommand}}Handler : {{deleteCommand}}HandlerBase
 	{
 	}
 }
-internal abstract class {{deleteCommand}}HandlerBase : CommandBase<{{deleteCommand}}, {{enumEntity}}>, IRequestHandler<{{deleteCommand}}, bool>
+internal abstract class {{deleteCommand}}HandlerBase : CommandCollectionBase<{{deleteCommand}}, {{enumEntity}}>, IRequestHandler<{{deleteCommand}}, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -51,7 +51,7 @@ internal abstract class {{deleteCommand}}HandlerBase : CommandBase<{{deleteComma
 			return false;
 		}
 		
-		await OnBatchCompletedAsync(command, localizedEnums);
+		await OnCompletedAsync(command, localizedEnums);
 		
 		DbContext.RemoveRange(localizedEnums);
 		

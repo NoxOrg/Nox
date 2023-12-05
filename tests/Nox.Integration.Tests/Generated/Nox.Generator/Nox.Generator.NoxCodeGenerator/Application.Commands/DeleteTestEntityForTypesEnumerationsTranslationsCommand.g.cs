@@ -23,7 +23,7 @@ internal partial class DeleteTestEntityForTypesEnumerationTestFieldsTranslations
 	{
 	}
 }
-internal abstract class DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase : CommandBase<DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand, TestEntityForTypesEnumerationTestFieldLocalized>, IRequestHandler<DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand, bool>
+internal abstract class DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase : CommandCollectionBase<DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand, TestEntityForTypesEnumerationTestFieldLocalized>, IRequestHandler<DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -46,7 +46,7 @@ internal abstract class DeleteTestEntityForTypesEnumerationTestFieldsTranslation
 			return false;
 		}
 		
-		await OnBatchCompletedAsync(command, localizedEnums);
+		await OnCompletedAsync(command, localizedEnums);
 		
 		DbContext.RemoveRange(localizedEnums);
 		

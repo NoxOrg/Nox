@@ -33,11 +33,9 @@ internal partial class {{upsertCommand}}Handler : {{upsertCommand}}HandlerBase
 	{
 	}
 }
-internal abstract class {{upsertCommand}}HandlerBase : CommandBase<{{upsertCommand}}, {{enumEntity}}>, IRequestHandler<{{upsertCommand}}, IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>>
+internal abstract class {{upsertCommand}}HandlerBase : CommandCollectionBase<{{upsertCommand}}, {{enumEntity}}>, IRequestHandler<{{upsertCommand}}, IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>>
 {
 	public AppDbContext DbContext { get; }
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("{{codeGeneratorState.Solution.Application.Localization.DefaultCulture}}");
-
 	public {{upsertCommand}}HandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
@@ -70,14 +68,14 @@ internal abstract class {{upsertCommand}}HandlerBase : CommandBase<{{upsertComma
 			entities.Add(e);
 		});
 		
-		command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Where(dto=>dto.CultureCode == _defaultCultureCode.Value).ForEach(dto =>
+		command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Where(dto=>dto.CultureCode == DefaultCultureCode.Value).ForEach(dto =>
 		{
 			var e = new {{enumAtt.EntityNameForEnumeration}} { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
 			DbContext.Entry(e).State = EntityState.Modified;
 		});
 		
 
-		await OnBatchCompletedAsync(command, entities);
+		await OnCompletedAsync(command, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s;
 	}

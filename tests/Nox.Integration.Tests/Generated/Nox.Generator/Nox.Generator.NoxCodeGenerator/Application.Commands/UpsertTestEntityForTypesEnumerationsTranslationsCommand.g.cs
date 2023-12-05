@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -27,10 +27,9 @@ internal partial class UpsertTestEntityForTypesEnumerationTestFieldsTranslations
 	{
 	}
 }
-internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase : CommandBase<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand, TestEntityForTypesEnumerationTestFieldLocalized>, IRequestHandler<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand, IEnumerable<TestEntityForTypesEnumerationTestFieldLocalizedDto>>
+internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase : CommandCollectionBase<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand, TestEntityForTypesEnumerationTestFieldLocalized>, IRequestHandler<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand, IEnumerable<TestEntityForTypesEnumerationTestFieldLocalizedDto>>
 {
 	public AppDbContext DbContext { get; }
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
 	public UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase(
         AppDbContext dbContext,
@@ -64,14 +63,14 @@ internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslation
 			entities.Add(e);
 		});
 		
-		command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Where(dto=>dto.CultureCode == _defaultCultureCode.Value).ForEach(dto =>
+		command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Where(dto=>dto.CultureCode == DefaultCultureCode.Value).ForEach(dto =>
 		{
 			var e = new TestEntityForTypesEnumerationTestField { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
 			DbContext.Entry(e).State = EntityState.Modified;
 		});
 		
 
-		await OnBatchCompletedAsync(command, entities);
+		await OnCompletedAsync(command, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return command.TestEntityForTypesEnumerationTestFieldLocalizedDtos;
 	}

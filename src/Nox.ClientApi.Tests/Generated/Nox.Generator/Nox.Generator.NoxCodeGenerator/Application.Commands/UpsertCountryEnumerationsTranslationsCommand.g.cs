@@ -27,11 +27,9 @@ internal partial class UpsertCountriesContinentsTranslationsCommandHandler : Ups
 	{
 	}
 }
-internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase : CommandBase<UpsertCountriesContinentsTranslationsCommand, CountryContinentLocalized>, IRequestHandler<UpsertCountriesContinentsTranslationsCommand, IEnumerable<CountryContinentLocalizedDto>>
+internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase : CommandCollectionBase<UpsertCountriesContinentsTranslationsCommand, CountryContinentLocalized>, IRequestHandler<UpsertCountriesContinentsTranslationsCommand, IEnumerable<CountryContinentLocalizedDto>>
 {
 	public AppDbContext DbContext { get; }
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-
 	public UpsertCountriesContinentsTranslationsCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
@@ -64,14 +62,14 @@ internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase 
 			entities.Add(e);
 		});
 		
-		command.CountryContinentLocalizedDtos.Where(dto=>dto.CultureCode == _defaultCultureCode.Value).ForEach(dto =>
+		command.CountryContinentLocalizedDtos.Where(dto=>dto.CultureCode == DefaultCultureCode.Value).ForEach(dto =>
 		{
 			var e = new CountryContinent { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
 			DbContext.Entry(e).State = EntityState.Modified;
 		});
 		
 
-		await OnBatchCompletedAsync(command, entities);
+		await OnCompletedAsync(command, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return command.CountryContinentLocalizedDtos;
 	}
@@ -79,7 +77,7 @@ internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase 
 public class UpsertCountriesContinentsTranslationsCommandValidator : AbstractValidator<UpsertCountriesContinentsTranslationsCommand>
 {
 	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-	private static readonly Nox.Types.CultureCode[] _supportedCultureCodes = new Nox.Types.CultureCode[] { Nox.Types.CultureCode.From("fr-FR"), Nox.Types.CultureCode.From("de-DE"), Nox.Types.CultureCode.From("en-US"), };
+	private static readonly Nox.Types.CultureCode[] _supportedCultureCodes = new Nox.Types.CultureCode[] { Nox.Types.CultureCode.From("en-US"), Nox.Types.CultureCode.From("de-DE"), Nox.Types.CultureCode.From("fr-FR"), };
 	private static readonly int[] _supportedIds = new int[] { 1, 2, 3, 4, 5, };
 	
     public UpsertCountriesContinentsTranslationsCommandValidator(NoxSolution noxSolution)
