@@ -26,6 +26,7 @@ erDiagram
     }
     Store {
     }
+    Store}o..o{Client : "clients of the store"
     Store||--o|EmailAddress : "Verified emails"
     Workplace {
     }
@@ -45,6 +46,8 @@ erDiagram
     }
     CountryTimeZone {
     }
+    Client {
+    }
     Holiday {
     }
     EmailAddress {
@@ -56,6 +59,31 @@ erDiagram
 [IntegrationEvents](./IntegrationEvents.md)
 
 ## Definitions for Domain Entities
+
+### Client
+
+Client of a Store. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
+
+[Endpoints](./endpoints/ClientEndpoints.md)
+
+[Domain Events](./domainEvents/ClientDomainEvents.md)
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Description|Info
+---------|----|----------|-------
+Id|Guid||Required, Primary Key
+Name|Text|Store Name.|Required, MinLength: 4, MaxLength: 63
+StoreId|Guid||Required, Foreign Key
+*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
+
+
+#### <u>Relationships</u>
+
+Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
+-----------|-----------|--------------|----|---------------|------------------
+Buys in this Store|ZeroOrMany|Store|ClientOf|Yes|Yes
+
 
 ### Country
 
@@ -245,6 +273,7 @@ Location|LatLong|Location.|Required
 OpeningDay|DateTime|Opening day.|
 Status|Enumeration|Store Status.|Values: System.Collections.Generic.List`1[Nox.Types.EnumerationValues], IsLocalized: false
 StoreOwnerId|Text||Required, Foreign Key, MinLength: 3, MaxLength: 3, IsUnicode: false
+ClientId|Guid||Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -254,6 +283,7 @@ Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
 -----------|-----------|--------------|----|---------------|------------------
 Owner of the Store|ZeroOrOne|StoreOwner|Ownership|Yes|Yes
 License that this store uses|ZeroOrOne|StoreLicense|License|Yes|Yes
+clients of the store|ZeroOrMany|Client|ClientsOfStore|Yes|Yes
 
 
 ### Store.EmailAddress (Owned by Store)

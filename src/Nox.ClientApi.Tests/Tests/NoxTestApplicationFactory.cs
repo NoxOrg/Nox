@@ -10,6 +10,7 @@ using Xunit.Abstractions;
 using Nox.Solution;
 using Nox.Infrastructure;
 using System;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ClientApi.Tests;
 
@@ -59,11 +60,14 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
             // method has been executed.
             .ConfigureTestServices(services =>
             {
-                //Override Db Provider and set container connection string
-                var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(INoxDatabaseProvider));
-                if (descriptor != null)
+                //Override Entity Store Db Provider and set container connection string
+                var descriptors = services.Where(d => d.ServiceType == typeof(INoxDatabaseProvider)).ToList();
+                if (descriptors.Any())
                 {
-                    services.Remove(descriptor);
+                    foreach (var descriptor in descriptors)
+                    {
+                        services.Remove(descriptor);
+                    }
                 }
                 services.AddSingleton(sp =>
                 {

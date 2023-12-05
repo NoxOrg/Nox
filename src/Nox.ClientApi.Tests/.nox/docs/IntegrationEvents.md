@@ -10,6 +10,7 @@ This document provides information about Integration Events. Integration Events 
     - [CountryUpdated](#CountryUpdated)
     - [CountryDeleted](#CountryDeleted)
 
+    - [StoreUpdated](#StoreUpdated)
     - [WorkplaceDeleted](#WorkplaceDeleted)
 
     - [StoreOwnerCreated](#StoreOwnerCcreated)- [Custom Integration Events](#custom-integration-events)
@@ -125,6 +126,50 @@ Continent|System.Int32|Country Continent
 CountryLocalNameId|System.Int64|The unique identifier
 CountryTimeZoneId|System.String|Country's related time zone code
 HolidayId|System.Guid|Country's holiday unique identifier
+
+
+### `StoreUpdated`
+
+**Description:**
+This event is triggered when an existing Store is updated.
+
+**Topic:** Store
+
+**Envelope Attributes**
+
+Attribute|Type|Example
+---------|----|-------
+specversion|SemanticVersion|1.0
+id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
+source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://Nox-Tests.com/ClientApi
+type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|Nox-Tests.ClientApi.Store.v1.0.StoreUpdated
+datacontenttype|ContentType|application/json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://Nox-Tests.com/schemas/ClientApi/Store/v1.0/StoreUpdated.json
+time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
+xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
+xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
+data|Json|Data Field Attributes
+
+**Data Field Attributes**
+
+Attribute|Type|Description
+---------|----|-----------
+Store|[Store](#Store-Attributes)|Stores
+
+
+
+
+### `Store Attributes`
+Member|Type|Description
+------|----|-----------
+Id|System.Guid|
+Name|System.String|Store Name
+Address|StreetAddressDto|Street Address
+Location|LatLongDto|Location
+OpeningDay|System.DateTimeOffset|Opening day
+Status|System.Int32|Store Status
+StoreOwnerId|System.String|
+ClientId|System.Guid|
 
 
 ### `WorkplaceDeleted`

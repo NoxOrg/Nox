@@ -457,7 +457,7 @@ public abstract partial class StoresControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteClientByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteClientByIdCommand(new List<ClientKeyDto> { new ClientKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -481,10 +481,7 @@ public abstract partial class StoresControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteClientByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteClientByIdCommand(related.Select(item => new ClientKeyDto(item.Id)), etag));
         return NoContent();
     }
     
