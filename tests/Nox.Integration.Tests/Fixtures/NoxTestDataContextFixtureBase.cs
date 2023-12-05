@@ -24,10 +24,13 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
                noxOptions.WithoutMessagingTransactionalOutbox();
            }, null)
         .AddLogging();
-        var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(INoxDatabaseProvider));
-        if (descriptor != null)
+        var descriptors = services.Where(d => d.ServiceType == typeof(INoxDatabaseProvider)).ToList();
+        if (descriptors.Any())
         {
-            services.Remove(descriptor);
+            foreach (var descriptor in descriptors)
+            {
+                services.Remove(descriptor);
+            }
         }
         services.AddSingleton(sp =>
         {            
