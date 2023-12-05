@@ -16,18 +16,19 @@ public partial class CountriesControllerRouteMappingTests : NoxWebApiTestBase
     )
     : base(testOutputHelper, containerService)
     {
-    }
-
+        _fixture.Customize<string>(s => s.FromFactory(() => ToUpperFirstChar(Guid.NewGuid().ToString())));
+    }    
     [Fact]
     public async Task WhenRouteGetWithParameters_ShouldSucceed()
     {
         // Arrange
-        string countryName1 = "Portugal";
-        string countryName2 = "Spain";
+        string countryName1 = _fixture.Create<string>();
+        string countryName2 = _fixture.Create<string>();
         await CreateCountriesAsync(countryName1, countryName2);
 
         // Act
         var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/CountriesByName/10"))!.ToList();
+        //var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.CountriesUrl}"))!.ToList();
 
         //Assert
         result.Should().NotBeNull();
@@ -40,8 +41,8 @@ public partial class CountriesControllerRouteMappingTests : NoxWebApiTestBase
     public async Task WhenRouteGetWithDefaults_ShouldSucceed()
     {
         // Arrange
-        string countryName1 = "Portugal";
-        string countryName2 = "Spain";
+        string countryName1 = _fixture.Create<string>();
+        string countryName2 = _fixture.Create<string>();
         await CreateCountriesAsync(countryName1, countryName2);
 
         // Act
@@ -52,14 +53,16 @@ public partial class CountriesControllerRouteMappingTests : NoxWebApiTestBase
         result.Should().HaveCount(2);
         result.Should().Contain(r => r.Name == countryName1);
         result.Should().Contain(r => r.Name == countryName2);
+
+        ArgumentNullException.ThrowIfNull(result);
     }
 
     [Fact]
     public async Task WhenRouteGetWithODataQuery_ShouldSucceed()
     {
         // Arrange
-        string countryName1 = "Portugal";
-        string countryName2 = "Spain";
+        string countryName1 = _fixture.Create<string>();
+        string countryName2 = _fixture.Create<string>();
         await CreateCountriesAsync(countryName1, countryName2);
         // Act
         var result = await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/CountriesByOdata/10?$select=Name");
@@ -75,8 +78,8 @@ public partial class CountriesControllerRouteMappingTests : NoxWebApiTestBase
     {
 
         // Arrange
-        string countryName1 = "Portugal";
-        string countryName2 = "Spain";
+        string countryName1 = _fixture.Create<string>();
+        string countryName2 = _fixture.Create<string>();
         await CreateCountriesAsync(countryName1, countryName2);
 
         // Act
@@ -85,6 +88,8 @@ public partial class CountriesControllerRouteMappingTests : NoxWebApiTestBase
         //Assert
         result.Should().NotBeNull();
         result.Should().HaveCount(2);
+        result.Should().Contain(r => r.Name == countryName1);
+        result.Should().Contain(r => r.Name == countryName2);
     }
 
 
@@ -131,6 +136,15 @@ public partial class CountriesControllerRouteMappingTests : NoxWebApiTestBase
             {
                 Name = countryName2
             });
+    }
+    private static string ToUpperFirstChar(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            return input;
+        }
+
+        return char.ToUpper(input[0]) + input.Substring(1);
     }
 }
 

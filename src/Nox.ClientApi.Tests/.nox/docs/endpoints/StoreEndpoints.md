@@ -80,11 +80,37 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Stores/{key}/License/$ref`
   - Description: Delete all existing StoreLicenses relations for a specific Store.
 
+### Client
+
+#### Get Client relations
+- **GET** `/api/Stores/{key}/ClientsOfStore/$ref`
+  - Description: Retrieve all existing Clients relations for a specific Store.
+  
+#### Create Client relation
+- **POST** `/api/Stores/{key}/ClientsOfStore/{relatedKey}/$ref`
+  - Description: Create a new Client relation for a specific Store.
+  
+#### Update Client relation
+- **PUT** `/api/Stores/{key}/ClientsOfStore/{relatedKey}/$ref`
+  - Description: Updates an existing Client relation for a specific Store.
+- **PUT** `/api/Stores/{key}/ClientsOfStore/$ref`
+  - Description: Updates the Client relations for a specific Store.
+
+#### Delete Client relation
+- **DELETE** `/api/Stores/{key}/ClientsOfStore/{relatedKey}/$ref`
+  - Description: Delete an existing Client relation for a specific Store.
+
+#### Delete Client relations
+- **DELETE** `/api/Stores/{key}/ClientsOfStore/$ref`
+  - Description: Delete all existing Clients relations for a specific Store.
+
 ## Related Entities
 
 [StoreOwner](StoreOwnerEndpoints.md)
 
 [StoreLicense](StoreLicenseEndpoints.md)
+
+[Client](ClientEndpoints.md)
 
 ## Enumerations Endpoints
 
