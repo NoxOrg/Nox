@@ -1,0 +1,11 @@
+﻿#
+# cryptocash.presentation.nox.yaml
+#
+# yaml-language-server: $schema=../../../../schemas/presentation.json
+#
+
+apiConfiguration:
+  
+  $ref: ./apiConfiguration/apiConfiguration.nox.yaml
+
+  

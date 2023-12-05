@@ -122,3 +122,7 @@ application:
             casing: lower
             maxLength: 2
             minLength: 2
+
+presentation: 
+
+  $ref: ./presentation/presentation.nox.yaml  

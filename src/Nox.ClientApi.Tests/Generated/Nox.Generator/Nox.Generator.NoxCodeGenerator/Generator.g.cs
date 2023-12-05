@@ -18,6 +18,12 @@
 //  - store.entity.nox.yaml
 //  - tenant.entity.nox.yaml
 //  - workplace.entity.nox.yaml
+//  - apiConfiguration.nox.yaml
+//  - countryByName.ApiRouteMapping.nox.yaml
+//  - countryByNameOdataFiltering.ApiRouteMapping.nox.yaml
+//  - countryByNameOdataFiltering3Segments.ApiRouteMapping.nox.yaml
+//  - putRefCountryToWorkplace3Segments.ApiRouteMapping.nox.yaml
+//  - presentation.nox.yaml
 //  - generator.nox.yaml
 // Logging Verbosity Diagnostic
 // Enabled Generators Types
