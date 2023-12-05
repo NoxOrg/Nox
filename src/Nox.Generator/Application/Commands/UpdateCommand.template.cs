@@ -174,7 +174,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 		for(int i = 0; i < updateDtos.Count; i++)
 		{
 			var updateDto = updateDtos[i];
-			var entity = entities.SingleOrDefault(e => e.{{relationship.Related.Entity.Keys[0].Name}}.Value == updateDto.{{relationship.Related.Entity.Keys[0].Name}});
+			var entity = entities.Where(e => e.{{relationship.Related.Entity.Keys[0].Name}} is not null).SingleOrDefault(e => e.{{relationship.Related.Entity.Keys[0].Name}}.Value == updateDto.{{relationship.Related.Entity.Keys[0].Name}});
 			if (entity is null) continue;
 
 			await Update{{relationshipName}}LocalizationAsync(entity, updateDto, cultureCode);
