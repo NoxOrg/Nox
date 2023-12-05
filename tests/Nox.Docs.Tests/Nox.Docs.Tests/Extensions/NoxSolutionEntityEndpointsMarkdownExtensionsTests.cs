@@ -18,6 +18,12 @@ public class NoxSolutionEntityEndpointsMarkdownExtensionsTests
         // Act
         var actual = noxSolution.ToMarkdownEntityEndpoints()
             .OrderBy(m => m.Name);
+        
+        
+        foreach (var item in actual)
+        {
+            File.WriteAllText( Path.Combine( "./../../../Files/Markdown",  Path.GetFileName(item.Name)), item.Content);
+        }
 
         // Assert
         var expected = new[]
