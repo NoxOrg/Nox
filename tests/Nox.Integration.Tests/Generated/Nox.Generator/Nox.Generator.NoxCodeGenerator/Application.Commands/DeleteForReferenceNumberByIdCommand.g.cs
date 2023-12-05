@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
 using ForReferenceNumberEntity = TestWebApp.Domain.ForReferenceNumber;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record DeleteForReferenceNumberByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteForReferenceNumberByIdCommand(IEnumerable<ForReferenceNumberKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteForReferenceNumberByIdCommandHandler : DeleteForReferenceNumberByIdCommandHandlerBase
 {
@@ -23,7 +24,7 @@ internal class DeleteForReferenceNumberByIdCommandHandler : DeleteForReferenceNu
 	{
 	}
 }
-internal abstract class DeleteForReferenceNumberByIdCommandHandlerBase : CommandBase<DeleteForReferenceNumberByIdCommand, ForReferenceNumberEntity>, IRequestHandler<DeleteForReferenceNumberByIdCommand, bool>
+internal abstract class DeleteForReferenceNumberByIdCommandHandlerBase : CommandCollectionBase<DeleteForReferenceNumberByIdCommand, ForReferenceNumberEntity>, IRequestHandler<DeleteForReferenceNumberByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -38,17 +39,25 @@ internal abstract class DeleteForReferenceNumberByIdCommandHandlerBase : Command
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.ForReferenceNumberMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.ForReferenceNumbers.FindAsync(keyId);
-		if (entity == null)
+		
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<ForReferenceNumberEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
-			return false;
+			var keyId = TestWebApp.Domain.ForReferenceNumberMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.ForReferenceNumbers.FindAsync(keyId);
+			if (entity == null)
+			{
+				return false;
+			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+			entities.Add(entity);			
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
-		await OnCompletedAsync(request, entity);DbContext.ForReferenceNumbers.Remove(entity);
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

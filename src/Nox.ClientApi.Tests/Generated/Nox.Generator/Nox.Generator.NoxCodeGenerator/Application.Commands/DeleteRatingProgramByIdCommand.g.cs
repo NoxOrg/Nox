@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
+using ClientApi.Application.Dto;
 using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Commands;
 
-public partial record DeleteRatingProgramByIdCommand(System.Guid keyStoreId, System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteRatingProgramByIdCommand(IEnumerable<RatingProgramKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteRatingProgramByIdCommandHandler : DeleteRatingProgramByIdCommandHandlerBase
 {
@@ -23,7 +24,7 @@ internal class DeleteRatingProgramByIdCommandHandler : DeleteRatingProgramByIdCo
 	{
 	}
 }
-internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandBase<DeleteRatingProgramByIdCommand, RatingProgramEntity>, IRequestHandler<DeleteRatingProgramByIdCommand, bool>
+internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandCollectionBase<DeleteRatingProgramByIdCommand, RatingProgramEntity>, IRequestHandler<DeleteRatingProgramByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -38,18 +39,26 @@ internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandBase<
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyStoreId = ClientApi.Domain.RatingProgramMetadata.CreateStoreId(request.keyStoreId);
-		var keyId = ClientApi.Domain.RatingProgramMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.RatingPrograms.FindAsync(keyStoreId, keyId);
-		if (entity == null)
+		
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<RatingProgramEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
-			return false;
+			var keyStoreId = ClientApi.Domain.RatingProgramMetadata.CreateStoreId(keyDto.keyStoreId);
+			var keyId = ClientApi.Domain.RatingProgramMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.RatingPrograms.FindAsync(keyStoreId, keyId);
+			if (entity == null)
+			{
+				return false;
+			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+			entities.Add(entity);			
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
-		await OnCompletedAsync(request, entity);DbContext.RatingPrograms.Remove(entity);
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

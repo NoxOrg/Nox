@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
 using TestEntityExactlyOneToOneOrManyEntity = TestWebApp.Domain.TestEntityExactlyOneToOneOrMany;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record DeleteTestEntityExactlyOneToOneOrManyByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteTestEntityExactlyOneToOneOrManyByIdCommand(IEnumerable<TestEntityExactlyOneToOneOrManyKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteTestEntityExactlyOneToOneOrManyByIdCommandHandler : DeleteTestEntityExactlyOneToOneOrManyByIdCommandHandlerBase
 {
@@ -23,7 +24,7 @@ internal class DeleteTestEntityExactlyOneToOneOrManyByIdCommandHandler : DeleteT
 	{
 	}
 }
-internal abstract class DeleteTestEntityExactlyOneToOneOrManyByIdCommandHandlerBase : CommandBase<DeleteTestEntityExactlyOneToOneOrManyByIdCommand, TestEntityExactlyOneToOneOrManyEntity>, IRequestHandler<DeleteTestEntityExactlyOneToOneOrManyByIdCommand, bool>
+internal abstract class DeleteTestEntityExactlyOneToOneOrManyByIdCommandHandlerBase : CommandCollectionBase<DeleteTestEntityExactlyOneToOneOrManyByIdCommand, TestEntityExactlyOneToOneOrManyEntity>, IRequestHandler<DeleteTestEntityExactlyOneToOneOrManyByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -38,18 +39,25 @@ internal abstract class DeleteTestEntityExactlyOneToOneOrManyByIdCommandHandlerB
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.TestEntityExactlyOneToOneOrManyMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.TestEntityExactlyOneToOneOrManies.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted == true)
+		
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<TestEntityExactlyOneToOneOrManyEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
-			return false;
+			var keyId = TestWebApp.Domain.TestEntityExactlyOneToOneOrManyMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.TestEntityExactlyOneToOneOrManies.FindAsync(keyId);
+			if (entity == null || entity.IsDeleted == true)
+			{
+				return false;
+			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+			entities.Add(entity);			
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Deleted;
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

@@ -188,7 +188,7 @@ public abstract partial class TestEntityZeroOrManyToZeroOrOnesControllerBase : O
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteTestEntityZeroOrOneToZeroOrManyByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteTestEntityZeroOrOneToZeroOrManyByIdCommand(new List<TestEntityZeroOrOneToZeroOrManyKeyDto> { new TestEntityZeroOrOneToZeroOrManyKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -212,10 +212,7 @@ public abstract partial class TestEntityZeroOrManyToZeroOrOnesControllerBase : O
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteTestEntityZeroOrOneToZeroOrManyByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteTestEntityZeroOrOneToZeroOrManyByIdCommand(related.Select(item => new TestEntityZeroOrOneToZeroOrManyKeyDto(item.Id)), etag));
         return NoContent();
     }
     

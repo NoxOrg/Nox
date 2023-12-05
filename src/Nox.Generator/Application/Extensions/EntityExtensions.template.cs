@@ -30,16 +30,7 @@ internal static class {{className}}
         {{- else -}}entity!.{{attribute.Name}}!.Value{{- if attribute.Type == "Url" || attribute.Type == "Uri" -}}.ToString(){{end}}{{- if attribute.Type == "Date"}}.ToDateTime(new System.TimeOnly(0, 0, 0)){{end}}{{- end -}}{{- end -}}
     {{- else -}}entity!.{{attribute.Name}}!.ToDto(){{- end -}});
 {{- end }}
-{{- for relationship in entity.Relationships }}
-	{{- relationshipName = GetNavigationPropertyName entity relationship }}
-    {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-        dto.SetIfNotNull(entity?.{{relationshipName}}, (dto) => dto.{{relationshipName}} = entity!.{{relationshipName}}.Select(e => e.ToDto()).ToList());
-    {{- else}}
-        {{- if relationship.IsForeignKeyOnThisSide}}
-        dto.SetIfNotNull(entity?.{{relationshipName}}Id, (dto) => dto.{{relationshipName}}Id = entity!.{{relationshipName}}Id!.Value);
-        {{- end}}
-    {{-end}}
-{{- end }}
+{{- #Relationships are not expanded when mapping an entity to a dto. Use Query Instead}}	
 {{- for relationship in entity.OwnedRelationships }}
 	{{- relationshipName = GetNavigationPropertyName entity relationship }}
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}

@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
 using TestEntityForUniqueConstraintsEntity = TestWebApp.Domain.TestEntityForUniqueConstraints;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record DeleteTestEntityForUniqueConstraintsByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteTestEntityForUniqueConstraintsByIdCommand(IEnumerable<TestEntityForUniqueConstraintsKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteTestEntityForUniqueConstraintsByIdCommandHandler : DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBase
 {
@@ -23,7 +24,7 @@ internal class DeleteTestEntityForUniqueConstraintsByIdCommandHandler : DeleteTe
 	{
 	}
 }
-internal abstract class DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBase : CommandBase<DeleteTestEntityForUniqueConstraintsByIdCommand, TestEntityForUniqueConstraintsEntity>, IRequestHandler<DeleteTestEntityForUniqueConstraintsByIdCommand, bool>
+internal abstract class DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBase : CommandCollectionBase<DeleteTestEntityForUniqueConstraintsByIdCommand, TestEntityForUniqueConstraintsEntity>, IRequestHandler<DeleteTestEntityForUniqueConstraintsByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -38,17 +39,25 @@ internal abstract class DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBa
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.TestEntityForUniqueConstraints.FindAsync(keyId);
-		if (entity == null)
+		
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<TestEntityForUniqueConstraintsEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
-			return false;
+			var keyId = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.TestEntityForUniqueConstraints.FindAsync(keyId);
+			if (entity == null)
+			{
+				return false;
+			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+			entities.Add(entity);			
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
-		await OnCompletedAsync(request, entity);DbContext.TestEntityForUniqueConstraints.Remove(entity);
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

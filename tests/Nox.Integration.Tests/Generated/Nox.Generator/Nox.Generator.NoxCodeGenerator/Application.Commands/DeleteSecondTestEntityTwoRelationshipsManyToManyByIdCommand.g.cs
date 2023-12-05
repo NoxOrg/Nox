@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
 using SecondTestEntityTwoRelationshipsManyToManyEntity = TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToMany;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommand(IEnumerable<SecondTestEntityTwoRelationshipsManyToManyKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommandHandler : DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommandHandlerBase
 {
@@ -23,7 +24,7 @@ internal class DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommandHandle
 	{
 	}
 }
-internal abstract class DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommandHandlerBase : CommandBase<DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommand, SecondTestEntityTwoRelationshipsManyToManyEntity>, IRequestHandler<DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommand, bool>
+internal abstract class DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommandHandlerBase : CommandCollectionBase<DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommand, SecondTestEntityTwoRelationshipsManyToManyEntity>, IRequestHandler<DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -38,17 +39,25 @@ internal abstract class DeleteSecondTestEntityTwoRelationshipsManyToManyByIdComm
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToManyMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.SecondTestEntityTwoRelationshipsManyToManies.FindAsync(keyId);
-		if (entity == null)
+		
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<SecondTestEntityTwoRelationshipsManyToManyEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
-			return false;
+			var keyId = TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToManyMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.SecondTestEntityTwoRelationshipsManyToManies.FindAsync(keyId);
+			if (entity == null)
+			{
+				return false;
+			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+			entities.Add(entity);			
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
-		await OnCompletedAsync(request, entity);DbContext.SecondTestEntityTwoRelationshipsManyToManies.Remove(entity);
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

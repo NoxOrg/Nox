@@ -122,6 +122,13 @@ public partial class StoreMetadata
         public static Nox.Types.Text CreateStoreOwnerId(System.String value)
             => Nox.Types.Text.From(value, StoreOwnerIdTypeOptions);
         
+    
+        /// <summary>
+        /// Factory for property 'ClientId'
+        /// </summary>
+        public static Nox.Types.Guid CreateClientId(System.Guid value)
+            => Nox.Types.Guid.From(value);
+        
 
         /// <summary>
         /// User Interface for property 'Name'

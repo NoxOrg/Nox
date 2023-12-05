@@ -22,8 +22,8 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
            (noxOptions) =>
            {
                noxOptions.WithoutMessagingTransactionalOutbox();
-           }, null);
-
+           }, null)
+        .AddLogging();
         var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(INoxDatabaseProvider));
         if (descriptor != null)
         {

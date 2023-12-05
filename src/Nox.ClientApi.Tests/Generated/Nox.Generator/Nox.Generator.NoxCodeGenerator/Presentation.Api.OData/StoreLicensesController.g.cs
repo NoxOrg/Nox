@@ -230,7 +230,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteCurrencyByIdCommand(related.Id, etag));
+        var deleted = await _mediator.Send(new DeleteCurrencyByIdCommand(new List<CurrencyKeyDto> { new CurrencyKeyDto(related.Id) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -362,7 +362,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteCurrencyByIdCommand(related.Id, etag));
+        var deleted = await _mediator.Send(new DeleteCurrencyByIdCommand(new List<CurrencyKeyDto> { new CurrencyKeyDto(related.Id) }, etag));
         if (!deleted)
         {
             return NotFound();

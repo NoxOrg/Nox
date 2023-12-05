@@ -188,7 +188,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteTestEntityTwoRelationshipsManyToManyByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteTestEntityTwoRelationshipsManyToManyByIdCommand(new List<TestEntityTwoRelationshipsManyToManyKeyDto> { new TestEntityTwoRelationshipsManyToManyKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -212,10 +212,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteTestEntityTwoRelationshipsManyToManyByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteTestEntityTwoRelationshipsManyToManyByIdCommand(related.Select(item => new TestEntityTwoRelationshipsManyToManyKeyDto(item.Id)), etag));
         return NoContent();
     }
     
@@ -378,7 +375,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteTestEntityTwoRelationshipsManyToManyByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteTestEntityTwoRelationshipsManyToManyByIdCommand(new List<TestEntityTwoRelationshipsManyToManyKeyDto> { new TestEntityTwoRelationshipsManyToManyKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -402,10 +399,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteTestEntityTwoRelationshipsManyToManyByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteTestEntityTwoRelationshipsManyToManyByIdCommand(related.Select(item => new TestEntityTwoRelationshipsManyToManyKeyDto(item.Id)), etag));
         return NoContent();
     }
     

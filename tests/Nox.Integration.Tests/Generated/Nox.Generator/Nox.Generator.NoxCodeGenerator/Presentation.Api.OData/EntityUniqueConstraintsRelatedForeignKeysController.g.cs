@@ -188,7 +188,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var deleted = await _mediator.Send(new DeleteEntityUniqueConstraintsWithForeignKeyByIdCommand(relatedKey, etag));
+        var deleted = await _mediator.Send(new DeleteEntityUniqueConstraintsWithForeignKeyByIdCommand(new List<EntityUniqueConstraintsWithForeignKeyKeyDto> { new EntityUniqueConstraintsWithForeignKeyKeyDto(relatedKey) }, etag));
         if (!deleted)
         {
             return NotFound();
@@ -212,10 +212,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        foreach(var item in related)
-        {
-            await _mediator.Send(new DeleteEntityUniqueConstraintsWithForeignKeyByIdCommand(item.Id, etag));
-        }
+        await _mediator.Send(new DeleteEntityUniqueConstraintsWithForeignKeyByIdCommand(related.Select(item => new EntityUniqueConstraintsWithForeignKeyKeyDto(item.Id)), etag));
         return NoContent();
     }
     

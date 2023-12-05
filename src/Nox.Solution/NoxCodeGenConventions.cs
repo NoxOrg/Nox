@@ -37,7 +37,7 @@ public class NoxCodeGenConventions
     /// </summary>
     /// <param name="name">The name.</param>
     /// <returns></returns>
-    public string GetEnumPropertyName(string name)
+    public static string GetEnumPropertyName(string name)
     {
         string sanitizedName = new string(name.Replace(" ", "_")
             .Where(c => char.IsLetterOrDigit(c) || c == '_').ToArray());

@@ -1,4 +1,10 @@
-﻿// Generated
+﻿{{- func keyName
+	ret ("key" + $0)
+end -}}
+{{- func keysQuery(keyNames)	
+	ret (keyNames | array.each @keyName | array.join ", ")
+end -}}
+// Generated
 
 #nullable enable
 
@@ -9,11 +15,12 @@ using Nox.Solution;
 using Nox.Types;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
+using {{codeGeneratorState.DtoNameSpace}};
 using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public partial record Delete{{entity.Name }}ByIdCommand({{primaryKeys}}{{ if !entity.IsOwnedEntity }}, System.Guid? Etag{{end}}) : IRequest<bool>;
+public partial record Delete{{entity.Name }}ByIdCommand(IEnumerable<{{entity.Name}}KeyDto> KeyDtos{{ if !entity.IsOwnedEntity }}, System.Guid? Etag{{end}}) : IRequest<bool>;
 
 internal class Delete{{entity.Name}}ByIdCommandHandler : Delete{{entity.Name}}ByIdCommandHandlerBase
 {
@@ -23,7 +30,7 @@ internal class Delete{{entity.Name}}ByIdCommandHandler : Delete{{entity.Name}}By
 	{
 	}
 }
-internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandBase<Delete{{entity.Name}}ByIdCommand, {{entity.Name}}Entity>, IRequestHandler<Delete{{entity.Name}}ByIdCommand, bool>
+internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandCollectionBase<Delete{{entity.Name}}ByIdCommand, {{entity.Name}}Entity>, IRequestHandler<Delete{{entity.Name}}ByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -38,29 +45,30 @@ internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandBas
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-
-		{{- for key in entity.Keys }}
-		{{- keyType = SingleTypeForKey key }}
-		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.key{{key.Name}});
-		{{- end }}
-
-		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysQuery}});
-		if (entity == null{{if (entity.Persistence?.IsAudited ?? true)}} || entity.IsDeleted == true{{end}})
+		
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<{{entity.Name}}Entity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
-			return false;
+			{{- for key in entity.Keys }}
+			{{- keyType = SingleTypeForKey key }}
+			var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(keyDto.key{{key.Name}});
+			{{- end }}		
+
+			var entity = await DbContext.{{entity.PluralName}}.FindAsync({{entity.Keys | array.map "Name" | keysQuery}});
+			if (entity == null{{if (entity.Persistence?.IsAudited ?? true)}} || entity.IsDeleted == true{{end}})
+			{
+				return false;
+			}
+			{{- if !entity.IsOwnedEntity }}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+			{{- end }}
+
+			entities.Add(entity);			
 		}
-		{{- if !entity.IsOwnedEntity }}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		{{- end }}
-
-		await OnCompletedAsync(request, entity);
-
-		{{- if (entity.Persistence?.IsAudited ?? true) }}
-		DbContext.Entry(entity).State = EntityState.Deleted;
-		{{-else-}}
-		DbContext.{{entity.PluralName}}.Remove(entity);
-		{{- end}}
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

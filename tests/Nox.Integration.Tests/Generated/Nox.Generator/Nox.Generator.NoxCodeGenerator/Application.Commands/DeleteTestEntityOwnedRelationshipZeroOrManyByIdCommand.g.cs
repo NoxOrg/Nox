@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
 using TestEntityOwnedRelationshipZeroOrManyEntity = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand(IEnumerable<TestEntityOwnedRelationshipZeroOrManyKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandler : DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandlerBase
 {
@@ -23,7 +24,7 @@ internal class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandler : D
 	{
 	}
 }
-internal abstract class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandlerBase : CommandBase<DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand, TestEntityOwnedRelationshipZeroOrManyEntity>, IRequestHandler<DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand, bool>
+internal abstract class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandlerBase : CommandCollectionBase<DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand, TestEntityOwnedRelationshipZeroOrManyEntity>, IRequestHandler<DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -38,18 +39,25 @@ internal abstract class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHa
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.TestEntityOwnedRelationshipZeroOrManies.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted == true)
+		
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<TestEntityOwnedRelationshipZeroOrManyEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
-			return false;
+			var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.TestEntityOwnedRelationshipZeroOrManies.FindAsync(keyId);
+			if (entity == null || entity.IsDeleted == true)
+			{
+				return false;
+			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+			entities.Add(entity);			
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Deleted;
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

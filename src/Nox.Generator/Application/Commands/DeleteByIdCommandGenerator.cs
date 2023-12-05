@@ -22,8 +22,6 @@ internal class DeleteByIdCommandGenerator : ApplicationEntityDependentGeneratorB
                 .WithClassName($"Delete{entity.Name}ByIdCommand")
                 .WithFileNamePrefix($"Application.Commands")
                 .WithObject("entity", entity)
-                .WithObject("primaryKeys", primaryKeys)
-                .WithObject("primaryKeysQuery", primaryKeysQuery)
                 .GenerateSourceCodeFromResource(templateName);
         }
     }

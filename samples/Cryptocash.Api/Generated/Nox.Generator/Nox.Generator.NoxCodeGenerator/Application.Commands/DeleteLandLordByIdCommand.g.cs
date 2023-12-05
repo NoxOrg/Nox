@@ -9,11 +9,12 @@ using Nox.Solution;
 using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
 using LandLordEntity = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record DeleteLandLordByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteLandLordByIdCommand(IEnumerable<LandLordKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteLandLordByIdCommandHandler : DeleteLandLordByIdCommandHandlerBase
 {
@@ -23,7 +24,7 @@ internal class DeleteLandLordByIdCommandHandler : DeleteLandLordByIdCommandHandl
 	{
 	}
 }
-internal abstract class DeleteLandLordByIdCommandHandlerBase : CommandBase<DeleteLandLordByIdCommand, LandLordEntity>, IRequestHandler<DeleteLandLordByIdCommand, bool>
+internal abstract class DeleteLandLordByIdCommandHandlerBase : CommandCollectionBase<DeleteLandLordByIdCommand, LandLordEntity>, IRequestHandler<DeleteLandLordByIdCommand, bool>
 {
 	public AppDbContext DbContext { get; }
 
@@ -38,18 +39,25 @@ internal abstract class DeleteLandLordByIdCommandHandlerBase : CommandBase<Delet
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.LandLordMetadata.CreateId(request.keyId);
-
-		var entity = await DbContext.LandLords.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted == true)
+		
+		var keys = request.KeyDtos.ToArray();
+		var entities = new List<LandLordEntity>(keys.Length);
+		foreach(var keyDto in keys)
 		{
-			return false;
+			var keyId = Cryptocash.Domain.LandLordMetadata.CreateId(keyDto.keyId);		
+
+			var entity = await DbContext.LandLords.FindAsync(keyId);
+			if (entity == null || entity.IsDeleted == true)
+			{
+				return false;
+			}
+			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+			entities.Add(entity);			
 		}
 
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Deleted;
+		DbContext.RemoveRange(entities);
+		await OnCompletedAsync(request, entities);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}
