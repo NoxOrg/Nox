@@ -47,7 +47,7 @@ public class StreetAddressDto: IStreetAddress, IWritableStreetAddress, INoxCompo
         }
         if (updatedProperties.TryGetValue("AddressLine1", out var updatedAddressLine1))
         {
-            if (updatedAddressLine1 == null) throw new ArgumentException("Property 'AddressLine1' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedAddressLine1, "Property 'AddressLine1' can't be null.");
             streetAddress.AddressLine1 = updatedAddressLine1;
         }
         if (updatedProperties.TryGetValue("AddressLine2", out var updatedAddressLine2))
@@ -76,12 +76,12 @@ public class StreetAddressDto: IStreetAddress, IWritableStreetAddress, INoxCompo
         }
         if (updatedProperties.TryGetValue("PostalCode", out var updatedPostalCode))
         {
-            if (updatedPostalCode == null) throw new ArgumentException("Property 'PostalCode' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedPostalCode, "Property 'PostalCode' can't be null.");
             streetAddress.PostalCode = updatedPostalCode;
         }
         if (updatedProperties.TryGetValue("CountryId", out var updatedCountryId))
         {
-            if (updatedCountryId == null) throw new ArgumentException("Property 'CountryId' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedCountryId, "Property 'CountryId' can't be null.");
             streetAddress.CountryId = updatedCountryId;
         }
     }
@@ -110,17 +110,17 @@ public class FileDto: IFile, IWritableFile, INoxCompoundTypeDto
     {
         if (updatedProperties.TryGetValue("Url", out var updatedUrl))
         {
-            if (updatedUrl == null) throw new ArgumentException("Property 'Url' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedUrl, "Property 'Url' can't be null.");
             file.Url = updatedUrl;
         }
         if (updatedProperties.TryGetValue("PrettyName", out var updatedPrettyName))
         {
-            if (updatedPrettyName == null) throw new ArgumentException("Property 'PrettyName' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedPrettyName, "Property 'PrettyName' can't be null.");
             file.PrettyName = updatedPrettyName;
         }
         if (updatedProperties.TryGetValue("SizeInBytes", out var updatedSizeInBytes))
         {
-            if (updatedSizeInBytes == null) throw new ArgumentException("Property 'SizeInBytes' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedSizeInBytes, "Property 'SizeInBytes' can't be null.");
             file.SizeInBytes = updatedSizeInBytes;
         }
     }
@@ -147,12 +147,12 @@ public class TranslatedTextDto: ITranslatedText, IWritableTranslatedText, INoxCo
     {
         if (updatedProperties.TryGetValue("CultureCode", out var updatedCultureCode))
         {
-            if (updatedCultureCode == null) throw new ArgumentException("Property 'CultureCode' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedCultureCode, "Property 'CultureCode' can't be null.");
             translatedText.CultureCode = updatedCultureCode;
         }
         if (updatedProperties.TryGetValue("Phrase", out var updatedPhrase))
         {
-            if (updatedPhrase == null) throw new ArgumentException("Property 'Phrase' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedPhrase, "Property 'Phrase' can't be null.");
             translatedText.Phrase = updatedPhrase;
         }
     }
@@ -179,12 +179,12 @@ public class VatNumberDto: IVatNumber, IWritableVatNumber, INoxCompoundTypeDto
     {
         if (updatedProperties.TryGetValue("Number", out var updatedNumber))
         {
-            if (updatedNumber == null) throw new ArgumentException("Property 'Number' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedNumber, "Property 'Number' can't be null.");
             vatNumber.Number = updatedNumber;
         }
         if (updatedProperties.TryGetValue("CountryCode", out var updatedCountryCode))
         {
-            if (updatedCountryCode == null) throw new ArgumentException("Property 'CountryCode' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedCountryCode, "Property 'CountryCode' can't be null.");
             vatNumber.CountryCode = updatedCountryCode;
         }
     }
@@ -211,12 +211,12 @@ public class PasswordDto: IPassword, IWritablePassword, INoxCompoundTypeDto
     {
         if (updatedProperties.TryGetValue("HashedPassword", out var updatedHashedPassword))
         {
-            if (updatedHashedPassword == null) throw new ArgumentException("Property 'HashedPassword' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedHashedPassword, "Property 'HashedPassword' can't be null.");
             password.HashedPassword = updatedHashedPassword;
         }
         if (updatedProperties.TryGetValue("Salt", out var updatedSalt))
         {
-            if (updatedSalt == null) throw new ArgumentException("Property 'Salt' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedSalt, "Property 'Salt' can't be null.");
             password.Salt = updatedSalt;
         }
     }
@@ -243,12 +243,12 @@ public class EntityIdDto: IEntityId, IWritableEntityId, INoxCompoundTypeDto
     {
         if (updatedProperties.TryGetValue("Type", out var updatedType))
         {
-            if (updatedType == null) throw new ArgumentException("Property 'Type' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedType, "Property 'Type' can't be null.");
             entityId.Type = updatedType;
         }
         if (updatedProperties.TryGetValue("Id", out var updatedId))
         {
-            if (updatedId == null) throw new ArgumentException("Property 'Id' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedId, "Property 'Id' can't be null.");
             entityId.Id = updatedId;
         }
     }
@@ -275,12 +275,12 @@ public class MoneyDto: IMoney, IWritableMoney, INoxCompoundTypeDto
     {
         if (updatedProperties.TryGetValue("Amount", out var updatedAmount))
         {
-            if (updatedAmount == null) throw new ArgumentException("Property 'Amount' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedAmount, "Property 'Amount' can't be null.");
             money.Amount = updatedAmount;
         }
         if (updatedProperties.TryGetValue("CurrencyCode", out var updatedCurrencyCode))
         {
-            if (updatedCurrencyCode == null) throw new ArgumentException("Property 'CurrencyCode' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedCurrencyCode, "Property 'CurrencyCode' can't be null.");
             money.CurrencyCode = updatedCurrencyCode;
         }
     }
@@ -309,17 +309,17 @@ public class ImageDto: IImage, IWritableImage, INoxCompoundTypeDto
     {
         if (updatedProperties.TryGetValue("Url", out var updatedUrl))
         {
-            if (updatedUrl == null) throw new ArgumentException("Property 'Url' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedUrl, "Property 'Url' can't be null.");
             image.Url = updatedUrl;
         }
         if (updatedProperties.TryGetValue("PrettyName", out var updatedPrettyName))
         {
-            if (updatedPrettyName == null) throw new ArgumentException("Property 'PrettyName' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedPrettyName, "Property 'PrettyName' can't be null.");
             image.PrettyName = updatedPrettyName;
         }
         if (updatedProperties.TryGetValue("SizeInBytes", out var updatedSizeInBytes))
         {
-            if (updatedSizeInBytes == null) throw new ArgumentException("Property 'SizeInBytes' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedSizeInBytes, "Property 'SizeInBytes' can't be null.");
             image.SizeInBytes = updatedSizeInBytes;
         }
     }
@@ -346,12 +346,12 @@ public class HashedTextDto: IHashedText, IWritableHashedText, INoxCompoundTypeDt
     {
         if (updatedProperties.TryGetValue("HashText", out var updatedHashText))
         {
-            if (updatedHashText == null) throw new ArgumentException("Property 'HashText' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedHashText, "Property 'HashText' can't be null.");
             hashedText.HashText = updatedHashText;
         }
         if (updatedProperties.TryGetValue("Salt", out var updatedSalt))
         {
-            if (updatedSalt == null) throw new ArgumentException("Property 'Salt' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedSalt, "Property 'Salt' can't be null.");
             hashedText.Salt = updatedSalt;
         }
     }
@@ -378,12 +378,12 @@ public class DateTimeRangeDto: IDateTimeRange, IWritableDateTimeRange, INoxCompo
     {
         if (updatedProperties.TryGetValue("Start", out var updatedStart))
         {
-            if (updatedStart == null) throw new ArgumentException("Property 'Start' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedStart, "Property 'Start' can't be null.");
             dateTimeRange.Start = updatedStart;
         }
         if (updatedProperties.TryGetValue("End", out var updatedEnd))
         {
-            if (updatedEnd == null) throw new ArgumentException("Property 'End' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedEnd, "Property 'End' can't be null.");
             dateTimeRange.End = updatedEnd;
         }
     }
@@ -410,12 +410,12 @@ public class LatLongDto: ILatLong, IWritableLatLong, INoxCompoundTypeDto
     {
         if (updatedProperties.TryGetValue("Latitude", out var updatedLatitude))
         {
-            if (updatedLatitude == null) throw new ArgumentException("Property 'Latitude' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedLatitude, "Property 'Latitude' can't be null.");
             latLong.Latitude = updatedLatitude;
         }
         if (updatedProperties.TryGetValue("Longitude", out var updatedLongitude))
         {
-            if (updatedLongitude == null) throw new ArgumentException("Property 'Longitude' can't be null.");
+            ArgumentNullException.ThrowIfNull(updatedLongitude, "Property 'Longitude' can't be null.");
             latLong.Longitude = updatedLongitude;
         }
     }

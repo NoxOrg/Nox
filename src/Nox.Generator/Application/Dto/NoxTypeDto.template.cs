@@ -36,7 +36,7 @@ public class {{noxType.NoxType}}Dto: I{{noxType.NoxType}}, IWritable{{noxType.No
         if (updatedProperties.TryGetValue("{{component.Name}}", out var updated{{component.Name}}))
         {
             {{- if component.IsRequired }}
-            if (updated{{component.Name}} == null) throw new ArgumentException("Property '{{component.Name}}' can't be null.");
+            ArgumentNullException.ThrowIfNull(updated{{component.Name}}, "Property '{{component.Name}}' can't be null.");
             {{- end }}
             {{ToLowerFirstChar noxType.NoxType}}.{{component.Name}} = updated{{component.Name}};
         }
