@@ -40,7 +40,7 @@ internal abstract class CreateTestEntityForUniqueConstraintsCommandHandlerBase :
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> EntityFactory;
 
-	public CreateTestEntityForUniqueConstraintsCommandHandlerBase(
+	protected CreateTestEntityForUniqueConstraintsCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> entityFactory)

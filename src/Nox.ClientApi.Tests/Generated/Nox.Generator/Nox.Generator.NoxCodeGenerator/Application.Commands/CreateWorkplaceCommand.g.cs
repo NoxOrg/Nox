@@ -46,7 +46,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 	protected readonly IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Tenant, TenantCreateDto, TenantUpdateDto> TenantFactory;
 
-	public CreateWorkplaceCommandHandlerBase(
+	protected CreateWorkplaceCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
@@ -56,10 +56,10 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
-		this.CountryFactory = CountryFactory;
-		this.TenantFactory = TenantFactory; 
+		EntityFactory = entityFactory; 
 		EntityLocalizedFactory = entityLocalizedFactory;
+		this.CountryFactory = CountryFactory;
+		this.TenantFactory = TenantFactory;
 	}
 
 	public virtual async Task<WorkplaceKeyDto> Handle(CreateWorkplaceCommand request, CancellationToken cancellationToken)
@@ -106,9 +106,19 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.Workplaces.Add(entityToCreate);
-		var entityLocalizedToCreate = EntityLocalizedFactory.CreateLocalizedEntity(entityToCreate, request.CultureCode);
-		DbContext.WorkplacesLocalized.Add(entityLocalizedToCreate);
+        CreateLocalizations(entityToCreate, request.CultureCode);
 		await DbContext.SaveChangesAsync();
 		return new WorkplaceKeyDto(entityToCreate.Id.Value);
+	}
+
+	private void CreateLocalizations(WorkplaceEntity entity, Nox.Types.CultureCode cultureCode)
+	{
+		CreateWorkplaceLocalization(entity, cultureCode);
+	}
+
+	private void CreateWorkplaceLocalization(WorkplaceEntity entity, Nox.Types.CultureCode cultureCode)
+	{
+		var entityLocalized = EntityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+		DbContext.WorkplacesLocalized.Add(entityLocalized);
 	}
 }

@@ -40,7 +40,7 @@ internal abstract class CreateTestEntityForAutoNumberUsagesCommandHandlerBase : 
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> EntityFactory;
 
-	public CreateTestEntityForAutoNumberUsagesCommandHandlerBase(
+	protected CreateTestEntityForAutoNumberUsagesCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> entityFactory)

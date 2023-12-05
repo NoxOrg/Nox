@@ -41,7 +41,7 @@ internal abstract class CreateTestEntityWithNuidCommandHandlerBase : CommandBase
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<TestEntityWithNuidEntity, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto> EntityFactory;
 
-	public CreateTestEntityWithNuidCommandHandlerBase(
+	protected CreateTestEntityWithNuidCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityWithNuidEntity, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto> entityFactory)

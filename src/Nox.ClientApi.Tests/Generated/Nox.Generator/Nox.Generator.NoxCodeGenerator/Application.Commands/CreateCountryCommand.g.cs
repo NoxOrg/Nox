@@ -43,7 +43,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 	protected readonly IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory;
 
-	public CreateCountryCommandHandlerBase(
+	protected CreateCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory,
@@ -95,7 +95,7 @@ public class CreateCountryValidator : AbstractValidator<CreateCountryCommand>
     public CreateCountryValidator()
     {
 		RuleFor(x => x.EntityDto.CountryLocalNames)
-			.Must(owned => owned.All(x => x.Id == null))
+			.Must(owned => owned.TrueForAll(x => x.Id == null))
 			.WithMessage("CountryLocalNames.Id must be null as it is auto generated.");
 		RuleFor(x => x.EntityDto.CountryTimeZones)
 			.Must(owned => owned.All(x => x.Id != null))

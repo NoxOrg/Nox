@@ -25,8 +25,10 @@ internal partial class UpdateTenantCommandHandler : UpdateTenantCommandHandlerBa
 	public UpdateTenantCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> entityFactory) 
-		: base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> entityFactory,
+		IEntityLocalizedFactory<TenantBrandLocalized, ClientApi.Domain.TenantBrand, TenantBrandUpsertDto> TenantBrandLocalizedFactory,
+		IEntityLocalizedFactory<TenantContactLocalized, ClientApi.Domain.TenantContact, TenantContactUpsertDto> TenantContactLocalizedFactory)
+		: base(dbContext, noxSolution,entityFactory, TenantBrandLocalizedFactory, TenantContactLocalizedFactory)
 	{
 	}
 }
@@ -35,15 +37,21 @@ internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenan
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> _entityFactory;
+	protected readonly IEntityLocalizedFactory<TenantBrandLocalized, ClientApi.Domain.TenantBrand, TenantBrandUpsertDto> TenantBrandLocalizedFactory;
+	protected readonly IEntityLocalizedFactory<TenantContactLocalized, ClientApi.Domain.TenantContact, TenantContactUpsertDto> TenantContactLocalizedFactory;
 
-	public UpdateTenantCommandHandlerBase(
+	protected UpdateTenantCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> entityFactory)
+		IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> entityFactory,
+		IEntityLocalizedFactory<TenantBrandLocalized, ClientApi.Domain.TenantBrand, TenantBrandUpsertDto> TenantBrandLocalizedFactory,
+		IEntityLocalizedFactory<TenantContactLocalized, ClientApi.Domain.TenantContact, TenantContactUpsertDto> TenantContactLocalizedFactory)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
+		this.TenantBrandLocalizedFactory = TenantBrandLocalizedFactory;
+		this.TenantContactLocalizedFactory = TenantContactLocalizedFactory;
 	}
 
 	public virtual async Task<TenantKeyDto?> Handle(UpdateTenantCommand request, CancellationToken cancellationToken)
@@ -62,6 +70,7 @@ internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenan
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		await UpdateLocalizationsAsync(entity, request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entity);
 
@@ -74,6 +83,58 @@ internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenan
 
 		return new TenantKeyDto(entity.Id.Value);
 	}
+
+	private async Task UpdateLocalizationsAsync(TenantEntity entity, TenantUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+        await UpdateTenantBrandsLocalizationAsync(entity.TenantBrands, updateDto.TenantBrands, cultureCode);
+        await UpdateTenantContactLocalizationAsync(entity.TenantContact, updateDto.TenantContact, cultureCode);
+	}
+	
+	private async Task UpdateTenantBrandsLocalizationAsync(List<ClientApi.Domain.TenantBrand> entities, List<ClientApi.Application.Dto.TenantBrandUpsertDto> updateDtos, Nox.Types.CultureCode cultureCode)
+	{
+		for(int i = 0; i < updateDtos.Count; i++)
+		{
+			var updateDto = updateDtos[i];
+			var entity = entities.SingleOrDefault(e => e.Id.Value == updateDto.Id);
+			if (entity is null) continue;
+
+			await UpdateTenantBrandsLocalizationAsync(entity, updateDto, cultureCode);
+		}
+	}
+
+	private async Task UpdateTenantBrandsLocalizationAsync(ClientApi.Domain.TenantBrand entity, ClientApi.Application.Dto.TenantBrandUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+		var entityLocalized = await DbContext.TenantBrandsLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
+		if(entityLocalized is null)
+		{
+			entityLocalized = TenantBrandLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+			DbContext.TenantBrandsLocalized.Add(entityLocalized);
+		}
+		else
+		{
+			DbContext.Entry(entityLocalized).State = EntityState.Modified;
+		}
+
+		TenantBrandLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
+	}
+	
+	private async Task UpdateTenantContactLocalizationAsync(ClientApi.Domain.TenantContact? entity, ClientApi.Application.Dto.TenantContactUpsertDto? updateDto, Nox.Types.CultureCode cultureCode)
+	{
+		if(entity is null || updateDto is null) return;
+		var entityLocalized = await DbContext.TenantContactsLocalized.FirstOrDefaultAsync(x => x.TenantId == entity.TenantId && x.CultureCode == cultureCode);
+		if(entityLocalized is null)
+		{
+			entityLocalized = TenantContactLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+			DbContext.TenantContactsLocalized.Add(entityLocalized);
+		}
+		else
+		{
+			DbContext.Entry(entityLocalized).State = EntityState.Modified;
+		}
+
+		TenantContactLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
+	}	
+	
 }
 
 public class UpdateTenantValidator : AbstractValidator<UpdateTenantCommand>
