@@ -13,7 +13,7 @@ public static class SqlServerIntegrationOptionsExtension
 {
     public static NoxIntegrationOptionsBuilder WithSqlServerStore(this NoxIntegrationOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.Services.TryAddSingleton<INoxDatabaseProvider>(provider => new SqlServerDatabaseProvider(
+        optionsBuilder.Services.AddSingleton<INoxDatabaseProvider>(provider => new SqlServerDatabaseProvider(
             NoxDataStoreType.IntegrationStore,
             provider.GetServices<INoxTypeDatabaseConfigurator>(),
             provider.GetRequiredService<NoxCodeGenConventions>(),

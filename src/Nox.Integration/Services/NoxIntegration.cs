@@ -322,7 +322,6 @@ internal sealed class NoxIntegration: INoxIntegration
 
     private async Task SetLastMergeState(NoxIntegrationDbContext dbContext, string propertyName, DateTime lastMergeDateTime)
     {
-        Console.WriteLine(dbContext.MergeStates!.Count());
         var timestamp = await dbContext.MergeStates!.SingleAsync(ts =>
             ts.Integration!.Equals(Name) &&
             ts.Property!.Equals(propertyName));
