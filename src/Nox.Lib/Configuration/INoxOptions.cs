@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Serilog;
+using Nox.Domain;
 
 namespace Nox.Configuration;
 
@@ -27,9 +28,16 @@ public interface INoxOptions
     /// <summary>
     /// Set the generated DbContext for Dto and Entities
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">DbContext for the Application Domain, <see cref="Infrastructure.Persistence.IAppDbContext"/></typeparam>
     /// <typeparam name="D"></typeparam>
-    INoxOptions WithDatabaseContexts<T, D>() where T : DbContext where D : DbContext;
+    INoxOptions WithDatabaseContexts<T, D>() where T : DbContext, Infrastructure.Persistence.IAppDbContext where D : DbContext;
+
+    /// <summary>
+    /// Set the IRepository instance type
+    /// </summary>
+    /// <typeparam name="R">Repository Type</typeparam>    
+    INoxOptions WithRepository<R>() where R : class, IRepository;
+    
 
     /// <summary>
     /// Disable default Nox Logging

@@ -39,14 +39,10 @@ internal static class {{className}}
         {
             configurator.WithDatabaseContexts<AppDbContext, DtoDbContext>();
             configurator.WithMessagingTransactionalOutbox<AppDbContext>();
+            configurator.WithRepository<Nox.Domain.Repository>();            
             configureNox?.Invoke(configurator);
         });
-        services.AddScoped(typeof(Nox.Domain.IRepository), serviceProvider =>
-        {
-            var dbContext = serviceProvider.GetRequiredService<AppDbContext>();
-            return new Nox.Domain.Repository(dbContext);
-        });
-
+       
         {{- if configPresentation == true }}
         services.AddNoxOdata(configureNoxOdata);
         {{- end }}

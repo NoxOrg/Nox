@@ -35,17 +35,11 @@ internal class GeneratorContentTestFlow : IGeneratorContentTestFlow
 
         return this;
     }
-    public IGeneratorContentTestFlow AssertFileExists(string expectedFileName)
+    public IGeneratorContentTestFlow AssertFileWasGenerated(string expecteGeneratedFileName)
     {
-        var generatedSources = _generatorRunResult.GeneratedSources;
-        var actualFileContent = generatedSources.FirstOrDefault(s => s.HintName.Replace("/", ".") == expectedFileName).SourceText?.ToString();
-        var filePath = Path.Combine(_expectedFilesFolder, expectedFileName);
-
-        var expectedFileContent = File.ReadAllText(filePath);
-
-        generatedSources
+        _generatorRunResult.GeneratedSources
             .Should()
-            .Contain(s => s.HintName.Replace("/", ".") == expectedFileName, $"{expectedFileName} not generated");
+            .Contain(s => s.HintName.Replace("/", ".") == expecteGeneratedFileName, $"{expecteGeneratedFileName} not generated");
 
         return this;
     }

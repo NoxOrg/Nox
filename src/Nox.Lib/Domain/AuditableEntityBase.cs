@@ -7,7 +7,6 @@ public abstract partial class AuditableEntityBase : IEntity, IEntityAuditCreated
 
     protected AuditableEntityBase()
     {
-        // TODO: CreatedBy to be done by interceptor on db context...
     }
 
     /// <summary>
