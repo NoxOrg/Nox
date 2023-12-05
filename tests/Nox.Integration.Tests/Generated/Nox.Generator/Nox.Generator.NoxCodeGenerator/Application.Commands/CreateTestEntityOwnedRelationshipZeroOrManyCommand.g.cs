@@ -41,7 +41,7 @@ internal abstract class CreateTestEntityOwnedRelationshipZeroOrManyCommandHandle
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<TestEntityOwnedRelationshipZeroOrManyEntity, TestEntityOwnedRelationshipZeroOrManyCreateDto, TestEntityOwnedRelationshipZeroOrManyUpdateDto> EntityFactory;
 
-	public CreateTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase(
+	protected CreateTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityOwnedRelationshipZeroOrManyEntity, TestEntityOwnedRelationshipZeroOrManyCreateDto, TestEntityOwnedRelationshipZeroOrManyUpdateDto> entityFactory)

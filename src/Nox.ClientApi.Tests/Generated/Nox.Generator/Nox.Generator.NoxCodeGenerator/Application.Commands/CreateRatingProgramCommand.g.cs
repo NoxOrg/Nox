@@ -40,7 +40,7 @@ internal abstract class CreateRatingProgramCommandHandlerBase : CommandBase<Crea
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> EntityFactory;
 
-	public CreateRatingProgramCommandHandlerBase(
+	protected CreateRatingProgramCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory)

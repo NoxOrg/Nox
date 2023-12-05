@@ -26,8 +26,8 @@ internal partial class UpdateWorkplaceCommandHandler : UpdateWorkplaceCommandHan
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
-		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> entityLocalizedFactory) 
-		: base(dbContext, noxSolution, entityFactory, entityLocalizedFactory)
+		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> entityLocalizedFactory)
+		: base(dbContext, noxSolution,entityFactory, entityLocalizedFactory)
 	{
 	}
 }
@@ -38,7 +38,7 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 	private readonly IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> _entityFactory;
 	private readonly IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> _entityLocalizedFactory;
 
-	public UpdateWorkplaceCommandHandlerBase(
+	protected UpdateWorkplaceCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
@@ -64,7 +64,7 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await UpdateLocalizedEntityAsync(entity, request.EntityDto, request.CultureCode);
+		await UpdateLocalizationsAsync(entity, request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entity);
 
@@ -78,7 +78,12 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 		return new WorkplaceKeyDto(entity.Id.Value);
 	}
 
-	private async Task UpdateLocalizedEntityAsync(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	private async Task UpdateLocalizationsAsync(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+		await UpdateWorkplaceLocalizationAsync(entity, updateDto, cultureCode);
+	}
+
+	private async Task UpdateWorkplaceLocalizationAsync(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
 		var entityLocalized = await DbContext.WorkplacesLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
 		if(entityLocalized is null)
