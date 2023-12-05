@@ -19,6 +19,7 @@ Location|LatLong|Location
 OpeningDay|DateTime|Opening day
 Status|Enumeration|Store Status
 StoreOwnerId|Text|
+ClientId|Guid|
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -37,6 +38,7 @@ Location|LatLong|Location
 OpeningDay|DateTime|Opening day
 Status|Enumeration|Store Status
 StoreOwnerId|Text|
+ClientId|Guid|
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -55,5 +57,6 @@ Location|LatLong|Location
 OpeningDay|DateTime|Opening day
 Status|Enumeration|Store Status
 StoreOwnerId|Text|
+ClientId|Guid|
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

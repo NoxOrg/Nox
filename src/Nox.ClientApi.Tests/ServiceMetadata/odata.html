@@ -134,6 +134,18 @@
 <tr><td>ClientApi.Presentation.Api.OData.StoresController.GetStoreLicense (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Stores/{key}/StoreLicense">api/v1/Stores/{key}/StoreLicense</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoresController.PutToStoreLicense (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/v1/Stores/{key}/StoreLicense</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteToStoreLicense (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Stores/{key}/StoreLicense</td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.CreateRefToClients (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/v1/Stores/{key}/Clients/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.UpdateRefToClientsNonConventional (Nox.ClientApi.Tests)</td><td>PUT</td><td>/api/v1/Stores/{key}/Clients/$ref</td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetRefToClients (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Stores/{key}/Clients/$ref">api/v1/Stores/{key}/Clients/$ref</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteRefToClients (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/v1/Stores/{key}/Clients/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteRefToClients (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/v1/Stores/{key}/Clients/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.PostToClients (Nox.ClientApi.Tests)</td><td>POST</td><td>api/v1/Stores/{key}/Clients</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetClients (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Stores/{key}/Clients">api/v1/Stores/{key}/Clients</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetClients (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Stores/{key}/Clients/$count">api/v1/Stores/{key}/Clients/$count</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetClientsNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="/api/v1/Stores/{key}/Clients/{relatedKey}">/api/v1/Stores/{key}/Clients/{relatedKey}</a></td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.PutToClientsNonConventional (Nox.ClientApi.Tests)</td><td>PUT</td><td>/api/v1/Stores/{key}/Clients/{relatedKey}</td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteToClients (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Stores/{key}/Clients/{relatedKey}</td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteToClients (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Stores/{key}/Clients</td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Workplaces">api/v1/Workplaces</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Workplaces/$count">api/v1/Workplaces/$count</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Workplaces/{key}">api/v1/Workplaces/{key}</a></td><td>Yes</td></tr>
@@ -228,6 +240,25 @@
 <tr><td>ClientApi.Presentation.Api.OData.TenantsController.PutToWorkplacesNonConventional (Nox.ClientApi.Tests)</td><td>PUT</td><td>/api/v1/Tenants/{key}/Workplaces/{relatedKey}</td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.TenantsController.DeleteToWorkplaces (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Tenants/{key}/Workplaces/{relatedKey}</td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.TenantsController.DeleteToWorkplaces (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Tenants/{key}/Workplaces</td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Clients">api/v1/Clients</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Clients/$count">api/v1/Clients/$count</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Clients/{key}">api/v1/Clients/{key}</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.Post (Nox.ClientApi.Tests)</td><td>POST</td><td>api/v1/Clients</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.Put (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/v1/Clients/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.Patch (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/v1/Clients/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.Delete (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/v1/Clients/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.CreateRefToStores (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/v1/Clients/{key}/Stores/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.UpdateRefToStoresNonConventional (Nox.ClientApi.Tests)</td><td>PUT</td><td>/api/v1/Clients/{key}/Stores/$ref</td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.GetRefToStores (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Clients/{key}/Stores/$ref">api/v1/Clients/{key}/Stores/$ref</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.DeleteRefToStores (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/v1/Clients/{key}/Stores/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.DeleteRefToStores (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/v1/Clients/{key}/Stores/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.PostToStores (Nox.ClientApi.Tests)</td><td>POST</td><td>api/v1/Clients/{key}/Stores</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.GetStores (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Clients/{key}/Stores">api/v1/Clients/{key}/Stores</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.GetStores (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Clients/{key}/Stores/$count">api/v1/Clients/{key}/Stores/$count</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.GetStoresNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="/api/v1/Clients/{key}/Stores/{relatedKey}">/api/v1/Clients/{key}/Stores/{relatedKey}</a></td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.PutToStoresNonConventional (Nox.ClientApi.Tests)</td><td>PUT</td><td>/api/v1/Clients/{key}/Stores/{relatedKey}</td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.DeleteToStores (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Clients/{key}/Stores/{relatedKey}</td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.ClientsController.DeleteToStores (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Clients/{key}/Stores</td><td>-</td></tr>
 <tr><td>Microsoft.AspNetCore.OData.Routing.Controllers.MetadataController.GetMetadata (Microsoft.AspNetCore.OData)</td><td>GET</td><td><a href="api/v1/$metadata">api/v1/$metadata</a></td><td>Yes</td></tr>
 <tr><td>Microsoft.AspNetCore.OData.Routing.Controllers.MetadataController.GetServiceDocument (Microsoft.AspNetCore.OData)</td><td>GET</td><td><a href="api/v1">api/v1</a></td><td>Yes</td></tr>
 

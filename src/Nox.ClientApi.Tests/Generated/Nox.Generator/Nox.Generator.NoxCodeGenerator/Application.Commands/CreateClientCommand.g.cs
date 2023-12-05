@@ -43,7 +43,7 @@ internal abstract class CreateClientCommandHandlerBase : CommandBase<CreateClien
 	protected readonly IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory;
 
-	public CreateClientCommandHandlerBase(
+	protected CreateClientCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
