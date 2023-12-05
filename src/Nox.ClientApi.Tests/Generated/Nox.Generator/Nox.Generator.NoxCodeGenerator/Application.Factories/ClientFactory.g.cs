@@ -28,8 +28,7 @@ internal abstract class ClientFactoryBase : IEntityFactory<ClientEntity, ClientC
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public ClientFactoryBase
-    (
+    public ClientFactoryBase(
         IRepository repository
         )
     {
