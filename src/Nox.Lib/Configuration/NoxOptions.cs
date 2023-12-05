@@ -22,6 +22,8 @@ using Nox.Infrastructure;
 using Nox.Integration;
 using Nox.Integration.Extensions;
 using Nox.Yaml.VariableProviders.Environment;
+using Nox.Domain;
+using System;
 
 namespace Nox.Configuration
 {
@@ -30,6 +32,7 @@ namespace Nox.Configuration
         private Assembly? _clientAssembly;
         private Action<IBusRegistrationConfigurator, DatabaseServerProvider>? _configureMassTransitTransactionalOutbox;
         private Action<IServiceCollection>? _configureDatabaseContext;
+        private Action<IServiceCollection>? _configureDatabaseRepository;
         private Action<LoggerConfiguration>? _loggerConfigurationAction;
 
         private bool _withNoxLogging = true;
@@ -51,13 +54,23 @@ namespace Nox.Configuration
             return this;
         }
 
-        public INoxOptions WithDatabaseContexts<T, D>() where T : DbContext where D : DbContext
+        public INoxOptions WithDatabaseContexts<T, D>() where T : DbContext, Infrastructure.Persistence.IAppDbContext where D : DbContext
         {
             _configureDatabaseContext = (services) =>
             {
                 services.AddSingleton<DbContextOptions<T>>();
                 services.AddDbContext<T>();
+                services.AddScoped(typeof(Infrastructure.Persistence.IAppDbContext),serviceProvider => serviceProvider.GetRequiredService<T>());
                 services.AddDbContext<D>();
+            };
+
+            return this;
+        }
+        public INoxOptions WithRepository<R>() where R : class, IRepository
+        {
+            _configureDatabaseRepository = (services) =>
+            {
+                services.AddScoped<IRepository, R>();
             };
 
             return this;
@@ -211,8 +224,10 @@ namespace Nox.Configuration
                 services.AddSingleton(typeof(INoxDatabaseConfigurator), dbProviderType);
                 services.AddSingleton(typeof(INoxDatabaseProvider), dbProviderType);
 
-                // Add DbContexts
+                
                 _configureDatabaseContext?.Invoke(services);
+
+                _configureDatabaseRepository?.Invoke(services);
             }
         }
 

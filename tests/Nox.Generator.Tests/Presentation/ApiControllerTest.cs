@@ -52,15 +52,15 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         var controllerOwnedRelationshipsFileName = $"Presentation.Api.OData.{controllerName}.OwnedRelationships.g.cs";
         var controllerTranslationsFileName = $"Presentation.Api.OData.{controllerName}.Translations.g.cs";
 
-        contentCheckerFlow.AssertFileExists(controllerFileName);
-        contentCheckerFlow.AssertFileExists(controllerEntityFileName);
-        contentCheckerFlow.AssertFileExists(controllerCustomQueriesFileName);
-        contentCheckerFlow.AssertFileExists(controllerCustomCommandsFileName);
-        contentCheckerFlow.AssertFileExists(controllerRelationshipsFileName);
-        contentCheckerFlow.AssertFileExists(controllerOwnedRelationshipsFileName);
+        contentCheckerFlow.AssertFileWasGenerated(controllerFileName);
+        contentCheckerFlow.AssertFileWasGenerated(controllerEntityFileName);
+        contentCheckerFlow.AssertFileWasGenerated(controllerCustomQueriesFileName);
+        contentCheckerFlow.AssertFileWasGenerated(controllerCustomCommandsFileName);
+        contentCheckerFlow.AssertFileWasGenerated(controllerRelationshipsFileName);
+        contentCheckerFlow.AssertFileWasGenerated(controllerOwnedRelationshipsFileName);
         if (hasTranslations)
         {
-            contentCheckerFlow.AssertFileExists(controllerTranslationsFileName);
+            contentCheckerFlow.AssertFileWasGenerated(controllerTranslationsFileName);
         }
 
     }
