@@ -95,7 +95,7 @@ internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenan
 		for(int i = 0; i < updateDtos.Count; i++)
 		{
 			var updateDto = updateDtos[i];
-			var entity = entities.SingleOrDefault(e => e.Id.Value == updateDto.Id);
+			var entity = entities.Where(e => e.Id is not null).SingleOrDefault(e => e.Id.Value == updateDto.Id);
 			if (entity is null) continue;
 
 			await UpdateTenantBrandsLocalizationAsync(entity, updateDto, cultureCode);
