@@ -40,7 +40,7 @@ internal abstract class CreateCountryQualityOfLifeIndexCommandHandlerBase : Comm
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> EntityFactory;
 
-	public CreateCountryQualityOfLifeIndexCommandHandlerBase(
+	protected CreateCountryQualityOfLifeIndexCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> entityFactory)

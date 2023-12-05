@@ -45,7 +45,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 	protected readonly IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> MinimumCashStockFactory;
 
-	public CreateCurrencyCommandHandlerBase(
+	protected CreateCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
@@ -120,10 +120,10 @@ public class CreateCurrencyValidator : AbstractValidator<CreateCurrencyCommand>
     public CreateCurrencyValidator()
     {
 		RuleFor(x => x.EntityDto.BankNotes)
-			.Must(owned => owned.All(x => x.Id == null))
+			.Must(owned => owned.TrueForAll(x => x.Id == null))
 			.WithMessage("BankNotes.Id must be null as it is auto generated.");
 		RuleFor(x => x.EntityDto.ExchangeRates)
-			.Must(owned => owned.All(x => x.Id == null))
+			.Must(owned => owned.TrueForAll(x => x.Id == null))
 			.WithMessage("ExchangeRates.Id must be null as it is auto generated.");
     }
 }

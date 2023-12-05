@@ -29,8 +29,10 @@ internal partial class CreateTenantCommandHandler : CreateTenantCommandHandlerBa
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory,
-		IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,WorkplaceFactory, entityFactory)
+		IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> entityFactory,
+		IEntityLocalizedFactory<TenantBrandLocalized, ClientApi.Domain.TenantBrand, TenantBrandUpsertDto> TenantBrandLocalizedFactory,
+		IEntityLocalizedFactory<TenantContactLocalized, ClientApi.Domain.TenantContact, TenantContactUpsertDto> TenantContactLocalizedFactory)
+		: base(dbContext, noxSolution,WorkplaceFactory, entityFactory, TenantBrandLocalizedFactory, TenantContactLocalizedFactory)
 	{
 	}
 }
@@ -40,17 +42,23 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 {
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> EntityFactory;
+	protected readonly IEntityLocalizedFactory<TenantBrandLocalized, ClientApi.Domain.TenantBrand, TenantBrandUpsertDto> TenantBrandLocalizedFactory;
+	protected readonly IEntityLocalizedFactory<TenantContactLocalized, ClientApi.Domain.TenantContact, TenantContactUpsertDto> TenantContactLocalizedFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory;
 
-	public CreateTenantCommandHandlerBase(
+	protected CreateTenantCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory,
-		IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> entityFactory)
+		IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> entityFactory,
+		IEntityLocalizedFactory<TenantBrandLocalized, ClientApi.Domain.TenantBrand, TenantBrandUpsertDto> TenantBrandLocalizedFactory,
+		IEntityLocalizedFactory<TenantContactLocalized, ClientApi.Domain.TenantContact, TenantContactUpsertDto> TenantContactLocalizedFactory)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
+		this.TenantBrandLocalizedFactory = TenantBrandLocalizedFactory;
+		this.TenantContactLocalizedFactory = TenantContactLocalizedFactory;
 		this.WorkplaceFactory = WorkplaceFactory;
 	}
 
@@ -84,9 +92,30 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.Tenants.Add(entityToCreate);
+        CreateLocalizations(entityToCreate, request.CultureCode);
 		await DbContext.SaveChangesAsync();
 		return new TenantKeyDto(entityToCreate.Id.Value);
 	}
+
+	private void CreateLocalizations(TenantEntity entity, Nox.Types.CultureCode cultureCode)
+	{
+        CreateTenantBrandsLocalization(entity.TenantBrands, cultureCode);
+        CreateTenantContactLocalization(entity.TenantContact, cultureCode);
+	}
+	
+	private void CreateTenantBrandsLocalization(List<ClientApi.Domain.TenantBrand> entities, Nox.Types.CultureCode cultureCode)
+	{
+		var entitiesLocalized = entities.Select(entity => TenantBrandLocalizedFactory.CreateLocalizedEntity(entity, cultureCode));
+		DbContext.TenantBrandsLocalized.AddRange(entitiesLocalized);
+	}
+	
+	private void CreateTenantContactLocalization(ClientApi.Domain.TenantContact? entity, Nox.Types.CultureCode cultureCode)
+	{
+		if(entity is null) return;
+		var entityLocalized = TenantContactLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+		DbContext.TenantContactsLocalized.Add(entityLocalized);
+	}	
+	
 }
 
 public class CreateTenantValidator : AbstractValidator<CreateTenantCommand>
@@ -94,7 +123,7 @@ public class CreateTenantValidator : AbstractValidator<CreateTenantCommand>
     public CreateTenantValidator()
     {
 		RuleFor(x => x.EntityDto.TenantBrands)
-			.Must(owned => owned.All(x => x.Id == null))
+			.Must(owned => owned.TrueForAll(x => x.Id == null))
 			.WithMessage("TenantBrands.Id must be null as it is auto generated.");
     }
 }

@@ -41,7 +41,7 @@ internal abstract class CreateTestEntityForTypesCommandHandlerBase : CommandBase
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> EntityFactory;
 
-	public CreateTestEntityForTypesCommandHandlerBase(
+	protected CreateTestEntityForTypesCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory)

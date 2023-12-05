@@ -40,7 +40,7 @@ internal abstract class CreateForReferenceNumberCommandHandlerBase : CommandBase
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<ForReferenceNumberEntity, ForReferenceNumberCreateDto, ForReferenceNumberUpdateDto> EntityFactory;
 
-	public CreateForReferenceNumberCommandHandlerBase(
+	protected CreateForReferenceNumberCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ForReferenceNumberEntity, ForReferenceNumberCreateDto, ForReferenceNumberUpdateDto> entityFactory)
