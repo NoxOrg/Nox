@@ -25,14 +25,22 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
         _integrations = new Dictionary<string, INoxIntegration>();
         _solution = solution;
         _handlers = handlers?.ToList().ToDictionary(k => k.IntegrationName, v => v);
-        
-        foreach (var integrationDefinition in _solution.Application!.Integrations!)
+
+        if (_solution.Application == null || _solution.Application.Integrations == null)
         {
-            var instance = new NoxIntegration(_logger, integrationDefinition, dbContextFactory);
-            instance.WithReceiveAdapter(integrationDefinition.Source, _solution.DataConnections);
-            instance.WithSendAdapter(integrationDefinition.Target, _solution.DataConnections);
-            _integrations[instance.Name] = instance;
+            _logger.LogInformation("Yaml definition does not contain any Integration definitions.");
         }
+        else
+        {
+            foreach (var integrationDefinition in _solution.Application!.Integrations!)
+            {
+                var instance = new NoxIntegration(_logger, integrationDefinition, dbContextFactory);
+                instance.WithReceiveAdapter(integrationDefinition.Source, _solution.DataConnections);
+                instance.WithSendAdapter(integrationDefinition.Target, _solution.DataConnections);
+                _integrations[instance.Name] = instance;
+            }    
+        }
+        
     }
 
     public async Task ExecuteIntegrationAsync(string name)
