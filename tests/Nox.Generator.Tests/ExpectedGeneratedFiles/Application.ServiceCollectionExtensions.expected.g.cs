@@ -36,11 +36,6 @@ internal static class ServiceCollectionExtensions
         {
             configureNox?.Invoke(configurator);
         });
-        services.AddScoped(typeof(Nox.Domain.IRepository), serviceProvider =>
-        {
-            var dbContext = serviceProvider.GetRequiredService<AppDbContext>();
-            return new Nox.Domain.Repository(dbContext);
-        });
         services.AddNoxOdata(configureNoxOdata);
         return services;
     }
