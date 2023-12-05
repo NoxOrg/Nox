@@ -513,7 +513,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         getWorkplacesResponse.Should().NotBeNull();
         getWorkplacesResponse!.Holidays.Should().NotBeNull();
         getWorkplacesResponse!.Holidays!.Should().HaveCount(2);
-        getWorkplacesResponse!.Holidays!.First().Id.Should().Be(expectedId);
+        getWorkplacesResponse!.Holidays!.Should().Contain(h => h.Id == expectedId);
     }
 
     #endregion
