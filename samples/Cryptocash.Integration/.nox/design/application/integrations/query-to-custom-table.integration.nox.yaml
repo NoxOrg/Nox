@@ -1,12 +1,12 @@
 #
-# QueryToTable.integration.nox.yaml
+# QueryToCustomTable.integration.nox.yaml
 #
 # yaml-language-server: $schema=../../../../../schemas/integration.json
 #
 
-name: QueryToTable
+name: QueryToCustomTable
 
-description: Synchronization of Country data from a sample sql database table using a query statement, to a Nox entity store database table.
+description: Synchronization of Country data from a sample sql database table using a query statement, to a Nox entity store database table using a custom transformation.
 
 mergeType: mergeNew
 
@@ -21,7 +21,7 @@ source:
   watermark:
     sequentialKeyColumns:
       - Id
-    dateColumns: 
+    dateColumns:
       - CreateDate
       - EditDate
   
@@ -29,10 +29,10 @@ source:
   sourceAdapterType: databaseQuery
   
   queryOptions:
-    query: SELECT CountryId AS Id, Name, Population, CreateDate, EditDate FROM dbo.CountryMaster
+    query: SELECT CountryId, Name, Population, CreateDate, EditDate FROM dbo.CountryMaster
     minimumExpectedRecords: 10
-    
-transformationType: defaultTransform    
+
+transformationType: customTransform
 
 target:
   name: SampleTarget
@@ -42,9 +42,9 @@ target:
   tableOptions:
     tableName: Countries
     watermark:
-      sequentialKeyColumns: 
+      sequentialKeyColumns:
         - Id
-      dateColumns: 
+      dateColumns:
         - CreateDate
         - EditDate
 

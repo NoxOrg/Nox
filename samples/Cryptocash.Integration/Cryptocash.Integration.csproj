@@ -31,6 +31,10 @@
         <AdditionalFiles Include="./.nox/docs/**/*.md" LinkBase="Docs">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </AdditionalFiles>
+        <AdditionalFiles Update=".nox\design\presentation\apiConfiguration\apiRouteMappings\countriesByName.apiRouteMapping.nox.yaml">
+          <LinkBase>Design/</LinkBase>
+          <Link>Design\presentation\apiConfiguration\apiRouteMappings\countriesByName.apiRouteMapping.nox.yaml</Link>
+        </AdditionalFiles>
     </ItemGroup>
 
     <ItemGroup>
@@ -47,6 +51,10 @@
         <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
         <ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
         <ProjectReference Include="..\..\src\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\Application.Integration.CustomTransformHandlers\" />
     </ItemGroup>
 
 </Project>

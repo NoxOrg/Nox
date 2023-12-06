@@ -18,9 +18,15 @@ overview: >
   allowing customers to book and pay for cash pick-up at an cash vending machine/ATM,
   managing physical stock levels at the ATM's and
   the managing the pricing and fees associated with cash transacting.
+  
+domain:
+  $ref: ./domain/cryptocash-integration.domain.nox.yaml
 
 infrastructure:
-  $ref: ./infrastructure/sample.infrastructure.nox.yaml
+  $ref: ./infrastructure/cryptocash-integration.infrastructure.nox.yaml
 
 application:
-  $ref: ./application/sample.application.nox.yaml    
+  $ref: ./application/cryptocash-integration.application.nox.yaml    
+  
+presentation:
+  $ref: ./presentation/cryptocash-integration.presentation.nox.yaml  

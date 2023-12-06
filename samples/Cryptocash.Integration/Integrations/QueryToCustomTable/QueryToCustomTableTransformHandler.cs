@@ -2,9 +2,9 @@ using System.Dynamic;
 using CryptocashIntegration.Application.Integration.CustomTransformHandlers;
 using Nox.Integration.Abstractions;
 
-namespace Cryptocash.Integration.Integrations.SampleQueryToTableSync;
+namespace Cryptocash.Integration.Integrations;
 
-public class SampleQueryToTableSyncTransformHandler: SampleQueryToTableSyncCustomTransformHandlerBase, INoxCustomTransformHandler
+public class QueryToCustomTableTransformHandler: QueryToCustomTableTransformHandlerBase, INoxCustomTransformHandler
 {
     public dynamic Invoke(dynamic sourceRecord)
     {
