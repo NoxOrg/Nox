@@ -51,6 +51,17 @@ attributes:
       expression: "$\"Hello, {Name.Value}!\""
       returns: string
 
+  - name: Ownership
+    description: Workplace Ownership
+    type: enumeration
+    enumerationTypeOptions:
+      values: 
+        - { id: 1000, name: "Fully Owned" } 
+        - { id: 4000, name: "Partner Managed" }
+        - { id: 5000, name: "Franchise" }
+      isLocalized: false
+    isRequired: false
+
 relationships:
 
     - name: BelongsToCountry

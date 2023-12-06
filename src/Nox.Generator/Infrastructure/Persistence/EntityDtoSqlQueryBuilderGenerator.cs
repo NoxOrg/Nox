@@ -2,6 +2,7 @@
 using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Solution.Extensions;
+using Nox.Types;
 using System.Linq;
 
 namespace Nox.Generator.Infrastructure.Persistence;
@@ -22,7 +23,7 @@ internal class EntityDtoSqlQueryBuilderGenerator : INoxCodeGenerator
         if (noxCodeGenCodeConventions.Solution.Domain is null)
             return;
 
-        foreach (var entity in noxCodeGenCodeConventions.Solution.Domain.Entities.Where(e => e.IsLocalized))
+        foreach (var entity in noxCodeGenCodeConventions.Solution.Domain.Entities.Where(e => e.IsLocalized || e.Attributes.Any(x => x.Type == NoxType.Enumeration)))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 

@@ -27,12 +27,13 @@ public class WorkplaceDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.Select("WorkplacesLocalized.Description")
 			.Where("WorkplacesLocalized.CultureCode", "##LANG##")
 			.As("WorkplacesLocalized");
-
+		
 		var entityQuery = new Query("Workplaces")
 			.Select("Workplaces.Id")
 			.Select("Workplaces.Name")
 			.Select("Workplaces.ReferenceNumber")
 			.Select("Workplaces.Greeting")
+			.Select("Workplaces.Ownership")
 			.ForSqlServer(q => q.SelectRaw("COALESCE([WorkplacesLocalized].[Description], (N'[' + COALESCE([Workplaces].[Description], N'')) + N']') AS [Description]"))
 			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"WorkplacesLocalized\".\"Description\", ('##OPEN##' || COALESCE(\"Workplaces\".\"Description\", '')) || '##CLOSE##') AS \"Description\""))
 			.ForSqlite(q => q.SelectRaw("COALESCE(\"WorkplacesLocalized\".\"Description\", ('##OPEN##' || COALESCE(\"Workplaces\".\"Description\", '')) || '##CLOSE##') AS \"Description\""))

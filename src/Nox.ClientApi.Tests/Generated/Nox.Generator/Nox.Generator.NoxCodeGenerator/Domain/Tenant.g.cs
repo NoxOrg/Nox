@@ -78,6 +78,12 @@ internal abstract partial class TenantBase : EntityBase, IEntityConcurrent
     /// </summary>
     /// <remarks>Required.</remarks>   
     public Nox.Types.Text Name { get; set; } = null!;
+
+    /// <summary>
+    /// Tenant Status    
+    /// </summary>
+    /// <remarks>Optional.</remarks>   
+    public Nox.Types.Enumeration? Status { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

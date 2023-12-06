@@ -43,6 +43,8 @@ public abstract class TenantDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.
         else
             result.Add("Name", new [] { "Name is Required." });
     
+        if (this.Status is not null)
+            ExecuteActionAndCollectValidationExceptions("Status", () => DomainNamespace.TenantMetadata.CreateStatus(this.Status.NonNullValue<System.Int32>()), result);
 
         return result;
     }
@@ -58,6 +60,14 @@ public abstract class TenantDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.
     /// </summary>
     /// <remarks>Required.</remarks>    
     public System.String Name { get; set; } = default!;
+
+    /// <summary>
+    /// Tenant Status     
+    /// </summary>
+    /// <remarks>Optional.</remarks>    
+    public System.Int32? Status { get; set; }
+    [NotMapped]
+    public string? StatusName { get; set; } = default!;
 
     /// <summary>
     /// Tenant Workplaces where the tenant is active ZeroOrMany Workplaces

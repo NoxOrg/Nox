@@ -69,6 +69,8 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
     public virtual DbSet<DomainNameSpace.CountryContinent> CountriesContinents { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.CountryContinentLocalized> CountriesContinentsLocalized { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.StoreStatus> StoresStatuses { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.WorkplaceOwnership> WorkplacesOwnerships { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.TenantStatus> TenantsStatuses { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

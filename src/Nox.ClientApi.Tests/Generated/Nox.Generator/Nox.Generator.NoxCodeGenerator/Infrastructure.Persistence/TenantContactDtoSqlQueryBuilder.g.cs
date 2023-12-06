@@ -27,7 +27,7 @@ public class TenantContactDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.Select("TenantContactsLocalized.Description")
 			.Where("TenantContactsLocalized.CultureCode", "##LANG##")
 			.As("TenantContactsLocalized");
-
+		
 		var entityQuery = new Query("TenantContacts")
 			.Select("TenantContacts.TenantId")
 			.Select("TenantContacts.Name")

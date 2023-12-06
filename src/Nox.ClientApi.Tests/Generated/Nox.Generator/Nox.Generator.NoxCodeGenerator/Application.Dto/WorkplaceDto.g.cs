@@ -47,6 +47,8 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
             ExecuteActionAndCollectValidationExceptions("ReferenceNumber", () => DomainNamespace.WorkplaceMetadata.CreateReferenceNumber(this.ReferenceNumber.NonNullValue<System.String>()), result);
         if (this.Description is not null)
             ExecuteActionAndCollectValidationExceptions("Description", () => DomainNamespace.WorkplaceMetadata.CreateDescription(this.Description.NonNullValue<System.String>()), result); 
+        if (this.Ownership is not null)
+            ExecuteActionAndCollectValidationExceptions("Ownership", () => DomainNamespace.WorkplaceMetadata.CreateOwnership(this.Ownership.NonNullValue<System.Int32>()), result);
 
         return result;
     }
@@ -80,6 +82,14 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
     /// </summary>
     /// <remarks>Optional.</remarks>    
     public System.String? Greeting { get; set; }
+
+    /// <summary>
+    /// Workplace Ownership     
+    /// </summary>
+    /// <remarks>Optional.</remarks>    
+    public System.Int32? Ownership { get; set; }
+    [NotMapped]
+    public string? OwnershipName { get; set; } = default!;
 
     /// <summary>
     /// Workplace Workplace country ZeroOrOne Countries

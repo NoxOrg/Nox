@@ -37,4 +37,9 @@ public partial class WorkplaceUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNam
     /// </summary>
     /// <remarks>Optional.</remarks>
     public virtual System.String? Description { get; set; }
+    /// <summary>
+    /// Workplace Ownership     
+    /// </summary>
+    /// <remarks>Optional.</remarks>
+    public virtual System.Int32? Ownership { get; set; }
 }

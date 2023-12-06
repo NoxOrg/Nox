@@ -100,6 +100,40 @@ public partial class WorkplaceMetadata
         
     
         /// <summary>
+        /// Type options for property 'Ownership'
+        /// </summary>
+        public static Nox.Types.EnumerationTypeOptions OwnershipTypeOptions {get; private set;} = new ()
+        {
+            Values = new System.Collections.Generic.List<Nox.Types.EnumerationValues>()
+            {
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 1000,
+                    Name = "Fully Owned",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 4000,
+                    Name = "Partner Managed",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 5000,
+                    Name = "Franchise",
+                },
+            },
+            IsLocalized = false,
+        };
+    
+    
+        /// <summary>
+        /// Factory for property 'Ownership'
+        /// </summary>
+        public static Nox.Types.Enumeration CreateOwnership(System.Int32 value)
+            => Nox.Types.Enumeration.From(value, OwnershipTypeOptions);
+        
+    
+        /// <summary>
         /// Factory for property 'CountryId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateCountryId(System.Int64 value)
@@ -160,5 +194,14 @@ public partial class WorkplaceMetadata
             => solution.Domain!
                 .GetEntityByName("Workplace")
                 .GetAttributeByName("Greeting")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Ownership'
+        /// </summary>
+        public static TypeUserInterface? OwnershipUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Workplace")
+                .GetAttributeByName("Ownership")?
                 .UserInterface;
 }

@@ -69,6 +69,8 @@ internal class DtoDbContext : DbContext
     public virtual DbSet<DtoNameSpace.CountryContinentDto> CountriesContinents { get; set; } = null!;
     public virtual DbSet<DtoNameSpace.CountryContinentLocalizedDto> CountriesContinentsLocalized { get; set; } = null!;
     public virtual DbSet<DtoNameSpace.StoreStatusDto> StoresStatuses { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.WorkplaceOwnershipDto> WorkplacesOwnerships { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.TenantStatusDto> TenantsStatuses { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
