@@ -9,12 +9,11 @@ internal class EntityFactoryGenerator : INoxCodeGenerator
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
 
     public void Generate(
-      SourceProductionContext context,
-      NoxCodeGenConventions codeGeneratorState,
-      GeneratorConfig config,
-      System.Action<string> log,
-      string? projectRootPath
-      )
+        SourceProductionContext context,
+        NoxCodeGenConventions codeGeneratorState,
+        GeneratorConfig config,
+        System.Action<string> log,
+        string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 

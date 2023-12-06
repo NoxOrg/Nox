@@ -28,8 +28,7 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public BankNoteFactoryBase
-    (
+    public BankNoteFactoryBase(
         IRepository repository
         )
     {

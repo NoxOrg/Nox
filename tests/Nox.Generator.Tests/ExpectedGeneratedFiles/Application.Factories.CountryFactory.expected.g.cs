@@ -28,8 +28,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public CountryFactoryBase
-    (
+    public CountryFactoryBase(
         IRepository repository
         )
     {

@@ -43,7 +43,7 @@ internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmp
 	protected readonly IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> CashStockOrderFactory;
 
-	public CreateEmployeeCommandHandlerBase(
+	protected CreateEmployeeCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> CashStockOrderFactory,
@@ -88,7 +88,7 @@ public class CreateEmployeeValidator : AbstractValidator<CreateEmployeeCommand>
     public CreateEmployeeValidator()
     {
 		RuleFor(x => x.EntityDto.EmployeePhoneNumbers)
-			.Must(owned => owned.All(x => x.Id == null))
+			.Must(owned => owned.TrueForAll(x => x.Id == null))
 			.WithMessage("EmployeePhoneNumbers.Id must be null as it is auto generated.");
     }
 }

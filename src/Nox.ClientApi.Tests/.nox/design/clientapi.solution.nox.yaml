@@ -40,6 +40,10 @@ domain:
   
     - $ref: ./Entities/tenant.entity.nox.yaml
   
+    - $ref: ./Entities/tenant-brand.entity.nox.yaml
+  
+    - $ref: ./Entities/tenant-contact.entity.nox.yaml
+
     - $ref: ./Entities/country-time-zone.entity.nox.yaml
     
     - $ref: ./Entities/client.entity.nox.yaml
@@ -108,6 +112,7 @@ application:
     supportedCultures:
       - fr-FR
       - de-DE
+      - it-IT
       - en-US
     defaultCulture: en-US 
 

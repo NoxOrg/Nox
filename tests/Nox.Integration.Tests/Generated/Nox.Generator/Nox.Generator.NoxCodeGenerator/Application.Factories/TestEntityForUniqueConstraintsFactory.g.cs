@@ -28,8 +28,7 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public TestEntityForUniqueConstraintsFactoryBase
-    (
+    public TestEntityForUniqueConstraintsFactoryBase(
         IRepository repository
         )
     {

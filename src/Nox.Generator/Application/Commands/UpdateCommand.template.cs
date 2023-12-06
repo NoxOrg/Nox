@@ -26,8 +26,9 @@ internal partial class Update{{entity.Name}}CommandHandler : Update{{entity.Name
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory{{if entity.IsLocalized }},
-		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> entityLocalizedFactory{{ end -}}) 
-		: base(dbContext, noxSolution, entityFactory{{- if entity.IsLocalized }}, entityLocalizedFactory{{ end -}})
+		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> entityLocalizedFactory{{ end -}}{{- for relationship in entity.OwnedRelationships }}{{- if relationship.Related.Entity.IsLocalized }},
+		IEntityLocalizedFactory<{{relationship.Related.Entity.Name}}Localized, {{codeGeneratorState.DomainNameSpace}}.{{relationship.Related.Entity.Name}}, {{relationship.Related.Entity.Name}}UpsertDto> {{ relationship.Related.Entity.Name}}LocalizedFactory{{- end -}}{{- end -}})
+		: base(dbContext, noxSolution, {{- for relatedEntity in relatedEntities}}{{fieldFactoryName relatedEntity}}, {{end}}entityFactory{{- if entity.IsLocalized }}, entityLocalizedFactory{{ end -}}{{- for relationship in entity.OwnedRelationships }}{{- if relationship.Related.Entity.IsLocalized }}, {{ relationship.Related.Entity.Name}}LocalizedFactory{{- end -}}{{- end -}})
 	{
 	}
 }
@@ -39,18 +40,29 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 	{{- if entity.IsLocalized }}
 	private readonly IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> _entityLocalizedFactory;
 	{{- end }}
+	{{- for relationship in entity.OwnedRelationships }}
+	{{- if relationship.Related.Entity.IsLocalized }}
+	protected readonly IEntityLocalizedFactory<{{relationship.Related.Entity.Name}}Localized, {{codeGeneratorState.DomainNameSpace}}.{{relationship.Related.Entity.Name}}, {{relationship.Related.Entity.Name}}UpsertDto> {{ relationship.Related.Entity.Name}}LocalizedFactory;
+	{{- end -}}
+	{{- end }}
 
-	public Update{{entity.Name}}CommandHandlerBase(
+	protected Update{{entity.Name}}CommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory{{if entity.IsLocalized }},
-		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> entityLocalizedFactory{{ end -}})
+		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> entityLocalizedFactory{{ end -}}{{- for relationship in entity.OwnedRelationships }}{{- if relationship.Related.Entity.IsLocalized }},
+		IEntityLocalizedFactory<{{relationship.Related.Entity.Name}}Localized, {{codeGeneratorState.DomainNameSpace}}.{{relationship.Related.Entity.Name}}, {{relationship.Related.Entity.Name}}UpsertDto> {{ relationship.Related.Entity.Name}}LocalizedFactory{{- end -}}{{- end -}})
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
 		{{- if entity.IsLocalized }} 
 		_entityLocalizedFactory = entityLocalizedFactory;
+		{{- end }}
+		{{- for relationship in entity.OwnedRelationships }}
+		{{- if relationship.Related.Entity.IsLocalized }}
+		this.{{relationship.Related.Entity.Name}}LocalizedFactory = {{relationship.Related.Entity.Name}}LocalizedFactory;
+		{{- end -}}
 		{{- end }}
 	}
 
@@ -84,8 +96,8 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		{{- end }}
 		
-		{{- if entity.IsLocalized }}
-		await UpdateLocalizedEntityAsync(entity, request.EntityDto, request.CultureCode);
+		{{- if entity.IsLocalized || entity.HasLocalizedOwnedRelationships }}
+		await UpdateLocalizationsAsync(entity, request.EntityDto, request.CultureCode);
 		{{- end }}
 
 		await OnCompletedAsync(request, entity);
@@ -99,11 +111,25 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}
+	{{- if entity.IsLocalized || entity.HasLocalizedOwnedRelationships }}
+
+	private async Task UpdateLocalizationsAsync({{entity.Name}}Entity entity, {{entity.Name}}UpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+		{{- if entity.IsLocalized }}
+		await Update{{entity.Name}}LocalizationAsync(entity, updateDto, cultureCode);
+		{{- end}}
+		{{- for relationship in entity.OwnedRelationships }}
+		{{- if relationship.Related.Entity.IsLocalized }}
+		{{- relationshipName = GetNavigationPropertyName entity relationship}}
+        await Update{{relationshipName}}LocalizationAsync(entity.{{relationshipName}}, updateDto.{{relationshipName}}, cultureCode);
+		{{- end }}
+		{{- end }}
+	}
 	{{- if entity.IsLocalized }}
 
-	private async Task UpdateLocalizedEntityAsync({{entity.Name}}Entity entity, {{entity.Name}}UpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	private async Task Update{{entity.Name}}LocalizationAsync({{entity.Name}}Entity entity, {{entity.Name}}UpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
-		var entityLocalized = await DbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
+		var entityLocalized = await DbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x => x.{{entity.Keys[0].Name}} == entity.{{entity.Keys[0].Name}} && x.CultureCode == cultureCode);
 		if(entityLocalized is null)
 		{
 			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
@@ -115,8 +141,65 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 		}
 
 		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
+	}	
+	{{- end}}
+	{{- for relationship in entity.OwnedRelationships }}
+	{{- if relationship.Related.Entity.IsLocalized }}
+	{{- relationshipName = GetNavigationPropertyName entity relationship}}
+	{{- if relationship.Relationship == "ZeroOrOne" || relationship.Relationship == "ExactlyOne" }}
+	
+	private async Task Update{{relationshipName}}LocalizationAsync({{codeGeneratorState.DomainNameSpace}}.{{relationship.Related.Entity.Name}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} entity, {{codeGeneratorState.DtoNameSpace}}.{{relationship.Related.Entity.Name}}UpsertDto{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} updateDto, Nox.Types.CultureCode cultureCode)
+	{
+		{{- if relationship.Relationship == "ZeroOrOne"}}
+		if(entity is null || updateDto is null) return;
+
+		{{- end}}
+		var entityLocalized = await DbContext.{{relationship.Related.Entity.PluralName}}Localized.FirstOrDefaultAsync(x => x.{{entity.Name}}{{entity.Keys[0].Name}} == entity.{{entity.Name}}{{entity.Keys[0].Name}} && x.CultureCode == cultureCode);
+		if(entityLocalized is null)
+		{
+			entityLocalized = {{relationship.Related.Entity.Name}}LocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+			DbContext.{{relationship.Related.Entity.PluralName}}Localized.Add(entityLocalized);
+		}
+		else
+		{
+			DbContext.Entry(entityLocalized).State = EntityState.Modified;
+		}
+
+		{{relationship.Related.Entity.Name}}LocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
+	}	
+	{{else}}
+	
+	private async Task Update{{relationshipName}}LocalizationAsync(List<{{codeGeneratorState.DomainNameSpace}}.{{relationship.Related.Entity.Name}}> entities, List<{{codeGeneratorState.DtoNameSpace}}.{{relationship.Related.Entity.Name}}UpsertDto> updateDtos, Nox.Types.CultureCode cultureCode)
+	{
+		for(int i = 0; i < updateDtos.Count; i++)
+		{
+			var updateDto = updateDtos[i];
+			var entity = entities.Where(e => e.{{relationship.Related.Entity.Keys[0].Name}} is not null).SingleOrDefault(e => e.{{relationship.Related.Entity.Keys[0].Name}}.Value == updateDto.{{relationship.Related.Entity.Keys[0].Name}});
+			if (entity is null) continue;
+
+			await Update{{relationshipName}}LocalizationAsync(entity, updateDto, cultureCode);
+		}
 	}
-	{{- end }}
+
+	private async Task Update{{relationshipName}}LocalizationAsync({{codeGeneratorState.DomainNameSpace}}.{{relationship.Related.Entity.Name}} entity, {{codeGeneratorState.DtoNameSpace}}.{{relationship.Related.Entity.Name}}UpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+		var entityLocalized = await DbContext.{{relationship.Related.Entity.PluralName}}Localized.FirstOrDefaultAsync(x => x.{{relationship.Related.Entity.Keys[0].Name}} == entity.{{relationship.Related.Entity.Keys[0].Name}} && x.CultureCode == cultureCode);
+		if(entityLocalized is null)
+		{
+			entityLocalized = {{relationship.Related.Entity.Name}}LocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+			DbContext.{{relationship.Related.Entity.PluralName}}Localized.Add(entityLocalized);
+		}
+		else
+		{
+			DbContext.Entry(entityLocalized).State = EntityState.Modified;
+		}
+
+		{{relationship.Related.Entity.Name}}LocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
+	}
+	{{- end}}
+	{{- end}}
+	{{- end}}
+	{{- end}}
 }
 
 {{- if (entity.OwnedRelationships | array.size) > 0 }}

@@ -28,8 +28,7 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, Lan
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public LandLordFactoryBase
-    (
+    public LandLordFactoryBase(
         IRepository repository
         )
     {

@@ -28,8 +28,7 @@ internal abstract class SecondTestEntityTwoRelationshipsOneToOneFactoryBase : IE
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public SecondTestEntityTwoRelationshipsOneToOneFactoryBase
-    (
+    public SecondTestEntityTwoRelationshipsOneToOneFactoryBase(
         IRepository repository
         )
     {

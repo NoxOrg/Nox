@@ -29,8 +29,7 @@ internal abstract class TestEntityOwnedRelationshipExactlyOneFactoryBase : IEnti
     private readonly IRepository _repository;
     protected IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipExactlyOne, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto> SecondTestEntityOwnedRelationshipExactlyOneFactory {get;}
 
-    public TestEntityOwnedRelationshipExactlyOneFactoryBase
-    (
+    public TestEntityOwnedRelationshipExactlyOneFactoryBase(
         IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipExactlyOne, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto, SecondTestEntityOwnedRelationshipExactlyOneUpsertDto> secondtestentityownedrelationshipexactlyonefactory,
         IRepository repository
         )

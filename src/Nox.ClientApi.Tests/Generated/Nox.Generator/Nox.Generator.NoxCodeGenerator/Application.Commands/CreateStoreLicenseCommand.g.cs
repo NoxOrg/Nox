@@ -45,7 +45,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 	protected readonly IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory;
 
-	public CreateStoreLicenseCommandHandlerBase(
+	protected CreateStoreLicenseCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,

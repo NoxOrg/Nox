@@ -49,7 +49,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 	protected readonly IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory;
 
-	public CreateCountryCommandHandlerBase(
+	protected CreateCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory,
@@ -163,10 +163,10 @@ public class CreateCountryValidator : AbstractValidator<CreateCountryCommand>
     public CreateCountryValidator()
     {
 		RuleFor(x => x.EntityDto.CountryTimeZones)
-			.Must(owned => owned.All(x => x.Id == null))
+			.Must(owned => owned.TrueForAll(x => x.Id == null))
 			.WithMessage("CountryTimeZones.Id must be null as it is auto generated.");
 		RuleFor(x => x.EntityDto.Holidays)
-			.Must(owned => owned.All(x => x.Id == null))
+			.Must(owned => owned.TrueForAll(x => x.Id == null))
 			.WithMessage("Holidays.Id must be null as it is auto generated.");
     }
 }

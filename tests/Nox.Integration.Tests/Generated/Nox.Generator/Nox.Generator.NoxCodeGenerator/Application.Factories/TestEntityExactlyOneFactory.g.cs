@@ -28,8 +28,7 @@ internal abstract class TestEntityExactlyOneFactoryBase : IEntityFactory<TestEnt
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public TestEntityExactlyOneFactoryBase
-    (
+    public TestEntityExactlyOneFactoryBase(
         IRepository repository
         )
     {

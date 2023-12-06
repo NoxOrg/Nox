@@ -35,6 +35,8 @@ internal abstract class GetTenantByIdQueryHandlerBase:  QueryBase<IQueryable<Ten
     {    
         var query = DataDbContext.Tenants
             .AsNoTracking()
+            .Include(e => e.TenantBrands)
+            .Include(e => e.TenantContact)
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

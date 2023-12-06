@@ -28,8 +28,7 @@ internal abstract class ForReferenceNumberFactoryBase : IEntityFactory<ForRefere
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public ForReferenceNumberFactoryBase
-    (
+    public ForReferenceNumberFactoryBase(
         IRepository repository
         )
     {

@@ -11,20 +11,15 @@ internal class QueryGenerator : ApplicationEntityDependentGeneratorBase
 {
     protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
     {
-        var templateName = @"Application.Queries.Query";
-
-        foreach (var entity in entities.Where(x => !x.IsLocalized))
+        foreach (var entity in entities.Where(x => !x.IsOwnedEntity))
         {
-            if (entity.IsOwnedEntity)
-                continue;
-
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Get{entity.PluralName}Query")
                 .WithFileNamePrefix($"Application.Queries")
                 .WithObject("entity", entity)
-                .GenerateSourceCodeFromResource(templateName);
+                .GenerateSourceCodeFromResource("Application.Queries.Query");
         }
     }
 }

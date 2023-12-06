@@ -16,6 +16,8 @@
 //  - store-license.entity.nox.yaml
 //  - store-owner.entity.nox.yaml
 //  - store.entity.nox.yaml
+//  - tenant-brand.entity.nox.yaml
+//  - tenant-contact.entity.nox.yaml
 //  - tenant.entity.nox.yaml
 //  - workplace.entity.nox.yaml
 //  - apiConfiguration.nox.yaml
@@ -35,6 +37,7 @@
 // Found Generators
 //  - Nox.Generator.Infrastructure.Persistence.DbContextGenerator
 //  - Nox.Generator.Infrastructure.Persistence.DtoDbContextGenerator
+//  - Nox.Generator.Infrastructure.Persistence.EntityDtoSqlQueryBuilderGenerator
 //  - Nox.Generator.Domain.EntitiesGenerator
 //  - Nox.Generator.Domain.EntityLocalizedGenerator
 //  - Nox.Generator.Domain.EnumGenerator.EnumGenerator
@@ -55,11 +58,9 @@
 //  - Nox.Generator.Application.DefaultIntegrationEventGenerator
 //  - Nox.Generator.Application.ServiceCollectionExtensionsGenerator
 //  - Nox.Generator.Application.Queries.ByIdQueryGenerator
-//  - Nox.Generator.Application.Queries.ByIdQueryLocalizedGenerator
 //  - Nox.Generator.Application.Queries.EnumerationQueryGenerator
 //  - Nox.Generator.Application.Queries.EnumerationTranslationsQueryGenerator
 //  - Nox.Generator.Application.Queries.QueryGenerator
-//  - Nox.Generator.Application.Queries.QueryLocalizedGenerator
 //  - Nox.Generator.Application.Queries.TranslationsByIdQueryGenerator
 //  - Nox.Generator.Application.Queries.TranslationsQueryGenerator
 //  - Nox.Generator.Application.Integration.CustomTransformHandlerGenerator
