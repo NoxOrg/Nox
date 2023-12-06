@@ -1,0 +1,56 @@
+#
+# customer.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: Language
+
+description: Language
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: Language unique identifier 
+    type: countryCode2 
+
+attributes:
+
+  - name: Name
+    description: Country's name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+      isLocalized: true
+    isRequired: true
+
+  - name: CountryIsoNumeric
+    description: Country's iso number id
+    type: countryNumber     
+    isRequired: false  
+
+  - name: CountryIsoAlpha3
+    description: Country's iso alpha3 id
+    type: countryCode3     
+    isRequired: false
+
+  - name: Region
+    description: Region of country
+    type: text
+    isRequired: true
+
+persistence:
+    isAudited: false    
+    create:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    delete:
+        isEnabled: true
+        raiseEvents: domainEventsOnly

@@ -34,6 +34,7 @@ namespace ClientApi.Tests.Controllers
         public const string CurrenciesUrl = $"{RoutePrefix}/currencies";
         public const string TenantsUrl = $"{RoutePrefix}/tenants";
         public const string CountryQualityOfLifeIndicesUrl = $"{RoutePrefix}/CountryQualityOfLifeIndices";
+        public const string LanguagesUrl = $"{RoutePrefix}/Languages";
 
     }
 }
