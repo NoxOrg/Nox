@@ -138,12 +138,12 @@ internal sealed class NoxIntegration: INoxIntegration
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("Failed to run Merge for integration: {integrationName}", Name);
+            _logger.LogCritical("Failed to execute MergeNew for integration: {integrationName}", Name);
             _logger.LogError("{message}", ex.Message);
             throw;
         }  
 
-        //Log analytics
+        LogMergeAnalytics(inserts, updates, unChanged)
     }
 
     private Task ExecuteAddNew(INoxCustomTransformHandler? handler)
@@ -334,5 +334,54 @@ internal sealed class NoxIntegration: INoxIntegration
             ts.Integration!.Equals(Name) &&
             ts.Property!.Equals(propertyName));
         timestamp.LastDateLoadedUtc = lastMergeDateTime;
+    }
+
+    private void LogMergeAnalytics(int inserts, int updates, int unChanged, bool logUpdates = true)
+    {
+        var lastTimestamp = IntegrationContextConstants.MinSqlMergeDate;
+
+        if (_mergeStates != null)
+        {
+            var loadDates = _mergeStates
+                .Values
+                .Select(v => v.LastDateLoadedUtc)
+                .ToList();
+
+            if (loadDates.Any())
+            {
+                lastTimestamp = loadDates.Max();
+            }
+        }
+
+        if ((inserts == 0 && updates == 0) || (inserts == 0 && logUpdates == false))
+        {
+            if (unChanged > 0)
+            {
+                _logger.LogInformation($"{Name}. Component NoxIntegration. Action nochanges. Documents {unChanged}. last merge at {lastTimestamp}");
+            }
+            else
+            {
+                _logger.LogInformation($"{Name}. Component NoxIntegration. Action nochanges. Documents 0. last merge at {lastTimestamp}");
+            }
+
+            return;
+        }
+
+        if (_mergeStates != null)
+        {
+            var changes = _mergeStates
+                .Values
+                .Where(ms => ms.IsUpdated)
+                .Select(ms => ms.LastDateLoadedUtc)
+                .ToList();
+            if (changes.Any())
+            {
+                lastTimestamp = changes.Max();
+            }
+            
+            _logger.LogInformation($"{Name}. Component NoxIntegration. Action insert. Documents {inserts}. last merge at {lastTimestamp}");
+            _logger.LogInformation($"{Name}. Component NoxIntegration. Action update. Documents {updates}. last merge at {lastTimestamp}");
+        }
+
     }
 }
