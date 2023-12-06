@@ -118,7 +118,11 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CountryDto>()
                             .Collection
                             .Function("CountryContinents")
-                            .ReturnsCollection<DtoNameSpace.CountryContinentDto>(); 
+                            .ReturnsCollection<DtoNameSpace.CountryContinentDto>();
+        builder.EntityType<CountryDto>()
+                            .Collection
+                            .Function("CountryContinentsLocalized")
+                            .ReturnsCollection<DtoNameSpace.CountryContinentLocalizedDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<StoreDto>()
                             .Collection

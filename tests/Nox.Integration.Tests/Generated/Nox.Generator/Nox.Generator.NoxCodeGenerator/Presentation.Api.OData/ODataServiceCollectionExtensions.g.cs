@@ -322,6 +322,10 @@ internal static class ODataServiceCollectionExtensions
                             .Collection
                             .Function("TestEntityForTypesEnumerationTestFields")
                             .ReturnsCollection<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto>();
+        builder.EntityType<TestEntityForTypesDto>()
+                            .Collection
+                            .Function("TestEntityForTypesEnumerationTestFieldsLocalized")
+                            .ReturnsCollection<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>();
 
        
         if(configure != null) configure(builder);
