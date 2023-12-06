@@ -217,7 +217,6 @@ namespace Cryptocash.Api.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CurrencyId = table.Column<string>(type: "char(3)", nullable: true),
-                    AsAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CashNote = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     Value_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
                     Value_CurrencyCode = table.Column<int>(type: "int", nullable: false)
@@ -290,7 +289,6 @@ namespace Cryptocash.Api.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CurrencyId = table.Column<string>(type: "char(3)", nullable: false),
-                    AsAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EffectiveRate = table.Column<int>(type: "int", nullable: false),
                     EffectiveAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
                 },
@@ -342,7 +340,6 @@ namespace Cryptocash.Api.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EmployeeId = table.Column<long>(type: "bigint", nullable: true),
-                    AsAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PhoneNumberType = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
@@ -394,7 +391,6 @@ namespace Cryptocash.Api.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CountryId = table.Column<string>(type: "char(2)", nullable: false),
-                    AsAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TimeZoneCode = table.Column<string>(type: "varchar(5)", unicode: false, maxLength: 5, nullable: false)
                 },
                 constraints: table =>
@@ -457,7 +453,6 @@ namespace Cryptocash.Api.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CountryId = table.Column<string>(type: "char(2)", nullable: true),
-                    AsAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     Type = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false)

@@ -24,14 +24,6 @@ builder.AddNox();
 
 var app = builder.Build();
 
-// For Development only
-//{
-//    using var scope = app.Services.CreateScope();
-//    var dbContext = scope.ServiceProvider.GetRequiredService<Cryptocash.Infrastructure.Persistence.AppDbContext>();
-
-//    dbContext.Database.EnsureDeleted();
-//    dbContext.Database.EnsureCreated();
-//}
 
 if (app.Environment.IsDevelopment())
 {
