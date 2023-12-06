@@ -37,7 +37,7 @@ public partial class CountriesControllerRouteMappingTests : NoxWebApiTestBase
         result.Should().Contain(r => r.Name == countryName2);
     }
 
-    [Fact(Skip ="Api Routing")]
+    [Fact]
     public async Task WhenRouteGetWithDefaults_ShouldSucceed()
     {
         // Arrange
@@ -73,7 +73,7 @@ public partial class CountriesControllerRouteMappingTests : NoxWebApiTestBase
         result.Should().Contain(r => r.Name == countryName1);
         result.Should().Contain(r => r.Name == countryName2);
     }
-    [Fact(Skip = "Api Routing")]
+    [Fact]
     public async Task WhenRouteGetWithODataQuery3Segments_ShouldSucceed()
     {
 
@@ -94,7 +94,7 @@ public partial class CountriesControllerRouteMappingTests : NoxWebApiTestBase
 
 
 
-    [Fact(Skip = "Api Routing")]
+    [Fact]
     public async Task WhenRoutePutWithParametersWithMultipleSegments_ShouldSucceed()
     {
         // Arrange

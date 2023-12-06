@@ -79,7 +79,7 @@ public class ApiRouteMatcher
 
         foreach (var param in _parameterNames)
         {
-            if (!matchedValues.ContainsKey(param))
+            if (!matchedValues.ContainsKey(param) || matchedValues[param].Equals(string.Empty))
             {
                 if (_parameterDefaults.TryGetValue(param, out object? value))
                 {
