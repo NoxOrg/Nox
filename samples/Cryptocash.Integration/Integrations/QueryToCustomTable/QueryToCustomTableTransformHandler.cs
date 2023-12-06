@@ -12,6 +12,8 @@ public class QueryToCustomTableTransformHandler: QueryToCustomTableTransformHand
         result.Id = sourceRecord.CountryId;
         result.Name = sourceRecord.Name;
         result.Population = sourceRecord.Population;
+        result.AsAt = DateTime.Now;
+        result.Etag = Guid.NewGuid();
         return result;
     }
 }

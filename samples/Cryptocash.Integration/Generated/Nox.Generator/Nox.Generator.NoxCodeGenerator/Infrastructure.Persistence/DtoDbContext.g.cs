@@ -47,6 +47,7 @@ internal class DtoDbContext : DbContext
     }
     
         public virtual DbSet<CountryQueryToTableDto> CountryQueryToTables { get; set; } = null!;
+        public virtual DbSet<CountryQueryToCustomTableDto> CountryQueryToCustomTables { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -89,6 +90,5 @@ internal class DtoDbContext : DbContext
 
 private void ConfigureAuditable(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<CountryQueryToTableDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
     }
 }

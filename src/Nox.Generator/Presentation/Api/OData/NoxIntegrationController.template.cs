@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Nox.Integration.Abstractions;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace {{ codeGeneratorState.ODataNameSpace }};
 
@@ -20,6 +21,10 @@ public class NoxIntegrationController : Controller
     }
     
     {{- for integration in integrations }}
+    [SwaggerOperation(
+        Description = "Execute integration {{ integration.Name }}",
+        OperationId = "Execute{{ integration.Name }}"
+    )]
     [HttpPost("[action]")]
     public ActionResult Execute{{ integration.Name }}()
     {

@@ -55,6 +55,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
         }
     
     public virtual DbSet<CryptocashIntegration.Domain.CountryQueryToTable> CountryQueryToTables { get; set; } = null!;
+    public virtual DbSet<CryptocashIntegration.Domain.CountryQueryToCustomTable> CountryQueryToCustomTables { get; set; } = null!;
     
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -107,6 +108,5 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
 
     private void ConfigureAuditable(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<CryptocashIntegration.Domain.CountryQueryToTable>().HasQueryFilter(p => p.DeletedAtUtc == null);
     }
 }

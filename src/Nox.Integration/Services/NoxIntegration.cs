@@ -47,28 +47,36 @@ internal sealed class NoxIntegration: INoxIntegration
     
     public async Task ExecuteAsync(ITransaction apmTransaction, INoxCustomTransformHandler? handler = null)
     {
-        _mergeStates = await GetMergeStates();
-        if (SourceFilterColumns != null && SourceFilterColumns.Any())
+        try
         {
-            ReceiveAdapter!.ApplyFilter(SourceFilterColumns, _mergeStates);    
+            _mergeStates = await GetMergeStates();
+            if (SourceFilterColumns != null && SourceFilterColumns.Any())
+            {
+                ReceiveAdapter!.ApplyFilter(SourceFilterColumns, _mergeStates);
+            }
+
+            switch (MergeType)
+            {
+                case IntegrationMergeType.MergeNew:
+                    await apmTransaction.CaptureSpan(MergeType.ToString(), ApiConstants.ActionExec, async () => await ExecuteMergeNew(handler));
+                    break;
+                case IntegrationMergeType.AddNew:
+                    await apmTransaction.CaptureSpan(MergeType.ToString(), ApiConstants.ActionExec, async () => await ExecuteAddNew(handler));
+                    break;
+            }
+
+            await SetLastMergeStates();
+            _logger.LogInformation($"{Name}. Component NoxIntegration. Action {MergeType.ToString()}. Status success.");
         }
-        
-        switch (MergeType)
+        catch (Exception ex)
         {
-            case IntegrationMergeType.MergeNew:
-                await apmTransaction.CaptureSpan("MergeNew", ApiConstants.ActionExec, async () => await ExecuteMergeNew(handler));
-                break;
-            case IntegrationMergeType.AddNew:
-                await apmTransaction.CaptureSpan("AddNew", ApiConstants.ActionExec, async() => await ExecuteAddNew(handler));
-                break;
+            _logger.LogError($"{Name}. Component NoxIntegration. Action {MergeType.ToString()}. Status error. Error {ex.Message}");
         }
-        await SetLastMergeStates();
     }
 
     private async Task ExecuteMergeNew(INoxCustomTransformHandler? handler)
     {
         var source = ReceiveAdapter!.DataFlowSource;
-        
 
         IDataFlowSource<ExpandoObject>? transformSource = null;
         

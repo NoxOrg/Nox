@@ -66,8 +66,6 @@ public abstract class CountryQueryToTableDtoBase : EntityDtoBase, IEntityDto<Dom
     /// </summary>
     /// <remarks>Required.</remarks>    
     public System.Int32 Population { get; set; } = default!;
-    [System.Text.Json.Serialization.JsonIgnore]
-    public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]
     public System.Guid Etag { get; init; }

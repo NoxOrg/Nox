@@ -38,17 +38,16 @@ public class NoxIntegrationDbContext: DbContext
 
             var dbServer = _solution.Infrastructure.Persistence?.DatabaseServer;
 
-            string? migrationsAssembly = null;
             if(dbServer is not null)
             {
                 switch (dbServer.Provider)
                 {
                     case DatabaseServerProvider.SqlServer:
-                        migrationsAssembly = "Nox.Integration.SqlServer";
+                        ;
                         break;
                         
                 }
-                _dbProvider!.ConfigureDbContext(optionsBuilder, appName, dbServer, migrationsAssembly);
+                _dbProvider!.ConfigureDbContext(optionsBuilder, appName, dbServer, _clientAssemblyProvider!.ClientAssembly.GetName().Name);
             }
         }
         base.OnConfiguring(optionsBuilder);

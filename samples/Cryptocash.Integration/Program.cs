@@ -25,13 +25,13 @@ var app = builder.Build();
 app.UseNox();
 
 // For Development only
-{
-    using var scope = app.Services.CreateScope();
-    var dbContext = scope.ServiceProvider.GetRequiredService<CryptocashIntegration.Infrastructure.Persistence.AppDbContext>();
-
-    dbContext.Database.EnsureDeleted();
-    dbContext.Database.EnsureCreated();
-}
+// {
+//     using var scope = app.Services.CreateScope();
+//     var dbContext = scope.ServiceProvider.GetRequiredService<CryptocashIntegration.Infrastructure.Persistence.AppDbContext>();
+//
+//     dbContext.Database.EnsureDeleted();
+//     dbContext.Database.EnsureCreated();
+// }
 
 app.UseHttpsRedirection();
 

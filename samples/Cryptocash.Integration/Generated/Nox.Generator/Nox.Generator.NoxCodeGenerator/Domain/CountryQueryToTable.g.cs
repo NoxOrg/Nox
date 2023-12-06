@@ -49,7 +49,7 @@ internal record CountryQueryToTableDeleted(CountryQueryToTable CountryQueryToTab
 /// <summary>
 /// Country and related data.
 /// </summary>
-internal abstract partial class CountryQueryToTableBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CountryQueryToTableBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Country unique identifier    

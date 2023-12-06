@@ -40,7 +40,7 @@ target:
   dataConnectionName: CryptocashEtlDb
   targetAdapterType: databaseTable
   tableOptions:
-    tableName: Countries
+    tableName: CountriesQueryToCustomTable
     watermark:
       sequentialKeyColumns:
         - Id

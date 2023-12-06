@@ -47,7 +47,7 @@ internal abstract class DeleteCountryQueryToTableByIdCommandHandlerBase : Comman
 			var keyId = CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.CountryQueryToTables.FindAsync(keyId);
-			if (entity == null || entity.IsDeleted == true)
+			if (entity == null)
 			{
 				return false;
 			}
