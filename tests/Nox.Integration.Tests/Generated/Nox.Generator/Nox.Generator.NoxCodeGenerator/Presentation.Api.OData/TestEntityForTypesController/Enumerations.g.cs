@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 using System.Collections.Generic;
 #nullable enable
@@ -36,7 +36,7 @@ public abstract partial class TestEntityForTypesControllerBase
     }
 
     [HttpPut("/api/v1/TestEntityForTypes/TestEntityForTypesEnumerationTestFieldsLocalized")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>>> PutEnumerationTestFieldsLocalizedNonConventional([FromBody] EnumerationLocalizedList<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto> testEntityForTypesEnumerationTestFieldLocalizedDtos)
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>>> PutEnumerationTestFieldsLocalizedNonConventional([FromBody] EnumerationLocalizedListDto<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto> testEntityForTypesEnumerationTestFieldLocalizedDtos)
     {   
         
         if (testEntityForTypesEnumerationTestFieldLocalizedDtos is null)

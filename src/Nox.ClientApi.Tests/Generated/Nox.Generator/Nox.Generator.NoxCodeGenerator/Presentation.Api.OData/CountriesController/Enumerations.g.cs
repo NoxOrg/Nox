@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 using System.Collections.Generic;
 #nullable enable
@@ -36,7 +36,7 @@ public abstract partial class CountriesControllerBase
     }
 
     [HttpPut("/api/v1/Countries/CountryContinentsLocalized")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.CountryContinentLocalizedDto>>> PutContinentsLocalizedNonConventional([FromBody] EnumerationLocalizedList<DtoNameSpace.CountryContinentLocalizedDto> countryContinentLocalizedDtos)
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.CountryContinentLocalizedDto>>> PutContinentsLocalizedNonConventional([FromBody] EnumerationLocalizedListDto<DtoNameSpace.CountryContinentLocalizedDto> countryContinentLocalizedDtos)
     {   
         
         if (countryContinentLocalizedDtos is null)
