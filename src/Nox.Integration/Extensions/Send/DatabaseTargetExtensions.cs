@@ -24,7 +24,6 @@ public static class DatabaseTargetExtensions
             tableTarget.CompareColumns = mergeDateColumns;
         }
 
-
         source.LinkTo(tableTarget);
         var result = new CustomDestination();
         tableTarget.LinkTo(result);

@@ -9,29 +9,32 @@ namespace Nox.Integration.Adapters.SqlServer;
 
 public class SqlServerQueryReceiveAdapter: INoxDatabaseReceiveAdapter
 {
-    private readonly DbSource<ExpandoObject> _dataSource;
+    private readonly SqlConnectionManager _connectionManager;
+
+    private string _query;
+    
     public IntegrationSourceAdapterType AdapterType => IntegrationSourceAdapterType.DatabaseQuery;
-    public IDataFlowExecutableSource<ExpandoObject> DataFlowSource => _dataSource;
+    
+    public IDataFlowExecutableSource<ExpandoObject> DataFlowSource =>
+        new DbSource<ExpandoObject>
+        {
+            ConnectionManager = _connectionManager,
+            Sql = _query
+        };
+
     public void ApplyFilter(List<string> filterColumns, IntegrationMergeStates mergeStates)
     {
-        var sql = _dataSource.Sql;
-        sql = SetQueryFilters(sql, filterColumns, mergeStates);
-        _dataSource.Sql = sql;
+        _query = SetQueryFilters(_query, filterColumns, mergeStates);
     }
 
-    public string Query { get; }
+    public string Query => _query;
     public int MinimumExpectedRecords { get; }
 
     public SqlServerQueryReceiveAdapter(string query, int minimumExpectedRecords, string connectionString)
     {
-        Query = query;
+        _query = query;
         MinimumExpectedRecords = minimumExpectedRecords;
-        var connectionManager = new SqlConnectionManager(new SqlConnectionString(connectionString));
-        _dataSource = new DbSource<ExpandoObject>
-        {
-            ConnectionManager = connectionManager,
-            Sql = query
-        };
+        _connectionManager = new SqlConnectionManager(new SqlConnectionString(connectionString));
     }
 
     private string SetQueryFilters(string sql, IEnumerable<string> filterColumns, IntegrationMergeStates mergeStates)

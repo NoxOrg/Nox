@@ -11,9 +11,18 @@ namespace Nox.Integration.Adapters.SqlServer;
 public class SqlServerTableSendAdapter: INoxDatabaseSendAdapter
 {
     public IntegrationTargetAdapterType AdapterType => IntegrationTargetAdapterType.DatabaseTable;
+    
+    private readonly SqlConnectionManager _connectionManager;
+    
     public string? StoredProcedure { get; }
     public string? TableName { get; }
-    public DbMerge<ExpandoObject>? TableTarget { get; }
+
+    public DbMerge<ExpandoObject>? TableTarget =>
+        new DbMerge(_connectionManager, TableName)
+        {
+            CacheMode = CacheMode.Partial,
+            MergeMode = MergeMode.InsertsAndUpdates
+        };
 
     public CustomDestination<ExpandoObject>? StoredProcTarget { get; }
 
@@ -35,19 +44,7 @@ public class SqlServerTableSendAdapter: INoxDatabaseSendAdapter
         TableName = tableName;
         SchemaName = schemaName ?? "dbo";
 
-        var connectionManager = new SqlConnectionManager(new SqlConnectionString(connectionString));
-        switch (AdapterType)
-        {
-            case IntegrationTargetAdapterType.DatabaseTable:
-                TableTarget = new DbMerge(connectionManager, TableName)
-                {
-                    CacheMode = CacheMode.Partial,
-                    MergeMode = MergeMode.InsertsAndUpdates
-                };
-                break;
-            default:
-                throw new NotImplementedException($"Adapter type {Enum.GetName(IntegrationTargetAdapterType.DatabaseTable)}, is not implemented in SqlServerSendAdapter");
-        }
+        _connectionManager = new SqlConnectionManager(new SqlConnectionString(connectionString));
     }
     
 }

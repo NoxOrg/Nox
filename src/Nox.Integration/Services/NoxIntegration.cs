@@ -66,48 +66,50 @@ internal sealed class NoxIntegration: INoxIntegration
             }
 
             await SetLastMergeStates();
-            _logger.LogInformation($"{Name}. Component NoxIntegration. Action {MergeType.ToString()}. Status success.");
+            _logger.LogInformation("{0}. Component {1}. Action {2}. Status {3}.", Name, "NoxIntegration", MergeType.ToString(), "success");
         }
         catch (Exception ex)
         {
-            _logger.LogError($"{Name}. Component NoxIntegration. Action {MergeType.ToString()}. Status error. Error {ex.Message}");
+            _logger.LogError("{0}. Component {1}. Action {2}. Status {3}. Error {4}", Name, "NoxIntegration", MergeType.ToString(), "error", ex.Message);
         }
     }
 
     private async Task ExecuteMergeNew(INoxCustomTransformHandler? handler)
     {
+        var unChanged = 0;
+        var inserts = 0;
+        var updates = 0;
+
         var source = ReceiveAdapter!.DataFlowSource;
 
         IDataFlowSource<ExpandoObject>? transformSource = null;
-        
+
         if (TransformType == IntegrationTransformType.CustomTransform)
         {
             if (handler == null) throw new NoxIntegrationException("Cannot execute custom transform, handler not registered.");
             var rowTransform = new RowTransformation<ExpandoObject, ExpandoObject>(sourceRecord => handler.Invoke(sourceRecord));
-            transformSource =  source.LinkTo(rowTransform);
+            transformSource = source.LinkTo(rowTransform);
         }
         
-        CustomDestination? postProcessDestination;
+        
+        
+        var postProcessDestination = new CustomDestination();
         switch (SendAdapter!.AdapterType)
         {
             case IntegrationTargetAdapterType.DatabaseTable:
                 if (transformSource != null)
                 {
-                    postProcessDestination = transformSource.LinkToDatabaseTable((INoxDatabaseSendAdapter)SendAdapter, TargetIdColumns, TargetDateColumns);    
+                    postProcessDestination = transformSource.LinkToDatabaseTable((INoxDatabaseSendAdapter)SendAdapter, TargetIdColumns, TargetDateColumns);
                 }
                 else
                 {
-                    postProcessDestination = source.LinkToDatabaseTable((INoxDatabaseSendAdapter)SendAdapter, TargetIdColumns, TargetDateColumns);    
+                    postProcessDestination = source.LinkToDatabaseTable((INoxDatabaseSendAdapter)SendAdapter, TargetIdColumns, TargetDateColumns);
                 }
-                
+
                 break;
             default:
                 throw new NotImplementedException($"Send adapter type: {Enum.GetName(SendAdapter!.AdapterType)} has not been implemented!");
         }
-
-        var unChanged = 0;
-        var inserts = 0;
-        var updates = 0;
 
         postProcessDestination.WriteAction = (row, _) =>
         {
@@ -141,9 +143,9 @@ internal sealed class NoxIntegration: INoxIntegration
             _logger.LogCritical("Failed to execute MergeNew for integration: {integrationName}", Name);
             _logger.LogError("{message}", ex.Message);
             throw;
-        }  
+        }
 
-        LogMergeAnalytics(inserts, updates, unChanged)
+        LogMergeAnalytics(inserts, updates, unChanged);
     }
 
     private Task ExecuteAddNew(INoxCustomTransformHandler? handler)
@@ -357,11 +359,11 @@ internal sealed class NoxIntegration: INoxIntegration
         {
             if (unChanged > 0)
             {
-                _logger.LogInformation($"{Name}. Component NoxIntegration. Action nochanges. Documents {unChanged}. last merge at {lastTimestamp}");
+                _logger.LogInformation("{0}. Component {1}. Action {2}. Documents {3}. last merge at {4}", Name, "NoxIntegration", "nochanges", unChanged, lastTimestamp);
             }
             else
             {
-                _logger.LogInformation($"{Name}. Component NoxIntegration. Action nochanges. Documents 0. last merge at {lastTimestamp}");
+                _logger.LogInformation("{0}. Component {1}. Action {2}. Documents {3}. last merge at {4}", Name, "NoxIntegration", "nochanges", 0, lastTimestamp);
             }
 
             return;
@@ -379,8 +381,8 @@ internal sealed class NoxIntegration: INoxIntegration
                 lastTimestamp = changes.Max();
             }
             
-            _logger.LogInformation($"{Name}. Component NoxIntegration. Action insert. Documents {inserts}. last merge at {lastTimestamp}");
-            _logger.LogInformation($"{Name}. Component NoxIntegration. Action update. Documents {updates}. last merge at {lastTimestamp}");
+            _logger.LogInformation("{0}. Component {1}. Action {2}. Documents {3}. last merge at {4}", Name, "NoxIntegration", "insert", inserts, lastTimestamp);
+            _logger.LogInformation("{0}. Component {1}. Action {2}. Documents {3}. last merge at {4}", Name, "NoxIntegration", "update", updates, lastTimestamp);
         }
 
     }
