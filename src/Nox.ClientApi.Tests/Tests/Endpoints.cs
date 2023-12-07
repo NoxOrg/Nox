@@ -1,7 +1,7 @@
 ﻿using Nox.Lib.Presentation.Api.EndPointAddressBuilder;
 using Nox.Solution;
 
-namespace ClientApi.Tests.Controllers
+namespace ClientApi.Tests
 {
 
     public class EndPointsFixture

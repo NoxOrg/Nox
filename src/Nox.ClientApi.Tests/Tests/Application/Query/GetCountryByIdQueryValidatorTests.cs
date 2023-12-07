@@ -4,7 +4,6 @@ using AutoFixture;
 using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
-using ClientApi.Tests.Controllers;
 
 namespace ClientApi.Tests.Tests.Controllers
 {

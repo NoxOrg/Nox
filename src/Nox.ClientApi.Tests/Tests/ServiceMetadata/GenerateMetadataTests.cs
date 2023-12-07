@@ -6,7 +6,7 @@ using Nox.Docs.Extensions;
 using ClientApi.Tests;
 using Xunit.Abstractions;
 
-namespace ClientApi.ServiceMetadata
+namespace ClientApi.Tests.ServiceMetadata
 {
     [Collection("Sequential")]
     public class GenerateMetadataTests : NoxWebApiTestBase
@@ -14,8 +14,8 @@ namespace ClientApi.ServiceMetadata
         public GenerateMetadataTests(
             ITestOutputHelper testOutputHelper,
             TestDatabaseContainerService containerService) : base(testOutputHelper, containerService)
-            //For development purposes
-            //TestDatabaseInstanceService containerService) : base(testOutputHelper, containerService)
+        //For development purposes
+        //TestDatabaseInstanceService containerService) : base(testOutputHelper, containerService)
         {
         }
 
