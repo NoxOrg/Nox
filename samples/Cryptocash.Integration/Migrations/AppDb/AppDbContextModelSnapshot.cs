@@ -30,6 +30,12 @@ namespace Cryptocash.Integration.Migrations.AppDb
                     b.Property<DateTime>("AsAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTimeOffset>("CreateDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("EditDate")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
                         .HasColumnType("uniqueidentifier");

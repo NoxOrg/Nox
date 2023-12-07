@@ -29,6 +29,15 @@ attributes:
     description: Country's population
     type: number
     isRequired: true
+    
+  - name: CreateDate
+    description: The date on which the country record was created
+    type: dateTime
+    isRequired: true
+
+  - name: EditDate
+    description: The date on which the country record was last updated
+    type: dateTime
 
 persistence:
   isAudited: false

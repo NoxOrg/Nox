@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Nox.Infrastructure;
+using Nox.Integration.Abstractions;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
@@ -9,7 +10,7 @@ public class NoxIntegrationDbContext: DbContext
 {
     private const string IntegrationSchema = "integration";
     private readonly NoxSolution? _solution;
-    private readonly INoxDatabaseProvider? _dbProvider;
+    private readonly INoxIntegrationDatabaseProvider? _dbProvider;
     private readonly INoxClientAssemblyProvider? _clientAssemblyProvider;
     
     public DbSet<IntegrationMergeState>? MergeStates { get; set; }
@@ -22,7 +23,7 @@ public class NoxIntegrationDbContext: DbContext
 
     public NoxIntegrationDbContext(
         NoxSolution solution,
-        INoxDatabaseProvider dbProvider,
+        INoxIntegrationDatabaseProvider dbProvider,
         INoxClientAssemblyProvider? clientAssemblyProvider)
     {
         _solution = solution;
@@ -47,7 +48,7 @@ public class NoxIntegrationDbContext: DbContext
                         break;
                         
                 }
-                _dbProvider!.ConfigureDbContext(optionsBuilder, appName, dbServer, _clientAssemblyProvider!.ClientAssembly.GetName().Name);
+                _dbProvider!.ConfigureDbContext(optionsBuilder, appName, dbServer, _clientAssemblyProvider!.ClientAssembly.GetName().Name!);
             }
         }
         base.OnConfiguring(optionsBuilder);

@@ -12,24 +12,13 @@ namespace Nox.EntityFramework.Postgres;
 public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider 
 {
     public string ConnectionString { get; protected set; } = string.Empty;
-    public NoxDataStoreType StoreType { get; }
     
     public PostgresDatabaseProvider(
-        IEnumerable<INoxTypeDatabaseConfigurator> configurators,
-        NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        INoxClientAssemblyProvider clientAssemblyProvider
-    ) : this(NoxDataStoreType.EntityStore, configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider)
-    {
-    }
-    
-    public PostgresDatabaseProvider(
-        NoxDataStoreType storeType,
         IEnumerable<INoxTypeDatabaseConfigurator> configurators,
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
         INoxClientAssemblyProvider clientAssemblyProvider
         ) : base(configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider, typeof(IPostgresNoxTypeDatabaseConfigurator))
     {
-        StoreType = storeType;
     }
 
     protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(EntityTypeBuilder builder, Entity entity)
@@ -43,7 +32,7 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
         return result;
     }
 
-    public virtual DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer, string? migrationsAssembly = null)
+    public virtual DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
     {
         var csb = new NpgsqlConnectionStringBuilder(dbServer.Options)
         {
@@ -61,15 +50,6 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
             .UseNpgsql(ConnectionString, opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
     }
 
-    public string ToTableNameForSql(string table, string schema)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string ToTableNameForSqlRaw(string table, string schema)
-    {
-        throw new NotImplementedException();
-    }
 
     public string GetSqlStatementForSequenceNextValue(string sequenceName)
     {

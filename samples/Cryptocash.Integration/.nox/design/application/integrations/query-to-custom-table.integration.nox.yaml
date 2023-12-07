@@ -29,7 +29,16 @@ source:
   sourceAdapterType: databaseQuery
   
   queryOptions:
-    query: SELECT CountryId, Name, Population, CreateDate, EditDate FROM dbo.CountryMaster
+    query: >-
+      SELECT 
+        CountryId, 
+        Name, 
+        Population, 
+        CreateDate, 
+        EditDate,
+        Etag
+      FROM 
+        dbo.CountryMaster
     minimumExpectedRecords: 10
 
 transformationType: customTransform

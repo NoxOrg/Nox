@@ -14,12 +14,12 @@ internal class MsSqlTestProvider : SqlServerDatabaseProvider
         IEnumerable<INoxTypeDatabaseConfigurator> configurators,
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
         INoxClientAssemblyProvider clientAssemblyProvider
-        ) : base(NoxDataStoreType.EntityStore, configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider)
+        ) : base(configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider)
     {
         ConnectionString = connectionString;
     }
 
-    public override DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer, string? migrationsAssembly = null)
+    public override DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
     {
         return optionsBuilder
             .UseSqlServer(ConnectionString,

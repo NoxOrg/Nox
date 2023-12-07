@@ -70,7 +70,7 @@ internal sealed class NoxIntegration: INoxIntegration
         }
         catch (Exception ex)
         {
-            _logger.LogError("{0}. Component {1}. Action {2}. Status {3}. Error {4}", Name, "NoxIntegration", MergeType.ToString(), "error", ex.Message);
+            _logger.LogError("{0}. Component {1}. Action {2}. Status {3}. Error {4}", Name, "NoxIntegration", MergeType.ToString(), "error", ex.ToString());
         }
     }
 
@@ -90,8 +90,6 @@ internal sealed class NoxIntegration: INoxIntegration
             var rowTransform = new RowTransformation<ExpandoObject, ExpandoObject>(sourceRecord => handler.Invoke(sourceRecord));
             transformSource = source.LinkTo(rowTransform);
         }
-        
-        
         
         var postProcessDestination = new CustomDestination();
         switch (SendAdapter!.AdapterType)
@@ -269,7 +267,7 @@ internal sealed class NoxIntegration: INoxIntegration
     {
         var timestamps = await dbContext.MergeStates!.Where(ts =>
             ts.Integration!.Equals(Name) &&
-            !ts.Property!.Equals(IntegrationContextConstants.DefaultFilterProperty)).ToListAsync();
+            ts.Property!.Equals(IntegrationContextConstants.DefaultFilterProperty)).ToListAsync();
         if (timestamps.Any())
         {
             dbContext.MergeStates!.RemoveRange(timestamps);

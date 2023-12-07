@@ -156,7 +156,6 @@ namespace Nox.Configuration
                 .AddSingleton(typeof(NoxSolution), noxSolution)
                 .AddSingleton(typeof(INoxClientAssemblyProvider), serviceProvider => new NoxClientAssemblyProvider(_clientAssembly))
                 .AddSingleton(typeof(NoxCodeGenConventions), serviceProvider => new NoxCodeGenConventions(serviceProvider.GetRequiredService<NoxSolution>()))
-                .AddSingleton<INoxDatabaseProviderResolver, NoxDatabaseProviderResolver>()
                 .AddNoxHttpDefaults()
                 .AddSecretsResolver()
                 .AddNoxMediatR(_clientAssembly)

@@ -36,8 +36,8 @@ source:
         Population, 
         CreateDate, 
         EditDate,
-        GETDATE() AS AsAt,
-        NEWID() AS Etag
+        CreateDate AS AsAt,
+        Etag
       FROM 
         dbo.CountryMaster
     minimumExpectedRecords: 10
@@ -54,7 +54,4 @@ target:
     watermark:
       sequentialKeyColumns: 
         - Id
-      dateColumns: 
-        - CreateDate
-        - EditDate
 
