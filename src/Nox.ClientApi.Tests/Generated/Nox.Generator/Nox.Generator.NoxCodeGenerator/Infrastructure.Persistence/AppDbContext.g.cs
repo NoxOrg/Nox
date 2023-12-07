@@ -125,6 +125,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
     {
         modelBuilder.Entity<ClientApi.Domain.Country>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.Store>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<ClientApi.Domain.Workplace>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.StoreOwner>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.StoreLicense>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.Currency>().HasQueryFilter(p => p.DeletedAtUtc == null);

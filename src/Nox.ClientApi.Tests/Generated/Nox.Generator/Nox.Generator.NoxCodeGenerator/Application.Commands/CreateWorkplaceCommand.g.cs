@@ -5,6 +5,7 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Exceptions;

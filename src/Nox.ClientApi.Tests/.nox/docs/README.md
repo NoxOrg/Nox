@@ -427,7 +427,7 @@ Email|Email|Teanant Brand Email.|Required
 
 ### Workplace
 
-Workplace.
+Workplace. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/WorkplaceEndpoints.md)
 
@@ -444,6 +444,7 @@ Description|Text|Workplace Description.|MinLength: 4, IsLocalized: true
 Greeting|Formula|The Formula.|
 CountryId|AutoNumber|The unique identifier.|Required, Foreign Key, StartsAt: 10, IncrementsBy: 5
 TenantId|Nuid||Required, Foreign Key, Separator: -, PropertyNames: System.String[]
+*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
 #### <u>Relationships</u>

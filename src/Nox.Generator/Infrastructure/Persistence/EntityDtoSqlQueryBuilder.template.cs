@@ -60,6 +60,9 @@ public class {{className}} : IEntityDtoSqlQueryBuilder
 			.Select("{{entity.PluralName}}.{{entity.OwnerEntity.Name}}Id")
 			{{- end }}
 			{{- if !entity.IsOwnedEntity }}
+			{{- if entity.Persistence?.IsAudited == true }}
+			.Select("{{entity.PluralName}}.DeletedAtUtc")
+			{{- end }}
 			.Select("{{entity.PluralName}}.Etag")
 			{{- end }}
 			.LeftJoin(localizedEntityQuery, j => j.On("{{entity.PluralName}}Localized.{{entityKeys[0].Name}}", "{{entity.PluralName}}.{{entityKeys[0].Name}}"));
