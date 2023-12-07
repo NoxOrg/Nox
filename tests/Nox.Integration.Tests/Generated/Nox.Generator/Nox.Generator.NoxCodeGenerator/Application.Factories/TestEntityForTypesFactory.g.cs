@@ -555,7 +555,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (MoneyTestFieldUpdateValue == null) { entity.MoneyTestField = null; }
             else
             {
-                entity.MoneyTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMoneyTestField(MoneyTestFieldUpdateValue);
+                var entityToUpdate = entity.MoneyTestField is null ? new MoneyDto() : entity.MoneyTestField.ToDto();
+                MoneyDto.UpdateFromDictionary(entityToUpdate, MoneyTestFieldUpdateValue);
+                entity.MoneyTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMoneyTestField(entityToUpdate);
             }
         }
 
@@ -573,7 +575,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (StreetAddressTestFieldUpdateValue == null) { entity.StreetAddressTestField = null; }
             else
             {
-                entity.StreetAddressTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateStreetAddressTestField(StreetAddressTestFieldUpdateValue);
+                var entityToUpdate = entity.StreetAddressTestField is null ? new StreetAddressDto() : entity.StreetAddressTestField.ToDto();
+                StreetAddressDto.UpdateFromDictionary(entityToUpdate, StreetAddressTestFieldUpdateValue);
+                entity.StreetAddressTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateStreetAddressTestField(entityToUpdate);
             }
         }
 
@@ -609,7 +613,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (GeoCoordTestFieldUpdateValue == null) { entity.GeoCoordTestField = null; }
             else
             {
-                entity.GeoCoordTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateGeoCoordTestField(GeoCoordTestFieldUpdateValue);
+                var entityToUpdate = entity.GeoCoordTestField is null ? new LatLongDto() : entity.GeoCoordTestField.ToDto();
+                LatLongDto.UpdateFromDictionary(entityToUpdate, GeoCoordTestFieldUpdateValue);
+                entity.GeoCoordTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateGeoCoordTestField(entityToUpdate);
             }
         }
 
@@ -681,7 +687,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (DateTimeRangeTestFieldUpdateValue == null) { entity.DateTimeRangeTestField = null; }
             else
             {
-                entity.DateTimeRangeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeRangeTestField(DateTimeRangeTestFieldUpdateValue);
+                var entityToUpdate = entity.DateTimeRangeTestField is null ? new DateTimeRangeDto() : entity.DateTimeRangeTestField.ToDto();
+                DateTimeRangeDto.UpdateFromDictionary(entityToUpdate, DateTimeRangeTestFieldUpdateValue);
+                entity.DateTimeRangeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeRangeTestField(entityToUpdate);
             }
         }
 
@@ -807,7 +815,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (TranslatedTextTestFieldUpdateValue == null) { entity.TranslatedTextTestField = null; }
             else
             {
-                entity.TranslatedTextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTranslatedTextTestField(TranslatedTextTestFieldUpdateValue);
+                var entityToUpdate = entity.TranslatedTextTestField is null ? new TranslatedTextDto() : entity.TranslatedTextTestField.ToDto();
+                TranslatedTextDto.UpdateFromDictionary(entityToUpdate, TranslatedTextTestFieldUpdateValue);
+                entity.TranslatedTextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTranslatedTextTestField(entityToUpdate);
             }
         }
 
@@ -897,7 +907,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (VatNumberTestFieldUpdateValue == null) { entity.VatNumberTestField = null; }
             else
             {
-                entity.VatNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateVatNumberTestField(VatNumberTestFieldUpdateValue);
+                var entityToUpdate = entity.VatNumberTestField is null ? new VatNumberDto() : entity.VatNumberTestField.ToDto();
+                VatNumberDto.UpdateFromDictionary(entityToUpdate, VatNumberTestFieldUpdateValue);
+                entity.VatNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateVatNumberTestField(entityToUpdate);
             }
         }
 
@@ -924,7 +936,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (FileTestFieldUpdateValue == null) { entity.FileTestField = null; }
             else
             {
-                entity.FileTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateFileTestField(FileTestFieldUpdateValue);
+                var entityToUpdate = entity.FileTestField is null ? new FileDto() : entity.FileTestField.ToDto();
+                FileDto.UpdateFromDictionary(entityToUpdate, FileTestFieldUpdateValue);
+                entity.FileTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateFileTestField(entityToUpdate);
             }
         }
 
@@ -978,7 +992,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (ImageTestFieldUpdateValue == null) { entity.ImageTestField = null; }
             else
             {
-                entity.ImageTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateImageTestField(ImageTestFieldUpdateValue);
+                var entityToUpdate = entity.ImageTestField is null ? new ImageDto() : entity.ImageTestField.ToDto();
+                ImageDto.UpdateFromDictionary(entityToUpdate, ImageTestFieldUpdateValue);
+                entity.ImageTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateImageTestField(entityToUpdate);
             }
         }
     }

@@ -121,7 +121,9 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
                 throw new ArgumentException("Attribute 'Address' can't be null");
             }
             {
-                entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(AddressUpdateValue);
+                var entityToUpdate = entity.Address is null ? new StreetAddressDto() : entity.Address.ToDto();
+                StreetAddressDto.UpdateFromDictionary(entityToUpdate, AddressUpdateValue);
+                entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(entityToUpdate);
             }
         }
 
@@ -132,7 +134,9 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
                 throw new ArgumentException("Attribute 'Location' can't be null");
             }
             {
-                entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(LocationUpdateValue);
+                var entityToUpdate = entity.Location is null ? new LatLongDto() : entity.Location.ToDto();
+                LatLongDto.UpdateFromDictionary(entityToUpdate, LocationUpdateValue);
+                entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(entityToUpdate);
             }
         }
 

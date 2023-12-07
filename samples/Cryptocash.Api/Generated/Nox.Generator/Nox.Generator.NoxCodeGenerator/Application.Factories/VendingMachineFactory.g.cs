@@ -128,7 +128,9 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
                 throw new ArgumentException("Attribute 'GeoLocation' can't be null");
             }
             {
-                entity.GeoLocation = Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(GeoLocationUpdateValue);
+                var entityToUpdate = entity.GeoLocation is null ? new LatLongDto() : entity.GeoLocation.ToDto();
+                LatLongDto.UpdateFromDictionary(entityToUpdate, GeoLocationUpdateValue);
+                entity.GeoLocation = Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(entityToUpdate);
             }
         }
 
@@ -139,7 +141,9 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
                 throw new ArgumentException("Attribute 'StreetAddress' can't be null");
             }
             {
-                entity.StreetAddress = Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(StreetAddressUpdateValue);
+                var entityToUpdate = entity.StreetAddress is null ? new StreetAddressDto() : entity.StreetAddress.ToDto();
+                StreetAddressDto.UpdateFromDictionary(entityToUpdate, StreetAddressUpdateValue);
+                entity.StreetAddress = Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(entityToUpdate);
             }
         }
 
@@ -168,7 +172,9 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
             if (RentPerSquareMetreUpdateValue == null) { entity.RentPerSquareMetre = null; }
             else
             {
-                entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(RentPerSquareMetreUpdateValue);
+                var entityToUpdate = entity.RentPerSquareMetre is null ? new MoneyDto() : entity.RentPerSquareMetre.ToDto();
+                MoneyDto.UpdateFromDictionary(entityToUpdate, RentPerSquareMetreUpdateValue);
+                entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(entityToUpdate);
             }
         }
     }

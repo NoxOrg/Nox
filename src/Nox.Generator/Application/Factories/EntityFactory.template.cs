@@ -181,7 +181,13 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
             else
             {{- end }}
             {
+                {{- if IsNoxTypeSimpleType attribute.Type }}
                 entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue);
+                {{- else }}
+                var entityToUpdate = entity.{{attribute.Name}} is null ? new {{attribute.Type}}Dto() : entity.{{attribute.Name}}.ToDto();
+                {{attribute.Type}}Dto.UpdateFromDictionary(entityToUpdate, {{attribute.Name}}UpdateValue);
+                entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(entityToUpdate);
+                {{- end }}
             }
         }
 

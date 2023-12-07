@@ -138,7 +138,9 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
             if (VatNumberUpdateValue == null) { entity.VatNumber = null; }
             else
             {
-                entity.VatNumber = ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(VatNumberUpdateValue);
+                var entityToUpdate = entity.VatNumber is null ? new VatNumberDto() : entity.VatNumber.ToDto();
+                VatNumberDto.UpdateFromDictionary(entityToUpdate, VatNumberUpdateValue);
+                entity.VatNumber = ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(entityToUpdate);
             }
         }
 
@@ -147,7 +149,9 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
             if (StreetAddressUpdateValue == null) { entity.StreetAddress = null; }
             else
             {
-                entity.StreetAddress = ClientApi.Domain.StoreOwnerMetadata.CreateStreetAddress(StreetAddressUpdateValue);
+                var entityToUpdate = entity.StreetAddress is null ? new StreetAddressDto() : entity.StreetAddress.ToDto();
+                StreetAddressDto.UpdateFromDictionary(entityToUpdate, StreetAddressUpdateValue);
+                entity.StreetAddress = ClientApi.Domain.StoreOwnerMetadata.CreateStreetAddress(entityToUpdate);
             }
         }
 
@@ -156,7 +160,9 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
             if (LocalGreetingUpdateValue == null) { entity.LocalGreeting = null; }
             else
             {
-                entity.LocalGreeting = ClientApi.Domain.StoreOwnerMetadata.CreateLocalGreeting(LocalGreetingUpdateValue);
+                var entityToUpdate = entity.LocalGreeting is null ? new TranslatedTextDto() : entity.LocalGreeting.ToDto();
+                TranslatedTextDto.UpdateFromDictionary(entityToUpdate, LocalGreetingUpdateValue);
+                entity.LocalGreeting = ClientApi.Domain.StoreOwnerMetadata.CreateLocalGreeting(entityToUpdate);
             }
         }
 

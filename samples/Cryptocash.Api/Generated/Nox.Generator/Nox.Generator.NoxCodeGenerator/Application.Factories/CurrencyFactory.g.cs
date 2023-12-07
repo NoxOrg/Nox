@@ -255,7 +255,9 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
                 throw new ArgumentException("Attribute 'MinorToMajorValue' can't be null");
             }
             {
-                entity.MinorToMajorValue = Cryptocash.Domain.CurrencyMetadata.CreateMinorToMajorValue(MinorToMajorValueUpdateValue);
+                var entityToUpdate = entity.MinorToMajorValue is null ? new MoneyDto() : entity.MinorToMajorValue.ToDto();
+                MoneyDto.UpdateFromDictionary(entityToUpdate, MinorToMajorValueUpdateValue);
+                entity.MinorToMajorValue = Cryptocash.Domain.CurrencyMetadata.CreateMinorToMajorValue(entityToUpdate);
             }
         }
     }

@@ -244,7 +244,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (GeoCoordUpdateValue == null) { entity.GeoCoord = null; }
             else
             {
-                entity.GeoCoord = SampleWebApp.Domain.CountryMetadata.CreateGeoCoord(GeoCoordUpdateValue);
+                var entityToUpdate = entity.GeoCoord is null ? new LatLongDto() : entity.GeoCoord.ToDto();
+                LatLongDto.UpdateFromDictionary(entityToUpdate, GeoCoordUpdateValue);
+                entity.GeoCoord = SampleWebApp.Domain.CountryMetadata.CreateGeoCoord(entityToUpdate);
             }
         }
 

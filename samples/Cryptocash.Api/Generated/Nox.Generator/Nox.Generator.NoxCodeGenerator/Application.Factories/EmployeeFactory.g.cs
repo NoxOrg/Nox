@@ -134,7 +134,9 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
                 throw new ArgumentException("Attribute 'Address' can't be null");
             }
             {
-                entity.Address = Cryptocash.Domain.EmployeeMetadata.CreateAddress(AddressUpdateValue);
+                var entityToUpdate = entity.Address is null ? new StreetAddressDto() : entity.Address.ToDto();
+                StreetAddressDto.UpdateFromDictionary(entityToUpdate, AddressUpdateValue);
+                entity.Address = Cryptocash.Domain.EmployeeMetadata.CreateAddress(entityToUpdate);
             }
         }
 

@@ -90,7 +90,9 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
                 throw new ArgumentException("Attribute 'Amount' can't be null");
             }
             {
-                entity.Amount = Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(AmountUpdateValue);
+                var entityToUpdate = entity.Amount is null ? new MoneyDto() : entity.Amount.ToDto();
+                MoneyDto.UpdateFromDictionary(entityToUpdate, AmountUpdateValue);
+                entity.Amount = Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(entityToUpdate);
             }
         }
 

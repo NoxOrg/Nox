@@ -93,7 +93,9 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, Lan
                 throw new ArgumentException("Attribute 'Address' can't be null");
             }
             {
-                entity.Address = Cryptocash.Domain.LandLordMetadata.CreateAddress(AddressUpdateValue);
+                var entityToUpdate = entity.Address is null ? new StreetAddressDto() : entity.Address.ToDto();
+                StreetAddressDto.UpdateFromDictionary(entityToUpdate, AddressUpdateValue);
+                entity.Address = Cryptocash.Domain.LandLordMetadata.CreateAddress(entityToUpdate);
             }
         }
     }

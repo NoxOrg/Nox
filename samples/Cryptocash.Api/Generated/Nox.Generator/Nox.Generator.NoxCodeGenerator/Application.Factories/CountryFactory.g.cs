@@ -228,7 +228,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (GeoCoordsUpdateValue == null) { entity.GeoCoords = null; }
             else
             {
-                entity.GeoCoords = Cryptocash.Domain.CountryMetadata.CreateGeoCoords(GeoCoordsUpdateValue);
+                var entityToUpdate = entity.GeoCoords is null ? new LatLongDto() : entity.GeoCoords.ToDto();
+                LatLongDto.UpdateFromDictionary(entityToUpdate, GeoCoordsUpdateValue);
+                entity.GeoCoords = Cryptocash.Domain.CountryMetadata.CreateGeoCoords(entityToUpdate);
             }
         }
 
@@ -246,7 +248,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (FlagSvgUpdateValue == null) { entity.FlagSvg = null; }
             else
             {
-                entity.FlagSvg = Cryptocash.Domain.CountryMetadata.CreateFlagSvg(FlagSvgUpdateValue);
+                var entityToUpdate = entity.FlagSvg is null ? new ImageDto() : entity.FlagSvg.ToDto();
+                ImageDto.UpdateFromDictionary(entityToUpdate, FlagSvgUpdateValue);
+                entity.FlagSvg = Cryptocash.Domain.CountryMetadata.CreateFlagSvg(entityToUpdate);
             }
         }
 
@@ -255,7 +259,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (FlagPngUpdateValue == null) { entity.FlagPng = null; }
             else
             {
-                entity.FlagPng = Cryptocash.Domain.CountryMetadata.CreateFlagPng(FlagPngUpdateValue);
+                var entityToUpdate = entity.FlagPng is null ? new ImageDto() : entity.FlagPng.ToDto();
+                ImageDto.UpdateFromDictionary(entityToUpdate, FlagPngUpdateValue);
+                entity.FlagPng = Cryptocash.Domain.CountryMetadata.CreateFlagPng(entityToUpdate);
             }
         }
 
@@ -264,7 +270,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (CoatOfArmsSvgUpdateValue == null) { entity.CoatOfArmsSvg = null; }
             else
             {
-                entity.CoatOfArmsSvg = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsSvg(CoatOfArmsSvgUpdateValue);
+                var entityToUpdate = entity.CoatOfArmsSvg is null ? new ImageDto() : entity.CoatOfArmsSvg.ToDto();
+                ImageDto.UpdateFromDictionary(entityToUpdate, CoatOfArmsSvgUpdateValue);
+                entity.CoatOfArmsSvg = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsSvg(entityToUpdate);
             }
         }
 
@@ -273,7 +281,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (CoatOfArmsPngUpdateValue == null) { entity.CoatOfArmsPng = null; }
             else
             {
-                entity.CoatOfArmsPng = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsPng(CoatOfArmsPngUpdateValue);
+                var entityToUpdate = entity.CoatOfArmsPng is null ? new ImageDto() : entity.CoatOfArmsPng.ToDto();
+                ImageDto.UpdateFromDictionary(entityToUpdate, CoatOfArmsPngUpdateValue);
+                entity.CoatOfArmsPng = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsPng(entityToUpdate);
             }
         }
 

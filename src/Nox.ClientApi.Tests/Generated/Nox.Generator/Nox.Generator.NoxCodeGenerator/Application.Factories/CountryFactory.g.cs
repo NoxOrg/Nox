@@ -198,7 +198,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (CountryDebtUpdateValue == null) { entity.CountryDebt = null; }
             else
             {
-                entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(CountryDebtUpdateValue);
+                var entityToUpdate = entity.CountryDebt is null ? new MoneyDto() : entity.CountryDebt.ToDto();
+                MoneyDto.UpdateFromDictionary(entityToUpdate, CountryDebtUpdateValue);
+                entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(entityToUpdate);
             }
         }
 
@@ -207,7 +209,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (CapitalCityLocationUpdateValue == null) { entity.CapitalCityLocation = null; }
             else
             {
-                entity.CapitalCityLocation = ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(CapitalCityLocationUpdateValue);
+                var entityToUpdate = entity.CapitalCityLocation is null ? new LatLongDto() : entity.CapitalCityLocation.ToDto();
+                LatLongDto.UpdateFromDictionary(entityToUpdate, CapitalCityLocationUpdateValue);
+                entity.CapitalCityLocation = ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(entityToUpdate);
             }
         }
 

@@ -92,7 +92,9 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
                 throw new ArgumentException("Attribute 'Value' can't be null");
             }
             {
-                entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(ValueUpdateValue);
+                var entityToUpdate = entity.Value is null ? new MoneyDto() : entity.Value.ToDto();
+                MoneyDto.UpdateFromDictionary(entityToUpdate, ValueUpdateValue);
+                entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(entityToUpdate);
             }
         }
     }
