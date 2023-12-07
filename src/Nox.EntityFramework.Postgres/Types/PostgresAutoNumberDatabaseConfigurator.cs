@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Types.EntityFramework.Configurations;
 using Nox.Types.EntityFramework.Types;
 
 namespace Nox.EntityFramework.Postgres.Types;
@@ -11,7 +12,7 @@ public class PostgresAutoNumberDatabaseConfigurator : AutoNumberDatabaseConfigur
     public override bool IsDefault => false;
 
     public override void ConfigureEntityProperty(NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        AttributeConfiguration property,
+        NoxTypeDatabaseConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder,
@@ -24,7 +25,7 @@ public class PostgresAutoNumberDatabaseConfigurator : AutoNumberDatabaseConfigur
 
         if (shouldAutoincrement)
         {
-            var typeOptions = property.AutoNumberTypeOptions ?? new AutoNumberTypeOptions();
+            var typeOptions = property.GetTypeOptions<AutoNumberTypeOptions>();
             var metadata = entityTypeBuilder
                 .Property(property.Name).ValueGeneratedOnAdd().Metadata;
             metadata.SetIdentityIncrementBy(typeOptions.IncrementsBy);

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurations;
 
 
 namespace Nox.Types.EntityFramework.Types;
@@ -14,12 +15,12 @@ public class WeightDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        AttributeConfiguration property,
+        NoxTypeDatabaseConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder, EntityTypeBuilder entityTypeBuilder)
     {
-        var typeOptions = property.WeightTypeOptions ?? new WeightTypeOptions();
+        var typeOptions = property.GetTypeOptions<WeightTypeOptions>();
 
         entityTypeBuilder
             .Property(property.Name)

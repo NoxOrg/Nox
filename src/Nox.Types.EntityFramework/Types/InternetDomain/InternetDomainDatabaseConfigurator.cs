@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurations;
 
 namespace Nox.Types.EntityFramework.Types;
 /// <summary>
@@ -33,7 +34,7 @@ public class InternetDomainDatabaseConfigurator : INoxTypeDatabaseConfigurator
     /// <param name="entityTypeBuilder"></param>
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        AttributeConfiguration property,
+        NoxTypeDatabaseConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder, 

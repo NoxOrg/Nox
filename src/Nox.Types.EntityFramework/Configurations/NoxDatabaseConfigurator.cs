@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using Nox.Types.EntityFramework.Exceptions;
 using System.Reflection.Emit;
+using Nox.Types.EntityFramework.Extensions;
 
 
 namespace Nox.Types.EntityFramework.Configurations
@@ -338,7 +339,7 @@ namespace Nox.Types.EntityFramework.Configurations
                     {
                         Console.WriteLine($"    Setup Key {key.Name} for Entity {entity.Name}");
                         keysPropertyNames.Add(databaseConfiguration.GetKeyPropertyName(key));
-                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, key.ToAttributeConfiguration(), entity, true, modelBuilder, builder);
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, key.ToNoxTypeDatabaseConfiguration(), entity, true, modelBuilder, builder);
                     }
                     else
                     {
@@ -393,7 +394,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 foreignEntityKeyDefinition.IsRequired = false;
                 foreignEntityKeyDefinition.IsReadonly = false;
 
-                databaseConfigurationForForeignKey.ConfigureEntityProperty(codeGeneratorState, foreignEntityKeyDefinition.ToAttributeConfiguration(), entity, false, modelBuilder, builder);
+                databaseConfigurationForForeignKey.ConfigureEntityProperty(codeGeneratorState, foreignEntityKeyDefinition.ToNoxTypeDatabaseConfiguration(), entity, false, modelBuilder, builder);
             }
         }
 
@@ -458,7 +459,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 {
                     if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
                     {
-                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, property.ToAttributeConfiguration(), entity, false, modelBuilder, builder);
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, property.ToNoxTypeDatabaseConfiguration(), entity, false, modelBuilder, builder);
                     }
                     else
                     {

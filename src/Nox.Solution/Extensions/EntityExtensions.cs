@@ -52,13 +52,6 @@ public static class EntityExtensions
             }
         }
     }
-    
-    public static IEnumerable<AttributeConfiguration> GetLocalizedAttributesConfigurations(this Entity entity)
-        => entity.GetLocalizedAttributes().Select(property =>
-        {
-            var configuration = property.ToLocalizedAttributeConfiguration();
-            return configuration;
-        });
 
     public static IEnumerable<NoxSimpleTypeDefinition> GetLocalizedAttributes(this Entity entity) => entity.Attributes.Where(x => x.IsLocalized);
 

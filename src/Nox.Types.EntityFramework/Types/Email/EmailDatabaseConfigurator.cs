@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurations;
 
 namespace Nox.Types.EntityFramework.Types;
 public class EmailDatabaseConfigurator : INoxTypeDatabaseConfigurator
@@ -12,7 +13,7 @@ public class EmailDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        AttributeConfiguration property,
+        NoxTypeDatabaseConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder, EntityTypeBuilder entityTypeBuilder)

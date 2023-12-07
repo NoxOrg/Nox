@@ -1,6 +1,6 @@
 ﻿namespace Nox.Types;
 
-public sealed class ReferenceNumberTypeOptions
+public sealed class ReferenceNumberTypeOptions : INoxTypeOptions
 {
     /// <summary>
     /// Start Number, example: 1

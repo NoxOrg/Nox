@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-
+using Nox.Types.EntityFramework.Configurations;
 using Nox.Types.EntityFramework.Exceptions;
 
 namespace Nox.Types.EntityFramework.Types;
@@ -14,7 +14,7 @@ public class EntityDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        AttributeConfiguration property,
+        NoxTypeDatabaseConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder, EntityTypeBuilder entityTypeBuilder)

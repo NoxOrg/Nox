@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurations;
 
 namespace Nox.Types.EntityFramework.Types;
 
@@ -12,13 +13,13 @@ public class MarkdownDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        AttributeConfiguration property,
+        NoxTypeDatabaseConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder,
         EntityTypeBuilder entityTypeBuilder)
     {
-        var markdownTypeOptions = property.MarkdownTypeOptions ?? new MarkdownTypeOptions();
+        var markdownTypeOptions = property.GetTypeOptions<MarkdownTypeOptions>();
 
         entityTypeBuilder
             .Property(property.Name)

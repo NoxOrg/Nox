@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurations;
 
 namespace Nox.Types.EntityFramework.Types;
 
@@ -12,14 +13,14 @@ public class TextDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        AttributeConfiguration property,
+        NoxTypeDatabaseConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder,
         EntityTypeBuilder entityTypeBuilder)
     {
         //TODO: Default values from static property in the Nox.Type
-        var textOptions = property.TextTypeOptions ?? new TextTypeOptions();
+        var textOptions = property.GetTypeOptions<TextTypeOptions>();
 
         entityTypeBuilder
             .Property(property.Name)

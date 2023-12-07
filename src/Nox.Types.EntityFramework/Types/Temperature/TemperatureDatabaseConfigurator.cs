@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurations;
 
 namespace Nox.Types.EntityFramework.Types;
 
@@ -12,12 +13,12 @@ public class TemperatureDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        AttributeConfiguration property,
+        NoxTypeDatabaseConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder, EntityTypeBuilder entityTypeBuilder)
     {
-        var typeOptions = property.TemperatureTypeOptions ?? new TemperatureTypeOptions();
+        var typeOptions = property.GetTypeOptions<TemperatureTypeOptions>();
         entityTypeBuilder
             .Property(property.Name)
             .IsRequired(property.IsRequired)

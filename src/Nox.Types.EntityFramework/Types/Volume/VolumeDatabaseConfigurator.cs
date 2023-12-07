@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurations;
 
 namespace Nox.Types.EntityFramework.Types;
 
@@ -13,13 +14,13 @@ public class VolumeDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        AttributeConfiguration property,
+        NoxTypeDatabaseConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder,
         EntityTypeBuilder entityTypeBuilder)
     {
-        var typeOptions = property.VolumeTypeOptions ?? new VolumeTypeOptions();
+        var typeOptions = property.GetTypeOptions<VolumeTypeOptions>();
 
         entityTypeBuilder
             .Property(property.Name)
