@@ -170,7 +170,9 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetPaymentDetailByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]

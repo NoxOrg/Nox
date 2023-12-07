@@ -103,7 +103,9 @@ public abstract partial class SecondTestEntityExactlyOnesControllerBase : ODataC
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     #endregion

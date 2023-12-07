@@ -135,7 +135,9 @@ public abstract partial class TestEntityZeroOrOneToZeroOrManiesControllerBase : 
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetTestEntityZeroOrManyToZeroOrOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/v1/TestEntityZeroOrOneToZeroOrManies/{key}/TestEntityZeroOrManyToZeroOrOne")]
