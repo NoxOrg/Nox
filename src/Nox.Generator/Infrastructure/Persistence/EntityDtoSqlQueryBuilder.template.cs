@@ -15,7 +15,6 @@ end -}}
 	ret enumTableName(enumName) | string.append "Localized"
 end -}}
 {{- hasLocalizedText = entity.Attributes | array.each @isLocalizedText | array.contains true }}
-{{- hasEnum = entity.Attributes | array.each @isEnum | array.contains true }}
 {{- entityTableName = entity.PluralName }}
 {{- localizedEntityTableName = entity.PluralName | string.append "Localized" }}
 #nullable enable
@@ -41,40 +40,13 @@ public class {{className}} : IEntityDtoSqlQueryBuilder
 
 	public string Build()
 	{
-		{{- if hasLocalizedText}}
-		var localizedEntityQuery = new Query("{{localizedEntityTableName}}")
-			{{- for key in entityKeys}}
-			.Select("{{localizedEntityTableName}}.{{key.Name}}")
-			{{- end}}
-			{{- for attribute in entity.Attributes | array.filter @isLocalizedText}}
-			.Select("{{localizedEntityTableName}}.{{attribute.Name}}")
-			{{- end}}
-			.Where("{{localizedEntityTableName}}.CultureCode", "##LANG##")
-			.As("{{localizedEntityTableName}}");
-		{{- end}}
-		{{- if hasEnum }}
-		{{- for attribute in entity.Attributes | array.filter @isEnum }}
-		{{- if isLocalizedEnum attribute }}
-		var localized{{attribute.Name}}EnumQuery = new Query("{{localizedEnumTableName attribute.Name}}")
-			.Select("{{localizedEnumTableName attribute.Name}}.Id")
-			.Select("{{localizedEnumTableName attribute.Name}}.Name")
-			.Where("{{localizedEnumTableName attribute.Name}}.CultureCode", "##LANG##")
-			.As("{{localizedEnumTableName attribute.Name}}");
-		{{ end }}
-		var {{attribute.Name | string.downcase}}EnumQuery = new Query("{{enumTableName attribute.Name}}")
-			.Select("{{enumTableName attribute.Name}}.Id")
-		{{- if isLocalizedEnum attribute }}
-			.ForSqlServer(q => q.SelectRaw("COALESCE([{{localizedEnumTableName attribute.Name}}].[Name], (N'[' + COALESCE([{{enumTableName attribute.Name}}].[Name], N'')) + N']') AS [Name]"))
-			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"{{localizedEnumTableName attribute.Name}}\".\"Name\", ('##OPEN##' || COALESCE(\"{{enumTableName attribute.Name}}\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
-			.ForSqlite(q => q.SelectRaw("COALESCE(\"{{localizedEnumTableName attribute.Name}}\".\"Name\", ('##OPEN##' || COALESCE(\"{{enumTableName attribute.Name}}\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
-			.LeftJoin(localized{{attribute.Name}}EnumQuery, j => j.On("{{localizedEnumTableName attribute.Name}}.Id", "{{enumTableName attribute.Name}}.Id"))
-		{{- else }}
-			.Select("{{enumTableName attribute.Name}}.Name")
-		{{- end }}
-			.As("{{enumTableName attribute.Name}}");
-		{{- end}}
-		{{end}}
-		var entityQuery = new Query("{{entityTableName}}")
+		var query = {{entity.Name}}Query();
+		return CompileToSqlString(query);
+	}
+	
+	private static Query {{entity.Name}}Query()
+	{
+		return new Query("{{entityTableName}}")
 			{{- for key in entityKeys}}
 			.Select("{{entityTableName}}.{{key.Name}}")
 			{{- end}}
@@ -105,14 +77,57 @@ public class {{className}} : IEntityDtoSqlQueryBuilder
 			.Select("{{entityTableName}}.Etag")
 			{{- end }}
 			{{- if hasLocalizedText}}
-			.LeftJoin(localizedEntityQuery, j => j.On("{{localizedEntityTableName}}.{{entityKeys[0].Name}}", "{{entityTableName}}.{{entityKeys[0].Name}}"))
+			.LeftJoin({{entity.Name}}LocalizedQuery(), j => j.On("{{localizedEntityTableName}}.{{entityKeys[0].Name}}", "{{entityTableName}}.{{entityKeys[0].Name}}"))
 			{{- end}}
-			{{- if hasEnum }}
 			{{- for attribute in entity.Attributes | array.filter @isEnum}}
-			.LeftJoin({{attribute.Name | string.downcase}}EnumQuery, j => j.On("{{enumTableName attribute.Name}}.Id", "{{entityTableName}}.{{attribute.Name}}"))
-			{{- end}}
+			.LeftJoin({{attribute.Name}}EnumQuery(), j => j.On("{{enumTableName attribute.Name}}.Id", "{{entityTableName}}.{{attribute.Name}}"))
 			{{- end -}};
+	}
+	{{- if hasLocalizedText}}
+	
+	private static Query {{entity.Name}}LocalizedQuery()
+	{
+		return new Query("{{localizedEntityTableName}}")
+			{{- for key in entityKeys}}
+			.Select("{{localizedEntityTableName}}.{{key.Name}}")
+			{{- end}}
+			{{- for attribute in entity.Attributes | array.filter @isLocalizedText}}
+			.Select("{{localizedEntityTableName}}.{{attribute.Name}}")
+			{{- end}}
+			.Where("{{localizedEntityTableName}}.CultureCode", "##LANG##")
+			.As("{{localizedEntityTableName}}");
+	}
+	{{- end}}
+	{{- for attribute in entity.Attributes | array.filter @isEnum }}
+	
+	private static Query {{attribute.Name}}EnumQuery()
+	{
+		{{- if isLocalizedEnum attribute }}
+		var localizedEnumQuery = new Query("{{localizedEnumTableName attribute.Name}}")
+			.Select("{{localizedEnumTableName attribute.Name}}.Id")
+			.Select("{{localizedEnumTableName attribute.Name}}.Name")
+			.Where("{{localizedEnumTableName attribute.Name}}.CultureCode", "##LANG##")
+			.As("{{localizedEnumTableName attribute.Name}}");
+		{{ end }}
+		return new Query("{{enumTableName attribute.Name}}")
+			.Select("{{enumTableName attribute.Name}}.Id")
+		{{- if isLocalizedEnum attribute }}
+			.ForSqlServer(q => q.SelectRaw("COALESCE([{{localizedEnumTableName attribute.Name}}].[Name], (N'[' + COALESCE([{{enumTableName attribute.Name}}].[Name], N'')) + N']') AS [Name]"))
+			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"{{localizedEnumTableName attribute.Name}}\".\"Name\", ('##OPEN##' || COALESCE(\"{{enumTableName attribute.Name}}\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
+			.ForSqlite(q => q.SelectRaw("COALESCE(\"{{localizedEnumTableName attribute.Name}}\".\"Name\", ('##OPEN##' || COALESCE(\"{{enumTableName attribute.Name}}\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
+			.LeftJoin(localizedEnumQuery, j => j.On("{{localizedEnumTableName attribute.Name}}.Id", "{{enumTableName attribute.Name}}.Id"))
+		{{- else }}
+			.Select("{{enumTableName attribute.Name}}.Name")
+		{{- end }}
+			.As("{{enumTableName attribute.Name}}");
+	}
+	{{- end}}
 
-		return _sqlCompiler.Compile(entityQuery).ToString().Replace("##OPEN##", "[").Replace("##CLOSE##", "]");
+	private string CompileToSqlString(Query query)
+	{
+		return _sqlCompiler.Compile(query)
+			.ToString()
+			.Replace("##OPEN##", "[")
+			.Replace("##CLOSE##", "]");
 	}
 }

@@ -22,12 +22,13 @@ public class StoreDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 
 	public string Build()
 	{
-		var statusEnumQuery = new Query("StoresStatuses")
-			.Select("StoresStatuses.Id")
-			.Select("StoresStatuses.Name")
-			.As("StoresStatuses");
-		
-		var entityQuery = new Query("Stores")
+		var query = StoreQuery();
+		return CompileToSqlString(query);
+	}
+	
+	private static Query StoreQuery()
+	{
+		return new Query("Stores")
 			.Select("Stores.Id")
 			.Select("Stores.Name")
 			.Select("Stores.Address")
@@ -37,8 +38,22 @@ public class StoreDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.Select("StoresStatuses.Name as StatusName")
 			.Select("Stores.StoreOwnerId")
 			.Select("Stores.Etag")
-			.LeftJoin(statusEnumQuery, j => j.On("StoresStatuses.Id", "Stores.Status"));
+			.LeftJoin(StatusEnumQuery(), j => j.On("StoresStatuses.Id", "Stores.Status"));
+	}
+	
+	private static Query StatusEnumQuery()
+	{
+		return new Query("StoresStatuses")
+			.Select("StoresStatuses.Id")
+			.Select("StoresStatuses.Name")
+			.As("StoresStatuses");
+	}
 
-		return _sqlCompiler.Compile(entityQuery).ToString().Replace("##OPEN##", "[").Replace("##CLOSE##", "]");
+	private string CompileToSqlString(Query query)
+	{
+		return _sqlCompiler.Compile(query)
+			.ToString()
+			.Replace("##OPEN##", "[")
+			.Replace("##CLOSE##", "]");
 	}
 }

@@ -22,21 +22,13 @@ public class CountryDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 
 	public string Build()
 	{
-		var localizedContinentEnumQuery = new Query("CountriesContinentsLocalized")
-			.Select("CountriesContinentsLocalized.Id")
-			.Select("CountriesContinentsLocalized.Name")
-			.Where("CountriesContinentsLocalized.CultureCode", "##LANG##")
-			.As("CountriesContinentsLocalized");
-		
-		var continentEnumQuery = new Query("CountriesContinents")
-			.Select("CountriesContinents.Id")
-			.ForSqlServer(q => q.SelectRaw("COALESCE([CountriesContinentsLocalized].[Name], (N'[' + COALESCE([CountriesContinents].[Name], N'')) + N']') AS [Name]"))
-			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"CountriesContinentsLocalized\".\"Name\", ('##OPEN##' || COALESCE(\"CountriesContinents\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
-			.ForSqlite(q => q.SelectRaw("COALESCE(\"CountriesContinentsLocalized\".\"Name\", ('##OPEN##' || COALESCE(\"CountriesContinents\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
-			.LeftJoin(localizedContinentEnumQuery, j => j.On("CountriesContinentsLocalized.Id", "CountriesContinents.Id"))
-			.As("CountriesContinents");
-		
-		var entityQuery = new Query("Countries")
+		var query = CountryQuery();
+		return CompileToSqlString(query);
+	}
+	
+	private static Query CountryQuery()
+	{
+		return new Query("Countries")
 			.Select("Countries.Id")
 			.Select("Countries.Name")
 			.Select("Countries.Population")
@@ -51,8 +43,31 @@ public class CountryDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.Select("Countries.Continent")
 			.Select("CountriesContinents.Name as ContinentName")
 			.Select("Countries.Etag")
-			.LeftJoin(continentEnumQuery, j => j.On("CountriesContinents.Id", "Countries.Continent"));
+			.LeftJoin(ContinentEnumQuery(), j => j.On("CountriesContinents.Id", "Countries.Continent"));
+	}
+	
+	private static Query ContinentEnumQuery()
+	{
+		var localizedEnumQuery = new Query("CountriesContinentsLocalized")
+			.Select("CountriesContinentsLocalized.Id")
+			.Select("CountriesContinentsLocalized.Name")
+			.Where("CountriesContinentsLocalized.CultureCode", "##LANG##")
+			.As("CountriesContinentsLocalized");
+		
+		return new Query("CountriesContinents")
+			.Select("CountriesContinents.Id")
+			.ForSqlServer(q => q.SelectRaw("COALESCE([CountriesContinentsLocalized].[Name], (N'[' + COALESCE([CountriesContinents].[Name], N'')) + N']') AS [Name]"))
+			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"CountriesContinentsLocalized\".\"Name\", ('##OPEN##' || COALESCE(\"CountriesContinents\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
+			.ForSqlite(q => q.SelectRaw("COALESCE(\"CountriesContinentsLocalized\".\"Name\", ('##OPEN##' || COALESCE(\"CountriesContinents\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
+			.LeftJoin(localizedEnumQuery, j => j.On("CountriesContinentsLocalized.Id", "CountriesContinents.Id"))
+			.As("CountriesContinents");
+	}
 
-		return _sqlCompiler.Compile(entityQuery).ToString().Replace("##OPEN##", "[").Replace("##CLOSE##", "]");
+	private string CompileToSqlString(Query query)
+	{
+		return _sqlCompiler.Compile(query)
+			.ToString()
+			.Replace("##OPEN##", "[")
+			.Replace("##CLOSE##", "]");
 	}
 }

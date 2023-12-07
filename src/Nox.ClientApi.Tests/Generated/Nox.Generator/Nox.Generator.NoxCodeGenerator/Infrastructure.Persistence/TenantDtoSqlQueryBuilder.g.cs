@@ -22,19 +22,34 @@ public class TenantDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 
 	public string Build()
 	{
-		var statusEnumQuery = new Query("TenantsStatuses")
-			.Select("TenantsStatuses.Id")
-			.Select("TenantsStatuses.Name")
-			.As("TenantsStatuses");
-		
-		var entityQuery = new Query("Tenants")
+		var query = TenantQuery();
+		return CompileToSqlString(query);
+	}
+	
+	private static Query TenantQuery()
+	{
+		return new Query("Tenants")
 			.Select("Tenants.Id")
 			.Select("Tenants.Name")
 			.Select("Tenants.Status")
 			.Select("TenantsStatuses.Name as StatusName")
 			.Select("Tenants.Etag")
-			.LeftJoin(statusEnumQuery, j => j.On("TenantsStatuses.Id", "Tenants.Status"));
+			.LeftJoin(StatusEnumQuery(), j => j.On("TenantsStatuses.Id", "Tenants.Status"));
+	}
+	
+	private static Query StatusEnumQuery()
+	{
+		return new Query("TenantsStatuses")
+			.Select("TenantsStatuses.Id")
+			.Select("TenantsStatuses.Name")
+			.As("TenantsStatuses");
+	}
 
-		return _sqlCompiler.Compile(entityQuery).ToString().Replace("##OPEN##", "[").Replace("##CLOSE##", "]");
+	private string CompileToSqlString(Query query)
+	{
+		return _sqlCompiler.Compile(query)
+			.ToString()
+			.Replace("##OPEN##", "[")
+			.Replace("##CLOSE##", "]");
 	}
 }

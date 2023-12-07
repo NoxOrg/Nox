@@ -22,32 +22,13 @@ public class WorkplaceDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 
 	public string Build()
 	{
-		var localizedEntityQuery = new Query("WorkplacesLocalized")
-			.Select("WorkplacesLocalized.Id")
-			.Select("WorkplacesLocalized.Description")
-			.Where("WorkplacesLocalized.CultureCode", "##LANG##")
-			.As("WorkplacesLocalized");
-
-		var localizedOwnershipEnumQuery = new Query("WorkplacesOwnershipsLocalized")
-			.Select("WorkplacesOwnershipsLocalized.Id")
-			.Select("WorkplacesOwnershipsLocalized.Name")
-			.Where("WorkplacesOwnershipsLocalized.CultureCode", "##LANG##")
-			.As("WorkplacesOwnershipsLocalized");
-		
-		var ownershipEnumQuery = new Query("WorkplacesOwnerships")
-			.Select("WorkplacesOwnerships.Id")
-			.ForSqlServer(q => q.SelectRaw("COALESCE([WorkplacesOwnershipsLocalized].[Name], (N'[' + COALESCE([WorkplacesOwnerships].[Name], N'')) + N']') AS [Name]"))
-			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"WorkplacesOwnershipsLocalized\".\"Name\", ('##OPEN##' || COALESCE(\"WorkplacesOwnerships\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
-			.ForSqlite(q => q.SelectRaw("COALESCE(\"WorkplacesOwnershipsLocalized\".\"Name\", ('##OPEN##' || COALESCE(\"WorkplacesOwnerships\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
-			.LeftJoin(localizedOwnershipEnumQuery, j => j.On("WorkplacesOwnershipsLocalized.Id", "WorkplacesOwnerships.Id"))
-			.As("WorkplacesOwnerships");
-
-		var typeEnumQuery = new Query("WorkplacesTypes")
-			.Select("WorkplacesTypes.Id")
-			.Select("WorkplacesTypes.Name")
-			.As("WorkplacesTypes");
-		
-		var entityQuery = new Query("Workplaces")
+		var query = WorkplaceQuery();
+		return CompileToSqlString(query);
+	}
+	
+	private static Query WorkplaceQuery()
+	{
+		return new Query("Workplaces")
 			.Select("Workplaces.Id")
 			.Select("Workplaces.Name")
 			.Select("Workplaces.ReferenceNumber")
@@ -61,10 +42,50 @@ public class WorkplaceDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.Select("WorkplacesTypes.Name as TypeName")
 			.Select("Workplaces.CountryId")
 			.Select("Workplaces.Etag")
-			.LeftJoin(localizedEntityQuery, j => j.On("WorkplacesLocalized.Id", "Workplaces.Id"))
-			.LeftJoin(ownershipEnumQuery, j => j.On("WorkplacesOwnerships.Id", "Workplaces.Ownership"))
-			.LeftJoin(typeEnumQuery, j => j.On("WorkplacesTypes.Id", "Workplaces.Type"));
+			.LeftJoin(WorkplaceLocalizedQuery(), j => j.On("WorkplacesLocalized.Id", "Workplaces.Id"))
+			.LeftJoin(OwnershipEnumQuery(), j => j.On("WorkplacesOwnerships.Id", "Workplaces.Ownership"))
+			.LeftJoin(TypeEnumQuery(), j => j.On("WorkplacesTypes.Id", "Workplaces.Type"));
+	}
+	
+	private static Query WorkplaceLocalizedQuery()
+	{
+		return new Query("WorkplacesLocalized")
+			.Select("WorkplacesLocalized.Id")
+			.Select("WorkplacesLocalized.Description")
+			.Where("WorkplacesLocalized.CultureCode", "##LANG##")
+			.As("WorkplacesLocalized");
+	}
+	
+	private static Query OwnershipEnumQuery()
+	{
+		var localizedEnumQuery = new Query("WorkplacesOwnershipsLocalized")
+			.Select("WorkplacesOwnershipsLocalized.Id")
+			.Select("WorkplacesOwnershipsLocalized.Name")
+			.Where("WorkplacesOwnershipsLocalized.CultureCode", "##LANG##")
+			.As("WorkplacesOwnershipsLocalized");
+		
+		return new Query("WorkplacesOwnerships")
+			.Select("WorkplacesOwnerships.Id")
+			.ForSqlServer(q => q.SelectRaw("COALESCE([WorkplacesOwnershipsLocalized].[Name], (N'[' + COALESCE([WorkplacesOwnerships].[Name], N'')) + N']') AS [Name]"))
+			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"WorkplacesOwnershipsLocalized\".\"Name\", ('##OPEN##' || COALESCE(\"WorkplacesOwnerships\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
+			.ForSqlite(q => q.SelectRaw("COALESCE(\"WorkplacesOwnershipsLocalized\".\"Name\", ('##OPEN##' || COALESCE(\"WorkplacesOwnerships\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
+			.LeftJoin(localizedEnumQuery, j => j.On("WorkplacesOwnershipsLocalized.Id", "WorkplacesOwnerships.Id"))
+			.As("WorkplacesOwnerships");
+	}
+	
+	private static Query TypeEnumQuery()
+	{
+		return new Query("WorkplacesTypes")
+			.Select("WorkplacesTypes.Id")
+			.Select("WorkplacesTypes.Name")
+			.As("WorkplacesTypes");
+	}
 
-		return _sqlCompiler.Compile(entityQuery).ToString().Replace("##OPEN##", "[").Replace("##CLOSE##", "]");
+	private string CompileToSqlString(Query query)
+	{
+		return _sqlCompiler.Compile(query)
+			.ToString()
+			.Replace("##OPEN##", "[")
+			.Replace("##CLOSE##", "]");
 	}
 }
