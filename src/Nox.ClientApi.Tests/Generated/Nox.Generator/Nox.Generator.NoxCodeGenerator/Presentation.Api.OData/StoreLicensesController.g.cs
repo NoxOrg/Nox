@@ -47,13 +47,15 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToStore([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.Store).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Include(x => x.Store).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"Stores/{related.Id}", UriKind.Relative);
+        if (entity.Store is null)
+            return Ok();
+        var references = new System.Uri($"Stores/{entity.Store.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -124,13 +126,15 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToDefaultCurrency([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.DefaultCurrency).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Include(x => x.DefaultCurrency).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"Currencies/{related.Id}", UriKind.Relative);
+        if (entity.DefaultCurrency is null)
+            return Ok();
+        var references = new System.Uri($"Currencies/{entity.DefaultCurrency.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -256,13 +260,15 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToSoldInCurrency([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.SoldInCurrency).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Include(x => x.SoldInCurrency).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"Currencies/{related.Id}", UriKind.Relative);
+        if (entity.SoldInCurrency is null)
+            return Ok();
+        var references = new System.Uri($"Currencies/{entity.SoldInCurrency.Id}", UriKind.Relative);
         return Ok(references);
     }
     

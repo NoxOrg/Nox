@@ -47,13 +47,15 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
     
     public virtual async Task<ActionResult> GetRefToSecondTestEntityZeroOrOne([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Select(x => x.SecondTestEntityZeroOrOne).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Include(x => x.SecondTestEntityZeroOrOne).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"SecondTestEntityZeroOrOnes/{related.Id}", UriKind.Relative);
+        if (entity.SecondTestEntityZeroOrOne is null)
+            return Ok();
+        var references = new System.Uri($"SecondTestEntityZeroOrOnes/{entity.SecondTestEntityZeroOrOne.Id}", UriKind.Relative);
         return Ok(references);
     }
     

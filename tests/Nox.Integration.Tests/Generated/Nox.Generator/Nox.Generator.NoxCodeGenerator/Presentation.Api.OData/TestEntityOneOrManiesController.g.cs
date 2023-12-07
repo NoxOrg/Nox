@@ -65,14 +65,14 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
     
     public virtual async Task<ActionResult> GetRefToSecondTestEntityOneOrManies([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityOneOrManyByIdQuery(key))).Select(x => x.SecondTestEntityOneOrManies).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetTestEntityOneOrManyByIdQuery(key))).Include(x => x.SecondTestEntityOneOrManies).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.SecondTestEntityOneOrManies)
         {
             references.Add(new System.Uri($"SecondTestEntityOneOrManies/{item.Id}", UriKind.Relative));
         }
@@ -113,12 +113,13 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<SecondTestEntityOneOrManyDto>>> GetSecondTestEntityOneOrManies(System.String key)
     {
-        var entity = (await _mediator.Send(new GetTestEntityOneOrManyByIdQuery(key))).SelectMany(x => x.SecondTestEntityOneOrManies);
-        if (!entity.Any())
+        var query = (await _mediator.Send(new GetTestEntityOneOrManyByIdQuery(key))).Include(x => x.SecondTestEntityOneOrManies);
+        var entity = query.SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.SelectMany(x => x.SecondTestEntityOneOrManies));
     }
     
     [EnableQuery]

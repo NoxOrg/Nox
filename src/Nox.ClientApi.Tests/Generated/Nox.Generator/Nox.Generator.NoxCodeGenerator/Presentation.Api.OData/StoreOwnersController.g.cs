@@ -65,14 +65,14 @@ public abstract partial class StoreOwnersControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToStores([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).Select(x => x.Stores).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).Include(x => x.Stores).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.Stores)
         {
             references.Add(new System.Uri($"Stores/{item.Id}", UriKind.Relative));
         }
@@ -113,12 +113,13 @@ public abstract partial class StoreOwnersControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<StoreDto>>> GetStores(System.String key)
     {
-        var entity = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).SelectMany(x => x.Stores);
-        if (!entity.Any())
+        var query = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).Include(x => x.Stores);
+        var entity = query.SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.SelectMany(x => x.Stores));
     }
     
     [EnableQuery]

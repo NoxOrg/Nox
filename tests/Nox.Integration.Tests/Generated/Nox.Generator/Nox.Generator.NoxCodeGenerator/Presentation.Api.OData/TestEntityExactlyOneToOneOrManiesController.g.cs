@@ -47,13 +47,15 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
     
     public virtual async Task<ActionResult> GetRefToTestEntityOneOrManyToExactlyOne([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityExactlyOneToOneOrManyByIdQuery(key))).Select(x => x.TestEntityOneOrManyToExactlyOne).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetTestEntityExactlyOneToOneOrManyByIdQuery(key))).Include(x => x.TestEntityOneOrManyToExactlyOne).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"TestEntityOneOrManyToExactlyOnes/{related.Id}", UriKind.Relative);
+        if (entity.TestEntityOneOrManyToExactlyOne is null)
+            return Ok();
+        var references = new System.Uri($"TestEntityOneOrManyToExactlyOnes/{entity.TestEntityOneOrManyToExactlyOne.Id}", UriKind.Relative);
         return Ok(references);
     }
     

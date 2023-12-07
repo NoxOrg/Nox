@@ -47,13 +47,15 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToVendingMachine([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.VendingMachine).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Include(x => x.VendingMachine).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"VendingMachines/{related.Id}", UriKind.Relative);
+        if (entity.VendingMachine is null)
+            return Ok();
+        var references = new System.Uri($"VendingMachines/{entity.VendingMachine.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -124,13 +126,15 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToEmployee([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.Employee).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Include(x => x.Employee).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"Employees/{related.Id}", UriKind.Relative);
+        if (entity.Employee is null)
+            return Ok();
+        var references = new System.Uri($"Employees/{entity.Employee.Id}", UriKind.Relative);
         return Ok(references);
     }
     

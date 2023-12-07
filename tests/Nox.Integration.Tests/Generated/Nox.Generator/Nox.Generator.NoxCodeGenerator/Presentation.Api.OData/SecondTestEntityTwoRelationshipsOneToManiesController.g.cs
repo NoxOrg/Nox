@@ -47,13 +47,15 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     
     public virtual async Task<ActionResult> GetRefToTestRelationshipOneOnOtherSide([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipOneOnOtherSide).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Include(x => x.TestRelationshipOneOnOtherSide).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"TestEntityTwoRelationshipsOneToManies/{related.Id}", UriKind.Relative);
+        if (entity.TestRelationshipOneOnOtherSide is null)
+            return Ok();
+        var references = new System.Uri($"TestEntityTwoRelationshipsOneToManies/{entity.TestRelationshipOneOnOtherSide.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -179,13 +181,15 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     
     public virtual async Task<ActionResult> GetRefToTestRelationshipTwoOnOtherSide([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipTwoOnOtherSide).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Include(x => x.TestRelationshipTwoOnOtherSide).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"TestEntityTwoRelationshipsOneToManies/{related.Id}", UriKind.Relative);
+        if (entity.TestRelationshipTwoOnOtherSide is null)
+            return Ok();
+        var references = new System.Uri($"TestEntityTwoRelationshipsOneToManies/{entity.TestRelationshipTwoOnOtherSide.Id}", UriKind.Relative);
         return Ok(references);
     }
     

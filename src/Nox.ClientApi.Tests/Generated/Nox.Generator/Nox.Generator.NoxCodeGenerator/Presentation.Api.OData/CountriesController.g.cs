@@ -599,14 +599,14 @@ public abstract partial class CountriesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToWorkplaces([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Workplaces).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).Include(x => x.Workplaces).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.Workplaces)
         {
             references.Add(new System.Uri($"Workplaces/{item.Id}", UriKind.Relative));
         }
@@ -663,12 +663,13 @@ public abstract partial class CountriesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> GetWorkplaces(System.Int64 key)
     {
-        var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Workplaces);
-        if (!entity.Any())
+        var query = (await _mediator.Send(new GetCountryByIdQuery(key))).Include(x => x.Workplaces);
+        var entity = query.SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.SelectMany(x => x.Workplaces));
     }
     
     [EnableQuery]

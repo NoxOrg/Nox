@@ -47,13 +47,15 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
     
     public virtual async Task<ActionResult> GetRefToThirdTestEntityZeroOrOne([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(key))).Select(x => x.ThirdTestEntityZeroOrOne).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(key))).Include(x => x.ThirdTestEntityZeroOrOne).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"ThirdTestEntityZeroOrOnes/{related.Id}", UriKind.Relative);
+        if (entity.ThirdTestEntityZeroOrOne is null)
+            return Ok();
+        var references = new System.Uri($"ThirdTestEntityZeroOrOnes/{entity.ThirdTestEntityZeroOrOne.Id}", UriKind.Relative);
         return Ok(references);
     }
     

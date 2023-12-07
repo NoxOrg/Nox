@@ -47,13 +47,15 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
     
     public virtual async Task<ActionResult> GetRefToTestRelationshipOne([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipOne).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Include(x => x.TestRelationshipOne).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"SecondTestEntityTwoRelationshipsOneToOnes/{related.Id}", UriKind.Relative);
+        if (entity.TestRelationshipOne is null)
+            return Ok();
+        var references = new System.Uri($"SecondTestEntityTwoRelationshipsOneToOnes/{entity.TestRelationshipOne.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -124,13 +126,15 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
     
     public virtual async Task<ActionResult> GetRefToTestRelationshipTwo([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipTwo).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Include(x => x.TestRelationshipTwo).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"SecondTestEntityTwoRelationshipsOneToOnes/{related.Id}", UriKind.Relative);
+        if (entity.TestRelationshipTwo is null)
+            return Ok();
+        var references = new System.Uri($"SecondTestEntityTwoRelationshipsOneToOnes/{entity.TestRelationshipTwo.Id}", UriKind.Relative);
         return Ok(references);
     }
     

@@ -191,13 +191,15 @@ public abstract partial class EmployeesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToCashStockOrder([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.CashStockOrder).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Include(x => x.CashStockOrder).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"CashStockOrders/{related.Id}", UriKind.Relative);
+        if (entity.CashStockOrder is null)
+            return Ok();
+        var references = new System.Uri($"CashStockOrders/{entity.CashStockOrder.Id}", UriKind.Relative);
         return Ok(references);
     }
     

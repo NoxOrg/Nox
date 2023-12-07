@@ -47,13 +47,15 @@ public abstract partial class SecondTestEntityExactlyOnesControllerBase : ODataC
     
     public virtual async Task<ActionResult> GetRefToTestEntityExactlyOne([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(key))).Select(x => x.TestEntityExactlyOne).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(key))).Include(x => x.TestEntityExactlyOne).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"TestEntityExactlyOnes/{related.Id}", UriKind.Relative);
+        if (entity.TestEntityExactlyOne is null)
+            return Ok();
+        var references = new System.Uri($"TestEntityExactlyOnes/{entity.TestEntityExactlyOne.Id}", UriKind.Relative);
         return Ok(references);
     }
     

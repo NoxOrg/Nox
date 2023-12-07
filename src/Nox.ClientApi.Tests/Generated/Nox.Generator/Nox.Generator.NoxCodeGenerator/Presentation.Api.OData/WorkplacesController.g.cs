@@ -47,13 +47,15 @@ public abstract partial class WorkplacesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToCountry([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Include(x => x.Country).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"Countries/{related.Id}", UriKind.Relative);
+        if (entity.Country is null)
+            return Ok();
+        var references = new System.Uri($"Countries/{entity.Country.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -197,14 +199,14 @@ public abstract partial class WorkplacesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToTenants([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Select(x => x.Tenants).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Include(x => x.Tenants).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.Tenants)
         {
             references.Add(new System.Uri($"Tenants/{item.Id}", UriKind.Relative));
         }
@@ -261,12 +263,13 @@ public abstract partial class WorkplacesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<TenantDto>>> GetTenants(System.Int64 key)
     {
-        var entity = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).SelectMany(x => x.Tenants);
-        if (!entity.Any())
+        var query = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Include(x => x.Tenants);
+        var entity = query.SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.SelectMany(x => x.Tenants));
     }
     
     [EnableQuery]

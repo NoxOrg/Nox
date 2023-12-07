@@ -65,14 +65,14 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToPaymentDetails([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetPaymentProviderByIdQuery(key))).Select(x => x.PaymentDetails).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetPaymentProviderByIdQuery(key))).Include(x => x.PaymentDetails).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.PaymentDetails)
         {
             references.Add(new System.Uri($"PaymentDetails/{item.Id}", UriKind.Relative));
         }
@@ -129,12 +129,13 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<PaymentDetailDto>>> GetPaymentDetails(System.Int64 key)
     {
-        var entity = (await _mediator.Send(new GetPaymentProviderByIdQuery(key))).SelectMany(x => x.PaymentDetails);
-        if (!entity.Any())
+        var query = (await _mediator.Send(new GetPaymentProviderByIdQuery(key))).Include(x => x.PaymentDetails);
+        var entity = query.SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.SelectMany(x => x.PaymentDetails));
     }
     
     [EnableQuery]

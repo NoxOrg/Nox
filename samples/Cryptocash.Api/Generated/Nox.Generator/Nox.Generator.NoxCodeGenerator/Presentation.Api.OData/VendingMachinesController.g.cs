@@ -47,13 +47,15 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToCountry([FromRoute] System.Guid key)
     {
-        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Include(x => x.Country).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"Countries/{related.Id}", UriKind.Relative);
+        if (entity.Country is null)
+            return Ok();
+        var references = new System.Uri($"Countries/{entity.Country.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -124,13 +126,15 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToLandLord([FromRoute] System.Guid key)
     {
-        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.LandLord).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Include(x => x.LandLord).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"LandLords/{related.Id}", UriKind.Relative);
+        if (entity.LandLord is null)
+            return Ok();
+        var references = new System.Uri($"LandLords/{entity.LandLord.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -219,14 +223,14 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToBookings([FromRoute] System.Guid key)
     {
-        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.Bookings).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Include(x => x.Bookings).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.Bookings)
         {
             references.Add(new System.Uri($"Bookings/{item.Id}", UriKind.Relative));
         }
@@ -283,12 +287,13 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<BookingDto>>> GetBookings(System.Guid key)
     {
-        var entity = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.Bookings);
-        if (!entity.Any())
+        var query = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Include(x => x.Bookings);
+        var entity = query.SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.SelectMany(x => x.Bookings));
     }
     
     [EnableQuery]
@@ -406,14 +411,14 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToCashStockOrders([FromRoute] System.Guid key)
     {
-        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.CashStockOrders).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Include(x => x.CashStockOrders).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.CashStockOrders)
         {
             references.Add(new System.Uri($"CashStockOrders/{item.Id}", UriKind.Relative));
         }
@@ -470,12 +475,13 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<CashStockOrderDto>>> GetCashStockOrders(System.Guid key)
     {
-        var entity = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.CashStockOrders);
-        if (!entity.Any())
+        var query = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Include(x => x.CashStockOrders);
+        var entity = query.SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.SelectMany(x => x.CashStockOrders));
     }
     
     [EnableQuery]
@@ -593,14 +599,14 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToMinimumCashStocks([FromRoute] System.Guid key)
     {
-        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.MinimumCashStocks).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Include(x => x.MinimumCashStocks).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.MinimumCashStocks)
         {
             references.Add(new System.Uri($"MinimumCashStocks/{item.Id}", UriKind.Relative));
         }
@@ -657,12 +663,13 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<MinimumCashStockDto>>> GetMinimumCashStocks(System.Guid key)
     {
-        var entity = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.MinimumCashStocks);
-        if (!entity.Any())
+        var query = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Include(x => x.MinimumCashStocks);
+        var entity = query.SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.SelectMany(x => x.MinimumCashStocks));
     }
     
     [EnableQuery]
