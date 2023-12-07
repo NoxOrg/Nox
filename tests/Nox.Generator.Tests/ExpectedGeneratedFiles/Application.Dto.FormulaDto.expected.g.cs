@@ -38,6 +38,11 @@ public abstract class FormulaDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     {
         var result = new Dictionary<string, IEnumerable<string>>();
        
+        if (this.Name is not null)
+            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.FormulaMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+        else
+            result.Add("Name", new [] { "Name is Required." });
+    
 
         return result;
     }
@@ -65,6 +70,12 @@ public abstract class FormulaDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     /// </summary>
     /// <remarks>Optional.</remarks>
     public string? Greeting { get; set; }
+
+    /// <summary>
+    /// The name of the formula     
+    /// </summary>
+    /// <remarks>Required.</remarks>
+    public System.String Name { get; set; } = default!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

@@ -28,6 +28,7 @@ public class DataTransferObjectsTests : IClassFixture<GeneratorFixture>
             .AssertFileCount(18)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .AssertFileExistsAndContent("Application.Dto.FormulaDto.expected.g.cs", "Application.Dto.FormulaDto.g.cs");
+            .AssertFileExistsAndContent("Application.Dto.FormulaDto.expected.g.cs", "Application.Dto.FormulaDto.g.cs")
+            .AssertFileExistsAndContent("Application.Dto.FormulaCreateDto.expected.g.cs", "Application.Dto.FormulaCreateDto.g.cs");
     }
 }

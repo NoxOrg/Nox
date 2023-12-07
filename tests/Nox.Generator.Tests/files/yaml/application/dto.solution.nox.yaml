@@ -49,4 +49,11 @@ domain:
           type: formula
           formulaTypeOptions:
            returns: string
-           expression: '"Hello World"'   
+           expression: '"Hello World"'
+             
+        - name: Name
+          description: The name of the formula
+          type: text
+          textTypeOptions:
+            maxLength: 263
+          isRequired: true
