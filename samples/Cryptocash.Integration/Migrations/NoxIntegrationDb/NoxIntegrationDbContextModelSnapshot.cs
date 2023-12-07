@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nox.Integration;
 
 #nullable disable
 
-namespace Cryptocash.Integration.Migrations
+namespace Cryptocash.Integration.Migrations.NoxIntegrationDb
 {
     [DbContext(typeof(NoxIntegrationDbContext))]
-    [Migration("20231206110030_IntegrationCreate")]
-    partial class IntegrationCreate
+    partial class NoxIntegrationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

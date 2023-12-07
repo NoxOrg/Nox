@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Cryptocash.Integration.Migrations
+namespace Cryptocash.Integration.Migrations.NoxIntegrationDb
 {
     /// <inheritdoc />
-    public partial class IntegrationCreate : Migration
+    public partial class IntegrationDbCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

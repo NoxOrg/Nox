@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Cryptocash.Integration.Migrations.AppDb
+namespace Cryptocash.Integration.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class AppDbCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,6 +19,8 @@ namespace Cryptocash.Integration.Migrations.AppDb
                     AsAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     Population = table.Column<int>(type: "int", nullable: false),
+                    CreateDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    EditDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>

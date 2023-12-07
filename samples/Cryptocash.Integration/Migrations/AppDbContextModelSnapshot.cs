@@ -4,19 +4,16 @@ using CryptocashIntegration.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Cryptocash.Integration.Migrations.AppDb
+namespace Cryptocash.Integration.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231206111152_InitialCreate")]
-    partial class InitialCreate
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,6 +29,12 @@ namespace Cryptocash.Integration.Migrations.AppDb
 
                     b.Property<DateTime>("AsAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTimeOffset>("CreateDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("EditDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()

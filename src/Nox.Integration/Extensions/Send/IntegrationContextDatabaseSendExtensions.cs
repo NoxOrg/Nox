@@ -2,7 +2,7 @@ using System;
 using Microsoft.Data.SqlClient;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Adapters;
-using Nox.Integration.Adapters.SqlServer;
+using Nox.Integration.SqlServer;
 using Nox.Solution;
 namespace Nox.Integration.Extensions.Send;
 
