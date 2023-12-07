@@ -7,7 +7,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents the options for image types.
 /// </summary>
-public class ImageTypeOptions
+public class ImageTypeOptions : INoxTypeOptions
 {
     /// <summary>
     /// Default format type.

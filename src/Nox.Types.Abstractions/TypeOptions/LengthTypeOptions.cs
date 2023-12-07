@@ -1,6 +1,6 @@
 ﻿namespace Nox.Types;
 
-public class LengthTypeOptions
+public class LengthTypeOptions : INoxTypeOptions
 {
     private const double DefaultMinLength = 0;
     private const double DefaultMaxLength = 999_999_999_999_999;

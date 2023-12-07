@@ -1,6 +1,6 @@
 ﻿namespace Nox.Types;
 
-public class TimeTypeOptions
+public class TimeTypeOptions : INoxTypeOptions
 {
     // MinTimeTicks is the ticks for the midnight time 00:00:00.000 AM
     public long MinTimeTicks { get; set; } = 0;

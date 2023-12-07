@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurations;
 
 namespace Nox.Types.EntityFramework.Types;
 
@@ -23,7 +24,7 @@ public class ReferenceNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
     public virtual bool IsDefault => true;
 
     /// <summary>
-    /// Configures the database entity property for the ReferenceNumer type.
+    /// Configures the database entity property for the ReferenceNumber type.
     /// This method is called by the NoxSolutionCodeGeneratorState during the code generation process to set up the entity property in the database.
     /// </summary>
     /// <param name="noxSolutionCodeGeneratorState">The state of the Nox solution code generator.</param>
@@ -34,13 +35,13 @@ public class ReferenceNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
     /// <param name="entityTypeBuilder"></param>
     public virtual void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        NoxSimpleTypeDefinition property,
+        NoxTypeDatabaseConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder,
         EntityTypeBuilder entityTypeBuilder)
     {
-        var typeOptions = property.ReferenceNumberTypeOptions ??= new ReferenceNumberTypeOptions();
+        var typeOptions = property.GetTypeOptions<ReferenceNumberTypeOptions>();
 
         entityTypeBuilder
             .Property(property.Name)
@@ -58,7 +59,7 @@ public class ReferenceNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
         CreateSequence(noxSolutionCodeGeneratorState, property, entity, modelBuilder, typeOptions);
     }
 
-    protected virtual void CreateSequence(NoxCodeGenConventions noxSolutionCodeGeneratorState, NoxSimpleTypeDefinition property, Entity entity, ModelBuilder modelBuilder, ReferenceNumberTypeOptions typeOptions)
+    protected virtual void CreateSequence(NoxCodeGenConventions noxSolutionCodeGeneratorState, NoxTypeDatabaseConfiguration property, Entity entity, ModelBuilder modelBuilder, ReferenceNumberTypeOptions typeOptions)
     {
         modelBuilder.HasSequence<long>(NoxCodeGenConventions.GetDatabaseSequenceName(entity.Name, property.Name))
             .StartsAt(typeOptions.StartsAt)

@@ -1,6 +1,6 @@
 ﻿namespace Nox.Types;
 
-public class VolumeTypeOptions
+public class VolumeTypeOptions : INoxTypeOptions
 {
     private const double DefaultMinVolume = 0;
     private const double DefaultMaxVolume = 999_999_999_999_999;
