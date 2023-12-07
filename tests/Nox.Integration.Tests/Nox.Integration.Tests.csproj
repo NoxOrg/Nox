@@ -4,7 +4,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
 	</PropertyGroup>
@@ -15,14 +15,7 @@
 		<AssemblyName>Nox.Integration.Tests</AssemblyName>
 		<RootNamespace>Nox.Integration.Tests</RootNamespace>
 	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	</PropertyGroup>
+	
 
 	<Target Name="CleanSourceGeneratedFiles" BeforeTargets="BeforeBuild" DependsOnTargets="$(BeforeBuildDependsOn)">
 		<RemoveDir Directories="Generated" />
@@ -37,13 +30,7 @@
 		<AdditionalFiles Include=".\.nox\design\**\*.yaml" LinkBase="Design">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</AdditionalFiles>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <AdditionalFiles Remove="Application\**" />
-	  <EmbeddedResource Remove="Application\**" />
-	  <None Remove="Application\**" />
-	</ItemGroup>
+	</ItemGroup>	
 
 	<ItemGroup>
 		<AdditionalFiles Include="generator.nox.yaml" />

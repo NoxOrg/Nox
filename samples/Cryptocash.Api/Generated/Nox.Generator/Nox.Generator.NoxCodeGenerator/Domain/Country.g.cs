@@ -55,91 +55,91 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     /// Country unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.CountryCode2 Id { get; set; } = null!;
+    public Nox.Types.CountryCode2 Id { get;  set; } = null!;
 
     /// <summary>
     /// Country's name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get;  set; } = null!;
 
     /// <summary>
     /// Country's official name    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Text? OfficialName { get; set; } = null!;
+    public Nox.Types.Text? OfficialName { get;  set; } = null!;
 
     /// <summary>
     /// Country's iso number id    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.CountryNumber? CountryIsoNumeric { get; set; } = null!;
+    public Nox.Types.CountryNumber? CountryIsoNumeric { get;  set; } = null!;
 
     /// <summary>
     /// Country's iso alpha3 id    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.CountryCode3? CountryIsoAlpha3 { get; set; } = null!;
+    public Nox.Types.CountryCode3? CountryIsoAlpha3 { get;  set; } = null!;
 
     /// <summary>
     /// Country's geo coordinates    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.LatLong? GeoCoords { get; set; } = null!;
+    public Nox.Types.LatLong? GeoCoords { get;  set; } = null!;
 
     /// <summary>
     /// Country's flag emoji    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Text? FlagEmoji { get; set; } = null!;
+    public Nox.Types.Text? FlagEmoji { get;  set; } = null!;
 
     /// <summary>
     /// Country's flag in svg format    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Image? FlagSvg { get; set; } = null!;
+    public Nox.Types.Image? FlagSvg { get;  set; } = null!;
 
     /// <summary>
     /// Country's flag in png format    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Image? FlagPng { get; set; } = null!;
+    public Nox.Types.Image? FlagPng { get;  set; } = null!;
 
     /// <summary>
     /// Country's coat of arms in svg format    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Image? CoatOfArmsSvg { get; set; } = null!;
+    public Nox.Types.Image? CoatOfArmsSvg { get;  set; } = null!;
 
     /// <summary>
     /// Country's coat of arms in png format    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Image? CoatOfArmsPng { get; set; } = null!;
+    public Nox.Types.Image? CoatOfArmsPng { get;  set; } = null!;
 
     /// <summary>
     /// Country's map via google maps    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Url? GoogleMapsUrl { get; set; } = null!;
+    public Nox.Types.Url? GoogleMapsUrl { get;  set; } = null!;
 
     /// <summary>
     /// Country's map via open street maps    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Url? OpenStreetMapsUrl { get; set; } = null!;
+    public Nox.Types.Url? OpenStreetMapsUrl { get;  set; } = null!;
 
     /// <summary>
     /// Country's start of week day    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.DayOfWeek StartOfWeek { get; set; } = null!;
+    public Nox.Types.DayOfWeek StartOfWeek { get;  set; } = null!;
 
     /// <summary>
     /// Country's population    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Number Population { get; set; } = null!;
+    public Nox.Types.Number Population { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

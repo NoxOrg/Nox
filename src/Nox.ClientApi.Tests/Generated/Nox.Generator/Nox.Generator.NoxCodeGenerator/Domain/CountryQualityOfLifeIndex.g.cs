@@ -62,13 +62,13 @@ internal abstract partial class CountryQualityOfLifeIndexBase : EntityBase, IEnt
     /// The unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// Rating Index    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Number IndexRating { get; set; } = null!;
+    public Nox.Types.Number IndexRating { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

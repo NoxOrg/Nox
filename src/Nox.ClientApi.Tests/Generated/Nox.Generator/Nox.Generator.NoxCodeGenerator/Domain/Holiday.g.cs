@@ -55,8 +55,8 @@ internal abstract partial class HolidayBase : EntityBase, IOwnedEntity
     /// Country's holiday unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Guid Id {get; set;} = null!;
-         /// <summary>
+    public Nox.Types.Guid Id {get; private set;} = null!;
+        /// <summary>
         /// Ensures that a Guid Id is set or will be generate a new one
         /// </summary>
     	public virtual void EnsureId(System.Guid? guid)
@@ -75,19 +75,19 @@ internal abstract partial class HolidayBase : EntityBase, IOwnedEntity
     /// Country holiday name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get;  set; } = null!;
 
     /// <summary>
     /// Country holiday type    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Text? Type { get; set; } = null!;
+    public Nox.Types.Text? Type { get;  set; } = null!;
 
     /// <summary>
     /// Country holiday date    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Date? Date { get; set; } = null!;
+    public Nox.Types.Date? Date { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>
