@@ -55,7 +55,7 @@ internal abstract partial class TenantBase : EntityBase, IEntityConcurrent
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nuid Id {get; set;} = null!;
+    public Nuid Id {get; private set; } = null!;
        
     	public virtual void EnsureId()
     	{
@@ -77,7 +77,7 @@ internal abstract partial class TenantBase : EntityBase, IEntityConcurrent
     /// Teanant Name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>
@@ -130,6 +130,73 @@ internal abstract partial class TenantBase : EntityBase, IEntityConcurrent
     public virtual void DeleteAllRefToWorkplaces()
     {
         Workplaces.Clear();
+    }﻿
+
+    /// <summary>
+    /// Tenant Brands owned by the tenant ZeroOrMany TenantBrands
+    /// </summary>
+    public virtual List<TenantBrand> TenantBrands { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new TenantBrand entity.
+    /// </summary>
+    public virtual void CreateRefToTenantBrands(TenantBrand relatedTenantBrand)
+    {
+        TenantBrands.Add(relatedTenantBrand);
+    }
+    
+    /// <summary>
+    /// Updates all owned TenantBrand entities.
+    /// </summary>
+    public virtual void UpdateRefToTenantBrands(List<TenantBrand> relatedTenantBrand)
+    {
+        TenantBrands.Clear();
+        TenantBrands.AddRange(relatedTenantBrand);
+    }
+    
+    /// <summary>
+    /// Deletes owned TenantBrand entity.
+    /// </summary>
+    public virtual void DeleteRefToTenantBrands(TenantBrand relatedTenantBrand)
+    {
+        TenantBrands.Remove(relatedTenantBrand);
+    }
+    
+    /// <summary>
+    /// Deletes all owned TenantBrand entities.
+    /// </summary>
+    public virtual void DeleteAllRefToTenantBrands()
+    {
+        TenantBrands.Clear();
+    }﻿
+
+    /// <summary>
+    /// Tenant Contact information for the tenant ZeroOrOne TenantContacts
+    /// </summary>
+    public virtual TenantContact? TenantContact { get; private set; }
+    
+    /// <summary>
+    /// Creates a new TenantContact entity.
+    /// </summary>
+    public virtual void CreateRefToTenantContact(TenantContact relatedTenantContact)
+    {
+        TenantContact = relatedTenantContact;
+    }
+    
+    /// <summary>
+    /// Deletes owned TenantContact entity.
+    /// </summary>
+    public virtual void DeleteRefToTenantContact(TenantContact relatedTenantContact)
+    {
+        TenantContact = null;
+    }
+    
+    /// <summary>
+    /// Deletes all owned TenantContact entities.
+    /// </summary>
+    public virtual void DeleteAllRefToTenantContact()
+    {
+        TenantContact = null;
     }
 
     /// <summary>

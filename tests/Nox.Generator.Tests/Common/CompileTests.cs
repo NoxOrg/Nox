@@ -22,15 +22,25 @@ public class CompileTests : IClassFixture<GeneratorFixture>
         _testOutputHelper = testOutputHelper;
     }
 
-    [Fact]
-    public void Generated_Files_Should_Be_Compiled_Successfully()
+    [Theory]
+    [InlineData("./files/yaml/design/api/clientapi.solution.nox.yaml," +
+                "./files/yaml/design/api/Entities/country.entity.nox.yaml," +
+                "./files/yaml/design/api/Entities/countrylocalname.entity.nox.yaml," +
+                "./files/yaml/design/api/Entities/countrybarcode.entity.nox.yaml," +
+                "./files/yaml/design/api/Entities/ratingprogram.entity.nox.yaml," +
+                "./files/yaml/design/api/Entities/countryqualityoflifeindex.entity.nox.yaml," +
+                "./files/yaml/design/api/Entities/store.entity.nox.yaml," +
+                "./files/yaml/design/api/Entities/workplace.entity.nox.yaml," +
+                "./files/yaml/design/api/Entities/store-owner.entity.nox.yaml," +
+                "./files/yaml/design/api/Entities/store-license.entity.nox.yaml," +
+                "./files/yaml/design/api/Entities/currency.entity.nox.yaml," +
+                "./files/yaml/design/api/Entities/tenant.entity.nox.yaml")]
+    [InlineData("./files/yaml/design/test.solution.nox.yaml")]
+    public void Generated_Files_Should_Be_Compiled_Successfully(string sources)
     {
-        var path = "files/yaml/design/";
-        var sources = new[]
-        {
-            $"./{path}test.solution.nox.yaml"
-        };
-        var result = GeneratorFixture.GenerateSourceCodeFor(sources);
+        var sourceArray = sources.Split(',');
+        
+        var result = GeneratorFixture.GenerateSourceCodeFor(sourceArray);
         var references = GetReferences().ToList();
         _testOutputHelper.WriteLine($"References count: {references.Count}");
 

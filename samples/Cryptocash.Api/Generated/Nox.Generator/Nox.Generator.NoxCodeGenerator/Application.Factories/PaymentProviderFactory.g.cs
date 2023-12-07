@@ -28,8 +28,7 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public PaymentProviderFactoryBase
-    (
+    public PaymentProviderFactoryBase(
         IRepository repository
         )
     {

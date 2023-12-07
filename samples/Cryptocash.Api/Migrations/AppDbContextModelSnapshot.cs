@@ -30,9 +30,6 @@ namespace Cryptocash.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("AsAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("CashNote")
                         .IsRequired()
                         .HasMaxLength(63)
@@ -384,9 +381,6 @@ namespace Cryptocash.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("AsAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("CountryId")
                         .IsRequired()
                         .HasColumnType("char(2)");
@@ -690,9 +684,6 @@ namespace Cryptocash.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("AsAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<long?>("EmployeeId")
                         .HasColumnType("bigint");
 
@@ -722,9 +713,6 @@ namespace Cryptocash.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("AsAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("CurrencyId")
                         .IsRequired()
                         .HasColumnType("char(3)");
@@ -749,9 +737,6 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("bigint");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("AsAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("CountryId")
                         .HasColumnType("char(2)");

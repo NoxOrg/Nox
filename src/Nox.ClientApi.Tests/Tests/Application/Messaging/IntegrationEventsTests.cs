@@ -144,7 +144,7 @@ namespace ClientApi.Tests.Application.Messaging
             deleteResult.Should().NotBeNull();
 
             // TODO: extend with event count so no additional events are sent, right now failing due to events from other test cases
-            MassTransitTestHarness.AssertAnyPublished<WorkplaceDeleted>();
+            MassTransitTestHarness.AssertAnyPublished<WorkplaceUpdated>();
         }
 
         [Fact]

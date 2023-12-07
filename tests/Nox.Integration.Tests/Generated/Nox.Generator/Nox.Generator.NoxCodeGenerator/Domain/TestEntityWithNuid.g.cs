@@ -55,7 +55,7 @@ internal abstract partial class TestEntityWithNuidBase : AuditableEntityBase, IE
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nuid Id {get; set;} = null!;
+    public Nuid Id {get; private set; } = null!;
        
     	public virtual void EnsureId()
     	{
@@ -77,7 +77,7 @@ internal abstract partial class TestEntityWithNuidBase : AuditableEntityBase, IE
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

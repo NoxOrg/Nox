@@ -28,8 +28,7 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public RatingProgramFactoryBase
-    (
+    public RatingProgramFactoryBase(
         IRepository repository
         )
     {

@@ -34,6 +34,8 @@ internal static class ODataServiceCollectionExtensions
         builder.ComplexType<StoreLicensePartialUpdateDto>();
         builder.ComplexType<CurrencyPartialUpdateDto>();
         builder.ComplexType<TenantPartialUpdateDto>();
+        builder.ComplexType<TenantBrandUpsertDto>();
+        builder.ComplexType<TenantContactUpsertDto>();
         builder.ComplexType<CountryTimeZoneUpsertDto>();
         builder.ComplexType<ClientPartialUpdateDto>();
         builder.ComplexType<HolidayUpsertDto>();
@@ -75,6 +77,8 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<WorkplaceDto>().ContainsMany(e => e.Tenants);
         builder.EntityType<WorkplaceLocalizedDto>().HasKey(e => new { e.Id });
         builder.EntityType<WorkplaceDto>().Function("WorkplacesLocalized").ReturnsCollection<DtoNameSpace.WorkplaceLocalizedDto>();
+        builder.EntityType<WorkplaceDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<WorkplaceDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<StoreOwnerDto>("StoreOwners");
 		builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });
@@ -99,7 +103,18 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntitySet<TenantDto>("Tenants");
 		builder.EntityType<TenantDto>().HasKey(e => new { e.Id });
+        builder.EntityType<TenantDto>().ContainsMany(e => e.TenantBrands).AutoExpand = true;
+        builder.EntityType<TenantDto>().ContainsOptional(e => e.TenantContact).AutoExpand = true;
         builder.EntityType<TenantDto>().ContainsMany(e => e.Workplaces);
+
+        builder.EntitySet<TenantBrandDto>("TenantBrands");
+		builder.EntityType<TenantBrandDto>().HasKey(e => new { e.Id });
+        builder.EntityType<TenantBrandLocalizedDto>().HasKey(e => new { e.Id });
+        builder.EntityType<TenantBrandDto>().Function("TenantBrandsLocalized").ReturnsCollection<DtoNameSpace.TenantBrandLocalizedDto>();
+
+		builder.EntityType<TenantContactDto>().HasKey(e => new {  });
+        builder.EntityType<TenantContactLocalizedDto>().HasKey(e => new {  });
+        builder.EntityType<TenantContactDto>().Function("TenantContactsLocalized").ReturnsCollection<DtoNameSpace.TenantContactLocalizedDto>();
 
         builder.EntitySet<CountryTimeZoneDto>("CountryTimeZones");
 		builder.EntityType<CountryTimeZoneDto>().HasKey(e => new { e.Id });
@@ -118,7 +133,11 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CountryDto>()
                             .Collection
                             .Function("CountryContinents")
-                            .ReturnsCollection<DtoNameSpace.CountryContinentDto>(); 
+                            .ReturnsCollection<DtoNameSpace.CountryContinentDto>();
+        builder.EntityType<CountryDto>()
+                            .Collection
+                            .Function("CountryContinentsLocalized")
+                            .ReturnsCollection<DtoNameSpace.CountryContinentLocalizedDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<StoreDto>()
                             .Collection

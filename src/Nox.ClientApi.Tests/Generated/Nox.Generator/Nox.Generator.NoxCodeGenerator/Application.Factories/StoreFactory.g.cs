@@ -29,8 +29,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
     private readonly IRepository _repository;
     protected IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> EmailAddressFactory {get;}
 
-    public StoreFactoryBase
-    (
+    public StoreFactoryBase(
         IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> emailaddressfactory,
         IRepository repository
         )

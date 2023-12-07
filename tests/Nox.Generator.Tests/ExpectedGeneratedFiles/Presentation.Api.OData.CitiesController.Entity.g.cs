@@ -56,14 +56,14 @@ public abstract partial class CitiesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<CityDto>>> Get()
     {
-        var result = await _mediator.Send(new GetCitiesQuery(_cultureCode));
+        var result = await _mediator.Send(new GetCitiesQuery());
         return Ok(result);
     }
 
     [EnableQuery]
     public virtual async Task<SingleResult<CityDto>> Get([FromRoute] System.String key)
     {
-        var result = await _mediator.Send(new GetCityByIdQuery(_cultureCode, key));
+        var result = await _mediator.Send(new GetCityByIdQuery(key));
         return SingleResult.Create(result);
     }
 
@@ -76,7 +76,7 @@ public abstract partial class CitiesControllerBase : ODataController
 
         var createdKey = await _mediator.Send(new CreateCityCommand(city, _cultureCode));
 
-        var item = (await _mediator.Send(new GetCityByIdQuery(_cultureCode, createdKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetCityByIdQuery(createdKey.keyId))).SingleOrDefault();
 
         return Created(item);
     }
@@ -96,7 +96,7 @@ public abstract partial class CitiesControllerBase : ODataController
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetCityByIdQuery(_cultureCode, updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetCityByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }
@@ -126,7 +126,7 @@ public abstract partial class CitiesControllerBase : ODataController
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetCityByIdQuery(_cultureCode, updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetCityByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }

@@ -1,0 +1,48 @@
+#
+# tenant-brand.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: TenantBrand
+
+description: Tenant Brand
+
+keys:
+
+  - name: Id
+    type: autoNumber
+    isRequired: true
+
+attributes:
+
+  - name: Name
+    description: Teanant Brand Name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+
+  - name: Description
+    description: Teanant Brand Description
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 255
+      isLocalized: true
+    isRequired: true
+
+persistence:
+  isAudited: false
+  create:
+    isEnabled: true
+    raiseEvents: domainEventsOnly
+  read:
+    isEnabled: true
+  update:
+    isEnabled: true
+    raiseEvents: domainEventsOnly
+  delete:
+    isEnabled: true
+    raiseEvents: domainEventsOnly

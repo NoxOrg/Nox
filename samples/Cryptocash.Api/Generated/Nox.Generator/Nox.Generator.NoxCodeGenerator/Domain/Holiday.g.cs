@@ -55,25 +55,25 @@ internal abstract partial class HolidayBase : EntityBase, IOwnedEntity
     /// Country's holiday unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// Country holiday name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get;  set; } = null!;
 
     /// <summary>
     /// Country holiday type    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Type { get; set; } = null!;
+    public Nox.Types.Text Type { get;  set; } = null!;
 
     /// <summary>
     /// Country holiday date    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Date Date { get; set; } = null!;
+    public Nox.Types.Date Date { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

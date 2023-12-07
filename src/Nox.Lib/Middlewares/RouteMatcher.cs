@@ -62,14 +62,17 @@ public class ApiRouteMatcher
                     return false;
                 }
 
-                var paramString = stringToMatch[paramStart..paramEnd];
-
-                if (paramString.Contains('/'))
+                if (paramStart < paramEnd)
                 {
-                    return false;
-                }
+                    var paramString = stringToMatch[paramStart..paramEnd];
 
-                matchedValues.Add(_parameterInfos[i].Name, paramString);
+                    if (paramString.Contains('/'))
+                    {
+                        return false;
+                    }
+
+                    matchedValues.Add(_parameterInfos[i].Name, paramString);
+                }
             }
             else
             {
@@ -79,7 +82,7 @@ public class ApiRouteMatcher
 
         foreach (var param in _parameterNames)
         {
-            if (!matchedValues.ContainsKey(param))
+            if (!matchedValues.ContainsKey(param) || matchedValues[param].Equals(string.Empty))
             {
                 if (_parameterDefaults.TryGetValue(param, out object? value))
                 {
@@ -153,6 +156,12 @@ public class ApiRouteMatcher
                     break;
             }
             pos++;
+        }
+
+        if (currentSegment.Length > 0)
+        {
+            _segments.Add(currentSegment.ToString());
+            currentSegment.Clear();
         }
 
     }

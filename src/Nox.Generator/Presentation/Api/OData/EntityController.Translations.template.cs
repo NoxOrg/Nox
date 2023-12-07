@@ -30,9 +30,8 @@ namespace {{ codeGeneratorState.ODataNameSpace }};
 {{ end }}
 {{- cultureCode = ToLowerFirstChar codeGeneratorState.LocalizationCultureField}}
 
-
-public abstract partial class {{ className }}Base
-{
+public abstract partial class {{className}}Base
+{  
     
     [HttpPut("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.PluralName}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
     public virtual async Task<ActionResult<{{entity.Name}}LocalizedDto>> Put{{entity.Name}}Localized( {{ primaryKeysRoute }}, [FromRoute] System.String {{cultureCode}}, [FromBody] {{entity.Name}}LocalizedUpsertDto {{ToLowerFirstChar entity.Name}}LocalizedUpsertDto)
@@ -41,7 +40,7 @@ public abstract partial class {{ className }}Base
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var etag = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery(Nox.Types.CultureCode.From({{cultureCode}}), {{ primaryKeysQuery }}))).Select(e=>e.Etag).SingleOrDefault();
+        var etag = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ primaryKeysQuery }}))).Select(e=>e.Etag).SingleOrDefault();
         
         if (etag == System.Guid.Empty)
         {

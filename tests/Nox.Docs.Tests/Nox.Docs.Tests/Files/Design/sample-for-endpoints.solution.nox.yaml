@@ -106,6 +106,15 @@ domain:
             maxLength: 63
           isRequired: true
           
+        - name: Description
+          description: The country's description
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 1023
+            isLocalized: true
+          isRequired: false
+          
         - name: Languages
           description: The country's official languages
           type: enumeration

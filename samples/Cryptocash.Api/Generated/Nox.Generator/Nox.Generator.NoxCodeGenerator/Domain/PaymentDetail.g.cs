@@ -55,25 +55,25 @@ internal abstract partial class PaymentDetailBase : AuditableEntityBase, IEntity
     /// Customer payment account unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// Payment account name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text PaymentAccountName { get; set; } = null!;
+    public Nox.Types.Text PaymentAccountName { get;  set; } = null!;
 
     /// <summary>
     /// Payment account reference number    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text PaymentAccountNumber { get; set; } = null!;
+    public Nox.Types.Text PaymentAccountNumber { get;  set; } = null!;
 
     /// <summary>
     /// Payment account sort code    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Text? PaymentAccountSortCode { get; set; } = null!;
+    public Nox.Types.Text? PaymentAccountSortCode { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

@@ -55,19 +55,19 @@ internal abstract partial class EmployeePhoneNumberBase : EntityBase, IOwnedEnti
     /// Employee's phone number identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// Employee's phone number type    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text PhoneNumberType { get; set; } = null!;
+    public Nox.Types.Text PhoneNumberType { get;  set; } = null!;
 
     /// <summary>
     /// Employee's phone number    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.PhoneNumber PhoneNumber { get; set; } = null!;
+    public Nox.Types.PhoneNumber PhoneNumber { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

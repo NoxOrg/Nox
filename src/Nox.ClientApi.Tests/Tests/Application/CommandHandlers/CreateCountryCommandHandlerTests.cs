@@ -50,7 +50,7 @@ public class CreateCountryCommandHandlerTests : NoxWebApiTestBase
     /// Example to Ensure or validate invariants for an entity
     /// </summary>
     [Fact]
-    public async Task Put_Name_ShouldEnsureTitelize()
+    public async Task Put_Name_ShouldEnsureFirstLetterisCapitalized()
     {
         // Arrange
         var expectedName = "Portugal";

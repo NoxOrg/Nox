@@ -16,8 +16,16 @@
 //  - store-license.entity.nox.yaml
 //  - store-owner.entity.nox.yaml
 //  - store.entity.nox.yaml
+//  - tenant-brand.entity.nox.yaml
+//  - tenant-contact.entity.nox.yaml
 //  - tenant.entity.nox.yaml
 //  - workplace.entity.nox.yaml
+//  - apiConfiguration.nox.yaml
+//  - countryByName.ApiRouteMapping.nox.yaml
+//  - countryByNameOdataFiltering.ApiRouteMapping.nox.yaml
+//  - countryByNameOdataFiltering3Segments.ApiRouteMapping.nox.yaml
+//  - putRefCountryToWorkplace3Segments.ApiRouteMapping.nox.yaml
+//  - presentation.nox.yaml
 //  - generator.nox.yaml
 // Logging Verbosity Diagnostic
 // Enabled Generators Types
@@ -29,6 +37,7 @@
 // Found Generators
 //  - Nox.Generator.Infrastructure.Persistence.DbContextGenerator
 //  - Nox.Generator.Infrastructure.Persistence.DtoDbContextGenerator
+//  - Nox.Generator.Infrastructure.Persistence.EntityDtoSqlQueryBuilderGenerator
 //  - Nox.Generator.Domain.EntitiesGenerator
 //  - Nox.Generator.Domain.EntityLocalizedGenerator
 //  - Nox.Generator.Domain.EnumGenerator.EnumGenerator
@@ -49,10 +58,9 @@
 //  - Nox.Generator.Application.DefaultIntegrationEventGenerator
 //  - Nox.Generator.Application.ServiceCollectionExtensionsGenerator
 //  - Nox.Generator.Application.Queries.ByIdQueryGenerator
-//  - Nox.Generator.Application.Queries.ByIdQueryLocalizedGenerator
 //  - Nox.Generator.Application.Queries.EnumerationQueryGenerator
+//  - Nox.Generator.Application.Queries.EnumerationTranslationsQueryGenerator
 //  - Nox.Generator.Application.Queries.QueryGenerator
-//  - Nox.Generator.Application.Queries.QueryLocalizedGenerator
 //  - Nox.Generator.Application.Queries.TranslationsByIdQueryGenerator
 //  - Nox.Generator.Application.Queries.TranslationsQueryGenerator
 //  - Nox.Generator.Application.Integration.CustomTransformHandlerGenerator
@@ -72,12 +80,14 @@
 //  - Nox.Generator.Application.Commands.CreateCommandGenerator
 //  - Nox.Generator.Application.Commands.CreateOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.DeleteByIdCommandGenerator
+//  - Nox.Generator.Application.Commands.DeleteEnumerationTranslationsCommandGenerator
 //  - Nox.Generator.Application.Commands.DeleteOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.PartialUpdateCommandGenerator
 //  - Nox.Generator.Application.Commands.PartialUpdateOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.RefToCommandGenerator
 //  - Nox.Generator.Application.Commands.UpdateCommandGenerator
 //  - Nox.Generator.Application.Commands.UpdateOwnedCommandGenerator
+//  - Nox.Generator.Application.Commands.UpsertEnumerationTranslationsCommandGenerator
 //  - Nox.Generator.Application.Commands.NavigationMenuGenerator
 //  - Nox.Generator.Application.Commands.NavigationMenuRazor
 // Nox.Generator.Application.Integration.CustomTransformHandlerGenerator Skipping generator because no integrations defined

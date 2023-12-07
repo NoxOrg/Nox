@@ -26,9 +26,8 @@ namespace SampleWebApp.Presentation.Api.OData;
          
 
 
-
 public abstract partial class CitiesControllerBase
-{
+{  
     
     [HttpPut("/api/v1/Cities/{key}/CitiesLocalized/{cultureCode}")]
     public virtual async Task<ActionResult<CityLocalizedDto>> PutCityLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode, [FromBody] CityLocalizedUpsertDto cityLocalizedUpsertDto)
@@ -37,7 +36,7 @@ public abstract partial class CitiesControllerBase
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var etag = (await _mediator.Send(new GetCityByIdQuery(Nox.Types.CultureCode.From(cultureCode), key))).Select(e=>e.Etag).SingleOrDefault();
+        var etag = (await _mediator.Send(new GetCityByIdQuery(key))).Select(e=>e.Etag).SingleOrDefault();
         
         if (etag == System.Guid.Empty)
         {

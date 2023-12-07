@@ -36,7 +36,7 @@ internal abstract class {{className}}HandlerBase:  QueryBase<IQueryable<{{entity
         var query = DataDbContext.{{entity.PluralName}}Localized
             .AsNoTracking()
             .Where(r =>
-            {{- for key in entity.Keys }}
+            {{- for key in entityKeys }}
                 r.{{key.Name}}.Equals(request.key{{key.Name}}){{if !for.last}} &&{{end}}
             {{- end -}}
             );

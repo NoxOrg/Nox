@@ -26,9 +26,8 @@ namespace TestWebApp.Presentation.Api.OData;
          
 
 
-
 public abstract partial class TestEntityLocalizationsControllerBase
-{
+{  
     
     [HttpPut("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/{cultureCode}")]
     public virtual async Task<ActionResult<TestEntityLocalizationLocalizedDto>> PutTestEntityLocalizationLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode, [FromBody] TestEntityLocalizationLocalizedUpsertDto testEntityLocalizationLocalizedUpsertDto)
@@ -37,7 +36,7 @@ public abstract partial class TestEntityLocalizationsControllerBase
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var etag = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(Nox.Types.CultureCode.From(cultureCode), key))).Select(e=>e.Etag).SingleOrDefault();
+        var etag = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(key))).Select(e=>e.Etag).SingleOrDefault();
         
         if (etag == System.Guid.Empty)
         {

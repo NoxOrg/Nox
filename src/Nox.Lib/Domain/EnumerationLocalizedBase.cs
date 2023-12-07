@@ -6,7 +6,7 @@ namespace Nox.Domain;
 /// <summary>
 /// Enumeration Translated name
 /// </summary>
-public abstract class EnumerationLocalizedBase
+public abstract class EnumerationLocalizedBase: IEntity
 {
     /// <summary>
     /// Enumeration Id

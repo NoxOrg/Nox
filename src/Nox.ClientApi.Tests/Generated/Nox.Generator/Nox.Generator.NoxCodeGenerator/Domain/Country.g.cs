@@ -55,77 +55,77 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     /// The unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// The Country Name     Set a unique name for the country Do not use abbreviations    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get;  set; } = null!;
 
     /// <summary>
     /// Population Number of People living in the country    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Number? Population { get; set; } = null!;
+    public Nox.Types.Number? Population { get;  set; } = null!;
 
     /// <summary>
     /// The Money    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Money? CountryDebt { get; set; } = null!;
+    public Nox.Types.Money? CountryDebt { get;  set; } = null!;
 
     /// <summary>
     /// The capital location    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.LatLong? CapitalCityLocation { get; set; } = null!;
+    public Nox.Types.LatLong? CapitalCityLocation { get;  set; } = null!;
 
     /// <summary>
     /// First Official Language    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.LanguageCode? FirstLanguageCode { get; set; } = null!;
+    public Nox.Types.LanguageCode? FirstLanguageCode { get;  set; } = null!;
 
     /// <summary>
     /// The Formula    
     /// </summary>
     /// <remarks>Optional.</remarks>   
     public string? ShortDescription
-    { 
-        get { return $"{Name} has a population of {Population} people."; }
-        private set { }
-    }
+        { 
+            get { return $"{Name} has a population of {Population} people."; }
+            private set { }
+        }
 
     /// <summary>
     /// Country's iso number id    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.CountryNumber? CountryIsoNumeric { get; set; } = null!;
+    public Nox.Types.CountryNumber? CountryIsoNumeric { get;  set; } = null!;
 
     /// <summary>
     /// Country's iso alpha3 id    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.CountryCode3? CountryIsoAlpha3 { get; set; } = null!;
+    public Nox.Types.CountryCode3? CountryIsoAlpha3 { get;  set; } = null!;
 
     /// <summary>
     /// Country's map via google maps    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Url? GoogleMapsUrl { get; set; } = null!;
+    public Nox.Types.Url? GoogleMapsUrl { get;  set; } = null!;
 
     /// <summary>
     /// Country's start of week day    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.DayOfWeek? StartOfWeek { get; set; } = null!;
+    public Nox.Types.DayOfWeek? StartOfWeek { get;  set; } = null!;
 
     /// <summary>
     /// Country Continent    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Enumeration? Continent { get; set; } = null!;
+    public Nox.Types.Enumeration? Continent { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

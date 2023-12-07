@@ -47,7 +47,7 @@ internal abstract class DeleteWorkplaceByIdCommandHandlerBase : CommandCollectio
 			var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.Workplaces.FindAsync(keyId);
-			if (entity == null)
+			if (entity == null || entity.IsDeleted == true)
 			{
 				return false;
 			}
