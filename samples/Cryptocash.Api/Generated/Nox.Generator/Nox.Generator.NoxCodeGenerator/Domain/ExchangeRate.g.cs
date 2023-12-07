@@ -55,19 +55,19 @@ internal abstract partial class ExchangeRateBase : EntityBase, IOwnedEntity
     /// Exchange rate unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// Exchange rate conversion amount    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Number EffectiveRate { get; set; } = null!;
+    public Nox.Types.Number EffectiveRate { get;  set; } = null!;
 
     /// <summary>
     /// Exchange rate conversion amount    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.DateTime EffectiveAt { get; set; } = null!;
+    public Nox.Types.DateTime EffectiveAt { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

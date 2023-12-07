@@ -20,7 +20,6 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests
 
         public async Task WhenGetSequenceNextValue_ShouldSucceed()
         {
-            await Task.Delay(10);
             //Act 
             var nextIdNumber = await DataContext.GetSequenceNextValueAsync(_dbContextFixture.NoxCodeGenConventions.GetDatabaseSequenceName(nameof(ForReferenceNumber), nameof(ForReferenceNumber.Id)));
             var nextIdNumber2 = await DataContext.GetSequenceNextValueAsync(_dbContextFixture.NoxCodeGenConventions.GetDatabaseSequenceName(nameof(ForReferenceNumber), nameof(ForReferenceNumber.Id)));
@@ -39,28 +38,25 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests
         public async Task WhenCreateReferenceNumberAttribute_ShouldBeUnique()
         {
             //Arrange
-
-            DataContext.ForReferenceNumbers.Add(new ForReferenceNumber()
-            {
-                Id = ReferenceNumber.FromDatabase("1"),
-                WorkplaceNumber = ReferenceNumber.FromDatabase("1"),
-            });
-            DataContext.ForReferenceNumbers.Add(new ForReferenceNumber()
-            {
-                Id = ReferenceNumber.FromDatabase("2"),
-                WorkplaceNumber = ReferenceNumber.FromDatabase("2"),
-            });
+            DataContext.ForReferenceNumbers.Add(CreateForReferenceNumber(1,1));
+            DataContext.ForReferenceNumbers.Add(CreateForReferenceNumber(2, 2));
+            
             await DataContext.SaveChangesAsync();
-            DataContext.ForReferenceNumbers.Add(new ForReferenceNumber()
-            {
-                Id = ReferenceNumber.FromDatabase("3"),
-                //Duplicated 
-                WorkplaceNumber = ReferenceNumber.FromDatabase("2"),
-            });
 
+            //Duplicated workplace number
+            DataContext.ForReferenceNumbers.Add(CreateForReferenceNumber(3, 2));
             // Act //Assert
-            Action action =() => DataContext.SaveChanges();
+            Action action = () => DataContext.SaveChanges();
             action.Should().Throw<DbUpdateException>();
+        }
+
+        private static ForReferenceNumber CreateForReferenceNumber(long id, long workplaceNumber)
+        {
+            var referenceNumber = new ForReferenceNumber();
+            referenceNumber.EnsureId(id, new ReferenceNumberTypeOptions { Prefix = "R-" });
+            referenceNumber.EnsureWorkplaceNumber(workplaceNumber, new ReferenceNumberTypeOptions { Prefix = "R-" });
+
+            return referenceNumber;
         }
     }
 }

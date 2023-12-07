@@ -21,18 +21,13 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
             $"./{path}generator.nox.yaml",
             $"./{path}database-server.solution.nox.yaml"
         };
-
-        var filesShouldExist = new[]
-        {
-            "Domain.Country.g.cs",
-            "Infrastructure.Persistence.AppDbContext.g.cs"
-        };
-
+        
         GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileCount(11, filesShouldExist)
+            .AssertFileCount(11)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .AssertFileExistsAndContent("Country.expected.g.cs", "Domain.Country.g.cs");
+            .AssertFileWasGenerated("Domain.Country.g.cs")
+            .AssertFileWasGenerated("Infrastructure.Persistence.AppDbContext.g.cs");
     }
 }

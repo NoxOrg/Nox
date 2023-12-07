@@ -55,25 +55,25 @@ internal abstract partial class TestEntityForAutoNumberUsagesBase : EntityBase, 
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber AutoNumberFieldWithOptions { get; set; } = null!;
+    public Nox.Types.AutoNumber AutoNumberFieldWithOptions { get; private set; } = null!;
 
     /// <summary>
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber AutoNumberFieldWithoutOptions { get; set; } = null!;
+    public Nox.Types.AutoNumber AutoNumberFieldWithoutOptions { get; private set; } = null!;
 
     /// <summary>
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text TextField { get; set; } = null!;
+    public Nox.Types.Text TextField { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

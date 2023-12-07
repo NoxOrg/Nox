@@ -55,19 +55,19 @@ internal abstract partial class TenantBrandBase : EntityBase, IOwnedEntity
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// Teanant Brand Name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get;  set; } = null!;
 
     /// <summary>
     /// Teanant Brand Description    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Description { get; set; } = null!;
+    public Nox.Types.Text Description { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

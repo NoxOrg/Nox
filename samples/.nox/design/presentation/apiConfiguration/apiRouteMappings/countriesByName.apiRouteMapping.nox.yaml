@@ -16,14 +16,14 @@ requestInput:
     type: number
     default: 10
 
-requestBodyType: json
+# requestBodyType: json
 
-jsonBodyType: 
-  name: SampleRequest
-  type: object
-  attributes:
-    - name: filter
-      type: string
+# jsonBodyType: 
+#   name: SampleRequest
+#   type: object
+#   attributes:
+#     - name: filter
+#       type: string
 
 responseOutput: 
   name: TopCountriesResult
