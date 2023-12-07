@@ -1144,7 +1144,7 @@ public class DatabaseTests
         Assert.Equal(testEntity.CultureCode.Value, culture);
     }
 
-    public void AutoNumberedEntitiesBeingGenerated()
+    public async Task AutoNumberedEntitiesBeingGenerated()
     {
 
         var idValue = 10;
@@ -1160,7 +1160,7 @@ public class DatabaseTests
             TextField = "TX1"
         };
 
-        var newItem = factory.CreateEntity(newItemDto);
+        var newItem = await factory.CreateEntityAsync(newItemDto);
 
         DataContext.TestEntityForAutoNumberUsages.Add(newItem);
 

@@ -68,7 +68,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.StoreOwnerId is not null)
 		{
 			var relatedKey = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.EntityDto.StoreOwnerId.NonNullValue<System.String>());
@@ -80,7 +80,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		}
 		else if(request.EntityDto.StoreOwner is not null)
 		{
-			var relatedEntity = StoreOwnerFactory.CreateEntity(request.EntityDto.StoreOwner);
+			var relatedEntity = await StoreOwnerFactory.CreateEntityAsync(request.EntityDto.StoreOwner);
 			entityToCreate.CreateRefToStoreOwner(relatedEntity);
 		}
 		if(request.EntityDto.StoreLicenseId is not null)
@@ -94,7 +94,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		}
 		else if(request.EntityDto.StoreLicense is not null)
 		{
-			var relatedEntity = StoreLicenseFactory.CreateEntity(request.EntityDto.StoreLicense);
+			var relatedEntity = await StoreLicenseFactory.CreateEntityAsync(request.EntityDto.StoreLicense);
 			entityToCreate.CreateRefToStoreLicense(relatedEntity);
 		}
 		if(request.EntityDto.ClientsId.Any())
@@ -114,7 +114,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Clients)
 			{
-				var relatedEntity = ClientFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await ClientFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToClients(relatedEntity);
 			}
 		}

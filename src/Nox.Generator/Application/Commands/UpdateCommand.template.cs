@@ -90,7 +90,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 			{{- end }}
 		{{- end }}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
+		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 
 		{{- if !entity.IsOwnedEntity }}
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

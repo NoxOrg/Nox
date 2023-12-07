@@ -23,6 +23,15 @@ using HolidayEntity = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Factories;
 
+internal partial class HolidayFactory : HolidayFactoryBase
+{
+    public HolidayFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         _repository = repository;
     }
 
-    public virtual HolidayEntity CreateEntity(HolidayUpsertDto createDto)
+    public virtual async Task<HolidayEntity> CreateEntityAsync(HolidayUpsertDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         }        
     }
 
-    public virtual void UpdateEntity(HolidayEntity entity, HolidayUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(HolidayEntity entity, HolidayUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(HolidayEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,20 +66,21 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private Cryptocash.Domain.Holiday ToEntity(HolidayUpsertDto createDto)
+    private async Task<Cryptocash.Domain.Holiday> ToEntityAsync(HolidayUpsertDto createDto)
     {
         var entity = new Cryptocash.Domain.Holiday();
         entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(createDto.Name);
         entity.Type = Cryptocash.Domain.HolidayMetadata.CreateType(createDto.Type);
         entity.Date = Cryptocash.Domain.HolidayMetadata.CreateDate(createDto.Date);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(HolidayEntity entity, HolidayUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(HolidayEntity entity, HolidayUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.Type = Cryptocash.Domain.HolidayMetadata.CreateType(updateDto.Type.NonNullValue<System.String>());
         entity.Date = Cryptocash.Domain.HolidayMetadata.CreateDate(updateDto.Date.NonNullValue<System.DateTime>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(HolidayEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -112,13 +122,4 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class HolidayFactory : HolidayFactoryBase
-{
-    public HolidayFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

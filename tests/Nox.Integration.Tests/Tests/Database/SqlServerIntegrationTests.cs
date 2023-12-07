@@ -162,8 +162,8 @@ public class SqlServerIntegrationTests : NoxIntegrationContainerTestBase<NoxTest
     }
     
     [Fact]
-    public void GeneratedEntities_SqlServer_AutoNumberedEntitiesBeingGenerated()
+    public async Task GeneratedEntities_SqlServer_AutoNumberedEntitiesBeingGenerated()
     {
-        _noxCommonTestCases.AutoNumberedEntitiesBeingGenerated();
+        await _noxCommonTestCases.AutoNumberedEntitiesBeingGenerated();
     }
 }

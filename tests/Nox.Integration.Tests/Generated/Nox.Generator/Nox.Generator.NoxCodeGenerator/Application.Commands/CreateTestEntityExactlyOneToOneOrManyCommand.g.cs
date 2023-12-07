@@ -60,7 +60,7 @@ internal abstract class CreateTestEntityExactlyOneToOneOrManyCommandHandlerBase 
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.TestEntityOneOrManyToExactlyOneId is not null)
 		{
 			var relatedKey = TestWebApp.Domain.TestEntityOneOrManyToExactlyOneMetadata.CreateId(request.EntityDto.TestEntityOneOrManyToExactlyOneId.NonNullValue<System.String>());
@@ -72,7 +72,7 @@ internal abstract class CreateTestEntityExactlyOneToOneOrManyCommandHandlerBase 
 		}
 		else if(request.EntityDto.TestEntityOneOrManyToExactlyOne is not null)
 		{
-			var relatedEntity = TestEntityOneOrManyToExactlyOneFactory.CreateEntity(request.EntityDto.TestEntityOneOrManyToExactlyOne);
+			var relatedEntity = await TestEntityOneOrManyToExactlyOneFactory.CreateEntityAsync(request.EntityDto.TestEntityOneOrManyToExactlyOne);
 			entityToCreate.CreateRefToTestEntityOneOrManyToExactlyOne(relatedEntity);
 		}
 

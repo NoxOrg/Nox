@@ -23,6 +23,15 @@ using CountryTimeZoneEntity = ClientApi.Domain.CountryTimeZone;
 
 namespace ClientApi.Application.Factories;
 
+internal partial class CountryTimeZoneFactory : CountryTimeZoneFactoryBase
+{
+    public CountryTimeZoneFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
         _repository = repository;
     }
 
-    public virtual CountryTimeZoneEntity CreateEntity(CountryTimeZoneUpsertDto createDto)
+    public virtual async Task<CountryTimeZoneEntity> CreateEntityAsync(CountryTimeZoneUpsertDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
         }        
     }
 
-    public virtual void UpdateEntity(CountryTimeZoneEntity entity, CountryTimeZoneUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(CountryTimeZoneEntity entity, CountryTimeZoneUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CountryTimeZoneEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,15 +66,15 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private ClientApi.Domain.CountryTimeZone ToEntity(CountryTimeZoneUpsertDto createDto)
+    private async Task<ClientApi.Domain.CountryTimeZone> ToEntityAsync(CountryTimeZoneUpsertDto createDto)
     {
         var entity = new ClientApi.Domain.CountryTimeZone();
         entity.Id = CountryTimeZoneMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
         entity.SetIfNotNull(createDto.Name, (entity) => entity.Name =ClientApi.Domain.CountryTimeZoneMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(CountryTimeZoneEntity entity, CountryTimeZoneUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(CountryTimeZoneEntity entity, CountryTimeZoneUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         if(updateDto.Name is null)
         {
@@ -75,6 +84,7 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
         {
             entity.Name = ClientApi.Domain.CountryTimeZoneMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>());
         }
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(CountryTimeZoneEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -92,13 +102,4 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class CountryTimeZoneFactory : CountryTimeZoneFactoryBase
-{
-    public CountryTimeZoneFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

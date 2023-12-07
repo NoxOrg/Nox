@@ -23,6 +23,15 @@ using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Factories;
 
+internal partial class CustomerFactory : CustomerFactoryBase
+{
+    public CustomerFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
         _repository = repository;
     }
 
-    public virtual CustomerEntity CreateEntity(CustomerCreateDto createDto)
+    public virtual async Task<CustomerEntity> CreateEntityAsync(CustomerCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
         }        
     }
 
-    public virtual void UpdateEntity(CustomerEntity entity, CustomerUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(CustomerEntity entity, CustomerUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CustomerEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,7 +66,7 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private Cryptocash.Domain.Customer ToEntity(CustomerCreateDto createDto)
+    private async Task<Cryptocash.Domain.Customer> ToEntityAsync(CustomerCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Customer();
         entity.FirstName = Cryptocash.Domain.CustomerMetadata.CreateFirstName(createDto.FirstName);
@@ -65,10 +74,10 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
         entity.EmailAddress = Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(createDto.EmailAddress);
         entity.Address = Cryptocash.Domain.CustomerMetadata.CreateAddress(createDto.Address);
         entity.SetIfNotNull(createDto.MobileNumber, (entity) => entity.MobileNumber =Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(createDto.MobileNumber.NonNullValue<System.String>()));
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(CustomerEntity entity, CustomerUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(CustomerEntity entity, CustomerUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.FirstName = Cryptocash.Domain.CustomerMetadata.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>());
         entity.LastName = Cryptocash.Domain.CustomerMetadata.CreateLastName(updateDto.LastName.NonNullValue<System.String>());
@@ -82,6 +91,7 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
         {
             entity.MobileNumber = Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(updateDto.MobileNumber.ToValueFromNonNull<System.String>());
         }
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(CustomerEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -145,13 +155,4 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class CustomerFactory : CustomerFactoryBase
-{
-    public CustomerFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

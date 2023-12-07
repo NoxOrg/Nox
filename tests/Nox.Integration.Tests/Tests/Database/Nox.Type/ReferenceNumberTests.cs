@@ -5,6 +5,7 @@ using TestWebApp.Domain;
 using Microsoft.EntityFrameworkCore;
 using FluentAssertions;
 using Nox.Types;
+using Nox.Solution;
 
 namespace Nox.Integration.Tests.DatabaseIntegrationTests
 {
@@ -21,11 +22,11 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests
         public async Task WhenGetSequenceNextValue_ShouldSucceed()
         {
             //Act 
-            var nextIdNumber = await DataContext.GetSequenceNextValueAsync(_dbContextFixture.NoxCodeGenConventions.GetDatabaseSequenceName(nameof(ForReferenceNumber), nameof(ForReferenceNumber.Id)));
-            var nextIdNumber2 = await DataContext.GetSequenceNextValueAsync(_dbContextFixture.NoxCodeGenConventions.GetDatabaseSequenceName(nameof(ForReferenceNumber), nameof(ForReferenceNumber.Id)));
+            var nextIdNumber = await DataContext.GetSequenceNextValueAsync(NoxCodeGenConventions.GetDatabaseSequenceName(nameof(ForReferenceNumber), nameof(ForReferenceNumber.Id)));
+            var nextIdNumber2 = await DataContext.GetSequenceNextValueAsync(NoxCodeGenConventions.GetDatabaseSequenceName(nameof(ForReferenceNumber), nameof(ForReferenceNumber.Id)));
 
-            var nextWorkplaceNumber = await DataContext.GetSequenceNextValueAsync(_dbContextFixture.NoxCodeGenConventions.GetDatabaseSequenceName(nameof(ForReferenceNumber), nameof(ForReferenceNumber.WorkplaceNumber)));            
-            var nextWorkplaceNumber2 = await DataContext.GetSequenceNextValueAsync(_dbContextFixture.NoxCodeGenConventions.GetDatabaseSequenceName(nameof(ForReferenceNumber), nameof(ForReferenceNumber.WorkplaceNumber)));
+            var nextWorkplaceNumber = await DataContext.GetSequenceNextValueAsync(NoxCodeGenConventions.GetDatabaseSequenceName(nameof(ForReferenceNumber), nameof(ForReferenceNumber.WorkplaceNumber)));            
+            var nextWorkplaceNumber2 = await DataContext.GetSequenceNextValueAsync(NoxCodeGenConventions.GetDatabaseSequenceName(nameof(ForReferenceNumber), nameof(ForReferenceNumber.WorkplaceNumber)));
 
             // Assert
             nextIdNumber.Should().Be(10);

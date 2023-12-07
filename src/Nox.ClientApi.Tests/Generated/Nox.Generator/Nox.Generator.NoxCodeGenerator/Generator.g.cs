@@ -13,6 +13,7 @@
 //  - currency.entity.nox.yaml
 //  - holiday.entity.nox.yaml
 //  - ratingprogram.entity.nox.yaml
+//  - referencenumber.entity.nox.yaml
 //  - store-license.entity.nox.yaml
 //  - store-owner.entity.nox.yaml
 //  - store.entity.nox.yaml

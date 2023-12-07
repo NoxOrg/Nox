@@ -159,8 +159,8 @@ public class PostgresIntegrationTests : NoxIntegrationContainerTestBase<NoxTestP
     }
     
     [Fact]
-    public void GeneratedEntities_Postgres_AutoNumberedEntitiesBeingGenerated()
+    public async Task GeneratedEntities_Postgres_AutoNumberedEntitiesBeingGenerated()
     {
-        _noxCommonTestCases.AutoNumberedEntitiesBeingGenerated();
+        await _noxCommonTestCases.AutoNumberedEntitiesBeingGenerated();
     }
 }
