@@ -14,9 +14,9 @@ public class CryptocashCountryDtoDataCreationTests
 #nullable enable
 
     /// <summary>
-    /// Test used to create one-off CountryDto JSON data from Reference Data - to use make sure source json files are available otherwise test just returns empty string
+    /// Test used to create one-off CountryDto JSON data from Reference Data - to use make sure source json files are available otherwise test just returns empty string - use returning rtnJson value from Convert_Country_ReferenceData_to_DtoDataAsync to create the CryptocashCountry.Json file manually
     /// </summary>
-    [Fact]
+    [Fact(Skip = "Only used as one-off to create DataSeeder Country JSON file")]
     public async void Create_CountryDto_data_from_CountryReferenceData()
     {
         var rootPath = "../../../../.nox";        
