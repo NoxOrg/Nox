@@ -18,11 +18,11 @@ using Guid = Nox.Types.Guid;
 
 namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
-public class NoxCommonTestCaseFactory
+public class DatabaseTests
 {
     private readonly INoxTestDataContextFixture _dbContextFixture;
 
-    public NoxCommonTestCaseFactory(INoxTestDataContextFixture dbContextFixture)
+    public DatabaseTests(INoxTestDataContextFixture dbContextFixture)
     {
         _dbContextFixture = dbContextFixture;
     }

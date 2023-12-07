@@ -105,3 +105,4 @@ This document provides information about the various endpoints available in our 
 ## Related Entities
 
 [Workplace](WorkplaceEndpoints.md)
+

@@ -9,11 +9,11 @@ using TestWebApp.Infrastructure.Persistence;
 namespace Nox.Integration.Tests;
 
 [Collection("Sequential")]
-public class NuidTypeTests : NoxIntegrationContainerTestBase<NoxTestSqliteFixture>
+public class NuidTests : NoxIntegrationContainerTestBase<NoxTestSqliteFixture>
 {
     private readonly AppDbContext _dbContext;
 
-    public NuidTypeTests(NoxTestSqliteFixture fixture) : base(fixture)
+    public NuidTests(NoxTestSqliteFixture fixture) : base(fixture)
     {
         _dbContext = (AppDbContext)fixture.DataContext;
     }
