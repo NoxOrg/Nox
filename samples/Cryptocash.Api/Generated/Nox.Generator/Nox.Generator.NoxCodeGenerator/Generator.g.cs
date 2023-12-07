@@ -4,7 +4,6 @@
 
 // Found files ->
 //  - cryptocash.application.nox.yaml
-//  - CountrySync.integration.nox.yaml
 //  - cryptocash.solution.nox.yaml
 //  - cryptocash.domain.nox.yaml
 //  - BankNote.entity.nox.yaml
