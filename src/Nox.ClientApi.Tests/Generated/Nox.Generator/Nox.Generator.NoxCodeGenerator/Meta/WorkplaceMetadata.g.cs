@@ -122,7 +122,7 @@ public partial class WorkplaceMetadata
                     Name = "Franchise",
                 },
             },
-            IsLocalized = false,
+            IsLocalized = true,
         };
     
     
@@ -131,6 +131,45 @@ public partial class WorkplaceMetadata
         /// </summary>
         public static Nox.Types.Enumeration CreateOwnership(System.Int32 value)
             => Nox.Types.Enumeration.From(value, OwnershipTypeOptions);
+        
+    
+        /// <summary>
+        /// Type options for property 'Type'
+        /// </summary>
+        public static Nox.Types.EnumerationTypeOptions TypeTypeOptions {get; private set;} = new ()
+        {
+            Values = new System.Collections.Generic.List<Nox.Types.EnumerationValues>()
+            {
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 1000,
+                    Name = "Business Centre",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 2000,
+                    Name = "Business Lounge",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 3000,
+                    Name = "Meeting Room Centre",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 7000,
+                    Name = "Airport Location",
+                },
+            },
+            IsLocalized = false,
+        };
+    
+    
+        /// <summary>
+        /// Factory for property 'Type'
+        /// </summary>
+        public static Nox.Types.Enumeration CreateType(System.Int32 value)
+            => Nox.Types.Enumeration.From(value, TypeTypeOptions);
         
     
         /// <summary>
@@ -203,5 +242,14 @@ public partial class WorkplaceMetadata
             => solution.Domain!
                 .GetEntityByName("Workplace")
                 .GetAttributeByName("Ownership")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Type'
+        /// </summary>
+        public static TypeUserInterface? TypeUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Workplace")
+                .GetAttributeByName("Type")?
                 .UserInterface;
 }

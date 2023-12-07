@@ -27,7 +27,7 @@ public class CountryDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.Select("CountriesContinentsLocalized.Name")
 			.Where("CountriesContinentsLocalized.CultureCode", "##LANG##")
 			.As("CountriesContinentsLocalized");
-
+		
 		var continentEnumQuery = new Query("CountriesContinents")
 			.Select("CountriesContinents.Id")
 			.ForSqlServer(q => q.SelectRaw("COALESCE([CountriesContinentsLocalized].[Name], (N'[' + COALESCE([CountriesContinents].[Name], N'')) + N']') AS [Name]"))
@@ -49,7 +49,7 @@ public class CountryDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.Select("Countries.GoogleMapsUrl")
 			.Select("Countries.StartOfWeek")
 			.Select("Countries.Continent")
-			.Select("Countries.ContinentName")
+			.Select("CountriesContinents.Name as ContinentName")
 			.Select("Countries.Etag")
 			.LeftJoin(continentEnumQuery, j => j.On("CountriesContinents.Id", "Countries.Continent"));
 

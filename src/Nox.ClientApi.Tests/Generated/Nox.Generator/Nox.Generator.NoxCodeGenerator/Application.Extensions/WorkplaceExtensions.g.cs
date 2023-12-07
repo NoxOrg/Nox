@@ -19,6 +19,7 @@ internal static class WorkplaceExtensions
         dto.SetIfNotNull(entity?.Description, (dto) => dto.Description =entity!.Description!.Value);
         dto.SetIfNotNull(entity?.Greeting, (dto) => dto.Greeting =entity!.Greeting!.ToString());
         dto.SetIfNotNull(entity?.Ownership, (dto) => dto.Ownership =entity!.Ownership!.Value);
+        dto.SetIfNotNull(entity?.Type, (dto) => dto.Type =entity!.Type!.Value);
 
         return dto;
     }

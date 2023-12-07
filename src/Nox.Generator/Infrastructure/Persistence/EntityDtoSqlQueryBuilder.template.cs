@@ -15,7 +15,7 @@ end -}}
 	ret enumTableName(enumName) | string.append "Localized"
 end -}}
 {{- hasLocalizedText = entity.Attributes | array.each @isLocalizedText | array.contains true }}
-{{- hasLocalizedEnum = entity.Attributes | array.each @isLocalizedEnum | array.contains true }}
+{{- hasEnum = entity.Attributes | array.each @isEnum | array.contains true }}
 {{- entityTableName = entity.PluralName }}
 {{- localizedEntityTableName = entity.PluralName | string.append "Localized" }}
 #nullable enable
@@ -51,20 +51,26 @@ public class {{className}} : IEntityDtoSqlQueryBuilder
 			{{- end}}
 			.Where("{{localizedEntityTableName}}.CultureCode", "##LANG##")
 			.As("{{localizedEntityTableName}}");
-		{{ else if hasLocalizedEnum }}
+		{{- end}}
+		{{- if hasEnum }}
 		{{- for attribute in entity.Attributes | array.filter @isEnum }}
+		{{- if isLocalizedEnum attribute }}
 		var localized{{attribute.Name}}EnumQuery = new Query("{{localizedEnumTableName attribute.Name}}")
 			.Select("{{localizedEnumTableName attribute.Name}}.Id")
 			.Select("{{localizedEnumTableName attribute.Name}}.Name")
 			.Where("{{localizedEnumTableName attribute.Name}}.CultureCode", "##LANG##")
 			.As("{{localizedEnumTableName attribute.Name}}");
-
+		{{ end }}
 		var {{attribute.Name | string.downcase}}EnumQuery = new Query("{{enumTableName attribute.Name}}")
 			.Select("{{enumTableName attribute.Name}}.Id")
+		{{- if isLocalizedEnum attribute }}
 			.ForSqlServer(q => q.SelectRaw("COALESCE([{{localizedEnumTableName attribute.Name}}].[Name], (N'[' + COALESCE([{{enumTableName attribute.Name}}].[Name], N'')) + N']') AS [Name]"))
 			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"{{localizedEnumTableName attribute.Name}}\".\"Name\", ('##OPEN##' || COALESCE(\"{{enumTableName attribute.Name}}\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
 			.ForSqlite(q => q.SelectRaw("COALESCE(\"{{localizedEnumTableName attribute.Name}}\".\"Name\", ('##OPEN##' || COALESCE(\"{{enumTableName attribute.Name}}\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
 			.LeftJoin(localized{{attribute.Name}}EnumQuery, j => j.On("{{localizedEnumTableName attribute.Name}}.Id", "{{enumTableName attribute.Name}}.Id"))
+		{{- else }}
+			.Select("{{enumTableName attribute.Name}}.Name")
+		{{- end }}
 			.As("{{enumTableName attribute.Name}}");
 		{{- end}}
 		{{end}}
@@ -82,8 +88,8 @@ public class {{className}} : IEntityDtoSqlQueryBuilder
 			.ForSqlServer(q => q.SelectRaw("COALESCE([{{localizedEntityTableName}}].[{{attribute.Name}}], (N'[' + COALESCE([{{entityTableName}}].[{{attribute.Name}}], N'')) + N']') AS [{{attribute.Name}}]"))
 			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"{{localizedEntityTableName}}\".\"{{attribute.Name}}\", ('##OPEN##' || COALESCE(\"{{entityTableName}}\".\"{{attribute.Name}}\", '')) || '##CLOSE##') AS \"{{attribute.Name}}\""))
 			.ForSqlite(q => q.SelectRaw("COALESCE(\"{{localizedEntityTableName}}\".\"{{attribute.Name}}\", ('##OPEN##' || COALESCE(\"{{entityTableName}}\".\"{{attribute.Name}}\", '')) || '##CLOSE##') AS \"{{attribute.Name}}\""))
-			{{- else if isLocalizedEnum attribute}}
-			.Select("{{entityTableName}}.{{attribute.Name}}Name")
+			{{- else if isEnum attribute}}
+			.Select("{{enumTableName attribute.Name}}.Name as {{attribute.Name}}Name")
 			{{- end}}
 			{{- end}}
 			{{- for relationship in entity.Relationships }}
@@ -100,8 +106,9 @@ public class {{className}} : IEntityDtoSqlQueryBuilder
 			{{- end }}
 			{{- if hasLocalizedText}}
 			.LeftJoin(localizedEntityQuery, j => j.On("{{localizedEntityTableName}}.{{entityKeys[0].Name}}", "{{entityTableName}}.{{entityKeys[0].Name}}"))
-			{{- else if hasLocalizedEnum }}
-			{{- for attribute in entity.Attributes | array.filter @isLocalizedEnum}}
+			{{- end}}
+			{{- if hasEnum }}
+			{{- for attribute in entity.Attributes | array.filter @isEnum}}
 			.LeftJoin({{attribute.Name | string.downcase}}EnumQuery, j => j.On("{{enumTableName attribute.Name}}.Id", "{{entityTableName}}.{{attribute.Name}}"))
 			{{- end}}
 			{{- end -}};

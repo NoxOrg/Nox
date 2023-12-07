@@ -42,4 +42,9 @@ public partial class WorkplaceUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNam
     /// </summary>
     /// <remarks>Optional.</remarks>
     public virtual System.Int32? Ownership { get; set; }
+    /// <summary>
+    /// Workplace Type     
+    /// </summary>
+    /// <remarks>Optional.</remarks>
+    public virtual System.Int32? Type { get; set; }
 }

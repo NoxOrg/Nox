@@ -44,6 +44,11 @@ public abstract class WorkplaceCreateDtoBase : IEntityDto<DomainNamespace.Workpl
     /// </summary>
     /// <remarks>Optional</remarks>
     public virtual System.Int32? Ownership { get; set; }
+    /// <summary>
+    /// Workplace Type     
+    /// </summary>
+    /// <remarks>Optional</remarks>
+    public virtual System.Int32? Type { get; set; }
 
     /// <summary>
     /// Workplace Workplace country ZeroOrOne Countries

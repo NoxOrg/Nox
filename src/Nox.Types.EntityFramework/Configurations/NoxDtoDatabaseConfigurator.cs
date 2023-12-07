@@ -163,7 +163,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 
     private void ConfigureSqlQuery(EntityTypeBuilder builder, Entity entity)
     {
-        if (entity.IsLocalized)
+        if (entity.IsLocalized || entity.Attributes.Any(x => x.Type == NoxType.Enumeration))
         {
             builder.ToSqlQuery(_sqlQueryBuilders[entity.Name].Build());
         }

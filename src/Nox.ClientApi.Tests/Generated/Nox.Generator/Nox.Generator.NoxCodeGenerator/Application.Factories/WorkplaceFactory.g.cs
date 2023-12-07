@@ -63,6 +63,7 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(createDto.Name);
         entity.SetIfNotNull(createDto.Description, (entity) => entity.Description =ClientApi.Domain.WorkplaceMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.Ownership, (entity) => entity.Ownership =ClientApi.Domain.WorkplaceMetadata.CreateOwnership(createDto.Ownership.NonNullValue<System.Int32>()));
+        entity.SetIfNotNull(createDto.Type, (entity) => entity.Type =ClientApi.Domain.WorkplaceMetadata.CreateType(createDto.Type.NonNullValue<System.Int32>()));
         return entity;
     }
 
@@ -84,6 +85,14 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         else
         {
             entity.Ownership = ClientApi.Domain.WorkplaceMetadata.CreateOwnership(updateDto.Ownership.ToValueFromNonNull<System.Int32>());
+        }
+        if(updateDto.Type is null)
+        {
+             entity.Type = null;
+        }
+        else
+        {
+            entity.Type = ClientApi.Domain.WorkplaceMetadata.CreateType(updateDto.Type.ToValueFromNonNull<System.Int32>());
         }
     }
 
@@ -116,6 +125,15 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
             else
             {
                 entity.Ownership = ClientApi.Domain.WorkplaceMetadata.CreateOwnership(OwnershipUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Type", out var TypeUpdateValue))
+        {
+            if (TypeUpdateValue == null) { entity.Type = null; }
+            else
+            {
+                entity.Type = ClientApi.Domain.WorkplaceMetadata.CreateType(TypeUpdateValue);
             }
         }
     }

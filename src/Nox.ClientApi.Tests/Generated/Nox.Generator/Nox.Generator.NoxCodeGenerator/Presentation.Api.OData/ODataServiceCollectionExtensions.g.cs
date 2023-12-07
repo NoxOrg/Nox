@@ -145,7 +145,16 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<WorkplaceDto>()
                             .Collection
                             .Function("WorkplaceOwnerships")
-                            .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipDto>(); 
+                            .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipDto>();
+        builder.EntityType<WorkplaceDto>()
+                            .Collection
+                            .Function("WorkplaceOwnershipsLocalized")
+                            .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipLocalizedDto>(); 
+        // Setup Enumeration End Points
+        builder.EntityType<WorkplaceDto>()
+                            .Collection
+                            .Function("WorkplaceTypes")
+                            .ReturnsCollection<DtoNameSpace.WorkplaceTypeDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<TenantDto>()
                             .Collection
