@@ -12,7 +12,7 @@ using ClientApi.Application.Dto;
 namespace ClientApi.Application.IntegrationEvents;
 
 /// <summary>
-/// WorkplaceDeleted integration event.
+/// WorkplaceUpdated integration event.
 /// </summary>
-[IntegrationEventType("deleted", nameof(DomainNamespace.Workplace))]
-internal record WorkplaceDeleted(WorkplaceDto Workplace) :  IIntegrationEvent;
+[IntegrationEventType("updated", nameof(DomainNamespace.Workplace))]
+internal record WorkplaceUpdated(WorkplaceDto Workplace) :  IIntegrationEvent;

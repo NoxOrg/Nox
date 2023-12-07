@@ -37,6 +37,7 @@ public class WorkplaceDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"WorkplacesLocalized\".\"Description\", ('##OPEN##' || COALESCE(\"Workplaces\".\"Description\", '')) || '##CLOSE##') AS \"Description\""))
 			.ForSqlite(q => q.SelectRaw("COALESCE(\"WorkplacesLocalized\".\"Description\", ('##OPEN##' || COALESCE(\"Workplaces\".\"Description\", '')) || '##CLOSE##') AS \"Description\""))
 			.Select("Workplaces.CountryId")
+			.Select("Workplaces.DeletedAtUtc")
 			.Select("Workplaces.Etag")
 			.LeftJoin(localizedEntityQuery, j => j.On("WorkplacesLocalized.Id", "Workplaces.Id"));
 
