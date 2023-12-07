@@ -85,5 +85,5 @@ public class NoxCodeGenConventions
     /// Computes the Database Sequence Name to be used by an Entity Attribute
     /// </summary>
     /// <remarks>lower case so its fully compatible with postgres</remarks>
-    public string GetDatabaseSequenceName(string entityName, string attributeName) => $"Seq{entityName}{attributeName}".ToLowerInvariant();
+    public static string GetDatabaseSequenceName(string entityName, string attributeName) => $"Seq{entityName}{attributeName}".ToLowerInvariant();
 }

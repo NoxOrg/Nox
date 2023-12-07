@@ -99,7 +99,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 
 	{{- for relationship in entity.Relationships }}
 		{{- relationshipName = GetNavigationPropertyName entity relationship }}
@@ -128,7 +128,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 		}
 		else if(request.EntityDto.{{relationshipName}} is not null)
 		{
-			var relatedEntity = {{fieldFactoryName relationship.Entity}}.CreateEntity(request.EntityDto.{{relationshipName}});
+			var relatedEntity = await {{fieldFactoryName relationship.Entity}}.CreateEntityAsync(request.EntityDto.{{relationshipName}});
 			entityToCreate.CreateRefTo{{relationshipName}}(relatedEntity);
 		}
 		{{- else}}
@@ -151,7 +151,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 		{
 			foreach(var relatedCreateDto in request.EntityDto.{{relationshipName}})
 			{
-				var relatedEntity = {{fieldFactoryName relationship.Entity}}.CreateEntity(relatedCreateDto);
+				var relatedEntity = await {{fieldFactoryName relationship.Entity}}.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefTo{{relationshipName}}(relatedEntity);
 			}
 		}

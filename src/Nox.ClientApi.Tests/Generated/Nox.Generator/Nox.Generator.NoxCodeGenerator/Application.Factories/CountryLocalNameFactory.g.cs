@@ -23,6 +23,15 @@ using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Factories;
 
+internal partial class CountryLocalNameFactory : CountryLocalNameFactoryBase
+{
+    public CountryLocalNameFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
         _repository = repository;
     }
 
-    public virtual CountryLocalNameEntity CreateEntity(CountryLocalNameUpsertDto createDto)
+    public virtual async Task<CountryLocalNameEntity> CreateEntityAsync(CountryLocalNameUpsertDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
         }        
     }
 
-    public virtual void UpdateEntity(CountryLocalNameEntity entity, CountryLocalNameUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(CountryLocalNameEntity entity, CountryLocalNameUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CountryLocalNameEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,15 +66,15 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private ClientApi.Domain.CountryLocalName ToEntity(CountryLocalNameUpsertDto createDto)
+    private async Task<ClientApi.Domain.CountryLocalName> ToEntityAsync(CountryLocalNameUpsertDto createDto)
     {
         var entity = new ClientApi.Domain.CountryLocalName();
         entity.Name = ClientApi.Domain.CountryLocalNameMetadata.CreateName(createDto.Name);
         entity.SetIfNotNull(createDto.NativeName, (entity) => entity.NativeName =ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(createDto.NativeName.NonNullValue<System.String>()));
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(CountryLocalNameEntity entity, CountryLocalNameUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(CountryLocalNameEntity entity, CountryLocalNameUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = ClientApi.Domain.CountryLocalNameMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         if(updateDto.NativeName is null)
@@ -76,6 +85,7 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
         {
             entity.NativeName = ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(updateDto.NativeName.ToValueFromNonNull<System.String>());
         }
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(CountryLocalNameEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -104,13 +114,4 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class CountryLocalNameFactory : CountryLocalNameFactoryBase
-{
-    public CountryLocalNameFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

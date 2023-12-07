@@ -23,6 +23,15 @@ using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Factories;
 
+internal partial class BookingFactory : BookingFactoryBase
+{
+    public BookingFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
         _repository = repository;
     }
 
-    public virtual BookingEntity CreateEntity(BookingCreateDto createDto)
+    public virtual async Task<BookingEntity> CreateEntityAsync(BookingCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
         }        
     }
 
-    public virtual void UpdateEntity(BookingEntity entity, BookingUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(BookingEntity entity, BookingUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(BookingEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,7 +66,7 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private Cryptocash.Domain.Booking ToEntity(BookingCreateDto createDto)
+    private async Task<Cryptocash.Domain.Booking> ToEntityAsync(BookingCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Booking();
         entity.AmountFrom = Cryptocash.Domain.BookingMetadata.CreateAmountFrom(createDto.AmountFrom);
@@ -68,10 +77,10 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
         entity.SetIfNotNull(createDto.CancelledDateTime, (entity) => entity.CancelledDateTime =Cryptocash.Domain.BookingMetadata.CreateCancelledDateTime(createDto.CancelledDateTime.NonNullValue<System.DateTimeOffset>()));
         entity.SetIfNotNull(createDto.VatNumber, (entity) => entity.VatNumber =Cryptocash.Domain.BookingMetadata.CreateVatNumber(createDto.VatNumber.NonNullValue<VatNumberDto>()));
         entity.EnsureId(createDto.Id);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(BookingEntity entity, BookingUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(BookingEntity entity, BookingUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.AmountFrom = Cryptocash.Domain.BookingMetadata.CreateAmountFrom(updateDto.AmountFrom.NonNullValue<MoneyDto>());
         entity.AmountTo = Cryptocash.Domain.BookingMetadata.CreateAmountTo(updateDto.AmountTo.NonNullValue<MoneyDto>());
@@ -108,6 +117,7 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
         {
             entity.VatNumber = Cryptocash.Domain.BookingMetadata.CreateVatNumber(updateDto.VatNumber.ToValueFromNonNull<VatNumberDto>());
         }
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(BookingEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -195,13 +205,4 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class BookingFactory : BookingFactoryBase
-{
-    public BookingFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

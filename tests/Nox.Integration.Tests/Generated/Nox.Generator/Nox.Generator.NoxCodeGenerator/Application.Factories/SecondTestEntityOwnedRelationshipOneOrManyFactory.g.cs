@@ -23,6 +23,15 @@ using SecondTestEntityOwnedRelationshipOneOrManyEntity = TestWebApp.Domain.Secon
 
 namespace TestWebApp.Application.Factories;
 
+internal partial class SecondTestEntityOwnedRelationshipOneOrManyFactory : SecondTestEntityOwnedRelationshipOneOrManyFactoryBase
+{
+    public SecondTestEntityOwnedRelationshipOneOrManyFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class SecondTestEntityOwnedRelationshipOneOrManyFactoryBase : IEntityFactory<SecondTestEntityOwnedRelationshipOneOrManyEntity, SecondTestEntityOwnedRelationshipOneOrManyUpsertDto, SecondTestEntityOwnedRelationshipOneOrManyUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class SecondTestEntityOwnedRelationshipOneOrManyFactoryBase : 
         _repository = repository;
     }
 
-    public virtual SecondTestEntityOwnedRelationshipOneOrManyEntity CreateEntity(SecondTestEntityOwnedRelationshipOneOrManyUpsertDto createDto)
+    public virtual async Task<SecondTestEntityOwnedRelationshipOneOrManyEntity> CreateEntityAsync(SecondTestEntityOwnedRelationshipOneOrManyUpsertDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class SecondTestEntityOwnedRelationshipOneOrManyFactoryBase : 
         }        
     }
 
-    public virtual void UpdateEntity(SecondTestEntityOwnedRelationshipOneOrManyEntity entity, SecondTestEntityOwnedRelationshipOneOrManyUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(SecondTestEntityOwnedRelationshipOneOrManyEntity entity, SecondTestEntityOwnedRelationshipOneOrManyUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(SecondTestEntityOwnedRelationshipOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,17 +66,18 @@ internal abstract class SecondTestEntityOwnedRelationshipOneOrManyFactoryBase : 
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrMany ToEntity(SecondTestEntityOwnedRelationshipOneOrManyUpsertDto createDto)
+    private async Task<TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrMany> ToEntityAsync(SecondTestEntityOwnedRelationshipOneOrManyUpsertDto createDto)
     {
         var entity = new TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrMany();
         entity.Id = SecondTestEntityOwnedRelationshipOneOrManyMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
         entity.TextTestField2 = TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrManyMetadata.CreateTextTestField2(createDto.TextTestField2);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(SecondTestEntityOwnedRelationshipOneOrManyEntity entity, SecondTestEntityOwnedRelationshipOneOrManyUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(SecondTestEntityOwnedRelationshipOneOrManyEntity entity, SecondTestEntityOwnedRelationshipOneOrManyUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField2 = TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrManyMetadata.CreateTextTestField2(updateDto.TextTestField2.NonNullValue<System.String>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(SecondTestEntityOwnedRelationshipOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -87,13 +97,4 @@ internal abstract class SecondTestEntityOwnedRelationshipOneOrManyFactoryBase : 
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class SecondTestEntityOwnedRelationshipOneOrManyFactory : SecondTestEntityOwnedRelationshipOneOrManyFactoryBase
-{
-    public SecondTestEntityOwnedRelationshipOneOrManyFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

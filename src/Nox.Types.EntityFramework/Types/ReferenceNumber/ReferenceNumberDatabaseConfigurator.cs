@@ -60,7 +60,7 @@ public class ReferenceNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     protected virtual void CreateSequence(NoxCodeGenConventions noxSolutionCodeGeneratorState, NoxSimpleTypeDefinition property, Entity entity, ModelBuilder modelBuilder, ReferenceNumberTypeOptions typeOptions)
     {
-        modelBuilder.HasSequence<long>(noxSolutionCodeGeneratorState.GetDatabaseSequenceName(entity.Name, property.Name))
+        modelBuilder.HasSequence<long>(NoxCodeGenConventions.GetDatabaseSequenceName(entity.Name, property.Name))
             .StartsAt(typeOptions.StartsAt)
             .IncrementsBy(typeOptions.IncrementsBy);
     }

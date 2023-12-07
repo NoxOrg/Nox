@@ -23,6 +23,15 @@ using TestEntityExactlyOneToZeroOrManyEntity = TestWebApp.Domain.TestEntityExact
 
 namespace TestWebApp.Application.Factories;
 
+internal partial class TestEntityExactlyOneToZeroOrManyFactory : TestEntityExactlyOneToZeroOrManyFactoryBase
+{
+    public TestEntityExactlyOneToZeroOrManyFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class TestEntityExactlyOneToZeroOrManyFactoryBase : IEntityFactory<TestEntityExactlyOneToZeroOrManyEntity, TestEntityExactlyOneToZeroOrManyCreateDto, TestEntityExactlyOneToZeroOrManyUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class TestEntityExactlyOneToZeroOrManyFactoryBase : IEntityFac
         _repository = repository;
     }
 
-    public virtual TestEntityExactlyOneToZeroOrManyEntity CreateEntity(TestEntityExactlyOneToZeroOrManyCreateDto createDto)
+    public virtual async Task<TestEntityExactlyOneToZeroOrManyEntity> CreateEntityAsync(TestEntityExactlyOneToZeroOrManyCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class TestEntityExactlyOneToZeroOrManyFactoryBase : IEntityFac
         }        
     }
 
-    public virtual void UpdateEntity(TestEntityExactlyOneToZeroOrManyEntity entity, TestEntityExactlyOneToZeroOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(TestEntityExactlyOneToZeroOrManyEntity entity, TestEntityExactlyOneToZeroOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TestEntityExactlyOneToZeroOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,17 +66,18 @@ internal abstract class TestEntityExactlyOneToZeroOrManyFactoryBase : IEntityFac
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private TestWebApp.Domain.TestEntityExactlyOneToZeroOrMany ToEntity(TestEntityExactlyOneToZeroOrManyCreateDto createDto)
+    private async Task<TestWebApp.Domain.TestEntityExactlyOneToZeroOrMany> ToEntityAsync(TestEntityExactlyOneToZeroOrManyCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityExactlyOneToZeroOrMany();
         entity.Id = TestEntityExactlyOneToZeroOrManyMetadata.CreateId(createDto.Id);
         entity.TextTestField = TestWebApp.Domain.TestEntityExactlyOneToZeroOrManyMetadata.CreateTextTestField(createDto.TextTestField);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(TestEntityExactlyOneToZeroOrManyEntity entity, TestEntityExactlyOneToZeroOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(TestEntityExactlyOneToZeroOrManyEntity entity, TestEntityExactlyOneToZeroOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField = TestWebApp.Domain.TestEntityExactlyOneToZeroOrManyMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(TestEntityExactlyOneToZeroOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -87,13 +97,4 @@ internal abstract class TestEntityExactlyOneToZeroOrManyFactoryBase : IEntityFac
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class TestEntityExactlyOneToZeroOrManyFactory : TestEntityExactlyOneToZeroOrManyFactoryBase
-{
-    public TestEntityExactlyOneToZeroOrManyFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

@@ -59,7 +59,7 @@ internal abstract class UpdateTestEntityOwnedRelationshipZeroOrManyCommandHandle
 		}
 		await DbContext.Entry(entity).Collection(x => x.SecondTestEntityOwnedRelationshipZeroOrManies).LoadAsync();
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
+		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

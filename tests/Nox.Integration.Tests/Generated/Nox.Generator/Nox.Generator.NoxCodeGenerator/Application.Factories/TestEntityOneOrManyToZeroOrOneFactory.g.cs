@@ -23,6 +23,15 @@ using TestEntityOneOrManyToZeroOrOneEntity = TestWebApp.Domain.TestEntityOneOrMa
 
 namespace TestWebApp.Application.Factories;
 
+internal partial class TestEntityOneOrManyToZeroOrOneFactory : TestEntityOneOrManyToZeroOrOneFactoryBase
+{
+    public TestEntityOneOrManyToZeroOrOneFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class TestEntityOneOrManyToZeroOrOneFactoryBase : IEntityFactory<TestEntityOneOrManyToZeroOrOneEntity, TestEntityOneOrManyToZeroOrOneCreateDto, TestEntityOneOrManyToZeroOrOneUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class TestEntityOneOrManyToZeroOrOneFactoryBase : IEntityFacto
         _repository = repository;
     }
 
-    public virtual TestEntityOneOrManyToZeroOrOneEntity CreateEntity(TestEntityOneOrManyToZeroOrOneCreateDto createDto)
+    public virtual async Task<TestEntityOneOrManyToZeroOrOneEntity> CreateEntityAsync(TestEntityOneOrManyToZeroOrOneCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class TestEntityOneOrManyToZeroOrOneFactoryBase : IEntityFacto
         }        
     }
 
-    public virtual void UpdateEntity(TestEntityOneOrManyToZeroOrOneEntity entity, TestEntityOneOrManyToZeroOrOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(TestEntityOneOrManyToZeroOrOneEntity entity, TestEntityOneOrManyToZeroOrOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TestEntityOneOrManyToZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,17 +66,18 @@ internal abstract class TestEntityOneOrManyToZeroOrOneFactoryBase : IEntityFacto
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private TestWebApp.Domain.TestEntityOneOrManyToZeroOrOne ToEntity(TestEntityOneOrManyToZeroOrOneCreateDto createDto)
+    private async Task<TestWebApp.Domain.TestEntityOneOrManyToZeroOrOne> ToEntityAsync(TestEntityOneOrManyToZeroOrOneCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityOneOrManyToZeroOrOne();
         entity.Id = TestEntityOneOrManyToZeroOrOneMetadata.CreateId(createDto.Id);
         entity.TextTestField2 = TestWebApp.Domain.TestEntityOneOrManyToZeroOrOneMetadata.CreateTextTestField2(createDto.TextTestField2);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(TestEntityOneOrManyToZeroOrOneEntity entity, TestEntityOneOrManyToZeroOrOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(TestEntityOneOrManyToZeroOrOneEntity entity, TestEntityOneOrManyToZeroOrOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField2 = TestWebApp.Domain.TestEntityOneOrManyToZeroOrOneMetadata.CreateTextTestField2(updateDto.TextTestField2.NonNullValue<System.String>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(TestEntityOneOrManyToZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -87,13 +97,4 @@ internal abstract class TestEntityOneOrManyToZeroOrOneFactoryBase : IEntityFacto
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class TestEntityOneOrManyToZeroOrOneFactory : TestEntityOneOrManyToZeroOrOneFactoryBase
-{
-    public TestEntityOneOrManyToZeroOrOneFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

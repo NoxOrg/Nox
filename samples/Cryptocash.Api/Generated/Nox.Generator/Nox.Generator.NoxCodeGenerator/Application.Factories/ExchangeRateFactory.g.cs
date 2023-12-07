@@ -23,6 +23,15 @@ using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Factories;
 
+internal partial class ExchangeRateFactory : ExchangeRateFactoryBase
+{
+    public ExchangeRateFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
         _repository = repository;
     }
 
-    public virtual ExchangeRateEntity CreateEntity(ExchangeRateUpsertDto createDto)
+    public virtual async Task<ExchangeRateEntity> CreateEntityAsync(ExchangeRateUpsertDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
         }        
     }
 
-    public virtual void UpdateEntity(ExchangeRateEntity entity, ExchangeRateUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(ExchangeRateEntity entity, ExchangeRateUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(ExchangeRateEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,18 +66,19 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private Cryptocash.Domain.ExchangeRate ToEntity(ExchangeRateUpsertDto createDto)
+    private async Task<Cryptocash.Domain.ExchangeRate> ToEntityAsync(ExchangeRateUpsertDto createDto)
     {
         var entity = new Cryptocash.Domain.ExchangeRate();
         entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(createDto.EffectiveRate);
         entity.EffectiveAt = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(createDto.EffectiveAt);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(ExchangeRateEntity entity, ExchangeRateUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(ExchangeRateEntity entity, ExchangeRateUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(updateDto.EffectiveRate.NonNullValue<System.Int32>());
         entity.EffectiveAt = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(ExchangeRateEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -99,13 +109,4 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class ExchangeRateFactory : ExchangeRateFactoryBase
-{
-    public ExchangeRateFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

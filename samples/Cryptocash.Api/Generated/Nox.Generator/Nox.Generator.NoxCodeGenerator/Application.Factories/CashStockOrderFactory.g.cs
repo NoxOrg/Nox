@@ -23,6 +23,15 @@ using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Factories;
 
+internal partial class CashStockOrderFactory : CashStockOrderFactoryBase
+{
+    public CashStockOrderFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
         _repository = repository;
     }
 
-    public virtual CashStockOrderEntity CreateEntity(CashStockOrderCreateDto createDto)
+    public virtual async Task<CashStockOrderEntity> CreateEntityAsync(CashStockOrderCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
         }        
     }
 
-    public virtual void UpdateEntity(CashStockOrderEntity entity, CashStockOrderUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(CashStockOrderEntity entity, CashStockOrderUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CashStockOrderEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,16 +66,16 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private Cryptocash.Domain.CashStockOrder ToEntity(CashStockOrderCreateDto createDto)
+    private async Task<Cryptocash.Domain.CashStockOrder> ToEntityAsync(CashStockOrderCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.CashStockOrder();
         entity.Amount = Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(createDto.Amount);
         entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(createDto.RequestedDeliveryDate);
         entity.SetIfNotNull(createDto.DeliveryDateTime, (entity) => entity.DeliveryDateTime =Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(createDto.DeliveryDateTime.NonNullValue<System.DateTimeOffset>()));
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(CashStockOrderEntity entity, CashStockOrderUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(CashStockOrderEntity entity, CashStockOrderUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Amount = Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
         entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(updateDto.RequestedDeliveryDate.NonNullValue<System.DateTime>());
@@ -78,6 +87,7 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
         {
             entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(updateDto.DeliveryDateTime.ToValueFromNonNull<System.DateTimeOffset>());
         }
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(CashStockOrderEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -119,13 +129,4 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class CashStockOrderFactory : CashStockOrderFactoryBase
-{
-    public CashStockOrderFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

@@ -67,7 +67,7 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.WorkplacesId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.WorkplacesId)
@@ -85,7 +85,7 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Workplaces)
 			{
-				var relatedEntity = WorkplaceFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await WorkplaceFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToWorkplaces(relatedEntity);
 			}
 		}

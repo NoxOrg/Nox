@@ -64,7 +64,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.VendingMachinesId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.VendingMachinesId)
@@ -82,7 +82,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 		{
 			foreach(var relatedCreateDto in request.EntityDto.VendingMachines)
 			{
-				var relatedEntity = VendingMachineFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await VendingMachineFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToVendingMachines(relatedEntity);
 			}
 		}
@@ -97,7 +97,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 		}
 		else if(request.EntityDto.Currency is not null)
 		{
-			var relatedEntity = CurrencyFactory.CreateEntity(request.EntityDto.Currency);
+			var relatedEntity = await CurrencyFactory.CreateEntityAsync(request.EntityDto.Currency);
 			entityToCreate.CreateRefToCurrency(relatedEntity);
 		}
 
