@@ -4,7 +4,6 @@ using AutoFixture;
 using Nox.Types;
 using System.Net;
 using Xunit.Abstractions;
-using ClientApi.Tests.Controllers;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
