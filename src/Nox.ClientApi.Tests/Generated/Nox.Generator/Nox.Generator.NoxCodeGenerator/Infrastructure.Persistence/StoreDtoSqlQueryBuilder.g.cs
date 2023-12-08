@@ -32,11 +32,13 @@ public class StoreDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.Select("Stores.Id")
 			.Select("Stores.Name")
 			.Select("Stores.Address")
-			.Select("Stores.Location")
+			.Select("Stores.Location_Latitude")
+			.Select("Stores.Location_Longitude")
 			.Select("Stores.OpeningDay")
 			.Select("Stores.Status")
 			.Select("StoresStatuses.Name as StatusName")
 			.Select("Stores.StoreOwnerId")
+			.Select("Stores.DeletedAtUtc")
 			.Select("Stores.Etag")
 			.LeftJoin(StatusEnumQuery(), j => j.On("StoresStatuses.Id", "Stores.Status"));
 	}
@@ -52,8 +54,6 @@ public class StoreDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 	private string CompileToSqlString(Query query)
 	{
 		return _sqlCompiler.Compile(query)
-			.ToString()
-			.Replace("##OPEN##", "[")
-			.Replace("##CLOSE##", "]");
+			.ToString();
 	}
 }

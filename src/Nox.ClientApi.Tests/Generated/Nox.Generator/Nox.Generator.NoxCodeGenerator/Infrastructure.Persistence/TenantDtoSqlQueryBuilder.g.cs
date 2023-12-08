@@ -48,8 +48,6 @@ public class TenantDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 	private string CompileToSqlString(Query query)
 	{
 		return _sqlCompiler.Compile(query)
-			.ToString()
-			.Replace("##OPEN##", "[")
-			.Replace("##CLOSE##", "]");
+			.ToString();
 	}
 }

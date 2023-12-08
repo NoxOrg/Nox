@@ -77,6 +77,8 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<WorkplaceDto>().ContainsMany(e => e.Tenants);
         builder.EntityType<WorkplaceLocalizedDto>().HasKey(e => new { e.Id });
         builder.EntityType<WorkplaceDto>().Function("WorkplacesLocalized").ReturnsCollection<DtoNameSpace.WorkplaceLocalizedDto>();
+        builder.EntityType<WorkplaceDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<WorkplaceDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<StoreOwnerDto>("StoreOwners");
 		builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });

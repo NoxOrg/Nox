@@ -41,6 +41,7 @@ public class WorkplaceDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.Select("WorkplacesOwnerships.Name as OwnershipName")
 			.Select("WorkplacesTypes.Name as TypeName")
 			.Select("Workplaces.CountryId")
+			.Select("Workplaces.DeletedAtUtc")
 			.Select("Workplaces.Etag")
 			.LeftJoin(WorkplaceLocalizedQuery(), j => j.On("WorkplacesLocalized.Id", "Workplaces.Id"))
 			.LeftJoin(OwnershipEnumQuery(), j => j.On("WorkplacesOwnerships.Id", "Workplaces.Ownership"))
@@ -58,19 +59,22 @@ public class WorkplaceDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 	
 	private static Query OwnershipEnumQuery()
 	{
-		var localizedEnumQuery = new Query("WorkplacesOwnershipsLocalized")
-			.Select("WorkplacesOwnershipsLocalized.Id")
-			.Select("WorkplacesOwnershipsLocalized.Name")
-			.Where("WorkplacesOwnershipsLocalized.CultureCode", "##LANG##")
-			.As("WorkplacesOwnershipsLocalized");
-		
 		return new Query("WorkplacesOwnerships")
 			.Select("WorkplacesOwnerships.Id")
 			.ForSqlServer(q => q.SelectRaw("COALESCE([WorkplacesOwnershipsLocalized].[Name], (N'[' + COALESCE([WorkplacesOwnerships].[Name], N'')) + N']') AS [Name]"))
 			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"WorkplacesOwnershipsLocalized\".\"Name\", ('##OPEN##' || COALESCE(\"WorkplacesOwnerships\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
 			.ForSqlite(q => q.SelectRaw("COALESCE(\"WorkplacesOwnershipsLocalized\".\"Name\", ('##OPEN##' || COALESCE(\"WorkplacesOwnerships\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
-			.LeftJoin(localizedEnumQuery, j => j.On("WorkplacesOwnershipsLocalized.Id", "WorkplacesOwnerships.Id"))
+			.LeftJoin(OwnershipLocalizedEnumQuery(), j => j.On("WorkplacesOwnershipsLocalized.Id", "WorkplacesOwnerships.Id"))
 			.As("WorkplacesOwnerships");
+	}
+	
+	private static Query OwnershipLocalizedEnumQuery()
+	{ 
+		return new Query("WorkplacesOwnershipsLocalized")
+			.Select("WorkplacesOwnershipsLocalized.Id")
+			.Select("WorkplacesOwnershipsLocalized.Name")
+			.Where("WorkplacesOwnershipsLocalized.CultureCode", "##LANG##")
+			.As("WorkplacesOwnershipsLocalized");
 	}
 	
 	private static Query TypeEnumQuery()
@@ -86,6 +90,6 @@ public class WorkplaceDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 		return _sqlCompiler.Compile(query)
 			.ToString()
 			.Replace("##OPEN##", "[")
-			.Replace("##CLOSE##", "]");
+			.Replace("##CLOSE##", "]");;
 	}
 }

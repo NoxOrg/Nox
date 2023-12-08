@@ -112,6 +112,8 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
     /// Workplace Actve Tenants in the workplace ZeroOrMany Tenants
     /// </summary>
     public virtual List<TenantDto> Tenants { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
+    public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]
     public System.Guid Etag { get; init; }

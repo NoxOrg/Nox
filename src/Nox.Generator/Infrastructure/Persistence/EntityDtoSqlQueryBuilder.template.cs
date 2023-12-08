@@ -15,6 +15,7 @@ end -}}
 	ret enumTableName(enumName) | string.append "Localized"
 end -}}
 {{- hasLocalizedText = entity.Attributes | array.each @isLocalizedText | array.contains true }}
+{{- hasLocalizedEnum = entity.Attributes | array.each @isLocalizedEnum | array.contains true }}
 {{- entityTableName = entity.PluralName }}
 {{- localizedEntityTableName = entity.PluralName | string.append "Localized" }}
 #nullable enable
@@ -74,6 +75,9 @@ public class {{className}} : IEntityDtoSqlQueryBuilder
 			.Select("{{entityTableName}}.{{entity.OwnerEntity.Name}}Id")
 			{{- end }}
 			{{- if !entity.IsOwnedEntity }}
+			{{- if entity.Persistence?.IsAudited == true }}
+			.Select("{{entity.PluralName}}.DeletedAtUtc")
+			{{- end }}
 			.Select("{{entityTableName}}.Etag")
 			{{- end }}
 			{{- if hasLocalizedText}}
@@ -102,32 +106,38 @@ public class {{className}} : IEntityDtoSqlQueryBuilder
 	
 	private static Query {{attribute.Name}}EnumQuery()
 	{
-		{{- if isLocalizedEnum attribute }}
-		var localizedEnumQuery = new Query("{{localizedEnumTableName attribute.Name}}")
-			.Select("{{localizedEnumTableName attribute.Name}}.Id")
-			.Select("{{localizedEnumTableName attribute.Name}}.Name")
-			.Where("{{localizedEnumTableName attribute.Name}}.CultureCode", "##LANG##")
-			.As("{{localizedEnumTableName attribute.Name}}");
-		{{ end }}
 		return new Query("{{enumTableName attribute.Name}}")
 			.Select("{{enumTableName attribute.Name}}.Id")
 		{{- if isLocalizedEnum attribute }}
 			.ForSqlServer(q => q.SelectRaw("COALESCE([{{localizedEnumTableName attribute.Name}}].[Name], (N'[' + COALESCE([{{enumTableName attribute.Name}}].[Name], N'')) + N']') AS [Name]"))
 			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"{{localizedEnumTableName attribute.Name}}\".\"Name\", ('##OPEN##' || COALESCE(\"{{enumTableName attribute.Name}}\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
 			.ForSqlite(q => q.SelectRaw("COALESCE(\"{{localizedEnumTableName attribute.Name}}\".\"Name\", ('##OPEN##' || COALESCE(\"{{enumTableName attribute.Name}}\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
-			.LeftJoin(localizedEnumQuery, j => j.On("{{localizedEnumTableName attribute.Name}}.Id", "{{enumTableName attribute.Name}}.Id"))
+			.LeftJoin({{attribute.Name}}LocalizedEnumQuery(), j => j.On("{{localizedEnumTableName attribute.Name}}.Id", "{{enumTableName attribute.Name}}.Id"))
 		{{- else }}
 			.Select("{{enumTableName attribute.Name}}.Name")
 		{{- end }}
 			.As("{{enumTableName attribute.Name}}");
 	}
+	{{- if isLocalizedEnum attribute }}
+	
+	private static Query {{attribute.Name}}LocalizedEnumQuery()
+	{ 
+		return new Query("{{localizedEnumTableName attribute.Name}}")
+			.Select("{{localizedEnumTableName attribute.Name}}.Id")
+			.Select("{{localizedEnumTableName attribute.Name}}.Name")
+			.Where("{{localizedEnumTableName attribute.Name}}.CultureCode", "##LANG##")
+			.As("{{localizedEnumTableName attribute.Name}}");
+	}
+	{{- end }}
 	{{- end}}
 
 	private string CompileToSqlString(Query query)
 	{
 		return _sqlCompiler.Compile(query)
 			.ToString()
+			{{- if hasLocalizedText || hasLocalizedEnum }}
 			.Replace("##OPEN##", "[")
 			.Replace("##CLOSE##", "]");
+			{{- end -}};
 	}
 }

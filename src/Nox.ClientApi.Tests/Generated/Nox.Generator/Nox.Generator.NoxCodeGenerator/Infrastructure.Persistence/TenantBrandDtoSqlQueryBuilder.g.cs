@@ -52,6 +52,6 @@ public class TenantBrandDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 		return _sqlCompiler.Compile(query)
 			.ToString()
 			.Replace("##OPEN##", "[")
-			.Replace("##CLOSE##", "]");
+			.Replace("##CLOSE##", "]");;
 	}
 }

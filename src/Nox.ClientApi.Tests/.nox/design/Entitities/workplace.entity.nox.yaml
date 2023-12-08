@@ -87,7 +87,7 @@ relationships:
       entity: Tenant
 
 persistence:
-    isAudited: false
+    isAudited: true
     create:
         isEnabled: true
         raiseEvents: domainEventsOnly
@@ -95,7 +95,7 @@ persistence:
         isEnabled: true
     update:
         isEnabled: true
-        raiseEvents: domainEventsOnly
+        raiseEvents: domainAndIntegrationEvents
     delete:
         isEnabled: true
-        raiseEvents: domainAndIntegrationEvents
+        raiseEvents: domainEventsOnly

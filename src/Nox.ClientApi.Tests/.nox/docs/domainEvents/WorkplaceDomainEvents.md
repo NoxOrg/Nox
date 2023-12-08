@@ -17,8 +17,11 @@ Name|Text|Workplace Name
 ReferenceNumber|ReferenceNumber|Workplace Code
 Description|Text|Workplace Description
 Greeting|Formula|The Formula
+Ownership|Enumeration|Workplace Ownership
+Type|Enumeration|Workplace Type
 CountryId|AutoNumber|The unique identifier
 TenantId|Nuid|
+*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
 ### `WorkplaceUpdated`
@@ -34,8 +37,11 @@ Name|Text|Workplace Name
 ReferenceNumber|ReferenceNumber|Workplace Code
 Description|Text|Workplace Description
 Greeting|Formula|The Formula
+Ownership|Enumeration|Workplace Ownership
+Type|Enumeration|Workplace Type
 CountryId|AutoNumber|The unique identifier
 TenantId|Nuid|
+*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
 ### `WorkplaceDeleted`
@@ -51,6 +57,9 @@ Name|Text|Workplace Name
 ReferenceNumber|ReferenceNumber|Workplace Code
 Description|Text|Workplace Description
 Greeting|Formula|The Formula
+Ownership|Enumeration|Workplace Ownership
+Type|Enumeration|Workplace Type
 CountryId|AutoNumber|The unique identifier
 TenantId|Nuid|
+*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

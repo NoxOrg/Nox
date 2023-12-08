@@ -380,6 +380,7 @@ Member|Type|Description|Info
 ---------|----|----------|-------
 Id|Nuid||Required, Primary Key, Separator: -, PropertyNames: System.String[]
 Name|Text|Teanant Name.|Required, MinLength: 4, MaxLength: 63
+Status|Enumeration|Tenant Status.|Values: System.Collections.Generic.List`1[Nox.Types.EnumerationValues], IsLocalized: false
 TenantBrandId|AutoNumber||Required, Owned Entity
 WorkplaceId|AutoNumber|Workplace unique identifier.|Required, Foreign Key
 
@@ -427,7 +428,7 @@ Email|Email|Teanant Brand Email.|Required
 
 ### Workplace
 
-Workplace.
+Workplace. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/WorkplaceEndpoints.md)
 
@@ -442,8 +443,11 @@ Name|Text|Workplace Name.|Required, MinLength: 4, MaxLength: 63
 ReferenceNumber|ReferenceNumber|Workplace Code.|StartsAt: 10, IncrementsBy: 5
 Description|Text|Workplace Description.|MinLength: 4, IsLocalized: true
 Greeting|Formula|The Formula.|
+Ownership|Enumeration|Workplace Ownership.|Values: System.Collections.Generic.List`1[Nox.Types.EnumerationValues]
+Type|Enumeration|Workplace Type.|Values: System.Collections.Generic.List`1[Nox.Types.EnumerationValues], IsLocalized: false
 CountryId|AutoNumber|The unique identifier.|Required, Foreign Key, StartsAt: 10, IncrementsBy: 5
 TenantId|Nuid||Required, Foreign Key, Separator: -, PropertyNames: System.String[]
+*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
 #### <u>Relationships</u>
