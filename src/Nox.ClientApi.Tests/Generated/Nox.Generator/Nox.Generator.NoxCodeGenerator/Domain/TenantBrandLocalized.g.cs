@@ -12,6 +12,8 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 
+using ClientApiDomain = ClientApi.Domain;
+
 namespace ClientApi.Domain;
 
 /// <summary>
@@ -31,7 +33,7 @@ internal partial class TenantBrandLocalized : IEntityConcurrent
     /// </summary>
     public Nox.Types.Text? Description { get; set; } = null!;
 
-    public virtual ClientApi.Domain.TenantBrand TenantBrand { get; set; } = null!;
+    public virtual ClientApiDomain.TenantBrand TenantBrand { get; set; } = null!;
 
     /// <summary>
     /// Entity tag used as concurrency token.
