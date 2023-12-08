@@ -91,30 +91,30 @@ internal abstract partial class TestEntityOwnedRelationshipExactlyOneBase : Audi
     }﻿
 
     /// <summary>
-    /// TestEntityOwnedRelationshipExactlyOne Test entity relationship to SecondTestEntityOwnedRelationshipExactlyOne ExactlyOne SecondTestEntityOwnedRelationshipExactlyOnes
+    /// TestEntityOwnedRelationshipExactlyOne Test entity relationship to SecEntityOwnedRelExactlyOne ExactlyOne SecEntityOwnedRelExactlyOnes
     /// </summary>
-    public virtual SecondTestEntityOwnedRelationshipExactlyOne SecondTestEntityOwnedRelationshipExactlyOne { get; private set; } = null!;
+    public virtual SecEntityOwnedRelExactlyOne SecEntityOwnedRelExactlyOne { get; private set; } = null!;
     
     /// <summary>
-    /// Creates a new SecondTestEntityOwnedRelationshipExactlyOne entity.
+    /// Creates a new SecEntityOwnedRelExactlyOne entity.
     /// </summary>
-    public virtual void CreateRefToSecondTestEntityOwnedRelationshipExactlyOne(SecondTestEntityOwnedRelationshipExactlyOne relatedSecondTestEntityOwnedRelationshipExactlyOne)
+    public virtual void CreateRefToSecEntityOwnedRelExactlyOne(SecEntityOwnedRelExactlyOne relatedSecEntityOwnedRelExactlyOne)
     {
-        SecondTestEntityOwnedRelationshipExactlyOne = relatedSecondTestEntityOwnedRelationshipExactlyOne;
+        SecEntityOwnedRelExactlyOne = relatedSecEntityOwnedRelExactlyOne;
     }
     
     /// <summary>
-    /// Deletes owned SecondTestEntityOwnedRelationshipExactlyOne entity.
+    /// Deletes owned SecEntityOwnedRelExactlyOne entity.
     /// </summary>
-    public virtual void DeleteRefToSecondTestEntityOwnedRelationshipExactlyOne(SecondTestEntityOwnedRelationshipExactlyOne relatedSecondTestEntityOwnedRelationshipExactlyOne)
+    public virtual void DeleteRefToSecEntityOwnedRelExactlyOne(SecEntityOwnedRelExactlyOne relatedSecEntityOwnedRelExactlyOne)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
     
     /// <summary>
-    /// Deletes all owned SecondTestEntityOwnedRelationshipExactlyOne entities.
+    /// Deletes all owned SecEntityOwnedRelExactlyOne entities.
     /// </summary>
-    public virtual void DeleteAllRefToSecondTestEntityOwnedRelationshipExactlyOne()
+    public virtual void DeleteAllRefToSecEntityOwnedRelExactlyOne()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }

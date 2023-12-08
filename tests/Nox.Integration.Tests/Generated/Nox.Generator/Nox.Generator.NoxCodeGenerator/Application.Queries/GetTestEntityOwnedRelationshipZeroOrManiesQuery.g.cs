@@ -35,7 +35,7 @@ internal abstract class GetTestEntityOwnedRelationshipZeroOrManiesQueryHandlerBa
     {
         var item = (IQueryable<TestEntityOwnedRelationshipZeroOrManyDto>)DataDbContext.TestEntityOwnedRelationshipZeroOrManies
             .AsNoTracking()
-            .Include(e => e.SecondTestEntityOwnedRelationshipZeroOrManies);
+            .Include(e => e.SecEntityOwnedRelZeroOrManies);
        return Task.FromResult(OnResponse(item));
     }
 }

@@ -33,7 +33,7 @@ public partial class TestEntityOwnedRelationshipExactlyOneUpdateDtoBase: EntityD
     
     public virtual System.String TextTestField { get; set; } = default!;
     /// <summary>
-    /// TestEntityOwnedRelationshipExactlyOne Test entity relationship to SecondTestEntityOwnedRelationshipExactlyOne ExactlyOne SecondTestEntityOwnedRelationshipExactlyOnes
+    /// TestEntityOwnedRelationshipExactlyOne Test entity relationship to SecEntityOwnedRelExactlyOne ExactlyOne SecEntityOwnedRelExactlyOnes
     /// </summary>
-    public virtual SecondTestEntityOwnedRelationshipExactlyOneUpsertDto SecondTestEntityOwnedRelationshipExactlyOne { get; set; } = null!;
+    public virtual SecEntityOwnedRelExactlyOneUpsertDto SecEntityOwnedRelExactlyOne { get; set; } = null!;
 }

@@ -15,7 +15,7 @@ namespace TestWebApp.Application.Dto;
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityOwnedRelationshipOneOrManyUpsertDto : SecondTestEntityOwnedRelationshipOneOrManyUpsertDtoBase
+public partial class SecEntityOwnedRelExactlyOneUpsertDto : SecEntityOwnedRelExactlyOneUpsertDtoBase
 {
 
 }
@@ -23,13 +23,8 @@ public partial class SecondTestEntityOwnedRelationshipOneOrManyUpsertDto : Secon
 /// <summary>
 /// 
 /// </summary>
-public abstract class SecondTestEntityOwnedRelationshipOneOrManyUpsertDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.SecondTestEntityOwnedRelationshipOneOrMany>
+public abstract class SecEntityOwnedRelExactlyOneUpsertDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.SecEntityOwnedRelExactlyOne>
 {
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public virtual System.String? Id { get; set; }
 
     /// <summary>
     ///      

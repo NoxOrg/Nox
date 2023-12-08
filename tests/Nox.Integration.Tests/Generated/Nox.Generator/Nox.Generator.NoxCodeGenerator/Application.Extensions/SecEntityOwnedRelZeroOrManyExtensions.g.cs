@@ -8,11 +8,11 @@ using Nox.Extensions;
 
 namespace TestWebApp.Application.Dto;
 
-internal static class SecondTestEntityOwnedRelationshipOneOrManyExtensions
+internal static class SecEntityOwnedRelZeroOrManyExtensions
 {
-    public static SecondTestEntityOwnedRelationshipOneOrManyDto ToDto(this TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrMany entity)
+    public static SecEntityOwnedRelZeroOrManyDto ToDto(this TestWebApp.Domain.SecEntityOwnedRelZeroOrMany entity)
     {
-        var dto = new SecondTestEntityOwnedRelationshipOneOrManyDto();
+        var dto = new SecEntityOwnedRelZeroOrManyDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
         dto.SetIfNotNull(entity?.TextTestField2, (dto) => dto.TextTestField2 =entity!.TextTestField2!.Value);
 
