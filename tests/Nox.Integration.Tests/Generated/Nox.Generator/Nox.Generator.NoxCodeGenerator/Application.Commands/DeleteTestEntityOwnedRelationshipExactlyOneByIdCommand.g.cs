@@ -16,7 +16,7 @@ namespace TestWebApp.Application.Commands;
 
 public partial record DeleteTestEntityOwnedRelationshipExactlyOneByIdCommand(IEnumerable<TestEntityOwnedRelationshipExactlyOneKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteTestEntityOwnedRelationshipExactlyOneByIdCommandHandler : DeleteTestEntityOwnedRelationshipExactlyOneByIdCommandHandlerBase
+internal partial class DeleteTestEntityOwnedRelationshipExactlyOneByIdCommandHandler : DeleteTestEntityOwnedRelationshipExactlyOneByIdCommandHandlerBase
 {
 	public DeleteTestEntityOwnedRelationshipExactlyOneByIdCommandHandler(
         AppDbContext dbContext,

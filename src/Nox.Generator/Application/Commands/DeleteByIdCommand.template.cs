@@ -22,7 +22,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 public partial record Delete{{entity.Name }}ByIdCommand(IEnumerable<{{entity.Name}}KeyDto> KeyDtos{{ if !entity.IsOwnedEntity }}, System.Guid? Etag{{end}}) : IRequest<bool>;
 
-internal class Delete{{entity.Name}}ByIdCommandHandler : Delete{{entity.Name}}ByIdCommandHandlerBase
+internal partial class Delete{{entity.Name}}ByIdCommandHandler : Delete{{entity.Name}}ByIdCommandHandlerBase
 {
 	public Delete{{entity.Name}}ByIdCommandHandler(
         AppDbContext dbContext,

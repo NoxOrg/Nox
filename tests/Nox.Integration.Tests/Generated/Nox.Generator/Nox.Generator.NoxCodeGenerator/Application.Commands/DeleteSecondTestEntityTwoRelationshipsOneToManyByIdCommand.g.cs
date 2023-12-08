@@ -16,7 +16,7 @@ namespace TestWebApp.Application.Commands;
 
 public partial record DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommand(IEnumerable<SecondTestEntityTwoRelationshipsOneToManyKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommandHandler : DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommandHandlerBase
+internal partial class DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommandHandler : DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommandHandlerBase
 {
 	public DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommandHandler(
         AppDbContext dbContext,
