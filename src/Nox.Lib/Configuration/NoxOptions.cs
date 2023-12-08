@@ -249,7 +249,7 @@ namespace Nox.Configuration
                     .FromAssemblies(noxAssemblies)
                     .AddClasses(classes => classes.AssignableTo<IEntityDtoSqlQueryBuilder>())
                     .As<IEntityDtoSqlQueryBuilder>()
-                    .WithSingletonLifetime());
+                    .WithScopedLifetime());
             }
         }
 
