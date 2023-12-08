@@ -96,9 +96,9 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
     /// </summary>
     /// <remarks>Optional.</remarks>    
     public System.Int32? Type { get; set; }
-    [NotMapped]
+
     public string? OwnershipName { get; set; } = default!;
-    [NotMapped]
+
     public string? TypeName { get; set; } = default!;
 
     /// <summary>

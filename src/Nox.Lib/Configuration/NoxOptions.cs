@@ -234,7 +234,7 @@ namespace Nox.Configuration
 
                 services.AddScoped<IInterceptor, LangParamDbCommandInterceptor>();
 
-                services.AddScoped<Compiler>(x =>
+                services.AddSingleton<Compiler>(x =>
                 {
                     return noxSolution.Infrastructure.Persistence!.DatabaseServer.Provider switch
                     {

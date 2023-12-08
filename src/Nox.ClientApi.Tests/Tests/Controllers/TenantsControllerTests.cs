@@ -14,6 +14,7 @@ namespace ClientApi.Tests.Controllers
             : base(testOutput, containerService)
         {
         }
+
         [Fact]
         public async Task CreateTenant_ToEntityWithNuid_NuidIsCreated()
         {
@@ -57,6 +58,29 @@ namespace ClientApi.Tests.Controllers
             //Assert            
             putResult!.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
+
+        #region Enums
+
+        [Fact]
+        public async Task CreateTenant_WithStatusId_ReturnsStatusIdAndName()
+        {
+            // Arrange
+            var createDto = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                Status = 1,
+            };
+
+            // Act
+            var result = await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TenantsUrl, createDto);
+
+            //Assert
+            result.Should().NotBeNull();
+            result!.Status.Should().Be(1);
+            result!.StatusName.Should().Be("Active");
+        }
+
+        #endregion
 
         #region Owned Entities
 
