@@ -245,7 +245,7 @@ namespace Nox.Configuration
                     };
                 });
 
-                services.AddSingleton<IEntityDtoSqlQueryBuilderProvider, EntityDtoSqlQueryBuilderProvider>();
+                services.AddScoped<IEntityDtoSqlQueryBuilderProvider, EntityDtoSqlQueryBuilderProvider>();
                 services.Scan(scan => scan
                     .FromAssemblies(noxAssemblies)
                     .AddClasses(classes => classes.AssignableTo<IEntityDtoSqlQueryBuilder>())
