@@ -1,12 +1,12 @@
 ﻿// Generated
 {{- func isLocalizedText(attribute)
-	ret attribute.TextTypeOptions?.IsLocalized
+	ret attribute.IsLocalizedText
 end -}}
 {{- func isEnum(attribute)
 	ret attribute.Type == "Enumeration"
 end -}}
 {{- func isLocalizedEnum(attribute)
-	ret attribute.EnumerationTypeOptions?.IsLocalized
+	ret attribute.IsLocalizedEnum
 end -}}
 {{- func enumTableName(enumName) 
 	ret entity.PluralName | string.append Pluralize(enumName)
@@ -14,8 +14,8 @@ end -}}
 {{- func localizedEnumTableName(enumName) 
 	ret enumTableName(enumName) | string.append "Localized"
 end -}}
-{{- hasLocalizedText = entity.Attributes | array.each @isLocalizedText | array.contains true }}
-{{- hasLocalizedEnum = entity.Attributes | array.each @isLocalizedEnum | array.contains true }}
+{{- hasLocalizedText = entityAttributes | array.each @isLocalizedText | array.contains true }}
+{{- hasLocalizedEnum = entityAttributes | array.each @isLocalizedEnum | array.contains true }}
 {{- entityTableName = entity.PluralName }}
 {{- localizedEntityTableName = entity.PluralName | string.append "Localized" }}
 #nullable enable
@@ -51,12 +51,12 @@ public class {{className}} : IEntityDtoSqlQueryBuilder
 			{{- for key in entityKeys}}
 			.Select("{{entityTableName}}.{{key.Name}}")
 			{{- end}}
-			{{- for attribute in entity.Attributes}}
+			{{- for attribute in entityAttributes}}
 			{{- if !(isLocalizedText attribute)}}
 			.Select("{{entityTableName}}.{{attribute.Name}}")
 			{{- end}}
 			{{- end}}
-			{{- for attribute in entity.Attributes}}
+			{{- for attribute in entityAttributes}}
 			{{- if isLocalizedText attribute}}
 			.ForSqlServer(q => q.SelectRaw("COALESCE([{{localizedEntityTableName}}].[{{attribute.Name}}], (N'[' + COALESCE([{{entityTableName}}].[{{attribute.Name}}], N'')) + N']') AS [{{attribute.Name}}]"))
 			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"{{localizedEntityTableName}}\".\"{{attribute.Name}}\", ('##OPEN##' || COALESCE(\"{{entityTableName}}\".\"{{attribute.Name}}\", '')) || '##CLOSE##') AS \"{{attribute.Name}}\""))
@@ -83,7 +83,7 @@ public class {{className}} : IEntityDtoSqlQueryBuilder
 			{{- if hasLocalizedText}}
 			.LeftJoin({{entity.Name}}LocalizedQuery(), j => j.On("{{localizedEntityTableName}}.{{entityKeys[0].Name}}", "{{entityTableName}}.{{entityKeys[0].Name}}"))
 			{{- end}}
-			{{- for attribute in entity.Attributes | array.filter @isEnum}}
+			{{- for attribute in entityAttributes | array.filter @isEnum}}
 			.LeftJoin({{attribute.Name}}EnumQuery(), j => j.On("{{enumTableName attribute.Name}}.Id", "{{entityTableName}}.{{attribute.Name}}"))
 			{{- end -}};
 	}
@@ -95,14 +95,14 @@ public class {{className}} : IEntityDtoSqlQueryBuilder
 			{{- for key in entityKeys}}
 			.Select("{{localizedEntityTableName}}.{{key.Name}}")
 			{{- end}}
-			{{- for attribute in entity.Attributes | array.filter @isLocalizedText}}
+			{{- for attribute in entityAttributes | array.filter @isLocalizedText}}
 			.Select("{{localizedEntityTableName}}.{{attribute.Name}}")
 			{{- end}}
 			.Where("{{localizedEntityTableName}}.CultureCode", "##LANG##")
 			.As("{{localizedEntityTableName}}");
 	}
 	{{- end}}
-	{{- for attribute in entity.Attributes | array.filter @isEnum }}
+	{{- for attribute in entityAttributes | array.filter @isEnum }}
 	
 	private static Query {{attribute.Name}}EnumQuery()
 	{
