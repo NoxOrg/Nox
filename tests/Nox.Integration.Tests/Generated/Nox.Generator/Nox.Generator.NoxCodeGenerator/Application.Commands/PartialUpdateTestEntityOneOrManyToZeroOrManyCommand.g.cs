@@ -18,7 +18,7 @@ namespace TestWebApp.Application.Commands;
 
 public partial record PartialUpdateTestEntityOneOrManyToZeroOrManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityOneOrManyToZeroOrManyKeyDto?>;
 
-internal class PartialUpdateTestEntityOneOrManyToZeroOrManyCommandHandler : PartialUpdateTestEntityOneOrManyToZeroOrManyCommandHandlerBase
+internal partial class PartialUpdateTestEntityOneOrManyToZeroOrManyCommandHandler : PartialUpdateTestEntityOneOrManyToZeroOrManyCommandHandlerBase
 {
 	public PartialUpdateTestEntityOneOrManyToZeroOrManyCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateTestEntityOneOrManyToZeroOrManyCommandHandler : Part
 	{
 	}
 }
-internal class PartialUpdateTestEntityOneOrManyToZeroOrManyCommandHandlerBase : CommandBase<PartialUpdateTestEntityOneOrManyToZeroOrManyCommand, TestEntityOneOrManyToZeroOrManyEntity>, IRequestHandler<PartialUpdateTestEntityOneOrManyToZeroOrManyCommand, TestEntityOneOrManyToZeroOrManyKeyDto?>
+internal abstract class PartialUpdateTestEntityOneOrManyToZeroOrManyCommandHandlerBase : CommandBase<PartialUpdateTestEntityOneOrManyToZeroOrManyCommand, TestEntityOneOrManyToZeroOrManyEntity>, IRequestHandler<PartialUpdateTestEntityOneOrManyToZeroOrManyCommand, TestEntityOneOrManyToZeroOrManyKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityOneOrManyToZeroOrManyEntity, TestEntityOneOrManyToZeroOrManyCreateDto, TestEntityOneOrManyToZeroOrManyUpdateDto> EntityFactory { get; }

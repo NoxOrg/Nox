@@ -18,7 +18,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record PartialUpdateCountryCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryKeyDto?>;
 
-internal class PartialUpdateCountryCommandHandler : PartialUpdateCountryCommandHandlerBase
+internal partial class PartialUpdateCountryCommandHandler : PartialUpdateCountryCommandHandlerBase
 {
 	public PartialUpdateCountryCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateCountryCommandHandler : PartialUpdateCountryCommandH
 	{
 	}
 }
-internal class PartialUpdateCountryCommandHandlerBase : CommandBase<PartialUpdateCountryCommand, CountryEntity>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
+internal abstract class PartialUpdateCountryCommandHandlerBase : CommandBase<PartialUpdateCountryCommand, CountryEntity>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> EntityFactory { get; }
