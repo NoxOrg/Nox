@@ -16,13 +16,13 @@ using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
-public record SecondTestEntityOwnedRelationshipZeroOrManyKeyDto(System.String keyId);
+public record SecEntityOwnedRelZeroOrManyKeyDto(System.String keyId);
 
 /// <summary>
-/// Update SecondTestEntityOwnedRelationshipZeroOrMany
+/// Update SecEntityOwnedRelZeroOrMany
 /// .
 /// </summary>
-public partial class SecondTestEntityOwnedRelationshipZeroOrManyDto : SecondTestEntityOwnedRelationshipZeroOrManyDtoBase
+public partial class SecEntityOwnedRelZeroOrManyDto : SecEntityOwnedRelZeroOrManyDtoBase
 {
 
 }
@@ -30,7 +30,7 @@ public partial class SecondTestEntityOwnedRelationshipZeroOrManyDto : SecondTest
 /// <summary>
 /// .
 /// </summary>
-public abstract class SecondTestEntityOwnedRelationshipZeroOrManyDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.SecondTestEntityOwnedRelationshipZeroOrMany>
+public abstract class SecEntityOwnedRelZeroOrManyDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.SecEntityOwnedRelZeroOrMany>
 {
 
     #region Validation
@@ -39,7 +39,7 @@ public abstract class SecondTestEntityOwnedRelationshipZeroOrManyDtoBase : Entit
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TextTestField2 is not null)
-            ExecuteActionAndCollectValidationExceptions("TextTestField2", () => DomainNamespace.SecondTestEntityOwnedRelationshipZeroOrManyMetadata.CreateTextTestField2(this.TextTestField2.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("TextTestField2", () => DomainNamespace.SecEntityOwnedRelZeroOrManyMetadata.CreateTextTestField2(this.TextTestField2.NonNullValue<System.String>()), result);
         else
             result.Add("TextTestField2", new [] { "TextTestField2 is Required." });
     

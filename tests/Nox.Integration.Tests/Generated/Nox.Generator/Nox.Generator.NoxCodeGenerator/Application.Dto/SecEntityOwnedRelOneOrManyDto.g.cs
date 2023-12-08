@@ -16,13 +16,13 @@ using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
-public record SecondTestEntityOwnedRelationshipExactlyOneKeyDto();
+public record SecEntityOwnedRelOneOrManyKeyDto(System.String keyId);
 
 /// <summary>
-/// Update SecondTestEntityOwnedRelationshipExactlyOne
+/// Update SecEntityOwnedRelOneOrMany
 /// .
 /// </summary>
-public partial class SecondTestEntityOwnedRelationshipExactlyOneDto : SecondTestEntityOwnedRelationshipExactlyOneDtoBase
+public partial class SecEntityOwnedRelOneOrManyDto : SecEntityOwnedRelOneOrManyDtoBase
 {
 
 }
@@ -30,7 +30,7 @@ public partial class SecondTestEntityOwnedRelationshipExactlyOneDto : SecondTest
 /// <summary>
 /// .
 /// </summary>
-public abstract class SecondTestEntityOwnedRelationshipExactlyOneDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.SecondTestEntityOwnedRelationshipExactlyOne>
+public abstract class SecEntityOwnedRelOneOrManyDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.SecEntityOwnedRelOneOrMany>
 {
 
     #region Validation
@@ -39,7 +39,7 @@ public abstract class SecondTestEntityOwnedRelationshipExactlyOneDtoBase : Entit
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TextTestField2 is not null)
-            ExecuteActionAndCollectValidationExceptions("TextTestField2", () => DomainNamespace.SecondTestEntityOwnedRelationshipExactlyOneMetadata.CreateTextTestField2(this.TextTestField2.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("TextTestField2", () => DomainNamespace.SecEntityOwnedRelOneOrManyMetadata.CreateTextTestField2(this.TextTestField2.NonNullValue<System.String>()), result);
         else
             result.Add("TextTestField2", new [] { "TextTestField2 is Required." });
     
@@ -47,6 +47,11 @@ public abstract class SecondTestEntityOwnedRelationshipExactlyOneDtoBase : Entit
         return result;
     }
     #endregion
+
+    /// <summary>
+    /// 
+    /// </summary>    
+    public System.String Id { get; set; } = default!;
 
     /// <summary>
     ///      
