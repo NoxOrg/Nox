@@ -18,7 +18,7 @@ namespace TestWebApp.Application.Commands;
 
 public partial record PartialUpdateForReferenceNumberCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <ForReferenceNumberKeyDto?>;
 
-internal class PartialUpdateForReferenceNumberCommandHandler : PartialUpdateForReferenceNumberCommandHandlerBase
+internal partial class PartialUpdateForReferenceNumberCommandHandler : PartialUpdateForReferenceNumberCommandHandlerBase
 {
 	public PartialUpdateForReferenceNumberCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateForReferenceNumberCommandHandler : PartialUpdateForR
 	{
 	}
 }
-internal class PartialUpdateForReferenceNumberCommandHandlerBase : CommandBase<PartialUpdateForReferenceNumberCommand, ForReferenceNumberEntity>, IRequestHandler<PartialUpdateForReferenceNumberCommand, ForReferenceNumberKeyDto?>
+internal abstract class PartialUpdateForReferenceNumberCommandHandlerBase : CommandBase<PartialUpdateForReferenceNumberCommand, ForReferenceNumberEntity>, IRequestHandler<PartialUpdateForReferenceNumberCommand, ForReferenceNumberKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<ForReferenceNumberEntity, ForReferenceNumberCreateDto, ForReferenceNumberUpdateDto> EntityFactory { get; }

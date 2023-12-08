@@ -17,6 +17,7 @@ public class NoxCodeGenConventions
     public NoxSolution Solution => _noxSolution;
     public string RootNameSpace => _noxSolution.Name;
     public string DomainNameSpace => $"{RootNameSpace}.Domain";
+    public string DomainNamespaceAlias => $"{RootNameSpace}Domain";
     public string DtoNameSpace => $"{ApplicationNameSpace}.Dto";
     public string ApplicationNameSpace => $"{RootNameSpace}.Application";
     public string ApplicationQueriesNameSpace => $"{ApplicationNameSpace}.Queries";
