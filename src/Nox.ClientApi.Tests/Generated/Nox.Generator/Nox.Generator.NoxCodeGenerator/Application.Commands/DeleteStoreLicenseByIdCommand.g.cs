@@ -16,7 +16,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record DeleteStoreLicenseByIdCommand(IEnumerable<StoreLicenseKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteStoreLicenseByIdCommandHandler : DeleteStoreLicenseByIdCommandHandlerBase
+internal partial class DeleteStoreLicenseByIdCommandHandler : DeleteStoreLicenseByIdCommandHandlerBase
 {
 	public DeleteStoreLicenseByIdCommandHandler(
         AppDbContext dbContext,

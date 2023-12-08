@@ -16,7 +16,7 @@ namespace TestWebApp.Application.Commands;
 
 public partial record DeleteForReferenceNumberByIdCommand(IEnumerable<ForReferenceNumberKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteForReferenceNumberByIdCommandHandler : DeleteForReferenceNumberByIdCommandHandlerBase
+internal partial class DeleteForReferenceNumberByIdCommandHandler : DeleteForReferenceNumberByIdCommandHandlerBase
 {
 	public DeleteForReferenceNumberByIdCommandHandler(
         AppDbContext dbContext,

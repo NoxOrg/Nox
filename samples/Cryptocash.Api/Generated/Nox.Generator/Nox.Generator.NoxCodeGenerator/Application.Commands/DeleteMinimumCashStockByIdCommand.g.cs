@@ -16,7 +16,7 @@ namespace Cryptocash.Application.Commands;
 
 public partial record DeleteMinimumCashStockByIdCommand(IEnumerable<MinimumCashStockKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteMinimumCashStockByIdCommandHandler : DeleteMinimumCashStockByIdCommandHandlerBase
+internal partial class DeleteMinimumCashStockByIdCommandHandler : DeleteMinimumCashStockByIdCommandHandlerBase
 {
 	public DeleteMinimumCashStockByIdCommandHandler(
         AppDbContext dbContext,

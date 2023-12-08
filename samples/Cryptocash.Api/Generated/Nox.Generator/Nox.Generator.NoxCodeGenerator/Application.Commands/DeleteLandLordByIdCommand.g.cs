@@ -16,7 +16,7 @@ namespace Cryptocash.Application.Commands;
 
 public partial record DeleteLandLordByIdCommand(IEnumerable<LandLordKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteLandLordByIdCommandHandler : DeleteLandLordByIdCommandHandlerBase
+internal partial class DeleteLandLordByIdCommandHandler : DeleteLandLordByIdCommandHandlerBase
 {
 	public DeleteLandLordByIdCommandHandler(
         AppDbContext dbContext,

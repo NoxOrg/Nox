@@ -16,7 +16,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record DeleteReferenceNumberEntityByIdCommand(IEnumerable<ReferenceNumberEntityKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteReferenceNumberEntityByIdCommandHandler : DeleteReferenceNumberEntityByIdCommandHandlerBase
+internal partial class DeleteReferenceNumberEntityByIdCommandHandler : DeleteReferenceNumberEntityByIdCommandHandlerBase
 {
 	public DeleteReferenceNumberEntityByIdCommandHandler(
         AppDbContext dbContext,
