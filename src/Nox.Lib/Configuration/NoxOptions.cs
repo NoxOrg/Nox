@@ -286,7 +286,8 @@ namespace Nox.Configuration
             services.AddSwaggerGen(opts =>
             {
                 opts.EnableAnnotations();
-                opts.CustomOperationIds(e => $"{e.ActionDescriptor.RouteValues["controller"]}_{e.HttpMethod}");
+                //OData makes operation Ids to be the sane name
+                opts.CustomOperationIds(e => $"{e.HttpMethod}_{e.RelativePath}");
                 opts.SchemaFilter<DeltaSchemaFilter>();
                 opts.DocumentFilter<ApiRouteMappingDocumentFilter>();
             });
