@@ -2,12 +2,15 @@ using System.Dynamic;
 using Elastic.Apm.Api;
 using ETLBox;
 using ETLBox.DataFlow;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Abstractions.Adapters;
 using Nox.Integration.Constants;
+using Nox.Integration.EtlEvents;
 using Nox.Integration.Exceptions;
+using Nox.Integration.Extensions;
 using Nox.Integration.Extensions.Send;
 using Nox.Solution;
 
@@ -18,6 +21,10 @@ internal sealed class NoxIntegration: INoxIntegration
     private readonly ILogger _logger;
     private readonly INoxIntegrationDbContextFactory _dbContextFactory;
     private IntegrationMergeStates? _mergeStates;
+    private readonly IPublisher _publisher;
+    private readonly NoxEtlExecuteCompletedEvent? _completedEvent;
+    private readonly NoxEtlRecordCreatedEvent<INoxEtlEventPayload>? _createdEvent;
+    private readonly NoxEtlRecordUpdatedEvent<INoxEtlEventPayload>? _updatedEvent;
     
     public string Name { get; }
     public string? Description { get; }
@@ -27,15 +34,25 @@ internal sealed class NoxIntegration: INoxIntegration
     public IntegrationTransformType TransformType { get; }
     public INoxReceiveAdapter? ReceiveAdapter { get; set; }
     public INoxSendAdapter? SendAdapter { get; set; }
+    
+    public Type? DtoType { get; set; }
     public List<string>? TargetIdColumns { get; private set; } = null;
     public List<string>? TargetDateColumns { get; private set; } = null;
 
     public List<string>? SourceFilterColumns { get; set; }
 
-    public NoxIntegration(ILogger logger, Solution.Integration definition, INoxIntegrationDbContextFactory dbContextFactory)
+    public NoxIntegration(
+        ILogger logger, 
+        Solution.Integration definition, 
+        INoxIntegrationDbContextFactory dbContextFactory, 
+        IPublisher publisher,
+        NoxEtlRecordCreatedEvent<INoxEtlEventPayload>? createdEvent,
+        NoxEtlRecordUpdatedEvent<INoxEtlEventPayload>? updatedEvent,
+        NoxEtlExecuteCompletedEvent? completedEvent)
     {
         _logger = logger;
         _dbContextFactory = dbContextFactory;
+        _publisher = publisher;
         Name = definition.Name;
         Schedule = definition.Schedule;
         Description = definition.Description;
@@ -43,6 +60,9 @@ internal sealed class NoxIntegration: INoxIntegration
         TransformType = definition.TransformationType;
         AddSourceFilterColumns(definition.Source);
         AddTargetWatermark(definition.Target);
+        _createdEvent = createdEvent;
+        _updatedEvent = updatedEvent;
+        _completedEvent = completedEvent;
     }
     
     public async Task ExecuteAsync(ITransaction apmTransaction, INoxCustomTransformHandler? handler = null)
@@ -115,15 +135,13 @@ internal sealed class NoxIntegration: INoxIntegration
             if ((ChangeAction)record["ChangeAction"]! == ChangeAction.Insert)
             {
                 inserts++;
-                //Fire events
-                //if(entityCreatedMsg is not null) SendChangeEvent(loader, row, entityCreatedMsg, NoxEventSource.EtlMerge);
+                SendCreatedEvent(record).ConfigureAwait(false);
                 UpdateMergeStates(record);
             }
             else if ((ChangeAction)record["ChangeAction"]! == ChangeAction.Update)
             {
                 updates++;
-                //Fire events
-                //if (entityUpdatedMsg is not null) SendChangeEvent(loader, row, entityUpdatedMsg, NoxEventSource.EtlMerge);
+                SendUpdatedEvent(record).ConfigureAwait(false);
                 UpdateMergeStates(record);
             }
             else if ((ChangeAction)record["ChangeAction"]! == ChangeAction.Exists)
@@ -143,6 +161,7 @@ internal sealed class NoxIntegration: INoxIntegration
             throw;
         }
 
+        await SendExecuteCompletedEvent(inserts, updates, unChanged);
         LogMergeAnalytics(inserts, updates, unChanged);
     }
 
@@ -382,6 +401,32 @@ internal sealed class NoxIntegration: INoxIntegration
             _logger.LogInformation("{0}. Component {1}. Action {2}. Documents {3}. last merge at {4}", Name, "NoxIntegration", "insert", inserts, lastTimestamp);
             _logger.LogInformation("{0}. Component {1}. Action {2}. Documents {3}. last merge at {4}", Name, "NoxIntegration", "update", updates, lastTimestamp);
         }
-
     }
+    
+    private async Task SendCreatedEvent(IDictionary<string, object?> record)
+    {
+        if (_createdEvent == null) return;
+        _createdEvent.SetPayload(record.ResolvePayload(_createdEvent));
+        await _publisher.Publish(_createdEvent);
+    }
+
+    private async Task SendUpdatedEvent(IDictionary<string, object?> record)
+    {
+        if (_updatedEvent == null) return;
+        _updatedEvent.SetPayload(record.ResolvePayload(_updatedEvent));
+        await _publisher.Publish(_updatedEvent);
+    }
+    
+    private async Task SendExecuteCompletedEvent(int inserts, int updates, int unChanged)
+    {
+        if (_completedEvent == null) return;
+        _completedEvent.SetPayload(new NoxEtlExecuteCompletedPayload
+        {
+            Inserts = inserts,
+            Updates = updates,
+            Unchanged = unChanged
+        });
+        await _publisher.Publish(_completedEvent);
+    }
+
 }

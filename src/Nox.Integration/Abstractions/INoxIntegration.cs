@@ -17,6 +17,8 @@ internal interface INoxIntegration
     
     internal INoxReceiveAdapter? ReceiveAdapter { get; set; }
     internal INoxSendAdapter? SendAdapter { get; set; }
+
+    internal Type? DtoType { get; set; }
     
     List<string>? TargetIdColumns { get; }
     List<string>? TargetDateColumns { get; }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Exceptions;
 using Nox.Integration.Extensions.Receive;
@@ -99,5 +100,21 @@ public static class IntegrationContextExtensions
         return instance;
     }
 
-
+    internal static INoxIntegration WithTargetDto(this INoxIntegration instance, IntegrationTarget targetDefinition, Nox.Solution.Domain? domainDefinition)
+    {
+        if (targetDefinition.TableOptions == null) return instance;
+        if (domainDefinition == null) return instance;
+        
+        var tableName = targetDefinition.TableOptions.TableName;
+        
+        //Find the entity from the table name
+        var entity = domainDefinition.Entities.FirstOrDefault(e => e.Persistence.TableName!.Equals(tableName, StringComparison.OrdinalIgnoreCase));
+        if (entity != null)
+        {
+            var dtoType = Assembly.GetEntryAssembly()!.GetTypes().FirstOrDefault(t => t.IsClass && t.Name.Equals($"{entity.Name}Dto"));
+            if (dtoType != null) instance.DtoType = dtoType;
+        }
+        
+        return instance;
+    }
 }

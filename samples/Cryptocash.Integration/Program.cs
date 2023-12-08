@@ -1,6 +1,7 @@
 using Cryptocash.Integration.Integrations;
 using Nox;
 using Nox.Integration;
+using Nox.Integration.EtlEvents;
 using Nox.Integration.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,8 @@ builder.Services.RegisterTransformHandler<QueryToCustomTableTransformHandler>();
 //);
 
 var app = builder.Build();
+
+var events = app.Services.GetServices<NoxEtlExecuteCompletedEvent>();
 
 app.UseNox();
 

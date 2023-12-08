@@ -1,7 +1,9 @@
 using Elastic.Apm;
 using Elastic.Apm.Api;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using Nox.Integration.Abstractions;
+using Nox.Integration.EtlEvents;
 using Nox.Integration.Exceptions;
 using Nox.Integration.Extensions;
 using Nox.Solution;
@@ -19,7 +21,11 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
         ILogger<INoxIntegrationContext> logger, 
         NoxSolution solution, 
         INoxIntegrationDbContextFactory dbContextFactory,
-        IEnumerable<INoxCustomTransformHandler>? handlers = null)
+        IPublisher publisher,
+        IEnumerable<INoxCustomTransformHandler>? handlers = null,
+        IEnumerable<NoxEtlRecordCreatedEvent<INoxEtlEventPayload>>? createdEvents = null,
+        IEnumerable<NoxEtlRecordUpdatedEvent<INoxEtlEventPayload>>? updatedEvents = null,
+        IEnumerable<NoxEtlExecuteCompletedEvent>? completedEvents = null)
     {
         _logger = logger;
         _integrations = new Dictionary<string, INoxIntegration>();
@@ -34,9 +40,15 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
         {
             foreach (var integrationDefinition in _solution.Application!.Integrations!)
             {
-                var instance = new NoxIntegration(_logger, integrationDefinition, dbContextFactory);
-                instance.WithReceiveAdapter(integrationDefinition.Source, _solution.DataConnections);
-                instance.WithSendAdapter(integrationDefinition.Target, _solution.DataConnections);
+                //Resolve the events
+                var createdEvent = createdEvents?.FirstOrDefault(e => e.IntegrationName == integrationDefinition.Name);
+                var updatedEvent = updatedEvents?.FirstOrDefault(e => e.IntegrationName == integrationDefinition.Name);
+                var completedEvent = completedEvents?.FirstOrDefault(e => e.IntegrationName == integrationDefinition.Name);
+                
+                var instance = new NoxIntegration(_logger, integrationDefinition, dbContextFactory, publisher, createdEvent, updatedEvent, completedEvent)
+                    .WithReceiveAdapter(integrationDefinition.Source, _solution.DataConnections)
+                    .WithSendAdapter(integrationDefinition.Target, _solution.DataConnections)
+                    .WithTargetDto(integrationDefinition.Target, _solution.Domain);
                 _integrations[instance.Name] = instance;
             }    
         }
@@ -79,5 +91,6 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
             });
         }
     }
+    
 }
 
