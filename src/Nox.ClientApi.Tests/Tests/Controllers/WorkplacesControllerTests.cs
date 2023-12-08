@@ -4,7 +4,6 @@ using AutoFixture;
 using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
-using ClientApi.Tests.Controllers;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using static MassTransit.ValidationResultExtensions;
 using Nox.Application.Dto;

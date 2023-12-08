@@ -55,8 +55,8 @@ internal abstract partial class StoreBase : AuditableEntityBase, IEntityConcurre
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Guid Id {get; set;} = null!;
-         /// <summary>
+    public Nox.Types.Guid Id {get; private set;} = null!;
+        /// <summary>
         /// Ensures that a Guid Id is set or will be generate a new one
         /// </summary>
     	public virtual void EnsureId(System.Guid? guid)
@@ -75,31 +75,31 @@ internal abstract partial class StoreBase : AuditableEntityBase, IEntityConcurre
     /// Store Name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get;  set; } = null!;
 
     /// <summary>
     /// Street Address    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.StreetAddress Address { get; set; } = null!;
+    public Nox.Types.StreetAddress Address { get;  set; } = null!;
 
     /// <summary>
     /// Location    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.LatLong Location { get; set; } = null!;
+    public Nox.Types.LatLong Location { get;  set; } = null!;
 
     /// <summary>
     /// Opening day    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.DateTime? OpeningDay { get; set; } = null!;
+    public Nox.Types.DateTime? OpeningDay { get;  set; } = null!;
 
     /// <summary>
     /// Store Status    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Enumeration? Status { get; set; } = null!;
+    public Nox.Types.Enumeration? Status { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

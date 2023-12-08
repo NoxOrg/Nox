@@ -5,11 +5,11 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 [Collection("Sequential")]
 public class PostgresIntegrationTests : NoxIntegrationContainerTestBase<NoxTestPostgreContainerFixture>
 {
-    private readonly NoxCommonTestCaseFactory _noxCommonTestCases;
+    private readonly DatabaseTests _noxCommonTestCases;
     private readonly ReferenceNumberTests _referenceNumberTests;
     public PostgresIntegrationTests(NoxTestPostgreContainerFixture fixture) : base(fixture)
     {
-        _noxCommonTestCases = new NoxCommonTestCaseFactory(fixture);
+        _noxCommonTestCases = new DatabaseTests(fixture);
         _referenceNumberTests = new ReferenceNumberTests(fixture);
     }
 
@@ -159,8 +159,8 @@ public class PostgresIntegrationTests : NoxIntegrationContainerTestBase<NoxTestP
     }
     
     [Fact]
-    public void GeneratedEntities_Postgres_AutoNumberedEntitiesBeingGenerated()
+    public async Task GeneratedEntities_Postgres_AutoNumberedEntitiesBeingGenerated()
     {
-        _noxCommonTestCases.AutoNumberedEntitiesBeingGenerated();
+        await _noxCommonTestCases.AutoNumberedEntitiesBeingGenerated();
     }
 }

@@ -18,11 +18,11 @@ using Guid = Nox.Types.Guid;
 
 namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
-public class NoxCommonTestCaseFactory
+public class DatabaseTests
 {
     private readonly INoxTestDataContextFixture _dbContextFixture;
 
-    public NoxCommonTestCaseFactory(INoxTestDataContextFixture dbContextFixture)
+    public DatabaseTests(INoxTestDataContextFixture dbContextFixture)
     {
         _dbContextFixture = dbContextFixture;
     }
@@ -899,30 +899,30 @@ public class NoxCommonTestCaseFactory
         };
         var testEntity = new EntityUniqueConstraintsWithForeignKey()
         {
-            Id = Guid.From(System.Guid.NewGuid()),
             EntityUniqueConstraintsRelatedForeignKeyId = Number.From(1),
             SomeUniqueId = Number.From(1)
         };
+        testEntity.EnsureId(System.Guid.NewGuid());
 
         //Ok => Add another entity with same related key but different SomeUniqueId
         var testEntity2 = new EntityUniqueConstraintsWithForeignKey()
         {
-            Id = Guid.From(System.Guid.NewGuid()),
             EntityUniqueConstraintsRelatedForeignKeyId = Number.From(1),
 
             //Makes the unique constrain different
             SomeUniqueId = Number.From(2),
         };
+        testEntity2.EnsureId(System.Guid.NewGuid());
 
         //Ok => Add another entity with same SomeUniqueId related key but different related key
         var testEntity3 = new EntityUniqueConstraintsWithForeignKey()
         {
-            Id = Guid.From(System.Guid.NewGuid()),
             SomeUniqueId = Number.From(1),
 
             //Makes the unique constrain different
             EntityUniqueConstraintsRelatedForeignKeyId = Number.From(2),
         };
+        testEntity3.EnsureId(System.Guid.NewGuid());
 
         //Act
         DataContext.EntityUniqueConstraintsRelatedForeignKeys.Add(relatedEntity);
@@ -946,11 +946,10 @@ public class NoxCommonTestCaseFactory
 
         var testEntity = new EntityUniqueConstraintsWithForeignKey()
         {
-            Id = Guid.From(System.Guid.NewGuid()),
             EntityUniqueConstraintsRelatedForeignKeyId = Number.From(5),
             SomeUniqueId = Number.From(10)
         };
-
+        testEntity.EnsureId(System.Guid.NewGuid());
         DataContext.EntityUniqueConstraintsRelatedForeignKeys.Add(relatedEntity);
         DataContext.EntityUniqueConstraintsWithForeignKeys.Add(testEntity);
         DataContext.SaveChanges();
@@ -958,10 +957,11 @@ public class NoxCommonTestCaseFactory
         //Not ok=> Duplicated constrain in attribute and related key
         var incorrectTestEntity = new EntityUniqueConstraintsWithForeignKey()
         {
-            Id = Guid.From(System.Guid.NewGuid()),
             EntityUniqueConstraintsRelatedForeignKeyId = Number.From(5),
             SomeUniqueId = Number.From(10)
         };
+        incorrectTestEntity.EnsureId(System.Guid.NewGuid());
+
 
         // Assert
         DataContext.EntityUniqueConstraintsWithForeignKeys.Add(incorrectTestEntity);
@@ -1144,7 +1144,7 @@ public class NoxCommonTestCaseFactory
         Assert.Equal(testEntity.CultureCode.Value, culture);
     }
 
-    public void AutoNumberedEntitiesBeingGenerated()
+    public async Task AutoNumberedEntitiesBeingGenerated()
     {
 
         var idValue = 10;
@@ -1160,7 +1160,7 @@ public class NoxCommonTestCaseFactory
             TextField = "TX1"
         };
 
-        var newItem = factory.CreateEntity(newItemDto);
+        var newItem = await factory.CreateEntityAsync(newItemDto);
 
         DataContext.TestEntityForAutoNumberUsages.Add(newItem);
 

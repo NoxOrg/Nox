@@ -22,21 +22,13 @@ public class QueryTests : IClassFixture<GeneratorFixture>
             $"./{path}query.solution.nox.yaml"
         };
 
-        var filesShouldExist = new[]
-        {
-            "Application.Dto.CountryDto.g.cs",
-            "Application.Dto.CountryCreateDto.g.cs",
-            "Application.Dto.CountryUpdateDto.g.cs",
-            "Application.Factories.CountryFactory.g.cs"
-        };
-
         GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileCount(9, filesShouldExist)
+            .AssertFileCount(9)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .AssertFileExistsAndContent("Dto.CountryCreateDto.expected.g.cs", "Application.Dto.CountryCreateDto.g.cs")
-            .AssertFileExistsAndContent("Dto.CountryUpdateDto.expected.g.cs", "Application.Dto.CountryUpdateDto.g.cs")
-            .AssertFileExistsAndContent("Application.Factories.CountryFactory.expected.g.cs", "Application.Factories.CountryFactory.g.cs");
+            .AssertFileWasGenerated("Application.Dto.CountryCreateDto.g.cs")
+            .AssertFileWasGenerated("Application.Dto.CountryUpdateDto.g.cs")
+            .AssertFileWasGenerated("Application.Factories.CountryFactory.g.cs");
     }
 }

@@ -17,6 +17,7 @@ public class NoxCodeGenConventions
     public NoxSolution Solution => _noxSolution;
     public string RootNameSpace => _noxSolution.Name;
     public string DomainNameSpace => $"{RootNameSpace}.Domain";
+    public string DomainNamespaceAlias => $"{RootNameSpace}Domain";
     public string DtoNameSpace => $"{ApplicationNameSpace}.Dto";
     public string ApplicationNameSpace => $"{RootNameSpace}.Application";
     public string ApplicationQueriesNameSpace => $"{ApplicationNameSpace}.Queries";
@@ -85,5 +86,5 @@ public class NoxCodeGenConventions
     /// Computes the Database Sequence Name to be used by an Entity Attribute
     /// </summary>
     /// <remarks>lower case so its fully compatible with postgres</remarks>
-    public string GetDatabaseSequenceName(string entityName, string attributeName) => $"Seq{entityName}{attributeName}".ToLowerInvariant();
+    public static string GetDatabaseSequenceName(string entityName, string attributeName) => $"Seq{entityName}{attributeName}".ToLowerInvariant();
 }

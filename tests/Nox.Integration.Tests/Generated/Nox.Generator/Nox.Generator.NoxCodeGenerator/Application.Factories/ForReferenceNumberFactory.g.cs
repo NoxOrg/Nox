@@ -23,6 +23,15 @@ using ForReferenceNumberEntity = TestWebApp.Domain.ForReferenceNumber;
 
 namespace TestWebApp.Application.Factories;
 
+internal partial class ForReferenceNumberFactory : ForReferenceNumberFactoryBase
+{
+    public ForReferenceNumberFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class ForReferenceNumberFactoryBase : IEntityFactory<ForReferenceNumberEntity, ForReferenceNumberCreateDto, ForReferenceNumberUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class ForReferenceNumberFactoryBase : IEntityFactory<ForRefere
         _repository = repository;
     }
 
-    public virtual ForReferenceNumberEntity CreateEntity(ForReferenceNumberCreateDto createDto)
+    public virtual async Task<ForReferenceNumberEntity> CreateEntityAsync(ForReferenceNumberCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class ForReferenceNumberFactoryBase : IEntityFactory<ForRefere
         }        
     }
 
-    public virtual void UpdateEntity(ForReferenceNumberEntity entity, ForReferenceNumberUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(ForReferenceNumberEntity entity, ForReferenceNumberUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(ForReferenceNumberEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,14 +66,19 @@ internal abstract class ForReferenceNumberFactoryBase : IEntityFactory<ForRefere
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private TestWebApp.Domain.ForReferenceNumber ToEntity(ForReferenceNumberCreateDto createDto)
+    private async Task<TestWebApp.Domain.ForReferenceNumber> ToEntityAsync(ForReferenceNumberCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.ForReferenceNumber();
+        var nextSequenceId =  await _repository.GetSequenceNextValueAsync(Nox.Solution.NoxCodeGenConventions.GetDatabaseSequenceName("ForReferenceNumber", "Id"));
+        entity.EnsureId(nextSequenceId,TestWebApp.Domain.ForReferenceNumberMetadata.IdTypeOptions);
+        var nextSequenceWorkplaceNumber =  await _repository.GetSequenceNextValueAsync(Nox.Solution.NoxCodeGenConventions.GetDatabaseSequenceName("ForReferenceNumber", "WorkplaceNumber"));
+        entity.EnsureWorkplaceNumber(nextSequenceWorkplaceNumber,TestWebApp.Domain.ForReferenceNumberMetadata.WorkplaceNumberTypeOptions);
         return entity;
     }
 
-    private void UpdateEntityInternal(ForReferenceNumberEntity entity, ForReferenceNumberUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(ForReferenceNumberEntity entity, ForReferenceNumberUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(ForReferenceNumberEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -73,13 +87,4 @@ internal abstract class ForReferenceNumberFactoryBase : IEntityFactory<ForRefere
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class ForReferenceNumberFactory : ForReferenceNumberFactoryBase
-{
-    public ForReferenceNumberFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

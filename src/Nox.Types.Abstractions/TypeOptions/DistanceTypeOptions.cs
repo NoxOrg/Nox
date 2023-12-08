@@ -1,6 +1,6 @@
 ﻿namespace Nox.Types;
 
-public class DistanceTypeOptions
+public class DistanceTypeOptions : INoxTypeOptions
 {
     private const double DefaultMinDistance = 0;
     private const double DefaultMaxDistance = 999_999_999_999_999;

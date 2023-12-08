@@ -3,7 +3,6 @@ using ClientApi.Application.Dto;
 using AutoFixture;
 using System.Net;
 using Xunit.Abstractions;
-using ClientApi.Tests.Controllers;
 
 namespace ClientApi.Tests.Tests.Controllers
 {

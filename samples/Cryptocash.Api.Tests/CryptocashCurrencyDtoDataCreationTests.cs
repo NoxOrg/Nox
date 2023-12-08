@@ -10,9 +10,9 @@ public class CryptocashCurrencyDtoDataCreationTests
 #nullable enable
 
     /// <summary>
-    /// Test used to create one-off CurrencyDto JSON data from Currency Reference Data - to use make sure source json file is available otherwise test just returns empty string
+    /// Test used to create one-off CurrencyDto JSON data from Currency Reference Data - to use make sure source json file is available otherwise test just returns empty string - use returning rtnJson value from Convert_Currency_ReferenceData_to_DtoData to create the CryptocashCurrency.Json file manually
     /// </summary>
-    [Fact]
+    [Fact(Skip = "Only used as one-off to create DataSeeder Currency JSON file")]
     public void Create_CurrencyDto_data_from_CurrencyReferenceData()
     {
         var rootPath = "../../../../.nox";        

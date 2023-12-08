@@ -5,13 +5,13 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 [Collection("Sequential")]
 public class SqlServerIntegrationTests : NoxIntegrationContainerTestBase<NoxTestMsSqlContainerFixture>
 {
-    private readonly NoxCommonTestCaseFactory _noxCommonTestCases;
+    private readonly DatabaseTests _noxCommonTestCases;
     private readonly ReferenceNumberTests _referenceNumberTests;
 
 
     public SqlServerIntegrationTests(NoxTestMsSqlContainerFixture fixture) : base(fixture)
     {
-        _noxCommonTestCases = new NoxCommonTestCaseFactory(fixture);
+        _noxCommonTestCases = new DatabaseTests(fixture);
         _referenceNumberTests = new ReferenceNumberTests(fixture);
     }
 
@@ -162,8 +162,8 @@ public class SqlServerIntegrationTests : NoxIntegrationContainerTestBase<NoxTest
     }
     
     [Fact]
-    public void GeneratedEntities_SqlServer_AutoNumberedEntitiesBeingGenerated()
+    public async Task GeneratedEntities_SqlServer_AutoNumberedEntitiesBeingGenerated()
     {
-        _noxCommonTestCases.AutoNumberedEntitiesBeingGenerated();
+        await _noxCommonTestCases.AutoNumberedEntitiesBeingGenerated();
     }
 }

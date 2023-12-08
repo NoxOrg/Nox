@@ -5,7 +5,7 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 [Collection("Sequential")]
 public class SqliteIntegrationTests
 {
-    private readonly NoxCommonTestCaseFactory _noxCommonTestCases;
+    private readonly DatabaseTests _noxCommonTestCases;
     private readonly NoxTestSqliteFixture _fixture;
 
     public SqliteIntegrationTests()
@@ -16,7 +16,7 @@ public class SqliteIntegrationTests
         _fixture = new NoxTestSqliteFixture();
         _fixture.DataContext.Database.EnsureCreated();
 
-        _noxCommonTestCases = new NoxCommonTestCaseFactory(_fixture);
+        _noxCommonTestCases = new DatabaseTests(_fixture);
     }
 
     [Fact(Skip = "NOT NULL constraint failed: TestEntityForTypes.AutoNumberTestField")]

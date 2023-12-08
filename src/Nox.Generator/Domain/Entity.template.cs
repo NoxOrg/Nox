@@ -88,9 +88,9 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
     {{- else if key.Type == "Nuid" -}}
 	{{- prefix = key.NuidTypeOptions.Prefix | object.default entity.Name + key.NuidTypeOptions.Separator -}}
     {{- codeGeneratorNuidGetter = "Nuid.From(\""+prefix+"\" + string.Join(\""+key.NuidTypeOptions.Separator +"\", "+ (key.NuidTypeOptions.PropertyNames | array.join "," @(do; ret $0 + ".Value.ToString()"; end)) +"))" -}}
-    public {{key.Type}} {{key.Name}} {get; set;} = null!;
+    public {{key.Type}} {{key.Name}} {get; private set; } = null!;
    
-	public virtual void Ensure{{ key.Name}}()
+	public virtual void Ensure{{key.Name}}()
 	{
 		if({{key.Name}} is null)
 		{
@@ -106,11 +106,11 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 		}
 	}
 	{{- else if key.Type == "Guid" -}}
-    public Nox.Types.{{key.Type}} {{key.Name}} {get; set;} = null!;
-     /// <summary>
+    public Nox.Types.{{key.Type}} {{key.Name}} {get; private set;} = null!;
+    /// <summary>
     /// Ensures that a Guid Id is set or will be generate a new one
     /// </summary>
-	public virtual void Ensure{{ key.Name}}(System.Guid? guid)
+	public virtual void Ensure{{key.Name}}(System.Guid? guid)
 	{
 		if(guid is null || System.Guid.Empty.Equals(guid))
 		{
@@ -120,10 +120,18 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 		{
 			{{key.Name}} = Nox.Types.Guid.From(guid!.Value);
 		}
+	}    
+    {{- else if key.Type == "ReferenceNumber" -}}
+    public Nox.Types.{{key.Type}} {{key.Name}} {get; private set;} = null!;
+    /// <summary>
+    /// Ensures that a Reference Number is set. This should only be called when creating a new entity, it's immutable property.
+    /// </summary>
+	public virtual void Ensure{{key.Name}}(System.Int64 number, Nox.Types.ReferenceNumberTypeOptions typeOptions)
+	{
+		{{key.Name}} = Nox.Types.ReferenceNumber.From(number, typeOptions);
 	}
     {{- else -}}
-
-    public Nox.Types.{{key.Type}} {{key.Name}} { get; set; } = null!;
+    public Nox.Types.{{key.Type}} {{key.Name}} { get; {{if (!IsNoxTypeCreatable key.Type)}}private{{end}} set; } = null!;
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}
@@ -134,12 +142,21 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
     /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}.</remarks>   
     {{ if attribute.Type == "Formula" -}}
     public {{attribute.FormulaTypeOptions.Returns}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}}
-{ 
-    get { return {{attribute.FormulaTypeOptions.Expression}}; }
-    private set { }
-}
+    { 
+        get { return {{attribute.FormulaTypeOptions.Expression}}; }
+        private set { }
+    }
+    {{- else if attribute.Type == "ReferenceNumber" -}}
+    public Nox.Types.{{attribute.Type}} {{attribute.Name}} {get; private set;} = null!;
+    /// <summary>
+    /// Ensures that a Reference Number is set. This should only be called when creating a new entity, it's immutable property.
+    /// </summary>
+	public virtual void Ensure{{attribute.Name}}(System.Int64 number, Nox.Types.ReferenceNumberTypeOptions typeOptions)
+	{
+		{{attribute.Name}} = Nox.Types.ReferenceNumber.From(number, typeOptions);
+	}    
     {{- else -}}
-    public Nox.Types.{{attribute.Type}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } = null!;
+    public Nox.Types.{{attribute.Type}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; {{if (!IsNoxTypeCreatable attribute.Type)}}private{{end}} set; } = null!;
     {{- end}}
 {{- end }}
 {{-if entity.HasDomainEvents}}

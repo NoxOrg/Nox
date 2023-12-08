@@ -6,7 +6,7 @@ using Nox.Docs.Extensions;
 using ClientApi.Tests;
 using Xunit.Abstractions;
 
-namespace ClientApi.ServiceMetadata
+namespace ClientApi.Tests.ServiceMetadata
 {
     [Collection("Sequential")]
     public class GenerateMetadataTests : NoxWebApiTestBase
@@ -14,8 +14,8 @@ namespace ClientApi.ServiceMetadata
         public GenerateMetadataTests(
             ITestOutputHelper testOutputHelper,
             TestDatabaseContainerService containerService) : base(testOutputHelper, containerService)
-            //For development purposes
-            //TestDatabaseInstanceService containerService) : base(testOutputHelper, containerService)
+        //For development purposes
+        //TestDatabaseInstanceService containerService) : base(testOutputHelper, containerService)
         {
         }
 
@@ -26,7 +26,7 @@ namespace ClientApi.ServiceMetadata
             var content = await result.Content.ReadAsStringAsync();
 
             content.Should().NotBeNull();
-            File.WriteAllText("../../../ServiceMetadata/odata.html", content);
+            File.WriteAllText("../../../Tests/ServiceMetadata/odata.html", content);
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace ClientApi.ServiceMetadata
             var content = await result.Content.ReadAsStringAsync();
 
             content.Should().NotBeNull();
-            File.WriteAllText("../../../ServiceMetadata/oDataMetadata.xml", BeautifyXml(content));
+            File.WriteAllText("../../../Tests/ServiceMetadata/oDataMetadata.xml", BeautifyXml(content));
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace ClientApi.ServiceMetadata
             var content = await result.Content.ReadAsStringAsync();
 
             content.Should().NotBeNull();
-            File.WriteAllText("../../../ServiceMetadata/swagger.json", content);
+            File.WriteAllText("../../../Tests/ServiceMetadata/swagger.json", content);
         }
 
         [Fact]

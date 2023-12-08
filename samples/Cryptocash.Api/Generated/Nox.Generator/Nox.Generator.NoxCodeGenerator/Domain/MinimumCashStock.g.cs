@@ -55,13 +55,13 @@ internal abstract partial class MinimumCashStockBase : AuditableEntityBase, IEnt
     /// Vending machine cash stock unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// Cash stock amount    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Money Amount { get; set; } = null!;
+    public Nox.Types.Money Amount { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

@@ -4,12 +4,12 @@ using AutoFixture;
 using Xunit.Abstractions;
 using Nox.Application.Dto;
 
-namespace ClientApi.Tests.Controllers;
+namespace ClientApi.Tests.ApiRouteMapping;
 
-[Collection("CountriesControllerTests")]
-public partial class CountriesControllerRouteMappingTests : NoxWebApiTestBase
+[Collection("Sequential")]
+public partial class RouteMappingTests : NoxWebApiTestBase
 {
-    public CountriesControllerRouteMappingTests(ITestOutputHelper testOutputHelper,
+    public RouteMappingTests(ITestOutputHelper testOutputHelper,
     TestDatabaseContainerService containerService
     //For Development purposes
     //TestDatabaseInstanceService containerService
@@ -17,7 +17,7 @@ public partial class CountriesControllerRouteMappingTests : NoxWebApiTestBase
     : base(testOutputHelper, containerService)
     {
         _fixture.Customize<string>(s => s.FromFactory(() => ToUpperFirstChar(Guid.NewGuid().ToString())));
-    }    
+    }
     [Fact]
     public async Task WhenRouteGetWithParameters_ShouldSucceed()
     {
@@ -105,12 +105,12 @@ public partial class CountriesControllerRouteMappingTests : NoxWebApiTestBase
 
         // Act
         var headers = CreateEtagHeader(countryResponse!.Etag);
-        await PutAsync<ReferencesDto<Int64>>(
+        await PutAsync(
             //$"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/$ref",            
             $"{Endpoints.RoutePrefix}/MySpecial/{countryResponse!.Id}/SecondSpecial/{Guid.NewGuid()}/ThirdSpecial/$ref",
-            new ReferencesDto<Int64>
+            new ReferencesDto<long>
             {
-                References = new List<Int64> { workplaceResponse!.Id }
+                References = new List<long> { workplaceResponse!.Id }
             },
             headers);
 
@@ -137,6 +137,22 @@ public partial class CountriesControllerRouteMappingTests : NoxWebApiTestBase
                 Name = countryName2
             });
     }
+
+
+    [Fact(Skip="Add support to RouteMapping with two sequential parameters on the route")]
+    public async Task WhenRouteGetWithTwoSequentialSegmentsParameters_ShouldSucceed()
+    {
+        // Arrange
+        string countryName1 = _fixture.Create<string>();
+        string countryName2 = _fixture.Create<string>();
+        await CreateCountriesAsync(countryName1, countryName2);
+        // Act
+        var result = await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/countriesSeqSegProps/Name/10");
+
+        //Assert
+        result.Should().NotBeNull();
+        result.Should().HaveCount(2);
+   }
     private static string ToUpperFirstChar(string input)
     {
         if (string.IsNullOrEmpty(input))

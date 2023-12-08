@@ -16,7 +16,7 @@ using ClientApi.Application.Commands;
 using ClientApi.Domain;
 using ClientApi.Infrastructure.Persistence;
 using Nox.Types;
-using ClientApi.Tests.Controllers;
+using ClientApi.Tests;
 
 namespace ClientApi.Presentation.Api.OData;
 

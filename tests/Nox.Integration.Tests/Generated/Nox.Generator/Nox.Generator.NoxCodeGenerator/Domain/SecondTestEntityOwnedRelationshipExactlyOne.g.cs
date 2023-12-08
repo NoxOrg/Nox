@@ -55,13 +55,13 @@ internal abstract partial class SecondTestEntityOwnedRelationshipExactlyOneBase 
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text TestEntityOwnedRelationshipExactlyOneId { get; set; } = null!;
+    public Nox.Types.Text TestEntityOwnedRelationshipExactlyOneId { get;  set; } = null!;
 
     /// <summary>
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text TextTestField2 { get; set; } = null!;
+    public Nox.Types.Text TextTestField2 { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

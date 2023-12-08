@@ -60,7 +60,7 @@ internal abstract class CreatePaymentProviderCommandHandlerBase : CommandBase<Cr
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.PaymentDetailsId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.PaymentDetailsId)
@@ -78,7 +78,7 @@ internal abstract class CreatePaymentProviderCommandHandlerBase : CommandBase<Cr
 		{
 			foreach(var relatedCreateDto in request.EntityDto.PaymentDetails)
 			{
-				var relatedEntity = PaymentDetailFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await PaymentDetailFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToPaymentDetails(relatedEntity);
 			}
 		}

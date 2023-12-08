@@ -1,7 +1,7 @@
 ﻿using Nox.Lib.Presentation.Api.EndPointAddressBuilder;
 using Nox.Solution;
 
-namespace ClientApi.Tests.Controllers
+namespace ClientApi.Tests
 {
 
     public class EndPointsFixture
@@ -30,6 +30,7 @@ namespace ClientApi.Tests.Controllers
         public const string StoresUrl = $"{RoutePrefix}/stores";
         public const string ClientsUrl = $"{RoutePrefix}/clients";
         public const string WorkplacesUrl = $"{RoutePrefix}/workplaces";
+        public const string ReferenceNumberUrl = $"{RoutePrefix}/ReferenceNumberEntities";
         public const string RatingProgramsUrl = $"{RoutePrefix}/ratingprograms";
         public const string CurrenciesUrl = $"{RoutePrefix}/currencies";
         public const string TenantsUrl = $"{RoutePrefix}/tenants";

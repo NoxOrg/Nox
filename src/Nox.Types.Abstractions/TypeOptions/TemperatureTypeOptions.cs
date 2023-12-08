@@ -1,6 +1,6 @@
 ﻿namespace Nox.Types;
 
-public class TemperatureTypeOptions
+public class TemperatureTypeOptions : INoxTypeOptions
 {
     // Database Creation Properties
     public TemperatureTypeUnit PersistAs { get; set; } = TemperatureTypeUnit.Celsius;
