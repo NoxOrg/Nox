@@ -12,6 +12,8 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 
+using SampleWebAppDomain = SampleWebApp.Domain;
+
 namespace SampleWebApp.Domain;
 
 /// <summary>
@@ -41,7 +43,7 @@ internal partial class CountryLocalized : IEntityConcurrent
     /// </summary>
     public Nox.Types.Text? Capital { get; set; } = null!;
 
-    public virtual SampleWebApp.Domain.Country Country { get; set; } = null!;
+    public virtual SampleWebAppDomain.Country Country { get; set; } = null!;
 
     /// <summary>
     /// Entity tag used as concurrency token.
