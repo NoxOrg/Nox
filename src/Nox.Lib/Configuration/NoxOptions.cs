@@ -234,7 +234,7 @@ namespace Nox.Configuration
 
                 services.AddScoped<IInterceptor, LangParamDbCommandInterceptor>();
 
-                services.AddSingleton<Compiler>(x =>
+                services.AddScoped<Compiler>(x =>
                 {
                     return noxSolution.Infrastructure.Persistence!.DatabaseServer.Provider switch
                     {
@@ -250,7 +250,7 @@ namespace Nox.Configuration
                     .FromAssemblies(noxAssemblies)
                     .AddClasses(classes => classes.AssignableTo<IEntityDtoSqlQueryBuilder>())
                     .As<IEntityDtoSqlQueryBuilder>()
-                    .WithSingletonLifetime());
+                    .WithScopedLifetime());
             }
         }
 
