@@ -170,7 +170,9 @@ public abstract partial class ClientsControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetStoreByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/v1/Clients/{key}/Stores/{relatedKey}")]
