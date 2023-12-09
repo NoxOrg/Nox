@@ -7,6 +7,7 @@ public class NoxApiMidllewareTests
 
     private readonly string _testPattern = "/Customers/{CustomerId}/Contacts/{ContactId}?$select={Properties}";
     private readonly string _testPatternDuplicateParam = "/Customers/{CustomerId}/Contacts/{Properties}?$select={Properties}";
+    private readonly string _testPatternConsecutiveParam = "/Customers/{CustomerId}/{ContactId}/{Properties}";
 
     [Fact]
     public void RouteMatcher_Parses_String()
@@ -18,6 +19,18 @@ public class NoxApiMidllewareTests
         routeMatcher.HasParameter("ContactId").Should().BeTrue();
         routeMatcher.HasParameter("Properties").Should().BeTrue();  
         routeMatcher.HasParameter("DoesNotExist").Should().BeFalse();  
+    }
+
+    [Fact]
+    public void RouteMatcher_Parses_CnsecutiveParams_String()
+    {
+
+        var routeMatcher = new ApiRouteMatcher(_testPatternConsecutiveParam);
+
+        routeMatcher.HasParameter("CustomerId").Should().BeTrue();
+        routeMatcher.HasParameter("ContactId").Should().BeTrue();
+        routeMatcher.HasParameter("Properties").Should().BeTrue();
+        routeMatcher.HasParameter("DoesNotExist").Should().BeFalse();
     }
 
     [Fact]
