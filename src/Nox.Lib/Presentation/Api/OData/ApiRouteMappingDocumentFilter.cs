@@ -74,7 +74,8 @@ public class ApiRouteMappingDocumentFilter : IDocumentFilter
 
             // add request body if it's supplied
 
-            if (route.JsonBodyType is not null)
+            if (route.JsonBodyType is not null 
+                && route.HttpVerb != HttpVerb.Get)
             {
                 operation.RequestBody = new OpenApiRequestBody()
                 {

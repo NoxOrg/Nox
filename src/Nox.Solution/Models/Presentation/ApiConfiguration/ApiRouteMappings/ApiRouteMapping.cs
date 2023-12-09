@@ -1,5 +1,6 @@
 ﻿using Nox.Yaml;
 using Nox.Yaml.Attributes;
+using Nox.Yaml.Validation;
 using System;
 using System.Collections.Generic;
 using YamlDotNet.Serialization;
@@ -67,6 +68,17 @@ public class ApiRouteMapping : YamlConfigNode<NoxSolution, ApiConfiguration>
         HttpVerbString = HttpVerbToHttpVerbString(HttpVerb);
         RequestContentTypeString = ToContentTypeString(RequestBodyType);
         ResponseContentTypeString = ToContentTypeString(ContentBodyType.Json);
+    }
+
+    public override ValidationResult Validate(NoxSolution topNode, ApiConfiguration parentNode, string yamlPath)
+    {
+        var result = base.Validate(topNode, parentNode, yamlPath);
+
+        if (HttpVerb == HttpVerb.Get && JsonBodyType != null)
+        {
+            result.AddError(nameof(HttpVerb),$"Endpoint [{Name}] with verb [{HttpVerb}] can not define a value for [{nameof(JsonBodyType)}].");
+        }
+        return result;
     }
 
     private static string HttpVerbToHttpVerbString(HttpVerb verb)
