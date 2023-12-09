@@ -1,6 +1,5 @@
 ﻿using AutoFixture;
 using ClientApi.Application.Dto;
-using ClientApi.Tests.Controllers;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Nox.Types;

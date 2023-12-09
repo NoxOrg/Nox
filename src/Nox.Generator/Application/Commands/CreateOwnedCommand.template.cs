@@ -69,7 +69,7 @@ internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandl
 			return null;
 		}
 
-		var entity = _entityFactory.CreateEntity(request.EntityDto);
+		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
 
 		{{- for key in entity.Keys ~}}
 		{{- if key.Type == "Nuid" }}

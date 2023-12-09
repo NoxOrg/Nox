@@ -1,6 +1,6 @@
 ﻿namespace Nox.Types;
 
-public class AreaTypeOptions
+public class AreaTypeOptions: INoxTypeOptions
 {
     private const double DefaultMinArea = 0;
     private const double DefaultMaxArea = 999_999_999_999_999;

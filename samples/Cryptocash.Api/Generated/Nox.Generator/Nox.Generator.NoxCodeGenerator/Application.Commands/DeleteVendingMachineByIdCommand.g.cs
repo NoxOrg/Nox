@@ -16,7 +16,7 @@ namespace Cryptocash.Application.Commands;
 
 public partial record DeleteVendingMachineByIdCommand(IEnumerable<VendingMachineKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteVendingMachineByIdCommandHandler : DeleteVendingMachineByIdCommandHandlerBase
+internal partial class DeleteVendingMachineByIdCommandHandler : DeleteVendingMachineByIdCommandHandlerBase
 {
 	public DeleteVendingMachineByIdCommandHandler(
         AppDbContext dbContext,

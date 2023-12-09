@@ -1,6 +1,6 @@
 ﻿namespace Nox.Types;
 
-public class UserTypeOptions
+public class UserTypeOptions : INoxTypeOptions
 {
     public int MinLength { get; set; } = 0;
 

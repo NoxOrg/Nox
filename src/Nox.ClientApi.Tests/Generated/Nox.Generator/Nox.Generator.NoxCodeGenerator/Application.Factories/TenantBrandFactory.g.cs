@@ -23,6 +23,15 @@ using TenantBrandEntity = ClientApi.Domain.TenantBrand;
 
 namespace ClientApi.Application.Factories;
 
+internal partial class TenantBrandFactory : TenantBrandFactoryBase
+{
+    public TenantBrandFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntit
         _repository = repository;
     }
 
-    public virtual TenantBrandEntity CreateEntity(TenantBrandUpsertDto createDto)
+    public virtual async Task<TenantBrandEntity> CreateEntityAsync(TenantBrandUpsertDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntit
         }        
     }
 
-    public virtual void UpdateEntity(TenantBrandEntity entity, TenantBrandUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(TenantBrandEntity entity, TenantBrandUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TenantBrandEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,18 +66,19 @@ internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntit
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private ClientApi.Domain.TenantBrand ToEntity(TenantBrandUpsertDto createDto)
+    private async Task<ClientApi.Domain.TenantBrand> ToEntityAsync(TenantBrandUpsertDto createDto)
     {
         var entity = new ClientApi.Domain.TenantBrand();
         entity.Name = ClientApi.Domain.TenantBrandMetadata.CreateName(createDto.Name);
         entity.Description = ClientApi.Domain.TenantBrandMetadata.CreateDescription(createDto.Description);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(TenantBrandEntity entity, TenantBrandUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(TenantBrandEntity entity, TenantBrandUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = ClientApi.Domain.TenantBrandMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         if(IsDefaultCultureCode(cultureCode)) entity.Description = ClientApi.Domain.TenantBrandMetadata.CreateDescription(updateDto.Description.NonNullValue<System.String>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(TenantBrandEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -99,13 +109,4 @@ internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntit
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class TenantBrandFactory : TenantBrandFactoryBase
-{
-    public TenantBrandFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

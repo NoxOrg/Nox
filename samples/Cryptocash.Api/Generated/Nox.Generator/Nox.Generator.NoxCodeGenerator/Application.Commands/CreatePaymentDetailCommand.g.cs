@@ -64,7 +64,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.CustomerId is not null)
 		{
 			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Int64>());
@@ -76,7 +76,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		}
 		else if(request.EntityDto.Customer is not null)
 		{
-			var relatedEntity = CustomerFactory.CreateEntity(request.EntityDto.Customer);
+			var relatedEntity = await CustomerFactory.CreateEntityAsync(request.EntityDto.Customer);
 			entityToCreate.CreateRefToCustomer(relatedEntity);
 		}
 		if(request.EntityDto.PaymentProviderId is not null)
@@ -90,7 +90,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		}
 		else if(request.EntityDto.PaymentProvider is not null)
 		{
-			var relatedEntity = PaymentProviderFactory.CreateEntity(request.EntityDto.PaymentProvider);
+			var relatedEntity = await PaymentProviderFactory.CreateEntityAsync(request.EntityDto.PaymentProvider);
 			entityToCreate.CreateRefToPaymentProvider(relatedEntity);
 		}
 

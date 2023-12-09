@@ -4,7 +4,7 @@
 /// The json type options.
 /// </summary>
 
-public sealed class JsonTypeOptions
+public sealed class JsonTypeOptions : INoxTypeOptions
 {
     /// <summary>
     /// Gets or sets a value indicating whether persist minified.

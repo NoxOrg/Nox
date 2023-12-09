@@ -60,7 +60,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.WorkplacesId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.WorkplacesId)
@@ -78,7 +78,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Workplaces)
 			{
-				var relatedEntity = WorkplaceFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await WorkplaceFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToWorkplaces(relatedEntity);
 			}
 		}

@@ -15,7 +15,7 @@ internal static class TestEntityOwnedRelationshipExactlyOneExtensions
         var dto = new TestEntityOwnedRelationshipExactlyOneDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
         dto.SetIfNotNull(entity?.TextTestField, (dto) => dto.TextTestField =entity!.TextTestField!.Value);
-        dto.SetIfNotNull(entity?.SecondTestEntityOwnedRelationshipExactlyOne, (dto) => dto.SecondTestEntityOwnedRelationshipExactlyOne = entity!.SecondTestEntityOwnedRelationshipExactlyOne!.ToDto());
+        dto.SetIfNotNull(entity?.SecEntityOwnedRelExactlyOne, (dto) => dto.SecEntityOwnedRelExactlyOne = entity!.SecEntityOwnedRelExactlyOne!.ToDto());
 
         return dto;
     }

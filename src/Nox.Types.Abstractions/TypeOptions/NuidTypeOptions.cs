@@ -5,7 +5,7 @@ namespace Nox.Types;
 /// <summary>
 /// Defines Nuid type construction. Nuid = Prefix{separator}{propertyName joined by separator}</code>
 /// </summary>
-public class NuidTypeOptions
+public class NuidTypeOptions : INoxTypeOptions
 {
     /// <summary>
     /// Prefix is involved in Nuid construction. Prefix is added before property names.

@@ -4,6 +4,7 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Types.EntityFramework.Types;
 using System.IO.Pipes;
+using Nox.Types.EntityFramework.Configurations;
 
 namespace Nox.EntityFramework.SqlServer.Types;
 
@@ -14,7 +15,7 @@ public class SqlServerAutoNumberDatabaseConfigurator : AutoNumberDatabaseConfigu
 
     public override void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        NoxSimpleTypeDefinition property,
+        NoxTypeDatabaseConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder,
@@ -27,7 +28,7 @@ public class SqlServerAutoNumberDatabaseConfigurator : AutoNumberDatabaseConfigu
 
         if (isKey)
         {
-            var typeOptions = property.AutoNumberTypeOptions ??= new AutoNumberTypeOptions();
+            var typeOptions = property.GetTypeOptions<AutoNumberTypeOptions>();
             var metadata = builder
                 .Property(property.Name).ValueGeneratedOnAdd()
                 .Metadata;
@@ -36,7 +37,7 @@ public class SqlServerAutoNumberDatabaseConfigurator : AutoNumberDatabaseConfigu
         }
         else if (shouldAutoincrement)
         {
-            ConfigureSequence(modelBuilder, entity, property, property.AutoNumberTypeOptions ??= new AutoNumberTypeOptions());
+            ConfigureSequence(modelBuilder, entity, property, property.GetTypeOptions<AutoNumberTypeOptions>());
 
             builder
                 .Property(property.Name)
@@ -45,7 +46,7 @@ public class SqlServerAutoNumberDatabaseConfigurator : AutoNumberDatabaseConfigu
         }
         base.ConfigureEntityProperty(noxSolutionCodeGeneratorState, property, entity, isKey, modelBuilder, builder);
     }
-    private void ConfigureSequence(ModelBuilder modelBuilder, Entity entity, NoxSimpleTypeDefinition property, AutoNumberTypeOptions typeOptions)
+    private void ConfigureSequence(ModelBuilder modelBuilder, Entity entity, NoxTypeDatabaseConfiguration property, AutoNumberTypeOptions typeOptions)
     {
         var seqName = $"Seq{entity.Name}{property.Name}";
 

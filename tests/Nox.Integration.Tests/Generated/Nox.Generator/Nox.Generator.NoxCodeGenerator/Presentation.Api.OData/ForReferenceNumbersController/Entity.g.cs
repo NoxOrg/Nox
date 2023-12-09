@@ -120,15 +120,7 @@ public abstract partial class ForReferenceNumbersControllerBase : ODataControlle
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
-        var updatedProperties = new Dictionary<string, dynamic>();
-
-        foreach (var propertyName in forReferenceNumber.GetChangedPropertyNames())
-        {
-            if (forReferenceNumber.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updatedProperties[propertyName] = value;
-            }
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<ForReferenceNumberPartialUpdateDto>(forReferenceNumber);
 
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateForReferenceNumberCommand(key, updatedProperties, _cultureCode, etag));

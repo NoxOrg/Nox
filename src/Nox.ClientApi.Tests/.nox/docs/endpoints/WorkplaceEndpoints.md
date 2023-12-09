@@ -83,3 +83,11 @@ This document provides information about the various endpoints available in our 
 [Country](CountryEndpoints.md)
 
 [Tenant](TenantEndpoints.md)
+
+## Localized Endpoints
+
+- **GET** `/api/Workplaces/{key}/WorkplacesLocalized`
+  - Description: Retrieve all WorkplacesLocalized for a specific Workplace.
+
+- **PUT** `/api/Workplaces/{key}/WorkplacesLocalized/{cultureCode}`
+    - Description: Update or create values of WorkplaceLocalized for a specific Workplace. Requires a payload with the new value of WorkplaceLocalizedUpsertDto.

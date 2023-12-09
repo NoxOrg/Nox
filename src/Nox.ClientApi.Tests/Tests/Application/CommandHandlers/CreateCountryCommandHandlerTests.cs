@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Xunit.Abstractions;
-using ClientApi.Tests.Controllers;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Tests.Application.CommandHandlers;

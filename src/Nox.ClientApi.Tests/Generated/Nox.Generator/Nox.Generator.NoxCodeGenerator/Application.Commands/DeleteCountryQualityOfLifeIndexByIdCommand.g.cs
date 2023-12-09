@@ -16,7 +16,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record DeleteCountryQualityOfLifeIndexByIdCommand(IEnumerable<CountryQualityOfLifeIndexKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteCountryQualityOfLifeIndexByIdCommandHandler : DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase
+internal partial class DeleteCountryQualityOfLifeIndexByIdCommandHandler : DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase
 {
 	public DeleteCountryQualityOfLifeIndexByIdCommandHandler(
         AppDbContext dbContext,

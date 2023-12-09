@@ -23,6 +23,15 @@ using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Factories;
 
+internal partial class VendingMachineFactory : VendingMachineFactoryBase
+{
+    public VendingMachineFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachineEntity, VendingMachineCreateDto, VendingMachineUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
         _repository = repository;
     }
 
-    public virtual VendingMachineEntity CreateEntity(VendingMachineCreateDto createDto)
+    public virtual async Task<VendingMachineEntity> CreateEntityAsync(VendingMachineCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
         }        
     }
 
-    public virtual void UpdateEntity(VendingMachineEntity entity, VendingMachineUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(VendingMachineEntity entity, VendingMachineUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(VendingMachineEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,7 +66,7 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private Cryptocash.Domain.VendingMachine ToEntity(VendingMachineCreateDto createDto)
+    private async Task<Cryptocash.Domain.VendingMachine> ToEntityAsync(VendingMachineCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.VendingMachine();
         entity.MacAddress = Cryptocash.Domain.VendingMachineMetadata.CreateMacAddress(createDto.MacAddress);
@@ -68,10 +77,10 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
         entity.SetIfNotNull(createDto.InstallationFootPrint, (entity) => entity.InstallationFootPrint =Cryptocash.Domain.VendingMachineMetadata.CreateInstallationFootPrint(createDto.InstallationFootPrint.NonNullValue<System.Decimal>()));
         entity.SetIfNotNull(createDto.RentPerSquareMetre, (entity) => entity.RentPerSquareMetre =Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(createDto.RentPerSquareMetre.NonNullValue<MoneyDto>()));
         entity.EnsureId(createDto.Id);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(VendingMachineEntity entity, VendingMachineUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(VendingMachineEntity entity, VendingMachineUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.MacAddress = Cryptocash.Domain.VendingMachineMetadata.CreateMacAddress(updateDto.MacAddress.NonNullValue<System.String>());
         entity.PublicIp = Cryptocash.Domain.VendingMachineMetadata.CreatePublicIp(updateDto.PublicIp.NonNullValue<System.String>());
@@ -94,6 +103,7 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
         {
             entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(updateDto.RentPerSquareMetre.ToValueFromNonNull<MoneyDto>());
         }
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(VendingMachineEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -128,7 +138,9 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
                 throw new ArgumentException("Attribute 'GeoLocation' can't be null");
             }
             {
-                entity.GeoLocation = Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(GeoLocationUpdateValue);
+                var entityToUpdate = entity.GeoLocation is null ? new LatLongDto() : entity.GeoLocation.ToDto();
+                LatLongDto.UpdateFromDictionary(entityToUpdate, GeoLocationUpdateValue);
+                entity.GeoLocation = Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(entityToUpdate);
             }
         }
 
@@ -139,7 +151,9 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
                 throw new ArgumentException("Attribute 'StreetAddress' can't be null");
             }
             {
-                entity.StreetAddress = Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(StreetAddressUpdateValue);
+                var entityToUpdate = entity.StreetAddress is null ? new StreetAddressDto() : entity.StreetAddress.ToDto();
+                StreetAddressDto.UpdateFromDictionary(entityToUpdate, StreetAddressUpdateValue);
+                entity.StreetAddress = Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(entityToUpdate);
             }
         }
 
@@ -168,20 +182,13 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
             if (RentPerSquareMetreUpdateValue == null) { entity.RentPerSquareMetre = null; }
             else
             {
-                entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(RentPerSquareMetreUpdateValue);
+                var entityToUpdate = entity.RentPerSquareMetre is null ? new MoneyDto() : entity.RentPerSquareMetre.ToDto();
+                MoneyDto.UpdateFromDictionary(entityToUpdate, RentPerSquareMetreUpdateValue);
+                entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(entityToUpdate);
             }
         }
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class VendingMachineFactory : VendingMachineFactoryBase
-{
-    public VendingMachineFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

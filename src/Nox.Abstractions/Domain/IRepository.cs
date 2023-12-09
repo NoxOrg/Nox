@@ -17,4 +17,11 @@ public interface IRepository
     /// Deletes a range of Owned Entities
     /// </summary>
     void DeleteOwned<T>(IEnumerable<T> entities) where T : IOwnedEntity;
+
+    /// <summary>
+    /// Gets and Consumes a Sequence Next Value
+    /// </summary>
+    /// <param name="sequenceName"></param>
+    /// <returns></returns>
+    Task<long> GetSequenceNextValueAsync(string sequenceName);
 }

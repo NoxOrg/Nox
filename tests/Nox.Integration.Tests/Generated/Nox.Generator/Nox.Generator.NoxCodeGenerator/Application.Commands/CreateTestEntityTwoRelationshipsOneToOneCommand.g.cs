@@ -60,7 +60,7 @@ internal abstract class CreateTestEntityTwoRelationshipsOneToOneCommandHandlerBa
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.TestRelationshipOneId is not null)
 		{
 			var relatedKey = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOneMetadata.CreateId(request.EntityDto.TestRelationshipOneId.NonNullValue<System.String>());
@@ -72,7 +72,7 @@ internal abstract class CreateTestEntityTwoRelationshipsOneToOneCommandHandlerBa
 		}
 		else if(request.EntityDto.TestRelationshipOne is not null)
 		{
-			var relatedEntity = SecondTestEntityTwoRelationshipsOneToOneFactory.CreateEntity(request.EntityDto.TestRelationshipOne);
+			var relatedEntity = await SecondTestEntityTwoRelationshipsOneToOneFactory.CreateEntityAsync(request.EntityDto.TestRelationshipOne);
 			entityToCreate.CreateRefToTestRelationshipOne(relatedEntity);
 		}
 		if(request.EntityDto.TestRelationshipTwoId is not null)
@@ -86,7 +86,7 @@ internal abstract class CreateTestEntityTwoRelationshipsOneToOneCommandHandlerBa
 		}
 		else if(request.EntityDto.TestRelationshipTwo is not null)
 		{
-			var relatedEntity = SecondTestEntityTwoRelationshipsOneToOneFactory.CreateEntity(request.EntityDto.TestRelationshipTwo);
+			var relatedEntity = await SecondTestEntityTwoRelationshipsOneToOneFactory.CreateEntityAsync(request.EntityDto.TestRelationshipTwo);
 			entityToCreate.CreateRefToTestRelationshipTwo(relatedEntity);
 		}
 

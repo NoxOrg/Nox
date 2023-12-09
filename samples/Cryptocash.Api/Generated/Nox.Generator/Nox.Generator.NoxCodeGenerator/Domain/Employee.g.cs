@@ -55,43 +55,43 @@ internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcu
     /// Employee's unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// Employee's first name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text FirstName { get; set; } = null!;
+    public Nox.Types.Text FirstName { get;  set; } = null!;
 
     /// <summary>
     /// Employee's last name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text LastName { get; set; } = null!;
+    public Nox.Types.Text LastName { get;  set; } = null!;
 
     /// <summary>
     /// Employee's email address    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Email EmailAddress { get; set; } = null!;
+    public Nox.Types.Email EmailAddress { get;  set; } = null!;
 
     /// <summary>
     /// Employee's street address    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.StreetAddress Address { get; set; } = null!;
+    public Nox.Types.StreetAddress Address { get;  set; } = null!;
 
     /// <summary>
     /// Employee's first working day    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Date FirstWorkingDay { get; set; } = null!;
+    public Nox.Types.Date FirstWorkingDay { get;  set; } = null!;
 
     /// <summary>
     /// Employee's last working day    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Date? LastWorkingDay { get; set; } = null!;
+    public Nox.Types.Date? LastWorkingDay { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

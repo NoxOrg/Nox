@@ -19,6 +19,7 @@ Description|Text|Workplace Description
 Greeting|Formula|The Formula
 CountryId|AutoNumber|The unique identifier
 TenantId|Nuid|
+*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
 ### `WorkplaceUpdated`
@@ -36,6 +37,7 @@ Description|Text|Workplace Description
 Greeting|Formula|The Formula
 CountryId|AutoNumber|The unique identifier
 TenantId|Nuid|
+*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
 ### `WorkplaceDeleted`
@@ -53,4 +55,5 @@ Description|Text|Workplace Description
 Greeting|Formula|The Formula
 CountryId|AutoNumber|The unique identifier
 TenantId|Nuid|
+*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

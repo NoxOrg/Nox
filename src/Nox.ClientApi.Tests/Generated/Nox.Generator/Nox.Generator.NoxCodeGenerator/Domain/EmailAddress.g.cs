@@ -55,8 +55,8 @@ internal abstract partial class EmailAddressBase : EntityBase, IOwnedEntity
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Guid StoreId {get; set;} = null!;
-         /// <summary>
+    public Nox.Types.Guid StoreId {get; private set;} = null!;
+        /// <summary>
         /// Ensures that a Guid Id is set or will be generate a new one
         /// </summary>
     	public virtual void EnsureStoreId(System.Guid? guid)
@@ -75,13 +75,13 @@ internal abstract partial class EmailAddressBase : EntityBase, IOwnedEntity
     /// Email    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Email? Email { get; set; } = null!;
+    public Nox.Types.Email? Email { get;  set; } = null!;
 
     /// <summary>
     /// Verified    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Boolean? IsVerified { get; set; } = null!;
+    public Nox.Types.Boolean? IsVerified { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

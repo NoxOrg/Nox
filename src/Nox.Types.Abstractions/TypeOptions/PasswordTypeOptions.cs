@@ -2,7 +2,7 @@
 using System;
 
 namespace Nox.Types;
-public class PasswordTypeOptions
+public class PasswordTypeOptions : INoxTypeOptions
 {
     public HashingAlgorithm HashingAlgorithm { get; set; } = HashingAlgorithm.SHA256;
     public int SaltLength { get; set; } = 64;

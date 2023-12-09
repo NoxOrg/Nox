@@ -60,7 +60,7 @@ internal abstract class CreateTestEntityTwoRelationshipsOneToManyCommandHandlerB
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.TestRelationshipOneId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.TestRelationshipOneId)
@@ -78,7 +78,7 @@ internal abstract class CreateTestEntityTwoRelationshipsOneToManyCommandHandlerB
 		{
 			foreach(var relatedCreateDto in request.EntityDto.TestRelationshipOne)
 			{
-				var relatedEntity = SecondTestEntityTwoRelationshipsOneToManyFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await SecondTestEntityTwoRelationshipsOneToManyFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToTestRelationshipOne(relatedEntity);
 			}
 		}
@@ -99,7 +99,7 @@ internal abstract class CreateTestEntityTwoRelationshipsOneToManyCommandHandlerB
 		{
 			foreach(var relatedCreateDto in request.EntityDto.TestRelationshipTwo)
 			{
-				var relatedEntity = SecondTestEntityTwoRelationshipsOneToManyFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await SecondTestEntityTwoRelationshipsOneToManyFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToTestRelationshipTwo(relatedEntity);
 			}
 		}

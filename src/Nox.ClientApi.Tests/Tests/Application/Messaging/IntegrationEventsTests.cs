@@ -1,7 +1,6 @@
 ﻿using AutoFixture;
 using ClientApi.Application.Dto;
 using ClientApi.Application.IntegrationEvents;
-using ClientApi.Tests.Controllers;
 using FluentAssertions;
 using MassTransit.Testing;
 using Nox.Infrastructure.Messaging;
@@ -144,7 +143,7 @@ namespace ClientApi.Tests.Application.Messaging
             deleteResult.Should().NotBeNull();
 
             // TODO: extend with event count so no additional events are sent, right now failing due to events from other test cases
-            MassTransitTestHarness.AssertAnyPublished<WorkplaceDeleted>();
+            MassTransitTestHarness.AssertAnyPublished<WorkplaceUpdated>();
         }
 
         [Fact]

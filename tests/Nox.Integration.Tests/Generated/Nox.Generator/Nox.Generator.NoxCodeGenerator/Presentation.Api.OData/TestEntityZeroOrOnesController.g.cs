@@ -135,7 +135,9 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/v1/TestEntityZeroOrOnes/{key}/SecondTestEntityZeroOrOne")]

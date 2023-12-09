@@ -1,5 +1,4 @@
 using ClientApi.Application.Dto;
-using ClientApi.Tests.Controllers;
 using FluentAssertions;
 using Xunit.Abstractions;
 

@@ -120,15 +120,7 @@ public abstract partial class TestEntityZeroOrManyToOneOrManiesControllerBase : 
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
-        var updatedProperties = new Dictionary<string, dynamic>();
-
-        foreach (var propertyName in testEntityZeroOrManyToOneOrMany.GetChangedPropertyNames())
-        {
-            if (testEntityZeroOrManyToOneOrMany.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updatedProperties[propertyName] = value;
-            }
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<TestEntityZeroOrManyToOneOrManyPartialUpdateDto>(testEntityZeroOrManyToOneOrMany);
 
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityZeroOrManyToOneOrManyCommand(key, updatedProperties, _cultureCode, etag));

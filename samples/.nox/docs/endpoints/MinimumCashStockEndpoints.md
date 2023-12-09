@@ -83,3 +83,4 @@ This document provides information about the various endpoints available in our 
 [VendingMachine](VendingMachineEndpoints.md)
 
 [Currency](CurrencyEndpoints.md)
+

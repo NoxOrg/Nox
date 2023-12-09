@@ -23,6 +23,15 @@ using TenantContactEntity = ClientApi.Domain.TenantContact;
 
 namespace ClientApi.Application.Factories;
 
+internal partial class TenantContactFactory : TenantContactFactoryBase
+{
+    public TenantContactFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactE
         _repository = repository;
     }
 
-    public virtual TenantContactEntity CreateEntity(TenantContactUpsertDto createDto)
+    public virtual async Task<TenantContactEntity> CreateEntityAsync(TenantContactUpsertDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactE
         }        
     }
 
-    public virtual void UpdateEntity(TenantContactEntity entity, TenantContactUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(TenantContactEntity entity, TenantContactUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TenantContactEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,20 +66,21 @@ internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactE
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private ClientApi.Domain.TenantContact ToEntity(TenantContactUpsertDto createDto)
+    private async Task<ClientApi.Domain.TenantContact> ToEntityAsync(TenantContactUpsertDto createDto)
     {
         var entity = new ClientApi.Domain.TenantContact();
         entity.Name = ClientApi.Domain.TenantContactMetadata.CreateName(createDto.Name);
         entity.Description = ClientApi.Domain.TenantContactMetadata.CreateDescription(createDto.Description);
         entity.Email = ClientApi.Domain.TenantContactMetadata.CreateEmail(createDto.Email);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(TenantContactEntity entity, TenantContactUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(TenantContactEntity entity, TenantContactUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = ClientApi.Domain.TenantContactMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         if(IsDefaultCultureCode(cultureCode)) entity.Description = ClientApi.Domain.TenantContactMetadata.CreateDescription(updateDto.Description.NonNullValue<System.String>());
         entity.Email = ClientApi.Domain.TenantContactMetadata.CreateEmail(updateDto.Email.NonNullValue<System.String>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(TenantContactEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -112,13 +122,4 @@ internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactE
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class TenantContactFactory : TenantContactFactoryBase
-{
-    public TenantContactFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

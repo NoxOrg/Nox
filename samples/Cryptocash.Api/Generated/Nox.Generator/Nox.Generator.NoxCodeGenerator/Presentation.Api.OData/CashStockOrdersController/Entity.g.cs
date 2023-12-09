@@ -120,15 +120,7 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
-        var updatedProperties = new Dictionary<string, dynamic>();
-
-        foreach (var propertyName in cashStockOrder.GetChangedPropertyNames())
-        {
-            if (cashStockOrder.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updatedProperties[propertyName] = value;
-            }
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CashStockOrderPartialUpdateDto>(cashStockOrder);
 
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateCashStockOrderCommand(key, updatedProperties, _cultureCode, etag));
