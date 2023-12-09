@@ -58,6 +58,7 @@ public class ApiRouteMappingDocumentFilter : IDocumentFilter
                     Name = inputParam.Name,
                     Description = inputParam.Description ?? string.Empty,
                     AllowEmptyValue = !inputParam.IsRequired,
+                    In = FindParameterLocationInRoute(inputParam.Name, route.Route),
                     Schema = new OpenApiSchema()
                     {
                         Type = inputParam.JsonTypeString,
@@ -67,6 +68,11 @@ public class ApiRouteMappingDocumentFilter : IDocumentFilter
                 if (inputParam.Default is not null)
                 {
                     p.Schema.Default = DefaultToOpenApiAny(inputParam);
+                }
+
+                if (inputParam.Format is not null)
+                {
+                    p.Schema.Format = inputParam.JsonFormatString;
                 }
 
                 operation.Parameters.Add(p);
@@ -86,7 +92,7 @@ public class ApiRouteMappingDocumentFilter : IDocumentFilter
                         {
                             Schema = ToOpenApiSchema(route.JsonBodyType)
                         }
-                    }
+                    },
                 };
             }
 
@@ -131,6 +137,16 @@ public class ApiRouteMappingDocumentFilter : IDocumentFilter
 
     }
 
+    private static ParameterLocation FindParameterLocationInRoute(string paramName, string route)
+    {
+        var parts = route.Split('?');
+
+        if (parts.Length == 2 && parts[1].Contains($"{paramName}"))
+            return ParameterLocation.Query;
+
+        return ParameterLocation.Path;
+    }
+
     private static OpenApiSchema ToOpenApiSchema(JsonTypeDefinition typeDefinition)
     {
 
@@ -138,47 +154,24 @@ public class ApiRouteMappingDocumentFilter : IDocumentFilter
         {
             AdditionalPropertiesAllowed = false,
             Description = typeDefinition.Description,
+            Type = typeDefinition.JsonTypeString,
+            Format = typeDefinition.JsonFormatString,
         };
 
         switch (typeDefinition.Type)
         {
-            case JsonType.Number:
-                schema.Type = "number";
-                break;
-
-            case JsonType.String:
-                schema.Type = "string";
-                break;
-
-            case JsonType.DateString:
-                schema.Type = "string";
-                schema.Format = "date";
-                break;
-
-            case JsonType.Boolean:
-                schema.Type = "boolean";
-                break;
-
             case JsonType.Array:
-                schema.Type = "array";
                 schema.Items = ToOpenApiSchema(typeDefinition.Items);
                 break;
 
             case JsonType.Object:
-                schema.Type = "object";
                 schema.Properties = typeDefinition.Attributes
                     .ToDictionary(t => t.Name, ToOpenApiSchema);
-                break;
-
-            case JsonType.Null:
-                schema.Type = "null";
                 break;
 
             default:
                 break;
         }
-
-
 
         return schema;
     }
@@ -204,8 +197,8 @@ public class ApiRouteMappingDocumentFilter : IDocumentFilter
         return t.Type switch
         {
             JsonType.Number => new OpenApiDouble(Convert.ToDouble(t.Default)),
+            JsonType.Integer => new OpenApiInteger(Convert.ToInt32(t.Default)),
             JsonType.String => new OpenApiString((string)t.Default),
-            JsonType.DateString => new OpenApiString((string)t.Default),
             JsonType.Boolean => new OpenApiBoolean(Convert.ToBoolean(t.Default)),
             JsonType.Null => new OpenApiNull(),
             _ => throw new NotImplementedException(),
