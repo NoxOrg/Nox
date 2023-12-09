@@ -61,7 +61,7 @@ public abstract class ValueObject<T, TValueObject> : INoxType
     /// <param name="value">The value to be used for the value object.</param>
     /// <param name="result">The newly created value object instance.</param>
     /// <returns>True if the value object was created successfully, false otherwise.</returns>
-    public static bool TryFrom(T value, out TValueObject? result)
+    public static ValidationResult TryFrom(T value, out TValueObject? result)
     {
         var newObject = new TValueObject
         {
@@ -73,11 +73,13 @@ public abstract class ValueObject<T, TValueObject> : INoxType
         if (!validationResult.IsValid)
         {
             result = null;
-            return false;
         }
-
-        result = newObject;
-        return true;
+        else
+        {
+            result = newObject;
+        }
+        
+        return validationResult;
     }
 
     /// <summary>
