@@ -60,7 +60,7 @@ public class JsonTypeDefinition : YamlConfigNode<NoxSolution,ApiRouteMapping>
             JsonType.Array => "array",
             JsonType.Object => "object",
             JsonType.Null => "null",
-            _ => throw new NotImplementedException()
+            _ => throw new NotImplementedException($"JsonType [{type}] has no mapping to a Json schema type defined.")
         };
     }
     private static string ToJsonFormatString(JsonFormat format)
@@ -78,7 +78,7 @@ public class JsonTypeDefinition : YamlConfigNode<NoxSolution,ApiRouteMapping>
             JsonFormat.Password => "password",
             JsonFormat.Uri => "uri",
             JsonFormat.Uuid => "uuid",
-            _ => throw new NotImplementedException()
+            _ => throw new NotImplementedException($"JsonFormat [{format}] has no mapping to a Json schema format defined.")
         };
     }
 
