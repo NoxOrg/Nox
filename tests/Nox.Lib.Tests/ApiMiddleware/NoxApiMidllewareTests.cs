@@ -85,5 +85,4 @@ public class NoxApiMidllewareTests
         values.Should().BeNull();
 
     }
-
 }
