@@ -67,10 +67,10 @@ public class ApiRouteMatcher
                 {
                     _paramKeys[paramIndex] = patternSpan[startParamPos..i].ToString();
                     _paramSpanCoords[paramIndex++] = new(startParamPos, i);
-                    if (paramIndex == paramCount && segmentIndex < paramCount)
+                    if (paramIndex == paramCount && segmentIndex < segmentCount)
                     {
                         _segmentSpanCoords[segmentIndex++] =
-                            new(_paramSpanCoords[paramIndex - 1].EndPos + 1, patternSpan.Length - 1);
+                            new(_paramSpanCoords[paramIndex - 1].EndPos + 1, patternSpan.Length);
                         break;
                     }
                     startParamPos = -1;
@@ -188,13 +188,15 @@ public class ApiRouteMatcher
         var closedBraceCount = 0;
         foreach (var c in span)
         {
-            if (c == '{') openBraceCount++;
-            else if (c == '}') closedBraceCount++;
+            if (c == '{')
+                openBraceCount++;
+            else if (c == '}')
+                closedBraceCount++;
         }
         if (openBraceCount == closedBraceCount)
         {
             return openBraceCount;
         }
-        throw new ArgumentException($"Parameter open [{openBraceCount}] and closed [{closedBraceCount}] brace count mismatch in [{span}]");
+        throw new ArgumentException($"Parameter open and closed brace mismatch in [{span}].");
     }
 }

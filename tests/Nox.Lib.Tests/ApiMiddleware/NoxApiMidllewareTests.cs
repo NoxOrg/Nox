@@ -22,6 +22,18 @@ public class NoxApiMidllewareTests
     }
 
     [Fact]
+    public void RouteMatcher_With_Invalid_Braces_Throws_ArgumentException()
+    {
+
+        var notEnoughBraces = () => new ApiRouteMatcher("/this/{is/an/{invalid}/route");
+
+        notEnoughBraces
+            .Should()
+            .Throw<ArgumentException>()
+            .WithMessage($"Parameter open and closed brace mismatch in [*].");
+    }
+
+    [Fact]
     public void RouteMatcher_Parses_CnsecutiveParams_String()
     {
 
