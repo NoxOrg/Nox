@@ -132,15 +132,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
-        var updatedProperties = new Dictionary<string, dynamic>();
-
-        foreach (var propertyName in {{ToLowerFirstChar entity.Name}}.GetChangedPropertyNames())
-        {
-            if ({{ToLowerFirstChar entity.Name}}.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updatedProperties[propertyName] = value;
-            }
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<{{entity.Name}}PartialUpdateDto>({{ToLowerFirstChar entity.Name}});
         {{~ if !entity.IsOwnedEntity }}
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdate{{ entity.Name }}Command({{ primaryKeysQuery }}, updatedProperties, _cultureCode, etag));

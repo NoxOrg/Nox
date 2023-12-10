@@ -55,13 +55,13 @@ internal abstract partial class CountryTimeZoneBase : EntityBase, IOwnedEntity
     /// Country's time zone unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// Country's related time zone code    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.TimeZoneCode TimeZoneCode { get; set; } = null!;
+    public Nox.Types.TimeZoneCode TimeZoneCode { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

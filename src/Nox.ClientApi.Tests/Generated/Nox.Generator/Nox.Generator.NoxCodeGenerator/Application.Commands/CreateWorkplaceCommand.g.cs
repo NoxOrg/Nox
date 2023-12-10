@@ -5,6 +5,7 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Exceptions;
@@ -67,7 +68,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.CountryId is not null)
 		{
 			var relatedKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
@@ -79,7 +80,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		}
 		else if(request.EntityDto.Country is not null)
 		{
-			var relatedEntity = CountryFactory.CreateEntity(request.EntityDto.Country);
+			var relatedEntity = await CountryFactory.CreateEntityAsync(request.EntityDto.Country);
 			entityToCreate.CreateRefToCountry(relatedEntity);
 		}
 		if(request.EntityDto.TenantsId.Any())
@@ -99,7 +100,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Tenants)
 			{
-				var relatedEntity = TenantFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await TenantFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToTenants(relatedEntity);
 			}
 		}

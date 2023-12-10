@@ -55,35 +55,35 @@ internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntit
     /// Vending machine's order unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// Order amount    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Money Amount { get; set; } = null!;
+    public Nox.Types.Money Amount { get;  set; } = null!;
 
     /// <summary>
     /// Order requested delivery date    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Date RequestedDeliveryDate { get; set; } = null!;
+    public Nox.Types.Date RequestedDeliveryDate { get;  set; } = null!;
 
     /// <summary>
     /// Order delivery date    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.DateTime? DeliveryDateTime { get; set; } = null!;
+    public Nox.Types.DateTime? DeliveryDateTime { get;  set; } = null!;
 
     /// <summary>
     /// Order status    
     /// </summary>
     /// <remarks>Optional.</remarks>   
     public string? Status
-    { 
-        get { return DeliveryDateTime != null ? "delivered" : "ordered"; }
-        private set { }
-    }
+        { 
+            get { return DeliveryDateTime != null ? "delivered" : "ordered"; }
+            private set { }
+        }
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

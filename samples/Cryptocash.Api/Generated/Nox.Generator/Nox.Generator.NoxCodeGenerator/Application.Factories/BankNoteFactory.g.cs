@@ -23,6 +23,15 @@ using BankNoteEntity = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Factories;
 
+internal partial class BankNoteFactory : BankNoteFactoryBase
+{
+    public BankNoteFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
         _repository = repository;
     }
 
-    public virtual BankNoteEntity CreateEntity(BankNoteUpsertDto createDto)
+    public virtual async Task<BankNoteEntity> CreateEntityAsync(BankNoteUpsertDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
         }        
     }
 
-    public virtual void UpdateEntity(BankNoteEntity entity, BankNoteUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(BankNoteEntity entity, BankNoteUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(BankNoteEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,18 +66,19 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private Cryptocash.Domain.BankNote ToEntity(BankNoteUpsertDto createDto)
+    private async Task<Cryptocash.Domain.BankNote> ToEntityAsync(BankNoteUpsertDto createDto)
     {
         var entity = new Cryptocash.Domain.BankNote();
         entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(createDto.CashNote);
         entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(createDto.Value);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(BankNoteEntity entity, BankNoteUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(BankNoteEntity entity, BankNoteUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(updateDto.CashNote.NonNullValue<System.String>());
         entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(updateDto.Value.NonNullValue<MoneyDto>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(BankNoteEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -92,20 +102,13 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
                 throw new ArgumentException("Attribute 'Value' can't be null");
             }
             {
-                entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(ValueUpdateValue);
+                var entityToUpdate = entity.Value is null ? new MoneyDto() : entity.Value.ToDto();
+                MoneyDto.UpdateFromDictionary(entityToUpdate, ValueUpdateValue);
+                entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(entityToUpdate);
             }
         }
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class BankNoteFactory : BankNoteFactoryBase
-{
-    public BankNoteFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

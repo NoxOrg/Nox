@@ -39,6 +39,7 @@ internal static class ODataServiceCollectionExtensions
         builder.ComplexType<CountryTimeZoneUpsertDto>();
         builder.ComplexType<ClientPartialUpdateDto>();
         builder.ComplexType<HolidayUpsertDto>();
+        builder.ComplexType<ReferenceNumberEntityPartialUpdateDto>();
         builder.ComplexType<EmailAddressUpsertDto>();
 
         builder.EntitySet<CountryDto>("Countries");
@@ -77,6 +78,8 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<WorkplaceDto>().ContainsMany(e => e.Tenants);
         builder.EntityType<WorkplaceLocalizedDto>().HasKey(e => new { e.Id });
         builder.EntityType<WorkplaceDto>().Function("WorkplacesLocalized").ReturnsCollection<DtoNameSpace.WorkplaceLocalizedDto>();
+        builder.EntityType<WorkplaceDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<WorkplaceDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<StoreOwnerDto>("StoreOwners");
 		builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });
@@ -125,6 +128,11 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntitySet<HolidayDto>("Holidays");
 		builder.EntityType<HolidayDto>().HasKey(e => new { e.Id });
+
+        builder.EntitySet<ReferenceNumberEntityDto>("ReferenceNumberEntities");
+		builder.EntityType<ReferenceNumberEntityDto>().HasKey(e => new { e.Id });
+        builder.EntityType<ReferenceNumberEntityDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<ReferenceNumberEntityDto>().Ignore(e => e.Etag);
 
 		builder.EntityType<EmailAddressDto>().HasKey(e => new {  }); 
         // Setup Enumeration End Points

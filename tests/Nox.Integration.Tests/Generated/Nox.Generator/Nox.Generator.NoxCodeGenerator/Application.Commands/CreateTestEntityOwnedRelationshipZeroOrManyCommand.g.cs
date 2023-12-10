@@ -56,7 +56,7 @@ internal abstract class CreateTestEntityOwnedRelationshipZeroOrManyCommandHandle
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.TestEntityOwnedRelationshipZeroOrManies.Add(entityToCreate);
@@ -69,8 +69,8 @@ public class CreateTestEntityOwnedRelationshipZeroOrManyValidator : AbstractVali
 {
     public CreateTestEntityOwnedRelationshipZeroOrManyValidator()
     {
-		RuleFor(x => x.EntityDto.SecondTestEntityOwnedRelationshipZeroOrManies)
+		RuleFor(x => x.EntityDto.SecEntityOwnedRelZeroOrManies)
 			.Must(owned => owned.All(x => x.Id != null))
-			.WithMessage("SecondTestEntityOwnedRelationshipZeroOrManies.Id is required.");
+			.WithMessage("SecEntityOwnedRelZeroOrManies.Id is required.");
     }
 }

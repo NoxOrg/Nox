@@ -16,7 +16,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record DeleteWorkplaceByIdCommand(IEnumerable<WorkplaceKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteWorkplaceByIdCommandHandler : DeleteWorkplaceByIdCommandHandlerBase
+internal partial class DeleteWorkplaceByIdCommandHandler : DeleteWorkplaceByIdCommandHandlerBase
 {
 	public DeleteWorkplaceByIdCommandHandler(
         AppDbContext dbContext,
@@ -47,7 +47,7 @@ internal abstract class DeleteWorkplaceByIdCommandHandlerBase : CommandCollectio
 			var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.Workplaces.FindAsync(keyId);
-			if (entity == null)
+			if (entity == null || entity.IsDeleted == true)
 			{
 				return false;
 			}

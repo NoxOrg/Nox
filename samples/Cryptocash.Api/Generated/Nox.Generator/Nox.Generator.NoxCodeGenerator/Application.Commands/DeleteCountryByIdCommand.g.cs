@@ -16,7 +16,7 @@ namespace Cryptocash.Application.Commands;
 
 public partial record DeleteCountryByIdCommand(IEnumerable<CountryKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteCountryByIdCommandHandler : DeleteCountryByIdCommandHandlerBase
+internal partial class DeleteCountryByIdCommandHandler : DeleteCountryByIdCommandHandlerBase
 {
 	public DeleteCountryByIdCommandHandler(
         AppDbContext dbContext,

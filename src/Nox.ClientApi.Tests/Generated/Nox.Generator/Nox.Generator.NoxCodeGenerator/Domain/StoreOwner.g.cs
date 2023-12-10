@@ -55,43 +55,43 @@ internal abstract partial class StoreOwnerBase : AuditableEntityBase, IEntityCon
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get;  set; } = null!;
 
     /// <summary>
     /// Owner Name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get;  set; } = null!;
 
     /// <summary>
     /// Temporary Owner Name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text TemporaryOwnerName { get; set; } = null!;
+    public Nox.Types.Text TemporaryOwnerName { get;  set; } = null!;
 
     /// <summary>
     /// Vat Number    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.VatNumber? VatNumber { get; set; } = null!;
+    public Nox.Types.VatNumber? VatNumber { get;  set; } = null!;
 
     /// <summary>
     /// Street Address    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.StreetAddress? StreetAddress { get; set; } = null!;
+    public Nox.Types.StreetAddress? StreetAddress { get;  set; } = null!;
 
     /// <summary>
     /// Owner Greeting    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.TranslatedText? LocalGreeting { get; set; } = null!;
+    public Nox.Types.TranslatedText? LocalGreeting { get;  set; } = null!;
 
     /// <summary>
     /// Notes    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Text? Notes { get; set; } = null!;
+    public Nox.Types.Text? Notes { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

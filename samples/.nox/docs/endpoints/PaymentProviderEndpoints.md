@@ -57,3 +57,4 @@ This document provides information about the various endpoints available in our 
 ## Related Entities
 
 [PaymentDetail](PaymentDetailEndpoints.md)
+

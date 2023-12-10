@@ -1,0 +1,23 @@
+#
+# countriesByName.routeMapping.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../../schemas/apiRouteMapping.json
+#
+
+name: twoSeqSegmentsWithProperties
+description: test case for two sequential segments with properties
+httpVerb: put
+route: /countriesSeqSegProps/{CountryId}//{ExtraId}
+targetUrl: /countries?countryId={CountryId}&extraId={ExtraId}
+
+requestInput:
+  - name: CountryId
+    description: The Country Id
+    type: number
+
+responseOutput: 
+  name: result
+  description: result 
+  type: string
+  
+

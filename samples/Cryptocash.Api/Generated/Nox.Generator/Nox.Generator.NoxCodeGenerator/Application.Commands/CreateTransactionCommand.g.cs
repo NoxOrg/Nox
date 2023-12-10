@@ -64,7 +64,7 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.CustomerId is not null)
 		{
 			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Int64>());
@@ -76,7 +76,7 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		}
 		else if(request.EntityDto.Customer is not null)
 		{
-			var relatedEntity = CustomerFactory.CreateEntity(request.EntityDto.Customer);
+			var relatedEntity = await CustomerFactory.CreateEntityAsync(request.EntityDto.Customer);
 			entityToCreate.CreateRefToCustomer(relatedEntity);
 		}
 		if(request.EntityDto.BookingId is not null)
@@ -90,7 +90,7 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		}
 		else if(request.EntityDto.Booking is not null)
 		{
-			var relatedEntity = BookingFactory.CreateEntity(request.EntityDto.Booking);
+			var relatedEntity = await BookingFactory.CreateEntityAsync(request.EntityDto.Booking);
 			entityToCreate.CreateRefToBooking(relatedEntity);
 		}
 

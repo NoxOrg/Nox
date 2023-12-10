@@ -23,6 +23,15 @@ using TestEntityExactlyOneEntity = TestWebApp.Domain.TestEntityExactlyOne;
 
 namespace TestWebApp.Application.Factories;
 
+internal partial class TestEntityExactlyOneFactory : TestEntityExactlyOneFactoryBase
+{
+    public TestEntityExactlyOneFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class TestEntityExactlyOneFactoryBase : IEntityFactory<TestEntityExactlyOneEntity, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class TestEntityExactlyOneFactoryBase : IEntityFactory<TestEnt
         _repository = repository;
     }
 
-    public virtual TestEntityExactlyOneEntity CreateEntity(TestEntityExactlyOneCreateDto createDto)
+    public virtual async Task<TestEntityExactlyOneEntity> CreateEntityAsync(TestEntityExactlyOneCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class TestEntityExactlyOneFactoryBase : IEntityFactory<TestEnt
         }        
     }
 
-    public virtual void UpdateEntity(TestEntityExactlyOneEntity entity, TestEntityExactlyOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(TestEntityExactlyOneEntity entity, TestEntityExactlyOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TestEntityExactlyOneEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,17 +66,18 @@ internal abstract class TestEntityExactlyOneFactoryBase : IEntityFactory<TestEnt
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private TestWebApp.Domain.TestEntityExactlyOne ToEntity(TestEntityExactlyOneCreateDto createDto)
+    private async Task<TestWebApp.Domain.TestEntityExactlyOne> ToEntityAsync(TestEntityExactlyOneCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityExactlyOne();
         entity.Id = TestEntityExactlyOneMetadata.CreateId(createDto.Id);
         entity.TextTestField = TestWebApp.Domain.TestEntityExactlyOneMetadata.CreateTextTestField(createDto.TextTestField);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(TestEntityExactlyOneEntity entity, TestEntityExactlyOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(TestEntityExactlyOneEntity entity, TestEntityExactlyOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField = TestWebApp.Domain.TestEntityExactlyOneMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(TestEntityExactlyOneEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -87,13 +97,4 @@ internal abstract class TestEntityExactlyOneFactoryBase : IEntityFactory<TestEnt
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class TestEntityExactlyOneFactory : TestEntityExactlyOneFactoryBase
-{
-    public TestEntityExactlyOneFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

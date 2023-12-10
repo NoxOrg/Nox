@@ -5,8 +5,8 @@ using Nox.Types;
 using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
-using ClientApi.Tests.Controllers;
 using Nox.Application.Dto;
+using System.Dynamic;
 
 namespace ClientApi.Tests.Controllers;
 
@@ -49,8 +49,8 @@ public partial class CountriesControllerCompoundTypesTests : NoxWebApiTestBase
         putResult!.CountryDebt!.Amount.Should().Be(expectedAmount);
         putResult!.Name.Should().Be(expectedName);
     }
-    [Fact]
 
+    [Fact]
     public async Task WhenPutCompoundTypeLatLong_ShouldSucceed()
     {
         // Arrange
@@ -80,13 +80,13 @@ public partial class CountriesControllerCompoundTypesTests : NoxWebApiTestBase
         putResult!.CapitalCityLocation.Longitude.Should().Be(expectedLong);
         putResult!.Name.Should().Be(expectedName);
     }
-    [Fact(Skip= "Compound types in Delta changed properties will also be a Delta type, this needs used in the controller / factory")]
-    //[Fact]
+
+    
+    [Fact]
     public async Task WhenPatchCompoundTypeLatLong_ShouldSucceed()
     {
         // Arrange
         var expectedLat = 50;
-        var expectedLong = 55;
         var expectedName = _fixture.Create<string>();
         var dto = new CountryCreateDto
         {
@@ -95,9 +95,10 @@ public partial class CountriesControllerCompoundTypesTests : NoxWebApiTestBase
         };
         var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
 
+        //Act
         var updateDto = new CountryPartialUpdateDto
         {
-            CapitalCityLocation = new LatLongDto() {Latitude = expectedLat , Longitude = expectedLong},
+            CapitalCityLocation = new LatLongDto() {Latitude = expectedLat},
             Name = expectedName
 
         };
@@ -108,7 +109,41 @@ public partial class CountriesControllerCompoundTypesTests : NoxWebApiTestBase
         putResult.Should().NotBeNull();
         
         putResult!.CapitalCityLocation!.Latitude.Should().Be(expectedLat);
-        putResult!.CapitalCityLocation.Longitude.Should().Be(expectedLong);
+        putResult!.CapitalCityLocation.Longitude.Should().Be(result!.CapitalCityLocation!.Longitude);
         putResult!.Name.Should().Be(expectedName);
+    }
+
+    [Fact]
+    public async Task WhenPatchCompoundTypeMoney_ShouldSucceed()
+    {
+        // Arrange
+        var expectedAmount = 500000;
+        var expectedCurrencyCode = CurrencyCode.EUR;
+        var dto = new CountryCreateDto
+        {
+            Name = _fixture.Create<string>(),
+            CountryDebt = new MoneyDto { Amount = 100001, CurrencyCode = CurrencyCode.USD }
+        };
+        var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
+
+        //Act
+        var dictionary = new Dictionary<string, object>
+        {
+            { nameof(CountryDto.CountryDebt), new Dictionary<string, object>
+                {
+                    { nameof(MoneyDto.Amount), expectedAmount },
+                    { nameof(MoneyDto.CurrencyCode), expectedCurrencyCode.ToString() }
+                }
+            }
+        };
+        var headers = CreateEtagHeader(result!.Etag);
+        await PatchAsync($"{Endpoints.CountriesUrl}/{result!.Id}", dictionary, headers);
+        var putResult = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{result!.Id}");
+
+        //Assert
+        putResult.Should().NotBeNull();
+
+        putResult!.CountryDebt!.Amount.Should().Be(expectedAmount);
+        putResult!.CountryDebt.CurrencyCode.Should().Be(expectedCurrencyCode);
     }
 }

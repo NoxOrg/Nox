@@ -72,7 +72,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.CurrencyId is not null)
 		{
 			var relatedKey = Cryptocash.Domain.CurrencyMetadata.CreateId(request.EntityDto.CurrencyId.NonNullValue<System.String>());
@@ -84,7 +84,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		}
 		else if(request.EntityDto.Currency is not null)
 		{
-			var relatedEntity = CurrencyFactory.CreateEntity(request.EntityDto.Currency);
+			var relatedEntity = await CurrencyFactory.CreateEntityAsync(request.EntityDto.Currency);
 			entityToCreate.CreateRefToCurrency(relatedEntity);
 		}
 		if(request.EntityDto.CommissionsId.Any())
@@ -104,7 +104,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Commissions)
 			{
-				var relatedEntity = CommissionFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await CommissionFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToCommissions(relatedEntity);
 			}
 		}
@@ -125,7 +125,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		{
 			foreach(var relatedCreateDto in request.EntityDto.VendingMachines)
 			{
-				var relatedEntity = VendingMachineFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await VendingMachineFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToVendingMachines(relatedEntity);
 			}
 		}
@@ -146,7 +146,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Customers)
 			{
-				var relatedEntity = CustomerFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await CustomerFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToCustomers(relatedEntity);
 			}
 		}

@@ -55,19 +55,19 @@ internal abstract partial class BankNoteBase : EntityBase, IOwnedEntity
     /// Currency bank note unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// Currency's cash bank note identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text CashNote { get; set; } = null!;
+    public Nox.Types.Text CashNote { get;  set; } = null!;
 
     /// <summary>
     /// Bank note value    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Money Value { get; set; } = null!;
+    public Nox.Types.Money Value { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

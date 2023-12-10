@@ -60,7 +60,7 @@ internal abstract class CreateStoreOwnerCommandHandlerBase : CommandBase<CreateS
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.StoresId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.StoresId)
@@ -78,7 +78,7 @@ internal abstract class CreateStoreOwnerCommandHandlerBase : CommandBase<CreateS
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Stores)
 			{
-				var relatedEntity = StoreFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await StoreFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToStores(relatedEntity);
 			}
 		}

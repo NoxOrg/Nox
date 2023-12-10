@@ -170,7 +170,9 @@ public abstract partial class LandLordsControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/LandLords/{key}/VendingMachines/{relatedKey}")]

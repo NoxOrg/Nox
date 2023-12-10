@@ -29,5 +29,10 @@ public sealed class Repository : IRepository
 
         entities.ForEach(e => DeleteOwned(e));
     }
+
+    public async Task<long> GetSequenceNextValueAsync(string sequenceName)
+    {
+       return await _dbContext.GetSequenceNextValueAsync(sequenceName);
+    }
     #endregion
 }

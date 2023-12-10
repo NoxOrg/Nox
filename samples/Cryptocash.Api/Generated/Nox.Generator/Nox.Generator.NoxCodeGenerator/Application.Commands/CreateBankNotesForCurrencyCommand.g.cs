@@ -58,7 +58,7 @@ internal abstract class CreateBankNotesForCurrencyCommandHandlerBase : CommandBa
 			return null;
 		}
 
-		var entity = _entityFactory.CreateEntity(request.EntityDto);
+		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
 		parentEntity.CreateRefToBankNotes(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);

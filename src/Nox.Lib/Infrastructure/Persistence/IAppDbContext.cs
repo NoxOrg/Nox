@@ -10,5 +10,10 @@ namespace Nox.Infrastructure.Persistence
     public interface IAppDbContext 
     {
         EntityEntry Remove(object entity);
+
+        /// <summary>
+        /// Gets and Consumes a Sequence Next Value
+        /// </summary>
+        public Task<long> GetSequenceNextValueAsync(string sequenceName);        
     }
 }

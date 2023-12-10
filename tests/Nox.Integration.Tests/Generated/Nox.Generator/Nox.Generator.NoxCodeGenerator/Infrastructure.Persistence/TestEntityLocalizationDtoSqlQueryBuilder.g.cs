@@ -34,6 +34,7 @@ public class TestEntityLocalizationDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilde
 			.ForSqlServer(q => q.SelectRaw("COALESCE([TestEntityLocalizationsLocalized].[TextFieldToLocalize], (N'[' + COALESCE([TestEntityLocalizations].[TextFieldToLocalize], N'')) + N']') AS [TextFieldToLocalize]"))
 			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"TestEntityLocalizationsLocalized\".\"TextFieldToLocalize\", ('##OPEN##' || COALESCE(\"TestEntityLocalizations\".\"TextFieldToLocalize\", '')) || '##CLOSE##') AS \"TextFieldToLocalize\""))
 			.ForSqlite(q => q.SelectRaw("COALESCE(\"TestEntityLocalizationsLocalized\".\"TextFieldToLocalize\", ('##OPEN##' || COALESCE(\"TestEntityLocalizations\".\"TextFieldToLocalize\", '')) || '##CLOSE##') AS \"TextFieldToLocalize\""))
+			.Select("TestEntityLocalizations.DeletedAtUtc")
 			.Select("TestEntityLocalizations.Etag")
 			.LeftJoin(localizedEntityQuery, j => j.On("TestEntityLocalizationsLocalized.Id", "TestEntityLocalizations.Id"));
 

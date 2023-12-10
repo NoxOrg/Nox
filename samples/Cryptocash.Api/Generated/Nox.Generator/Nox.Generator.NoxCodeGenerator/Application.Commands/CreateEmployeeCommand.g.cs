@@ -60,7 +60,7 @@ internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmp
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.CashStockOrderId is not null)
 		{
 			var relatedKey = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.EntityDto.CashStockOrderId.NonNullValue<System.Int64>());
@@ -72,7 +72,7 @@ internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmp
 		}
 		else if(request.EntityDto.CashStockOrder is not null)
 		{
-			var relatedEntity = CashStockOrderFactory.CreateEntity(request.EntityDto.CashStockOrder);
+			var relatedEntity = await CashStockOrderFactory.CreateEntityAsync(request.EntityDto.CashStockOrder);
 			entityToCreate.CreateRefToCashStockOrder(relatedEntity);
 		}
 

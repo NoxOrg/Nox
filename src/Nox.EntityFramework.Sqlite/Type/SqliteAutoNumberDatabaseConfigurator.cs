@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Types.EntityFramework.Configurations;
 using Nox.Types.EntityFramework.Types;
 
 namespace Nox.EntityFramework.Sqlite.Type;
@@ -13,7 +14,7 @@ public class SqliteAutoNumberDatabaseConfigurator : AutoNumberDatabaseConfigurat
 
     public override void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        NoxSimpleTypeDefinition property,
+        NoxTypeDatabaseConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder, 

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Types.EntityFramework.Configurations;
 using Nox.Types.EntityFramework.Types;
 
 namespace Nox.EntityFramework.SqlServer.Types;
@@ -11,7 +12,7 @@ public class SqlServerDateRangeDatabaseConfigurator : DateTimeRangeDatabaseConfi
     public override bool IsDefault => false;
 
     public override void ConfigureEntityProperty(NoxCodeGenConventions noxSolutionCodeGeneratorState, 
-        NoxSimpleTypeDefinition property,
+        NoxTypeDatabaseConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder, 

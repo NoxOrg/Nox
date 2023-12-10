@@ -55,19 +55,19 @@ internal abstract partial class TestEntityLocalizationBase : AuditableEntityBase
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get;  set; } = null!;
 
     /// <summary>
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text TextFieldToLocalize { get; set; } = null!;
+    public Nox.Types.Text TextFieldToLocalize { get;  set; } = null!;
 
     /// <summary>
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Number NumberField { get; set; } = null!;
+    public Nox.Types.Number NumberField { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

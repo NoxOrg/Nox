@@ -16,7 +16,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record DeleteStoreOwnerByIdCommand(IEnumerable<StoreOwnerKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteStoreOwnerByIdCommandHandler : DeleteStoreOwnerByIdCommandHandlerBase
+internal partial class DeleteStoreOwnerByIdCommandHandler : DeleteStoreOwnerByIdCommandHandlerBase
 {
 	public DeleteStoreOwnerByIdCommandHandler(
         AppDbContext dbContext,

@@ -55,7 +55,7 @@ internal abstract partial class TenantContactBase : EntityBase, IOwnedEntity
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nuid TenantId {get; set;} = null!;
+    public Nuid TenantId {get; private set; } = null!;
        
     	public virtual void EnsureTenantId()
     	{
@@ -77,19 +77,19 @@ internal abstract partial class TenantContactBase : EntityBase, IOwnedEntity
     /// Teanant Brand Name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get;  set; } = null!;
 
     /// <summary>
     /// Teanant Brand Description    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Description { get; set; } = null!;
+    public Nox.Types.Text Description { get;  set; } = null!;
 
     /// <summary>
     /// Teanant Brand Email    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Email Email { get; set; } = null!;
+    public Nox.Types.Email Email { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

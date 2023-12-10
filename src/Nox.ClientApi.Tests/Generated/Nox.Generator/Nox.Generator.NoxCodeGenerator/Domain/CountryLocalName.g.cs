@@ -55,19 +55,19 @@ internal abstract partial class CountryLocalNameBase : EntityBase, IOwnedEntity
     /// The unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// Local name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get;  set; } = null!;
 
     /// <summary>
     /// Local name in native tongue    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Text? NativeName { get; set; } = null!;
+    public Nox.Types.Text? NativeName { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

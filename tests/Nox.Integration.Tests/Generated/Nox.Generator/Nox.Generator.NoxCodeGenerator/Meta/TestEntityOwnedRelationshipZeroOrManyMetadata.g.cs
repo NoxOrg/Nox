@@ -57,9 +57,9 @@ public partial class TestEntityOwnedRelationshipZeroOrManyMetadata
         
     
         /// <summary>
-        /// Type options for property 'SecondTestEntityOwnedRelationshipZeroOrManyId'
+        /// Type options for property 'SecEntityOwnedRelZeroOrManyId'
         /// </summary>
-        public static Nox.Types.TextTypeOptions SecondTestEntityOwnedRelationshipZeroOrManyIdTypeOptions {get; private set;} = new ()
+        public static Nox.Types.TextTypeOptions SecEntityOwnedRelZeroOrManyIdTypeOptions {get; private set;} = new ()
         {
             MinLength = 2,
             MaxLength = 2,
@@ -70,10 +70,10 @@ public partial class TestEntityOwnedRelationshipZeroOrManyMetadata
     
     
         /// <summary>
-        /// Factory for property 'SecondTestEntityOwnedRelationshipZeroOrManyId'
+        /// Factory for property 'SecEntityOwnedRelZeroOrManyId'
         /// </summary>
-        public static Nox.Types.Text CreateSecondTestEntityOwnedRelationshipZeroOrManyId(System.String value)
-            => Nox.Types.Text.From(value, SecondTestEntityOwnedRelationshipZeroOrManyIdTypeOptions);
+        public static Nox.Types.Text CreateSecEntityOwnedRelZeroOrManyId(System.String value)
+            => Nox.Types.Text.From(value, SecEntityOwnedRelZeroOrManyIdTypeOptions);
         
 
         /// <summary>

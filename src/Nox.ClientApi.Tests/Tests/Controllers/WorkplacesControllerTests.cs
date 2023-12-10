@@ -4,7 +4,6 @@ using AutoFixture;
 using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
-using ClientApi.Tests.Controllers;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using static MassTransit.ValidationResultExtensions;
 using Nox.Application.Dto;
@@ -275,7 +274,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var headers = CreateEtagHeader(postToCountryResponse!.Etag);
-            var putToCountryResponse = await PutAsync<CountryUpdateDto>(
+            var putToCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>(
                 $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
                 new CountryUpdateDto()
                 {
@@ -288,7 +287,8 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             putToCountryResponse.Should().NotBeNull();
-            putToCountryResponse!.StatusCode.Should().Be(HttpStatusCode.OK);
+            putToCountryResponse!.Id.Should().Be(postToCountryResponse!.Id);
+            putToCountryResponse!.Name.Should().Be(expectedName);
 
             getWorkplaceResponse.Should().NotBeNull();
             getWorkplaceResponse!.Id.Should().BeGreaterThan(0);

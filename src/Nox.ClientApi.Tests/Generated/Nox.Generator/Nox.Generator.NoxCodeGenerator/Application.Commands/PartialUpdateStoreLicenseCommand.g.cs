@@ -18,7 +18,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record PartialUpdateStoreLicenseCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <StoreLicenseKeyDto?>;
 
-internal class PartialUpdateStoreLicenseCommandHandler : PartialUpdateStoreLicenseCommandHandlerBase
+internal partial class PartialUpdateStoreLicenseCommandHandler : PartialUpdateStoreLicenseCommandHandlerBase
 {
 	public PartialUpdateStoreLicenseCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateStoreLicenseCommandHandler : PartialUpdateStoreLicen
 	{
 	}
 }
-internal class PartialUpdateStoreLicenseCommandHandlerBase : CommandBase<PartialUpdateStoreLicenseCommand, StoreLicenseEntity>, IRequestHandler<PartialUpdateStoreLicenseCommand, StoreLicenseKeyDto?>
+internal abstract class PartialUpdateStoreLicenseCommandHandlerBase : CommandBase<PartialUpdateStoreLicenseCommand, StoreLicenseEntity>, IRequestHandler<PartialUpdateStoreLicenseCommand, StoreLicenseKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> EntityFactory { get; }

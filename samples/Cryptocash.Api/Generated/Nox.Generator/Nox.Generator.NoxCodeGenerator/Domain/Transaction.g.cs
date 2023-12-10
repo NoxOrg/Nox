@@ -55,31 +55,31 @@ internal abstract partial class TransactionBase : AuditableEntityBase, IEntityCo
     /// Customer transaction unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// Transaction type    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text TransactionType { get; set; } = null!;
+    public Nox.Types.Text TransactionType { get;  set; } = null!;
 
     /// <summary>
     /// Transaction processed datetime    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.DateTime ProcessedOnDateTime { get; set; } = null!;
+    public Nox.Types.DateTime ProcessedOnDateTime { get;  set; } = null!;
 
     /// <summary>
     /// Transaction amount    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Money Amount { get; set; } = null!;
+    public Nox.Types.Money Amount { get;  set; } = null!;
 
     /// <summary>
     /// Transaction external reference    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Reference { get; set; } = null!;
+    public Nox.Types.Text Reference { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

@@ -11,8 +11,7 @@ This document provides information about Integration Events. Integration Events 
     - [CountryDeleted](#CountryDeleted)
 
     - [StoreUpdated](#StoreUpdated)
-    - [WorkplaceDeleted](#WorkplaceDeleted)
-
+    - [WorkplaceUpdated](#WorkplaceUpdated)
     - [StoreOwnerCreated](#StoreOwnerCcreated)- [Custom Integration Events](#custom-integration-events)
     - [CountryPopulationHigherThan100M](#CountryPopulationHigherThan100M)
 
@@ -172,10 +171,10 @@ StoreOwnerId|System.String|
 ClientId|System.Guid|
 
 
-### `WorkplaceDeleted`
+### `WorkplaceUpdated`
 
 **Description:**
-This event is triggered when an entity Workplace is deleted.
+This event is triggered when an existing Workplace is updated.
 
 **Topic:** Workplace
 
@@ -186,15 +185,16 @@ Attribute|Type|Example
 specversion|SemanticVersion|1.0
 id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
 source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://Nox-Tests.com/ClientApi
-type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|Nox-Tests.ClientApi.Workplace.v1.0.WorkplaceDeleted
+type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|Nox-Tests.ClientApi.Workplace.v1.0.WorkplaceUpdated
 datacontenttype|ContentType|application/json
-dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://Nox-Tests.com/schemas/ClientApi/Workplace/v1.0/WorkplaceDeleted.json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://Nox-Tests.com/schemas/ClientApi/Workplace/v1.0/WorkplaceUpdated.json
 time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
 xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
 xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
 data|Json|Data Field Attributes
 
 **Data Field Attributes**
+
 Attribute|Type|Description
 ---------|----|-----------
 Workplace|[Workplace](#Workplace-Attributes)|Workplace
