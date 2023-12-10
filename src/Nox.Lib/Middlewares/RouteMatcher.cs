@@ -171,12 +171,9 @@ public class ApiRouteMatcher
 
     public string TransformTo(string pattern, IDictionary<string,object> variables)
     {
-        var routePatternSpan = _routePattern.AsSpan();
         var sbTo = new StringBuilder(pattern, 2048);
-
-        foreach (var (StartPos,EndPos) in _paramSpanCoords)
+        foreach (var param in _paramKeys)
         {
-            var param = routePatternSpan[StartPos..EndPos].ToString();
             sbTo.Replace($"{{{param}}}", variables[param].ToString());
         }
         return sbTo.ToString();
