@@ -477,4 +477,5 @@ $RECYCLE.BIN/
 *.lnk
 .vscode/settings.json
 
-src/.idea/.idea.Nox.Generator/.idea/
+# Rider IDE specific content
+*/.idea/
