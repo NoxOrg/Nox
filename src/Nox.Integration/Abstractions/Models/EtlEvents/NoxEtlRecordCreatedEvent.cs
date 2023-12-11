@@ -1,6 +1,4 @@
-using Nox.Integration.Abstractions;
-
-namespace Nox.Integration.EtlEvents;
+namespace Nox.Integration.Abstractions.Models;
 
 public class NoxEtlRecordCreatedEvent<TPayload>: INoxEtlEvent<TPayload> where TPayload: INoxEtlEventPayload
 {

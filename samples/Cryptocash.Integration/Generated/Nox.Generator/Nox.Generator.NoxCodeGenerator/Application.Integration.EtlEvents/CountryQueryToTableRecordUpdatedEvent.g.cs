@@ -3,8 +3,8 @@
 #nullable enable
 
 using MediatR;
-using Nox.Integration.Abstractions;
-using Nox.Integration.EtlEvents;
+using Nox.Integration.Abstractions.Interfaces;
+using Nox.Integration.Abstractions.Models;
 
 namespace CryptocashIntegration.Application.Integrations;
 

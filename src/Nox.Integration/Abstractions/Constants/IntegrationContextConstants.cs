@@ -1,4 +1,4 @@
-namespace Nox.Integration.Constants;
+namespace Nox.Integration.Abstractions.Constants;
 
 public static class IntegrationContextConstants
 {

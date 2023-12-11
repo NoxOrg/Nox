@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Nox.Integration.Abstractions;
-using Nox.Integration.Constants;
+using Nox.Integration.Abstractions.Constants;
 
 namespace Nox.Integration.Services;
 

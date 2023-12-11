@@ -1,4 +1,4 @@
-namespace Nox.Integration.Abstractions.Adapters;
+namespace Nox.Integration.Abstractions.Interfaces;
 
 public interface INoxSendAdapterResponse
 {

@@ -3,7 +3,7 @@
 #nullable enable
 
 using MediatR;
-using Nox.Integration.EtlEvents;
+using Nox.Integration.Abstractions.Models;
 
 namespace TestIntegrationSolution.Application.Integrations;
 

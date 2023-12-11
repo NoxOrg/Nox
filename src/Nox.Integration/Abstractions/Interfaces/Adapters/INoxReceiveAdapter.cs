@@ -1,7 +1,8 @@
 using System.Dynamic;
 using ETLBox;
+using Nox.Integration.Abstractions.Models;
 
-namespace Nox.Integration.Abstractions.Adapters;
+namespace Nox.Integration.Abstractions.Interfaces;
 
 public interface INoxReceiveAdapter
 {

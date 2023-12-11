@@ -3,7 +3,7 @@ using Elastic.Apm.Api;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Nox.Integration.Abstractions;
-using Nox.Integration.EtlEvents;
+using Nox.Integration.Abstractions.Models;
 using Nox.Integration.Exceptions;
 using Nox.Integration.Extensions;
 using Nox.Solution;

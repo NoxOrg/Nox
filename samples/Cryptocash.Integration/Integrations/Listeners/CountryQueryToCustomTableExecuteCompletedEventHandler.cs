@@ -1,6 +1,7 @@
 using CryptocashIntegration.Application.Integrations;
 using MediatR;
-using Nox.Integration.EtlEvents;
+using Nox.Integration.Abstractions;
+using Nox.Integration.Abstractions.Models;
 
 namespace Cryptocash.Integration.Integrations;
 

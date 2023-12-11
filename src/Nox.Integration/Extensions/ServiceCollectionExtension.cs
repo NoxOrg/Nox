@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Nox.Abstractions;
 using Nox.Integration.Abstractions;
-using Nox.Integration.EtlEvents;
+using Nox.Integration.Abstractions.Models;
 using Nox.Integration.Services;
 
 namespace Nox.Integration.Extensions;
