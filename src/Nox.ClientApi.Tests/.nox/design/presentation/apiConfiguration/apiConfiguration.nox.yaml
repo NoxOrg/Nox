@@ -8,6 +8,8 @@ apiRouteMappings:
 
   - $ref: ./apiRouteMappings/countryByName.ApiRouteMapping.nox.yaml
   - $ref: ./apiRouteMappings/countryByName.queryString.ApiRouteMapping.nox.yaml
+  #- $ref: ./apiRouteMappings/countries.encodedTargetUrl.ApiRouteMapping.nox.yaml
+  #- $ref: ./apiRouteMappings/countries.directRoute.ApiRouteMapping.nox.yaml  
   - $ref: ./apiRouteMappings/countryByNameOdataFiltering.ApiRouteMapping.nox.yaml
   - $ref: ./apiRouteMappings/countryByNameOdataFiltering3Segments.ApiRouteMapping.nox.yaml
   - $ref: ./apiRouteMappings/putRefCountryToWorkplace3Segments.ApiRouteMapping.nox.yaml
