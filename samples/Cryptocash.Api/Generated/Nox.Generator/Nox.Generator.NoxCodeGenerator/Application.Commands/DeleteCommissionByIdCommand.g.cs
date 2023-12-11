@@ -16,7 +16,7 @@ namespace Cryptocash.Application.Commands;
 
 public partial record DeleteCommissionByIdCommand(IEnumerable<CommissionKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteCommissionByIdCommandHandler : DeleteCommissionByIdCommandHandlerBase
+internal partial class DeleteCommissionByIdCommandHandler : DeleteCommissionByIdCommandHandlerBase
 {
 	public DeleteCommissionByIdCommandHandler(
         AppDbContext dbContext,

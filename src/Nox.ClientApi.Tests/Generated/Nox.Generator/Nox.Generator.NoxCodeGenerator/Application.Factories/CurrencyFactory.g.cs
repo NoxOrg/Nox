@@ -23,6 +23,15 @@ using CurrencyEntity = ClientApi.Domain.Currency;
 
 namespace ClientApi.Application.Factories;
 
+internal partial class CurrencyFactory : CurrencyFactoryBase
+{
+    public CurrencyFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         _repository = repository;
     }
 
-    public virtual CurrencyEntity CreateEntity(CurrencyCreateDto createDto)
+    public virtual async Task<CurrencyEntity> CreateEntityAsync(CurrencyCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         }        
     }
 
-    public virtual void UpdateEntity(CurrencyEntity entity, CurrencyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(CurrencyEntity entity, CurrencyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CurrencyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,16 +66,16 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private ClientApi.Domain.Currency ToEntity(CurrencyCreateDto createDto)
+    private async Task<ClientApi.Domain.Currency> ToEntityAsync(CurrencyCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Currency();
         entity.Id = CurrencyMetadata.CreateId(createDto.Id);
         entity.SetIfNotNull(createDto.Name, (entity) => entity.Name =ClientApi.Domain.CurrencyMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.Symbol, (entity) => entity.Symbol =ClientApi.Domain.CurrencyMetadata.CreateSymbol(createDto.Symbol.NonNullValue<System.String>()));
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(CurrencyEntity entity, CurrencyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(CurrencyEntity entity, CurrencyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         if(updateDto.Name is null)
         {
@@ -84,6 +93,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         {
             entity.Symbol = ClientApi.Domain.CurrencyMetadata.CreateSymbol(updateDto.Symbol.ToValueFromNonNull<System.String>());
         }
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(CurrencyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -110,13 +120,4 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class CurrencyFactory : CurrencyFactoryBase
-{
-    public CurrencyFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

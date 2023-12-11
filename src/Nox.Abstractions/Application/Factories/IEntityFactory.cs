@@ -13,14 +13,14 @@ namespace Nox.Application.Factories
         /// </summary>
         /// <param name="createDto"></param>
         /// <returns></returns>
-        TEntityType CreateEntity(TCreateEntityDtoType createDto);
+        Task<TEntityType> CreateEntityAsync(TCreateEntityDtoType createDto);
 
         /// <summary>
         /// Updates an entity using an updateDto
         /// </summary>
         /// <param name="entity">Entity to update</param>
         /// <param name="updateDto">Updated dto</param>
-        void UpdateEntity(TEntityType entity, TUpdateEntityDtoType updateDto, Types.CultureCode cultureCode);
+        Task UpdateEntityAsync(TEntityType entity, TUpdateEntityDtoType updateDto, Types.CultureCode cultureCode);
 
         /// <summary>
         /// Updates some properties of an entity

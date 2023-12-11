@@ -39,7 +39,7 @@ internal static class ODataServiceCollectionExtensions
         builder.ComplexType<CountryTimeZoneUpsertDto>();
         builder.ComplexType<ClientPartialUpdateDto>();
         builder.ComplexType<HolidayUpsertDto>();
-        builder.ComplexType<LanguagePartialUpdateDto>();
+        builder.ComplexType<ReferenceNumberEntityPartialUpdateDto>();
         builder.ComplexType<EmailAddressUpsertDto>();
 
         builder.EntitySet<CountryDto>("Countries");
@@ -78,6 +78,8 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<WorkplaceDto>().ContainsMany(e => e.Tenants);
         builder.EntityType<WorkplaceLocalizedDto>().HasKey(e => new { e.Id });
         builder.EntityType<WorkplaceDto>().Function("WorkplacesLocalized").ReturnsCollection<DtoNameSpace.WorkplaceLocalizedDto>();
+        builder.EntityType<WorkplaceDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<WorkplaceDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<StoreOwnerDto>("StoreOwners");
 		builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });
@@ -127,10 +129,10 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<HolidayDto>("Holidays");
 		builder.EntityType<HolidayDto>().HasKey(e => new { e.Id });
 
-        builder.EntitySet<LanguageDto>("Languages");
-		builder.EntityType<LanguageDto>().HasKey(e => new { e.Id });
-        builder.EntityType<LanguageLocalizedDto>().HasKey(e => new { e.Id });
-        builder.EntityType<LanguageDto>().Function("LanguagesLocalized").ReturnsCollection<DtoNameSpace.LanguageLocalizedDto>();
+        builder.EntitySet<ReferenceNumberEntityDto>("ReferenceNumberEntities");
+		builder.EntityType<ReferenceNumberEntityDto>().HasKey(e => new { e.Id });
+        builder.EntityType<ReferenceNumberEntityDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<ReferenceNumberEntityDto>().Ignore(e => e.Etag);
 
 		builder.EntityType<EmailAddressDto>().HasKey(e => new {  }); 
         // Setup Enumeration End Points
@@ -146,7 +148,26 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<StoreDto>()
                             .Collection
                             .Function("StoreStatuses")
-                            .ReturnsCollection<DtoNameSpace.StoreStatusDto>();
+                            .ReturnsCollection<DtoNameSpace.StoreStatusDto>(); 
+        // Setup Enumeration End Points
+        builder.EntityType<WorkplaceDto>()
+                            .Collection
+                            .Function("WorkplaceOwnerships")
+                            .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipDto>();
+        builder.EntityType<WorkplaceDto>()
+                            .Collection
+                            .Function("WorkplaceOwnershipsLocalized")
+                            .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipLocalizedDto>(); 
+        // Setup Enumeration End Points
+        builder.EntityType<WorkplaceDto>()
+                            .Collection
+                            .Function("WorkplaceTypes")
+                            .ReturnsCollection<DtoNameSpace.WorkplaceTypeDto>(); 
+        // Setup Enumeration End Points
+        builder.EntityType<TenantDto>()
+                            .Collection
+                            .Function("TenantStatuses")
+                            .ReturnsCollection<DtoNameSpace.TenantStatusDto>();
 
        
         if(configure != null) configure(builder);

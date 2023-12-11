@@ -15,7 +15,7 @@ internal static class TestEntityOwnedRelationshipOneOrManyExtensions
         var dto = new TestEntityOwnedRelationshipOneOrManyDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
         dto.SetIfNotNull(entity?.TextTestField, (dto) => dto.TextTestField =entity!.TextTestField!.Value);
-        dto.SetIfNotNull(entity?.SecondTestEntityOwnedRelationshipOneOrManies, (dto) => dto.SecondTestEntityOwnedRelationshipOneOrManies = entity!.SecondTestEntityOwnedRelationshipOneOrManies.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.SecEntityOwnedRelOneOrManies, (dto) => dto.SecEntityOwnedRelOneOrManies = entity!.SecEntityOwnedRelOneOrManies.Select(e => e.ToDto()).ToList());
 
         return dto;
     }

@@ -55,8 +55,8 @@ internal abstract partial class ClientBase : AuditableEntityBase, IEntityConcurr
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Guid Id {get; set;} = null!;
-         /// <summary>
+    public Nox.Types.Guid Id {get; private set;} = null!;
+        /// <summary>
         /// Ensures that a Guid Id is set or will be generate a new one
         /// </summary>
     	public virtual void EnsureId(System.Guid? guid)
@@ -75,7 +75,7 @@ internal abstract partial class ClientBase : AuditableEntityBase, IEntityConcurr
     /// Store Name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

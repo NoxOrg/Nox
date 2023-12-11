@@ -62,7 +62,7 @@ internal abstract class CreateTenantBrandsForTenantCommandHandlerBase : CommandB
 			return null;
 		}
 
-		var entity = _entityFactory.CreateEntity(request.EntityDto);
+		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
 		parentEntity.CreateRefToTenantBrands(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);

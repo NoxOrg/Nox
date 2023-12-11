@@ -1,0 +1,32 @@
+#
+# workplace.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: ReferenceNumberEntity
+
+description: ReferenceNumberEntity
+
+keys:
+
+  - name: Id
+    type: referenceNumber
+    referenceNumberTypeOptions:
+      startsAt: 10
+      incrementsBy: 5
+      prefix: "ID-"
+      suffixCheckSumDigit: true
+    isRequired: true
+
+attributes:
+  
+  - name: ReferenceNumber
+    description: ReferenceNumber
+    type: referenceNumber
+    referenceNumberTypeOptions:
+      startsAt: 10
+      incrementsBy: 5
+      prefix: "RN-"
+      suffixCheckSumDigit: true
+    isRequired: false

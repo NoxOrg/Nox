@@ -55,13 +55,13 @@ internal abstract partial class TestEntityOwnedRelationshipOneOrManyBase : Audit
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get;  set; } = null!;
 
     /// <summary>
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text TextTestField { get; set; } = null!;
+    public Nox.Types.Text TextTestField { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>
@@ -91,47 +91,47 @@ internal abstract partial class TestEntityOwnedRelationshipOneOrManyBase : Audit
     }﻿
 
     /// <summary>
-    /// TestEntityOwnedRelationshipOneOrMany Test entity relationship to SecondTestEntityOwnedRelationshipOneOrMany OneOrMany SecondTestEntityOwnedRelationshipOneOrManies
+    /// TestEntityOwnedRelationshipOneOrMany Test entity relationship to SecondTestEntityOwnedRelationshipOneOrMany OneOrMany SecEntityOwnedRelOneOrManies
     /// </summary>
-    public virtual List<SecondTestEntityOwnedRelationshipOneOrMany> SecondTestEntityOwnedRelationshipOneOrManies { get; private set; } = new();
+    public virtual List<SecEntityOwnedRelOneOrMany> SecEntityOwnedRelOneOrManies { get; private set; } = new();
     
     /// <summary>
-    /// Creates a new SecondTestEntityOwnedRelationshipOneOrMany entity.
+    /// Creates a new SecEntityOwnedRelOneOrMany entity.
     /// </summary>
-    public virtual void CreateRefToSecondTestEntityOwnedRelationshipOneOrManies(SecondTestEntityOwnedRelationshipOneOrMany relatedSecondTestEntityOwnedRelationshipOneOrMany)
+    public virtual void CreateRefToSecEntityOwnedRelOneOrManies(SecEntityOwnedRelOneOrMany relatedSecEntityOwnedRelOneOrMany)
     {
-        SecondTestEntityOwnedRelationshipOneOrManies.Add(relatedSecondTestEntityOwnedRelationshipOneOrMany);
+        SecEntityOwnedRelOneOrManies.Add(relatedSecEntityOwnedRelOneOrMany);
     }
     
     /// <summary>
-    /// Updates all owned SecondTestEntityOwnedRelationshipOneOrMany entities.
+    /// Updates all owned SecEntityOwnedRelOneOrMany entities.
     /// </summary>
-    public virtual void UpdateRefToSecondTestEntityOwnedRelationshipOneOrManies(List<SecondTestEntityOwnedRelationshipOneOrMany> relatedSecondTestEntityOwnedRelationshipOneOrMany)
+    public virtual void UpdateRefToSecEntityOwnedRelOneOrManies(List<SecEntityOwnedRelOneOrMany> relatedSecEntityOwnedRelOneOrMany)
     {
-        if(!relatedSecondTestEntityOwnedRelationshipOneOrMany.HasAtLeastOneItem())
+        if(!relatedSecEntityOwnedRelOneOrMany.HasAtLeastOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
-        SecondTestEntityOwnedRelationshipOneOrManies.Clear();
-        SecondTestEntityOwnedRelationshipOneOrManies.AddRange(relatedSecondTestEntityOwnedRelationshipOneOrMany);
+        SecEntityOwnedRelOneOrManies.Clear();
+        SecEntityOwnedRelOneOrManies.AddRange(relatedSecEntityOwnedRelOneOrMany);
     }
     
     /// <summary>
-    /// Deletes owned SecondTestEntityOwnedRelationshipOneOrMany entity.
+    /// Deletes owned SecEntityOwnedRelOneOrMany entity.
     /// </summary>
-    public virtual void DeleteRefToSecondTestEntityOwnedRelationshipOneOrManies(SecondTestEntityOwnedRelationshipOneOrMany relatedSecondTestEntityOwnedRelationshipOneOrMany)
+    public virtual void DeleteRefToSecEntityOwnedRelOneOrManies(SecEntityOwnedRelOneOrMany relatedSecEntityOwnedRelOneOrMany)
     {
-        if(SecondTestEntityOwnedRelationshipOneOrManies.HasExactlyOneItem())
+        if(SecEntityOwnedRelOneOrManies.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        SecondTestEntityOwnedRelationshipOneOrManies.Remove(relatedSecondTestEntityOwnedRelationshipOneOrMany);
+        SecEntityOwnedRelOneOrManies.Remove(relatedSecEntityOwnedRelOneOrMany);
     }
     
     /// <summary>
-    /// Deletes all owned SecondTestEntityOwnedRelationshipOneOrMany entities.
+    /// Deletes all owned SecEntityOwnedRelOneOrMany entities.
     /// </summary>
-    public virtual void DeleteAllRefToSecondTestEntityOwnedRelationshipOneOrManies()
+    public virtual void DeleteAllRefToSecEntityOwnedRelOneOrManies()
     {
-        if(SecondTestEntityOwnedRelationshipOneOrManies.HasExactlyOneItem())
+        if(SecEntityOwnedRelOneOrManies.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        SecondTestEntityOwnedRelationshipOneOrManies.Clear();
+        SecEntityOwnedRelOneOrManies.Clear();
     }
 
     /// <summary>

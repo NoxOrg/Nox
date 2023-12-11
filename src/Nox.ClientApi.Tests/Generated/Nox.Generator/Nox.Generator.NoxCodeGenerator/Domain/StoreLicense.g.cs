@@ -55,19 +55,19 @@ internal abstract partial class StoreLicenseBase : AuditableEntityBase, IEntityC
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// License issuer    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Issuer { get; set; } = null!;
+    public Nox.Types.Text Issuer { get;  set; } = null!;
 
     /// <summary>
     /// License external id    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber ExternalId { get; set; } = null!;
+    public Nox.Types.AutoNumber ExternalId { get; private set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

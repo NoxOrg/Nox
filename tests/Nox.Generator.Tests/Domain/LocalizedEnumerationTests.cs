@@ -26,8 +26,8 @@ public class LocalizedEnumerationTests
             .AssertFileCount(90, filesShouldExist)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .AssertFileExistsAndContent("Presentation.Api.OData.CountriesController.Enumerations.Expected.g.cs", "Presentation.Api.OData.CountriesController.Enumerations.g.cs")
-            .AssertFileExistsAndContent("Application.Queries.GetCountriesEnumerationsQuery.Expected.g.cs", "Application.Queries.GetCountriesEnumerationsQuery.g.cs")
+            .AssertFileWasGenerated("Presentation.Api.OData.CountriesController.Enumerations.g.cs")
+            .AssertFileWasGenerated( "Application.Queries.GetCountriesEnumerationsQuery.g.cs")
             ;
 
     

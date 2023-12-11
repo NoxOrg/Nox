@@ -31,4 +31,8 @@ public partial class TenantPartialUpdateDtoBase: EntityDtoBase, IEntityDto<Domai
     /// Teanant Name
     /// </summary>
     public virtual System.String Name { get; set; } = default!;
+    /// <summary>
+    /// Tenant Status
+    /// </summary>
+    public virtual System.Int32? Status { get; set; }
 }

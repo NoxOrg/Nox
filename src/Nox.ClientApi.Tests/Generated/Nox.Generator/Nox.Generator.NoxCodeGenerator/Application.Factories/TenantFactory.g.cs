@@ -23,6 +23,17 @@ using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Factories;
 
+internal partial class TenantFactory : TenantFactoryBase
+{
+    public TenantFactory
+    (
+        IEntityFactory<ClientApi.Domain.TenantBrand, TenantBrandUpsertDto, TenantBrandUpsertDto> tenantbrandfactory,
+        IEntityFactory<ClientApi.Domain.TenantContact, TenantContactUpsertDto, TenantContactUpsertDto> tenantcontactfactory,
+        IRepository repository
+    ) : base(tenantbrandfactory,tenantcontactfactory, repository)
+    {}
+}
+
 internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -41,11 +52,11 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
         _repository = repository;
     }
 
-    public virtual TenantEntity CreateEntity(TenantCreateDto createDto)
+    public virtual async Task<TenantEntity> CreateEntityAsync(TenantCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -53,9 +64,9 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
         }        
     }
 
-    public virtual void UpdateEntity(TenantEntity entity, TenantUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(TenantEntity entity, TenantUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TenantEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -63,24 +74,37 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private ClientApi.Domain.Tenant ToEntity(TenantCreateDto createDto)
+    private async Task<ClientApi.Domain.Tenant> ToEntityAsync(TenantCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Tenant();
         entity.Name = ClientApi.Domain.TenantMetadata.CreateName(createDto.Name);
+        entity.SetIfNotNull(createDto.Status, (entity) => entity.Status =ClientApi.Domain.TenantMetadata.CreateStatus(createDto.Status.NonNullValue<System.Int32>()));
 		entity.EnsureId();
-        createDto.TenantBrands.ForEach(dto => entity.CreateRefToTenantBrands(TenantBrandFactory.CreateEntity(dto)));
+        foreach (var dto in createDto.TenantBrands)
+        {
+            var newRelatedEntity = await TenantBrandFactory.CreateEntityAsync(dto);
+            entity.CreateRefToTenantBrands(newRelatedEntity);
+        }
         if (createDto.TenantContact is not null)
         {
-            entity.CreateRefToTenantContact(TenantContactFactory.CreateEntity(createDto.TenantContact));
+            entity.CreateRefToTenantContact(await TenantContactFactory.CreateEntityAsync(createDto.TenantContact));
         }
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(TenantEntity entity, TenantUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(TenantEntity entity, TenantUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = ClientApi.Domain.TenantMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
+        if(updateDto.Status is null)
+        {
+             entity.Status = null;
+        }
+        else
+        {
+            entity.Status = ClientApi.Domain.TenantMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>());
+        }
 		entity.EnsureId();
-	    UpdateOwnedEntities(entity, updateDto, cultureCode);
+	    await UpdateOwnedEntitiesAsync(entity, updateDto, cultureCode);
     }
 
     private void PartialUpdateEntityInternal(TenantEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -96,13 +120,22 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
                 entity.Name = ClientApi.Domain.TenantMetadata.CreateName(NameUpdateValue);
             }
         }
+
+        if (updatedProperties.TryGetValue("Status", out var StatusUpdateValue))
+        {
+            if (StatusUpdateValue == null) { entity.Status = null; }
+            else
+            {
+                entity.Status = ClientApi.Domain.TenantMetadata.CreateStatus(StatusUpdateValue);
+            }
+        }
 		entity.EnsureId();
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
 
-	private void UpdateOwnedEntities(TenantEntity entity, TenantUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	private async Task UpdateOwnedEntitiesAsync(TenantEntity entity, TenantUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
         if(!updateDto.TenantBrands.Any())
         { 
@@ -115,7 +148,7 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
 			foreach(var ownedUpsertDto in updateDto.TenantBrands)
 			{
 				if(ownedUpsertDto.Id is null)
-					updatedTenantBrands.Add(TenantBrandFactory.CreateEntity(ownedUpsertDto));
+					updatedTenantBrands.Add(await TenantBrandFactory.CreateEntityAsync(ownedUpsertDto));
 				else
 				{
 					var key = ClientApi.Domain.TenantBrandMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
@@ -124,7 +157,7 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
 						throw new RelatedEntityNotFoundException("TenantBrands.Id", key.ToString());
 					else
 					{
-						TenantBrandFactory.UpdateEntity(ownedEntity, ownedUpsertDto, cultureCode);
+						await TenantBrandFactory.UpdateEntityAsync(ownedEntity, ownedUpsertDto, cultureCode);
 						updatedTenantBrands.Add(ownedEntity);
 					}
 				}
@@ -142,20 +175,9 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
 		else
 		{
             if(entity.TenantContact is not null)
-                TenantContactFactory.UpdateEntity(entity.TenantContact, updateDto.TenantContact, cultureCode);
+                await TenantContactFactory.UpdateEntityAsync(entity.TenantContact, updateDto.TenantContact, cultureCode);
             else
-			    entity.CreateRefToTenantContact(TenantContactFactory.CreateEntity(updateDto.TenantContact));
+			    entity.CreateRefToTenantContact(await TenantContactFactory.CreateEntityAsync(updateDto.TenantContact));
 		}
 	}
-}
-
-internal partial class TenantFactory : TenantFactoryBase
-{
-    public TenantFactory
-    (
-        IEntityFactory<ClientApi.Domain.TenantBrand, TenantBrandUpsertDto, TenantBrandUpsertDto> tenantbrandfactory,
-        IEntityFactory<ClientApi.Domain.TenantContact, TenantContactUpsertDto, TenantContactUpsertDto> tenantcontactfactory,
-        IRepository repository
-    ) : base(tenantbrandfactory,tenantcontactfactory, repository)
-    {}
 }

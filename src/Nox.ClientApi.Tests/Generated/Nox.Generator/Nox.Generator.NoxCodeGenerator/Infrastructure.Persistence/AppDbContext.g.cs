@@ -65,11 +65,15 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
     public virtual DbSet<ClientApi.Domain.Currency> Currencies { get; set; } = null!;
     public virtual DbSet<ClientApi.Domain.Tenant> Tenants { get; set; } = null!;
     public virtual DbSet<ClientApi.Domain.Client> Clients { get; set; } = null!;
-    public virtual DbSet<ClientApi.Domain.Language> Languages { get; set; } = null!;
-    public virtual DbSet<ClientApi.Domain.WorkplaceLocalized> WorkplacesLocalized { get; set; } = null!;public virtual DbSet<ClientApi.Domain.TenantBrandLocalized> TenantBrandsLocalized { get; set; } = null!;public virtual DbSet<ClientApi.Domain.TenantContactLocalized> TenantContactsLocalized { get; set; } = null!;public virtual DbSet<ClientApi.Domain.LanguageLocalized> LanguagesLocalized { get; set; } = null!;
+    public virtual DbSet<ClientApi.Domain.ReferenceNumberEntity> ReferenceNumberEntities { get; set; } = null!;
+    public virtual DbSet<ClientApi.Domain.WorkplaceLocalized> WorkplacesLocalized { get; set; } = null!;public virtual DbSet<ClientApi.Domain.TenantBrandLocalized> TenantBrandsLocalized { get; set; } = null!;public virtual DbSet<ClientApi.Domain.TenantContactLocalized> TenantContactsLocalized { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.CountryContinent> CountriesContinents { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.CountryContinentLocalized> CountriesContinentsLocalized { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.StoreStatus> StoresStatuses { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.WorkplaceOwnership> WorkplacesOwnerships { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.WorkplaceOwnershipLocalized> WorkplacesOwnershipsLocalized { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.WorkplaceType> WorkplacesTypes { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.TenantStatus> TenantsStatuses { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -126,9 +130,11 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
     {
         modelBuilder.Entity<ClientApi.Domain.Country>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.Store>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<ClientApi.Domain.Workplace>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.StoreOwner>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.StoreLicense>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.Currency>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.Client>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<ClientApi.Domain.ReferenceNumberEntity>().HasQueryFilter(p => p.DeletedAtUtc == null);
     }
 }

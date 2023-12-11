@@ -16,7 +16,7 @@ namespace TestWebApp.Application.Commands;
 
 public partial record DeleteTestEntityForUniqueConstraintsByIdCommand(IEnumerable<TestEntityForUniqueConstraintsKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteTestEntityForUniqueConstraintsByIdCommandHandler : DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBase
+internal partial class DeleteTestEntityForUniqueConstraintsByIdCommandHandler : DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBase
 {
 	public DeleteTestEntityForUniqueConstraintsByIdCommandHandler(
         AppDbContext dbContext,

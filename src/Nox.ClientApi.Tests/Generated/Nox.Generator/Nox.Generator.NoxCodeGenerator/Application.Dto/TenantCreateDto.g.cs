@@ -34,6 +34,11 @@ public abstract class TenantCreateDtoBase : IEntityDto<DomainNamespace.Tenant>
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;
+    /// <summary>
+    /// Tenant Status     
+    /// </summary>
+    /// <remarks>Optional</remarks>
+    public virtual System.Int32? Status { get; set; }
 
     /// <summary>
     /// Tenant Workplaces where the tenant is active ZeroOrMany Workplaces

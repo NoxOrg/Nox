@@ -18,7 +18,7 @@ namespace Cryptocash.Application.Commands;
 
 public partial record PartialUpdateCashStockOrderCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CashStockOrderKeyDto?>;
 
-internal class PartialUpdateCashStockOrderCommandHandler : PartialUpdateCashStockOrderCommandHandlerBase
+internal partial class PartialUpdateCashStockOrderCommandHandler : PartialUpdateCashStockOrderCommandHandlerBase
 {
 	public PartialUpdateCashStockOrderCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateCashStockOrderCommandHandler : PartialUpdateCashStoc
 	{
 	}
 }
-internal class PartialUpdateCashStockOrderCommandHandlerBase : CommandBase<PartialUpdateCashStockOrderCommand, CashStockOrderEntity>, IRequestHandler<PartialUpdateCashStockOrderCommand, CashStockOrderKeyDto?>
+internal abstract class PartialUpdateCashStockOrderCommandHandlerBase : CommandBase<PartialUpdateCashStockOrderCommand, CashStockOrderEntity>, IRequestHandler<PartialUpdateCashStockOrderCommand, CashStockOrderKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> EntityFactory { get; }

@@ -23,6 +23,15 @@ using EntityUniqueConstraintsRelatedForeignKeyEntity = TestWebApp.Domain.EntityU
 
 namespace TestWebApp.Application.Factories;
 
+internal partial class EntityUniqueConstraintsRelatedForeignKeyFactory : EntityUniqueConstraintsRelatedForeignKeyFactoryBase
+{
+    public EntityUniqueConstraintsRelatedForeignKeyFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class EntityUniqueConstraintsRelatedForeignKeyFactoryBase : IEntityFactory<EntityUniqueConstraintsRelatedForeignKeyEntity, EntityUniqueConstraintsRelatedForeignKeyCreateDto, EntityUniqueConstraintsRelatedForeignKeyUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class EntityUniqueConstraintsRelatedForeignKeyFactoryBase : IE
         _repository = repository;
     }
 
-    public virtual EntityUniqueConstraintsRelatedForeignKeyEntity CreateEntity(EntityUniqueConstraintsRelatedForeignKeyCreateDto createDto)
+    public virtual async Task<EntityUniqueConstraintsRelatedForeignKeyEntity> CreateEntityAsync(EntityUniqueConstraintsRelatedForeignKeyCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class EntityUniqueConstraintsRelatedForeignKeyFactoryBase : IE
         }        
     }
 
-    public virtual void UpdateEntity(EntityUniqueConstraintsRelatedForeignKeyEntity entity, EntityUniqueConstraintsRelatedForeignKeyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(EntityUniqueConstraintsRelatedForeignKeyEntity entity, EntityUniqueConstraintsRelatedForeignKeyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(EntityUniqueConstraintsRelatedForeignKeyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,15 +66,15 @@ internal abstract class EntityUniqueConstraintsRelatedForeignKeyFactoryBase : IE
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey ToEntity(EntityUniqueConstraintsRelatedForeignKeyCreateDto createDto)
+    private async Task<TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey> ToEntityAsync(EntityUniqueConstraintsRelatedForeignKeyCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey();
         entity.Id = EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(createDto.Id);
         entity.SetIfNotNull(createDto.TextField, (entity) => entity.TextField =TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>()));
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(EntityUniqueConstraintsRelatedForeignKeyEntity entity, EntityUniqueConstraintsRelatedForeignKeyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(EntityUniqueConstraintsRelatedForeignKeyEntity entity, EntityUniqueConstraintsRelatedForeignKeyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         if(updateDto.TextField is null)
         {
@@ -75,6 +84,7 @@ internal abstract class EntityUniqueConstraintsRelatedForeignKeyFactoryBase : IE
         {
             entity.TextField = TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateTextField(updateDto.TextField.ToValueFromNonNull<System.String>());
         }
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(EntityUniqueConstraintsRelatedForeignKeyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -92,13 +102,4 @@ internal abstract class EntityUniqueConstraintsRelatedForeignKeyFactoryBase : IE
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class EntityUniqueConstraintsRelatedForeignKeyFactory : EntityUniqueConstraintsRelatedForeignKeyFactoryBase
-{
-    public EntityUniqueConstraintsRelatedForeignKeyFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

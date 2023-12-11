@@ -2,7 +2,6 @@ using Nox.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 
 namespace Nox.Solution.Extensions;
 
@@ -54,20 +53,6 @@ public static class EntityExtensions
         }
     }
 
-
-    /// <summary>
-    /// Get Localized attributes and set the required flag to false
-    /// </summary>    
-    /// <returns></returns>
-    [Obsolete("This is going to be removed in the future, we should not change the Nox Definition")]
-    public static IEnumerable<NoxSimpleTypeDefinition> GetAttributesToLocalizeAsNotRequired(this Entity entity)
-        => entity.Attributes.Where(x => x.IsLocalized).Select(property =>
-        {
-            var localized = property.ShallowCopy();
-            localized.IsRequired = false;
-            return localized;
-        });
-
     public static IEnumerable<NoxSimpleTypeDefinition> GetLocalizedAttributes(this Entity entity) => entity.Attributes.Where(x => x.IsLocalized);
 
     public static IReadOnlyList<NoxSimpleTypeDefinition> GetKeys(this Entity entity)
@@ -84,4 +69,7 @@ public static class EntityExtensions
 
         return entity.Keys;
     }
+
+    public static bool RequiresCustomSqlStatement(this Entity entity)
+        => entity.IsLocalized || entity.Attributes.Any(x => x.Type == NoxType.Enumeration);
 }

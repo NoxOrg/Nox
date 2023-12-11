@@ -1,26 +1,91 @@
-﻿using System.Text;
+﻿using Nox.Yaml.Attributes;
+using System.Diagnostics;
+using System.Text;
 
 namespace Nox.Lib;
 
+[DebuggerDisplay("{_routePattern}")]
 public class ApiRouteMatcher
 {
 
-    private readonly HashSet<string> _parameterNames;
+    private readonly string _routePattern;
 
-    private readonly List<ParameterInfo> _parameterInfos;
+    private readonly (int StartPos, int EndPos)[] _paramSpanCoords;
 
-    private readonly List<string> _segments;
+    private readonly (int StartPos, int EndPos)[] _segmentSpanCoords;
+
+    private readonly string[] _paramKeys;
 
     private readonly Dictionary<string,object> _parameterDefaults;
 
     public ApiRouteMatcher(string pattern)
     {
-        _parameterNames = new HashSet<string>(16);
-        _parameterInfos = new List<ParameterInfo>(16);
-        _parameterDefaults = new Dictionary<string,object>(16);
-        _segments = new List<string>(16);
+        var patternSpan = pattern.AsSpan();
+        
+        var paramCount = ValidateAndCountParams(patternSpan);
+        
+        var segmentCount = paramCount;
+        if (patternSpan[0] == '{') segmentCount--;
+        if (patternSpan[pattern.Length-1] != '}') segmentCount++;
 
-        ParseParameters(pattern);
+        _routePattern = pattern;
+        _paramSpanCoords = new (int StartPos, int EndPos)[paramCount];
+        _segmentSpanCoords = new (int StartPos, int EndPos)[segmentCount];
+        _paramKeys = new string[paramCount]; 
+
+        var paramIndex = 0;
+        var segmentIndex = 0;
+        var startParamPos = -1;
+
+        for (var i = 0; i < patternSpan.Length; i++)
+        {
+            if (patternSpan[i] == '{')
+            {
+                startParamPos = i + 1;
+                if (i > 0 && paramIndex > 0)
+                {
+                    _segmentSpanCoords[segmentIndex++] = 
+                        new(_paramSpanCoords[paramIndex-1].EndPos+1,i);
+                }
+                else if (i > 0)
+                {
+                    _segmentSpanCoords[segmentIndex++] =
+                        new(0, i);
+                }
+            }
+            else if (patternSpan[i] == '}')
+            {
+                var newParam = patternSpan[startParamPos..i];
+                var found = false;
+                for (var j = 0; j < paramIndex; j++)
+                {
+                    var (StartPos, EndPos) = _paramSpanCoords[j];
+                    if (patternSpan[StartPos..EndPos].SequenceEqual(newParam))
+                    {
+                        found = true; break;
+                    }
+                }
+                if (!found)
+                {
+                    _paramKeys[paramIndex] = patternSpan[startParamPos..i].ToString();
+                    _paramSpanCoords[paramIndex++] = new(startParamPos, i);
+                    if (paramIndex == paramCount && segmentIndex < segmentCount)
+                    {
+                        _segmentSpanCoords[segmentIndex++] =
+                            new(_paramSpanCoords[paramIndex - 1].EndPos + 1, patternSpan.Length);
+                        break;
+                    }
+                    startParamPos = -1;
+                }
+                else
+                {
+                    throw new ArgumentException($"The variable [{newParam}] should only appear once in [{pattern}].");
+                }
+            }
+        }
+
+        _parameterDefaults = new Dictionary<string,object>(16);
+
     }
 
     public ApiRouteMatcher(string pattern, IDictionary<string,object> defaults) : this(pattern) 
@@ -31,31 +96,46 @@ public class ApiRouteMatcher
         }
     }
 
-    public bool HasParameter(string paramName) => _parameterNames.Contains(paramName);
+    public bool HasParameter(string paramName) => _paramKeys.Contains(paramName);
 
     public bool Matches(string stringToMatch, out IDictionary<string, object>? paramValues)
     {
+        var routePatternSpan = _routePattern.AsSpan();
+        var stringToMatchSpan = stringToMatch.AsSpan();
         var matchedValues = new Dictionary<string, object>();
+        var paramPos = 0;
         var pos = 0;
 
         paramValues = null;
 
-        for (var i = 0; i < _segments.Count; i++) 
+        for (var i = 0; i < _segmentSpanCoords.Length; i++) 
         {
-            pos = stringToMatch.IndexOf(_segments[i],pos);
+            var segment = routePatternSpan[_segmentSpanCoords[i].StartPos.._segmentSpanCoords[i].EndPos];
+            
+            pos = stringToMatchSpan[pos..].IndexOf(segment)+pos;
 
             if (pos >= 0)
             {
                 if (i == 0 && pos != 0)
                 {
-                    return false;
+                    var paramKey = _paramKeys[paramPos++];
+
+                    var paramValue = stringToMatchSpan[0..pos];
+
+                    if (paramValue.Contains('/'))
+                    {
+                        return false;
+                    }
+
+                    matchedValues.Add(paramKey, paramValue.ToString());
                 }
 
-                int paramStart = pos + _segments[i].Length;
+                int paramStart = pos + (_segmentSpanCoords[i].EndPos - _segmentSpanCoords[i].StartPos);
 
-                int paramEnd = i + 1 < _segments.Count 
-                    ? stringToMatch.IndexOf(_segments[i + 1], paramStart) 
-                    : stringToMatch.Length;
+                int paramEnd = i + 1 < _segmentSpanCoords.Length
+                    ? stringToMatchSpan[paramStart..].IndexOf(routePatternSpan[_segmentSpanCoords[i + 1].StartPos.._segmentSpanCoords[i + 1].EndPos]) + paramStart
+                    : stringToMatchSpan.Length;
+
 
                 if (paramEnd < 0)
                 {
@@ -64,14 +144,18 @@ public class ApiRouteMatcher
 
                 if (paramStart < paramEnd)
                 {
-                    var paramString = stringToMatch[paramStart..paramEnd];
+                    var paramKey = _paramKeys[paramPos++];
 
-                    if (paramString.Contains('/'))
+                    var paramValue = stringToMatchSpan[paramStart..paramEnd];
+
+                    if (paramValue.Contains('/'))
                     {
                         return false;
                     }
 
-                    matchedValues.Add(_parameterInfos[i].Name, paramString);
+                    matchedValues.Add(paramKey, paramValue.ToString());
+
+                    pos = paramStart;
                 }
             }
             else
@@ -80,17 +164,17 @@ public class ApiRouteMatcher
             }
         }
 
-        foreach (var param in _parameterNames)
+        foreach (var paramKey in _paramKeys)
         {
-            if (!matchedValues.ContainsKey(param) || matchedValues[param].Equals(string.Empty))
+            if (!matchedValues.TryGetValue(paramKey, out object? matchValue) || matchValue.Equals(string.Empty))
             {
-                if (_parameterDefaults.TryGetValue(param, out object? value))
+                if (_parameterDefaults.TryGetValue(paramKey, out object? paramValue))
                 {
-                    matchedValues[param] = value;
+                    matchedValues[paramKey] = paramValue;
                 }
                 else
                 {
-                    throw new ArgumentException($"Parameter [{param}] could not be resolved in [{stringToMatch}] and no default was supplied.");
+                    throw new ArgumentException($"Parameter [{paramKey}] could not be resolved in [{stringToMatch}] and no default was supplied.");
                 }
             }
         }
@@ -103,68 +187,28 @@ public class ApiRouteMatcher
     public string TransformTo(string pattern, IDictionary<string,object> variables)
     {
         var sbTo = new StringBuilder(pattern, 2048);
-
-        foreach (var p in _parameterNames)
+        foreach (var param in _paramKeys)
         {
-            sbTo.Replace($"{{{p}}}", variables[p].ToString());
+            sbTo.Replace($"{{{param}}}", variables[param].ToString());
         }
         return sbTo.ToString();
     }
 
-    private const char _leftParamDelimeter = '{';
-
-    private const char _rightParamDelimeter = '}';
-
-    private void ParseParameters(string pattern)
+    private static int ValidateAndCountParams(ReadOnlySpan<char> span)
     {
-        var isParameter = false;
-        var currentParameter = new StringBuilder(64);
-        var currentSegment = new StringBuilder(64);
-        var pos = 0;
-        var startPos = 0;
-
-        foreach (char c in pattern)
+        var openBraceCount = 0;
+        var closedBraceCount = 0;
+        foreach (var c in span)
         {
-            switch (c)
-            {
-                case _leftParamDelimeter:
-                    _segments.Add(currentSegment.ToString());
-                    currentSegment.Clear();
-                    isParameter = true;
-                    startPos = pos;
-                    break;
-
-                case _rightParamDelimeter:
-                    var paramName = currentParameter.ToString();
-                    if(_parameterNames.Contains(paramName))
-                    {
-                        throw new ArgumentException($"The variable [{paramName}] should only appear once in [{pattern}].");
-                    }
-                    _parameterNames.Add(paramName);
-                    _parameterInfos.Add(new ParameterInfo(paramName, startPos, pos));
-                    currentParameter.Clear();
-                    isParameter = false;
-                    break;
-
-                default:
-                    
-                    if (isParameter)
-                        currentParameter.Append(c);
-                    else
-                        currentSegment.Append(c);
-                    
-                    break;
-            }
-            pos++;
+            if (c == '{')
+                openBraceCount++;
+            else if (c == '}')
+                closedBraceCount++;
         }
-
-        if (currentSegment.Length > 0)
+        if (openBraceCount == closedBraceCount)
         {
-            _segments.Add(currentSegment.ToString());
-            currentSegment.Clear();
+            return openBraceCount;
         }
-
+        throw new ArgumentException($"Parameter open and closed brace mismatch in [{span}].");
     }
-
-    internal record ParameterInfo(string Name, int StartPos, int EndPos);
 }

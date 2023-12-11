@@ -55,13 +55,13 @@ internal abstract partial class TestEntityOwnedRelationshipZeroOrManyBase : Audi
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get;  set; } = null!;
 
     /// <summary>
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text TextTestField { get; set; } = null!;
+    public Nox.Types.Text TextTestField { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>
@@ -91,41 +91,41 @@ internal abstract partial class TestEntityOwnedRelationshipZeroOrManyBase : Audi
     }﻿
 
     /// <summary>
-    /// TestEntityOwnedRelationshipZeroOrMany Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrMany ZeroOrMany SecondTestEntityOwnedRelationshipZeroOrManies
+    /// TestEntityOwnedRelationshipZeroOrMany Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrMany ZeroOrMany SecEntityOwnedRelZeroOrManies
     /// </summary>
-    public virtual List<SecondTestEntityOwnedRelationshipZeroOrMany> SecondTestEntityOwnedRelationshipZeroOrManies { get; private set; } = new();
+    public virtual List<SecEntityOwnedRelZeroOrMany> SecEntityOwnedRelZeroOrManies { get; private set; } = new();
     
     /// <summary>
-    /// Creates a new SecondTestEntityOwnedRelationshipZeroOrMany entity.
+    /// Creates a new SecEntityOwnedRelZeroOrMany entity.
     /// </summary>
-    public virtual void CreateRefToSecondTestEntityOwnedRelationshipZeroOrManies(SecondTestEntityOwnedRelationshipZeroOrMany relatedSecondTestEntityOwnedRelationshipZeroOrMany)
+    public virtual void CreateRefToSecEntityOwnedRelZeroOrManies(SecEntityOwnedRelZeroOrMany relatedSecEntityOwnedRelZeroOrMany)
     {
-        SecondTestEntityOwnedRelationshipZeroOrManies.Add(relatedSecondTestEntityOwnedRelationshipZeroOrMany);
+        SecEntityOwnedRelZeroOrManies.Add(relatedSecEntityOwnedRelZeroOrMany);
     }
     
     /// <summary>
-    /// Updates all owned SecondTestEntityOwnedRelationshipZeroOrMany entities.
+    /// Updates all owned SecEntityOwnedRelZeroOrMany entities.
     /// </summary>
-    public virtual void UpdateRefToSecondTestEntityOwnedRelationshipZeroOrManies(List<SecondTestEntityOwnedRelationshipZeroOrMany> relatedSecondTestEntityOwnedRelationshipZeroOrMany)
+    public virtual void UpdateRefToSecEntityOwnedRelZeroOrManies(List<SecEntityOwnedRelZeroOrMany> relatedSecEntityOwnedRelZeroOrMany)
     {
-        SecondTestEntityOwnedRelationshipZeroOrManies.Clear();
-        SecondTestEntityOwnedRelationshipZeroOrManies.AddRange(relatedSecondTestEntityOwnedRelationshipZeroOrMany);
+        SecEntityOwnedRelZeroOrManies.Clear();
+        SecEntityOwnedRelZeroOrManies.AddRange(relatedSecEntityOwnedRelZeroOrMany);
     }
     
     /// <summary>
-    /// Deletes owned SecondTestEntityOwnedRelationshipZeroOrMany entity.
+    /// Deletes owned SecEntityOwnedRelZeroOrMany entity.
     /// </summary>
-    public virtual void DeleteRefToSecondTestEntityOwnedRelationshipZeroOrManies(SecondTestEntityOwnedRelationshipZeroOrMany relatedSecondTestEntityOwnedRelationshipZeroOrMany)
+    public virtual void DeleteRefToSecEntityOwnedRelZeroOrManies(SecEntityOwnedRelZeroOrMany relatedSecEntityOwnedRelZeroOrMany)
     {
-        SecondTestEntityOwnedRelationshipZeroOrManies.Remove(relatedSecondTestEntityOwnedRelationshipZeroOrMany);
+        SecEntityOwnedRelZeroOrManies.Remove(relatedSecEntityOwnedRelZeroOrMany);
     }
     
     /// <summary>
-    /// Deletes all owned SecondTestEntityOwnedRelationshipZeroOrMany entities.
+    /// Deletes all owned SecEntityOwnedRelZeroOrMany entities.
     /// </summary>
-    public virtual void DeleteAllRefToSecondTestEntityOwnedRelationshipZeroOrManies()
+    public virtual void DeleteAllRefToSecEntityOwnedRelZeroOrManies()
     {
-        SecondTestEntityOwnedRelationshipZeroOrManies.Clear();
+        SecEntityOwnedRelZeroOrManies.Clear();
     }
 
     /// <summary>

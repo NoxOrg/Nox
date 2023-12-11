@@ -4,7 +4,6 @@ using MassTransit.Testing;
 using Xunit.Abstractions;
 
 using Nox.Infrastructure.Messaging;
-using ClientApi.Tests.Controllers;
 using ClientApi.Application.Dto;
 using ClientApi.Application.IntegrationEvents;
 

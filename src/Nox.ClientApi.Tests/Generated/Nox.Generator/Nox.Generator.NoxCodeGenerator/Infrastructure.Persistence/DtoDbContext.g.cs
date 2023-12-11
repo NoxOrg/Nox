@@ -63,14 +63,17 @@ internal class DtoDbContext : DbContext
         public virtual DbSet<CurrencyDto> Currencies { get; set; } = null!;
         public virtual DbSet<TenantDto> Tenants { get; set; } = null!;
         public virtual DbSet<ClientDto> Clients { get; set; } = null!;
-        public virtual DbSet<LanguageDto> Languages { get; set; } = null!;
+        public virtual DbSet<ReferenceNumberEntityDto> ReferenceNumberEntities { get; set; } = null!;
     public virtual DbSet<WorkplaceLocalizedDto> WorkplacesLocalized { get; set; } = null!;
     public virtual DbSet<TenantBrandLocalizedDto> TenantBrandsLocalized { get; set; } = null!;
     public virtual DbSet<TenantContactLocalizedDto> TenantContactsLocalized { get; set; } = null!;
-    public virtual DbSet<LanguageLocalizedDto> LanguagesLocalized { get; set; } = null!;
     public virtual DbSet<DtoNameSpace.CountryContinentDto> CountriesContinents { get; set; } = null!;
     public virtual DbSet<DtoNameSpace.CountryContinentLocalizedDto> CountriesContinentsLocalized { get; set; } = null!;
     public virtual DbSet<DtoNameSpace.StoreStatusDto> StoresStatuses { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.WorkplaceOwnershipDto> WorkplacesOwnerships { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.WorkplaceOwnershipLocalizedDto> WorkplacesOwnershipsLocalized { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.WorkplaceTypeDto> WorkplacesTypes { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.TenantStatusDto> TenantsStatuses { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -116,9 +119,11 @@ private void ConfigureAuditable(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CountryDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<StoreDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<WorkplaceDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<StoreOwnerDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<StoreLicenseDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<CurrencyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<ClientDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<ReferenceNumberEntityDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
     }
 }

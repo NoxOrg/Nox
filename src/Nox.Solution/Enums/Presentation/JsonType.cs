@@ -3,8 +3,8 @@
 public enum JsonType
 {
     Number,
+    Integer,
     String,
-    DateString,
     Boolean,
     Array,
     Object,

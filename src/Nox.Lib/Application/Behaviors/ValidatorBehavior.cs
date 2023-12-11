@@ -1,9 +1,11 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Types;
 using System.Collections.Concurrent;
+using System.Collections.Immutable;
 
 namespace Nox.Application.Behaviors
 {
@@ -37,10 +39,7 @@ namespace Nox.Application.Behaviors
                     .ForEach(x => failures.Add(x));
             }
 
-            if (failures.Any())
-            {
-                throw new ValidationException(failures.ToList());
-            }
+            BadRequestException.ThrowIfNotValid(new ValidationResult(failures.ToArray()));
 
             return await next();
         }

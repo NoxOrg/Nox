@@ -47,6 +47,10 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
             ExecuteActionAndCollectValidationExceptions("ReferenceNumber", () => DomainNamespace.WorkplaceMetadata.CreateReferenceNumber(this.ReferenceNumber.NonNullValue<System.String>()), result);
         if (this.Description is not null)
             ExecuteActionAndCollectValidationExceptions("Description", () => DomainNamespace.WorkplaceMetadata.CreateDescription(this.Description.NonNullValue<System.String>()), result); 
+        if (this.Ownership is not null)
+            ExecuteActionAndCollectValidationExceptions("Ownership", () => DomainNamespace.WorkplaceMetadata.CreateOwnership(this.Ownership.NonNullValue<System.Int32>()), result);
+        if (this.Type is not null)
+            ExecuteActionAndCollectValidationExceptions("Type", () => DomainNamespace.WorkplaceMetadata.CreateType(this.Type.NonNullValue<System.Int32>()), result);
 
         return result;
     }
@@ -82,6 +86,22 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
     public System.String? Greeting { get; set; }
 
     /// <summary>
+    /// Workplace Ownership     
+    /// </summary>
+    /// <remarks>Optional.</remarks>    
+    public System.Int32? Ownership { get; set; }
+
+    /// <summary>
+    /// Workplace Type     
+    /// </summary>
+    /// <remarks>Optional.</remarks>    
+    public System.Int32? Type { get; set; }
+
+    public string? OwnershipName { get; set; } = default!;
+
+    public string? TypeName { get; set; } = default!;
+
+    /// <summary>
     /// Workplace Workplace country ZeroOrOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
@@ -92,6 +112,8 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
     /// Workplace Actve Tenants in the workplace ZeroOrMany Tenants
     /// </summary>
     public virtual List<TenantDto> Tenants { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
+    public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]
     public System.Guid Etag { get; init; }

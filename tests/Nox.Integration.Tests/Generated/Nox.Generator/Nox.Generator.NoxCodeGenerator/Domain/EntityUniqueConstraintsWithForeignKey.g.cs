@@ -55,8 +55,8 @@ internal abstract partial class EntityUniqueConstraintsWithForeignKeyBase : Enti
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Guid Id {get; set;} = null!;
-         /// <summary>
+    public Nox.Types.Guid Id {get; private set;} = null!;
+        /// <summary>
         /// Ensures that a Guid Id is set or will be generate a new one
         /// </summary>
     	public virtual void EnsureId(System.Guid? guid)
@@ -75,13 +75,13 @@ internal abstract partial class EntityUniqueConstraintsWithForeignKeyBase : Enti
     ///     
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Text? TextField { get; set; } = null!;
+    public Nox.Types.Text? TextField { get;  set; } = null!;
 
     /// <summary>
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Number SomeUniqueId { get; set; } = null!;
+    public Nox.Types.Number SomeUniqueId { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

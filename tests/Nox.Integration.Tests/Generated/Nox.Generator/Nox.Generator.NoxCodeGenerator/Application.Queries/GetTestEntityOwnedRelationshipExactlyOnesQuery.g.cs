@@ -35,7 +35,7 @@ internal abstract class GetTestEntityOwnedRelationshipExactlyOnesQueryHandlerBas
     {
         var item = (IQueryable<TestEntityOwnedRelationshipExactlyOneDto>)DataDbContext.TestEntityOwnedRelationshipExactlyOnes
             .AsNoTracking()
-            .Include(e => e.SecondTestEntityOwnedRelationshipExactlyOne);
+            .Include(e => e.SecEntityOwnedRelExactlyOne);
        return Task.FromResult(OnResponse(item));
     }
 }
