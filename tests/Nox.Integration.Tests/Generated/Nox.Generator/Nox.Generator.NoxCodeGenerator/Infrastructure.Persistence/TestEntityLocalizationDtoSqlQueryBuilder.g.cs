@@ -53,6 +53,6 @@ public class TestEntityLocalizationDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilde
 		return _sqlCompiler.Compile(query)
 			.ToString()
 			.Replace("##OPEN##", "[")
-			.Replace("##CLOSE##", "]");;
+			.Replace("##CLOSE##", "]");
 	}
 }
