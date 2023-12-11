@@ -35,10 +35,8 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
     [HttpDelete("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
     public virtual async Task<ActionResult> Delete{{Pluralize (enumAtt.Attribute.Name)}}LocalizedNonConventional([FromRoute] System.String {{cultureCode}})
     {   
-        if(!Nox.Types.CultureCode.TryFrom({{cultureCode}}, out var {{cultureCode}}Value))
-        {
-            throw new Nox.Exceptions.BadRequestInvalidFieldException();
-        }
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom({{cultureCode}}, out var {{cultureCode}}Value));
+
         var result = await _mediator.Send(new ApplicationCommandsNameSpace.Delete{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}TranslationsCommand({{cultureCode}}Value!));                        
         return NoContent();     
     }
