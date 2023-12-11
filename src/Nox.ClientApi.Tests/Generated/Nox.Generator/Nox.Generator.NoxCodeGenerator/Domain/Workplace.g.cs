@@ -91,6 +91,18 @@ internal abstract partial class WorkplaceBase : AuditableEntityBase, IEntityConc
             get { return $"Hello, {Name.Value}!"; }
             private set { }
         }
+
+    /// <summary>
+    /// Workplace Ownership    
+    /// </summary>
+    /// <remarks>Optional.</remarks>   
+    public Nox.Types.Enumeration? Ownership { get;  set; } = null!;
+
+    /// <summary>
+    /// Workplace Type    
+    /// </summary>
+    /// <remarks>Optional.</remarks>   
+    public Nox.Types.Enumeration? Type { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

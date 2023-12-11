@@ -137,7 +137,9 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/v1/ThirdTestEntityZeroOrOnes/{key}/ThirdTestEntityExactlyOne")]

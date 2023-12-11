@@ -22,13 +22,13 @@ public class TestEntityLocalizationDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilde
 
 	public string Build()
 	{
-		var localizedEntityQuery = new Query("TestEntityLocalizationsLocalized")
-			.Select("TestEntityLocalizationsLocalized.Id")
-			.Select("TestEntityLocalizationsLocalized.TextFieldToLocalize")
-			.Where("TestEntityLocalizationsLocalized.CultureCode", "##LANG##")
-			.As("TestEntityLocalizationsLocalized");
-
-		var entityQuery = new Query("TestEntityLocalizations")
+		var query = TestEntityLocalizationQuery();
+		return CompileToSqlString(query);
+	}
+	
+	private static Query TestEntityLocalizationQuery()
+	{
+		return new Query("TestEntityLocalizations")
 			.Select("TestEntityLocalizations.Id")
 			.Select("TestEntityLocalizations.NumberField")
 			.ForSqlServer(q => q.SelectRaw("COALESCE([TestEntityLocalizationsLocalized].[TextFieldToLocalize], (N'[' + COALESCE([TestEntityLocalizations].[TextFieldToLocalize], N'')) + N']') AS [TextFieldToLocalize]"))
@@ -36,8 +36,23 @@ public class TestEntityLocalizationDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilde
 			.ForSqlite(q => q.SelectRaw("COALESCE(\"TestEntityLocalizationsLocalized\".\"TextFieldToLocalize\", ('##OPEN##' || COALESCE(\"TestEntityLocalizations\".\"TextFieldToLocalize\", '')) || '##CLOSE##') AS \"TextFieldToLocalize\""))
 			.Select("TestEntityLocalizations.DeletedAtUtc")
 			.Select("TestEntityLocalizations.Etag")
-			.LeftJoin(localizedEntityQuery, j => j.On("TestEntityLocalizationsLocalized.Id", "TestEntityLocalizations.Id"));
+			.LeftJoin(TestEntityLocalizationLocalizedQuery(), j => j.On("TestEntityLocalizationsLocalized.Id", "TestEntityLocalizations.Id"));
+	}
+	
+	private static Query TestEntityLocalizationLocalizedQuery()
+	{
+		return new Query("TestEntityLocalizationsLocalized")
+			.Select("TestEntityLocalizationsLocalized.Id")
+			.Select("TestEntityLocalizationsLocalized.TextFieldToLocalize")
+			.Where("TestEntityLocalizationsLocalized.CultureCode", "##LANG##")
+			.As("TestEntityLocalizationsLocalized");
+	}
 
-		return _sqlCompiler.Compile(entityQuery).ToString().Replace("##OPEN##", "[").Replace("##CLOSE##", "]");
+	private string CompileToSqlString(Query query)
+	{
+		return _sqlCompiler.Compile(query)
+			.ToString()
+			.Replace("##OPEN##", "[")
+			.Replace("##CLOSE##", "]");
 	}
 }

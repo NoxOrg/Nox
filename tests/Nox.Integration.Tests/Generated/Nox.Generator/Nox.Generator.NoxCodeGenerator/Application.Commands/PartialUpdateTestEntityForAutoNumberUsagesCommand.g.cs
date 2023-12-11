@@ -18,7 +18,7 @@ namespace TestWebApp.Application.Commands;
 
 public partial record PartialUpdateTestEntityForAutoNumberUsagesCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityForAutoNumberUsagesKeyDto?>;
 
-internal class PartialUpdateTestEntityForAutoNumberUsagesCommandHandler : PartialUpdateTestEntityForAutoNumberUsagesCommandHandlerBase
+internal partial class PartialUpdateTestEntityForAutoNumberUsagesCommandHandler : PartialUpdateTestEntityForAutoNumberUsagesCommandHandlerBase
 {
 	public PartialUpdateTestEntityForAutoNumberUsagesCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateTestEntityForAutoNumberUsagesCommandHandler : Partia
 	{
 	}
 }
-internal class PartialUpdateTestEntityForAutoNumberUsagesCommandHandlerBase : CommandBase<PartialUpdateTestEntityForAutoNumberUsagesCommand, TestEntityForAutoNumberUsagesEntity>, IRequestHandler<PartialUpdateTestEntityForAutoNumberUsagesCommand, TestEntityForAutoNumberUsagesKeyDto?>
+internal abstract class PartialUpdateTestEntityForAutoNumberUsagesCommandHandlerBase : CommandBase<PartialUpdateTestEntityForAutoNumberUsagesCommand, TestEntityForAutoNumberUsagesEntity>, IRequestHandler<PartialUpdateTestEntityForAutoNumberUsagesCommand, TestEntityForAutoNumberUsagesKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> EntityFactory { get; }

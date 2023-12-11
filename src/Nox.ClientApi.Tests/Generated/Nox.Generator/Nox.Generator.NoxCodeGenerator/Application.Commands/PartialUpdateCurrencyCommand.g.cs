@@ -18,7 +18,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record PartialUpdateCurrencyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CurrencyKeyDto?>;
 
-internal class PartialUpdateCurrencyCommandHandler : PartialUpdateCurrencyCommandHandlerBase
+internal partial class PartialUpdateCurrencyCommandHandler : PartialUpdateCurrencyCommandHandlerBase
 {
 	public PartialUpdateCurrencyCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateCurrencyCommandHandler : PartialUpdateCurrencyComman
 	{
 	}
 }
-internal class PartialUpdateCurrencyCommandHandlerBase : CommandBase<PartialUpdateCurrencyCommand, CurrencyEntity>, IRequestHandler<PartialUpdateCurrencyCommand, CurrencyKeyDto?>
+internal abstract class PartialUpdateCurrencyCommandHandlerBase : CommandBase<PartialUpdateCurrencyCommand, CurrencyEntity>, IRequestHandler<PartialUpdateCurrencyCommand, CurrencyKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto> EntityFactory { get; }

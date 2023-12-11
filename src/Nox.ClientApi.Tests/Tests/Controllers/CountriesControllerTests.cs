@@ -1912,7 +1912,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
 
         // Act
         var headers = CreateEtagHeader(postToWorkplaceResponse!.Etag);
-        var putToWorkplaceResponse = await PutAsync<WorkplaceUpdateDto>(
+        var putToWorkplaceResponse = await PutAsync<WorkplaceUpdateDto, WorkplaceDto>(
             $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{postToWorkplaceResponse!.Id}",
             new WorkplaceUpdateDto() { 
                 Name = postToWorkplaceResponse!.Name, 
@@ -1924,7 +1924,9 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
 
         //Assert
         putToWorkplaceResponse.Should().NotBeNull();
-        putToWorkplaceResponse!.StatusCode.Should().Be(HttpStatusCode.OK);
+        putToWorkplaceResponse!.Id.Should().Be(postToWorkplaceResponse!.Id);
+        putToWorkplaceResponse!.Description.Should().Be(expectedDescription);
+        putToWorkplaceResponse!.Name.Should().Be(postToWorkplaceResponse!.Name);
 
         getCountryResponse.Should().NotBeNull();
         getCountryResponse!.Id.Should().BeGreaterThan(0);

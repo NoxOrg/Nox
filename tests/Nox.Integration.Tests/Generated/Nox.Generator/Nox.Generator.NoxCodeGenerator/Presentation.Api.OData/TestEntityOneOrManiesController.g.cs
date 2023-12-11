@@ -155,7 +155,9 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetSecondTestEntityOneOrManyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/v1/TestEntityOneOrManies/{key}/SecondTestEntityOneOrManies/{relatedKey}")]

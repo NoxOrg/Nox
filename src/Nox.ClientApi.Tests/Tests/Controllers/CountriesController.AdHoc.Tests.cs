@@ -437,8 +437,7 @@ public partial class CountriesControllerAdHocTests : NoxWebApiTestBase
 		result.Should().NotBeNull();
 
 		result!.Continent.Should().Be(1);
-		//TODO Translated
-		//result!.ContinentName.Should().Be("Portugal");            
+		result!.ContinentName.Should().Be("Europe");
 	}
 
 	[Fact]

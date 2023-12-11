@@ -71,6 +71,8 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         var entity = new ClientApi.Domain.Workplace();
         entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(createDto.Name);
         entity.SetIfNotNull(createDto.Description, (entity) => entity.Description =ClientApi.Domain.WorkplaceMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Ownership, (entity) => entity.Ownership =ClientApi.Domain.WorkplaceMetadata.CreateOwnership(createDto.Ownership.NonNullValue<System.Int32>()));
+        entity.SetIfNotNull(createDto.Type, (entity) => entity.Type =ClientApi.Domain.WorkplaceMetadata.CreateType(createDto.Type.NonNullValue<System.Int32>()));
         var nextSequenceReferenceNumber =  await _repository.GetSequenceNextValueAsync(Nox.Solution.NoxCodeGenConventions.GetDatabaseSequenceName("Workplace", "ReferenceNumber"));
         entity.EnsureReferenceNumber(nextSequenceReferenceNumber,ClientApi.Domain.WorkplaceMetadata.ReferenceNumberTypeOptions);
         return entity;
@@ -86,6 +88,22 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         else
         {
             entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
+        }
+        if(updateDto.Ownership is null)
+        {
+             entity.Ownership = null;
+        }
+        else
+        {
+            entity.Ownership = ClientApi.Domain.WorkplaceMetadata.CreateOwnership(updateDto.Ownership.ToValueFromNonNull<System.Int32>());
+        }
+        if(updateDto.Type is null)
+        {
+             entity.Type = null;
+        }
+        else
+        {
+            entity.Type = ClientApi.Domain.WorkplaceMetadata.CreateType(updateDto.Type.ToValueFromNonNull<System.Int32>());
         }
         await Task.CompletedTask;
     }
@@ -110,6 +128,24 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
             else
             {
                 entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(DescriptionUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Ownership", out var OwnershipUpdateValue))
+        {
+            if (OwnershipUpdateValue == null) { entity.Ownership = null; }
+            else
+            {
+                entity.Ownership = ClientApi.Domain.WorkplaceMetadata.CreateOwnership(OwnershipUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Type", out var TypeUpdateValue))
+        {
+            if (TypeUpdateValue == null) { entity.Type = null; }
+            else
+            {
+                entity.Type = ClientApi.Domain.WorkplaceMetadata.CreateType(TypeUpdateValue);
             }
         }
     }

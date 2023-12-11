@@ -171,7 +171,9 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/v1/EntityUniqueConstraintsRelatedForeignKeys/{key}/EntityUniqueConstraintsWithForeignKeys/{relatedKey}")]

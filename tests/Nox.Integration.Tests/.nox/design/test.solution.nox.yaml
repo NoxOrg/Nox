@@ -779,12 +779,12 @@ domain:
           isRequired: true
 
       ownedRelationships:
-          - name: SecondTestEntityOwnedRelationshipExactlyOne
-            description: Test entity relationship to SecondTestEntityOwnedRelationshipExactlyOne
+          - name: SecEntityOwnedRelExactlyOne
+            description: Test entity relationship to SecEntityOwnedRelExactlyOne
             relationship: exactlyOne
-            entity: SecondTestEntityOwnedRelationshipExactlyOne
+            entity: SecEntityOwnedRelExactlyOne
 
-    - name: SecondTestEntityOwnedRelationshipExactlyOne
+    - name: SecEntityOwnedRelExactlyOne
 
       persistence:
         isAudited: false
@@ -859,12 +859,12 @@ domain:
           isRequired: true
 
       ownedRelationships:
-          - name: SecondTestEntityOwnedRelationshipOneOrMany
+          - name: SecEntityOwnedRelOneOrMany
             description: Test entity relationship to SecondTestEntityOwnedRelationshipOneOrMany
             relationship: oneOrMany
-            entity: SecondTestEntityOwnedRelationshipOneOrMany
+            entity: SecEntityOwnedRelOneOrMany
 
-    - name: SecondTestEntityOwnedRelationshipOneOrMany
+    - name: SecEntityOwnedRelOneOrMany
 
       persistence:
         isAudited: false
@@ -909,12 +909,12 @@ domain:
           isRequired: true
 
       ownedRelationships:
-          - name: SecondTestEntityOwnedRelationshipZeroOrMany
+          - name: SecEntityOwnedRelZeroOrMany
             description: Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrMany
             relationship: zeroOrMany
-            entity: SecondTestEntityOwnedRelationshipZeroOrMany
+            entity: SecEntityOwnedRelZeroOrMany
 
-    - name: SecondTestEntityOwnedRelationshipZeroOrMany
+    - name: SecEntityOwnedRelZeroOrMany
 
       persistence:
         isAudited: false

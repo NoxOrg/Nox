@@ -715,26 +715,26 @@ public class DatabaseTests
             Id = Text.From(textId1),
             TextTestField = Text.From(text),
         };
-        var newItem2 = new SecondTestEntityOwnedRelationshipZeroOrMany()
+        var newItem2 = new SecEntityOwnedRelZeroOrMany()
         {
             Id = Text.From(textId2),
             TextTestField2 = Text.From(text),
         };
 
-        newItem.SecondTestEntityOwnedRelationshipZeroOrManies.Add(newItem2);
+        newItem.SecEntityOwnedRelZeroOrManies.Add(newItem2);
         DataContext.TestEntityOwnedRelationshipZeroOrManies.Add(newItem);
         DataContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
         _dbContextFixture.RefreshDbContext();
 
-        var testEntity = DataContext.TestEntityOwnedRelationshipZeroOrManies.Include(x => x.SecondTestEntityOwnedRelationshipZeroOrManies).First();
-        var secondTestEntity = testEntity.SecondTestEntityOwnedRelationshipZeroOrManies[0];
+        var testEntity = DataContext.TestEntityOwnedRelationshipZeroOrManies.Include(x => x.SecEntityOwnedRelZeroOrManies).First();
+        var secondTestEntity = testEntity.SecEntityOwnedRelZeroOrManies[0];
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
-        Assert.NotEmpty(testEntity.SecondTestEntityOwnedRelationshipZeroOrManies);
-        Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipZeroOrManies[0].Id.Value, textId2);
+        Assert.NotEmpty(testEntity.SecEntityOwnedRelZeroOrManies);
+        Assert.Equal(testEntity.SecEntityOwnedRelZeroOrManies[0].Id.Value, textId2);
     }
 
     public void GeneratedRelationshipOwnedOneOrManyOneOrMany()
@@ -748,26 +748,26 @@ public class DatabaseTests
             Id = Text.From(textId1),
             TextTestField = Text.From(text),
         };
-        var newItem2 = new SecondTestEntityOwnedRelationshipOneOrMany()
+        var newItem2 = new SecEntityOwnedRelOneOrMany()
         {
             Id = Text.From(textId2),
             TextTestField2 = Text.From(text),
         };
 
-        newItem.SecondTestEntityOwnedRelationshipOneOrManies.Add(newItem2);
+        newItem.SecEntityOwnedRelOneOrManies.Add(newItem2);
         DataContext.TestEntityOwnedRelationshipOneOrManies.Add(newItem);
         DataContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
         _dbContextFixture.RefreshDbContext();
 
-        var testEntity = DataContext.TestEntityOwnedRelationshipOneOrManies.Include(x => x.SecondTestEntityOwnedRelationshipOneOrManies).First();
-        var secondTestEntity = testEntity.SecondTestEntityOwnedRelationshipOneOrManies[0];
+        var testEntity = DataContext.TestEntityOwnedRelationshipOneOrManies.Include(x => x.SecEntityOwnedRelOneOrManies).First();
+        var secondTestEntity = testEntity.SecEntityOwnedRelOneOrManies[0];
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
-        Assert.NotEmpty(testEntity.SecondTestEntityOwnedRelationshipOneOrManies);
-        Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipOneOrManies[0].Id.Value, textId2);
+        Assert.NotEmpty(testEntity.SecEntityOwnedRelOneOrManies);
+        Assert.Equal(testEntity.SecEntityOwnedRelOneOrManies[0].Id.Value, textId2);
     }
 
     public void GeneratedRelationshipOwnedExactlyOneExactlyOne()
@@ -781,23 +781,23 @@ public class DatabaseTests
             Id = Text.From(textId1),
             TextTestField = Text.From(text),
         };
-        var newItem2 = new SecondTestEntityOwnedRelationshipExactlyOne()
+        var newItem2 = new SecEntityOwnedRelExactlyOne()
         {
             TextTestField2 = Text.From(textId2),
         };
 
-        newItem.CreateRefToSecondTestEntityOwnedRelationshipExactlyOne(newItem2);
+        newItem.CreateRefToSecEntityOwnedRelExactlyOne(newItem2);
         DataContext.TestEntityOwnedRelationshipExactlyOnes.Add(newItem);
         DataContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
         _dbContextFixture.RefreshDbContext();
 
-        var testEntity = DataContext.TestEntityOwnedRelationshipExactlyOnes.Include(x => x.SecondTestEntityOwnedRelationshipExactlyOne).First();
+        var testEntity = DataContext.TestEntityOwnedRelationshipExactlyOnes.Include(x => x.SecEntityOwnedRelExactlyOne).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
-        Assert.NotNull(testEntity.SecondTestEntityOwnedRelationshipExactlyOne);
-        Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipExactlyOne.TextTestField2.Value, textId2);
+        Assert.NotNull(testEntity.SecEntityOwnedRelExactlyOne);
+        Assert.Equal(testEntity.SecEntityOwnedRelExactlyOne.TextTestField2.Value, textId2);
     }
 
     public void GeneratedRelationshipOwnedZeroOrOneZeroOrOne()

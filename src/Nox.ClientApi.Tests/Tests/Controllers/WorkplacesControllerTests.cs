@@ -225,7 +225,7 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task Post_CountryToWorkplaces_Success()
         {
             // Arrange
-            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, 
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
                 new WorkplaceCreateDto { Name = _fixture.Create<string>() });
 
             // Act
@@ -310,7 +310,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var headers = CreateEtagHeader(postToCountryResponse!.Etag);
-            var putToCountryResponse = await PutAsync<CountryUpdateDto>(
+            var putToCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>(
                 $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
                 new CountryUpdateDto()
                 {
@@ -323,7 +323,8 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             putToCountryResponse.Should().NotBeNull();
-            putToCountryResponse!.StatusCode.Should().Be(HttpStatusCode.OK);
+            putToCountryResponse!.Id.Should().Be(postToCountryResponse!.Id);
+            putToCountryResponse!.Name.Should().Be(expectedName);
 
             getWorkplaceResponse.Should().NotBeNull();
             getWorkplaceResponse!.Id.Should().BeGreaterThan(0);
@@ -449,7 +450,7 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task Post_DefaultLanguageDescription_CreatesLocalization()
         {
             // Arrange
-            var createDto = new WorkplaceCreateDto 
+            var createDto = new WorkplaceCreateDto
             {
                 Name = "Regus - Paris Gare de Lyon",
                 Description = "A modern, modestly sized building with parking, just minutes from the Gare de Lyon and Gare d'Austerlitz.",
@@ -644,7 +645,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateAcceptLanguageHeader("fr-FR"));
 
             var putResult1 = await PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}", update1Dto, headers1);
-            
+
             var headers2 = CreateHeaders(
                 CreateEtagHeader(putResult1!.Etag),
                 CreateAcceptLanguageHeader("fr-FR"));
@@ -737,7 +738,7 @@ namespace ClientApi.Tests.Tests.Controllers
             frResult![0].Name.Should().Be(createDto.Name);
             frResult![0].Description.Should().Be(updateDto.Description);
         }
-        
+
         [Fact]
         public async Task Put_NewLanguageDescription_CreatesLocalization()
         {
@@ -753,8 +754,8 @@ namespace ClientApi.Tests.Tests.Controllers
             {
                 Description = "Gare de Lyon ve Gare d'Austerlitz'e birkaç dakika uzaklıkta, otoparkı olan mütevazı büyüklükte modern bir bina.",
             };
-            
-           
+
+
 
             // Act
             var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("fr-FR"));
@@ -764,10 +765,10 @@ namespace ClientApi.Tests.Tests.Controllers
             var headers = CreateHeaders(
                 CreateEtagHeader(postResult!.Etag),
                 CreateAcceptLanguageHeader("en-US"));
-            
-            var localizedDto =  await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplacesLocalized/tr-TR", upsertDto, headers, false);
+
+            var localizedDto = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplacesLocalized/tr-TR", upsertDto, headers, false);
             var localizations = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplacesLocalized"))?.ToList();
-            
+
             // Assert
             result.Should().NotBeNull();
             result.Should().HaveCount(1);
@@ -777,13 +778,13 @@ namespace ClientApi.Tests.Tests.Controllers
             localizedDto.Should().NotBeNull();
             localizedDto!.Id.Should().Be(postResult!.Id);
             localizedDto!.Description.Should().Be(upsertDto.Description);
-            
+
             localizations.Should().NotBeNull();
             localizations.Should().HaveCount(2);
             localizations.Should().ContainSingle(l => l.Id == postResult!.Id && l.CultureCode == "fr-FR" && l.Description == createDto.Description);
             localizations.Should().ContainSingle(l => l.Id == postResult!.Id && l.CultureCode == "tr-TR" && l.Description == upsertDto.Description);
         }
-        
+
         [Fact]
         public async Task Put_CreateWorkplaceLocalization_Success()
         {
@@ -794,13 +795,13 @@ namespace ClientApi.Tests.Tests.Controllers
                 Description = "الوصف المترجم باللغة الإنجليزية."
             };
 
-          
+
             var headers = CreateHeaders(
                 CreateAcceptLanguageHeader(cultureCode));
 
             var putResult = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
-                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}", 
-                upsertDto, 
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}",
+                upsertDto,
                 headers, false);
 
             putResult.Should().NotBeNull();
@@ -808,7 +809,7 @@ namespace ClientApi.Tests.Tests.Controllers
             putResult.CultureCode.Should().Be(cultureCode);
             putResult.Description.Should().Be(upsertDto.Description);
         }
-        
+
         [Fact]
         public async Task Get_RetrieveWorkplaceLocalizations_Success()
         {
@@ -818,7 +819,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized",
                 CreateAcceptLanguageHeader("en-US")))?.ToList();
 
-            
+
             localizations.Should().NotBeNull();
             localizations.Should().NotBeEmpty();
             localizations.Should().Contain(l => l.Id == newWorkplace.Id);
@@ -843,9 +844,9 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateAcceptLanguageHeader(cultureCode));
 
             var initialPutResult = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
-                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}", 
-                initialUpsertDto, 
-                headers,false);
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}",
+                initialUpsertDto,
+                headers, false);
 
             initialPutResult.Should().NotBeNull();
             initialPutResult!.Description.Should().Be(initialDescription);
@@ -857,18 +858,18 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             var putResult = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
-                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}", 
-                upsertDto, 
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}",
+                upsertDto,
                 headers, false);
 
             putResult.Should().NotBeNull();
             putResult!.Description.Should().Be(updatedDescription);
-            
+
             // Get all localizations
             var localizations = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>(
                 $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized",
                 CreateAcceptLanguageHeader("en-US")))?.ToList();
-            
+
             localizations.Should().NotBeNull();
             localizations.Should().NotBeEmpty();
             localizations.Should().HaveCount(1);
@@ -888,8 +889,8 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
-                Endpoints.WorkplacesUrl, 
-                createDto, 
+                Endpoints.WorkplacesUrl,
+                createDto,
                 CreateAcceptLanguageHeader("en-US"));
 
             // Assert
@@ -902,19 +903,112 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion LOCALIZATIONS
 
+        #region ENUMS
+
+        [Fact]
+        public async Task CreateWorkplace_WithOwnershipId_ReturnsOwnershipIdAndName()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Ownership = 1000,
+            };
+
+            // Act
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto);
+
+            //Assert
+            postResult.Should().NotBeNull();
+            postResult!.Ownership.Should().Be(1000);
+            postResult.OwnershipName.Should().Be("Fully Owned");
+        }
+
+        [Fact]
+        public async Task CreateWorkplace_WithLocalizedOwnershipId_ReturnsLocalizedOwnershipIdAndName()
+        {
+            // Arrange
+            await PutAsync($"{Endpoints.WorkplacesUrl}/WorkplaceOwnershipsLocalized", new EnumerationLocalizedList<WorkplaceOwnershipLocalizedDto>
+            {
+                Items = new List<WorkplaceOwnershipLocalizedDto>
+                {
+                    new() 
+                    {
+                        Id = 1000,
+                        CultureCode = "fr-FR",
+                        Name = "Entièrement possédé"
+                    }
+                }
+            });
+
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Ownership = 1000,
+            };
+
+            // Act
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}?lang=fr-FR", createDto);
+
+            //Assert
+            postResult.Should().NotBeNull();
+            postResult!.Ownership.Should().Be(1000);
+            postResult.OwnershipName.Should().Be("Entièrement possédé");
+        }
+
+        [Fact]
+        public async Task CreateWorkplace_WithLocalizedOwnershipId_ReturnsOwnershipIdAndName()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Ownership = 1000,
+            };
+
+            // Act
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}?lang=fr-FR", createDto);
+
+            //Assert
+            postResult.Should().NotBeNull();
+            postResult!.Ownership.Should().Be(1000);
+            postResult.OwnershipName.Should().Be("[Fully Owned]");
+        }
+
+        [Fact]
+        public async Task CreateWorkplace_WithTypeId_ReturnsTypeIdAndName()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Type = 1000,
+            };
+
+            // Act
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto);
+
+            //Assert
+            postResult.Should().NotBeNull();
+            postResult!.Type.Should().Be(1000);
+            postResult.TypeName.Should().Be("Business Centre");
+        }
+
+        #endregion ENUMS
+
         [Fact]
         public async Task WhenRequestHasInvalidFieldType_ShouldReturnBadRequestInvalid()
         {
-            
+
             //Act
-            var postResult = await PostAsync(Endpoints.WorkplacesUrl, new { CountryId = "aaa"});
+            var postResult = await PostAsync(Endpoints.WorkplacesUrl, new { CountryId = "aaa" });
             var response = await postResult.Content.ReadFromJsonAsync<ApplicationErrorCodeResponse>();
 
             //Assert
-            postResult.StatusCode.Should().Be(HttpStatusCode.BadRequest);   
+            postResult.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             response!.Error.Code.Should().Be("bad_request_invalid_field");
         }
-      
+
         [Fact]
         public async Task Put_Description_ShouldUpdate()
         {
@@ -1126,7 +1220,7 @@ namespace ClientApi.Tests.Tests.Controllers
             {
                 { "Accept-Language", new List<string> { $"{testCulture}, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5" } }
             };
-            
+
             await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, headers);
 
             // Act
@@ -1174,7 +1268,7 @@ namespace ClientApi.Tests.Tests.Controllers
         /// Update references in a ManyToManyRelationship
         /// </summary>
         /// <returns></returns>
-        [Fact(Skip="Issue while saving the entity")]
+        [Fact(Skip = "Issue while saving the entity")]
         public async Task Put_UpdateRefWorkplaceToTenants_InManyToManyRelationship_Success()
         {
             // Arrange

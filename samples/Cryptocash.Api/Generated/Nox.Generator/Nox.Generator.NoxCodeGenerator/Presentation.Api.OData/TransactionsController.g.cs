@@ -105,7 +105,9 @@ public abstract partial class TransactionsControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetCustomerByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     public virtual async Task<ActionResult> CreateRefToBooking([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
@@ -184,7 +186,9 @@ public abstract partial class TransactionsControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetBookingByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     #endregion

@@ -1,7 +1,9 @@
 ﻿using Nox.Yaml;
 using Nox.Yaml.Attributes;
+using Nox.Yaml.Validation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using YamlDotNet.Serialization;
 
 namespace Nox.Solution;
@@ -10,6 +12,7 @@ namespace Nox.Solution;
 [Title("Definition and mapping of API endpoints to internal OData routes.")]
 [Description("Defines custom endpoints for this solution and how they map to generated internal OData endpoints.")]
 [AdditionalProperties(false)]
+[DebuggerDisplay("{Name}: {Route}")]
 public class ApiRouteMapping : YamlConfigNode<NoxSolution, ApiConfiguration>
 {
     [Required]
@@ -67,6 +70,17 @@ public class ApiRouteMapping : YamlConfigNode<NoxSolution, ApiConfiguration>
         HttpVerbString = HttpVerbToHttpVerbString(HttpVerb);
         RequestContentTypeString = ToContentTypeString(RequestBodyType);
         ResponseContentTypeString = ToContentTypeString(ContentBodyType.Json);
+    }
+
+    public override ValidationResult Validate(NoxSolution topNode, ApiConfiguration parentNode, string yamlPath)
+    {
+        var result = base.Validate(topNode, parentNode, yamlPath);
+
+        if (HttpVerb == HttpVerb.Get && JsonBodyType != null)
+        {
+            result.AddError(nameof(HttpVerb),$"Endpoint [{Name}] with verb [{HttpVerb}] can not define a value for [{nameof(JsonBodyType)}].");
+        }
+        return result;
     }
 
     private static string HttpVerbToHttpVerbString(HttpVerb verb)

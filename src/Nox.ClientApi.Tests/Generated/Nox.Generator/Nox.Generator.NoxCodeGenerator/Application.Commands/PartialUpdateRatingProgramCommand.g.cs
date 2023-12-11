@@ -18,7 +18,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record PartialUpdateRatingProgramCommand(System.Guid keyStoreId, System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <RatingProgramKeyDto?>;
 
-internal class PartialUpdateRatingProgramCommandHandler : PartialUpdateRatingProgramCommandHandlerBase
+internal partial class PartialUpdateRatingProgramCommandHandler : PartialUpdateRatingProgramCommandHandlerBase
 {
 	public PartialUpdateRatingProgramCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateRatingProgramCommandHandler : PartialUpdateRatingPro
 	{
 	}
 }
-internal class PartialUpdateRatingProgramCommandHandlerBase : CommandBase<PartialUpdateRatingProgramCommand, RatingProgramEntity>, IRequestHandler<PartialUpdateRatingProgramCommand, RatingProgramKeyDto?>
+internal abstract class PartialUpdateRatingProgramCommandHandlerBase : CommandBase<PartialUpdateRatingProgramCommand, RatingProgramEntity>, IRequestHandler<PartialUpdateRatingProgramCommand, RatingProgramKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> EntityFactory { get; }

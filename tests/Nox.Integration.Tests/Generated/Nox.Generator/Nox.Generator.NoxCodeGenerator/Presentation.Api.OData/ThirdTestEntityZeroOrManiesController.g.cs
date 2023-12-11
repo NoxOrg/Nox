@@ -171,7 +171,9 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/v1/ThirdTestEntityZeroOrManies/{key}/ThirdTestEntityOneOrManies/{relatedKey}")]

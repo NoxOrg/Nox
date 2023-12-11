@@ -1,3 +1,5 @@
+using FluentAssertions;
+
 namespace Nox.Types.Tests.Types;
 
 public class CultureCodeTests
@@ -39,8 +41,8 @@ public class CultureCodeTests
         var result = CultureCode.TryFrom("tr-TR", out var culture);
 
         // Assert
-        Assert.True(result);
-        Assert.Equal("tr-TR", culture!.Value);
+        result.IsValid.Should().BeTrue();
+        culture!.Value.Should().Be("tr-TR");
     }
     
     [Fact]
@@ -50,8 +52,8 @@ public class CultureCodeTests
         var result = CultureCode.TryFrom("aaaa", out var culture);
 
         // Assert
-        Assert.False(result);
-        Assert.Null(culture);
+        result.IsValid.Should().BeFalse();
+        culture.Should().BeNull();
     }
     
     [Fact]

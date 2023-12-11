@@ -69,8 +69,8 @@ public class CreateTestEntityOwnedRelationshipOneOrManyValidator : AbstractValid
 {
     public CreateTestEntityOwnedRelationshipOneOrManyValidator()
     {
-		RuleFor(x => x.EntityDto.SecondTestEntityOwnedRelationshipOneOrManies)
+		RuleFor(x => x.EntityDto.SecEntityOwnedRelOneOrManies)
 			.Must(owned => owned.All(x => x.Id != null))
-			.WithMessage("SecondTestEntityOwnedRelationshipOneOrManies.Id is required.");
+			.WithMessage("SecEntityOwnedRelOneOrManies.Id is required.");
     }
 }

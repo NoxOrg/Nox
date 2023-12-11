@@ -105,7 +105,9 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     #endregion

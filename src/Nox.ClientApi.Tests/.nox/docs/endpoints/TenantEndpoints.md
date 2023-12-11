@@ -106,3 +106,8 @@ This document provides information about the various endpoints available in our 
 
 [Workplace](WorkplaceEndpoints.md)
 
+## Enumerations Endpoints
+
+This section details the API endpoints related to enumeration attributes in a specific Tenant.
+- **GET** `/api/Tenants/TenantStatuses`
+  - **Description**: Retrieve non-conventional values of Statuses for a specific Tenant.

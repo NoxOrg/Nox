@@ -18,7 +18,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record PartialUpdateWorkplaceCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <WorkplaceKeyDto?>;
 
-internal class PartialUpdateWorkplaceCommandHandler : PartialUpdateWorkplaceCommandHandlerBase
+internal partial class PartialUpdateWorkplaceCommandHandler : PartialUpdateWorkplaceCommandHandlerBase
 {
 	public PartialUpdateWorkplaceCommandHandler(
         AppDbContext dbContext,
@@ -29,7 +29,7 @@ internal class PartialUpdateWorkplaceCommandHandler : PartialUpdateWorkplaceComm
 	{
 	}
 }
-internal class PartialUpdateWorkplaceCommandHandlerBase : CommandBase<PartialUpdateWorkplaceCommand, WorkplaceEntity>, IRequestHandler<PartialUpdateWorkplaceCommand, WorkplaceKeyDto?>
+internal abstract class PartialUpdateWorkplaceCommandHandlerBase : CommandBase<PartialUpdateWorkplaceCommand, WorkplaceEntity>, IRequestHandler<PartialUpdateWorkplaceCommand, WorkplaceKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> EntityFactory { get; }

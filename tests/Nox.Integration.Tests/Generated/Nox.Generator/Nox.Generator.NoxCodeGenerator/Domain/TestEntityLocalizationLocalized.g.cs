@@ -12,6 +12,8 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 
+using TestWebAppDomain = TestWebApp.Domain;
+
 namespace TestWebApp.Domain;
 
 /// <summary>
@@ -31,7 +33,7 @@ internal partial class TestEntityLocalizationLocalized : IEntityConcurrent
     /// </summary>
     public Nox.Types.Text? TextFieldToLocalize { get; set; } = null!;
 
-    public virtual TestWebApp.Domain.TestEntityLocalization TestEntityLocalization { get; set; } = null!;
+    public virtual TestWebAppDomain.TestEntityLocalization TestEntityLocalization { get; set; } = null!;
 
     /// <summary>
     /// Entity tag used as concurrency token.

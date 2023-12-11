@@ -210,6 +210,8 @@ Name|System.String|Workplace Name
 ReferenceNumber|System.String|Workplace Code
 Description|System.String|Workplace Description
 Greeting|System.String|The Formula
+Ownership|System.Int32|Workplace Ownership
+Type|System.Int32|Workplace Type
 CountryId|System.Int64|The unique identifier
 TenantId|System.UInt32|
 

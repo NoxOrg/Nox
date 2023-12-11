@@ -105,7 +105,9 @@ public abstract partial class TestEntityExactlyOneToZeroOrManiesControllerBase :
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetTestEntityZeroOrManyToExactlyOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     #endregion

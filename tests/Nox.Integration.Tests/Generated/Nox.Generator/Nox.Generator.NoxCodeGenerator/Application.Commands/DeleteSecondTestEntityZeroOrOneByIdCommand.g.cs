@@ -16,7 +16,7 @@ namespace TestWebApp.Application.Commands;
 
 public partial record DeleteSecondTestEntityZeroOrOneByIdCommand(IEnumerable<SecondTestEntityZeroOrOneKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteSecondTestEntityZeroOrOneByIdCommandHandler : DeleteSecondTestEntityZeroOrOneByIdCommandHandlerBase
+internal partial class DeleteSecondTestEntityZeroOrOneByIdCommandHandler : DeleteSecondTestEntityZeroOrOneByIdCommandHandlerBase
 {
 	public DeleteSecondTestEntityZeroOrOneByIdCommandHandler(
         AppDbContext dbContext,

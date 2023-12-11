@@ -139,7 +139,13 @@ public class NoxSimpleTypeDefinition : YamlConfigNode<object,object>
     public bool IsReadonly { get; internal set; } = false;
 
     [Ignore]
-    public bool IsLocalized => Type == NoxType.Text && TextTypeOptions is not null && TextTypeOptions.IsLocalized;
+    public bool IsLocalized => IsLocalizedText;
+
+    [Ignore]
+    public bool IsLocalizedText => Type == NoxType.Text && TextTypeOptions?.IsLocalized == true;
+
+    [Ignore]
+    public bool IsLocalizedEnum => Type == NoxType.Enumeration && EnumerationTypeOptions?.IsLocalized == true;
 
     public NoxSimpleTypeDefinition ShallowCopy()
     {

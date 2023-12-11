@@ -18,7 +18,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record PartialUpdateCountryQualityOfLifeIndexCommand(System.Int64 keyCountryId, System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryQualityOfLifeIndexKeyDto?>;
 
-internal class PartialUpdateCountryQualityOfLifeIndexCommandHandler : PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase
+internal partial class PartialUpdateCountryQualityOfLifeIndexCommandHandler : PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase
 {
 	public PartialUpdateCountryQualityOfLifeIndexCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateCountryQualityOfLifeIndexCommandHandler : PartialUpd
 	{
 	}
 }
-internal class PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase : CommandBase<PartialUpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexEntity>, IRequestHandler<PartialUpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexKeyDto?>
+internal abstract class PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase : CommandBase<PartialUpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexEntity>, IRequestHandler<PartialUpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> EntityFactory { get; }
