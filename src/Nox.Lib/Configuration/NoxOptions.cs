@@ -19,11 +19,11 @@ using Nox.Infrastructure.Messaging.InMemoryBus;
 using Nox.Infrastructure.Messaging.AzureServiceBus;
 using Nox.Infrastructure;
 using Nox.Integration.Extensions;
-using Nox.Integration.SqlServer;
 using Nox.Yaml.VariableProviders.Environment;
 using Nox.Domain;
 using Nox.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Nox.Integration.SqlServer;
 using SqlKata.Compilers;
 
 namespace Nox.Configuration

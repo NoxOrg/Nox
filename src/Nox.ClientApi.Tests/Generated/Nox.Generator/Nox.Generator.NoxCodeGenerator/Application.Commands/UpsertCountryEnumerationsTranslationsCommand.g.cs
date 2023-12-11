@@ -77,7 +77,7 @@ internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase 
 public class UpsertCountriesContinentsTranslationsCommandValidator : AbstractValidator<UpsertCountriesContinentsTranslationsCommand>
 {
 	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-	private static readonly Nox.Types.CultureCode[] _supportedCultureCodes = new Nox.Types.CultureCode[] { Nox.Types.CultureCode.From("fr-FR"), Nox.Types.CultureCode.From("it-IT"), Nox.Types.CultureCode.From("en-US"), Nox.Types.CultureCode.From("de-DE"), };
+	private static readonly Nox.Types.CultureCode[] _supportedCultureCodes = new Nox.Types.CultureCode[] { Nox.Types.CultureCode.From("fr-FR"), Nox.Types.CultureCode.From("en-US"), Nox.Types.CultureCode.From("it-IT"), Nox.Types.CultureCode.From("de-DE"), };
 	private static readonly int[] _supportedIds = new int[] { 1, 2, 3, 4, 5, };
 	
     public UpsertCountriesContinentsTranslationsCommandValidator(NoxSolution noxSolution)
