@@ -136,7 +136,7 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     /// </summary>
     /// <remarks>Optional.</remarks>    
     public System.Int32? Continent { get; set; }
-    [NotMapped]
+
     public string? ContinentName { get; set; } = default!;
 
     /// <summary>

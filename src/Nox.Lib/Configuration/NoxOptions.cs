@@ -245,11 +245,12 @@ namespace Nox.Configuration
                     };
                 });
 
+                services.AddScoped<IEntityDtoSqlQueryBuilderProvider, EntityDtoSqlQueryBuilderProvider>();
                 services.Scan(scan => scan
                     .FromAssemblies(noxAssemblies)
                     .AddClasses(classes => classes.AssignableTo<IEntityDtoSqlQueryBuilder>())
                     .As<IEntityDtoSqlQueryBuilder>()
-                    .WithSingletonLifetime());
+                    .WithScopedLifetime());
             }
         }
 

@@ -78,6 +78,7 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
     {
         var entity = new ClientApi.Domain.Tenant();
         entity.Name = ClientApi.Domain.TenantMetadata.CreateName(createDto.Name);
+        entity.SetIfNotNull(createDto.Status, (entity) => entity.Status =ClientApi.Domain.TenantMetadata.CreateStatus(createDto.Status.NonNullValue<System.Int32>()));
 		entity.EnsureId();
         foreach (var dto in createDto.TenantBrands)
         {
@@ -94,6 +95,14 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
     private async Task UpdateEntityInternalAsync(TenantEntity entity, TenantUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = ClientApi.Domain.TenantMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
+        if(updateDto.Status is null)
+        {
+             entity.Status = null;
+        }
+        else
+        {
+            entity.Status = ClientApi.Domain.TenantMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>());
+        }
 		entity.EnsureId();
 	    await UpdateOwnedEntitiesAsync(entity, updateDto, cultureCode);
     }
@@ -109,6 +118,15 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
             }
             {
                 entity.Name = ClientApi.Domain.TenantMetadata.CreateName(NameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Status", out var StatusUpdateValue))
+        {
+            if (StatusUpdateValue == null) { entity.Status = null; }
+            else
+            {
+                entity.Status = ClientApi.Domain.TenantMetadata.CreateStatus(StatusUpdateValue);
             }
         }
 		entity.EnsureId();
