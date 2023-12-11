@@ -18,7 +18,7 @@ namespace TestWebApp.Application.Commands;
 
 public partial record PartialUpdateTestEntityExactlyOneToZeroOrOneCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityExactlyOneToZeroOrOneKeyDto?>;
 
-internal class PartialUpdateTestEntityExactlyOneToZeroOrOneCommandHandler : PartialUpdateTestEntityExactlyOneToZeroOrOneCommandHandlerBase
+internal partial class PartialUpdateTestEntityExactlyOneToZeroOrOneCommandHandler : PartialUpdateTestEntityExactlyOneToZeroOrOneCommandHandlerBase
 {
 	public PartialUpdateTestEntityExactlyOneToZeroOrOneCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateTestEntityExactlyOneToZeroOrOneCommandHandler : Part
 	{
 	}
 }
-internal class PartialUpdateTestEntityExactlyOneToZeroOrOneCommandHandlerBase : CommandBase<PartialUpdateTestEntityExactlyOneToZeroOrOneCommand, TestEntityExactlyOneToZeroOrOneEntity>, IRequestHandler<PartialUpdateTestEntityExactlyOneToZeroOrOneCommand, TestEntityExactlyOneToZeroOrOneKeyDto?>
+internal abstract class PartialUpdateTestEntityExactlyOneToZeroOrOneCommandHandlerBase : CommandBase<PartialUpdateTestEntityExactlyOneToZeroOrOneCommand, TestEntityExactlyOneToZeroOrOneEntity>, IRequestHandler<PartialUpdateTestEntityExactlyOneToZeroOrOneCommand, TestEntityExactlyOneToZeroOrOneKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityExactlyOneToZeroOrOneEntity, TestEntityExactlyOneToZeroOrOneCreateDto, TestEntityExactlyOneToZeroOrOneUpdateDto> EntityFactory { get; }

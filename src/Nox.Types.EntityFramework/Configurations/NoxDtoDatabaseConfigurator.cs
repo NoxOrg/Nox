@@ -13,39 +13,46 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 {
     private readonly NoxCodeGenConventions _codeGenConventions;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
+    private readonly IEntityDtoSqlQueryBuilderProvider _sqlQueryBuilderProvider;
 
-    public NoxDtoDatabaseConfigurator(NoxCodeGenConventions codeGenConventions, INoxClientAssemblyProvider clientAssemblyProvider)
+    public NoxDtoDatabaseConfigurator(
+        NoxCodeGenConventions codeGenConventions,
+        INoxClientAssemblyProvider clientAssemblyProvider,
+        IEntityDtoSqlQueryBuilderProvider sqlQueryBuilderProvider)
     {
         _codeGenConventions = codeGenConventions;
         _clientAssemblyProvider = clientAssemblyProvider;
+        _sqlQueryBuilderProvider = sqlQueryBuilderProvider;
     }
 
     public void ConfigureDto(EntityTypeBuilder builder, Entity entity)
     {
         ConfigureTableName(builder, entity);
 
-        ConfigureKeys(builder, entity);
+        ConfigureKeys(builder, keys: entity.GetKeys());
 
         ConfigureAttributes(builder, entity);
 
         ConfigureRelationships(builder, entity);
 
         ConfigureOwnedRelationships(builder, entity);
+
+        ConfigureSqlQuery(builder, entity);
     }
+
     private void ConfigureTableName(EntityTypeBuilder builder, Entity entity)
     {
         builder.ToTable(_codeGenConventions.Solution.Domain!.GetEntityByName(entity.Name).Persistence.TableName);
     }
+
     public void ConfigureLocalizedDto(EntityTypeBuilder builder, Entity entity)
     {
-        var localizedEntity = entity.ShallowCopy(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name));
-
-        ConfigureKeys(builder, localizedEntity);
+        ConfigureKeys(builder, keys: entity.GetKeys());
     }
 
-    private static void ConfigureKeys(EntityTypeBuilder builder, Entity entity)
+    private static void ConfigureKeys(EntityTypeBuilder builder, IReadOnlyList<NoxSimpleTypeDefinition> keys)
     {
-        foreach (var key in entity.GetKeys())
+        foreach (var key in keys)
         {
             builder.HasKey(key.Name);
         }
@@ -151,6 +158,15 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
                 .HasOne(relatedEntityTypeName, navigationPropertyName)
                 .WithOne()
                 .HasForeignKey(relatedEntityTypeName, relationship.Related.Entity.GetKeys().Select(key => key.Name).ToArray());
+        }
+    }
+
+    private void ConfigureSqlQuery(EntityTypeBuilder builder, Entity entity)
+    {
+        if (entity.IsLocalized || entity.Attributes.Any(x => x.Type == NoxType.Enumeration))
+        {
+            var sqlQueryBuilder = _sqlQueryBuilderProvider.GetBuilder(entity.Name);
+            builder.ToSqlQuery(sqlQueryBuilder.Build());
         }
     }
 }

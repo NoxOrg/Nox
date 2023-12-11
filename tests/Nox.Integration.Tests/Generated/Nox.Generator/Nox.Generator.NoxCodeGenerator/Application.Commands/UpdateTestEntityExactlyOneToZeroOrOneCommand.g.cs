@@ -25,8 +25,8 @@ internal partial class UpdateTestEntityExactlyOneToZeroOrOneCommandHandler : Upd
 	public UpdateTestEntityExactlyOneToZeroOrOneCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityExactlyOneToZeroOrOneEntity, TestEntityExactlyOneToZeroOrOneCreateDto, TestEntityExactlyOneToZeroOrOneUpdateDto> entityFactory) 
-		: base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<TestEntityExactlyOneToZeroOrOneEntity, TestEntityExactlyOneToZeroOrOneCreateDto, TestEntityExactlyOneToZeroOrOneUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,entityFactory)
 	{
 	}
 }
@@ -36,7 +36,7 @@ internal abstract class UpdateTestEntityExactlyOneToZeroOrOneCommandHandlerBase 
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityExactlyOneToZeroOrOneEntity, TestEntityExactlyOneToZeroOrOneCreateDto, TestEntityExactlyOneToZeroOrOneUpdateDto> _entityFactory;
 
-	public UpdateTestEntityExactlyOneToZeroOrOneCommandHandlerBase(
+	protected UpdateTestEntityExactlyOneToZeroOrOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityExactlyOneToZeroOrOneEntity, TestEntityExactlyOneToZeroOrOneCreateDto, TestEntityExactlyOneToZeroOrOneUpdateDto> entityFactory)
@@ -58,7 +58,7 @@ internal abstract class UpdateTestEntityExactlyOneToZeroOrOneCommandHandlerBase 
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
+		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

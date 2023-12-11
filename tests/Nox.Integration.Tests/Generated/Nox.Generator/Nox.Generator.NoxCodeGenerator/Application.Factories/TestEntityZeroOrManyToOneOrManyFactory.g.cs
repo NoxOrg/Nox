@@ -23,24 +23,32 @@ using TestEntityZeroOrManyToOneOrManyEntity = TestWebApp.Domain.TestEntityZeroOr
 
 namespace TestWebApp.Application.Factories;
 
+internal partial class TestEntityZeroOrManyToOneOrManyFactory : TestEntityZeroOrManyToOneOrManyFactoryBase
+{
+    public TestEntityZeroOrManyToOneOrManyFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class TestEntityZeroOrManyToOneOrManyFactoryBase : IEntityFactory<TestEntityZeroOrManyToOneOrManyEntity, TestEntityZeroOrManyToOneOrManyCreateDto, TestEntityZeroOrManyToOneOrManyUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public TestEntityZeroOrManyToOneOrManyFactoryBase
-    (
+    public TestEntityZeroOrManyToOneOrManyFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual TestEntityZeroOrManyToOneOrManyEntity CreateEntity(TestEntityZeroOrManyToOneOrManyCreateDto createDto)
+    public virtual async Task<TestEntityZeroOrManyToOneOrManyEntity> CreateEntityAsync(TestEntityZeroOrManyToOneOrManyCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class TestEntityZeroOrManyToOneOrManyFactoryBase : IEntityFact
         }        
     }
 
-    public virtual void UpdateEntity(TestEntityZeroOrManyToOneOrManyEntity entity, TestEntityZeroOrManyToOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(TestEntityZeroOrManyToOneOrManyEntity entity, TestEntityZeroOrManyToOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TestEntityZeroOrManyToOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,17 +66,18 @@ internal abstract class TestEntityZeroOrManyToOneOrManyFactoryBase : IEntityFact
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private TestWebApp.Domain.TestEntityZeroOrManyToOneOrMany ToEntity(TestEntityZeroOrManyToOneOrManyCreateDto createDto)
+    private async Task<TestWebApp.Domain.TestEntityZeroOrManyToOneOrMany> ToEntityAsync(TestEntityZeroOrManyToOneOrManyCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityZeroOrManyToOneOrMany();
         entity.Id = TestEntityZeroOrManyToOneOrManyMetadata.CreateId(createDto.Id);
         entity.TextTestField2 = TestWebApp.Domain.TestEntityZeroOrManyToOneOrManyMetadata.CreateTextTestField2(createDto.TextTestField2);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(TestEntityZeroOrManyToOneOrManyEntity entity, TestEntityZeroOrManyToOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(TestEntityZeroOrManyToOneOrManyEntity entity, TestEntityZeroOrManyToOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField2 = TestWebApp.Domain.TestEntityZeroOrManyToOneOrManyMetadata.CreateTextTestField2(updateDto.TextTestField2.NonNullValue<System.String>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(TestEntityZeroOrManyToOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -88,13 +97,4 @@ internal abstract class TestEntityZeroOrManyToOneOrManyFactoryBase : IEntityFact
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class TestEntityZeroOrManyToOneOrManyFactory : TestEntityZeroOrManyToOneOrManyFactoryBase
-{
-    public TestEntityZeroOrManyToOneOrManyFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

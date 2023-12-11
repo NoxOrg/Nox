@@ -25,8 +25,8 @@ internal partial class UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandler 
 	public UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityOwnedRelationshipZeroOrOneEntity, TestEntityOwnedRelationshipZeroOrOneCreateDto, TestEntityOwnedRelationshipZeroOrOneUpdateDto> entityFactory) 
-		: base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<TestEntityOwnedRelationshipZeroOrOneEntity, TestEntityOwnedRelationshipZeroOrOneCreateDto, TestEntityOwnedRelationshipZeroOrOneUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,entityFactory)
 	{
 	}
 }
@@ -36,7 +36,7 @@ internal abstract class UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandler
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityOwnedRelationshipZeroOrOneEntity, TestEntityOwnedRelationshipZeroOrOneCreateDto, TestEntityOwnedRelationshipZeroOrOneUpdateDto> _entityFactory;
 
-	public UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase(
+	protected UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityOwnedRelationshipZeroOrOneEntity, TestEntityOwnedRelationshipZeroOrOneCreateDto, TestEntityOwnedRelationshipZeroOrOneUpdateDto> entityFactory)
@@ -59,7 +59,7 @@ internal abstract class UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandler
 		}
 		await DbContext.Entry(entity).Reference(x => x.SecondTestEntityOwnedRelationshipZeroOrOne).LoadAsync();
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
+		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

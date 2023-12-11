@@ -24,6 +24,11 @@ using Nox.Integration.Extensions;
 using Nox.Integration.SqlServer;
 using Nox.Types.EntityFramework;
 using Nox.Yaml.VariableProviders.Environment;
+using Nox.Domain;
+using System;
+using Nox.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using SqlKata.Compilers;
 
 namespace Nox.Configuration
 {
@@ -32,6 +37,7 @@ namespace Nox.Configuration
         private Assembly? _clientAssembly;
         private Action<IBusRegistrationConfigurator, DatabaseServerProvider>? _configureMassTransitTransactionalOutbox;
         private Action<IServiceCollection>? _configureDatabaseContext;
+        private Action<IServiceCollection>? _configureDatabaseRepository;
         private Action<LoggerConfiguration>? _loggerConfigurationAction;
 
         private bool _withNoxLogging = true;
@@ -53,13 +59,23 @@ namespace Nox.Configuration
             return this;
         }
 
-        public INoxOptions WithDatabaseContexts<T, D>() where T : DbContext where D : DbContext
+        public INoxOptions WithDatabaseContexts<T, D>() where T : DbContext, Infrastructure.Persistence.IAppDbContext where D : DbContext
         {
             _configureDatabaseContext = (services) =>
             {
                 services.AddSingleton<DbContextOptions<T>>();
                 services.AddDbContext<T>();
+                services.AddScoped(typeof(Infrastructure.Persistence.IAppDbContext),serviceProvider => serviceProvider.GetRequiredService<T>());
                 services.AddDbContext<D>();
+            };
+
+            return this;
+        }
+        public INoxOptions WithRepository<R>() where R : class, IRepository
+        {
+            _configureDatabaseRepository = (services) =>
+            {
+                services.AddScoped<IRepository, R>();
             };
 
             return this;
@@ -213,8 +229,30 @@ namespace Nox.Configuration
                 services.AddSingleton(typeof(INoxDatabaseConfigurator), dbProviderType);
                 services.AddSingleton(typeof(INoxDatabaseProvider), dbProviderType);
 
-                // Add DbContexts
+                
                 _configureDatabaseContext?.Invoke(services);
+
+                _configureDatabaseRepository?.Invoke(services);
+
+                services.AddScoped<IInterceptor, LangParamDbCommandInterceptor>();
+
+                services.AddScoped<Compiler>(x =>
+                {
+                    return noxSolution.Infrastructure.Persistence!.DatabaseServer.Provider switch
+                    {
+                        DatabaseServerProvider.SqlServer => new SqlServerCompiler(),
+                        DatabaseServerProvider.Postgres => new PostgresCompiler(),
+                        DatabaseServerProvider.SqLite => new SqliteCompiler(),
+                        _ => throw new NotImplementedException()
+                    };
+                });
+
+                services.AddScoped<IEntityDtoSqlQueryBuilderProvider, EntityDtoSqlQueryBuilderProvider>();
+                services.Scan(scan => scan
+                    .FromAssemblies(noxAssemblies)
+                    .AddClasses(classes => classes.AssignableTo<IEntityDtoSqlQueryBuilder>())
+                    .As<IEntityDtoSqlQueryBuilder>()
+                    .WithScopedLifetime());
             }
         }
 
@@ -251,7 +289,8 @@ namespace Nox.Configuration
             services.AddSwaggerGen(opts =>
             {
                 opts.EnableAnnotations();
-                opts.CustomOperationIds(e => $"{e.ActionDescriptor.RouteValues["controller"]}_{e.HttpMethod}");
+                //OData makes operation Ids to be the sane name
+                opts.CustomOperationIds(e => $"{e.HttpMethod}_{e.RelativePath}");
                 opts.SchemaFilter<DeltaSchemaFilter>();
                 opts.DocumentFilter<ApiRouteMappingDocumentFilter>();
             });
@@ -259,7 +298,7 @@ namespace Nox.Configuration
 
         private static NoxSolution CreateSolution(IServiceProvider serviceProvider)
         {
-            var secretsProvider = new SecretsVariableValueProvider<NoxSolutionBasicsOnly>( (s, v) =>
+            var secretsProvider = new SecretsVariableValueProvider<NoxSolutionBasicsOnly>((s, v) =>
             {
                 var secretsConfig = s.Infrastructure?.Security?.Secrets;
                 if (secretsConfig is not null)
@@ -268,7 +307,7 @@ namespace Nox.Configuration
                     resolver.Configure(secretsConfig, Assembly.GetEntryAssembly());
                     return resolver.Resolve(v);
                 }
-                return new Dictionary<string,string?>();
+                return new Dictionary<string, string?>();
             });
 
             return new NoxSolutionBuilder()

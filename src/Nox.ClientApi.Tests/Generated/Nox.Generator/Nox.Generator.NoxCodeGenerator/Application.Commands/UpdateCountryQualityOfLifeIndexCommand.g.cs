@@ -25,8 +25,8 @@ internal partial class UpdateCountryQualityOfLifeIndexCommandHandler : UpdateCou
 	public UpdateCountryQualityOfLifeIndexCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> entityFactory) 
-		: base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,entityFactory)
 	{
 	}
 }
@@ -36,7 +36,7 @@ internal abstract class UpdateCountryQualityOfLifeIndexCommandHandlerBase : Comm
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> _entityFactory;
 
-	public UpdateCountryQualityOfLifeIndexCommandHandlerBase(
+	protected UpdateCountryQualityOfLifeIndexCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> entityFactory)
@@ -59,7 +59,7 @@ internal abstract class UpdateCountryQualityOfLifeIndexCommandHandlerBase : Comm
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
+		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

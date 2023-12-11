@@ -103,12 +103,15 @@ This document provides information about the various endpoints available in our 
 ## Related Entities
 {{ for relationship in entity.Relationships }}
 [{{relationship.Entity}}]({{relationship.Entity}}Endpoints.md)
-{{end-}}{{end-}}{{if enumerationAttributes|array.size>0}}
+{{ end -}}
+{{ end -}}{{ if enumerationAttributes | array.size > 0 }}
 ## Enumerations Endpoints
 
-This section details the API endpoints related to enumeration attributes in a specific {{entity.Name}}.{{-for enumAtt in enumerationAttributes}}
+This section details the API endpoints related to enumeration attributes in a specific {{entity.Name}}.
+{{- for enumAtt in enumerationAttributes }}
 - **GET** `/api/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}`
-  - **Description**: Retrieve non-conventional values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.{{-if enumAtt.IsLocalized}}
+  - **Description**: Retrieve non-conventional values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.
+{{- if enumAtt.IsLocalized }}
   
 - **GET** `/api/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
   - **Description**: Retrieve localized values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.
@@ -119,3 +122,12 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **PUT** `/api/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
   - **Description**: Update or create localized values of {{Pluralize(enumAtt.Attribute.Name)}} for a specific {{entity.Name}}. Requires a payload with the new values.
 {{end}}{{end}}{{end}}
+{{~ if entity.IsLocalized ~}}
+## Localized Endpoints
+
+- **GET** `/api/{{entity.PluralName}}/{key}/{{entity.PluralName}}Localized`
+  - Description: Retrieve all {{entity.PluralName}}Localized for a specific {{entity.Name}}.
+
+- **PUT** `/api/{{entity.PluralName}}/{key}/{{entity.PluralName}}Localized/{cultureCode}`
+    - Description: Update or create values of {{entity.Name}}Localized for a specific {{entity.Name}}. Requires a payload with the new value of {{entity.Name}}LocalizedUpsertDto.
+{{~ end ~}}

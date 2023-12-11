@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurations;
 
 namespace Nox.Types.EntityFramework.Types;
 
@@ -12,12 +13,12 @@ public class FormulaDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        NoxSimpleTypeDefinition property,
+        NoxTypeDatabaseConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder, EntityTypeBuilder entityTypeBuilder)
     {
-        var options = property.FormulaTypeOptions ?? new FormulaTypeOptions();
+        var options = property.GetTypeOptions<FormulaTypeOptions>();
 
         entityTypeBuilder
             .Property(property.Name)

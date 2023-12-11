@@ -60,9 +60,9 @@ public abstract class TestEntityOwnedRelationshipExactlyOneDtoBase : EntityDtoBa
     public System.String TextTestField { get; set; } = default!;
 
     /// <summary>
-    /// TestEntityOwnedRelationshipExactlyOne Test entity relationship to SecondTestEntityOwnedRelationshipExactlyOne ExactlyOne SecondTestEntityOwnedRelationshipExactlyOnes
+    /// TestEntityOwnedRelationshipExactlyOne Test entity relationship to SecEntityOwnedRelExactlyOne ExactlyOne SecEntityOwnedRelExactlyOnes
     /// </summary>
-    public virtual SecondTestEntityOwnedRelationshipExactlyOneDto SecondTestEntityOwnedRelationshipExactlyOne { get; set; } = null!;
+    public virtual SecEntityOwnedRelExactlyOneDto SecEntityOwnedRelExactlyOne { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

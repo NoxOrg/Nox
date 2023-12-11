@@ -63,9 +63,10 @@ public class NoxApiMiddleware
         var translatedTarget = apiRouteMatcher.TransformTo(apiRouteMatcher.ApiRoute.TargetUrl);
 
 
-        if (translatedTarget.Contains($"{{$RouteQuery}}"))
+        if (translatedTarget.Contains($"&{{$RouteQuery}}"))
         {
-            translatedTarget = translatedTarget.Replace($"{{$RouteQuery}}", context.Request.QueryString.ToString().TrimStart('?'));
+            translatedTarget = translatedTarget.Replace($"{{$RouteQuery}}", 
+                context.Request.QueryString.ToString().TrimStart('?'));
         }
 
         var parts = translatedTarget.Split('?', 2);

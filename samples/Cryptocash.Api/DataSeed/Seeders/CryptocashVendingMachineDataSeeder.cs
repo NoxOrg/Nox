@@ -23,7 +23,7 @@ internal class CryptocashVendingMachineDataSeeder : DataSeederBase<VendingMachin
     protected override VendingMachine TransformToEntity(VendingMachineDto model)
     {
         VendingMachine entity = new VendingMachine { };
-        entity.Id = Nox.Types.Guid.From(model.Id);
+        entity.EnsureId(model.Id);
         entity.MacAddress = MacAddress.From(model.MacAddress);
         entity.PublicIp = IpAddress.From(model.PublicIp);
         entity.SerialNumber = Text.From(model.SerialNumber);

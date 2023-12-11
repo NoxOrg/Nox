@@ -1,4 +1,8 @@
-﻿namespace Nox.Application.Dto;
+﻿
+
+using System.ComponentModel.DataAnnotations;
+
+namespace Nox.Application.Dto;
 
 /// <summary>
 /// Enumeration Translated name
@@ -18,6 +22,7 @@ public abstract partial record EnumerationLocalizedDtoBase
     /// <summary>
     /// Default Translation for the Enumeration Name
     /// </summary>
+    [Required(ErrorMessage = "Name is required for the enumeration translation")]
     public string Name { get; set; } = null!;
 
  }

@@ -23,24 +23,32 @@ using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Factories;
 
+internal partial class WorkplaceFactory : WorkplaceFactoryBase
+{
+    public WorkplaceFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public WorkplaceFactoryBase
-    (
+    public WorkplaceFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual WorkplaceEntity CreateEntity(WorkplaceCreateDto createDto)
+    public virtual async Task<WorkplaceEntity> CreateEntityAsync(WorkplaceCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         }        
     }
 
-    public virtual void UpdateEntity(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(WorkplaceEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,15 +66,19 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private ClientApi.Domain.Workplace ToEntity(WorkplaceCreateDto createDto)
+    private async Task<ClientApi.Domain.Workplace> ToEntityAsync(WorkplaceCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Workplace();
         entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(createDto.Name);
         entity.SetIfNotNull(createDto.Description, (entity) => entity.Description =ClientApi.Domain.WorkplaceMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Ownership, (entity) => entity.Ownership =ClientApi.Domain.WorkplaceMetadata.CreateOwnership(createDto.Ownership.NonNullValue<System.Int32>()));
+        entity.SetIfNotNull(createDto.Type, (entity) => entity.Type =ClientApi.Domain.WorkplaceMetadata.CreateType(createDto.Type.NonNullValue<System.Int32>()));
+        var nextSequenceReferenceNumber =  await _repository.GetSequenceNextValueAsync(Nox.Solution.NoxCodeGenConventions.GetDatabaseSequenceName("Workplace", "ReferenceNumber"));
+        entity.EnsureReferenceNumber(nextSequenceReferenceNumber,ClientApi.Domain.WorkplaceMetadata.ReferenceNumberTypeOptions);
         return entity;
     }
 
-    private void UpdateEntityInternal(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         if(IsDefaultCultureCode(cultureCode)) if(updateDto.Description is null)
@@ -77,6 +89,23 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         {
             entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
         }
+        if(updateDto.Ownership is null)
+        {
+             entity.Ownership = null;
+        }
+        else
+        {
+            entity.Ownership = ClientApi.Domain.WorkplaceMetadata.CreateOwnership(updateDto.Ownership.ToValueFromNonNull<System.Int32>());
+        }
+        if(updateDto.Type is null)
+        {
+             entity.Type = null;
+        }
+        else
+        {
+            entity.Type = ClientApi.Domain.WorkplaceMetadata.CreateType(updateDto.Type.ToValueFromNonNull<System.Int32>());
+        }
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(WorkplaceEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -101,17 +130,26 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
                 entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(DescriptionUpdateValue);
             }
         }
+
+        if (updatedProperties.TryGetValue("Ownership", out var OwnershipUpdateValue))
+        {
+            if (OwnershipUpdateValue == null) { entity.Ownership = null; }
+            else
+            {
+                entity.Ownership = ClientApi.Domain.WorkplaceMetadata.CreateOwnership(OwnershipUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Type", out var TypeUpdateValue))
+        {
+            if (TypeUpdateValue == null) { entity.Type = null; }
+            else
+            {
+                entity.Type = ClientApi.Domain.WorkplaceMetadata.CreateType(TypeUpdateValue);
+            }
+        }
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class WorkplaceFactory : WorkplaceFactoryBase
-{
-    public WorkplaceFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

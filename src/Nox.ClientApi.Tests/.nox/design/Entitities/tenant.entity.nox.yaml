@@ -1,5 +1,5 @@
 #
-# workplace.entity.nox.yaml
+# tenant.entity.nox.yaml
 #
 # yaml-language-server: $schema=../../../../../schemas/entity.json
 #
@@ -28,23 +28,44 @@ attributes:
       maxLength: 63
     isRequired: true
 
+  - name: Status
+    description: Tenant Status
+    type: enumeration
+    enumerationTypeOptions:
+      values:
+        - { id: 1, name: Active }
+        - { id: 2, name: Inactive }
+      isLocalized: false
+    isRequired: false
+
 relationships:
 
-    - name: TenantWorkplaces
-      description: Workplaces where the tenant is active
-      relationship: zeroOrMany
-      entity: Workplace
+  - name: TenantWorkplaces
+    description: Workplaces where the tenant is active
+    relationship: zeroOrMany
+    entity: Workplace
+
+ownedRelationships:
+  - name: TenantBrands
+    description: Brands owned by the tenant
+    relationship: zeroOrMany
+    entity: TenantBrand
+
+  - name: TenantContact
+    description: Contact information for the tenant
+    relationship: zeroOrOne
+    entity: TenantContact
 
 persistence:
-    isAudited: false
-    create:
-        isEnabled: true
-        raiseEvents: domainEventsOnly
-    read:
-        isEnabled: true
-    update:
-        isEnabled: true
-        raiseEvents: domainEventsOnly
-    delete:
-        isEnabled: true
-        raiseEvents: domainEventsOnly
+  isAudited: false
+  create:
+    isEnabled: true
+    raiseEvents: domainEventsOnly
+  read:
+    isEnabled: true
+  update:
+    isEnabled: true
+    raiseEvents: domainEventsOnly
+  delete:
+    isEnabled: true
+    raiseEvents: domainEventsOnly

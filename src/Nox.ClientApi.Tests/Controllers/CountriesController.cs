@@ -16,7 +16,7 @@ using ClientApi.Application.Commands;
 using ClientApi.Domain;
 using ClientApi.Infrastructure.Persistence;
 using Nox.Types;
-using ClientApi.Tests.Controllers;
+using ClientApi.Tests;
 
 namespace ClientApi.Presentation.Api.OData;
 
@@ -39,7 +39,7 @@ public partial class CountriesController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new CreateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), countryLocalName, etag) { AlternativeName = "Example"});
+        var createdKey = await _mediator.Send(new CreateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), countryLocalName, _cultureCode, etag) { AlternativeName = "Example"});
         if (createdKey == null)
         {
             return NotFound();

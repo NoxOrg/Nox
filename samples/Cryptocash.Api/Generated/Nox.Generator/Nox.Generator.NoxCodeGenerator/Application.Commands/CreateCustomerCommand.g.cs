@@ -49,7 +49,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 	protected readonly IEntityFactory<Cryptocash.Domain.Transaction, TransactionCreateDto, TransactionUpdateDto> TransactionFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 
-	public CreateCustomerCommandHandlerBase(
+	protected CreateCustomerCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> PaymentDetailFactory,
@@ -72,7 +72,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.PaymentDetailsId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.PaymentDetailsId)
@@ -90,7 +90,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 		{
 			foreach(var relatedCreateDto in request.EntityDto.PaymentDetails)
 			{
-				var relatedEntity = PaymentDetailFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await PaymentDetailFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToPaymentDetails(relatedEntity);
 			}
 		}
@@ -111,7 +111,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Bookings)
 			{
-				var relatedEntity = BookingFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await BookingFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToBookings(relatedEntity);
 			}
 		}
@@ -132,7 +132,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Transactions)
 			{
-				var relatedEntity = TransactionFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await TransactionFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToTransactions(relatedEntity);
 			}
 		}
@@ -147,7 +147,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 		}
 		else if(request.EntityDto.Country is not null)
 		{
-			var relatedEntity = CountryFactory.CreateEntity(request.EntityDto.Country);
+			var relatedEntity = await CountryFactory.CreateEntityAsync(request.EntityDto.Country);
 			entityToCreate.CreateRefToCountry(relatedEntity);
 		}
 

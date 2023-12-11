@@ -55,13 +55,27 @@ internal abstract partial class ForReferenceNumberBase : EntityBase, IEntityConc
     /// Workplace Id    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.ReferenceNumber Id { get; set; } = null!;
+    public Nox.Types.ReferenceNumber Id {get; private set;} = null!;
+        /// <summary>
+        /// Ensures that a Reference Number is set. This should only be called when creating a new entity, it's immutable property.
+        /// </summary>
+    	public virtual void EnsureId(System.Int64 number, Nox.Types.ReferenceNumberTypeOptions typeOptions)
+    	{
+    		Id = Nox.Types.ReferenceNumber.From(number, typeOptions);
+    	}
 
     /// <summary>
     /// Workplace Number    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.ReferenceNumber? WorkplaceNumber { get; set; } = null!;
+    public Nox.Types.ReferenceNumber WorkplaceNumber {get; private set;} = null!;
+        /// <summary>
+        /// Ensures that a Reference Number is set. This should only be called when creating a new entity, it's immutable property.
+        /// </summary>
+    	public virtual void EnsureWorkplaceNumber(System.Int64 number, Nox.Types.ReferenceNumberTypeOptions typeOptions)
+    	{
+    		WorkplaceNumber = Nox.Types.ReferenceNumber.From(number, typeOptions);
+    	}
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

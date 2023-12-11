@@ -55,19 +55,19 @@ internal abstract partial class PaymentProviderBase : AuditableEntityBase, IEnti
     /// Payment provider unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// Payment provider name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text PaymentProviderName { get; set; } = null!;
+    public Nox.Types.Text PaymentProviderName { get;  set; } = null!;
 
     /// <summary>
     /// Payment provider account type    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text PaymentProviderType { get; set; } = null!;
+    public Nox.Types.Text PaymentProviderType { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

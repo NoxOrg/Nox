@@ -120,15 +120,7 @@ public abstract partial class CustomersControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
-        var updatedProperties = new Dictionary<string, dynamic>();
-
-        foreach (var propertyName in customer.GetChangedPropertyNames())
-        {
-            if (customer.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updatedProperties[propertyName] = value;
-            }
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CustomerPartialUpdateDto>(customer);
 
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateCustomerCommand(key, updatedProperties, _cultureCode, etag));

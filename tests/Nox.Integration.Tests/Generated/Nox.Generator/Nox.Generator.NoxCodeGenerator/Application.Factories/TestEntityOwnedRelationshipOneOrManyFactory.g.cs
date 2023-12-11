@@ -23,27 +23,36 @@ using TestEntityOwnedRelationshipOneOrManyEntity = TestWebApp.Domain.TestEntityO
 
 namespace TestWebApp.Application.Factories;
 
+internal partial class TestEntityOwnedRelationshipOneOrManyFactory : TestEntityOwnedRelationshipOneOrManyFactoryBase
+{
+    public TestEntityOwnedRelationshipOneOrManyFactory
+    (
+        IEntityFactory<TestWebApp.Domain.SecEntityOwnedRelOneOrMany, SecEntityOwnedRelOneOrManyUpsertDto, SecEntityOwnedRelOneOrManyUpsertDto> secentityownedreloneormanyfactory,
+        IRepository repository
+    ) : base(secentityownedreloneormanyfactory, repository)
+    {}
+}
+
 internal abstract class TestEntityOwnedRelationshipOneOrManyFactoryBase : IEntityFactory<TestEntityOwnedRelationshipOneOrManyEntity, TestEntityOwnedRelationshipOneOrManyCreateDto, TestEntityOwnedRelationshipOneOrManyUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
-    protected IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrMany, SecondTestEntityOwnedRelationshipOneOrManyUpsertDto, SecondTestEntityOwnedRelationshipOneOrManyUpsertDto> SecondTestEntityOwnedRelationshipOneOrManyFactory {get;}
+    protected IEntityFactory<TestWebApp.Domain.SecEntityOwnedRelOneOrMany, SecEntityOwnedRelOneOrManyUpsertDto, SecEntityOwnedRelOneOrManyUpsertDto> SecEntityOwnedRelOneOrManyFactory {get;}
 
-    public TestEntityOwnedRelationshipOneOrManyFactoryBase
-    (
-        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrMany, SecondTestEntityOwnedRelationshipOneOrManyUpsertDto, SecondTestEntityOwnedRelationshipOneOrManyUpsertDto> secondtestentityownedrelationshiponeormanyfactory,
+    public TestEntityOwnedRelationshipOneOrManyFactoryBase(
+        IEntityFactory<TestWebApp.Domain.SecEntityOwnedRelOneOrMany, SecEntityOwnedRelOneOrManyUpsertDto, SecEntityOwnedRelOneOrManyUpsertDto> secentityownedreloneormanyfactory,
         IRepository repository
         )
     {
-        SecondTestEntityOwnedRelationshipOneOrManyFactory = secondtestentityownedrelationshiponeormanyfactory;
+        SecEntityOwnedRelOneOrManyFactory = secentityownedreloneormanyfactory;
         _repository = repository;
     }
 
-    public virtual TestEntityOwnedRelationshipOneOrManyEntity CreateEntity(TestEntityOwnedRelationshipOneOrManyCreateDto createDto)
+    public virtual async Task<TestEntityOwnedRelationshipOneOrManyEntity> CreateEntityAsync(TestEntityOwnedRelationshipOneOrManyCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -51,9 +60,9 @@ internal abstract class TestEntityOwnedRelationshipOneOrManyFactoryBase : IEntit
         }        
     }
 
-    public virtual void UpdateEntity(TestEntityOwnedRelationshipOneOrManyEntity entity, TestEntityOwnedRelationshipOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(TestEntityOwnedRelationshipOneOrManyEntity entity, TestEntityOwnedRelationshipOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TestEntityOwnedRelationshipOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -61,19 +70,23 @@ internal abstract class TestEntityOwnedRelationshipOneOrManyFactoryBase : IEntit
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private TestWebApp.Domain.TestEntityOwnedRelationshipOneOrMany ToEntity(TestEntityOwnedRelationshipOneOrManyCreateDto createDto)
+    private async Task<TestWebApp.Domain.TestEntityOwnedRelationshipOneOrMany> ToEntityAsync(TestEntityOwnedRelationshipOneOrManyCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityOwnedRelationshipOneOrMany();
         entity.Id = TestEntityOwnedRelationshipOneOrManyMetadata.CreateId(createDto.Id);
         entity.TextTestField = TestWebApp.Domain.TestEntityOwnedRelationshipOneOrManyMetadata.CreateTextTestField(createDto.TextTestField);
-        createDto.SecondTestEntityOwnedRelationshipOneOrManies.ForEach(dto => entity.CreateRefToSecondTestEntityOwnedRelationshipOneOrManies(SecondTestEntityOwnedRelationshipOneOrManyFactory.CreateEntity(dto)));
-        return entity;
+        foreach (var dto in createDto.SecEntityOwnedRelOneOrManies)
+        {
+            var newRelatedEntity = await SecEntityOwnedRelOneOrManyFactory.CreateEntityAsync(dto);
+            entity.CreateRefToSecEntityOwnedRelOneOrManies(newRelatedEntity);
+        }
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(TestEntityOwnedRelationshipOneOrManyEntity entity, TestEntityOwnedRelationshipOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(TestEntityOwnedRelationshipOneOrManyEntity entity, TestEntityOwnedRelationshipOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField = TestWebApp.Domain.TestEntityOwnedRelationshipOneOrManyMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
-	    UpdateOwnedEntities(entity, updateDto, cultureCode);
+	    await UpdateOwnedEntitiesAsync(entity, updateDto, cultureCode);
     }
 
     private void PartialUpdateEntityInternal(TestEntityOwnedRelationshipOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -94,46 +107,36 @@ internal abstract class TestEntityOwnedRelationshipOneOrManyFactoryBase : IEntit
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
 
-	private void UpdateOwnedEntities(TestEntityOwnedRelationshipOneOrManyEntity entity, TestEntityOwnedRelationshipOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	private async Task UpdateOwnedEntitiesAsync(TestEntityOwnedRelationshipOneOrManyEntity entity, TestEntityOwnedRelationshipOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
-        if(!updateDto.SecondTestEntityOwnedRelationshipOneOrManies.Any())
+        if(!updateDto.SecEntityOwnedRelOneOrManies.Any())
         { 
-            _repository.DeleteOwned(entity.SecondTestEntityOwnedRelationshipOneOrManies);
-			entity.DeleteAllRefToSecondTestEntityOwnedRelationshipOneOrManies();
+            _repository.DeleteOwned(entity.SecEntityOwnedRelOneOrManies);
+			entity.DeleteAllRefToSecEntityOwnedRelOneOrManies();
         }
 		else
 		{
-			var updatedSecondTestEntityOwnedRelationshipOneOrManies = new List<TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrMany>();
-			foreach(var ownedUpsertDto in updateDto.SecondTestEntityOwnedRelationshipOneOrManies)
+			var updatedSecEntityOwnedRelOneOrManies = new List<TestWebApp.Domain.SecEntityOwnedRelOneOrMany>();
+			foreach(var ownedUpsertDto in updateDto.SecEntityOwnedRelOneOrManies)
 			{
 				if(ownedUpsertDto.Id is null)
-					updatedSecondTestEntityOwnedRelationshipOneOrManies.Add(SecondTestEntityOwnedRelationshipOneOrManyFactory.CreateEntity(ownedUpsertDto));
+					updatedSecEntityOwnedRelOneOrManies.Add(await SecEntityOwnedRelOneOrManyFactory.CreateEntityAsync(ownedUpsertDto));
 				else
 				{
-					var key = TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrManyMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.String>());
-					var ownedEntity = entity.SecondTestEntityOwnedRelationshipOneOrManies.FirstOrDefault(x => x.Id == key);
+					var key = TestWebApp.Domain.SecEntityOwnedRelOneOrManyMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.String>());
+					var ownedEntity = entity.SecEntityOwnedRelOneOrManies.FirstOrDefault(x => x.Id == key);
 					if(ownedEntity is null)
-						updatedSecondTestEntityOwnedRelationshipOneOrManies.Add(SecondTestEntityOwnedRelationshipOneOrManyFactory.CreateEntity(ownedUpsertDto));
+						updatedSecEntityOwnedRelOneOrManies.Add(await SecEntityOwnedRelOneOrManyFactory.CreateEntityAsync(ownedUpsertDto));
 					else
 					{
-						SecondTestEntityOwnedRelationshipOneOrManyFactory.UpdateEntity(ownedEntity, ownedUpsertDto, cultureCode);
-						updatedSecondTestEntityOwnedRelationshipOneOrManies.Add(ownedEntity);
+						await SecEntityOwnedRelOneOrManyFactory.UpdateEntityAsync(ownedEntity, ownedUpsertDto, cultureCode);
+						updatedSecEntityOwnedRelOneOrManies.Add(ownedEntity);
 					}
 				}
 			}
-            _repository.DeleteOwned<TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrMany>(
-                entity.SecondTestEntityOwnedRelationshipOneOrManies.Where(x => !updatedSecondTestEntityOwnedRelationshipOneOrManies.Any(upd => upd.Id == x.Id)).ToList());
-			entity.UpdateRefToSecondTestEntityOwnedRelationshipOneOrManies(updatedSecondTestEntityOwnedRelationshipOneOrManies);
+            _repository.DeleteOwned<TestWebApp.Domain.SecEntityOwnedRelOneOrMany>(
+                entity.SecEntityOwnedRelOneOrManies.Where(x => !updatedSecEntityOwnedRelOneOrManies.Any(upd => upd.Id == x.Id)).ToList());
+			entity.UpdateRefToSecEntityOwnedRelOneOrManies(updatedSecEntityOwnedRelOneOrManies);
 		}
 	}
-}
-
-internal partial class TestEntityOwnedRelationshipOneOrManyFactory : TestEntityOwnedRelationshipOneOrManyFactoryBase
-{
-    public TestEntityOwnedRelationshipOneOrManyFactory
-    (
-        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrMany, SecondTestEntityOwnedRelationshipOneOrManyUpsertDto, SecondTestEntityOwnedRelationshipOneOrManyUpsertDto> secondtestentityownedrelationshiponeormanyfactory,
-        IRepository repository
-    ) : base(secondtestentityownedrelationshiponeormanyfactory, repository)
-    {}
 }

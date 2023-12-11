@@ -43,7 +43,7 @@ internal abstract class CreateSecondTestEntityOneOrManyCommandHandlerBase : Comm
 	protected readonly IEntityFactory<SecondTestEntityOneOrManyEntity, SecondTestEntityOneOrManyCreateDto, SecondTestEntityOneOrManyUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<TestWebApp.Domain.TestEntityOneOrMany, TestEntityOneOrManyCreateDto, TestEntityOneOrManyUpdateDto> TestEntityOneOrManyFactory;
 
-	public CreateSecondTestEntityOneOrManyCommandHandlerBase(
+	protected CreateSecondTestEntityOneOrManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityOneOrMany, TestEntityOneOrManyCreateDto, TestEntityOneOrManyUpdateDto> TestEntityOneOrManyFactory,
@@ -60,7 +60,7 @@ internal abstract class CreateSecondTestEntityOneOrManyCommandHandlerBase : Comm
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.TestEntityOneOrManiesId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.TestEntityOneOrManiesId)
@@ -78,7 +78,7 @@ internal abstract class CreateSecondTestEntityOneOrManyCommandHandlerBase : Comm
 		{
 			foreach(var relatedCreateDto in request.EntityDto.TestEntityOneOrManies)
 			{
-				var relatedEntity = TestEntityOneOrManyFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await TestEntityOneOrManyFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToTestEntityOneOrManies(relatedEntity);
 			}
 		}

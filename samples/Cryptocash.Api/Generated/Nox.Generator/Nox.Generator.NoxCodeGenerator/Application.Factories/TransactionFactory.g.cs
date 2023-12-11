@@ -23,24 +23,32 @@ using TransactionEntity = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Factories;
 
+internal partial class TransactionFactory : TransactionFactoryBase
+{
+    public TransactionFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public TransactionFactoryBase
-    (
+    public TransactionFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual TransactionEntity CreateEntity(TransactionCreateDto createDto)
+    public virtual async Task<TransactionEntity> CreateEntityAsync(TransactionCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
         }        
     }
 
-    public virtual void UpdateEntity(TransactionEntity entity, TransactionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(TransactionEntity entity, TransactionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TransactionEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,22 +66,23 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private Cryptocash.Domain.Transaction ToEntity(TransactionCreateDto createDto)
+    private async Task<Cryptocash.Domain.Transaction> ToEntityAsync(TransactionCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Transaction();
         entity.TransactionType = Cryptocash.Domain.TransactionMetadata.CreateTransactionType(createDto.TransactionType);
         entity.ProcessedOnDateTime = Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(createDto.ProcessedOnDateTime);
         entity.Amount = Cryptocash.Domain.TransactionMetadata.CreateAmount(createDto.Amount);
         entity.Reference = Cryptocash.Domain.TransactionMetadata.CreateReference(createDto.Reference);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(TransactionEntity entity, TransactionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(TransactionEntity entity, TransactionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TransactionType = Cryptocash.Domain.TransactionMetadata.CreateTransactionType(updateDto.TransactionType.NonNullValue<System.String>());
         entity.ProcessedOnDateTime = Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(updateDto.ProcessedOnDateTime.NonNullValue<System.DateTimeOffset>());
         entity.Amount = Cryptocash.Domain.TransactionMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
         entity.Reference = Cryptocash.Domain.TransactionMetadata.CreateReference(updateDto.Reference.NonNullValue<System.String>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(TransactionEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -108,7 +117,9 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
                 throw new ArgumentException("Attribute 'Amount' can't be null");
             }
             {
-                entity.Amount = Cryptocash.Domain.TransactionMetadata.CreateAmount(AmountUpdateValue);
+                var entityToUpdate = entity.Amount is null ? new MoneyDto() : entity.Amount.ToDto();
+                MoneyDto.UpdateFromDictionary(entityToUpdate, AmountUpdateValue);
+                entity.Amount = Cryptocash.Domain.TransactionMetadata.CreateAmount(entityToUpdate);
             }
         }
 
@@ -126,13 +137,4 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class TransactionFactory : TransactionFactoryBase
-{
-    public TransactionFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

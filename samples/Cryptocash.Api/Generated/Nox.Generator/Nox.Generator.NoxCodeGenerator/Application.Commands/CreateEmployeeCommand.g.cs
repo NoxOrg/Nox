@@ -43,7 +43,7 @@ internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmp
 	protected readonly IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> CashStockOrderFactory;
 
-	public CreateEmployeeCommandHandlerBase(
+	protected CreateEmployeeCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> CashStockOrderFactory,
@@ -60,7 +60,7 @@ internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmp
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.CashStockOrderId is not null)
 		{
 			var relatedKey = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.EntityDto.CashStockOrderId.NonNullValue<System.Int64>());
@@ -72,7 +72,7 @@ internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmp
 		}
 		else if(request.EntityDto.CashStockOrder is not null)
 		{
-			var relatedEntity = CashStockOrderFactory.CreateEntity(request.EntityDto.CashStockOrder);
+			var relatedEntity = await CashStockOrderFactory.CreateEntityAsync(request.EntityDto.CashStockOrder);
 			entityToCreate.CreateRefToCashStockOrder(relatedEntity);
 		}
 
@@ -88,7 +88,7 @@ public class CreateEmployeeValidator : AbstractValidator<CreateEmployeeCommand>
     public CreateEmployeeValidator()
     {
 		RuleFor(x => x.EntityDto.EmployeePhoneNumbers)
-			.Must(owned => owned.All(x => x.Id == null))
+			.Must(owned => owned.TrueForAll(x => x.Id == null))
 			.WithMessage("EmployeePhoneNumbers.Id must be null as it is auto generated.");
     }
 }

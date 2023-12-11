@@ -18,7 +18,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record PartialUpdateStoreCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <StoreKeyDto?>;
 
-internal class PartialUpdateStoreCommandHandler : PartialUpdateStoreCommandHandlerBase
+internal partial class PartialUpdateStoreCommandHandler : PartialUpdateStoreCommandHandlerBase
 {
 	public PartialUpdateStoreCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateStoreCommandHandler : PartialUpdateStoreCommandHandl
 	{
 	}
 }
-internal class PartialUpdateStoreCommandHandlerBase : CommandBase<PartialUpdateStoreCommand, StoreEntity>, IRequestHandler<PartialUpdateStoreCommand, StoreKeyDto?>
+internal abstract class PartialUpdateStoreCommandHandlerBase : CommandBase<PartialUpdateStoreCommand, StoreEntity>, IRequestHandler<PartialUpdateStoreCommand, StoreKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> EntityFactory { get; }

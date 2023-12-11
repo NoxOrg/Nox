@@ -43,7 +43,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 	protected readonly IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory;
 
-	public CreateCountryCommandHandlerBase(
+	protected CreateCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory,
@@ -60,7 +60,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.WorkplacesId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.WorkplacesId)
@@ -78,7 +78,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Workplaces)
 			{
-				var relatedEntity = WorkplaceFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await WorkplaceFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToWorkplaces(relatedEntity);
 			}
 		}
@@ -95,7 +95,7 @@ public class CreateCountryValidator : AbstractValidator<CreateCountryCommand>
     public CreateCountryValidator()
     {
 		RuleFor(x => x.EntityDto.CountryLocalNames)
-			.Must(owned => owned.All(x => x.Id == null))
+			.Must(owned => owned.TrueForAll(x => x.Id == null))
 			.WithMessage("CountryLocalNames.Id must be null as it is auto generated.");
 		RuleFor(x => x.EntityDto.CountryTimeZones)
 			.Must(owned => owned.All(x => x.Id != null))

@@ -40,7 +40,7 @@ internal abstract class CreateCountryQualityOfLifeIndexCommandHandlerBase : Comm
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> EntityFactory;
 
-	public CreateCountryQualityOfLifeIndexCommandHandlerBase(
+	protected CreateCountryQualityOfLifeIndexCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> entityFactory)
@@ -55,7 +55,7 @@ internal abstract class CreateCountryQualityOfLifeIndexCommandHandlerBase : Comm
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.CountryQualityOfLifeIndices.Add(entityToCreate);

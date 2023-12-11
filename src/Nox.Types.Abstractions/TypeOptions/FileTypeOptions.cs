@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Nox.Types;
 
-public class FileTypeOptions
+public class FileTypeOptions : INoxTypeOptions
 {
     public static IReadOnlyList<FileFormatType> DefaultSupportedFileFormats => new List<FileFormatType> { FileFormatType.All };
     public IReadOnlyList<FileFormatType> SupportedFileFormats { get; set; } = DefaultSupportedFileFormats;

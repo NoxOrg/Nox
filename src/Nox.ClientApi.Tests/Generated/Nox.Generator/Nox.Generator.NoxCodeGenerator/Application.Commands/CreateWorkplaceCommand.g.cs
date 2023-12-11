@@ -5,6 +5,7 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Exceptions;
@@ -46,7 +47,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 	protected readonly IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Tenant, TenantCreateDto, TenantUpdateDto> TenantFactory;
 
-	public CreateWorkplaceCommandHandlerBase(
+	protected CreateWorkplaceCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
@@ -56,10 +57,10 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
-		this.CountryFactory = CountryFactory;
-		this.TenantFactory = TenantFactory; 
+		EntityFactory = entityFactory; 
 		EntityLocalizedFactory = entityLocalizedFactory;
+		this.CountryFactory = CountryFactory;
+		this.TenantFactory = TenantFactory;
 	}
 
 	public virtual async Task<WorkplaceKeyDto> Handle(CreateWorkplaceCommand request, CancellationToken cancellationToken)
@@ -67,7 +68,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.CountryId is not null)
 		{
 			var relatedKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
@@ -79,7 +80,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		}
 		else if(request.EntityDto.Country is not null)
 		{
-			var relatedEntity = CountryFactory.CreateEntity(request.EntityDto.Country);
+			var relatedEntity = await CountryFactory.CreateEntityAsync(request.EntityDto.Country);
 			entityToCreate.CreateRefToCountry(relatedEntity);
 		}
 		if(request.EntityDto.TenantsId.Any())
@@ -99,16 +100,26 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Tenants)
 			{
-				var relatedEntity = TenantFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await TenantFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToTenants(relatedEntity);
 			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.Workplaces.Add(entityToCreate);
-		var entityLocalizedToCreate = EntityLocalizedFactory.CreateLocalizedEntity(entityToCreate, request.CultureCode);
-		DbContext.WorkplacesLocalized.Add(entityLocalizedToCreate);
+        CreateLocalizations(entityToCreate, request.CultureCode);
 		await DbContext.SaveChangesAsync();
 		return new WorkplaceKeyDto(entityToCreate.Id.Value);
+	}
+
+	private void CreateLocalizations(WorkplaceEntity entity, Nox.Types.CultureCode cultureCode)
+	{
+		CreateWorkplaceLocalization(entity, cultureCode);
+	}
+
+	private void CreateWorkplaceLocalization(WorkplaceEntity entity, Nox.Types.CultureCode cultureCode)
+	{
+		var entityLocalized = EntityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+		DbContext.WorkplacesLocalized.Add(entityLocalized);
 	}
 }

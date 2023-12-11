@@ -40,7 +40,7 @@ internal abstract class CreateTestEntityForUniqueConstraintsCommandHandlerBase :
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> EntityFactory;
 
-	public CreateTestEntityForUniqueConstraintsCommandHandlerBase(
+	protected CreateTestEntityForUniqueConstraintsCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> entityFactory)
@@ -55,7 +55,7 @@ internal abstract class CreateTestEntityForUniqueConstraintsCommandHandlerBase :
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.TestEntityForUniqueConstraints.Add(entityToCreate);

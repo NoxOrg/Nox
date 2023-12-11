@@ -26,8 +26,8 @@ internal partial class UpdateTestEntityLocalizationCommandHandler : UpdateTestEn
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory,
-		IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> entityLocalizedFactory) 
-		: base(dbContext, noxSolution, entityFactory, entityLocalizedFactory)
+		IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> entityLocalizedFactory)
+		: base(dbContext, noxSolution,entityFactory, entityLocalizedFactory)
 	{
 	}
 }
@@ -38,7 +38,7 @@ internal abstract class UpdateTestEntityLocalizationCommandHandlerBase : Command
 	private readonly IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> _entityFactory;
 	private readonly IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> _entityLocalizedFactory;
 
-	public UpdateTestEntityLocalizationCommandHandlerBase(
+	protected UpdateTestEntityLocalizationCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory,
@@ -62,9 +62,9 @@ internal abstract class UpdateTestEntityLocalizationCommandHandlerBase : Command
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
+		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await UpdateLocalizedEntityAsync(entity, request.EntityDto, request.CultureCode);
+		await UpdateLocalizationsAsync(entity, request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entity);
 
@@ -78,7 +78,12 @@ internal abstract class UpdateTestEntityLocalizationCommandHandlerBase : Command
 		return new TestEntityLocalizationKeyDto(entity.Id.Value);
 	}
 
-	private async Task UpdateLocalizedEntityAsync(TestEntityLocalizationEntity entity, TestEntityLocalizationUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	private async Task UpdateLocalizationsAsync(TestEntityLocalizationEntity entity, TestEntityLocalizationUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+		await UpdateTestEntityLocalizationLocalizationAsync(entity, updateDto, cultureCode);
+	}
+
+	private async Task UpdateTestEntityLocalizationLocalizationAsync(TestEntityLocalizationEntity entity, TestEntityLocalizationUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
 		var entityLocalized = await DbContext.TestEntityLocalizationsLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
 		if(entityLocalized is null)

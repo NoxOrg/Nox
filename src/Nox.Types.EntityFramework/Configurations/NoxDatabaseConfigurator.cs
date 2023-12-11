@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using Nox.Types.EntityFramework.Exceptions;
 using System.Reflection.Emit;
+using Nox.Types.EntityFramework.Extensions;
 
 
 namespace Nox.Types.EntityFramework.Configurations
@@ -102,7 +103,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 new NoxSimpleTypeDefinition()
                 {
                     // We only support entities with single key
-                    Name = entity.Keys.Single().Name,
+                    Name = entity.GetKeys().Single().Name,
                     Type = NoxType.EntityId, // Create Foreign key to Main Entity
                     EntityIdTypeOptions = new EntityIdTypeOptions()
                     {
@@ -302,11 +303,12 @@ namespace Nox.Types.EntityFramework.Configurations
                     $"Property {relationshipName}Id, " +
                     $"Keytype {key.Type}");
 
-                var keyToBeConfigured = key.ShallowCopy();
-                keyToBeConfigured.Name = $"{relationshipName}Id";
-                keyToBeConfigured.Description = $"Foreign key for entity {relationship.Relationship.Name}";
-                keyToBeConfigured.IsRequired = relationship.Relationship.IsRequired();
-                keyToBeConfigured.IsReadonly = false;
+                var keyToBeConfigured = key.ToRelationKeyConfiguration(
+                    name:$"{relationshipName}Id", 
+                    description:$"Foreign key for entity {relationship.Relationship.Name}", 
+                    isReadonly:false, 
+                    isRequired:relationship.Relationship.IsRequired() );
+                
                 databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, keyToBeConfigured, entity, isKey: false, modelBuilder: modelBuilder, entityTypeBuilder: builder);
             }
         }
@@ -337,7 +339,7 @@ namespace Nox.Types.EntityFramework.Configurations
                     {
                         Console.WriteLine($"    Setup Key {key.Name} for Entity {entity.Name}");
                         keysPropertyNames.Add(databaseConfiguration.GetKeyPropertyName(key));
-                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, key, entity, true, modelBuilder, builder);
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, key.ToNoxTypeDatabaseConfiguration(), entity, true, modelBuilder, builder);
                     }
                     else
                     {
@@ -386,13 +388,13 @@ namespace Nox.Types.EntityFramework.Configurations
             if (TypesDatabaseConfigurations.TryGetValue(foreignEntityKeyType,
                 out var databaseConfigurationForForeignKey))
             {
-                var foreignEntityKeyDefinition = codeGeneratorState.Solution.Domain!.GetEntityByName(key.EntityIdTypeOptions!.Entity).Keys![0].ShallowCopy();
+                var foreignEntityKeyDefinition = codeGeneratorState.Solution.Domain!.GetEntityByName(key.EntityIdTypeOptions!.Entity).GetKeys()![0].ShallowCopy();
                 foreignEntityKeyDefinition.Name = key.Name;
                 foreignEntityKeyDefinition.Description = "-";
                 foreignEntityKeyDefinition.IsRequired = false;
                 foreignEntityKeyDefinition.IsReadonly = false;
 
-                databaseConfigurationForForeignKey.ConfigureEntityProperty(codeGeneratorState, foreignEntityKeyDefinition, entity, false, modelBuilder, builder);
+                databaseConfigurationForForeignKey.ConfigureEntityProperty(codeGeneratorState, foreignEntityKeyDefinition.ToNoxTypeDatabaseConfiguration(), entity, false, modelBuilder, builder);
             }
         }
 
@@ -457,7 +459,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 {
                     if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
                     {
-                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, property, entity, false, modelBuilder, builder);
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, property.ToNoxTypeDatabaseConfiguration(), entity, false, modelBuilder, builder);
                     }
                     else
                     {
@@ -468,20 +470,19 @@ namespace Nox.Types.EntityFramework.Configurations
         }
 
         protected virtual void ConfigureLocalizedAttributes(
-            NoxCodeGenConventions codeGeneratorState,            
+            NoxCodeGenConventions codeGeneratorState,
             EntityTypeBuilder builder,
             ModelBuilder modelBuilder,
             Entity entity)
         {
-#pragma warning disable CS0618 // Type or member is obsolete
-            var attributes = entity.GetAttributesToLocalizeAsNotRequired().ToList();
-#pragma warning restore CS0618 // Type or member is obsolete
+            var localizedAttributesConfigurations = entity.GetLocalizedAttributesConfigurations();
 
-            foreach (var property in attributes)
+            foreach (var property in localizedAttributesConfigurations)
             {
                 if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
                 {
-                    databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, property, entity, false, modelBuilder, builder);
+                    databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, property, entity, false,
+                        modelBuilder, builder);
                 }
                 else
                 {

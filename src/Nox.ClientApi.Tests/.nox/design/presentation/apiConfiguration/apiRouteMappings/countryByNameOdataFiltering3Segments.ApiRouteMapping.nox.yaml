@@ -1,0 +1,26 @@
+#
+# countriesByName.routeMapping.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../../../schemas/apiRouteMapping.json
+#
+
+name: CountriesPreserveOdataQueryMultipleSegments
+description: Get country preserve odata query with multiple segments
+httpVerb: get
+route: /CountriesByOdataSegments/{MyId}/MySpecial
+targetUrl: /countries?MyId={MyId}&{$RouteQuery}
+
+requestInput:
+  - name: MyId
+    description: My Id
+    type: number
+    default: 10
+
+responseOutput: 
+  name: TopCountriesResult
+  description: List of country names in alphabetical order
+  type: array
+  items:
+    name: Name
+    description: The name of the country
+    type: string

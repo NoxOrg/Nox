@@ -23,24 +23,32 @@ using EmailAddressEntity = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Factories;
 
+internal partial class EmailAddressFactory : EmailAddressFactoryBase
+{
+    public EmailAddressFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public EmailAddressFactoryBase
-    (
+    public EmailAddressFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual EmailAddressEntity CreateEntity(EmailAddressUpsertDto createDto)
+    public virtual async Task<EmailAddressEntity> CreateEntityAsync(EmailAddressUpsertDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEnt
         }        
     }
 
-    public virtual void UpdateEntity(EmailAddressEntity entity, EmailAddressUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(EmailAddressEntity entity, EmailAddressUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(EmailAddressEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,15 +66,15 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEnt
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private ClientApi.Domain.EmailAddress ToEntity(EmailAddressUpsertDto createDto)
+    private async Task<ClientApi.Domain.EmailAddress> ToEntityAsync(EmailAddressUpsertDto createDto)
     {
         var entity = new ClientApi.Domain.EmailAddress();
         entity.SetIfNotNull(createDto.Email, (entity) => entity.Email =ClientApi.Domain.EmailAddressMetadata.CreateEmail(createDto.Email.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.IsVerified, (entity) => entity.IsVerified =ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(createDto.IsVerified.NonNullValue<System.Boolean>()));
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(EmailAddressEntity entity, EmailAddressUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(EmailAddressEntity entity, EmailAddressUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         if(updateDto.Email is null)
         {
@@ -84,6 +92,7 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEnt
         {
             entity.IsVerified = ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(updateDto.IsVerified.ToValueFromNonNull<System.Boolean>());
         }
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(EmailAddressEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -110,13 +119,4 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEnt
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class EmailAddressFactory : EmailAddressFactoryBase
-{
-    public EmailAddressFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

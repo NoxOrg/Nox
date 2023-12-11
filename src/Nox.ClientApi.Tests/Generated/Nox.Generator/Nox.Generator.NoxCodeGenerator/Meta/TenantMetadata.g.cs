@@ -57,6 +57,42 @@ public partial class TenantMetadata
         
     
         /// <summary>
+        /// Type options for property 'Status'
+        /// </summary>
+        public static Nox.Types.EnumerationTypeOptions StatusTypeOptions {get; private set;} = new ()
+        {
+            Values = new System.Collections.Generic.List<Nox.Types.EnumerationValues>()
+            {
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 1,
+                    Name = "Active",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 2,
+                    Name = "Inactive",
+                },
+            },
+            IsLocalized = false,
+        };
+    
+    
+        /// <summary>
+        /// Factory for property 'Status'
+        /// </summary>
+        public static Nox.Types.Enumeration CreateStatus(System.Int32 value)
+            => Nox.Types.Enumeration.From(value, StatusTypeOptions);
+        
+    
+        /// <summary>
+        /// Factory for property 'TenantBrandId'
+        /// </summary>
+        public static Nox.Types.AutoNumber CreateTenantBrandId(System.Int64 value)
+            => Nox.Types.AutoNumber.FromDatabase(value);
+        
+    
+        /// <summary>
         /// Factory for property 'WorkplaceId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateWorkplaceId(System.Int64 value)
@@ -70,5 +106,14 @@ public partial class TenantMetadata
             => solution.Domain!
                 .GetEntityByName("Tenant")
                 .GetAttributeByName("Name")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Status'
+        /// </summary>
+        public static TypeUserInterface? StatusUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Tenant")
+                .GetAttributeByName("Status")?
                 .UserInterface;
 }

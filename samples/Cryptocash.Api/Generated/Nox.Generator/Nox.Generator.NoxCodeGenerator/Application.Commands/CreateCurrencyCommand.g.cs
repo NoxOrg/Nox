@@ -45,7 +45,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 	protected readonly IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> MinimumCashStockFactory;
 
-	public CreateCurrencyCommandHandlerBase(
+	protected CreateCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
@@ -64,7 +64,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.CountriesId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.CountriesId)
@@ -82,7 +82,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Countries)
 			{
-				var relatedEntity = CountryFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await CountryFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToCountries(relatedEntity);
 			}
 		}
@@ -103,7 +103,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		{
 			foreach(var relatedCreateDto in request.EntityDto.MinimumCashStocks)
 			{
-				var relatedEntity = MinimumCashStockFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await MinimumCashStockFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToMinimumCashStocks(relatedEntity);
 			}
 		}
@@ -120,10 +120,10 @@ public class CreateCurrencyValidator : AbstractValidator<CreateCurrencyCommand>
     public CreateCurrencyValidator()
     {
 		RuleFor(x => x.EntityDto.BankNotes)
-			.Must(owned => owned.All(x => x.Id == null))
+			.Must(owned => owned.TrueForAll(x => x.Id == null))
 			.WithMessage("BankNotes.Id must be null as it is auto generated.");
 		RuleFor(x => x.EntityDto.ExchangeRates)
-			.Must(owned => owned.All(x => x.Id == null))
+			.Must(owned => owned.TrueForAll(x => x.Id == null))
 			.WithMessage("ExchangeRates.Id must be null as it is auto generated.");
     }
 }

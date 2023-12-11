@@ -25,8 +25,8 @@ internal partial class UpdateBookingCommandHandler : UpdateBookingCommandHandler
 	public UpdateBookingCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory) 
-		: base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,entityFactory)
 	{
 	}
 }
@@ -36,7 +36,7 @@ internal abstract class UpdateBookingCommandHandlerBase : CommandBase<UpdateBook
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> _entityFactory;
 
-	public UpdateBookingCommandHandlerBase(
+	protected UpdateBookingCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory)
@@ -58,7 +58,7 @@ internal abstract class UpdateBookingCommandHandlerBase : CommandBase<UpdateBook
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
+		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

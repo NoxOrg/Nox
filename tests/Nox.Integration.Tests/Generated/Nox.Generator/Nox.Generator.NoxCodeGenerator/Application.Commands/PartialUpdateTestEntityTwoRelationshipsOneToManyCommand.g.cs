@@ -18,7 +18,7 @@ namespace TestWebApp.Application.Commands;
 
 public partial record PartialUpdateTestEntityTwoRelationshipsOneToManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityTwoRelationshipsOneToManyKeyDto?>;
 
-internal class PartialUpdateTestEntityTwoRelationshipsOneToManyCommandHandler : PartialUpdateTestEntityTwoRelationshipsOneToManyCommandHandlerBase
+internal partial class PartialUpdateTestEntityTwoRelationshipsOneToManyCommandHandler : PartialUpdateTestEntityTwoRelationshipsOneToManyCommandHandlerBase
 {
 	public PartialUpdateTestEntityTwoRelationshipsOneToManyCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateTestEntityTwoRelationshipsOneToManyCommandHandler : 
 	{
 	}
 }
-internal class PartialUpdateTestEntityTwoRelationshipsOneToManyCommandHandlerBase : CommandBase<PartialUpdateTestEntityTwoRelationshipsOneToManyCommand, TestEntityTwoRelationshipsOneToManyEntity>, IRequestHandler<PartialUpdateTestEntityTwoRelationshipsOneToManyCommand, TestEntityTwoRelationshipsOneToManyKeyDto?>
+internal abstract class PartialUpdateTestEntityTwoRelationshipsOneToManyCommandHandlerBase : CommandBase<PartialUpdateTestEntityTwoRelationshipsOneToManyCommand, TestEntityTwoRelationshipsOneToManyEntity>, IRequestHandler<PartialUpdateTestEntityTwoRelationshipsOneToManyCommand, TestEntityTwoRelationshipsOneToManyKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityTwoRelationshipsOneToManyEntity, TestEntityTwoRelationshipsOneToManyCreateDto, TestEntityTwoRelationshipsOneToManyUpdateDto> EntityFactory { get; }

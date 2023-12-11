@@ -49,7 +49,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 	protected readonly IEntityFactory<Cryptocash.Domain.Commission, CommissionCreateDto, CommissionUpdateDto> CommissionFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Transaction, TransactionCreateDto, TransactionUpdateDto> TransactionFactory;
 
-	public CreateBookingCommandHandlerBase(
+	protected CreateBookingCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory,
@@ -72,7 +72,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.CustomerId is not null)
 		{
 			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Int64>());
@@ -84,7 +84,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		}
 		else if(request.EntityDto.Customer is not null)
 		{
-			var relatedEntity = CustomerFactory.CreateEntity(request.EntityDto.Customer);
+			var relatedEntity = await CustomerFactory.CreateEntityAsync(request.EntityDto.Customer);
 			entityToCreate.CreateRefToCustomer(relatedEntity);
 		}
 		if(request.EntityDto.VendingMachineId is not null)
@@ -98,7 +98,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		}
 		else if(request.EntityDto.VendingMachine is not null)
 		{
-			var relatedEntity = VendingMachineFactory.CreateEntity(request.EntityDto.VendingMachine);
+			var relatedEntity = await VendingMachineFactory.CreateEntityAsync(request.EntityDto.VendingMachine);
 			entityToCreate.CreateRefToVendingMachine(relatedEntity);
 		}
 		if(request.EntityDto.CommissionId is not null)
@@ -112,7 +112,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		}
 		else if(request.EntityDto.Commission is not null)
 		{
-			var relatedEntity = CommissionFactory.CreateEntity(request.EntityDto.Commission);
+			var relatedEntity = await CommissionFactory.CreateEntityAsync(request.EntityDto.Commission);
 			entityToCreate.CreateRefToCommission(relatedEntity);
 		}
 		if(request.EntityDto.TransactionId is not null)
@@ -126,7 +126,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		}
 		else if(request.EntityDto.Transaction is not null)
 		{
-			var relatedEntity = TransactionFactory.CreateEntity(request.EntityDto.Transaction);
+			var relatedEntity = await TransactionFactory.CreateEntityAsync(request.EntityDto.Transaction);
 			entityToCreate.CreateRefToTransaction(relatedEntity);
 		}
 

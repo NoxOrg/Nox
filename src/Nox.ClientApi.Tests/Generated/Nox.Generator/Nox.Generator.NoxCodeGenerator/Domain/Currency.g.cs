@@ -55,19 +55,19 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
     /// Currency unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.CurrencyCode3 Id { get; set; } = null!;
+    public Nox.Types.CurrencyCode3 Id { get;  set; } = null!;
 
     /// <summary>
     /// Currency's name    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Text? Name { get; set; } = null!;
+    public Nox.Types.Text? Name { get;  set; } = null!;
 
     /// <summary>
     /// Currency's symbol    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Text? Symbol { get; set; } = null!;
+    public Nox.Types.Text? Symbol { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

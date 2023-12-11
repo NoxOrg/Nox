@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Solution.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,6 +31,7 @@ internal class UpdateOwnedCommandGenerator : ApplicationEntityDependentGenerator
                     .WithFileNamePrefix($"Application.Commands")
                     .WithObject("relationship", ownedRelationship)
                     .WithObject("entity", ownedEntity)
+                    .WithObject("entityKeys", ownedEntity.GetKeys())
                     .WithObject("parent", entity)
                     .WithObject("primaryKeysReturnQuery", primaryKeysReturnQuery)
                     .WithObject("parentKeysFindQuery", parentKeysFindQuery)

@@ -30,7 +30,7 @@ using TestWebApp.Domain;
 
 namespace TestWebApp.Infrastructure.Persistence;
 
-internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
+internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase, Nox.Infrastructure.Persistence.IAppDbContext
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;

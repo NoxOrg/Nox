@@ -23,24 +23,32 @@ using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
 
 namespace TestWebApp.Application.Factories;
 
+internal partial class TestEntityForTypesFactory : TestEntityForTypesFactoryBase
+{
+    public TestEntityForTypesFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public TestEntityForTypesFactoryBase
-    (
+    public TestEntityForTypesFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual TestEntityForTypesEntity CreateEntity(TestEntityForTypesCreateDto createDto)
+    public virtual async Task<TestEntityForTypesEntity> CreateEntityAsync(TestEntityForTypesCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
         }        
     }
 
-    public virtual void UpdateEntity(TestEntityForTypesEntity entity, TestEntityForTypesUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(TestEntityForTypesEntity entity, TestEntityForTypesUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TestEntityForTypesEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,7 +66,7 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private TestWebApp.Domain.TestEntityForTypes ToEntity(TestEntityForTypesCreateDto createDto)
+    private async Task<TestWebApp.Domain.TestEntityForTypes> ToEntityAsync(TestEntityForTypesCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityForTypes();
         entity.Id = TestEntityForTypesMetadata.CreateId(createDto.Id);
@@ -116,10 +124,10 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
         entity.SetIfNotNull(createDto.UserTestField, (entity) => entity.UserTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateUserTestField(createDto.UserTestField.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.HtmlTestField, (entity) => entity.HtmlTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateHtmlTestField(createDto.HtmlTestField.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.ImageTestField, (entity) => entity.ImageTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateImageTestField(createDto.ImageTestField.NonNullValue<ImageDto>()));
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(TestEntityForTypesEntity entity, TestEntityForTypesUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(TestEntityForTypesEntity entity, TestEntityForTypesUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
         if(updateDto.EnumerationTestField is null)
@@ -515,6 +523,7 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
         {
             entity.ImageTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateImageTestField(updateDto.ImageTestField.ToValueFromNonNull<ImageDto>());
         }
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(TestEntityForTypesEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -556,7 +565,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (MoneyTestFieldUpdateValue == null) { entity.MoneyTestField = null; }
             else
             {
-                entity.MoneyTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMoneyTestField(MoneyTestFieldUpdateValue);
+                var entityToUpdate = entity.MoneyTestField is null ? new MoneyDto() : entity.MoneyTestField.ToDto();
+                MoneyDto.UpdateFromDictionary(entityToUpdate, MoneyTestFieldUpdateValue);
+                entity.MoneyTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMoneyTestField(entityToUpdate);
             }
         }
 
@@ -574,7 +585,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (StreetAddressTestFieldUpdateValue == null) { entity.StreetAddressTestField = null; }
             else
             {
-                entity.StreetAddressTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateStreetAddressTestField(StreetAddressTestFieldUpdateValue);
+                var entityToUpdate = entity.StreetAddressTestField is null ? new StreetAddressDto() : entity.StreetAddressTestField.ToDto();
+                StreetAddressDto.UpdateFromDictionary(entityToUpdate, StreetAddressTestFieldUpdateValue);
+                entity.StreetAddressTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateStreetAddressTestField(entityToUpdate);
             }
         }
 
@@ -610,7 +623,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (GeoCoordTestFieldUpdateValue == null) { entity.GeoCoordTestField = null; }
             else
             {
-                entity.GeoCoordTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateGeoCoordTestField(GeoCoordTestFieldUpdateValue);
+                var entityToUpdate = entity.GeoCoordTestField is null ? new LatLongDto() : entity.GeoCoordTestField.ToDto();
+                LatLongDto.UpdateFromDictionary(entityToUpdate, GeoCoordTestFieldUpdateValue);
+                entity.GeoCoordTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateGeoCoordTestField(entityToUpdate);
             }
         }
 
@@ -682,7 +697,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (DateTimeRangeTestFieldUpdateValue == null) { entity.DateTimeRangeTestField = null; }
             else
             {
-                entity.DateTimeRangeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeRangeTestField(DateTimeRangeTestFieldUpdateValue);
+                var entityToUpdate = entity.DateTimeRangeTestField is null ? new DateTimeRangeDto() : entity.DateTimeRangeTestField.ToDto();
+                DateTimeRangeDto.UpdateFromDictionary(entityToUpdate, DateTimeRangeTestFieldUpdateValue);
+                entity.DateTimeRangeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeRangeTestField(entityToUpdate);
             }
         }
 
@@ -808,7 +825,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (TranslatedTextTestFieldUpdateValue == null) { entity.TranslatedTextTestField = null; }
             else
             {
-                entity.TranslatedTextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTranslatedTextTestField(TranslatedTextTestFieldUpdateValue);
+                var entityToUpdate = entity.TranslatedTextTestField is null ? new TranslatedTextDto() : entity.TranslatedTextTestField.ToDto();
+                TranslatedTextDto.UpdateFromDictionary(entityToUpdate, TranslatedTextTestFieldUpdateValue);
+                entity.TranslatedTextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTranslatedTextTestField(entityToUpdate);
             }
         }
 
@@ -898,7 +917,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (VatNumberTestFieldUpdateValue == null) { entity.VatNumberTestField = null; }
             else
             {
-                entity.VatNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateVatNumberTestField(VatNumberTestFieldUpdateValue);
+                var entityToUpdate = entity.VatNumberTestField is null ? new VatNumberDto() : entity.VatNumberTestField.ToDto();
+                VatNumberDto.UpdateFromDictionary(entityToUpdate, VatNumberTestFieldUpdateValue);
+                entity.VatNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateVatNumberTestField(entityToUpdate);
             }
         }
 
@@ -925,7 +946,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (FileTestFieldUpdateValue == null) { entity.FileTestField = null; }
             else
             {
-                entity.FileTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateFileTestField(FileTestFieldUpdateValue);
+                var entityToUpdate = entity.FileTestField is null ? new FileDto() : entity.FileTestField.ToDto();
+                FileDto.UpdateFromDictionary(entityToUpdate, FileTestFieldUpdateValue);
+                entity.FileTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateFileTestField(entityToUpdate);
             }
         }
 
@@ -979,20 +1002,13 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             if (ImageTestFieldUpdateValue == null) { entity.ImageTestField = null; }
             else
             {
-                entity.ImageTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateImageTestField(ImageTestFieldUpdateValue);
+                var entityToUpdate = entity.ImageTestField is null ? new ImageDto() : entity.ImageTestField.ToDto();
+                ImageDto.UpdateFromDictionary(entityToUpdate, ImageTestFieldUpdateValue);
+                entity.ImageTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateImageTestField(entityToUpdate);
             }
         }
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class TestEntityForTypesFactory : TestEntityForTypesFactoryBase
-{
-    public TestEntityForTypesFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

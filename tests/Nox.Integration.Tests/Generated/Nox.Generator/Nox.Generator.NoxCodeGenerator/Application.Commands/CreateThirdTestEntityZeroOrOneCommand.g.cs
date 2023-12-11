@@ -43,7 +43,7 @@ internal abstract class CreateThirdTestEntityZeroOrOneCommandHandlerBase : Comma
 	protected readonly IEntityFactory<ThirdTestEntityZeroOrOneEntity, ThirdTestEntityZeroOrOneCreateDto, ThirdTestEntityZeroOrOneUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<TestWebApp.Domain.ThirdTestEntityExactlyOne, ThirdTestEntityExactlyOneCreateDto, ThirdTestEntityExactlyOneUpdateDto> ThirdTestEntityExactlyOneFactory;
 
-	public CreateThirdTestEntityZeroOrOneCommandHandlerBase(
+	protected CreateThirdTestEntityZeroOrOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.ThirdTestEntityExactlyOne, ThirdTestEntityExactlyOneCreateDto, ThirdTestEntityExactlyOneUpdateDto> ThirdTestEntityExactlyOneFactory,
@@ -60,7 +60,7 @@ internal abstract class CreateThirdTestEntityZeroOrOneCommandHandlerBase : Comma
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.ThirdTestEntityExactlyOneId is not null)
 		{
 			var relatedKey = TestWebApp.Domain.ThirdTestEntityExactlyOneMetadata.CreateId(request.EntityDto.ThirdTestEntityExactlyOneId.NonNullValue<System.String>());
@@ -72,7 +72,7 @@ internal abstract class CreateThirdTestEntityZeroOrOneCommandHandlerBase : Comma
 		}
 		else if(request.EntityDto.ThirdTestEntityExactlyOne is not null)
 		{
-			var relatedEntity = ThirdTestEntityExactlyOneFactory.CreateEntity(request.EntityDto.ThirdTestEntityExactlyOne);
+			var relatedEntity = await ThirdTestEntityExactlyOneFactory.CreateEntityAsync(request.EntityDto.ThirdTestEntityExactlyOne);
 			entityToCreate.CreateRefToThirdTestEntityExactlyOne(relatedEntity);
 		}
 

@@ -22,12 +22,8 @@ internal class EntityLocalizedUpsertDtoGenerator : INoxCodeGenerator
         if (codeGeneratorState.Solution.Domain is null)
             return;
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
+        foreach (var entity in codeGeneratorState.Solution.Domain.GetLocalizedEntities())
         {
-            if (!entity.IsLocalized)
-                continue;
-            
-
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)

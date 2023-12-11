@@ -23,24 +23,32 @@ using LandLordEntity = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Factories;
 
+internal partial class LandLordFactory : LandLordFactoryBase
+{
+    public LandLordFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public LandLordFactoryBase
-    (
+    public LandLordFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual LandLordEntity CreateEntity(LandLordCreateDto createDto)
+    public virtual async Task<LandLordEntity> CreateEntityAsync(LandLordCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, Lan
         }        
     }
 
-    public virtual void UpdateEntity(LandLordEntity entity, LandLordUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(LandLordEntity entity, LandLordUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(LandLordEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,19 +66,20 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, Lan
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private Cryptocash.Domain.LandLord ToEntity(LandLordCreateDto createDto)
+    private async Task<Cryptocash.Domain.LandLord> ToEntityAsync(LandLordCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.LandLord();
         entity.Name = Cryptocash.Domain.LandLordMetadata.CreateName(createDto.Name);
         entity.Address = Cryptocash.Domain.LandLordMetadata.CreateAddress(createDto.Address);
         entity.EnsureId(createDto.Id);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(LandLordEntity entity, LandLordUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(LandLordEntity entity, LandLordUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = Cryptocash.Domain.LandLordMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.Address = Cryptocash.Domain.LandLordMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(LandLordEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -94,20 +103,13 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, Lan
                 throw new ArgumentException("Attribute 'Address' can't be null");
             }
             {
-                entity.Address = Cryptocash.Domain.LandLordMetadata.CreateAddress(AddressUpdateValue);
+                var entityToUpdate = entity.Address is null ? new StreetAddressDto() : entity.Address.ToDto();
+                StreetAddressDto.UpdateFromDictionary(entityToUpdate, AddressUpdateValue);
+                entity.Address = Cryptocash.Domain.LandLordMetadata.CreateAddress(entityToUpdate);
             }
         }
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class LandLordFactory : LandLordFactoryBase
-{
-    public LandLordFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

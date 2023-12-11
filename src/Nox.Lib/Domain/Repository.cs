@@ -1,15 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Nox.Extensions;
+using Nox.Infrastructure.Persistence;
 
 namespace Nox.Domain;
 
-public class Repository : IRepository
+public sealed class Repository : IRepository
 {
-    private readonly DbContext _dbContext;
+    private readonly IAppDbContext _dbContext;
 
-    public Repository(DbContext dbContext)
+    public Repository(IAppDbContext dbContext)
     {
-        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        ArgumentNullException.ThrowIfNull(dbContext, nameof(dbContext));
+        _dbContext = dbContext;
     }
 
     #region IRepository
@@ -23,8 +25,14 @@ public class Repository : IRepository
     }
     public void DeleteOwned<T>(IEnumerable<T> entities) where T : IOwnedEntity
     {
-        if (entities.Any())
-            entities.ForEach(e => DeleteOwned(e));
+        ArgumentNullException.ThrowIfNull(entities);
+
+        entities.ForEach(e => DeleteOwned(e));
+    }
+
+    public async Task<long> GetSequenceNextValueAsync(string sequenceName)
+    {
+       return await _dbContext.GetSequenceNextValueAsync(sequenceName);
     }
     #endregion
 }

@@ -40,11 +40,17 @@ domain:
   
     - $ref: ./Entities/tenant.entity.nox.yaml
   
+    - $ref: ./Entities/tenant-brand.entity.nox.yaml
+  
+    - $ref: ./Entities/tenant-contact.entity.nox.yaml
+
     - $ref: ./Entities/country-time-zone.entity.nox.yaml
     
     - $ref: ./Entities/client.entity.nox.yaml
     
     - $ref: ./Entities/holiday.entity.nox.yaml
+  
+    - $ref: ./Entities/referencenumber.entity.nox.yaml
 
     - name: EmailAddress #owned by store
       description: Verified Email Address
@@ -108,6 +114,7 @@ application:
     supportedCultures:
       - fr-FR
       - de-DE
+      - it-IT
       - en-US
     defaultCulture: en-US 
 
@@ -122,3 +129,7 @@ application:
             casing: lower
             maxLength: 2
             minLength: 2
+
+presentation: 
+
+  $ref: ./presentation/presentation.nox.yaml  

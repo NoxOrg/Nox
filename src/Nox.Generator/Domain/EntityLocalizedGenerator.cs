@@ -10,31 +10,26 @@ internal class EntityLocalizedGenerator : INoxCodeGenerator
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
 
     public void Generate(
-     SourceProductionContext context,
-     NoxCodeGenConventions codeGeneratorState,
-     GeneratorConfig config,
-     System.Action<string> log,
-     string? projectRootPath
-     )
-    { 
+        SourceProductionContext context,
+        NoxCodeGenConventions codeGeneratorState,
+        GeneratorConfig config,
+        System.Action<string> log,
+        string? projectRootPath)
+    {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain is null) return;
+        if (codeGeneratorState.Solution.Domain is null)
+            return;
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
+        foreach (var entity in codeGeneratorState.Solution.Domain.GetLocalizedEntities())
         {
-            // Currently skip owned and composite key entities
-            if (!entity.IsLocalized)
-            {
-                continue;
-            }
-
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name))
                 .WithFileNamePrefix($"Domain")
                 .WithObject("entity", entity)
+                .WithObject("entityKeys", entity.GetKeys())
                 .WithObject("entityLocalizedAttributes", entity.GetLocalizedAttributes())
                 .GenerateSourceCodeFromResource("Domain.EntityLocalized");
         }

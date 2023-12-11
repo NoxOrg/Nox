@@ -23,24 +23,32 @@ using TestEntityTwoRelationshipsOneToManyEntity = TestWebApp.Domain.TestEntityTw
 
 namespace TestWebApp.Application.Factories;
 
+internal partial class TestEntityTwoRelationshipsOneToManyFactory : TestEntityTwoRelationshipsOneToManyFactoryBase
+{
+    public TestEntityTwoRelationshipsOneToManyFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class TestEntityTwoRelationshipsOneToManyFactoryBase : IEntityFactory<TestEntityTwoRelationshipsOneToManyEntity, TestEntityTwoRelationshipsOneToManyCreateDto, TestEntityTwoRelationshipsOneToManyUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public TestEntityTwoRelationshipsOneToManyFactoryBase
-    (
+    public TestEntityTwoRelationshipsOneToManyFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual TestEntityTwoRelationshipsOneToManyEntity CreateEntity(TestEntityTwoRelationshipsOneToManyCreateDto createDto)
+    public virtual async Task<TestEntityTwoRelationshipsOneToManyEntity> CreateEntityAsync(TestEntityTwoRelationshipsOneToManyCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class TestEntityTwoRelationshipsOneToManyFactoryBase : IEntity
         }        
     }
 
-    public virtual void UpdateEntity(TestEntityTwoRelationshipsOneToManyEntity entity, TestEntityTwoRelationshipsOneToManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(TestEntityTwoRelationshipsOneToManyEntity entity, TestEntityTwoRelationshipsOneToManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TestEntityTwoRelationshipsOneToManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,17 +66,18 @@ internal abstract class TestEntityTwoRelationshipsOneToManyFactoryBase : IEntity
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private TestWebApp.Domain.TestEntityTwoRelationshipsOneToMany ToEntity(TestEntityTwoRelationshipsOneToManyCreateDto createDto)
+    private async Task<TestWebApp.Domain.TestEntityTwoRelationshipsOneToMany> ToEntityAsync(TestEntityTwoRelationshipsOneToManyCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityTwoRelationshipsOneToMany();
         entity.Id = TestEntityTwoRelationshipsOneToManyMetadata.CreateId(createDto.Id);
         entity.TextTestField = TestWebApp.Domain.TestEntityTwoRelationshipsOneToManyMetadata.CreateTextTestField(createDto.TextTestField);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(TestEntityTwoRelationshipsOneToManyEntity entity, TestEntityTwoRelationshipsOneToManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(TestEntityTwoRelationshipsOneToManyEntity entity, TestEntityTwoRelationshipsOneToManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField = TestWebApp.Domain.TestEntityTwoRelationshipsOneToManyMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(TestEntityTwoRelationshipsOneToManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -88,13 +97,4 @@ internal abstract class TestEntityTwoRelationshipsOneToManyFactoryBase : IEntity
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class TestEntityTwoRelationshipsOneToManyFactory : TestEntityTwoRelationshipsOneToManyFactoryBase
-{
-    public TestEntityTwoRelationshipsOneToManyFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

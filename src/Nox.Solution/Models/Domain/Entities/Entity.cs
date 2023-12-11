@@ -99,11 +99,12 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
     public bool HasCompositeKey => Keys.Count > 1;
 
     [YamlIgnore]
-    public bool IsLocalized =>
-        !HasCompositeKey &&
-        !IsOwnedEntity &&
-        this.Attributes.Where(x => x.IsLocalized).Any();
+    public bool IsLocalized 
+        => !HasCompositeKey && Attributes.Any(x => x.IsLocalized);
 
+    [YamlIgnore]
+    public bool HasLocalizedOwnedRelationships
+        => OwnedRelationships.Any(x => x.Related.Entity.IsLocalized);
 
     public override void Initialize(NoxSolution topNode, Domain parentNode, string yamlPath)
     {
@@ -199,7 +200,6 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         ValidateThatOwnedEntitiesHaveOneParent(result, parentNode);
         ValidateThatOwnedEntitiesAreNotAuditable(result);
         ValidateThatOwnedEntitiesHaveNoRelationships(result);
-        ValidateThatOwnedEntitiesNotLocalized(result);
         ValidateThatOwnedEntitiesDontHaveAttributeNamesWithOwnerEntityKeyNames(result);
         ValidateThatAllOwnerEntitiesHaveSimpleKeys(result);
         ValidateThatAllRelatedEntitiesHaveSimpleKeys(result);
@@ -214,8 +214,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
     {
         var attributesWithInvalidOptions = KeysAndAttributes
             .Where(n => n.Type == NoxType.ReferenceNumber)
-            .Where(n => string.IsNullOrEmpty(n.ReferenceNumberTypeOptions?.Prefix) || n.ReferenceNumberTypeOptions?.Prefix.Length > 10);            
-
+            .Where(n => string.IsNullOrEmpty(n.ReferenceNumberTypeOptions?.Prefix) || n.ReferenceNumberTypeOptions?.Prefix.Length > 10);
 
         foreach (var invalid in attributesWithInvalidOptions)
         {
@@ -225,7 +224,6 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
     private void ValidateThatMemberNamesAreNotDuplicated(ValidationResult result, NoxSolution topNode)
     {
         // Check that all names are unique
-
         var entityName = (new string[] { Name })
             .Select(s => new { Name, MemberType = EntityMemberType.Entity });
 
@@ -383,18 +381,6 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         );
     }
 
-    private void ValidateThatOwnedEntitiesNotLocalized(ValidationResult result)
-    {
-        if (!IsOwnedEntity) return;
-
-        var localizedAttributes = KeysAndAttributes.Where(a => a.TextTypeOptions?.IsLocalized ?? false);
-
-        foreach (var attr in localizedAttributes)
-        {
-            result.Errors.Add(new ValidationFailure(attr.Name, $"Attribute [{attr.Name}] on owned entity [{Name}] can't be localized."));
-        }
-    }
-
     private void ValidateThatOwnedEntitiesDontHaveAttributeNamesWithOwnerEntityKeyNames(ValidationResult result)
     {
         if (!IsOwnedEntity) return;
@@ -412,7 +398,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
 
     private void ValidateThatAllOwnerEntitiesHaveSimpleKeys(ValidationResult result)
     {
-        if(OwnedRelationships.Any() && HasCompositeKey)
+        if (OwnedRelationships.Any() && HasCompositeKey)
         {
             result.Errors.Add(
                 new ValidationFailure(Name, $"Entity [{Name}] is an owner entity and can't have composite key.")

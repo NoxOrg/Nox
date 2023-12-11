@@ -103,7 +103,9 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetTestEntityOneOrManyToExactlyOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     #endregion

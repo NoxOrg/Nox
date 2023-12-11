@@ -1,0 +1,50 @@
+#
+# workplace.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: Tenant
+
+description: Tenant
+
+keys:
+
+  - name: Id
+    type: nuid
+    nuidTypeOptions:
+      separator: "-"
+      propertyNames:
+        - "Name"
+    isRequired: true
+
+attributes:
+
+  - name: Name
+    description: Teanant Name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+
+relationships:
+
+    - name: TenantWorkplaces
+      description: Workplaces where the tenant is active
+      relationship: zeroOrMany
+      entity: Workplace
+
+persistence:
+    isAudited: false
+    create:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    delete:
+        isEnabled: true
+        raiseEvents: domainEventsOnly

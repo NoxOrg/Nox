@@ -55,13 +55,13 @@ internal abstract partial class EntityUniqueConstraintsRelatedForeignKeyBase : E
     ///     
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Number Id { get; set; } = null!;
+    public Nox.Types.Number Id { get;  set; } = null!;
 
     /// <summary>
     ///     
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Text? TextField { get; set; } = null!;
+    public Nox.Types.Text? TextField { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

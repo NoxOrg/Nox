@@ -42,7 +42,7 @@ internal abstract class CreateEntityUniqueConstraintsRelatedForeignKeyCommandHan
 	protected readonly IEntityFactory<EntityUniqueConstraintsRelatedForeignKeyEntity, EntityUniqueConstraintsRelatedForeignKeyCreateDto, EntityUniqueConstraintsRelatedForeignKeyUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto> EntityUniqueConstraintsWithForeignKeyFactory;
 
-	public CreateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase(
+	protected CreateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto> EntityUniqueConstraintsWithForeignKeyFactory,
@@ -59,7 +59,7 @@ internal abstract class CreateEntityUniqueConstraintsRelatedForeignKeyCommandHan
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.EntityUniqueConstraintsWithForeignKeysId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.EntityUniqueConstraintsWithForeignKeysId)
@@ -77,7 +77,7 @@ internal abstract class CreateEntityUniqueConstraintsRelatedForeignKeyCommandHan
 		{
 			foreach(var relatedCreateDto in request.EntityDto.EntityUniqueConstraintsWithForeignKeys)
 			{
-				var relatedEntity = EntityUniqueConstraintsWithForeignKeyFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await EntityUniqueConstraintsWithForeignKeyFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToEntityUniqueConstraintsWithForeignKeys(relatedEntity);
 			}
 		}

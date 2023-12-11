@@ -56,14 +56,14 @@ public abstract partial class WorkplacesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> Get()
     {
-        var result = await _mediator.Send(new GetWorkplacesQuery(_cultureCode));
+        var result = await _mediator.Send(new GetWorkplacesQuery());
         return Ok(result);
     }
 
     [EnableQuery]
     public virtual async Task<SingleResult<WorkplaceDto>> Get([FromRoute] System.Int64 key)
     {
-        var result = await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key));
+        var result = await _mediator.Send(new GetWorkplaceByIdQuery(key));
         return SingleResult.Create(result);
     }
 
@@ -80,7 +80,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
 
         var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
 
-        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, createdKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(createdKey.keyId))).SingleOrDefault();
 
         return Created(item);
     }
@@ -104,7 +104,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }
@@ -120,15 +120,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
-        var updatedProperties = new Dictionary<string, dynamic>();
-
-        foreach (var propertyName in workplace.GetChangedPropertyNames())
-        {
-            if (workplace.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updatedProperties[propertyName] = value;
-            }
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<WorkplacePartialUpdateDto>(workplace);
 
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateWorkplaceCommand(key, updatedProperties, _cultureCode, etag));
@@ -138,7 +130,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }

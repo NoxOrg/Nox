@@ -40,7 +40,7 @@ internal abstract class CreateRatingProgramCommandHandlerBase : CommandBase<Crea
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> EntityFactory;
 
-	public CreateRatingProgramCommandHandlerBase(
+	protected CreateRatingProgramCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory)
@@ -55,7 +55,7 @@ internal abstract class CreateRatingProgramCommandHandlerBase : CommandBase<Crea
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.RatingPrograms.Add(entityToCreate);

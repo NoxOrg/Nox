@@ -23,24 +23,32 @@ using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Factories;
 
+internal partial class StoreLicenseFactory : StoreLicenseFactoryBase
+{
+    public StoreLicenseFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public StoreLicenseFactoryBase
-    (
+    public StoreLicenseFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual StoreLicenseEntity CreateEntity(StoreLicenseCreateDto createDto)
+    public virtual async Task<StoreLicenseEntity> CreateEntityAsync(StoreLicenseCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
         }        
     }
 
-    public virtual void UpdateEntity(StoreLicenseEntity entity, StoreLicenseUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(StoreLicenseEntity entity, StoreLicenseUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(StoreLicenseEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,16 +66,17 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private ClientApi.Domain.StoreLicense ToEntity(StoreLicenseCreateDto createDto)
+    private async Task<ClientApi.Domain.StoreLicense> ToEntityAsync(StoreLicenseCreateDto createDto)
     {
         var entity = new ClientApi.Domain.StoreLicense();
         entity.Issuer = ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(createDto.Issuer);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(StoreLicenseEntity entity, StoreLicenseUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(StoreLicenseEntity entity, StoreLicenseUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Issuer = ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(updateDto.Issuer.NonNullValue<System.String>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(StoreLicenseEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -87,13 +96,4 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class StoreLicenseFactory : StoreLicenseFactoryBase
-{
-    public StoreLicenseFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

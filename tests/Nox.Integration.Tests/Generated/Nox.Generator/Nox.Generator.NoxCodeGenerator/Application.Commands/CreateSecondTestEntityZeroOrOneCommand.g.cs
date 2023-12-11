@@ -43,7 +43,7 @@ internal abstract class CreateSecondTestEntityZeroOrOneCommandHandlerBase : Comm
 	protected readonly IEntityFactory<SecondTestEntityZeroOrOneEntity, SecondTestEntityZeroOrOneCreateDto, SecondTestEntityZeroOrOneUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOne, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> TestEntityZeroOrOneFactory;
 
-	public CreateSecondTestEntityZeroOrOneCommandHandlerBase(
+	protected CreateSecondTestEntityZeroOrOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOne, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> TestEntityZeroOrOneFactory,
@@ -60,7 +60,7 @@ internal abstract class CreateSecondTestEntityZeroOrOneCommandHandlerBase : Comm
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.TestEntityZeroOrOneId is not null)
 		{
 			var relatedKey = TestWebApp.Domain.TestEntityZeroOrOneMetadata.CreateId(request.EntityDto.TestEntityZeroOrOneId.NonNullValue<System.String>());
@@ -72,7 +72,7 @@ internal abstract class CreateSecondTestEntityZeroOrOneCommandHandlerBase : Comm
 		}
 		else if(request.EntityDto.TestEntityZeroOrOne is not null)
 		{
-			var relatedEntity = TestEntityZeroOrOneFactory.CreateEntity(request.EntityDto.TestEntityZeroOrOne);
+			var relatedEntity = await TestEntityZeroOrOneFactory.CreateEntityAsync(request.EntityDto.TestEntityZeroOrOne);
 			entityToCreate.CreateRefToTestEntityZeroOrOne(relatedEntity);
 		}
 

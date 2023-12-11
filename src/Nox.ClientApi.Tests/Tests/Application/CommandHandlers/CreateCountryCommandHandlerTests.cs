@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Xunit.Abstractions;
-using ClientApi.Tests.Controllers;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Tests.Application.CommandHandlers;
@@ -50,7 +49,7 @@ public class CreateCountryCommandHandlerTests : NoxWebApiTestBase
     /// Example to Ensure or validate invariants for an entity
     /// </summary>
     [Fact]
-    public async Task Put_Name_ShouldEnsureTitelize()
+    public async Task Put_Name_ShouldEnsureFirstLetterisCapitalized()
     {
         // Arrange
         var expectedName = "Portugal";

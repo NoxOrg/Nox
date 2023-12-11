@@ -51,7 +51,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 	protected readonly IEntityFactory<Cryptocash.Domain.CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> CashStockOrderFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> MinimumCashStockFactory;
 
-	public CreateVendingMachineCommandHandlerBase(
+	protected CreateVendingMachineCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
@@ -76,7 +76,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.CountryId is not null)
 		{
 			var relatedKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.String>());
@@ -88,7 +88,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		}
 		else if(request.EntityDto.Country is not null)
 		{
-			var relatedEntity = CountryFactory.CreateEntity(request.EntityDto.Country);
+			var relatedEntity = await CountryFactory.CreateEntityAsync(request.EntityDto.Country);
 			entityToCreate.CreateRefToCountry(relatedEntity);
 		}
 		if(request.EntityDto.LandLordId is not null)
@@ -102,7 +102,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		}
 		else if(request.EntityDto.LandLord is not null)
 		{
-			var relatedEntity = LandLordFactory.CreateEntity(request.EntityDto.LandLord);
+			var relatedEntity = await LandLordFactory.CreateEntityAsync(request.EntityDto.LandLord);
 			entityToCreate.CreateRefToLandLord(relatedEntity);
 		}
 		if(request.EntityDto.BookingsId.Any())
@@ -122,7 +122,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Bookings)
 			{
-				var relatedEntity = BookingFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await BookingFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToBookings(relatedEntity);
 			}
 		}
@@ -143,7 +143,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		{
 			foreach(var relatedCreateDto in request.EntityDto.CashStockOrders)
 			{
-				var relatedEntity = CashStockOrderFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await CashStockOrderFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToCashStockOrders(relatedEntity);
 			}
 		}
@@ -164,7 +164,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		{
 			foreach(var relatedCreateDto in request.EntityDto.MinimumCashStocks)
 			{
-				var relatedEntity = MinimumCashStockFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await MinimumCashStockFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToMinimumCashStocks(relatedEntity);
 			}
 		}

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Types.EntityFramework.Configurations;
 using Nox.Types.EntityFramework.Types;
 
 namespace Nox.EntityFramework.Postgres.Types.DateTime;
@@ -12,7 +13,7 @@ public class PostgresDateTimeDatabaseConfiguration : DateTimeDatabaseConfigurato
 
     public override void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        NoxSimpleTypeDefinition property,
+        NoxTypeDatabaseConfiguration property,
         Entity entity,
         bool isKey,
         ModelBuilder modelBuilder,

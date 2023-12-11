@@ -30,7 +30,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
     #region Owned Relationships
     
     [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<SecondTestEntityOwnedRelationshipZeroOrManyDto>>> GetSecondTestEntityOwnedRelationshipZeroOrManies([FromRoute] System.String key)
+    public virtual async Task<ActionResult<IQueryable<SecEntityOwnedRelZeroOrManyDto>>> GetSecEntityOwnedRelZeroOrManies([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -43,18 +43,18 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
             return NotFound();
         }
         
-        return Ok(item.SecondTestEntityOwnedRelationshipZeroOrManies);
+        return Ok(item.SecEntityOwnedRelZeroOrManies);
     }
     
     [EnableQuery]
-    [HttpGet("/api/v1/TestEntityOwnedRelationshipZeroOrManies/{key}/SecondTestEntityOwnedRelationshipZeroOrManies/{relatedKey}")]
-    public virtual async Task<ActionResult<SecondTestEntityOwnedRelationshipZeroOrManyDto>> GetSecondTestEntityOwnedRelationshipZeroOrManiesNonConventional(System.String key, System.String relatedKey)
+    [HttpGet("/api/v1/TestEntityOwnedRelationshipZeroOrManies/{key}/SecEntityOwnedRelZeroOrManies/{relatedKey}")]
+    public virtual async Task<ActionResult<SecEntityOwnedRelZeroOrManyDto>> GetSecEntityOwnedRelZeroOrManiesNonConventional(System.String key, System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var child = await TryGetSecondTestEntityOwnedRelationshipZeroOrManies(key, new SecondTestEntityOwnedRelationshipZeroOrManyKeyDto(relatedKey));
+        var child = await TryGetSecEntityOwnedRelZeroOrManies(key, new SecEntityOwnedRelZeroOrManyKeyDto(relatedKey));
         if (child == null)
         {
             return NotFound();
@@ -63,7 +63,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PostToSecondTestEntityOwnedRelationshipZeroOrManies([FromRoute] System.String key, [FromBody] SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto secondTestEntityOwnedRelationshipZeroOrMany)
+    public virtual async Task<ActionResult> PostToSecEntityOwnedRelZeroOrManies([FromRoute] System.String key, [FromBody] SecEntityOwnedRelZeroOrManyUpsertDto secEntityOwnedRelZeroOrMany)
     {
         if (!ModelState.IsValid)
         {
@@ -71,13 +71,13 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new CreateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(new TestEntityOwnedRelationshipZeroOrManyKeyDto(key), secondTestEntityOwnedRelationshipZeroOrMany, etag));
+        var createdKey = await _mediator.Send(new CreateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(new TestEntityOwnedRelationshipZeroOrManyKeyDto(key), secEntityOwnedRelZeroOrMany, _cultureCode, etag));
         if (createdKey == null)
         {
             return NotFound();
         }
         
-        var child = await TryGetSecondTestEntityOwnedRelationshipZeroOrManies(key, createdKey);
+        var child = await TryGetSecEntityOwnedRelZeroOrManies(key, createdKey);
         if (child == null)
         {
             return NotFound();
@@ -86,7 +86,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<SecondTestEntityOwnedRelationshipZeroOrManyDto>> PutToSecondTestEntityOwnedRelationshipZeroOrManies(System.String key, [FromBody] SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto secondTestEntityOwnedRelationshipZeroOrMany)
+    public virtual async Task<ActionResult<SecEntityOwnedRelZeroOrManyDto>> PutToSecEntityOwnedRelZeroOrManies(System.String key, [FromBody] SecEntityOwnedRelZeroOrManyUpsertDto secEntityOwnedRelZeroOrMany)
     {
         if (!ModelState.IsValid)
         {
@@ -94,13 +94,13 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(new TestEntityOwnedRelationshipZeroOrManyKeyDto(key), secondTestEntityOwnedRelationshipZeroOrMany, etag));
+        var updatedKey = await _mediator.Send(new UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(new TestEntityOwnedRelationshipZeroOrManyKeyDto(key), secEntityOwnedRelZeroOrMany, _cultureCode, etag));
         if (updatedKey == null)
         {
             return NotFound();
         }
         
-        var child = await TryGetSecondTestEntityOwnedRelationshipZeroOrManies(key, updatedKey);
+        var child = await TryGetSecEntityOwnedRelZeroOrManies(key, updatedKey);
         if (child == null)
         {
             return NotFound();
@@ -109,17 +109,17 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PatchToSecondTestEntityOwnedRelationshipZeroOrManies(System.String key, [FromBody] Delta<SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto> secondTestEntityOwnedRelationshipZeroOrMany)
+    public virtual async Task<ActionResult> PatchToSecEntityOwnedRelZeroOrManies(System.String key, [FromBody] Delta<SecEntityOwnedRelZeroOrManyUpsertDto> secEntityOwnedRelZeroOrMany)
     {
-        if (!ModelState.IsValid || secondTestEntityOwnedRelationshipZeroOrMany is null)
+        if (!ModelState.IsValid || secEntityOwnedRelZeroOrMany is null)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
-        foreach (var propertyName in secondTestEntityOwnedRelationshipZeroOrMany.GetChangedPropertyNames())
+        foreach (var propertyName in secEntityOwnedRelZeroOrMany.GetChangedPropertyNames())
         {
-            if(secondTestEntityOwnedRelationshipZeroOrMany.TryGetPropertyValue(propertyName, out dynamic value))
+            if(secEntityOwnedRelZeroOrMany.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
             }           
@@ -131,13 +131,13 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(new TestEntityOwnedRelationshipZeroOrManyKeyDto(key), new SecondTestEntityOwnedRelationshipZeroOrManyKeyDto(updateProperties["Id"]), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(new TestEntityOwnedRelationshipZeroOrManyKeyDto(key), new SecEntityOwnedRelZeroOrManyKeyDto(updateProperties["Id"]), updateProperties, _cultureCode, etag));
         
         if (updated is null)
         {
             return NotFound();
         }
-        var child = await TryGetSecondTestEntityOwnedRelationshipZeroOrManies(key, updated);
+        var child = await TryGetSecEntityOwnedRelZeroOrManies(key, updated);
         if (child == null)
         {
             return NotFound();
@@ -146,14 +146,14 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
         return Ok(child);
     }
     
-    [HttpDelete("/api/v1/TestEntityOwnedRelationshipZeroOrManies/{key}/SecondTestEntityOwnedRelationshipZeroOrManies/{relatedKey}")]
-    public virtual async Task<ActionResult> DeleteSecondTestEntityOwnedRelationshipZeroOrManyNonConventional(System.String key, System.String relatedKey)
+    [HttpDelete("/api/v1/TestEntityOwnedRelationshipZeroOrManies/{key}/SecEntityOwnedRelZeroOrManies/{relatedKey}")]
+    public virtual async Task<ActionResult> DeleteSecEntityOwnedRelZeroOrManyNonConventional(System.String key, System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var result = await _mediator.Send(new DeleteSecondTestEntityOwnedRelationshipZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(new TestEntityOwnedRelationshipZeroOrManyKeyDto(key), new SecondTestEntityOwnedRelationshipZeroOrManyKeyDto(relatedKey)));
+        var result = await _mediator.Send(new DeleteSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(new TestEntityOwnedRelationshipZeroOrManyKeyDto(key), new SecEntityOwnedRelZeroOrManyKeyDto(relatedKey)));
         if (!result)
         {
             return NotFound();
@@ -162,10 +162,10 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
         return NoContent();
     }
     
-    protected async Task<SecondTestEntityOwnedRelationshipZeroOrManyDto?> TryGetSecondTestEntityOwnedRelationshipZeroOrManies(System.String key, SecondTestEntityOwnedRelationshipZeroOrManyKeyDto childKeyDto)
+    protected async Task<SecEntityOwnedRelZeroOrManyDto?> TryGetSecEntityOwnedRelZeroOrManies(System.String key, SecEntityOwnedRelZeroOrManyKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetTestEntityOwnedRelationshipZeroOrManyByIdQuery(key))).SingleOrDefault();
-        return parent?.SecondTestEntityOwnedRelationshipZeroOrManies.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+        return parent?.SecEntityOwnedRelZeroOrManies.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
     #endregion

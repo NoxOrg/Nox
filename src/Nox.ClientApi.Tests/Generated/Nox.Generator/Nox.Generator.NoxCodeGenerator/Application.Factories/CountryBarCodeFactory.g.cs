@@ -23,24 +23,32 @@ using CountryBarCodeEntity = ClientApi.Domain.CountryBarCode;
 
 namespace ClientApi.Application.Factories;
 
+internal partial class CountryBarCodeFactory : CountryBarCodeFactoryBase
+{
+    public CountryBarCodeFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCodeEntity, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public CountryBarCodeFactoryBase
-    (
+    public CountryBarCodeFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual CountryBarCodeEntity CreateEntity(CountryBarCodeUpsertDto createDto)
+    public virtual async Task<CountryBarCodeEntity> CreateEntityAsync(CountryBarCodeUpsertDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
         }        
     }
 
-    public virtual void UpdateEntity(CountryBarCodeEntity entity, CountryBarCodeUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(CountryBarCodeEntity entity, CountryBarCodeUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CountryBarCodeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,15 +66,15 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private ClientApi.Domain.CountryBarCode ToEntity(CountryBarCodeUpsertDto createDto)
+    private async Task<ClientApi.Domain.CountryBarCode> ToEntityAsync(CountryBarCodeUpsertDto createDto)
     {
         var entity = new ClientApi.Domain.CountryBarCode();
         entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(createDto.BarCodeName);
         entity.SetIfNotNull(createDto.BarCodeNumber, (entity) => entity.BarCodeNumber =ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(createDto.BarCodeNumber.NonNullValue<System.Int32>()));
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(CountryBarCodeEntity entity, CountryBarCodeUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(CountryBarCodeEntity entity, CountryBarCodeUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(updateDto.BarCodeName.NonNullValue<System.String>());
         if(updateDto.BarCodeNumber is null)
@@ -77,6 +85,7 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
         {
             entity.BarCodeNumber = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(updateDto.BarCodeNumber.ToValueFromNonNull<System.Int32>());
         }
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(CountryBarCodeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -105,13 +114,4 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class CountryBarCodeFactory : CountryBarCodeFactoryBase
-{
-    public CountryBarCodeFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

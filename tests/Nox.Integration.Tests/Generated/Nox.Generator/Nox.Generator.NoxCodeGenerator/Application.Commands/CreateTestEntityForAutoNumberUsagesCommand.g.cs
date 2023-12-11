@@ -40,7 +40,7 @@ internal abstract class CreateTestEntityForAutoNumberUsagesCommandHandlerBase : 
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> EntityFactory;
 
-	public CreateTestEntityForAutoNumberUsagesCommandHandlerBase(
+	protected CreateTestEntityForAutoNumberUsagesCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> entityFactory)
@@ -55,7 +55,7 @@ internal abstract class CreateTestEntityForAutoNumberUsagesCommandHandlerBase : 
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.TestEntityForAutoNumberUsages.Add(entityToCreate);

@@ -18,7 +18,7 @@ namespace TestWebApp.Application.Commands;
 
 public partial record PartialUpdateTestEntityOneOrManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityOneOrManyKeyDto?>;
 
-internal class PartialUpdateTestEntityOneOrManyCommandHandler : PartialUpdateTestEntityOneOrManyCommandHandlerBase
+internal partial class PartialUpdateTestEntityOneOrManyCommandHandler : PartialUpdateTestEntityOneOrManyCommandHandlerBase
 {
 	public PartialUpdateTestEntityOneOrManyCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateTestEntityOneOrManyCommandHandler : PartialUpdateTes
 	{
 	}
 }
-internal class PartialUpdateTestEntityOneOrManyCommandHandlerBase : CommandBase<PartialUpdateTestEntityOneOrManyCommand, TestEntityOneOrManyEntity>, IRequestHandler<PartialUpdateTestEntityOneOrManyCommand, TestEntityOneOrManyKeyDto?>
+internal abstract class PartialUpdateTestEntityOneOrManyCommandHandlerBase : CommandBase<PartialUpdateTestEntityOneOrManyCommand, TestEntityOneOrManyEntity>, IRequestHandler<PartialUpdateTestEntityOneOrManyCommand, TestEntityOneOrManyKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityOneOrManyEntity, TestEntityOneOrManyCreateDto, TestEntityOneOrManyUpdateDto> EntityFactory { get; }

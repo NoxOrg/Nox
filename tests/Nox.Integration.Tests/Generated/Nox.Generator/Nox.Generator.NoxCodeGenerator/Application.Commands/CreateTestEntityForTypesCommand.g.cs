@@ -41,7 +41,7 @@ internal abstract class CreateTestEntityForTypesCommandHandlerBase : CommandBase
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> EntityFactory;
 
-	public CreateTestEntityForTypesCommandHandlerBase(
+	protected CreateTestEntityForTypesCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory)
@@ -56,7 +56,7 @@ internal abstract class CreateTestEntityForTypesCommandHandlerBase : CommandBase
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.TestEntityForTypes.Add(entityToCreate);

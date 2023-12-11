@@ -25,8 +25,8 @@ internal partial class UpdateStoreCommandHandler : UpdateStoreCommandHandlerBase
 	public UpdateStoreCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory) 
-		: base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,entityFactory)
 	{
 	}
 }
@@ -36,7 +36,7 @@ internal abstract class UpdateStoreCommandHandlerBase : CommandBase<UpdateStoreC
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> _entityFactory;
 
-	public UpdateStoreCommandHandlerBase(
+	protected UpdateStoreCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory)
@@ -59,7 +59,7 @@ internal abstract class UpdateStoreCommandHandlerBase : CommandBase<UpdateStoreC
 		}
 		await DbContext.Entry(entity).Reference(x => x.EmailAddress).LoadAsync();
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
+		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

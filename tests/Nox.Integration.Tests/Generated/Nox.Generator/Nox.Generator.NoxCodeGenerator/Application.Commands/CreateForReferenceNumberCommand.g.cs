@@ -40,7 +40,7 @@ internal abstract class CreateForReferenceNumberCommandHandlerBase : CommandBase
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<ForReferenceNumberEntity, ForReferenceNumberCreateDto, ForReferenceNumberUpdateDto> EntityFactory;
 
-	public CreateForReferenceNumberCommandHandlerBase(
+	protected CreateForReferenceNumberCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ForReferenceNumberEntity, ForReferenceNumberCreateDto, ForReferenceNumberUpdateDto> entityFactory)
@@ -55,7 +55,7 @@ internal abstract class CreateForReferenceNumberCommandHandlerBase : CommandBase
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.ForReferenceNumbers.Add(entityToCreate);

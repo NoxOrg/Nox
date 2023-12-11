@@ -10,7 +10,7 @@ public abstract class CommandCollectionBase<TRequest, TEntity> : INoxCommand whe
 {
     protected NoxSolution NoxSolution { get; }
 
-    protected Types.CultureCode DefaultCultureCode;
+    protected readonly Types.CultureCode DefaultCultureCode;
 
     protected CommandCollectionBase(NoxSolution noxSolution)
     {

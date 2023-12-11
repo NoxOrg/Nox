@@ -41,7 +41,7 @@ internal abstract class CreateTestEntityOwnedRelationshipZeroOrOneCommandHandler
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<TestEntityOwnedRelationshipZeroOrOneEntity, TestEntityOwnedRelationshipZeroOrOneCreateDto, TestEntityOwnedRelationshipZeroOrOneUpdateDto> EntityFactory;
 
-	public CreateTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase(
+	protected CreateTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityOwnedRelationshipZeroOrOneEntity, TestEntityOwnedRelationshipZeroOrOneCreateDto, TestEntityOwnedRelationshipZeroOrOneUpdateDto> entityFactory)
@@ -56,7 +56,7 @@ internal abstract class CreateTestEntityOwnedRelationshipZeroOrOneCommandHandler
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.TestEntityOwnedRelationshipZeroOrOnes.Add(entityToCreate);

@@ -5,7 +5,6 @@ using Nox.Types;
 using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
-using ClientApi.Tests.Controllers;
 using Nox.Application.Dto;
 
 namespace ClientApi.Tests.Controllers;
@@ -438,8 +437,7 @@ public partial class CountriesControllerAdHocTests : NoxWebApiTestBase
 		result.Should().NotBeNull();
 
 		result!.Continent.Should().Be(1);
-		//TODO Translated
-		//result!.ContinentName.Should().Be("Portugal");            
+		result!.ContinentName.Should().Be("Europe");
 	}
 
 	[Fact]

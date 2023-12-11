@@ -42,7 +42,7 @@ internal abstract class CreateEntityUniqueConstraintsWithForeignKeyCommandHandle
 	protected readonly IEntityFactory<EntityUniqueConstraintsWithForeignKeyEntity, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey, EntityUniqueConstraintsRelatedForeignKeyCreateDto, EntityUniqueConstraintsRelatedForeignKeyUpdateDto> EntityUniqueConstraintsRelatedForeignKeyFactory;
 
-	public CreateEntityUniqueConstraintsWithForeignKeyCommandHandlerBase(
+	protected CreateEntityUniqueConstraintsWithForeignKeyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey, EntityUniqueConstraintsRelatedForeignKeyCreateDto, EntityUniqueConstraintsRelatedForeignKeyUpdateDto> EntityUniqueConstraintsRelatedForeignKeyFactory,
@@ -59,7 +59,7 @@ internal abstract class CreateEntityUniqueConstraintsWithForeignKeyCommandHandle
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.EntityUniqueConstraintsRelatedForeignKeyId is not null)
 		{
 			var relatedKey = TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(request.EntityDto.EntityUniqueConstraintsRelatedForeignKeyId.NonNullValue<System.Int32>());
@@ -71,7 +71,7 @@ internal abstract class CreateEntityUniqueConstraintsWithForeignKeyCommandHandle
 		}
 		else if(request.EntityDto.EntityUniqueConstraintsRelatedForeignKey is not null)
 		{
-			var relatedEntity = EntityUniqueConstraintsRelatedForeignKeyFactory.CreateEntity(request.EntityDto.EntityUniqueConstraintsRelatedForeignKey);
+			var relatedEntity = await EntityUniqueConstraintsRelatedForeignKeyFactory.CreateEntityAsync(request.EntityDto.EntityUniqueConstraintsRelatedForeignKey);
 			entityToCreate.CreateRefToEntityUniqueConstraintsRelatedForeignKey(relatedEntity);
 		}
 

@@ -43,7 +43,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 	protected readonly IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory;
 
-	public CreateCurrencyCommandHandlerBase(
+	protected CreateCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory,
@@ -60,7 +60,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.StoreLicenseDefaultId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.StoreLicenseDefaultId)
@@ -78,7 +78,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		{
 			foreach(var relatedCreateDto in request.EntityDto.StoreLicenseDefault)
 			{
-				var relatedEntity = StoreLicenseFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await StoreLicenseFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToStoreLicenseDefault(relatedEntity);
 			}
 		}
@@ -99,7 +99,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		{
 			foreach(var relatedCreateDto in request.EntityDto.StoreLicenseSoldIn)
 			{
-				var relatedEntity = StoreLicenseFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await StoreLicenseFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToStoreLicenseSoldIn(relatedEntity);
 			}
 		}

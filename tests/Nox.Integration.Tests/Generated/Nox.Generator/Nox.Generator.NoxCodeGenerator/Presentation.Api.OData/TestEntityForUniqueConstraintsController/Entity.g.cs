@@ -120,15 +120,7 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
-        var updatedProperties = new Dictionary<string, dynamic>();
-
-        foreach (var propertyName in testEntityForUniqueConstraints.GetChangedPropertyNames())
-        {
-            if (testEntityForUniqueConstraints.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updatedProperties[propertyName] = value;
-            }
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<TestEntityForUniqueConstraintsPartialUpdateDto>(testEntityForUniqueConstraints);
 
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityForUniqueConstraintsCommand(key, updatedProperties, _cultureCode, etag));

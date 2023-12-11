@@ -30,7 +30,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
     #region Owned Relationships
     
     [EnableQuery]
-    public virtual async Task<ActionResult<SecondTestEntityOwnedRelationshipExactlyOneDto>> GetSecondTestEntityOwnedRelationshipExactlyOne([FromRoute] System.String key)
+    public virtual async Task<ActionResult<SecEntityOwnedRelExactlyOneDto>> GetSecEntityOwnedRelExactlyOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -43,10 +43,10 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
             return NotFound();
         }
         
-        return Ok(item.SecondTestEntityOwnedRelationshipExactlyOne);
+        return Ok(item.SecEntityOwnedRelExactlyOne);
     }
     
-    public virtual async Task<ActionResult> PostToSecondTestEntityOwnedRelationshipExactlyOne([FromRoute] System.String key, [FromBody] SecondTestEntityOwnedRelationshipExactlyOneUpsertDto secondTestEntityOwnedRelationshipExactlyOne)
+    public virtual async Task<ActionResult> PostToSecEntityOwnedRelExactlyOne([FromRoute] System.String key, [FromBody] SecEntityOwnedRelExactlyOneUpsertDto secEntityOwnedRelExactlyOne)
     {
         if (!ModelState.IsValid)
         {
@@ -54,13 +54,13 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new CreateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), secondTestEntityOwnedRelationshipExactlyOne, etag));
+        var createdKey = await _mediator.Send(new CreateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), secEntityOwnedRelExactlyOne, _cultureCode, etag));
         if (createdKey == null)
         {
             return NotFound();
         }
         
-        var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipExactlyOneByIdQuery(key))).SingleOrDefault()?.SecondTestEntityOwnedRelationshipExactlyOne;
+        var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipExactlyOneByIdQuery(key))).SingleOrDefault()?.SecEntityOwnedRelExactlyOne;
         if (child == null)
         {
             return NotFound();
@@ -69,7 +69,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<SecondTestEntityOwnedRelationshipExactlyOneDto>> PutToSecondTestEntityOwnedRelationshipExactlyOne(System.String key, [FromBody] SecondTestEntityOwnedRelationshipExactlyOneUpsertDto secondTestEntityOwnedRelationshipExactlyOne)
+    public virtual async Task<ActionResult<SecEntityOwnedRelExactlyOneDto>> PutToSecEntityOwnedRelExactlyOne(System.String key, [FromBody] SecEntityOwnedRelExactlyOneUpsertDto secEntityOwnedRelExactlyOne)
     {
         if (!ModelState.IsValid)
         {
@@ -77,13 +77,13 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), secondTestEntityOwnedRelationshipExactlyOne, etag));
+        var updatedKey = await _mediator.Send(new UpdateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), secEntityOwnedRelExactlyOne, _cultureCode, etag));
         if (updatedKey == null)
         {
             return NotFound();
         }
         
-        var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipExactlyOneByIdQuery(key))).SingleOrDefault()?.SecondTestEntityOwnedRelationshipExactlyOne;
+        var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipExactlyOneByIdQuery(key))).SingleOrDefault()?.SecEntityOwnedRelExactlyOne;
         if (child == null)
         {
             return NotFound();
@@ -92,17 +92,17 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PatchToSecondTestEntityOwnedRelationshipExactlyOne(System.String key, [FromBody] Delta<SecondTestEntityOwnedRelationshipExactlyOneUpsertDto> secondTestEntityOwnedRelationshipExactlyOne)
+    public virtual async Task<ActionResult> PatchToSecEntityOwnedRelExactlyOne(System.String key, [FromBody] Delta<SecEntityOwnedRelExactlyOneUpsertDto> secEntityOwnedRelExactlyOne)
     {
-        if (!ModelState.IsValid || secondTestEntityOwnedRelationshipExactlyOne is null)
+        if (!ModelState.IsValid || secEntityOwnedRelExactlyOne is null)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
-        foreach (var propertyName in secondTestEntityOwnedRelationshipExactlyOne.GetChangedPropertyNames())
+        foreach (var propertyName in secEntityOwnedRelExactlyOne.GetChangedPropertyNames())
         {
-            if(secondTestEntityOwnedRelationshipExactlyOne.TryGetPropertyValue(propertyName, out dynamic value))
+            if(secEntityOwnedRelExactlyOne.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
             }           
@@ -110,13 +110,13 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), updateProperties, _cultureCode, etag));
         
         if (updated is null)
         {
             return NotFound();
         }
-        var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipExactlyOneByIdQuery(key))).SingleOrDefault()?.SecondTestEntityOwnedRelationshipExactlyOne;
+        var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipExactlyOneByIdQuery(key))).SingleOrDefault()?.SecEntityOwnedRelExactlyOne;
         if (child == null)
         {
             return NotFound();
@@ -125,14 +125,14 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         return Ok(child);
     }
     
-    [HttpDelete("/api/v1/TestEntityOwnedRelationshipExactlyOnes/{key}/SecondTestEntityOwnedRelationshipExactlyOne")]
-    public virtual async Task<ActionResult> DeleteSecondTestEntityOwnedRelationshipExactlyOneNonConventional(System.String key)
+    [HttpDelete("/api/v1/TestEntityOwnedRelationshipExactlyOnes/{key}/SecEntityOwnedRelExactlyOne")]
+    public virtual async Task<ActionResult> DeleteSecEntityOwnedRelExactlyOneNonConventional(System.String key)
     {
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var result = await _mediator.Send(new DeleteSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key)));
+        var result = await _mediator.Send(new DeleteSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key)));
         if (!result)
         {
             return NotFound();

@@ -23,24 +23,32 @@ using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Factories;
 
+internal partial class MinimumCashStockFactory : MinimumCashStockFactoryBase
+{
+    public MinimumCashStockFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public MinimumCashStockFactoryBase
-    (
+    public MinimumCashStockFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual MinimumCashStockEntity CreateEntity(MinimumCashStockCreateDto createDto)
+    public virtual async Task<MinimumCashStockEntity> CreateEntityAsync(MinimumCashStockCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCash
         }        
     }
 
-    public virtual void UpdateEntity(MinimumCashStockEntity entity, MinimumCashStockUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(MinimumCashStockEntity entity, MinimumCashStockUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(MinimumCashStockEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,16 +66,17 @@ internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCash
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private Cryptocash.Domain.MinimumCashStock ToEntity(MinimumCashStockCreateDto createDto)
+    private async Task<Cryptocash.Domain.MinimumCashStock> ToEntityAsync(MinimumCashStockCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.MinimumCashStock();
         entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(createDto.Amount);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(MinimumCashStockEntity entity, MinimumCashStockUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(MinimumCashStockEntity entity, MinimumCashStockUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(MinimumCashStockEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -80,20 +89,13 @@ internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCash
                 throw new ArgumentException("Attribute 'Amount' can't be null");
             }
             {
-                entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(AmountUpdateValue);
+                var entityToUpdate = entity.Amount is null ? new MoneyDto() : entity.Amount.ToDto();
+                MoneyDto.UpdateFromDictionary(entityToUpdate, AmountUpdateValue);
+                entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(entityToUpdate);
             }
         }
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class MinimumCashStockFactory : MinimumCashStockFactoryBase
-{
-    public MinimumCashStockFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

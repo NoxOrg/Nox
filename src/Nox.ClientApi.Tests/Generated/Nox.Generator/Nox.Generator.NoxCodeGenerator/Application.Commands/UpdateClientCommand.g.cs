@@ -25,8 +25,8 @@ internal partial class UpdateClientCommandHandler : UpdateClientCommandHandlerBa
 	public UpdateClientCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> entityFactory) 
-		: base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,entityFactory)
 	{
 	}
 }
@@ -36,7 +36,7 @@ internal abstract class UpdateClientCommandHandlerBase : CommandBase<UpdateClien
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> _entityFactory;
 
-	public UpdateClientCommandHandlerBase(
+	protected UpdateClientCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> entityFactory)
@@ -58,7 +58,7 @@ internal abstract class UpdateClientCommandHandlerBase : CommandBase<UpdateClien
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
+		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

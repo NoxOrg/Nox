@@ -23,24 +23,32 @@ using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Factories;
 
+internal partial class RatingProgramFactory : RatingProgramFactoryBase
+{
+    public RatingProgramFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public RatingProgramFactoryBase
-    (
+    public RatingProgramFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual RatingProgramEntity CreateEntity(RatingProgramCreateDto createDto)
+    public virtual async Task<RatingProgramEntity> CreateEntityAsync(RatingProgramCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
         }        
     }
 
-    public virtual void UpdateEntity(RatingProgramEntity entity, RatingProgramUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(RatingProgramEntity entity, RatingProgramUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(RatingProgramEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,15 +66,15 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private ClientApi.Domain.RatingProgram ToEntity(RatingProgramCreateDto createDto)
+    private async Task<ClientApi.Domain.RatingProgram> ToEntityAsync(RatingProgramCreateDto createDto)
     {
         var entity = new ClientApi.Domain.RatingProgram();
         entity.StoreId = RatingProgramMetadata.CreateStoreId(createDto.StoreId);
         entity.SetIfNotNull(createDto.Name, (entity) => entity.Name =ClientApi.Domain.RatingProgramMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(RatingProgramEntity entity, RatingProgramUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(RatingProgramEntity entity, RatingProgramUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         if(updateDto.Name is null)
         {
@@ -76,6 +84,7 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
         {
             entity.Name = ClientApi.Domain.RatingProgramMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>());
         }
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(RatingProgramEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -93,13 +102,4 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class RatingProgramFactory : RatingProgramFactoryBase
-{
-    public RatingProgramFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

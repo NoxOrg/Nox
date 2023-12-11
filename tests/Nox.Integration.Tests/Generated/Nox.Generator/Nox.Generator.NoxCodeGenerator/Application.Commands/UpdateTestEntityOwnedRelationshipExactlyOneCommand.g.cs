@@ -25,8 +25,8 @@ internal partial class UpdateTestEntityOwnedRelationshipExactlyOneCommandHandler
 	public UpdateTestEntityOwnedRelationshipExactlyOneCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityOwnedRelationshipExactlyOneEntity, TestEntityOwnedRelationshipExactlyOneCreateDto, TestEntityOwnedRelationshipExactlyOneUpdateDto> entityFactory) 
-		: base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<TestEntityOwnedRelationshipExactlyOneEntity, TestEntityOwnedRelationshipExactlyOneCreateDto, TestEntityOwnedRelationshipExactlyOneUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,entityFactory)
 	{
 	}
 }
@@ -36,7 +36,7 @@ internal abstract class UpdateTestEntityOwnedRelationshipExactlyOneCommandHandle
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityOwnedRelationshipExactlyOneEntity, TestEntityOwnedRelationshipExactlyOneCreateDto, TestEntityOwnedRelationshipExactlyOneUpdateDto> _entityFactory;
 
-	public UpdateTestEntityOwnedRelationshipExactlyOneCommandHandlerBase(
+	protected UpdateTestEntityOwnedRelationshipExactlyOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityOwnedRelationshipExactlyOneEntity, TestEntityOwnedRelationshipExactlyOneCreateDto, TestEntityOwnedRelationshipExactlyOneUpdateDto> entityFactory)
@@ -57,9 +57,9 @@ internal abstract class UpdateTestEntityOwnedRelationshipExactlyOneCommandHandle
 		{
 			return null;
 		}
-		await DbContext.Entry(entity).Reference(x => x.SecondTestEntityOwnedRelationshipExactlyOne).LoadAsync();
+		await DbContext.Entry(entity).Reference(x => x.SecEntityOwnedRelExactlyOne).LoadAsync();
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
+		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

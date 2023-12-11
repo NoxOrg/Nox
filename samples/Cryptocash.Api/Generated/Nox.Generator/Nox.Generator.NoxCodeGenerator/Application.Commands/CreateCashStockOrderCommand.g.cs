@@ -45,7 +45,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 	protected readonly IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Employee, EmployeeCreateDto, EmployeeUpdateDto> EmployeeFactory;
 
-	public CreateCashStockOrderCommandHandlerBase(
+	protected CreateCashStockOrderCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
@@ -64,7 +64,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.VendingMachineId is not null)
 		{
 			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityDto.VendingMachineId.NonNullValue<System.Guid>());
@@ -76,7 +76,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		}
 		else if(request.EntityDto.VendingMachine is not null)
 		{
-			var relatedEntity = VendingMachineFactory.CreateEntity(request.EntityDto.VendingMachine);
+			var relatedEntity = await VendingMachineFactory.CreateEntityAsync(request.EntityDto.VendingMachine);
 			entityToCreate.CreateRefToVendingMachine(relatedEntity);
 		}
 		if(request.EntityDto.EmployeeId is not null)
@@ -90,7 +90,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		}
 		else if(request.EntityDto.Employee is not null)
 		{
-			var relatedEntity = EmployeeFactory.CreateEntity(request.EntityDto.Employee);
+			var relatedEntity = await EmployeeFactory.CreateEntityAsync(request.EntityDto.Employee);
 			entityToCreate.CreateRefToEmployee(relatedEntity);
 		}
 

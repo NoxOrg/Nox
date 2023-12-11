@@ -42,7 +42,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsManyToManyCommandH
 	protected readonly IEntityFactory<SecondTestEntityTwoRelationshipsManyToManyEntity, SecondTestEntityTwoRelationshipsManyToManyCreateDto, SecondTestEntityTwoRelationshipsManyToManyUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany, TestEntityTwoRelationshipsManyToManyCreateDto, TestEntityTwoRelationshipsManyToManyUpdateDto> TestEntityTwoRelationshipsManyToManyFactory;
 
-	public CreateSecondTestEntityTwoRelationshipsManyToManyCommandHandlerBase(
+	protected CreateSecondTestEntityTwoRelationshipsManyToManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany, TestEntityTwoRelationshipsManyToManyCreateDto, TestEntityTwoRelationshipsManyToManyUpdateDto> TestEntityTwoRelationshipsManyToManyFactory,
@@ -59,7 +59,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsManyToManyCommandH
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.TestRelationshipOneOnOtherSideId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.TestRelationshipOneOnOtherSideId)
@@ -77,7 +77,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsManyToManyCommandH
 		{
 			foreach(var relatedCreateDto in request.EntityDto.TestRelationshipOneOnOtherSide)
 			{
-				var relatedEntity = TestEntityTwoRelationshipsManyToManyFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await TestEntityTwoRelationshipsManyToManyFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToTestRelationshipOneOnOtherSide(relatedEntity);
 			}
 		}
@@ -98,7 +98,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsManyToManyCommandH
 		{
 			foreach(var relatedCreateDto in request.EntityDto.TestRelationshipTwoOnOtherSide)
 			{
-				var relatedEntity = TestEntityTwoRelationshipsManyToManyFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await TestEntityTwoRelationshipsManyToManyFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToTestRelationshipTwoOnOtherSide(relatedEntity);
 			}
 		}

@@ -43,6 +43,8 @@ public abstract class TenantDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.
         else
             result.Add("Name", new [] { "Name is Required." });
     
+        if (this.Status is not null)
+            ExecuteActionAndCollectValidationExceptions("Status", () => DomainNamespace.TenantMetadata.CreateStatus(this.Status.NonNullValue<System.Int32>()), result);
 
         return result;
     }
@@ -60,9 +62,27 @@ public abstract class TenantDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.
     public System.String Name { get; set; } = default!;
 
     /// <summary>
+    /// Tenant Status     
+    /// </summary>
+    /// <remarks>Optional.</remarks>    
+    public System.Int32? Status { get; set; }
+
+    public string? StatusName { get; set; } = default!;
+
+    /// <summary>
     /// Tenant Workplaces where the tenant is active ZeroOrMany Workplaces
     /// </summary>
     public virtual List<WorkplaceDto> Workplaces { get; set; } = new();
+
+    /// <summary>
+    /// Tenant Brands owned by the tenant ZeroOrMany TenantBrands
+    /// </summary>
+    public virtual List<TenantBrandDto> TenantBrands { get; set; } = new();
+
+    /// <summary>
+    /// Tenant Contact information for the tenant ZeroOrOne TenantContacts
+    /// </summary>
+    public virtual TenantContactDto? TenantContact { get; set; } = null!;
 
     [JsonPropertyName("@odata.etag")]
     public System.Guid Etag { get; init; }

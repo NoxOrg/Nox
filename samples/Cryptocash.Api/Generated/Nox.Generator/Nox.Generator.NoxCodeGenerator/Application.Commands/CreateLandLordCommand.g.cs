@@ -43,7 +43,7 @@ internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLan
 	protected readonly IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory;
 
-	public CreateLandLordCommandHandlerBase(
+	protected CreateLandLordCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
@@ -60,7 +60,7 @@ internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLan
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.VendingMachinesId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.VendingMachinesId)
@@ -78,7 +78,7 @@ internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLan
 		{
 			foreach(var relatedCreateDto in request.EntityDto.VendingMachines)
 			{
-				var relatedEntity = VendingMachineFactory.CreateEntity(relatedCreateDto);
+				var relatedEntity = await VendingMachineFactory.CreateEntityAsync(relatedCreateDto);
 				entityToCreate.CreateRefToVendingMachines(relatedEntity);
 			}
 		}

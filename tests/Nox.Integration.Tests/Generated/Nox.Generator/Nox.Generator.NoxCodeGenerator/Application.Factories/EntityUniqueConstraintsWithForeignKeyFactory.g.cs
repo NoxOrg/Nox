@@ -23,24 +23,32 @@ using EntityUniqueConstraintsWithForeignKeyEntity = TestWebApp.Domain.EntityUniq
 
 namespace TestWebApp.Application.Factories;
 
+internal partial class EntityUniqueConstraintsWithForeignKeyFactory : EntityUniqueConstraintsWithForeignKeyFactoryBase
+{
+    public EntityUniqueConstraintsWithForeignKeyFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class EntityUniqueConstraintsWithForeignKeyFactoryBase : IEntityFactory<EntityUniqueConstraintsWithForeignKeyEntity, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public EntityUniqueConstraintsWithForeignKeyFactoryBase
-    (
+    public EntityUniqueConstraintsWithForeignKeyFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual EntityUniqueConstraintsWithForeignKeyEntity CreateEntity(EntityUniqueConstraintsWithForeignKeyCreateDto createDto)
+    public virtual async Task<EntityUniqueConstraintsWithForeignKeyEntity> CreateEntityAsync(EntityUniqueConstraintsWithForeignKeyCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class EntityUniqueConstraintsWithForeignKeyFactoryBase : IEnti
         }        
     }
 
-    public virtual void UpdateEntity(EntityUniqueConstraintsWithForeignKeyEntity entity, EntityUniqueConstraintsWithForeignKeyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(EntityUniqueConstraintsWithForeignKeyEntity entity, EntityUniqueConstraintsWithForeignKeyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(EntityUniqueConstraintsWithForeignKeyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,16 +66,16 @@ internal abstract class EntityUniqueConstraintsWithForeignKeyFactoryBase : IEnti
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey ToEntity(EntityUniqueConstraintsWithForeignKeyCreateDto createDto)
+    private async Task<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey> ToEntityAsync(EntityUniqueConstraintsWithForeignKeyCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey();
         entity.SetIfNotNull(createDto.TextField, (entity) => entity.TextField =TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>()));
         entity.SomeUniqueId = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateSomeUniqueId(createDto.SomeUniqueId);
         entity.EnsureId(createDto.Id);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(EntityUniqueConstraintsWithForeignKeyEntity entity, EntityUniqueConstraintsWithForeignKeyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(EntityUniqueConstraintsWithForeignKeyEntity entity, EntityUniqueConstraintsWithForeignKeyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         if(updateDto.TextField is null)
         {
@@ -78,6 +86,7 @@ internal abstract class EntityUniqueConstraintsWithForeignKeyFactoryBase : IEnti
             entity.TextField = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateTextField(updateDto.TextField.ToValueFromNonNull<System.String>());
         }
         entity.SomeUniqueId = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateSomeUniqueId(updateDto.SomeUniqueId.NonNullValue<System.Int32>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(EntityUniqueConstraintsWithForeignKeyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -106,13 +115,4 @@ internal abstract class EntityUniqueConstraintsWithForeignKeyFactoryBase : IEnti
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class EntityUniqueConstraintsWithForeignKeyFactory : EntityUniqueConstraintsWithForeignKeyFactoryBase
-{
-    public EntityUniqueConstraintsWithForeignKeyFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

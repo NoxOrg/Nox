@@ -49,41 +49,60 @@ internal record WorkplaceDeleted(Workplace Workplace) : IDomainEvent, INotificat
 /// <summary>
 /// Workplace.
 /// </summary>
-internal abstract partial class WorkplaceBase : EntityBase, IEntityConcurrent
+internal abstract partial class WorkplaceBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Workplace unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
     /// Workplace Name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get;  set; } = null!;
 
     /// <summary>
     /// Workplace Code    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.ReferenceNumber? ReferenceNumber { get; set; } = null!;
+    public Nox.Types.ReferenceNumber ReferenceNumber {get; private set;} = null!;
+        /// <summary>
+        /// Ensures that a Reference Number is set. This should only be called when creating a new entity, it's immutable property.
+        /// </summary>
+    	public virtual void EnsureReferenceNumber(System.Int64 number, Nox.Types.ReferenceNumberTypeOptions typeOptions)
+    	{
+    		ReferenceNumber = Nox.Types.ReferenceNumber.From(number, typeOptions);
+    	}
 
     /// <summary>
     /// Workplace Description    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.Text? Description { get; set; } = null!;
+    public Nox.Types.Text? Description { get;  set; } = null!;
 
     /// <summary>
     /// The Formula    
     /// </summary>
     /// <remarks>Optional.</remarks>   
     public string? Greeting
-    { 
-        get { return $"Hello, {Name.Value}!"; }
-        private set { }
-    }
+        { 
+            get { return $"Hello, {Name.Value}!"; }
+            private set { }
+        }
+
+    /// <summary>
+    /// Workplace Ownership    
+    /// </summary>
+    /// <remarks>Optional.</remarks>   
+    public Nox.Types.Enumeration? Ownership { get;  set; } = null!;
+
+    /// <summary>
+    /// Workplace Type    
+    /// </summary>
+    /// <remarks>Optional.</remarks>   
+    public Nox.Types.Enumeration? Type { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

@@ -23,7 +23,8 @@ internal partial class CreateCountryCommandHandler
     /// </summary>
     protected override Task OnCompletedAsync(CreateCountryCommand request,Country entity)
     {
-        entity.Name = Nox.Types.Text.From(entity.Name.Value.Titleize());
+         entity.Name = Nox.Types.Text.From(char.ToUpper(entity.Name.Value[0]) + entity.Name.Value.Substring(1));
+
         return Task.CompletedTask;
     }
 }

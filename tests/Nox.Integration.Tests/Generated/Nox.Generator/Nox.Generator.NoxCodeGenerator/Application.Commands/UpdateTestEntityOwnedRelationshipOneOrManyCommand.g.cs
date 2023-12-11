@@ -25,8 +25,8 @@ internal partial class UpdateTestEntityOwnedRelationshipOneOrManyCommandHandler 
 	public UpdateTestEntityOwnedRelationshipOneOrManyCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityOwnedRelationshipOneOrManyEntity, TestEntityOwnedRelationshipOneOrManyCreateDto, TestEntityOwnedRelationshipOneOrManyUpdateDto> entityFactory) 
-		: base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<TestEntityOwnedRelationshipOneOrManyEntity, TestEntityOwnedRelationshipOneOrManyCreateDto, TestEntityOwnedRelationshipOneOrManyUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,entityFactory)
 	{
 	}
 }
@@ -36,7 +36,7 @@ internal abstract class UpdateTestEntityOwnedRelationshipOneOrManyCommandHandler
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityOwnedRelationshipOneOrManyEntity, TestEntityOwnedRelationshipOneOrManyCreateDto, TestEntityOwnedRelationshipOneOrManyUpdateDto> _entityFactory;
 
-	public UpdateTestEntityOwnedRelationshipOneOrManyCommandHandlerBase(
+	protected UpdateTestEntityOwnedRelationshipOneOrManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityOwnedRelationshipOneOrManyEntity, TestEntityOwnedRelationshipOneOrManyCreateDto, TestEntityOwnedRelationshipOneOrManyUpdateDto> entityFactory)
@@ -57,9 +57,9 @@ internal abstract class UpdateTestEntityOwnedRelationshipOneOrManyCommandHandler
 		{
 			return null;
 		}
-		await DbContext.Entry(entity).Collection(x => x.SecondTestEntityOwnedRelationshipOneOrManies).LoadAsync();
+		await DbContext.Entry(entity).Collection(x => x.SecEntityOwnedRelOneOrManies).LoadAsync();
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
+		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
@@ -79,11 +79,11 @@ public class UpdateTestEntityOwnedRelationshipOneOrManyValidator : AbstractValid
 {
     public UpdateTestEntityOwnedRelationshipOneOrManyValidator()
     {
-		RuleFor(x => x.EntityDto.SecondTestEntityOwnedRelationshipOneOrManies)
+		RuleFor(x => x.EntityDto.SecEntityOwnedRelOneOrManies)
 			.ForEach(item => 
 			{
 				item.Must(owned => owned.Id != null)
-					.WithMessage((item, index) => $"SecondTestEntityOwnedRelationshipOneOrManies[{index}].Id is required.");
+					.WithMessage((item, index) => $"SecEntityOwnedRelOneOrManies[{index}].Id is required.");
 			});
     }
 }

@@ -23,24 +23,32 @@ using HolidayEntity = ClientApi.Domain.Holiday;
 
 namespace ClientApi.Application.Factories;
 
+internal partial class HolidayFactory : HolidayFactoryBase
+{
+    public HolidayFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public HolidayFactoryBase
-    (
+    public HolidayFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual HolidayEntity CreateEntity(HolidayUpsertDto createDto)
+    public virtual async Task<HolidayEntity> CreateEntityAsync(HolidayUpsertDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         }        
     }
 
-    public virtual void UpdateEntity(HolidayEntity entity, HolidayUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(HolidayEntity entity, HolidayUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(HolidayEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,17 +66,17 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private ClientApi.Domain.Holiday ToEntity(HolidayUpsertDto createDto)
+    private async Task<ClientApi.Domain.Holiday> ToEntityAsync(HolidayUpsertDto createDto)
     {
         var entity = new ClientApi.Domain.Holiday();
         entity.Name = ClientApi.Domain.HolidayMetadata.CreateName(createDto.Name);
         entity.SetIfNotNull(createDto.Type, (entity) => entity.Type =ClientApi.Domain.HolidayMetadata.CreateType(createDto.Type.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.Date, (entity) => entity.Date =ClientApi.Domain.HolidayMetadata.CreateDate(createDto.Date.NonNullValue<System.DateTime>()));
         entity.EnsureId(createDto.Id);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(HolidayEntity entity, HolidayUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(HolidayEntity entity, HolidayUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = ClientApi.Domain.HolidayMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         if(updateDto.Type is null)
@@ -87,6 +95,7 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         {
             entity.Date = ClientApi.Domain.HolidayMetadata.CreateDate(updateDto.Date.ToValueFromNonNull<System.DateTime>());
         }
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(HolidayEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -124,13 +133,4 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class HolidayFactory : HolidayFactoryBase
-{
-    public HolidayFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

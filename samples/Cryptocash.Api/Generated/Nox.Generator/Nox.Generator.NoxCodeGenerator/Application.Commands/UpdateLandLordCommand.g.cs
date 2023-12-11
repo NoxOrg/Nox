@@ -25,8 +25,8 @@ internal partial class UpdateLandLordCommandHandler : UpdateLandLordCommandHandl
 	public UpdateLandLordCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> entityFactory) 
-		: base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,entityFactory)
 	{
 	}
 }
@@ -36,7 +36,7 @@ internal abstract class UpdateLandLordCommandHandlerBase : CommandBase<UpdateLan
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> _entityFactory;
 
-	public UpdateLandLordCommandHandlerBase(
+	protected UpdateLandLordCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> entityFactory)
@@ -58,7 +58,7 @@ internal abstract class UpdateLandLordCommandHandlerBase : CommandBase<UpdateLan
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
+		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

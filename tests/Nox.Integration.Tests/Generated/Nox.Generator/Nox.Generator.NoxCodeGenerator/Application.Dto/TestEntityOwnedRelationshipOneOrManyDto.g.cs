@@ -60,9 +60,9 @@ public abstract class TestEntityOwnedRelationshipOneOrManyDtoBase : EntityDtoBas
     public System.String TextTestField { get; set; } = default!;
 
     /// <summary>
-    /// TestEntityOwnedRelationshipOneOrMany Test entity relationship to SecondTestEntityOwnedRelationshipOneOrMany OneOrMany SecondTestEntityOwnedRelationshipOneOrManies
+    /// TestEntityOwnedRelationshipOneOrMany Test entity relationship to SecondTestEntityOwnedRelationshipOneOrMany OneOrMany SecEntityOwnedRelOneOrManies
     /// </summary>
-    public virtual List<SecondTestEntityOwnedRelationshipOneOrManyDto> SecondTestEntityOwnedRelationshipOneOrManies { get; set; } = new();
+    public virtual List<SecEntityOwnedRelOneOrManyDto> SecEntityOwnedRelOneOrManies { get; set; } = new();
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

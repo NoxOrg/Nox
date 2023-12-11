@@ -47,7 +47,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToCountry([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Country).SingleOrDefault();
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -107,7 +107,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<CountryDto>> GetCountry(System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Where(x => x.Country != null);
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Where(x => x.Country != null);
         if (!related.Any())
         {
             return SingleResult.Create<CountryDto>(Enumerable.Empty<CountryDto>().AsQueryable());
@@ -122,7 +122,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Country).SingleOrDefault();
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
         if (related == null)
         {
             return NotFound();
@@ -135,7 +135,9 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/v1/Workplaces/{key}/Country")]
@@ -146,7 +148,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Country).SingleOrDefault();
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
         if (related == null)
         {
             return NotFound();
@@ -197,7 +199,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToTenants([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Tenants).SingleOrDefault();
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Select(x => x.Tenants).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -261,7 +263,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<TenantDto>>> GetTenants(System.Int64 key)
     {
-        var entity = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).SelectMany(x => x.Tenants);
+        var entity = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).SelectMany(x => x.Tenants);
         if (!entity.Any())
         {
             return NotFound();
@@ -273,7 +275,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     [HttpGet("/api/v1/Workplaces/{key}/Tenants/{relatedKey}")]
     public virtual async Task<SingleResult<TenantDto>> GetTenantsNonConventional(System.Int64 key, System.UInt32 relatedKey)
     {
-        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).SelectMany(x => x.Tenants).Where(x => x.Id == relatedKey);
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).SelectMany(x => x.Tenants).Where(x => x.Id == relatedKey);
         if (!related.Any())
         {
             return SingleResult.Create<TenantDto>(Enumerable.Empty<TenantDto>().AsQueryable());
@@ -289,7 +291,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).SelectMany(x => x.Tenants).Any(x => x.Id == relatedKey);
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).SelectMany(x => x.Tenants).Any(x => x.Id == relatedKey);
         if (!related)
         {
             return NotFound();
@@ -302,7 +304,9 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetTenantByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/v1/Workplaces/{key}/Tenants/{relatedKey}")]
@@ -313,7 +317,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).SelectMany(x => x.Tenants).Any(x => x.Id == relatedKey);
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).SelectMany(x => x.Tenants).Any(x => x.Id == relatedKey);
         if (!related)
         {
             return NotFound();
@@ -337,7 +341,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Tenants).SingleOrDefault();
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Select(x => x.Tenants).SingleOrDefault();
         if (related == null)
         {
             return NotFound();

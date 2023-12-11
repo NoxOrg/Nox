@@ -18,7 +18,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record PartialUpdateTenantCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantKeyDto?>;
 
-internal class PartialUpdateTenantCommandHandler : PartialUpdateTenantCommandHandlerBase
+internal partial class PartialUpdateTenantCommandHandler : PartialUpdateTenantCommandHandlerBase
 {
 	public PartialUpdateTenantCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateTenantCommandHandler : PartialUpdateTenantCommandHan
 	{
 	}
 }
-internal class PartialUpdateTenantCommandHandlerBase : CommandBase<PartialUpdateTenantCommand, TenantEntity>, IRequestHandler<PartialUpdateTenantCommand, TenantKeyDto?>
+internal abstract class PartialUpdateTenantCommandHandlerBase : CommandBase<PartialUpdateTenantCommand, TenantEntity>, IRequestHandler<PartialUpdateTenantCommand, TenantKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> EntityFactory { get; }

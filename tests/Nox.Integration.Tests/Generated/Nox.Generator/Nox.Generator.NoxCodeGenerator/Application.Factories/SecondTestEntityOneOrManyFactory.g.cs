@@ -23,24 +23,32 @@ using SecondTestEntityOneOrManyEntity = TestWebApp.Domain.SecondTestEntityOneOrM
 
 namespace TestWebApp.Application.Factories;
 
+internal partial class SecondTestEntityOneOrManyFactory : SecondTestEntityOneOrManyFactoryBase
+{
+    public SecondTestEntityOneOrManyFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class SecondTestEntityOneOrManyFactoryBase : IEntityFactory<SecondTestEntityOneOrManyEntity, SecondTestEntityOneOrManyCreateDto, SecondTestEntityOneOrManyUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public SecondTestEntityOneOrManyFactoryBase
-    (
+    public SecondTestEntityOneOrManyFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual SecondTestEntityOneOrManyEntity CreateEntity(SecondTestEntityOneOrManyCreateDto createDto)
+    public virtual async Task<SecondTestEntityOneOrManyEntity> CreateEntityAsync(SecondTestEntityOneOrManyCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class SecondTestEntityOneOrManyFactoryBase : IEntityFactory<Se
         }        
     }
 
-    public virtual void UpdateEntity(SecondTestEntityOneOrManyEntity entity, SecondTestEntityOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(SecondTestEntityOneOrManyEntity entity, SecondTestEntityOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(SecondTestEntityOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,17 +66,18 @@ internal abstract class SecondTestEntityOneOrManyFactoryBase : IEntityFactory<Se
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private TestWebApp.Domain.SecondTestEntityOneOrMany ToEntity(SecondTestEntityOneOrManyCreateDto createDto)
+    private async Task<TestWebApp.Domain.SecondTestEntityOneOrMany> ToEntityAsync(SecondTestEntityOneOrManyCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.SecondTestEntityOneOrMany();
         entity.Id = SecondTestEntityOneOrManyMetadata.CreateId(createDto.Id);
         entity.TextTestField2 = TestWebApp.Domain.SecondTestEntityOneOrManyMetadata.CreateTextTestField2(createDto.TextTestField2);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(SecondTestEntityOneOrManyEntity entity, SecondTestEntityOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(SecondTestEntityOneOrManyEntity entity, SecondTestEntityOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField2 = TestWebApp.Domain.SecondTestEntityOneOrManyMetadata.CreateTextTestField2(updateDto.TextTestField2.NonNullValue<System.String>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(SecondTestEntityOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -88,13 +97,4 @@ internal abstract class SecondTestEntityOneOrManyFactoryBase : IEntityFactory<Se
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class SecondTestEntityOneOrManyFactory : SecondTestEntityOneOrManyFactoryBase
-{
-    public SecondTestEntityOneOrManyFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

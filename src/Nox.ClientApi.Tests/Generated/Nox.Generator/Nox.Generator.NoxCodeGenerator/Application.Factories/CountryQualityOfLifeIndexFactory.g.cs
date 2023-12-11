@@ -23,24 +23,32 @@ using CountryQualityOfLifeIndexEntity = ClientApi.Domain.CountryQualityOfLifeInd
 
 namespace ClientApi.Application.Factories;
 
+internal partial class CountryQualityOfLifeIndexFactory : CountryQualityOfLifeIndexFactoryBase
+{
+    public CountryQualityOfLifeIndexFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public CountryQualityOfLifeIndexFactoryBase
-    (
+    public CountryQualityOfLifeIndexFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual CountryQualityOfLifeIndexEntity CreateEntity(CountryQualityOfLifeIndexCreateDto createDto)
+    public virtual async Task<CountryQualityOfLifeIndexEntity> CreateEntityAsync(CountryQualityOfLifeIndexCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
         }        
     }
 
-    public virtual void UpdateEntity(CountryQualityOfLifeIndexEntity entity, CountryQualityOfLifeIndexUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(CountryQualityOfLifeIndexEntity entity, CountryQualityOfLifeIndexUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CountryQualityOfLifeIndexEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,17 +66,18 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private ClientApi.Domain.CountryQualityOfLifeIndex ToEntity(CountryQualityOfLifeIndexCreateDto createDto)
+    private async Task<ClientApi.Domain.CountryQualityOfLifeIndex> ToEntityAsync(CountryQualityOfLifeIndexCreateDto createDto)
     {
         var entity = new ClientApi.Domain.CountryQualityOfLifeIndex();
         entity.CountryId = CountryQualityOfLifeIndexMetadata.CreateCountryId(createDto.CountryId);
         entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(createDto.IndexRating);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(CountryQualityOfLifeIndexEntity entity, CountryQualityOfLifeIndexUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(CountryQualityOfLifeIndexEntity entity, CountryQualityOfLifeIndexUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(updateDto.IndexRating.NonNullValue<System.Int32>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(CountryQualityOfLifeIndexEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -88,13 +97,4 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class CountryQualityOfLifeIndexFactory : CountryQualityOfLifeIndexFactoryBase
-{
-    public CountryQualityOfLifeIndexFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }
