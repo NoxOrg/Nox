@@ -52,13 +52,17 @@ public abstract partial class StoresControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToStoreOwner([FromRoute] System.Guid key)
     {
-        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.StoreOwner).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetStoreByIdQuery(key))).Include(x => x.StoreOwner).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"StoreOwners/{related.Id}", UriKind.Relative);
+        if (entity.StoreOwner is null)
+        {
+            return Ok();
+        }
+        var references = new System.Uri($"StoreOwners/{entity.StoreOwner.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -112,12 +116,12 @@ public abstract partial class StoresControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<StoreOwnerDto>> GetStoreOwner(System.Guid key)
     {
-        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Where(x => x.StoreOwner != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetStoreByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<StoreOwnerDto>(Enumerable.Empty<StoreOwnerDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.StoreOwner!));
+        return SingleResult.Create(query.Where(x => x.StoreOwner != null).Select(x => x.StoreOwner!));
     }
     
     public virtual async Task<ActionResult<StoreOwnerDto>> PutToStoreOwner(System.Guid key, [FromBody] StoreOwnerUpdateDto storeOwner)
@@ -186,13 +190,17 @@ public abstract partial class StoresControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToStoreLicense([FromRoute] System.Guid key)
     {
-        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.StoreLicense).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetStoreByIdQuery(key))).Include(x => x.StoreLicense).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"StoreLicenses/{related.Id}", UriKind.Relative);
+        if (entity.StoreLicense is null)
+        {
+            return Ok();
+        }
+        var references = new System.Uri($"StoreLicenses/{entity.StoreLicense.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -246,12 +254,12 @@ public abstract partial class StoresControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<StoreLicenseDto>> GetStoreLicense(System.Guid key)
     {
-        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Where(x => x.StoreLicense != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetStoreByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<StoreLicenseDto>(Enumerable.Empty<StoreLicenseDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.StoreLicense!));
+        return SingleResult.Create(query.Where(x => x.StoreLicense != null).Select(x => x.StoreLicense!));
     }
     
     public virtual async Task<ActionResult<StoreLicenseDto>> PutToStoreLicense(System.Guid key, [FromBody] StoreLicenseUpdateDto storeLicense)
@@ -338,14 +346,14 @@ public abstract partial class StoresControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToClients([FromRoute] System.Guid key)
     {
-        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.Clients).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetStoreByIdQuery(key))).Include(x => x.Clients).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.Clients)
         {
             references.Add(new System.Uri($"Clients/{item.Id}", UriKind.Relative));
         }
@@ -402,12 +410,12 @@ public abstract partial class StoresControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<ClientDto>>> GetClients(System.Guid key)
     {
-        var entity = (await _mediator.Send(new GetStoreByIdQuery(key))).SelectMany(x => x.Clients);
-        if (!entity.Any())
+        var query = await _mediator.Send(new GetStoreByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.Include(x => x.Clients).SelectMany(x => x.Clients));
     }
     
     [EnableQuery]

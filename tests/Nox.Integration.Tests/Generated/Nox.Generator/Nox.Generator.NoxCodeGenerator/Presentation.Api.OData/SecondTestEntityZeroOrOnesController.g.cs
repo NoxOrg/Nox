@@ -47,13 +47,17 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
     
     public virtual async Task<ActionResult> GetRefToTestEntityZeroOrOne([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(key))).Select(x => x.TestEntityZeroOrOne).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(key))).Include(x => x.TestEntityZeroOrOne).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"TestEntityZeroOrOnes/{related.Id}", UriKind.Relative);
+        if (entity.TestEntityZeroOrOne is null)
+        {
+            return Ok();
+        }
+        var references = new System.Uri($"TestEntityZeroOrOnes/{entity.TestEntityZeroOrOne.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -107,12 +111,12 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
     [EnableQuery]
     public virtual async Task<SingleResult<TestEntityZeroOrOneDto>> GetTestEntityZeroOrOne(System.String key)
     {
-        var related = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(key))).Where(x => x.TestEntityZeroOrOne != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<TestEntityZeroOrOneDto>(Enumerable.Empty<TestEntityZeroOrOneDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.TestEntityZeroOrOne!));
+        return SingleResult.Create(query.Where(x => x.TestEntityZeroOrOne != null).Select(x => x.TestEntityZeroOrOne!));
     }
     
     public virtual async Task<ActionResult<TestEntityZeroOrOneDto>> PutToTestEntityZeroOrOne(System.String key, [FromBody] TestEntityZeroOrOneUpdateDto testEntityZeroOrOne)

@@ -330,13 +330,17 @@ public abstract partial class CountriesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToCurrency([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Currency).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).Include(x => x.Currency).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"Currencies/{related.Id}", UriKind.Relative);
+        if (entity.Currency is null)
+        {
+            return Ok();
+        }
+        var references = new System.Uri($"Currencies/{entity.Currency.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -358,12 +362,12 @@ public abstract partial class CountriesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<CurrencyDto>> GetCurrency(System.String key)
     {
-        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Where(x => x.Currency != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetCountryByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<CurrencyDto>(Enumerable.Empty<CurrencyDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.Currency!));
+        return SingleResult.Create(query.Where(x => x.Currency != null).Select(x => x.Currency!));
     }
     
     public virtual async Task<ActionResult<CurrencyDto>> PutToCurrency(System.String key, [FromBody] CurrencyUpdateDto currency)
@@ -427,14 +431,14 @@ public abstract partial class CountriesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToCommissions([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Commissions).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).Include(x => x.Commissions).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.Commissions)
         {
             references.Add(new System.Uri($"Commissions/{item.Id}", UriKind.Relative));
         }
@@ -475,12 +479,12 @@ public abstract partial class CountriesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<CommissionDto>>> GetCommissions(System.String key)
     {
-        var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Commissions);
-        if (!entity.Any())
+        var query = await _mediator.Send(new GetCountryByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.Include(x => x.Commissions).SelectMany(x => x.Commissions));
     }
     
     [EnableQuery]
@@ -581,14 +585,14 @@ public abstract partial class CountriesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToVendingMachines([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).Include(x => x.VendingMachines).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.VendingMachines)
         {
             references.Add(new System.Uri($"VendingMachines/{item.Id}", UriKind.Relative));
         }
@@ -645,12 +649,12 @@ public abstract partial class CountriesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<VendingMachineDto>>> GetVendingMachines(System.String key)
     {
-        var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.VendingMachines);
-        if (!entity.Any())
+        var query = await _mediator.Send(new GetCountryByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.Include(x => x.VendingMachines).SelectMany(x => x.VendingMachines));
     }
     
     [EnableQuery]
@@ -770,14 +774,14 @@ public abstract partial class CountriesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToCustomers([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Customers).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).Include(x => x.Customers).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.Customers)
         {
             references.Add(new System.Uri($"Customers/{item.Id}", UriKind.Relative));
         }
@@ -834,12 +838,12 @@ public abstract partial class CountriesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<CustomerDto>>> GetCustomers(System.String key)
     {
-        var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Customers);
-        if (!entity.Any())
+        var query = await _mediator.Send(new GetCountryByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.Include(x => x.Customers).SelectMany(x => x.Customers));
     }
     
     [EnableQuery]

@@ -321,14 +321,14 @@ public abstract partial class TenantsControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToWorkplaces([FromRoute] System.UInt32 key)
     {
-        var related = (await _mediator.Send(new GetTenantByIdQuery(key))).Select(x => x.Workplaces).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetTenantByIdQuery(key))).Include(x => x.Workplaces).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.Workplaces)
         {
             references.Add(new System.Uri($"Workplaces/{item.Id}", UriKind.Relative));
         }
@@ -385,12 +385,12 @@ public abstract partial class TenantsControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> GetWorkplaces(System.UInt32 key)
     {
-        var entity = (await _mediator.Send(new GetTenantByIdQuery(key))).SelectMany(x => x.Workplaces);
-        if (!entity.Any())
+        var query = await _mediator.Send(new GetTenantByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.Include(x => x.Workplaces).SelectMany(x => x.Workplaces));
     }
     
     [EnableQuery]

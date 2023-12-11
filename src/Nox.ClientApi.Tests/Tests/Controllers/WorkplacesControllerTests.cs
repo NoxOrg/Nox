@@ -56,6 +56,42 @@ namespace ClientApi.Tests.Tests.Controllers
             getRefResponse!.ODataId!.Should().NotBeNullOrEmpty();
         }
 
+        [Fact]
+        public async Task GetRefToCountry_ValidateResponseStatusCode()
+        {
+            // Arrange
+            var dto = new WorkplaceCreateDto
+            {
+                Name = _fixture.Create<string>(),
+            };
+            var Country = new CountryCreateDto()
+            {
+                Name = _fixture.Create<string>()
+            };
+
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, dto);
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, Country);
+
+            // Act and Assert
+            var workplaceValidIdWithoutCountry = await GetAsync(
+                $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}/$ref");
+            workplaceValidIdWithoutCountry!.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var workplaceInvalidIdWithoutCountry = await GetAsync(
+                $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id+1}/{nameof(WorkplaceDto.Country)}/$ref");
+            workplaceInvalidIdWithoutCountry!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            await PostAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/Country/{countryResponse!.Id}/$ref");
+
+            var workplaceValidIdWithCountry = await GetODataSimpleResponseAsync<ODataReferenceResponse?>(
+                $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}/$ref");
+            workplaceValidIdWithCountry!.Should().NotBeNull();
+
+            var workplaceInvalidIdWithCountry = await GetAsync(
+                $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id + 1}/{nameof(WorkplaceDto.Country)}/$ref");
+            workplaceInvalidIdWithCountry!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
         #endregion GET Ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/workplaces/1/Country/$ref
 
         #region GET Related Entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName} => api/workplaces/1/Country

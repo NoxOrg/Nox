@@ -47,13 +47,17 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
     
     public virtual async Task<ActionResult> GetRefToSecondTestEntityExactlyOne([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(key))).Select(x => x.SecondTestEntityExactlyOne).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(key))).Include(x => x.SecondTestEntityExactlyOne).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"SecondTestEntityExactlyOnes/{related.Id}", UriKind.Relative);
+        if (entity.SecondTestEntityExactlyOne is null)
+        {
+            return Ok();
+        }
+        var references = new System.Uri($"SecondTestEntityExactlyOnes/{entity.SecondTestEntityExactlyOne.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -75,12 +79,12 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
     [EnableQuery]
     public virtual async Task<SingleResult<SecondTestEntityExactlyOneDto>> GetSecondTestEntityExactlyOne(System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(key))).Where(x => x.SecondTestEntityExactlyOne != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<SecondTestEntityExactlyOneDto>(Enumerable.Empty<SecondTestEntityExactlyOneDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.SecondTestEntityExactlyOne!));
+        return SingleResult.Create(query.Where(x => x.SecondTestEntityExactlyOne != null).Select(x => x.SecondTestEntityExactlyOne!));
     }
     
     public virtual async Task<ActionResult<SecondTestEntityExactlyOneDto>> PutToSecondTestEntityExactlyOne(System.String key, [FromBody] SecondTestEntityExactlyOneUpdateDto secondTestEntityExactlyOne)

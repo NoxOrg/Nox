@@ -1297,6 +1297,46 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
             .AllSatisfy(x => x.ODataId.Should().NotBeNullOrEmpty());
     }
 
+    [Fact]
+    public async Task GetRefToWorkplaces_ValidateResponseStatusCode()
+    {
+        // Arrange
+        var dto = new CountryCreateDto
+        {
+            Name = _fixture.Create<string>(),
+        };
+        var Workplaces = new List<WorkplaceCreateDto>()
+            {
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>() }
+            };
+
+        // Act and Assert
+        var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
+        var countryValidIdWithoutWorkplaces = await GetODataCollectionResponseAsync<IEnumerable<ODataReferenceResponse>>(
+            $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/Workplaces/$ref");
+        countryValidIdWithoutWorkplaces!.Should().HaveCount(0);
+
+        var countryInvalidIdWithoutWorkplaces = await GetAsync(
+            $"{Endpoints.CountriesUrl}/{countryResponse!.Id+1}/Workplaces/$ref");
+        countryInvalidIdWithoutWorkplaces!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+        foreach (var workplace in Workplaces)
+        {
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplace);
+            var createRefResponse = await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/Workplaces/{workplaceResponse!.Id}/$ref");
+        }
+
+        var countryValidIdWithWorkplaces = await GetODataCollectionResponseAsync<IEnumerable<ODataReferenceResponse>>(
+            $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/Workplaces/$ref");
+        countryValidIdWithWorkplaces!.Should().HaveCount(3);
+
+        var countryInvalidIdWithWorkplaces = await GetAsync(
+            $"{Endpoints.CountriesUrl}/{countryResponse!.Id + 1}/Workplaces/$ref");
+        countryInvalidIdWithoutWorkplaces!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
     #endregion GET Ref To Related Entities /api/{EntityPluralName}/1/{RelationshipName}/$ref => api/countries/1/Workplaces/$ref
 
     #region GET Related Entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName} => api/countries/1/Workplaces
@@ -1328,7 +1368,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
     }
 
     [Fact]
-    public async Task Get_CountryWorkplaces_WhenNoRelatedWorkplaces_NotFound()
+    public async Task Get_CountryWorkplaces_WhenNoRelatedWorkplaces_Ok()
     {
         // Arrange
         var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, 
@@ -1339,7 +1379,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
 
         //Assert
         getWorkplacesResponse.Should().NotBeNull();
-        getWorkplacesResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        getWorkplacesResponse!.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     [Fact]

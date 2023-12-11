@@ -65,14 +65,14 @@ public abstract partial class LandLordsControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToVendingMachines([FromRoute] System.Guid key)
     {
-        var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetLandLordByIdQuery(key))).Include(x => x.VendingMachines).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.VendingMachines)
         {
             references.Add(new System.Uri($"VendingMachines/{item.Id}", UriKind.Relative));
         }
@@ -129,12 +129,12 @@ public abstract partial class LandLordsControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<VendingMachineDto>>> GetVendingMachines(System.Guid key)
     {
-        var entity = (await _mediator.Send(new GetLandLordByIdQuery(key))).SelectMany(x => x.VendingMachines);
-        if (!entity.Any())
+        var query = await _mediator.Send(new GetLandLordByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.Include(x => x.VendingMachines).SelectMany(x => x.VendingMachines));
     }
     
     [EnableQuery]
