@@ -23,6 +23,15 @@ using LanguageEntity = ClientApi.Domain.Language;
 
 namespace ClientApi.Application.Factories;
 
+internal partial class LanguageFactory : LanguageFactoryBase
+{
+    public LanguageFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class LanguageFactoryBase : IEntityFactory<LanguageEntity, LanguageCreateDto, LanguageUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
@@ -35,11 +44,11 @@ internal abstract class LanguageFactoryBase : IEntityFactory<LanguageEntity, Lan
         _repository = repository;
     }
 
-    public virtual LanguageEntity CreateEntity(LanguageCreateDto createDto)
+    public virtual async Task<LanguageEntity> CreateEntityAsync(LanguageCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -47,9 +56,9 @@ internal abstract class LanguageFactoryBase : IEntityFactory<LanguageEntity, Lan
         }        
     }
 
-    public virtual void UpdateEntity(LanguageEntity entity, LanguageUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(LanguageEntity entity, LanguageUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(LanguageEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -57,7 +66,7 @@ internal abstract class LanguageFactoryBase : IEntityFactory<LanguageEntity, Lan
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private ClientApi.Domain.Language ToEntity(LanguageCreateDto createDto)
+    private async Task<ClientApi.Domain.Language> ToEntityAsync(LanguageCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Language();
         entity.Id = LanguageMetadata.CreateId(createDto.Id);
@@ -65,10 +74,10 @@ internal abstract class LanguageFactoryBase : IEntityFactory<LanguageEntity, Lan
         entity.SetIfNotNull(createDto.CountryIsoNumeric, (entity) => entity.CountryIsoNumeric =ClientApi.Domain.LanguageMetadata.CreateCountryIsoNumeric(createDto.CountryIsoNumeric.NonNullValue<System.UInt16>()));
         entity.SetIfNotNull(createDto.CountryIsoAlpha3, (entity) => entity.CountryIsoAlpha3 =ClientApi.Domain.LanguageMetadata.CreateCountryIsoAlpha3(createDto.CountryIsoAlpha3.NonNullValue<System.String>()));
         entity.Region = ClientApi.Domain.LanguageMetadata.CreateRegion(createDto.Region);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(LanguageEntity entity, LanguageUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(LanguageEntity entity, LanguageUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         if(IsDefaultCultureCode(cultureCode)) entity.Name = ClientApi.Domain.LanguageMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         if(updateDto.CountryIsoNumeric is null)
@@ -88,6 +97,7 @@ internal abstract class LanguageFactoryBase : IEntityFactory<LanguageEntity, Lan
             entity.CountryIsoAlpha3 = ClientApi.Domain.LanguageMetadata.CreateCountryIsoAlpha3(updateDto.CountryIsoAlpha3.ToValueFromNonNull<System.String>());
         }
         entity.Region = ClientApi.Domain.LanguageMetadata.CreateRegion(updateDto.Region.NonNullValue<System.String>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(LanguageEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -136,13 +146,4 @@ internal abstract class LanguageFactoryBase : IEntityFactory<LanguageEntity, Lan
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class LanguageFactory : LanguageFactoryBase
-{
-    public LanguageFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

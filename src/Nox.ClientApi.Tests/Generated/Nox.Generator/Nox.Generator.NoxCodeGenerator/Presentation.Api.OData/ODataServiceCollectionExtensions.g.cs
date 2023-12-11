@@ -40,6 +40,7 @@ internal static class ODataServiceCollectionExtensions
         builder.ComplexType<ClientPartialUpdateDto>();
         builder.ComplexType<HolidayUpsertDto>();
         builder.ComplexType<ReferenceNumberEntityPartialUpdateDto>();
+        builder.ComplexType<LanguagePartialUpdateDto>();
         builder.ComplexType<EmailAddressUpsertDto>();
 
         builder.EntitySet<CountryDto>("Countries");
@@ -133,6 +134,11 @@ internal static class ODataServiceCollectionExtensions
 		builder.EntityType<ReferenceNumberEntityDto>().HasKey(e => new { e.Id });
         builder.EntityType<ReferenceNumberEntityDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<ReferenceNumberEntityDto>().Ignore(e => e.Etag);
+
+        builder.EntitySet<LanguageDto>("Languages");
+		builder.EntityType<LanguageDto>().HasKey(e => new { e.Id });
+        builder.EntityType<LanguageLocalizedDto>().HasKey(e => new { e.Id });
+        builder.EntityType<LanguageDto>().Function("LanguagesLocalized").ReturnsCollection<DtoNameSpace.LanguageLocalizedDto>();
 
 		builder.EntityType<EmailAddressDto>().HasKey(e => new {  }); 
         // Setup Enumeration End Points

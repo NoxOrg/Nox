@@ -62,7 +62,7 @@ internal abstract class UpdateLanguageCommandHandlerBase : CommandBase<UpdateLan
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
+		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await UpdateLocalizationsAsync(entity, request.EntityDto, request.CultureCode);
 

@@ -55,31 +55,31 @@ internal abstract partial class LanguageBase : EntityBase, IEntityConcurrent
     /// Language unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.CountryCode2 Id { get; set; } = null!;
+    public Nox.Types.CountryCode2 Id { get;  set; } = null!;
 
     /// <summary>
     /// Country's name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get;  set; } = null!;
 
     /// <summary>
     /// Country's iso number id    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.CountryNumber? CountryIsoNumeric { get; set; } = null!;
+    public Nox.Types.CountryNumber? CountryIsoNumeric { get;  set; } = null!;
 
     /// <summary>
     /// Country's iso alpha3 id    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.CountryCode3? CountryIsoAlpha3 { get; set; } = null!;
+    public Nox.Types.CountryCode3? CountryIsoAlpha3 { get;  set; } = null!;
 
     /// <summary>
     /// Region of country    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Region { get; set; } = null!;
+    public Nox.Types.Text Region { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

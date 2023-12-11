@@ -22,13 +22,13 @@ public class LanguageDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 
 	public string Build()
 	{
-		var localizedEntityQuery = new Query("LanguagesLocalized")
-			.Select("LanguagesLocalized.Id")
-			.Select("LanguagesLocalized.Name")
-			.Where("LanguagesLocalized.CultureCode", "##LANG##")
-			.As("LanguagesLocalized");
-
-		var entityQuery = new Query("Languages")
+		var query = LanguageQuery();
+		return CompileToSqlString(query);
+	}
+	
+	private static Query LanguageQuery()
+	{
+		return new Query("Languages")
 			.Select("Languages.Id")
 			.Select("Languages.CountryIsoNumeric")
 			.Select("Languages.CountryIsoAlpha3")
@@ -37,8 +37,23 @@ public class LanguageDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"LanguagesLocalized\".\"Name\", ('##OPEN##' || COALESCE(\"Languages\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
 			.ForSqlite(q => q.SelectRaw("COALESCE(\"LanguagesLocalized\".\"Name\", ('##OPEN##' || COALESCE(\"Languages\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
 			.Select("Languages.Etag")
-			.LeftJoin(localizedEntityQuery, j => j.On("LanguagesLocalized.Id", "Languages.Id"));
+			.LeftJoin(LanguageLocalizedQuery(), j => j.On("LanguagesLocalized.Id", "Languages.Id"));
+	}
+	
+	private static Query LanguageLocalizedQuery()
+	{
+		return new Query("LanguagesLocalized")
+			.Select("LanguagesLocalized.Id")
+			.Select("LanguagesLocalized.Name")
+			.Where("LanguagesLocalized.CultureCode", "##LANG##")
+			.As("LanguagesLocalized");
+	}
 
-		return _sqlCompiler.Compile(entityQuery).ToString().Replace("##OPEN##", "[").Replace("##CLOSE##", "]");
+	private string CompileToSqlString(Query query)
+	{
+		return _sqlCompiler.Compile(query)
+			.ToString()
+			.Replace("##OPEN##", "[")
+			.Replace("##CLOSE##", "]");
 	}
 }

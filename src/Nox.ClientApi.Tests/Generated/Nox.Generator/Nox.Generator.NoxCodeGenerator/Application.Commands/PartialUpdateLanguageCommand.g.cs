@@ -18,7 +18,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record PartialUpdateLanguageCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <LanguageKeyDto?>;
 
-internal class PartialUpdateLanguageCommandHandler : PartialUpdateLanguageCommandHandlerBase
+internal partial class PartialUpdateLanguageCommandHandler : PartialUpdateLanguageCommandHandlerBase
 {
 	public PartialUpdateLanguageCommandHandler(
         AppDbContext dbContext,
@@ -29,7 +29,7 @@ internal class PartialUpdateLanguageCommandHandler : PartialUpdateLanguageComman
 	{
 	}
 }
-internal class PartialUpdateLanguageCommandHandlerBase : CommandBase<PartialUpdateLanguageCommand, LanguageEntity>, IRequestHandler<PartialUpdateLanguageCommand, LanguageKeyDto?>
+internal abstract class PartialUpdateLanguageCommandHandlerBase : CommandBase<PartialUpdateLanguageCommand, LanguageEntity>, IRequestHandler<PartialUpdateLanguageCommand, LanguageKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<LanguageEntity, LanguageCreateDto, LanguageUpdateDto> EntityFactory { get; }

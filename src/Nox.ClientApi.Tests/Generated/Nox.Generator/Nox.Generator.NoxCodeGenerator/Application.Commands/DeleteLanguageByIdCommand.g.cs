@@ -16,7 +16,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record DeleteLanguageByIdCommand(IEnumerable<LanguageKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteLanguageByIdCommandHandler : DeleteLanguageByIdCommandHandlerBase
+internal partial class DeleteLanguageByIdCommandHandler : DeleteLanguageByIdCommandHandlerBase
 {
 	public DeleteLanguageByIdCommandHandler(
         AppDbContext dbContext,

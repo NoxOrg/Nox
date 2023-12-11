@@ -66,7 +66,8 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
     public virtual DbSet<ClientApi.Domain.Tenant> Tenants { get; set; } = null!;
     public virtual DbSet<ClientApi.Domain.Client> Clients { get; set; } = null!;
     public virtual DbSet<ClientApi.Domain.ReferenceNumberEntity> ReferenceNumberEntities { get; set; } = null!;
-    public virtual DbSet<ClientApi.Domain.WorkplaceLocalized> WorkplacesLocalized { get; set; } = null!;public virtual DbSet<ClientApi.Domain.TenantBrandLocalized> TenantBrandsLocalized { get; set; } = null!;public virtual DbSet<ClientApi.Domain.TenantContactLocalized> TenantContactsLocalized { get; set; } = null!;
+    public virtual DbSet<ClientApi.Domain.Language> Languages { get; set; } = null!;
+    public virtual DbSet<ClientApi.Domain.WorkplaceLocalized> WorkplacesLocalized { get; set; } = null!;public virtual DbSet<ClientApi.Domain.TenantBrandLocalized> TenantBrandsLocalized { get; set; } = null!;public virtual DbSet<ClientApi.Domain.TenantContactLocalized> TenantContactsLocalized { get; set; } = null!;public virtual DbSet<ClientApi.Domain.LanguageLocalized> LanguagesLocalized { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.CountryContinent> CountriesContinents { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.CountryContinentLocalized> CountriesContinentsLocalized { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.StoreStatus> StoresStatuses { get; set; } = null!;

@@ -25,6 +25,21 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         [Fact]
+        public async Task WhenGetAll_ShouldSucceed()
+        {
+            var postResponse = await PostAsync<LanguageCreateDto, LanguageDto>(Endpoints.LanguagesUrl, new LanguageCreateDto
+            {
+                Id = CountryCode.US.ToString(),
+                Name = _fixture.Create<string>(),
+                Region = _fixture.Create<string>()
+            });
+
+            var getResponse = await GetODataCollectionResponseAsync<IEnumerable<LanguageDto>>(Endpoints.LanguagesUrl);
+
+            getResponse.Should().NotBeEmpty();
+        }
+
+        [Fact]
         public async Task WhenGetSelectQuery_ShouldSucceed()
         {
             //Arrange
