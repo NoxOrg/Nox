@@ -13,16 +13,16 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 {
     private readonly NoxCodeGenConventions _codeGenConventions;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
-    private readonly Dictionary<string, IEntityDtoSqlQueryBuilder> _sqlQueryBuilders;
+    private readonly IEntityDtoSqlQueryBuilderProvider _sqlQueryBuilderProvider;
 
     public NoxDtoDatabaseConfigurator(
         NoxCodeGenConventions codeGenConventions,
         INoxClientAssemblyProvider clientAssemblyProvider,
-        IEnumerable<IEntityDtoSqlQueryBuilder> sqlQueryBuilders)
+        IEntityDtoSqlQueryBuilderProvider sqlQueryBuilderProvider)
     {
         _codeGenConventions = codeGenConventions;
         _clientAssemblyProvider = clientAssemblyProvider;
-        _sqlQueryBuilders = sqlQueryBuilders.ToDictionary(x => x.EntityName);
+        _sqlQueryBuilderProvider = sqlQueryBuilderProvider;
     }
 
     public void ConfigureDto(EntityTypeBuilder builder, Entity entity)
@@ -39,12 +39,12 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 
         ConfigureSqlQuery(builder, entity);
     }
-    
+
     private void ConfigureTableName(EntityTypeBuilder builder, Entity entity)
     {
         builder.ToTable(_codeGenConventions.Solution.Domain!.GetEntityByName(entity.Name).Persistence.TableName);
     }
-    
+
     public void ConfigureLocalizedDto(EntityTypeBuilder builder, Entity entity)
     {
         ConfigureKeys(builder, keys: entity.GetKeys());
@@ -163,9 +163,10 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 
     private void ConfigureSqlQuery(EntityTypeBuilder builder, Entity entity)
     {
-        if (entity.IsLocalized)
+        if (entity.IsLocalized || entity.Attributes.Any(x => x.Type == NoxType.Enumeration))
         {
-            builder.ToSqlQuery(_sqlQueryBuilders[entity.Name].Build());
+            var sqlQueryBuilder = _sqlQueryBuilderProvider.GetBuilder(entity.Name);
+            builder.ToSqlQuery(sqlQueryBuilder.Build());
         }
     }
 }

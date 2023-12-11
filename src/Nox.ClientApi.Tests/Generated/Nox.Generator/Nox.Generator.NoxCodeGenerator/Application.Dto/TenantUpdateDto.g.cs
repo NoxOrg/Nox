@@ -33,6 +33,11 @@ public partial class TenantUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamesp
     
     public virtual System.String Name { get; set; } = default!;
     /// <summary>
+    /// Tenant Status     
+    /// </summary>
+    /// <remarks>Optional.</remarks>
+    public virtual System.Int32? Status { get; set; }
+    /// <summary>
     /// Tenant Brands owned by the tenant ZeroOrMany TenantBrands
     /// </summary>
     public virtual List<TenantBrandUpsertDto> TenantBrands { get; set; } = new();
