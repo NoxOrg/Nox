@@ -33,7 +33,7 @@ public partial class TestEntityOwnedRelationshipZeroOrManyUpdateDtoBase: EntityD
     
     public virtual System.String TextTestField { get; set; } = default!;
     /// <summary>
-    /// TestEntityOwnedRelationshipZeroOrMany Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrMany ZeroOrMany SecondTestEntityOwnedRelationshipZeroOrManies
+    /// TestEntityOwnedRelationshipZeroOrMany Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrMany ZeroOrMany SecEntityOwnedRelZeroOrManies
     /// </summary>
-    public virtual List<SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto> SecondTestEntityOwnedRelationshipZeroOrManies { get; set; } = new();
+    public virtual List<SecEntityOwnedRelZeroOrManyUpsertDto> SecEntityOwnedRelZeroOrManies { get; set; } = new();
 }

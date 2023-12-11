@@ -57,7 +57,7 @@ internal abstract class UpdateTestEntityOwnedRelationshipExactlyOneCommandHandle
 		{
 			return null;
 		}
-		await DbContext.Entry(entity).Reference(x => x.SecondTestEntityOwnedRelationshipExactlyOne).LoadAsync();
+		await DbContext.Entry(entity).Reference(x => x.SecEntityOwnedRelExactlyOne).LoadAsync();
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

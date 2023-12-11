@@ -11,9 +11,9 @@ using System.Collections.Generic;
 namespace TestWebApp.Domain;
 
 /// <summary>
-/// Static methods for the SecondTestEntityOwnedRelationshipExactlyOne class.
+/// Static methods for the SecEntityOwnedRelExactlyOne class.
 /// </summary>
-public partial class SecondTestEntityOwnedRelationshipExactlyOneMetadata
+public partial class SecEntityOwnedRelExactlyOneMetadata
 {
     
         /// <summary>
@@ -41,7 +41,7 @@ public partial class SecondTestEntityOwnedRelationshipExactlyOneMetadata
         /// </summary>
         public static TypeUserInterface? TextTestField2UiOptions(NoxSolution solution) 
             => solution.Domain!
-                .GetEntityByName("SecondTestEntityOwnedRelationshipExactlyOne")
+                .GetEntityByName("SecEntityOwnedRelExactlyOne")
                 .GetAttributeByName("TextTestField2")?
                 .UserInterface;
 }

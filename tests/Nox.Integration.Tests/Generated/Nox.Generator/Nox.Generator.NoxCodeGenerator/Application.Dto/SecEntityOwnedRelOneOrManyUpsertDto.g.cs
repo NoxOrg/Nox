@@ -15,7 +15,7 @@ namespace TestWebApp.Application.Dto;
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto : SecondTestEntityOwnedRelationshipZeroOrManyUpsertDtoBase
+public partial class SecEntityOwnedRelOneOrManyUpsertDto : SecEntityOwnedRelOneOrManyUpsertDtoBase
 {
 
 }
@@ -23,7 +23,7 @@ public partial class SecondTestEntityOwnedRelationshipZeroOrManyUpsertDto : Seco
 /// <summary>
 /// 
 /// </summary>
-public abstract class SecondTestEntityOwnedRelationshipZeroOrManyUpsertDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.SecondTestEntityOwnedRelationshipZeroOrMany>
+public abstract class SecEntityOwnedRelOneOrManyUpsertDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.SecEntityOwnedRelOneOrMany>
 {
 
     /// <summary>

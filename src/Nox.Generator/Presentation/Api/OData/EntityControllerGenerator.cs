@@ -827,7 +827,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return NotFound();");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"return Ok();");
+        code.AppendLine($"var updatedItem = (await _mediator.Send(new Get{relatedEntity.Name}ByIdQuery(updated.key{relatedEntity.Keys[0].Name}))).SingleOrDefault();");
+        code.AppendLine();
+        code.AppendLine($"return Ok(updatedItem);");
 
         code.EndBlock();
         code.AppendLine();

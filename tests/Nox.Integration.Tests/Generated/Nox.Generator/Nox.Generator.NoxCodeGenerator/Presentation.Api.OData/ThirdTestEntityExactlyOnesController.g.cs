@@ -103,7 +103,9 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     #endregion
