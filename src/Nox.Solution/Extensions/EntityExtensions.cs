@@ -68,4 +68,7 @@ public static class EntityExtensions
 
         return entity.Keys;
     }
+
+    public static bool RequiresCustomSqlStatement(this Entity entity)
+        => entity.IsLocalized || entity.Attributes.Any(x => x.Type == NoxType.Enumeration);
 }

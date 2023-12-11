@@ -25,7 +25,7 @@ internal class EntityDtoSqlQueryBuilderGenerator : INoxCodeGenerator
         if (noxCodeGenCodeConventions.Solution.Domain is null)
             return;
 
-        foreach (var entity in noxCodeGenCodeConventions.Solution.Domain.Entities.Where(e => e.IsLocalized || e.Attributes.Any(x => x.Type == NoxType.Enumeration)))
+        foreach (var entity in noxCodeGenCodeConventions.Solution.Domain.Entities.Where(e => e.RequiresCustomSqlStatement()))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -40,7 +40,7 @@ internal class EntityDtoSqlQueryBuilderGenerator : INoxCodeGenerator
     }
 
     private static IEnumerable<object> GetAttributes(Entity entity)
-        => GetSimpleTypeAttributes(entity).Concat(GetEntityTypeAttributes(entity));
+        => GetSimpleTypeAttributes(entity).Concat(GetFlattenedCompoundTypeAttributes(entity));
 
     private static IEnumerable<object> GetSimpleTypeAttributes(Entity entity)
         => entity.Attributes
@@ -53,7 +53,7 @@ internal class EntityDtoSqlQueryBuilderGenerator : INoxCodeGenerator
                 a.IsLocalizedEnum
             });
 
-    private static IEnumerable<object> GetEntityTypeAttributes(Entity entity)
+    private static IEnumerable<object> GetFlattenedCompoundTypeAttributes(Entity entity)
         => entity.Attributes
             .Where(a => a.Type.IsCompoundType())
             .SelectMany(a => a.Type.GetCompoundComponents().Select(c => new

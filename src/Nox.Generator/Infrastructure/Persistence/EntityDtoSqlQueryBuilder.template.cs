@@ -137,7 +137,7 @@ public class {{className}} : IEntityDtoSqlQueryBuilder
 			.ToString()
 			{{- if hasLocalizedText || hasLocalizedEnum }}
 			.Replace("##OPEN##", "[")
-			.Replace("##CLOSE##", "]");
+			.Replace("##CLOSE##", "]")
 			{{- end -}};
 	}
 }
