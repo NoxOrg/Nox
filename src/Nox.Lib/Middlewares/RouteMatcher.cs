@@ -1,7 +1,10 @@
-﻿using System.Text;
+﻿using Nox.Yaml.Attributes;
+using System.Diagnostics;
+using System.Text;
 
 namespace Nox.Lib;
 
+[DebuggerDisplay("{_routePattern}")]
 public class ApiRouteMatcher
 {
 

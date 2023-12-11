@@ -3,6 +3,7 @@ using Nox.Yaml.Attributes;
 using Nox.Yaml.Validation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using YamlDotNet.Serialization;
 
 namespace Nox.Solution;
@@ -11,6 +12,7 @@ namespace Nox.Solution;
 [Title("Definition and mapping of API endpoints to internal OData routes.")]
 [Description("Defines custom endpoints for this solution and how they map to generated internal OData endpoints.")]
 [AdditionalProperties(false)]
+[DebuggerDisplay("{Name}: {Route}")]
 public class ApiRouteMapping : YamlConfigNode<NoxSolution, ApiConfiguration>
 {
     [Required]
