@@ -6,13 +6,17 @@
 
 name: twoSeqSegmentsWithProperties
 description: test case for two sequential segments with properties
-httpVerb: put
-route: /countriesSeqSegProps/{CountryId}//{ExtraId}
+httpVerb: get
+route: /countriesSeqSegProps/{CountryId}/{ExtraId}
 targetUrl: /countries?countryId={CountryId}&extraId={ExtraId}
 
 requestInput:
   - name: CountryId
     description: The Country Id
+    type: string
+
+  - name: ExtraId
+    description: Another Id
     type: number
 
 responseOutput: 

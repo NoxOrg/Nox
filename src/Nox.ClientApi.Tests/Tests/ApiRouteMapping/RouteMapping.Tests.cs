@@ -19,7 +19,7 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         _fixture.Customize<string>(s => s.FromFactory(() => ToUpperFirstChar(Guid.NewGuid().ToString())));
     }
     [Fact]
-    public async Task WhenRouteGetWithParameters_ShouldSucceed()
+    public async Task WhenRouteGetWithPathParameters_ShouldSucceed()
     {
         // Arrange
         string countryName1 = _fixture.Create<string>();
@@ -29,6 +29,23 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         // Act
         var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/CountriesByName/10"))!.ToList();
         //var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.CountriesUrl}"))!.ToList();
+
+        //Assert
+        result.Should().NotBeNull();
+        result.Should().HaveCount(2);
+        result.Should().Contain(r => r.Name == countryName1);
+        result.Should().Contain(r => r.Name == countryName2);
+    }
+    [Fact(Skip = "No matcher is found when using qury parameters" )]    
+    public async Task WhenRouteGetWithQueryParameters_ShouldSucceed()
+    {
+        // Arrange
+        string countryName1 = _fixture.Create<string>();
+        string countryName2 = _fixture.Create<string>();
+        await CreateCountriesAsync(countryName1, countryName2);
+
+        // Act
+        var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/CountriesByNameQuery?count=10"))!.ToList();        
 
         //Assert
         result.Should().NotBeNull();
@@ -139,7 +156,7 @@ public partial class RouteMappingTests : NoxWebApiTestBase
     }
 
 
-    [Fact(Skip="Add support to RouteMapping with two sequential parameters on the route")]
+    [Fact]
     public async Task WhenRouteGetWithTwoSequentialSegmentsParameters_ShouldSucceed()
     {
         // Arrange

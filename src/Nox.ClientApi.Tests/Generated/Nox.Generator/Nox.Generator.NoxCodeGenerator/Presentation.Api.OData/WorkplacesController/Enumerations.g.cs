@@ -29,10 +29,8 @@ public abstract partial class WorkplacesControllerBase
     [HttpDelete("/api/v1/Workplaces/WorkplaceOwnershipsLocalized/{cultureCode}")]
     public virtual async Task<ActionResult> DeleteOwnershipsLocalizedNonConventional([FromRoute] System.String cultureCode)
     {   
-        if(!Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue))
-        {
-            throw new Nox.Exceptions.BadRequestInvalidFieldException();
-        }
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
+
         var result = await _mediator.Send(new ApplicationCommandsNameSpace.DeleteWorkplacesOwnershipsTranslationsCommand(cultureCodeValue!));                        
         return NoContent();     
     }
