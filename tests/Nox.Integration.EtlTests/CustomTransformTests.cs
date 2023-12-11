@@ -1,9 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Extensions;
-using Nox.Integration.SqlServer;
-using Nox.Solution;
 
 namespace Nox.Integration.EtlTests;
 

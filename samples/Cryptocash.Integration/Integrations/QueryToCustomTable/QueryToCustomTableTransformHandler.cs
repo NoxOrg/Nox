@@ -1,7 +1,5 @@
 using CryptocashIntegration.Application.Integration.CustomTransformHandlers;
-using CryptocashIntegration.Domain;
-using Nox.Integration.Abstractions;
-using Nox.Types;
+using Nox.Integration.Abstractions.Interfaces;
 
 namespace Cryptocash.Integration.Integrations;
 

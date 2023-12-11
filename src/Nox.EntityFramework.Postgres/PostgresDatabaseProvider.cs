@@ -4,7 +4,6 @@ using Nox.Infrastructure;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
-using Nox.Types.EntityFramework.Enums;
 using Npgsql;
 
 namespace Nox.EntityFramework.Postgres;

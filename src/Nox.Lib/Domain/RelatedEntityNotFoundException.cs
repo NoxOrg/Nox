@@ -1,7 +1,4 @@
 ﻿using System.Net;
-using Elastic.Apm.Api;
-using Nox.Presentation.Api;
-using Nox.Types;
 
 namespace Nox.Exceptions;
 

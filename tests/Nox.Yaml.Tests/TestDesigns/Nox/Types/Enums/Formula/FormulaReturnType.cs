@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Nox.Yaml.Tests.TestDesigns.Nox.Types.Enums;
+﻿namespace Nox.Yaml.Tests.TestDesigns.Nox.Types.Enums;
 
 /// <summary>
 /// Enumeration for possible return types of a formula.

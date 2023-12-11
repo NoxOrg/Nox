@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Nox.Abstractions;
-using Nox.Types;
 
 namespace Nox.Application.Providers;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Nox.Yaml.Tests.TestDesigns.Nox.Types.Attributes.Schema;
+﻿namespace Nox.Yaml.Tests.TestDesigns.Nox.Types.Attributes.Schema;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class GenerateJsonSchema : Attribute

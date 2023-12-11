@@ -2,7 +2,6 @@
 using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types;
-using System;
 using System.Linq;
 
 namespace Nox.Generator.Application.Dto;

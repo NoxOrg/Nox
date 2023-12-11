@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Nox.Yaml.Tests.TestDesigns.Nox.Types.Attributes.Types;
+﻿namespace Nox.Yaml.Tests.TestDesigns.Nox.Types.Attributes.Types;
 
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
 public class CompoundComponent : Attribute

@@ -4,7 +4,6 @@ using Nox.Solution;
 using Nox.Types;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Nox.Generator.Presentation.Api.OData;
 

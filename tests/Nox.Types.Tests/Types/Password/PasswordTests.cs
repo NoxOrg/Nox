@@ -1,5 +1,5 @@
 ﻿// ReSharper disable once CheckNamespace
-using static System.Net.Mime.MediaTypeNames;
+
 using System.Security.Cryptography;
 
 namespace Nox.Types.Tests.Types;

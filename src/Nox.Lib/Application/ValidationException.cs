@@ -1,5 +1,4 @@
 ﻿using Nox.Exceptions;
-using Nox.Types;
 using System.Net;
 
 namespace Nox.Application

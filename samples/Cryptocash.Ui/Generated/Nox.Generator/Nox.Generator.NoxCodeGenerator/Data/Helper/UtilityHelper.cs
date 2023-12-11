@@ -1,4 +1,3 @@
-using System.Data;
 using System.Reflection;
 
 namespace Cryptocash.Ui.Generated.Data.Helper

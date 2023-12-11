@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.CodeAnalysis;
 using Microsoft.AspNetCore.Builder;
 
 using MassTransit;
@@ -19,13 +18,10 @@ using Nox.OData;
 using Nox.Infrastructure.Messaging.InMemoryBus;
 using Nox.Infrastructure.Messaging.AzureServiceBus;
 using Nox.Infrastructure;
-using Nox.Integration;
 using Nox.Integration.Extensions;
 using Nox.Integration.SqlServer;
-using Nox.Types.EntityFramework;
 using Nox.Yaml.VariableProviders.Environment;
 using Nox.Domain;
-using System;
 using Nox.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using SqlKata.Compilers;

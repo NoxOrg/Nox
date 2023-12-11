@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Nox.Presentation.Api;
-
-namespace Nox.Exceptions
+﻿namespace Nox.Exceptions
 {
     /// <summary>
     /// trying to set a null to a non nullable property

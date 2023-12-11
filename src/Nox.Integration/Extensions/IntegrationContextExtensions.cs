@@ -1,7 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using Nox.Integration.Abstractions;
+using Nox.Integration.Abstractions.Interfaces;
 using Nox.Integration.Exceptions;
 using Nox.Integration.Extensions.Receive;
 using Nox.Integration.Extensions.Send;

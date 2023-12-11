@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Nox.Extensions;
+﻿using Nox.Extensions;
 using Nox.Infrastructure.Persistence;
 
 namespace Nox.Domain;

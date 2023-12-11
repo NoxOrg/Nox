@@ -6,8 +6,6 @@ using Nox.Infrastructure;
 using Nox.Integration.Extensions;
 using Nox.Integration.SqlServer;
 using Nox.Solution;
-using Nox.Types.EntityFramework;
-using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Integration.EtlTests;
 

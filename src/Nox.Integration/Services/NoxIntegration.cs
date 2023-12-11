@@ -5,7 +5,6 @@ using ETLBox.DataFlow;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Nox.Integration.Abstractions;
 using Nox.Integration.Abstractions.Constants;
 using Nox.Integration.Abstractions.Interfaces;
 using Nox.Integration.Abstractions.Models;

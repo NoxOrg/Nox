@@ -6,7 +6,6 @@ using System.Reflection;
 using Nox.Yaml.Serialization;
 using Nox.Yaml.VariableProviders.Environment;
 using Nox.Yaml.Validation;
-using System.Reflection.Emit;
 using System.Text.RegularExpressions;
 
 namespace Nox.Yaml;

@@ -1,7 +1,6 @@
 ﻿using AutoFixture;
 using ClientApi.Application.Dto;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Nox.Types;
 using System.Net;
 using Xunit.Abstractions;

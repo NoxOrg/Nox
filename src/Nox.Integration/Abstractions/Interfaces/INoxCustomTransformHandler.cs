@@ -1,4 +1,4 @@
-namespace Nox.Integration.Abstractions;
+namespace Nox.Integration.Abstractions.Interfaces;
 
 public interface INoxCustomTransformHandler
 {

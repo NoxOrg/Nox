@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Nox.Abstractions;
+namespace Nox.Integration.Abstractions;
 
 public class NoxIntegrationOptionsBuilder
 {

@@ -1,8 +1,6 @@
 using Nox.Infrastructure;
-using Nox.Integration.Abstractions;
+using Nox.Integration.Abstractions.Interfaces;
 using Nox.Solution;
-using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.Enums;
 
 namespace Nox.Integration;
 

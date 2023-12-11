@@ -1,6 +1,6 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Nox.Integration.Abstractions;
+using Nox.Integration.Abstractions.Interfaces;
 using Nox.Solution;
 
 namespace Nox.Integration.SqlServer;

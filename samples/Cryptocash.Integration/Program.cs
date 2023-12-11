@@ -1,7 +1,5 @@
 using Cryptocash.Integration.Integrations;
 using Nox;
-using Nox.Integration;
-using Nox.Integration.Abstractions;
 using Nox.Integration.Abstractions.Models;
 using Nox.Integration.Extensions;
 

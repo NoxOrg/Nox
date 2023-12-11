@@ -1,5 +1,4 @@
 ﻿using ClientApi.Domain;
-using Humanizer;
 
 namespace ClientApi.Application.Commands;
 

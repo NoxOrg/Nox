@@ -1,4 +1,3 @@
-using System.Net;
 using Nox.Solution;
 using Nox.Docs.Extensions;
 using FluentAssertions;

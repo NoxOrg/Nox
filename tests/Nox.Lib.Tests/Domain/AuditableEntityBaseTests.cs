@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Nox.Domain;
-using Nox.Types;
 
 namespace Nox.Lib.Tests.Domain
 {

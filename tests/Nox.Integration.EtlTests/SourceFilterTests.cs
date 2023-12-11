@@ -1,4 +1,3 @@
-using Humanizer;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Integration.Abstractions;
 

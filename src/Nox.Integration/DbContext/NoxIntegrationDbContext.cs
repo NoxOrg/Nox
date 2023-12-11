@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Nox.Infrastructure;
-using Nox.Integration.Abstractions;
+using Nox.Integration.Abstractions.Interfaces;
 using Nox.Integration.Abstractions.Models;
 using Nox.Solution;
-using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Integration;
 

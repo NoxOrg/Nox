@@ -3,7 +3,6 @@ using Nox.EntityFramework.SqlServer;
 using Nox.Infrastructure;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.Enums;
 
 namespace ClientApi.Tests;
 

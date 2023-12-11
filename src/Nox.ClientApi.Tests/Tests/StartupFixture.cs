@@ -3,8 +3,6 @@
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Application.Dto;
 using ClientApi.Tests.Application.Dto;
-using Microsoft.AspNetCore.Hosting;
-using System;
 
 namespace ClientApi.Tests;
 

@@ -1,3 +1,5 @@
+using Nox.Integration.Abstractions.Interfaces;
+
 namespace Nox.Integration.Abstractions.Models;
 
 public record NoxEtlExecuteCompletedPayload: INoxEtlEventPayload

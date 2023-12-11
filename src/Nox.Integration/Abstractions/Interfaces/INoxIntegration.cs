@@ -1,8 +1,7 @@
 using Elastic.Apm.Api;
-using Nox.Integration.Abstractions.Interfaces;
 using Nox.Solution;
 
-namespace Nox.Integration.Abstractions;
+namespace Nox.Integration.Abstractions.Interfaces;
 
 internal interface INoxIntegration
 {

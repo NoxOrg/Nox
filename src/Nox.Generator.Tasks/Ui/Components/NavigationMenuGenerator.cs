@@ -1,5 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-using Nox.Generator.Tasks.Common;
+﻿using Nox.Generator.Tasks.Common;
 using Nox.Solution;
 using System.Linq;
 

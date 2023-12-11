@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using Nox.Abstractions;
 using Nox.Integration.Abstractions;
+using Nox.Integration.Abstractions.Interfaces;
 
 namespace Nox.Integration.SqlServer;
 

@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Nox.Yaml.Tests.TestDesigns.Nox.Models;
 using Nox.Yaml.Tests.TestDesigns.Sample.Models;
 
 namespace Nox.Yaml.Tests;

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.OData.ModelBuilder;
+﻿using Microsoft.OData.ModelBuilder;
 
 namespace ClientApi.Tests.Application.Dto
 {

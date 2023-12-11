@@ -1,5 +1,4 @@
-﻿using Castle.Core;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Nox.Solution;
 
 namespace Nox.Lib;

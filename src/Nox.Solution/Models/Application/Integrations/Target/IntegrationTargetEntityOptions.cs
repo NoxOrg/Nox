@@ -1,5 +1,4 @@
-﻿using Nox.Yaml;
-using Nox.Yaml.Attributes;
+﻿using Nox.Yaml.Attributes;
 
 namespace Nox.Solution;
 
