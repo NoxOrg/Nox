@@ -60,18 +60,18 @@ public abstract class HolidayDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     /// <summary>
     /// Country holiday name     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
     /// Country holiday type     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.String? Type { get; set; }
 
     /// <summary>
     /// Country holiday date     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.DateTime? Date { get; set; }
 }

@@ -76,6 +76,16 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     public Nox.Types.Money? CountryDebt { get;  set; } = null!;
 
     /// <summary>
+    /// national debt per person    
+    /// </summary>
+    /// <remarks>Optional.</remarks>   
+    public double? DebtPerCapita
+        { 
+            get { return (CountryDebt is null || Population is null) ? null : CountryDebt.Amount / Population.Value; }
+            private set { }
+        }
+
+    /// <summary>
     /// The capital location    
     /// </summary>
     /// <remarks>Optional.</remarks>   

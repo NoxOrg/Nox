@@ -61,12 +61,12 @@ public abstract class EmployeePhoneNumberDtoBase : EntityDtoBase, IEntityDto<Dom
     /// <summary>
     /// Employee's phone number type     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String PhoneNumberType { get; set; } = default!;
 
     /// <summary>
     /// Employee's phone number     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String PhoneNumber { get; set; } = default!;
 }

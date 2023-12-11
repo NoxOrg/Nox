@@ -26,7 +26,7 @@ internal static class {{className}}
         dto.SetIfNotNull(entity?.{{attribute.Name}}, (dto) => dto.{{attribute.Name}} = 
     {{- if IsNoxTypeSimpleType attribute.Type -}}
         {{- if attribute.Type == "Time" -}}System.DateTime.Parse(entity!.{{attribute.Name}}!.Value.ToLongTimeString())
-        {{- else -}}{{- if attribute.Type == "Formula" -}}entity!.{{attribute.Name}}!.ToString()
+        {{- else -}}{{- if attribute.Type == "Formula" -}}entity!.{{attribute.Name}}
         {{- else -}}entity!.{{attribute.Name}}!.Value{{- if attribute.Type == "Url" || attribute.Type == "Uri" -}}.ToString(){{end}}{{- if attribute.Type == "Date"}}.ToDateTime(new System.TimeOnly(0, 0, 0)){{end}}{{- end -}}{{- end -}}
     {{- else -}}entity!.{{attribute.Name}}!.ToDto(){{- end -}});
 {{- end }}

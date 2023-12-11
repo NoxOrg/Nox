@@ -82,6 +82,23 @@ public partial class CountryMetadata
         
     
         /// <summary>
+        /// Type options for property 'DebtPerCapita'
+        /// </summary>
+        public static Nox.Types.FormulaTypeOptions DebtPerCapitaTypeOptions {get; private set;} = new ()
+        {
+            Expression = "(CountryDebt is null || Population is null) ? null : CountryDebt.Amount / Population.Value",
+            Returns = Nox.Types.FormulaReturnType.@double,
+        };
+    
+    
+        /// <summary>
+        /// Factory for property 'DebtPerCapita'
+        /// </summary>
+        public static Nox.Types.Formula CreateDebtPerCapita(System.String value)
+            => Nox.Types.Formula.From(value, DebtPerCapitaTypeOptions);
+        
+    
+        /// <summary>
         /// Factory for property 'CapitalCityLocation'
         /// </summary>
         public static Nox.Types.LatLong CreateCapitalCityLocation(ILatLong value)
@@ -230,6 +247,15 @@ public partial class CountryMetadata
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("CountryDebt")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'DebtPerCapita'
+        /// </summary>
+        public static TypeUserInterface? DebtPerCapitaUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("DebtPerCapita")?
                 .UserInterface;
 
         /// <summary>
