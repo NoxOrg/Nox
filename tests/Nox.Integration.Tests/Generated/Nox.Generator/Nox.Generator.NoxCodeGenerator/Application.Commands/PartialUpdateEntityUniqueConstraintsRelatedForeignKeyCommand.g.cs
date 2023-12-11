@@ -18,7 +18,7 @@ namespace TestWebApp.Application.Commands;
 
 public partial record PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand(System.Int32 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EntityUniqueConstraintsRelatedForeignKeyKeyDto?>;
 
-internal class PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandler : PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase
+internal partial class PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandler : PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase
 {
 	public PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandl
 	{
 	}
 }
-internal class PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase : CommandBase<PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand, EntityUniqueConstraintsRelatedForeignKeyEntity>, IRequestHandler<PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand, EntityUniqueConstraintsRelatedForeignKeyKeyDto?>
+internal abstract class PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase : CommandBase<PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand, EntityUniqueConstraintsRelatedForeignKeyEntity>, IRequestHandler<PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand, EntityUniqueConstraintsRelatedForeignKeyKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<EntityUniqueConstraintsRelatedForeignKeyEntity, EntityUniqueConstraintsRelatedForeignKeyCreateDto, EntityUniqueConstraintsRelatedForeignKeyUpdateDto> EntityFactory { get; }

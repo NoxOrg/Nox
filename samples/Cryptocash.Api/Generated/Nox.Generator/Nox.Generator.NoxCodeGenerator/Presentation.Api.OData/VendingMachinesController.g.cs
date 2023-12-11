@@ -105,7 +105,9 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     public virtual async Task<ActionResult> CreateRefToLandLord([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
@@ -184,7 +186,9 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetLandLordByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     public virtual async Task<ActionResult> CreateRefToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
@@ -329,7 +333,9 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetBookingByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/VendingMachines/{key}/Bookings/{relatedKey}")]
@@ -517,7 +523,9 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetCashStockOrderByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/VendingMachines/{key}/CashStockOrders/{relatedKey}")]
@@ -705,7 +713,9 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetMinimumCashStockByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/VendingMachines/{key}/MinimumCashStocks/{relatedKey}")]

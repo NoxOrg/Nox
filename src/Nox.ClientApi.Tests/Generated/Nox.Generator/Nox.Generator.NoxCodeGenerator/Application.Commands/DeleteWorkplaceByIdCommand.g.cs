@@ -16,7 +16,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record DeleteWorkplaceByIdCommand(IEnumerable<WorkplaceKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteWorkplaceByIdCommandHandler : DeleteWorkplaceByIdCommandHandlerBase
+internal partial class DeleteWorkplaceByIdCommandHandler : DeleteWorkplaceByIdCommandHandlerBase
 {
 	public DeleteWorkplaceByIdCommandHandler(
         AppDbContext dbContext,

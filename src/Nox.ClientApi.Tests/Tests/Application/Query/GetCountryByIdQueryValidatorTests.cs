@@ -4,7 +4,6 @@ using AutoFixture;
 using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
-using ClientApi.Tests.Controllers;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -29,7 +28,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var response = await result.Content.ReadFromJsonAsync<ApplicationErrorCodeResponse>();
             // Assert
             result!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            response!.Error.Code.Should().Be("request_validation_exception");
+            response!.Error.Code.Should().Be("bad_request");
         }
 
         /// <summary>

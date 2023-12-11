@@ -28,6 +28,16 @@ attributes:
       maxLength: 63
     isRequired: true
 
+  - name: Status
+    description: Tenant Status
+    type: enumeration
+    enumerationTypeOptions:
+      values:
+        - { id: 1, name: Active }
+        - { id: 2, name: Inactive }
+      isLocalized: false
+    isRequired: false
+
 relationships:
 
   - name: TenantWorkplaces

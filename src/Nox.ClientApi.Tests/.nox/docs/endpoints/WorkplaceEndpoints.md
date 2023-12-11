@@ -84,6 +84,23 @@ This document provides information about the various endpoints available in our 
 
 [Tenant](TenantEndpoints.md)
 
+## Enumerations Endpoints
+
+This section details the API endpoints related to enumeration attributes in a specific Workplace.
+- **GET** `/api/Workplaces/WorkplaceOwnerships`
+  - **Description**: Retrieve non-conventional values of Ownerships for a specific Workplace.
+  
+- **GET** `/api/Workplaces/WorkplaceOwnershipsLocalized`
+  - **Description**: Retrieve localized values of Ownerships for a specific Workplace.
+
+- **DELETE** `/api/Workplaces/WorkplaceOwnershipsLocalized/{cultureCode}`
+  - **Description**: Delete the localized values of Ownerships for a specific culture code in Workplace.
+
+- **PUT** `/api/Workplaces/WorkplaceOwnershipsLocalized`
+  - **Description**: Update or create localized values of Ownerships for a specific Workplace. Requires a payload with the new values.
+
+- **GET** `/api/Workplaces/WorkplaceTypes`
+  - **Description**: Retrieve non-conventional values of Types for a specific Workplace.
 ## Localized Endpoints
 
 - **GET** `/api/Workplaces/{key}/WorkplacesLocalized`

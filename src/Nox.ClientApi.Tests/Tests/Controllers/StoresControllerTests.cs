@@ -1,6 +1,5 @@
 ﻿using AutoFixture;
 using ClientApi.Application.Dto;
-using ClientApi.Tests.Controllers;
 using FluentAssertions;
 using FluentAssertions.Common;
 using Nox.Application.Dto;

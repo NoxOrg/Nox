@@ -105,7 +105,9 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     public virtual async Task<ActionResult> CreateRefToEmployee([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
@@ -184,7 +186,9 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetEmployeeByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     #endregion

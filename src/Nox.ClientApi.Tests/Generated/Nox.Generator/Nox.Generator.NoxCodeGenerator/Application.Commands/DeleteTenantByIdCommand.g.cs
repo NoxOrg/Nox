@@ -16,7 +16,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record DeleteTenantByIdCommand(IEnumerable<TenantKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteTenantByIdCommandHandler : DeleteTenantByIdCommandHandlerBase
+internal partial class DeleteTenantByIdCommandHandler : DeleteTenantByIdCommandHandlerBase
 {
 	public DeleteTenantByIdCommandHandler(
         AppDbContext dbContext,

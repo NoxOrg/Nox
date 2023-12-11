@@ -49,6 +49,29 @@
             }
           ]
         },
+        "format": {    
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "binary",
+                "byte",
+                "date",
+                "dateTime",
+                "email",
+                "hostName",
+                "ipv4",
+                "ipv6",
+                "password",
+                "uri",
+                "uuid"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "isRequired": {    
           "oneOf": [
             {
@@ -121,6 +144,29 @@
             ]
           }
         },
+        "format": {    
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "binary",
+                "byte",
+                "date",
+                "dateTime",
+                "email",
+                "hostName",
+                "ipv4",
+                "ipv6",
+                "password",
+                "uri",
+                "uuid"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "isRequired": {    
           "oneOf": [
             {
@@ -174,10 +220,33 @@
           "type": "string",
           "enum": [
             "boolean",
-            "dateString",
+            "integer",
             "null",
             "number",
             "string"
+          ]
+        },
+        "format": {    
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "binary",
+                "byte",
+                "date",
+                "dateTime",
+                "email",
+                "hostName",
+                "ipv4",
+                "ipv6",
+                "password",
+                "uri",
+                "uuid"
+              ]
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "isRequired": {    

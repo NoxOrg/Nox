@@ -142,7 +142,9 @@ public abstract partial class StoresControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetStoreOwnerByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/v1/Stores/{key}/StoreOwner")]
@@ -276,7 +278,9 @@ public abstract partial class StoresControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetStoreLicenseByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/v1/Stores/{key}/StoreLicense")]
@@ -444,7 +448,9 @@ public abstract partial class StoresControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetClientByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/v1/Stores/{key}/Clients/{relatedKey}")]

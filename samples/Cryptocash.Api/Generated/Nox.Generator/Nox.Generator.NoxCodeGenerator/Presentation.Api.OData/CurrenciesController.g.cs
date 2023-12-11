@@ -438,7 +438,9 @@ public abstract partial class CurrenciesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/Currencies/{key}/Countries/{relatedKey}")]
@@ -607,7 +609,9 @@ public abstract partial class CurrenciesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetMinimumCashStockByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/Currencies/{key}/MinimumCashStocks/{relatedKey}")]

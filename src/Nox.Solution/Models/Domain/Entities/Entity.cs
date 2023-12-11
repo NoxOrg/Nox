@@ -106,7 +106,6 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
     public bool HasLocalizedOwnedRelationships
         => OwnedRelationships.Any(x => x.Related.Entity.IsLocalized);
 
-
     public override void Initialize(NoxSolution topNode, Domain parentNode, string yamlPath)
     {
         InitializeAttributesByName();

@@ -137,7 +137,9 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/v1/SecondTestEntityTwoRelationshipsOneToOnes/{key}/TestRelationshipOneOnOtherSide")]
@@ -271,7 +273,9 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     [HttpDelete("/api/v1/SecondTestEntityTwoRelationshipsOneToOnes/{key}/TestRelationshipTwoOnOtherSide")]

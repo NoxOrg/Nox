@@ -16,7 +16,7 @@ namespace Cryptocash.Application.Commands;
 
 public partial record DeleteCustomerByIdCommand(IEnumerable<CustomerKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteCustomerByIdCommandHandler : DeleteCustomerByIdCommandHandlerBase
+internal partial class DeleteCustomerByIdCommandHandler : DeleteCustomerByIdCommandHandlerBase
 {
 	public DeleteCustomerByIdCommandHandler(
         AppDbContext dbContext,

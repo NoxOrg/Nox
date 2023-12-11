@@ -18,7 +18,7 @@ namespace ClientApi.Application.Commands;
 
 public partial record PartialUpdateClientCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <ClientKeyDto?>;
 
-internal class PartialUpdateClientCommandHandler : PartialUpdateClientCommandHandlerBase
+internal partial class PartialUpdateClientCommandHandler : PartialUpdateClientCommandHandlerBase
 {
 	public PartialUpdateClientCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateClientCommandHandler : PartialUpdateClientCommandHan
 	{
 	}
 }
-internal class PartialUpdateClientCommandHandlerBase : CommandBase<PartialUpdateClientCommand, ClientEntity>, IRequestHandler<PartialUpdateClientCommand, ClientKeyDto?>
+internal abstract class PartialUpdateClientCommandHandlerBase : CommandBase<PartialUpdateClientCommand, ClientEntity>, IRequestHandler<PartialUpdateClientCommand, ClientKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> EntityFactory { get; }

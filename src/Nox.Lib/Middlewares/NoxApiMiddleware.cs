@@ -1,6 +1,7 @@
 ﻿using Castle.Core;
 using Microsoft.AspNetCore.Http;
 using Nox.Solution;
+using System.Diagnostics;
 
 namespace Nox.Lib;
 
@@ -88,6 +89,7 @@ public class NoxApiMiddleware
 
 }
 
+[DebuggerDisplay("{_apiRoute}")]
 internal class RouteMatcher
 {
 

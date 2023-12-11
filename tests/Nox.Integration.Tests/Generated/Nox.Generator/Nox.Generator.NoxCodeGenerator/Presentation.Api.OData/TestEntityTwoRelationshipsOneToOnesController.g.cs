@@ -105,7 +105,9 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     public virtual async Task<ActionResult> CreateRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
@@ -184,7 +186,9 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
             return NotFound();
         }
         
-        return Ok();
+        var updatedItem = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
     }
     
     #endregion

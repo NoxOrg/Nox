@@ -1,4 +1,23 @@
 ﻿// Generated
+{{- func isLocalizedText(attribute)
+	ret attribute.IsLocalizedText
+end -}}
+{{- func isEnum(attribute)
+	ret attribute.Type == "Enumeration"
+end -}}
+{{- func isLocalizedEnum(attribute)
+	ret attribute.IsLocalizedEnum
+end -}}
+{{- func enumTableName(enumName) 
+	ret entity.PluralName | string.append Pluralize(enumName)
+end -}}
+{{- func localizedEnumTableName(enumName) 
+	ret enumTableName(enumName) | string.append "Localized"
+end -}}
+{{- hasLocalizedText = entityAttributes | array.each @isLocalizedText | array.contains true }}
+{{- hasLocalizedEnum = entityAttributes | array.each @isLocalizedEnum | array.contains true }}
+{{- entityTableName = entity.PluralName }}
+{{- localizedEntityTableName = entity.PluralName | string.append "Localized" }}
 #nullable enable
 
 using Nox.Types.EntityFramework.Abstractions;
@@ -22,51 +41,103 @@ public class {{className}} : IEntityDtoSqlQueryBuilder
 
 	public string Build()
 	{
-		var localizedEntityQuery = new Query("{{entity.PluralName}}Localized")
+		var query = {{entity.Name}}Query();
+		return CompileToSqlString(query);
+	}
+	
+	private static Query {{entity.Name}}Query()
+	{
+		return new Query("{{entityTableName}}")
 			{{- for key in entityKeys}}
-			.Select("{{entity.PluralName}}Localized.{{key.Name}}")
+			.Select("{{entityTableName}}.{{key.Name}}")
 			{{- end}}
-			{{- for attribute in entity.Attributes}}
-			{{- if attribute.IsLocalized}}
-			.Select("{{entity.PluralName}}Localized.{{attribute.Name}}")
-			{{- end}}
-			{{- end}}
-			.Where("{{entity.PluralName}}Localized.CultureCode", "##LANG##")
-			.As("{{entity.PluralName}}Localized");
-
-		var entityQuery = new Query("{{entity.PluralName}}")
-			{{- for key in entityKeys}}
-			.Select("{{entity.PluralName}}.{{key.Name}}")
-			{{- end}}
-			{{- for attribute in entity.Attributes}}
-			{{- if !attribute.IsLocalized }}
-			.Select("{{entity.PluralName}}.{{attribute.Name}}")
+			{{- for attribute in entityAttributes}}
+			{{- if !(isLocalizedText attribute)}}
+			.Select("{{entityTableName}}.{{attribute.Name}}")
 			{{- end}}
 			{{- end}}
-			{{- for attribute in entity.Attributes}}
-			{{- if attribute.IsLocalized}}
-			.ForSqlServer(q => q.SelectRaw("COALESCE([{{entity.PluralName}}Localized].[{{attribute.Name}}], (N'[' + COALESCE([{{entity.PluralName}}].[{{attribute.Name}}], N'')) + N']') AS [{{attribute.Name}}]"))
-			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"{{entity.PluralName}}Localized\".\"{{attribute.Name}}\", ('##OPEN##' || COALESCE(\"{{entity.PluralName}}\".\"{{attribute.Name}}\", '')) || '##CLOSE##') AS \"{{attribute.Name}}\""))
-			.ForSqlite(q => q.SelectRaw("COALESCE(\"{{entity.PluralName}}Localized\".\"{{attribute.Name}}\", ('##OPEN##' || COALESCE(\"{{entity.PluralName}}\".\"{{attribute.Name}}\", '')) || '##CLOSE##') AS \"{{attribute.Name}}\""))
+			{{- for attribute in entityAttributes}}
+			{{- if isLocalizedText attribute}}
+			.ForSqlServer(q => q.SelectRaw("COALESCE([{{localizedEntityTableName}}].[{{attribute.Name}}], (N'[' + COALESCE([{{entityTableName}}].[{{attribute.Name}}], N'')) + N']') AS [{{attribute.Name}}]"))
+			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"{{localizedEntityTableName}}\".\"{{attribute.Name}}\", ('##OPEN##' || COALESCE(\"{{entityTableName}}\".\"{{attribute.Name}}\", '')) || '##CLOSE##') AS \"{{attribute.Name}}\""))
+			.ForSqlite(q => q.SelectRaw("COALESCE(\"{{localizedEntityTableName}}\".\"{{attribute.Name}}\", ('##OPEN##' || COALESCE(\"{{entityTableName}}\".\"{{attribute.Name}}\", '')) || '##CLOSE##') AS \"{{attribute.Name}}\""))
+			{{- else if isEnum attribute}}
+			.Select("{{enumTableName attribute.Name}}.Name as {{attribute.Name}}Name")
 			{{- end}}
 			{{- end}}
 			{{- for relationship in entity.Relationships }}
-			{{- if  relationship.IsForeignKeyOnThisSide && (relationship.Relationship == "ZeroOrOne" || relationship.Relationship == "ExactlyOne") }}
+			{{- if  relationship.IsForeignKeyOnThisSide && relationship.WithSingleEntity }}
 			{{- relationshipName = GetNavigationPropertyName entity relationship}}
-			.Select("{{entity.PluralName}}.{{relationshipName}}Id")
+			.Select("{{entityTableName}}.{{relationshipName}}Id")
 			{{-end}}
 			{{- end }}
 			{{- if entity.IsOwnedEntity && (entity.Keys | array.size > 0)}}
-			.Select("{{entity.PluralName}}.{{entity.OwnerEntity.Name}}Id")
+			.Select("{{entityTableName}}.{{entity.OwnerEntity.Name}}Id")
 			{{- end }}
 			{{- if !entity.IsOwnedEntity }}
 			{{- if entity.Persistence?.IsAudited == true }}
 			.Select("{{entity.PluralName}}.DeletedAtUtc")
 			{{- end }}
-			.Select("{{entity.PluralName}}.Etag")
+			.Select("{{entityTableName}}.Etag")
 			{{- end }}
-			.LeftJoin(localizedEntityQuery, j => j.On("{{entity.PluralName}}Localized.{{entityKeys[0].Name}}", "{{entity.PluralName}}.{{entityKeys[0].Name}}"));
+			{{- if hasLocalizedText}}
+			.LeftJoin({{entity.Name}}LocalizedQuery(), j => j.On("{{localizedEntityTableName}}.{{entityKeys[0].Name}}", "{{entityTableName}}.{{entityKeys[0].Name}}"))
+			{{- end}}
+			{{- for attribute in entityAttributes | array.filter @isEnum}}
+			.LeftJoin({{attribute.Name}}EnumQuery(), j => j.On("{{enumTableName attribute.Name}}.Id", "{{entityTableName}}.{{attribute.Name}}"))
+			{{- end -}};
+	}
+	{{- if hasLocalizedText}}
+	
+	private static Query {{entity.Name}}LocalizedQuery()
+	{
+		return new Query("{{localizedEntityTableName}}")
+			{{- for key in entityKeys}}
+			.Select("{{localizedEntityTableName}}.{{key.Name}}")
+			{{- end}}
+			{{- for attribute in entityAttributes | array.filter @isLocalizedText}}
+			.Select("{{localizedEntityTableName}}.{{attribute.Name}}")
+			{{- end}}
+			.Where("{{localizedEntityTableName}}.CultureCode", "##LANG##")
+			.As("{{localizedEntityTableName}}");
+	}
+	{{- end}}
+	{{- for attribute in entityAttributes | array.filter @isEnum }}
+	
+	private static Query {{attribute.Name}}EnumQuery()
+	{
+		return new Query("{{enumTableName attribute.Name}}")
+			.Select("{{enumTableName attribute.Name}}.Id")
+		{{- if isLocalizedEnum attribute }}
+			.ForSqlServer(q => q.SelectRaw("COALESCE([{{localizedEnumTableName attribute.Name}}].[Name], (N'[' + COALESCE([{{enumTableName attribute.Name}}].[Name], N'')) + N']') AS [Name]"))
+			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"{{localizedEnumTableName attribute.Name}}\".\"Name\", ('##OPEN##' || COALESCE(\"{{enumTableName attribute.Name}}\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
+			.ForSqlite(q => q.SelectRaw("COALESCE(\"{{localizedEnumTableName attribute.Name}}\".\"Name\", ('##OPEN##' || COALESCE(\"{{enumTableName attribute.Name}}\".\"Name\", '')) || '##CLOSE##') AS \"Name\""))
+			.LeftJoin({{attribute.Name}}LocalizedEnumQuery(), j => j.On("{{localizedEnumTableName attribute.Name}}.Id", "{{enumTableName attribute.Name}}.Id"))
+		{{- else }}
+			.Select("{{enumTableName attribute.Name}}.Name")
+		{{- end }}
+			.As("{{enumTableName attribute.Name}}");
+	}
+	{{- if isLocalizedEnum attribute }}
+	
+	private static Query {{attribute.Name}}LocalizedEnumQuery()
+	{ 
+		return new Query("{{localizedEnumTableName attribute.Name}}")
+			.Select("{{localizedEnumTableName attribute.Name}}.Id")
+			.Select("{{localizedEnumTableName attribute.Name}}.Name")
+			.Where("{{localizedEnumTableName attribute.Name}}.CultureCode", "##LANG##")
+			.As("{{localizedEnumTableName attribute.Name}}");
+	}
+	{{- end }}
+	{{- end}}
 
-		return _sqlCompiler.Compile(entityQuery).ToString().Replace("##OPEN##", "[").Replace("##CLOSE##", "]");
+	private string CompileToSqlString(Query query)
+	{
+		return _sqlCompiler.Compile(query)
+			.ToString()
+			{{- if hasLocalizedText || hasLocalizedEnum }}
+			.Replace("##OPEN##", "[")
+			.Replace("##CLOSE##", "]")
+			{{- end -}};
 	}
 }

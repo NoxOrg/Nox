@@ -16,7 +16,7 @@ namespace TestWebApp.Application.Commands;
 
 public partial record DeleteEntityUniqueConstraintsRelatedForeignKeyByIdCommand(IEnumerable<EntityUniqueConstraintsRelatedForeignKeyKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteEntityUniqueConstraintsRelatedForeignKeyByIdCommandHandler : DeleteEntityUniqueConstraintsRelatedForeignKeyByIdCommandHandlerBase
+internal partial class DeleteEntityUniqueConstraintsRelatedForeignKeyByIdCommandHandler : DeleteEntityUniqueConstraintsRelatedForeignKeyByIdCommandHandlerBase
 {
 	public DeleteEntityUniqueConstraintsRelatedForeignKeyByIdCommandHandler(
         AppDbContext dbContext,

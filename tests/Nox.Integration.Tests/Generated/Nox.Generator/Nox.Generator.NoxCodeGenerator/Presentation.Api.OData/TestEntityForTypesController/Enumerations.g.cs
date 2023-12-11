@@ -29,10 +29,8 @@ public abstract partial class TestEntityForTypesControllerBase
     [HttpDelete("/api/v1/TestEntityForTypes/TestEntityForTypesEnumerationTestFieldsLocalized/{cultureCode}")]
     public virtual async Task<ActionResult> DeleteEnumerationTestFieldsLocalizedNonConventional([FromRoute] System.String cultureCode)
     {   
-        if(!Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue))
-        {
-            throw new Nox.Exceptions.BadRequestInvalidFieldException();
-        }
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
+
         var result = await _mediator.Send(new ApplicationCommandsNameSpace.DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand(cultureCodeValue!));                        
         return NoContent();     
     }

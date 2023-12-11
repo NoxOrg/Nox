@@ -23,8 +23,10 @@
 //  - workplace.entity.nox.yaml
 //  - apiConfiguration.nox.yaml
 //  - countryByName.ApiRouteMapping.nox.yaml
+//  - countryByName.queryString.ApiRouteMapping.nox.yaml
 //  - countryByNameOdataFiltering.ApiRouteMapping.nox.yaml
 //  - countryByNameOdataFiltering3Segments.ApiRouteMapping.nox.yaml
+//  - getTwoSeqSegProperties.nox.yaml
 //  - putRefCountryToWorkplace3Segments.ApiRouteMapping.nox.yaml
 //  - presentation.nox.yaml
 //  - generator.nox.yaml

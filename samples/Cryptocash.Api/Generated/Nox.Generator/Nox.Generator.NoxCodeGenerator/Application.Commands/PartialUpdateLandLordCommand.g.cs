@@ -18,7 +18,7 @@ namespace Cryptocash.Application.Commands;
 
 public partial record PartialUpdateLandLordCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <LandLordKeyDto?>;
 
-internal class PartialUpdateLandLordCommandHandler : PartialUpdateLandLordCommandHandlerBase
+internal partial class PartialUpdateLandLordCommandHandler : PartialUpdateLandLordCommandHandlerBase
 {
 	public PartialUpdateLandLordCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateLandLordCommandHandler : PartialUpdateLandLordComman
 	{
 	}
 }
-internal class PartialUpdateLandLordCommandHandlerBase : CommandBase<PartialUpdateLandLordCommand, LandLordEntity>, IRequestHandler<PartialUpdateLandLordCommand, LandLordKeyDto?>
+internal abstract class PartialUpdateLandLordCommandHandlerBase : CommandBase<PartialUpdateLandLordCommand, LandLordEntity>, IRequestHandler<PartialUpdateLandLordCommand, LandLordKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> EntityFactory { get; }
