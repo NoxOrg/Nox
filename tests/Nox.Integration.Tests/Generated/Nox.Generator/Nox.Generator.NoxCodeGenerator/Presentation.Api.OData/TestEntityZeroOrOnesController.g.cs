@@ -54,7 +54,9 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         }
         
         if (entity.SecondTestEntityZeroOrOne is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"SecondTestEntityZeroOrOnes/{entity.SecondTestEntityZeroOrOne.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -109,12 +111,12 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
     [EnableQuery]
     public virtual async Task<SingleResult<SecondTestEntityZeroOrOneDto>> GetSecondTestEntityZeroOrOne(System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Where(x => x.SecondTestEntityZeroOrOne != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<SecondTestEntityZeroOrOneDto>(Enumerable.Empty<SecondTestEntityZeroOrOneDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.SecondTestEntityZeroOrOne!));
+        return SingleResult.Create(query.Where(x => x.SecondTestEntityZeroOrOne != null).Select(x => x.SecondTestEntityZeroOrOne!));
     }
     
     public virtual async Task<ActionResult<SecondTestEntityZeroOrOneDto>> PutToSecondTestEntityZeroOrOne(System.String key, [FromBody] SecondTestEntityZeroOrOneUpdateDto secondTestEntityZeroOrOne)

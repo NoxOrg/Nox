@@ -129,13 +129,12 @@ public abstract partial class TestEntityZeroOrManiesControllerBase : ODataContro
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<SecondTestEntityZeroOrManyDto>>> GetSecondTestEntityZeroOrManies(System.String key)
     {
-        var query = (await _mediator.Send(new GetTestEntityZeroOrManyByIdQuery(key))).Include(x => x.SecondTestEntityZeroOrManies);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetTestEntityZeroOrManyByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.SecondTestEntityZeroOrManies));
+        return Ok(query.Include(x => x.SecondTestEntityZeroOrManies).SelectMany(x => x.SecondTestEntityZeroOrManies));
     }
     
     [EnableQuery]

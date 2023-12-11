@@ -129,13 +129,12 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<EntityUniqueConstraintsWithForeignKeyDto>>> GetEntityUniqueConstraintsWithForeignKeys(System.Int32 key)
     {
-        var query = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key))).Include(x => x.EntityUniqueConstraintsWithForeignKeys);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.EntityUniqueConstraintsWithForeignKeys));
+        return Ok(query.Include(x => x.EntityUniqueConstraintsWithForeignKeys).SelectMany(x => x.EntityUniqueConstraintsWithForeignKeys));
     }
     
     [EnableQuery]

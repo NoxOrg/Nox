@@ -113,13 +113,12 @@ public abstract partial class TestEntityOneOrManyToExactlyOnesControllerBase : O
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<TestEntityExactlyOneToOneOrManyDto>>> GetTestEntityExactlyOneToOneOrManies(System.String key)
     {
-        var query = (await _mediator.Send(new GetTestEntityOneOrManyToExactlyOneByIdQuery(key))).Include(x => x.TestEntityExactlyOneToOneOrManies);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetTestEntityOneOrManyToExactlyOneByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.TestEntityExactlyOneToOneOrManies));
+        return Ok(query.Include(x => x.TestEntityExactlyOneToOneOrManies).SelectMany(x => x.TestEntityExactlyOneToOneOrManies));
     }
     
     [EnableQuery]

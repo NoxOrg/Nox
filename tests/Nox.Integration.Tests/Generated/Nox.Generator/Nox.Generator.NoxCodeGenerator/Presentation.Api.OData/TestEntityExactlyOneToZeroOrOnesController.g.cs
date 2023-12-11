@@ -54,7 +54,9 @@ public abstract partial class TestEntityExactlyOneToZeroOrOnesControllerBase : O
         }
         
         if (entity.TestEntityZeroOrOneToExactlyOne is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"TestEntityZeroOrOneToExactlyOnes/{entity.TestEntityZeroOrOneToExactlyOne.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -77,12 +79,12 @@ public abstract partial class TestEntityExactlyOneToZeroOrOnesControllerBase : O
     [EnableQuery]
     public virtual async Task<SingleResult<TestEntityZeroOrOneToExactlyOneDto>> GetTestEntityZeroOrOneToExactlyOne(System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityExactlyOneToZeroOrOneByIdQuery(key))).Where(x => x.TestEntityZeroOrOneToExactlyOne != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetTestEntityExactlyOneToZeroOrOneByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<TestEntityZeroOrOneToExactlyOneDto>(Enumerable.Empty<TestEntityZeroOrOneToExactlyOneDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.TestEntityZeroOrOneToExactlyOne!));
+        return SingleResult.Create(query.Where(x => x.TestEntityZeroOrOneToExactlyOne != null).Select(x => x.TestEntityZeroOrOneToExactlyOne!));
     }
     
     public virtual async Task<ActionResult<TestEntityZeroOrOneToExactlyOneDto>> PutToTestEntityZeroOrOneToExactlyOne(System.String key, [FromBody] TestEntityZeroOrOneToExactlyOneUpdateDto testEntityZeroOrOneToExactlyOne)

@@ -385,13 +385,12 @@ public abstract partial class TenantsControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> GetWorkplaces(System.UInt32 key)
     {
-        var query = (await _mediator.Send(new GetTenantByIdQuery(key))).Include(x => x.Workplaces);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetTenantByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.Workplaces));
+        return Ok(query.Include(x => x.Workplaces).SelectMany(x => x.Workplaces));
     }
     
     [EnableQuery]

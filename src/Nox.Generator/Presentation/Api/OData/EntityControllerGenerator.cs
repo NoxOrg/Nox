@@ -650,7 +650,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         if (relationship.WithSingleEntity())
         {
             code.AppendLine(@$"if (entity.{navigationName} is null)
-            return Ok();");
+        {{
+            return Ok();
+        }}");
             code.AppendLine($"var references = new System.Uri(" +
                     $"$\"{relatedEntity.PluralName}/{PrimaryKeysAttribute(relatedEntity, $"entity.{navigationName}.", true)}\", UriKind.Relative);");
         }
@@ -683,27 +685,24 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine($"public virtual async Task<SingleResult<{relatedEntity.Name}Dto>> Get{navigationName}(" +
                 $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")})");
             code.StartBlock(); 
-            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
-                $".Where(x => x.{navigationName} != null);");
-            code.AppendLine($"if (!related.Any())");
+            code.AppendLine($"var query = await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)}));");
+            code.AppendLine($"if (!query.Any())");
             code.StartBlock();
             code.AppendLine($"return SingleResult.Create<{relatedEntity.Name}Dto>(Enumerable.Empty<{relatedEntity.Name}Dto>().AsQueryable());");
             code.EndBlock();
-            code.AppendLine($"return SingleResult.Create(related.Select(x => x.{navigationName}!));");
+            code.AppendLine($"return SingleResult.Create(query.Where(x => x.{navigationName} != null).Select(x => x.{navigationName}!));");
         }
         else
         {
             code.AppendLine($"public virtual async Task<ActionResult<IQueryable<{relatedEntity.Name}Dto>>> Get{navigationName}(" +
                 $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")})");
             code.StartBlock();
-            code.AppendLine($"var query = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
-                $".Include(x => x.{navigationName});");
-            code.AppendLine($"var entity = query.SingleOrDefault();");
-            code.AppendLine($"if (entity is null)");
+            code.AppendLine($"var query = await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)}));");
+            code.AppendLine($"if (!query.Any())");
             code.StartBlock();
             code.AppendLine($"return NotFound();");
             code.EndBlock();
-            code.AppendLine($"return Ok(query.SelectMany(x => x.{navigationName}));");
+            code.AppendLine($"return Ok(query.Include(x => x.{navigationName}).SelectMany(x => x.{navigationName}));");
         }
 
         code.EndBlock();

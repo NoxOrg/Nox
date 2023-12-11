@@ -129,13 +129,12 @@ public abstract partial class LandLordsControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<VendingMachineDto>>> GetVendingMachines(System.Guid key)
     {
-        var query = (await _mediator.Send(new GetLandLordByIdQuery(key))).Include(x => x.VendingMachines);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetLandLordByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.VendingMachines));
+        return Ok(query.Include(x => x.VendingMachines).SelectMany(x => x.VendingMachines));
     }
     
     [EnableQuery]

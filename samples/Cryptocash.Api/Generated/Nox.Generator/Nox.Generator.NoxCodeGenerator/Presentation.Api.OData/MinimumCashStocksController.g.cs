@@ -129,13 +129,12 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<VendingMachineDto>>> GetVendingMachines(System.Int64 key)
     {
-        var query = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Include(x => x.VendingMachines);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetMinimumCashStockByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.VendingMachines));
+        return Ok(query.Include(x => x.VendingMachines).SelectMany(x => x.VendingMachines));
     }
     
     [EnableQuery]
@@ -244,7 +243,9 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         }
         
         if (entity.Currency is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"Currencies/{entity.Currency.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -267,12 +268,12 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<CurrencyDto>> GetCurrency(System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Where(x => x.Currency != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetMinimumCashStockByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<CurrencyDto>(Enumerable.Empty<CurrencyDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.Currency!));
+        return SingleResult.Create(query.Where(x => x.Currency != null).Select(x => x.Currency!));
     }
     
     public virtual async Task<ActionResult<CurrencyDto>> PutToCurrency(System.Int64 key, [FromBody] CurrencyUpdateDto currency)

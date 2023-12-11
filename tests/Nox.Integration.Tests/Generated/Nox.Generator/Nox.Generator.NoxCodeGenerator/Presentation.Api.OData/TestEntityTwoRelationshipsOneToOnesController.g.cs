@@ -54,7 +54,9 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         }
         
         if (entity.TestRelationshipOne is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"SecondTestEntityTwoRelationshipsOneToOnes/{entity.TestRelationshipOne.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -77,12 +79,12 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
     [EnableQuery]
     public virtual async Task<SingleResult<SecondTestEntityTwoRelationshipsOneToOneDto>> GetTestRelationshipOne(System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Where(x => x.TestRelationshipOne != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<SecondTestEntityTwoRelationshipsOneToOneDto>(Enumerable.Empty<SecondTestEntityTwoRelationshipsOneToOneDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.TestRelationshipOne!));
+        return SingleResult.Create(query.Where(x => x.TestRelationshipOne != null).Select(x => x.TestRelationshipOne!));
     }
     
     public virtual async Task<ActionResult<SecondTestEntityTwoRelationshipsOneToOneDto>> PutToTestRelationshipOne(System.String key, [FromBody] SecondTestEntityTwoRelationshipsOneToOneUpdateDto secondTestEntityTwoRelationshipsOneToOne)
@@ -135,7 +137,9 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         }
         
         if (entity.TestRelationshipTwo is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"SecondTestEntityTwoRelationshipsOneToOnes/{entity.TestRelationshipTwo.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -158,12 +162,12 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
     [EnableQuery]
     public virtual async Task<SingleResult<SecondTestEntityTwoRelationshipsOneToOneDto>> GetTestRelationshipTwo(System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Where(x => x.TestRelationshipTwo != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<SecondTestEntityTwoRelationshipsOneToOneDto>(Enumerable.Empty<SecondTestEntityTwoRelationshipsOneToOneDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.TestRelationshipTwo!));
+        return SingleResult.Create(query.Where(x => x.TestRelationshipTwo != null).Select(x => x.TestRelationshipTwo!));
     }
     
     public virtual async Task<ActionResult<SecondTestEntityTwoRelationshipsOneToOneDto>> PutToTestRelationshipTwo(System.String key, [FromBody] SecondTestEntityTwoRelationshipsOneToOneUpdateDto secondTestEntityTwoRelationshipsOneToOne)

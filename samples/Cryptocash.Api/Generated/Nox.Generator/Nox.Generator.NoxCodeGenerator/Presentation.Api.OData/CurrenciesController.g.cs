@@ -396,13 +396,12 @@ public abstract partial class CurrenciesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<CountryDto>>> GetCountries(System.String key)
     {
-        var query = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Include(x => x.Countries);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetCurrencyByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.Countries));
+        return Ok(query.Include(x => x.Countries).SelectMany(x => x.Countries));
     }
     
     [EnableQuery]
@@ -567,13 +566,12 @@ public abstract partial class CurrenciesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<MinimumCashStockDto>>> GetMinimumCashStocks(System.String key)
     {
-        var query = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Include(x => x.MinimumCashStocks);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetCurrencyByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.MinimumCashStocks));
+        return Ok(query.Include(x => x.MinimumCashStocks).SelectMany(x => x.MinimumCashStocks));
     }
     
     [EnableQuery]

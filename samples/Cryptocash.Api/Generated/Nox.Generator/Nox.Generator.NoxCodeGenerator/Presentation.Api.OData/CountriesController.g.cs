@@ -337,7 +337,9 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         if (entity.Currency is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"Currencies/{entity.Currency.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -360,12 +362,12 @@ public abstract partial class CountriesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<CurrencyDto>> GetCurrency(System.String key)
     {
-        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Where(x => x.Currency != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetCountryByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<CurrencyDto>(Enumerable.Empty<CurrencyDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.Currency!));
+        return SingleResult.Create(query.Where(x => x.Currency != null).Select(x => x.Currency!));
     }
     
     public virtual async Task<ActionResult<CurrencyDto>> PutToCurrency(System.String key, [FromBody] CurrencyUpdateDto currency)
@@ -477,13 +479,12 @@ public abstract partial class CountriesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<CommissionDto>>> GetCommissions(System.String key)
     {
-        var query = (await _mediator.Send(new GetCountryByIdQuery(key))).Include(x => x.Commissions);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetCountryByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.Commissions));
+        return Ok(query.Include(x => x.Commissions).SelectMany(x => x.Commissions));
     }
     
     [EnableQuery]
@@ -648,13 +649,12 @@ public abstract partial class CountriesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<VendingMachineDto>>> GetVendingMachines(System.String key)
     {
-        var query = (await _mediator.Send(new GetCountryByIdQuery(key))).Include(x => x.VendingMachines);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetCountryByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.VendingMachines));
+        return Ok(query.Include(x => x.VendingMachines).SelectMany(x => x.VendingMachines));
     }
     
     [EnableQuery]
@@ -838,13 +838,12 @@ public abstract partial class CountriesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<CustomerDto>>> GetCustomers(System.String key)
     {
-        var query = (await _mediator.Send(new GetCountryByIdQuery(key))).Include(x => x.Customers);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetCountryByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.Customers));
+        return Ok(query.Include(x => x.Customers).SelectMany(x => x.Customers));
     }
     
     [EnableQuery]

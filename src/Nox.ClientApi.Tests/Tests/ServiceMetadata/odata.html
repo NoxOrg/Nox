@@ -33,6 +33,7 @@
         <tr><td>ClientApi.Controllers.HousesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Houses">api/v1/Houses</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Controllers.HousesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Houses/$count">api/v1/Houses/$count</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.PostToCountryLocalNames (Nox.ClientApi.Tests)</td><td>POST</td><td>api/v1/Countries/{key}/CountryLocalNames</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Countries/{key}">api/v1/Countries/{key}</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.CountriesWithDebt (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="/api/v1/CountriesWithDebt">/api/v1/CountriesWithDebt</a></td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Countries">api/v1/Countries</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Countries/$count">api/v1/Countries/$count</a></td><td>Yes</td></tr>
@@ -155,6 +156,10 @@
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Put (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/v1/Workplaces/{key}</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Patch (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/v1/Workplaces/{key}</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Delete (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/v1/Workplaces/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.GetOwnershipsNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="/api/v1/Workplaces/WorkplaceOwnerships">/api/v1/Workplaces/WorkplaceOwnerships</a></td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.GetOwnershipsLocalizedNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="/api/v1/Workplaces/WorkplaceOwnershipsLocalized">/api/v1/Workplaces/WorkplaceOwnershipsLocalized</a></td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.PutOwnershipsLocalizedNonConventional (Nox.ClientApi.Tests)</td><td>PUT</td><td>/api/v1/Workplaces/WorkplaceOwnershipsLocalized</td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.GetTypesNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="/api/v1/Workplaces/WorkplaceTypes">/api/v1/Workplaces/WorkplaceTypes</a></td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.GetWorkplaceLocalizedNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="/api/v1/Workplaces/{key}/WorkplacesLocalized">/api/v1/Workplaces/{key}/WorkplacesLocalized</a></td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.CreateRefToCountry (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/v1/Workplaces/{key}/Country/{relatedKey}/$ref</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.GetRefToCountry (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Workplaces/{key}/Country/$ref">api/v1/Workplaces/{key}/Country/$ref</a></td><td>Yes</td></tr>
@@ -218,6 +223,7 @@
 <tr><td>ClientApi.Presentation.Api.OData.TenantsController.Put (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/v1/Tenants/{key}</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.TenantsController.Patch (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/v1/Tenants/{key}</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.TenantsController.Delete (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/v1/Tenants/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.TenantsController.GetStatusesNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="/api/v1/Tenants/TenantStatuses">/api/v1/Tenants/TenantStatuses</a></td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.TenantsController.GetTenantBrands (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Tenants/{key}/TenantBrands">api/v1/Tenants/{key}/TenantBrands</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.TenantsController.GetTenantBrands (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Tenants/{key}/TenantBrands/$count">api/v1/Tenants/{key}/TenantBrands/$count</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.TenantsController.GetTenantBrandsNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="/api/v1/Tenants/{key}/TenantBrands/{relatedKey}">/api/v1/Tenants/{key}/TenantBrands/{relatedKey}</a></td><td>-</td></tr>
@@ -286,6 +292,7 @@
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.CountriesWithDebt2 (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Countries/CountriesWithDebt2">api/v1/Countries/CountriesWithDebt2</a></td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.CustomCreateCountry (Nox.ClientApi.Tests)</td><td>POST</td><td>api/v1/Countries/CustomCreateCountry</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.DeleteContinentsLocalizedNonConventional (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/v1/Countries/CountryContinentsLocalized/{cultureCode}</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.DeleteOwnershipsLocalizedNonConventional (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/v1/Workplaces/WorkplaceOwnershipsLocalized/{cultureCode}</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.PutWorkplaceLocalized (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/v1/Workplaces/{key}/WorkplacesLocalized/{cultureCode}</td></tr>
 
     </table>

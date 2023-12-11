@@ -54,7 +54,9 @@ public abstract partial class TransactionsControllerBase : ODataController
         }
         
         if (entity.Customer is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"Customers/{entity.Customer.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -77,12 +79,12 @@ public abstract partial class TransactionsControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<CustomerDto>> GetCustomer(System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetTransactionByIdQuery(key))).Where(x => x.Customer != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetTransactionByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<CustomerDto>(Enumerable.Empty<CustomerDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.Customer!));
+        return SingleResult.Create(query.Where(x => x.Customer != null).Select(x => x.Customer!));
     }
     
     public virtual async Task<ActionResult<CustomerDto>> PutToCustomer(System.Int64 key, [FromBody] CustomerUpdateDto customer)
@@ -135,7 +137,9 @@ public abstract partial class TransactionsControllerBase : ODataController
         }
         
         if (entity.Booking is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"Bookings/{entity.Booking.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -158,12 +162,12 @@ public abstract partial class TransactionsControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<BookingDto>> GetBooking(System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetTransactionByIdQuery(key))).Where(x => x.Booking != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetTransactionByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<BookingDto>(Enumerable.Empty<BookingDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.Booking!));
+        return SingleResult.Create(query.Where(x => x.Booking != null).Select(x => x.Booking!));
     }
     
     public virtual async Task<ActionResult<BookingDto>> PutToBooking(System.Int64 key, [FromBody] BookingUpdateDto booking)

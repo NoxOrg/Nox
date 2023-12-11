@@ -129,13 +129,12 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<PaymentDetailDto>>> GetPaymentDetails(System.Int64 key)
     {
-        var query = (await _mediator.Send(new GetPaymentProviderByIdQuery(key))).Include(x => x.PaymentDetails);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetPaymentProviderByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.PaymentDetails));
+        return Ok(query.Include(x => x.PaymentDetails).SelectMany(x => x.PaymentDetails));
     }
     
     [EnableQuery]

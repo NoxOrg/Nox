@@ -54,7 +54,9 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         if (entity.Country is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"Countries/{entity.Country.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -77,12 +79,12 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<CountryDto>> GetCountry(System.Guid key)
     {
-        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Where(x => x.Country != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetVendingMachineByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<CountryDto>(Enumerable.Empty<CountryDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.Country!));
+        return SingleResult.Create(query.Where(x => x.Country != null).Select(x => x.Country!));
     }
     
     public virtual async Task<ActionResult<CountryDto>> PutToCountry(System.Guid key, [FromBody] CountryUpdateDto country)
@@ -135,7 +137,9 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         if (entity.LandLord is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"LandLords/{entity.LandLord.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -158,12 +162,12 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<LandLordDto>> GetLandLord(System.Guid key)
     {
-        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Where(x => x.LandLord != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetVendingMachineByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<LandLordDto>(Enumerable.Empty<LandLordDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.LandLord!));
+        return SingleResult.Create(query.Where(x => x.LandLord != null).Select(x => x.LandLord!));
     }
     
     public virtual async Task<ActionResult<LandLordDto>> PutToLandLord(System.Guid key, [FromBody] LandLordUpdateDto landLord)
@@ -291,13 +295,12 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<BookingDto>>> GetBookings(System.Guid key)
     {
-        var query = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Include(x => x.Bookings);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetVendingMachineByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.Bookings));
+        return Ok(query.Include(x => x.Bookings).SelectMany(x => x.Bookings));
     }
     
     [EnableQuery]
@@ -481,13 +484,12 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<CashStockOrderDto>>> GetCashStockOrders(System.Guid key)
     {
-        var query = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Include(x => x.CashStockOrders);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetVendingMachineByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.CashStockOrders));
+        return Ok(query.Include(x => x.CashStockOrders).SelectMany(x => x.CashStockOrders));
     }
     
     [EnableQuery]
@@ -671,13 +673,12 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<MinimumCashStockDto>>> GetMinimumCashStocks(System.Guid key)
     {
-        var query = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Include(x => x.MinimumCashStocks);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetVendingMachineByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.MinimumCashStocks));
+        return Ok(query.Include(x => x.MinimumCashStocks).SelectMany(x => x.MinimumCashStocks));
     }
     
     [EnableQuery]

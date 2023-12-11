@@ -54,7 +54,9 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
         }
         
         if (entity.ThirdTestEntityZeroOrOne is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"ThirdTestEntityZeroOrOnes/{entity.ThirdTestEntityZeroOrOne.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -77,12 +79,12 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
     [EnableQuery]
     public virtual async Task<SingleResult<ThirdTestEntityZeroOrOneDto>> GetThirdTestEntityZeroOrOne(System.String key)
     {
-        var related = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(key))).Where(x => x.ThirdTestEntityZeroOrOne != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<ThirdTestEntityZeroOrOneDto>(Enumerable.Empty<ThirdTestEntityZeroOrOneDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.ThirdTestEntityZeroOrOne!));
+        return SingleResult.Create(query.Where(x => x.ThirdTestEntityZeroOrOne != null).Select(x => x.ThirdTestEntityZeroOrOne!));
     }
     
     public virtual async Task<ActionResult<ThirdTestEntityZeroOrOneDto>> PutToThirdTestEntityZeroOrOne(System.String key, [FromBody] ThirdTestEntityZeroOrOneUpdateDto thirdTestEntityZeroOrOne)

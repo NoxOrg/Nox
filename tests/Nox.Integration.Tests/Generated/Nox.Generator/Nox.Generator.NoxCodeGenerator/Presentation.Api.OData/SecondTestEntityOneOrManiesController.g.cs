@@ -113,13 +113,12 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<TestEntityOneOrManyDto>>> GetTestEntityOneOrManies(System.String key)
     {
-        var query = (await _mediator.Send(new GetSecondTestEntityOneOrManyByIdQuery(key))).Include(x => x.TestEntityOneOrManies);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetSecondTestEntityOneOrManyByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.TestEntityOneOrManies));
+        return Ok(query.Include(x => x.TestEntityOneOrManies).SelectMany(x => x.TestEntityOneOrManies));
     }
     
     [EnableQuery]

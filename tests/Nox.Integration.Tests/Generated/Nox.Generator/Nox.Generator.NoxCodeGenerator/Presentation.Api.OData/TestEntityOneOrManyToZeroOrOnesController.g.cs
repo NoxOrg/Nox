@@ -113,13 +113,12 @@ public abstract partial class TestEntityOneOrManyToZeroOrOnesControllerBase : OD
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<TestEntityZeroOrOneToOneOrManyDto>>> GetTestEntityZeroOrOneToOneOrManies(System.String key)
     {
-        var query = (await _mediator.Send(new GetTestEntityOneOrManyToZeroOrOneByIdQuery(key))).Include(x => x.TestEntityZeroOrOneToOneOrManies);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetTestEntityOneOrManyToZeroOrOneByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.TestEntityZeroOrOneToOneOrManies));
+        return Ok(query.Include(x => x.TestEntityZeroOrOneToOneOrManies).SelectMany(x => x.TestEntityZeroOrOneToOneOrManies));
     }
     
     [EnableQuery]

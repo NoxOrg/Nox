@@ -54,7 +54,9 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         }
         
         if (entity.Customer is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"Customers/{entity.Customer.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -77,12 +79,12 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<CustomerDto>> GetCustomer(System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetPaymentDetailByIdQuery(key))).Where(x => x.Customer != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetPaymentDetailByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<CustomerDto>(Enumerable.Empty<CustomerDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.Customer!));
+        return SingleResult.Create(query.Where(x => x.Customer != null).Select(x => x.Customer!));
     }
     
     public virtual async Task<ActionResult<CustomerDto>> PutToCustomer(System.Int64 key, [FromBody] CustomerUpdateDto customer)
@@ -135,7 +137,9 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         }
         
         if (entity.PaymentProvider is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"PaymentProviders/{entity.PaymentProvider.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -158,12 +162,12 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<PaymentProviderDto>> GetPaymentProvider(System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetPaymentDetailByIdQuery(key))).Where(x => x.PaymentProvider != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetPaymentDetailByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<PaymentProviderDto>(Enumerable.Empty<PaymentProviderDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.PaymentProvider!));
+        return SingleResult.Create(query.Where(x => x.PaymentProvider != null).Select(x => x.PaymentProvider!));
     }
     
     public virtual async Task<ActionResult<PaymentProviderDto>> PutToPaymentProvider(System.Int64 key, [FromBody] PaymentProviderUpdateDto paymentProvider)

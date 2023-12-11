@@ -54,7 +54,9 @@ public abstract partial class BookingsControllerBase : ODataController
         }
         
         if (entity.Customer is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"Customers/{entity.Customer.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -77,12 +79,12 @@ public abstract partial class BookingsControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<CustomerDto>> GetCustomer(System.Guid key)
     {
-        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Where(x => x.Customer != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetBookingByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<CustomerDto>(Enumerable.Empty<CustomerDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.Customer!));
+        return SingleResult.Create(query.Where(x => x.Customer != null).Select(x => x.Customer!));
     }
     
     public virtual async Task<ActionResult<CustomerDto>> PutToCustomer(System.Guid key, [FromBody] CustomerUpdateDto customer)
@@ -135,7 +137,9 @@ public abstract partial class BookingsControllerBase : ODataController
         }
         
         if (entity.VendingMachine is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"VendingMachines/{entity.VendingMachine.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -158,12 +162,12 @@ public abstract partial class BookingsControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<VendingMachineDto>> GetVendingMachine(System.Guid key)
     {
-        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Where(x => x.VendingMachine != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetBookingByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<VendingMachineDto>(Enumerable.Empty<VendingMachineDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.VendingMachine!));
+        return SingleResult.Create(query.Where(x => x.VendingMachine != null).Select(x => x.VendingMachine!));
     }
     
     public virtual async Task<ActionResult<VendingMachineDto>> PutToVendingMachine(System.Guid key, [FromBody] VendingMachineUpdateDto vendingMachine)
@@ -216,7 +220,9 @@ public abstract partial class BookingsControllerBase : ODataController
         }
         
         if (entity.Commission is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"Commissions/{entity.Commission.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -239,12 +245,12 @@ public abstract partial class BookingsControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<CommissionDto>> GetCommission(System.Guid key)
     {
-        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Where(x => x.Commission != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetBookingByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<CommissionDto>(Enumerable.Empty<CommissionDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.Commission!));
+        return SingleResult.Create(query.Where(x => x.Commission != null).Select(x => x.Commission!));
     }
     
     public virtual async Task<ActionResult<CommissionDto>> PutToCommission(System.Guid key, [FromBody] CommissionUpdateDto commission)
@@ -297,7 +303,9 @@ public abstract partial class BookingsControllerBase : ODataController
         }
         
         if (entity.Transaction is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"Transactions/{entity.Transaction.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -320,12 +328,12 @@ public abstract partial class BookingsControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<TransactionDto>> GetTransaction(System.Guid key)
     {
-        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Where(x => x.Transaction != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetBookingByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<TransactionDto>(Enumerable.Empty<TransactionDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.Transaction!));
+        return SingleResult.Create(query.Where(x => x.Transaction != null).Select(x => x.Transaction!));
     }
     
     public virtual async Task<ActionResult<TransactionDto>> PutToTransaction(System.Guid key, [FromBody] TransactionUpdateDto transaction)

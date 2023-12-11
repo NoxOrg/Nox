@@ -129,13 +129,12 @@ public abstract partial class CustomersControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<PaymentDetailDto>>> GetPaymentDetails(System.Int64 key)
     {
-        var query = (await _mediator.Send(new GetCustomerByIdQuery(key))).Include(x => x.PaymentDetails);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetCustomerByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.PaymentDetails));
+        return Ok(query.Include(x => x.PaymentDetails).SelectMany(x => x.PaymentDetails));
     }
     
     [EnableQuery]
@@ -319,13 +318,12 @@ public abstract partial class CustomersControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<BookingDto>>> GetBookings(System.Int64 key)
     {
-        var query = (await _mediator.Send(new GetCustomerByIdQuery(key))).Include(x => x.Bookings);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetCustomerByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.Bookings));
+        return Ok(query.Include(x => x.Bookings).SelectMany(x => x.Bookings));
     }
     
     [EnableQuery]
@@ -509,13 +507,12 @@ public abstract partial class CustomersControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<TransactionDto>>> GetTransactions(System.Int64 key)
     {
-        var query = (await _mediator.Send(new GetCustomerByIdQuery(key))).Include(x => x.Transactions);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetCustomerByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.Transactions));
+        return Ok(query.Include(x => x.Transactions).SelectMany(x => x.Transactions));
     }
     
     [EnableQuery]
@@ -624,7 +621,9 @@ public abstract partial class CustomersControllerBase : ODataController
         }
         
         if (entity.Country is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"Countries/{entity.Country.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -647,12 +646,12 @@ public abstract partial class CustomersControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<CountryDto>> GetCountry(System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Where(x => x.Country != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetCustomerByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<CountryDto>(Enumerable.Empty<CountryDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.Country!));
+        return SingleResult.Create(query.Where(x => x.Country != null).Select(x => x.Country!));
     }
     
     public virtual async Task<ActionResult<CountryDto>> PutToCountry(System.Int64 key, [FromBody] CountryUpdateDto country)

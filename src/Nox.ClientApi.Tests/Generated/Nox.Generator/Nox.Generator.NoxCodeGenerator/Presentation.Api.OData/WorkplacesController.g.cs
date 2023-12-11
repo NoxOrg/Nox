@@ -54,7 +54,9 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
         
         if (entity.Country is null)
+        {
             return Ok();
+        }
         var references = new System.Uri($"Countries/{entity.Country.Id}", UriKind.Relative);
         return Ok(references);
     }
@@ -109,12 +111,12 @@ public abstract partial class WorkplacesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<CountryDto>> GetCountry(System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Where(x => x.Country != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetWorkplaceByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<CountryDto>(Enumerable.Empty<CountryDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.Country!));
+        return SingleResult.Create(query.Where(x => x.Country != null).Select(x => x.Country!));
     }
     
     public virtual async Task<ActionResult<CountryDto>> PutToCountry(System.Int64 key, [FromBody] CountryUpdateDto country)
@@ -265,13 +267,12 @@ public abstract partial class WorkplacesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<TenantDto>>> GetTenants(System.Int64 key)
     {
-        var query = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Include(x => x.Tenants);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetWorkplaceByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.Tenants));
+        return Ok(query.Include(x => x.Tenants).SelectMany(x => x.Tenants));
     }
     
     [EnableQuery]

@@ -113,13 +113,12 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<ThirdTestEntityZeroOrManyDto>>> GetThirdTestEntityZeroOrManies(System.String key)
     {
-        var query = (await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(key))).Include(x => x.ThirdTestEntityZeroOrManies);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.ThirdTestEntityZeroOrManies));
+        return Ok(query.Include(x => x.ThirdTestEntityZeroOrManies).SelectMany(x => x.ThirdTestEntityZeroOrManies));
     }
     
     [EnableQuery]

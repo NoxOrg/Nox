@@ -129,13 +129,12 @@ public abstract partial class ClientsControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<StoreDto>>> GetStores(System.Guid key)
     {
-        var query = (await _mediator.Send(new GetClientByIdQuery(key))).Include(x => x.Stores);
-        var entity = query.SingleOrDefault();
-        if (entity is null)
+        var query = await _mediator.Send(new GetClientByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(query.SelectMany(x => x.Stores));
+        return Ok(query.Include(x => x.Stores).SelectMany(x => x.Stores));
     }
     
     [EnableQuery]
