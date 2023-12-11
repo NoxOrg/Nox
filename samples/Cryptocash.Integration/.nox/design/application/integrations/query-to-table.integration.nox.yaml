@@ -36,7 +36,7 @@ source:
         Population, 
         CreateDate, 
         EditDate,
-        CreateDate AS AsAt,
+        CONVERT(datetime, CreateDate) AS AsAt,
         Etag
       FROM 
         dbo.CountryMaster

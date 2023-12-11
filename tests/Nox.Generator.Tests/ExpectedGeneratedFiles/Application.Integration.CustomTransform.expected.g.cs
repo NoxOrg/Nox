@@ -4,12 +4,12 @@
 
 using AutoMapper;
 
-namespace SampleIntegrationSolution.Application.Integration.CustomTransformHandlers;
+namespace TestIntegrationSolution.Application.Integration.CustomTransformHandlers;
 
-public abstract class SampleIntegrationCustomTransformHandlerBase
+public abstract class TestIntegrationTransformHandlerBase
 {
-    public string IntegrationName => "SampleIntegration";
-    
+    public string IntegrationName => "TestIntegration";
+
     public dynamic InvokeBase(dynamic sourceRecord)
     {
         var mapper = new Mapper(new MapperConfiguration(cfg => { }));

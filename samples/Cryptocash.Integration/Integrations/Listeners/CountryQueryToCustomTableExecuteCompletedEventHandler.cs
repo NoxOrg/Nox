@@ -1,8 +1,8 @@
-using Cryptocash.Integration.Integrations;
+using CryptocashIntegration.Application.Integrations;
 using MediatR;
 using Nox.Integration.EtlEvents;
 
-namespace Cryptocash.Integration.Listeners;
+namespace Cryptocash.Integration.Integrations;
 
 public class CountryQueryToCustomTableExecuteCompletedEventHandler: INotificationHandler<CountryQueryToCustomTableExecuteCompletedEvent>
 {

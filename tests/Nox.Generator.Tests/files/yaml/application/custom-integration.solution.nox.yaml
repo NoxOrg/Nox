@@ -1,13 +1,13 @@
-name: SampleIntegrationSolution
+name: TestIntegrationSolution
 
-description: Yaml file for custom transform integrations handlers test
+description: Yaml file for test integration tests
 
 application:
 
   integrations:
 
-    - name: SampleIntegration
-      description: a Sample integration that sources data from Sql Server and persists to a Database Table
+    - name: TestIntegration
+      description: a Test integration that sources data from Sql Server and persists to a Database Table
       mergeType: mergeNew
       transformationType: customTransform
 
@@ -21,11 +21,11 @@ application:
 
       source:
         name: SampleSource
-        description: Sources Country data from a Sql Server database
-        dataConnectionName: CountrySource
+        description: Sources Test data from a Sql Server database
+        dataConnectionName: TestSource
         sourceAdapterType: databaseQuery
         queryOptions:
-          query: SELECT CountryId, Name, Population, CreateDate, EditDate FROM CountryMaster
+          query: SELECT Id, Name FROM TestMaster
           minimumExpectedRecords: 5
 
         watermark:
@@ -37,18 +37,40 @@ application:
 
       target:
         name: SampleTarget
-        dataConnectionName: EtlSample
+        dataConnectionName: EtlTest
         targetAdapterType: databaseTable
         tableOptions:
-          tableName: Country
+          tableName: TestEntities
 
+domain:
+  entities:
+    - name: TestEntity
+
+      description: Test Entity and related data
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          description: Country unique identifier
+          type: number
+
+      attributes:
+
+        - name: Name
+          description: Test Entity's name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
 
 infrastructure:
   
   dependencies:
     
     dataConnections:
-      - name: CountrySource
+      - name: TestSource
         provider: sqlServer
         serverUri: localhost
         user: sa
@@ -56,7 +78,7 @@ infrastructure:
         port: 1433
         options: pooling=false;encrypt=false;
 
-      - name: EtlSample
+      - name: EtlTest
         provider: sqlServer
         serverUri: localhost
         user: sa

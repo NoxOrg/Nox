@@ -41,7 +41,7 @@ attributes:
 
 persistence:
   isAudited: false
-#  tableName: CountriesQueryToCustomTable
+  tableName: CountriesQueryToCustomTable
   create:
     isEnabled: true
     raiseEvents: domainEventsOnly

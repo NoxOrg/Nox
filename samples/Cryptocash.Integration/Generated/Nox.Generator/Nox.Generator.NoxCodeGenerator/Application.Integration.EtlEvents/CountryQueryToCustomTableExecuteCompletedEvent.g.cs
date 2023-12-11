@@ -1,7 +1,11 @@
+﻿//Generated
+
+#nullable enable
+
 using MediatR;
 using Nox.Integration.EtlEvents;
 
-namespace Cryptocash.Integration.Integrations;
+namespace CryptocashIntegration.Application.Integrations;
 
 public class CountryQueryToCustomTableExecuteCompletedEvent: NoxEtlExecuteCompletedEvent, INotification
 {

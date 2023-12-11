@@ -1,20 +1,20 @@
-using Cryptocash.Integration.Integrations;
+using CryptocashIntegration.Application.Integrations;
 using MediatR;
 
-namespace Cryptocash.Integration.Listeners;
+namespace Cryptocash.Integration.Integrations;
 
-public class CountryQueryToCustomTableEtlRecordCreatedEventHandler: INotificationHandler<CountryQueryToCustomTableEtlRecordCreatedEvent>
+public class CountryQueryToCustomTableRecordCreatedEventHandler: INotificationHandler<CountryQueryToCustomTableRecordCreatedEvent>
 {
     private readonly ILogger _logger;
 
-    public CountryQueryToCustomTableEtlRecordCreatedEventHandler(ILogger<CountryQueryToCustomTableEtlRecordCreatedEventHandler> logger)
+    public CountryQueryToCustomTableRecordCreatedEventHandler(ILogger<CountryQueryToCustomTableRecordCreatedEventHandler> logger)
     {
         _logger = logger;
     }
     
-    public Task Handle(CountryQueryToCustomTableEtlRecordCreatedEvent notification, CancellationToken cancellationToken)
+    public Task Handle(CountryQueryToCustomTableRecordCreatedEvent notification, CancellationToken cancellationToken)
     {
-        var payload = (CountryQueryToCustomTableRecordCreatedPayload)notification.Payload!;
+        var payload = (QueryToCustomTableRecordCreatedPayload)notification.Payload!;
         _logger.LogInformation("Received: {0}\n " +
                                "Payload\n" +
                                "------------------------------\n" +
