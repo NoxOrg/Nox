@@ -120,15 +120,7 @@ public abstract partial class CountryQueryToCustomTablesControllerBase : ODataCo
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
-        var updatedProperties = new Dictionary<string, dynamic>();
-
-        foreach (var propertyName in countryQueryToCustomTable.GetChangedPropertyNames())
-        {
-            if (countryQueryToCustomTable.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updatedProperties[propertyName] = value;
-            }
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CountryQueryToCustomTablePartialUpdateDto>(countryQueryToCustomTable);
 
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateCountryQueryToCustomTableCommand(key, updatedProperties, _cultureCode, etag));

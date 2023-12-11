@@ -18,7 +18,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -136,7 +136,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -5947,7 +5947,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -11758,7 +11758,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -11873,7 +11873,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -12016,7 +12016,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -12133,7 +12133,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -12258,7 +12258,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -12411,7 +12411,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -12526,7 +12526,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -12669,7 +12669,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -12798,7 +12798,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -12896,7 +12896,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -13044,7 +13044,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -13172,7 +13172,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -13296,7 +13296,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -13415,7 +13415,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -13541,7 +13541,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -13656,7 +13656,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -13799,7 +13799,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -13924,7 +13924,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -14251,7 +14251,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -14386,7 +14386,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -14511,7 +14511,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -14914,7 +14914,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -15040,7 +15040,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -15168,7 +15168,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -15291,7 +15291,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -15441,7 +15441,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -15556,7 +15556,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -15686,7 +15686,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -15831,7 +15831,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -16187,7 +16187,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -16330,7 +16330,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -16473,7 +16473,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {
@@ -16599,7 +16599,7 @@
       ],
       "properties": {
         "raiseApplicationEvent": {    
-          "title": "Wether or not to also raise this as an application event.",
+          "title": "Whether or not to also raise this as an application event.",
           "description": "Will raise this event both as an integration and application event",
           "oneOf": [
             {

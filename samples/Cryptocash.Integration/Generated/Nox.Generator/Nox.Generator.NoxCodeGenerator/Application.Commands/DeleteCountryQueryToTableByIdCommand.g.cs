@@ -16,7 +16,7 @@ namespace CryptocashIntegration.Application.Commands;
 
 public partial record DeleteCountryQueryToTableByIdCommand(IEnumerable<CountryQueryToTableKeyDto> KeyDtos, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteCountryQueryToTableByIdCommandHandler : DeleteCountryQueryToTableByIdCommandHandlerBase
+internal partial class DeleteCountryQueryToTableByIdCommandHandler : DeleteCountryQueryToTableByIdCommandHandlerBase
 {
 	public DeleteCountryQueryToTableByIdCommandHandler(
         AppDbContext dbContext,

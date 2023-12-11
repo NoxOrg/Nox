@@ -23,24 +23,32 @@ using CountryQueryToCustomTableEntity = CryptocashIntegration.Domain.CountryQuer
 
 namespace CryptocashIntegration.Application.Factories;
 
+internal partial class CountryQueryToCustomTableFactory : CountryQueryToCustomTableFactoryBase
+{
+    public CountryQueryToCustomTableFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class CountryQueryToCustomTableFactoryBase : IEntityFactory<CountryQueryToCustomTableEntity, CountryQueryToCustomTableCreateDto, CountryQueryToCustomTableUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public CountryQueryToCustomTableFactoryBase
-    (
+    public CountryQueryToCustomTableFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual CountryQueryToCustomTableEntity CreateEntity(CountryQueryToCustomTableCreateDto createDto)
+    public virtual async Task<CountryQueryToCustomTableEntity> CreateEntityAsync(CountryQueryToCustomTableCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class CountryQueryToCustomTableFactoryBase : IEntityFactory<Co
         }        
     }
 
-    public virtual void UpdateEntity(CountryQueryToCustomTableEntity entity, CountryQueryToCustomTableUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(CountryQueryToCustomTableEntity entity, CountryQueryToCustomTableUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CountryQueryToCustomTableEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,7 +66,7 @@ internal abstract class CountryQueryToCustomTableFactoryBase : IEntityFactory<Co
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private CryptocashIntegration.Domain.CountryQueryToCustomTable ToEntity(CountryQueryToCustomTableCreateDto createDto)
+    private async Task<CryptocashIntegration.Domain.CountryQueryToCustomTable> ToEntityAsync(CountryQueryToCustomTableCreateDto createDto)
     {
         var entity = new CryptocashIntegration.Domain.CountryQueryToCustomTable();
         entity.Id = CountryQueryToCustomTableMetadata.CreateId(createDto.Id);
@@ -66,10 +74,10 @@ internal abstract class CountryQueryToCustomTableFactoryBase : IEntityFactory<Co
         entity.Population = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreatePopulation(createDto.Population);
         entity.CreateDate = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateCreateDate(createDto.CreateDate);
         entity.SetIfNotNull(createDto.EditDate, (entity) => entity.EditDate =CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateEditDate(createDto.EditDate.NonNullValue<System.DateTimeOffset>()));
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(CountryQueryToCustomTableEntity entity, CountryQueryToCustomTableUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(CountryQueryToCustomTableEntity entity, CountryQueryToCustomTableUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.Population = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreatePopulation(updateDto.Population.NonNullValue<System.Int32>());
@@ -82,6 +90,7 @@ internal abstract class CountryQueryToCustomTableFactoryBase : IEntityFactory<Co
         {
             entity.EditDate = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateEditDate(updateDto.EditDate.ToValueFromNonNull<System.DateTimeOffset>());
         }
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(CountryQueryToCustomTableEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -132,13 +141,4 @@ internal abstract class CountryQueryToCustomTableFactoryBase : IEntityFactory<Co
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class CountryQueryToCustomTableFactory : CountryQueryToCustomTableFactoryBase
-{
-    public CountryQueryToCustomTableFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

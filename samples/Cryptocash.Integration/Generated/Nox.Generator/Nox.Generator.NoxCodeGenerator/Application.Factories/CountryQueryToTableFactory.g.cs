@@ -23,24 +23,32 @@ using CountryQueryToTableEntity = CryptocashIntegration.Domain.CountryQueryToTab
 
 namespace CryptocashIntegration.Application.Factories;
 
+internal partial class CountryQueryToTableFactory : CountryQueryToTableFactoryBase
+{
+    public CountryQueryToTableFactory
+    (
+        IRepository repository
+    ) : base( repository)
+    {}
+}
+
 internal abstract class CountryQueryToTableFactoryBase : IEntityFactory<CountryQueryToTableEntity, CountryQueryToTableCreateDto, CountryQueryToTableUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
-    public CountryQueryToTableFactoryBase
-    (
+    public CountryQueryToTableFactoryBase(
         IRepository repository
         )
     {
         _repository = repository;
     }
 
-    public virtual CountryQueryToTableEntity CreateEntity(CountryQueryToTableCreateDto createDto)
+    public virtual async Task<CountryQueryToTableEntity> CreateEntityAsync(CountryQueryToTableCreateDto createDto)
     {
         try
         {
-            return ToEntity(createDto);
+            return await ToEntityAsync(createDto);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -48,9 +56,9 @@ internal abstract class CountryQueryToTableFactoryBase : IEntityFactory<CountryQ
         }        
     }
 
-    public virtual void UpdateEntity(CountryQueryToTableEntity entity, CountryQueryToTableUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    public virtual async Task UpdateEntityAsync(CountryQueryToTableEntity entity, CountryQueryToTableUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto, cultureCode);
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CountryQueryToTableEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -58,19 +66,20 @@ internal abstract class CountryQueryToTableFactoryBase : IEntityFactory<CountryQ
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
-    private CryptocashIntegration.Domain.CountryQueryToTable ToEntity(CountryQueryToTableCreateDto createDto)
+    private async Task<CryptocashIntegration.Domain.CountryQueryToTable> ToEntityAsync(CountryQueryToTableCreateDto createDto)
     {
         var entity = new CryptocashIntegration.Domain.CountryQueryToTable();
         entity.Id = CountryQueryToTableMetadata.CreateId(createDto.Id);
         entity.Name = CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreateName(createDto.Name);
         entity.Population = CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreatePopulation(createDto.Population);
-        return entity;
+        return await Task.FromResult(entity);
     }
 
-    private void UpdateEntityInternal(CountryQueryToTableEntity entity, CountryQueryToTableUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+    private async Task UpdateEntityInternalAsync(CountryQueryToTableEntity entity, CountryQueryToTableUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.Population = CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreatePopulation(updateDto.Population.NonNullValue<System.Int32>());
+        await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(CountryQueryToTableEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -101,13 +110,4 @@ internal abstract class CountryQueryToTableFactoryBase : IEntityFactory<CountryQ
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
-}
-
-internal partial class CountryQueryToTableFactory : CountryQueryToTableFactoryBase
-{
-    public CountryQueryToTableFactory
-    (
-        IRepository repository
-    ) : base( repository)
-    {}
 }

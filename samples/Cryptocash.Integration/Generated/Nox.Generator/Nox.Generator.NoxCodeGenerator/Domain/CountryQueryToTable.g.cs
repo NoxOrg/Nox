@@ -55,19 +55,19 @@ internal abstract partial class CountryQueryToTableBase : EntityBase, IEntityCon
     /// Country unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Number Id { get; set; } = null!;
+    public Nox.Types.Number Id { get;  set; } = null!;
 
     /// <summary>
     /// Country's name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get;  set; } = null!;
 
     /// <summary>
     /// Country's population    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Number Population { get; set; } = null!;
+    public Nox.Types.Number Population { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

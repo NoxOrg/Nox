@@ -25,8 +25,8 @@ internal partial class UpdateCountryQueryToCustomTableCommandHandler : UpdateCou
 	public UpdateCountryQueryToCustomTableCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryQueryToCustomTableEntity, CountryQueryToCustomTableCreateDto, CountryQueryToCustomTableUpdateDto> entityFactory) 
-		: base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<CountryQueryToCustomTableEntity, CountryQueryToCustomTableCreateDto, CountryQueryToCustomTableUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,entityFactory)
 	{
 	}
 }
@@ -36,7 +36,7 @@ internal abstract class UpdateCountryQueryToCustomTableCommandHandlerBase : Comm
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CountryQueryToCustomTableEntity, CountryQueryToCustomTableCreateDto, CountryQueryToCustomTableUpdateDto> _entityFactory;
 
-	public UpdateCountryQueryToCustomTableCommandHandlerBase(
+	protected UpdateCountryQueryToCustomTableCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryQueryToCustomTableEntity, CountryQueryToCustomTableCreateDto, CountryQueryToCustomTableUpdateDto> entityFactory)
@@ -58,7 +58,7 @@ internal abstract class UpdateCountryQueryToCustomTableCommandHandlerBase : Comm
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
+		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

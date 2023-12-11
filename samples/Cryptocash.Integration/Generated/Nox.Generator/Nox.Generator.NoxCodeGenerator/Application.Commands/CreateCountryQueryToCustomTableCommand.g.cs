@@ -40,7 +40,7 @@ internal abstract class CreateCountryQueryToCustomTableCommandHandlerBase : Comm
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<CountryQueryToCustomTableEntity, CountryQueryToCustomTableCreateDto, CountryQueryToCustomTableUpdateDto> EntityFactory;
 
-	public CreateCountryQueryToCustomTableCommandHandlerBase(
+	protected CreateCountryQueryToCustomTableCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryQueryToCustomTableEntity, CountryQueryToCustomTableCreateDto, CountryQueryToCustomTableUpdateDto> entityFactory)
@@ -55,7 +55,7 @@ internal abstract class CreateCountryQueryToCustomTableCommandHandlerBase : Comm
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.CountryQueryToCustomTables.Add(entityToCreate);

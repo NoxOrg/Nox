@@ -18,7 +18,7 @@ namespace CryptocashIntegration.Application.Commands;
 
 public partial record PartialUpdateCountryQueryToTableCommand(System.Int32 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryQueryToTableKeyDto?>;
 
-internal class PartialUpdateCountryQueryToTableCommandHandler : PartialUpdateCountryQueryToTableCommandHandlerBase
+internal partial class PartialUpdateCountryQueryToTableCommandHandler : PartialUpdateCountryQueryToTableCommandHandlerBase
 {
 	public PartialUpdateCountryQueryToTableCommandHandler(
         AppDbContext dbContext,
@@ -28,7 +28,7 @@ internal class PartialUpdateCountryQueryToTableCommandHandler : PartialUpdateCou
 	{
 	}
 }
-internal class PartialUpdateCountryQueryToTableCommandHandlerBase : CommandBase<PartialUpdateCountryQueryToTableCommand, CountryQueryToTableEntity>, IRequestHandler<PartialUpdateCountryQueryToTableCommand, CountryQueryToTableKeyDto?>
+internal abstract class PartialUpdateCountryQueryToTableCommandHandlerBase : CommandBase<PartialUpdateCountryQueryToTableCommand, CountryQueryToTableEntity>, IRequestHandler<PartialUpdateCountryQueryToTableCommand, CountryQueryToTableKeyDto?>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<CountryQueryToTableEntity, CountryQueryToTableCreateDto, CountryQueryToTableUpdateDto> EntityFactory { get; }

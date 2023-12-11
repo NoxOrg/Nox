@@ -55,31 +55,31 @@ internal abstract partial class CountryQueryToCustomTableBase : EntityBase, IEnt
     /// Country unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Number Id { get; set; } = null!;
+    public Nox.Types.Number Id { get;  set; } = null!;
 
     /// <summary>
     /// Country's name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get;  set; } = null!;
 
     /// <summary>
     /// Country's population    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Number Population { get; set; } = null!;
+    public Nox.Types.Number Population { get;  set; } = null!;
 
     /// <summary>
     /// The date on which the country record was created    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.DateTime CreateDate { get; set; } = null!;
+    public Nox.Types.DateTime CreateDate { get;  set; } = null!;
 
     /// <summary>
     /// The date on which the country record was last updated    
     /// </summary>
     /// <remarks>Optional.</remarks>   
-    public Nox.Types.DateTime? EditDate { get; set; } = null!;
+    public Nox.Types.DateTime? EditDate { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>
