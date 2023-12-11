@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.InteropServices.JavaScript;
 
-namespace Nox.Integration;
+namespace Nox.Integration.Abstractions.Models;
 
 public class IntegrationMergeState
 {

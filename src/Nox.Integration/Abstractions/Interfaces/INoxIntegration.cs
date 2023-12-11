@@ -1,5 +1,5 @@
 using Elastic.Apm.Api;
-using Nox.Integration.Abstractions.Adapters;
+using Nox.Integration.Abstractions.Interfaces;
 using Nox.Solution;
 
 namespace Nox.Integration.Abstractions;

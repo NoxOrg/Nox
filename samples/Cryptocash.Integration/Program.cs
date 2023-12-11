@@ -1,7 +1,8 @@
 using Cryptocash.Integration.Integrations;
 using Nox;
 using Nox.Integration;
-using Nox.Integration.EtlEvents;
+using Nox.Integration.Abstractions;
+using Nox.Integration.Abstractions.Models;
 using Nox.Integration.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);

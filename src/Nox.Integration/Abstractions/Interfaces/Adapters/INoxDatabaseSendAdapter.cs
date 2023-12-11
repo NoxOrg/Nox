@@ -1,7 +1,7 @@
 using System.Dynamic;
 using ETLBox.DataFlow;
 
-namespace Nox.Integration.Abstractions.Adapters;
+namespace Nox.Integration.Abstractions.Interfaces;
 
 public interface INoxDatabaseSendAdapter: INoxSendAdapter
 {

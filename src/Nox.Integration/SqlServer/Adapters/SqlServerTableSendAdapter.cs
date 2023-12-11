@@ -2,7 +2,8 @@ using System.Dynamic;
 using ETLBox;
 using ETLBox.DataFlow;
 using ETLBox.SqlServer;
-using Nox.Integration.Abstractions.Adapters;
+using Nox.Integration.Abstractions;
+using Nox.Integration.Abstractions.Interfaces;
 using Nox.Integration.Exceptions;
 
 namespace Nox.Integration.SqlServer;

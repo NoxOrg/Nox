@@ -3,7 +3,7 @@
 #nullable enable
 
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
-using Nox.Integration.Abstractions;
+using Nox.Integration.Abstractions.Interfaces;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Integrations;
 

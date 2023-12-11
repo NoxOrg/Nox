@@ -1,6 +1,6 @@
-using Nox.Integration.Abstractions.Adapters;
+using Nox.Integration.Abstractions.Interfaces;
 
-namespace Nox.Integration.Adapters;
+namespace Nox.Integration.Abstractions.Models;
 
 public class NoxSendAdapterResponse: INoxSendAdapterResponse
 {
