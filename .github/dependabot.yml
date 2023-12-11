@@ -18,6 +18,4 @@ updates:
       - dependency-name: "Microsoft.CodeAnalysis.CSharp.Workspaces" #until upgrade to .Net 8 / Requires Latest VS, we do not want this
       - dependency-name: "Microsoft.CodeAnalysis.CSharp" #until upgrade to .Net 8 / Requires Latest VS, we do not want this
       - dependency-name: "Microsoft.CSharp" #until upgrade to .Net 8 / Requires Latest VS, we do not want this
-      - dependency-name: "Microsoft.CodeAnalysis.Workspaces.MSBuild" #until upgrade to .Net 8 / Requires Latest VS, we do not want this
-      - dependency-name: "Microsoft.CodeAnalysis.CSharp.Workspaces" # this is making dependabot failed, check again when upgrading to .Net 8 
-  
+      - dependency-name: "Serilog*"  #until upgrade to .Net 8 
