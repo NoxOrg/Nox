@@ -8,6 +8,8 @@ public class NoxApiMidllewareTests
     private readonly string _testPattern = "/Customers/{CustomerId}/Contacts/{ContactId}?$select={Properties}";
     private readonly string _testPatternDuplicateParam = "/Customers/{CustomerId}/Contacts/{Properties}?$select={Properties}";
     private readonly string _testPatternConsecutiveParam = "/Customers/{CustomerId}/{ContactId}/{Properties}";
+    private readonly string _testPatternStartsWithParam = "{CustomerId}/Contacts/{ContactId}?$select={Properties}";
+    private readonly string _testPatternEndsWithoutParam = "/Customers/{CustomerId}/{ContactId}/{Properties}/Form";
 
     [Fact]
     public void RouteMatcher_Parses_String()
@@ -97,4 +99,46 @@ public class NoxApiMidllewareTests
         values.Should().BeNull();
 
     }
+
+    [Theory]
+    [InlineData("1/Contacts/42?$select=FirstName,LastName", "1", "42", "FirstName,LastName")]
+    [InlineData("100/Contacts/200?$select=A", "100", "200", "A")]
+    [InlineData("a1b2c3/Contacts/d4e5f6?$select=___", "a1b2c3", "d4e5f6", "___")]
+    public void RouteMatcher_Matches_String_That_StartsWithParam(string testRoute, string customerId, string contactId, string properties)
+    {
+
+        var routeMatcher = new ApiRouteMatcher(_testPatternStartsWithParam);
+
+        routeMatcher
+            .Matches(testRoute, out var values)
+            .Should().BeTrue();
+
+        values.Should().NotBeNull();
+
+        values!["CustomerId"].Should().Be(customerId);
+        values!["ContactId"].Should().Be(contactId);
+        values!["Properties"].Should().Be(properties);
+    }
+
+    [Theory]
+    [InlineData("/Customers/1/42/FirstName,LastName/Form", "1", "42", "FirstName,LastName")]
+    [InlineData("/Customers/100/200/A/Form", "100", "200", "A")]
+    [InlineData("/Customers/a1b2c3/d4e5f6/___/Form", "a1b2c3", "d4e5f6", "___")]
+    public void RouteMatcher_Matches_String_That_EndsWithoutParam(string testRoute, string customerId, string contactId, string properties)
+    {
+
+        var routeMatcher = new ApiRouteMatcher(_testPatternEndsWithoutParam);
+
+        routeMatcher
+            .Matches(testRoute, out var values)
+            .Should().BeTrue();
+
+        values.Should().NotBeNull();
+
+        values!["CustomerId"].Should().Be(customerId);
+        values!["ContactId"].Should().Be(contactId);
+        values!["Properties"].Should().Be(properties);
+    }
+
+
 }

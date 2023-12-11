@@ -45,7 +45,7 @@ public class ApiRouteMatcher
                     _segmentSpanCoords[segmentIndex++] = 
                         new(_paramSpanCoords[paramIndex-1].EndPos+1,i);
                 }
-                else
+                else if (i > 0)
                 {
                     _segmentSpanCoords[segmentIndex++] =
                         new(0, i);
@@ -101,6 +101,7 @@ public class ApiRouteMatcher
         var routePatternSpan = _routePattern.AsSpan();
         var stringToMatchSpan = stringToMatch.AsSpan();
         var matchedValues = new Dictionary<string, object>();
+        var paramPos = 0;
         var pos = 0;
 
         paramValues = null;
@@ -115,14 +116,24 @@ public class ApiRouteMatcher
             {
                 if (i == 0 && pos != 0)
                 {
-                    return false;
+                    var paramKey = _paramKeys[paramPos++];
+
+                    var paramValue = stringToMatchSpan[0..pos];
+
+                    if (paramValue.Contains('/'))
+                    {
+                        return false;
+                    }
+
+                    matchedValues.Add(paramKey, paramValue.ToString());
                 }
 
-                int paramStart = pos + (_segmentSpanCoords[i].EndPos- _segmentSpanCoords[i].StartPos);
+                int paramStart = pos + (_segmentSpanCoords[i].EndPos - _segmentSpanCoords[i].StartPos);
 
                 int paramEnd = i + 1 < _segmentSpanCoords.Length
-                    ? stringToMatchSpan[paramStart..].IndexOf(routePatternSpan[_segmentSpanCoords[i+1].StartPos.._segmentSpanCoords[i+1].EndPos])+paramStart 
+                    ? stringToMatchSpan[paramStart..].IndexOf(routePatternSpan[_segmentSpanCoords[i + 1].StartPos.._segmentSpanCoords[i + 1].EndPos]) + paramStart
                     : stringToMatchSpan.Length;
+
 
                 if (paramEnd < 0)
                 {
@@ -131,7 +142,7 @@ public class ApiRouteMatcher
 
                 if (paramStart < paramEnd)
                 {
-                    var paramKey = _paramKeys[i];
+                    var paramKey = _paramKeys[paramPos++];
 
                     var paramValue = stringToMatchSpan[paramStart..paramEnd];
 
@@ -141,6 +152,8 @@ public class ApiRouteMatcher
                     }
 
                     matchedValues.Add(paramKey, paramValue.ToString());
+
+                    pos = paramStart;
                 }
             }
             else
