@@ -36,7 +36,9 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         result.Should().Contain(r => r.Name == countryName1);
         result.Should().Contain(r => r.Name == countryName2);
     }
-    [Fact(Skip = "No matcher is found when using qury parameters" )]    
+
+
+    [Fact]    
     public async Task WhenRouteGetWithQueryParameters_ShouldSucceed()
     {
         // Arrange
@@ -177,7 +179,7 @@ public partial class RouteMappingTests : NoxWebApiTestBase
             return input;
         }
 
-        return char.ToUpper(input[0]) + input.Substring(1);
+        return char.ToUpper(input[0]) + input[1..];
     }
 }
 
