@@ -34,6 +34,8 @@ public class Domain : YamlConfigNode<NoxSolution, NoxSolution>
     {
         var result = base.Validate(topNode, parentNode, yamlPath);
 
+        ValidateUniqueReferenceNumberPrefixForAllEntitites(result);
+
         ValidateOnlyOneAutoNumberPerEntityForSqlLite(topNode, result);
 
         return result;
@@ -52,6 +54,34 @@ public class Domain : YamlConfigNode<NoxSolution, NoxSolution>
                     e.Name,
                     $"SQLite only supports one AutoNumber per entity. Please check attributes/keys in entity [{e.Name}]."
                 ));
+            }
+        }
+    }
+    private void ValidateUniqueReferenceNumberPrefixForAllEntitites(ValidationResult result)
+    {
+        foreach (var e in Entities)
+        {
+            var referenceNumbers = e.Attributes.Union(e.Keys).Where(a => a.Type == NoxType.ReferenceNumber).ToArray();
+            HashSet<string> usedPrefixs = new HashSet<string>();
+            foreach (var referenceNumber in referenceNumbers)
+            {
+                //The user may not set it, this will produce other Validation issue, ignore it
+                if(referenceNumber.ReferenceNumberTypeOptions!.Prefix is null)
+                {
+                    continue;
+                }
+                //Remove all empty spaces and so "Ref -" is equal to "Ref-"
+                var prefixNoWhiteSpaces = string.Concat(referenceNumber.ReferenceNumberTypeOptions!.Prefix.Where(c => !char.IsWhiteSpace(c)));
+
+                if (usedPrefixs.Contains(prefixNoWhiteSpaces))
+                {
+                    result.Errors.Add(new ValidationFailure(
+                        e.Name,
+                        $"Reference Number type must have a unique Prefix. Prefix [{referenceNumber.ReferenceNumberTypeOptions!.Prefix}] is duplicated."
+                    ));
+                }
+                else
+                    usedPrefixs.Add(prefixNoWhiteSpaces);
             }
         }
     }

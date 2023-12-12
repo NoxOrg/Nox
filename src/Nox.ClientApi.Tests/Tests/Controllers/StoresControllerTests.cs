@@ -232,7 +232,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             result.Should().NotBeNull();
-            result.Should().HaveStatusCode(HttpStatusCode.BadRequest);
+            result.Should().HaveStatusCode(HttpStatusCode.NotFound);
         }
 
         #endregion POST Entity with Invalid RelationshipId /api/{EntityPluralName} => api/stores
@@ -278,7 +278,7 @@ namespace ClientApi.Tests.Tests.Controllers
             
             //Assert
             result.Should().NotBeNull();
-            result.Should().HaveStatusCode(HttpStatusCode.BadRequest);
+            result.Should().HaveStatusCode(HttpStatusCode.NotFound);
         }
 
         #endregion POST Entity with Deleted RelationshipId /api/{EntityPluralName} => api/stores
