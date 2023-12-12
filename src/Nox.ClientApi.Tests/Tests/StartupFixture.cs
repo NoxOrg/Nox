@@ -5,6 +5,7 @@ using ClientApi.Application.Dto;
 using ClientApi.Tests.Application.Dto;
 using Microsoft.AspNetCore.Hosting;
 using System;
+using Nox.Configuration;
 
 namespace ClientApi.Tests;
 
@@ -26,6 +27,9 @@ public class StartupFixture
         {
             // No Transactional Outbox in tests
             noxOptions.WithoutMessagingTransactionalOutbox();
+#if RELEASE
+            noxOptions.WithoutNoxLogging();
+#endif
         },
         (odataOptions) =>
         {
@@ -33,6 +37,9 @@ public class StartupFixture
             odataOptions.Function("countriesWithDebt").ReturnsCollectionFromEntitySet<CountryDto>("Countries");
             odataOptions.ConfigureHouseDto();
         })
+#if RELEASE
+        .AddLogging(configure => configure.SetMinimumLevel(LogLevel.Error))
+#endif
         .AddEndpointsApiExplorer();
     }
 
