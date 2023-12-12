@@ -15,7 +15,7 @@ public class CountryQueryToCustomTableExecuteCompletedEventHandler: INotificatio
     
     public Task Handle(CountryQueryToCustomTableExecuteCompletedEvent notification, CancellationToken cancellationToken)
     {
-        var payload = (NoxEtlExecuteCompletedPayload)notification.Payload!;
+        var payload = (EtlExecuteCompletedDto)notification.Dto!;
         _logger.LogInformation("Received: {0}\n " +
                                "Payload\n" +
                                "------------------------------\n" +

@@ -1,6 +1,6 @@
 namespace Nox.Integration.Abstractions.Interfaces;
 
-public interface INoxEtlEventPayload
+public interface IEtlEventDto
 {
     
 }

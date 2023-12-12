@@ -7,9 +7,9 @@ using Nox.Integration.Abstractions.Models;
 
 namespace TestIntegrationSolution.Application.Integrations;
 
-public class TestEntityExecuteCompletedEvent: NoxEtlExecuteCompletedEvent, INotification
+public class TestEntityExecuteCompletedEvent: EtlExecuteCompletedEvent, INotification
 {
-    public TestEntityExecuteCompletedEvent(NoxEtlExecuteCompletedPayload payload)
+    public TestEntityExecuteCompletedEvent(EtlExecuteCompletedDto dto)
     {
         IntegrationName = "TestIntegration";
     }

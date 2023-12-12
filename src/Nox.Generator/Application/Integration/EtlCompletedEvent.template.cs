@@ -7,9 +7,9 @@ using Nox.Integration.Abstractions.Models;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Integrations;
 
-public class {{ className }}: NoxEtlExecuteCompletedEvent, INotification
+public class {{ className }}: EtlExecuteCompletedEvent, INotification
 {
-    public {{ className }}(NoxEtlExecuteCompletedPayload payload)
+    public {{ className }}(EtlExecuteCompletedDto dto)
     {
         IntegrationName = "{{integration.Name}}";
     }

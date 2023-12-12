@@ -21,9 +21,9 @@ internal sealed class NoxIntegration: INoxIntegration
     private readonly INoxIntegrationDbContextFactory _dbContextFactory;
     private IntegrationMergeStates? _mergeStates;
     private readonly IPublisher _publisher;
-    private readonly NoxEtlExecuteCompletedEvent? _completedEvent;
-    private readonly NoxEtlRecordCreatedEvent<INoxEtlEventPayload>? _createdEvent;
-    private readonly NoxEtlRecordUpdatedEvent<INoxEtlEventPayload>? _updatedEvent;
+    private readonly EtlExecuteCompletedEvent? _completedEvent;
+    private readonly EtlRecordCreatedEvent<IEtlEventDto>? _createdEvent;
+    private readonly EtlRecordUpdatedEvent<IEtlEventDto>? _updatedEvent;
     
     public string Name { get; }
     public string? Description { get; }
@@ -45,9 +45,9 @@ internal sealed class NoxIntegration: INoxIntegration
         Solution.Integration definition, 
         INoxIntegrationDbContextFactory dbContextFactory, 
         IPublisher publisher,
-        NoxEtlRecordCreatedEvent<INoxEtlEventPayload>? createdEvent,
-        NoxEtlRecordUpdatedEvent<INoxEtlEventPayload>? updatedEvent,
-        NoxEtlExecuteCompletedEvent? completedEvent)
+        EtlRecordCreatedEvent<IEtlEventDto>? createdEvent,
+        EtlRecordUpdatedEvent<IEtlEventDto>? updatedEvent,
+        EtlExecuteCompletedEvent? completedEvent)
     {
         _logger = logger;
         _dbContextFactory = dbContextFactory;
@@ -405,21 +405,21 @@ internal sealed class NoxIntegration: INoxIntegration
     private async Task SendCreatedEvent(IDictionary<string, object?> record)
     {
         if (_createdEvent == null) return;
-        _createdEvent.SetPayload(record.ResolvePayload(_createdEvent));
+        _createdEvent.SetDto(record.ResolvePayload(_createdEvent));
         await _publisher.Publish(_createdEvent);
     }
 
     private async Task SendUpdatedEvent(IDictionary<string, object?> record)
     {
         if (_updatedEvent == null) return;
-        _updatedEvent.SetPayload(record.ResolvePayload(_updatedEvent));
+        _updatedEvent.SetDto(record.ResolvePayload(_updatedEvent));
         await _publisher.Publish(_updatedEvent);
     }
     
     private async Task SendExecuteCompletedEvent(int inserts, int updates, int unChanged)
     {
         if (_completedEvent == null) return;
-        _completedEvent.SetPayload(new NoxEtlExecuteCompletedPayload
+        _completedEvent.SetDto(new EtlExecuteCompletedDto
         {
             Inserts = inserts,
             Updates = updates,

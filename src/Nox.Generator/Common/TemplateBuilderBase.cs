@@ -1,4 +1,5 @@
-﻿using Nox.Solution;
+﻿using System;
+using Nox.Solution;
 using Scriban;
 using Scriban.Parsing;
 using Scriban.Runtime;
@@ -70,9 +71,9 @@ internal abstract class TemplateBuilderBase
     /// <summary>
     /// Extend the default model with a extended property to the extendedModel
     /// </summary>
-    public TemplateBuilderBase WithObject(string name, object? value)
+    public TemplateBuilderBase WithObject(string name, object value)
     {
-        if (value != null) _model[name] = value;
+        _model[name] = value;
         return this;
     }
 

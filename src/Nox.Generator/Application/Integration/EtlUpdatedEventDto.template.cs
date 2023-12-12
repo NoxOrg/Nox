@@ -7,6 +7,6 @@ using Nox.Integration.Abstractions.Interfaces;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Integrations;
 
-public class {{className}}: {{entity.Name}}CreateDto, INoxEtlEventPayload
+public class {{className}}: {{entity.Name}}UpdateDto, IEtlEventDto
 {
 }

@@ -8,9 +8,9 @@ using Nox.Integration.Abstractions.Models;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Integrations;
 
-public class {{ className }}: NoxEtlRecordUpdatedEvent<INoxEtlEventPayload>, INotification
+public class {{ className }}: EtlRecordUpdatedEvent<IEtlEventDto>, INotification
 {
-    public {{ className }}({{integration.Name}}RecordUpdatedPayload payload)
+    public {{ className }}({{integration.Name}}RecordUpdatedDto dto)
     {
         IntegrationName = "{{integration.Name}}";
     }

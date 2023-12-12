@@ -21,9 +21,9 @@ public class EtlEventTests
             .AssertFileCount(16)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .AssertFileExistsAndContent("Application.Integration.EtlEvents.CreatedEventPayload.expected.g.cs", "Application.Integration.EtlEvents.TestIntegrationRecordCreatedPayload.g.cs")
+            .AssertFileExistsAndContent("Application.Integration.EtlEvents.CreatedEventDto.expected.g.cs", "Application.Integration.EtlEvents.TestIntegrationRecordCreatedDto.g.cs")
             .AssertFileExistsAndContent("Application.Integration.EtlEvents.CreatedEvent.expected.g.cs", "Application.Integration.EtlEvents.TestEntityRecordCreatedEvent.g.cs")
-            .AssertFileExistsAndContent("Application.Integration.EtlEvents.UpdatedEventPayload.expected.g.cs", "Application.Integration.EtlEvents.TestIntegrationRecordUpdatedPayload.g.cs")
+            .AssertFileExistsAndContent("Application.Integration.EtlEvents.UpdatedEventDto.expected.g.cs", "Application.Integration.EtlEvents.TestIntegrationRecordUpdatedDto.g.cs")
             .AssertFileExistsAndContent("Application.Integration.EtlEvents.UpdatedEvent.expected.g.cs", "Application.Integration.EtlEvents.TestEntityRecordUpdatedEvent.g.cs")
             .AssertFileExistsAndContent("Application.Integration.EtlEvents.CompletedEvent.expected.g.cs", "Application.Integration.EtlEvents.TestEntityExecuteCompletedEvent.g.cs");
     }
