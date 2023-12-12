@@ -96,7 +96,9 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
         {{- end }}
         foreach (var entity in _noxSolution.Domain!.Entities)
         {
+#if DEBUG
             Console.WriteLine($"{{className}} Configure database for Entity {entity.Name}");
+#endif
             ConfigureEnumeratedAttributes(modelBuilder, entity);
 
             var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
