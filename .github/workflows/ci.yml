@@ -40,12 +40,23 @@ jobs:
         run: dotnet build ./src/Nox.Generator.sln --warnaserror --configuration Release --no-restore
 
       - name: Run Tests
-        run: dotnet test ./src/Nox.Generator.sln --no-restore --verbosity minimal --configuration Release --filter "FullyQualifiedName!~Nox.Secrets.Tests" --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
+        run: dotnet test ./src/Nox.Generator.sln --no-restore --verbosity minimal --configuration Release --filter "FullyQualifiedName!~Nox.Secrets.Tests" --logger "trx;LogFileName=test-results.trx"
+        #run: dotnet test ./src/Nox.Generator.sln --no-restore --verbosity minimal --configuration Release --filter "FullyQualifiedName!~Nox.Secrets.Tests" --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
 
-      - name: Publish Tests Result
-        uses: actions/upload-artifact@v3
-        with:
-          name: dotnet-results-${{ matrix.dotnet-version }}
-          path: TestResults-${{ matrix.dotnet-version }}
-        # Use always() to always run this step to publish test results when there are test failures
+      # - name: Publish Tests Result
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: dotnet-results-${{ matrix.dotnet-version }}
+      #     path: TestResults-${{ matrix.dotnet-version }}
+      #   # Use always() to always run this step to publish test results when there are test failures
+      #   if: ${{ always() }}
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
         if: ${{ always() }}
+        with:
+          name: DotNET Tests
+          path: "**/test-results.trx"    
+          #path: TestResults-${{ matrix.dotnet-version }}                        
+          reporter: dotnet-trx
+          fail-on-error: true
