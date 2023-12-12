@@ -107,6 +107,15 @@
       <None Update="files\CustomHandler\infrastructure\persistence\custom.persistence.nox.yaml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="files\JsonSource\json-source.solution.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\JsonSource\application\json-source.application.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\JsonSource\application\integrations\JsonToSql.integration.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>

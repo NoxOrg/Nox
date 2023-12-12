@@ -1,3 +1,7 @@
+using Microsoft.Extensions.DependencyInjection;
+using Nox.Integration.Abstractions;
+using Nox.Integration.Extensions;
+
 namespace Nox.Integration.EtlTests;
 
 public class JsonFileTests: IClassFixture<SqlServerIntegrationFixture>
@@ -14,6 +18,11 @@ public class JsonFileTests: IClassFixture<SqlServerIntegrationFixture>
     [Fact]
     public async Task Can_integrate_json_to_sql_table()
     {
-          
+        _sqlFixture.Configure("./files/JsonSource/json-source.solution.nox.yaml");
+        _sqlFixture.Services!.RegisterTransformHandler<TestNoxCustomTransformHandler>();
+        _sqlFixture.Initialize();
+        
+        var context = _sqlFixture.ServiceProvider!.GetRequiredService<INoxIntegrationContext>();
+        await context.ExecuteIntegrationAsync("SqlToSqlCustomIntegration");
     }
 }
