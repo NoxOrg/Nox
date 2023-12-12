@@ -29,6 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Files\Design\sample-for-custom-api-routes.solution.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Files\Design\sample-for-integration-events.solution.nox.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -39,6 +42,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Files\Design\sample.solution.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\Markdown\CustomApiRoutes.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Files\Markdown\IntegrationEvents.md">

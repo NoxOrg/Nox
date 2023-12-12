@@ -1,0 +1,167 @@
+#
+# sample-for-custom-api-routes.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/solution.json
+#
+
+name: SampleForCustomApiRoutesMarkdownGeneration
+
+version: "1.0"
+
+description: Nox solution yaml configuration for generating custom api routes markdown
+
+domain:
+  entities:
+    - name: University
+      description: The list of universities
+
+      keys:
+        - name: Id
+          type: autoNumber
+          isRequired: true
+
+      attributes:
+        - name: Name
+          description: The university's name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+        - name: Colleges 
+          description: is composed of
+          relationship: oneOrMany
+          entity: College
+
+    - name: College
+      description: The list of colleges
+
+      keys:
+        - name: Id
+          type: guid
+          isRequired: true
+
+      attributes:
+        - name: Name
+          description: The college's name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+        - name: University 
+          description: is a part of
+          relationship: exactlyOne
+          entity: University
+
+        - name: Departments 
+          description: has
+          relationship: oneOrMany
+          entity: Department
+
+    - name: Department
+      description: The list of departments
+
+      keys:
+        - name: Id
+          type: text
+          isRequired: true
+
+      attributes:
+        - name: Name
+          description: The department's name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+        - name: College 
+          description: is a part of
+          relationship: exactlyOne
+          entity: College
+
+        - name: Courses
+          description: offers
+          relationship: oneOrMany
+          entity: Course
+
+    - name: Course
+      description: The list of courses
+
+      keys:
+        - name: Id
+          type: autoNumber
+          isRequired: true
+
+      attributes:
+        - name: Name
+          description: The course's name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+        - name: Departments
+          description: is offered by
+          relationship: oneOrMany
+          entity: Department
+
+        - name: Students
+          description: is enrolled by
+          relationship: oneOrMany
+          entity: Student
+
+    - name: Student
+      description: The list of students
+
+      keys:
+        - name: Id
+          type: guid
+          isRequired: true
+
+      attributes:
+        - name: Name
+          description: The student's name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+        - name: Courses
+          description: enrolls
+          relationship: oneOrMany
+          entity: Course
+   
+presentation:
+  apiConfiguration:
+    apiRouteMappings:
+      - name: GetUniversitiesByName
+        description: Get university names in alphabetical order. 
+        httpVerb: get
+        route: /UniversitiesByName/{Count}
+        targetUrl: /Universities?$orderby=Name&$top={Count}&$select=Name&{$RouteQuery}
+        
+        requestInput:
+          - name: Count
+            description: The number of university names to get
+            type: number
+            default: 10
+        
+        responseOutput: 
+          name: TopUniversitiesResult
+          description: List of university names in alphabetical order
+          type: array
+          items:
+            name: Name
+            description: The name of the university
+            type: string

@@ -10,7 +10,7 @@ This document provides information about Integration Events. Integration Events 
 - [Default Integration Events](#default-integration-events)
 {{- for entity in entities -}}
 {{- if entity.Persistence.Create.RaiseIntegrationEvents }}
-    - [{{entity.Name}}Created](#{{entity.Name}}Ccreated)
+    - [{{entity.Name}}Created](#{{entity.Name}}Created)
 {{- end -}}{{- if entity.Persistence.Update.RaiseIntegrationEvents }}
     - [{{entity.Name}}Updated](#{{entity.Name}}Updated)
 {{- end -}}{{- if entity.Persistence.Delete.RaiseIntegrationEvents }}
