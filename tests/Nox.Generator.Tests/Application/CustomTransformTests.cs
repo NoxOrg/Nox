@@ -18,7 +18,7 @@ public class CustomTransformTests
         // Assert the driver doesn't recompute the output
         GeneratorFixture.GenerateSourceCodeFor(sourcePaths)
             .AssertOutputResult()
-            .AssertFileCount(16)
+            .AssertFileCount(24)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
             .AssertFileExistsAndContent("Application.Integration.CustomTransform.expected.g.cs", "Application.Integration.CustomTransformHandlers.TestIntegrationTransformHandlerBase.g.cs");
