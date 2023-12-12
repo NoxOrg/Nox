@@ -73,7 +73,7 @@ internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandl
 
 		{{- for key in entity.Keys ~}}
 		{{- if key.Type == "Nuid" }}
-		entityToCreate.Ensure{{key.Name}}();
+		entity.Ensure{{key.Name}}();
 		{{- end }}
 		{{- end }}
 		parentEntity.CreateRefTo{{relationshipName}}(entity);

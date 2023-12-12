@@ -19,6 +19,7 @@ using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
+using {{parent.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{parent.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
@@ -75,21 +76,38 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		{{- if relationship.WithSingleEntity }}
 		await _dbContext.Entry(parentEntity).Reference(e => e.{{relationshipName}}).LoadAsync(cancellationToken);
 		var entity = parentEntity.{{relationshipName}};
-		{{ else }}
+		if (entity is null)
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+		else
+			await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
+		{{- else }}
+
+		{{- key = entity.Keys | array.first }}
 		await _dbContext.Entry(parentEntity).Collection(p => p.{{relationshipName}}).LoadAsync(cancellationToken);
-		{{- for key in entity.Keys }}
-		var owned{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{key.Name}}.NonNullValue<{{keyType key}}>());
-		{{- end }}
-		var entity = parentEntity.{{relationshipName}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
-		{{- end }}
-		if (entity == null)
+		
+		{{entity.Name}}Entity? entity;
+		if(request.EntityDto.{{key.Name}} is null)
 		{
-			return null;
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+		}
+		else
+		{
+			var owned{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{key.Name}}.NonNullValue<{{keyType key}}>());
+			entity = parentEntity.{{relationshipName}}.SingleOrDefault(x => x.{{key.Name}} == owned{{key.Name}});
+			if (entity is null)
+				{{- if !(IsNoxTypeCreatable key.Type) }}
+				return null;
+				{{- else }}
+				entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+				{{- end }}
+			else
+				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		}
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
+		{{- end }}
+
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
+		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		{{- if entity.IsLocalized }}
@@ -104,7 +122,20 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		}
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
-	}	
+	}
+	
+	private async Task<{{entity.Name}}Entity> CreateEntityAsync({{entity.Name}}UpsertDto upsertDto, {{parent.Name}}Entity parent)
+	{
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		{{- for key in entity.Keys ~}}
+		{{- if key.Type == "Nuid" }}
+		entity.Ensure{{key.Name}}();
+		{{- end }}
+		{{- end }}
+		parent.CreateRefTo{{relationshipName}}(entity);
+		return entity;
+	}
+
 	{{- if entity.IsLocalized }}
 
 	private async Task UpdateLocalizedEntityAsync({{entity.Name}}Entity entity, {{entity.Name}}UpsertDto updateDto, Nox.Types.CultureCode cultureCode)
@@ -129,10 +160,13 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 
 public class Update{{relationshipName}}For{{parent.Name}}Validator : AbstractValidator<Update{{relationshipName}}For{{parent.Name}}Command>
 {
-    public Update{{relationshipName}}For{{parent.Name}}Validator(ILogger<Update{{relationshipName}}For{{parent.Name}}Command> logger)
+    public Update{{relationshipName}}For{{parent.Name}}Validator()
     {
 		{{- for key in entity.Keys }}
+			{{- if key.Type == "Guid" }} {{ continue; }}
+			{{- else if IsNoxTypeCreatable key.Type }}		
 		RuleFor(x => x.EntityDto.{{key.Name}}).NotNull().WithMessage("{{key.Name}} is required.");
+			{{- end }}
         {{- end }}
     }
 }

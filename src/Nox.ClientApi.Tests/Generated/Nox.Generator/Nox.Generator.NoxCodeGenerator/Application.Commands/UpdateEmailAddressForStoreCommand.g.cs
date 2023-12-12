@@ -15,6 +15,7 @@ using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using EmailAddressEntity = ClientApi.Domain.EmailAddress;
+using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
@@ -58,15 +59,13 @@ internal partial class UpdateEmailAddressForStoreCommandHandlerBase : CommandBas
 		}
 		await _dbContext.Entry(parentEntity).Reference(e => e.EmailAddress).LoadAsync(cancellationToken);
 		var entity = parentEntity.EmailAddress;
-		
-		if (entity == null)
-		{
-			return null;
-		}
+		if (entity is null)
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+		else
+			await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
+		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 
@@ -78,5 +77,12 @@ internal partial class UpdateEmailAddressForStoreCommandHandlerBase : CommandBas
 		}
 
 		return new EmailAddressKeyDto();
+	}
+	
+	private async Task<EmailAddressEntity> CreateEntityAsync(EmailAddressUpsertDto upsertDto, StoreEntity parent)
+	{
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		parent.CreateRefToEmailAddress(entity);
+		return entity;
 	}
 }
