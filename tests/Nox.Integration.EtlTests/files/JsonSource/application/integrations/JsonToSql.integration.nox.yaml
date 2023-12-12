@@ -23,7 +23,7 @@ source:
   dataConnectionName: JsonSource
   sourceAdapterType: file
   fileOptions: 
-    fileUri: file://./files/source-data/CountryMaster.json
+    filename: CountryMaster.json
     recordAttributes:
       - name: Name
         description: Country's name

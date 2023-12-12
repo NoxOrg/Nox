@@ -170,13 +170,13 @@
           "description": "This section specified attributes related to an integration source of type File. Attributes include the name and attributes of the file to ingest.",
           "type": "object",
           "required": [
-            "fileUri",
+            "filename",
             "recordAttributes"
           ],
           "properties": {
-            "fileUri": {    
-              "title": "The file uri.",
-              "description": "The URI of the file that will be ingested. Supported URI schemes are file, https, blob",
+            "filename": {    
+              "title": "The file name.",
+              "description": "The name of the file that will be ingested.",
               "type": "string"
             },
             "recordAttributes": {    

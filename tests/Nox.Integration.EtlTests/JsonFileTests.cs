@@ -23,6 +23,6 @@ public class JsonFileTests: IClassFixture<SqlServerIntegrationFixture>
         _sqlFixture.Initialize();
         
         var context = _sqlFixture.ServiceProvider!.GetRequiredService<INoxIntegrationContext>();
-        await context.ExecuteIntegrationAsync("SqlToSqlCustomIntegration");
+        await context.ExecuteIntegrationAsync("JsonToSqlIntegration");
     }
 }

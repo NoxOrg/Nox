@@ -10,9 +10,9 @@ namespace Nox.Solution;
 public class IntegrationSourceFileOptions
 {
     [Required]
-    [Title("The file uri.")]
-    [Description("The URI of the file that will be ingested. Supported URI schemes are file, https, blob")]
-    public string FileUri { get; set; } = null!;
+    [Title("The file name.")]
+    [Description("The name of the file that will be ingested.")]
+    public string Filename { get; set; } = null!;
     
     [Required]
     [Title("The attributes of the source file record.")]

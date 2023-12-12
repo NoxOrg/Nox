@@ -116,10 +116,24 @@
       <None Update="files\JsonSource\application\integrations\JsonToSql.integration.nox.yaml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="files\JsonSource\infrastructure\dependencies\dataConnections\jsonSource.dataConnection.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\JsonSource\infrastructure\dependencies\dataConnections\etlSample.dataConnection.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\JsonSource\infrastructure\dependencies\json-source.dependencies.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\JsonSource\infrastructure\persistence\json-source.persistence.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\JsonSource\infrastructure\json-source.infrastructure.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="files\JsonSource\infrastructure\" />
       <Folder Include="files\source-data\" />
     </ItemGroup>
 
