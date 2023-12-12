@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 using System.Collections.Generic;
 #nullable enable
