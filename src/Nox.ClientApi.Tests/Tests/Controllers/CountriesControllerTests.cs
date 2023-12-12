@@ -940,7 +940,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
 
         //Assert
         putCountryResponse.Should().NotBeNull();
-        putCountryResponse!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        putCountryResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
         getCountryResponse.Should().NotBeNull();
         getCountryResponse!.CountryLocalNames.Should().NotBeNull();
         getCountryResponse!.CountryLocalNames!.Should().HaveCount(2);
@@ -1576,7 +1576,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
 
         //Assert
         countryResponse.Should().NotBeNull();
-        countryResponse!.Should().HaveStatusCode(HttpStatusCode.BadRequest);
+        countryResponse!.Should().HaveStatusCode(HttpStatusCode.NotFound);
     }
 
     #endregion
