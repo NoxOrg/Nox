@@ -81,6 +81,20 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         //Assert
         AssertTwoCountriesCase(countryName1, countryName2, result);
     }
+    [Fact(Skip = "Route mapping is case sensitive")]
+    public async Task WhenRouteGetIsCaseInsensitive_ShouldSucceed()
+    {
+        // Arrange
+        string countryName1 = _fixture.Create<string>();
+        string countryName2 = _fixture.Create<string>();
+        await CreateCountriesAsync(countryName1, countryName2);
+
+        // Act
+        var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/paIses"))!.ToList();
+
+        //Assert
+        AssertTwoCountriesCase(countryName1, countryName2, result);
+    }
     [Fact]
     public async Task WhenRouteGetWithDefaults_ShouldSucceed()
     {
