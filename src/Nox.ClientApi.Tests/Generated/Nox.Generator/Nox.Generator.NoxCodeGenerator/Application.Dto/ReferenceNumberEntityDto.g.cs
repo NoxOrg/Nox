@@ -53,7 +53,7 @@ public abstract class ReferenceNumberEntityDtoBase : EntityDtoBase, IEntityDto<D
     /// <summary>
     /// ReferenceNumber     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.String? ReferenceNumber { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }

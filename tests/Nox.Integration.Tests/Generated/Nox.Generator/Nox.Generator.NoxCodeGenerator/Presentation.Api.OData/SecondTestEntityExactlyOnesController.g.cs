@@ -47,13 +47,17 @@ public abstract partial class SecondTestEntityExactlyOnesControllerBase : ODataC
     
     public virtual async Task<ActionResult> GetRefToTestEntityExactlyOne([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(key))).Select(x => x.TestEntityExactlyOne).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(key))).Include(x => x.TestEntityExactlyOne).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"TestEntityExactlyOnes/{related.Id}", UriKind.Relative);
+        if (entity.TestEntityExactlyOne is null)
+        {
+            return Ok();
+        }
+        var references = new System.Uri($"TestEntityExactlyOnes/{entity.TestEntityExactlyOne.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -75,12 +79,12 @@ public abstract partial class SecondTestEntityExactlyOnesControllerBase : ODataC
     [EnableQuery]
     public virtual async Task<SingleResult<TestEntityExactlyOneDto>> GetTestEntityExactlyOne(System.String key)
     {
-        var related = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(key))).Where(x => x.TestEntityExactlyOne != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<TestEntityExactlyOneDto>(Enumerable.Empty<TestEntityExactlyOneDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.TestEntityExactlyOne!));
+        return SingleResult.Create(query.Where(x => x.TestEntityExactlyOne != null).Select(x => x.TestEntityExactlyOne!));
     }
     
     public virtual async Task<ActionResult<TestEntityExactlyOneDto>> PutToTestEntityExactlyOne(System.String key, [FromBody] TestEntityExactlyOneUpdateDto testEntityExactlyOne)

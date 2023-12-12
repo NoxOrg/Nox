@@ -60,26 +60,26 @@ public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<DomainNa
     /// <summary>
     /// Order amount     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public MoneyDto Amount { get; set; } = default!;
 
     /// <summary>
     /// Order requested delivery date     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.DateTime RequestedDeliveryDate { get; set; } = default!;
 
     /// <summary>
     /// Order delivery date     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.DateTimeOffset? DeliveryDateTime { get; set; }
 
     /// <summary>
     /// Order status     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
-    public System.String? Status { get; set; }
+    /// <remarks>Optional.</remarks>
+    public string? Status { get; set; }
 
     /// <summary>
     /// CashStockOrder for ExactlyOne VendingMachines

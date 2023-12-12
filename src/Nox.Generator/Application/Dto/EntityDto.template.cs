@@ -102,8 +102,9 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<DomainNamesp
     /// <summary>
     /// {{attribute.Description  | string.rstrip}}     
     /// </summary>
-    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}.</remarks>    
-    public {{attributeType attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
+    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}.</remarks>
+    {{- type = (attribute.Type == "Formula") ? attribute.FormulaTypeOptions.Returns : (attributeType attribute) }}
+    public {{type}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
 {{- end }}
 {{- ######################################### Enumerations ###################################################### -}}
 {{- for enumAtt in enumerationAttributes }}

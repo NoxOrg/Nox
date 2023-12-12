@@ -60,19 +60,19 @@ public abstract class TestEntityForAutoNumberUsagesDtoBase : EntityDtoBase, IEnt
     /// <summary>
     ///      
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.Int64 AutoNumberFieldWithOptions { get; set; } = default!;
 
     /// <summary>
     ///      
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.Int64 AutoNumberFieldWithoutOptions { get; set; } = default!;
 
     /// <summary>
     ///      
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String TextField { get; set; } = default!;
 
     [JsonPropertyName("@odata.etag")]

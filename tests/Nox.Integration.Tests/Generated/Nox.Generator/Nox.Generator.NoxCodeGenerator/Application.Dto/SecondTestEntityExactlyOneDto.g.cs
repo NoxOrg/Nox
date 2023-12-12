@@ -56,7 +56,7 @@ public abstract class SecondTestEntityExactlyOneDtoBase : EntityDtoBase, IEntity
     /// <summary>
     ///      
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String TextTestField2 { get; set; } = default!;
 
     /// <summary>

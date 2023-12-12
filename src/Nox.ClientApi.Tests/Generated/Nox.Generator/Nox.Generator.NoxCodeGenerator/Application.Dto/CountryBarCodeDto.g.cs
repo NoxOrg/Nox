@@ -53,12 +53,12 @@ public abstract class CountryBarCodeDtoBase : EntityDtoBase, IEntityDto<DomainNa
     /// <summary>
     /// Bar code name     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String BarCodeName { get; set; } = default!;
 
     /// <summary>
     /// Bar code number     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.Int32? BarCodeNumber { get; set; }
 }

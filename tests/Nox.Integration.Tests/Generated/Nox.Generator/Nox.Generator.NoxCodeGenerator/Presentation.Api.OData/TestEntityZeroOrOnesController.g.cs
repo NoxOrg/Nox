@@ -47,13 +47,17 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
     
     public virtual async Task<ActionResult> GetRefToSecondTestEntityZeroOrOne([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Select(x => x.SecondTestEntityZeroOrOne).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Include(x => x.SecondTestEntityZeroOrOne).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"SecondTestEntityZeroOrOnes/{related.Id}", UriKind.Relative);
+        if (entity.SecondTestEntityZeroOrOne is null)
+        {
+            return Ok();
+        }
+        var references = new System.Uri($"SecondTestEntityZeroOrOnes/{entity.SecondTestEntityZeroOrOne.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -107,12 +111,12 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
     [EnableQuery]
     public virtual async Task<SingleResult<SecondTestEntityZeroOrOneDto>> GetSecondTestEntityZeroOrOne(System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Where(x => x.SecondTestEntityZeroOrOne != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<SecondTestEntityZeroOrOneDto>(Enumerable.Empty<SecondTestEntityZeroOrOneDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.SecondTestEntityZeroOrOne!));
+        return SingleResult.Create(query.Where(x => x.SecondTestEntityZeroOrOne != null).Select(x => x.SecondTestEntityZeroOrOne!));
     }
     
     public virtual async Task<ActionResult<SecondTestEntityZeroOrOneDto>> PutToSecondTestEntityZeroOrOne(System.String key, [FromBody] SecondTestEntityZeroOrOneUpdateDto secondTestEntityZeroOrOne)

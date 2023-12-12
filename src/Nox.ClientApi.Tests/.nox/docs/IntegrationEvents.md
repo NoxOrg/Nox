@@ -114,6 +114,7 @@ Name|System.String|The Country Name     Set a unique name for the country Do not
 
 Population|System.Int32|Population Number of People living in the country
 CountryDebt|MoneyDto|The Money
+DebtPerCapita|System.String|national debt per person
 CapitalCityLocation|LatLongDto|The capital location
 FirstLanguageCode|System.String|First Official Language
 ShortDescription|System.String|The Formula

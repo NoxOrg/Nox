@@ -31,11 +31,11 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         //var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.CountriesUrl}"))!.ToList();
 
         //Assert
-        result.Should().NotBeNull();
-        result.Should().HaveCount(2);
-        result.Should().Contain(r => r.Name == countryName1);
-        result.Should().Contain(r => r.Name == countryName2);
+        AssertTwoCountriesCase(countryName1, countryName2, result);
     }
+
+    
+
     [Fact(Skip = "No matcher is found when using qury parameters" )]    
     public async Task WhenRouteGetWithQueryParameters_ShouldSucceed()
     {
@@ -45,15 +45,56 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         await CreateCountriesAsync(countryName1, countryName2);
 
         // Act
-        var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/CountriesByNameQuery?count=10"))!.ToList();        
+        var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/CountriesByNameQuery?count=10"))!.ToList();
 
         //Assert
-        result.Should().NotBeNull();
-        result.Should().HaveCount(2);
-        result.Should().Contain(r => r.Name == countryName1);
-        result.Should().Contain(r => r.Name == countryName2);
+        AssertTwoCountriesCase(countryName1, countryName2, result);
     }
+    [Fact(Skip = "Matcher is throwing an exception")]
+    public async Task WhenRouteGetWithTargetUrlEncoded_ShouldSucceed()
+    {
+        // Arrange
+        string countryName1 = _fixture.Create<string>();
+        string countryName2 = _fixture.Create<string>();
+        await CreateCountriesAsync(countryName1, countryName2);
 
+        // Act
+        //TODO uncomment in apiConfiguration.nox.yaml - $ref: ./apiRouteMappings/countries.encodedTargetUrl.ApiRouteMapping.nox.yaml
+        var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/CountriesEncoded"))!.ToList();
+        //var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.CountriesUrl}$filter=ISO_Alpha3 eq ''"))!.ToList();
+
+        //Assert
+        AssertTwoCountriesCase(countryName1, countryName2, result);
+    }
+    [Fact(Skip = "Matcher is throwing an exception")]
+    public async Task WhenRouteGetWithDirectRoute_ShouldSucceed()
+    {
+        // Arrange
+        string countryName1 = _fixture.Create<string>();
+        string countryName2 = _fixture.Create<string>();
+        await CreateCountriesAsync(countryName1, countryName2);
+
+        // Act
+        //TODO uncomment in apiConfiguration.nox.yaml - $ref: ./apiRouteMappings/countries.directRoute.ApiRouteMapping.nox.yaml  
+        var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/Paises"))!.ToList();
+
+        //Assert
+        AssertTwoCountriesCase(countryName1, countryName2, result);
+    }
+    [Fact(Skip = "Route mapping is case sensitive")]
+    public async Task WhenRouteGetIsCaseInsensitive_ShouldSucceed()
+    {
+        // Arrange
+        string countryName1 = _fixture.Create<string>();
+        string countryName2 = _fixture.Create<string>();
+        await CreateCountriesAsync(countryName1, countryName2);
+
+        // Act
+        var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/paIses"))!.ToList();
+
+        //Assert
+        AssertTwoCountriesCase(countryName1, countryName2, result);
+    }
     [Fact]
     public async Task WhenRouteGetWithDefaults_ShouldSucceed()
     {
@@ -63,15 +104,10 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         await CreateCountriesAsync(countryName1, countryName2);
 
         // Act
-        var result = await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/CountriesByName/");
+        var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/CountriesByName/"))!.ToList();
 
         //Assert
-        result.Should().NotBeNull();
-        result.Should().HaveCount(2);
-        result.Should().Contain(r => r.Name == countryName1);
-        result.Should().Contain(r => r.Name == countryName2);
-
-        ArgumentNullException.ThrowIfNull(result);
+        AssertTwoCountriesCase(countryName1, countryName2, result);
     }
 
     [Fact]
@@ -82,13 +118,10 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         string countryName2 = _fixture.Create<string>();
         await CreateCountriesAsync(countryName1, countryName2);
         // Act
-        var result = await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/CountriesByOdata/10?$select=Name");
+        var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/CountriesByOdata/10?$select=Name"))!.ToList();
 
         //Assert
-        result.Should().NotBeNull();
-        result.Should().HaveCount(2);
-        result.Should().Contain(r => r.Name == countryName1);
-        result.Should().Contain(r => r.Name == countryName2);
+        AssertTwoCountriesCase(countryName1, countryName2, result);
     }
     [Fact]
     public async Task WhenRouteGetWithODataQuery3Segments_ShouldSucceed()
@@ -100,13 +133,10 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         await CreateCountriesAsync(countryName1, countryName2);
 
         // Act
-        var result = await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/CountriesByOdataSegments/10/MySpecial?$select=Name");
+        var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/CountriesByOdataSegments/10/MySpecial?$select=Name"))!.ToList();
 
         //Assert
-        result.Should().NotBeNull();
-        result.Should().HaveCount(2);
-        result.Should().Contain(r => r.Name == countryName1);
-        result.Should().Contain(r => r.Name == countryName2);
+        AssertTwoCountriesCase(countryName1, countryName2, result);
     }
 
 
@@ -178,6 +208,13 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         }
 
         return char.ToUpper(input[0]) + input.Substring(1);
+    }
+    private static void AssertTwoCountriesCase(string countryName1, string countryName2, List<CountryDto> result)
+    {
+        result.Should().NotBeNull();
+        result.Should().HaveCount(2);
+        result.Should().Contain(r => r.Name == countryName1);
+        result.Should().Contain(r => r.Name == countryName2);
     }
 }
 

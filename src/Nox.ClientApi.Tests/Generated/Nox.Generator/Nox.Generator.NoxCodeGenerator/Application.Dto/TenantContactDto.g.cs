@@ -61,18 +61,18 @@ public abstract class TenantContactDtoBase : EntityDtoBase, IEntityDto<DomainNam
     /// <summary>
     /// Teanant Brand Name     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
     /// Teanant Brand Description     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String Description { get; set; } = default!;
 
     /// <summary>
     /// Teanant Brand Email     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String Email { get; set; } = default!;
 }

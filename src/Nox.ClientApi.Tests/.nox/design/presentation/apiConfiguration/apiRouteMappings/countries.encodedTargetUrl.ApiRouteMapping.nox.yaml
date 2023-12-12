@@ -1,0 +1,21 @@
+#
+# countriesByName.routeMapping.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../../schemas/apiRouteMapping.json
+#
+
+name: CountriesEncoded
+description: Get country names in alphabetical order. 
+httpVerb: get
+route: /CountriesEncoded
+#targetUrl: /countries
+targetUrl: /countries?$filter=ISO_Alpha3%20eq%20%27%27
+
+responseOutput: 
+  name: TopCountriesResult
+  description: Countries without ISO Alpha 2
+  type: array
+  items:
+    name: Name
+    description: The name of the country
+    type: string

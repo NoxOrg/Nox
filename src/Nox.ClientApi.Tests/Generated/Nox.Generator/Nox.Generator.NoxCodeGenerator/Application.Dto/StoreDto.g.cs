@@ -70,31 +70,31 @@ public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.S
     /// <summary>
     /// Store Name     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
     /// Street Address     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public StreetAddressDto Address { get; set; } = default!;
 
     /// <summary>
     /// Location     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public LatLongDto Location { get; set; } = default!;
 
     /// <summary>
     /// Opening day     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.DateTimeOffset? OpeningDay { get; set; }
 
     /// <summary>
     /// Store Status     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.Int32? Status { get; set; }
 
     public string? StatusName { get; set; } = default!;

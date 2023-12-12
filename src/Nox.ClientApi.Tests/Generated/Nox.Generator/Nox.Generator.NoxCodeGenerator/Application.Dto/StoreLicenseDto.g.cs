@@ -58,13 +58,13 @@ public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<DomainName
     /// <summary>
     /// License issuer     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String Issuer { get; set; } = default!;
 
     /// <summary>
     /// License external id     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.Int64 ExternalId { get; set; } = default!;
 
     /// <summary>
