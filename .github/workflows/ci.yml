@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dotnet-version: ['7.0.x']
+        dotnet-version: ['7.x']
 
     steps:
       - uses: actions/checkout@v3
@@ -40,4 +40,13 @@ jobs:
         run: dotnet build ./src/Nox.Generator.sln --warnaserror --configuration Release --no-restore
 
       - name: Run Tests
-        run: dotnet test ./src/Nox.Generator.sln --no-restore --verbosity minimal --configuration Release --filter "FullyQualifiedName!~Nox.Secrets.Tests"
+        run: dotnet test ./src/Nox.Generator.sln --no-restore --verbosity minimal --configuration Release --filter "FullyQualifiedName!~Nox.Secrets.Tests" --logger "trx;LogFileName=test-results.trx"
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: ${{ always() }}
+        with:
+          name: Tests Results
+          path: "**/test-results.trx"    
+          reporter: dotnet-trx
+          fail-on-error: true
