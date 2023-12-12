@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Nox.Yaml.Tests.TestDesigns.Nox.Types.TypeOptions;
+﻿namespace Nox.Yaml.Tests.TestDesigns.Nox.Types.TypeOptions;
 
 /// <summary>
 /// Defines Nuid type construction. Nuid = Prefix{separator}{propertyName joined by separator}</code>

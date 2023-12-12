@@ -11,8 +11,10 @@ using Nox.Configuration;
 using Nox.Infrastructure;
 using Nox.Infrastructure.Persistence;
 
+{{- if codeGeneratorState.Solution.Domain != null }}
 using {{codeGeneratorState.RootNameSpace}}.Application.Dto;
 using DtoNameSpace = {{codeGeneratorState.DtoNameSpace}};
+{{- end }}
 
 namespace {{codeGeneratorState.RootNameSpace}}.Infrastructure.Persistence;
 
@@ -109,7 +111,7 @@ internal class DtoDbContext : DbContext
     }
 
 private void ConfigureAuditable(ModelBuilder modelBuilder)
-    {
+    { 
     {{- for entity in entities }}
     {{- if entity.Persistence?.IsAudited }}
         modelBuilder.Entity<{{entity.Name}}Dto>().HasQueryFilter(e => e.DeletedAtUtc == null);

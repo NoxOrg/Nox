@@ -1,8 +1,4 @@
-using Microsoft.AspNetCore.OData;
-using Cryptocash.Domain;
-using Cryptocash.Infrastructure.Persistence;
 using Nox;
-using System;
 using Cryptocash.DataSeed;
 
 var builder = WebApplication.CreateBuilder(args);

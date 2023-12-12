@@ -4,7 +4,6 @@ using Nox.Yaml.Extensions;
 using System.Collections.Concurrent;
 using System.Reflection;
 using YamlDotNet.Serialization;
-using System.Diagnostics;
 
 namespace Nox.Yaml.Schema.Generator;
 

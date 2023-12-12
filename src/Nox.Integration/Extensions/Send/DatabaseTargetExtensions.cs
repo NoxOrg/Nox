@@ -1,7 +1,7 @@
 using System.Dynamic;
 using ETLBox;
 using ETLBox.DataFlow;
-using Nox.Integration.Abstractions.Adapters;
+using Nox.Integration.Abstractions.Interfaces;
 
 namespace Nox.Integration.Extensions.Send;
 
@@ -21,7 +21,6 @@ public static class DatabaseTargetExtensions
             var mergeDateColumns = dateColumns.Select(dateColumn => new CompareColumn { ComparePropertyName = dateColumn }).ToList();
             tableTarget.CompareColumns = mergeDateColumns;
         }
-
 
         source.LinkTo(tableTarget);
         var result = new CustomDestination();

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Nox.Yaml.Exceptions;
-using System.IO;
 using System.Text;
-using System.Linq;
 using YamlDotNet.Serialization;
 
 namespace Nox.Yaml.Parser;

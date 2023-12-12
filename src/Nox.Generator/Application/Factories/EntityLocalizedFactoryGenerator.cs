@@ -2,7 +2,6 @@
 using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Solution.Extensions;
-using System.Linq;
 
 namespace Nox.Generator.Application.Factories;
 

@@ -1,5 +1,4 @@
 ﻿using Nox.Domain;
-using System.Data;
 using Cryptocash.DataSeed.Seeders;
 using Cryptocash.Infrastructure.Persistence;
 

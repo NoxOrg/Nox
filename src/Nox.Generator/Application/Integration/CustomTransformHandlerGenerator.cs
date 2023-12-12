@@ -32,7 +32,7 @@ internal class CustomTransformHandlerGenerator: INoxCodeGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"{customTransformIntegration.Name}CustomTransformHandlerBase")
+                .WithClassName($"{customTransformIntegration.Name}TransformHandlerBase")
                 .WithFileNamePrefix("Application.Integration.CustomTransformHandlers")
                 .WithObject("integration", customTransformIntegration)
                 .GenerateSourceCodeFromResource("Application.Integration.CustomTransformHandler");

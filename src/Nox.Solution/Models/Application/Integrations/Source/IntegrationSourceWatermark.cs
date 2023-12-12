@@ -9,7 +9,7 @@ namespace Nox.Solution;
 public class IntegrationSourceWatermark
 {
     [Title("Column(s) in datetime format used for watermark purpose.")]
-    [Description("List datetime columns to be compared to target data to indicate if data has changed.")]
+    [Description("List of datetime columns to be compared to target data to indicate if data has changed. These columns will also be used to filter data on the source.")]
     public IReadOnlyList<string>? DateColumns { get; internal set; }
 
     [Title("Sequential key column used for watermark purpose.")]

@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.CodeAnalysis;
 using Microsoft.AspNetCore.Builder;
 
 using MassTransit;
@@ -19,13 +18,12 @@ using Nox.OData;
 using Nox.Infrastructure.Messaging.InMemoryBus;
 using Nox.Infrastructure.Messaging.AzureServiceBus;
 using Nox.Infrastructure;
-using Nox.Integration;
 using Nox.Integration.Extensions;
 using Nox.Yaml.VariableProviders.Environment;
 using Nox.Domain;
-using System;
 using Nox.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Nox.Integration.SqlServer;
 using SqlKata.Compilers;
 
 namespace Nox.Configuration
@@ -175,12 +173,12 @@ namespace Nox.Configuration
                 .AddNoxMediatR(_clientAssembly)
                 .AddNoxFactories(noxAndEntryAssemblies)
                 .AddEtlBox()
-                .AddNoxIntegrations()
                 .AddNoxProviders()
                 .AddNoxDtos();
 
             AddNoxMessaging(services, noxSolution);
             AddNoxDatabase(services, noxSolution, noxAndEntryAssemblies);
+            AddIntegrations(services, noxSolution);
 
             AddLogging(webApplicationBuilder);
             AddSwagger(services);
@@ -312,5 +310,14 @@ namespace Nox.Configuration
                 .WithSecretsVariableValueProvider(secretsProvider)
                 .Build();
         }
+        
+        private void AddIntegrations(IServiceCollection services, NoxSolution noxSolution)
+        {
+            services.AddNoxIntegrations(options =>
+            {
+                options.WithSqlServerStore();
+            });
+        }
+
     }
 }

@@ -1,9 +1,6 @@
-﻿using Moq;
-using Nox.Solution.Tests.FixtureConfig;
-using Nox.Solution.Extensions;
+﻿using Nox.Solution.Extensions;
 using FluentAssertions;
 using Nox.Types;
-using Xunit.Sdk;
 
 namespace Nox.Solution.Tests.Extensions;
 

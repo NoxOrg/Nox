@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Nox.Yaml.Tests.TestDesigns.Nox.Models;
+﻿namespace Nox.Yaml.Tests.TestDesigns.Nox.Models;
 
 public class EntityRelationshipWithType
 {

@@ -1,5 +1,4 @@
-﻿using DotNet.Testcontainers.Containers;
-using Nox;
+﻿using Nox;
 using Nox.Infrastructure;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;

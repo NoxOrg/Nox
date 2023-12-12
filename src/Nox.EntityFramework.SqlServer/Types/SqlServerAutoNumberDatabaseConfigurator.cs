@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.EntityFramework.Types;
-using System.IO.Pipes;
 using Nox.Types.EntityFramework.Configurations;
 
 namespace Nox.EntityFramework.SqlServer.Types;

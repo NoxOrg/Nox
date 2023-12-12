@@ -57,6 +57,7 @@
 //  - Nox.Generator.Presentation.Api.OData.EntityControllerRelationshipsGenerator
 //  - Nox.Generator.Presentation.Api.OData.EntityControllerTranslationsGenerator
 //  - Nox.Generator.Presentation.Api.OData.EntityControllerGenerator
+//  - Nox.Generator.Presentation.Api.OData.NoxIntegrationControllerGenerator
 //  - Nox.Generator.Presentation.Api.OData.ODataServiceCollectionExtensions
 //  - Nox.Generator.Application.DomainEventHandlerGenerator
 //  - Nox.Generator.Application.CustomIntegrationEventGenerator
@@ -69,6 +70,7 @@
 //  - Nox.Generator.Application.Queries.TranslationsByIdQueryGenerator
 //  - Nox.Generator.Application.Queries.TranslationsQueryGenerator
 //  - Nox.Generator.Application.Integration.CustomTransformHandlerGenerator
+//  - Nox.Generator.Application.Integration.EtlEventGenerator
 //  - Nox.Generator.Application.Factories.EntityFactoryGenerator
 //  - Nox.Generator.Application.Factories.EntityLocalizedFactoryGenerator
 //  - Nox.Generator.Application.Extensions.EntityExtensionsGenerator
@@ -95,5 +97,7 @@
 //  - Nox.Generator.Application.Commands.UpsertEnumerationTranslationsCommandGenerator
 //  - Nox.Generator.Application.Commands.NavigationMenuGenerator
 //  - Nox.Generator.Application.Commands.NavigationMenuRazor
+// Nox.Generator.Presentation.Api.OData.NoxIntegrationControllerGenerator Skipping generator because no integrations defined
 // Nox.Generator.Application.Integration.CustomTransformHandlerGenerator Skipping generator because no integrations defined
+// Nox.Generator.Application.Integration.EtlEventGenerator Skipping generator because no integrations defined
 // SUCCESS.

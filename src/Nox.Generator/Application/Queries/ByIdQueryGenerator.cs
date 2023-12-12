@@ -2,7 +2,6 @@
 using Nox.Generator.Application.Commands;
 using Nox.Generator.Common;
 using Nox.Solution;
-using Nox.Types;
 using System.Collections.Generic;
 using System.Linq;
 

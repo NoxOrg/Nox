@@ -10,7 +10,6 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.Configuration;
 using Nox.Infrastructure;
 using Nox.Infrastructure.Persistence;
-
 using Cryptocash.Application.Dto;
 using DtoNameSpace = Cryptocash.Application.Dto;
 

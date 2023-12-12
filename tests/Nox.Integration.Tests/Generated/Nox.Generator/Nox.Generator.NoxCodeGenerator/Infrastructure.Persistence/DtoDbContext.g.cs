@@ -10,7 +10,6 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.Configuration;
 using Nox.Infrastructure;
 using Nox.Infrastructure.Persistence;
-
 using TestWebApp.Application.Dto;
 using DtoNameSpace = TestWebApp.Application.Dto;
 

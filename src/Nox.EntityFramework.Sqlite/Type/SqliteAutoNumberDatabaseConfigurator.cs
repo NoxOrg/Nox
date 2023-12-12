@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
-using Nox.Types;
 using Nox.Types.EntityFramework.Configurations;
 using Nox.Types.EntityFramework.Types;
 

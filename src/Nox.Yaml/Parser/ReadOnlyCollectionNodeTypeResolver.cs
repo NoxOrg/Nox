@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System;
-using YamlDotNet.Core.Events;
+﻿using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
 namespace Nox.Yaml.Parser;

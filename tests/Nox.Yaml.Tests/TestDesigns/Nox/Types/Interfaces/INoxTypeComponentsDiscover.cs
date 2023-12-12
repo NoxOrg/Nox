@@ -1,5 +1,4 @@
-﻿using System;
-using Nox.Yaml.Tests.TestDesigns.Nox.Types.TypeDefinitions;
+﻿using Nox.Yaml.Tests.TestDesigns.Nox.Types.TypeDefinitions;
 
 namespace Nox.Yaml.Tests.TestDesigns.Nox.Types.Interfaces;
 

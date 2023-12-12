@@ -1,5 +1,3 @@
-using Nox.Solution;
-using Nox.Docs.Extensions;
 using FluentAssertions;
 using System.Text.Json;
 using Cryptocash.Application.Dto;

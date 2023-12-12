@@ -1,5 +1,4 @@
-﻿using Castle.Core.Resource;
-using FluentAssertions;
+﻿using FluentAssertions;
 
 namespace Nox.Lib.Tests.ApiMiddleware;
 public class NoxApiMidllewareTests

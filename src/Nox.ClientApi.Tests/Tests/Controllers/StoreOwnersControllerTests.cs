@@ -2,12 +2,9 @@
 using ClientApi.Application.Dto;
 using AutoFixture;
 using System.Net;
-using AutoFixture.AutoMoq;
 using Nox.Types;
 using Xunit.Abstractions;
-using ClientApi.Application.IntegrationEvents.StoreOwner;
 using ClientApi.Domain;
-using Nox.Application;
 
 namespace ClientApi.Tests.Controllers
 {
