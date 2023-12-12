@@ -69,8 +69,9 @@ internal abstract class TestEntityOneOrManyToZeroOrOneFactoryBase : IEntityFacto
     private async Task<TestWebApp.Domain.TestEntityOneOrManyToZeroOrOne> ToEntityAsync(TestEntityOneOrManyToZeroOrOneCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityOneOrManyToZeroOrOne();
-        entity.Id = TestEntityOneOrManyToZeroOrOneMetadata.CreateId(createDto.Id);
-        entity.TextTestField2 = TestWebApp.Domain.TestEntityOneOrManyToZeroOrOneMetadata.CreateTextTestField2(createDto.TextTestField2);
+        entity.Id = TestEntityOneOrManyToZeroOrOneMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.TextTestField2, (entity) => entity.TextTestField2 = 
+            TestWebApp.Domain.TestEntityOneOrManyToZeroOrOneMetadata.CreateTextTestField2(createDto.TextTestField2.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

@@ -32,19 +32,19 @@ public abstract class CountryQueryToTableCreateDtoBase : IEntityDto<DomainNamesp
     /// </summary>
     /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
-    public System.Int32 Id { get; set; } = default!;
+    public System.Int32? Id { get; set; }
     /// <summary>
     /// Country's name     
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;
+    public virtual System.String? Name { get; set; }
     /// <summary>
     /// Country's population     
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Population is required")]
     
-    public virtual System.Int32 Population { get; set; } = default!;
+    public virtual System.Int32? Population { get; set; }
 }

@@ -89,10 +89,13 @@ public partial class CountriesController
     [HttpPost($"{Endpoints.RoutePrefix}/[controller]/[action]")]
     public IResult CustomCreateCountry([FromBody] Application.Dto.CountryCreateDto country) 
     {
+        if (!ModelState.IsValid)
+            return Results.BadRequest();
+
         var createdCountry = new Application.Dto.CountryDto()
             {
                 Id = 1,
-                Name = country.Name
+                Name = country.Name!
             };
 
         var routeValues = new { key = createdCountry.Id };

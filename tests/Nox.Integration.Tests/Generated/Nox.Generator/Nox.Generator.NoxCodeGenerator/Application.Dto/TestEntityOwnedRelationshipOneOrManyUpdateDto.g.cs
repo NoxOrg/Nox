@@ -31,7 +31,7 @@ public partial class TestEntityOwnedRelationshipOneOrManyUpdateDtoBase: EntityDt
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "TextTestField is required")]
     
-    public virtual System.String TextTestField { get; set; } = default!;
+    public virtual System.String? TextTestField { get; set; }
     /// <summary>
     /// TestEntityOwnedRelationshipOneOrMany Test entity relationship to SecondTestEntityOwnedRelationshipOneOrMany OneOrMany SecEntityOwnedRelOneOrManies
     /// </summary>

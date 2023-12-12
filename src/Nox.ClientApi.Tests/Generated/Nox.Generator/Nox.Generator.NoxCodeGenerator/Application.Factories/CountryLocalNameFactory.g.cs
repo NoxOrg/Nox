@@ -69,8 +69,10 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
     private async Task<ClientApi.Domain.CountryLocalName> ToEntityAsync(CountryLocalNameUpsertDto createDto)
     {
         var entity = new ClientApi.Domain.CountryLocalName();
-        entity.Name = ClientApi.Domain.CountryLocalNameMetadata.CreateName(createDto.Name);
-        entity.SetIfNotNull(createDto.NativeName, (entity) => entity.NativeName =ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(createDto.NativeName.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            ClientApi.Domain.CountryLocalNameMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.NativeName, (entity) => entity.NativeName = 
+            ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(createDto.NativeName.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

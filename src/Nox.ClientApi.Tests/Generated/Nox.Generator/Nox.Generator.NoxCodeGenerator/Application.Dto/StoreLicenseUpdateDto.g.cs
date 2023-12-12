@@ -31,5 +31,5 @@ public partial class StoreLicenseUpdateDtoBase: EntityDtoBase, IEntityDto<Domain
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Issuer is required")]
     
-    public virtual System.String Issuer { get; set; } = default!;
+    public virtual System.String? Issuer { get; set; }
 }

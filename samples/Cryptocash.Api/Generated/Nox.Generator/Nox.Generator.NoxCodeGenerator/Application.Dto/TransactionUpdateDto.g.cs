@@ -31,26 +31,26 @@ public partial class TransactionUpdateDtoBase: EntityDtoBase, IEntityDto<DomainN
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "TransactionType is required")]
     
-    public virtual System.String TransactionType { get; set; } = default!;
+    public virtual System.String? TransactionType { get; set; }
     /// <summary>
     /// Transaction processed datetime     
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "ProcessedOnDateTime is required")]
     
-    public virtual System.DateTimeOffset ProcessedOnDateTime { get; set; } = default!;
+    public virtual System.DateTimeOffset? ProcessedOnDateTime { get; set; }
     /// <summary>
     /// Transaction amount     
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Amount is required")]
     
-    public virtual MoneyDto Amount { get; set; } = default!;
+    public virtual MoneyDto? Amount { get; set; }
     /// <summary>
     /// Transaction external reference     
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Reference is required")]
     
-    public virtual System.String Reference { get; set; } = default!;
+    public virtual System.String? Reference { get; set; }
 }

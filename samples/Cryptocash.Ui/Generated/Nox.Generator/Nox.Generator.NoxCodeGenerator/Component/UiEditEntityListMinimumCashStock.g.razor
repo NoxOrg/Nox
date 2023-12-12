@@ -3,8 +3,8 @@
 
 <MudDataGrid Items="@MinimumCashStockList" Loading="IsLoading">
     <Columns>
-        <PropertyColumn Property="x => x.Amount.CurrencyCode.ToString()" Title="@TitleCurrency" />
-        <PropertyColumn Property="x => x.Amount.Amount" Title="@TitleAmount" />
+        <PropertyColumn Property="x => x.Amount!.CurrencyCode.ToString()" Title="@TitleCurrency" />
+        <PropertyColumn Property="x => x.Amount!.Amount" Title="@TitleAmount" />
         <TemplateColumn CellClass="d-flex justify-end">
             <CellTemplate>
                 <MudStack Row>

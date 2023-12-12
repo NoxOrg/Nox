@@ -69,7 +69,8 @@ internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCash
     private async Task<Cryptocash.Domain.MinimumCashStock> ToEntityAsync(MinimumCashStockCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.MinimumCashStock();
-        entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(createDto.Amount);
+        entity.SetIfNotNull(createDto.Amount, (entity) => entity.Amount = 
+            Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(createDto.Amount.NonNullValue<MoneyDto>()));
         return await Task.FromResult(entity);
     }
 

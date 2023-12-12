@@ -1,4 +1,7 @@
-﻿// Generated
+﻿{{- func attributeType(attribute)
+	ret componentsInfo[attribute.Name].IsSimpleType ? componentsInfo[attribute.Name].ComponentType : (attribute.Type + "Dto")
+end -}}
+// Generated
 
 #nullable enable
 using System.Collections.Generic;
@@ -36,11 +39,7 @@ public partial class {{className}}Base: EntityDtoBase, IEntityDto<DomainNamespac
     {{- if attribute.IsRequired}}
     [Required(ErrorMessage = "{{attribute.Name}} is required")]
     {{ end}}
-    {{ if componentsInfo[attribute.Name].IsSimpleType -}}
-    public virtual {{componentsInfo[attribute.Name].ComponentType}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
-    {{- else -}}
-    public virtual {{attribute.Type}}Dto{{- if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
-    {{- end}}
+    public virtual {{attributeType attribute}}? {{attribute.Name}} { get; set; }
 {{- end }}
 {{- # for relationship in entity.Relationships # see NOX-237 to enable relationships in UpdateDto}}
 {{- for relationship in entity.OwnedRelationships}}

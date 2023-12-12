@@ -36,5 +36,5 @@ public abstract class CountryTimeZoneUpsertDtoBase: EntityDtoBase, IEntityDto<Do
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "TimeZoneCode is required")]
-    public virtual System.String TimeZoneCode { get; set; } = default!;
+    public virtual System.String? TimeZoneCode { get; set; }
 }

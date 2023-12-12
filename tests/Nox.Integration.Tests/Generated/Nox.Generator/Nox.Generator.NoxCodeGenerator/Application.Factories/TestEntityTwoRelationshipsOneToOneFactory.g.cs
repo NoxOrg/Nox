@@ -69,8 +69,9 @@ internal abstract class TestEntityTwoRelationshipsOneToOneFactoryBase : IEntityF
     private async Task<TestWebApp.Domain.TestEntityTwoRelationshipsOneToOne> ToEntityAsync(TestEntityTwoRelationshipsOneToOneCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityTwoRelationshipsOneToOne();
-        entity.Id = TestEntityTwoRelationshipsOneToOneMetadata.CreateId(createDto.Id);
-        entity.TextTestField = TestWebApp.Domain.TestEntityTwoRelationshipsOneToOneMetadata.CreateTextTestField(createDto.TextTestField);
+        entity.Id = TestEntityTwoRelationshipsOneToOneMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.TextTestField, (entity) => entity.TextTestField = 
+            TestWebApp.Domain.TestEntityTwoRelationshipsOneToOneMetadata.CreateTextTestField(createDto.TextTestField.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

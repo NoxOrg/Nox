@@ -32,12 +32,12 @@ public abstract class FormulaCreateDtoBase : IEntityDto<DomainNamespace.Formula>
     /// </summary>
     /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
-    public System.Int32 Id { get; set; } = default!;
+    public System.Int32? Id { get; set; }
     /// <summary>
     /// The name of the formula     
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;
+    public virtual System.String? Name { get; set; }
 }

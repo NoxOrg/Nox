@@ -69,11 +69,16 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
     private async Task<Cryptocash.Domain.Customer> ToEntityAsync(CustomerCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Customer();
-        entity.FirstName = Cryptocash.Domain.CustomerMetadata.CreateFirstName(createDto.FirstName);
-        entity.LastName = Cryptocash.Domain.CustomerMetadata.CreateLastName(createDto.LastName);
-        entity.EmailAddress = Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(createDto.EmailAddress);
-        entity.Address = Cryptocash.Domain.CustomerMetadata.CreateAddress(createDto.Address);
-        entity.SetIfNotNull(createDto.MobileNumber, (entity) => entity.MobileNumber =Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(createDto.MobileNumber.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.FirstName, (entity) => entity.FirstName = 
+            Cryptocash.Domain.CustomerMetadata.CreateFirstName(createDto.FirstName.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.LastName, (entity) => entity.LastName = 
+            Cryptocash.Domain.CustomerMetadata.CreateLastName(createDto.LastName.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.EmailAddress, (entity) => entity.EmailAddress = 
+            Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(createDto.EmailAddress.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Address, (entity) => entity.Address = 
+            Cryptocash.Domain.CustomerMetadata.CreateAddress(createDto.Address.NonNullValue<StreetAddressDto>()));
+        entity.SetIfNotNull(createDto.MobileNumber, (entity) => entity.MobileNumber = 
+            Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(createDto.MobileNumber.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

@@ -69,8 +69,9 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
     private async Task<ClientApi.Domain.RatingProgram> ToEntityAsync(RatingProgramCreateDto createDto)
     {
         var entity = new ClientApi.Domain.RatingProgram();
-        entity.StoreId = RatingProgramMetadata.CreateStoreId(createDto.StoreId);
-        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name =ClientApi.Domain.RatingProgramMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
+        entity.StoreId = RatingProgramMetadata.CreateStoreId(createDto.StoreId.NonNullValue<System.Guid>());
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            ClientApi.Domain.RatingProgramMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

@@ -73,11 +73,16 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
     private async Task<ClientApi.Domain.Store> ToEntityAsync(StoreCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Store();
-        entity.Name = ClientApi.Domain.StoreMetadata.CreateName(createDto.Name);
-        entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(createDto.Address);
-        entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(createDto.Location);
-        entity.SetIfNotNull(createDto.OpeningDay, (entity) => entity.OpeningDay =ClientApi.Domain.StoreMetadata.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>()));
-        entity.SetIfNotNull(createDto.Status, (entity) => entity.Status =ClientApi.Domain.StoreMetadata.CreateStatus(createDto.Status.NonNullValue<System.Int32>()));
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            ClientApi.Domain.StoreMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Address, (entity) => entity.Address = 
+            ClientApi.Domain.StoreMetadata.CreateAddress(createDto.Address.NonNullValue<StreetAddressDto>()));
+        entity.SetIfNotNull(createDto.Location, (entity) => entity.Location = 
+            ClientApi.Domain.StoreMetadata.CreateLocation(createDto.Location.NonNullValue<LatLongDto>()));
+        entity.SetIfNotNull(createDto.OpeningDay, (entity) => entity.OpeningDay = 
+            ClientApi.Domain.StoreMetadata.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>()));
+        entity.SetIfNotNull(createDto.Status, (entity) => entity.Status = 
+            ClientApi.Domain.StoreMetadata.CreateStatus(createDto.Status.NonNullValue<System.Int32>()));
         entity.EnsureId(createDto.Id);
         if (createDto.EmailAddress is not null)
         {

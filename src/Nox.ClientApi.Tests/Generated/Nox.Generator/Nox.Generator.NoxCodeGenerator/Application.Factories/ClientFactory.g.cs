@@ -69,7 +69,8 @@ internal abstract class ClientFactoryBase : IEntityFactory<ClientEntity, ClientC
     private async Task<ClientApi.Domain.Client> ToEntityAsync(ClientCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Client();
-        entity.Name = ClientApi.Domain.ClientMetadata.CreateName(createDto.Name);
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            ClientApi.Domain.ClientMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
         entity.EnsureId(createDto.Id);
         return await Task.FromResult(entity);
     }

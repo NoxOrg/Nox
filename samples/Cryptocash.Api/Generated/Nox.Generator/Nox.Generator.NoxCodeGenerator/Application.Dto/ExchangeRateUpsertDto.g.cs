@@ -36,12 +36,12 @@ public abstract class ExchangeRateUpsertDtoBase: EntityDtoBase, IEntityDto<Domai
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "EffectiveRate is required")]
-    public virtual System.Int32 EffectiveRate { get; set; } = default!;
+    public virtual System.Int32? EffectiveRate { get; set; }
 
     /// <summary>
     /// Exchange rate conversion amount     
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "EffectiveAt is required")]
-    public virtual System.DateTimeOffset EffectiveAt { get; set; } = default!;
+    public virtual System.DateTimeOffset? EffectiveAt { get; set; }
 }

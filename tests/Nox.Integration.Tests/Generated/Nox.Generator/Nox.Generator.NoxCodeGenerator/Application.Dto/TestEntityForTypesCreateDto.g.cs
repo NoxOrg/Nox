@@ -32,14 +32,14 @@ public abstract class TestEntityForTypesCreateDtoBase : IEntityDto<DomainNamespa
     /// </summary>
     /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
-    public System.String Id { get; set; } = default!;
+    public System.String? Id { get; set; }
     /// <summary>
     ///      
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "TextTestField is required")]
     
-    public virtual System.String TextTestField { get; set; } = default!;
+    public virtual System.String? TextTestField { get; set; }
     /// <summary>
     ///      
     /// </summary>
@@ -51,7 +51,7 @@ public abstract class TestEntityForTypesCreateDtoBase : IEntityDto<DomainNamespa
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "NumberTestField is required")]
     
-    public virtual System.Int16 NumberTestField { get; set; } = default!;
+    public virtual System.Int16? NumberTestField { get; set; }
     /// <summary>
     ///      
     /// </summary>

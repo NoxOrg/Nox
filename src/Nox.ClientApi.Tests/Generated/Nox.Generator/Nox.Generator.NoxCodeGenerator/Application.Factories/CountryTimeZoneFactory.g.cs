@@ -70,7 +70,8 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
     {
         var entity = new ClientApi.Domain.CountryTimeZone();
         entity.Id = CountryTimeZoneMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
-        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name =ClientApi.Domain.CountryTimeZoneMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            ClientApi.Domain.CountryTimeZoneMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

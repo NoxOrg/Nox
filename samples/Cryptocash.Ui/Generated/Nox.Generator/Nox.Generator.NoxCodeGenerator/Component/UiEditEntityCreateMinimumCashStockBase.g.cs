@@ -135,7 +135,7 @@ namespace Cryptocash.Ui.Generated.Component
             {
                 if (MinimumCashStockList != null)
                 {
-                    MinimumCashStockList.RemoveAll(CashStock => CashStock.Amount.CurrencyCode.Equals(CurrentMinimumCashStock.Amount.CurrencyCode));
+                    MinimumCashStockList.RemoveAll(CashStock => CashStock.Amount?.CurrencyCode == CurrentMinimumCashStock.Amount?.CurrencyCode);
                 }
                 else
                 {

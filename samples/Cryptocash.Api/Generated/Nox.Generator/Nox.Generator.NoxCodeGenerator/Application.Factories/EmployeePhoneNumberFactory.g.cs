@@ -69,8 +69,10 @@ internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<Employee
     private async Task<Cryptocash.Domain.EmployeePhoneNumber> ToEntityAsync(EmployeePhoneNumberUpsertDto createDto)
     {
         var entity = new Cryptocash.Domain.EmployeePhoneNumber();
-        entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumberType(createDto.PhoneNumberType);
-        entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumber(createDto.PhoneNumber);
+        entity.SetIfNotNull(createDto.PhoneNumberType, (entity) => entity.PhoneNumberType = 
+            Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumberType(createDto.PhoneNumberType.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.PhoneNumber, (entity) => entity.PhoneNumber = 
+            Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumber(createDto.PhoneNumber.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

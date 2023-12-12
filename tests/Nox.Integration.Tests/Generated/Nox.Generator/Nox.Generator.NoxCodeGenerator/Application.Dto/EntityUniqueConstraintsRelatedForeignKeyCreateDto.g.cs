@@ -32,7 +32,7 @@ public abstract class EntityUniqueConstraintsRelatedForeignKeyCreateDtoBase : IE
     /// </summary>
     /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
-    public System.Int32 Id { get; set; } = default!;
+    public System.Int32? Id { get; set; }
     /// <summary>
     ///      
     /// </summary>

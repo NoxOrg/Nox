@@ -69,10 +69,14 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
     private async Task<Cryptocash.Domain.Transaction> ToEntityAsync(TransactionCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Transaction();
-        entity.TransactionType = Cryptocash.Domain.TransactionMetadata.CreateTransactionType(createDto.TransactionType);
-        entity.ProcessedOnDateTime = Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(createDto.ProcessedOnDateTime);
-        entity.Amount = Cryptocash.Domain.TransactionMetadata.CreateAmount(createDto.Amount);
-        entity.Reference = Cryptocash.Domain.TransactionMetadata.CreateReference(createDto.Reference);
+        entity.SetIfNotNull(createDto.TransactionType, (entity) => entity.TransactionType = 
+            Cryptocash.Domain.TransactionMetadata.CreateTransactionType(createDto.TransactionType.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.ProcessedOnDateTime, (entity) => entity.ProcessedOnDateTime = 
+            Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(createDto.ProcessedOnDateTime.NonNullValue<System.DateTimeOffset>()));
+        entity.SetIfNotNull(createDto.Amount, (entity) => entity.Amount = 
+            Cryptocash.Domain.TransactionMetadata.CreateAmount(createDto.Amount.NonNullValue<MoneyDto>()));
+        entity.SetIfNotNull(createDto.Reference, (entity) => entity.Reference = 
+            Cryptocash.Domain.TransactionMetadata.CreateReference(createDto.Reference.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

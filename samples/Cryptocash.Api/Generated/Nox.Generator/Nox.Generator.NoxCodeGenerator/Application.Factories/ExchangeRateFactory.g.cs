@@ -69,8 +69,10 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
     private async Task<Cryptocash.Domain.ExchangeRate> ToEntityAsync(ExchangeRateUpsertDto createDto)
     {
         var entity = new Cryptocash.Domain.ExchangeRate();
-        entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(createDto.EffectiveRate);
-        entity.EffectiveAt = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(createDto.EffectiveAt);
+        entity.SetIfNotNull(createDto.EffectiveRate, (entity) => entity.EffectiveRate = 
+            Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(createDto.EffectiveRate.NonNullValue<System.Int32>()));
+        entity.SetIfNotNull(createDto.EffectiveAt, (entity) => entity.EffectiveAt = 
+            Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(createDto.EffectiveAt.NonNullValue<System.DateTimeOffset>()));
         return await Task.FromResult(entity);
     }
 

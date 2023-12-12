@@ -32,14 +32,14 @@ public abstract class SecondTestEntityZeroOrManyCreateDtoBase : IEntityDto<Domai
     /// </summary>
     /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
-    public System.String Id { get; set; } = default!;
+    public System.String? Id { get; set; }
     /// <summary>
     ///      
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "TextTestField2 is required")]
     
-    public virtual System.String TextTestField2 { get; set; } = default!;
+    public virtual System.String? TextTestField2 { get; set; }
 
     /// <summary>
     /// SecondTestEntityZeroOrMany Test entity relationship to TestEntityZeroOrMany ZeroOrMany TestEntityZeroOrManies

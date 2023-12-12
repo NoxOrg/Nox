@@ -69,7 +69,8 @@ internal abstract class TestEntityWithNuidFactoryBase : IEntityFactory<TestEntit
     private async Task<TestWebApp.Domain.TestEntityWithNuid> ToEntityAsync(TestEntityWithNuidCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityWithNuid();
-        entity.Name = TestWebApp.Domain.TestEntityWithNuidMetadata.CreateName(createDto.Name);
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            TestWebApp.Domain.TestEntityWithNuidMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
 		entity.EnsureId();
         return await Task.FromResult(entity);
     }

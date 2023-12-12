@@ -1,4 +1,10 @@
-﻿// Generated
+﻿{{- func keyPrimitiveType(key)
+	ret (key.Type == "EntityId") ? (SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity) : (SinglePrimitiveTypeForKey key)
+end -}}
+{{- func attributeType(attribute)
+	ret componentsInfo[attribute.Name].IsSimpleType ? componentsInfo[attribute.Name].ComponentType : (attribute.Type + "Dto")
+end -}}
+// Generated
 
 #nullable enable
 using System.Collections.Generic;
@@ -42,11 +48,7 @@ public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Na
     /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "{{key.Name}} is required")]
     {{- end }}
-    {{ if key.Type == "EntityId" -}}
-    public {{SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = default!;
-    {{- else -}}
-    public {{SinglePrimitiveTypeForKey key}} {{key.Name}} { get; set; } = default!;
-    {{- end}}
+    public {{keyPrimitiveType key}}? {{key.Name}} { get; set; }
 {{- end }}
 
 {{- for attribute in entity.Attributes }}
@@ -56,15 +58,11 @@ public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Na
     /// <summary>
     /// {{attribute.Description  | string.rstrip}}     
     /// </summary>
-    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}</remarks>    
+    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}</remarks>
     {{- if attribute.IsRequired}}
     [Required(ErrorMessage = "{{attribute.Name}} is required")]
     {{ end}}
-    {{ if componentsInfo[attribute.Name].IsSimpleType -}}
-    public virtual {{componentsInfo[attribute.Name].ComponentType}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
-    {{- else -}}
-    public virtual {{attribute.Type}}Dto{{- if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
-    {{- end}}
+    public virtual {{attributeType attribute}}? {{attribute.Name}} { get; set; }
 {{- end }}
 
 {{- for relationship in entity.Relationships}}

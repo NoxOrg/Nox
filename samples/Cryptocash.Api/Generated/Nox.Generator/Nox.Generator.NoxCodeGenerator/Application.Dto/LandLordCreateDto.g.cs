@@ -30,21 +30,21 @@ public abstract class LandLordCreateDtoBase : IEntityDto<DomainNamespace.LandLor
     /// Landlord unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>
-    public System.Guid Id { get; set; } = default!;
+    public System.Guid? Id { get; set; }
     /// <summary>
     /// Landlord name     
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;
+    public virtual System.String? Name { get; set; }
     /// <summary>
     /// Landlord's street address     
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Address is required")]
     
-    public virtual StreetAddressDto Address { get; set; } = default!;
+    public virtual StreetAddressDto? Address { get; set; }
 
     /// <summary>
     /// LandLord leases an area to house ZeroOrMany VendingMachines

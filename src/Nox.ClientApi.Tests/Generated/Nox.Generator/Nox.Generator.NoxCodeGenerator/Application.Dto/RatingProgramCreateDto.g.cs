@@ -32,7 +32,7 @@ public abstract class RatingProgramCreateDtoBase : IEntityDto<DomainNamespace.Ra
     /// </summary>
     /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "StoreId is required")]
-    public System.Guid StoreId { get; set; } = default!;
+    public System.Guid? StoreId { get; set; }
     /// <summary>
     /// Rating Program Name     
     /// </summary>

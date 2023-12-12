@@ -31,7 +31,7 @@ public partial class TestEntityOwnedRelationshipExactlyOneUpdateDtoBase: EntityD
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "TextTestField is required")]
     
-    public virtual System.String TextTestField { get; set; } = default!;
+    public virtual System.String? TextTestField { get; set; }
     /// <summary>
     /// TestEntityOwnedRelationshipExactlyOne Test entity relationship to SecEntityOwnedRelExactlyOne ExactlyOne SecEntityOwnedRelExactlyOnes
     /// </summary>
