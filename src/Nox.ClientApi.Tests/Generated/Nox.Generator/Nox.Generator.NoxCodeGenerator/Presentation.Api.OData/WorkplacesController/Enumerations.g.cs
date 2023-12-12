@@ -36,7 +36,7 @@ public abstract partial class WorkplacesControllerBase
     }
 
     [HttpPut("/api/v1/Workplaces/WorkplaceOwnershipsLocalized")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.WorkplaceOwnershipLocalizedDto>>> PutOwnershipsLocalizedNonConventional([FromBody] EnumerationLocalizedList<DtoNameSpace.WorkplaceOwnershipLocalizedDto> workplaceOwnershipLocalizedDtos)
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.WorkplaceOwnershipLocalizedDto>>> PutOwnershipsLocalizedNonConventional([FromBody] EnumerationLocalizedListDto<DtoNameSpace.WorkplaceOwnershipLocalizedDto> workplaceOwnershipLocalizedDtos)
     {   
         
         if (workplaceOwnershipLocalizedDtos is null)

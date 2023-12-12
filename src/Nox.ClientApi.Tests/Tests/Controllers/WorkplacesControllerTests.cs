@@ -926,7 +926,7 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task CreateWorkplace_WithLocalizedOwnershipId_ReturnsLocalizedOwnershipIdAndName()
         {
             // Arrange
-            await PutAsync($"{Endpoints.WorkplacesUrl}/WorkplaceOwnershipsLocalized", new EnumerationLocalizedList<WorkplaceOwnershipLocalizedDto>
+            await PutAsync($"{Endpoints.WorkplacesUrl}/WorkplaceOwnershipsLocalized", new EnumerationLocalizedListDto<WorkplaceOwnershipLocalizedDto>
             {
                 Items = new List<WorkplaceOwnershipLocalizedDto>
                 {

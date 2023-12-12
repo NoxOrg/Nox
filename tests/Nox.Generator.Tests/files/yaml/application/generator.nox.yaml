@@ -10,7 +10,7 @@
 #  </ItemGroup>
 
 # Genrates domain models, events and related types
-domain: false
+domain: true
 
 # Generates application logic and events
 application: true
