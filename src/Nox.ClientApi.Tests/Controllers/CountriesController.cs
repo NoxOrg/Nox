@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Nox.Extensions;
 using ClientApi.Application.Dto;
 using ClientApi.Application.Commands;
+using ClientApi.Application.Queries;
 using ClientApi.Tests;
+using Microsoft.AspNetCore.OData.Results;
 
 namespace ClientApi.Presentation.Api.OData;
 

@@ -8,7 +8,7 @@ using Nox.Integration.Abstractions.Models;
 
 namespace CryptocashIntegration.Application.Integrations;
 
-public class CountryQueryToCustomTableRecordUpdatedEvent: EtlRecordUpdatedEvent<INoxEtlEventDto>, INotification
+public class CountryQueryToCustomTableRecordUpdatedEvent: EtlRecordUpdatedEvent<IEtlEventDto>, INotification
 {
     public CountryQueryToCustomTableRecordUpdatedEvent(QueryToCustomTableRecordUpdatedDto dto)
     {

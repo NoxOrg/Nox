@@ -50,6 +50,7 @@ internal class DtoDbContext : DbContext
         _codeGenConventions = codeGeneratorState;
         _interceptors = interceptors;
     }
+
     
         public virtual DbSet<TestEntityZeroOrOneDto> TestEntityZeroOrOnes { get; set; } = null!;
         public virtual DbSet<SecondTestEntityZeroOrOneDto> SecondTestEntityZeroOrOnes { get; set; } = null!;
