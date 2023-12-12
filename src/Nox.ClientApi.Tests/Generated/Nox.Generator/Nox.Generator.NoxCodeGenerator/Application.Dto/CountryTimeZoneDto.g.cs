@@ -53,6 +53,6 @@ public abstract class CountryTimeZoneDtoBase : EntityDtoBase, IEntityDto<DomainN
     /// <summary>
     /// Time Zone Name     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.String? Name { get; set; }
 }

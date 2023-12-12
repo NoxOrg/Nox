@@ -1,5 +1,7 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Nox.Infrastructure;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
@@ -21,15 +23,13 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
            (noxOptions) =>
            {
                noxOptions.WithoutMessagingTransactionalOutbox();
+               noxOptions.WithoutNoxLogging();
            }, null)
-        .AddLogging();
-        var descriptors = services.Where(d => d.ServiceType == typeof(INoxDatabaseProvider)).ToList();
-        if (descriptors.Any())
+            .AddLogging(configure => configure.SetMinimumLevel(LogLevel.Error));        
+        var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(INoxDatabaseProvider));
+        if (descriptor != null)
         {
-            foreach (var descriptor in descriptors)
-            {
-                services.Remove(descriptor);
-            }
+            services.Remove(descriptor);
         }
         services.AddSingleton(sp =>
         {            

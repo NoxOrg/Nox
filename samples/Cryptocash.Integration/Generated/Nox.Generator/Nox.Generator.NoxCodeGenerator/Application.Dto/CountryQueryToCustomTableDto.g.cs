@@ -62,25 +62,25 @@ public abstract class CountryQueryToCustomTableDtoBase : EntityDtoBase, IEntityD
     /// <summary>
     /// Country's name     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
     /// Country's population     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.Int32 Population { get; set; } = default!;
 
     /// <summary>
     /// The date on which the country record was created     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.DateTimeOffset CreateDate { get; set; } = default!;
 
     /// <summary>
     /// The date on which the country record was last updated     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.DateTimeOffset? EditDate { get; set; }
 
     [JsonPropertyName("@odata.etag")]

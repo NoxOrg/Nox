@@ -24,9 +24,9 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
         INoxIntegrationDbContextFactory dbContextFactory,
         IPublisher publisher,
         IEnumerable<INoxCustomTransformHandler>? handlers = null,
-        IEnumerable<NoxEtlRecordCreatedEvent<INoxEtlEventPayload>>? createdEvents = null,
-        IEnumerable<NoxEtlRecordUpdatedEvent<INoxEtlEventPayload>>? updatedEvents = null,
-        IEnumerable<NoxEtlExecuteCompletedEvent>? completedEvents = null)
+        IEnumerable<EtlRecordCreatedEvent<IEtlEventDto>>? createdEvents = null,
+        IEnumerable<EtlRecordUpdatedEvent<IEtlEventDto>>? updatedEvents = null,
+        IEnumerable<EtlExecuteCompletedEvent>? completedEvents = null)
     {
         _logger = logger;
         _integrations = new Dictionary<string, INoxIntegration>();

@@ -47,13 +47,17 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
     
     public virtual async Task<ActionResult> GetRefToEntityUniqueConstraintsRelatedForeignKey([FromRoute] System.Guid key)
     {
-        var related = (await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(key))).Select(x => x.EntityUniqueConstraintsRelatedForeignKey).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(key))).Include(x => x.EntityUniqueConstraintsRelatedForeignKey).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"EntityUniqueConstraintsRelatedForeignKeys/{related.Id}", UriKind.Relative);
+        if (entity.EntityUniqueConstraintsRelatedForeignKey is null)
+        {
+            return Ok();
+        }
+        var references = new System.Uri($"EntityUniqueConstraintsRelatedForeignKeys/{entity.EntityUniqueConstraintsRelatedForeignKey.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -75,12 +79,12 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
     [EnableQuery]
     public virtual async Task<SingleResult<EntityUniqueConstraintsRelatedForeignKeyDto>> GetEntityUniqueConstraintsRelatedForeignKey(System.Guid key)
     {
-        var related = (await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(key))).Where(x => x.EntityUniqueConstraintsRelatedForeignKey != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<EntityUniqueConstraintsRelatedForeignKeyDto>(Enumerable.Empty<EntityUniqueConstraintsRelatedForeignKeyDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.EntityUniqueConstraintsRelatedForeignKey!));
+        return SingleResult.Create(query.Where(x => x.EntityUniqueConstraintsRelatedForeignKey != null).Select(x => x.EntityUniqueConstraintsRelatedForeignKey!));
     }
     
     public virtual async Task<ActionResult<EntityUniqueConstraintsRelatedForeignKeyDto>> PutToEntityUniqueConstraintsRelatedForeignKey(System.Guid key, [FromBody] EntityUniqueConstraintsRelatedForeignKeyUpdateDto entityUniqueConstraintsRelatedForeignKey)

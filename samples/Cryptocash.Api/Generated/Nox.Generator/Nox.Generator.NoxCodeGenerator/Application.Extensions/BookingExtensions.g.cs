@@ -20,7 +20,7 @@ internal static class BookingExtensions
         dto.SetIfNotNull(entity?.PickedUpDateTime, (dto) => dto.PickedUpDateTime =entity!.PickedUpDateTime!.ToDto());
         dto.SetIfNotNull(entity?.ExpiryDateTime, (dto) => dto.ExpiryDateTime =entity!.ExpiryDateTime!.Value);
         dto.SetIfNotNull(entity?.CancelledDateTime, (dto) => dto.CancelledDateTime =entity!.CancelledDateTime!.Value);
-        dto.SetIfNotNull(entity?.Status, (dto) => dto.Status =entity!.Status!.ToString());
+        dto.SetIfNotNull(entity?.Status, (dto) => dto.Status =entity!.Status);
         dto.SetIfNotNull(entity?.VatNumber, (dto) => dto.VatNumber =entity!.VatNumber!.ToDto());
 
         return dto;

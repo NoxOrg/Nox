@@ -74,49 +74,49 @@ public abstract class BookingDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     /// <summary>
     /// Booking's amount exchanged from     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public MoneyDto AmountFrom { get; set; } = default!;
 
     /// <summary>
     /// Booking's amount exchanged to     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public MoneyDto AmountTo { get; set; } = default!;
 
     /// <summary>
     /// Booking's requested pick up date     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public DateTimeRangeDto RequestedPickUpDate { get; set; } = default!;
 
     /// <summary>
     /// Booking's actual pick up date     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public DateTimeRangeDto? PickedUpDateTime { get; set; }
 
     /// <summary>
     /// Booking's expiry date     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.DateTimeOffset? ExpiryDateTime { get; set; }
 
     /// <summary>
     /// Booking's cancelled date     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.DateTimeOffset? CancelledDateTime { get; set; }
 
     /// <summary>
     /// Booking's status     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
-    public System.String? Status { get; set; }
+    /// <remarks>Optional.</remarks>
+    public string? Status { get; set; }
 
     /// <summary>
     /// Booking's related vat number     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public VatNumberDto? VatNumber { get; set; }
 
     /// <summary>

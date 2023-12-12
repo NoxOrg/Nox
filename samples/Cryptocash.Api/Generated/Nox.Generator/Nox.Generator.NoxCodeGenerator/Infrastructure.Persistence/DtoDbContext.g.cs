@@ -50,6 +50,7 @@ internal class DtoDbContext : DbContext
         _codeGenConventions = codeGeneratorState;
         _interceptors = interceptors;
     }
+
     
         public virtual DbSet<BookingDto> Bookings { get; set; } = null!;
         public virtual DbSet<CommissionDto> Commissions { get; set; } = null!;

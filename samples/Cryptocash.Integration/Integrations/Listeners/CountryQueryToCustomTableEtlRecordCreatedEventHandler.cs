@@ -14,7 +14,7 @@ public class CountryQueryToCustomTableRecordCreatedEventHandler: INotificationHa
     
     public Task Handle(CountryQueryToCustomTableRecordCreatedEvent notification, CancellationToken cancellationToken)
     {
-        var payload = (QueryToCustomTableRecordCreatedPayload)notification.Payload!;
+        var payload = (QueryToCustomTableRecordCreatedDto)notification.Dto!;
         _logger.LogInformation("Received: {0}\n " +
                                "Payload\n" +
                                "------------------------------\n" +

@@ -8,11 +8,11 @@ using Nox.Integration.Abstractions.Models;
 
 namespace TestIntegrationSolution.Application.Integrations;
 
-public class TestEntityRecordCreatedEvent: NoxEtlRecordCreatedEvent<INoxEtlEventPayload>, INotification
+public class TestEntityRecordCreatedEvent: EtlRecordCreatedEvent<IEtlEventDto>, INotification
 {
-    public TestEntityRecordCreatedEvent(TestIntegrationRecordCreatedPayload payload)
+    public TestEntityRecordCreatedEvent(TestIntegrationRecordCreatedDto dto)
     {
         IntegrationName = "TestIntegration";
-        SetPayload(payload);
+        SetDto(dto);
     }
 }

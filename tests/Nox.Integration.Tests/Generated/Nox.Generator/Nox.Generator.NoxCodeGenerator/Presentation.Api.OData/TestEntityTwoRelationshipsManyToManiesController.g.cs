@@ -65,14 +65,14 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
     
     public virtual async Task<ActionResult> GetRefToTestRelationshipOne([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).Select(x => x.TestRelationshipOne).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).Include(x => x.TestRelationshipOne).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.TestRelationshipOne)
         {
             references.Add(new System.Uri($"SecondTestEntityTwoRelationshipsManyToManies/{item.Id}", UriKind.Relative));
         }
@@ -113,12 +113,12 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<SecondTestEntityTwoRelationshipsManyToManyDto>>> GetTestRelationshipOne(System.String key)
     {
-        var entity = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipOne);
-        if (!entity.Any())
+        var query = await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.Include(x => x.TestRelationshipOne).SelectMany(x => x.TestRelationshipOne));
     }
     
     [EnableQuery]
@@ -219,14 +219,14 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
     
     public virtual async Task<ActionResult> GetRefToTestRelationshipTwo([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).Select(x => x.TestRelationshipTwo).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).Include(x => x.TestRelationshipTwo).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.TestRelationshipTwo)
         {
             references.Add(new System.Uri($"SecondTestEntityTwoRelationshipsManyToManies/{item.Id}", UriKind.Relative));
         }
@@ -267,12 +267,12 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<SecondTestEntityTwoRelationshipsManyToManyDto>>> GetTestRelationshipTwo(System.String key)
     {
-        var entity = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipTwo);
-        if (!entity.Any())
+        var query = await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.Include(x => x.TestRelationshipTwo).SelectMany(x => x.TestRelationshipTwo));
     }
     
     [EnableQuery]

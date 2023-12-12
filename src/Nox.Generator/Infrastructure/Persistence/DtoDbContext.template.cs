@@ -54,10 +54,8 @@ internal class DtoDbContext : DbContext
         _interceptors = interceptors;
     }
 
-    {{- if codeGeneratorState.Solution.Domain?.Entities != null }}
     {{ for entity in entities }}
     public virtual DbSet<{{ entity.Name }}Dto> {{ entity.PluralName }} { get; set; } = null!;
-    {{- end }}
     {{- end }}
     {{- for entity in entitiesToLocalize }}
     public virtual DbSet<{{GetEntityDtoNameForLocalizedType entity.Name}}> {{GetEntityNameForLocalizedType entity.PluralName}} { get; set; } = null!;
@@ -114,11 +112,9 @@ internal class DtoDbContext : DbContext
 
 private void ConfigureAuditable(ModelBuilder modelBuilder)
     { 
-    {{- if codeGeneratorState.Solution.Domain?.Entities != null }}  
     {{- for entity in entities }}
     {{- if entity.Persistence?.IsAudited }}
         modelBuilder.Entity<{{entity.Name}}Dto>().HasQueryFilter(e => e.DeletedAtUtc == null);
-    {{- end }}
     {{- end }}
     {{- end }}
     }

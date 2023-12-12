@@ -7,6 +7,6 @@ using Nox.Integration.Abstractions.Interfaces;
 
 namespace TestIntegrationSolution.Application.Integrations;
 
-public class TestIntegrationRecordUpdatedPayload: TestEntityUpdateDto, INoxEtlEventPayload
+public class TestIntegrationRecordUpdatedDto: TestEntityUpdateDto, IEtlEventDto
 {
 }

@@ -47,13 +47,17 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     
     public virtual async Task<ActionResult> GetRefToTestRelationshipOneOnOtherSide([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipOneOnOtherSide).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Include(x => x.TestRelationshipOneOnOtherSide).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"TestEntityTwoRelationshipsOneToManies/{related.Id}", UriKind.Relative);
+        if (entity.TestRelationshipOneOnOtherSide is null)
+        {
+            return Ok();
+        }
+        var references = new System.Uri($"TestEntityTwoRelationshipsOneToManies/{entity.TestRelationshipOneOnOtherSide.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -107,12 +111,12 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     [EnableQuery]
     public virtual async Task<SingleResult<TestEntityTwoRelationshipsOneToManyDto>> GetTestRelationshipOneOnOtherSide(System.String key)
     {
-        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Where(x => x.TestRelationshipOneOnOtherSide != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<TestEntityTwoRelationshipsOneToManyDto>(Enumerable.Empty<TestEntityTwoRelationshipsOneToManyDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.TestRelationshipOneOnOtherSide!));
+        return SingleResult.Create(query.Where(x => x.TestRelationshipOneOnOtherSide != null).Select(x => x.TestRelationshipOneOnOtherSide!));
     }
     
     public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToManyDto>> PutToTestRelationshipOneOnOtherSide(System.String key, [FromBody] TestEntityTwoRelationshipsOneToManyUpdateDto testEntityTwoRelationshipsOneToMany)
@@ -181,13 +185,17 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     
     public virtual async Task<ActionResult> GetRefToTestRelationshipTwoOnOtherSide([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipTwoOnOtherSide).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Include(x => x.TestRelationshipTwoOnOtherSide).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"TestEntityTwoRelationshipsOneToManies/{related.Id}", UriKind.Relative);
+        if (entity.TestRelationshipTwoOnOtherSide is null)
+        {
+            return Ok();
+        }
+        var references = new System.Uri($"TestEntityTwoRelationshipsOneToManies/{entity.TestRelationshipTwoOnOtherSide.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -241,12 +249,12 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
     [EnableQuery]
     public virtual async Task<SingleResult<TestEntityTwoRelationshipsOneToManyDto>> GetTestRelationshipTwoOnOtherSide(System.String key)
     {
-        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Where(x => x.TestRelationshipTwoOnOtherSide != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<TestEntityTwoRelationshipsOneToManyDto>(Enumerable.Empty<TestEntityTwoRelationshipsOneToManyDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.TestRelationshipTwoOnOtherSide!));
+        return SingleResult.Create(query.Where(x => x.TestRelationshipTwoOnOtherSide != null).Select(x => x.TestRelationshipTwoOnOtherSide!));
     }
     
     public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToManyDto>> PutToTestRelationshipTwoOnOtherSide(System.String key, [FromBody] TestEntityTwoRelationshipsOneToManyUpdateDto testEntityTwoRelationshipsOneToMany)

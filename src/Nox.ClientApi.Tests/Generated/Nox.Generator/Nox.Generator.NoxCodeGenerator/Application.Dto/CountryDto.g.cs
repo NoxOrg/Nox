@@ -46,7 +46,7 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
         if (this.Population is not null)
             ExecuteActionAndCollectValidationExceptions("Population", () => DomainNamespace.CountryMetadata.CreatePopulation(this.Population.NonNullValue<System.Int32>()), result);
         if (this.CountryDebt is not null)
-            ExecuteActionAndCollectValidationExceptions("CountryDebt", () => DomainNamespace.CountryMetadata.CreateCountryDebt(this.CountryDebt.NonNullValue<MoneyDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("CountryDebt", () => DomainNamespace.CountryMetadata.CreateCountryDebt(this.CountryDebt.NonNullValue<MoneyDto>()), result); 
         if (this.CapitalCityLocation is not null)
             ExecuteActionAndCollectValidationExceptions("CapitalCityLocation", () => DomainNamespace.CountryMetadata.CreateCapitalCityLocation(this.CapitalCityLocation.NonNullValue<LatLongDto>()), result);
         if (this.FirstLanguageCode is not null)
@@ -74,67 +74,73 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     /// <summary>
     /// The Country Name     Set a unique name for the country Do not use abbreviations     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
     /// Population Number of People living in the country     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.Int32? Population { get; set; }
 
     /// <summary>
     /// The Money     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public MoneyDto? CountryDebt { get; set; }
+
+    /// <summary>
+    /// national debt per person     
+    /// </summary>
+    /// <remarks>Optional.</remarks>
+    public double? DebtPerCapita { get; set; }
 
     /// <summary>
     /// The capital location     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public LatLongDto? CapitalCityLocation { get; set; }
 
     /// <summary>
     /// First Official Language     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.String? FirstLanguageCode { get; set; }
 
     /// <summary>
     /// The Formula     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
-    public System.String? ShortDescription { get; set; }
+    /// <remarks>Optional.</remarks>
+    public string? ShortDescription { get; set; }
 
     /// <summary>
     /// Country's iso number id     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.UInt16? CountryIsoNumeric { get; set; }
 
     /// <summary>
     /// Country's iso alpha3 id     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.String? CountryIsoAlpha3 { get; set; }
 
     /// <summary>
     /// Country's map via google maps     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.String? GoogleMapsUrl { get; set; }
 
     /// <summary>
     /// Country's start of week day     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.UInt16? StartOfWeek { get; set; }
 
     /// <summary>
     /// Country Continent     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.Int32? Continent { get; set; }
 
     public string? ContinentName { get; set; } = default!;

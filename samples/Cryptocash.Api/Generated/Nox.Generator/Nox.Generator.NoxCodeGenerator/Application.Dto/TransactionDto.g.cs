@@ -68,25 +68,25 @@ public abstract class TransactionDtoBase : EntityDtoBase, IEntityDto<DomainNames
     /// <summary>
     /// Transaction type     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String TransactionType { get; set; } = default!;
 
     /// <summary>
     /// Transaction processed datetime     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.DateTimeOffset ProcessedOnDateTime { get; set; } = default!;
 
     /// <summary>
     /// Transaction amount     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public MoneyDto Amount { get; set; } = default!;
 
     /// <summary>
     /// Transaction external reference     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String Reference { get; set; } = default!;
 
     /// <summary>

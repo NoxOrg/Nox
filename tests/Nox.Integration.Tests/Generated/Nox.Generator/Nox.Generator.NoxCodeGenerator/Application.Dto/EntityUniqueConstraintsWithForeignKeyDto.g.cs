@@ -55,13 +55,13 @@ public abstract class EntityUniqueConstraintsWithForeignKeyDtoBase : EntityDtoBa
     /// <summary>
     ///      
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.String? TextField { get; set; }
 
     /// <summary>
     ///      
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.Int32 SomeUniqueId { get; set; } = default!;
 
     /// <summary>

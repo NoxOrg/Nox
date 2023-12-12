@@ -7,9 +7,9 @@ using Nox.Integration.Abstractions.Models;
 
 namespace CryptocashIntegration.Application.Integrations;
 
-public class CountryQueryToCustomTableExecuteCompletedEvent: NoxEtlExecuteCompletedEvent, INotification
+public class CountryQueryToCustomTableExecuteCompletedEvent: EtlExecuteCompletedEvent, INotification
 {
-    public CountryQueryToCustomTableExecuteCompletedEvent(NoxEtlExecuteCompletedPayload payload)
+    public CountryQueryToCustomTableExecuteCompletedEvent(EtlExecuteCompletedDto dto)
     {
         IntegrationName = "QueryToCustomTable";
     }

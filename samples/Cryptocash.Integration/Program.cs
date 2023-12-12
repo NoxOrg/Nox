@@ -22,7 +22,7 @@ builder.Services.RegisterTransformHandler<QueryToCustomTableTransformHandler>();
 
 var app = builder.Build();
 
-var events = app.Services.GetServices<NoxEtlExecuteCompletedEvent>();
+var events = app.Services.GetServices<EtlExecuteCompletedEvent>();
 
 app.UseNox();
 

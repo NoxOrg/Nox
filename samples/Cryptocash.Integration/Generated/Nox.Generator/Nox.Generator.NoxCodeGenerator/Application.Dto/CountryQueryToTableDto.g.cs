@@ -58,13 +58,13 @@ public abstract class CountryQueryToTableDtoBase : EntityDtoBase, IEntityDto<Dom
     /// <summary>
     /// Country's name     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
     /// Country's population     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.Int32 Population { get; set; } = default!;
 
     [JsonPropertyName("@odata.etag")]

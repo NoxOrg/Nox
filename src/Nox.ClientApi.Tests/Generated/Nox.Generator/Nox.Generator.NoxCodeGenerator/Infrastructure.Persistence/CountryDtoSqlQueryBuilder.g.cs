@@ -32,6 +32,7 @@ public class CountryDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.Select("Countries.Id")
 			.Select("Countries.Name")
 			.Select("Countries.Population")
+			.Select("Countries.DebtPerCapita")
 			.Select("Countries.FirstLanguageCode")
 			.Select("Countries.ShortDescription")
 			.Select("Countries.CountryIsoNumeric")

@@ -44,10 +44,10 @@ public static class ServiceCollectionExtension
             .GetTypes()
             .Where(t =>
                 t.IsClass &&
-                t.IsAssignableTo(typeof(INoxEtlEventPayload)));
+                t.IsAssignableTo(typeof(IEtlEventDto)));
         foreach (var @payload in payloads)
         {
-            services.AddTransient(typeof(INoxEtlEventPayload), payload);
+            services.AddTransient(typeof(IEtlEventDto), payload);
             services.AddTransient(payload);
         }
  
@@ -61,10 +61,10 @@ public static class ServiceCollectionExtension
             .GetTypes()
             .Where(t =>
                 t.IsClass &&
-                t.IsAssignableTo(typeof(NoxEtlRecordCreatedEvent<INoxEtlEventPayload>)));
+                t.IsAssignableTo(typeof(EtlRecordCreatedEvent<IEtlEventDto>)));
         foreach (var @event in events)
         {
-            services.AddTransient(typeof(NoxEtlRecordCreatedEvent<INoxEtlEventPayload>), @event);
+            services.AddTransient(typeof(EtlRecordCreatedEvent<IEtlEventDto>), @event);
         }
  
         return services;
@@ -77,10 +77,10 @@ public static class ServiceCollectionExtension
             .GetTypes()
             .Where(t =>
                 t.IsClass &&
-                t.IsAssignableTo(typeof(NoxEtlRecordUpdatedEvent<INoxEtlEventPayload>)));
+                t.IsAssignableTo(typeof(EtlRecordUpdatedEvent<IEtlEventDto>)));
         foreach (var @event in events)
         {
-            services.AddTransient(typeof(NoxEtlRecordUpdatedEvent<INoxEtlEventPayload>), @event);
+            services.AddTransient(typeof(EtlRecordUpdatedEvent<IEtlEventDto>), @event);
         }
  
         return services;
@@ -88,17 +88,17 @@ public static class ServiceCollectionExtension
     
     public static IServiceCollection RegisterExecuteCompleteEvents(this IServiceCollection services)
     {
-        services.AddTransient<NoxEtlExecuteCompletedPayload>();
-        services.AddTransient<NoxEtlExecuteCompletedEvent>();
+        services.AddTransient<EtlExecuteCompletedDto>();
+        services.AddTransient<EtlExecuteCompletedEvent>();
         var events = Assembly
             .GetEntryAssembly()!
             .GetTypes()
             .Where(t =>
                 t.IsClass &&
-                t.IsAssignableTo(typeof(NoxEtlExecuteCompletedEvent)));
+                t.IsAssignableTo(typeof(EtlExecuteCompletedEvent)));
         foreach (var @event in events)
         {
-            services.AddTransient(typeof(NoxEtlExecuteCompletedEvent), @event);
+            services.AddTransient(typeof(EtlExecuteCompletedEvent), @event);
         }
  
         return services;

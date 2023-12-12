@@ -50,6 +50,7 @@ internal class DtoDbContext : DbContext
         _codeGenConventions = codeGeneratorState;
         _interceptors = interceptors;
     }
+
     
         public virtual DbSet<CountryQueryToTableDto> CountryQueryToTables { get; set; } = null!;
         public virtual DbSet<CountryQueryToCustomTableDto> CountryQueryToCustomTables { get; set; } = null!;

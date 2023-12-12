@@ -64,37 +64,37 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
     /// <summary>
     /// Workplace Name     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
     /// Workplace Code     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.String? ReferenceNumber { get; set; }
 
     /// <summary>
     /// Workplace Description     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.String? Description { get; set; }
 
     /// <summary>
     /// The Formula     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
-    public System.String? Greeting { get; set; }
+    /// <remarks>Optional.</remarks>
+    public string? Greeting { get; set; }
 
     /// <summary>
     /// Workplace Ownership     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.Int32? Ownership { get; set; }
 
     /// <summary>
     /// Workplace Type     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.Int32? Type { get; set; }
 
     public string? OwnershipName { get; set; } = default!;

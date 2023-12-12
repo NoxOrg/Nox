@@ -2,7 +2,7 @@ using Nox.Integration.Abstractions.Interfaces;
 
 namespace Nox.Integration.Abstractions.Models;
 
-public record NoxEtlExecuteCompletedPayload: INoxEtlEventPayload
+public record EtlExecuteCompletedDto: IEtlEventDto
 {
     public int Inserts { get; set; }
     public int Updates { get; set; }

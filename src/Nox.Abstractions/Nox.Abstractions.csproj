@@ -42,9 +42,5 @@
     <ItemGroup>
       <ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Application\Integrations\" />
-    </ItemGroup>
         
 </Project>

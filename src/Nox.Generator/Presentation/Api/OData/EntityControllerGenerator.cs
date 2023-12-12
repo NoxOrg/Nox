@@ -639,9 +639,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             $"({GetPrimaryKeysRoute(entity, solution)})");
 
         code.StartBlock();
-        code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
-            $".Select(x => x.{navigationName}).SingleOrDefault();");
-        code.AppendLine($"if (related is null)");
+        code.AppendLine($"var entity = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
+            $".Include(x => x.{navigationName}).SingleOrDefault();");
+        code.AppendLine($"if (entity is null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
@@ -649,13 +649,17 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
         if (relationship.WithSingleEntity())
         {
+            code.AppendLine(@$"if (entity.{navigationName} is null)
+        {{
+            return Ok();
+        }}");
             code.AppendLine($"var references = new System.Uri(" +
-                    $"$\"{relatedEntity.PluralName}/{PrimaryKeysAttribute(relatedEntity, "related.", true)}\", UriKind.Relative);");
+                    $"$\"{relatedEntity.PluralName}/{PrimaryKeysAttribute(relatedEntity, $"entity.{navigationName}.", true)}\", UriKind.Relative);");
         }
         else
         {
             code.AppendLine($"IList<System.Uri> references = new List<System.Uri>();");
-            code.AppendLine($"foreach (var item in related)");
+            code.AppendLine($"foreach (var item in entity.{navigationName})");
             code.StartBlock();
             code.AppendLine($"references.Add(new System.Uri(" +
                     $"$\"{relatedEntity.PluralName}/{PrimaryKeysAttribute(relatedEntity, "item.", true)}\", UriKind.Relative));");
@@ -681,26 +685,24 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine($"public virtual async Task<SingleResult<{relatedEntity.Name}Dto>> Get{navigationName}(" +
                 $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")})");
             code.StartBlock(); 
-            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
-                $".Where(x => x.{navigationName} != null);");
-            code.AppendLine($"if (!related.Any())");
+            code.AppendLine($"var query = await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)}));");
+            code.AppendLine($"if (!query.Any())");
             code.StartBlock();
             code.AppendLine($"return SingleResult.Create<{relatedEntity.Name}Dto>(Enumerable.Empty<{relatedEntity.Name}Dto>().AsQueryable());");
             code.EndBlock();
-            code.AppendLine($"return SingleResult.Create(related.Select(x => x.{navigationName}!));");
+            code.AppendLine($"return SingleResult.Create(query.Where(x => x.{navigationName} != null).Select(x => x.{navigationName}!));");
         }
         else
         {
             code.AppendLine($"public virtual async Task<ActionResult<IQueryable<{relatedEntity.Name}Dto>>> Get{navigationName}(" +
                 $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")})");
             code.StartBlock();
-            code.AppendLine($"var entity = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
-                $".SelectMany(x => x.{navigationName});");
-            code.AppendLine($"if (!entity.Any())");
+            code.AppendLine($"var query = await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)}));");
+            code.AppendLine($"if (!query.Any())");
             code.StartBlock();
             code.AppendLine($"return NotFound();");
             code.EndBlock();
-            code.AppendLine($"return Ok(entity);");
+            code.AppendLine($"return Ok(query.Include(x => x.{navigationName}).SelectMany(x => x.{navigationName}));");
         }
 
         code.EndBlock();

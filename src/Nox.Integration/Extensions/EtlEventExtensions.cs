@@ -4,9 +4,9 @@ namespace Nox.Integration.Extensions;
 
 public static class EtlEventExtensions
 {
-    public static INoxEtlEventPayload ResolvePayload(this IDictionary<string, object?> record, INoxEtlEvent<INoxEtlEventPayload> @event)
+    public static IEtlEventDto ResolvePayload(this IDictionary<string, object?> record, IEtlEvent<IEtlEventDto> @event)
     {
-        var payloadType = @event.Payload!.GetType();
+        var payloadType = @event.Dto!.GetType();
         var payload = Activator.CreateInstance(payloadType);
         foreach (var prop in payloadType.GetProperties())
         {
@@ -14,6 +14,6 @@ public static class EtlEventExtensions
             if (sourceVal == null) continue;
             prop.SetValue(payload, sourceVal);
         }
-        return (INoxEtlEventPayload)payload!;
+        return (IEtlEventDto)payload!;
     }
 }

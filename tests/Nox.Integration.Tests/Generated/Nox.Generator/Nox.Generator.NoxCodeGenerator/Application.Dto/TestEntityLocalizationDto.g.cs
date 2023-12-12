@@ -58,13 +58,13 @@ public abstract class TestEntityLocalizationDtoBase : EntityDtoBase, IEntityDto<
     /// <summary>
     ///      
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String TextFieldToLocalize { get; set; } = default!;
 
     /// <summary>
     ///      
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.Int16 NumberField { get; set; } = default!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }

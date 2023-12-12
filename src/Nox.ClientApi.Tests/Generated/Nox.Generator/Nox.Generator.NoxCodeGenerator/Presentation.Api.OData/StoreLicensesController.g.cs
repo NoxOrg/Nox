@@ -47,13 +47,17 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToStore([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.Store).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Include(x => x.Store).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"Stores/{related.Id}", UriKind.Relative);
+        if (entity.Store is null)
+        {
+            return Ok();
+        }
+        var references = new System.Uri($"Stores/{entity.Store.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -75,12 +79,12 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<StoreDto>> GetStore(System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Where(x => x.Store != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetStoreLicenseByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<StoreDto>(Enumerable.Empty<StoreDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.Store!));
+        return SingleResult.Create(query.Where(x => x.Store != null).Select(x => x.Store!));
     }
     
     public virtual async Task<ActionResult<StoreDto>> PutToStore(System.Int64 key, [FromBody] StoreUpdateDto store)
@@ -126,13 +130,17 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToDefaultCurrency([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.DefaultCurrency).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Include(x => x.DefaultCurrency).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"Currencies/{related.Id}", UriKind.Relative);
+        if (entity.DefaultCurrency is null)
+        {
+            return Ok();
+        }
+        var references = new System.Uri($"Currencies/{entity.DefaultCurrency.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -186,12 +194,12 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<CurrencyDto>> GetDefaultCurrency(System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Where(x => x.DefaultCurrency != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetStoreLicenseByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<CurrencyDto>(Enumerable.Empty<CurrencyDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.DefaultCurrency!));
+        return SingleResult.Create(query.Where(x => x.DefaultCurrency != null).Select(x => x.DefaultCurrency!));
     }
     
     public virtual async Task<ActionResult<CurrencyDto>> PutToDefaultCurrency(System.Int64 key, [FromBody] CurrencyUpdateDto currency)
@@ -260,13 +268,17 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToSoldInCurrency([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.SoldInCurrency).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Include(x => x.SoldInCurrency).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"Currencies/{related.Id}", UriKind.Relative);
+        if (entity.SoldInCurrency is null)
+        {
+            return Ok();
+        }
+        var references = new System.Uri($"Currencies/{entity.SoldInCurrency.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -320,12 +332,12 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<CurrencyDto>> GetSoldInCurrency(System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Where(x => x.SoldInCurrency != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetStoreLicenseByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<CurrencyDto>(Enumerable.Empty<CurrencyDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.SoldInCurrency!));
+        return SingleResult.Create(query.Where(x => x.SoldInCurrency != null).Select(x => x.SoldInCurrency!));
     }
     
     public virtual async Task<ActionResult<CurrencyDto>> PutToSoldInCurrency(System.Int64 key, [FromBody] CurrencyUpdateDto currency)

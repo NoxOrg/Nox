@@ -1,10 +1,10 @@
 namespace Nox.Integration.Abstractions.Interfaces;
 
-public interface INoxEtlEvent<TPayload>
+public interface IEtlEvent<TDto>
 {
     string? IntegrationName { get; internal set; }
     
-    TPayload? Payload { get; }
+    TDto? Dto { get; }
 
-    void SetPayload(TPayload payload);
+    void SetDto(TDto dto);
 }
