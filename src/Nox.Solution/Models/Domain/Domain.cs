@@ -59,10 +59,12 @@ public class Domain : YamlConfigNode<NoxSolution, NoxSolution>
     }
     private void ValidateUniqueReferenceNumberPrefixForAllEntitites(ValidationResult result)
     {
+        HashSet<string> usedPrefixs = new HashSet<string>();
+
         foreach (var e in Entities)
         {
             var referenceNumbers = e.Attributes.Union(e.Keys).Where(a => a.Type == NoxType.ReferenceNumber).ToArray();
-            HashSet<string> usedPrefixs = new HashSet<string>();
+            
             foreach (var referenceNumber in referenceNumbers)
             {
                 //The user may not set it, this will produce other Validation issue, ignore it
