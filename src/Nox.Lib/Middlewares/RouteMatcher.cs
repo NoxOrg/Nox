@@ -171,7 +171,7 @@ public class ApiRouteMatcher
         {
             var segment = routePatternSpan[_segmentSpanCoords[i].StartPos.._segmentSpanCoords[i].EndPos];
 
-            pos = routeToMatchSpan[pos..].IndexOf(segment) + pos;
+            pos = routeToMatchSpan[pos..].IndexOf(segment, StringComparison.OrdinalIgnoreCase) + pos;
 
             if (pos >= 0)
             {
@@ -189,10 +189,10 @@ public class ApiRouteMatcher
                     matchedValues.Add(paramKey, paramValue.ToString());
                 }
 
-                int paramStart = pos + (_segmentSpanCoords[i].EndPos - _segmentSpanCoords[i].StartPos);
+                var paramStart = pos + (_segmentSpanCoords[i].EndPos - _segmentSpanCoords[i].StartPos);
 
-                int paramEnd = i + 1 < _segmentSpanCoords.Length
-                    ? routeToMatchSpan[paramStart..].IndexOf(routePatternSpan[_segmentSpanCoords[i + 1].StartPos.._segmentSpanCoords[i + 1].EndPos]) + paramStart
+                var paramEnd = i + 1 < _segmentSpanCoords.Length
+                    ? routeToMatchSpan[paramStart..].IndexOf(routePatternSpan[_segmentSpanCoords[i + 1].StartPos.._segmentSpanCoords[i + 1].EndPos], StringComparison.OrdinalIgnoreCase) + paramStart
                     : routeToMatchSpan.Length;
 
 
