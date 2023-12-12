@@ -61,12 +61,12 @@ public abstract class TenantBrandDtoBase : EntityDtoBase, IEntityDto<DomainNames
     /// <summary>
     /// Teanant Brand Name     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
     /// Teanant Brand Description     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String Description { get; set; } = default!;
 }

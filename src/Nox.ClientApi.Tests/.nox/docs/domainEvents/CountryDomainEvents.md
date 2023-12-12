@@ -17,6 +17,7 @@ Name|Text|The Country Name     Set a unique name for the country Do not use abbr
 
 Population|Number|Population Number of People living in the country
 CountryDebt|Money|The Money
+DebtPerCapita|Formula|national debt per person
 CapitalCityLocation|LatLong|The capital location
 FirstLanguageCode|LanguageCode|First Official Language
 ShortDescription|Formula|The Formula
@@ -44,6 +45,7 @@ Name|Text|The Country Name     Set a unique name for the country Do not use abbr
 
 Population|Number|Population Number of People living in the country
 CountryDebt|Money|The Money
+DebtPerCapita|Formula|national debt per person
 CapitalCityLocation|LatLong|The capital location
 FirstLanguageCode|LanguageCode|First Official Language
 ShortDescription|Formula|The Formula
@@ -71,6 +73,7 @@ Name|Text|The Country Name     Set a unique name for the country Do not use abbr
 
 Population|Number|Population Number of People living in the country
 CountryDebt|Money|The Money
+DebtPerCapita|Formula|national debt per person
 CapitalCityLocation|LatLong|The capital location
 FirstLanguageCode|LanguageCode|First Official Language
 ShortDescription|Formula|The Formula

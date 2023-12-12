@@ -148,7 +148,8 @@ public class ApiRouteMatcher
         }
     }
 
-    public bool HasParameter(string paramName) => _routeParamKeys.Contains(paramName);
+    public bool HasParameter(string paramName) => _routeParamKeys.Contains(paramName) 
+        || _queryParamKeys.Contains(paramName);
 
     public bool Match(string stringToMatch, out IDictionary<string, string>? paramValues)
     {

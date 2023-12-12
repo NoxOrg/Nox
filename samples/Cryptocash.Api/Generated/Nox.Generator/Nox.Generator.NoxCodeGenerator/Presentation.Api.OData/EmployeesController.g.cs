@@ -191,13 +191,17 @@ public abstract partial class EmployeesControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToCashStockOrder([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.CashStockOrder).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Include(x => x.CashStockOrder).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
-        var references = new System.Uri($"CashStockOrders/{related.Id}", UriKind.Relative);
+        if (entity.CashStockOrder is null)
+        {
+            return Ok();
+        }
+        var references = new System.Uri($"CashStockOrders/{entity.CashStockOrder.Id}", UriKind.Relative);
         return Ok(references);
     }
     
@@ -251,12 +255,12 @@ public abstract partial class EmployeesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<SingleResult<CashStockOrderDto>> GetCashStockOrder(System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Where(x => x.CashStockOrder != null);
-        if (!related.Any())
+        var query = await _mediator.Send(new GetEmployeeByIdQuery(key));
+        if (!query.Any())
         {
             return SingleResult.Create<CashStockOrderDto>(Enumerable.Empty<CashStockOrderDto>().AsQueryable());
         }
-        return SingleResult.Create(related.Select(x => x.CashStockOrder!));
+        return SingleResult.Create(query.Where(x => x.CashStockOrder != null).Select(x => x.CashStockOrder!));
     }
     
     public virtual async Task<ActionResult<CashStockOrderDto>> PutToCashStockOrder(System.Int64 key, [FromBody] CashStockOrderUpdateDto cashStockOrder)

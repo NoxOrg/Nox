@@ -63,7 +63,7 @@ internal static class TestEntityForTypesExtensions
         dto.SetIfNotNull(entity?.UrlTestField, (dto) => dto.UrlTestField =entity!.UrlTestField!.Value.ToString());
         dto.SetIfNotNull(entity?.DateTimeScheduleTestField, (dto) => dto.DateTimeScheduleTestField =entity!.DateTimeScheduleTestField!.Value);
         dto.SetIfNotNull(entity?.UserTestField, (dto) => dto.UserTestField =entity!.UserTestField!.Value);
-        dto.SetIfNotNull(entity?.FormulaTestField, (dto) => dto.FormulaTestField =entity!.FormulaTestField!.ToString());
+        dto.SetIfNotNull(entity?.FormulaTestField, (dto) => dto.FormulaTestField =entity!.FormulaTestField);
         dto.SetIfNotNull(entity?.AutoNumberTestField, (dto) => dto.AutoNumberTestField =entity!.AutoNumberTestField!.Value);
         dto.SetIfNotNull(entity?.HtmlTestField, (dto) => dto.HtmlTestField =entity!.HtmlTestField!.Value);
         dto.SetIfNotNull(entity?.ImageTestField, (dto) => dto.ImageTestField =entity!.ImageTestField!.ToDto());

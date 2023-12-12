@@ -75,37 +75,37 @@ public abstract class EmployeeDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     /// <summary>
     /// Employee's first name     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String FirstName { get; set; } = default!;
 
     /// <summary>
     /// Employee's last name     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String LastName { get; set; } = default!;
 
     /// <summary>
     /// Employee's email address     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String EmailAddress { get; set; } = default!;
 
     /// <summary>
     /// Employee's street address     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public StreetAddressDto Address { get; set; } = default!;
 
     /// <summary>
     /// Employee's first working day     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.DateTime FirstWorkingDay { get; set; } = default!;
 
     /// <summary>
     /// Employee's last working day     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.DateTime? LastWorkingDay { get; set; }
 
     /// <summary>

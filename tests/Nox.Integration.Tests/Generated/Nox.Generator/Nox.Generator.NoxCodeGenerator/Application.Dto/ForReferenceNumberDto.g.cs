@@ -53,7 +53,7 @@ public abstract class ForReferenceNumberDtoBase : EntityDtoBase, IEntityDto<Doma
     /// <summary>
     /// Workplace Number     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.String? WorkplaceNumber { get; set; }
 
     [JsonPropertyName("@odata.etag")]

@@ -56,7 +56,7 @@ public abstract class SecondTestEntityTwoRelationshipsManyToManyDtoBase : Entity
     /// <summary>
     ///      
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String TextTestField2 { get; set; } = default!;
 
     /// <summary>

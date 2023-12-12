@@ -22,6 +22,8 @@
 //  - tenant.entity.nox.yaml
 //  - workplace.entity.nox.yaml
 //  - apiConfiguration.nox.yaml
+//  - countries.directRoute.ApiRouteMapping.nox.yaml
+//  - countries.encodedTargetUrl.ApiRouteMapping.nox.yaml
 //  - countryByName.ApiRouteMapping.nox.yaml
 //  - countryByName.queryString.ApiRouteMapping.nox.yaml
 //  - countryByNameOdataFiltering.ApiRouteMapping.nox.yaml

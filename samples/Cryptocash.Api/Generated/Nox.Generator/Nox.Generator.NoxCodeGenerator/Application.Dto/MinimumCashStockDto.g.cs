@@ -56,7 +56,7 @@ public abstract class MinimumCashStockDtoBase : EntityDtoBase, IEntityDto<Domain
     /// <summary>
     /// Cash stock amount     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public MoneyDto Amount { get; set; } = default!;
 
     /// <summary>

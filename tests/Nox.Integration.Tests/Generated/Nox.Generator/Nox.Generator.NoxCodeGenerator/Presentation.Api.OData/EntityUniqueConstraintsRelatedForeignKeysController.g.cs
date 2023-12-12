@@ -65,14 +65,14 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     
     public virtual async Task<ActionResult> GetRefToEntityUniqueConstraintsWithForeignKeys([FromRoute] System.Int32 key)
     {
-        var related = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key))).Select(x => x.EntityUniqueConstraintsWithForeignKeys).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key))).Include(x => x.EntityUniqueConstraintsWithForeignKeys).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.EntityUniqueConstraintsWithForeignKeys)
         {
             references.Add(new System.Uri($"EntityUniqueConstraintsWithForeignKeys/{item.Id}", UriKind.Relative));
         }
@@ -129,12 +129,12 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<EntityUniqueConstraintsWithForeignKeyDto>>> GetEntityUniqueConstraintsWithForeignKeys(System.Int32 key)
     {
-        var entity = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key))).SelectMany(x => x.EntityUniqueConstraintsWithForeignKeys);
-        if (!entity.Any())
+        var query = await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.Include(x => x.EntityUniqueConstraintsWithForeignKeys).SelectMany(x => x.EntityUniqueConstraintsWithForeignKeys));
     }
     
     [EnableQuery]

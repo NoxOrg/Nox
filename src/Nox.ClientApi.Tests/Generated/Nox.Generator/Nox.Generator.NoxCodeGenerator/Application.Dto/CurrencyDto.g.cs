@@ -55,13 +55,13 @@ public abstract class CurrencyDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     /// <summary>
     /// Currency's name     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.String? Name { get; set; }
 
     /// <summary>
     /// Currency's symbol     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.String? Symbol { get; set; }
 
     /// <summary>

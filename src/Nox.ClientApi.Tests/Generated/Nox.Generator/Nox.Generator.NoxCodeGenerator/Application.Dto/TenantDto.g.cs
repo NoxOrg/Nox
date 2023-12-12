@@ -58,13 +58,13 @@ public abstract class TenantDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.
     /// <summary>
     /// Teanant Name     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
     /// Tenant Status     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.Int32? Status { get; set; }
 
     public string? StatusName { get; set; } = default!;

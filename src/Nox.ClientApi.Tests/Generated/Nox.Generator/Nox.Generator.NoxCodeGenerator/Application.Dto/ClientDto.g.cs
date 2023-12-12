@@ -56,7 +56,7 @@ public abstract class ClientDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.
     /// <summary>
     /// Store Name     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String Name { get; set; } = default!;
 
     /// <summary>

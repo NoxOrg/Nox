@@ -65,14 +65,14 @@ public abstract partial class ClientsControllerBase : ODataController
     
     public virtual async Task<ActionResult> GetRefToStores([FromRoute] System.Guid key)
     {
-        var related = (await _mediator.Send(new GetClientByIdQuery(key))).Select(x => x.Stores).SingleOrDefault();
-        if (related is null)
+        var entity = (await _mediator.Send(new GetClientByIdQuery(key))).Include(x => x.Stores).SingleOrDefault();
+        if (entity is null)
         {
             return NotFound();
         }
         
         IList<System.Uri> references = new List<System.Uri>();
-        foreach (var item in related)
+        foreach (var item in entity.Stores)
         {
             references.Add(new System.Uri($"Stores/{item.Id}", UriKind.Relative));
         }
@@ -129,12 +129,12 @@ public abstract partial class ClientsControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<StoreDto>>> GetStores(System.Guid key)
     {
-        var entity = (await _mediator.Send(new GetClientByIdQuery(key))).SelectMany(x => x.Stores);
-        if (!entity.Any())
+        var query = await _mediator.Send(new GetClientByIdQuery(key));
+        if (!query.Any())
         {
             return NotFound();
         }
-        return Ok(entity);
+        return Ok(query.Include(x => x.Stores).SelectMany(x => x.Stores));
     }
     
     [EnableQuery]

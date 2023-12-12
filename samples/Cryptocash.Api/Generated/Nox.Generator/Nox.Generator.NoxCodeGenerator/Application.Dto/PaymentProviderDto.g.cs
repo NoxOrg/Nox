@@ -61,13 +61,13 @@ public abstract class PaymentProviderDtoBase : EntityDtoBase, IEntityDto<DomainN
     /// <summary>
     /// Payment provider name     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String PaymentProviderName { get; set; } = default!;
 
     /// <summary>
     /// Payment provider account type     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String PaymentProviderType { get; set; } = default!;
 
     /// <summary>

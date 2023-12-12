@@ -63,19 +63,19 @@ public abstract class PaymentDetailDtoBase : EntityDtoBase, IEntityDto<DomainNam
     /// <summary>
     /// Payment account name     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String PaymentAccountName { get; set; } = default!;
 
     /// <summary>
     /// Payment account reference number     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String PaymentAccountNumber { get; set; } = default!;
 
     /// <summary>
     /// Payment account sort code     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.String? PaymentAccountSortCode { get; set; }
 
     /// <summary>
