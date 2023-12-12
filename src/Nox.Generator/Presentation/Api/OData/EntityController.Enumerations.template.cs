@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 using System.Collections.Generic;
 
@@ -42,7 +42,7 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
     }
 
     [HttpPut("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>>> Put{{Pluralize (enumAtt.Attribute.Name)}}LocalizedNonConventional([FromBody] EnumerationLocalizedList<DtoNameSpace.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}> {{ToLowerFirstChar enumAtt.EntityDtoNameForLocalizedEnumeration}}s)
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>>> Put{{Pluralize (enumAtt.Attribute.Name)}}LocalizedNonConventional([FromBody] EnumerationLocalizedListDto<DtoNameSpace.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}> {{ToLowerFirstChar enumAtt.EntityDtoNameForLocalizedEnumeration}}s)
     {   
         
         if ({{ToLowerFirstChar enumAtt.EntityDtoNameForLocalizedEnumeration}}s is null)

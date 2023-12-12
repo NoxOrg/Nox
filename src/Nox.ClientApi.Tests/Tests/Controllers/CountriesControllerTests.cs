@@ -2064,7 +2064,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         public async Task WhenEnumerationValuesProvidedWithEmptyName_ShouldReturnBadRequest()
         {
             // Arrange & Act
-            var request = new EnumerationLocalizedList<CountryContinentLocalizedDto>();
+            var request = new EnumerationLocalizedListDto<CountryContinentLocalizedDto>();
             var continents = new[]
             {
                 new CountryContinentLocalizedDto { Id = 1, Name = "Europe", CultureCode = "fr-FR" },
@@ -2090,7 +2090,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         public async Task WhenEnumerationValuesProvidedWithUnsupportedCultureCode_ShouldReturnBadRequest()
         {
             // Arrange & Act
-            var request = new EnumerationLocalizedList<CountryContinentLocalizedDto>();
+            var request = new EnumerationLocalizedListDto<CountryContinentLocalizedDto>();
             var continents = new[]
             {
                 new CountryContinentLocalizedDto { Id = 1, Name = "Avrupa", CultureCode = "tr-TR" },
@@ -2114,7 +2114,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         public async Task WhenEnumerationValuesProvidedWithInvalidId_ShouldReturnBadRequest()
         {
             // Arrange & Act
-            var request = new EnumerationLocalizedList<CountryContinentLocalizedDto>();
+            var request = new EnumerationLocalizedListDto<CountryContinentLocalizedDto>();
             var continents = new[]
             {
                 new CountryContinentLocalizedDto { Id = 1, Name = "Europe", CultureCode = "fr-FR" },
@@ -2380,7 +2380,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
 
         private async Task<ODataCollectionResponse<IEnumerable<CountryContinentLocalizedDto>>?> PutNewCountryContinents(CountryContinentLocalizedDto[]? countryContinents = null)
         {
-            var request = new EnumerationLocalizedList<CountryContinentLocalizedDto>();
+            var request = new EnumerationLocalizedListDto<CountryContinentLocalizedDto>();
             var continents = countryContinents ?? new[]
             {
                 new CountryContinentLocalizedDto { Id = 1, Name = "Europe", CultureCode = "fr-FR" },
@@ -2393,7 +2393,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
 
             // Act
             var result =
-                await PutAsync<EnumerationLocalizedList<CountryContinentLocalizedDto>,
+                await PutAsync<EnumerationLocalizedListDto<CountryContinentLocalizedDto>,
                     ODataCollectionResponse<IEnumerable<CountryContinentLocalizedDto>>>(
                     Endpoints.CountriesUrl + "/CountryContinentsLocalized", request);
             return result;

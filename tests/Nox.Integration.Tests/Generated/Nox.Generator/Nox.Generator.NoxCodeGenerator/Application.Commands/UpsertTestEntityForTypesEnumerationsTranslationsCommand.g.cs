@@ -76,8 +76,7 @@ internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslation
 }
 public class UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandValidator : AbstractValidator<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand>
 {
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-	private static readonly Nox.Types.CultureCode[] _supportedCultureCodes = new Nox.Types.CultureCode[] { Nox.Types.CultureCode.From("en-US"), };
+	private static readonly string[] _supportedCultureCodes = new string[] { "en-US", };
 	private static readonly int[] _supportedIds = new int[] { 1, 2, 3, };
 	
     public UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandValidator(NoxSolution noxSolution)
@@ -87,7 +86,7 @@ public class UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandVal
 			.WithMessage($"{nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand)} : {nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand.TestEntityForTypesEnumerationTestFieldLocalizedDtos)} is required.");
 		
 		RuleForEach(x => x.TestEntityForTypesEnumerationTestFieldLocalizedDtos)
-			.Must(x => _supportedCultureCodes.Contains(Nox.Types.CultureCode.From(x.CultureCode)))
+			.Must(x => _supportedCultureCodes.Contains(x.CultureCode))
 			.WithMessage((_,x) => $"{nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand)} : {nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand.TestEntityForTypesEnumerationTestFieldLocalizedDtos)} contains unsupported culture code: {x.CultureCode}.");
 		
 		RuleForEach(x => x.TestEntityForTypesEnumerationTestFieldLocalizedDtos)

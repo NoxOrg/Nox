@@ -1,4 +1,4 @@
-﻿{{- func attributeType(attribute)
+{{- func attributeType(attribute)
    ret IsNoxTypeSimpleType attribute.Type ? (SinglePrimitiveTypeForKey attribute) : (attribute.Type + "Dto")
 end -}}
 // Generated
