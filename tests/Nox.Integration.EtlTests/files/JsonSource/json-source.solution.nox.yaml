@@ -1,0 +1,17 @@
+#
+# json-source.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: JsonSourceIntegration
+
+description: Yaml file for testing integrations
+
+application:
+  
+  $ref: ./application/json-source.application.nox.yaml
+
+infrastructure:
+  $ref: ./infrastructure/json-source.infrastructure.nox.yaml

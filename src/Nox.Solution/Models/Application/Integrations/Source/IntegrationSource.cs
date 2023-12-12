@@ -37,12 +37,12 @@ public class IntegrationSource : YamlConfigNode<NoxSolution,Integration>
     [IfEquals(nameof(SourceAdapterType), IntegrationSourceAdapterType.DatabaseQuery)]
     [Required]
     public IntegrationSourceQueryOptions? QueryOptions { get; set; }
-
-    /*
-
+    
     [IfEquals(nameof(SourceAdapterType), IntegrationSourceAdapterType.File)]
     [Required]
     public IntegrationSourceFileOptions? FileOptions { get; set; }
+
+    /*
 
     [IfEquals(nameof(SourceAdapterType), IntegrationSourceAdapterType.MessageQueue)]
     [Required]
