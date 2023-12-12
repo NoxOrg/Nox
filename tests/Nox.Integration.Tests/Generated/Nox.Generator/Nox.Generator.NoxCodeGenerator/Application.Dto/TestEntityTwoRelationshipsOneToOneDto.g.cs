@@ -56,7 +56,7 @@ public abstract class TestEntityTwoRelationshipsOneToOneDtoBase : EntityDtoBase,
     /// <summary>
     ///      
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String TextTestField { get; set; } = default!;
 
     /// <summary>

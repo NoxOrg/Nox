@@ -53,6 +53,14 @@ attributes:
     moneyTypeOptions:
       minValue: 100000
 
+  - name: DebtPerCapita
+    description: national debt per person
+    type: formula
+    formulaTypeOptions:
+      returns: double
+      expression: "(CountryDebt is null || Population is null) ? null : CountryDebt.Amount / Population.Value"
+
+
   - name: CapitalCityLocation
     description: The capital location
     type: latLong

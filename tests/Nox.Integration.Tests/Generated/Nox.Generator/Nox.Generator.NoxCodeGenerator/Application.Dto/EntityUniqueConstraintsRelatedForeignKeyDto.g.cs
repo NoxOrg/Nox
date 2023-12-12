@@ -53,7 +53,7 @@ public abstract class EntityUniqueConstraintsRelatedForeignKeyDtoBase : EntityDt
     /// <summary>
     ///      
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.String? TextField { get; set; }
 
     /// <summary>

@@ -56,6 +56,6 @@ public abstract class SecEntityOwnedRelZeroOrManyDtoBase : EntityDtoBase, IEntit
     /// <summary>
     ///      
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String TextTestField2 { get; set; } = default!;
 }

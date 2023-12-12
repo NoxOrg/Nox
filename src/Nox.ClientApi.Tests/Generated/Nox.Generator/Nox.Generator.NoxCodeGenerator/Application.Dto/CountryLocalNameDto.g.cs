@@ -58,12 +58,12 @@ public abstract class CountryLocalNameDtoBase : EntityDtoBase, IEntityDto<Domain
     /// <summary>
     /// Local name     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
     /// Local name in native tongue     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.String? NativeName { get; set; }
 }

@@ -56,7 +56,7 @@ public abstract class TestEntityOwnedRelationshipZeroOrOneDtoBase : EntityDtoBas
     /// <summary>
     ///      
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String TextTestField { get; set; } = default!;
 
     /// <summary>

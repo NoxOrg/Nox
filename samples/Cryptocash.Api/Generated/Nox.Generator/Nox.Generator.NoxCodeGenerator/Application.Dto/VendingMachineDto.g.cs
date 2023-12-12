@@ -80,43 +80,43 @@ public abstract class VendingMachineDtoBase : EntityDtoBase, IEntityDto<DomainNa
     /// <summary>
     /// Vending machine mac address     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String MacAddress { get; set; } = default!;
 
     /// <summary>
     /// Vending machine public ip     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String PublicIp { get; set; } = default!;
 
     /// <summary>
     /// Vending machine geo location     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public LatLongDto GeoLocation { get; set; } = default!;
 
     /// <summary>
     /// Vending machine street address     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public StreetAddressDto StreetAddress { get; set; } = default!;
 
     /// <summary>
     /// Vending machine serial number     
     /// </summary>
-    /// <remarks>Required.</remarks>    
+    /// <remarks>Required.</remarks>
     public System.String SerialNumber { get; set; } = default!;
 
     /// <summary>
     /// Vending machine installation area     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.Decimal? InstallationFootPrint { get; set; }
 
     /// <summary>
     /// Landlord rent amount based on area of the vending machine installation     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public MoneyDto? RentPerSquareMetre { get; set; }
 
     /// <summary>

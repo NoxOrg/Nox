@@ -50,12 +50,12 @@ public abstract class EmailAddressDtoBase : EntityDtoBase, IEntityDto<DomainName
     /// <summary>
     /// Email     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.String? Email { get; set; }
 
     /// <summary>
     /// Verified     
     /// </summary>
-    /// <remarks>Optional.</remarks>    
+    /// <remarks>Optional.</remarks>
     public System.Boolean? IsVerified { get; set; }
 }
