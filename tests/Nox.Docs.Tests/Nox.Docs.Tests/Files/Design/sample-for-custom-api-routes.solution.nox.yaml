@@ -40,7 +40,7 @@ domain:
 
       keys:
         - name: Id
-          type: guid
+          type: autoNumber
           isRequired: true
 
       attributes:
@@ -68,7 +68,7 @@ domain:
 
       keys:
         - name: Id
-          type: text
+          type: autoNumber
           isRequired: true
 
       attributes:
@@ -124,7 +124,7 @@ domain:
 
       keys:
         - name: Id
-          type: guid
+          type: autoNumber
           isRequired: true
 
       attributes:
@@ -165,3 +165,39 @@ presentation:
             name: Name
             description: The name of the university
             type: string
+
+      - name: EnrollStudentToCourse
+        description: Enroll students to a course.
+        httpVerb: post
+        route: /Students/{StudentId}/EnrollCourse/{CourseId}
+        targetUrl: /Students/{StudentId}/Courses/{CourseId}/$ref
+
+        requestInput:
+          - name: StudentId
+            description: The student's id
+            type: number
+
+          - name: CourseId
+            description: The course's id
+            type: number
+
+        responseOutput: 
+          name: Status
+          description: Enrollement status
+          type: boolean
+
+      - name: DisenrollStudentFromAllCourses
+        description: Disenroll students from all courses they are enrolled in.
+        httpVerb: delete
+        route: /Students/{StudentId}/DisenrollCourses
+        targetUrl: /Students/{StudentId}/Courses/$ref
+
+        requestInput:
+          - name: StudentId
+            description: The student's id
+            type: number
+
+        responseOutput: 
+          name: DisenrolledCount
+          description: Count of disenrolled courses
+          type: number
