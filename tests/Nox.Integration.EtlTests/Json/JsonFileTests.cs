@@ -14,8 +14,8 @@ public class JsonFileTests: IClassFixture<SqlServerIntegrationFixture>
     }
 
     
-    //[Fact (Skip = "This test can only be run locally if you have a local sql server instance and have created the CountrySource database using ./files/Create_CountrySource.sql")]
-    [Fact]
+    [Fact (Skip = "This test can only be run locally if you have a local sql server instance and have created the CountrySource database using ./files/Create_CountrySource.sql")]
+    //[Fact]
     public async Task Can_integrate_json_to_sql_table()
     {
         _sqlFixture.Configure("./files/JsonSource/json-source.solution.nox.yaml");
