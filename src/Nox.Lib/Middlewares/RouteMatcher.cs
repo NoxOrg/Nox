@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.FileSystemGlobbing.Internal;
-using Nox.Yaml.Attributes;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text;
 
 namespace Nox.Lib;
@@ -32,12 +30,7 @@ public class ApiRouteMatcher
 
         var routeParamCount = ValidateAndCountParams(routeSpan);
         var queryParamCount = ValidateAndCountParams(querySpan);
-        
-        var routeSegmentCount = routeParamCount;
-        if (routeSpan[0] == '{') routeSegmentCount--;
-        if (routeSpan[^1] != '}') routeSegmentCount++;
-
-        var paramSpanCoords = new (int StartPos, int EndPos)[routeParamCount];
+        var routeSegmentCount = ValidateAndCountSegments(routeSpan, routeParamCount);
 
         _routePattern = routeSpan.ToString();
         _queryPattern = querySpan.ToString();
@@ -47,96 +40,9 @@ public class ApiRouteMatcher
         _queryParamKeys = new string[queryParamCount];
         _parameterDefaults = new Dictionary<string, string>(16);
 
-        var routeParamIndex = 0;
-        var queryParamIndex = 0;
-        var segmentIndex = 0;
-        var startParamPos = -1;
+        ExtractRouteParametersAndSegments(routeSpan, routeParamCount, routeSegmentCount);
 
-        for (var i = 0; i < routeSpan.Length; i++)
-        {
-            if (routeSpan[i] == '{')
-            {
-                startParamPos = i + 1;
-                if (i > 0 && routeParamIndex > 0)
-                {
-                    _segmentSpanCoords[segmentIndex++] = 
-                        new(paramSpanCoords[routeParamIndex-1].EndPos+1,i);
-                }
-                else if (i > 0)
-                {
-                    _segmentSpanCoords[segmentIndex++] =
-                        new(0, i);
-                }
-            }
-            else if (routeSpan[i] == '}')
-            {
-                var newParam = routeSpan[startParamPos..i].ToString();
-                if (!_routeParamKeys.Contains(newParam))
-                {
-                    _routeParamKeys[routeParamIndex] = newParam;
-                    paramSpanCoords[routeParamIndex] = new(startParamPos, i);
-                    routeParamIndex++;
-
-                    if (routeParamIndex == routeParamCount && segmentIndex < routeSegmentCount)
-                    {
-                        _segmentSpanCoords[segmentIndex++] =
-                            new(paramSpanCoords[routeParamIndex - 1].EndPos + 1, routeSpan.Length);
-                        break;
-                    }
-                    
-                    startParamPos = -1;
-                }
-                else
-                {
-                    throw new ArgumentException($"The variable [{newParam}] should only appear once in [{_routePattern}].");
-                }
-            }
-        }
-
-        if (routeParamCount == 0 && segmentIndex < routeSegmentCount)
-        {
-            _segmentSpanCoords[segmentIndex++] = new(0, routeSpan.Length);
-        }
-
-        startParamPos = -1;
-        var startVarPos = -1;
-        var endVarPos = -1;
-
-        for (var i = 0; i < querySpan.Length; i++)
-        {
-
-            if (querySpan[i] == '?' || querySpan[i] == '&')
-            {
-                startVarPos = i+1;
-            }
-            else if (querySpan[i] == '=')
-            {
-                endVarPos = i;
-            }
-            else if (querySpan[i] == ' ')
-            {
-                // ignore these chars
-            }
-            else if (querySpan[i] == '{')
-            {
-                startParamPos = i + 1;
-            }
-            else if (querySpan[i] == '}')
-            {
-                var newParam = querySpan[startParamPos..i].ToString();
-                if (!_queryParamKeys.Contains(newParam) && !_routeParamKeys.Contains(newParam))
-                {
-                    _queryParamKeys[queryParamIndex] = newParam;
-                    _variableSpanCoords[queryParamIndex] = new(startVarPos, endVarPos);
-                    queryParamIndex++;
-                    startParamPos = -1;
-                }
-                else
-                {
-                    throw new ArgumentException($"The variable [{newParam}] should only appear once in [{_routePattern}{_queryPattern}].");
-                }
-            }
-        }
+        ExtractQueryParametersAndKeys(querySpan);
 
     }
 
@@ -260,14 +166,11 @@ public class ApiRouteMatcher
         {
             if (!matchedValues.TryGetValue(paramKey, out string? matchValue) || matchValue.Equals(string.Empty))
             {
-                if (_parameterDefaults.TryGetValue(paramKey, out var paramValue))
-                {
-                    matchedValues[paramKey] = paramValue;
-                }
-                else
+                if (!_parameterDefaults.TryGetValue(paramKey, out var paramValue))
                 {
                     throw new ArgumentException($"Parameter [{paramKey}] could not be resolved in [{stringToMatch}] and no default was supplied.");
                 }
+                matchedValues[paramKey] = paramValue;
             }
         }
 
@@ -296,15 +199,131 @@ public class ApiRouteMatcher
         var closedBraceCount = 0;
         foreach (var c in span)
         {
-            if (c == '{')
-                openBraceCount++;
-            else if (c == '}')
-                closedBraceCount++;
+            switch (c)
+            {
+                case '{':
+                    openBraceCount++;
+                    break;
+                case '}':
+                    closedBraceCount++;
+                    break;
+            }
         }
         if (openBraceCount == closedBraceCount)
         {
             return openBraceCount;
         }
         throw new ArgumentException($"Parameter open and closed brace mismatch in [{span}].");
+    }
+
+    private static int ValidateAndCountSegments(ReadOnlySpan<char> routeSpan, int routeParamCount)
+    {
+        var routeSegmentCount = routeParamCount;
+
+        if (routeSpan[0] == '{') routeSegmentCount--;
+        
+        if (routeSpan[^1] != '}') routeSegmentCount++;
+        
+        return routeSegmentCount;
+    }
+
+    private void ExtractRouteParametersAndSegments(ReadOnlySpan<char> routeSpan, int routeParamCount, int routeSegmentCount)
+    {
+        var routeParamIndex = 0;
+        var segmentIndex = 0;
+        var startParamPos = -1;
+        var paramSpanCoords = new (int StartPos, int EndPos)[routeParamCount];
+
+        for (var i = 0; i < routeSpan.Length; i++)
+        {
+            if (routeSpan[i] == '{')
+            {
+                startParamPos = i + 1;
+                if (i > 0 && routeParamIndex > 0)
+                {
+                    _segmentSpanCoords[segmentIndex++] = new(paramSpanCoords[routeParamIndex - 1].EndPos + 1, i);
+                }
+                else if (i > 0)
+                {
+                    _segmentSpanCoords[segmentIndex++] =
+                        new(0, i);
+                }
+            }
+            else if (routeSpan[i] == '}')
+            {
+                var newParam = routeSpan[startParamPos..i].ToString();
+
+                if (HasParameter(newParam))
+                {
+                    throw new ArgumentException($"The variable [{newParam}] should only appear once in [{_routePattern}].");
+                }
+
+                _routeParamKeys[routeParamIndex] = newParam;
+             
+                paramSpanCoords[routeParamIndex] = new(startParamPos, i);
+                
+                routeParamIndex++;
+
+                if (routeParamIndex == routeParamCount && segmentIndex < routeSegmentCount)
+                {
+                    _segmentSpanCoords[segmentIndex++] =
+                        new(paramSpanCoords[routeParamIndex - 1].EndPos + 1, routeSpan.Length);
+                    break;
+                }
+
+            }
+        }
+
+        if (routeParamCount == 0 && segmentIndex < routeSegmentCount)
+        {
+            _segmentSpanCoords[segmentIndex++] = new(0, routeSpan.Length);
+        }
+
+    }
+
+    private void ExtractQueryParametersAndKeys(ReadOnlySpan<char> querySpan)
+    {
+        var startParamPos = -1;
+        var startVarPos = -1;
+        var endVarPos = -1;
+        var queryParamIndex = 0;
+
+        for (var i = 0; i < querySpan.Length; i++)
+        {
+
+            switch (querySpan[i])
+            {
+                case '?':
+                case '&':
+                    startVarPos = i + 1;
+                    break;
+                case '=':
+                    endVarPos = i;
+                    break;
+                case ' ':
+                    break;
+                case '{':
+                    startParamPos = i + 1;
+                    break;
+                case '}':
+                    {
+                        var newParam = querySpan[startParamPos..i].ToString();
+
+                        if (HasParameter(newParam))
+                        {
+                            throw new ArgumentException($"The variable [{newParam}] should only appear once in [{_routePattern}{_queryPattern}].");
+                        }
+
+                        _queryParamKeys[queryParamIndex] = newParam;
+                        
+                        _variableSpanCoords[queryParamIndex] = new(startVarPos, endVarPos);
+                        
+                        queryParamIndex++;
+
+                        break;
+                    }
+            }
+        }
+
     }
 }
