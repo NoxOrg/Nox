@@ -13,5 +13,6 @@ public class {{ className }}: EtlRecordUpdatedEvent<IEtlEventDto>, INotification
     public {{ className }}({{integration.Name}}RecordUpdatedDto dto)
     {
         IntegrationName = "{{integration.Name}}";
+        SetDto(dto);
     }
 }

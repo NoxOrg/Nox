@@ -7,7 +7,7 @@
 name: JsonToSqlIntegration
 description: a Sample integration that sources data from a Json file and persists to a Database Table
 mergeType: mergeNew
-transformationType: defaultTransform
+transformationType: customTransform
 
 schedule:
   start: every day at 2am
@@ -48,7 +48,7 @@ source:
         type: dateTime
         
 target:
-  name: SampleTarget
+  name: TestTarget
   dataConnectionName: EtlSample
   targetAdapterType: databaseTable
   tableOptions:

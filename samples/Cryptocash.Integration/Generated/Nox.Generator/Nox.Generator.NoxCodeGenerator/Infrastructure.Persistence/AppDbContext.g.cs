@@ -56,6 +56,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
     
     public virtual DbSet<CryptocashIntegration.Domain.CountryQueryToTable> CountryQueryToTables { get; set; } = null!;
     public virtual DbSet<CryptocashIntegration.Domain.CountryQueryToCustomTable> CountryQueryToCustomTables { get; set; } = null!;
+    public virtual DbSet<CryptocashIntegration.Domain.CountryJsonToTable> CountryJsonToTables { get; set; } = null!;
     
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

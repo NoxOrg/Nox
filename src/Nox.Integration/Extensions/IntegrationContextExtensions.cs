@@ -4,6 +4,7 @@ using Nox.Integration.Exceptions;
 using Nox.Integration.Extensions.Receive;
 using Nox.Integration.Extensions.Send;
 using Nox.Solution;
+using Nox.Types;
 
 namespace Nox.Integration.Extensions;
 
@@ -11,14 +12,14 @@ public static class IntegrationContextExtensions
 {
     internal static INoxIntegration WithReceiveAdapter(this INoxIntegration instance, IntegrationSource sourceDefinition, IReadOnlyList<DataConnection>? dataConnections)
     {
+        var dataConnection = dataConnections!.FirstOrDefault(dc => dc.Name == sourceDefinition.DataConnectionName);
         switch (sourceDefinition.SourceAdapterType)
         {
             case IntegrationSourceAdapterType.DatabaseQuery:
-                var dataConnection = dataConnections!.FirstOrDefault(dc => dc.Name == sourceDefinition.DataConnectionName);
                 instance.WithDatabaseReceiveAdapter(sourceDefinition.QueryOptions!, dataConnection!);
                 break;
             case IntegrationSourceAdapterType.File:
-                
+                instance.WithFileReceiveAdapter(sourceDefinition.FileOptions!, dataConnection!);
                 break;
         }
 

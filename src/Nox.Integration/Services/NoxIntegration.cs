@@ -90,6 +90,7 @@ internal sealed class NoxIntegration: INoxIntegration
         catch (Exception ex)
         {
             _logger.LogError("{0}. Component {1}. Action {2}. Status {3}. Error {4}", Name, "NoxIntegration", MergeType.ToString(), "error", ex.ToString());
+            throw;
         }
     }
 

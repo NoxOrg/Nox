@@ -8,11 +8,11 @@ using Nox.Integration.Abstractions.Models;
 
 namespace CryptocashIntegration.Application.Integrations;
 
-public class CountryQueryToTableRecordCreatedEvent: EtlRecordCreatedEvent<IEtlEventDto>, INotification
+public class JsonToTableRecordCreatedEvent: EtlRecordCreatedEvent<IEtlEventDto>, INotification
 {
-    public CountryQueryToTableRecordCreatedEvent(QueryToTableRecordCreatedDto dto)
+    public JsonToTableRecordCreatedEvent(JsonToTableRecordCreatedDto dto)
     {
-        IntegrationName = "QueryToTable";
+        IntegrationName = "JsonToTable";
         SetDto(dto);
     }
 }

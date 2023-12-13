@@ -4,5 +4,5 @@ namespace Nox.Integration.Abstractions.Interfaces;
 
 public interface INoxFileReceiveAdapter: INoxReceiveAdapter
 {
-    List<NoxSimpleTypeDefinition> Attributes { get; }
+    IReadOnlyList<NoxSimpleTypeDefinition> Attributes { get; }
 }

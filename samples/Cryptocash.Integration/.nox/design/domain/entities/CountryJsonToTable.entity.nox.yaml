@@ -1,12 +1,12 @@
 #
-# CountryQueryToCustomTable.entity.nox.yaml
+# CountryJsonToTable.entity.nox.yaml
 #
 # yaml-language-server: $schema=../../../../../schemas/entity.json
 #
 
-name: CountryQueryToCustomTable
+name: CountryJsonToTable
 
-description: Country and related data
+description: Country and related data for Json file integration
 
 keys:
 
@@ -28,10 +28,8 @@ attributes:
   - name: Population
     description: Country's population
     type: number
-    numberTypeOptions:
-      
     isRequired: true
-    
+
   - name: CreateDate
     description: The date on which the country record was created
     type: dateTime
@@ -43,7 +41,7 @@ attributes:
 
 persistence:
   isAudited: false
-  tableName: CountriesQueryToCustomTable
+  tableName: CountriesJsonToTable
   create:
     isEnabled: true
     raiseEvents: domainEventsOnly

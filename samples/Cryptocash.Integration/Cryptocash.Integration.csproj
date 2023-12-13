@@ -59,5 +59,11 @@
     <ItemGroup>
       <Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\Application.Integration.CustomTransformHandlers\" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <None Include="files\CountryMaster.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
 
 </Project>

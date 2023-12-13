@@ -131,6 +131,9 @@
       <None Update="files\JsonSource\infrastructure\json-source.infrastructure.nox.yaml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="files\source-data\CountryMaster.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>

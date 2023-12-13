@@ -39,5 +39,15 @@ public class NoxIntegrationController : Controller
         _integrationContext.ExecuteIntegrationAsync("QueryToCustomTable");
         return Ok();
     }
+    [SwaggerOperation(
+        Description = "Execute integration JsonToTable",
+        OperationId = "ExecuteJsonToTable"
+    )]
+    [HttpPost("[action]")]
+    public ActionResult ExecuteJsonToTable()
+    {
+        _integrationContext.ExecuteIntegrationAsync("JsonToTable");
+        return Ok();
+    }
     
 }

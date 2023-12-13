@@ -3,16 +3,16 @@ using MediatR;
 
 namespace Cryptocash.Integration.Integrations;
 
-public class CountryQueryToCustomTableRecordCreatedEventHandler: INotificationHandler<CountryQueryToCustomTableRecordCreatedEvent>
+public class QueryToCustomTableRecordCreatedEventHandler: INotificationHandler<QueryToCustomTableRecordCreatedEvent>
 {
     private readonly ILogger _logger;
 
-    public CountryQueryToCustomTableRecordCreatedEventHandler(ILogger<CountryQueryToCustomTableRecordCreatedEventHandler> logger)
+    public QueryToCustomTableRecordCreatedEventHandler(ILogger<QueryToCustomTableRecordCreatedEventHandler> logger)
     {
         _logger = logger;
     }
     
-    public Task Handle(CountryQueryToCustomTableRecordCreatedEvent notification, CancellationToken cancellationToken)
+    public Task Handle(QueryToCustomTableRecordCreatedEvent notification, CancellationToken cancellationToken)
     {
         var payload = (QueryToCustomTableRecordCreatedDto)notification.Dto!;
         _logger.LogInformation("Received: {0}\n " +

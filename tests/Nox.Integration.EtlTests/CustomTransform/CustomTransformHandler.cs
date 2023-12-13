@@ -2,13 +2,13 @@ using System.Dynamic;
 using Nox.Integration.Abstractions.Interfaces;
 using Nox.Solution;
 
-namespace Nox.Integration.EtlTests;
+namespace Nox.Integration.EtlTests.CustomTransform;
 
-public class TestNoxCustomTransformHandler: TestNoxCustomTransformHandlerBase, INoxCustomTransformHandler
+public class CustomTransformHandler: CustomTransformHandlerBase, INoxCustomTransformHandler
 {
     private readonly NoxSolution _solution;
     
-    public TestNoxCustomTransformHandler(NoxSolution solution)
+    public CustomTransformHandler(NoxSolution solution)
     {
         _solution = solution;
     }

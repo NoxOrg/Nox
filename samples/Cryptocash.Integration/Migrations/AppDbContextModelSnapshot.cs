@@ -22,13 +22,39 @@ namespace Cryptocash.Integration.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CryptocashIntegration.Domain.CountryQueryToCustomTable", b =>
+            modelBuilder.Entity("CryptocashIntegration.Domain.CountryJsonToTable", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("AsAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("CreateDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("EditDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(63)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(63)");
+
+                    b.Property<int>("Population")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CountriesJsonToTable", (string)null);
+                });
+
+            modelBuilder.Entity("CryptocashIntegration.Domain.CountryQueryToCustomTable", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("CreateDate")
                         .HasColumnType("datetimeoffset");
@@ -58,9 +84,6 @@ namespace Cryptocash.Integration.Migrations
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("AsAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()

@@ -54,6 +54,7 @@ internal class DtoDbContext : DbContext
     
         public virtual DbSet<CountryQueryToTableDto> CountryQueryToTables { get; set; } = null!;
         public virtual DbSet<CountryQueryToCustomTableDto> CountryQueryToCustomTables { get; set; } = null!;
+        public virtual DbSet<CountryJsonToTableDto> CountryJsonToTables { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
