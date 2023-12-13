@@ -5,26 +5,26 @@ This document provides information about the various endpoints available in our 
 ## RatingProgram Endpoints
 
 ### Get RatingProgram by ID
-- **GET** `/api/RatingPrograms/{key}`
+- **GET** `/api/v1/RatingPrograms/{key}`
   - Description: Retrieve information about a RatingProgram by ID.
   
 ### Get RatingPrograms
-- **GET** `/api/RatingPrograms`
+- **GET** `/api/v1/RatingPrograms`
   - Description: Retrieve information about RatingPrograms.
 
 ### Create RatingProgram
-- **POST** `/api/RatingPrograms`
+- **POST** `/api/v1/RatingPrograms`
   - Description: Create a new RatingProgram.
 
 ### Update RatingProgram
-- **PUT** `/api/RatingPrograms/{key}`
+- **PUT** `/api/v1/RatingPrograms/{key}`
   - Description: Update an existing RatingProgram.
 
 ### Partially Update RatingProgram
-- **PATCH** `/api/RatingPrograms/{key}`
+- **PATCH** `/api/v1/RatingPrograms/{key}`
   - Description: Partially update an existing RatingProgram.
  
 ### Delete RatingProgram
-- **DELETE** `/api/RatingPrograms/{key}`
+- **DELETE** `/api/v1/RatingPrograms/{key}`
   - Description: Delete an existing RatingProgram.
 

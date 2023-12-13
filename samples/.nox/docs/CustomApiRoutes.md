@@ -6,5 +6,5 @@ This document provides information about custom API routes. Custom API routes ar
 - [CountriesByName](#CountriesByName)
 
 ### CountriesByName
-- **GET** `/CountriesByName/{Count}`
+- **GET** `/api/CountriesByName/{Count}`
   - Description: Get country names in alphabetical order.

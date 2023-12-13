@@ -5,27 +5,27 @@ This document provides information about the various endpoints available in our 
 ## Country Endpoints
 
 ### Get Country by ID
-- **GET** `/api/Countries/{key}`
+- **GET** `/api/v1/Countries/{key}`
   - Description: Retrieve information about a Country by ID.
   
 ### Get Countries
-- **GET** `/api/Countries`
+- **GET** `/api/v1/Countries`
   - Description: Retrieve information about Countries.
 
 ### Create Country
-- **POST** `/api/Countries`
+- **POST** `/api/v1/Countries`
   - Description: Create a new Country.
 
 ### Update Country
-- **PUT** `/api/Countries/{key}`
+- **PUT** `/api/v1/Countries/{key}`
   - Description: Update an existing Country.
 
 ### Partially Update Country
-- **PATCH** `/api/Countries/{key}`
+- **PATCH** `/api/v1/Countries/{key}`
   - Description: Partially update an existing Country.
  
 ### Delete Country
-- **DELETE** `/api/Countries/{key}`
+- **DELETE** `/api/v1/Countries/{key}`
   - Description: Delete an existing Country.
 
 ## Owned Relationships Endpoints
@@ -33,95 +33,95 @@ This document provides information about the various endpoints available in our 
 ### CountryLocalName
 
 #### Get CountryLocalNames
-- **GET** `/api/Countries/{key}/CountryLocalNames`
+- **GET** `/api/v1/Countries/{key}/CountryLocalNames`
   - Description: Retrieve all CountryLocalNames for a specific Country.
-- **GET** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
+- **GET** `/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}`
   - Description: Retrieve a CountryLocalName by ID for a specific Country.
 
 #### Create CountryLocalName
-- **POST** `/api/Countries/{key}/CountryLocalNames`
+- **POST** `/api/v1/Countries/{key}/CountryLocalNames`
   - Description: Create a new CountryLocalName for a specific Country.
 
 #### Update CountryLocalName
-- **PUT** `/api/Countries/{key}/CountryLocalNames`
+- **PUT** `/api/v1/Countries/{key}/CountryLocalNames`
   - Description: Update an existing CountryLocalName for a specific Country.
   
 #### Partially Update CountryLocalName
-- **PATCH** `/api/Countries/{key}/CountryLocalNames`
+- **PATCH** `/api/v1/Countries/{key}/CountryLocalNames`
   - Description: Partially update an existing CountryLocalName for a specific Country.
 
 #### Delete CountryLocalName
-- **DELETE** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
+- **DELETE** `/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}`
   - Description: Delete an existing CountryLocalName for a specific Country.
 
 ### CountryBarCode
 
 #### Get CountryBarCodes
-- **GET** `/api/Countries/{key}/CountryBarCodes`
+- **GET** `/api/v1/Countries/{key}/CountryBarCodes`
   - Description: Retrieve all CountryBarCodes for a specific Country.
 
 #### Create CountryBarCode
-- **POST** `/api/Countries/{key}/CountryBarCodes`
+- **POST** `/api/v1/Countries/{key}/CountryBarCodes`
   - Description: Create a new CountryBarCode for a specific Country.
 
 #### Update CountryBarCode
-- **PUT** `/api/Countries/{key}/CountryBarCodes`
+- **PUT** `/api/v1/Countries/{key}/CountryBarCodes`
   - Description: Update an existing CountryBarCode for a specific Country.
   
 #### Partially Update CountryBarCode
-- **PATCH** `/api/Countries/{key}/CountryBarCodes`
+- **PATCH** `/api/v1/Countries/{key}/CountryBarCodes`
   - Description: Partially update an existing CountryBarCode for a specific Country.
 
 #### Delete CountryBarCode
-- **DELETE** `/api/Countries/{key}/CountryBarCodes/{relatedKey}`
+- **DELETE** `/api/v1/Countries/{key}/CountryBarCodes/{relatedKey}`
   - Description: Delete an existing CountryBarCode for a specific Country.
 
 ### CountryTimeZone
 
 #### Get CountryTimeZones
-- **GET** `/api/Countries/{key}/CountryTimeZones`
+- **GET** `/api/v1/Countries/{key}/CountryTimeZones`
   - Description: Retrieve all CountryTimeZones for a specific Country.
-- **GET** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
+- **GET** `/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}`
   - Description: Retrieve a CountryTimeZone by ID for a specific Country.
 
 #### Create CountryTimeZone
-- **POST** `/api/Countries/{key}/CountryTimeZones`
+- **POST** `/api/v1/Countries/{key}/CountryTimeZones`
   - Description: Create a new CountryTimeZone for a specific Country.
 
 #### Update CountryTimeZone
-- **PUT** `/api/Countries/{key}/CountryTimeZones`
+- **PUT** `/api/v1/Countries/{key}/CountryTimeZones`
   - Description: Update an existing CountryTimeZone for a specific Country.
   
 #### Partially Update CountryTimeZone
-- **PATCH** `/api/Countries/{key}/CountryTimeZones`
+- **PATCH** `/api/v1/Countries/{key}/CountryTimeZones`
   - Description: Partially update an existing CountryTimeZone for a specific Country.
 
 #### Delete CountryTimeZone
-- **DELETE** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
+- **DELETE** `/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}`
   - Description: Delete an existing CountryTimeZone for a specific Country.
 
 ### Holiday
 
 #### Get Holidays
-- **GET** `/api/Countries/{key}/Holidays`
+- **GET** `/api/v1/Countries/{key}/Holidays`
   - Description: Retrieve all Holidays for a specific Country.
-- **GET** `/api/Countries/{key}/Holidays/{relatedKey}`
+- **GET** `/api/v1/Countries/{key}/Holidays/{relatedKey}`
   - Description: Retrieve a Holiday by ID for a specific Country.
 
 #### Create Holiday
-- **POST** `/api/Countries/{key}/Holidays`
+- **POST** `/api/v1/Countries/{key}/Holidays`
   - Description: Create a new Holiday for a specific Country.
 
 #### Update Holiday
-- **PUT** `/api/Countries/{key}/Holidays`
+- **PUT** `/api/v1/Countries/{key}/Holidays`
   - Description: Update an existing Holiday for a specific Country.
   
 #### Partially Update Holiday
-- **PATCH** `/api/Countries/{key}/Holidays`
+- **PATCH** `/api/v1/Countries/{key}/Holidays`
   - Description: Partially update an existing Holiday for a specific Country.
 
 #### Delete Holiday
-- **DELETE** `/api/Countries/{key}/Holidays/{relatedKey}`
+- **DELETE** `/api/v1/Countries/{key}/Holidays/{relatedKey}`
   - Description: Delete an existing Holiday for a specific Country.
 
 ## Relationships Endpoints
@@ -129,25 +129,25 @@ This document provides information about the various endpoints available in our 
 ### Workplace
 
 #### Get Workplace relations
-- **GET** `/api/Countries/{key}/PhysicalWorkplaces/$ref`
+- **GET** `/api/v1/Countries/{key}/PhysicalWorkplaces/$ref`
   - Description: Retrieve all existing Workplaces relations for a specific Country.
   
 #### Create Workplace relation
-- **POST** `/api/Countries/{key}/PhysicalWorkplaces/{relatedKey}/$ref`
+- **POST** `/api/v1/Countries/{key}/PhysicalWorkplaces/{relatedKey}/$ref`
   - Description: Create a new Workplace relation for a specific Country.
   
 #### Update Workplace relation
-- **PUT** `/api/Countries/{key}/PhysicalWorkplaces/{relatedKey}/$ref`
+- **PUT** `/api/v1/Countries/{key}/PhysicalWorkplaces/{relatedKey}/$ref`
   - Description: Updates an existing Workplace relation for a specific Country.
-- **PUT** `/api/Countries/{key}/PhysicalWorkplaces/$ref`
+- **PUT** `/api/v1/Countries/{key}/PhysicalWorkplaces/$ref`
   - Description: Updates the Workplace relations for a specific Country.
 
 #### Delete Workplace relation
-- **DELETE** `/api/Countries/{key}/PhysicalWorkplaces/{relatedKey}/$ref`
+- **DELETE** `/api/v1/Countries/{key}/PhysicalWorkplaces/{relatedKey}/$ref`
   - Description: Delete an existing Workplace relation for a specific Country.
 
 #### Delete Workplace relations
-- **DELETE** `/api/Countries/{key}/PhysicalWorkplaces/$ref`
+- **DELETE** `/api/v1/Countries/{key}/PhysicalWorkplaces/$ref`
   - Description: Delete all existing Workplaces relations for a specific Country.
 
 ## Related Entities
@@ -157,15 +157,15 @@ This document provides information about the various endpoints available in our 
 ## Enumerations Endpoints
 
 This section details the API endpoints related to enumeration attributes in a specific Country.
-- **GET** `/api/Countries/CountryContinents`
+- **GET** `/api/v1/Countries/CountryContinents`
   - **Description**: Retrieve non-conventional values of Continents for a specific Country.
   
-- **GET** `/api/Countries/CountryContinentsLocalized`
+- **GET** `/api/v1/Countries/CountryContinentsLocalized`
   - **Description**: Retrieve localized values of Continents for a specific Country.
 
-- **DELETE** `/api/Countries/CountryContinentsLocalized/{cultureCode}`
+- **DELETE** `/api/v1/Countries/CountryContinentsLocalized/{cultureCode}`
   - **Description**: Delete the localized values of Continents for a specific culture code in Country.
 
-- **PUT** `/api/Countries/CountryContinentsLocalized`
+- **PUT** `/api/v1/Countries/CountryContinentsLocalized`
   - **Description**: Update or create localized values of Continents for a specific Country. Requires a payload with the new values.
 

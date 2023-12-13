@@ -20,33 +20,33 @@ This document provides information about custom API routes. Custom API routes ar
 - [twoSeqSegmentsWithProperties](#twoSeqSegmentsWithProperties)
 
 ### CountriesByName
-- **GET** `/CountriesByName/{Count}`
+- **GET** `/api/v1/CountriesByName/{Count}`
   - Description: Get country names in alphabetical order.
 
 ### CountriesByNameQueryString
-- **GET** `/CountriesByNameQuery?count={Top}`
+- **GET** `/api/v1/CountriesByNameQuery?count={Top}`
   - Description: Get country names in alphabetical order.
 
 ### CountriesEncoded
-- **GET** `/CountriesEncoded`
+- **GET** `/api/v1/CountriesEncoded`
   - Description: Get country names in alphabetical order.
 
 ### CountriesInPortugues
-- **GET** `/Paises`
+- **GET** `/api/v1/Paises`
   - Description: Get country names in alphabetical order.
 
 ### CountriesPreserveOdataQuery
-- **GET** `/CountriesByOdata/{MyId}`
+- **GET** `/api/v1/CountriesByOdata/{MyId}`
   - Description: Get country preserve odata query
 
 ### CountriesPreserveOdataQueryMultipleSegments
-- **GET** `/CountriesByOdataSegments/{MyId}/MySpecial`
+- **GET** `/api/v1/CountriesByOdataSegments/{MyId}/MySpecial`
   - Description: Get country preserve odata query with multiple segments
 
 ### AddWorkplaceToCountry
-- **PUT** `/MySpecial/{CountryId}/SecondSpecial/{ExtraId}/ThirdSpecial/$ref`
+- **PUT** `/api/v1/MySpecial/{CountryId}/SecondSpecial/{ExtraId}/ThirdSpecial/$ref`
   - Description: Update country workplaces
 
 ### twoSeqSegmentsWithProperties
-- **GET** `/countriesSeqSegProps/{CountryId}/{ExtraId}`
+- **GET** `/api/v1/countriesSeqSegProps/{CountryId}/{ExtraId}`
   - Description: test case for two sequential segments with properties

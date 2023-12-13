@@ -19,6 +19,7 @@ public static class NoxSolutionCustomApiRoutesMarkdownExtensions
     {
         var model = new Dictionary<string, object>
         {
+            ["apiRoutePrefix"] = noxSolution.Presentation.ApiConfiguration.ApiRoutePrefix,
             ["apiRoutes"] = noxSolution.Presentation.ApiConfiguration.ApiRouteMappings,
         };
 

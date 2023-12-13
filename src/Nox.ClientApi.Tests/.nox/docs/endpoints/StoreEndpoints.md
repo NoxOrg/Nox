@@ -5,27 +5,27 @@ This document provides information about the various endpoints available in our 
 ## Store Endpoints
 
 ### Get Store by ID
-- **GET** `/api/Stores/{key}`
+- **GET** `/api/v1/Stores/{key}`
   - Description: Retrieve information about a Store by ID.
   
 ### Get Stores
-- **GET** `/api/Stores`
+- **GET** `/api/v1/Stores`
   - Description: Retrieve information about Stores.
 
 ### Create Store
-- **POST** `/api/Stores`
+- **POST** `/api/v1/Stores`
   - Description: Create a new Store.
 
 ### Update Store
-- **PUT** `/api/Stores/{key}`
+- **PUT** `/api/v1/Stores/{key}`
   - Description: Update an existing Store.
 
 ### Partially Update Store
-- **PATCH** `/api/Stores/{key}`
+- **PATCH** `/api/v1/Stores/{key}`
   - Description: Partially update an existing Store.
  
 ### Delete Store
-- **DELETE** `/api/Stores/{key}`
+- **DELETE** `/api/v1/Stores/{key}`
   - Description: Delete an existing Store.
 
 ## Owned Relationships Endpoints
@@ -35,73 +35,73 @@ This document provides information about the various endpoints available in our 
 ### StoreOwner
 
 #### Get StoreOwner relations
-- **GET** `/api/Stores/{key}/Ownership/$ref`
+- **GET** `/api/v1/Stores/{key}/Ownership/$ref`
   - Description: Retrieve all existing StoreOwners relations for a specific Store.
   
 #### Create StoreOwner relation
-- **POST** `/api/Stores/{key}/Ownership/{relatedKey}/$ref`
+- **POST** `/api/v1/Stores/{key}/Ownership/{relatedKey}/$ref`
   - Description: Create a new StoreOwner relation for a specific Store.
   
 #### Update StoreOwner relation
-- **PUT** `/api/Stores/{key}/Ownership/{relatedKey}/$ref`
+- **PUT** `/api/v1/Stores/{key}/Ownership/{relatedKey}/$ref`
   - Description: Updates an existing StoreOwner relation for a specific Store.
-- **PUT** `/api/Stores/{key}/Ownership/$ref`
+- **PUT** `/api/v1/Stores/{key}/Ownership/$ref`
   - Description: Updates the StoreOwner relations for a specific Store.
 
 #### Delete StoreOwner relation
-- **DELETE** `/api/Stores/{key}/Ownership/{relatedKey}/$ref`
+- **DELETE** `/api/v1/Stores/{key}/Ownership/{relatedKey}/$ref`
   - Description: Delete an existing StoreOwner relation for a specific Store.
 
 #### Delete StoreOwner relations
-- **DELETE** `/api/Stores/{key}/Ownership/$ref`
+- **DELETE** `/api/v1/Stores/{key}/Ownership/$ref`
   - Description: Delete all existing StoreOwners relations for a specific Store.
 
 ### StoreLicense
 
 #### Get StoreLicense relations
-- **GET** `/api/Stores/{key}/License/$ref`
+- **GET** `/api/v1/Stores/{key}/License/$ref`
   - Description: Retrieve all existing StoreLicenses relations for a specific Store.
   
 #### Create StoreLicense relation
-- **POST** `/api/Stores/{key}/License/{relatedKey}/$ref`
+- **POST** `/api/v1/Stores/{key}/License/{relatedKey}/$ref`
   - Description: Create a new StoreLicense relation for a specific Store.
   
 #### Update StoreLicense relation
-- **PUT** `/api/Stores/{key}/License/{relatedKey}/$ref`
+- **PUT** `/api/v1/Stores/{key}/License/{relatedKey}/$ref`
   - Description: Updates an existing StoreLicense relation for a specific Store.
-- **PUT** `/api/Stores/{key}/License/$ref`
+- **PUT** `/api/v1/Stores/{key}/License/$ref`
   - Description: Updates the StoreLicense relations for a specific Store.
 
 #### Delete StoreLicense relation
-- **DELETE** `/api/Stores/{key}/License/{relatedKey}/$ref`
+- **DELETE** `/api/v1/Stores/{key}/License/{relatedKey}/$ref`
   - Description: Delete an existing StoreLicense relation for a specific Store.
 
 #### Delete StoreLicense relations
-- **DELETE** `/api/Stores/{key}/License/$ref`
+- **DELETE** `/api/v1/Stores/{key}/License/$ref`
   - Description: Delete all existing StoreLicenses relations for a specific Store.
 
 ### Client
 
 #### Get Client relations
-- **GET** `/api/Stores/{key}/ClientsOfStore/$ref`
+- **GET** `/api/v1/Stores/{key}/ClientsOfStore/$ref`
   - Description: Retrieve all existing Clients relations for a specific Store.
   
 #### Create Client relation
-- **POST** `/api/Stores/{key}/ClientsOfStore/{relatedKey}/$ref`
+- **POST** `/api/v1/Stores/{key}/ClientsOfStore/{relatedKey}/$ref`
   - Description: Create a new Client relation for a specific Store.
   
 #### Update Client relation
-- **PUT** `/api/Stores/{key}/ClientsOfStore/{relatedKey}/$ref`
+- **PUT** `/api/v1/Stores/{key}/ClientsOfStore/{relatedKey}/$ref`
   - Description: Updates an existing Client relation for a specific Store.
-- **PUT** `/api/Stores/{key}/ClientsOfStore/$ref`
+- **PUT** `/api/v1/Stores/{key}/ClientsOfStore/$ref`
   - Description: Updates the Client relations for a specific Store.
 
 #### Delete Client relation
-- **DELETE** `/api/Stores/{key}/ClientsOfStore/{relatedKey}/$ref`
+- **DELETE** `/api/v1/Stores/{key}/ClientsOfStore/{relatedKey}/$ref`
   - Description: Delete an existing Client relation for a specific Store.
 
 #### Delete Client relations
-- **DELETE** `/api/Stores/{key}/ClientsOfStore/$ref`
+- **DELETE** `/api/v1/Stores/{key}/ClientsOfStore/$ref`
   - Description: Delete all existing Clients relations for a specific Store.
 
 ## Related Entities
@@ -115,5 +115,5 @@ This document provides information about the various endpoints available in our 
 ## Enumerations Endpoints
 
 This section details the API endpoints related to enumeration attributes in a specific Store.
-- **GET** `/api/Stores/StoreStatuses`
+- **GET** `/api/v1/Stores/StoreStatuses`
   - **Description**: Retrieve non-conventional values of Statuses for a specific Store.
