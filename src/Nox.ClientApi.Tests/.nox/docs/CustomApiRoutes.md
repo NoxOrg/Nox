@@ -7,6 +7,10 @@ This document provides information about custom API routes. Custom API routes ar
 
 - [CountriesByNameQueryString](#CountriesByNameQueryString)
 
+- [CountriesEncoded](#CountriesEncoded)
+
+- [CountriesInPortugues](#CountriesInPortugues)
+
 - [CountriesPreserveOdataQuery](#CountriesPreserveOdataQuery)
 
 - [CountriesPreserveOdataQueryMultipleSegments](#CountriesPreserveOdataQueryMultipleSegments)
@@ -21,6 +25,14 @@ This document provides information about custom API routes. Custom API routes ar
 
 ### CountriesByNameQueryString
 - **GET** `/CountriesByNameQuery?count={Top}`
+  - Description: Get country names in alphabetical order.
+
+### CountriesEncoded
+- **GET** `/CountriesEncoded`
+  - Description: Get country names in alphabetical order.
+
+### CountriesInPortugues
+- **GET** `/Paises`
   - Description: Get country names in alphabetical order.
 
 ### CountriesPreserveOdataQuery
