@@ -18,6 +18,7 @@ public partial class RouteMappingTests : NoxWebApiTestBase
     {
         _fixture.Customize<string>(s => s.FromFactory(() => ToUpperFirstChar(Guid.NewGuid().ToString())));
     }
+
     [Fact]
     public async Task WhenRouteGetWithPathParameters_ShouldSucceed()
     {
@@ -34,9 +35,7 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         AssertTwoCountriesCase(countryName1, countryName2, result);
     }
 
-    
-
-    [Fact(Skip = "No matcher is found when using qury parameters" )]    
+    [Fact]    
     public async Task WhenRouteGetWithQueryParameters_ShouldSucceed()
     {
         // Arrange
@@ -50,7 +49,8 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         //Assert
         AssertTwoCountriesCase(countryName1, countryName2, result);
     }
-    [Fact(Skip = "Matcher is throwing an exception")]
+
+    [Fact]
     public async Task WhenRouteGetWithTargetUrlEncoded_ShouldSucceed()
     {
         // Arrange
@@ -61,12 +61,13 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         // Act
         //TODO uncomment in apiConfiguration.nox.yaml - $ref: ./apiRouteMappings/countries.encodedTargetUrl.ApiRouteMapping.nox.yaml
         var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.RoutePrefix}/CountriesEncoded"))!.ToList();
-        //var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.CountriesUrl}$filter=ISO_Alpha3 eq ''"))!.ToList();
+        //var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{Endpoints.CountriesUrl}?$filter=ISO_Alpha3 eq ''"))!.ToList();
 
         //Assert
         AssertTwoCountriesCase(countryName1, countryName2, result);
     }
-    [Fact(Skip = "Matcher is throwing an exception")]
+    
+    [Fact]
     public async Task WhenRouteGetWithDirectRoute_ShouldSucceed()
     {
         // Arrange
@@ -81,7 +82,8 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         //Assert
         AssertTwoCountriesCase(countryName1, countryName2, result);
     }
-    [Fact(Skip = "Route mapping is case sensitive")]
+
+    [Fact]
     public async Task WhenRouteGetIsCaseInsensitive_ShouldSucceed()
     {
         // Arrange
@@ -95,6 +97,7 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         //Assert
         AssertTwoCountriesCase(countryName1, countryName2, result);
     }
+
     [Fact]
     public async Task WhenRouteGetWithDefaults_ShouldSucceed()
     {
@@ -123,6 +126,7 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         //Assert
         AssertTwoCountriesCase(countryName1, countryName2, result);
     }
+
     [Fact]
     public async Task WhenRouteGetWithODataQuery3Segments_ShouldSucceed()
     {
@@ -138,8 +142,6 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         //Assert
         AssertTwoCountriesCase(countryName1, countryName2, result);
     }
-
-
 
     [Fact]
     public async Task WhenRoutePutWithParametersWithMultipleSegments_ShouldSucceed()
@@ -171,6 +173,7 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         getCountryResponse!.Workplaces!.Should().HaveCount(1);
         getCountryResponse!.Workplaces!.First().Name.Should().Be(workplaceResponse!.Name);
     }
+    
     private async Task CreateCountriesAsync(string countryName1, string countryName2)
     {
         await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
@@ -200,15 +203,16 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         result.Should().NotBeNull();
         result.Should().HaveCount(2);
    }
-    private static string ToUpperFirstChar(string input)
-    {
+   private static string ToUpperFirstChar(string input)
+   {
         if (string.IsNullOrEmpty(input))
         {
             return input;
         }
 
-        return char.ToUpper(input[0]) + input.Substring(1);
-    }
+        return char.ToUpper(input[0]) + input[1..];
+   }
+    
     private static void AssertTwoCountriesCase(string countryName1, string countryName2, List<CountryDto> result)
     {
         result.Should().NotBeNull();

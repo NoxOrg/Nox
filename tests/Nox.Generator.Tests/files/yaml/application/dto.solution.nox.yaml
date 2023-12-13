@@ -14,3 +14,46 @@ application:
             casing: lower
             maxLength: 2
             minLength: 2
+
+domain:
+    entities:
+    - name: Formula
+      description: Dto for formulas
+      
+      keys:
+        - name: Id
+          description: The identity of the formula
+          type: number
+          numberTypeOptions:
+            minValue: 1
+            maxValue: 1500000000
+          isRequired: true
+       
+      attributes:
+        - name: Pi
+          description: The value of Pi
+          type: formula
+          formulaTypeOptions:
+           returns: decimal
+           expression: '20/7'
+           
+        - name: IntPi
+          description: The value of E
+          type: formula
+          formulaTypeOptions:
+           returns: int
+           expression: '3'
+           
+        - name: Greeting
+          description: The value of Greeting
+          type: formula
+          formulaTypeOptions:
+           returns: string
+           expression: '"Hello World"'
+             
+        - name: Name
+          description: The name of the formula
+          type: text
+          textTypeOptions:
+            maxLength: 263
+          isRequired: true

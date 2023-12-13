@@ -41,7 +41,7 @@ internal abstract class DeleteCountriesContinentsTranslationsCommandHandlerBase 
 
 		var localizedEnums = await DbContext.CountriesContinentsLocalized.Where(x => x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
 		
-		if(localizedEnums == null || localizedEnums.Count == 0)
+		if(!localizedEnums.Any())
 		{
 			return false;
 		}

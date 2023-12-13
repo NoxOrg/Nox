@@ -46,7 +46,7 @@ internal abstract class {{deleteCommand}}HandlerBase : CommandCollectionBase<{{d
 
 		var localizedEnums = await DbContext.{{entity.PluralName}}{{Pluralize (enumAtt.Attribute.Name)}}Localized.Where(x => x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
 		
-		if(localizedEnums == null || localizedEnums.Count == 0)
+		if(!localizedEnums.Any())
 		{
 			return false;
 		}

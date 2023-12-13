@@ -36,4 +36,17 @@ public class EntityTests
             .Where(exception => exception.Errors[0].ErrorMessage.Contains("ReferenceNumber [Code] on entity [Currency] Prefix invalid. Prefix is required with a max length of 10."));
 
     }
+    [Fact]
+    public void WhenReferenceNumberDuplicatedPrefix_ShouldThrowException()
+    {
+
+        Action act = () => new NoxSolutionBuilder()
+               .WithFile("./files/invalid.referencenumber.duplicated.solution.nox.yaml")
+               .Build();
+
+        act.Should()
+            .Throw<NoxYamlValidationException>()
+            .Where(exception => exception.Errors[0].ErrorMessage.Contains("Reference Number type must have a unique Prefix. Prefix [C - ] is duplicated."));
+
+    }
 }

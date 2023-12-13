@@ -82,8 +82,7 @@ internal abstract class {{upsertCommand}}HandlerBase : CommandCollectionBase<{{u
 }
 public class {{upsertCommand}}Validator : AbstractValidator<{{upsertCommand}}>
 {
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("{{codeGeneratorState.Solution.Application.Localization.DefaultCulture}}");
-	private static readonly Nox.Types.CultureCode[] _supportedCultureCodes = new Nox.Types.CultureCode[] { {{- for cultureCode in codeGeneratorState.Solution.Application.Localization.SupportedCultures }} Nox.Types.CultureCode.From("{{cultureCode}}"),{{- end}} };
+	private static readonly string[] _supportedCultureCodes = new string[] { {{- for cultureCode in codeGeneratorState.Solution.Application.Localization.SupportedCultures }} "{{cultureCode}}",{{- end}} };
 	private static readonly int[] _supportedIds = new int[] { {{- for value in enumAtt.Attribute.EnumerationTypeOptions.Values }} {{value.Id}},{{- end}} };
 	
     public {{upsertCommand}}Validator(NoxSolution noxSolution)
@@ -93,7 +92,7 @@ public class {{upsertCommand}}Validator : AbstractValidator<{{upsertCommand}}>
 			.WithMessage($"{%{{}%}nameof({{upsertCommand}}){%{}}%} : {%{{}%}nameof({{upsertCommand}}.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s){%{}}%} is required.");
 		
 		RuleForEach(x => x.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s)
-			.Must(x => _supportedCultureCodes.Contains(Nox.Types.CultureCode.From(x.CultureCode)))
+			.Must(x => _supportedCultureCodes.Contains(x.CultureCode))
 			.WithMessage((_,x) => $"{%{{}%}nameof({{upsertCommand}}){%{}}%} : {%{{}%}nameof({{upsertCommand}}.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s){%{}}%} contains unsupported culture code: {x.CultureCode}.");
 		
 		RuleForEach(x => x.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s)

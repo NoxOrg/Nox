@@ -1,0 +1,54 @@
+#
+# domain.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: TestService
+
+description: duplicated reference number prefix
+
+overview: test
+
+domain:
+
+  entities:  
+
+    - name: Entity1
+      description: Entity1
+
+      keys:
+        - name: Id
+          isRequired: true
+          type: text      
+      attributes:
+        - name: Code
+          description: Currency Code
+          type: referenceNumber
+          referenceNumberTypeOptions:
+            prefix: "C-" 
+            suffixCheckSumDigit: false
+          isRequired: true
+        - name: Code2
+          description: duplicated prefix
+          type: referenceNumber
+          referenceNumberTypeOptions:
+            prefix: "C - " 
+            suffixCheckSumDigit: false
+          isRequired: true
+
+    - name: Entity2
+      description: Entity2
+
+      keys:
+        - name: Id
+          isRequired: true
+          type: text      
+      attributes:
+        - name: Code
+          description: Code
+          type: referenceNumber
+          referenceNumberTypeOptions:
+            prefix: "C-" 
+            suffixCheckSumDigit: false
