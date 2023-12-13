@@ -3,7 +3,6 @@ using System.Text;
 using System.Xml;
 using Nox.Solution;
 using Nox.Docs.Extensions;
-using ClientApi.Tests;
 using Xunit.Abstractions;
 
 namespace ClientApi.Tests.ServiceMetadata

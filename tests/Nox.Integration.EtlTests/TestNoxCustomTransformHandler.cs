@@ -1,5 +1,5 @@
 using System.Dynamic;
-using Nox.Integration.Abstractions;
+using Nox.Integration.Abstractions.Interfaces;
 using Nox.Solution;
 
 namespace Nox.Integration.EtlTests;

@@ -84,7 +84,7 @@
     },
     "integrationStoreServer": {    
       "anyOf": [
-        { "$ref": "integrationStoreServer.json" },
+        { "$ref": "databaseServer.json" },
         {
           "additionalProperties": false, 
           "required": ["$ref"],

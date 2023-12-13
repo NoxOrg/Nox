@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Nox.Yaml.Tests.TestDesigns.Nox.Types.Extensions;
+﻿namespace Nox.Yaml.Tests.TestDesigns.Nox.Types.Extensions;
 
 /// <summary>
 /// The string extensions.

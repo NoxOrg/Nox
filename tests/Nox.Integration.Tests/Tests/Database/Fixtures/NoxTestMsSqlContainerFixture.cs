@@ -2,7 +2,6 @@
 using Nox.Integration.Tests.DataProviders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using System;
 using Testcontainers.MsSql;
 using TestWebApp.Infrastructure.Persistence;
 

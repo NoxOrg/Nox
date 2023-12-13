@@ -1,4 +1,3 @@
-using ClientApi.Domain;
 using MediatR;
 using Nox.Types;
 

@@ -1,5 +1,4 @@
-﻿using Castle.Core;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Nox.Solution;
 using System.Diagnostics;
 
@@ -11,7 +10,7 @@ public class NoxApiMiddleware
 
     private readonly RequestDelegate _next;
 
-    private readonly Dictionary<string, List<RouteMatcher>> _matchers = new();
+    private readonly Dictionary<string, List<RouteMatcher>> _verbMatchers = new();
 
     public NoxApiMiddleware(RequestDelegate next, NoxSolution solution)
     {
@@ -21,10 +20,10 @@ public class NoxApiMiddleware
 
         foreach (var route in solution.Presentation.ApiConfiguration.ApiRouteMappings)
         {
-            if (!_matchers.TryGetValue(route.HttpVerbString, out List<RouteMatcher>? matchers))
+            if (!_verbMatchers.TryGetValue(route.HttpVerbString, out List<RouteMatcher>? matchers))
             {
                 matchers = new List<RouteMatcher>();
-                _matchers.Add(route.HttpVerbString, matchers);
+                _verbMatchers.Add(route.HttpVerbString, matchers);
             }
 
             matchers.Add(new RouteMatcher(route, _apiPrefix));
@@ -47,13 +46,13 @@ public class NoxApiMiddleware
             return;
         }
 
-        if (!_matchers.TryGetValue(context.Request.Method, out List<RouteMatcher>? matchers))
+        if (!_verbMatchers.TryGetValue(context.Request.Method, out List<RouteMatcher>? matchers))
         {
             await _next(context);
             return;
         }
 
-        var apiRouteMatcher = matchers.FirstOrDefault(m => m.Match(requestPath));
+        var apiRouteMatcher = matchers.FirstOrDefault(m => m.Match(context.Request));
 
         if (apiRouteMatcher == null)
         {
@@ -97,9 +96,9 @@ internal class RouteMatcher
 
     private readonly ApiRouteMapping _apiRoute;
 
-    private IDictionary<string, object>? _values;
+    private IDictionary<string, string>? _values;
 
-    private const Int32 _slash = 47;
+    private const int _slash = 47;
 
     public RouteMatcher(ApiRouteMapping apiRoute, string prefix)
     {
@@ -113,22 +112,25 @@ internal class RouteMatcher
             apiRoute
             .RequestInput
             .Where(i => i.Default is not null)
-            .ToDictionary(i => i.Name, i => i.Default!)
+            .ToDictionary(i => i.Name, i => i.Default?.ToString() ?? string.Empty)
         );
     }
 
     internal ApiRouteMapping ApiRoute => _apiRoute;
 
-    public bool Match(string requestPath)
+    public bool Match(HttpRequest httpRequest)
     {
-        var isMatch = _matcher.Matches(requestPath, out var values);
+        var isMatch = _matcher.Match($"{httpRequest.Path}{httpRequest.QueryString}", out var values);
+
         _values = values;
+
         return isMatch;
     }
 
     public string TransformTo(string toPath)
     {
         if (_values is null) return toPath;
+
         return _matcher.TransformTo(toPath, _values);
     }
 }

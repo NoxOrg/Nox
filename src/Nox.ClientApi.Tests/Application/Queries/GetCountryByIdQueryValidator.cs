@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using MediatR;
 using ClientApi.Application.Queries;
 
 namespace Nox.ClientApi.Tests.Application.Queries

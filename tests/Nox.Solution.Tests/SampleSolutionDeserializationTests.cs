@@ -1,6 +1,4 @@
 ﻿
-using Nox.Types;
-
 namespace Nox.Solution.Tests;
 
 public class SampleSolutionDeserializationTests

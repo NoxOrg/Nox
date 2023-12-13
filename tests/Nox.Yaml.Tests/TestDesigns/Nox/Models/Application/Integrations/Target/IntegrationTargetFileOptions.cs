@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Nox.Yaml.Attributes;
 using Nox.Yaml.Tests.TestDesigns.Nox.Types.TypeDefinitions;
 

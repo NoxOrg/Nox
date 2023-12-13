@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
 using Nox.Solution;
 using Scriban;
 using Scriban.Parsing;

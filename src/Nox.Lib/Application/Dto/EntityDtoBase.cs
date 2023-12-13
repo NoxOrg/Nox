@@ -1,5 +1,4 @@
-﻿using Nox.Domain;
-using Nox.Types;
+﻿using Nox.Types;
 
 namespace Nox.Application.Dto;
 

@@ -4,7 +4,6 @@ using Nox.Infrastructure;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
-using Nox.Types.EntityFramework.Enums;
 using Npgsql;
 
 namespace Nox.EntityFramework.Postgres;
@@ -12,7 +11,6 @@ namespace Nox.EntityFramework.Postgres;
 public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider 
 {
     public string ConnectionString { get; protected set; } = string.Empty;
-    public NoxDataStoreTypeFlags StoreTypes { get; private set; }
     
     public PostgresDatabaseProvider(
         IEnumerable<INoxTypeDatabaseConfigurator> configurators,
@@ -51,25 +49,6 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
             .UseNpgsql(ConnectionString, opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
     }
 
-    public string ToTableNameForSql(string table, string schema)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string ToTableNameForSqlRaw(string table, string schema)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void SetStoreTypeFlag(NoxDataStoreTypeFlags storeType)
-    {
-        StoreTypes |= storeType;
-    }
-
-    public void UnSetStoreTypeFlag(NoxDataStoreTypeFlags storeTypeFlag)
-    {
-        StoreTypes &= storeTypeFlag;
-    }
 
     public string GetSqlStatementForSequenceNextValue(string sequenceName)
     {

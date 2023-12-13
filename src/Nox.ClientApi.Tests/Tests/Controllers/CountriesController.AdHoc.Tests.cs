@@ -3,9 +3,7 @@ using ClientApi.Application.Dto;
 using AutoFixture;
 using Nox.Types;
 using System.Net;
-using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
-using Nox.Application.Dto;
 
 namespace ClientApi.Tests.Controllers;
 

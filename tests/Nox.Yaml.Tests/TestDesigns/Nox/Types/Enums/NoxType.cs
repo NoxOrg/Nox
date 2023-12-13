@@ -1,4 +1,3 @@
-using System;
 using Nox.Yaml.Tests.TestDesigns.Nox.Types.Attributes.Types;
 using Nox.Yaml.Tests.TestDesigns.Nox.Types.ComponentsDiscover;
 

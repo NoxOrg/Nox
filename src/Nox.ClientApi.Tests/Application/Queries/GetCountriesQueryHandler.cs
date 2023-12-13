@@ -1,6 +1,4 @@
 ﻿using FluentValidation;
-using MediatR;
-using ClientApi.Application.Queries;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Queries;

@@ -2,7 +2,6 @@
 using Nox.Integration.Tests.DatabaseIntegrationTests;
 using Nox.Integration.Tests.Fixtures;
 using Nox.Types;
-using System;
 using TestWebApp.Domain;
 using TestWebApp.Infrastructure.Persistence;
 

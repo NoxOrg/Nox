@@ -1,0 +1,5 @@
+dependencies:
+  $ref: ./dependencies/minimal.dependencies.nox.yaml
+  
+persistence:
+  $ref: ./persistence/minimal.persistence.nox.yaml

@@ -1,0 +1,16 @@
+#
+# custom.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: CustomIntegration
+
+description: Yaml file for testing integrations with custom transform handlers
+
+application:
+  $ref: ./application/custom.application.nox.yaml
+
+infrastructure:
+  $ref: ./infrastructure/custom.infrastructure.nox.yaml

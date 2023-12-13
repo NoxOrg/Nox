@@ -1,0 +1,57 @@
+#
+# QueryToTable.integration.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/integration.json
+#
+
+name: QueryToTable
+
+description: Synchronization of Country data from a sample sql database table using a query statement, to a Nox entity store database table.
+
+mergeType: mergeNew
+
+schedule:
+  start: Every week on Sunday at 3am
+  runOnStartup: false
+
+source:
+  name: SampleSource
+  description: Curated dataset of country information.
+  dataConnectionName: CountrySource
+  watermark:
+    sequentialKeyColumns:
+      - Id
+    dateColumns: 
+      - CreateDate
+      - EditDate
+  
+  
+  sourceAdapterType: databaseQuery
+  
+  queryOptions:
+    query: >- 
+      SELECT 
+        CountryId AS Id, 
+        Name, 
+        Population, 
+        CreateDate, 
+        EditDate,
+        CONVERT(datetime, CreateDate) AS AsAt,
+        Etag
+      FROM 
+        dbo.CountryMaster
+    minimumExpectedRecords: 10
+    
+transformationType: defaultTransform    
+
+target:
+  name: SampleTarget
+  description: The country table of the Cryptocash database
+  dataConnectionName: CryptocashEtlDb
+  targetAdapterType: databaseTable
+  tableOptions:
+    tableName: CountriesQueryToTable
+    watermark:
+      sequentialKeyColumns: 
+        - Id
+

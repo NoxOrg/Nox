@@ -1,5 +1,4 @@
-﻿using Castle.Core.Resource;
-using FluentAssertions;
+﻿using FluentAssertions;
 
 namespace Nox.Lib.Tests.ApiMiddleware;
 public class NoxApiMidllewareTests
@@ -70,7 +69,7 @@ public class NoxApiMidllewareTests
         var routeMatcher = new ApiRouteMatcher(_testPattern);
 
         routeMatcher
-            .Matches(testRoute, out var values)
+            .Match(testRoute, out var values)
             .Should().BeTrue();
 
         values.Should().NotBeNull();
@@ -93,7 +92,7 @@ public class NoxApiMidllewareTests
         var routeMatcher = new ApiRouteMatcher(_testPattern);
 
         routeMatcher
-            .Matches(testRoute, out var values)
+            .Match(testRoute, out var values)
             .Should().BeFalse();
 
         values.Should().BeNull();
@@ -110,7 +109,7 @@ public class NoxApiMidllewareTests
         var routeMatcher = new ApiRouteMatcher(_testPatternStartsWithParam);
 
         routeMatcher
-            .Matches(testRoute, out var values)
+            .Match(testRoute, out var values)
             .Should().BeTrue();
 
         values.Should().NotBeNull();
@@ -130,7 +129,7 @@ public class NoxApiMidllewareTests
         var routeMatcher = new ApiRouteMatcher(_testPatternEndsWithoutParam);
 
         routeMatcher
-            .Matches(testRoute, out var values)
+            .Match(testRoute, out var values)
             .Should().BeTrue();
 
         values.Should().NotBeNull();

@@ -1,5 +1,4 @@
-﻿using System;
-using Nox.Yaml.Tests.TestDesigns.Nox.Types.ComponentsDiscover;
+﻿using Nox.Yaml.Tests.TestDesigns.Nox.Types.ComponentsDiscover;
 using Nox.Yaml.Tests.TestDesigns.Nox.Types.Interfaces;
 
 namespace Nox.Yaml.Tests.TestDesigns.Nox.Types.Attributes.Types;

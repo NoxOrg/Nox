@@ -2,10 +2,6 @@ using FluentAssertions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Cryptocash.Application.Dto;
-using System.Net;
-using System.Net.Http;
-using static Cryptocash.Tests.CryptocashCurrencyDtoDataCreationTests;
-using Microsoft.AspNetCore.OData.Formatter.Wrapper;
 
 namespace Cryptocash.Tests;
 

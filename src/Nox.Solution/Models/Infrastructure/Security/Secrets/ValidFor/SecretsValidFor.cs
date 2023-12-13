@@ -1,7 +1,6 @@
 using Nox.Yaml;
 using Nox.Yaml.Attributes;
 using Nox.Yaml.Validation;
-using YamlDotNet.Core.Tokens;
 
 namespace Nox.Solution;
 

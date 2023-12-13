@@ -1,6 +1,4 @@
-﻿using Nox.Types;
-
-namespace Nox.Application.Dto;
+﻿namespace Nox.Application.Dto;
 
 /// <summary>
 /// A  Enumeration Id and Translated Name

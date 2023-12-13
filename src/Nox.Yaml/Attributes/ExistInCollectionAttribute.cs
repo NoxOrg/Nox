@@ -1,6 +1,5 @@
 ﻿using Nox.Yaml.Extensions;
 using Nox.Yaml.Parser;
-using System.IO;
 
 namespace Nox.Yaml.Attributes;
 

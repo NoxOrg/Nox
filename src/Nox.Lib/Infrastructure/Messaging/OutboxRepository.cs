@@ -3,8 +3,6 @@ using MassTransit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic;
-
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Solution;
