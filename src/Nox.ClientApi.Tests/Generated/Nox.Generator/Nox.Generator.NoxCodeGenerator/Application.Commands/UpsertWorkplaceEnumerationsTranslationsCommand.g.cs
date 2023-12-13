@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -76,7 +76,7 @@ internal abstract class UpsertWorkplacesOwnershipsTranslationsCommandHandlerBase
 }
 public class UpsertWorkplacesOwnershipsTranslationsCommandValidator : AbstractValidator<UpsertWorkplacesOwnershipsTranslationsCommand>
 {
-	private static readonly string[] _supportedCultureCodes = new string[] { "it-IT", "de-DE", "fr-FR", "en-US", };
+	private static readonly string[] _supportedCultureCodes = new string[] { "en-US", "it-IT", "fr-FR", "de-DE", };
 	private static readonly int[] _supportedIds = new int[] { 1000, 4000, 5000, };
 	
     public UpsertWorkplacesOwnershipsTranslationsCommandValidator(NoxSolution noxSolution)
