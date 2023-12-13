@@ -127,11 +127,6 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 	private async Task<{{entity.Name}}Entity> CreateEntityAsync({{entity.Name}}UpsertDto upsertDto, {{parent.Name}}Entity parent)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
-		{{- for key in entity.Keys ~}}
-		{{- if key.Type == "Nuid" }}
-		entity.Ensure{{key.Name}}();
-		{{- end }}
-		{{- end }}
 		parent.CreateRefTo{{relationshipName}}(entity);
 		return entity;
 	}
