@@ -10,13 +10,13 @@ This document provides information about custom API routes. Custom API routes ar
 - [DisenrollStudentFromAllCourses](#DisenrollStudentFromAllCourses)
 
 ### GetUniversitiesByName
-- **GET** `/UniversitiesByName/{Count}`
+- **GET** `/api/v1/UniversitiesByName/{Count}`
   - Description: Get university names in alphabetical order.
 
 ### EnrollStudentToCourse
-- **POST** `/Students/{StudentId}/EnrollCourse/{CourseId}`
+- **POST** `/api/v1/Students/{StudentId}/EnrollCourse/{CourseId}`
   - Description: Enroll students to a course.
 
 ### DisenrollStudentFromAllCourses
-- **DELETE** `/Students/{StudentId}/DisenrollCourses`
+- **DELETE** `/api/v1/Students/{StudentId}/DisenrollCourses`
   - Description: Disenroll students from all courses they are enrolled in.

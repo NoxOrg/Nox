@@ -28,6 +28,7 @@ public class ScribanTemplateExtensionsTests
         var noxSolution = new NoxSolutionBuilder()
             .WithFile("./Files/Design/sample-for-endpoints.solution.nox.yaml")
             .Build();
+
         var entity = noxSolution.Domain!.Entities.First(x => x.Name == "Country");
         
         var enumerationAttributes =
@@ -43,6 +44,7 @@ public class ScribanTemplateExtensionsTests
 
         var model = new Dictionary<string, object>
         {
+            ["apiRoutePrefix"] = noxSolution.Presentation!.ApiConfiguration!.ApiRoutePrefix,
             ["entity"] = entity,
             ["enumerationAttributes"] = enumerationAttributes,
         };
