@@ -12,7 +12,8 @@ This document provides information about Integration Events. Integration Events 
 
     - [StoreUpdated](#StoreUpdated)
     - [WorkplaceUpdated](#WorkplaceUpdated)
-    - [StoreOwnerCreated](#StoreOwnerCreated)- [Custom Integration Events](#custom-integration-events)
+    - [StoreOwnerCreated](#StoreOwnerCreated)
+- [Custom Integration Events](#custom-integration-events)
     - [CountryPopulationHigherThan100M](#CountryPopulationHigherThan100M)
 
 

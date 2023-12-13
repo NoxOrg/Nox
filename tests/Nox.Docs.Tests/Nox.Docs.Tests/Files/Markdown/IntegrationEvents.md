@@ -9,6 +9,7 @@ This document provides information about Integration Events. Integration Events 
     - [CountryCreated](#CountryCreated)
     - [CountryUpdated](#CountryUpdated)
     - [CountryDeleted](#CountryDeleted)
+
 - [Custom Integration Events](#custom-integration-events)
     - [CountryDebtOver1B](#CountryDebtOver1B)
     - [CountryLocalNamesAdded](#CountryLocalNamesAdded)

@@ -33,10 +33,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Templates\CustomApiRoutes.template.md" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Compile Include="..\Nox.Generator\Common\ScribanScriptsExtensions.cs" Link="ScribanScriptsExtensions.cs" />		
 	  <Compile Include="..\Nox.Generator\Common\StringExtensions.cs" Link="StringExtensions.cs" />
 	</ItemGroup>
