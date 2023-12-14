@@ -69,9 +69,12 @@ internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactE
     private async Task<ClientApi.Domain.TenantContact> ToEntityAsync(TenantContactUpsertDto createDto)
     {
         var entity = new ClientApi.Domain.TenantContact();
-        entity.Name = ClientApi.Domain.TenantContactMetadata.CreateName(createDto.Name);
-        entity.Description = ClientApi.Domain.TenantContactMetadata.CreateDescription(createDto.Description);
-        entity.Email = ClientApi.Domain.TenantContactMetadata.CreateEmail(createDto.Email);
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            ClientApi.Domain.TenantContactMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Description, (entity) => entity.Description = 
+            ClientApi.Domain.TenantContactMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Email, (entity) => entity.Email = 
+            ClientApi.Domain.TenantContactMetadata.CreateEmail(createDto.Email.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

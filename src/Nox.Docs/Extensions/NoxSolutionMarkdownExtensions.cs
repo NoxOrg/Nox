@@ -2,13 +2,9 @@
 using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 
 namespace Nox.Docs.Extensions;
@@ -24,12 +20,13 @@ public enum MarkdownDetail
 
 public static class NoxSolutionMarkdownExtensions
 {
-    public static MarkdownFile ToMarkdownReadme(this NoxSolution noxSolution, MarkdownDetail detail = MarkdownDetail.Normal)
+    public static MarkdownFile ToMarkdownReadme(this NoxSolution noxSolution)
     {
         var mermaidText = noxSolution.ToMermaidErd(ErdDetail.Summary);
         var entityEndpoints = noxSolution.ToMarkdownEntityEndpoints();
         var entityDomainEvents = noxSolution.ToMarkdownEntityDomainEvents();
         var integrationEvents = noxSolution.ToMarkdownIntegrationEvents();
+        var customApiRoutes = noxSolution.ToMarkdownCustomApiRoutes();
 
         var docs = $"""
         # {noxSolution.Name}
@@ -49,6 +46,9 @@ public static class NoxSolutionMarkdownExtensions
         ## Integration Events
         [IntegrationEvents]({integrationEvents.Name})
 
+        ## Custom API Routes
+        [CustomApiRoutes]({customApiRoutes.Name})
+
         ## Definitions for Domain Entities
 
         {DomainDecription(noxSolution, entityEndpoints!, entityDomainEvents!)}
@@ -59,7 +59,7 @@ public static class NoxSolutionMarkdownExtensions
         {
             Name = "README.md",
             Content = docs,
-            ReferencedFiles = entityEndpoints.Concat(entityDomainEvents).Select(x => (MarkdownFile)x).Concat(new[] { integrationEvents }),
+            ReferencedFiles = entityEndpoints.Concat(entityDomainEvents).Select(x => (MarkdownFile)x).Concat(new[] { integrationEvents, customApiRoutes }),
         };
     }
 

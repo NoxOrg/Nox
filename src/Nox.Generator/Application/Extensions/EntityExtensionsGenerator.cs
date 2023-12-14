@@ -1,10 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
-using Nox.Types;
-using Nox.Types.Extensions;
 
 namespace Nox.Generator.Application.Extensions;
 

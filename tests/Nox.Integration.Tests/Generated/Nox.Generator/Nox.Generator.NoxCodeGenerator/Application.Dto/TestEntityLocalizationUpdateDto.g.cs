@@ -31,12 +31,12 @@ public partial class TestEntityLocalizationUpdateDtoBase: EntityDtoBase, IEntity
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "TextFieldToLocalize is required")]
     
-    public virtual System.String TextFieldToLocalize { get; set; } = default!;
+    public virtual System.String? TextFieldToLocalize { get; set; }
     /// <summary>
     ///      
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "NumberField is required")]
     
-    public virtual System.Int16 NumberField { get; set; } = default!;
+    public virtual System.Int16? NumberField { get; set; }
 }

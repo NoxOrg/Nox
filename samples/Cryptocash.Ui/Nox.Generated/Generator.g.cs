@@ -1,10 +1,9 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
 /* Found files ->
 - cryptocash.application.nox.yaml
-- CountrySync.integration.nox.yaml
 - cryptocash.solution.nox.yaml
 - cryptocash.domain.nox.yaml
 - BankNote.entity.nox.yaml
@@ -68,12 +67,6 @@
 - IntegrationEvents.md
 - README.md
 - generator.nox.yaml
-Errors ->
-- The Nox type validation failed with 4 error(s). PropertyName: . Error: Disallowed property ["requestInput"]. (at line 13 in countriesByName.apiRouteMapping.nox.yaml)
-PropertyName: . Error: Disallowed property ["requestBodyType"]. (at line 19 in countriesByName.apiRouteMapping.nox.yaml)
-PropertyName: . Error: Disallowed property ["jsonBodyType"]. (at line 21 in countriesByName.apiRouteMapping.nox.yaml)
-PropertyName: . Error: Disallowed property ["items"]. (at line 32 in countriesByName.apiRouteMapping.nox.yaml)   at Nox.Solution.Schema.NoxSchemaValidator.Deserialize[T](YamlReferenceResolver yamlRefResolver)
-   at Nox.Yaml.YamlConfigurationReader`2.Read()
-   at Nox.Generator.Tasks.NoxFileGenerator.TryGetNoxSolution(NoxSolution& solution) in /home/runner/work/Nox.Generator/Nox.Generator/src/Nox.Generator.Tasks/NoxFileGenerator.cs:line 195
-   at Nox.Generator.Tasks.NoxFileGenerator.GenerateFiles() in /home/runner/work/Nox.Generator/Nox.Generator/src/Nox.Generator.Tasks/NoxFileGenerator.cs:line 45
+Logging Verbosity Minimal
+SUCCESS.
 */

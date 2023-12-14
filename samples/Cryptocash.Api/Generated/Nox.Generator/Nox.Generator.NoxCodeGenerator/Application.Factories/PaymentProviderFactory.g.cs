@@ -69,9 +69,10 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
     private async Task<Cryptocash.Domain.PaymentProvider> ToEntityAsync(PaymentProviderCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.PaymentProvider();
-        entity.PaymentProviderName = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(createDto.PaymentProviderName);
-        entity.PaymentProviderType = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(createDto.PaymentProviderType);
-        entity.EnsureId(createDto.Id);
+        entity.SetIfNotNull(createDto.PaymentProviderName, (entity) => entity.PaymentProviderName = 
+            Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(createDto.PaymentProviderName.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.PaymentProviderType, (entity) => entity.PaymentProviderType = 
+            Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(createDto.PaymentProviderType.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

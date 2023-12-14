@@ -4,17 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Nox.Infrastructure;
 using Nox.Solution;
-using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
-using Nox.Types.EntityFramework.Enums;
 
 namespace Nox.EntityFramework.SqlServer;
 
 public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider
 {
-    public NoxDataStoreTypeFlags StoreTypes { get; private set; }
-
     public string ConnectionString { get; protected set; } = string.Empty;
     
     public SqlServerDatabaseProvider(
@@ -51,27 +47,10 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
         return optionsBuilder
             //.UseLazyLoadingProxies()
             .UseSqlServer(ConnectionString,
-                opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
-    }
-
-    public string ToTableNameForSql(string table, string schema)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string ToTableNameForSqlRaw(string table, string schema)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void SetStoreTypeFlag(NoxDataStoreTypeFlags storeType)
-    {
-        StoreTypes |= storeType;
-    }
-
-    public void UnSetStoreTypeFlag(NoxDataStoreTypeFlags storeTypeFlag)
-    {
-        StoreTypes &= storeTypeFlag;
+                opts =>
+                {
+                    opts.MigrationsHistoryTable("MigrationsHistory", "migrations");
+                });
     }
 
     public string GetSqlStatementForSequenceNextValue(string sequenceName)

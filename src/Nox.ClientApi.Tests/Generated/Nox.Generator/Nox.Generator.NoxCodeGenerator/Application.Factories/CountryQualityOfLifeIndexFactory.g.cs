@@ -69,8 +69,9 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
     private async Task<ClientApi.Domain.CountryQualityOfLifeIndex> ToEntityAsync(CountryQualityOfLifeIndexCreateDto createDto)
     {
         var entity = new ClientApi.Domain.CountryQualityOfLifeIndex();
-        entity.CountryId = CountryQualityOfLifeIndexMetadata.CreateCountryId(createDto.CountryId);
-        entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(createDto.IndexRating);
+        entity.CountryId = CountryQualityOfLifeIndexMetadata.CreateCountryId(createDto.CountryId.NonNullValue<System.Int64>());
+        entity.SetIfNotNull(createDto.IndexRating, (entity) => entity.IndexRating = 
+            ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(createDto.IndexRating.NonNullValue<System.Int32>()));
         return await Task.FromResult(entity);
     }
 

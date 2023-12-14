@@ -27,14 +27,84 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\Nox.Integration\Nox.Integration.csproj" />
+        <ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
         <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="files\test_integration.solution.nox.yaml">
+      <None Update="files\Minimum\minimum.solution.nox.yaml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="files\custom_integration.solution.nox.yaml">
+      <None Update="files\CustomHandler\custom.solution.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\Minimal\application\integrations\SqlToSql.integration.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\Minimal\infrastructure\dependencies\dataConnections\countrySource.dataConnection.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\Minimal\infrastructure\dependencies\dataConnections\etlSample.dataConnection.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\Minimal\infrastructure\dependencies\minimal.dependencies.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\Minimal\infrastructure\minimal.infrastructure.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\Minimal\minimal.solution.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\CustomHandler\infrastructure\dependencies\dataConnections\countrySource.dataConnection.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\CustomHandler\infrastructure\dependencies\dataConnections\etlSample.dataConnection.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\CustomHandler\infrastructure\dependencies\custom.dependencies.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\CustomHandler\infrastructure\custom.infrastructure.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\CustomHandler\application\custom.application.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\CustomHandler\application\integrations\SqlToSqlCustom.integration.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\Minimal\application\minimal.application.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\Minimal\infrastructure\persistence\minimal.persistence.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\SourceFilter\application\integrations\SqlToSqlFilter.integration.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\SourceFilter\application\source-filter.application.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\SourceFilter\infrastructure\dependencies\dataConnections\countrySource.dataConnection.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\SourceFilter\infrastructure\dependencies\dataConnections\etlSample.dataConnection.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\SourceFilter\infrastructure\dependencies\source-filter.dependencies.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\SourceFilter\infrastructure\source-filter.infrastructure.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\SourceFilter\infrastructure\persistence\source-filter.persistence.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\SourceFilter\source-filter.solution.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\CustomHandler\infrastructure\persistence\custom.persistence.nox.yaml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

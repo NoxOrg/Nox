@@ -69,8 +69,10 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, Lan
     private async Task<Cryptocash.Domain.LandLord> ToEntityAsync(LandLordCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.LandLord();
-        entity.Name = Cryptocash.Domain.LandLordMetadata.CreateName(createDto.Name);
-        entity.Address = Cryptocash.Domain.LandLordMetadata.CreateAddress(createDto.Address);
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            Cryptocash.Domain.LandLordMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Address, (entity) => entity.Address = 
+            Cryptocash.Domain.LandLordMetadata.CreateAddress(createDto.Address.NonNullValue<StreetAddressDto>()));
         entity.EnsureId(createDto.Id);
         return await Task.FromResult(entity);
     }

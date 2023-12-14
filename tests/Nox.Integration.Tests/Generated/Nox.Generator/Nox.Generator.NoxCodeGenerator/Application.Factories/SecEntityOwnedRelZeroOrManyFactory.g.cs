@@ -70,7 +70,8 @@ internal abstract class SecEntityOwnedRelZeroOrManyFactoryBase : IEntityFactory<
     {
         var entity = new TestWebApp.Domain.SecEntityOwnedRelZeroOrMany();
         entity.Id = SecEntityOwnedRelZeroOrManyMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
-        entity.TextTestField2 = TestWebApp.Domain.SecEntityOwnedRelZeroOrManyMetadata.CreateTextTestField2(createDto.TextTestField2);
+        entity.SetIfNotNull(createDto.TextTestField2, (entity) => entity.TextTestField2 = 
+            TestWebApp.Domain.SecEntityOwnedRelZeroOrManyMetadata.CreateTextTestField2(createDto.TextTestField2.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

@@ -1,6 +1,5 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using MassTransit.Testing;
 using Xunit.Abstractions;
 
 using Nox.Infrastructure.Messaging;

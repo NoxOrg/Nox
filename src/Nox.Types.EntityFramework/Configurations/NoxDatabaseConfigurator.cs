@@ -7,7 +7,6 @@ using System.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using Nox.Types.EntityFramework.Exceptions;
-using System.Reflection.Emit;
 using Nox.Types.EntityFramework.Extensions;
 
 
@@ -185,14 +184,14 @@ namespace Nox.Types.EntityFramework.Configurations
                 //One to Many
                 if (relationship.Relationship.Related.EntityRelationship.WithMultiEntity)
                 {
-                    //#if DEBUG
+#if DEBUG
                     Console.WriteLine($"***Relationship oneToMany {entity.Name}," +
                        $"Name {relationship.Relationship.Name} " +
                        $"HasOne {relatedEntityTypeName}, {navigationPropertyName} " +
                        $"WithMany {reversedNavigationPropertyName} " +
                        $"ForeignKey {navigationPropertyName}Id " +
                        $"");
-                    //#endif
+#endif
 
                     builder
                         .HasOne(relatedEntityTypeName, navigationPropertyName)
@@ -202,14 +201,14 @@ namespace Nox.Types.EntityFramework.Configurations
                 }
                 else //One to One
                 {
-                    //#if DEBUG2
+#if DEBUG
                     Console.WriteLine($"***Relationship oneToOne {entity.Name} ," +
                         $"Name {relationship.Relationship.Name} " +
                         $"HasOne {relatedEntityTypeName}, {navigationPropertyName} " +
                         $"WithOne {reversedNavigationPropertyName}" +
                         $"ForeignKey {navigationPropertyName}Id " +
                         $"");
-                    //#endif
+#endif
 
                     builder
                         .HasOne(relatedEntityTypeName, navigationPropertyName)
@@ -219,7 +218,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 }
 
                 // Setup foreign key property
-                ConfigureRelationForeignKeyProperty(codeGeneratorState, builder, modelBuilder,entity, relationship);
+                ConfigureRelationForeignKeyProperty(codeGeneratorState, builder, modelBuilder, entity, relationship);
             }
         }
 
@@ -249,14 +248,14 @@ namespace Nox.Types.EntityFramework.Configurations
             //One to Many
             if (relationship.Relationship.WithMultiEntity())
             {
-                //#if DEBUG
+#if DEBUG
                 Console.WriteLine($"***Relationship oneToMany {entity.Name}," +
                    $"Name {entity.Name} " +
                    $"HasMany {navigationPropertyName}" +
                    $"WithOne" +
                    $"ForeignKey {entity.Name}Id" +
                    $"DeleteBehavior {DeleteBehavior.Cascade}");
-                //#endif
+#endif
 
                 builder
                     .HasMany(navigationPropertyName)
@@ -267,14 +266,14 @@ namespace Nox.Types.EntityFramework.Configurations
             }
             else //One to One
             {
-                //#if DEBUG2
+#if DEBUG
                 Console.WriteLine($"***Relationship oneToOne {entity.Name} ," +
                     $"Name {entity.Name} " +
                     $"HasOne {relatedEntityTypeName}, {navigationPropertyName} " +
                     $"WithOne" +
                     $"ForeignKey {relatedEntityTypeName} {string.Join(", ", relationship.Relationship.Related.Entity.GetKeys().Select(key => key.Name).ToArray())}" +
                     $"DeleteBehavior {DeleteBehavior.Cascade}");
-                //#endif
+#endif
 
                 builder
                     .HasOne(relatedEntityTypeName, navigationPropertyName)
@@ -298,17 +297,19 @@ namespace Nox.Types.EntityFramework.Configurations
             if (TypesDatabaseConfigurations.TryGetValue(key.Type,
                 out var databaseConfiguration))
             {
+#if DEBUG
                 Console.WriteLine($"++++ConfigureRelationForeignKeyProperty {entity.Name}, " +
                     $"rel {relationship.Relationship.Name} " +
                     $"Property {relationshipName}Id, " +
                     $"Keytype {key.Type}");
+#endif
 
                 var keyToBeConfigured = key.ToRelationKeyConfiguration(
-                    name:$"{relationshipName}Id", 
-                    description:$"Foreign key for entity {relationship.Relationship.Name}", 
-                    isReadonly:false, 
-                    isRequired:relationship.Relationship.IsRequired() );
-                
+                    name: $"{relationshipName}Id",
+                    description: $"Foreign key for entity {relationship.Relationship.Name}",
+                    isReadonly: false,
+                    isRequired: relationship.Relationship.IsRequired());
+
                 databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, keyToBeConfigured, entity, isKey: false, modelBuilder: modelBuilder, entityTypeBuilder: builder);
             }
         }
@@ -329,15 +330,18 @@ namespace Nox.Types.EntityFramework.Configurations
                 {
                     if (key.Type == NoxType.EntityId) //its key and foreign key
                     {
+#if DEBUG
                         Console.WriteLine($"    Setup Key {key.Name} as Foreign Key for Entity {entity.Name}");
-
+#endif
                         ConfigureEntityKeyForEntityForeignKey(codeGeneratorState, builder, modelBuilder, entity, key, configureNavigationProperty, configureToManyRelationship: keys.Count > 1, deleteBehavior);
                         keysPropertyNames.Add(key.Name);
                     }
                     else if (TypesDatabaseConfigurations.TryGetValue(key.Type,
                             out var databaseConfiguration))
                     {
+#if DEBUG
                         Console.WriteLine($"    Setup Key {key.Name} for Entity {entity.Name}");
+#endif
                         keysPropertyNames.Add(databaseConfiguration.GetKeyPropertyName(key));
                         databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, key.ToNoxTypeDatabaseConfiguration(), entity, true, modelBuilder, builder);
                     }
@@ -430,7 +434,7 @@ namespace Nox.Types.EntityFramework.Configurations
                     uniqueConstraint.Name));
             }
         }
-       
+
         private static void ConfigureConstraintsWithAuditProperties(EntityTypeBuilder builder, Entity entity, List<IndexBuilder> result)
         {
             foreach (var uniqueConstraint in entity.UniqueAttributeConstraints!)
@@ -443,12 +447,12 @@ namespace Nox.Types.EntityFramework.Configurations
 
                 uniqueProperties.AddRange(relationshipAttributes);
                 uniqueProperties.Add("DeletedAtUtc");
-                result.Add(HasUniqueAttributeConstraint(builder ,uniqueProperties.ToArray(), uniqueConstraint.Name));
+                result.Add(HasUniqueAttributeConstraint(builder, uniqueProperties.ToArray(), uniqueConstraint.Name));
             }
         }
 
         protected virtual void ConfigureAttributes(
-            NoxCodeGenConventions codeGeneratorState,            
+            NoxCodeGenConventions codeGeneratorState,
             EntityTypeBuilder builder,
             ModelBuilder modelBuilder,
             Entity entity)

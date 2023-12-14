@@ -1,6 +1,6 @@
 using Microsoft.Data.SqlClient;
-using Nox.Integration.Abstractions;
-using Nox.Integration.Adapters;
+using Nox.Integration.Abstractions.Interfaces;
+using Nox.Integration.SqlServer;
 using Nox.Solution;
 
 namespace Nox.Integration.Extensions.Receive;
@@ -18,7 +18,7 @@ public static class IntegrationContextDatabaseReceiveExtensions
         return instance;
     }
 
-    internal static SqlServerReceiveAdapter CreateSqlServerReceiveAdapter(string integrationName, IntegrationSourceQueryOptions options, DataConnection dataConnectionDefinition)
+    internal static SqlServerQueryReceiveAdapter CreateSqlServerReceiveAdapter(string integrationName, IntegrationSourceQueryOptions options, DataConnection dataConnectionDefinition)
     {
         var csb = new SqlConnectionStringBuilder(dataConnectionDefinition.Options)
         {
@@ -28,7 +28,7 @@ public static class IntegrationContextDatabaseReceiveExtensions
             InitialCatalog = dataConnectionDefinition.Name,
             ApplicationName = integrationName
         };
-        var adapter = new SqlServerReceiveAdapter(options.Query, options.MinimumExpectedRecords!.Value, csb.ConnectionString);
+        var adapter = new SqlServerQueryReceiveAdapter(options.Query, options.MinimumExpectedRecords!.Value, csb.ConnectionString);
         return adapter;
     }
 }

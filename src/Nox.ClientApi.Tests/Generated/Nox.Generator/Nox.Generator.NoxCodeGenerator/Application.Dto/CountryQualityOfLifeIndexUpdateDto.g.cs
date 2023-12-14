@@ -31,5 +31,5 @@ public partial class CountryQualityOfLifeIndexUpdateDtoBase: EntityDtoBase, IEnt
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "IndexRating is required")]
     
-    public virtual System.Int32 IndexRating { get; set; } = default!;
+    public virtual System.Int32? IndexRating { get; set; }
 }

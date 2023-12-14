@@ -1,6 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Nox.Infrastructure;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
@@ -22,8 +23,9 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
            (noxOptions) =>
            {
                noxOptions.WithoutMessagingTransactionalOutbox();
+               noxOptions.WithoutNoxLogging();
            }, null)
-        .AddLogging();
+            .AddLogging(configure => configure.SetMinimumLevel(LogLevel.Error));        
         var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(INoxDatabaseProvider));
         if (descriptor != null)
         {

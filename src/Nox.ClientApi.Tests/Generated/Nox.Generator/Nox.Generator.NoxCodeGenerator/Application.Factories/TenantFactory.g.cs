@@ -77,8 +77,10 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
     private async Task<ClientApi.Domain.Tenant> ToEntityAsync(TenantCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Tenant();
-        entity.Name = ClientApi.Domain.TenantMetadata.CreateName(createDto.Name);
-        entity.SetIfNotNull(createDto.Status, (entity) => entity.Status =ClientApi.Domain.TenantMetadata.CreateStatus(createDto.Status.NonNullValue<System.Int32>()));
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            ClientApi.Domain.TenantMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Status, (entity) => entity.Status = 
+            ClientApi.Domain.TenantMetadata.CreateStatus(createDto.Status.NonNullValue<System.Int32>()));
 		entity.EnsureId();
         foreach (var dto in createDto.TenantBrands)
         {

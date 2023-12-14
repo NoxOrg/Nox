@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Nox.Yaml.Attributes;
 
 namespace Nox.Yaml.Tests.TestDesigns.Nox.Models;

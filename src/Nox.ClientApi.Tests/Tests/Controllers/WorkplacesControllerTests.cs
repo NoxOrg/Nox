@@ -4,8 +4,6 @@ using AutoFixture;
 using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using static MassTransit.ValidationResultExtensions;
 using Nox.Application.Dto;
 
 namespace ClientApi.Tests.Tests.Controllers
@@ -928,7 +926,7 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task CreateWorkplace_WithLocalizedOwnershipId_ReturnsLocalizedOwnershipIdAndName()
         {
             // Arrange
-            await PutAsync($"{Endpoints.WorkplacesUrl}/WorkplaceOwnershipsLocalized", new EnumerationLocalizedList<WorkplaceOwnershipLocalizedDto>
+            await PutAsync($"{Endpoints.WorkplacesUrl}/WorkplaceOwnershipsLocalized", new EnumerationLocalizedListDto<WorkplaceOwnershipLocalizedDto>
             {
                 Items = new List<WorkplaceOwnershipLocalizedDto>
                 {

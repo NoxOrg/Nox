@@ -1,5 +1,4 @@
-﻿using Castle.Core.Resource;
-using FluentAssertions;
+﻿using FluentAssertions;
 
 namespace Nox.Lib.Tests.ApiMiddleware;
 public class NoxApiMidllewareTests
@@ -70,7 +69,7 @@ public class NoxApiMidllewareTests
         var routeMatcher = new ApiRouteMatcher(_testPattern);
 
         routeMatcher
-            .Matches(testRoute, out var values)
+            .Match(testRoute, out var values)
             .Should().BeTrue();
 
         values.Should().NotBeNull();
@@ -80,6 +79,37 @@ public class NoxApiMidllewareTests
         values!["Properties"].Should().Be(properties);
     }
 
+    [Fact]
+    public void RouteMatcher_Matches_String2()
+    {
+
+        var routeMatcher1 = new ApiRouteMatcher("/CryptoCurrencies");
+        var routeMatcher2 = new ApiRouteMatcher("/CryptoCurrencies/{Count}");
+        var routeMatcher3 = new ApiRouteMatcher("/CryptoCurrencies/{CryptoCode}/{Property}");
+        var routeMatcher4 = new ApiRouteMatcher("/CryptoCurrencies/{Property}");
+
+        var testRoute = "/CryptoCurrencies/Name";
+
+        routeMatcher1
+            .Match(testRoute, out var _)
+            .Should().BeFalse();
+
+        // This will match but probably shouldn't, will not fix to maintain performance for now
+        // The parameter type (integer) will have to be checked and is not known to the RouteMatcher
+        routeMatcher2
+            .Match(testRoute, out var _)
+            .Should().BeTrue();
+
+        routeMatcher3
+            .Match(testRoute, out var _)
+            .Should().BeFalse();
+
+        routeMatcher4
+            .Match(testRoute, out var _)
+            .Should().BeTrue();
+
+    }
+
     [Theory]
     [InlineData("")]
     [InlineData("/")]
@@ -87,13 +117,14 @@ public class NoxApiMidllewareTests
     [InlineData("/Countries/100/Customers/1/Contacts/42?$select=FirstName,LastName")]
     [InlineData("/Contacts/1/Customers/42?$select=FirstName,LastName")]
     [InlineData("/Customers/42/Customers/42?$select=FirstName,LastName")]
+    [InlineData("//")]
     public void RouteMatcher_Does_Not_Match_String(string testRoute)
     {
 
         var routeMatcher = new ApiRouteMatcher(_testPattern);
 
         routeMatcher
-            .Matches(testRoute, out var values)
+            .Match(testRoute, out var values)
             .Should().BeFalse();
 
         values.Should().BeNull();
@@ -110,7 +141,7 @@ public class NoxApiMidllewareTests
         var routeMatcher = new ApiRouteMatcher(_testPatternStartsWithParam);
 
         routeMatcher
-            .Matches(testRoute, out var values)
+            .Match(testRoute, out var values)
             .Should().BeTrue();
 
         values.Should().NotBeNull();
@@ -130,7 +161,7 @@ public class NoxApiMidllewareTests
         var routeMatcher = new ApiRouteMatcher(_testPatternEndsWithoutParam);
 
         routeMatcher
-            .Matches(testRoute, out var values)
+            .Match(testRoute, out var values)
             .Should().BeTrue();
 
         values.Should().NotBeNull();

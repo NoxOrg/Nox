@@ -5,23 +5,23 @@ This document provides information about the various endpoints available in our 
 ## People Endpoints
 
 ### Get People by ID
-- **GET** `/api/Peoples/{key}`
+- **GET** `/api/v1/Peoples/{key}`
   - Description: Retrieve information about a People by ID.
   
 ### Get Peoples
-- **GET** `/api/Peoples`
+- **GET** `/api/v1/Peoples`
   - Description: Retrieve information about Peoples.
 
 ### Create People
-- **POST** `/api/Peoples`
+- **POST** `/api/v1/Peoples`
   - Description: Create a new People.
 
 ### Update People
-- **PUT** `/api/Peoples/{key}`
+- **PUT** `/api/v1/Peoples/{key}`
   - Description: Update an existing People.
 
 ### Partially Update People
-- **PATCH** `/api/Peoples/{key}`
+- **PATCH** `/api/v1/Peoples/{key}`
   - Description: Partially update an existing People.
 
 ## Relationships Endpoints
@@ -29,25 +29,25 @@ This document provides information about the various endpoints available in our 
 ### Country
 
 #### Get Country relations
-- **GET** `/api/Peoples/{key}/CountriesInhabitedByPeople/$ref`
+- **GET** `/api/v1/Peoples/{key}/CountriesInhabitedByPeople/$ref`
   - Description: Retrieve all existing Countries relations for a specific People.
   
 #### Create Country relation
-- **POST** `/api/Peoples/{key}/CountriesInhabitedByPeople/{relatedKey}/$ref`
+- **POST** `/api/v1/Peoples/{key}/CountriesInhabitedByPeople/{relatedKey}/$ref`
   - Description: Create a new Country relation for a specific People.
   
 #### Update Country relation
-- **PUT** `/api/Peoples/{key}/CountriesInhabitedByPeople/{relatedKey}/$ref`
+- **PUT** `/api/v1/Peoples/{key}/CountriesInhabitedByPeople/{relatedKey}/$ref`
   - Description: Updates an existing Country relation for a specific People.
-- **PUT** `/api/Peoples/{key}/CountriesInhabitedByPeople/$ref`
+- **PUT** `/api/v1/Peoples/{key}/CountriesInhabitedByPeople/$ref`
   - Description: Updates the Country relations for a specific People.
 
 #### Delete Country relation
-- **DELETE** `/api/Peoples/{key}/CountriesInhabitedByPeople/{relatedKey}/$ref`
+- **DELETE** `/api/v1/Peoples/{key}/CountriesInhabitedByPeople/{relatedKey}/$ref`
   - Description: Delete an existing Country relation for a specific People.
 
 #### Delete Country relations
-- **DELETE** `/api/Peoples/{key}/CountriesInhabitedByPeople/$ref`
+- **DELETE** `/api/v1/Peoples/{key}/CountriesInhabitedByPeople/$ref`
   - Description: Delete all existing Countries relations for a specific People.
 
 ## Related Entities

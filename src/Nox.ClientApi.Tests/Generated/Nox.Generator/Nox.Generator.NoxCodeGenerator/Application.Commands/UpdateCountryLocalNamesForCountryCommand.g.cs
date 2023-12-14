@@ -15,6 +15,7 @@ using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
+using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
@@ -57,16 +58,24 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 			return null;
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.CountryLocalNames).LoadAsync(cancellationToken);
-		var ownedId = ClientApi.Domain.CountryLocalNameMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
-		var entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
-		if (entity == null)
+		
+		CountryLocalNameEntity? entity;
+		if(request.EntityDto.Id is null)
 		{
-			return null;
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+		}
+		else
+		{
+			var ownedId = ClientApi.Domain.CountryLocalNameMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
+			entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
+			if (entity is null)
+				return null;
+			else
+				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		}
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
+		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 
@@ -79,12 +88,18 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 
 		return new CountryLocalNameKeyDto(entity.Id.Value);
 	}
+	
+	private async Task<CountryLocalNameEntity> CreateEntityAsync(CountryLocalNameUpsertDto upsertDto, CountryEntity parent)
+	{
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		parent.CreateRefToCountryLocalNames(entity);
+		return entity;
+	}
 }
 
 public class UpdateCountryLocalNamesForCountryValidator : AbstractValidator<UpdateCountryLocalNamesForCountryCommand>
 {
-    public UpdateCountryLocalNamesForCountryValidator(ILogger<UpdateCountryLocalNamesForCountryCommand> logger)
+    public UpdateCountryLocalNamesForCountryValidator()
     {
-		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
     }
 }

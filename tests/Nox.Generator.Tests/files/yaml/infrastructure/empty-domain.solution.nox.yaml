@@ -1,0 +1,78 @@
+name: SampleWebApp
+
+description: Sample Nox solution yaml configuration
+
+application:
+  integrations:
+    - name: SampleIntegration
+      description: a Sample integration that sources data from Sql Server and persists to a Database Table
+      mergeType: mergeNew
+      transformationType: customTransform
+
+      schedule:
+        start: every day at 2am
+        retry:
+          limit: 5
+          delaySeconds: 5
+          doubleDelayLimit: 10
+        runOnStartup: true
+
+      source:
+        name: SampleSource
+        description: Sources Country data from a Sql Server database
+        dataConnectionName: SampleSourceConnection
+        sourceAdapterType: databaseQuery
+        queryOptions:
+          query: SELECT CountryId, Name, Population, CreateDate, EditDate FROM CountryMaster
+          minimumExpectedRecords: 5
+
+        watermark:
+          dateColumns:
+            - "CreateDate"
+            - "EditDate"
+          sequentialKeyColumns:
+            - "Id"
+
+      target:
+        name: SampleTarget
+        dataConnectionName: SampleTargetConnection
+        targetAdapterType: databaseTable
+        tableOptions:
+          tableName: Country
+
+infrastructure:
+  
+  dependencies:
+    dataConnections:
+      - name: SampleSourceConnection
+        provider: sqlServer
+        options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;encrypt=false
+        serverUri: localhost
+        user: sa
+        password: Developer*123
+        
+      - name: SampleTargetConnection
+        provider: sqlServer
+        options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;encrypt=false
+        serverUri: localhost
+        user: sa
+        password: Developer*123
+  
+  persistence:
+
+    databaseServer:
+      name: SampleCurrencyDb
+
+      # Sql Server
+      serverUri: localhost
+      provider: sqlServer
+      port: 1433
+      user: sa
+      password: Developer*123
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
+  
+#  # bug in Nox.Solution cannot create infrastructure without integrationEventServer 
+#  messaging:
+#    integrationEventServer:
+#      name: SampleEventServer
+#      provider: inMemory

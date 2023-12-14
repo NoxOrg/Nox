@@ -9,7 +9,6 @@ using ClientApi.Infrastructure.Persistence;
 using Xunit.Abstractions;
 using Nox.Solution;
 using Nox.Infrastructure;
-using System;
 using SqlKata.Compilers;
 using Nox;
 

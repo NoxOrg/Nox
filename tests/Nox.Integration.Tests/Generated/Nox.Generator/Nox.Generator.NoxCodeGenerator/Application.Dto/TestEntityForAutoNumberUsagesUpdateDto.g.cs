@@ -31,5 +31,5 @@ public partial class TestEntityForAutoNumberUsagesUpdateDtoBase: EntityDtoBase, 
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "TextField is required")]
     
-    public virtual System.String TextField { get; set; } = default!;
+    public virtual System.String? TextField { get; set; }
 }

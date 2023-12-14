@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Nox.Yaml.Tests.TestDesigns.Nox.Types.Enums;
+﻿namespace Nox.Yaml.Tests.TestDesigns.Nox.Types.Enums;
 
 /// <summary>
 /// Enumeration for file format types.

@@ -2,7 +2,6 @@
 using Xunit.Abstractions;
 using ClientApi.Application.Dto;
 using AutoFixture;
-using Nox.Types;
 
 namespace ClientApi.Tests.Application.Dto
 {

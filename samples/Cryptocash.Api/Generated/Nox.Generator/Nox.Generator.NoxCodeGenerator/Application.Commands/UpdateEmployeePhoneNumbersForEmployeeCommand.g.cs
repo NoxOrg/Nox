@@ -15,6 +15,7 @@ using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using EmployeePhoneNumberEntity = Cryptocash.Domain.EmployeePhoneNumber;
+using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
@@ -57,16 +58,24 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 			return null;
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.EmployeePhoneNumbers).LoadAsync(cancellationToken);
-		var ownedId = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
-		var entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
-		if (entity == null)
+		
+		EmployeePhoneNumberEntity? entity;
+		if(request.EntityDto.Id is null)
 		{
-			return null;
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+		}
+		else
+		{
+			var ownedId = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
+			entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
+			if (entity is null)
+				return null;
+			else
+				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		}
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
+		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 
@@ -79,12 +88,18 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 
 		return new EmployeePhoneNumberKeyDto(entity.Id.Value);
 	}
+	
+	private async Task<EmployeePhoneNumberEntity> CreateEntityAsync(EmployeePhoneNumberUpsertDto upsertDto, EmployeeEntity parent)
+	{
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		parent.CreateRefToEmployeePhoneNumbers(entity);
+		return entity;
+	}
 }
 
 public class UpdateEmployeePhoneNumbersForEmployeeValidator : AbstractValidator<UpdateEmployeePhoneNumbersForEmployeeCommand>
 {
-    public UpdateEmployeePhoneNumbersForEmployeeValidator(ILogger<UpdateEmployeePhoneNumbersForEmployeeCommand> logger)
+    public UpdateEmployeePhoneNumbersForEmployeeValidator()
     {
-		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
     }
 }

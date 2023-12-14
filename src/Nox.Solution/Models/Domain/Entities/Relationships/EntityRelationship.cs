@@ -3,8 +3,6 @@ using Nox.Solution.Extensions;
 using Nox.Types;
 using Nox.Yaml;
 using Nox.Yaml.Attributes;
-using Nox.Yaml.Validation;
-using System.Linq;
 using YamlDotNet.Serialization;
 
 namespace Nox.Solution;

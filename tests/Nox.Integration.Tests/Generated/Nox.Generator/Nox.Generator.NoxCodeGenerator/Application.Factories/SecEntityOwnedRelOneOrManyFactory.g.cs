@@ -70,7 +70,8 @@ internal abstract class SecEntityOwnedRelOneOrManyFactoryBase : IEntityFactory<S
     {
         var entity = new TestWebApp.Domain.SecEntityOwnedRelOneOrMany();
         entity.Id = SecEntityOwnedRelOneOrManyMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
-        entity.TextTestField2 = TestWebApp.Domain.SecEntityOwnedRelOneOrManyMetadata.CreateTextTestField2(createDto.TextTestField2);
+        entity.SetIfNotNull(createDto.TextTestField2, (entity) => entity.TextTestField2 = 
+            TestWebApp.Domain.SecEntityOwnedRelOneOrManyMetadata.CreateTextTestField2(createDto.TextTestField2.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

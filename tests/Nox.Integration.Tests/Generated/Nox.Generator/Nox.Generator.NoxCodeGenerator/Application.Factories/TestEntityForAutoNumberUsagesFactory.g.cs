@@ -69,7 +69,8 @@ internal abstract class TestEntityForAutoNumberUsagesFactoryBase : IEntityFactor
     private async Task<TestWebApp.Domain.TestEntityForAutoNumberUsages> ToEntityAsync(TestEntityForAutoNumberUsagesCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityForAutoNumberUsages();
-        entity.TextField = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateTextField(createDto.TextField);
+        entity.SetIfNotNull(createDto.TextField, (entity) => entity.TextField = 
+            TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

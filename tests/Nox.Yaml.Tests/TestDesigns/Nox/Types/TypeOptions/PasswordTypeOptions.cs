@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using System;
 using Nox.Yaml.Tests.TestDesigns.Nox.Types.Enums;
 
 namespace Nox.Yaml.Tests.TestDesigns.Nox.Types.TypeOptions;

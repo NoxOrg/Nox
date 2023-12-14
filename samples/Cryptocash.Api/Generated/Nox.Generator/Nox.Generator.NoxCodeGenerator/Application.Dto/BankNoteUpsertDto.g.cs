@@ -36,12 +36,12 @@ public abstract class BankNoteUpsertDtoBase: EntityDtoBase, IEntityDto<DomainNam
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "CashNote is required")]
-    public virtual System.String CashNote { get; set; } = default!;
+    public virtual System.String? CashNote { get; set; }
 
     /// <summary>
     /// Bank note value     
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Value is required")]
-    public virtual MoneyDto Value { get; set; } = default!;
+    public virtual MoneyDto? Value { get; set; }
 }

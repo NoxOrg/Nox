@@ -15,6 +15,7 @@ using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using CountryBarCodeEntity = ClientApi.Domain.CountryBarCode;
+using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
@@ -58,15 +59,13 @@ internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : Comman
 		}
 		await _dbContext.Entry(parentEntity).Reference(e => e.CountryBarCode).LoadAsync(cancellationToken);
 		var entity = parentEntity.CountryBarCode;
-		
-		if (entity == null)
-		{
-			return null;
-		}
+		if (entity is null)
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+		else
+			await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
+		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 
@@ -78,5 +77,12 @@ internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : Comman
 		}
 
 		return new CountryBarCodeKeyDto();
+	}
+	
+	private async Task<CountryBarCodeEntity> CreateEntityAsync(CountryBarCodeUpsertDto upsertDto, CountryEntity parent)
+	{
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		parent.CreateRefToCountryBarCode(entity);
+		return entity;
 	}
 }

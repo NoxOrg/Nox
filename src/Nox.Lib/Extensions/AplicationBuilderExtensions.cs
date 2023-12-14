@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Nox.Integration.Abstractions;
 using Nox.Lib;
 using Nox.Solution;
 using Serilog;
@@ -45,6 +46,12 @@ namespace Nox
 
 
             noxBuilder.UseEtlBox(checkLicense: !isDevelopment);
+
+            var integrationContext = builder
+                .ApplicationServices
+                .GetService<INoxIntegrationContext>();
+
+            integrationContext?.ExecuteStartupIntegrations();
 
             return noxBuilder;
         }

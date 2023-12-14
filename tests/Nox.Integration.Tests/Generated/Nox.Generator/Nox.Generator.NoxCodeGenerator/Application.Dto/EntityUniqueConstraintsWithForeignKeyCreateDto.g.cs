@@ -30,7 +30,7 @@ public abstract class EntityUniqueConstraintsWithForeignKeyCreateDtoBase : IEnti
     ///      
     /// </summary>
     /// <remarks>Optional.</remarks>
-    public System.Guid Id { get; set; } = default!;
+    public virtual System.Guid? Id { get; set; }
     /// <summary>
     ///      
     /// </summary>
@@ -42,7 +42,7 @@ public abstract class EntityUniqueConstraintsWithForeignKeyCreateDtoBase : IEnti
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "SomeUniqueId is required")]
     
-    public virtual System.Int32 SomeUniqueId { get; set; } = default!;
+    public virtual System.Int32? SomeUniqueId { get; set; }
 
     /// <summary>
     /// EntityUniqueConstraintsWithForeignKey for ExactlyOne EntityUniqueConstraintsRelatedForeignKeys

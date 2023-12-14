@@ -33,14 +33,14 @@ public abstract class CashStockOrderCreateDtoBase : IEntityDto<DomainNamespace.C
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Amount is required")]
     
-    public virtual MoneyDto Amount { get; set; } = default!;
+    public virtual MoneyDto? Amount { get; set; }
     /// <summary>
     /// Order requested delivery date     
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "RequestedDeliveryDate is required")]
     
-    public virtual System.DateTime RequestedDeliveryDate { get; set; } = default!;
+    public virtual System.DateTime? RequestedDeliveryDate { get; set; }
     /// <summary>
     /// Order delivery date     
     /// </summary>

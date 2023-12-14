@@ -1,6 +1,5 @@
 ﻿using Nox.Yaml;
 using Nox.Yaml.Attributes;
-using System.Security.Authentication.ExtendedProtection;
 
 namespace Nox.Solution;
 

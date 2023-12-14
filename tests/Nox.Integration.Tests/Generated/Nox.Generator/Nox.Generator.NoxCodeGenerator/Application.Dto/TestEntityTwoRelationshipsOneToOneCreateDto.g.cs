@@ -32,14 +32,14 @@ public abstract class TestEntityTwoRelationshipsOneToOneCreateDtoBase : IEntityD
     /// </summary>
     /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
-    public System.String Id { get; set; } = default!;
+    public virtual System.String? Id { get; set; }
     /// <summary>
     ///      
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "TextTestField is required")]
     
-    public virtual System.String TextTestField { get; set; } = default!;
+    public virtual System.String? TextTestField { get; set; }
 
     /// <summary>
     /// TestEntityTwoRelationshipsOneToOne First relationship to the same entity ExactlyOne SecondTestEntityTwoRelationshipsOneToOnes

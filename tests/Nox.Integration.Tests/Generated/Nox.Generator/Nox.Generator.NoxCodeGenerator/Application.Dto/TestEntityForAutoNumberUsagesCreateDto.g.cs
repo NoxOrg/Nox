@@ -33,5 +33,5 @@ public abstract class TestEntityForAutoNumberUsagesCreateDtoBase : IEntityDto<Do
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "TextField is required")]
     
-    public virtual System.String TextField { get; set; } = default!;
+    public virtual System.String? TextField { get; set; }
 }

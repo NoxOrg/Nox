@@ -37,14 +37,14 @@ public abstract class PaymentProviderCreateDtoBase : IEntityDto<DomainNamespace.
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "PaymentProviderName is required")]
     
-    public virtual System.String PaymentProviderName { get; set; } = default!;
+    public virtual System.String? PaymentProviderName { get; set; }
     /// <summary>
     /// Payment provider account type     
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "PaymentProviderType is required")]
     
-    public virtual System.String PaymentProviderType { get; set; } = default!;
+    public virtual System.String? PaymentProviderType { get; set; }
 
     /// <summary>
     /// PaymentProvider related to ZeroOrMany PaymentDetails

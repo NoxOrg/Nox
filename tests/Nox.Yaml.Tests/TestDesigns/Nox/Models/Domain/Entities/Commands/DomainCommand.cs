@@ -1,6 +1,5 @@
 ﻿using Nox.Yaml.Attributes;
 using Nox.Yaml.Tests.TestDesigns.Nox.Types.TypeDefinitions;
-using System.Collections.Generic;
 
 namespace Nox.Yaml.Tests.TestDesigns.Nox.Models;
 

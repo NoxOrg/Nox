@@ -31,5 +31,5 @@ public partial class ClientUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamesp
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;
+    public virtual System.String? Name { get; set; }
 }

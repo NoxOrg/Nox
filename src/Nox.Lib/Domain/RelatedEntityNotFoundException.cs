@@ -1,34 +1,29 @@
 ﻿using System.Net;
-using Elastic.Apm.Api;
-using Nox.Presentation.Api;
-using Nox.Types;
+using System.Runtime.Serialization;
 
 namespace Nox.Exceptions;
 
-public class RelatedEntityNotFoundException : Exception, IApplicationException
+[Serializable]
+public class RelatedEntityNotFoundException : EntityNotFoundException, IApplicationException
 {
-    public RelatedEntityNotFoundException(string relatedEntityName, string relatedEntityId)
-        : this($"{relatedEntityName} with Id {relatedEntityId} was not found")
+    public RelatedEntityNotFoundException(string entityName, string entityId)
+        : base(entityName, entityId)
     {
-        ErrorDetails = new { Entity = relatedEntityName , Key = relatedEntityId };
     }
 
     public RelatedEntityNotFoundException(string message)
         : base(message)
     {
-        ErrorDetails = message;
-
     }
 
     public RelatedEntityNotFoundException(string message, Exception inner)
         : base(message, inner)
     {
-        ErrorDetails = message;
     }
+    protected RelatedEntityNotFoundException(SerializationInfo info, StreamingContext context)
+        : base(info, context)
+    {
+    }
+    public override string ErrorCode => "related_entity_not_found";
 
-    public HttpStatusCode? StatusCode => HttpStatusCode.BadRequest;
-
-    public string ErrorCode => "related_entity_not_found";
-
-    public object? ErrorDetails { get; private set; }
 }

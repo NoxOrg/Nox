@@ -73,13 +73,18 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
     private async Task<Cryptocash.Domain.Employee> ToEntityAsync(EmployeeCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Employee();
-        entity.FirstName = Cryptocash.Domain.EmployeeMetadata.CreateFirstName(createDto.FirstName);
-        entity.LastName = Cryptocash.Domain.EmployeeMetadata.CreateLastName(createDto.LastName);
-        entity.EmailAddress = Cryptocash.Domain.EmployeeMetadata.CreateEmailAddress(createDto.EmailAddress);
-        entity.Address = Cryptocash.Domain.EmployeeMetadata.CreateAddress(createDto.Address);
-        entity.FirstWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(createDto.FirstWorkingDay);
-        entity.SetIfNotNull(createDto.LastWorkingDay, (entity) => entity.LastWorkingDay =Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(createDto.LastWorkingDay.NonNullValue<System.DateTime>()));
-        entity.EnsureId(createDto.Id);
+        entity.SetIfNotNull(createDto.FirstName, (entity) => entity.FirstName = 
+            Cryptocash.Domain.EmployeeMetadata.CreateFirstName(createDto.FirstName.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.LastName, (entity) => entity.LastName = 
+            Cryptocash.Domain.EmployeeMetadata.CreateLastName(createDto.LastName.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.EmailAddress, (entity) => entity.EmailAddress = 
+            Cryptocash.Domain.EmployeeMetadata.CreateEmailAddress(createDto.EmailAddress.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Address, (entity) => entity.Address = 
+            Cryptocash.Domain.EmployeeMetadata.CreateAddress(createDto.Address.NonNullValue<StreetAddressDto>()));
+        entity.SetIfNotNull(createDto.FirstWorkingDay, (entity) => entity.FirstWorkingDay = 
+            Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(createDto.FirstWorkingDay.NonNullValue<System.DateTime>()));
+        entity.SetIfNotNull(createDto.LastWorkingDay, (entity) => entity.LastWorkingDay = 
+            Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(createDto.LastWorkingDay.NonNullValue<System.DateTime>()));
         foreach (var dto in createDto.EmployeePhoneNumbers)
         {
             var newRelatedEntity = await EmployeePhoneNumberFactory.CreateEntityAsync(dto);

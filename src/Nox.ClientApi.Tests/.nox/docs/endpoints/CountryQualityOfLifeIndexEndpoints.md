@@ -5,26 +5,26 @@ This document provides information about the various endpoints available in our 
 ## CountryQualityOfLifeIndex Endpoints
 
 ### Get CountryQualityOfLifeIndex by ID
-- **GET** `/api/CountryQualityOfLifeIndices/{key}`
+- **GET** `/api/v1/CountryQualityOfLifeIndices/{key}`
   - Description: Retrieve information about a CountryQualityOfLifeIndex by ID.
   
 ### Get CountryQualityOfLifeIndices
-- **GET** `/api/CountryQualityOfLifeIndices`
+- **GET** `/api/v1/CountryQualityOfLifeIndices`
   - Description: Retrieve information about CountryQualityOfLifeIndices.
 
 ### Create CountryQualityOfLifeIndex
-- **POST** `/api/CountryQualityOfLifeIndices`
+- **POST** `/api/v1/CountryQualityOfLifeIndices`
   - Description: Create a new CountryQualityOfLifeIndex.
 
 ### Update CountryQualityOfLifeIndex
-- **PUT** `/api/CountryQualityOfLifeIndices/{key}`
+- **PUT** `/api/v1/CountryQualityOfLifeIndices/{key}`
   - Description: Update an existing CountryQualityOfLifeIndex.
 
 ### Partially Update CountryQualityOfLifeIndex
-- **PATCH** `/api/CountryQualityOfLifeIndices/{key}`
+- **PATCH** `/api/v1/CountryQualityOfLifeIndices/{key}`
   - Description: Partially update an existing CountryQualityOfLifeIndex.
  
 ### Delete CountryQualityOfLifeIndex
-- **DELETE** `/api/CountryQualityOfLifeIndices/{key}`
+- **DELETE** `/api/v1/CountryQualityOfLifeIndices/{key}`
   - Description: Delete an existing CountryQualityOfLifeIndex.
 

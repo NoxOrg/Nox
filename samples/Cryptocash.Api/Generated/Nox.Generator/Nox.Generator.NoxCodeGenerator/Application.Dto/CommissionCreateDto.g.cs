@@ -37,14 +37,14 @@ public abstract class CommissionCreateDtoBase : IEntityDto<DomainNamespace.Commi
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Rate is required")]
     
-    public virtual System.Single Rate { get; set; } = default!;
+    public virtual System.Single? Rate { get; set; }
     /// <summary>
     /// Exchange rate conversion amount     
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "EffectiveAt is required")]
     
-    public virtual System.DateTimeOffset EffectiveAt { get; set; } = default!;
+    public virtual System.DateTimeOffset? EffectiveAt { get; set; }
 
     /// <summary>
     /// Commission fees for ZeroOrOne Countries

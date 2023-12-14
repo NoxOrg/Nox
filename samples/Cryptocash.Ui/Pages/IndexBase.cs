@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Cryptocash.Ui.Generated.Data.Helper;
-using Cryptocash.Ui.Generated;
 using Cryptocash.Ui.Generated.Data.Generic;
 
 namespace Cryptocash.Ui.Pages

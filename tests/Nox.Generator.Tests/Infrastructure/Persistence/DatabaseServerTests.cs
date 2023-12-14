@@ -30,4 +30,5 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
             .AssertFileWasGenerated("Domain.Country.g.cs")
             .AssertFileWasGenerated("Infrastructure.Persistence.AppDbContext.g.cs");
     }
+
 }

@@ -1,5 +1,4 @@
-﻿using Humanizer.Configuration;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Nox.EntityFramework.Postgres;
 using Nox.Infrastructure;
 using Nox.Solution;

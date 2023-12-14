@@ -69,8 +69,9 @@ internal abstract class TestEntityOneOrManyToExactlyOneFactoryBase : IEntityFact
     private async Task<TestWebApp.Domain.TestEntityOneOrManyToExactlyOne> ToEntityAsync(TestEntityOneOrManyToExactlyOneCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityOneOrManyToExactlyOne();
-        entity.Id = TestEntityOneOrManyToExactlyOneMetadata.CreateId(createDto.Id);
-        entity.TextTestField2 = TestWebApp.Domain.TestEntityOneOrManyToExactlyOneMetadata.CreateTextTestField2(createDto.TextTestField2);
+        entity.Id = TestEntityOneOrManyToExactlyOneMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.TextTestField2, (entity) => entity.TextTestField2 = 
+            TestWebApp.Domain.TestEntityOneOrManyToExactlyOneMetadata.CreateTextTestField2(createDto.TextTestField2.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

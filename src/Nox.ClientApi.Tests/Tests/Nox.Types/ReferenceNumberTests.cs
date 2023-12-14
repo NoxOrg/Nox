@@ -1,11 +1,6 @@
 ﻿using FluentAssertions;
 using ClientApi.Application.Dto;
-using AutoFixture;
-using System.Net;
-using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
-using Nox.Application.Dto;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace ClientApi.Tests.Tests.Controllers
 {

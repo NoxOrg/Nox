@@ -69,7 +69,8 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
     private async Task<Cryptocash.Domain.CountryTimeZone> ToEntityAsync(CountryTimeZoneUpsertDto createDto)
     {
         var entity = new Cryptocash.Domain.CountryTimeZone();
-        entity.TimeZoneCode = Cryptocash.Domain.CountryTimeZoneMetadata.CreateTimeZoneCode(createDto.TimeZoneCode);
+        entity.SetIfNotNull(createDto.TimeZoneCode, (entity) => entity.TimeZoneCode = 
+            Cryptocash.Domain.CountryTimeZoneMetadata.CreateTimeZoneCode(createDto.TimeZoneCode.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

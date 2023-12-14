@@ -3,10 +3,6 @@ using Cryptocash.DataSeed.Seeders;
 using Cryptocash.Domain;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Application.Dto;
-using MassTransit.Transports;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Nox.Extensions;
-using Microsoft.Azure.Amqp.Framing;
 
 namespace Cryptocash.Infrastructure;
 

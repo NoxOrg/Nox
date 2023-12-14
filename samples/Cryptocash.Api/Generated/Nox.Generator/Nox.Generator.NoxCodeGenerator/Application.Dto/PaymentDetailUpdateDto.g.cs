@@ -31,14 +31,14 @@ public partial class PaymentDetailUpdateDtoBase: EntityDtoBase, IEntityDto<Domai
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "PaymentAccountName is required")]
     
-    public virtual System.String PaymentAccountName { get; set; } = default!;
+    public virtual System.String? PaymentAccountName { get; set; }
     /// <summary>
     /// Payment account reference number     
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "PaymentAccountNumber is required")]
     
-    public virtual System.String PaymentAccountNumber { get; set; } = default!;
+    public virtual System.String? PaymentAccountNumber { get; set; }
     /// <summary>
     /// Payment account sort code     
     /// </summary>

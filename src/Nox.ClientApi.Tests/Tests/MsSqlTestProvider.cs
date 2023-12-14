@@ -23,6 +23,9 @@ public class MsSqlTestProvider : SqlServerDatabaseProvider
         return optionsBuilder
             //.UseLazyLoadingProxies()
             .UseSqlServer(ConnectionString,
-             opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
+                opts =>
+                {
+                    opts.MigrationsHistoryTable("MigrationsHistory", "migrations");
+                });
     }
 }

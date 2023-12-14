@@ -69,13 +69,19 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
     private async Task<ClientApi.Domain.StoreOwner> ToEntityAsync(StoreOwnerCreateDto createDto)
     {
         var entity = new ClientApi.Domain.StoreOwner();
-        entity.Id = StoreOwnerMetadata.CreateId(createDto.Id);
-        entity.Name = ClientApi.Domain.StoreOwnerMetadata.CreateName(createDto.Name);
-        entity.TemporaryOwnerName = ClientApi.Domain.StoreOwnerMetadata.CreateTemporaryOwnerName(createDto.TemporaryOwnerName);
-        entity.SetIfNotNull(createDto.VatNumber, (entity) => entity.VatNumber =ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(createDto.VatNumber.NonNullValue<VatNumberDto>()));
-        entity.SetIfNotNull(createDto.StreetAddress, (entity) => entity.StreetAddress =ClientApi.Domain.StoreOwnerMetadata.CreateStreetAddress(createDto.StreetAddress.NonNullValue<StreetAddressDto>()));
-        entity.SetIfNotNull(createDto.LocalGreeting, (entity) => entity.LocalGreeting =ClientApi.Domain.StoreOwnerMetadata.CreateLocalGreeting(createDto.LocalGreeting.NonNullValue<TranslatedTextDto>()));
-        entity.SetIfNotNull(createDto.Notes, (entity) => entity.Notes =ClientApi.Domain.StoreOwnerMetadata.CreateNotes(createDto.Notes.NonNullValue<System.String>()));
+        entity.Id = StoreOwnerMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            ClientApi.Domain.StoreOwnerMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.TemporaryOwnerName, (entity) => entity.TemporaryOwnerName = 
+            ClientApi.Domain.StoreOwnerMetadata.CreateTemporaryOwnerName(createDto.TemporaryOwnerName.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.VatNumber, (entity) => entity.VatNumber = 
+            ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(createDto.VatNumber.NonNullValue<VatNumberDto>()));
+        entity.SetIfNotNull(createDto.StreetAddress, (entity) => entity.StreetAddress = 
+            ClientApi.Domain.StoreOwnerMetadata.CreateStreetAddress(createDto.StreetAddress.NonNullValue<StreetAddressDto>()));
+        entity.SetIfNotNull(createDto.LocalGreeting, (entity) => entity.LocalGreeting = 
+            ClientApi.Domain.StoreOwnerMetadata.CreateLocalGreeting(createDto.LocalGreeting.NonNullValue<TranslatedTextDto>()));
+        entity.SetIfNotNull(createDto.Notes, (entity) => entity.Notes = 
+            ClientApi.Domain.StoreOwnerMetadata.CreateNotes(createDto.Notes.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

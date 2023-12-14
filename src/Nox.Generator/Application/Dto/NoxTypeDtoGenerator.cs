@@ -4,7 +4,6 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Types.Extensions;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
