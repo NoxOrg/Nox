@@ -13,42 +13,23 @@ public static class NoxSolutionEntityEndpointsMarkdownExtensions
     {
         var template = ResourceName.ReadScribanTemplate();
 
-        var entities = noxSolution.Domain?.Entities?
-            .Where(ShouldCreateMarkdown).ToArray()
-            ?? Array.Empty<Entity>();
-
-        return CreateMarkdownEntityEndpoints(template, entities);
+        return CreateMarkdownEntityEndpoints(template, noxSolution);
     }
 
-    private static bool ShouldCreateMarkdown(Entity entity)
-        => !entity.IsOwnedEntity && HasAtLeastOneCrudOperationEnabled(entity);
-
-    private static bool HasAtLeastOneCrudOperationEnabled(Entity entity)
-        => entity.Persistence?.Create.IsEnabled == true
-        || entity.Persistence?.Read.IsEnabled == true
-        || entity.Persistence?.Update.IsEnabled == true
-        || entity.Persistence?.Delete.IsEnabled == true;
-
-    private static IEnumerable<EntityMarkdownFile> CreateMarkdownEntityEndpoints(Template template, Entity[] entities)
+    private static IEnumerable<EntityMarkdownFile> CreateMarkdownEntityEndpoints(Template template, NoxSolution noxSolution)
     {
-        var markdowns = new List<EntityMarkdownFile>(entities.Length);
-        
+        var apiRoutePrefix = noxSolution.Presentation.ApiConfiguration.ApiRoutePrefix;
+        var entities = noxSolution.GetEntitiesForEndpointsMarkdown();
+
+        var markdowns = new List<EntityMarkdownFile>(entities.Count());
+
         foreach (var entity in entities)
         {
-            var enumerationAttributes =
-                entity
-                    .Attributes
-                    .Where(attribute => attribute.Type == NoxType.Enumeration)
-                    .Select(attribute => new {
-                        Attribute = attribute,
-                        EntityNameForEnumeration = $"{entity.Name}{attribute.Name}Dto",
-                        EntityNameForLocalizedEnumeration =  $"{entity.Name}{attribute.Name}LocalizedDto",
-                        IsLocalized = attribute.EnumerationTypeOptions?.IsLocalized == true
-                    });
             var model = new Dictionary<string, object>
             {
+                ["apiRoutePrefix"] = apiRoutePrefix,
                 ["entity"] = entity,
-                ["enumerationAttributes"] = enumerationAttributes,
+                ["enumerationAttributes"] = entity.GetEnumerationAttributes(),
             };
 
             var markdown = new EntityMarkdownFile
@@ -63,4 +44,27 @@ public static class NoxSolutionEntityEndpointsMarkdownExtensions
 
         return markdowns;
     }
+
+    private static IEnumerable<Entity> GetEntitiesForEndpointsMarkdown(this NoxSolution noxSolution)
+        => noxSolution.Domain?.Entities?.Where(ShouldCreateMarkdown) ?? Array.Empty<Entity>();
+
+    private static bool ShouldCreateMarkdown(Entity entity)
+        => !entity.IsOwnedEntity && HasAtLeastOneCrudOperationEnabled(entity);
+
+    private static bool HasAtLeastOneCrudOperationEnabled(Entity entity)
+        => entity.Persistence?.Create.IsEnabled == true
+        || entity.Persistence?.Read.IsEnabled == true
+        || entity.Persistence?.Update.IsEnabled == true
+        || entity.Persistence?.Delete.IsEnabled == true;
+
+    private static IEnumerable<object> GetEnumerationAttributes(this Entity entity)
+        => entity.Attributes
+        .Where(attribute => attribute.Type == NoxType.Enumeration)
+        .Select(attribute => new
+        {
+            Attribute = attribute,
+            EntityNameForEnumeration = $"{entity.Name}{attribute.Name}Dto",
+            EntityNameForLocalizedEnumeration = $"{entity.Name}{attribute.Name}LocalizedDto",
+            IsLocalized = attribute.EnumerationTypeOptions?.IsLocalized == true
+        });
 }

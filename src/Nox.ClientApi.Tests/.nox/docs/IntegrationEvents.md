@@ -6,13 +6,14 @@ This document provides information about Integration Events. Integration Events 
 ## Contents
 
 - [Default Integration Events](#default-integration-events)
-    - [CountryCreated](#CountryCcreated)
+    - [CountryCreated](#CountryCreated)
     - [CountryUpdated](#CountryUpdated)
     - [CountryDeleted](#CountryDeleted)
 
     - [StoreUpdated](#StoreUpdated)
     - [WorkplaceUpdated](#WorkplaceUpdated)
-    - [StoreOwnerCreated](#StoreOwnerCcreated)- [Custom Integration Events](#custom-integration-events)
+    - [StoreOwnerCreated](#StoreOwnerCreated)
+- [Custom Integration Events](#custom-integration-events)
     - [CountryPopulationHigherThan100M](#CountryPopulationHigherThan100M)
 
 

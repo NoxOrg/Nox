@@ -8,9 +8,9 @@ This document provides information about Integration Events. Integration Events 
 ## Contents
 {{ if entities | array.map "HasIntegrationEvents" | array.contains true }}
 - [Default Integration Events](#default-integration-events)
-{{- for entity in entities -}}
+{{- for entity in entities }}
 {{- if entity.Persistence.Create.RaiseIntegrationEvents }}
-    - [{{entity.Name}}Created](#{{entity.Name}}Ccreated)
+    - [{{entity.Name}}Created](#{{entity.Name}}Created)
 {{- end -}}{{- if entity.Persistence.Update.RaiseIntegrationEvents }}
     - [{{entity.Name}}Updated](#{{entity.Name}}Updated)
 {{- end -}}{{- if entity.Persistence.Delete.RaiseIntegrationEvents }}
@@ -18,7 +18,7 @@ This document provides information about Integration Events. Integration Events 
 {{ end -}}
 {{ end -}}
 {{ end -}}
-{{- if customIntegrationEvents | array.size > 0 -}}
+{{- if customIntegrationEvents | array.size > 0 }}
 - [Custom Integration Events](#custom-integration-events)
 {{- for integrationEvent in customIntegrationEvents }}
     - [{{integrationEvent.Name}}](#{{integrationEvent.Name}})

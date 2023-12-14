@@ -5,27 +5,27 @@ This document provides information about the various endpoints available in our 
 ## Country Endpoints
 
 ### Get Country by ID
-- **GET** `/api/Countries/{key}`
+- **GET** `/api/v1/Countries/{key}`
   - Description: Retrieve information about a Country by ID.
   
 ### Get Countries
-- **GET** `/api/Countries`
+- **GET** `/api/v1/Countries`
   - Description: Retrieve information about Countries.
 
 ### Create Country
-- **POST** `/api/Countries`
+- **POST** `/api/v1/Countries`
   - Description: Create a new Country.
 
 ### Update Country
-- **PUT** `/api/Countries/{key}`
+- **PUT** `/api/v1/Countries/{key}`
   - Description: Update an existing Country.
 
 ### Partially Update Country
-- **PATCH** `/api/Countries/{key}`
+- **PATCH** `/api/v1/Countries/{key}`
   - Description: Partially update an existing Country.
  
 ### Delete Country
-- **DELETE** `/api/Countries/{key}`
+- **DELETE** `/api/v1/Countries/{key}`
   - Description: Delete an existing Country.
 
 ## Owned Relationships Endpoints
@@ -33,17 +33,17 @@ This document provides information about the various endpoints available in our 
 ### CountryLocalNames
 
 #### Get CountryLocalNames
-- **GET** `/api/Countries/{key}/CountryLocalNames`
+- **GET** `/api/v1/Countries/{key}/CountryLocalNames`
   - Description: Retrieve all CountryLocalNames for a specific Country.
-- **GET** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
+- **GET** `/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}`
   - Description: Retrieve a CountryLocalNames by ID for a specific Country.
 
 #### Create CountryLocalNames
-- **POST** `/api/Countries/{key}/CountryLocalNames`
+- **POST** `/api/v1/Countries/{key}/CountryLocalNames`
   - Description: Create a new CountryLocalNames for a specific Country.
 
 #### Delete CountryLocalNames
-- **DELETE** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
+- **DELETE** `/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}`
   - Description: Delete an existing CountryLocalNames for a specific Country.
 
 ## Relationships Endpoints
@@ -51,23 +51,23 @@ This document provides information about the various endpoints available in our 
 ### Continent
 
 #### Get Continent relations
-- **GET** `/api/Countries/{key}/Continents/$ref`
+- **GET** `/api/v1/Countries/{key}/Continents/$ref`
   - Description: Retrieve all existing Continents relations for a specific Country.
 
 ### People
 
 #### Get People relations
-- **GET** `/api/Countries/{key}/Inhabitants/$ref`
+- **GET** `/api/v1/Countries/{key}/Inhabitants/$ref`
   - Description: Retrieve all existing Peoples relations for a specific Country.
   
 #### Create People relation
-- **POST** `/api/Countries/{key}/Inhabitants/{relatedKey}/$ref`
+- **POST** `/api/v1/Countries/{key}/Inhabitants/{relatedKey}/$ref`
   - Description: Create a new People relation for a specific Country.
   
 #### Update People relation
-- **PUT** `/api/Countries/{key}/Inhabitants/{relatedKey}/$ref`
+- **PUT** `/api/v1/Countries/{key}/Inhabitants/{relatedKey}/$ref`
   - Description: Updates an existing People relation for a specific Country.
-- **PUT** `/api/Countries/{key}/Inhabitants/$ref`
+- **PUT** `/api/v1/Countries/{key}/Inhabitants/$ref`
   - Description: Updates the People relations for a specific Country.
 
 ## Custom Commands
@@ -91,22 +91,22 @@ This document provides information about the various endpoints available in our 
 ## Enumerations Endpoints
 
 This section details the API endpoints related to enumeration attributes in a specific Country.
-- **GET** `/api/Countries/CountryLanguages`
+- **GET** `/api/v1/Countries/CountryLanguages`
   - **Description**: Retrieve non-conventional values of Languages for a specific Country.
   
-- **GET** `/api/Countries/CountryLanguagesLocalized`
+- **GET** `/api/v1/Countries/CountryLanguagesLocalized`
   - **Description**: Retrieve localized values of Languages for a specific Country.
 
-- **DELETE** `/api/Countries/CountryLanguagesLocalized/{cultureCode}`
+- **DELETE** `/api/v1/Countries/CountryLanguagesLocalized/{cultureCode}`
   - **Description**: Delete the localized values of Languages for a specific culture code in Country.
 
-- **PUT** `/api/Countries/CountryLanguagesLocalized`
+- **PUT** `/api/v1/Countries/CountryLanguagesLocalized`
   - **Description**: Update or create localized values of Languages for a specific Country. Requires a payload with the new values.
 
 ## Localized Endpoints
 
-- **GET** `/api/Countries/{key}/CountriesLocalized`
+- **GET** `/api/v1/Countries/{key}/CountriesLocalized`
   - Description: Retrieve all CountriesLocalized for a specific Country.
 
-- **PUT** `/api/Countries/{key}/CountriesLocalized/{cultureCode}`
+- **PUT** `/api/v1/Countries/{key}/CountriesLocalized/{cultureCode}`
     - Description: Update or create values of CountryLocalized for a specific Country. Requires a payload with the new value of CountryLocalizedUpsertDto.

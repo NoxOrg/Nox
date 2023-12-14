@@ -5,26 +5,26 @@ This document provides information about the various endpoints available in our 
 ## ReferenceNumberEntity Endpoints
 
 ### Get ReferenceNumberEntity by ID
-- **GET** `/api/ReferenceNumberEntities/{key}`
+- **GET** `/api/v1/ReferenceNumberEntities/{key}`
   - Description: Retrieve information about a ReferenceNumberEntity by ID.
   
 ### Get ReferenceNumberEntities
-- **GET** `/api/ReferenceNumberEntities`
+- **GET** `/api/v1/ReferenceNumberEntities`
   - Description: Retrieve information about ReferenceNumberEntities.
 
 ### Create ReferenceNumberEntity
-- **POST** `/api/ReferenceNumberEntities`
+- **POST** `/api/v1/ReferenceNumberEntities`
   - Description: Create a new ReferenceNumberEntity.
 
 ### Update ReferenceNumberEntity
-- **PUT** `/api/ReferenceNumberEntities/{key}`
+- **PUT** `/api/v1/ReferenceNumberEntities/{key}`
   - Description: Update an existing ReferenceNumberEntity.
 
 ### Partially Update ReferenceNumberEntity
-- **PATCH** `/api/ReferenceNumberEntities/{key}`
+- **PATCH** `/api/v1/ReferenceNumberEntities/{key}`
   - Description: Partially update an existing ReferenceNumberEntity.
  
 ### Delete ReferenceNumberEntity
-- **DELETE** `/api/ReferenceNumberEntities/{key}`
+- **DELETE** `/api/v1/ReferenceNumberEntities/{key}`
   - Description: Delete an existing ReferenceNumberEntity.
 

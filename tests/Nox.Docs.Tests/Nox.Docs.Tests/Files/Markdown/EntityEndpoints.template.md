@@ -3,131 +3,119 @@
 This document provides information about the various endpoints available in our API for the {{entity.Name}} entity.
 
 ## {{entity.Name}} Endpoints
-{{ if entity.Persistence.Read.IsEnabled }}
+{{if entity.Persistence.Read.IsEnabled}}
 ### Get {{entity.Name}} by ID
-- **GET** `/api/{{entity.PluralName}}/{key}`
+- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}`
   - Description: Retrieve information about a {{entity.Name}} by ID.
   
 ### Get {{entity.PluralName}}
-- **GET** `/api/{{entity.PluralName}}`
+- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}`
   - Description: Retrieve information about {{entity.PluralName}}.
-{{ end }}{{ if entity.Persistence.Create.IsEnabled }}
+{{end}}{{if entity.Persistence.Create.IsEnabled}}
 ### Create {{entity.Name}}
-- **POST** `/api/{{entity.PluralName}}`
+- **POST** `{{apiRoutePrefix}}/{{entity.PluralName}}`
   - Description: Create a new {{entity.Name}}.
-{{ end }}{{ if entity.Persistence.Update.IsEnabled }}
+{{end}}{{if entity.Persistence.Update.IsEnabled}}
 ### Update {{entity.Name}}
-- **PUT** `/api/{{entity.PluralName}}/{key}`
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}`
   - Description: Update an existing {{entity.Name}}.
 
 ### Partially Update {{entity.Name}}
-- **PATCH** `/api/{{entity.PluralName}}/{key}`
+- **PATCH** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}`
   - Description: Partially update an existing {{entity.Name}}.
-{{ end }}{{ if entity.Persistence.Delete.IsEnabled }} 
+{{end}}{{if entity.Persistence.Delete.IsEnabled}} 
 ### Delete {{entity.Name}}
-- **DELETE** `/api/{{entity.PluralName}}/{key}`
+- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}`
   - Description: Delete an existing {{entity.Name}}.
-{{ end }}{{ if entity.OwnedRelationships | array.size > 0 }}
+{{end}}{{if entity.OwnedRelationships|array.size>0}}
 ## Owned Relationships Endpoints
-{{ for ownedRelationship in entity.OwnedRelationships }}
-{{- if ownedRelationship.CanManageEntity }}
+{{for ownedRelationship in entity.OwnedRelationships}}{{-if ownedRelationship.CanManageEntity}}
 ### {{ownedRelationship.Entity}}
-{{ if entity.Persistence.Read.IsEnabled && ownedRelationship.Related.Entity.Persistence.Read.IsEnabled }}
+{{if entity.Persistence.Read.IsEnabled&&ownedRelationship.Related.Entity.Persistence.Read.IsEnabled}}
 #### Get {{ownedRelationship.EntityPlural}}
-- **GET** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
-  - Description: Retrieve all {{ownedRelationship.EntityPlural}} for a specific {{entity.Name}}.
-{{- if ownedRelationship.WithMultiEntity }}
-- **GET** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
-  - Description: Retrieve a {{ownedRelationship.Entity}} by ID for a specific {{entity.Name}}.
-{{- end }}
-{{ end }}
-{{- if entity.Persistence.Create.IsEnabled && ownedRelationship.Related.Entity.Persistence.Create.IsEnabled }}
+- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
+  - Description: Retrieve all {{ownedRelationship.EntityPlural}} for a specific {{entity.Name}}.{{-if ownedRelationship.WithMultiEntity}}
+- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
+  - Description: Retrieve a {{ownedRelationship.Entity}} by ID for a specific {{entity.Name}}.{{-end}}
+{{end}}{{-if entity.Persistence.Create.IsEnabled&&ownedRelationship.Related.Entity.Persistence.Create.IsEnabled}}
 #### Create {{ownedRelationship.Entity}}
-- **POST** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
+- **POST** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
   - Description: Create a new {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
-{{ end }}{{ if entity.Persistence.Update.IsEnabled && ownedRelationship.Related.Entity.Persistence.Update.IsEnabled }}
+{{end}}{{if entity.Persistence.Update.IsEnabled&&ownedRelationship.Related.Entity.Persistence.Update.IsEnabled}}
 #### Update {{ownedRelationship.Entity}}
-- **PUT** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
   - Description: Update an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
   
 #### Partially Update {{ownedRelationship.Entity}}
-- **PATCH** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
+- **PATCH** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
   - Description: Partially update an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
-{{ end }}{{ if entity.Persistence.Delete.IsEnabled && ownedRelationship.Related.Entity.Persistence.Delete.IsEnabled }}
+{{end}}{{if entity.Persistence.Delete.IsEnabled&&ownedRelationship.Related.Entity.Persistence.Delete.IsEnabled}}
 #### Delete {{ownedRelationship.Entity}}
-- **DELETE** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
+- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
   - Description: Delete an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
-{{ end }}{{ end }}{{ end -}}
-{{ end}}{{ if entity.Relationships | array.size > 0 }}
+{{end}}{{end}}{{end-}}{{end}}{{if entity.Relationships|array.size>0}}
 ## Relationships Endpoints
-{{ for relationship in entity.Relationships }}
+{{for relationship in entity.Relationships}}
 ### {{relationship.Entity}}
-{{ if relationship.Related.Entity.Persistence.Read.IsEnabled }}
+{{if relationship.Related.Entity.Persistence.Read.IsEnabled}}
 #### Get {{relationship.Entity}} relations
-- **GET** `/api/{{entity.PluralName}}/{key}/{{relationship.Name}}/$ref`
+- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}/$ref`
   - Description: Retrieve all existing {{relationship.EntityPlural}} relations for a specific {{entity.Name}}.
-{{ end }}{{ if relationship.Related.Entity.Persistence.Create.IsEnabled }}  
+{{end}}{{if relationship.Related.Entity.Persistence.Create.IsEnabled}}  
 #### Create {{relationship.Entity}} relation
-- **POST** `/api/{{entity.PluralName}}/{key}/{{relationship.Name}}/{relatedKey}/$ref`
+- **POST** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}/{relatedKey}/$ref`
   - Description: Create a new {{relationship.Entity}} relation for a specific {{entity.Name}}.
-{{ end }}{{ if relationship.Related.Entity.Persistence.Update.IsEnabled }}  
+{{end}}{{if relationship.Related.Entity.Persistence.Update.IsEnabled}}  
 #### Update {{relationship.Entity}} relation
-- **PUT** `/api/{{entity.PluralName}}/{key}/{{relationship.Name}}/{relatedKey}/$ref`
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}/{relatedKey}/$ref`
   - Description: Updates an existing {{relationship.Entity}} relation for a specific {{entity.Name}}.
-- **PUT** `/api/{{entity.PluralName}}/{key}/{{relationship.Name}}/$ref`
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}/$ref`
   - Description: Updates the {{relationship.Entity}} relations for a specific {{entity.Name}}.
-{{ end }}{{ if relationship.Related.Entity.Persistence.Delete.IsEnabled }}
+{{end}}{{if relationship.Related.Entity.Persistence.Delete.IsEnabled}}
 #### Delete {{relationship.Entity}} relation
-- **DELETE** `/api/{{entity.PluralName}}/{key}/{{relationship.Name}}/{relatedKey}/$ref`
+- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}/{relatedKey}/$ref`
   - Description: Delete an existing {{relationship.Entity}} relation for a specific {{entity.Name}}.
 
 #### Delete {{relationship.Entity}} relations
-- **DELETE** `/api/{{entity.PluralName}}/{key}/{{relationship.Name}}/$ref`
+- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}/$ref`
   - Description: Delete all existing {{relationship.EntityPlural}} relations for a specific {{entity.Name}}.
-{{ end }}{{ end -}}
-{{ end}}{{ if entity.Commands | array.size > 0 }}
+{{end}}{{end-}}{{end}}{{if entity.Commands|array.size>0}}
 ## Custom Commands
-{{ for command in entity.Commands }}
+{{for command in entity.Commands}}
 ### {{command.Name}}
 - **POST** `/{{command.Name}}`
   - Description: {{command.Description}}
-{{ end -}}
-{{ end}}{{ if entity.Queries | array.size > 0 }}
+{{end-}}{{end}}{{if entity.Queries|array.size>0}}
 ## Custom Queries
-{{ for query in entity.Queries }}
+{{for query in entity.Queries}}
 ### {{query.Name}}
 - **GET** `/{{query.Name}}`
   - Description: {{query.Description}}
-{{ end -}}
-{{ end}}{{ if entity.Relationships | array.size > 0 }}
+{{end-}}{{end}}{{if entity.Relationships|array.size>0}}
 ## Related Entities
-{{ for relationship in entity.Relationships }}
+{{for relationship in entity.Relationships}}
 [{{relationship.Entity}}]({{relationship.Entity}}Endpoints.md)
-{{ end -}}
-{{ end -}}{{ if enumerationAttributes | array.size > 0 }}
+{{end-}}{{end-}}{{if enumerationAttributes|array.size>0}}
 ## Enumerations Endpoints
 
-This section details the API endpoints related to enumeration attributes in a specific {{entity.Name}}.
-{{- for enumAtt in enumerationAttributes }}
-- **GET** `/api/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}`
-  - **Description**: Retrieve non-conventional values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.
-{{- if enumAtt.IsLocalized }}
+This section details the API endpoints related to enumeration attributes in a specific {{entity.Name}}.{{-for enumAtt in enumerationAttributes}}
+- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}`
+  - **Description**: Retrieve non-conventional values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.{{-if enumAtt.IsLocalized}}
   
-- **GET** `/api/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
+- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
   - **Description**: Retrieve localized values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.
 
-- **DELETE** `/api/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized/{cultureCode}`
+- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized/{cultureCode}`
   - **Description**: Delete the localized values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific culture code in {{entity.Name}}.
 
-- **PUT** `/api/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
   - **Description**: Update or create localized values of {{Pluralize(enumAtt.Attribute.Name)}} for a specific {{entity.Name}}. Requires a payload with the new values.
 {{end}}{{end}}{{end}}
-{{~ if entity.IsLocalized ~}}
-## Localized Endpoints
+{{~if entity.IsLocalized~}}## Localized Endpoints
 
-- **GET** `/api/{{entity.PluralName}}/{key}/{{entity.PluralName}}Localized`
+- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{entity.PluralName}}Localized`
   - Description: Retrieve all {{entity.PluralName}}Localized for a specific {{entity.Name}}.
 
-- **PUT** `/api/{{entity.PluralName}}/{key}/{{entity.PluralName}}Localized/{cultureCode}`
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{entity.PluralName}}Localized/{cultureCode}`
     - Description: Update or create values of {{entity.Name}}Localized for a specific {{entity.Name}}. Requires a payload with the new value of {{entity.Name}}LocalizedUpsertDto.
-{{~ end ~}}
+{{~end~}}
