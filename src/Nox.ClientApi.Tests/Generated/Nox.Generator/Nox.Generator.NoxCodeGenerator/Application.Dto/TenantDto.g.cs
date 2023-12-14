@@ -66,7 +66,6 @@ public abstract class TenantDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.
     /// </summary>
     /// <remarks>Optional.</remarks>
     public System.Int32? Status { get; set; }
-
     public string? StatusName { get; set; } = default!;
 
     /// <summary>
