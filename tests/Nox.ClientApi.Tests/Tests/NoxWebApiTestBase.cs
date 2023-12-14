@@ -2,6 +2,7 @@
 using ClientApi.Tests.Tests.Models;
 using FluentAssertions;
 using MassTransit.Testing;
+using Microsoft.AspNetCore.TestHost;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Xunit.Abstractions;
@@ -13,7 +14,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 //public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseInstanceService>
 {
     protected readonly Fixture _fixture = new Fixture();
-    private readonly NoxTestApplicationFactory _appFactory;
+    private readonly NoxAppClient _noxAppClient;
 
     /// <summary>
     /// TODO  enableMessagingTests is causing the GitHub CI to hang...
@@ -24,18 +25,24 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
         bool enableMessagingTests = false,
         string? environment = null)
     {
-        _appFactory = testDatabaseService.GetTestApplicationFactory(testOutput, enableMessagingTests, environment);
-        _appFactory.ResetDataContext();
+        _noxAppClient = testDatabaseService
+            .GetNoxClient(testOutput, enableMessagingTests, environment);
+        _noxAppClient.ResetDataContext();
     }
 
-    protected ITestHarness MassTransitTestHarness => _appFactory.GetTestHarness();
+    protected ITestHarness MassTransitTestHarness => _noxAppClient.GetTestHarness();
+
+    public HttpClient CreateHttpClient()
+    {
+        return _noxAppClient.CreateClient();
+    }
 
     /// <summary>
     ///  Get collection result from Odata End Point
     /// </summary>
     public async Task<TResult?> GetODataCollectionResponseAsync<TResult>(string requestUrl, Dictionary<string, IEnumerable<string>>? headers = null)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClient();
 
         AddHeaders(httpClient, headers ?? new());
 
@@ -48,13 +55,14 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
         return data!.Value;
     }
 
+   
     /// <summary>
     ///  Get single result from Odata End Point
     ///  Asserts is a valid Odata Response
     /// </summary>
     public async Task<TResult?> GetODataSimpleResponseAsync<TResult>(string requestUrl, Dictionary<string, IEnumerable<string>>? headers = null)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClient();
 
         AddHeaders(httpClient, headers ?? new());
 
@@ -73,7 +81,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
     public async Task<HttpResponseMessage> GetAsync(string requestUrl)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClient();
         var result = await httpClient.GetAsync(requestUrl);
 
         return result;
@@ -81,7 +89,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
     public async Task<HttpResponseMessage> PostAsync(string requestUrl)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClient();
 
         var result = await httpClient.PostAsync(requestUrl, null);
         result.EnsureSuccessStatusCode();
@@ -91,7 +99,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
     public async Task<HttpResponseMessage> PostAsync<TValue>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>>? headers = null)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClient();
 
         AddHeaders(httpClient, headers ?? new());
 
@@ -102,7 +110,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
     public async Task<TResult?> PostAsync<TValue, TResult>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>> headers)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClient();
 
         AddHeaders(httpClient, headers ?? new());
 
@@ -124,7 +132,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
     public async Task<HttpResponseMessage?> PutAsync<TValue>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClient();
 
         AddHeaders(httpClient, headers);
 
@@ -143,7 +151,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
     public async Task<TResult?> PutAsync<TValue, TResult>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClient();
 
         AddHeaders(httpClient, headers ?? new());
 
@@ -170,7 +178,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
     public async Task<HttpResponseMessage?> PatchAsync<TValue>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
         where TValue : class
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClient();
 
         AddHeaders(httpClient, headers ?? new());
 
@@ -191,7 +199,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
     public async Task<TResult?> PatchAsync<TValue, TResult>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>> headers)
         where TValue : class
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClient();
 
         AddHeaders(httpClient, headers ?? new());
 
@@ -219,7 +227,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
     public async Task<HttpResponseMessage?> DeleteAsync(string requestUrl, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClient();
 
         AddHeaders(httpClient, headers ?? new());
 
@@ -285,7 +293,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
     protected TResult? GetEntityByFilter<TResult>(Func<TResult, bool> filter) where TResult : class
     {
-        var ctx = _appFactory.GetDbContext();
+        var ctx = _noxAppClient.GetDbContext();
         var entity = ctx.Set<TResult>().Where(filter).FirstOrDefault();
         return entity;
     }

@@ -1,4 +1,4 @@
-﻿using Divergic.Logging.Xunit;
+﻿﻿using Divergic.Logging.Xunit;
 using MassTransit;
 using MassTransit.Testing;
 using Microsoft.AspNetCore;
@@ -14,14 +14,14 @@ using Nox;
 
 namespace ClientApi.Tests;
 
-public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
+public class NoxWebApplicationFactory : WebApplicationFactory<StartupFixture>
 {
     private readonly ITestOutputHelper _testOutput;
     private readonly ITestDatabaseService _databaseService;
     private readonly bool _enableMessaging;
     private readonly string Environment = Environments.Production;
 
-    public NoxTestApplicationFactory(
+    public NoxWebApplicationFactory(
         ITestOutputHelper testOutput,
         ITestDatabaseService databaseService,
         bool enableMessaging,
@@ -36,20 +36,6 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
             Environment = environment;
         }
     }
-
-    public ITestHarness GetTestHarness()
-    {
-        return Services.GetTestHarness();
-    }
-
-    public void ResetDataContext()
-    {
-        var dbContext = Services.GetRequiredService<AppDbContext>();
-        dbContext.Database.EnsureDeleted();
-        dbContext.Database.EnsureCreated();
-    }
-
-    internal AppDbContext GetDbContext() => Services.GetRequiredService<AppDbContext>();
 
     protected override IWebHostBuilder? CreateWebHostBuilder()
     {

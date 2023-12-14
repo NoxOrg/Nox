@@ -1,4 +1,5 @@
-﻿using Nox;
+﻿using Microsoft.AspNetCore.TestHost;
+using Nox;
 using Nox.Infrastructure;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
@@ -18,16 +19,19 @@ public class TestDatabaseInstanceService : IAsyncLifetime, ITestDatabaseService
     public static readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.SqlServer;
 #endif
 
-    private NoxTestApplicationFactory _applicationFactory = null!;
+    private NoxAppClient _noxAppClient = null!;
 
-    public NoxTestApplicationFactory GetTestApplicationFactory(ITestOutputHelper testOutput, bool enableMessagingTests, string? environment = null)
+    public NoxAppClient GetNoxClient(ITestOutputHelper testOutput, bool enableMessagingTests, string? environment = null)
     {
-        if (_applicationFactory == null)
+        if (_noxAppClient == null)
         {
-            _applicationFactory = new NoxTestApplicationFactory(testOutput, this, enableMessagingTests, environment);
+            var factory = new NoxWebApplicationFactory(testOutput, this, enableMessagingTests, environment)
+                .WithWebHostBuilder(builder => builder.UseSolutionRelativeContentRoot("./tests/Nox.ClientApi.Tests"));
+
+            _noxAppClient = new NoxAppClient(factory!);
         }
 
-        return _applicationFactory;
+        return _noxAppClient;
     }
 
     public INoxDatabaseProvider GetDatabaseProvider(

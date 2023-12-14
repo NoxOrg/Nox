@@ -25,16 +25,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Generator.Tests", "test
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0SolutionItems", "0SolutionItems", "{820129FF-6448-42E2-8792-ABE1A8CBF722}"
 	ProjectSection(SolutionItems) = preProject
-		..\GitVersion.yml = ..\GitVersion.yml
-		nuget.config = nuget.config
-		..\readme.md = ..\readme.md
+		GitVersion.yml = GitVersion.yml
+		readme.md = readme.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Solution", "src\Nox.Solution\Nox.Solution.csproj", "{6E3F2DD4-6AE5-49B2-B5E4-04B21E073B4F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Solution.Tests", "tests\Nox.Solution.Tests\Nox.Solution.Tests.csproj", "{FAF13809-A3BA-417D-AC25-B682011AB655}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Types", "Nox.Types\Nox.Types.csproj", "{A19EC5EA-3E4F-47CD-A9B8-802663E9F489}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Types", "src\Nox.Types\Nox.Types.csproj", "{A19EC5EA-3E4F-47CD-A9B8-802663E9F489}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Types.EntityFramework", "src\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj", "{3649B470-E632-41F7-A7B9-5331B21B3560}"
 EndProject
@@ -58,13 +57,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generator", "Generator", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dockerfiles", "dockerfiles", "{0B013153-526C-4B3B-8363-2D8ECA36AFFC}"
 	ProjectSection(SolutionItems) = preProject
-		..\docker-compose.elastic.yml = ..\docker-compose.elastic.yml
-		..\docker-compose.hashicorp.yml = ..\docker-compose.hashicorp.yml
-		..\docker-compose.postgres.yml = ..\docker-compose.postgres.yml
-		..\docker-compose.sqlServer.yml = ..\docker-compose.sqlServer.yml
-		..\docker-compose.yml = ..\docker-compose.yml
-		..\init_org_vault.json = ..\init_org_vault.json
-		..\init_sln_vault.json = ..\init_sln_vault.json
+		docker-compose.elastic.yml = docker-compose.elastic.yml
+		docker-compose.hashicorp.yml = docker-compose.hashicorp.yml
+		docker-compose.postgres.yml = docker-compose.postgres.yml
+		docker-compose.sqlServer.yml = docker-compose.sqlServer.yml
+		docker-compose.yml = docker-compose.yml
+		init_org_vault.json = init_org_vault.json
+		init_sln_vault.json = init_sln_vault.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Secrets", "src\Nox.Secrets\Nox.Secrets.csproj", "{5A884FCB-BD50-4C38-B692-030F3BA0AB0F}"
@@ -73,7 +72,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Secrets.Tests", "tests\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Secrets", "Secrets", "{2B151195-53F6-45CD-84D5-F1E18CDFF1B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Secrets.Azure", "Nox.Secrets.Azure\Nox.Secrets.Azure.csproj", "{D017DD5E-2DE1-462A-A891-CAB16C8BF940}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Secrets.Azure", "src\Nox.Secrets.Azure\Nox.Secrets.Azure.csproj", "{D017DD5E-2DE1-462A-A891-CAB16C8BF940}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Secrets.Hashicorp", "src\Nox.Secrets.Hashicorp\Nox.Secrets.Hashicorp.csproj", "{0B3974A4-121C-486B-964F-9037DAD3C5E8}"
 EndProject
@@ -97,13 +96,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Integration", "src\Nox.Integration\Nox.Integration.csproj", "{470CA4DC-B1A1-4DAE-9A70-FEEE9C0FD173}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.ClientApi.Tests", "src\Nox.ClientApi.Tests\Nox.ClientApi.Tests.csproj", "{9C2797EF-9215-4CB2-8468-7DBD5404FFBA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Generator.Tasks", "src\Nox.Generator.Tasks\Nox.Generator.Tasks.csproj", "{3CC4CBD7-2946-4171-BA1D-116955286B41}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{EE7F628D-42C8-4D9D-AA72-C6C223D43576}"
 	ProjectSection(SolutionItems) = preProject
-		..\.github\dependabot.yml = ..\.github\dependabot.yml
+		.github\dependabot.yml = .github\dependabot.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Yaml", "src\Nox.Yaml\Nox.Yaml.csproj", "{7D47CA1F-E1A4-419E-AFB1-19D96203F000}"
@@ -117,6 +114,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Yaml", "Yaml", "{BC14AE69-CDF7-4B40-A80A-B1AD14781662}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptocash.Integration", "samples\Cryptocash.Integration\Cryptocash.Integration.csproj", "{18280395-66FF-4F3E-BD56-E87ABA4964C5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.ClientApi.Tests", "tests\Nox.ClientApi.Tests\Nox.ClientApi.Tests.csproj", "{343BDE33-1F31-44BC-8F95-C1D134C4CC3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -236,10 +235,6 @@ Global
 		{470CA4DC-B1A1-4DAE-9A70-FEEE9C0FD173}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{470CA4DC-B1A1-4DAE-9A70-FEEE9C0FD173}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{470CA4DC-B1A1-4DAE-9A70-FEEE9C0FD173}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C2797EF-9215-4CB2-8468-7DBD5404FFBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C2797EF-9215-4CB2-8468-7DBD5404FFBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C2797EF-9215-4CB2-8468-7DBD5404FFBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C2797EF-9215-4CB2-8468-7DBD5404FFBA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3CC4CBD7-2946-4171-BA1D-116955286B41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3CC4CBD7-2946-4171-BA1D-116955286B41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CC4CBD7-2946-4171-BA1D-116955286B41}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -264,6 +259,10 @@ Global
 		{18280395-66FF-4F3E-BD56-E87ABA4964C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18280395-66FF-4F3E-BD56-E87ABA4964C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18280395-66FF-4F3E-BD56-E87ABA4964C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{343BDE33-1F31-44BC-8F95-C1D134C4CC3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{343BDE33-1F31-44BC-8F95-C1D134C4CC3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{343BDE33-1F31-44BC-8F95-C1D134C4CC3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{343BDE33-1F31-44BC-8F95-C1D134C4CC3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

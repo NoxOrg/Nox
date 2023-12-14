@@ -1,4 +1,6 @@
 ﻿using DotNet.Testcontainers.Containers;
+using FluentAssertions.Common;
+using Microsoft.AspNetCore.TestHost;
 using Nox;
 using Nox.Infrastructure;
 using Nox.Solution;
@@ -24,16 +26,19 @@ public class TestDatabaseContainerService : IAsyncLifetime, ITestDatabaseService
     private Func<string> _connectionStringGetter = () => string.Empty;
     private DockerContainer? _dockerContainer;
 
-    private NoxTestApplicationFactory _applicationFactory = null!;
+    private NoxAppClient _noxAppClient = null!;
 
-    public NoxTestApplicationFactory GetTestApplicationFactory(ITestOutputHelper testOutput, bool enableMessagingTests, string? environment = null)
+    public NoxAppClient GetNoxClient(ITestOutputHelper testOutput, bool enableMessagingTests, string? environment = null)
     {
-        if (_applicationFactory == null)
+        if (_noxAppClient == null)
         {
-            _applicationFactory = new NoxTestApplicationFactory(testOutput, this, enableMessagingTests, environment);
-        }
+            var factory = new NoxWebApplicationFactory(testOutput, this, enableMessagingTests, environment)
+                .WithWebHostBuilder(builder => builder.UseSolutionRelativeContentRoot("./tests/Nox.ClientApi.Tests")); 
 
-        return _applicationFactory;
+            _noxAppClient = new NoxAppClient(factory!);                
+        }
+       
+        return _noxAppClient;
     }
 
     public INoxDatabaseProvider GetDatabaseProvider(

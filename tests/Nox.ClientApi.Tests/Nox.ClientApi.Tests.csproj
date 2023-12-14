@@ -85,10 +85,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Nox.Lib\Nox.Lib.csproj" />
-		<ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
-		<ProjectReference Include="..\Nox.Docs\Nox.Docs.csproj" />
-		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+		<ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
+		<ProjectReference Include="..\..\src\Nox.Abstractions\Nox.Abstractions.csproj" />
+		<ProjectReference Include="..\..\src\Nox.Docs\Nox.Docs.csproj" />
+		<ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
 		
 	</ItemGroup>
 
