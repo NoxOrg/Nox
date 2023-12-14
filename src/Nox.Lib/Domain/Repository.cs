@@ -1,4 +1,5 @@
-﻿using Nox.Extensions;
+﻿using System.Linq.Expressions;
+using Nox.Extensions;
 using Nox.Infrastructure.Persistence;
 
 namespace Nox.Domain;
@@ -14,6 +15,27 @@ public sealed class Repository : IRepository
     }
 
     #region IRepository
+
+    public async Task<IQueryable<T>> Query<T>(Expression<Func<T, bool>> predicate) where T : IEntity
+    {
+        _dbContext.
+    }
+
+    public async Task<IQueryable<T>> QueryOwned<T>(Expression<Func<T, bool>> predicate) where T : IOwnedEntity
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task AddAsync<T>(T entity) where T : class
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task UpdateAsync<T>(T entity) where T : class
+    {
+        throw new NotImplementedException();
+    }
+
     public void Delete<T>(T entity) where T : IEntity
     {
         _dbContext.Remove(entity);

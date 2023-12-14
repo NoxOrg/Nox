@@ -49,42 +49,92 @@ internal partial class {{className}} : {{className}}Base
 
 internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity, {{entityCreateDto}}, {{entityUpdateDto}}>
 {
+    {{- if entity.IsLocalized }}
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("{{codeGeneratorState.Solution.Application.Localization.DefaultCulture}}");
+    protected readonly IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> {{entity.Name}}LocalizedFactory;
+    {{- end }}
+
+    {{- if entity.IsOwnedEntity || entity.IsLocalized }}
     private readonly IRepository _repository;
+    {{- end }}
 
     {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
     protected IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}UpsertDto, {{ownedEntity}}UpsertDto> {{ownedEntity}}Factory {get;}
     {{- end }}
 
     public {{className}}Base(
-        {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
-        IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}UpsertDto, {{ownedEntity}}UpsertDto> {{fieldFactoryName ownedEntity}},
+        {{- if entity.IsOwnedEntity || entity.IsLocalized }}
+        IRepository repository,
         {{- end }}
-        IRepository repository
+        {{- if entity.IsLocalized }}
+        IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> {{ToLowerFirstChar  entity.Name}}LocalizedFactory,
+        {{- end }}
+        {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
+        IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}UpsertDto, {{ownedEntity}}UpsertDto> {{fieldFactoryName ownedEntity}}{{if !(for.last)}},{{end}}
+        {{- end }}
         )
     {
         {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
         {{ ownedEntity}}Factory = {{fieldFactoryName ownedEntity}};
         {{- end }}
+        {{- if entity.IsOwnedEntity || entity.IsLocalized }}
         _repository = repository;
+        {{- end }}
+        {{- if entity.IsLocalized }}
+        {{entity.Name}}LocalizedFactory = {{ToLowerFirstChar  entity.Name}}LocalizedFactory;
+        {{- end }}
     }
 
-    public virtual async Task<{{entity.Name}}Entity> CreateEntityAsync({{entityCreateDto}} createDto)
+    public virtual async Task<{{entity.Name}}Entity> CreateEntityAsync({{entityCreateDto}} createDto, Nox.Types.CultureCode cultureCode)
     {
-        return await ToEntityAsync(createDto);
+        try
+        {
+            return await ToEntityAsync(createDto, cultureCode);
+            {{- if entity.IsLocalized }}
+            await {{entity.Name}}LocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
+            {{- end }}
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
     }
 
     public virtual async Task UpdateEntityAsync({{entity.Name}}Entity entity, {{entityUpdateDto}} updateDto, Nox.Types.CultureCode cultureCode)
     {
+        try
+        {
+        {{- if entity.IsLocalized }}
+        UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        await {{entity.Name}}LocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
+        {{- else }}
         await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        {{- end }}
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
     }
 
-    public virtual void PartialUpdateEntity({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntity({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        try
+        {
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        {{- if entity.IsLocalized }}
+        await {{entity.Name}}LocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
+        {{else}}
+        await Task.CompletedTask;
+        {{- end }}
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
     }
 
-    private async Task<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}> ToEntityAsync({{entityCreateDto}} createDto)
+    private async Task<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}> ToEntityAsync({{entityCreateDto}} createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}();
@@ -124,15 +174,16 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         {{- for relationship in entity.OwnedRelationships }}
             {{- relationshipName = GetNavigationPropertyName entity relationship }}
             {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-        foreach (var dto in createDto.{{relationshipName}})
+        createDto.{{relationshipName}}?.ForEach(async dto =>
         {
-            var newRelatedEntity = await {{relationship.Entity}}Factory.CreateEntityAsync(dto);
-            entity.CreateRefTo{{relationshipName}}(newRelatedEntity);
+            var {{ToLowerFirstChar relationship.Entity}} = await {{relationship.Entity}}Factory.CreateEntityAsync(dto, cultureCode);
+            entity.CreateRefTo{{relationshipName}}({{ToLowerFirstChar relationship.Entity}});
         }
             {{- else}}
         if (createDto.{{relationshipName}} is not null)
         {
-            entity.CreateRefTo{{relationshipName}}(await {{relationship.Entity}}Factory.CreateEntityAsync(createDto.{{relationshipName}}));
+            var {{ToLowerFirstChar relationship.Entity}} = await {{relationship.Entity}}Factory.CreateEntityAsync(createDto.{{relationshipName}}, cultureCode);
+            entity.CreateRefTo{{relationshipName}}({{ToLowerFirstChar relationship.Entity}});
         }
             {{-end}}
         {{- end }}        
@@ -218,8 +269,10 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 		{{- end }}
     }
 
+    {{- if entity.IsLocalized }}
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
+    {{- end }}
 
     {{- if (entity.OwnedRelationships | array.size) > 0 }}
 
