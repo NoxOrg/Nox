@@ -96,7 +96,6 @@ public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.S
     /// </summary>
     /// <remarks>Optional.</remarks>
     public System.Int32? Status { get; set; }
-
     public string? StatusName { get; set; } = default!;
 
     /// <summary>

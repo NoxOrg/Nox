@@ -90,15 +90,13 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
     /// </summary>
     /// <remarks>Optional.</remarks>
     public System.Int32? Ownership { get; set; }
+    public string? OwnershipName { get; set; } = default!;
 
     /// <summary>
     /// Workplace Type     
     /// </summary>
     /// <remarks>Optional.</remarks>
     public System.Int32? Type { get; set; }
-
-    public string? OwnershipName { get; set; } = default!;
-
     public string? TypeName { get; set; } = default!;
 
     /// <summary>
