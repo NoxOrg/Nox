@@ -30,7 +30,7 @@ public abstract class LandLordCreateDtoBase : IEntityDto<DomainNamespace.LandLor
     /// Landlord unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>
-    public System.Guid? Id { get; set; }
+    public virtual System.Guid? Id { get; set; }
     /// <summary>
     /// Landlord name     
     /// </summary>

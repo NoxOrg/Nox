@@ -32,7 +32,7 @@ public abstract class SecondTestEntityOneOrManyCreateDtoBase : IEntityDto<Domain
     /// </summary>
     /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
-    public System.String? Id { get; set; }
+    public virtual System.String? Id { get; set; }
     /// <summary>
     ///      
     /// </summary>

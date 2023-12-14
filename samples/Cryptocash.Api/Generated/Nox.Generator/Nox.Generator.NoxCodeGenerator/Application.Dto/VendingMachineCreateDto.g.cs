@@ -30,7 +30,7 @@ public abstract class VendingMachineCreateDtoBase : IEntityDto<DomainNamespace.V
     /// Vending machine unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>
-    public System.Guid? Id { get; set; }
+    public virtual System.Guid? Id { get; set; }
     /// <summary>
     /// Vending machine mac address     
     /// </summary>

@@ -32,7 +32,7 @@ public abstract class CurrencyCreateDtoBase : IEntityDto<DomainNamespace.Currenc
     /// </summary>
     /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
-    public System.String? Id { get; set; }
+    public virtual System.String? Id { get; set; }
     /// <summary>
     /// Currency's name     
     /// </summary>

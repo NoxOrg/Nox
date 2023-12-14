@@ -30,7 +30,7 @@ public abstract class ClientCreateDtoBase : IEntityDto<DomainNamespace.Client>
     ///      
     /// </summary>
     /// <remarks>Optional.</remarks>
-    public System.Guid? Id { get; set; }
+    public virtual System.Guid? Id { get; set; }
     /// <summary>
     /// Store Name     
     /// </summary>

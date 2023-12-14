@@ -30,7 +30,7 @@ public abstract class StoreCreateDtoBase : IEntityDto<DomainNamespace.Store>
     ///      
     /// </summary>
     /// <remarks>Optional.</remarks>
-    public System.Guid? Id { get; set; }
+    public virtual System.Guid? Id { get; set; }
     /// <summary>
     /// Store Name     
     /// </summary>

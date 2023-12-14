@@ -15,6 +15,7 @@ using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using SecEntityOwnedRelOneOrManyEntity = TestWebApp.Domain.SecEntityOwnedRelOneOrMany;
+using TestEntityOwnedRelationshipOneOrManyEntity = TestWebApp.Domain.TestEntityOwnedRelationshipOneOrMany;
 
 namespace TestWebApp.Application.Commands;
 
@@ -57,16 +58,24 @@ internal partial class UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelat
 			return null;
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.SecEntityOwnedRelOneOrManies).LoadAsync(cancellationToken);
-		var ownedId = TestWebApp.Domain.SecEntityOwnedRelOneOrManyMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.String>());
-		var entity = parentEntity.SecEntityOwnedRelOneOrManies.SingleOrDefault(x => x.Id == ownedId);
-		if (entity == null)
+		
+		SecEntityOwnedRelOneOrManyEntity? entity;
+		if(request.EntityDto.Id is null)
 		{
-			return null;
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+		}
+		else
+		{
+			var ownedId = TestWebApp.Domain.SecEntityOwnedRelOneOrManyMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.String>());
+			entity = parentEntity.SecEntityOwnedRelOneOrManies.SingleOrDefault(x => x.Id == ownedId);
+			if (entity is null)
+				entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+			else
+				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		}
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
+		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 
@@ -79,12 +88,19 @@ internal partial class UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelat
 
 		return new SecEntityOwnedRelOneOrManyKeyDto(entity.Id.Value);
 	}
+	
+	private async Task<SecEntityOwnedRelOneOrManyEntity> CreateEntityAsync(SecEntityOwnedRelOneOrManyUpsertDto upsertDto, TestEntityOwnedRelationshipOneOrManyEntity parent)
+	{
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		parent.CreateRefToSecEntityOwnedRelOneOrManies(entity);
+		return entity;
+	}
 }
 
 public class UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyValidator : AbstractValidator<UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand>
 {
-    public UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyValidator(ILogger<UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand> logger)
-    {
+    public UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyValidator()
+    {		
 		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
     }
 }

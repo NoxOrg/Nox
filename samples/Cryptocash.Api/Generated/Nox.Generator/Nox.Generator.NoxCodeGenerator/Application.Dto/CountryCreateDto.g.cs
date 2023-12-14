@@ -32,7 +32,7 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// </summary>
     /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
-    public System.String? Id { get; set; }
+    public virtual System.String? Id { get; set; }
     /// <summary>
     /// Country's name     
     /// </summary>

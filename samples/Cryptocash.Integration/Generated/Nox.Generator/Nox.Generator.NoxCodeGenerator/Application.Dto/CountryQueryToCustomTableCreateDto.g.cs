@@ -32,7 +32,7 @@ public abstract class CountryQueryToCustomTableCreateDtoBase : IEntityDto<Domain
     /// </summary>
     /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
-    public System.Int32? Id { get; set; }
+    public virtual System.Int32? Id { get; set; }
     /// <summary>
     /// Country's name     
     /// </summary>

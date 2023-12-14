@@ -30,7 +30,7 @@ public abstract class BookingCreateDtoBase : IEntityDto<DomainNamespace.Booking>
     /// Booking unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>
-    public System.Guid? Id { get; set; }
+    public virtual System.Guid? Id { get; set; }
     /// <summary>
     /// Booking's amount exchanged from     
     /// </summary>

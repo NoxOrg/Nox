@@ -32,7 +32,7 @@ public abstract class CountryQualityOfLifeIndexCreateDtoBase : IEntityDto<Domain
     /// </summary>
     /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "CountryId is required")]
-    public System.Int64? CountryId { get; set; }
+    public virtual System.Int64? CountryId { get; set; }
     /// <summary>
     /// Rating Index     
     /// </summary>

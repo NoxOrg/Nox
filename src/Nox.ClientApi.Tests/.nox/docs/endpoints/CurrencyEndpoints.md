@@ -5,27 +5,27 @@ This document provides information about the various endpoints available in our 
 ## Currency Endpoints
 
 ### Get Currency by ID
-- **GET** `/api/Currencies/{key}`
+- **GET** `/api/v1/Currencies/{key}`
   - Description: Retrieve information about a Currency by ID.
   
 ### Get Currencies
-- **GET** `/api/Currencies`
+- **GET** `/api/v1/Currencies`
   - Description: Retrieve information about Currencies.
 
 ### Create Currency
-- **POST** `/api/Currencies`
+- **POST** `/api/v1/Currencies`
   - Description: Create a new Currency.
 
 ### Update Currency
-- **PUT** `/api/Currencies/{key}`
+- **PUT** `/api/v1/Currencies/{key}`
   - Description: Update an existing Currency.
 
 ### Partially Update Currency
-- **PATCH** `/api/Currencies/{key}`
+- **PATCH** `/api/v1/Currencies/{key}`
   - Description: Partially update an existing Currency.
  
 ### Delete Currency
-- **DELETE** `/api/Currencies/{key}`
+- **DELETE** `/api/v1/Currencies/{key}`
   - Description: Delete an existing Currency.
 
 ## Relationships Endpoints
@@ -33,49 +33,49 @@ This document provides information about the various endpoints available in our 
 ### StoreLicense
 
 #### Get StoreLicense relations
-- **GET** `/api/Currencies/{key}/StoreLicenseDefault/$ref`
+- **GET** `/api/v1/Currencies/{key}/StoreLicenseDefault/$ref`
   - Description: Retrieve all existing StoreLicenses relations for a specific Currency.
   
 #### Create StoreLicense relation
-- **POST** `/api/Currencies/{key}/StoreLicenseDefault/{relatedKey}/$ref`
+- **POST** `/api/v1/Currencies/{key}/StoreLicenseDefault/{relatedKey}/$ref`
   - Description: Create a new StoreLicense relation for a specific Currency.
   
 #### Update StoreLicense relation
-- **PUT** `/api/Currencies/{key}/StoreLicenseDefault/{relatedKey}/$ref`
+- **PUT** `/api/v1/Currencies/{key}/StoreLicenseDefault/{relatedKey}/$ref`
   - Description: Updates an existing StoreLicense relation for a specific Currency.
-- **PUT** `/api/Currencies/{key}/StoreLicenseDefault/$ref`
+- **PUT** `/api/v1/Currencies/{key}/StoreLicenseDefault/$ref`
   - Description: Updates the StoreLicense relations for a specific Currency.
 
 #### Delete StoreLicense relation
-- **DELETE** `/api/Currencies/{key}/StoreLicenseDefault/{relatedKey}/$ref`
+- **DELETE** `/api/v1/Currencies/{key}/StoreLicenseDefault/{relatedKey}/$ref`
   - Description: Delete an existing StoreLicense relation for a specific Currency.
 
 #### Delete StoreLicense relations
-- **DELETE** `/api/Currencies/{key}/StoreLicenseDefault/$ref`
+- **DELETE** `/api/v1/Currencies/{key}/StoreLicenseDefault/$ref`
   - Description: Delete all existing StoreLicenses relations for a specific Currency.
 
 ### StoreLicense
 
 #### Get StoreLicense relations
-- **GET** `/api/Currencies/{key}/StoreLicenseSoldIn/$ref`
+- **GET** `/api/v1/Currencies/{key}/StoreLicenseSoldIn/$ref`
   - Description: Retrieve all existing StoreLicenses relations for a specific Currency.
   
 #### Create StoreLicense relation
-- **POST** `/api/Currencies/{key}/StoreLicenseSoldIn/{relatedKey}/$ref`
+- **POST** `/api/v1/Currencies/{key}/StoreLicenseSoldIn/{relatedKey}/$ref`
   - Description: Create a new StoreLicense relation for a specific Currency.
   
 #### Update StoreLicense relation
-- **PUT** `/api/Currencies/{key}/StoreLicenseSoldIn/{relatedKey}/$ref`
+- **PUT** `/api/v1/Currencies/{key}/StoreLicenseSoldIn/{relatedKey}/$ref`
   - Description: Updates an existing StoreLicense relation for a specific Currency.
-- **PUT** `/api/Currencies/{key}/StoreLicenseSoldIn/$ref`
+- **PUT** `/api/v1/Currencies/{key}/StoreLicenseSoldIn/$ref`
   - Description: Updates the StoreLicense relations for a specific Currency.
 
 #### Delete StoreLicense relation
-- **DELETE** `/api/Currencies/{key}/StoreLicenseSoldIn/{relatedKey}/$ref`
+- **DELETE** `/api/v1/Currencies/{key}/StoreLicenseSoldIn/{relatedKey}/$ref`
   - Description: Delete an existing StoreLicense relation for a specific Currency.
 
 #### Delete StoreLicense relations
-- **DELETE** `/api/Currencies/{key}/StoreLicenseSoldIn/$ref`
+- **DELETE** `/api/v1/Currencies/{key}/StoreLicenseSoldIn/$ref`
   - Description: Delete all existing StoreLicenses relations for a specific Currency.
 
 ## Related Entities

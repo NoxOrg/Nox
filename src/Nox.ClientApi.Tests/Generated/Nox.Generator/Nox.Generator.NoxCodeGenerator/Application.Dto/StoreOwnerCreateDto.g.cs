@@ -32,7 +32,7 @@ public abstract class StoreOwnerCreateDtoBase : IEntityDto<DomainNamespace.Store
     /// </summary>
     /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
-    public System.String? Id { get; set; }
+    public virtual System.String? Id { get; set; }
     /// <summary>
     /// Owner Name     
     /// </summary>

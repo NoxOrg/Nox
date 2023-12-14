@@ -15,6 +15,7 @@ using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using TenantContactEntity = ClientApi.Domain.TenantContact;
+using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
 
@@ -62,15 +63,13 @@ internal partial class UpdateTenantContactForTenantCommandHandlerBase : CommandB
 		}
 		await _dbContext.Entry(parentEntity).Reference(e => e.TenantContact).LoadAsync(cancellationToken);
 		var entity = parentEntity.TenantContact;
-		
-		if (entity == null)
-		{
-			return null;
-		}
+		if (entity is null)
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+		else
+			await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
+		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		await UpdateLocalizedEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -83,6 +82,13 @@ internal partial class UpdateTenantContactForTenantCommandHandlerBase : CommandB
 		}
 
 		return new TenantContactKeyDto();
+	}
+	
+	private async Task<TenantContactEntity> CreateEntityAsync(TenantContactUpsertDto upsertDto, TenantEntity parent)
+	{
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		parent.CreateRefToTenantContact(entity);
+		return entity;
 	}
 
 	private async Task UpdateLocalizedEntityAsync(TenantContactEntity entity, TenantContactUpsertDto updateDto, Nox.Types.CultureCode cultureCode)

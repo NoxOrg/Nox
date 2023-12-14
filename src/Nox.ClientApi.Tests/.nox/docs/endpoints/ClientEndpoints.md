@@ -5,27 +5,27 @@ This document provides information about the various endpoints available in our 
 ## Client Endpoints
 
 ### Get Client by ID
-- **GET** `/api/Clients/{key}`
+- **GET** `/api/v1/Clients/{key}`
   - Description: Retrieve information about a Client by ID.
   
 ### Get Clients
-- **GET** `/api/Clients`
+- **GET** `/api/v1/Clients`
   - Description: Retrieve information about Clients.
 
 ### Create Client
-- **POST** `/api/Clients`
+- **POST** `/api/v1/Clients`
   - Description: Create a new Client.
 
 ### Update Client
-- **PUT** `/api/Clients/{key}`
+- **PUT** `/api/v1/Clients/{key}`
   - Description: Update an existing Client.
 
 ### Partially Update Client
-- **PATCH** `/api/Clients/{key}`
+- **PATCH** `/api/v1/Clients/{key}`
   - Description: Partially update an existing Client.
  
 ### Delete Client
-- **DELETE** `/api/Clients/{key}`
+- **DELETE** `/api/v1/Clients/{key}`
   - Description: Delete an existing Client.
 
 ## Relationships Endpoints
@@ -33,25 +33,25 @@ This document provides information about the various endpoints available in our 
 ### Store
 
 #### Get Store relations
-- **GET** `/api/Clients/{key}/ClientOf/$ref`
+- **GET** `/api/v1/Clients/{key}/ClientOf/$ref`
   - Description: Retrieve all existing Stores relations for a specific Client.
   
 #### Create Store relation
-- **POST** `/api/Clients/{key}/ClientOf/{relatedKey}/$ref`
+- **POST** `/api/v1/Clients/{key}/ClientOf/{relatedKey}/$ref`
   - Description: Create a new Store relation for a specific Client.
   
 #### Update Store relation
-- **PUT** `/api/Clients/{key}/ClientOf/{relatedKey}/$ref`
+- **PUT** `/api/v1/Clients/{key}/ClientOf/{relatedKey}/$ref`
   - Description: Updates an existing Store relation for a specific Client.
-- **PUT** `/api/Clients/{key}/ClientOf/$ref`
+- **PUT** `/api/v1/Clients/{key}/ClientOf/$ref`
   - Description: Updates the Store relations for a specific Client.
 
 #### Delete Store relation
-- **DELETE** `/api/Clients/{key}/ClientOf/{relatedKey}/$ref`
+- **DELETE** `/api/v1/Clients/{key}/ClientOf/{relatedKey}/$ref`
   - Description: Delete an existing Store relation for a specific Client.
 
 #### Delete Store relations
-- **DELETE** `/api/Clients/{key}/ClientOf/$ref`
+- **DELETE** `/api/v1/Clients/{key}/ClientOf/$ref`
   - Description: Delete all existing Stores relations for a specific Client.
 
 ## Related Entities
