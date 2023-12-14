@@ -29,7 +29,7 @@ public abstract partial class CustomersControllerBase : ODataController
     
     #region Relationships
     
-    public virtual async Task<ActionResult> CreateRefToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToPaymentDetails([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -46,7 +46,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [HttpPut("/api/Customers/{key}/PaymentDetails/$ref")]
-    public virtual async Task<ActionResult> UpdateRefToPaymentDetailsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToPaymentDetailsNonConventional([FromRoute] System.Guid key, [FromBody] ReferencesDto<System.Int64> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -63,7 +63,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> GetRefToPaymentDetails([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToPaymentDetails([FromRoute] System.Guid key)
     {
         var entity = (await _mediator.Send(new GetCustomerByIdQuery(key))).Include(x => x.PaymentDetails).SingleOrDefault();
         if (entity is null)
@@ -79,7 +79,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
-    public virtual async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -95,7 +95,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
@@ -111,7 +111,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToPaymentDetails([FromRoute] System.Int64 key, [FromBody] PaymentDetailCreateDto paymentDetail)
+    public virtual async Task<ActionResult> PostToPaymentDetails([FromRoute] System.Guid key, [FromBody] PaymentDetailCreateDto paymentDetail)
     {
         if (!ModelState.IsValid)
         {
@@ -127,7 +127,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<PaymentDetailDto>>> GetPaymentDetails(System.Int64 key)
+    public virtual async Task<ActionResult<IQueryable<PaymentDetailDto>>> GetPaymentDetails(System.Guid key)
     {
         var query = await _mediator.Send(new GetCustomerByIdQuery(key));
         if (!query.Any())
@@ -139,7 +139,7 @@ public abstract partial class CustomersControllerBase : ODataController
     
     [EnableQuery]
     [HttpGet("/api/Customers/{key}/PaymentDetails/{relatedKey}")]
-    public virtual async Task<SingleResult<PaymentDetailDto>> GetPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey)
+    public virtual async Task<SingleResult<PaymentDetailDto>> GetPaymentDetailsNonConventional(System.Guid key, System.Int64 relatedKey)
     {
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.PaymentDetails).Where(x => x.Id == relatedKey);
         if (!related.Any())
@@ -150,7 +150,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [HttpPut("/api/Customers/{key}/PaymentDetails/{relatedKey}")]
-    public virtual async Task<ActionResult<PaymentDetailDto>> PutToPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] PaymentDetailUpdateDto paymentDetail)
+    public virtual async Task<ActionResult<PaymentDetailDto>> PutToPaymentDetailsNonConventional(System.Guid key, System.Int64 relatedKey, [FromBody] PaymentDetailUpdateDto paymentDetail)
     {
         if (!ModelState.IsValid)
         {
@@ -176,7 +176,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [HttpDelete("/api/Customers/{key}/PaymentDetails/{relatedKey}")]
-    public virtual async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -200,7 +200,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [HttpDelete("/api/Customers/{key}/PaymentDetails")]
-    public virtual async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
@@ -218,7 +218,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> CreateRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> CreateRefToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -235,7 +235,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [HttpPut("/api/Customers/{key}/Bookings/$ref")]
-    public virtual async Task<ActionResult> UpdateRefToBookingsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToBookingsNonConventional([FromRoute] System.Guid key, [FromBody] ReferencesDto<System.Guid> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -252,7 +252,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> GetRefToBookings([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToBookings([FromRoute] System.Guid key)
     {
         var entity = (await _mediator.Send(new GetCustomerByIdQuery(key))).Include(x => x.Bookings).SingleOrDefault();
         if (entity is null)
@@ -268,7 +268,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
-    public virtual async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -284,7 +284,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
@@ -300,7 +300,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToBookings([FromRoute] System.Int64 key, [FromBody] BookingCreateDto booking)
+    public virtual async Task<ActionResult> PostToBookings([FromRoute] System.Guid key, [FromBody] BookingCreateDto booking)
     {
         if (!ModelState.IsValid)
         {
@@ -316,7 +316,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<BookingDto>>> GetBookings(System.Int64 key)
+    public virtual async Task<ActionResult<IQueryable<BookingDto>>> GetBookings(System.Guid key)
     {
         var query = await _mediator.Send(new GetCustomerByIdQuery(key));
         if (!query.Any())
@@ -328,7 +328,7 @@ public abstract partial class CustomersControllerBase : ODataController
     
     [EnableQuery]
     [HttpGet("/api/Customers/{key}/Bookings/{relatedKey}")]
-    public virtual async Task<SingleResult<BookingDto>> GetBookingsNonConventional(System.Int64 key, System.Guid relatedKey)
+    public virtual async Task<SingleResult<BookingDto>> GetBookingsNonConventional(System.Guid key, System.Guid relatedKey)
     {
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Bookings).Where(x => x.Id == relatedKey);
         if (!related.Any())
@@ -339,7 +339,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [HttpPut("/api/Customers/{key}/Bookings/{relatedKey}")]
-    public virtual async Task<ActionResult<BookingDto>> PutToBookingsNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] BookingUpdateDto booking)
+    public virtual async Task<ActionResult<BookingDto>> PutToBookingsNonConventional(System.Guid key, System.Guid relatedKey, [FromBody] BookingUpdateDto booking)
     {
         if (!ModelState.IsValid)
         {
@@ -365,7 +365,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [HttpDelete("/api/Customers/{key}/Bookings/{relatedKey}")]
-    public virtual async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> DeleteToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -389,7 +389,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [HttpDelete("/api/Customers/{key}/Bookings")]
-    public virtual async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteToBookings([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
@@ -407,7 +407,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> CreateRefToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToTransactions([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -424,7 +424,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [HttpPut("/api/Customers/{key}/Transactions/$ref")]
-    public virtual async Task<ActionResult> UpdateRefToTransactionsNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Int64> referencesDto)
+    public virtual async Task<ActionResult> UpdateRefToTransactionsNonConventional([FromRoute] System.Guid key, [FromBody] ReferencesDto<System.Guid> referencesDto)
     {
         if (!ModelState.IsValid)
         {
@@ -441,7 +441,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> GetRefToTransactions([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToTransactions([FromRoute] System.Guid key)
     {
         var entity = (await _mediator.Send(new GetCustomerByIdQuery(key))).Include(x => x.Transactions).SingleOrDefault();
         if (entity is null)
@@ -457,7 +457,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
-    public virtual async Task<ActionResult> DeleteRefToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToTransactions([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -473,7 +473,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> DeleteRefToTransactions([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteRefToTransactions([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
@@ -489,7 +489,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToTransactions([FromRoute] System.Int64 key, [FromBody] TransactionCreateDto transaction)
+    public virtual async Task<ActionResult> PostToTransactions([FromRoute] System.Guid key, [FromBody] TransactionCreateDto transaction)
     {
         if (!ModelState.IsValid)
         {
@@ -505,7 +505,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<TransactionDto>>> GetTransactions(System.Int64 key)
+    public virtual async Task<ActionResult<IQueryable<TransactionDto>>> GetTransactions(System.Guid key)
     {
         var query = await _mediator.Send(new GetCustomerByIdQuery(key));
         if (!query.Any())
@@ -517,7 +517,7 @@ public abstract partial class CustomersControllerBase : ODataController
     
     [EnableQuery]
     [HttpGet("/api/Customers/{key}/Transactions/{relatedKey}")]
-    public virtual async Task<SingleResult<TransactionDto>> GetTransactionsNonConventional(System.Int64 key, System.Int64 relatedKey)
+    public virtual async Task<SingleResult<TransactionDto>> GetTransactionsNonConventional(System.Guid key, System.Guid relatedKey)
     {
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Transactions).Where(x => x.Id == relatedKey);
         if (!related.Any())
@@ -528,7 +528,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [HttpPut("/api/Customers/{key}/Transactions/{relatedKey}")]
-    public virtual async Task<ActionResult<TransactionDto>> PutToTransactionsNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] TransactionUpdateDto transaction)
+    public virtual async Task<ActionResult<TransactionDto>> PutToTransactionsNonConventional(System.Guid key, System.Guid relatedKey, [FromBody] TransactionUpdateDto transaction)
     {
         if (!ModelState.IsValid)
         {
@@ -554,7 +554,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [HttpDelete("/api/Customers/{key}/Transactions/{relatedKey}")]
-    public virtual async Task<ActionResult> DeleteToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteToTransactions([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -578,7 +578,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [HttpDelete("/api/Customers/{key}/Transactions")]
-    public virtual async Task<ActionResult> DeleteToTransactions([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteToTransactions([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
@@ -596,7 +596,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> CreateRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCountry([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -612,7 +612,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> GetRefToCountry([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToCountry([FromRoute] System.Guid key)
     {
         var entity = (await _mediator.Send(new GetCustomerByIdQuery(key))).Include(x => x.Country).SingleOrDefault();
         if (entity is null)
@@ -628,14 +628,14 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
-    public virtual async Task<ActionResult> PostToCountry([FromRoute] System.Int64 key, [FromBody] CountryCreateDto country)
+    public virtual async Task<ActionResult> PostToCountry([FromRoute] System.Guid key, [FromBody] CountryCreateDto country)
     {
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        country.CustomersId = new List<System.Int64> { key };
+        country.CustomersId = new List<System.Guid> { key };
         var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -644,7 +644,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
     
     [EnableQuery]
-    public virtual async Task<SingleResult<CountryDto>> GetCountry(System.Int64 key)
+    public virtual async Task<SingleResult<CountryDto>> GetCountry(System.Guid key)
     {
         var query = await _mediator.Send(new GetCustomerByIdQuery(key));
         if (!query.Any())
@@ -654,7 +654,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return SingleResult.Create(query.Where(x => x.Country != null).Select(x => x.Country!));
     }
     
-    public virtual async Task<ActionResult<CountryDto>> PutToCountry(System.Int64 key, [FromBody] CountryUpdateDto country)
+    public virtual async Task<ActionResult<CountryDto>> PutToCountry(System.Guid key, [FromBody] CountryUpdateDto country)
     {
         if (!ModelState.IsValid)
         {

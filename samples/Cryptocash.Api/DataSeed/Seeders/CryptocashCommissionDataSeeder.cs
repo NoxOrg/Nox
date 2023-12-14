@@ -21,7 +21,14 @@ internal class CryptocashCommissionDataSeeder : DataSeederBase<CommissionDto, Co
 
     protected override Commission TransformToEntity(CommissionDto model)
     {
-        return new() {
+        Commission entity = new() {
+            Rate = Percentage.From(model.Rate),
+            EffectiveAt = Nox.Types.DateTime.From(model.EffectiveAt),
+            CountryId = CountryCode2.From(model.CountryId!)
         };
+
+        entity.EnsureId(model.Id);
+
+        return entity;
     }
 }

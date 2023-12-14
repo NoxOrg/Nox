@@ -71,6 +71,7 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
         var entity = new Cryptocash.Domain.PaymentProvider();
         entity.PaymentProviderName = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(createDto.PaymentProviderName);
         entity.PaymentProviderType = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(createDto.PaymentProviderType);
+        entity.EnsureId(createDto.Id);
         return await Task.FromResult(entity);
     }
 

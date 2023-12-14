@@ -145,7 +145,7 @@ internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntit
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Employee
     /// </summary>
-    public Nox.Types.AutoNumber EmployeeId { get; set; } = null!;
+    public Nox.Types.Guid EmployeeId { get; set; } = null!;
 
     public virtual void CreateRefToEmployee(Employee relatedEmployee)
     {

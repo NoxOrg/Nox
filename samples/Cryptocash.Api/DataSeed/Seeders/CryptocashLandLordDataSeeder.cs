@@ -22,7 +22,7 @@ internal class CryptocashLandLordDataSeeder : DataSeederBase<LandLordDto, LandLo
 
     protected override LandLord TransformToEntity(LandLordDto model)
     {
-        LandLord entity = new LandLord { };
+        LandLord entity = new() { };
         entity.EnsureId(model.Id);
         entity.Name = Text.From(model.Name);
         entity.Address = StreetAddress.From(new StreetAddressItem

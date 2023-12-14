@@ -13,7 +13,7 @@ keys:
   - name: Id
     isRequired: true
     description: Customer transaction unique identifier 
-    type: autoNumber
+    type: guid
     userInterface:
       showInSearchResults: never
       canSearch: true

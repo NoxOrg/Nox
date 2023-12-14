@@ -74,6 +74,7 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
         entity.EmailAddress = Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(createDto.EmailAddress);
         entity.Address = Cryptocash.Domain.CustomerMetadata.CreateAddress(createDto.Address);
         entity.SetIfNotNull(createDto.MobileNumber, (entity) => entity.MobileNumber =Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(createDto.MobileNumber.NonNullValue<System.String>()));
+        entity.EnsureId(createDto.Id);
         return await Task.FromResult(entity);
     }
 

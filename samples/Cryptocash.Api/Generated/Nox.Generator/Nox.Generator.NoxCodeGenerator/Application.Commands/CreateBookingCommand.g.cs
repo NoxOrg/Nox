@@ -75,12 +75,12 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.CustomerId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Int64>());
+			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.Customers.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCustomer(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("Customer", request.EntityDto.CustomerId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("Customer", request.EntityDto.CustomerId.NonNullValue<System.Guid>().ToString());
 		}
 		else if(request.EntityDto.Customer is not null)
 		{
@@ -103,12 +103,12 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		}
 		if(request.EntityDto.CommissionId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.CommissionMetadata.CreateId(request.EntityDto.CommissionId.NonNullValue<System.Int64>());
+			var relatedKey = Cryptocash.Domain.CommissionMetadata.CreateId(request.EntityDto.CommissionId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.Commissions.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCommission(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("Commission", request.EntityDto.CommissionId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("Commission", request.EntityDto.CommissionId.NonNullValue<System.Guid>().ToString());
 		}
 		else if(request.EntityDto.Commission is not null)
 		{
@@ -117,12 +117,12 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		}
 		if(request.EntityDto.TransactionId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.TransactionMetadata.CreateId(request.EntityDto.TransactionId.NonNullValue<System.Int64>());
+			var relatedKey = Cryptocash.Domain.TransactionMetadata.CreateId(request.EntityDto.TransactionId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.Transactions.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToTransaction(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("Transaction", request.EntityDto.TransactionId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("Transaction", request.EntityDto.TransactionId.NonNullValue<System.Guid>().ToString());
 		}
 		else if(request.EntityDto.Transaction is not null)
 		{

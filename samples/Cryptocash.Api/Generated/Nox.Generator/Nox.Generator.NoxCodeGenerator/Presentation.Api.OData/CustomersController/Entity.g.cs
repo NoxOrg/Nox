@@ -61,7 +61,7 @@ public abstract partial class CustomersControllerBase : ODataController
     }
 
     [EnableQuery]
-    public virtual async Task<SingleResult<CustomerDto>> Get([FromRoute] System.Int64 key)
+    public virtual async Task<SingleResult<CustomerDto>> Get([FromRoute] System.Guid key)
     {
         var result = await _mediator.Send(new GetCustomerByIdQuery(key));
         return SingleResult.Create(result);
@@ -85,7 +85,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return Created(item);
     }
 
-    public virtual async Task<ActionResult<CustomerDto>> Put([FromRoute] System.Int64 key, [FromBody] CustomerUpdateDto customer)
+    public virtual async Task<ActionResult<CustomerDto>> Put([FromRoute] System.Guid key, [FromBody] CustomerUpdateDto customer)
     {
         if(customer is null)
         {
@@ -109,7 +109,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<CustomerDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerPartialUpdateDto> customer)
+    public virtual async Task<ActionResult<CustomerDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<CustomerPartialUpdateDto> customer)
     {
         if(customer is null)
         {
@@ -135,7 +135,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteCustomerByIdCommand(new List<CustomerKeyDto> { new CustomerKeyDto(key) }, etag));

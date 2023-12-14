@@ -55,7 +55,21 @@ internal abstract partial class TransactionBase : AuditableEntityBase, IEntityCo
     /// Customer transaction unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; private set; } = null!;
+    public Nox.Types.Guid Id {get; private set;} = null!;
+        /// <summary>
+        /// Ensures that a Guid Id is set or will be generate a new one
+        /// </summary>
+    	public virtual void EnsureId(System.Guid? guid)
+    	{
+    		if(guid is null || System.Guid.Empty.Equals(guid))
+    		{
+    			Id = Nox.Types.Guid.From(System.Guid.NewGuid());
+    		}
+    		else
+    		{
+    			Id = Nox.Types.Guid.From(guid!.Value);
+    		}
+    	}
 
     /// <summary>
     /// Transaction type    
@@ -116,7 +130,7 @@ internal abstract partial class TransactionBase : AuditableEntityBase, IEntityCo
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
-    public Nox.Types.AutoNumber CustomerId { get; set; } = null!;
+    public Nox.Types.Guid CustomerId { get; set; } = null!;
 
     public virtual void CreateRefToCustomer(Customer relatedCustomer)
     {

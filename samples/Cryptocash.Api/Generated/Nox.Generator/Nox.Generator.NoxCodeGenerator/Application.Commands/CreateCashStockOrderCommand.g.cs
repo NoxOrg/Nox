@@ -81,12 +81,12 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		}
 		if(request.EntityDto.EmployeeId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.EmployeeMetadata.CreateId(request.EntityDto.EmployeeId.NonNullValue<System.Int64>());
+			var relatedKey = Cryptocash.Domain.EmployeeMetadata.CreateId(request.EntityDto.EmployeeId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.Employees.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToEmployee(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("Employee", request.EntityDto.EmployeeId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("Employee", request.EntityDto.EmployeeId.NonNullValue<System.Guid>().ToString());
 		}
 		else if(request.EntityDto.Employee is not null)
 		{

@@ -76,7 +76,7 @@ public abstract class BookingCreateDtoBase : IEntityDto<DomainNamespace.Booking>
     /// <summary>
     /// Booking for ExactlyOne Customers
     /// </summary>
-    public System.Int64? CustomerId { get; set; } = default!;
+    public System.Guid? CustomerId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual CustomerCreateDto? Customer { get; set; } = default!;
@@ -92,7 +92,7 @@ public abstract class BookingCreateDtoBase : IEntityDto<DomainNamespace.Booking>
     /// <summary>
     /// Booking fees for ExactlyOne Commissions
     /// </summary>
-    public System.Int64? CommissionId { get; set; } = default!;
+    public System.Guid? CommissionId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual CommissionCreateDto? Commission { get; set; } = default!;
@@ -100,7 +100,7 @@ public abstract class BookingCreateDtoBase : IEntityDto<DomainNamespace.Booking>
     /// <summary>
     /// Booking related to ExactlyOne Transactions
     /// </summary>
-    public System.Int64? TransactionId { get; set; } = default!;
+    public System.Guid? TransactionId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual TransactionCreateDto? Transaction { get; set; } = default!;

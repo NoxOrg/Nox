@@ -55,7 +55,21 @@ internal abstract partial class CommissionBase : AuditableEntityBase, IEntityCon
     /// Commission unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.AutoNumber Id { get; private set; } = null!;
+    public Nox.Types.Guid Id {get; private set;} = null!;
+        /// <summary>
+        /// Ensures that a Guid Id is set or will be generate a new one
+        /// </summary>
+    	public virtual void EnsureId(System.Guid? guid)
+    	{
+    		if(guid is null || System.Guid.Empty.Equals(guid))
+    		{
+    			Id = Nox.Types.Guid.From(System.Guid.NewGuid());
+    		}
+    		else
+    		{
+    			Id = Nox.Types.Guid.From(guid!.Value);
+    		}
+    	}
 
     /// <summary>
     /// Commission rate    

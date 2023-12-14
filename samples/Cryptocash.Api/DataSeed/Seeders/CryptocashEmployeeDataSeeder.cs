@@ -33,6 +33,8 @@ internal class CryptocashEmployeeDataSeeder : DataSeederBase<EmployeeDto, Employ
             Address = StreetAddress.From(model.Address)
         };
 
+        rtnEmployee.EnsureId(model.Id);
+
         if (model.EmployeePhoneNumbers != null)
         {
             foreach (EmployeePhoneNumberDto currentPhone in model.EmployeePhoneNumbers)

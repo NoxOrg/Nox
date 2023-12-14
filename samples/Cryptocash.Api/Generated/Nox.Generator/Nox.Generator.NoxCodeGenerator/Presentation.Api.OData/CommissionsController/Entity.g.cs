@@ -61,7 +61,7 @@ public abstract partial class CommissionsControllerBase : ODataController
     }
 
     [EnableQuery]
-    public virtual async Task<SingleResult<CommissionDto>> Get([FromRoute] System.Int64 key)
+    public virtual async Task<SingleResult<CommissionDto>> Get([FromRoute] System.Guid key)
     {
         var result = await _mediator.Send(new GetCommissionByIdQuery(key));
         return SingleResult.Create(result);
@@ -85,7 +85,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Created(item);
     }
 
-    public virtual async Task<ActionResult<CommissionDto>> Put([FromRoute] System.Int64 key, [FromBody] CommissionUpdateDto commission)
+    public virtual async Task<ActionResult<CommissionDto>> Put([FromRoute] System.Guid key, [FromBody] CommissionUpdateDto commission)
     {
         if(commission is null)
         {
@@ -109,7 +109,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<CommissionDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CommissionPartialUpdateDto> commission)
+    public virtual async Task<ActionResult<CommissionDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<CommissionPartialUpdateDto> commission)
     {
         if(commission is null)
         {
@@ -135,7 +135,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteCommissionByIdCommand(new List<CommissionKeyDto> { new CommissionKeyDto(key) }, etag));

@@ -73,6 +73,7 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
         entity.ProcessedOnDateTime = Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(createDto.ProcessedOnDateTime);
         entity.Amount = Cryptocash.Domain.TransactionMetadata.CreateAmount(createDto.Amount);
         entity.Reference = Cryptocash.Domain.TransactionMetadata.CreateReference(createDto.Reference);
+        entity.EnsureId(createDto.Id);
         return await Task.FromResult(entity);
     }
 

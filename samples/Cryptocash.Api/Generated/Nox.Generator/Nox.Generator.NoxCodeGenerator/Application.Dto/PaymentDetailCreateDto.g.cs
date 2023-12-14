@@ -50,7 +50,7 @@ public abstract class PaymentDetailCreateDtoBase : IEntityDto<DomainNamespace.Pa
     /// <summary>
     /// PaymentDetail used by ExactlyOne Customers
     /// </summary>
-    public System.Int64? CustomerId { get; set; } = default!;
+    public System.Guid? CustomerId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual CustomerCreateDto? Customer { get; set; } = default!;
@@ -58,7 +58,7 @@ public abstract class PaymentDetailCreateDtoBase : IEntityDto<DomainNamespace.Pa
     /// <summary>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
-    public System.Int64? PaymentProviderId { get; set; } = default!;
+    public System.Guid? PaymentProviderId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual PaymentProviderCreateDto? PaymentProvider { get; set; } = default!;

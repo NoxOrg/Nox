@@ -1,2 +1,11 @@
 ﻿[
+  {
+    "Amount": {
+      "Amount": 200,
+      "CurrencyCode": "GBP"
+    },
+    "RequestedDeliveryDate": "2023-12-13T10:55:06.038Z",
+    "VendingMachineId": "ad346d68-6c14-48c5-866c-d53b1f21e59e",
+    "EmployeeId": "AB0BF65F-FBC4-45EB-AEDE-050F85BF7DBA"
+  }
 ]

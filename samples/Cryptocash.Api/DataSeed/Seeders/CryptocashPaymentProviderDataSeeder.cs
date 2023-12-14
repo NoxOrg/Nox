@@ -21,9 +21,13 @@ internal class CryptocashPaymentProviderDataSeeder : DataSeederBase<PaymentProvi
 
     protected override PaymentProvider TransformToEntity(PaymentProviderDto model)
     {
-        return new() {
+        PaymentProvider entity = new() {
             PaymentProviderName = Text.From(model.PaymentProviderName!),
             PaymentProviderType = Text.From(model.PaymentProviderType!)
         };
+
+        entity.EnsureId(model.Id);
+
+        return entity;
     }
 }

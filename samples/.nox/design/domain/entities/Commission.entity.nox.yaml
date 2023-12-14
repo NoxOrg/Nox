@@ -13,7 +13,7 @@ keys:
   - name: Id
     isRequired: true
     description: Commission unique identifier 
-    type: autoNumber
+    type: guid
     userInterface:
       showInSearchResults: never
       canSearch: true

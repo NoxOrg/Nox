@@ -16,7 +16,7 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
-public record TransactionKeyDto(System.Int64 keyId);
+public record TransactionKeyDto(System.Guid keyId);
 
 /// <summary>
 /// Update Transaction
@@ -63,7 +63,7 @@ public abstract class TransactionDtoBase : EntityDtoBase, IEntityDto<DomainNames
     /// <summary>
     /// Customer transaction unique identifier
     /// </summary>    
-    public System.Int64 Id { get; set; } = default!;
+    public System.Guid Id { get; set; } = default!;
 
     /// <summary>
     /// Transaction type     
@@ -93,7 +93,7 @@ public abstract class TransactionDtoBase : EntityDtoBase, IEntityDto<DomainNames
     /// Transaction for ExactlyOne Customers
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64? CustomerId { get; set; } = default!;
+    public System.Guid? CustomerId { get; set; } = default!;
     public virtual CustomerDto? Customer { get; set; } = null!;
 
     /// <summary>

@@ -19,8 +19,8 @@ public partial class TransactionMetadata
         /// <summary>
         /// Factory for property 'Id'
         /// </summary>
-        public static Nox.Types.AutoNumber CreateId(System.Int64 value)
-            => Nox.Types.AutoNumber.FromDatabase(value);
+        public static Nox.Types.Guid CreateId(System.Guid value)
+            => Nox.Types.Guid.From(value);
         
     
         /// <summary>
@@ -80,8 +80,8 @@ public partial class TransactionMetadata
         /// <summary>
         /// Factory for property 'CustomerId'
         /// </summary>
-        public static Nox.Types.AutoNumber CreateCustomerId(System.Int64 value)
-            => Nox.Types.AutoNumber.FromDatabase(value);
+        public static Nox.Types.Guid CreateCustomerId(System.Guid value)
+            => Nox.Types.Guid.From(value);
         
 
         /// <summary>

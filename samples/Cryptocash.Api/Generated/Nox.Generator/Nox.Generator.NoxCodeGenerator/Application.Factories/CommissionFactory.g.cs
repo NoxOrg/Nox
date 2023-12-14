@@ -71,6 +71,7 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
         var entity = new Cryptocash.Domain.Commission();
         entity.Rate = Cryptocash.Domain.CommissionMetadata.CreateRate(createDto.Rate);
         entity.EffectiveAt = Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(createDto.EffectiveAt);
+        entity.EnsureId(createDto.Id);
         return await Task.FromResult(entity);
     }
 

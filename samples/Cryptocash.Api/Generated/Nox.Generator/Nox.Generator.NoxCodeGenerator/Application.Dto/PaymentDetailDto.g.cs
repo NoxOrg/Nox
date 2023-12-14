@@ -82,14 +82,14 @@ public abstract class PaymentDetailDtoBase : EntityDtoBase, IEntityDto<DomainNam
     /// PaymentDetail used by ExactlyOne Customers
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64? CustomerId { get; set; } = default!;
+    public System.Guid? CustomerId { get; set; } = default!;
     public virtual CustomerDto? Customer { get; set; } = null!;
 
     /// <summary>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64? PaymentProviderId { get; set; } = default!;
+    public System.Guid? PaymentProviderId { get; set; } = default!;
     public virtual PaymentProviderDto? PaymentProvider { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }

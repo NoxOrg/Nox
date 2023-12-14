@@ -86,15 +86,15 @@ public partial class PaymentDetailMetadata
         /// <summary>
         /// Factory for property 'CustomerId'
         /// </summary>
-        public static Nox.Types.AutoNumber CreateCustomerId(System.Int64 value)
-            => Nox.Types.AutoNumber.FromDatabase(value);
+        public static Nox.Types.Guid CreateCustomerId(System.Guid value)
+            => Nox.Types.Guid.From(value);
         
     
         /// <summary>
         /// Factory for property 'PaymentProviderId'
         /// </summary>
-        public static Nox.Types.AutoNumber CreatePaymentProviderId(System.Int64 value)
-            => Nox.Types.AutoNumber.FromDatabase(value);
+        public static Nox.Types.Guid CreatePaymentProviderId(System.Guid value)
+            => Nox.Types.Guid.From(value);
         
 
         /// <summary>

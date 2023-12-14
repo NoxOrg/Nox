@@ -121,7 +121,7 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// <summary>
     /// Country used by OneOrMany Commissions
     /// </summary>
-    public virtual List<System.Int64> CommissionsId { get; set; } = new();
+    public virtual List<System.Guid> CommissionsId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<CommissionCreateDto> Commissions { get; set; } = new();
@@ -137,7 +137,7 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// <summary>
     /// Country used by ZeroOrMany Customers
     /// </summary>
-    public virtual List<System.Int64> CustomersId { get; set; } = new();
+    public virtual List<System.Guid> CustomersId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<CustomerCreateDto> Customers { get; set; } = new();

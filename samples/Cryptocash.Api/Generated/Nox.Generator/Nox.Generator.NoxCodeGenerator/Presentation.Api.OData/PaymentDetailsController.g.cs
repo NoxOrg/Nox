@@ -29,7 +29,7 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
     
     #region Relationships
     
-    public virtual async Task<ActionResult> CreateRefToCustomer([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCustomer([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -112,7 +112,7 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         return Ok(updatedItem);
     }
     
-    public virtual async Task<ActionResult> CreateRefToPaymentProvider([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToPaymentProvider([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {

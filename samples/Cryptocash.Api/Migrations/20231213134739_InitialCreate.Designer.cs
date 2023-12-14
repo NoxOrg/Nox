@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cryptocash.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231207165304_InitialCreate")]
+    [Migration("20231213134739_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -58,8 +58,9 @@ namespace Cryptocash.Api.Migrations
                     b.Property<DateTimeOffset?>("CancelledDateTime")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long>("CommissionId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("CommissionId")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
@@ -75,8 +76,9 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<long>("CustomerId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("CustomerId")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
@@ -164,8 +166,9 @@ namespace Cryptocash.Api.Migrations
                     b.Property<DateTimeOffset?>("DeliveryDateTime")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long>("EmployeeId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("EmployeeId")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
@@ -205,11 +208,9 @@ namespace Cryptocash.Api.Migrations
 
             modelBuilder.Entity("Cryptocash.Domain.Commission", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<Guid>("Id")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CountryId")
                         .HasMaxLength(2)
@@ -516,11 +517,9 @@ namespace Cryptocash.Api.Migrations
 
             modelBuilder.Entity("Cryptocash.Domain.Customer", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<Guid>("Id")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CountryId")
                         .IsRequired()
@@ -602,11 +601,9 @@ namespace Cryptocash.Api.Migrations
 
             modelBuilder.Entity("Cryptocash.Domain.Employee", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<Guid>("Id")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
@@ -687,8 +684,8 @@ namespace Cryptocash.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("EmployeeId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -911,8 +908,9 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<long>("CustomerId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("CustomerId")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
@@ -959,8 +957,9 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
-                    b.Property<long>("PaymentProviderId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("PaymentProviderId")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -973,11 +972,9 @@ namespace Cryptocash.Api.Migrations
 
             modelBuilder.Entity("Cryptocash.Domain.PaymentProvider", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<Guid>("Id")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
@@ -1040,11 +1037,9 @@ namespace Cryptocash.Api.Migrations
 
             modelBuilder.Entity("Cryptocash.Domain.Transaction", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<Guid>("Id")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("BookingId")
                         .IsUnicode(false)
@@ -1064,8 +1059,9 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<long>("CustomerId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("CustomerId")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
@@ -1799,8 +1795,8 @@ namespace Cryptocash.Api.Migrations
 
                     b.OwnsOne("Nox.Types.StreetAddress", "Address", b1 =>
                         {
-                            b1.Property<long>("CustomerId")
-                                .HasColumnType("bigint");
+                            b1.Property<Guid>("CustomerId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("AddressLine1")
                                 .IsRequired()
@@ -1863,8 +1859,8 @@ namespace Cryptocash.Api.Migrations
                 {
                     b.OwnsOne("Nox.Types.StreetAddress", "Address", b1 =>
                         {
-                            b1.Property<long>("EmployeeId")
-                                .HasColumnType("bigint");
+                            b1.Property<Guid>("EmployeeId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("AddressLine1")
                                 .IsRequired()
@@ -2071,8 +2067,8 @@ namespace Cryptocash.Api.Migrations
 
                     b.OwnsOne("Nox.Types.Money", "Amount", b1 =>
                         {
-                            b1.Property<long>("TransactionId")
-                                .HasColumnType("bigint");
+                            b1.Property<Guid>("TransactionId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("Amount")
                                 .HasColumnType("decimal(13, 4)");

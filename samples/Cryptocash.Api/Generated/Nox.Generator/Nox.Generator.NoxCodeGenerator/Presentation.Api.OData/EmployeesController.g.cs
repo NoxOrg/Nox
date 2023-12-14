@@ -30,7 +30,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     #region Owned Relationships
     
     [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<EmployeePhoneNumberDto>>> GetEmployeePhoneNumbers([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult<IQueryable<EmployeePhoneNumberDto>>> GetEmployeePhoneNumbers([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
@@ -48,7 +48,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     
     [EnableQuery]
     [HttpGet("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
-    public virtual async Task<ActionResult<EmployeePhoneNumberDto>> GetEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey)
+    public virtual async Task<ActionResult<EmployeePhoneNumberDto>> GetEmployeePhoneNumbersNonConventional(System.Guid key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -63,7 +63,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PostToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromBody] EmployeePhoneNumberUpsertDto employeePhoneNumber)
+    public virtual async Task<ActionResult> PostToEmployeePhoneNumbers([FromRoute] System.Guid key, [FromBody] EmployeePhoneNumberUpsertDto employeePhoneNumber)
     {
         if (!ModelState.IsValid)
         {
@@ -86,7 +86,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<EmployeePhoneNumberDto>> PutToEmployeePhoneNumbers(System.Int64 key, [FromBody] EmployeePhoneNumberUpsertDto employeePhoneNumber)
+    public virtual async Task<ActionResult<EmployeePhoneNumberDto>> PutToEmployeePhoneNumbers(System.Guid key, [FromBody] EmployeePhoneNumberUpsertDto employeePhoneNumber)
     {
         if (!ModelState.IsValid)
         {
@@ -109,7 +109,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PatchToEmployeePhoneNumbers(System.Int64 key, [FromBody] Delta<EmployeePhoneNumberUpsertDto> employeePhoneNumber)
+    public virtual async Task<ActionResult> PatchToEmployeePhoneNumbers(System.Guid key, [FromBody] Delta<EmployeePhoneNumberUpsertDto> employeePhoneNumber)
     {
         if (!ModelState.IsValid || employeePhoneNumber is null)
         {
@@ -147,7 +147,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     }
     
     [HttpDelete("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
-    public virtual async Task<ActionResult> DeleteEmployeePhoneNumberNonConventional(System.Int64 key, System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteEmployeePhoneNumberNonConventional(System.Guid key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -162,7 +162,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    protected async Task<EmployeePhoneNumberDto?> TryGetEmployeePhoneNumbers(System.Int64 key, EmployeePhoneNumberKeyDto childKeyDto)
+    protected async Task<EmployeePhoneNumberDto?> TryGetEmployeePhoneNumbers(System.Guid key, EmployeePhoneNumberKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetEmployeeByIdQuery(key))).SingleOrDefault();
         return parent?.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == childKeyDto.keyId);
@@ -173,7 +173,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     
     #region Relationships
     
-    public virtual async Task<ActionResult> CreateRefToCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCashStockOrder([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -189,7 +189,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> GetRefToCashStockOrder([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToCashStockOrder([FromRoute] System.Guid key)
     {
         var entity = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Include(x => x.CashStockOrder).SingleOrDefault();
         if (entity is null)
@@ -205,7 +205,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(references);
     }
     
-    public virtual async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -221,7 +221,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
@@ -237,7 +237,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToCashStockOrder([FromRoute] System.Int64 key, [FromBody] CashStockOrderCreateDto cashStockOrder)
+    public virtual async Task<ActionResult> PostToCashStockOrder([FromRoute] System.Guid key, [FromBody] CashStockOrderCreateDto cashStockOrder)
     {
         if (!ModelState.IsValid)
         {
@@ -253,7 +253,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     }
     
     [EnableQuery]
-    public virtual async Task<SingleResult<CashStockOrderDto>> GetCashStockOrder(System.Int64 key)
+    public virtual async Task<SingleResult<CashStockOrderDto>> GetCashStockOrder(System.Guid key)
     {
         var query = await _mediator.Send(new GetEmployeeByIdQuery(key));
         if (!query.Any())
@@ -263,7 +263,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return SingleResult.Create(query.Where(x => x.CashStockOrder != null).Select(x => x.CashStockOrder!));
     }
     
-    public virtual async Task<ActionResult<CashStockOrderDto>> PutToCashStockOrder(System.Int64 key, [FromBody] CashStockOrderUpdateDto cashStockOrder)
+    public virtual async Task<ActionResult<CashStockOrderDto>> PutToCashStockOrder(System.Guid key, [FromBody] CashStockOrderUpdateDto cashStockOrder)
     {
         if (!ModelState.IsValid)
         {
@@ -289,7 +289,7 @@ public abstract partial class EmployeesControllerBase : ODataController
     }
     
     [HttpDelete("/api/Employees/{key}/CashStockOrder")]
-    public virtual async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {

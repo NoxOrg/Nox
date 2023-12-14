@@ -12,7 +12,7 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public partial record GetCustomerByIdQuery(System.Int64 keyId) : IRequest <IQueryable<CustomerDto>>;
+public partial record GetCustomerByIdQuery(System.Guid keyId) : IRequest <IQueryable<CustomerDto>>;
 
 internal partial class GetCustomerByIdQueryHandler:GetCustomerByIdQueryHandlerBase
 {

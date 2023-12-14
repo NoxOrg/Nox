@@ -1,2 +1,12 @@
 ﻿[
+  {
+    "Amount": {
+      "Amount": 1000,
+      "CurrencyCode": "GBP"
+    },
+    "VendingMachinesId": [
+      "ad346d68-6c14-48c5-866c-d53b1f21e59e"
+    ],
+    "CurrencyId": "GBP"
+  }
 ]
