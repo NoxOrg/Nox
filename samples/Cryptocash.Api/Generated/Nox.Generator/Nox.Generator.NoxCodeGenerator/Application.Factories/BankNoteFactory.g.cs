@@ -69,8 +69,10 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
     private async Task<Cryptocash.Domain.BankNote> ToEntityAsync(BankNoteUpsertDto createDto)
     {
         var entity = new Cryptocash.Domain.BankNote();
-        entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(createDto.CashNote);
-        entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(createDto.Value);
+        entity.SetIfNotNull(createDto.CashNote, (entity) => entity.CashNote = 
+            Cryptocash.Domain.BankNoteMetadata.CreateCashNote(createDto.CashNote.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Value, (entity) => entity.Value = 
+            Cryptocash.Domain.BankNoteMetadata.CreateValue(createDto.Value.NonNullValue<MoneyDto>()));
         return await Task.FromResult(entity);
     }
 

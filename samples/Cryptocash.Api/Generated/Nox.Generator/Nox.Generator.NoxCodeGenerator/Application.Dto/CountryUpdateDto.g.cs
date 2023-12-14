@@ -31,7 +31,7 @@ public partial class CountryUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNames
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;
+    public virtual System.String? Name { get; set; }
     /// <summary>
     /// Country's official name     
     /// </summary>
@@ -93,14 +93,14 @@ public partial class CountryUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNames
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "StartOfWeek is required")]
     
-    public virtual System.UInt16 StartOfWeek { get; set; } = default!;
+    public virtual System.UInt16? StartOfWeek { get; set; }
     /// <summary>
     /// Country's population     
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Population is required")]
     
-    public virtual System.Int32 Population { get; set; } = default!;
+    public virtual System.Int32? Population { get; set; }
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones
     /// </summary>

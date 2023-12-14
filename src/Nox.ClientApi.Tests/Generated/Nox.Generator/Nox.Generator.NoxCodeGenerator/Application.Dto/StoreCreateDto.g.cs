@@ -30,28 +30,28 @@ public abstract class StoreCreateDtoBase : IEntityDto<DomainNamespace.Store>
     ///      
     /// </summary>
     /// <remarks>Optional.</remarks>
-    public System.Guid Id { get; set; } = default!;
+    public virtual System.Guid? Id { get; set; }
     /// <summary>
     /// Store Name     
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;
+    public virtual System.String? Name { get; set; }
     /// <summary>
     /// Street Address     
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Address is required")]
     
-    public virtual StreetAddressDto Address { get; set; } = default!;
+    public virtual StreetAddressDto? Address { get; set; }
     /// <summary>
     /// Location     
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Location is required")]
     
-    public virtual LatLongDto Location { get; set; } = default!;
+    public virtual LatLongDto? Location { get; set; }
     /// <summary>
     /// Opening day     
     /// </summary>

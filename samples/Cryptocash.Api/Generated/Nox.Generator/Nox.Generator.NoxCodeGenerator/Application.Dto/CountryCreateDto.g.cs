@@ -32,14 +32,14 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// </summary>
     /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "Id is required")]
-    public System.String Id { get; set; } = default!;
+    public virtual System.String? Id { get; set; }
     /// <summary>
     /// Country's name     
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;
+    public virtual System.String? Name { get; set; }
     /// <summary>
     /// Country's official name     
     /// </summary>
@@ -101,14 +101,14 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "StartOfWeek is required")]
     
-    public virtual System.UInt16 StartOfWeek { get; set; } = default!;
+    public virtual System.UInt16? StartOfWeek { get; set; }
     /// <summary>
     /// Country's population     
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Population is required")]
     
-    public virtual System.Int32 Population { get; set; } = default!;
+    public virtual System.Int32? Population { get; set; }
 
     /// <summary>
     /// Country used by ExactlyOne Currencies

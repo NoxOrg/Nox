@@ -36,7 +36,7 @@ public abstract class HolidayUpsertDtoBase: EntityDtoBase, IEntityDto<DomainName
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Name is required")]
-    public virtual System.String Name { get; set; } = default!;
+    public virtual System.String? Name { get; set; }
 
     /// <summary>
     /// Country holiday type     

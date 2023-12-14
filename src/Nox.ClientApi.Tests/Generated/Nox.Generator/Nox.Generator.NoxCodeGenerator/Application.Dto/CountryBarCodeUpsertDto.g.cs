@@ -31,7 +31,7 @@ public abstract class CountryBarCodeUpsertDtoBase: EntityDtoBase, IEntityDto<Dom
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "BarCodeName is required")]
-    public virtual System.String BarCodeName { get; set; } = default!;
+    public virtual System.String? BarCodeName { get; set; }
 
     /// <summary>
     /// Bar code number     

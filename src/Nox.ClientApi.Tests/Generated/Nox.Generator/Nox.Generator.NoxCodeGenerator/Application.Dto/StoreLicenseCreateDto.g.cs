@@ -33,7 +33,7 @@ public abstract class StoreLicenseCreateDtoBase : IEntityDto<DomainNamespace.Sto
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Issuer is required")]
     
-    public virtual System.String Issuer { get; set; } = default!;
+    public virtual System.String? Issuer { get; set; }
 
     /// <summary>
     /// StoreLicense Store that this license related to ExactlyOne Stores

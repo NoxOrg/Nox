@@ -31,19 +31,19 @@ public abstract class TenantContactUpsertDtoBase: EntityDtoBase, IEntityDto<Doma
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Name is required")]
-    public virtual System.String Name { get; set; } = default!;
+    public virtual System.String? Name { get; set; }
 
     /// <summary>
     /// Teanant Brand Description     
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Description is required")]
-    public virtual System.String Description { get; set; } = default!;
+    public virtual System.String? Description { get; set; }
 
     /// <summary>
     /// Teanant Brand Email     
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Email is required")]
-    public virtual System.String Email { get; set; } = default!;
+    public virtual System.String? Email { get; set; }
 }

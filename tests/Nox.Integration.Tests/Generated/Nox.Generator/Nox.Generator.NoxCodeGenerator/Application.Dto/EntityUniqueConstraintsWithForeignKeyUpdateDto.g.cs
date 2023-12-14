@@ -36,5 +36,5 @@ public partial class EntityUniqueConstraintsWithForeignKeyUpdateDtoBase: EntityD
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "SomeUniqueId is required")]
     
-    public virtual System.Int32 SomeUniqueId { get; set; } = default!;
+    public virtual System.Int32? SomeUniqueId { get; set; }
 }

@@ -69,8 +69,10 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
     private async Task<ClientApi.Domain.CountryBarCode> ToEntityAsync(CountryBarCodeUpsertDto createDto)
     {
         var entity = new ClientApi.Domain.CountryBarCode();
-        entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(createDto.BarCodeName);
-        entity.SetIfNotNull(createDto.BarCodeNumber, (entity) => entity.BarCodeNumber =ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(createDto.BarCodeNumber.NonNullValue<System.Int32>()));
+        entity.SetIfNotNull(createDto.BarCodeName, (entity) => entity.BarCodeName = 
+            ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(createDto.BarCodeName.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.BarCodeNumber, (entity) => entity.BarCodeNumber = 
+            ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(createDto.BarCodeNumber.NonNullValue<System.Int32>()));
         return await Task.FromResult(entity);
     }
 

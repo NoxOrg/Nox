@@ -36,19 +36,19 @@ public abstract class HolidayUpsertDtoBase: EntityDtoBase, IEntityDto<DomainName
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Name is required")]
-    public virtual System.String Name { get; set; } = default!;
+    public virtual System.String? Name { get; set; }
 
     /// <summary>
     /// Country holiday type     
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Type is required")]
-    public virtual System.String Type { get; set; } = default!;
+    public virtual System.String? Type { get; set; }
 
     /// <summary>
     /// Country holiday date     
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Date is required")]
-    public virtual System.DateTime Date { get; set; } = default!;
+    public virtual System.DateTime? Date { get; set; }
 }

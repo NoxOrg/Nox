@@ -69,8 +69,10 @@ internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntit
     private async Task<ClientApi.Domain.TenantBrand> ToEntityAsync(TenantBrandUpsertDto createDto)
     {
         var entity = new ClientApi.Domain.TenantBrand();
-        entity.Name = ClientApi.Domain.TenantBrandMetadata.CreateName(createDto.Name);
-        entity.Description = ClientApi.Domain.TenantBrandMetadata.CreateDescription(createDto.Description);
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            ClientApi.Domain.TenantBrandMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Description, (entity) => entity.Description = 
+            ClientApi.Domain.TenantBrandMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

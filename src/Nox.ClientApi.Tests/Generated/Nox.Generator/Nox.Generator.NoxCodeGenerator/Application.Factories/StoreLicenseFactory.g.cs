@@ -69,7 +69,8 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
     private async Task<ClientApi.Domain.StoreLicense> ToEntityAsync(StoreLicenseCreateDto createDto)
     {
         var entity = new ClientApi.Domain.StoreLicense();
-        entity.Issuer = ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(createDto.Issuer);
+        entity.SetIfNotNull(createDto.Issuer, (entity) => entity.Issuer = 
+            ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(createDto.Issuer.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

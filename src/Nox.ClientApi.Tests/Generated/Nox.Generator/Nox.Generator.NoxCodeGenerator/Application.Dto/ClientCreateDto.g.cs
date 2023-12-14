@@ -30,14 +30,14 @@ public abstract class ClientCreateDtoBase : IEntityDto<DomainNamespace.Client>
     ///      
     /// </summary>
     /// <remarks>Optional.</remarks>
-    public System.Guid Id { get; set; } = default!;
+    public virtual System.Guid? Id { get; set; }
     /// <summary>
     /// Store Name     
     /// </summary>
     /// <remarks>Required</remarks>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;
+    public virtual System.String? Name { get; set; }
 
     /// <summary>
     /// Client Buys in this Store ZeroOrMany Stores

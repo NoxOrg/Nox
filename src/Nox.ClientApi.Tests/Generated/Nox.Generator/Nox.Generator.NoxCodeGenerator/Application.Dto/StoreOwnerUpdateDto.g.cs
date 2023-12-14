@@ -31,14 +31,14 @@ public partial class StoreOwnerUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNa
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;
+    public virtual System.String? Name { get; set; }
     /// <summary>
     /// Temporary Owner Name     
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "TemporaryOwnerName is required")]
     
-    public virtual System.String TemporaryOwnerName { get; set; } = default!;
+    public virtual System.String? TemporaryOwnerName { get; set; }
     /// <summary>
     /// Vat Number     
     /// </summary>

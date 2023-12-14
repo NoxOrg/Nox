@@ -69,8 +69,10 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEnt
     private async Task<ClientApi.Domain.EmailAddress> ToEntityAsync(EmailAddressUpsertDto createDto)
     {
         var entity = new ClientApi.Domain.EmailAddress();
-        entity.SetIfNotNull(createDto.Email, (entity) => entity.Email =ClientApi.Domain.EmailAddressMetadata.CreateEmail(createDto.Email.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.IsVerified, (entity) => entity.IsVerified =ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(createDto.IsVerified.NonNullValue<System.Boolean>()));
+        entity.SetIfNotNull(createDto.Email, (entity) => entity.Email = 
+            ClientApi.Domain.EmailAddressMetadata.CreateEmail(createDto.Email.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.IsVerified, (entity) => entity.IsVerified = 
+            ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(createDto.IsVerified.NonNullValue<System.Boolean>()));
         return await Task.FromResult(entity);
     }
 

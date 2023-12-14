@@ -69,9 +69,12 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
     private async Task<ClientApi.Domain.Holiday> ToEntityAsync(HolidayUpsertDto createDto)
     {
         var entity = new ClientApi.Domain.Holiday();
-        entity.Name = ClientApi.Domain.HolidayMetadata.CreateName(createDto.Name);
-        entity.SetIfNotNull(createDto.Type, (entity) => entity.Type =ClientApi.Domain.HolidayMetadata.CreateType(createDto.Type.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.Date, (entity) => entity.Date =ClientApi.Domain.HolidayMetadata.CreateDate(createDto.Date.NonNullValue<System.DateTime>()));
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            ClientApi.Domain.HolidayMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Type, (entity) => entity.Type = 
+            ClientApi.Domain.HolidayMetadata.CreateType(createDto.Type.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Date, (entity) => entity.Date = 
+            ClientApi.Domain.HolidayMetadata.CreateDate(createDto.Date.NonNullValue<System.DateTime>()));
         entity.EnsureId(createDto.Id);
         return await Task.FromResult(entity);
     }

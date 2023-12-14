@@ -69,10 +69,14 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
     private async Task<ClientApi.Domain.Workplace> ToEntityAsync(WorkplaceCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Workplace();
-        entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(createDto.Name);
-        entity.SetIfNotNull(createDto.Description, (entity) => entity.Description =ClientApi.Domain.WorkplaceMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.Ownership, (entity) => entity.Ownership =ClientApi.Domain.WorkplaceMetadata.CreateOwnership(createDto.Ownership.NonNullValue<System.Int32>()));
-        entity.SetIfNotNull(createDto.Type, (entity) => entity.Type =ClientApi.Domain.WorkplaceMetadata.CreateType(createDto.Type.NonNullValue<System.Int32>()));
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            ClientApi.Domain.WorkplaceMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Description, (entity) => entity.Description = 
+            ClientApi.Domain.WorkplaceMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Ownership, (entity) => entity.Ownership = 
+            ClientApi.Domain.WorkplaceMetadata.CreateOwnership(createDto.Ownership.NonNullValue<System.Int32>()));
+        entity.SetIfNotNull(createDto.Type, (entity) => entity.Type = 
+            ClientApi.Domain.WorkplaceMetadata.CreateType(createDto.Type.NonNullValue<System.Int32>()));
         var nextSequenceReferenceNumber =  await _repository.GetSequenceNextValueAsync(Nox.Solution.NoxCodeGenConventions.GetDatabaseSequenceName("Workplace", "ReferenceNumber"));
         entity.EnsureReferenceNumber(nextSequenceReferenceNumber,ClientApi.Domain.WorkplaceMetadata.ReferenceNumberTypeOptions);
         return entity;

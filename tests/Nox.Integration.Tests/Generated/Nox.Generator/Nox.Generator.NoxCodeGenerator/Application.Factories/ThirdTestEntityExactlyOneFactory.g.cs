@@ -69,8 +69,9 @@ internal abstract class ThirdTestEntityExactlyOneFactoryBase : IEntityFactory<Th
     private async Task<TestWebApp.Domain.ThirdTestEntityExactlyOne> ToEntityAsync(ThirdTestEntityExactlyOneCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.ThirdTestEntityExactlyOne();
-        entity.Id = ThirdTestEntityExactlyOneMetadata.CreateId(createDto.Id);
-        entity.TextTestField = TestWebApp.Domain.ThirdTestEntityExactlyOneMetadata.CreateTextTestField(createDto.TextTestField);
+        entity.Id = ThirdTestEntityExactlyOneMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.TextTestField, (entity) => entity.TextTestField = 
+            TestWebApp.Domain.ThirdTestEntityExactlyOneMetadata.CreateTextTestField(createDto.TextTestField.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

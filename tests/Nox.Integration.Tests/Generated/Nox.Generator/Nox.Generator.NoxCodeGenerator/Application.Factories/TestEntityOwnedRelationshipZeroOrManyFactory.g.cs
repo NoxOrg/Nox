@@ -73,8 +73,9 @@ internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEnti
     private async Task<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany> ToEntityAsync(TestEntityOwnedRelationshipZeroOrManyCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany();
-        entity.Id = TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(createDto.Id);
-        entity.TextTestField = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateTextTestField(createDto.TextTestField);
+        entity.Id = TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.TextTestField, (entity) => entity.TextTestField = 
+            TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateTextTestField(createDto.TextTestField.NonNullValue<System.String>()));
         foreach (var dto in createDto.SecEntityOwnedRelZeroOrManies)
         {
             var newRelatedEntity = await SecEntityOwnedRelZeroOrManyFactory.CreateEntityAsync(dto);
