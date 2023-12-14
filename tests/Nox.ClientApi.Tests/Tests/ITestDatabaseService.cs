@@ -10,6 +10,6 @@ namespace ClientApi.Tests
     {
         DatabaseServerProvider GetDatabaseServerProvider();
         INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurations, NoxCodeGenConventions noxSolutionCodeGeneratorState, INoxClientAssemblyProvider noxClientAssemblyProvider);
-        NoxTestApplicationFactory GetTestApplicationFactory(ITestOutputHelper testOutput, bool enableMessagingTests, string? environment = null);
+        NoxAppClient GetNoxClient(ITestOutputHelper testOutput, bool enableMessagingTests, string? environment = null);
     }
 }
