@@ -15,6 +15,7 @@ using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using TenantBrandEntity = ClientApi.Domain.TenantBrand;
+using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
 
@@ -61,16 +62,24 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBa
 			return null;
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.TenantBrands).LoadAsync(cancellationToken);
-		var ownedId = ClientApi.Domain.TenantBrandMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
-		var entity = parentEntity.TenantBrands.SingleOrDefault(x => x.Id == ownedId);
-		if (entity == null)
+		
+		TenantBrandEntity? entity;
+		if(request.EntityDto.Id is null)
 		{
-			return null;
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+		}
+		else
+		{
+			var ownedId = ClientApi.Domain.TenantBrandMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
+			entity = parentEntity.TenantBrands.SingleOrDefault(x => x.Id == ownedId);
+			if (entity is null)
+				return null;
+			else
+				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		}
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
+		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		await UpdateLocalizedEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -83,6 +92,13 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBa
 		}
 
 		return new TenantBrandKeyDto(entity.Id.Value);
+	}
+	
+	private async Task<TenantBrandEntity> CreateEntityAsync(TenantBrandUpsertDto upsertDto, TenantEntity parent)
+	{
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		parent.CreateRefToTenantBrands(entity);
+		return entity;
 	}
 
 	private async Task UpdateLocalizedEntityAsync(TenantBrandEntity entity, TenantBrandUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
@@ -104,8 +120,7 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBa
 
 public class UpdateTenantBrandsForTenantValidator : AbstractValidator<UpdateTenantBrandsForTenantCommand>
 {
-    public UpdateTenantBrandsForTenantValidator(ILogger<UpdateTenantBrandsForTenantCommand> logger)
+    public UpdateTenantBrandsForTenantValidator()
     {
-		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
     }
 }

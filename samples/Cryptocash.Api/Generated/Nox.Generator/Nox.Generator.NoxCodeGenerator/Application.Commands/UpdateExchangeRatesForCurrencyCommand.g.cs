@@ -15,6 +15,7 @@ using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
+using CurrencyEntity = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
 
@@ -57,16 +58,24 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 			return null;
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.ExchangeRates).LoadAsync(cancellationToken);
-		var ownedId = Cryptocash.Domain.ExchangeRateMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
-		var entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);
-		if (entity == null)
+		
+		ExchangeRateEntity? entity;
+		if(request.EntityDto.Id is null)
 		{
-			return null;
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+		}
+		else
+		{
+			var ownedId = Cryptocash.Domain.ExchangeRateMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
+			entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);
+			if (entity is null)
+				return null;
+			else
+				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		}
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
+		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 
@@ -79,12 +88,18 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 
 		return new ExchangeRateKeyDto(entity.Id.Value);
 	}
+	
+	private async Task<ExchangeRateEntity> CreateEntityAsync(ExchangeRateUpsertDto upsertDto, CurrencyEntity parent)
+	{
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		parent.CreateRefToExchangeRates(entity);
+		return entity;
+	}
 }
 
 public class UpdateExchangeRatesForCurrencyValidator : AbstractValidator<UpdateExchangeRatesForCurrencyCommand>
 {
-    public UpdateExchangeRatesForCurrencyValidator(ILogger<UpdateExchangeRatesForCurrencyCommand> logger)
+    public UpdateExchangeRatesForCurrencyValidator()
     {
-		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
     }
 }
