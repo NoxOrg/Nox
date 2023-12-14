@@ -48,7 +48,7 @@ public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Na
     /// <remarks>Required.</remarks>    
     [Required(ErrorMessage = "{{key.Name}} is required")]
     {{- end }}
-    public {{keyPrimitiveType key}}? {{key.Name}} { get; set; }
+    public virtual {{keyPrimitiveType key}}? {{key.Name}} { get; set; }
 {{- end }}
 
 {{- for attribute in entity.Attributes }}
