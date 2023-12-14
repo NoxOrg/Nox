@@ -69,7 +69,8 @@ internal abstract class SecondTestEntityOwnedRelationshipZeroOrOneFactoryBase : 
     private async Task<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOne> ToEntityAsync(SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto createDto)
     {
         var entity = new TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOne();
-        entity.TextTestField2 = TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOneMetadata.CreateTextTestField2(createDto.TextTestField2);
+        entity.SetIfNotNull(createDto.TextTestField2, (entity) => entity.TextTestField2 = 
+            TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOneMetadata.CreateTextTestField2(createDto.TextTestField2.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

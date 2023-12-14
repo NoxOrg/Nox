@@ -69,7 +69,8 @@ internal abstract class SecEntityOwnedRelExactlyOneFactoryBase : IEntityFactory<
     private async Task<TestWebApp.Domain.SecEntityOwnedRelExactlyOne> ToEntityAsync(SecEntityOwnedRelExactlyOneUpsertDto createDto)
     {
         var entity = new TestWebApp.Domain.SecEntityOwnedRelExactlyOne();
-        entity.TextTestField2 = TestWebApp.Domain.SecEntityOwnedRelExactlyOneMetadata.CreateTextTestField2(createDto.TextTestField2);
+        entity.SetIfNotNull(createDto.TextTestField2, (entity) => entity.TextTestField2 = 
+            TestWebApp.Domain.SecEntityOwnedRelExactlyOneMetadata.CreateTextTestField2(createDto.TextTestField2.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

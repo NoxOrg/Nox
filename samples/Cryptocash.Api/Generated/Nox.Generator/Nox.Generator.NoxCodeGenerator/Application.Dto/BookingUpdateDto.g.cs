@@ -31,21 +31,21 @@ public partial class BookingUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNames
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "AmountFrom is required")]
     
-    public virtual MoneyDto AmountFrom { get; set; } = default!;
+    public virtual MoneyDto? AmountFrom { get; set; }
     /// <summary>
     /// Booking's amount exchanged to     
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "AmountTo is required")]
     
-    public virtual MoneyDto AmountTo { get; set; } = default!;
+    public virtual MoneyDto? AmountTo { get; set; }
     /// <summary>
     /// Booking's requested pick up date     
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "RequestedPickUpDate is required")]
     
-    public virtual DateTimeRangeDto RequestedPickUpDate { get; set; } = default!;
+    public virtual DateTimeRangeDto? RequestedPickUpDate { get; set; }
     /// <summary>
     /// Booking's actual pick up date     
     /// </summary>

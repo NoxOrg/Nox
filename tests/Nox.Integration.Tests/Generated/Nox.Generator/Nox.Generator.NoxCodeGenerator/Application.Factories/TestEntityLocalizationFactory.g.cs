@@ -69,9 +69,11 @@ internal abstract class TestEntityLocalizationFactoryBase : IEntityFactory<TestE
     private async Task<TestWebApp.Domain.TestEntityLocalization> ToEntityAsync(TestEntityLocalizationCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityLocalization();
-        entity.Id = TestEntityLocalizationMetadata.CreateId(createDto.Id);
-        entity.TextFieldToLocalize = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(createDto.TextFieldToLocalize);
-        entity.NumberField = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateNumberField(createDto.NumberField);
+        entity.Id = TestEntityLocalizationMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.TextFieldToLocalize, (entity) => entity.TextFieldToLocalize = 
+            TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(createDto.TextFieldToLocalize.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.NumberField, (entity) => entity.NumberField = 
+            TestWebApp.Domain.TestEntityLocalizationMetadata.CreateNumberField(createDto.NumberField.NonNullValue<System.Int16>()));
         return await Task.FromResult(entity);
     }
 

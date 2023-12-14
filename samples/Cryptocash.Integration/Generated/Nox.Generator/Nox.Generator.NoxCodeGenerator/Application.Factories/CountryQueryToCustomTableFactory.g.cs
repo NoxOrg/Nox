@@ -69,11 +69,15 @@ internal abstract class CountryQueryToCustomTableFactoryBase : IEntityFactory<Co
     private async Task<CryptocashIntegration.Domain.CountryQueryToCustomTable> ToEntityAsync(CountryQueryToCustomTableCreateDto createDto)
     {
         var entity = new CryptocashIntegration.Domain.CountryQueryToCustomTable();
-        entity.Id = CountryQueryToCustomTableMetadata.CreateId(createDto.Id);
-        entity.Name = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateName(createDto.Name);
-        entity.Population = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreatePopulation(createDto.Population);
-        entity.CreateDate = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateCreateDate(createDto.CreateDate);
-        entity.SetIfNotNull(createDto.EditDate, (entity) => entity.EditDate =CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateEditDate(createDto.EditDate.NonNullValue<System.DateTimeOffset>()));
+        entity.Id = CountryQueryToCustomTableMetadata.CreateId(createDto.Id.NonNullValue<System.Int32>());
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Population, (entity) => entity.Population = 
+            CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>()));
+        entity.SetIfNotNull(createDto.CreateDate, (entity) => entity.CreateDate = 
+            CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateCreateDate(createDto.CreateDate.NonNullValue<System.DateTimeOffset>()));
+        entity.SetIfNotNull(createDto.EditDate, (entity) => entity.EditDate = 
+            CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateEditDate(createDto.EditDate.NonNullValue<System.DateTimeOffset>()));
         return await Task.FromResult(entity);
     }
 

@@ -166,6 +166,7 @@ public abstract class TestEntityForTypesDtoBase : EntityDtoBase, IEntityDto<Doma
     /// </summary>
     /// <remarks>Optional.</remarks>
     public System.Int32? EnumerationTestField { get; set; }
+    public string? EnumerationTestFieldName { get; set; } = default!;
 
     /// <summary>
     ///      
@@ -472,8 +473,6 @@ public abstract class TestEntityForTypesDtoBase : EntityDtoBase, IEntityDto<Doma
     /// </summary>
     /// <remarks>Optional.</remarks>
     public ImageDto? ImageTestField { get; set; }
-
-    public string? EnumerationTestFieldName { get; set; } = default!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

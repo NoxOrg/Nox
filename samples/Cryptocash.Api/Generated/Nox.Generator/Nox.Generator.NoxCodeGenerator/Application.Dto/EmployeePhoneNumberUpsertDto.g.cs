@@ -36,12 +36,12 @@ public abstract class EmployeePhoneNumberUpsertDtoBase: EntityDtoBase, IEntityDt
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "PhoneNumberType is required")]
-    public virtual System.String PhoneNumberType { get; set; } = default!;
+    public virtual System.String? PhoneNumberType { get; set; }
 
     /// <summary>
     /// Employee's phone number     
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "PhoneNumber is required")]
-    public virtual System.String PhoneNumber { get; set; } = default!;
+    public virtual System.String? PhoneNumber { get; set; }
 }

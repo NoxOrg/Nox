@@ -34,13 +34,13 @@ jobs:
         run: dotnet build ./src/Nox.Generator.Tasks
 
       - name: Restore
-        run: dotnet restore ./src/Nox.Generator.sln
+        run: dotnet restore Nox.Generator.sln
 
       - name: Build
-        run: dotnet build ./src/Nox.Generator.sln --warnaserror --configuration Release --no-restore
+        run: dotnet build Nox.Generator.sln --warnaserror --configuration Release --no-restore
 
       - name: Run Tests
-        run: dotnet test ./src/Nox.Generator.sln --no-restore --verbosity minimal --configuration Release --filter "FullyQualifiedName!~Nox.Secrets.Tests" --logger "trx;LogFileName=test-results.trx"
+        run: dotnet test Nox.Generator.sln --no-restore --verbosity minimal --configuration Release --filter "FullyQualifiedName!~Nox.Secrets.Tests" --logger "trx;LogFileName=test-results.trx"
 
       - name: Test Report
         uses: dorny/test-reporter@v1

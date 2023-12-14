@@ -70,12 +70,6 @@ internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandl
 		}
 
 		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
-
-		{{- for key in entity.Keys ~}}
-		{{- if key.Type == "Nuid" }}
-		entityToCreate.Ensure{{key.Name}}();
-		{{- end }}
-		{{- end }}
 		parentEntity.CreateRefTo{{relationshipName}}(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);

@@ -69,12 +69,17 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
     private async Task<TestWebApp.Domain.TestEntityForUniqueConstraints> ToEntityAsync(TestEntityForUniqueConstraintsCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityForUniqueConstraints();
-        entity.Id = TestEntityForUniqueConstraintsMetadata.CreateId(createDto.Id);
-        entity.TextField = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateTextField(createDto.TextField);
-        entity.NumberField = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateNumberField(createDto.NumberField);
-        entity.UniqueNumberField = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueNumberField(createDto.UniqueNumberField);
-        entity.UniqueCountryCode = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueCountryCode(createDto.UniqueCountryCode);
-        entity.UniqueCurrencyCode = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueCurrencyCode(createDto.UniqueCurrencyCode);
+        entity.Id = TestEntityForUniqueConstraintsMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.TextField, (entity) => entity.TextField = 
+            TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.NumberField, (entity) => entity.NumberField = 
+            TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateNumberField(createDto.NumberField.NonNullValue<System.Int16>()));
+        entity.SetIfNotNull(createDto.UniqueNumberField, (entity) => entity.UniqueNumberField = 
+            TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueNumberField(createDto.UniqueNumberField.NonNullValue<System.Int16>()));
+        entity.SetIfNotNull(createDto.UniqueCountryCode, (entity) => entity.UniqueCountryCode = 
+            TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueCountryCode(createDto.UniqueCountryCode.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.UniqueCurrencyCode, (entity) => entity.UniqueCurrencyCode = 
+            TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueCurrencyCode(createDto.UniqueCurrencyCode.NonNullValue<System.String>()));
         return await Task.FromResult(entity);
     }
 

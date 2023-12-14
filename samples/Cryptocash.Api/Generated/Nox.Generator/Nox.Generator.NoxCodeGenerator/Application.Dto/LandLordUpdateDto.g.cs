@@ -31,12 +31,12 @@ public partial class LandLordUpdateDtoBase: EntityDtoBase, IEntityDto<DomainName
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;
+    public virtual System.String? Name { get; set; }
     /// <summary>
     /// Landlord's street address     
     /// </summary>
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Address is required")]
     
-    public virtual StreetAddressDto Address { get; set; } = default!;
+    public virtual StreetAddressDto? Address { get; set; }
 }

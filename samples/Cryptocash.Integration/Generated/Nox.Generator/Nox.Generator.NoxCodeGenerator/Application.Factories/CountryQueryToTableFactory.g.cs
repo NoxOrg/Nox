@@ -69,9 +69,11 @@ internal abstract class CountryQueryToTableFactoryBase : IEntityFactory<CountryQ
     private async Task<CryptocashIntegration.Domain.CountryQueryToTable> ToEntityAsync(CountryQueryToTableCreateDto createDto)
     {
         var entity = new CryptocashIntegration.Domain.CountryQueryToTable();
-        entity.Id = CountryQueryToTableMetadata.CreateId(createDto.Id);
-        entity.Name = CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreateName(createDto.Name);
-        entity.Population = CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreatePopulation(createDto.Population);
+        entity.Id = CountryQueryToTableMetadata.CreateId(createDto.Id.NonNullValue<System.Int32>());
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Population, (entity) => entity.Population = 
+            CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>()));
         return await Task.FromResult(entity);
     }
 

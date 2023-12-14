@@ -69,9 +69,12 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
     private async Task<Cryptocash.Domain.Holiday> ToEntityAsync(HolidayUpsertDto createDto)
     {
         var entity = new Cryptocash.Domain.Holiday();
-        entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(createDto.Name);
-        entity.Type = Cryptocash.Domain.HolidayMetadata.CreateType(createDto.Type);
-        entity.Date = Cryptocash.Domain.HolidayMetadata.CreateDate(createDto.Date);
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            Cryptocash.Domain.HolidayMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Type, (entity) => entity.Type = 
+            Cryptocash.Domain.HolidayMetadata.CreateType(createDto.Type.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Date, (entity) => entity.Date = 
+            Cryptocash.Domain.HolidayMetadata.CreateDate(createDto.Date.NonNullValue<System.DateTime>()));
         return await Task.FromResult(entity);
     }
 
