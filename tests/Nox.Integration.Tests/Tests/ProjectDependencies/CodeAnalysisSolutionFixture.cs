@@ -17,7 +17,7 @@ public class CodeAnalysisSolutionFixture : IAsyncLifetime
     public Project NoxTypesProject { get; private set; } = null!;
     public Project NoxSolution { get; private set; } = null!;
     public Project NoxGenerator { get; private set; } = null!;
-    public Project NoxAbstractions { get; private set; } = null!;
+    public Project NoxCore { get; private set; } = null!;
 
     public async Task InitializeAsync()
     {
@@ -34,7 +34,7 @@ public class CodeAnalysisSolutionFixture : IAsyncLifetime
         NoxTypesAbstractionsProject = Solution.Projects.Single(project => project.Name == "Nox.Types.Abstractions");
         NoxSolution = Solution.Projects.Single(project => project.Name == "Nox.Solution");
         NoxGenerator = Solution.Projects.Single(project => project.Name == "Nox.Generator");
-        NoxAbstractions = Solution.Projects.Single(project => project.Name == "Nox.Abstractions");
+        NoxCore = Solution.Projects.Single(project => project.Name == "Nox.Core");
     }
 
     public Task DisposeAsync()

@@ -7,11 +7,11 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <PackageId>Nox.Abstractions</PackageId>
+        <PackageId>Nox.Core</PackageId>
         <Authors>The Nox Factory</Authors>
-        <Description>Nox Abstractions library</Description>
+        <Description>Nox Core Library for all kinf of applications: WebApis, UI, etc..</Description>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <Copyright>Copyright (c) The Nox Factory 2022</Copyright>
+        <Copyright>Copyright (c) The Nox Factory 2023</Copyright>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
