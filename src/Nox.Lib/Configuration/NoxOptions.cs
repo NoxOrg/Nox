@@ -35,8 +35,10 @@ namespace Nox.Configuration
         private Action<IServiceCollection>? _configureDatabaseContext;
         private Action<IServiceCollection>? _configureDatabaseRepository;
         private Action<LoggerConfiguration>? _loggerConfigurationAction;
+        private Action<IHealthChecksBuilder>? _healthChecksBuilderAction;
 
         private bool _withNoxLogging = true;
+        private bool _withHealthChecks = true;
         private bool _withSwagger = true;
 
         public INoxOptions WithoutNoxLogging()
@@ -52,6 +54,21 @@ namespace Nox.Configuration
             _loggerConfigurationAction = loggerConfiguration;
             _withNoxLogging = true;
 
+            return this;
+        }
+        public INoxOptions WithHealthChecks(Action<IHealthChecksBuilder> healthChecksBuilder)
+        {
+            _healthChecksBuilderAction = healthChecksBuilder;
+            _withHealthChecks = true;
+            return this;
+
+
+        }
+
+        public INoxOptions WithoutHealthChecks()
+        {            
+            _withHealthChecks = false;
+            _healthChecksBuilderAction = null;
             return this;
         }
 
@@ -182,6 +199,12 @@ namespace Nox.Configuration
 
             AddLogging(webApplicationBuilder);
             AddSwagger(services);
+
+            if(_withHealthChecks)
+            {
+                var healthCheckBuilder = services.AddHealthChecks();
+                _healthChecksBuilderAction?.Invoke(healthCheckBuilder);
+            }
         }
 
         private void AddLogging(WebApplicationBuilder? webApplicationBuilder)
@@ -317,7 +340,6 @@ namespace Nox.Configuration
             {
                 options.WithSqlServerStore();
             });
-        }
-
+        }       
     }
 }
