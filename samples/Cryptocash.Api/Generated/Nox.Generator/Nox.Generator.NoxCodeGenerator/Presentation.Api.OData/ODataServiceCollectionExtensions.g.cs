@@ -41,6 +41,7 @@ internal static class ODataServiceCollectionExtensions
         builder.ComplexType<PaymentProviderPartialUpdateDto>();
         builder.ComplexType<VendingMachinePartialUpdateDto>();
         builder.ComplexType<CashStockOrderPartialUpdateDto>();
+        builder.ComplexType<AProductPartialUpdateDto>();
 
         builder.EntitySet<BookingDto>("Bookings");
 		builder.EntityType<BookingDto>().HasKey(e => new { e.Id });
@@ -158,6 +159,11 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CashStockOrderDto>().ContainsRequired(e => e.Employee);
         builder.EntityType<CashStockOrderDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CashStockOrderDto>().Ignore(e => e.Etag);
+
+        builder.EntitySet<AProductDto>("AProducts");
+		builder.EntityType<AProductDto>().HasKey(e => new { e.Id });
+        builder.EntityType<AProductDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<AProductDto>().Ignore(e => e.Etag);
 
        
         if(configure != null) configure(builder);
