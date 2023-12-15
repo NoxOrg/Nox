@@ -32,7 +32,7 @@
 		<PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.6.1" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
+      <ProjectReference Include="..\Nox.Core\Nox.Core.csproj" />
       <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
     </ItemGroup>
 
