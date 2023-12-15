@@ -2,6 +2,7 @@
 using System.Reflection;
 using Serilog;
 using Nox.Domain;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Nox.Configuration;
 
@@ -50,6 +51,17 @@ public interface INoxOptions
     /// </summary>
     /// <param name="loggerConfiguration"></param>
     INoxOptions WithNoxLogging(Action<LoggerConfiguration> loggerConfiguration);
+
+
+    /// <summary>
+    /// Enable HealthChecks (true by default)
+    /// </summary>
+    INoxOptions WithHealthChecks(Action<IHealthChecksBuilder> healthChecksBuilder);
+
+    /// <summary>
+    /// Disable HealthChecks
+    /// </summary>
+    INoxOptions WithoutHealthChecks();
 
     /// <summary>
     /// Disable Swagger which is enabled by default.
