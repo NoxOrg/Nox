@@ -119,10 +119,10 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         try
         {
         {{- if entity.IsLocalized }}
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
-        await {{entity.Name}}LocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+            await {{entity.Name}}LocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
         {{- else }}
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
         {{- end }}
         }
         catch (NoxTypeValidationException ex)
@@ -135,11 +135,11 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
     {
         try
         {
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
         {{- if entity.IsLocalized }}
-        await {{entity.Name}}LocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
+            await {{entity.Name}}LocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
         {{else}}
-        await Task.CompletedTask;
+            await Task.CompletedTask;
         {{- end }}
         }
         catch (NoxTypeValidationException ex)

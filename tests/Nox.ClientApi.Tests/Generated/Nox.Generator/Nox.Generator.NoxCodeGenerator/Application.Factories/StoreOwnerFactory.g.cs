@@ -64,22 +64,29 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
     public virtual async Task PartialUpdateEntityAsync(StoreOwnerEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 <<<<<<< main
+<<<<<<< main
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
 =======
 <<<<<<< main
+=======
+>>>>>>> Merge conflicts have been resolved
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
         }
         catch (NoxTypeValidationException ex)
         {
             throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
         }   
+<<<<<<< main
 =======
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
         await Task.CompletedTask;
 >>>>>>> Factory classes refactor has been completed (without tests)
 >>>>>>> Factory classes refactor has been completed (without tests)
+=======
+>>>>>>> Merge conflicts have been resolved
     }
 
     private async Task<ClientApi.Domain.StoreOwner> ToEntityAsync(StoreOwnerCreateDto createDto, Nox.Types.CultureCode cultureCode)

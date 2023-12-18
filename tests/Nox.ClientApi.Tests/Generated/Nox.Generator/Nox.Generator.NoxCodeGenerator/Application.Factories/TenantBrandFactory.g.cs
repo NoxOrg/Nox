@@ -69,44 +69,59 @@ internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntit
     public virtual async Task UpdateEntityAsync(TenantBrandEntity entity, TenantBrandUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
 <<<<<<< main
+<<<<<<< main
         await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
 =======
 <<<<<<< main
+=======
+>>>>>>> Merge conflicts have been resolved
         try
         {
             await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+            await TenantBrandLocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
         }
         catch (NoxTypeValidationException ex)
         {
             throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
         }   
+<<<<<<< main
 =======
         await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
         await TenantBrandLocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
 >>>>>>> Factory classes refactor has been completed (without tests)
 >>>>>>> Factory classes refactor has been completed (without tests)
+=======
+>>>>>>> Merge conflicts have been resolved
     }
 
     public virtual async Task PartialUpdateEntityAsync(TenantBrandEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 <<<<<<< main
+<<<<<<< main
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
 =======
 <<<<<<< main
+=======
+>>>>>>> Merge conflicts have been resolved
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await TenantBrandLocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
+        
         }
         catch (NoxTypeValidationException ex)
         {
             throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
         }   
+<<<<<<< main
 =======
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
         await TenantBrandLocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
         
 >>>>>>> Factory classes refactor has been completed (without tests)
 >>>>>>> Factory classes refactor has been completed (without tests)
+=======
+>>>>>>> Merge conflicts have been resolved
     }
 
     private async Task<ClientApi.Domain.TenantBrand> ToEntityAsync(TenantBrandUpsertDto createDto, Nox.Types.CultureCode cultureCode)

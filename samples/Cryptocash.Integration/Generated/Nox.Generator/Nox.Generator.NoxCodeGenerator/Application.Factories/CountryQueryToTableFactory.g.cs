@@ -1,7 +1,5 @@
 ﻿
-
 // Generated
-//TODO: if CultureCode is not needed, remove it from the factory
 #nullable enable
 
 using System.Threading.Tasks;
@@ -66,22 +64,29 @@ internal abstract class CountryQueryToTableFactoryBase : IEntityFactory<CountryQ
     public virtual async Task PartialUpdateEntityAsync(CountryQueryToTableEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 <<<<<<< main
+<<<<<<< main
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
 =======
 <<<<<<< main
+=======
+>>>>>>> Merge conflicts have been resolved
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
         }
         catch (NoxTypeValidationException ex)
         {
             throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
         }   
+<<<<<<< main
 =======
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
         await Task.CompletedTask;
 >>>>>>> Factory classes refactor has been completed (without tests)
 >>>>>>> Factory classes refactor has been completed (without tests)
+=======
+>>>>>>> Merge conflicts have been resolved
     }
 
     private async Task<CryptocashIntegration.Domain.CountryQueryToTable> ToEntityAsync(CountryQueryToTableCreateDto createDto, Nox.Types.CultureCode cultureCode)

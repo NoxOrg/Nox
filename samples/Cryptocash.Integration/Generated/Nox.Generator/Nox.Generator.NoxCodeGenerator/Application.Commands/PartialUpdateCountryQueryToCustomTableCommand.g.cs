@@ -33,7 +33,7 @@ internal abstract class PartialUpdateCountryQueryToCustomTableCommandHandlerBase
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<CountryQueryToCustomTableEntity, CountryQueryToCustomTableCreateDto, CountryQueryToCustomTableUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateCountryQueryToCustomTableCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -55,7 +55,7 @@ internal abstract class PartialUpdateCountryQueryToCustomTableCommandHandlerBase
 		{
 			throw new EntityNotFoundException("CountryQueryToCustomTable",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

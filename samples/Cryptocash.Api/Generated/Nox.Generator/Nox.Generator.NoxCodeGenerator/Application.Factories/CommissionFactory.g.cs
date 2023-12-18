@@ -64,22 +64,29 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
     public virtual async Task PartialUpdateEntityAsync(CommissionEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 <<<<<<< main
+<<<<<<< main
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
 =======
 <<<<<<< main
+=======
+>>>>>>> Merge conflicts have been resolved
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
         }
         catch (NoxTypeValidationException ex)
         {
             throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
         }   
+<<<<<<< main
 =======
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
         await Task.CompletedTask;
 >>>>>>> Factory classes refactor has been completed (without tests)
 >>>>>>> Factory classes refactor has been completed (without tests)
+=======
+>>>>>>> Merge conflicts have been resolved
     }
 
     private async Task<Cryptocash.Domain.Commission> ToEntityAsync(CommissionCreateDto createDto, Nox.Types.CultureCode cultureCode)

@@ -72,22 +72,29 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
     public virtual async Task PartialUpdateEntityAsync(EmployeeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 <<<<<<< main
+<<<<<<< main
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
 =======
 <<<<<<< main
+=======
+>>>>>>> Merge conflicts have been resolved
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
         }
         catch (NoxTypeValidationException ex)
         {
             throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
         }   
+<<<<<<< main
 =======
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
         await Task.CompletedTask;
 >>>>>>> Factory classes refactor has been completed (without tests)
 >>>>>>> Factory classes refactor has been completed (without tests)
+=======
+>>>>>>> Merge conflicts have been resolved
     }
 
     private async Task<Cryptocash.Domain.Employee> ToEntityAsync(EmployeeCreateDto createDto, Nox.Types.CultureCode cultureCode)
@@ -123,12 +130,12 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         entity.SetIfNotNull(createDto.LastWorkingDay, (entity) => entity.LastWorkingDay = 
             Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(createDto.LastWorkingDay.NonNullValue<System.DateTime>()));
 <<<<<<< main
+<<<<<<< main
 >>>>>>> Factory classes refactor has been completed (without tests)
-        entity.EnsureId(createDto.Id);
-        foreach (var dto in createDto.EmployeePhoneNumbers)
 =======
+>>>>>>> Merge conflicts have been resolved
+        entity.EnsureId(createDto.Id);
         createDto.EmployeePhoneNumbers?.ForEach(async dto =>
->>>>>>> Factory classes refactor has been completed (without tests)
         {
 <<<<<<< main
             var newRelatedEntity = await EmployeePhoneNumberFactory.CreateEntityAsync(dto);
