@@ -26,7 +26,11 @@ public partial class TransactionCreateDto : TransactionCreateDtoBase
 /// Customer transaction log and related data.
 /// </summary>
 public abstract class TransactionCreateDtoBase : IEntityDto<DomainNamespace.Transaction>
-{
+{/// <summary>
+    /// Customer transaction unique identifier     
+    /// </summary>
+    /// <remarks>Optional.</remarks>
+    public System.Guid Id { get; set; } = default!;
     /// <summary>
     /// Transaction type     
     /// </summary>
@@ -59,7 +63,7 @@ public abstract class TransactionCreateDtoBase : IEntityDto<DomainNamespace.Tran
     /// <summary>
     /// Transaction for ExactlyOne Customers
     /// </summary>
-    public System.Int64? CustomerId { get; set; } = default!;
+    public System.Guid? CustomerId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual CustomerCreateDto? Customer { get; set; } = default!;

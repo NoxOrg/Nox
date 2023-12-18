@@ -16,7 +16,7 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
-public record CustomerKeyDto(System.Int64 keyId);
+public record CustomerKeyDto(System.Guid keyId);
 
 /// <summary>
 /// Update Customer
@@ -68,7 +68,7 @@ public abstract class CustomerDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     /// <summary>
     /// Customer's unique identifier
     /// </summary>    
-    public System.Int64 Id { get; set; } = default!;
+    public System.Guid Id { get; set; } = default!;
 
     /// <summary>
     /// Customer's first name     

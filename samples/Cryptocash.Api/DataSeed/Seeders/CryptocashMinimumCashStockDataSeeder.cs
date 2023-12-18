@@ -18,7 +18,28 @@ internal class CryptocashMinimumCashStockDataSeeder : DataSeederBase<MinimumCash
 
     protected override MinimumCashStock TransformToEntity(MinimumCashStockDto model)
     {
-        return new() {
+        List<VendingMachine> VendingMachineList = new();
+        if (model.VendingMachines != null)
+        {
+            foreach (VendingMachineDto CurrentVendingMachine in model.VendingMachines)
+            {
+                if (!String.IsNullOrWhiteSpace(CurrentVendingMachine.Id.ToString()))
+                {
+                    VendingMachine AddVendingMachine = new VendingMachine();
+                    AddVendingMachine.EnsureId(CurrentVendingMachine.Id);
+
+                    VendingMachineList.Add(AddVendingMachine);
+                }    
+            }
+        }
+        MinimumCashStock entity = new()
+        {
+            Amount = Money.From(model.Amount!.Amount, model.Amount!.CurrencyCode),
+            CurrencyId = CurrencyCode3.From(model.CurrencyId!),            
         };
+
+        entity.UpdateRefToVendingMachines(VendingMachineList);
+
+        return entity;
     }
 }

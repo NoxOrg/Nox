@@ -112,7 +112,7 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         return Ok(updatedItem);
     }
     
-    public virtual async Task<ActionResult> CreateRefToEmployee([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToEmployee([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {

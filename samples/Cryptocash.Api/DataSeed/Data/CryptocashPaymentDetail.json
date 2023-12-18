@@ -1,2 +1,9 @@
 ﻿[
+  {
+    "PaymentAccountName": "Bank Account",
+    "PaymentAccountNumber": "87654321",
+    "PaymentAccountSortCode": "11-22-33",
+    "CustomerId": "76D2E947-2008-48FC-8854-53EEC7EDCD2F",
+    "PaymentProviderId": "f6137742-98f9-11ee-b9d1-0242ac120002"
+  }
 ]

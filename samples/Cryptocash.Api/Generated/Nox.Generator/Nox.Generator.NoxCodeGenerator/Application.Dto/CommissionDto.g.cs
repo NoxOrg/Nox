@@ -16,7 +16,7 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
-public record CommissionKeyDto(System.Int64 keyId);
+public record CommissionKeyDto(System.Guid keyId);
 
 /// <summary>
 /// Update Commission
@@ -50,7 +50,7 @@ public abstract class CommissionDtoBase : EntityDtoBase, IEntityDto<DomainNamesp
     /// <summary>
     /// Commission unique identifier
     /// </summary>    
-    public System.Int64 Id { get; set; } = default!;
+    public System.Guid Id { get; set; } = default!;
 
     /// <summary>
     /// Commission rate     

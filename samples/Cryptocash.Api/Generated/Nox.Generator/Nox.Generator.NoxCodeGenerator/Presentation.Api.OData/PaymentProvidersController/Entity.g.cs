@@ -61,7 +61,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
     }
 
     [EnableQuery]
-    public virtual async Task<SingleResult<PaymentProviderDto>> Get([FromRoute] System.Int64 key)
+    public virtual async Task<SingleResult<PaymentProviderDto>> Get([FromRoute] System.Guid key)
     {
         var result = await _mediator.Send(new GetPaymentProviderByIdQuery(key));
         return SingleResult.Create(result);
@@ -85,7 +85,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return Created(item);
     }
 
-    public virtual async Task<ActionResult<PaymentProviderDto>> Put([FromRoute] System.Int64 key, [FromBody] PaymentProviderUpdateDto paymentProvider)
+    public virtual async Task<ActionResult<PaymentProviderDto>> Put([FromRoute] System.Guid key, [FromBody] PaymentProviderUpdateDto paymentProvider)
     {
         if(paymentProvider is null)
         {
@@ -109,7 +109,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<PaymentProviderDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PaymentProviderPartialUpdateDto> paymentProvider)
+    public virtual async Task<ActionResult<PaymentProviderDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<PaymentProviderPartialUpdateDto> paymentProvider)
     {
         if(paymentProvider is null)
         {
@@ -135,7 +135,7 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeletePaymentProviderByIdCommand(new List<PaymentProviderKeyDto> { new PaymentProviderKeyDto(key) }, etag));

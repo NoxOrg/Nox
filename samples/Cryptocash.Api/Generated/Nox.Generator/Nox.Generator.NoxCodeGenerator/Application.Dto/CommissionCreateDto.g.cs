@@ -26,7 +26,11 @@ public partial class CommissionCreateDto : CommissionCreateDtoBase
 /// Exchange commission rate and amount.
 /// </summary>
 public abstract class CommissionCreateDtoBase : IEntityDto<DomainNamespace.Commission>
-{
+{/// <summary>
+    /// Commission unique identifier     
+    /// </summary>
+    /// <remarks>Optional.</remarks>
+    public System.Guid Id { get; set; } = default!;
     /// <summary>
     /// Commission rate     
     /// </summary>

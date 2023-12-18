@@ -67,12 +67,12 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
 		if(request.EntityDto.CustomerId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Int64>());
+			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.Customers.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCustomer(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("Customer", request.EntityDto.CustomerId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("Customer", request.EntityDto.CustomerId.NonNullValue<System.Guid>().ToString());
 		}
 		else if(request.EntityDto.Customer is not null)
 		{
@@ -81,12 +81,12 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		}
 		if(request.EntityDto.PaymentProviderId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.PaymentProviderMetadata.CreateId(request.EntityDto.PaymentProviderId.NonNullValue<System.Int64>());
+			var relatedKey = Cryptocash.Domain.PaymentProviderMetadata.CreateId(request.EntityDto.PaymentProviderId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.PaymentProviders.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToPaymentProvider(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("PaymentProvider", request.EntityDto.PaymentProviderId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("PaymentProvider", request.EntityDto.PaymentProviderId.NonNullValue<System.Guid>().ToString());
 		}
 		else if(request.EntityDto.PaymentProvider is not null)
 		{

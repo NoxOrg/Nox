@@ -18,7 +18,7 @@ keys:
   - name: Id
     isRequired: true
     description: Employee's unique identifier 
-    type: autoNumber
+    type: guid
     userInterface:
       showInSearchResults: never
       canSearch: true

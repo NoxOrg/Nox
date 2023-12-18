@@ -26,7 +26,11 @@ public partial class CustomerCreateDto : CustomerCreateDtoBase
 /// Customer definition and related data.
 /// </summary>
 public abstract class CustomerCreateDtoBase : IEntityDto<DomainNamespace.Customer>
-{
+{/// <summary>
+    /// Customer's unique identifier     
+    /// </summary>
+    /// <remarks>Optional.</remarks>
+    public System.Guid Id { get; set; } = default!;
     /// <summary>
     /// Customer's first name     
     /// </summary>
@@ -80,7 +84,7 @@ public abstract class CustomerCreateDtoBase : IEntityDto<DomainNamespace.Custome
     /// <summary>
     /// Customer related to ZeroOrMany Transactions
     /// </summary>
-    public virtual List<System.Int64> TransactionsId { get; set; } = new();
+    public virtual List<System.Guid> TransactionsId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<TransactionCreateDto> Transactions { get; set; } = new();

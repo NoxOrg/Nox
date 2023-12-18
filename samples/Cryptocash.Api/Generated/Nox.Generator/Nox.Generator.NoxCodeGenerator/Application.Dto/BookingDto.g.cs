@@ -123,7 +123,7 @@ public abstract class BookingDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     /// Booking for ExactlyOne Customers
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64? CustomerId { get; set; } = default!;
+    public System.Guid? CustomerId { get; set; } = default!;
     public virtual CustomerDto? Customer { get; set; } = null!;
 
     /// <summary>
@@ -137,7 +137,7 @@ public abstract class BookingDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     /// Booking fees for ExactlyOne Commissions
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64? CommissionId { get; set; } = default!;
+    public System.Guid? CommissionId { get; set; } = default!;
     public virtual CommissionDto? Commission { get; set; } = null!;
 
     /// <summary>

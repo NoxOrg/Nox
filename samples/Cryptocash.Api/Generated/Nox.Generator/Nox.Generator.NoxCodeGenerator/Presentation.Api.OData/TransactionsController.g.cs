@@ -29,7 +29,7 @@ public abstract partial class TransactionsControllerBase : ODataController
     
     #region Relationships
     
-    public virtual async Task<ActionResult> CreateRefToCustomer([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public virtual async Task<ActionResult> CreateRefToCustomer([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -45,7 +45,7 @@ public abstract partial class TransactionsControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> GetRefToCustomer([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToCustomer([FromRoute] System.Guid key)
     {
         var entity = (await _mediator.Send(new GetTransactionByIdQuery(key))).Include(x => x.Customer).SingleOrDefault();
         if (entity is null)
@@ -61,14 +61,14 @@ public abstract partial class TransactionsControllerBase : ODataController
         return Ok(references);
     }
     
-    public virtual async Task<ActionResult> PostToCustomer([FromRoute] System.Int64 key, [FromBody] CustomerCreateDto customer)
+    public virtual async Task<ActionResult> PostToCustomer([FromRoute] System.Guid key, [FromBody] CustomerCreateDto customer)
     {
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
-        customer.TransactionsId = new List<System.Int64> { key };
+        customer.TransactionsId = new List<System.Guid> { key };
         var createdKey = await _mediator.Send(new CreateCustomerCommand(customer, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetCustomerByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -77,7 +77,7 @@ public abstract partial class TransactionsControllerBase : ODataController
     }
     
     [EnableQuery]
-    public virtual async Task<SingleResult<CustomerDto>> GetCustomer(System.Int64 key)
+    public virtual async Task<SingleResult<CustomerDto>> GetCustomer(System.Guid key)
     {
         var query = await _mediator.Send(new GetTransactionByIdQuery(key));
         if (!query.Any())
@@ -87,7 +87,7 @@ public abstract partial class TransactionsControllerBase : ODataController
         return SingleResult.Create(query.Where(x => x.Customer != null).Select(x => x.Customer!));
     }
     
-    public virtual async Task<ActionResult<CustomerDto>> PutToCustomer(System.Int64 key, [FromBody] CustomerUpdateDto customer)
+    public virtual async Task<ActionResult<CustomerDto>> PutToCustomer(System.Guid key, [FromBody] CustomerUpdateDto customer)
     {
         if (!ModelState.IsValid)
         {
@@ -112,7 +112,7 @@ public abstract partial class TransactionsControllerBase : ODataController
         return Ok(updatedItem);
     }
     
-    public virtual async Task<ActionResult> CreateRefToBooking([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public virtual async Task<ActionResult> CreateRefToBooking([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -128,7 +128,7 @@ public abstract partial class TransactionsControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> GetRefToBooking([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> GetRefToBooking([FromRoute] System.Guid key)
     {
         var entity = (await _mediator.Send(new GetTransactionByIdQuery(key))).Include(x => x.Booking).SingleOrDefault();
         if (entity is null)
@@ -144,7 +144,7 @@ public abstract partial class TransactionsControllerBase : ODataController
         return Ok(references);
     }
     
-    public virtual async Task<ActionResult> PostToBooking([FromRoute] System.Int64 key, [FromBody] BookingCreateDto booking)
+    public virtual async Task<ActionResult> PostToBooking([FromRoute] System.Guid key, [FromBody] BookingCreateDto booking)
     {
         if (!ModelState.IsValid)
         {
@@ -160,7 +160,7 @@ public abstract partial class TransactionsControllerBase : ODataController
     }
     
     [EnableQuery]
-    public virtual async Task<SingleResult<BookingDto>> GetBooking(System.Int64 key)
+    public virtual async Task<SingleResult<BookingDto>> GetBooking(System.Guid key)
     {
         var query = await _mediator.Send(new GetTransactionByIdQuery(key));
         if (!query.Any())
@@ -170,7 +170,7 @@ public abstract partial class TransactionsControllerBase : ODataController
         return SingleResult.Create(query.Where(x => x.Booking != null).Select(x => x.Booking!));
     }
     
-    public virtual async Task<ActionResult<BookingDto>> PutToBooking(System.Int64 key, [FromBody] BookingUpdateDto booking)
+    public virtual async Task<ActionResult<BookingDto>> PutToBooking(System.Guid key, [FromBody] BookingUpdateDto booking)
     {
         if (!ModelState.IsValid)
         {

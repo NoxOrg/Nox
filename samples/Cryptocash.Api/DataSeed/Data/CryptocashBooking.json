@@ -1,2 +1,25 @@
 ﻿[
+  {
+    "Id": "ba9ad38f-2bd4-4f50-9ea7-1162ae815274",
+    "AmountFrom": {
+      "Amount": 200,
+      "CurrencyCode": "CHF"
+    },
+    "AmountTo": {
+      "Amount": 200,
+      "CurrencyCode": "GBP"
+    },
+    "RequestedPickUpDate": {
+      "Start": "2023-12-13T00:00:00.000Z",
+      "End": "2023-12-14T00:00:00.000Z"
+    },
+    "ExpiryDateTime": "2023-12-15T00:00:00.000Z",
+    "VatNumber": {
+      "Number": "123456789",
+      "CountryCode": "GB"
+    },
+    "CustomerId": "76D2E947-2008-48FC-8854-53EEC7EDCD2F",
+    "VendingMachineId": "ad346d68-6c14-48c5-866c-d53b1f21e59e",
+    "CommissionId": "77d67a94-680d-4f9a-bc3a-33d8f2829366"
+  }
 ]

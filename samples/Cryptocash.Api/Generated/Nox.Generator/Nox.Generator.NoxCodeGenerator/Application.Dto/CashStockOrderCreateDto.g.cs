@@ -58,7 +58,7 @@ public abstract class CashStockOrderCreateDtoBase : IEntityDto<DomainNamespace.C
     /// <summary>
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
-    public System.Int64? EmployeeId { get; set; } = default!;
+    public System.Guid? EmployeeId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual EmployeeCreateDto? Employee { get; set; } = default!;

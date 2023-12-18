@@ -18,7 +18,7 @@ using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateCustomerCommand(System.Int64 keyId, CustomerUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CustomerKeyDto?>;
+public partial record UpdateCustomerCommand(System.Guid keyId, CustomerUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CustomerKeyDto?>;
 
 internal partial class UpdateCustomerCommandHandler : UpdateCustomerCommandHandlerBase
 {

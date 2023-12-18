@@ -92,8 +92,8 @@ public partial class BookingMetadata
         /// <summary>
         /// Factory for property 'CustomerId'
         /// </summary>
-        public static Nox.Types.AutoNumber CreateCustomerId(System.Int64 value)
-            => Nox.Types.AutoNumber.FromDatabase(value);
+        public static Nox.Types.Guid CreateCustomerId(System.Guid value)
+            => Nox.Types.Guid.From(value);
         
     
         /// <summary>
@@ -106,8 +106,8 @@ public partial class BookingMetadata
         /// <summary>
         /// Factory for property 'CommissionId'
         /// </summary>
-        public static Nox.Types.AutoNumber CreateCommissionId(System.Int64 value)
-            => Nox.Types.AutoNumber.FromDatabase(value);
+        public static Nox.Types.Guid CreateCommissionId(System.Guid value)
+            => Nox.Types.Guid.From(value);
         
 
         /// <summary>

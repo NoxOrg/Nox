@@ -158,7 +158,7 @@ internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcur
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
-    public Nox.Types.AutoNumber CustomerId { get; set; } = null!;
+    public Nox.Types.Guid CustomerId { get; set; } = null!;
 
     public virtual void CreateRefToCustomer(Customer relatedCustomer)
     {
@@ -208,7 +208,7 @@ internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcur
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Commission
     /// </summary>
-    public Nox.Types.AutoNumber CommissionId { get; set; } = null!;
+    public Nox.Types.Guid CommissionId { get; set; } = null!;
 
     public virtual void CreateRefToCommission(Commission relatedCommission)
     {

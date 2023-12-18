@@ -1,2 +1,14 @@
 ﻿[
+  {
+    "Id": "16d09462-a8db-4f64-a618-e31dc0a14604",
+    "TransactionType": "Withdrawal",
+    "ProcessedOnDateTime": "2023-12-13T10:55:06.038Z",
+    "Amount": {
+      "Amount": 200,
+      "CurrencyCode": "GBP"
+    },
+    "Reference": "REF-A",
+    "CustomerId": "76D2E947-2008-48FC-8854-53EEC7EDCD2F",
+    "BookingId": "ba9ad38f-2bd4-4f50-9ea7-1162ae815274"
+  }
 ]

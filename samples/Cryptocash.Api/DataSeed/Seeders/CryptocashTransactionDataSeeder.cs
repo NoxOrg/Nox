@@ -18,7 +18,17 @@ internal class CryptocashTransactionDataSeeder : DataSeederBase<TransactionDto, 
 
     protected override Transaction TransformToEntity(TransactionDto model)
     {
-        return new() {
+        Transaction entity = new() {
+            TransactionType = Text.From(model.TransactionType),
+            ProcessedOnDateTime = Nox.Types.DateTime.From(model.ProcessedOnDateTime),
+            Amount = Money.From(model.Amount!.Amount, model.Amount!.CurrencyCode),
+            Reference = Text.From(model.Reference),
+            CustomerId = Nox.Types.Guid.From(model.CustomerId!.Value.ToString()),
+            BookingId = Nox.Types.Guid.From(model.BookingId!.Value.ToString())
         };
+
+        entity.EnsureId(model.Id);
+
+        return entity;
     }
 }

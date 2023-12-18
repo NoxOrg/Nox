@@ -50,8 +50,7 @@ namespace Cryptocash.Api.Migrations
                 name: "Employees",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -190,8 +189,7 @@ namespace Cryptocash.Api.Migrations
                 name: "PaymentProviders",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -339,7 +337,7 @@ namespace Cryptocash.Api.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeId = table.Column<long>(type: "bigint", nullable: true),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     PhoneNumberType = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
@@ -358,8 +356,7 @@ namespace Cryptocash.Api.Migrations
                 name: "Commissions",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -408,8 +405,7 @@ namespace Cryptocash.Api.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -537,8 +533,8 @@ namespace Cryptocash.Api.Migrations
                     PaymentAccountName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     PaymentAccountNumber = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     PaymentAccountSortCode = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
-                    CustomerId = table.Column<long>(type: "bigint", nullable: false),
-                    PaymentProviderId = table.Column<long>(type: "bigint", nullable: false),
+                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
+                    PaymentProviderId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -583,9 +579,9 @@ namespace Cryptocash.Api.Migrations
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VatNumber_Number = table.Column<string>(type: "varchar(64)", unicode: false, maxLength: 64, nullable: true),
                     VatNumber_CountryCode = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
-                    CustomerId = table.Column<long>(type: "bigint", nullable: false),
+                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     VendingMachineId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
-                    CommissionId = table.Column<long>(type: "bigint", nullable: false),
+                    CommissionId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -629,7 +625,7 @@ namespace Cryptocash.Api.Migrations
                     DeliveryDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VendingMachineId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
-                    EmployeeId = table.Column<long>(type: "bigint", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -675,8 +671,7 @@ namespace Cryptocash.Api.Migrations
                 name: "Transactions",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -691,7 +686,7 @@ namespace Cryptocash.Api.Migrations
                     Amount_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
                     Amount_CurrencyCode = table.Column<int>(type: "int", nullable: false),
                     Reference = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    CustomerId = table.Column<long>(type: "bigint", nullable: false),
+                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     BookingId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },

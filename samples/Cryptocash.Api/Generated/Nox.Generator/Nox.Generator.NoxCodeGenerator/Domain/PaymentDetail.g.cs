@@ -110,7 +110,7 @@ internal abstract partial class PaymentDetailBase : AuditableEntityBase, IEntity
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
-    public Nox.Types.AutoNumber CustomerId { get; set; } = null!;
+    public Nox.Types.Guid CustomerId { get; set; } = null!;
 
     public virtual void CreateRefToCustomer(Customer relatedCustomer)
     {
@@ -135,7 +135,7 @@ internal abstract partial class PaymentDetailBase : AuditableEntityBase, IEntity
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity PaymentProvider
     /// </summary>
-    public Nox.Types.AutoNumber PaymentProviderId { get; set; } = null!;
+    public Nox.Types.Guid PaymentProviderId { get; set; } = null!;
 
     public virtual void CreateRefToPaymentProvider(PaymentProvider relatedPaymentProvider)
     {
