@@ -31,7 +31,7 @@ internal abstract class PartialUpdateExchangeRatesForCurrencyCommandHandlerBase:
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> _entityFactory;
-
+	
 	protected PartialUpdateExchangeRatesForCurrencyCommandHandlerBase(
 		AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -67,6 +67,7 @@ internal abstract class PartialUpdateExchangeRatesForCurrencyCommandHandlerBase:
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new ExchangeRateKeyDto(entity.Id.Value);

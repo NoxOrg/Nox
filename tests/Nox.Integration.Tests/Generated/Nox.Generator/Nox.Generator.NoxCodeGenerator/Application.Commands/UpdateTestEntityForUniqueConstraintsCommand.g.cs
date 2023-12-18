@@ -27,7 +27,7 @@ internal partial class UpdateTestEntityForUniqueConstraintsCommandHandler : Upda
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdateTestEntityForUniqueConstraintsCommandHandlerBase :
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> _entityFactory;
-
 	protected UpdateTestEntityForUniqueConstraintsCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

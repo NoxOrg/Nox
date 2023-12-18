@@ -33,7 +33,7 @@ internal abstract class PartialUpdateBookingCommandHandlerBase : CommandBase<Par
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateBookingCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

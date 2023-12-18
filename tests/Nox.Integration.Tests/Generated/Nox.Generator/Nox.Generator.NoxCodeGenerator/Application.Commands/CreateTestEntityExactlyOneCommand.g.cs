@@ -48,7 +48,7 @@ internal abstract class CreateTestEntityExactlyOneCommandHandlerBase : CommandBa
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.SecondTestEntityExactlyOne, SecondTestEntityExactlyOneCreateDto, SecondTestEntityExactlyOneUpdateDto> SecondTestEntityExactlyOneFactory,
 		IEntityFactory<TestEntityExactlyOneEntity, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

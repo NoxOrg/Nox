@@ -31,7 +31,7 @@ internal abstract class PartialUpdateBankNotesForCurrencyCommandHandlerBase: Com
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> _entityFactory;
-
+	
 	protected PartialUpdateBankNotesForCurrencyCommandHandlerBase(
 		AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -67,6 +67,7 @@ internal abstract class PartialUpdateBankNotesForCurrencyCommandHandlerBase: Com
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new BankNoteKeyDto(entity.Id.Value);

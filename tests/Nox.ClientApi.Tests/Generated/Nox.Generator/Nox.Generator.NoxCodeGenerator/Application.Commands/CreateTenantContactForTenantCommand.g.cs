@@ -27,9 +27,8 @@ internal partial class CreateTenantContactForTenantCommandHandler : CreateTenant
 	public CreateTenantContactForTenantCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> entityFactory,
-		IEntityLocalizedFactory<TenantContactLocalized, TenantContactEntity, TenantContactUpsertDto> entityLocalizedFactory)
-		: base(dbContext, noxSolution, entityFactory, entityLocalizedFactory)
+		IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -37,18 +36,15 @@ internal abstract class CreateTenantContactForTenantCommandHandlerBase : Command
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> _entityFactory;
-	protected readonly IEntityLocalizedFactory<TenantContactLocalized, TenantContactEntity, TenantContactUpsertDto> _entityLocalizedFactory;
-
+	
 	protected CreateTenantContactForTenantCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> entityFactory,
-		IEntityLocalizedFactory<TenantContactLocalized, TenantContactEntity, TenantContactUpsertDto> entityLocalizedFactory)
+		IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> entityFactory)
 		: base(noxSolution)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory; 
-		_entityLocalizedFactory = entityLocalizedFactory;
+		_entityFactory = entityFactory;
 	}
 
 	public virtual  async Task<TenantContactKeyDto?> Handle(CreateTenantContactForTenantCommand request, CancellationToken cancellationToken)
@@ -68,9 +64,7 @@ internal abstract class CreateTenantContactForTenantCommandHandlerBase : Command
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-		var entityLocalized = await _entityLocalizedFactory.CreateLocalizedEntityAsync(entity, request.CultureCode);
-		_dbContext.TenantContactsLocalized.Add(entityLocalized);
-
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new TenantContactKeyDto();

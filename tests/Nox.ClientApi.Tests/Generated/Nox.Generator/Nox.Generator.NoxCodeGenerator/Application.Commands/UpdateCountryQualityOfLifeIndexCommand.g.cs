@@ -27,7 +27,7 @@ internal partial class UpdateCountryQualityOfLifeIndexCommandHandler : UpdateCou
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdateCountryQualityOfLifeIndexCommandHandlerBase : Comm
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> _entityFactory;
-
 	protected UpdateCountryQualityOfLifeIndexCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

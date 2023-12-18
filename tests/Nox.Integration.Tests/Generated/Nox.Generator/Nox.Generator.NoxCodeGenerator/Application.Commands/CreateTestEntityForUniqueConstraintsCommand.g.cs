@@ -44,7 +44,7 @@ internal abstract class CreateTestEntityForUniqueConstraintsCommandHandlerBase :
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

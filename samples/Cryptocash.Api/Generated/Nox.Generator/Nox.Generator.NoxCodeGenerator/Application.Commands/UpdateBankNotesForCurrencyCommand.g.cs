@@ -79,8 +79,7 @@ internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandBas
 		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
-
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new BankNoteKeyDto(entity.Id.Value);

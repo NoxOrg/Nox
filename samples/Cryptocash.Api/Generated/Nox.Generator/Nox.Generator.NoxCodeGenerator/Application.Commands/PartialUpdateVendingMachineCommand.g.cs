@@ -33,7 +33,7 @@ internal abstract class PartialUpdateVendingMachineCommandHandlerBase : CommandB
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<VendingMachineEntity, VendingMachineCreateDto, VendingMachineUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateVendingMachineCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

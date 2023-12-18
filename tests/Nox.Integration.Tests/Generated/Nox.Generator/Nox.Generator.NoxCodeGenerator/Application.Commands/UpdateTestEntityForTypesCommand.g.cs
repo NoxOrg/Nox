@@ -27,7 +27,7 @@ internal partial class UpdateTestEntityForTypesCommandHandler : UpdateTestEntity
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdateTestEntityForTypesCommandHandlerBase : CommandBase
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> _entityFactory;
-
 	protected UpdateTestEntityForTypesCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

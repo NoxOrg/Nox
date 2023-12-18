@@ -48,7 +48,7 @@ internal abstract class CreateClientCommandHandlerBase : CommandBase<CreateClien
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

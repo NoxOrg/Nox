@@ -44,7 +44,7 @@ internal abstract class CreateForReferenceNumberCommandHandlerBase : CommandBase
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ForReferenceNumberEntity, ForReferenceNumberCreateDto, ForReferenceNumberUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

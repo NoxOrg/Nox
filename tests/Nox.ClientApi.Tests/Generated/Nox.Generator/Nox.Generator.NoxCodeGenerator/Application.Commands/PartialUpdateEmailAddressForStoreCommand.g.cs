@@ -32,7 +32,7 @@ internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: Com
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> _entityFactory;
-
+	
 	protected PartialUpdateEmailAddressForStoreCommandHandlerBase(
 		AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -68,6 +68,7 @@ internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: Com
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new EmailAddressKeyDto();

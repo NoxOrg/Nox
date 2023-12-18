@@ -33,7 +33,7 @@ internal abstract class PartialUpdateForReferenceNumberCommandHandlerBase : Comm
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<ForReferenceNumberEntity, ForReferenceNumberCreateDto, ForReferenceNumberUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateForReferenceNumberCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

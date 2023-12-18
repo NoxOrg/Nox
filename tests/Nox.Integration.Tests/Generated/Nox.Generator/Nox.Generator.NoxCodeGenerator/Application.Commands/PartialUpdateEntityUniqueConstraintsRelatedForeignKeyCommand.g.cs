@@ -33,7 +33,7 @@ internal abstract class PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCom
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<EntityUniqueConstraintsRelatedForeignKeyEntity, EntityUniqueConstraintsRelatedForeignKeyCreateDto, EntityUniqueConstraintsRelatedForeignKeyUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

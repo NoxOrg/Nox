@@ -33,7 +33,7 @@ internal abstract class PartialUpdateSecondTestEntityZeroOrOneCommandHandlerBase
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<SecondTestEntityZeroOrOneEntity, SecondTestEntityZeroOrOneCreateDto, SecondTestEntityZeroOrOneUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateSecondTestEntityZeroOrOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

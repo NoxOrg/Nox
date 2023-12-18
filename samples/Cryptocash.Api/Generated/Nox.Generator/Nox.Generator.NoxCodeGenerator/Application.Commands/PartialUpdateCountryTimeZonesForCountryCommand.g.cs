@@ -31,7 +31,7 @@ internal abstract class PartialUpdateCountryTimeZonesForCountryCommandHandlerBas
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> _entityFactory;
-
+	
 	protected PartialUpdateCountryTimeZonesForCountryCommandHandlerBase(
 		AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -67,6 +67,7 @@ internal abstract class PartialUpdateCountryTimeZonesForCountryCommandHandlerBas
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new CountryTimeZoneKeyDto(entity.Id.Value);

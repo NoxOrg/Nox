@@ -79,8 +79,7 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
-
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new EmployeePhoneNumberKeyDto(entity.Id.Value);

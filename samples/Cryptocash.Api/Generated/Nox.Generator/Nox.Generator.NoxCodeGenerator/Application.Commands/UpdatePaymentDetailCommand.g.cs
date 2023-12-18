@@ -27,7 +27,7 @@ internal partial class UpdatePaymentDetailCommandHandler : UpdatePaymentDetailCo
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdatePaymentDetailCommandHandlerBase : CommandBase<Upda
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> _entityFactory;
-
 	protected UpdatePaymentDetailCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

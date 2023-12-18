@@ -32,7 +32,7 @@ internal abstract class PartialUpdateSecEntityOwnedRelExactlyOneForTestEntityOwn
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<SecEntityOwnedRelExactlyOneEntity, SecEntityOwnedRelExactlyOneUpsertDto, SecEntityOwnedRelExactlyOneUpsertDto> _entityFactory;
-
+	
 	protected PartialUpdateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommandHandlerBase(
 		AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -68,6 +68,7 @@ internal abstract class PartialUpdateSecEntityOwnedRelExactlyOneForTestEntityOwn
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new SecEntityOwnedRelExactlyOneKeyDto();

@@ -47,7 +47,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsOneToOneCommandHan
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityTwoRelationshipsOneToOne, TestEntityTwoRelationshipsOneToOneCreateDto, TestEntityTwoRelationshipsOneToOneUpdateDto> TestEntityTwoRelationshipsOneToOneFactory,
 		IEntityFactory<SecondTestEntityTwoRelationshipsOneToOneEntity, SecondTestEntityTwoRelationshipsOneToOneCreateDto, SecondTestEntityTwoRelationshipsOneToOneUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

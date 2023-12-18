@@ -33,7 +33,7 @@ internal abstract class PartialUpdateCurrencyCommandHandlerBase : CommandBase<Pa
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

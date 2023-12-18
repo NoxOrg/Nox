@@ -44,7 +44,7 @@ internal abstract class CreateRatingProgramCommandHandlerBase : CommandBase<Crea
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

@@ -33,7 +33,7 @@ internal abstract class PartialUpdateTestEntityForTypesCommandHandlerBase : Comm
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateTestEntityForTypesCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

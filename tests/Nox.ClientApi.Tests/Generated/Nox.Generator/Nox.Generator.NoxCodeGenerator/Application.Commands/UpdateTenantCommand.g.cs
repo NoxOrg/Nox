@@ -27,7 +27,7 @@ internal partial class UpdateTenantCommandHandler : UpdateTenantCommandHandlerBa
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenan
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> _entityFactory;
-
 	protected UpdateTenantCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

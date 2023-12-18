@@ -33,7 +33,7 @@ internal abstract class PartialUpdateEmployeeCommandHandlerBase : CommandBase<Pa
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateEmployeeCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

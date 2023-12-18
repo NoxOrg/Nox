@@ -33,7 +33,7 @@ internal abstract class PartialUpdateTransactionCommandHandlerBase : CommandBase
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateTransactionCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

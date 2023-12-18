@@ -80,7 +80,6 @@ internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<
     {
         var localizedEntity = new WorkplaceLocalized
         {
-            Id = entity.Id,
             Workplace = entity,
             CultureCode = cultureCode,
         };

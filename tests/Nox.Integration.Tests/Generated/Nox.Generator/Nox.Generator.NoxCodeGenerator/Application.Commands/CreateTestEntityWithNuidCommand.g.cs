@@ -45,7 +45,7 @@ internal abstract class CreateTestEntityWithNuidCommandHandlerBase : CommandBase
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityWithNuidEntity, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

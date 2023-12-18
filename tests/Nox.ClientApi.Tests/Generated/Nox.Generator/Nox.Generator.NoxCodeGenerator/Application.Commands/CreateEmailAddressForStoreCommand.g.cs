@@ -36,7 +36,7 @@ internal abstract class CreateEmailAddressForStoreCommandHandlerBase : CommandBa
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> _entityFactory;
-
+	
 	protected CreateEmailAddressForStoreCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -64,7 +64,7 @@ internal abstract class CreateEmailAddressForStoreCommandHandlerBase : CommandBa
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new EmailAddressKeyDto();

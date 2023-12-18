@@ -33,7 +33,7 @@ internal abstract class PartialUpdateTestEntityTwoRelationshipsOneToManyCommandH
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityTwoRelationshipsOneToManyEntity, TestEntityTwoRelationshipsOneToManyCreateDto, TestEntityTwoRelationshipsOneToManyUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateTestEntityTwoRelationshipsOneToManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

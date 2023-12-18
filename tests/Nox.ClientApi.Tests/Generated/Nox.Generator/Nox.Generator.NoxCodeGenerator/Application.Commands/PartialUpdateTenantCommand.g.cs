@@ -33,7 +33,7 @@ internal abstract class PartialUpdateTenantCommandHandlerBase : CommandBase<Part
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateTenantCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

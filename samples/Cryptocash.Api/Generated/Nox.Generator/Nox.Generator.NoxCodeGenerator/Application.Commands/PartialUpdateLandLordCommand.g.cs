@@ -33,7 +33,7 @@ internal abstract class PartialUpdateLandLordCommandHandlerBase : CommandBase<Pa
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateLandLordCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

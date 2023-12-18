@@ -47,7 +47,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsManyToManyCommandH
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany, TestEntityTwoRelationshipsManyToManyCreateDto, TestEntityTwoRelationshipsManyToManyUpdateDto> TestEntityTwoRelationshipsManyToManyFactory,
 		IEntityFactory<SecondTestEntityTwoRelationshipsManyToManyEntity, SecondTestEntityTwoRelationshipsManyToManyCreateDto, SecondTestEntityTwoRelationshipsManyToManyUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

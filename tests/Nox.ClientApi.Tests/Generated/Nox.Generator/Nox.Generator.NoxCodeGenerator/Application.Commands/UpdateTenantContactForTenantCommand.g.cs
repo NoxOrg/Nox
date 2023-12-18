@@ -27,9 +27,8 @@ internal partial class UpdateTenantContactForTenantCommandHandler : UpdateTenant
 	public UpdateTenantContactForTenantCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> entityFactory,
-		IEntityLocalizedFactory<TenantContactLocalized, TenantContactEntity, TenantContactUpsertDto> entityLocalizedFactory)
-		: base(dbContext, noxSolution, entityFactory, entityLocalizedFactory)
+		IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -38,18 +37,15 @@ internal partial class UpdateTenantContactForTenantCommandHandlerBase : CommandB
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> _entityFactory;
-	protected readonly IEntityLocalizedFactory<TenantContactLocalized, TenantContactEntity, TenantContactUpsertDto> _entityLocalizedFactory;
 
 	protected UpdateTenantContactForTenantCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> entityFactory,
-		IEntityLocalizedFactory<TenantContactLocalized, TenantContactEntity, TenantContactUpsertDto> entityLocalizedFactory)
+		IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> entityFactory)
 		: base(noxSolution)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory; 
-		_entityLocalizedFactory = entityLocalizedFactory;
+		_entityFactory = entityFactory;
 	}
 
 	public virtual async Task<TenantContactKeyDto> Handle(UpdateTenantContactForTenantCommand request, CancellationToken cancellationToken)
@@ -73,9 +69,7 @@ internal partial class UpdateTenantContactForTenantCommandHandlerBase : CommandB
 		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-		await UpdateLocalizedEntityAsync(entity, request.EntityDto, request.CultureCode);
-
-
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new TenantContactKeyDto();
@@ -86,21 +80,5 @@ internal partial class UpdateTenantContactForTenantCommandHandlerBase : CommandB
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
 		parent.CreateRefToTenantContact(entity);
 		return entity;
-	}
-
-	private async Task UpdateLocalizedEntityAsync(TenantContactEntity entity, TenantContactUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
-	{
-		var entityLocalized = await _dbContext.TenantContactsLocalized.FirstOrDefaultAsync(x => x.TenantId == entity.TenantId && x.CultureCode == cultureCode);
-		if(entityLocalized is null)
-		{
-			entityLocalized = await _entityLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
-			_dbContext.TenantContactsLocalized.Add(entityLocalized);
-		}
-		else
-		{
-			_dbContext.Entry(entityLocalized).State = EntityState.Modified;
-		}
-
-		await _entityLocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
 	}
 }

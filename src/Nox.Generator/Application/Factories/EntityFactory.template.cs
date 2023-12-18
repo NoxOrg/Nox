@@ -186,7 +186,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 		{{- end }}
         
         {{- for relationship in entity.OwnedRelationships }}
-            {{- relationshipName = GetNavigationPropertyName entity relationship }}
+        {{- relationshipName = GetNavigationPropertyName entity relationship }}
             {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
         createDto.{{relationshipName}}?.ForEach(async dto =>
         {

@@ -36,7 +36,7 @@ internal abstract class CreateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRela
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<SecEntityOwnedRelOneOrManyEntity, SecEntityOwnedRelOneOrManyUpsertDto, SecEntityOwnedRelOneOrManyUpsertDto> _entityFactory;
-
+	
 	protected CreateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -64,7 +64,7 @@ internal abstract class CreateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRela
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new SecEntityOwnedRelOneOrManyKeyDto(entity.Id.Value);

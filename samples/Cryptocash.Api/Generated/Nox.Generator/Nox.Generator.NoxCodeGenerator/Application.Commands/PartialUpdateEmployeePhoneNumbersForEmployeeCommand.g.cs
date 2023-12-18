@@ -31,7 +31,7 @@ internal abstract class PartialUpdateEmployeePhoneNumbersForEmployeeCommandHandl
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> _entityFactory;
-
+	
 	protected PartialUpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase(
 		AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -67,6 +67,7 @@ internal abstract class PartialUpdateEmployeePhoneNumbersForEmployeeCommandHandl
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new EmployeePhoneNumberKeyDto(entity.Id.Value);

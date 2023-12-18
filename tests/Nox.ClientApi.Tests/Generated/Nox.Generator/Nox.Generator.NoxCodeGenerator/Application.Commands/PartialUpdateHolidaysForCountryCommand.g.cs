@@ -31,7 +31,7 @@ internal abstract class PartialUpdateHolidaysForCountryCommandHandlerBase: Comma
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> _entityFactory;
-
+	
 	protected PartialUpdateHolidaysForCountryCommandHandlerBase(
 		AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -67,6 +67,7 @@ internal abstract class PartialUpdateHolidaysForCountryCommandHandlerBase: Comma
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new HolidayKeyDto(entity.Id.Value);

@@ -45,7 +45,7 @@ internal abstract class CreateTestEntityForTypesCommandHandlerBase : CommandBase
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

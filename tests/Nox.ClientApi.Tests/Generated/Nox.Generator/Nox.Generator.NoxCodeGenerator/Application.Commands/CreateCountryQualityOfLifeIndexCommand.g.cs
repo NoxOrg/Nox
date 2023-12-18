@@ -44,7 +44,7 @@ internal abstract class CreateCountryQualityOfLifeIndexCommandHandlerBase : Comm
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

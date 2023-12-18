@@ -32,7 +32,7 @@ internal abstract class PartialUpdateSecondTestEntityOwnedRelationshipZeroOrOneF
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<SecondTestEntityOwnedRelationshipZeroOrOneEntity, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto> _entityFactory;
-
+	
 	protected PartialUpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase(
 		AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -68,6 +68,7 @@ internal abstract class PartialUpdateSecondTestEntityOwnedRelationshipZeroOrOneF
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new SecondTestEntityOwnedRelationshipZeroOrOneKeyDto();

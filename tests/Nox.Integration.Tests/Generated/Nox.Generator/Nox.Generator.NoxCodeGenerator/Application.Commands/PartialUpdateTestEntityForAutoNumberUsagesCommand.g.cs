@@ -33,7 +33,7 @@ internal abstract class PartialUpdateTestEntityForAutoNumberUsagesCommandHandler
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateTestEntityForAutoNumberUsagesCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

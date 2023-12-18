@@ -47,7 +47,7 @@ internal abstract class CreateEntityUniqueConstraintsRelatedForeignKeyCommandHan
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto> EntityUniqueConstraintsWithForeignKeyFactory,
 		IEntityFactory<EntityUniqueConstraintsRelatedForeignKeyEntity, EntityUniqueConstraintsRelatedForeignKeyCreateDto, EntityUniqueConstraintsRelatedForeignKeyUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

@@ -36,7 +36,7 @@ internal abstract class CreateExchangeRatesForCurrencyCommandHandlerBase : Comma
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> _entityFactory;
-
+	
 	protected CreateExchangeRatesForCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -64,7 +64,7 @@ internal abstract class CreateExchangeRatesForCurrencyCommandHandlerBase : Comma
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new ExchangeRateKeyDto(entity.Id.Value);

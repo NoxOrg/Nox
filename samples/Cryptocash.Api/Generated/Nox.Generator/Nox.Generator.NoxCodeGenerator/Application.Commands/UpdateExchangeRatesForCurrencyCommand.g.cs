@@ -79,8 +79,7 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
-
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new ExchangeRateKeyDto(entity.Id.Value);

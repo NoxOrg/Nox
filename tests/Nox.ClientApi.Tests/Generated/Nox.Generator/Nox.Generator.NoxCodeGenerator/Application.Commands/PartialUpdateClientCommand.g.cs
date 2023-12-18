@@ -33,7 +33,7 @@ internal abstract class PartialUpdateClientCommandHandlerBase : CommandBase<Part
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateClientCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

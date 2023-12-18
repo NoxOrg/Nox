@@ -36,7 +36,7 @@ internal abstract class CreateBankNotesForCurrencyCommandHandlerBase : CommandBa
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> _entityFactory;
-
+	
 	protected CreateBankNotesForCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -64,7 +64,7 @@ internal abstract class CreateBankNotesForCurrencyCommandHandlerBase : CommandBa
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new BankNoteKeyDto(entity.Id.Value);

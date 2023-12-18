@@ -33,7 +33,7 @@ internal abstract class PartialUpdateCountryCommandHandlerBase : CommandBase<Par
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

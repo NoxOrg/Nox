@@ -33,7 +33,7 @@ internal abstract class PartialUpdatePaymentProviderCommandHandlerBase : Command
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdatePaymentProviderCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

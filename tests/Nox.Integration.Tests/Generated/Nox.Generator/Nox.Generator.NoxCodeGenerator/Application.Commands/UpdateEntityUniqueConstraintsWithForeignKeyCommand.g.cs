@@ -27,7 +27,7 @@ internal partial class UpdateEntityUniqueConstraintsWithForeignKeyCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<EntityUniqueConstraintsWithForeignKeyEntity, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdateEntityUniqueConstraintsWithForeignKeyCommandHandle
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<EntityUniqueConstraintsWithForeignKeyEntity, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto> _entityFactory;
-
 	protected UpdateEntityUniqueConstraintsWithForeignKeyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

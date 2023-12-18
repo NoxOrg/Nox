@@ -27,7 +27,7 @@ internal partial class UpdateCurrencyCommandHandler : UpdateCurrencyCommandHandl
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto> _entityFactory;
-
 	protected UpdateCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

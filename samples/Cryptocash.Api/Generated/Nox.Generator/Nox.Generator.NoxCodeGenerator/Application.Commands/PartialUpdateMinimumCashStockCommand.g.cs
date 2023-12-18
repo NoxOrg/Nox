@@ -33,7 +33,7 @@ internal abstract class PartialUpdateMinimumCashStockCommandHandlerBase : Comman
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateMinimumCashStockCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

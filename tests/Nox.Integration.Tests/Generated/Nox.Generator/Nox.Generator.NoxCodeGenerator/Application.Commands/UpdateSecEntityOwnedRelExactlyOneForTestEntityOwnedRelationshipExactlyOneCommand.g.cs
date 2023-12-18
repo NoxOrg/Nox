@@ -69,8 +69,7 @@ internal partial class UpdateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelati
 		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
-
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new SecEntityOwnedRelExactlyOneKeyDto();

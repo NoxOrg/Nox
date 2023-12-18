@@ -33,7 +33,7 @@ internal abstract class PartialUpdateRatingProgramCommandHandlerBase : CommandBa
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateRatingProgramCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

@@ -57,7 +57,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		IEntityFactory<Cryptocash.Domain.Commission, CommissionCreateDto, CommissionUpdateDto> CommissionFactory,
 		IEntityFactory<Cryptocash.Domain.Transaction, TransactionCreateDto, TransactionUpdateDto> TransactionFactory,
 		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

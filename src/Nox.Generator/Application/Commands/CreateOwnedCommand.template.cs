@@ -33,9 +33,8 @@ internal partial class Create{{relationshipName}}For{{parent.Name}}CommandHandle
 	public Create{{relationshipName}}For{{parent.Name}}CommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory{{if entity.IsLocalized }},
-		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpsertDto> entityLocalizedFactory{{ end -}})
-		: base(dbContext, noxSolution, entityFactory{{- if entity.IsLocalized }}, entityLocalizedFactory{{ end -}})
+		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -43,22 +42,15 @@ internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandl
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> _entityFactory;
-	{{- if entity.IsLocalized }}
-	protected readonly IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpsertDto> _entityLocalizedFactory;
-	{{- end }}
-
+	
 	protected Create{{relationshipName}}For{{parent.Name}}CommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory{{if entity.IsLocalized }},
-		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpsertDto> entityLocalizedFactory{{ end -}})
+		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory)
 		: base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
-		{{- if entity.IsLocalized }} 
-		_entityLocalizedFactory = entityLocalizedFactory;
-		{{- end }}
 	}
 
 	public virtual  async Task<{{entity.Name}}KeyDto?> Handle(Create{{relationshipName}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
@@ -81,11 +73,7 @@ internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandl
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-		{{- if entity.IsLocalized }}
-		var entityLocalized = await _entityLocalizedFactory.CreateLocalizedEntityAsync(entity, request.CultureCode);
-		_dbContext.{{entity.PluralName}}Localized.Add(entityLocalized);
-		{{- end }}
-
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});

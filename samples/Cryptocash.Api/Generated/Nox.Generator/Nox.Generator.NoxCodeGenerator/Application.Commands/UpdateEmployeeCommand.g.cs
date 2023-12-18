@@ -27,7 +27,7 @@ internal partial class UpdateEmployeeCommandHandler : UpdateEmployeeCommandHandl
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> _entityFactory;
-
 	protected UpdateEmployeeCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

@@ -36,7 +36,7 @@ internal abstract class CreateCountryLocalNamesForCountryCommandHandlerBase : Co
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> _entityFactory;
-
+	
 	protected CreateCountryLocalNamesForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -64,7 +64,7 @@ internal abstract class CreateCountryLocalNamesForCountryCommandHandlerBase : Co
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new CountryLocalNameKeyDto(entity.Id.Value);

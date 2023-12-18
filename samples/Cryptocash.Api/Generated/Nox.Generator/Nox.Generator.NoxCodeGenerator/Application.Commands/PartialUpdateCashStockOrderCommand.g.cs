@@ -33,7 +33,7 @@ internal abstract class PartialUpdateCashStockOrderCommandHandlerBase : CommandB
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateCashStockOrderCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

@@ -36,7 +36,7 @@ internal abstract class CreateHolidaysForCountryCommandHandlerBase : CommandBase
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> _entityFactory;
-
+	
 	protected CreateHolidaysForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -64,7 +64,7 @@ internal abstract class CreateHolidaysForCountryCommandHandlerBase : CommandBase
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new HolidayKeyDto(entity.Id.Value);

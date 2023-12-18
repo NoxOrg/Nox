@@ -36,7 +36,7 @@ internal abstract class CreateCountryBarCodeForCountryCommandHandlerBase : Comma
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<CountryBarCodeEntity, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> _entityFactory;
-
+	
 	protected CreateCountryBarCodeForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -64,7 +64,7 @@ internal abstract class CreateCountryBarCodeForCountryCommandHandlerBase : Comma
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new CountryBarCodeKeyDto();

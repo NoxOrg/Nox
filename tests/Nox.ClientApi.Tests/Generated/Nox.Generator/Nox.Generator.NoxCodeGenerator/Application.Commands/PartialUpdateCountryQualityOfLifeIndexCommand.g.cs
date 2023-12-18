@@ -33,7 +33,7 @@ internal abstract class PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

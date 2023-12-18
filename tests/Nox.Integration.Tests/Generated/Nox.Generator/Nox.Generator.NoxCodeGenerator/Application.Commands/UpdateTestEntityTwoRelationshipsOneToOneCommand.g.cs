@@ -27,7 +27,7 @@ internal partial class UpdateTestEntityTwoRelationshipsOneToOneCommandHandler : 
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityTwoRelationshipsOneToOneEntity, TestEntityTwoRelationshipsOneToOneCreateDto, TestEntityTwoRelationshipsOneToOneUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdateTestEntityTwoRelationshipsOneToOneCommandHandlerBa
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityTwoRelationshipsOneToOneEntity, TestEntityTwoRelationshipsOneToOneCreateDto, TestEntityTwoRelationshipsOneToOneUpdateDto> _entityFactory;
-
 	protected UpdateTestEntityTwoRelationshipsOneToOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

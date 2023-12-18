@@ -33,7 +33,7 @@ internal abstract class PartialUpdateTestEntityForUniqueConstraintsCommandHandle
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateTestEntityForUniqueConstraintsCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

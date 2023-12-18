@@ -48,7 +48,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory,
 		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

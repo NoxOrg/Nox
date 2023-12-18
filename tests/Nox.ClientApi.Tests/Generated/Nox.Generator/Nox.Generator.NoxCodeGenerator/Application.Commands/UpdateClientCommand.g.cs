@@ -27,7 +27,7 @@ internal partial class UpdateClientCommandHandler : UpdateClientCommandHandlerBa
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdateClientCommandHandlerBase : CommandBase<UpdateClien
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> _entityFactory;
-
 	protected UpdateClientCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

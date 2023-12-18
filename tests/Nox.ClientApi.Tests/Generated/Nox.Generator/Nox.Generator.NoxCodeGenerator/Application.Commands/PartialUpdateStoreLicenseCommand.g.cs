@@ -33,7 +33,7 @@ internal abstract class PartialUpdateStoreLicenseCommandHandlerBase : CommandBas
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateStoreLicenseCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
