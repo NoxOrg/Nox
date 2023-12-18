@@ -4,6 +4,7 @@ using Nox.Integration.Exceptions;
 using Nox.Integration.Extensions.Receive;
 using Nox.Integration.Extensions.Send;
 using Nox.Solution;
+using Nox.Types;
 
 namespace Nox.Integration.Extensions;
 
@@ -11,85 +12,30 @@ public static class IntegrationContextExtensions
 {
     internal static INoxIntegration WithReceiveAdapter(this INoxIntegration instance, IntegrationSource sourceDefinition, IReadOnlyList<DataConnection>? dataConnections)
     {
+        var dataConnection = dataConnections!.FirstOrDefault(dc => dc.Name == sourceDefinition.DataConnectionName);
         switch (sourceDefinition.SourceAdapterType)
         {
             case IntegrationSourceAdapterType.DatabaseQuery:
-                var dataConnection = ProcessQuerySourceDefinition(sourceDefinition, dataConnections);
-                instance.WithDatabaseReceiveAdapter(sourceDefinition.QueryOptions!, dataConnection);
+                instance.WithDatabaseReceiveAdapter(sourceDefinition.QueryOptions!, dataConnection!);
+                break;
+            case IntegrationSourceAdapterType.File:
+                instance.WithFileReceiveAdapter(sourceDefinition.FileOptions!, dataConnection!);
                 break;
         }
 
         return instance;
     }
     
-    private static DataConnection ProcessQuerySourceDefinition(IntegrationSource sourceDefinition, IReadOnlyList<DataConnection>? dataConnections)
-    {
-        if (sourceDefinition.QueryOptions == null)
-        {
-            throw new NoxIntegrationConfigurationException(
-                "Query options missing. Integrations that receive data from database queries must specify valid query options.");
-        }
-
-        DataConnection? dataConnectionDefinition = null;
-                
-        if (!string.IsNullOrWhiteSpace(sourceDefinition.DataConnectionName))
-        {
-            if (dataConnections == null || !dataConnections.Any())
-            {
-                throw new NoxIntegrationConfigurationException("Data Connections missing from solution definition.");
-            }
-
-            dataConnectionDefinition = dataConnections.FirstOrDefault(dc => dc.Name == sourceDefinition.DataConnectionName);
-        }
-
-        if (dataConnectionDefinition == null)
-        {
-            throw new NoxIntegrationConfigurationException(
-                "Data Connection definition missing. Integrations that receive data from databases must specify a valid data connection definition.");
-        }
-
-        return dataConnectionDefinition;
-    }
-
     internal static INoxIntegration WithSendAdapter(this INoxIntegration instance, IntegrationTarget targetDefinition, IReadOnlyList<DataConnection>? dataConnections)
     {
         switch (targetDefinition.TargetAdapterType)
         {
             case IntegrationTargetAdapterType.DatabaseTable:
-                var dataConnection = ProcessDatabaseTargetDefinition(targetDefinition, dataConnections);
-                instance.WithDatabaseTableSendAdapter(targetDefinition.TableOptions!, dataConnection);
+                var dataConnection = dataConnections!.FirstOrDefault(dc => dc.Name == targetDefinition.DataConnectionName);
+                instance.WithDatabaseTableSendAdapter(targetDefinition.TableOptions!, dataConnection!);
                 break;
         }
         return instance;
-    }
-
-    private static DataConnection ProcessDatabaseTargetDefinition(IntegrationTarget targetDefinition, IReadOnlyList<DataConnection>? dataConnections)
-    {
-        if (targetDefinition.TableOptions == null)
-        {
-            throw new NoxIntegrationConfigurationException(
-                "Database options missing. Integrations that send data to databases must specify valid database options.");
-        }
-
-        DataConnection? dataConnectionDefinition = null;
-                
-        if (!string.IsNullOrWhiteSpace(targetDefinition.DataConnectionName))
-        {
-            if (dataConnections == null || !dataConnections.Any())
-            {
-                throw new NoxIntegrationConfigurationException("Data Connections missing from solution definition.");
-            }
-
-            dataConnectionDefinition = dataConnections.FirstOrDefault(dc => dc.Name == targetDefinition.DataConnectionName);
-        }
-
-        if (dataConnectionDefinition == null)
-        {
-            throw new NoxIntegrationConfigurationException(
-                "Data Connection definition missing. Integrations that send data to databases must specify a valid data connection definition.");
-        }
-
-        return dataConnectionDefinition;
     }
 
     internal static INoxIntegration WithSchedule(this INoxIntegration instance, IntegrationSchedule schedule)

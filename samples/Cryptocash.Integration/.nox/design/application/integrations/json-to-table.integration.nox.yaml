@@ -1,0 +1,63 @@
+#
+# JsonToCustomTable.integration.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/integration.json
+#
+
+name: JsonToTable
+
+description: Synchronization of Country data from a sample Json file to a Nox entity store database table using a custom transformation.
+
+mergeType: mergeNew
+
+schedule:
+  start: Every week on Sunday at 3am
+  runOnStartup: false
+
+source:
+  name: SampleSource
+  description: Curated dataset of country information.
+  dataConnectionName: CountryJsonSource
+
+  sourceAdapterType: file
+  fileOptions: 
+    filename: CountryMaster.json
+    recordAttributes:
+      - name: Name
+        description: Country's name
+        type: text
+        textTypeOptions:
+          minLength: 4
+          maxLength: 63
+        isRequired: true
+
+      - name: Population
+        description: Country's population
+        type: number
+        isRequired: true
+
+      - name: CreateDate
+        description: The date on which the country record was created
+        type: dateTime
+        isRequired: true
+
+      - name: EditDate
+        description: The date on which the country record was last updated
+        type: dateTime
+
+transformationType: customTransform
+
+target:
+  name: SampleTarget
+  description: The CountriesQueryToCustomTable table of the Cryptocash database
+  dataConnectionName: CryptocashEtlDb
+  targetAdapterType: databaseTable
+  tableOptions:
+    tableName: CountriesJsonToTable
+    watermark:
+      sequentialKeyColumns:
+        - Id
+      dateColumns:
+        - CreateDate
+        - EditDate
+

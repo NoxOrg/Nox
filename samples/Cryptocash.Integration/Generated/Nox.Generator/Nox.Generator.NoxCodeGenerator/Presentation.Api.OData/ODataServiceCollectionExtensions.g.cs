@@ -25,12 +25,16 @@ internal static class ODataServiceCollectionExtensions
         // Odata requires/likes complex type to be registered before entity types and sets
         builder.ComplexType<CountryQueryToTablePartialUpdateDto>();
         builder.ComplexType<CountryQueryToCustomTablePartialUpdateDto>();
+        builder.ComplexType<CountryJsonToTablePartialUpdateDto>();
 
         builder.EntitySet<CountryQueryToTableDto>("CountryQueryToTables");
 		builder.EntityType<CountryQueryToTableDto>().HasKey(e => new { e.Id });
 
         builder.EntitySet<CountryQueryToCustomTableDto>("CountryQueryToCustomTables");
 		builder.EntityType<CountryQueryToCustomTableDto>().HasKey(e => new { e.Id });
+
+        builder.EntitySet<CountryJsonToTableDto>("CountryJsonToTables");
+		builder.EntityType<CountryJsonToTableDto>().HasKey(e => new { e.Id });
 
        
         if(configure != null) configure(builder);

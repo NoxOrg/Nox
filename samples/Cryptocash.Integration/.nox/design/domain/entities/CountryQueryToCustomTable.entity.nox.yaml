@@ -28,6 +28,8 @@ attributes:
   - name: Population
     description: Country's population
     type: number
+    numberTypeOptions:
+      
     isRequired: true
     
   - name: CreateDate

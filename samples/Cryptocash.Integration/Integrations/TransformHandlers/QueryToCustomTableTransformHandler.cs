@@ -1,7 +1,7 @@
 using CryptocashIntegration.Application.Integration.CustomTransformHandlers;
 using Nox.Integration.Abstractions.Interfaces;
 
-namespace Cryptocash.Integration.Integrations;
+namespace Cryptocash.Integration.Integrations.TransformHandlers;
 
 public class QueryToCustomTableTransformHandler: QueryToCustomTableTransformHandlerBase, INoxCustomTransformHandler
 {

@@ -4,16 +4,16 @@ using Nox.Integration.Abstractions.Models;
 
 namespace Cryptocash.Integration.Integrations;
 
-public class CountryQueryToCustomTableExecuteCompletedEventHandler: INotificationHandler<CountryQueryToCustomTableExecuteCompletedEvent>
+public class JsonToTableExecuteCompletedEventHandler: INotificationHandler<JsonToTableExecuteCompletedEvent>
 {
     private readonly ILogger _logger;
 
-    public CountryQueryToCustomTableExecuteCompletedEventHandler(ILogger<CountryQueryToCustomTableExecuteCompletedEventHandler> logger)
+    public JsonToTableExecuteCompletedEventHandler(ILogger<QueryToCustomTableExecuteCompletedEventHandler> logger)
     {
         _logger = logger;
     }
     
-    public Task Handle(CountryQueryToCustomTableExecuteCompletedEvent notification, CancellationToken cancellationToken)
+    public Task Handle(JsonToTableExecuteCompletedEvent notification, CancellationToken cancellationToken)
     {
         var payload = (EtlExecuteCompletedDto)notification.Dto!;
         _logger.LogInformation("Received: {0}\n " +
@@ -22,7 +22,7 @@ public class CountryQueryToCustomTableExecuteCompletedEventHandler: INotificatio
                                "Inserts: {1}\n" +
                                "Updated: {2}\n" +
                                "UnChanged: {3}\n", 
-            "CountryQueryToCustomTableExecuteCompletedEvent", payload.Inserts, payload.Updates, payload.Unchanged);
+            "JsonToTableExecuteCompletedEvent", payload.Inserts, payload.Updates, payload.Unchanged);
         return Task.CompletedTask;
     }
 }

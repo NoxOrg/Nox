@@ -34,7 +34,7 @@ public class SqlServerIntegrationFixture
         {
             opts.WithSqlServerStore();
         });
-        
+        Services.AddNoxMediatR(Assembly.GetExecutingAssembly());
     }
 
     public void Initialize()

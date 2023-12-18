@@ -1,0 +1,3 @@
+name: JsonSource
+provider: jsonFile
+serverUri: ./files/source-data/

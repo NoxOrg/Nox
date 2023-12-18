@@ -8,10 +8,11 @@ using Nox.Integration.Abstractions.Models;
 
 namespace TestIntegrationSolution.Application.Integrations;
 
-public class TestEntityRecordUpdatedEvent: EtlRecordUpdatedEvent<IEtlEventDto>, INotification
+public class TestIntegrationRecordUpdatedEvent: EtlRecordUpdatedEvent<IEtlEventDto>, INotification
 {
-    public TestEntityRecordUpdatedEvent(TestIntegrationRecordUpdatedDto dto)
+    public TestIntegrationRecordUpdatedEvent(TestIntegrationRecordUpdatedDto dto)
     {
         IntegrationName = "TestIntegration";
+        SetDto(dto);
     }
 }

@@ -1,0 +1,3 @@
+dataConnections:
+  - $ref: ./dataConnections/jsonSource.dataConnection.nox.yaml
+  - $ref: ./dataConnections/etlSample.dataConnection.nox.yaml

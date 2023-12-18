@@ -52,7 +52,7 @@ internal class EtlEventGenerator: INoxCodeGenerator
             
             //Created Event
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"{entity.Name}RecordCreatedEvent")
+                .WithClassName($"{integration.Name}RecordCreatedEvent")
                 .WithFileNamePrefix("Application.Integration.EtlEvents")
                 .WithObject("integration", integration)
                 .GenerateSourceCodeFromResource("Application.Integration.EtlCreatedEvent");
@@ -66,14 +66,14 @@ internal class EtlEventGenerator: INoxCodeGenerator
             
             //Updated event
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"{entity.Name}RecordUpdatedEvent")
+                .WithClassName($"{integration.Name}RecordUpdatedEvent")
                 .WithFileNamePrefix("Application.Integration.EtlEvents")
                 .WithObject("integration", integration)
                 .GenerateSourceCodeFromResource("Application.Integration.EtlUpdatedEvent");
             
             
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"{entity.Name}ExecuteCompletedEvent")
+                .WithClassName($"{integration.Name}ExecuteCompletedEvent")
                 .WithFileNamePrefix("Application.Integration.EtlEvents")
                 .WithObject("integration", integration)
                 .GenerateSourceCodeFromResource("Application.Integration.EtlCompletedEvent");
