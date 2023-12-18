@@ -58,19 +58,35 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
 
     public virtual async Task UpdateEntityAsync(BankNoteEntity entity, BankNoteUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
     }
 
     public virtual void PartialUpdateEntity(BankNoteEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        try
+        {
+             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
     }
 
     private async Task<Cryptocash.Domain.BankNote> ToEntityAsync(BankNoteUpsertDto createDto)
     {
         var entity = new Cryptocash.Domain.BankNote();
-        entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(createDto.CashNote);
-        entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(createDto.Value);
+        entity.SetIfNotNull(createDto.CashNote, (entity) => entity.CashNote = 
+            Cryptocash.Domain.BankNoteMetadata.CreateCashNote(createDto.CashNote.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Value, (entity) => entity.Value = 
+            Cryptocash.Domain.BankNoteMetadata.CreateValue(createDto.Value.NonNullValue<MoneyDto>()));
         return await Task.FromResult(entity);
     }
 

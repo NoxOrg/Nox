@@ -31,5 +31,5 @@ public partial class TestEntityTwoRelationshipsOneToManyUpdateDtoBase: EntityDto
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "TextTestField is required")]
     
-    public virtual System.String TextTestField { get; set; } = default!;
+    public virtual System.String? TextTestField { get; set; }
 }

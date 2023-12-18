@@ -75,6 +75,9 @@ erDiagram
 ## Integration Events
 [IntegrationEvents](./IntegrationEvents.md)
 
+## Custom API Routes
+[CustomApiRoutes](./CustomApiRoutes.md)
+
 ## Definitions for Domain Entities
 
 ### Booking

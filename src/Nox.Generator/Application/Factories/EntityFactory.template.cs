@@ -7,6 +7,9 @@ end -}}
 {{- func keyType(key)
    ret (key.Type == "EntityId") ? (SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity) : (SinglePrimitiveTypeForKey key)
 end -}}
+{{- func attributeType(attribute)
+	ret (IsNoxTypeSimpleType attribute.Type) ? (SinglePrimitiveTypeForKey attribute) : (attribute.Type + "Dto")
+end -}}
 // Generated
 
 #nullable enable
@@ -80,12 +83,26 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 
     public virtual async Task UpdateEntityAsync({{entity.Name}}Entity entity, {{entityUpdateDto}} updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
     }
 
     public virtual void PartialUpdateEntity({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        try
+        {
+             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
     }
 
     private async Task<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}> ToEntityAsync({{entityCreateDto}} createDto)
@@ -95,22 +112,15 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
             {{- if !IsNoxTypeCreatable key.Type || key.Type == "Guid" -}}
                 {{ continue; -}}
             {{- end }}
-        entity.{{key.Name}} = {{entity.Name}}Metadata.Create{{key.Name}}(createDto.{{key.Name}}{{if entity.IsOwnedEntity}}.NonNullValue<{{keyType key}}>(){{end}});
+        entity.{{key.Name}} = {{entity.Name}}Metadata.Create{{key.Name}}(createDto.{{key.Name}}.NonNullValue<{{keyType key}}>());
         {{- end }}
+
         {{- for attribute in entity.Attributes }}
             {{- if !IsNoxTypeCreatable attribute.Type -}}
                 {{ continue; }}
             {{- end}}
-        {{- if !attribute.IsRequired }}
         entity.SetIfNotNull(createDto.{{attribute.Name}}, (entity) => entity.{{attribute.Name}} = 
-            {{- if IsNoxTypeSimpleType attribute.Type -}}
-        {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(createDto.{{attribute.Name}}.NonNullValue<{{SinglePrimitiveTypeForKey attribute}}>()));
-            {{- else -}}
-        {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(createDto.{{attribute.Name}}.NonNullValue<{{attribute.Type}}Dto>()));
-            {{- end}}
-        {{- else }}
-        entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(createDto.{{attribute.Name}});
-        {{- end }}
+            {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(createDto.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>()));
         {{- end }}
 
         {{- for key in entity.Keys ~}}		   

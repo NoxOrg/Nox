@@ -31,5 +31,5 @@ public partial class SecondTestEntityOneOrManyUpdateDtoBase: EntityDtoBase, IEnt
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "TextTestField2 is required")]
     
-    public virtual System.String TextTestField2 { get; set; } = default!;
+    public virtual System.String? TextTestField2 { get; set; }
 }

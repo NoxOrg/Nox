@@ -58,19 +58,35 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
 
     public virtual async Task UpdateEntityAsync(CommissionEntity entity, CommissionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
     }
 
     public virtual void PartialUpdateEntity(CommissionEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        try
+        {
+             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
     }
 
     private async Task<Cryptocash.Domain.Commission> ToEntityAsync(CommissionCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Commission();
-        entity.Rate = Cryptocash.Domain.CommissionMetadata.CreateRate(createDto.Rate);
-        entity.EffectiveAt = Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(createDto.EffectiveAt);
+        entity.SetIfNotNull(createDto.Rate, (entity) => entity.Rate = 
+            Cryptocash.Domain.CommissionMetadata.CreateRate(createDto.Rate.NonNullValue<System.Single>()));
+        entity.SetIfNotNull(createDto.EffectiveAt, (entity) => entity.EffectiveAt = 
+            Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(createDto.EffectiveAt.NonNullValue<System.DateTimeOffset>()));
         return await Task.FromResult(entity);
     }
 

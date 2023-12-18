@@ -58,20 +58,37 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
 
     public virtual async Task UpdateEntityAsync(CashStockOrderEntity entity, CashStockOrderUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
     }
 
     public virtual void PartialUpdateEntity(CashStockOrderEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        try
+        {
+             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
     }
 
     private async Task<Cryptocash.Domain.CashStockOrder> ToEntityAsync(CashStockOrderCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.CashStockOrder();
-        entity.Amount = Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(createDto.Amount);
-        entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(createDto.RequestedDeliveryDate);
-        entity.SetIfNotNull(createDto.DeliveryDateTime, (entity) => entity.DeliveryDateTime =Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(createDto.DeliveryDateTime.NonNullValue<System.DateTimeOffset>()));
+        entity.SetIfNotNull(createDto.Amount, (entity) => entity.Amount = 
+            Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(createDto.Amount.NonNullValue<MoneyDto>()));
+        entity.SetIfNotNull(createDto.RequestedDeliveryDate, (entity) => entity.RequestedDeliveryDate = 
+            Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(createDto.RequestedDeliveryDate.NonNullValue<System.DateTime>()));
+        entity.SetIfNotNull(createDto.DeliveryDateTime, (entity) => entity.DeliveryDateTime = 
+            Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(createDto.DeliveryDateTime.NonNullValue<System.DateTimeOffset>()));
         return await Task.FromResult(entity);
     }
 

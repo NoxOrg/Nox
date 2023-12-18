@@ -58,24 +58,45 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
 
     public virtual async Task UpdateEntityAsync(VendingMachineEntity entity, VendingMachineUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
     }
 
     public virtual void PartialUpdateEntity(VendingMachineEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        try
+        {
+             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
     }
 
     private async Task<Cryptocash.Domain.VendingMachine> ToEntityAsync(VendingMachineCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.VendingMachine();
-        entity.MacAddress = Cryptocash.Domain.VendingMachineMetadata.CreateMacAddress(createDto.MacAddress);
-        entity.PublicIp = Cryptocash.Domain.VendingMachineMetadata.CreatePublicIp(createDto.PublicIp);
-        entity.GeoLocation = Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(createDto.GeoLocation);
-        entity.StreetAddress = Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(createDto.StreetAddress);
-        entity.SerialNumber = Cryptocash.Domain.VendingMachineMetadata.CreateSerialNumber(createDto.SerialNumber);
-        entity.SetIfNotNull(createDto.InstallationFootPrint, (entity) => entity.InstallationFootPrint =Cryptocash.Domain.VendingMachineMetadata.CreateInstallationFootPrint(createDto.InstallationFootPrint.NonNullValue<System.Decimal>()));
-        entity.SetIfNotNull(createDto.RentPerSquareMetre, (entity) => entity.RentPerSquareMetre =Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(createDto.RentPerSquareMetre.NonNullValue<MoneyDto>()));
+        entity.SetIfNotNull(createDto.MacAddress, (entity) => entity.MacAddress = 
+            Cryptocash.Domain.VendingMachineMetadata.CreateMacAddress(createDto.MacAddress.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.PublicIp, (entity) => entity.PublicIp = 
+            Cryptocash.Domain.VendingMachineMetadata.CreatePublicIp(createDto.PublicIp.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.GeoLocation, (entity) => entity.GeoLocation = 
+            Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(createDto.GeoLocation.NonNullValue<LatLongDto>()));
+        entity.SetIfNotNull(createDto.StreetAddress, (entity) => entity.StreetAddress = 
+            Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(createDto.StreetAddress.NonNullValue<StreetAddressDto>()));
+        entity.SetIfNotNull(createDto.SerialNumber, (entity) => entity.SerialNumber = 
+            Cryptocash.Domain.VendingMachineMetadata.CreateSerialNumber(createDto.SerialNumber.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.InstallationFootPrint, (entity) => entity.InstallationFootPrint = 
+            Cryptocash.Domain.VendingMachineMetadata.CreateInstallationFootPrint(createDto.InstallationFootPrint.NonNullValue<System.Decimal>()));
+        entity.SetIfNotNull(createDto.RentPerSquareMetre, (entity) => entity.RentPerSquareMetre = 
+            Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(createDto.RentPerSquareMetre.NonNullValue<MoneyDto>()));
         entity.EnsureId(createDto.Id);
         return await Task.FromResult(entity);
     }

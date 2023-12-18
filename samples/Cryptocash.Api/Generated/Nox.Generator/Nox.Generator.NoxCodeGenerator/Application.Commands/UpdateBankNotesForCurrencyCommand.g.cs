@@ -15,6 +15,7 @@ using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using BankNoteEntity = Cryptocash.Domain.BankNote;
+using CurrencyEntity = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
 
@@ -57,16 +58,24 @@ internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandBas
 			return null;
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.BankNotes).LoadAsync(cancellationToken);
-		var ownedId = Cryptocash.Domain.BankNoteMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
-		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
-		if (entity == null)
+		
+		BankNoteEntity? entity;
+		if(request.EntityDto.Id is null)
 		{
-			return null;
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+		}
+		else
+		{
+			var ownedId = Cryptocash.Domain.BankNoteMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
+			entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
+			if (entity is null)
+				return null;
+			else
+				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		}
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
+		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 
@@ -79,12 +88,18 @@ internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandBas
 
 		return new BankNoteKeyDto(entity.Id.Value);
 	}
+	
+	private async Task<BankNoteEntity> CreateEntityAsync(BankNoteUpsertDto upsertDto, CurrencyEntity parent)
+	{
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		parent.CreateRefToBankNotes(entity);
+		return entity;
+	}
 }
 
 public class UpdateBankNotesForCurrencyValidator : AbstractValidator<UpdateBankNotesForCurrencyCommand>
 {
-    public UpdateBankNotesForCurrencyValidator(ILogger<UpdateBankNotesForCurrencyCommand> logger)
+    public UpdateBankNotesForCurrencyValidator()
     {
-		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
     }
 }

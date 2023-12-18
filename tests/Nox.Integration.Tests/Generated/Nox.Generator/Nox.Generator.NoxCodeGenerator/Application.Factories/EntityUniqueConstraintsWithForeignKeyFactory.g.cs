@@ -69,8 +69,10 @@ internal abstract class EntityUniqueConstraintsWithForeignKeyFactoryBase : IEnti
     private async Task<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey> ToEntityAsync(EntityUniqueConstraintsWithForeignKeyCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey();
-        entity.SetIfNotNull(createDto.TextField, (entity) => entity.TextField =TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>()));
-        entity.SomeUniqueId = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateSomeUniqueId(createDto.SomeUniqueId);
+        entity.SetIfNotNull(createDto.TextField, (entity) => entity.TextField = 
+            TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.SomeUniqueId, (entity) => entity.SomeUniqueId = 
+            TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateSomeUniqueId(createDto.SomeUniqueId.NonNullValue<System.Int32>()));
         entity.EnsureId(createDto.Id);
         return await Task.FromResult(entity);
     }

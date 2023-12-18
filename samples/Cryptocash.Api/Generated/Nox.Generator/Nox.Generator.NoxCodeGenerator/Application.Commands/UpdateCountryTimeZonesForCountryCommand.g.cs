@@ -15,6 +15,7 @@ using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using CountryTimeZoneEntity = Cryptocash.Domain.CountryTimeZone;
+using CountryEntity = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
 
@@ -57,16 +58,24 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 			return null;
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.CountryTimeZones).LoadAsync(cancellationToken);
-		var ownedId = Cryptocash.Domain.CountryTimeZoneMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
-		var entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
-		if (entity == null)
+		
+		CountryTimeZoneEntity? entity;
+		if(request.EntityDto.Id is null)
 		{
-			return null;
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+		}
+		else
+		{
+			var ownedId = Cryptocash.Domain.CountryTimeZoneMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
+			entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
+			if (entity is null)
+				return null;
+			else
+				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		}
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
+		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 
@@ -79,12 +88,18 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 
 		return new CountryTimeZoneKeyDto(entity.Id.Value);
 	}
+	
+	private async Task<CountryTimeZoneEntity> CreateEntityAsync(CountryTimeZoneUpsertDto upsertDto, CountryEntity parent)
+	{
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		parent.CreateRefToCountryTimeZones(entity);
+		return entity;
+	}
 }
 
 public class UpdateCountryTimeZonesForCountryValidator : AbstractValidator<UpdateCountryTimeZonesForCountryCommand>
 {
-    public UpdateCountryTimeZonesForCountryValidator(ILogger<UpdateCountryTimeZonesForCountryCommand> logger)
+    public UpdateCountryTimeZonesForCountryValidator()
     {
-		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
     }
 }

@@ -85,10 +85,10 @@ namespace Nox.Tests.ProjectDependencies
         }
 
         [Fact]
-        public void Nox_Abstraction_References_Nox_Types_And_Solution_Only()
+        public void NoxCore_References_Nox_Types_And_Solution_Only()
         {
             var projectDependencies =
-                _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectTransitivelyDependsOn(_fixture.NoxAbstractions.Id);
+                _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectTransitivelyDependsOn(_fixture.NoxCore.Id);
 
             projectDependencies.Should().HaveCount(3);
 
@@ -96,6 +96,7 @@ namespace Nox.Tests.ProjectDependencies
             projectDependencies.SingleOrDefault(d => d.Id == _fixture.NoxTypesAbstractionsProject.Id.Id).Should().NotBeNull();
             projectDependencies.SingleOrDefault(d => d.Id == _fixture.NoxYamlProject.Id.Id).Should().NotBeNull();
         }
+
         #region Nox.Solution
         [Fact]
         public void Nox_Solution_References_Nox_Types_Abstractions_Yaml_Only()
@@ -110,6 +111,7 @@ namespace Nox.Tests.ProjectDependencies
         }
 
         #endregion
+
         #region Nox.Yaml
         [Fact]
         public void Nox_Yaml_Should_Not_Reference_Any_Project()

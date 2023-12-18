@@ -46,7 +46,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
+      <ProjectReference Include="..\Nox.Core\Nox.Core.csproj" />
       <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
       <ProjectReference Include="..\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
     </ItemGroup>

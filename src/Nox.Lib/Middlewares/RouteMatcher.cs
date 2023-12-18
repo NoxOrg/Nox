@@ -107,8 +107,14 @@ public class ApiRouteMatcher
                     return false;
                 }
 
+
                 if (paramStart < paramEnd)
                 {
+                    if (_routeParamKeys.Length <= paramPos)
+                    {
+                        return false;
+                    }
+
                     var paramKey = _routeParamKeys[paramPos++];
 
                     var paramValue = routeToMatchSpan[paramStart..paramEnd];

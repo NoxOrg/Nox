@@ -7,7 +7,7 @@
 
 <div align="center"><a href="https://noxorg.dev"><strong>Visit the Nox homepage »</strong></a><br /><br /><a href="https://github.com/NoxOrg/Nox.Generator/blob/main/docs/CONTRIBUTING.md">Contribute to Nox</a> · <a href="https://noxorg.dev/en/nox-lib-quick-start-project/">Use Nox for your project</a></div><br />
 
-<details><summary>Table of Contents</summary><ol><li><a href="#about">About</a></li><li><a href="#main-features">Main Features</a></li><li><a href="#contributing-to-the-nox-library">Contributing to the Nox library</a></li><ul><li><a href="#local-development">Local Development</a></li><li><a href="#update-the-database-model">Update the Database Model</a></li><li><a href="#odata">Odata</a></li><li><a href="#[nox.solution]-updating-schemas">[Nox.Solution] Updating Schemas</a></li><li><a href="#[nox.types]-tostring-conventions">[Nox.Types] ToString conventions</a></li><li><a href="#versioning">Versioning</a></li></ul><ul><li><a href="#using-it-locally">Using it locally</a></li></ul><ul><li><a href="#release">Release</a></li></ul><li><a href="#using-the-nox-library">Using the Nox Library</a></li><ul><li><a href="#environment-variables-for-sensitive-data">Environment Variables for Sensitive Data</a></li></ul><ul><li><a href="#example">Example</a></li></ul><ul><li><a href="#query-and-command-extensibility">Query and Command Extensibility</a></li></ul><ul><li><a href="#security-and-other-validations">Security and other Validations</a></li><li><a href="#queries-filter-extension">Queries Filter Extension</a></li><li><a href="#add-new-queries-to-existing-controllers">Add new Queries to Existing Controllers</a></li></ul></ol></details>
+<details><summary>Table of Contents</summary><ol><li><a href="#about">About</a></li><li><a href="#main-features">Main Features</a></li><li><a href="#contributing-to-the-nox-library">Contributing to the Nox library</a></li><ul><li><a href="#local-development">Local Development</a></li><li><a href="#update-the-database-model">Update the Database Model</a></li><li><a href="#odata">Odata</a></li><li><a href="#[nox.solution]-updating-schemas">[Nox.Solution] Updating Schemas</a></li><li><a href="#[nox.types]-tostring-conventions">[Nox.Types] ToString conventions</a></li><li><a href="#versioning">Versioning</a></li></ul><ul><li><a href="#using-it-locally">Using it locally</a></li></ul><ul><li><a href="#release">Release</a></li></ul><li><a href="#using-the-nox-library">Using the Nox Library</a></li><ul><li><a href="#environment-variables-for-sensitive-data">Environment Variables for Sensitive Data</a></li></ul><ul><li><a href="#example">Example</a></li></ul><ul><li><a href="#query-and-command-extensibility">Query and Command Extensibility</a></li></ul><ul><li><a href="#security-and-other-validations">Security and other Validations</a></li><li><a href="#queries-filter-extension">Queries Filter Extension</a></li><li><a href="#add-new-queries-to-existing-controllers">Add new Queries to Existing Controllers</a></li><li><a href="#generated-api">Generated API</a></li></ul></ol></details>
 
 # About
 
@@ -235,6 +235,178 @@ namespace SampleWebApp.Application.Queries
 }
 
 ```
+
+### Generated API
+
+The endpoints below are generated to manage CRUD operations for Entity (e.g. Country), its related and owned entities.
+
+#### Entity endpoints
+
+##### GET `/api/<EntityPluralName>` (e.g. `/api/Countries`)
+- **Description:** Retrieves a list of entities (e.g. countries). OData query is enabled for this endpoint.
+- **Query Parameters:** None
+- **Response:** Returns a queryable collection of `<Entity>Dto` (e.g. `CountryDto`) objects.
+
+##### GET `/api/<EntityPluralName>/<key>` (e.g. `/api/Countries/1`)
+- **Description:** Retrieves a specific entity (e.g. country) by ID. OData query is enabled for this endpoint.
+- **Path Parameters:**
+`<key>`: ID of the entity to retrieve.
+- **Response:** Returns a single queryable `<Entity>Dto` (e.g. `CountryDto`) object.
+
+##### POST `/api/<EntityPluralName>` (e.g. `/api/Countries`)
+- **Description:** Creates a new entity (e.g. country).
+- **Request Body:** `<Entity>CreateDto` (e.g. `CountryCreateDto`) object.
+**Owned entities:** `<Entity>CreateDto` contains `<OwnedEntity>UpsertDto` (e.g. `CountryLocalNameUpsertDto`) property to create new owned entity.
+**Related entities:** `<Entity>CreateDto` contains `<RelatedEntity>Id` (e.g. `TimeZoneId`) property to create a reference between new entity and existing related entity.
+- **Response:** Returns the newly created `<Entity>Dto` (e.g. `CountryDto`) object.
+
+##### PUT `/api/<EntityPluralName>/<key>` (e.g. `/api/Countries/1`)
+- **Description:** Updates an existing entity (e.g. a country) by ID.
+- **Path Parameters:**
+`<key>`: ID of the entity to update.
+- **Request Body:** `<Entity>UpdateDto` (e.g. `CountryUpdateDto`) object.
+**Owned entities:** `<Entity>UpdateDto` contains `<OwnedEntity>UpsertDto` (e.g. `CountryLocalNameUpsertDto`) property to create/update/delete owned entities.
+**Related entities:** `<Entity>UpdateDto` does not contains related entity properties.
+- **Response:** Returns the updated `<Entity>Dto` (e.g. `CountryDto`) object.
+
+##### PATCH `/api/<EntityPluralName>/<key>` (e.g. `/api/Countries/1`)
+- **Description:** Partially updates an existing entity (e.g. a country) by ID.
+- **Path Parameters:**
+`<key>`: ID of the entity to partially update.
+- **Request Body:** `Delta<<Entity>PartialUpdateDto>` (e.g. `Delta<CountryPartialUpdateDto>`) object.
+**Owned entities:** `Delta<<Entity>PartialUpdateDto>` does not contains owned entity properties.
+**Related entities:** `Delta<<Entity>PartialUpdateDto>` does not contains related entity properties.
+- **Response:** Returns the updated `<Entity>Dto` (e.g. `CountryDto`) object after partial update.
+
+##### DELETE `/api/<EntityPluralName>/<key>` (e.g. `/api/Countries/1`)
+- **Description:** Deletes a specific entity (e.g. country) by ID.
+- **Path Parameters:**
+`<key>`: ID of the entity to delete.
+- **Response:** Returns a status code indicating success or failure.
+
+#### Owned Entities endpoints
+The following endpoints are generated based on `relationship => canManageEntity` yaml configuration.
+
+##### GET `/api/<EntityPluralName>/<key>/<OwnedEntityName>` (e.g. `/api/Countries/1/CountryLocalNames`)
+- **Description:** Retrieves owned entities (e.g. CountryLocalNames) associated with a specific entity (e.g. country). OData query is enabled for this endpoint.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+- **Response:** Returns a queryable collection of `<OwnedEntity>Dto` (e.g. `CountryLocalNameDto`) objects.
+
+##### GET `/api/<EntityPluralName>/<key>/<OwnedEntityName>/<relatedKey>` (e.g. `/api/Countries/1/CountryLocalNames/1`) - for zeroOrMany/oneOrMany relationships only
+- **Description:** Retrieves a specific owned entity (e.g. CountryLocalName) associated with a specific entity (e.g. country) by ID. OData query is enabled for this endpoint.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+`<relatedKey>`: ID of the owned entity.
+- **Response:** Returns a single queryable `<OwnedEntity>Dto` (e.g. `CountryLocalNameDto`) object.
+
+##### POST `/api/<EntityPluralName>/<key>/<OwnedEntityName>` (e.g. `/api/Countries/1/CountryLocalNames`)
+- **Description:** Creates a new owned entity (e.g. CountryLocalName) for the existing entity (e.g. country).
+- **Path Parameters:**
+`<key>`: ID of the entity.
+- **Request Body:** `<OwnedEntity>UpsertDto` (e.g. `CountryLocalNameUpsertDto`) object.
+- **Response:** Returns the newly created `<OwnedEntity>Dto` (e.g. `CountryLocalNameDto`) object.
+
+##### PUT `/api/<EntityPluralName>/<key>/<OwnedEntityName>` (e.g. `/api/Countries/1/CountryLocalNames`)
+- **Description:** Updates or creates an owned entity (e.g. CountryLocalName) for the existing entity (e.g. country) by ID.
+- **Path Parameters:**
+`<key>`: ID of the entity to update.
+- **Request Body:** `<OwnedEntity>UpsertDto` (e.g. `CountryLocalNameUpsertDto`) object.
+- **Response:** Returns the updated or created `<OwnedEntity>Dto` (e.g. `CountryLocalNameDto`) object.
+
+##### PATCH `/api/<EntityPluralName>/<key>/<OwnedEntityName>` (e.g. `/api/Countries/1/CountryLocalNames`)
+- **Description:** Partially updates an owned entity (e.g. CountryLocalName) for the existing entity (e.g. country) by ID.
+- **Path Parameters:**
+`<key>`: ID of the entity to update.
+- **Request Body:** `Delta<<OwnedEntity>UpsertDto>` (e.g. `Delta<CountryLocalNameUpsertDto>`) object.
+- **Response:** Returns the updated `<OwnedEntity>Dto` (e.g. `CountryLocalNameDto`) object after partial update.
+
+##### DELETE `/api/<EntityPluralName>/<key>/<OwnedEntityName>/<relatedKey>` (e.g. `/api/Countries/1/CountryLocalNames/1`) [only for zeroOrMany/oneOrMany relationships]
+- **Description:** Deletes a specific owned entity (e.g. CountryLocalName) associated with a specific entity (e.g. country) by ID.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+`<relatedKey>`: ID of the owned entity.
+- **Response:** Returns a status code indicating success or failure.
+
+#### Related Entities endpoints to manage the related entity
+The following endpoints are generated based on `relationship => canManageEntity` yaml configuration.
+
+##### GET `/api/<EntityPluralName>/<key>/<RelatedEntityPluralName>` (e.g. `/api/Countries/1/TimeZones`)
+- **Description:** Retrieves all related entities (e.g. time zones) associated with a specific entity (e.g. country). OData query is enabled for this endpoint.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+- **Response:** Returns a queryable collection of `<RelatedEntity>Dto` (e.g. `TimeZoneDto`) object.
+
+##### GET `/api/<EntityPluralName>/<key>/<RelatedEntityPluralName>/<relatedKey>` (e.g. `/api/Countries/1/TimeZones/1`) [only for zeroOrMany/oneOrMany relationships]
+- **Description:** Retrieves a specific related entity (e.g. time zone) associated with an entity (e.g. country) by ID. OData query is enabled for this endpoint.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+`<relatedKey>`: ID of the related entity.
+- **Response:** Returns a single queryable `<RelatedEntity>Dto` (e.g. `TimeZoneDto`) object.
+
+##### POST `/api/<EntityPluralName>/<key>/<RelatedEntityPluralName>` (e.g. `/api/Countries/1/TimeZones`)
+- **Description:** Creates new related entity (e.g. time zone) associated with an existing entity (e.g. country).
+- **Path Parameters:**
+`<key>`: ID of the entity.
+- **Request Body:** `<RelatedEntity>CreateDto` (e.g. `TimeZoneCreateDto`) object.
+- **Response:** Returns the newly created related entity `<RelatedEntity>Dto` (e.g. `TimeZoneDto`) object.
+
+##### PUT `/api/<EntityPluralName>/<key>/<RelatedEntityPluralName>/<relatedKey>` (e.g. `/api/Countries/1/TimeZones/1`)
+- **Description:** Updates a specific related entity (e.g. time zone) associated with an entity (e.g. country) by ID.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+`<relatedKey>`: ID of the related entity.
+- **Request Body:** `<RelatedEntity>CreateDto` (e.g. `TimeZoneCreateDto`) object.
+- **Response:** Returns the updated related entity `<RelatedEntity>Dto` (e.g. `TimeZoneDto`) object.
+
+##### DELETE `/api/<EntityPluralName>/<key>/<RelatedEntityPluralName>/<relatedKey>` (e.g. `/api/Countries/1/TimeZones/1`) [only for zeroOrMany/oneOrMany relationships]
+- **Description:** Deletes a specific related entity (e.g. time zone) associated with an entity (e.g. country) by ID.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+`<relatedKey>`: ID of the related entity.
+- **Response:** Returns a status code indicating success or failure.
+
+##### DELETE `/api/<EntityPluralName>/<key>/<RelatedEntityPluralName>` (e.g. `/api/Countries/1/TimeZones`)
+- **Description:** Deletes all related entities (e.g. time zones) associated with an entity (e.g. country).
+- **Path Parameters:**
+`<key>`: ID of the entity.
+- **Response:** Returns a status code indicating success or failure.
+
+#### Related Entities endpoints to manage the relationship between the existing entities
+The following endpoints are generated based on `relationship => canManageReference` yaml configuration.
+
+##### GET `/api/<EntityPluralName>/<key>/<RelatedEntityPluralName>/$ref` (e.g. `/api/Countries/1/TimeZones/$ref`)
+- **Description:** Retrieves references to the related entities (e.g. time zones) associated with a specific country.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+- **Response:** Returns a collection of URIs representing related entities resources.
+
+##### POST PUT `/api/<EntityPluralName>/<key>/<RelatedEntityPluralName>/<relatedKey>/$ref` (e.g. `/api/Countries/1/TimeZones/1/$ref`)
+- **Description:** Creates a relationship between the existing entity (e.g. country) and the existing related entity (e.g. time zone).
+- **Path Parameters:**
+`<key>`: ID of the entity.
+`<relatedKey>`: ID of the related entity.
+- **Response:** Returns a status code indicating success or failure.
+
+##### PUT `/api/<EntityPluralName>/<key>/<RelatedEntityPluralName>/$ref` (e.g. `/api/Countries/1/TimeZones/$ref`)
+- **Description:** Creates a relationship between the existing entity (e.g. country) and the existing related entities (e.g. time zones).
+- **Path Parameters:**
+`<key>`: ID of the entity.
+- **Request Body:** `ReferencesDto<relatedKey>` (e.g. `ReferencesDto<int>`) object containing related entities IDs.
+- **Response:** Returns a status code indicating success or failure.
+
+##### DELETE `/api/<EntityPluralName>/<key>/<RelatedEntityPluralName>/<relatedKey>/$ref` (e.g. `/api/Countries/1/TimeZones/1/$ref`) [only for zeroOrMany/oneOrMany relationships]
+- **Description:** Deletes the relationship between the entity (e.g. country) and the related entity (e.g. time zone).
+- **Path Parameters:**
+`<key>`: ID of the entity.
+`<relatedKey>`: ID of the related entity.
+- **Response:** Returns a status code indicating success or failure.
+
+##### DELETE `/api/<EntityPluralName>/<key>/<RelatedEntityPluralName>/$ref` (e.g. `/api/Countries/1/TimeZones/$ref`)
+- **Description:** Deletes all the relationship between the entity (e.g. country) and its the related entities (e.g. time zones).
+- **Path Parameters:**
+`<key>`: ID of the entity.
+- **Response:** Returns a status code indicating success or failure.
 
 [version-shield]: https://img.shields.io/nuget/v/Nox.Generator.svg?style=for-the-badge
 

@@ -30,8 +30,6 @@ internal class EntityDtoGenerator : INoxCodeGenerator
         {
             var primaryKeys = string.Join(", ", entity.Keys.Select(k => $"{codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
 
-            var enumerationAttributes = entity.Attributes.Where(attribute => attribute.Type == NoxType.Enumeration);
-
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
@@ -39,7 +37,6 @@ internal class EntityDtoGenerator : INoxCodeGenerator
                 .WithFileNamePrefix("Application.Dto")
                 .WithObject("entity", entity)
                 .WithObject("primaryKeys", primaryKeys)    
-                .WithObject("enumerationAttributes", enumerationAttributes)
                 .GenerateSourceCodeFromResource("Application.Dto.EntityDto");         
         }        
     }

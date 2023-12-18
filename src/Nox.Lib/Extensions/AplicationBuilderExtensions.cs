@@ -1,80 +1,17 @@
-﻿using System.Globalization;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Nox.Integration.Abstractions;
-using Nox.Lib;
-using Nox.Solution;
-using Serilog;
+﻿using Microsoft.AspNetCore.Builder;
 
 namespace Nox
 {
     public static class ApplicationBuilderBuilderExtensions
     {
         /// <summary>
-        /// Add Nox to the application builder, with optional Serilog request logging
+        /// Uses Nox Default Features
         /// </summary>
-        public static INoxBuilder UseNox(this IApplicationBuilder builder,
-            bool useSerilogRequestLogging = true)
+        public static IApplicationBuilder UseNox(this IApplicationBuilder builder, Action<INoxUseOptions>? configure = null)
         {
-
-            // Enabling http requests logging
-            if (useSerilogRequestLogging)
-                builder.UseSerilogRequestLogging();
-
-            builder.UseMiddleware<NoxApiMiddleware>().UseRouting();
-
-            builder.UseRequestLocalization();
-
-            var noxBuilder = new NoxBuilder(builder);
-#if DEBUG
-            noxBuilder.UseODataRouteDebug();
-#endif
-            var hostingEnvironment = builder
-                .ApplicationServices
-                .GetRequiredService<IHostEnvironment>();
-
-            var isDevelopment = hostingEnvironment.IsDevelopment();
-            if (isDevelopment)
-            {
-                builder.UseSwagger();
-                builder.UseSwaggerUI();
-            }
-
-            builder.UseMiddleware<NoxExceptionHanderMiddleware>();
-
-
-            noxBuilder.UseEtlBox(checkLicense: !isDevelopment);
-
-            var integrationContext = builder
-                .ApplicationServices
-                .GetService<INoxIntegrationContext>();
-
-            integrationContext?.ExecuteStartupIntegrations();
-
-            return noxBuilder;
-        }
-
-        private static IApplicationBuilder UseNoxLocalization(this IApplicationBuilder builder)
-        {
-            var solution = builder.ApplicationServices.GetRequiredService<NoxSolution>();
-
-            var supportedCultures = solution?.Application?.Localization?.SupportedCultures
-                .Select(s => new CultureInfo(s)).ToList();
-
-            if (supportedCultures is null) return builder;
-
-            var defaultCulture = solution?.Application?.Localization?.DefaultCulture;
-
-            if (defaultCulture is null) return builder;
-
-            builder.UseRequestLocalization(options =>
-            {
-                options.DefaultRequestCulture = new RequestCulture(culture: defaultCulture, uiCulture: defaultCulture);
-                options.SupportedCultures = supportedCultures;
-                options.SupportedUICultures = supportedCultures;
-            });
+            NoxUseOptions configurator = new();
+            configure?.Invoke(configurator);
+            configurator.Configure(builder);
 
             return builder;
         }

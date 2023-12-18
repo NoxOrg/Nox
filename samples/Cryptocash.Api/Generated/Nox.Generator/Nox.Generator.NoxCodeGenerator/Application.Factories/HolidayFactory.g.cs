@@ -58,20 +58,37 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
 
     public virtual async Task UpdateEntityAsync(HolidayEntity entity, HolidayUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
     }
 
     public virtual void PartialUpdateEntity(HolidayEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        try
+        {
+             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
     }
 
     private async Task<Cryptocash.Domain.Holiday> ToEntityAsync(HolidayUpsertDto createDto)
     {
         var entity = new Cryptocash.Domain.Holiday();
-        entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(createDto.Name);
-        entity.Type = Cryptocash.Domain.HolidayMetadata.CreateType(createDto.Type);
-        entity.Date = Cryptocash.Domain.HolidayMetadata.CreateDate(createDto.Date);
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            Cryptocash.Domain.HolidayMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Type, (entity) => entity.Type = 
+            Cryptocash.Domain.HolidayMetadata.CreateType(createDto.Type.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Date, (entity) => entity.Date = 
+            Cryptocash.Domain.HolidayMetadata.CreateDate(createDto.Date.NonNullValue<System.DateTime>()));
         return await Task.FromResult(entity);
     }
 
