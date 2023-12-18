@@ -119,7 +119,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.ClientApi.Tests", "test
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ui", "Ui", "{5BE90C3A-E0D1-41FE-B1CE-F4F70F248368}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Ui.Blazor.Lib", "src\Nox.Ui.Blazor.Lib\Nox.Ui.Blazor.Lib.csproj", "{4CA3AE30-0078-4D6F-8E55-70D4D27D17EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Ui.Blazor.Lib", "src\Nox.Ui.Blazor.Lib\Nox.Ui.Blazor.Lib.csproj", "{4CA3AE30-0078-4D6F-8E55-70D4D27D17EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "No.Ui.Blazor.Lib.Tests", "Tests\No.Ui.Blazor.Lib.Tests\No.Ui.Blazor.Lib.Tests.csproj", "{8DE048AF-D21D-418A-AC12-7E8B9C28B487}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -271,6 +273,10 @@ Global
 		{4CA3AE30-0078-4D6F-8E55-70D4D27D17EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CA3AE30-0078-4D6F-8E55-70D4D27D17EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CA3AE30-0078-4D6F-8E55-70D4D27D17EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DE048AF-D21D-418A-AC12-7E8B9C28B487}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DE048AF-D21D-418A-AC12-7E8B9C28B487}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DE048AF-D21D-418A-AC12-7E8B9C28B487}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DE048AF-D21D-418A-AC12-7E8B9C28B487}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -312,6 +318,7 @@ Global
 		{0D664756-BD08-4692-9FD3-704505E3CA5C} = {8869EFA6-3BF6-458B-BABE-71775A588D73}
 		{18280395-66FF-4F3E-BD56-E87ABA4964C5} = {BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}
 		{4CA3AE30-0078-4D6F-8E55-70D4D27D17EF} = {5BE90C3A-E0D1-41FE-B1CE-F4F70F248368}
+		{8DE048AF-D21D-418A-AC12-7E8B9C28B487} = {5BE90C3A-E0D1-41FE-B1CE-F4F70F248368}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}

@@ -1,6 +1,7 @@
-﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+﻿@using MudBlazor
+@using static EditText
 
-@* <MudTextField Label="@Title"
+<MudTextField Label="@Title"
               Variant="Variant.Outlined"
               FullWidth="true"
               Clearable="true"
@@ -8,6 +9,4 @@
               MaxLength="@MaxLength"
               Validation="@(new Func<string, string>(ValidateLength))"
               TextChanged="OnTextChanged"                
-              Value="Text" /> *@
-
-              <h1>test</h1>
+              Value="Text" />
