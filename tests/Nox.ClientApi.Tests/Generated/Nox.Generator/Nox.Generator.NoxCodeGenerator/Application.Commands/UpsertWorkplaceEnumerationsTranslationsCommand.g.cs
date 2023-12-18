@@ -76,7 +76,7 @@ internal abstract class UpsertWorkplacesOwnershipsTranslationsCommandHandlerBase
 }
 public class UpsertWorkplacesOwnershipsTranslationsCommandValidator : AbstractValidator<UpsertWorkplacesOwnershipsTranslationsCommand>
 {
-	private static readonly string[] _supportedCultureCodes = new string[] { "en-US", "it-IT", "de-DE", "fr-FR", };
+	private static readonly string[] _supportedCultureCodes = new string[] { "de-DE", "en-US", "fr-FR", "it-IT", };
 	private static readonly int[] _supportedIds = new int[] { 1000, 4000, 5000, };
 	
     public UpsertWorkplacesOwnershipsTranslationsCommandValidator(NoxSolution noxSolution)

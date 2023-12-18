@@ -52,6 +52,12 @@ namespace Nox.Infrastructure.Persistence
             }
         }
 
+        public async ValueTask<T> AddEntityAsync<T>(T entity, CancellationToken cancellationToken = default(CancellationToken)) where T : class, IEntity
+        {
+            var entry = await base.AddAsync(entity, cancellationToken);
+            return entry.Entity;
+        }
+
         public virtual async Task<long> GetSequenceNextValueAsync(string sequenceName)
         {
             var connection = base.Database.GetDbConnection();

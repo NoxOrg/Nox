@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Nox.Extensions;
 using Nox.Infrastructure.Persistence;
 
@@ -26,9 +27,9 @@ public sealed class Repository : IRepository
         return _dbContext.Set<T>().Where(predicate: predicate);
     }
 
-    public async Task AddAsync(object entity)
+    public async Task AddAsync<T>(T entity) where T : class, IEntity
     {
-        await _dbContext.AddAsync(entity);
+        await _dbContext.AddEntityAsync(entity);
     }
 
     public void Update(object entity)

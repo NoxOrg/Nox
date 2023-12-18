@@ -1,7 +1,5 @@
 ﻿
-
 // Generated
-//TODO: if CultureCode is not needed, remove it from the factory
 #nullable enable
 
 using System.Threading.Tasks;

@@ -9,7 +9,7 @@ public interface IRepository
     IQueryable<T> Query<T>(Expression<Func<T, bool>> predicate) where T : class, IEntity;
     IQueryable<T> QueryOwned<T>(Expression<Func<T, bool>> predicate) where T : class, IOwnedEntity;
 
-    Task AddAsync(object entity);
+    Task AddAsync<T>(T entity) where T : class, IEntity;
     void Update(object entity);
 
     /// <summary>

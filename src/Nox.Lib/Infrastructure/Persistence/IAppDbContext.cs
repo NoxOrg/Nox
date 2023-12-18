@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Nox.Domain;
 
 namespace Nox.Infrastructure.Persistence
 {
@@ -12,7 +13,7 @@ namespace Nox.Infrastructure.Persistence
 
         DbSet<T> Set<T>() where T : class;
 
-        ValueTask<EntityEntry> AddAsync(object entity, CancellationToken cancellationToken = default(CancellationToken));
+        ValueTask<T> AddEntityAsync<T>(T entity, CancellationToken cancellationToken = default(CancellationToken)) where T : class, IEntity;
 
         EntityEntry Update(object entity);
 
