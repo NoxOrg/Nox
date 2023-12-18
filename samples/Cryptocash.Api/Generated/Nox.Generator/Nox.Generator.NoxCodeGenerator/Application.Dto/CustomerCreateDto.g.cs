@@ -30,7 +30,7 @@ public abstract class CustomerCreateDtoBase : IEntityDto<DomainNamespace.Custome
     /// Customer's unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>
-    public System.Guid Id { get; set; } = default!;
+    public virtual System.Guid? Id { get; set; }
     /// <summary>
     /// Customer's first name     
     /// </summary>

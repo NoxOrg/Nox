@@ -2,6 +2,7 @@
 using Cryptocash.Domain;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Application.Dto;
+using Nox.Types;
 
 namespace Cryptocash.Infrastructure;
 

@@ -91,6 +91,7 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
             Cryptocash.Domain.TransactionMetadata.CreateAmount(createDto.Amount.NonNullValue<MoneyDto>()));
         entity.SetIfNotNull(createDto.Reference, (entity) => entity.Reference = 
             Cryptocash.Domain.TransactionMetadata.CreateReference(createDto.Reference.NonNullValue<System.String>()));
+        entity.EnsureId(createDto.Id);
         return await Task.FromResult(entity);
     }
 

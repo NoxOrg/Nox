@@ -87,6 +87,7 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
             Cryptocash.Domain.CommissionMetadata.CreateRate(createDto.Rate.NonNullValue<System.Single>()));
         entity.SetIfNotNull(createDto.EffectiveAt, (entity) => entity.EffectiveAt = 
             Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(createDto.EffectiveAt.NonNullValue<System.DateTimeOffset>()));
+        entity.EnsureId(createDto.Id);
         return await Task.FromResult(entity);
     }
 
