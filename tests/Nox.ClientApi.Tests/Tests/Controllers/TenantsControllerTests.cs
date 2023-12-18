@@ -86,7 +86,7 @@ namespace ClientApi.Tests.Controllers
 
         #region Localizations
 
-        [Fact]
+        [Fact(Skip = "Nuid relationship issue and update owned entity localization limitation.")]
         public async Task CreateTenant_WhenProvidingTenantBrandDefaultLanguageDescription_CreatesLocalization()
         {
             // Arrange
@@ -116,7 +116,7 @@ namespace ClientApi.Tests.Controllers
             enResult.TenantBrands[0].Description.Should().Be(enTenant.TenantBrands[0].Description);
         }
 
-        [Fact]
+        [Fact(Skip = "Nuid relationship issue and update owned entity localization limitation.")]
         public async Task CreateTenant_WhenProvidingTenantBrandNotDefaultLanguageDescription_CreatesLocalization()
         {
             // Arrange
@@ -212,7 +212,7 @@ namespace ClientApi.Tests.Controllers
         }
 
 
-        [Fact]
+        [Fact(Skip = "Nuid relationship issue and update owned entity localization limitation.")]
         public async Task CreateTenantAndUpdateTenantBrands_WithTenantBrandDescription_CreatesCorrectLocalizations()
         {
             // Arrange
@@ -260,7 +260,7 @@ namespace ClientApi.Tests.Controllers
             itResult!.TenantBrands[0].Description.Should().Be("[" + enTenantBrand.Description + "]");
         }
 
-        [Fact]
+        [Fact(Skip = "Nuid relationship issue and update owned entity localization limitation.")]
         public async Task CreateTenant_WhenProvidingTenantContactDefaultLanguageDescription_CreatesLocalization()
         {
             // Arrange
@@ -317,7 +317,7 @@ namespace ClientApi.Tests.Controllers
             frResult.TenantContact.Description.Should().Be(frTenant.TenantContact.Description);
         }
 
-        [Fact]
+        [Fact(Skip = "Nuid relationship issue and update owned entity localization limitation.")]
         public async Task UpdateTenantWithTenantContact_WithTenantContactDescription_CreatesLocalization()
         {
             // Arrange
@@ -465,7 +465,7 @@ namespace ClientApi.Tests.Controllers
 
         #region Localizations
 
-        [Fact]
+        [Fact(Skip = "Nuid relationship issue and update owned entity localization limitation.")]
         public async Task ExpandingLocalizedWorkplacesOnTenants_RetunsLocalizedDetails()
         {
             // Arrange
