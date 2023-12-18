@@ -14,16 +14,16 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
-using Cryptocash.Application;
-using Cryptocash.Application.Dto;
-using Cryptocash.Application.Queries;
-using Cryptocash.Application.Commands;
-using Cryptocash.Domain;
-using Cryptocash.Infrastructure.Persistence;
+using CryptocashIntegration.Application;
+using CryptocashIntegration.Application.Dto;
+using CryptocashIntegration.Application.Queries;
+using CryptocashIntegration.Application.Commands;
+using CryptocashIntegration.Domain;
+using CryptocashIntegration.Infrastructure.Persistence;
 using Nox.Types;
 
-namespace Cryptocash.Presentation.Api.OData;
+namespace CryptocashIntegration.Presentation.Api.OData;
 
-public abstract partial class AProductsControllerBase : ODataController
+public abstract partial class CountryJsonToTablesControllerBase : ODataController
 {
 }

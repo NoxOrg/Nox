@@ -65,7 +65,6 @@ internal class DtoDbContext : DbContext
         public virtual DbSet<PaymentProviderDto> PaymentProviders { get; set; } = null!;
         public virtual DbSet<VendingMachineDto> VendingMachines { get; set; } = null!;
         public virtual DbSet<CashStockOrderDto> CashStockOrders { get; set; } = null!;
-        public virtual DbSet<AProductDto> AProducts { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -122,6 +121,5 @@ private void ConfigureAuditable(ModelBuilder modelBuilder)
         modelBuilder.Entity<PaymentProviderDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<VendingMachineDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<CashStockOrderDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
-        modelBuilder.Entity<AProductDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
     }
 }
