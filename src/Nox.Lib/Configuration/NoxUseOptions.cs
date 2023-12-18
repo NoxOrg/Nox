@@ -9,6 +9,7 @@ using Nox.Integration.Abstractions;
 using Nox.Lib;
 using Serilog;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Nox.Middlewares;
 
 namespace Nox;
 
@@ -61,22 +62,13 @@ internal class NoxUseOptions : INoxUseOptions
         if (_useSerilogRequestLogging)
             builder.UseSerilogRequestLogging();
 
-        builder.UseMiddleware<NoxApiMiddleware>().UseRouting();
+        //Middleware order is important
+        //1. Exception
+        //2. HealthChecks
+        //3. Version
+        //4. Routing Mechanism
+
         builder.UseMiddleware<NoxExceptionHanderMiddleware>();
-
-        if (_useODataRouteDebug)
-        {
-            builder.UseODataRouteDebug();
-        }
-        if (_useEtlBox)
-        {
-            builder.ApplicationServices.UseEtlBox(_useEtlBoxCheckLicense);
-        }
-        if(_useNoxElasticMonitoring)
-        {
-            builder.UseNoxAllElasticApm();
-        }
-
         if (_useHealthChecks && builder is IEndpointRouteBuilder endpointRouteBuilder)
         {
             // aggregates all IHealthChecks...
@@ -95,6 +87,25 @@ internal class NoxUseOptions : INoxUseOptions
             {
                 Predicate = healthCheck => healthCheck.Tags.Contains("ready")
             });
+        }
+
+        builder.UseWhen(context => context.Request.Path.StartsWithSegments("/version"), appBuilder =>
+        {
+            appBuilder.UseMiddleware<VersionMiddleware>();
+        });
+        builder.UseMiddleware<NoxApiMiddleware>().UseRouting();        
+
+        if (_useODataRouteDebug)
+        {
+            builder.UseODataRouteDebug();
+        }
+        if (_useEtlBox)
+        {
+            builder.ApplicationServices.UseEtlBox(_useEtlBoxCheckLicense);
+        }
+        if(_useNoxElasticMonitoring)
+        {
+            builder.UseNoxAllElasticApm();
         }
 
         var hostingEnvironment = builder
