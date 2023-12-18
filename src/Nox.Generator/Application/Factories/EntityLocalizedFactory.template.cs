@@ -45,20 +45,15 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
         {
             entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
         }
-        else
-        {
-            {{- for attribute in entityLocalizedAttributes }}
-            entityLocalized.{{attribute.Name}} = updateDto.{{attribute.Name}} == null
-                ? null
-                : {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
-            {{- if IsNoxTypeSimpleType attribute.Type -}}.ToValueFromNonNull<{{SinglePrimitiveTypeForKey attribute}}>()
-            {{- else -}}.ToValueFromNonNull<{{attribute.Type}}Dto>()
-            {{- end}});
-            {{- end }}
-            
-            Repository.Update(entityLocalized);
-        }
         
+        {{- for attribute in entityLocalizedAttributes }}
+        entityLocalized.{{attribute.Name}} = updateDto.{{attribute.Name}} == null
+            ? null
+            : {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
+        {{- if IsNoxTypeSimpleType attribute.Type -}}.ToValueFromNonNull<{{SinglePrimitiveTypeForKey attribute}}>()
+        {{- else -}}.ToValueFromNonNull<{{attribute.Type}}Dto>()
+        {{- end}});
+        {{- end }}
     }
 
     public virtual async Task PartialUpdateLocalizedEntityAsync({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -68,24 +63,18 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
         {
             entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
         }
-        else
-        {
-            {{- for attribute in entityLocalizedAttributes }}
-            {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
-            {{ continue; }}
-            {{- end}}
-
-            if (updatedProperties.TryGetValue("{{attribute.Name}}", out var {{attribute.Name}}UpdateValue))
-            {
-                entityLocalized.{{attribute.Name}} = {{attribute.Name}}UpdateValue == null
-                    ? null
-                    : {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue);
-            }
-
-            {{- end }}
-            Repository.Update(entityLocalized);
-        }
         
+        {{- for attribute in entityLocalizedAttributes }}
+        {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
+        {{ continue; }}
+        {{- end}}
+        if (updatedProperties.TryGetValue("{{attribute.Name}}", out var {{attribute.Name}}UpdateValue))
+        {
+            entityLocalized.{{attribute.Name}} = {{attribute.Name}}UpdateValue == null
+                ? null
+                : {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue);
+        }
+        {{- end }}
     }
 
     private async  Task<{{localizedEntityName}}> CreateInternalAsync({{entity.Name}}Entity entity, CultureCode cultureCode, bool copyEntityAttributes = true)

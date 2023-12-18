@@ -44,15 +44,9 @@ internal abstract class TenantBrandLocalizedFactoryBase : IEntityLocalizedFactor
         {
             entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
         }
-        else
-        {
-            entityLocalized.Description = updateDto.Description == null
-                ? null
-                : ClientApi.Domain.TenantBrandMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
-            
-            Repository.Update(entityLocalized);
-        }
-        
+        entityLocalized.Description = updateDto.Description == null
+            ? null
+            : ClientApi.Domain.TenantBrandMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
     }
 
     public virtual async Task PartialUpdateLocalizedEntityAsync(TenantBrandEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -62,18 +56,12 @@ internal abstract class TenantBrandLocalizedFactoryBase : IEntityLocalizedFactor
         {
             entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
         }
-        else
+        if (updatedProperties.TryGetValue("Description", out var DescriptionUpdateValue))
         {
-
-            if (updatedProperties.TryGetValue("Description", out var DescriptionUpdateValue))
-            {
-                entityLocalized.Description = DescriptionUpdateValue == null
-                    ? null
-                    : ClientApi.Domain.TenantBrandMetadata.CreateDescription(DescriptionUpdateValue);
-            }
-            Repository.Update(entityLocalized);
+            entityLocalized.Description = DescriptionUpdateValue == null
+                ? null
+                : ClientApi.Domain.TenantBrandMetadata.CreateDescription(DescriptionUpdateValue);
         }
-        
     }
 
     private async  Task<TenantBrandLocalized> CreateInternalAsync(TenantBrandEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
