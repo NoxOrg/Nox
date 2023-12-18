@@ -5,6 +5,8 @@
 using Nox.Application.Factories;
 using Nox.Extensions;
 using Nox.Types;
+using Nox.Domain;
+using Microsoft.EntityFrameworkCore;
 
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
@@ -14,11 +16,87 @@ namespace SampleWebApp.Application.Factories;
 
 internal partial class CountryLocalizedFactory : CountryLocalizedFactoryBase
 {
+    public CountryLocalizedFactory(IRepository repository):base(repository)
+    {
+    }
 }
 
 internal abstract class CountryLocalizedFactoryBase : IEntityLocalizedFactory<CountryLocalized, CountryEntity, CountryUpdateDto>
 {
-    public virtual CountryLocalized CreateLocalizedEntity(CountryEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
+    protected readonly IRepository Repository;
+
+    protected CountryLocalizedFactoryBase(IRepository repository)
+    {
+        Repository = repository;
+    }
+
+    public virtual async Task<CountryLocalized> CreateLocalizedEntityAsync(CountryEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
+    {
+        var localizedEntity = await CreateInternalAsync(entity, cultureCode, copyEntityAttributes);
+        return localizedEntity;
+    }
+   
+
+    public virtual async Task UpdateLocalizedEntityAsync(CountryEntity entity, CountryUpdateDto updateDto, CultureCode cultureCode)
+    {
+        var entityLocalized = await Repository.Query<CountryLocalized>(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
+        if (entityLocalized is null)
+        {
+            entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
+        }
+        else
+        {
+            entityLocalized.FormalName = updateDto.FormalName == null
+                ? null
+                : SampleWebApp.Domain.CountryMetadata.CreateFormalName(updateDto.FormalName.ToValueFromNonNull<System.String>());
+            entityLocalized.AlphaCode3 = updateDto.AlphaCode3 == null
+                ? null
+                : SampleWebApp.Domain.CountryMetadata.CreateAlphaCode3(updateDto.AlphaCode3.ToValueFromNonNull<System.String>());
+            entityLocalized.Capital = updateDto.Capital == null
+                ? null
+                : SampleWebApp.Domain.CountryMetadata.CreateCapital(updateDto.Capital.ToValueFromNonNull<System.String>());
+            
+            Repository.Update(entityLocalized);
+        }
+        
+    }
+
+    public virtual async Task PartialUpdateLocalizedEntityAsync(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    {
+        var entityLocalized = await Repository.Query<CountryLocalized>(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
+        if (entityLocalized is null)
+        {
+            entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
+        }
+        else
+        {
+
+            if (updatedProperties.TryGetValue("FormalName", out var FormalNameUpdateValue))
+            {
+                entityLocalized.FormalName = FormalNameUpdateValue == null
+                    ? null
+                    : SampleWebApp.Domain.CountryMetadata.CreateFormalName(FormalNameUpdateValue);
+            }
+
+            if (updatedProperties.TryGetValue("AlphaCode3", out var AlphaCode3UpdateValue))
+            {
+                entityLocalized.AlphaCode3 = AlphaCode3UpdateValue == null
+                    ? null
+                    : SampleWebApp.Domain.CountryMetadata.CreateAlphaCode3(AlphaCode3UpdateValue);
+            }
+
+            if (updatedProperties.TryGetValue("Capital", out var CapitalUpdateValue))
+            {
+                entityLocalized.Capital = CapitalUpdateValue == null
+                    ? null
+                    : SampleWebApp.Domain.CountryMetadata.CreateCapital(CapitalUpdateValue);
+            }
+            Repository.Update(entityLocalized);
+        }
+        
+    }
+
+    private async  Task<CountryLocalized> CreateInternalAsync(CountryEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
         var localizedEntity = new CountryLocalized
         {
@@ -32,45 +110,7 @@ internal abstract class CountryLocalizedFactoryBase : IEntityLocalizedFactory<Co
             localizedEntity.AlphaCode3 = entity.AlphaCode3;
             localizedEntity.Capital = entity.Capital;
         }
-
+        await Repository.AddAsync(localizedEntity);
         return localizedEntity;
-    }
-
-    public virtual void UpdateLocalizedEntity(CountryLocalized localizedEntity, CountryUpdateDto updateDto)
-    {
-        localizedEntity.FormalName = updateDto.FormalName == null
-            ? null
-            : SampleWebApp.Domain.CountryMetadata.CreateFormalName(updateDto.FormalName.ToValueFromNonNull<System.String>());
-        localizedEntity.AlphaCode3 = updateDto.AlphaCode3 == null
-            ? null
-            : SampleWebApp.Domain.CountryMetadata.CreateAlphaCode3(updateDto.AlphaCode3.ToValueFromNonNull<System.String>());
-        localizedEntity.Capital = updateDto.Capital == null
-            ? null
-            : SampleWebApp.Domain.CountryMetadata.CreateCapital(updateDto.Capital.ToValueFromNonNull<System.String>());
-    }
-
-    public virtual void PartialUpdateLocalizedEntity(CountryLocalized localizedEntity, Dictionary<string, dynamic> updatedProperties)
-    {
-
-        if (updatedProperties.TryGetValue("FormalName", out var FormalNameUpdateValue))
-        {
-            localizedEntity.FormalName = FormalNameUpdateValue == null
-                ? null
-                : SampleWebApp.Domain.CountryMetadata.CreateFormalName(FormalNameUpdateValue);
-        }
-
-        if (updatedProperties.TryGetValue("AlphaCode3", out var AlphaCode3UpdateValue))
-        {
-            localizedEntity.AlphaCode3 = AlphaCode3UpdateValue == null
-                ? null
-                : SampleWebApp.Domain.CountryMetadata.CreateAlphaCode3(AlphaCode3UpdateValue);
-        }
-
-        if (updatedProperties.TryGetValue("Capital", out var CapitalUpdateValue))
-        {
-            localizedEntity.Capital = CapitalUpdateValue == null
-                ? null
-                : SampleWebApp.Domain.CountryMetadata.CreateCapital(CapitalUpdateValue);
-        }
     }
 }
