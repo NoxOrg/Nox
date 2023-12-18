@@ -22,6 +22,11 @@ public sealed class Repository : IRepository
         return _dbContext.Set<T>().Where(predicate: predicate);
     }
 
+    public  IQueryable<T> QueryOwned<T>(Expression<Func<T, bool>> predicate) where T : class, IOwnedEntity
+    {
+        return _dbContext.Set<T>().Where(predicate: predicate);
+    }
+
     public async Task AddAsync<T>(T entity) where T : class, IEntity
     {
         await _dbContext.AddEntityAsync(entity);
