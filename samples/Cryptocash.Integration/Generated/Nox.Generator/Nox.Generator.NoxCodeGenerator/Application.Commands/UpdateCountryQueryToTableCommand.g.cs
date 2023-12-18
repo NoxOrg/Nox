@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using CountryQueryToTableEntity = CryptocashIntegration.Domain.CountryQueryToTab
 
 namespace CryptocashIntegration.Application.Commands;
 
-public partial record UpdateCountryQueryToTableCommand(System.Int32 keyId, CountryQueryToTableUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CountryQueryToTableKeyDto?>;
+public partial record UpdateCountryQueryToTableCommand(System.Int32 keyId, CountryQueryToTableUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CountryQueryToTableKeyDto>;
 
 internal partial class UpdateCountryQueryToTableCommandHandler : UpdateCountryQueryToTableCommandHandlerBase
 {
@@ -31,7 +32,7 @@ internal partial class UpdateCountryQueryToTableCommandHandler : UpdateCountryQu
 	}
 }
 
-internal abstract class UpdateCountryQueryToTableCommandHandlerBase : CommandBase<UpdateCountryQueryToTableCommand, CountryQueryToTableEntity>, IRequestHandler<UpdateCountryQueryToTableCommand, CountryQueryToTableKeyDto?>
+internal abstract class UpdateCountryQueryToTableCommandHandlerBase : CommandBase<UpdateCountryQueryToTableCommand, CountryQueryToTableEntity>, IRequestHandler<UpdateCountryQueryToTableCommand, CountryQueryToTableKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CountryQueryToTableEntity, CountryQueryToTableCreateDto, CountryQueryToTableUpdateDto> _entityFactory;
@@ -46,7 +47,7 @@ internal abstract class UpdateCountryQueryToTableCommandHandlerBase : CommandBas
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<CountryQueryToTableKeyDto?> Handle(UpdateCountryQueryToTableCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryQueryToTableKeyDto> Handle(UpdateCountryQueryToTableCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +56,7 @@ internal abstract class UpdateCountryQueryToTableCommandHandlerBase : CommandBas
 		var entity = await DbContext.CountryQueryToTables.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("CountryQueryToTable",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -67,7 +68,7 @@ internal abstract class UpdateCountryQueryToTableCommandHandlerBase : CommandBas
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return null;
+			throw new DatabaseSaveException();
 		}
 
 		return new CountryQueryToTableKeyDto(entity.Id.Value);

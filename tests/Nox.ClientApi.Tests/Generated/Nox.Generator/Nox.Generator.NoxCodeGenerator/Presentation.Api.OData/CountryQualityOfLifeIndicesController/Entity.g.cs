@@ -125,11 +125,6 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateCountryQualityOfLifeIndexCommand(keyCountryId, keyId, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
-
         var item = (await _mediator.Send(new GetCountryQualityOfLifeIndexByIdQuery(updatedKey.keyCountryId, updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);

@@ -1,5 +1,4 @@
-﻿﻿
-﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -9,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -46,14 +46,14 @@ internal partial class DeleteCountryTimeZonesForCountryCommandHandlerBase : Comm
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
 		}
 		await DbContext.Entry(parentEntity).Collection(p => p.CountryTimeZones).LoadAsync(cancellationToken);
 		var ownedId = Cryptocash.Domain.CountryTimeZoneMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("CountryTimeZone.CountryTimeZones",  $"{ownedId.ToString()}");
 		}
 		parentEntity.CountryTimeZones.Remove(entity);
 		await OnCompletedAsync(request, entity);
@@ -62,7 +62,7 @@ internal partial class DeleteCountryTimeZonesForCountryCommandHandlerBase : Comm
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{
-			return false;
+			throw new DatabaseSaveException();
 		}
 
 		return true;

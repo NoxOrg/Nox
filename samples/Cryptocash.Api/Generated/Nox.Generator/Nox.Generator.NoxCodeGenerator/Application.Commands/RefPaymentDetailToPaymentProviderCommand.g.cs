@@ -1,5 +1,4 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -41,13 +41,13 @@ internal partial class CreateRefPaymentDetailToPaymentProviderCommandHandler
 		var entity = await GetPaymentDetail(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("PaymentDetail",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetPaymentProvider(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("PaymentProvider",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.CreateRefToPaymentProvider(relatedEntity);
@@ -78,13 +78,13 @@ internal partial class DeleteRefPaymentDetailToPaymentProviderCommandHandler
         var entity = await GetPaymentDetail(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("PaymentDetail",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetPaymentProvider(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("PaymentProvider", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.DeleteRefToPaymentProvider(relatedEntity);
@@ -115,7 +115,7 @@ internal partial class DeleteAllRefPaymentDetailToPaymentProviderCommandHandler
         var entity = await GetPaymentDetail(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("PaymentDetail",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToPaymentProvider();
 
@@ -166,7 +166,7 @@ internal abstract class RefPaymentDetailToPaymentProviderCommandHandlerBase<TReq
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return false;
+			throw new DatabaseSaveException();
 		}
 		return true;
 	}

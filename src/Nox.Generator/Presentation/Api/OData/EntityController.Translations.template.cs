@@ -55,10 +55,6 @@ public abstract partial class {{className}}Base
         
         var updatedKey = await _mediator.Send(new PartialUpdate{{ entity.Name }}Command({{ primaryKeysQuery }}, updatedProperties, Nox.Types.CultureCode.From({{cultureCode}}) , etag));
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
         var item = (await _mediator.Send(new Get{{entity.Name }}TranslationsByIdQuery( {{ updatedKeyPrimaryKeysQuery }}, Nox.Types.CultureCode.From({{cultureCode}})))).SingleOrDefault();
 
         return Ok(item);

@@ -1,5 +1,4 @@
-﻿﻿
-// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
@@ -20,7 +20,7 @@ using ClientApi.Application.Dto;
 using TenantBrandEntity = ClientApi.Domain.TenantBrand;
 
 namespace ClientApi.Application.Commands;
-public partial record CreateTenantBrandsForTenantCommand(TenantKeyDto ParentKeyDto, TenantBrandUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantBrandKeyDto?>;
+public partial record CreateTenantBrandsForTenantCommand(TenantKeyDto ParentKeyDto, TenantBrandUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantBrandKeyDto>;
 
 internal partial class CreateTenantBrandsForTenantCommandHandler : CreateTenantBrandsForTenantCommandHandlerBase
 {
@@ -59,7 +59,7 @@ internal abstract class CreateTenantBrandsForTenantCommandHandlerBase : CommandB
 		var parentEntity = await _dbContext.Tenants.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Tenant",  $"{keyId.ToString()}");
 		}
 
 		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
@@ -74,7 +74,7 @@ internal abstract class CreateTenantBrandsForTenantCommandHandlerBase : CommandB
 		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return null;
+			throw new DatabaseSaveException();
 		}
 
 		return new TenantBrandKeyDto(entity.Id.Value);

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -49,7 +50,7 @@ internal abstract class DeleteCashStockOrderByIdCommandHandlerBase : CommandColl
 			var entity = await DbContext.CashStockOrders.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
-				return false;
+				throw new EntityNotFoundException("CashStockOrder",  $"{keyId.ToString()}");
 			}
 			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

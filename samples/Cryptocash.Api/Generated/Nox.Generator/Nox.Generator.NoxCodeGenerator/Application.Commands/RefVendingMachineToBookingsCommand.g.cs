@@ -1,5 +1,4 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -41,13 +41,13 @@ internal partial class CreateRefVendingMachineToBookingsCommandHandler
 		var entity = await GetVendingMachine(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetBooking(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("Booking",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.CreateRefToBookings(relatedEntity);
@@ -78,7 +78,7 @@ internal partial class UpdateRefVendingMachineToBookingsCommandHandler
 		var entity = await GetVendingMachine(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntities = new List<Cryptocash.Domain.Booking>();
@@ -87,7 +87,7 @@ internal partial class UpdateRefVendingMachineToBookingsCommandHandler
 			var relatedEntity = await GetBooking(keyDto);
 			if (relatedEntity == null)
 			{
-				return false;
+				throw new RelatedEntityNotFoundException("Booking", $"{keyDto.keyId.ToString()}");
 			}
 			relatedEntities.Add(relatedEntity);
 		}
@@ -121,13 +121,13 @@ internal partial class DeleteRefVendingMachineToBookingsCommandHandler
         var entity = await GetVendingMachine(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetBooking(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("Booking", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.DeleteRefToBookings(relatedEntity);
@@ -158,7 +158,7 @@ internal partial class DeleteAllRefVendingMachineToBookingsCommandHandler
         var entity = await GetVendingMachine(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		await DbContext.Entry(entity).Collection(x => x.Bookings).LoadAsync();
 		entity.DeleteAllRefToBookings();
@@ -210,7 +210,7 @@ internal abstract class RefVendingMachineToBookingsCommandHandlerBase<TRequest> 
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return false;
+			throw new DatabaseSaveException();
 		}
 		return true;
 	}

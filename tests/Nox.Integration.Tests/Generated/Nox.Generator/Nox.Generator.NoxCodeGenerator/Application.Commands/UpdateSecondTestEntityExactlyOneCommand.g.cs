@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using SecondTestEntityExactlyOneEntity = TestWebApp.Domain.SecondTestEntityExact
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateSecondTestEntityExactlyOneCommand(System.String keyId, SecondTestEntityExactlyOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<SecondTestEntityExactlyOneKeyDto?>;
+public partial record UpdateSecondTestEntityExactlyOneCommand(System.String keyId, SecondTestEntityExactlyOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<SecondTestEntityExactlyOneKeyDto>;
 
 internal partial class UpdateSecondTestEntityExactlyOneCommandHandler : UpdateSecondTestEntityExactlyOneCommandHandlerBase
 {
@@ -31,7 +32,7 @@ internal partial class UpdateSecondTestEntityExactlyOneCommandHandler : UpdateSe
 	}
 }
 
-internal abstract class UpdateSecondTestEntityExactlyOneCommandHandlerBase : CommandBase<UpdateSecondTestEntityExactlyOneCommand, SecondTestEntityExactlyOneEntity>, IRequestHandler<UpdateSecondTestEntityExactlyOneCommand, SecondTestEntityExactlyOneKeyDto?>
+internal abstract class UpdateSecondTestEntityExactlyOneCommandHandlerBase : CommandBase<UpdateSecondTestEntityExactlyOneCommand, SecondTestEntityExactlyOneEntity>, IRequestHandler<UpdateSecondTestEntityExactlyOneCommand, SecondTestEntityExactlyOneKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<SecondTestEntityExactlyOneEntity, SecondTestEntityExactlyOneCreateDto, SecondTestEntityExactlyOneUpdateDto> _entityFactory;
@@ -46,7 +47,7 @@ internal abstract class UpdateSecondTestEntityExactlyOneCommandHandlerBase : Com
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<SecondTestEntityExactlyOneKeyDto?> Handle(UpdateSecondTestEntityExactlyOneCommand request, CancellationToken cancellationToken)
+	public virtual async Task<SecondTestEntityExactlyOneKeyDto> Handle(UpdateSecondTestEntityExactlyOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +56,7 @@ internal abstract class UpdateSecondTestEntityExactlyOneCommandHandlerBase : Com
 		var entity = await DbContext.SecondTestEntityExactlyOnes.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("SecondTestEntityExactlyOne",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -67,7 +68,7 @@ internal abstract class UpdateSecondTestEntityExactlyOneCommandHandlerBase : Com
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return null;
+			throw new DatabaseSaveException();
 		}
 
 		return new SecondTestEntityExactlyOneKeyDto(entity.Id.Value);

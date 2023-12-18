@@ -275,10 +275,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine("var etag = Request.GetDecodedEtagHeader();");        
         code.AppendLine($"var createdKey = await _mediator.Send(new Create{navigationName}For{parent.Name}Command(" +
             $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), {child.Name.ToLowerFirstChar()}, _cultureCode, etag));");
-        code.AppendLine($"if (createdKey == null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
 
         if (isSingleRelationship)
@@ -287,12 +283,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                 $".{navigationName};");
         else
             code.AppendLine($"var child = await TryGet{navigationName}({GetPrimaryKeysQuery(parent)}, createdKey);");
-
-        code.AppendLine($"if (child == null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
-        code.AppendLine();
         code.AppendLine($"return Created(child);");
 
         code.EndBlock();
@@ -320,11 +310,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"var updatedKey = await _mediator.Send(new Update{navigationName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
                 $"{child.Name.ToLowerFirstChar()}, _cultureCode, etag));");
-
-        code.AppendLine($"if (updatedKey == null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
 
         if (isSingleRelationship)
@@ -394,22 +379,13 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                 $"updateProperties, _cultureCode, etag));");
         code.AppendLine();
 
-        code.AppendLine($"if (updated is null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
-
         if (isSingleRelationship)
             code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({GetPrimaryKeysQuery(parent)})))" +
                 $".SingleOrDefault()?" +
                 $".{navigationName};");
         else
-            code.AppendLine($"var child = await TryGet{navigationName}({GetPrimaryKeysQuery(parent)}, updated);");
+            code.AppendLine($"var child = await TryGet{navigationName}({GetPrimaryKeysQuery(parent)}, updated!);");
 
-        code.AppendLine($"if (child == null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
         code.AppendLine($"return Ok(child);");
 
@@ -452,10 +428,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
                 $"new {child.Name}KeyDto({GetPrimaryKeysQuery(child, "relatedKey")})));");
 
-        code.AppendLine($"if (!result)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
         code.AppendLine($"return NoContent();");
 
@@ -519,10 +491,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
         code.AppendLine($"var createdRef = await _mediator.Send(new CreateRef{entity.Name}To{entity.GetNavigationPropertyName(relationship)}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({GetPrimaryKeysQuery(relatedEntity, "relatedKey")})));");
-        code.AppendLine($"if (!createdRef)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
 
         code.AppendLine($"return NoContent();");
@@ -554,10 +522,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"var relatedKeysDto = referencesDto.References.Select(x => new {relatedEntity.Name}KeyDto(x)).ToList();");
         code.AppendLine($"var updatedRef = await _mediator.Send(new UpdateRef{entity.Name}To{navigationName}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)}), relatedKeysDto));");
-        code.AppendLine($"if (!updatedRef)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
 
         code.AppendLine($"return NoContent();");
@@ -586,10 +550,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
         code.AppendLine($"var deletedRef = await _mediator.Send(new DeleteRef{entity.Name}To{navigationName}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({GetPrimaryKeysQuery(relatedEntity, "relatedKey")})));");
-        code.AppendLine($"if (!deletedRef)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
 
         code.AppendLine($"return NoContent();");
@@ -618,10 +578,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
         code.AppendLine($"var deletedAllRef = await _mediator.Send(new DeleteAllRef{entity.Name}To{navigationName}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)})));");
-        code.AppendLine($"if (!deletedAllRef)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
 
         code.AppendLine($"return NoContent();");
@@ -870,10 +826,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"var deleted = await _mediator.Send(new Delete{relatedEntity.Name}ByIdCommand(" +
             $"new List<{relatedEntity.Name}KeyDto> {{ new {relatedEntity.Name}KeyDto({relatedKeyQuery}) }}, " +
             $"etag));");
-        code.AppendLine($"if (!deleted)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
         code.AppendLine($"return NoContent();");
 
@@ -918,10 +870,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine($"var deleted = await _mediator.Send(new Delete{relatedEntity.Name}ByIdCommand(" +
                 $"new List<{relatedEntity.Name}KeyDto> {{ new {relatedEntity.Name}KeyDto({GetPrimaryKeysQuery(relatedEntity, "related.", true)}) }}, " +
                 $"etag));");
-            code.AppendLine($"if (!deleted)");
-            code.StartBlock();
-            code.AppendLine($"return NotFound();");
-            code.EndBlock();
         }
         else
             code.AppendLine($"await _mediator.Send(new Delete{relatedEntity.Name}ByIdCommand(" +

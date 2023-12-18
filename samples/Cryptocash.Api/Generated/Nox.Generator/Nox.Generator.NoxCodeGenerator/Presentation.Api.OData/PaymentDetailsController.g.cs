@@ -37,10 +37,6 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefPaymentDetailToCustomerCommand(new PaymentDetailKeyDto(key), new CustomerKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -120,10 +116,6 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefPaymentDetailToPaymentProviderCommand(new PaymentDetailKeyDto(key), new PaymentProviderKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }

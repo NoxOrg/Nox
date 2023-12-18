@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateCustomerCommand(System.Guid keyId, CustomerUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CustomerKeyDto?>;
+public partial record UpdateCustomerCommand(System.Guid keyId, CustomerUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CustomerKeyDto>;
 
 internal partial class UpdateCustomerCommandHandler : UpdateCustomerCommandHandlerBase
 {
@@ -31,7 +32,7 @@ internal partial class UpdateCustomerCommandHandler : UpdateCustomerCommandHandl
 	}
 }
 
-internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCustomerCommand, CustomerEntity>, IRequestHandler<UpdateCustomerCommand, CustomerKeyDto?>
+internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCustomerCommand, CustomerEntity>, IRequestHandler<UpdateCustomerCommand, CustomerKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> _entityFactory;
@@ -46,7 +47,7 @@ internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCus
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<CustomerKeyDto?> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CustomerKeyDto> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +56,7 @@ internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCus
 		var entity = await DbContext.Customers.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Customer",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -67,7 +68,7 @@ internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCus
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return null;
+			throw new DatabaseSaveException();
 		}
 
 		return new CustomerKeyDto(entity.Id.Value);

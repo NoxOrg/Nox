@@ -1,5 +1,4 @@
-﻿﻿
-﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -9,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
@@ -46,14 +46,14 @@ internal partial class DeleteSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelat
 		var parentEntity = await DbContext.TestEntityOwnedRelationshipOneOrManies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityOwnedRelationshipOneOrMany",  $"{keyId.ToString()}");
 		}
 		await DbContext.Entry(parentEntity).Collection(p => p.SecEntityOwnedRelOneOrManies).LoadAsync(cancellationToken);
 		var ownedId = TestWebApp.Domain.SecEntityOwnedRelOneOrManyMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.SecEntityOwnedRelOneOrManies.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("SecEntityOwnedRelOneOrMany.SecEntityOwnedRelOneOrManies",  $"{ownedId.ToString()}");
 		}
 		parentEntity.SecEntityOwnedRelOneOrManies.Remove(entity);
 		await OnCompletedAsync(request, entity);
@@ -62,7 +62,7 @@ internal partial class DeleteSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelat
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{
-			return false;
+			throw new DatabaseSaveException();
 		}
 
 		return true;

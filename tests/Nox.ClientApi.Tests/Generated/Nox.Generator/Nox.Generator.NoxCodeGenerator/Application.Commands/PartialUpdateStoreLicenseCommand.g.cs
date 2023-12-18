@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -16,7 +17,7 @@ using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Commands;
 
-public partial record PartialUpdateStoreLicenseCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <StoreLicenseKeyDto?>;
+public partial record PartialUpdateStoreLicenseCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <StoreLicenseKeyDto>;
 
 internal partial class PartialUpdateStoreLicenseCommandHandler : PartialUpdateStoreLicenseCommandHandlerBase
 {
@@ -28,7 +29,7 @@ internal partial class PartialUpdateStoreLicenseCommandHandler : PartialUpdateSt
 	{
 	}
 }
-internal abstract class PartialUpdateStoreLicenseCommandHandlerBase : CommandBase<PartialUpdateStoreLicenseCommand, StoreLicenseEntity>, IRequestHandler<PartialUpdateStoreLicenseCommand, StoreLicenseKeyDto?>
+internal abstract class PartialUpdateStoreLicenseCommandHandlerBase : CommandBase<PartialUpdateStoreLicenseCommand, StoreLicenseEntity>, IRequestHandler<PartialUpdateStoreLicenseCommand, StoreLicenseKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> EntityFactory { get; }
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateStoreLicenseCommandHandlerBase : CommandBas
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<StoreLicenseKeyDto?> Handle(PartialUpdateStoreLicenseCommand request, CancellationToken cancellationToken)
+	public virtual async Task<StoreLicenseKeyDto> Handle(PartialUpdateStoreLicenseCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,7 +53,7 @@ internal abstract class PartialUpdateStoreLicenseCommandHandlerBase : CommandBas
 		var entity = await DbContext.StoreLicenses.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("StoreLicense",  $"{keyId.ToString()}");
 		}
 		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

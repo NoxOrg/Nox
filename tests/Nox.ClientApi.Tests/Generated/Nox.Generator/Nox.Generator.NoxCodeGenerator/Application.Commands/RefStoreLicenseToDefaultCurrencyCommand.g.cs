@@ -1,5 +1,4 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -41,13 +41,13 @@ internal partial class CreateRefStoreLicenseToDefaultCurrencyCommandHandler
 		var entity = await GetStoreLicense(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("StoreLicense",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetCurrency(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("Currency",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.CreateRefToDefaultCurrency(relatedEntity);
@@ -78,13 +78,13 @@ internal partial class DeleteRefStoreLicenseToDefaultCurrencyCommandHandler
         var entity = await GetStoreLicense(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("StoreLicense",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetCurrency(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("Currency", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.DeleteRefToDefaultCurrency(relatedEntity);
@@ -115,7 +115,7 @@ internal partial class DeleteAllRefStoreLicenseToDefaultCurrencyCommandHandler
         var entity = await GetStoreLicense(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("StoreLicense",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToDefaultCurrency();
 
@@ -166,7 +166,7 @@ internal abstract class RefStoreLicenseToDefaultCurrencyCommandHandlerBase<TRequ
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return false;
+			throw new DatabaseSaveException();
 		}
 		return true;
 	}

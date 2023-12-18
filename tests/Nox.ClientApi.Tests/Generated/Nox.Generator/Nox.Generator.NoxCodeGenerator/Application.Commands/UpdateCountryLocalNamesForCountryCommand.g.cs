@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Extensions;
+using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
@@ -19,7 +20,7 @@ using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateCountryLocalNamesForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
+public partial record UpdateCountryLocalNamesForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto>;
 
 internal partial class UpdateCountryLocalNamesForCountryCommandHandler : UpdateCountryLocalNamesForCountryCommandHandlerBase
 {
@@ -32,7 +33,7 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandler : UpdateC
 	}
 }
 
-internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : CommandBase<UpdateCountryLocalNamesForCountryCommand, CountryLocalNameEntity>, IRequestHandler <UpdateCountryLocalNamesForCountryCommand, CountryLocalNameKeyDto?>
+internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : CommandBase<UpdateCountryLocalNamesForCountryCommand, CountryLocalNameEntity>, IRequestHandler <UpdateCountryLocalNamesForCountryCommand, CountryLocalNameKeyDto>
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> _entityFactory;
@@ -47,7 +48,7 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<CountryLocalNameKeyDto?> Handle(UpdateCountryLocalNamesForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryLocalNameKeyDto> Handle(UpdateCountryLocalNamesForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +56,7 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.CountryLocalNames).LoadAsync(cancellationToken);
 		
@@ -69,7 +70,7 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 			var ownedId = ClientApi.Domain.CountryLocalNameMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
 			entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
 			if (entity is null)
-				return null;
+				throw new EntityNotFoundException("CountryLocalName",  $"{ownedId.ToString()}");
 			else
 				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		}
@@ -83,7 +84,7 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return null;
+			throw new DatabaseSaveException();
 		}
 
 		return new CountryLocalNameKeyDto(entity.Id.Value);

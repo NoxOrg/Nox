@@ -48,10 +48,6 @@ public abstract partial class TestEntityLocalizationsControllerBase
         
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityLocalizationCommand(key, updatedProperties, Nox.Types.CultureCode.From(cultureCode) , etag));
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
         var item = (await _mediator.Send(new GetTestEntityLocalizationTranslationsByIdQuery( updatedKey.keyId, Nox.Types.CultureCode.From(cultureCode)))).SingleOrDefault();
 
         return Ok(item);

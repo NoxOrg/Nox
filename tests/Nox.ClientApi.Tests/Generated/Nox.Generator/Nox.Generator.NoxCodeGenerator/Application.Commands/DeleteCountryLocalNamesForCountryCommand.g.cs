@@ -1,5 +1,4 @@
-﻿﻿
-﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -9,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -46,14 +46,14 @@ internal partial class DeleteCountryLocalNamesForCountryCommandHandlerBase : Com
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
 		}
 		await DbContext.Entry(parentEntity).Collection(p => p.CountryLocalNames).LoadAsync(cancellationToken);
 		var ownedId = ClientApi.Domain.CountryLocalNameMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("CountryLocalName.CountryLocalNames",  $"{ownedId.ToString()}");
 		}
 		parentEntity.CountryLocalNames.Remove(entity);
 		await OnCompletedAsync(request, entity);
@@ -62,7 +62,7 @@ internal partial class DeleteCountryLocalNamesForCountryCommandHandlerBase : Com
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{
-			return false;
+			throw new DatabaseSaveException();
 		}
 
 		return true;

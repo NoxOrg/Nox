@@ -1,5 +1,4 @@
-﻿﻿
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -9,13 +8,15 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using TenantContactEntity = ClientApi.Domain.TenantContact;
 
 namespace ClientApi.Application.Commands;
-public partial record PartialUpdateTenantContactForTenantCommand(TenantKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantContactKeyDto?>;
+public partial record PartialUpdateTenantContactForTenantCommand(TenantKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantContactKeyDto>;
 
 internal partial class PartialUpdateTenantContactForTenantCommandHandler: PartialUpdateTenantContactForTenantCommandHandlerBase
 {
@@ -28,7 +29,7 @@ internal partial class PartialUpdateTenantContactForTenantCommandHandler: Partia
 	{
 	}
 }
-internal abstract class PartialUpdateTenantContactForTenantCommandHandlerBase: CommandBase<PartialUpdateTenantContactForTenantCommand, TenantContactEntity>, IRequestHandler <PartialUpdateTenantContactForTenantCommand, TenantContactKeyDto?>
+internal abstract class PartialUpdateTenantContactForTenantCommandHandlerBase: CommandBase<PartialUpdateTenantContactForTenantCommand, TenantContactEntity>, IRequestHandler <PartialUpdateTenantContactForTenantCommand, TenantContactKeyDto>
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> _entityFactory;
@@ -46,7 +47,7 @@ internal abstract class PartialUpdateTenantContactForTenantCommandHandlerBase: C
 		_entityLocalizedFactory = entityLocalizedFactory;
 	}
 
-	public virtual async Task<TenantContactKeyDto?> Handle(PartialUpdateTenantContactForTenantCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TenantContactKeyDto> Handle(PartialUpdateTenantContactForTenantCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,14 +56,14 @@ internal abstract class PartialUpdateTenantContactForTenantCommandHandlerBase: C
 		var parentEntity = await _dbContext.Tenants.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Tenant",  $"{keyId.ToString()}");
 		}
 		await _dbContext.Entry(parentEntity).Reference(e => e.TenantContact).LoadAsync(cancellationToken);
 		var entity = parentEntity.TenantContact;
 		
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Tenant.TenantContact", String.Empty);
 		}
 
 		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
@@ -75,7 +76,7 @@ internal abstract class PartialUpdateTenantContactForTenantCommandHandlerBase: C
 		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return null;
+			throw new DatabaseSaveException();
 		}
 
 		return new TenantContactKeyDto();

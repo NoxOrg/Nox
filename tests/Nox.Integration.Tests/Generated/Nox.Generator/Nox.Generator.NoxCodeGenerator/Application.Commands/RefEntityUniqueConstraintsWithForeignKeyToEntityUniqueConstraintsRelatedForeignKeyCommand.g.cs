@@ -1,5 +1,4 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -41,13 +41,13 @@ internal partial class CreateRefEntityUniqueConstraintsWithForeignKeyToEntityUni
 		var entity = await GetEntityUniqueConstraintsWithForeignKey(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKey",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetEntityUniqueConstraintsRelatedForeignKey(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("EntityUniqueConstraintsRelatedForeignKey",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.CreateRefToEntityUniqueConstraintsRelatedForeignKey(relatedEntity);
@@ -78,13 +78,13 @@ internal partial class DeleteRefEntityUniqueConstraintsWithForeignKeyToEntityUni
         var entity = await GetEntityUniqueConstraintsWithForeignKey(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKey",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetEntityUniqueConstraintsRelatedForeignKey(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("EntityUniqueConstraintsRelatedForeignKey", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.DeleteRefToEntityUniqueConstraintsRelatedForeignKey(relatedEntity);
@@ -115,7 +115,7 @@ internal partial class DeleteAllRefEntityUniqueConstraintsWithForeignKeyToEntity
         var entity = await GetEntityUniqueConstraintsWithForeignKey(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKey",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToEntityUniqueConstraintsRelatedForeignKey();
 
@@ -166,7 +166,7 @@ internal abstract class RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueCo
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return false;
+			throw new DatabaseSaveException();
 		}
 		return true;
 	}

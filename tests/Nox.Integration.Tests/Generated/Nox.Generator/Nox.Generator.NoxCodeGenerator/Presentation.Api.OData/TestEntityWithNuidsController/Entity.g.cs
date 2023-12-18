@@ -125,11 +125,6 @@ public abstract partial class TestEntityWithNuidsControllerBase : ODataControlle
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityWithNuidCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
-
         var item = (await _mediator.Send(new GetTestEntityWithNuidByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);

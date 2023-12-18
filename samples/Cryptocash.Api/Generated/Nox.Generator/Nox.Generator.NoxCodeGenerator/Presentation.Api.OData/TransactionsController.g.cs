@@ -37,10 +37,6 @@ public abstract partial class TransactionsControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefTransactionToCustomerCommand(new TransactionKeyDto(key), new CustomerKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -120,10 +116,6 @@ public abstract partial class TransactionsControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefTransactionToBookingCommand(new TransactionKeyDto(key), new BookingKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }

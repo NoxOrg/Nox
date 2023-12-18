@@ -37,10 +37,6 @@ public abstract partial class ClientsControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefClientToStoresCommand(new ClientKeyDto(key), new StoreKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -55,10 +51,6 @@ public abstract partial class ClientsControllerBase : ODataController
         
         var relatedKeysDto = referencesDto.References.Select(x => new StoreKeyDto(x)).ToList();
         var updatedRef = await _mediator.Send(new UpdateRefClientToStoresCommand(new ClientKeyDto(key), relatedKeysDto));
-        if (!updatedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -87,10 +79,6 @@ public abstract partial class ClientsControllerBase : ODataController
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefClientToStoresCommand(new ClientKeyDto(key), new StoreKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -103,10 +91,6 @@ public abstract partial class ClientsControllerBase : ODataController
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefClientToStoresCommand(new ClientKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -191,10 +175,6 @@ public abstract partial class ClientsControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteStoreByIdCommand(new List<StoreKeyDto> { new StoreKeyDto(relatedKey) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }

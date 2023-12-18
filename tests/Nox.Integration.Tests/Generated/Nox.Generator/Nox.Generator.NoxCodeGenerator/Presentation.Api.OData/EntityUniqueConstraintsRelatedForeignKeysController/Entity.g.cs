@@ -125,11 +125,6 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
-
         var item = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);

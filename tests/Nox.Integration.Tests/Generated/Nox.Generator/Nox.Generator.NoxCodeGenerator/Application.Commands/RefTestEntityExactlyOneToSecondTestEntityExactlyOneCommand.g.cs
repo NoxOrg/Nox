@@ -1,5 +1,4 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -41,13 +41,13 @@ internal partial class CreateRefTestEntityExactlyOneToSecondTestEntityExactlyOne
 		var entity = await GetTestEntityExactlyOne(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityExactlyOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetSecondTestEntityExactlyOne(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("SecondTestEntityExactlyOne",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.CreateRefToSecondTestEntityExactlyOne(relatedEntity);
@@ -78,13 +78,13 @@ internal partial class DeleteRefTestEntityExactlyOneToSecondTestEntityExactlyOne
         var entity = await GetTestEntityExactlyOne(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityExactlyOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetSecondTestEntityExactlyOne(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("SecondTestEntityExactlyOne", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.DeleteRefToSecondTestEntityExactlyOne(relatedEntity);
@@ -115,7 +115,7 @@ internal partial class DeleteAllRefTestEntityExactlyOneToSecondTestEntityExactly
         var entity = await GetTestEntityExactlyOne(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityExactlyOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToSecondTestEntityExactlyOne();
 
@@ -166,7 +166,7 @@ internal abstract class RefTestEntityExactlyOneToSecondTestEntityExactlyOneComma
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return false;
+			throw new DatabaseSaveException();
 		}
 		return true;
 	}

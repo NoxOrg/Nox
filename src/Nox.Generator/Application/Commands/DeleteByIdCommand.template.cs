@@ -4,6 +4,11 @@ end -}}
 {{- func keysQuery(keyNames)	
 	ret (keyNames | array.each @keyName | array.join ", ")
 end -}}
+
+{{- func keysToString(keys, prefix = "key")
+	keyNameWithPrefix(name) = ("{" + prefix + name + ".ToString()}")	
+	ret (keys | array.map "Name" | array.each @keyNameWithPrefix | array.join ", ")
+end -}}
 // Generated
 
 #nullable enable
@@ -13,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.DtoNameSpace}};
@@ -58,7 +64,7 @@ internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandCol
 			var entity = await DbContext.{{entity.PluralName}}.FindAsync({{entity.Keys | array.map "Name" | keysQuery}});
 			if (entity == null{{if (entity.Persistence?.IsAudited ?? true)}} || entity.IsDeleted == true{{end}})
 			{
-				return false;
+				throw new EntityNotFoundException("{{entity.Name}}",  $"{{entity.Keys | keysToString}}");
 			}
 			{{- if !entity.IsOwnedEntity }}
 			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

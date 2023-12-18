@@ -1,5 +1,4 @@
-﻿﻿
-﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -9,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -46,14 +46,14 @@ internal partial class DeleteEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 		var parentEntity = await DbContext.Employees.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Employee",  $"{keyId.ToString()}");
 		}
 		await DbContext.Entry(parentEntity).Collection(p => p.EmployeePhoneNumbers).LoadAsync(cancellationToken);
 		var ownedId = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("EmployeePhoneNumber.EmployeePhoneNumbers",  $"{ownedId.ToString()}");
 		}
 		parentEntity.EmployeePhoneNumbers.Remove(entity);
 		await OnCompletedAsync(request, entity);
@@ -62,7 +62,7 @@ internal partial class DeleteEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{
-			return false;
+			throw new DatabaseSaveException();
 		}
 
 		return true;

@@ -1,5 +1,4 @@
-﻿﻿
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -9,13 +8,15 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using TenantBrandEntity = ClientApi.Domain.TenantBrand;
 
 namespace ClientApi.Application.Commands;
-public partial record PartialUpdateTenantBrandsForTenantCommand(TenantKeyDto ParentKeyDto, TenantBrandKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantBrandKeyDto?>;
+public partial record PartialUpdateTenantBrandsForTenantCommand(TenantKeyDto ParentKeyDto, TenantBrandKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantBrandKeyDto>;
 internal partial class PartialUpdateTenantBrandsForTenantCommandHandler: PartialUpdateTenantBrandsForTenantCommandHandlerBase
 {
 	public PartialUpdateTenantBrandsForTenantCommandHandler(
@@ -27,7 +28,7 @@ internal partial class PartialUpdateTenantBrandsForTenantCommandHandler: Partial
 	{
 	}
 }
-internal abstract class PartialUpdateTenantBrandsForTenantCommandHandlerBase: CommandBase<PartialUpdateTenantBrandsForTenantCommand, TenantBrandEntity>, IRequestHandler <PartialUpdateTenantBrandsForTenantCommand, TenantBrandKeyDto?>
+internal abstract class PartialUpdateTenantBrandsForTenantCommandHandlerBase: CommandBase<PartialUpdateTenantBrandsForTenantCommand, TenantBrandEntity>, IRequestHandler <PartialUpdateTenantBrandsForTenantCommand, TenantBrandKeyDto>
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> _entityFactory;
@@ -45,7 +46,7 @@ internal abstract class PartialUpdateTenantBrandsForTenantCommandHandlerBase: Co
 		_entityLocalizedFactory = entityLocalizedFactory;
 	}
 
-	public virtual async Task<TenantBrandKeyDto?> Handle(PartialUpdateTenantBrandsForTenantCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TenantBrandKeyDto> Handle(PartialUpdateTenantBrandsForTenantCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -54,14 +55,14 @@ internal abstract class PartialUpdateTenantBrandsForTenantCommandHandlerBase: Co
 		var parentEntity = await _dbContext.Tenants.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Tenant",  $"{keyId.ToString()}");
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.TenantBrands).LoadAsync(cancellationToken);
 		var ownedId = ClientApi.Domain.TenantBrandMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.TenantBrands.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Tenant.TenantBrands", $"{ownedId.ToString()}");
 		}
 
 		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
@@ -74,7 +75,7 @@ internal abstract class PartialUpdateTenantBrandsForTenantCommandHandlerBase: Co
 		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return null;
+			throw new DatabaseSaveException();
 		}
 
 		return new TenantBrandKeyDto(entity.Id.Value);

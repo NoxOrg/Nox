@@ -1,4 +1,9 @@
 ﻿{{- relationshipName = GetNavigationPropertyName parent relationship }}﻿
+
+{{- func keysToString(keys, prefix = "key")
+	keyNameWithPrefix(name) = ("{" + prefix + name + ".ToString()}")
+	ret (keys | array.map "Name" | array.each @keyNameWithPrefix | array.join ", ")
+end -}}
 // Generated
 
 #nullable enable
@@ -11,6 +16,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
@@ -20,7 +26,7 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
-public partial record Create{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}UpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+public partial record Create{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}UpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto>;
 
 internal partial class Create{{relationshipName}}For{{parent.Name}}CommandHandler : Create{{relationshipName}}For{{parent.Name}}CommandHandlerBase
 {
@@ -66,7 +72,7 @@ internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandl
 		var parentEntity = await _dbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("{{parent.Name}}",  $"{{parent.Keys | keysToString}}");
 		}
 
 		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
@@ -83,7 +89,7 @@ internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandl
 		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return null;
+			throw new DatabaseSaveException();
 		}
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});

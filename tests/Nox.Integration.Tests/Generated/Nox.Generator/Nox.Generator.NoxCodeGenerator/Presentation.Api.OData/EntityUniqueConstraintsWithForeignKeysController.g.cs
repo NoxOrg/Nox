@@ -37,10 +37,6 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
         }
         
         var createdRef = await _mediator.Send(new CreateRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand(new EntityUniqueConstraintsWithForeignKeyKeyDto(key), new EntityUniqueConstraintsRelatedForeignKeyKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -50,7 +51,7 @@ internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase : 
 			var entity = await DbContext.CountryQualityOfLifeIndices.FindAsync(keyCountryId, keyId);
 			if (entity == null)
 			{
-				return false;
+				throw new EntityNotFoundException("CountryQualityOfLifeIndex",  $"{keyCountryId.ToString()}, {keyId.ToString()}");
 			}
 			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

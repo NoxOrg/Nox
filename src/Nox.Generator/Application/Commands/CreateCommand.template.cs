@@ -196,7 +196,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 	private void Create{{relationshipName}}Localization({{codeGeneratorState.DomainNameSpace}}.{{relationship.Related.Entity.Name}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} entity, Nox.Types.CultureCode cultureCode)
 	{
 		{{- if relationship.Relationship == "ZeroOrOne"}}
-		if(entity is null) return;
+		if (entity is null) return;
 		{{- end}}
 		var entityLocalized = {{relationship.Related.Entity.Name}}LocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
 		DbContext.{{relationship.Related.Entity.PluralName}}Localized.Add(entityLocalized);

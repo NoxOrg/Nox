@@ -1,5 +1,4 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -41,13 +41,13 @@ internal partial class CreateRefVendingMachineToMinimumCashStocksCommandHandler
 		var entity = await GetVendingMachine(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetMinimumCashStock(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("MinimumCashStock",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.CreateRefToMinimumCashStocks(relatedEntity);
@@ -78,7 +78,7 @@ internal partial class UpdateRefVendingMachineToMinimumCashStocksCommandHandler
 		var entity = await GetVendingMachine(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntities = new List<Cryptocash.Domain.MinimumCashStock>();
@@ -87,7 +87,7 @@ internal partial class UpdateRefVendingMachineToMinimumCashStocksCommandHandler
 			var relatedEntity = await GetMinimumCashStock(keyDto);
 			if (relatedEntity == null)
 			{
-				return false;
+				throw new RelatedEntityNotFoundException("MinimumCashStock", $"{keyDto.keyId.ToString()}");
 			}
 			relatedEntities.Add(relatedEntity);
 		}
@@ -121,13 +121,13 @@ internal partial class DeleteRefVendingMachineToMinimumCashStocksCommandHandler
         var entity = await GetVendingMachine(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetMinimumCashStock(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("MinimumCashStock", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.DeleteRefToMinimumCashStocks(relatedEntity);
@@ -158,7 +158,7 @@ internal partial class DeleteAllRefVendingMachineToMinimumCashStocksCommandHandl
         var entity = await GetVendingMachine(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		await DbContext.Entry(entity).Collection(x => x.MinimumCashStocks).LoadAsync();
 		entity.DeleteAllRefToMinimumCashStocks();
@@ -210,7 +210,7 @@ internal abstract class RefVendingMachineToMinimumCashStocksCommandHandlerBase<T
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return false;
+			throw new DatabaseSaveException();
 		}
 		return true;
 	}

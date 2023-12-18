@@ -1,4 +1,8 @@
-﻿﻿﻿// Generated
+﻿{{- func keysToString(keys, prefix = "key")
+	keyNameWithPrefix(name) = ("{" + prefix + name + ".ToString()}")
+	ret (keys | array.map "Name" | array.each @keyNameWithPrefix | array.join ", ")
+end -}}﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +22,7 @@ using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Na
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public partial record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}UpdateDto EntityDto, Nox.Types.CultureCode {{codeGeneratorState.LocalizationCultureField}}{{ if !entity.IsOwnedEntity}}, System.Guid? Etag{{end}}) : IRequest<{{entity.Name}}KeyDto?>;
+public partial record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}UpdateDto EntityDto, Nox.Types.CultureCode {{codeGeneratorState.LocalizationCultureField}}{{ if !entity.IsOwnedEntity}}, System.Guid? Etag{{end}}) : IRequest<{{entity.Name}}KeyDto>;
 
 internal partial class Update{{entity.Name}}CommandHandler : Update{{entity.Name}}CommandHandlerBase
 {
@@ -33,7 +37,7 @@ internal partial class Update{{entity.Name}}CommandHandler : Update{{entity.Name
 	}
 }
 
-internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Update{{entity.Name}}Command, {{entity.Name}}Entity>, IRequestHandler<Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
+internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Update{{entity.Name}}Command, {{entity.Name}}Entity>, IRequestHandler<Update{{entity.Name}}Command, {{entity.Name}}KeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;
@@ -66,7 +70,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 		{{- end }}
 	}
 
-	public virtual async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
+	public virtual async Task<{{entity.Name}}KeyDto> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -78,7 +82,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("{{entity.Name}}",  $"{{keysToString entity.Keys}}");
 		}
 
 		{{- for relationship in entity.OwnedRelationships }}
@@ -106,7 +110,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return null;
+			throw new DatabaseSaveException();
 		}
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});

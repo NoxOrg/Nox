@@ -140,11 +140,6 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         var updatedKey = await _mediator.Send(new PartialUpdate{{ entity.Name }}Command({{ primaryKeysQuery }}, updatedProperties, _cultureCode));
         {{- end}}
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
-
         var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
         return Ok(item);

@@ -1,5 +1,4 @@
-﻿﻿
-﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -9,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -47,13 +47,13 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 		var parentEntity = await DbContext.Stores.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Store",  $"{keyId.ToString()}");
 		}
 		await DbContext.Entry(parentEntity).Reference(e => e.EmailAddress).LoadAsync(cancellationToken);
 		var entity = parentEntity.EmailAddress;
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Store.EmailAddress",  String.Empty);
 		}
 
 		parentEntity.DeleteRefToEmailAddress(entity);
@@ -66,7 +66,7 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{
-			return false;
+			throw new DatabaseSaveException();
 		}
 
 		return true;

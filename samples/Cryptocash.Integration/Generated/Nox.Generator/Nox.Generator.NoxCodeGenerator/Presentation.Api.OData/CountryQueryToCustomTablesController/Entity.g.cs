@@ -125,11 +125,6 @@ public abstract partial class CountryQueryToCustomTablesControllerBase : ODataCo
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateCountryQueryToCustomTableCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
-
         var item = (await _mediator.Send(new GetCountryQueryToCustomTableByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);

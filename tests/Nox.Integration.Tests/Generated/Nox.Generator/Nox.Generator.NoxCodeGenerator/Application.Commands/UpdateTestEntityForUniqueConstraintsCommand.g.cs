@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using TestEntityForUniqueConstraintsEntity = TestWebApp.Domain.TestEntityForUniq
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateTestEntityForUniqueConstraintsCommand(System.String keyId, TestEntityForUniqueConstraintsUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityForUniqueConstraintsKeyDto?>;
+public partial record UpdateTestEntityForUniqueConstraintsCommand(System.String keyId, TestEntityForUniqueConstraintsUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityForUniqueConstraintsKeyDto>;
 
 internal partial class UpdateTestEntityForUniqueConstraintsCommandHandler : UpdateTestEntityForUniqueConstraintsCommandHandlerBase
 {
@@ -31,7 +32,7 @@ internal partial class UpdateTestEntityForUniqueConstraintsCommandHandler : Upda
 	}
 }
 
-internal abstract class UpdateTestEntityForUniqueConstraintsCommandHandlerBase : CommandBase<UpdateTestEntityForUniqueConstraintsCommand, TestEntityForUniqueConstraintsEntity>, IRequestHandler<UpdateTestEntityForUniqueConstraintsCommand, TestEntityForUniqueConstraintsKeyDto?>
+internal abstract class UpdateTestEntityForUniqueConstraintsCommandHandlerBase : CommandBase<UpdateTestEntityForUniqueConstraintsCommand, TestEntityForUniqueConstraintsEntity>, IRequestHandler<UpdateTestEntityForUniqueConstraintsCommand, TestEntityForUniqueConstraintsKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> _entityFactory;
@@ -46,7 +47,7 @@ internal abstract class UpdateTestEntityForUniqueConstraintsCommandHandlerBase :
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<TestEntityForUniqueConstraintsKeyDto?> Handle(UpdateTestEntityForUniqueConstraintsCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TestEntityForUniqueConstraintsKeyDto> Handle(UpdateTestEntityForUniqueConstraintsCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +56,7 @@ internal abstract class UpdateTestEntityForUniqueConstraintsCommandHandlerBase :
 		var entity = await DbContext.TestEntityForUniqueConstraints.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("TestEntityForUniqueConstraints",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -67,7 +68,7 @@ internal abstract class UpdateTestEntityForUniqueConstraintsCommandHandlerBase :
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return null;
+			throw new DatabaseSaveException();
 		}
 
 		return new TestEntityForUniqueConstraintsKeyDto(entity.Id.Value);

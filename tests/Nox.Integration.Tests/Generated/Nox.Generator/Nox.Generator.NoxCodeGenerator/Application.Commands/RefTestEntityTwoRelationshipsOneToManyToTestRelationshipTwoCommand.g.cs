@@ -1,5 +1,4 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -41,13 +41,13 @@ internal partial class CreateRefTestEntityTwoRelationshipsOneToManyToTestRelatio
 		var entity = await GetTestEntityTwoRelationshipsOneToMany(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityTwoRelationshipsOneToMany",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetSecondTestEntityTwoRelationshipsOneToMany(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("SecondTestEntityTwoRelationshipsOneToMany",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.CreateRefToTestRelationshipTwo(relatedEntity);
@@ -78,7 +78,7 @@ internal partial class UpdateRefTestEntityTwoRelationshipsOneToManyToTestRelatio
 		var entity = await GetTestEntityTwoRelationshipsOneToMany(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityTwoRelationshipsOneToMany",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntities = new List<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToMany>();
@@ -87,7 +87,7 @@ internal partial class UpdateRefTestEntityTwoRelationshipsOneToManyToTestRelatio
 			var relatedEntity = await GetSecondTestEntityTwoRelationshipsOneToMany(keyDto);
 			if (relatedEntity == null)
 			{
-				return false;
+				throw new RelatedEntityNotFoundException("SecondTestEntityTwoRelationshipsOneToMany", $"{keyDto.keyId.ToString()}");
 			}
 			relatedEntities.Add(relatedEntity);
 		}
@@ -121,13 +121,13 @@ internal partial class DeleteRefTestEntityTwoRelationshipsOneToManyToTestRelatio
         var entity = await GetTestEntityTwoRelationshipsOneToMany(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityTwoRelationshipsOneToMany",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetSecondTestEntityTwoRelationshipsOneToMany(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("SecondTestEntityTwoRelationshipsOneToMany", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.DeleteRefToTestRelationshipTwo(relatedEntity);
@@ -158,7 +158,7 @@ internal partial class DeleteAllRefTestEntityTwoRelationshipsOneToManyToTestRela
         var entity = await GetTestEntityTwoRelationshipsOneToMany(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityTwoRelationshipsOneToMany",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		await DbContext.Entry(entity).Collection(x => x.TestRelationshipTwo).LoadAsync();
 		entity.DeleteAllRefToTestRelationshipTwo();
@@ -210,7 +210,7 @@ internal abstract class RefTestEntityTwoRelationshipsOneToManyToTestRelationship
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return false;
+			throw new DatabaseSaveException();
 		}
 		return true;
 	}

@@ -1,4 +1,9 @@
 ﻿{{- relationshipName = GetNavigationPropertyName parent relationship }}﻿
+
+{{- func keysToString(keys, prefix = "key")
+	keyNameWithPrefix(name) = ("{" + prefix + name + ".ToString()}")	
+	ret (keys | array.map "Name" | array.each @keyNameWithPrefix | array.join ", ")
+end -}}
 ﻿// Generated
 
 #nullable enable
@@ -9,6 +14,7 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
@@ -53,7 +59,7 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 		var parentEntity = await DbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
 		if (parentEntity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("{{parent.Name}}",  $"{{parent.Keys | keysToString}}");
 		}
 
 		{{- if isSingleRelationship }}
@@ -61,7 +67,7 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 		var entity = parentEntity.{{relationshipName}};
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("{{parent.Name}}.{{relationshipName}}",  String.Empty);
 		}
 
 		parentEntity.DeleteRefTo{{relationshipName}}(entity);
@@ -76,7 +82,7 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 		var entity = parentEntity.{{relationshipName}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("{{entity.Name}}.{{relationshipName}}",  $"{{keysToString entity.Keys 'owned'}}");
 		}
 		parentEntity.{{relationshipName}}.Remove(entity);
 		await OnCompletedAsync(request, entity);
@@ -87,7 +93,7 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{
-			return false;
+			throw new DatabaseSaveException();
 		}
 
 		return true;

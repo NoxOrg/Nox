@@ -125,11 +125,6 @@ public abstract partial class ClientsControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateClientCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
-
         var item = (await _mediator.Send(new GetClientByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);

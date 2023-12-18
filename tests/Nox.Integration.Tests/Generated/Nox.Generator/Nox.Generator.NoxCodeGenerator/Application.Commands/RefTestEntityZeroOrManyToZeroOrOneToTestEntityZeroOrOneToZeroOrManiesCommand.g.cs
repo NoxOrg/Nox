@@ -1,5 +1,4 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -41,13 +41,13 @@ internal partial class CreateRefTestEntityZeroOrManyToZeroOrOneToTestEntityZeroO
 		var entity = await GetTestEntityZeroOrManyToZeroOrOne(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityZeroOrManyToZeroOrOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetTestEntityZeroOrOneToZeroOrMany(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("TestEntityZeroOrOneToZeroOrMany",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.CreateRefToTestEntityZeroOrOneToZeroOrManies(relatedEntity);
@@ -78,7 +78,7 @@ internal partial class UpdateRefTestEntityZeroOrManyToZeroOrOneToTestEntityZeroO
 		var entity = await GetTestEntityZeroOrManyToZeroOrOne(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityZeroOrManyToZeroOrOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntities = new List<TestWebApp.Domain.TestEntityZeroOrOneToZeroOrMany>();
@@ -87,7 +87,7 @@ internal partial class UpdateRefTestEntityZeroOrManyToZeroOrOneToTestEntityZeroO
 			var relatedEntity = await GetTestEntityZeroOrOneToZeroOrMany(keyDto);
 			if (relatedEntity == null)
 			{
-				return false;
+				throw new RelatedEntityNotFoundException("TestEntityZeroOrOneToZeroOrMany", $"{keyDto.keyId.ToString()}");
 			}
 			relatedEntities.Add(relatedEntity);
 		}
@@ -121,13 +121,13 @@ internal partial class DeleteRefTestEntityZeroOrManyToZeroOrOneToTestEntityZeroO
         var entity = await GetTestEntityZeroOrManyToZeroOrOne(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityZeroOrManyToZeroOrOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetTestEntityZeroOrOneToZeroOrMany(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("TestEntityZeroOrOneToZeroOrMany", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.DeleteRefToTestEntityZeroOrOneToZeroOrManies(relatedEntity);
@@ -158,7 +158,7 @@ internal partial class DeleteAllRefTestEntityZeroOrManyToZeroOrOneToTestEntityZe
         var entity = await GetTestEntityZeroOrManyToZeroOrOne(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityZeroOrManyToZeroOrOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		await DbContext.Entry(entity).Collection(x => x.TestEntityZeroOrOneToZeroOrManies).LoadAsync();
 		entity.DeleteAllRefToTestEntityZeroOrOneToZeroOrManies();
@@ -210,7 +210,7 @@ internal abstract class RefTestEntityZeroOrManyToZeroOrOneToTestEntityZeroOrOneT
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return false;
+			throw new DatabaseSaveException();
 		}
 		return true;
 	}

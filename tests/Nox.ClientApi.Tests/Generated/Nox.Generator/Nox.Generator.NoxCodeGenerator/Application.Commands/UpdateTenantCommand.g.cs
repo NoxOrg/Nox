@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateTenantCommand(System.UInt32 keyId, TenantUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TenantKeyDto?>;
+public partial record UpdateTenantCommand(System.UInt32 keyId, TenantUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TenantKeyDto>;
 
 internal partial class UpdateTenantCommandHandler : UpdateTenantCommandHandlerBase
 {
@@ -33,7 +34,7 @@ internal partial class UpdateTenantCommandHandler : UpdateTenantCommandHandlerBa
 	}
 }
 
-internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenantCommand, TenantEntity>, IRequestHandler<UpdateTenantCommand, TenantKeyDto?>
+internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenantCommand, TenantEntity>, IRequestHandler<UpdateTenantCommand, TenantKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> _entityFactory;
@@ -54,7 +55,7 @@ internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenan
 		this.TenantContactLocalizedFactory = TenantContactLocalizedFactory;
 	}
 
-	public virtual async Task<TenantKeyDto?> Handle(UpdateTenantCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TenantKeyDto> Handle(UpdateTenantCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -63,7 +64,7 @@ internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenan
 		var entity = await DbContext.Tenants.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Tenant",  $"{keyId.ToString()}");
 		}
 		await DbContext.Entry(entity).Collection(x => x.TenantBrands).LoadAsync();
 		await DbContext.Entry(entity).Reference(x => x.TenantContact).LoadAsync();
@@ -78,7 +79,7 @@ internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenan
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{
-			return null;
+			throw new DatabaseSaveException();
 		}
 
 		return new TenantKeyDto(entity.Id.Value);

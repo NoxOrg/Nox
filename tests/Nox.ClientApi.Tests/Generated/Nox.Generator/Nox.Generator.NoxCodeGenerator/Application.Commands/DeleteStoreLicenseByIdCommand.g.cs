@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -49,7 +50,7 @@ internal abstract class DeleteStoreLicenseByIdCommandHandlerBase : CommandCollec
 			var entity = await DbContext.StoreLicenses.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
-				return false;
+				throw new EntityNotFoundException("StoreLicense",  $"{keyId.ToString()}");
 			}
 			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
