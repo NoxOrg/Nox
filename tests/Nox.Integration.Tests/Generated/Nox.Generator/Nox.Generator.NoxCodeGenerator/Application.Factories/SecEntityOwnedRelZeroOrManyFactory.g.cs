@@ -58,12 +58,26 @@ internal abstract class SecEntityOwnedRelZeroOrManyFactoryBase : IEntityFactory<
 
     public virtual async Task UpdateEntityAsync(SecEntityOwnedRelZeroOrManyEntity entity, SecEntityOwnedRelZeroOrManyUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
     }
 
     public virtual void PartialUpdateEntity(SecEntityOwnedRelZeroOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        try
+        {
+             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
     }
 
     private async Task<TestWebApp.Domain.SecEntityOwnedRelZeroOrMany> ToEntityAsync(SecEntityOwnedRelZeroOrManyUpsertDto createDto)

@@ -68,7 +68,6 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
     public virtual DbSet<Cryptocash.Domain.PaymentProvider> PaymentProviders { get; set; } = null!;
     public virtual DbSet<Cryptocash.Domain.VendingMachine> VendingMachines { get; set; } = null!;
     public virtual DbSet<Cryptocash.Domain.CashStockOrder> CashStockOrders { get; set; } = null!;
-    public virtual DbSet<Cryptocash.Domain.AProduct> AProducts { get; set; } = null!;
     
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -139,6 +138,5 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
         modelBuilder.Entity<Cryptocash.Domain.PaymentProvider>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<Cryptocash.Domain.VendingMachine>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<Cryptocash.Domain.CashStockOrder>().HasQueryFilter(p => p.DeletedAtUtc == null);
-        modelBuilder.Entity<Cryptocash.Domain.AProduct>().HasQueryFilter(p => p.DeletedAtUtc == null);
     }
 }
