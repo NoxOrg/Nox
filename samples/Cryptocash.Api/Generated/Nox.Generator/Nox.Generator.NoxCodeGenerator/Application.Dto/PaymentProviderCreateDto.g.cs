@@ -30,7 +30,7 @@ public abstract class PaymentProviderCreateDtoBase : IEntityDto<DomainNamespace.
     /// Payment provider unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>
-    public System.Guid Id { get; set; } = default!;
+    public virtual System.Guid? Id { get; set; }
     /// <summary>
     /// Payment provider name     
     /// </summary>

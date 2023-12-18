@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 using System;
 using System.Net.Http.Headers;
@@ -101,7 +102,7 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
 
         if (updatedKey is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityForAutoNumberUsages", $"{key.ToString()}");
         }
 
         var item = (await _mediator.Send(new GetTestEntityForAutoNumberUsagesByIdQuery(updatedKey.keyId))).SingleOrDefault();
@@ -127,7 +128,7 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
 
         if (updatedKey is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityForAutoNumberUsages", $"{key.ToString()}");
         }
 
         var item = (await _mediator.Send(new GetTestEntityForAutoNumberUsagesByIdQuery(updatedKey.keyId))).SingleOrDefault();
@@ -142,7 +143,7 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
 
         if (!result)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityForAutoNumberUsages", $"{key.ToString()}");
         }
 
         return NoContent();

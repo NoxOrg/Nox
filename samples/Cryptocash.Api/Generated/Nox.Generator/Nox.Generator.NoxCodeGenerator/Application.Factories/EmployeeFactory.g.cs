@@ -99,6 +99,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
             Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(createDto.FirstWorkingDay.NonNullValue<System.DateTime>()));
         entity.SetIfNotNull(createDto.LastWorkingDay, (entity) => entity.LastWorkingDay = 
             Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(createDto.LastWorkingDay.NonNullValue<System.DateTime>()));
+        entity.EnsureId(createDto.Id);
         foreach (var dto in createDto.EmployeePhoneNumbers)
         {
             var newRelatedEntity = await EmployeePhoneNumberFactory.CreateEntityAsync(dto);

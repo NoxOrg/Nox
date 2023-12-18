@@ -30,7 +30,7 @@ public abstract class TransactionCreateDtoBase : IEntityDto<DomainNamespace.Tran
     /// Customer transaction unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>
-    public System.Guid Id { get; set; } = default!;
+    public virtual System.Guid? Id { get; set; }
     /// <summary>
     /// Transaction type     
     /// </summary>

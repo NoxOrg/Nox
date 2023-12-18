@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 using System;
 using System.ComponentModel.Design;
@@ -40,7 +41,7 @@ public abstract partial class WorkplacesControllerBase
         
         if (etag == System.Guid.Empty)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Workplace", $"{key.ToString()}");
         }
         
         var updatedProperties = new Dictionary<string, dynamic>();
@@ -50,7 +51,7 @@ public abstract partial class WorkplacesControllerBase
 
         if (updatedKey is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Workplace", $"{key.ToString()}");
         }
         var item = (await _mediator.Send(new GetWorkplaceTranslationsByIdQuery( updatedKey.keyId, Nox.Types.CultureCode.From(cultureCode)))).SingleOrDefault();
 

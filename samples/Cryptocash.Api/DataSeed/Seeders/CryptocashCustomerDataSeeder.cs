@@ -5,6 +5,7 @@ using Cryptocash.Application.Dto;
 using MassTransit.Transports;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Nox.Types.Common;
+using Nox.Types;
 
 namespace Cryptocash.Infrastructure;
 

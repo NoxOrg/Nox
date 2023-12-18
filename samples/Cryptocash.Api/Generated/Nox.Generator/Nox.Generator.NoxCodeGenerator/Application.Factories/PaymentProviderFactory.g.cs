@@ -87,6 +87,7 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
             Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(createDto.PaymentProviderName.NonNullValue<System.String>()));
         entity.SetIfNotNull(createDto.PaymentProviderType, (entity) => entity.PaymentProviderType = 
             Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(createDto.PaymentProviderType.NonNullValue<System.String>()));
+        entity.EnsureId(createDto.Id);
         return await Task.FromResult(entity);
     }
 

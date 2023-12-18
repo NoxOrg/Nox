@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 using System;
 using System.Net.Http.Headers;
@@ -101,7 +102,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
 
         if (updatedKey is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStock", $"{key.ToString()}");
         }
 
         var item = (await _mediator.Send(new GetMinimumCashStockByIdQuery(updatedKey.keyId))).SingleOrDefault();
@@ -127,7 +128,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
 
         if (updatedKey is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStock", $"{key.ToString()}");
         }
 
         var item = (await _mediator.Send(new GetMinimumCashStockByIdQuery(updatedKey.keyId))).SingleOrDefault();
@@ -142,7 +143,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
 
         if (!result)
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStock", $"{key.ToString()}");
         }
 
         return NoContent();

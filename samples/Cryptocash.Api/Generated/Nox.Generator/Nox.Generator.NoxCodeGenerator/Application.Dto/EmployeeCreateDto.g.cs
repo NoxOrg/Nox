@@ -30,7 +30,7 @@ public abstract class EmployeeCreateDtoBase : IEntityDto<DomainNamespace.Employe
     /// Employee's unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>
-    public System.Guid Id { get; set; } = default!;
+    public virtual System.Guid? Id { get; set; }
     /// <summary>
     /// Employee's first name     
     /// </summary>
