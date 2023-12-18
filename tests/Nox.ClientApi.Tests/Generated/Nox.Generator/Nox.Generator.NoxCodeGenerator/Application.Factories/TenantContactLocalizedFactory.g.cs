@@ -80,6 +80,7 @@ internal abstract class TenantContactLocalizedFactoryBase : IEntityLocalizedFact
     {
         var localizedEntity = new TenantContactLocalized
         {
+            TenantId = entity.TenantId,
             TenantContact = entity,
             CultureCode = cultureCode,
         };

@@ -82,7 +82,7 @@ internal abstract class {{upsertCommand}}HandlerBase : CommandCollectionBase<{{u
 }
 public class {{upsertCommand}}Validator : AbstractValidator<{{upsertCommand}}>
 {
-	private static readonly string[] _supportedCultureCodes = new string[] { {{- for cultureCode in codeGeneratorState.Solution.Application.Localization.SupportedCultures }} "{{cultureCode}}",{{- end}} };
+	private static readonly string[] _supportedCultureCodes = new string[] { {{- for cultureCode in (codeGeneratorState.Solution.Application.Localization.SupportedCultures | array.sort) }} "{{cultureCode}}",{{- end}} };
 	private static readonly int[] _supportedIds = new int[] { {{- for value in enumAtt.Attribute.EnumerationTypeOptions.Values }} {{value.Id}},{{- end}} };
 	
     public {{upsertCommand}}Validator(NoxSolution noxSolution)

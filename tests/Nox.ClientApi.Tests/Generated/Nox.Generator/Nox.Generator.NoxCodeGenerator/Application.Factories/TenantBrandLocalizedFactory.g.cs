@@ -80,6 +80,7 @@ internal abstract class TenantBrandLocalizedFactoryBase : IEntityLocalizedFactor
     {
         var localizedEntity = new TenantBrandLocalized
         {
+            Id = entity.Id,
             TenantBrand = entity,
             CultureCode = cultureCode,
         };
