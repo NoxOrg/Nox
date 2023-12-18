@@ -58,7 +58,7 @@ internal abstract class CreateEmployeePhoneNumbersForEmployeeCommandHandlerBase 
 			throw new EntityNotFoundException("Employee",  $"{keyId.ToString()}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
+		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefToEmployeePhoneNumbers(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);

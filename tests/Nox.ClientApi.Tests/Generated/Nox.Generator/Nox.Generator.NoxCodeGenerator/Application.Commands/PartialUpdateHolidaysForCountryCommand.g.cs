@@ -61,7 +61,7 @@ internal abstract class PartialUpdateHolidaysForCountryCommandHandlerBase: Comma
 			throw new EntityNotFoundException("Country.Holidays", $"{ownedId.ToString()}");
 		}
 
-		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

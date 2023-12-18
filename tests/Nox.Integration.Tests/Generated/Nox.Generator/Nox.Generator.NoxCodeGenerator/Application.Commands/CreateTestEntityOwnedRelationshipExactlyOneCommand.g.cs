@@ -56,7 +56,7 @@ internal abstract class CreateTestEntityOwnedRelationshipExactlyOneCommandHandle
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.TestEntityOwnedRelationshipExactlyOnes.Add(entityToCreate);

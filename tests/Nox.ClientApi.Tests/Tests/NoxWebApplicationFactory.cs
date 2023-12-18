@@ -19,7 +19,7 @@ public class NoxWebApplicationFactory : WebApplicationFactory<StartupFixture>
     private readonly ITestOutputHelper _testOutput;
     private readonly ITestDatabaseService _databaseService;
     private readonly bool _enableMessaging;
-    private readonly string Environment = Environments.Production;
+    private readonly string _environment = Environments.Production;
 
     public NoxWebApplicationFactory(
         ITestOutputHelper testOutput,
@@ -33,14 +33,14 @@ public class NoxWebApplicationFactory : WebApplicationFactory<StartupFixture>
 
         if (environment != null)
         {
-            Environment = environment;
+            _environment = environment;
         }
     }
 
     protected override IWebHostBuilder? CreateWebHostBuilder()
     {
         var host = WebHost.CreateDefaultBuilder(null!)
-            .UseEnvironment(Environment)
+            .UseEnvironment(_environment)
             .UseStartup<StartupFixture>()
             // this extension makes it sure that our lambda will run after the Startup.ConfigureServices()
             // method has been executed.

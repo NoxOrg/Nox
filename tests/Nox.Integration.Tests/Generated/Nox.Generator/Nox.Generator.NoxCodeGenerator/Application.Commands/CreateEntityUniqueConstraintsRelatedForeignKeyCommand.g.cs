@@ -59,7 +59,7 @@ internal abstract class CreateEntityUniqueConstraintsRelatedForeignKeyCommandHan
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.EntityUniqueConstraintsWithForeignKeysId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.EntityUniqueConstraintsWithForeignKeysId)
@@ -77,7 +77,7 @@ internal abstract class CreateEntityUniqueConstraintsRelatedForeignKeyCommandHan
 		{
 			foreach(var relatedCreateDto in request.EntityDto.EntityUniqueConstraintsWithForeignKeys)
 			{
-				var relatedEntity = await EntityUniqueConstraintsWithForeignKeyFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await EntityUniqueConstraintsWithForeignKeyFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToEntityUniqueConstraintsWithForeignKeys(relatedEntity);
 			}
 		}

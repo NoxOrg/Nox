@@ -60,23 +60,23 @@ internal abstract class CreateTestEntityLocalizationCommandHandlerBase : Command
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.TestEntityLocalizations.Add(entityToCreate);
-        CreateLocalizations(entityToCreate, request.CultureCode);
+		await CreateLocalizationsAsync(entityToCreate, request.CultureCode);
 		await DbContext.SaveChangesAsync();
 		return new TestEntityLocalizationKeyDto(entityToCreate.Id.Value);
 	}
 
-	private void CreateLocalizations(TestEntityLocalizationEntity entity, Nox.Types.CultureCode cultureCode)
+	private async Task CreateLocalizationsAsync(TestEntityLocalizationEntity entity, Nox.Types.CultureCode cultureCode)
 	{
-		CreateTestEntityLocalizationLocalization(entity, cultureCode);
+		await CreateTestEntityLocalizationLocalizationAsync(entity, cultureCode);
 	}
 
-	private void CreateTestEntityLocalizationLocalization(TestEntityLocalizationEntity entity, Nox.Types.CultureCode cultureCode)
+	private async Task CreateTestEntityLocalizationLocalizationAsync(TestEntityLocalizationEntity entity, Nox.Types.CultureCode cultureCode)
 	{
-		var entityLocalized = EntityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+		var entityLocalized = await EntityLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
 		DbContext.TestEntityLocalizationsLocalized.Add(entityLocalized);
 	}
 }

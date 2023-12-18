@@ -62,7 +62,7 @@ internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: Com
 			throw new EntityNotFoundException("Store.EmailAddress", String.Empty);
 		}
 
-		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

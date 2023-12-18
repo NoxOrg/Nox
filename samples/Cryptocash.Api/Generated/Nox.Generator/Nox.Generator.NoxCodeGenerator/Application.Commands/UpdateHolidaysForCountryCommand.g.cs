@@ -63,7 +63,7 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<
 		HolidayEntity? entity;
 		if(request.EntityDto.Id is null)
 		{
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
 		}
 		else
 		{
@@ -86,9 +86,9 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<
 		return new HolidayKeyDto(entity.Id.Value);
 	}
 	
-	private async Task<HolidayEntity> CreateEntityAsync(HolidayUpsertDto upsertDto, CountryEntity parent)
+	private async Task<HolidayEntity> CreateEntityAsync(HolidayUpsertDto upsertDto, CountryEntity parent, Nox.Types.CultureCode cultureCode)
 	{
-		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
 		parent.CreateRefToHolidays(entity);
 		return entity;
 	}

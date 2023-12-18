@@ -59,7 +59,7 @@ internal abstract class PartialUpdateTestEntityLocalizationCommandHandlerBase : 
 		{
 			throw new EntityNotFoundException("TestEntityLocalization",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await PartiallyUpdateLocalizedEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 
@@ -75,7 +75,7 @@ internal abstract class PartialUpdateTestEntityLocalizationCommandHandlerBase : 
 		var entityLocalized = await DbContext.TestEntityLocalizationsLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
 		if(entityLocalized is null)
 		{
-			entityLocalized = EntityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode, copyEntityAttributes: false);
+			entityLocalized = await EntityLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode, copyEntityAttributes: false);
 			DbContext.TestEntityLocalizationsLocalized.Add(entityLocalized);
 		}
 		else
@@ -83,6 +83,6 @@ internal abstract class PartialUpdateTestEntityLocalizationCommandHandlerBase : 
 			DbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
 
-		EntityLocalizedFactory.PartialUpdateLocalizedEntity(entityLocalized, updatedProperties);
+		await EntityLocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
 	}
 }

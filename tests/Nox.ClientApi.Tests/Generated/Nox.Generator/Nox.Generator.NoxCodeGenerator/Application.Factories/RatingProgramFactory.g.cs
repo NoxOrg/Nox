@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,26 +27,33 @@ internal partial class RatingProgramFactory : RatingProgramFactoryBase
 {
     public RatingProgramFactory
     (
-        IRepository repository
-    ) : base( repository)
+    ) : base()
     {}
 }
 
 internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
     public RatingProgramFactoryBase(
-        IRepository repository
         )
     {
-        _repository = repository;
     }
 
-    public virtual async Task<RatingProgramEntity> CreateEntityAsync(RatingProgramCreateDto createDto)
+    public virtual async Task<RatingProgramEntity> CreateEntityAsync(RatingProgramCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
+<<<<<<< main
         return await ToEntityAsync(createDto);
+=======
+        try
+        {
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
+>>>>>>> Factory classes refactor has been completed (without tests)
     }
 
     public virtual async Task UpdateEntityAsync(RatingProgramEntity entity, RatingProgramUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
@@ -54,12 +61,28 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
         await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
-    public virtual void PartialUpdateEntity(RatingProgramEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(RatingProgramEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+<<<<<<< main
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+=======
+<<<<<<< main
+        try
+        {
+             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
+=======
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        await Task.CompletedTask;
+>>>>>>> Factory classes refactor has been completed (without tests)
+>>>>>>> Factory classes refactor has been completed (without tests)
     }
 
-    private async Task<ClientApi.Domain.RatingProgram> ToEntityAsync(RatingProgramCreateDto createDto)
+    private async Task<ClientApi.Domain.RatingProgram> ToEntityAsync(RatingProgramCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.RatingProgram();
@@ -101,7 +124,4 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 }

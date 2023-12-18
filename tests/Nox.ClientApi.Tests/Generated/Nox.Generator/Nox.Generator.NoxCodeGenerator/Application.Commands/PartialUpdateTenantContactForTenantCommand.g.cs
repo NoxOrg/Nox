@@ -66,7 +66,7 @@ internal abstract class PartialUpdateTenantContactForTenantCommandHandlerBase: C
 			throw new EntityNotFoundException("Tenant.TenantContact", String.Empty);
 		}
 
-		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
@@ -83,7 +83,7 @@ internal abstract class PartialUpdateTenantContactForTenantCommandHandlerBase: C
 		var entityLocalized = await _dbContext.TenantContactsLocalized.FirstOrDefaultAsync(x => x.TenantId == entity.TenantId && x.CultureCode == cultureCode);
 		if(entityLocalized is null)
 		{
-			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode, copyEntityAttributes: false);
+			entityLocalized = await _entityLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode, copyEntityAttributes: false);
 			_dbContext.TenantContactsLocalized.Add(entityLocalized);
 		}
 		else
@@ -91,6 +91,6 @@ internal abstract class PartialUpdateTenantContactForTenantCommandHandlerBase: C
 			_dbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
 
-		_entityLocalizedFactory.PartialUpdateLocalizedEntity(entityLocalized, updatedProperties);
+		await _entityLocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
 	}
 }

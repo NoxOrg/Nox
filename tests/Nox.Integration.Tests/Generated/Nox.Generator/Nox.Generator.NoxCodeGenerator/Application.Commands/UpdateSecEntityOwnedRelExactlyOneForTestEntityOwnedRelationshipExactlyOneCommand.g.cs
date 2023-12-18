@@ -61,7 +61,7 @@ internal partial class UpdateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelati
 		await _dbContext.Entry(parentEntity).Reference(e => e.SecEntityOwnedRelExactlyOne).LoadAsync(cancellationToken);
 		var entity = parentEntity.SecEntityOwnedRelExactlyOne;
 		if (entity is null)
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
 		else
 			await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 
@@ -76,9 +76,9 @@ internal partial class UpdateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelati
 		return new SecEntityOwnedRelExactlyOneKeyDto();
 	}
 	
-	private async Task<SecEntityOwnedRelExactlyOneEntity> CreateEntityAsync(SecEntityOwnedRelExactlyOneUpsertDto upsertDto, TestEntityOwnedRelationshipExactlyOneEntity parent)
+	private async Task<SecEntityOwnedRelExactlyOneEntity> CreateEntityAsync(SecEntityOwnedRelExactlyOneUpsertDto upsertDto, TestEntityOwnedRelationshipExactlyOneEntity parent, Nox.Types.CultureCode cultureCode)
 	{
-		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
 		parent.CreateRefToSecEntityOwnedRelExactlyOne(entity);
 		return entity;
 	}

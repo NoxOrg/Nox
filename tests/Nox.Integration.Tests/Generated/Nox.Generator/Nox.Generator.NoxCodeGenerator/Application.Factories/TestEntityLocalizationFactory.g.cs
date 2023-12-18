@@ -1,5 +1,7 @@
-﻿// Generated
+﻿
 
+// Generated
+//TODO: if CultureCode is not needed, remove it from the factory
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,39 +29,89 @@ internal partial class TestEntityLocalizationFactory : TestEntityLocalizationFac
 {
     public TestEntityLocalizationFactory
     (
-        IRepository repository
-    ) : base( repository)
+        IRepository repository,
+        IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> testEntityLocalizationLocalizedFactory
+    ) : base(repository, testEntityLocalizationLocalizedFactory)
     {}
 }
 
 internal abstract class TestEntityLocalizationFactoryBase : IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    protected readonly IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> TestEntityLocalizationLocalizedFactory;
     private readonly IRepository _repository;
 
     public TestEntityLocalizationFactoryBase(
-        IRepository repository
+        IRepository repository,
+        IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> testEntityLocalizationLocalizedFactory
         )
     {
         _repository = repository;
+        TestEntityLocalizationLocalizedFactory = testEntityLocalizationLocalizedFactory;
     }
 
-    public virtual async Task<TestEntityLocalizationEntity> CreateEntityAsync(TestEntityLocalizationCreateDto createDto)
+    public virtual async Task<TestEntityLocalizationEntity> CreateEntityAsync(TestEntityLocalizationCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
+<<<<<<< main
         return await ToEntityAsync(createDto);
+=======
+        try
+        {
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            await TestEntityLocalizationLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
+            return entity;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
+>>>>>>> Factory classes refactor has been completed (without tests)
     }
 
     public virtual async Task UpdateEntityAsync(TestEntityLocalizationEntity entity, TestEntityLocalizationUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
+<<<<<<< main
         await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+=======
+<<<<<<< main
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
+=======
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        await TestEntityLocalizationLocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
+>>>>>>> Factory classes refactor has been completed (without tests)
+>>>>>>> Factory classes refactor has been completed (without tests)
     }
 
-    public virtual void PartialUpdateEntity(TestEntityLocalizationEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(TestEntityLocalizationEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+<<<<<<< main
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+=======
+<<<<<<< main
+        try
+        {
+             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
+=======
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        await TestEntityLocalizationLocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
+        
+>>>>>>> Factory classes refactor has been completed (without tests)
+>>>>>>> Factory classes refactor has been completed (without tests)
     }
 
-    private async Task<TestWebApp.Domain.TestEntityLocalization> ToEntityAsync(TestEntityLocalizationCreateDto createDto)
+    private async Task<TestWebApp.Domain.TestEntityLocalization> ToEntityAsync(TestEntityLocalizationCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.TestEntityLocalization();
@@ -104,7 +156,6 @@ internal abstract class TestEntityLocalizationFactoryBase : IEntityFactory<TestE
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
 }

@@ -58,7 +58,7 @@ internal abstract class CreateCountryLocalNamesForCountryCommandHandlerBase : Co
 			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
+		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefToCountryLocalNames(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);

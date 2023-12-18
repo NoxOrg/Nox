@@ -58,7 +58,7 @@ internal abstract class UpdateStoreCommandHandlerBase : CommandBase<UpdateStoreC
 		{
 			throw new EntityNotFoundException("Store",  $"{keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Reference(x => x.EmailAddress).LoadAsync();
+		await DbContext.Entry(entity).Reference(x => x.EmailAddress).LoadAsync(cancellationToken);
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

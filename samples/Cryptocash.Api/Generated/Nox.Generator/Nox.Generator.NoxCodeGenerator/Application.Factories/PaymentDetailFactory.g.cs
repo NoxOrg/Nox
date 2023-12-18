@@ -1,5 +1,7 @@
-﻿// Generated
+﻿
 
+// Generated
+//TODO: if CultureCode is not needed, remove it from the factory
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,26 +29,33 @@ internal partial class PaymentDetailFactory : PaymentDetailFactoryBase
 {
     public PaymentDetailFactory
     (
-        IRepository repository
-    ) : base( repository)
+    ) : base()
     {}
 }
 
 internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
     public PaymentDetailFactoryBase(
-        IRepository repository
         )
     {
-        _repository = repository;
     }
 
-    public virtual async Task<PaymentDetailEntity> CreateEntityAsync(PaymentDetailCreateDto createDto)
+    public virtual async Task<PaymentDetailEntity> CreateEntityAsync(PaymentDetailCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
+<<<<<<< main
         return await ToEntityAsync(createDto);
+=======
+        try
+        {
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
+>>>>>>> Factory classes refactor has been completed (without tests)
     }
 
     public virtual async Task UpdateEntityAsync(PaymentDetailEntity entity, PaymentDetailUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
@@ -54,12 +63,28 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetailE
         await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
-    public virtual void PartialUpdateEntity(PaymentDetailEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(PaymentDetailEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+<<<<<<< main
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+=======
+<<<<<<< main
+        try
+        {
+             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
+=======
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        await Task.CompletedTask;
+>>>>>>> Factory classes refactor has been completed (without tests)
+>>>>>>> Factory classes refactor has been completed (without tests)
     }
 
-    private async Task<Cryptocash.Domain.PaymentDetail> ToEntityAsync(PaymentDetailCreateDto createDto)
+    private async Task<Cryptocash.Domain.PaymentDetail> ToEntityAsync(PaymentDetailCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.PaymentDetail();
@@ -122,7 +147,4 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetailE
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 }

@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,30 +27,41 @@ internal partial class StoreFactory : StoreFactoryBase
 {
     public StoreFactory
     (
-        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> emailaddressfactory,
-        IRepository repository
-    ) : base(emailaddressfactory, repository)
+        IRepository repository,
+        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> emailaddressfactory
+    ) : base(repository, emailaddressfactory)
     {}
 }
 
 internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
     protected IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> EmailAddressFactory {get;}
 
     public StoreFactoryBase(
-        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> emailaddressfactory,
-        IRepository repository
+        IRepository repository,
+        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressUpsertDto, EmailAddressUpsertDto> emailaddressfactory
         )
     {
-        EmailAddressFactory = emailaddressfactory;
         _repository = repository;
+        EmailAddressFactory = emailaddressfactory;
     }
 
-    public virtual async Task<StoreEntity> CreateEntityAsync(StoreCreateDto createDto)
+    public virtual async Task<StoreEntity> CreateEntityAsync(StoreCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
+<<<<<<< main
         return await ToEntityAsync(createDto);
+=======
+        try
+        {
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
+>>>>>>> Factory classes refactor has been completed (without tests)
     }
 
     public virtual async Task UpdateEntityAsync(StoreEntity entity, StoreUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
@@ -58,12 +69,28 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
-    public virtual void PartialUpdateEntity(StoreEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(StoreEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+<<<<<<< main
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+=======
+<<<<<<< main
+        try
+        {
+             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
+=======
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        await Task.CompletedTask;
+>>>>>>> Factory classes refactor has been completed (without tests)
+>>>>>>> Factory classes refactor has been completed (without tests)
     }
 
-    private async Task<ClientApi.Domain.Store> ToEntityAsync(StoreCreateDto createDto)
+    private async Task<ClientApi.Domain.Store> ToEntityAsync(StoreCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.Store();
@@ -82,8 +109,14 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         entity.EnsureId(createDto.Id);
         if (createDto.EmailAddress is not null)
         {
+<<<<<<< main
             entity.CreateRefToEmailAddress(await EmailAddressFactory.CreateEntityAsync(createDto.EmailAddress));
         }        
+=======
+            var emailAddress = await EmailAddressFactory.CreateEntityAsync(createDto.EmailAddress, cultureCode);
+            entity.CreateRefToEmailAddress(emailAddress);
+        }
+>>>>>>> Factory classes refactor has been completed (without tests)
         return await Task.FromResult(entity);
     }
 
@@ -166,9 +199,6 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
 
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
-
 	private async Task UpdateOwnedEntitiesAsync(StoreEntity entity, StoreUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
 		if(updateDto.EmailAddress is null)
@@ -182,7 +212,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
             if(entity.EmailAddress is not null)
                 await EmailAddressFactory.UpdateEntityAsync(entity.EmailAddress, updateDto.EmailAddress, cultureCode);
             else
-			    entity.CreateRefToEmailAddress(await EmailAddressFactory.CreateEntityAsync(updateDto.EmailAddress));
+			    entity.CreateRefToEmailAddress(await EmailAddressFactory.CreateEntityAsync(updateDto.EmailAddress, cultureCode));
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Nox.Infrastructure.Persistence
 {
@@ -8,6 +9,12 @@ namespace Nox.Infrastructure.Persistence
     public interface IAppDbContext 
     {
         EntityEntry Remove(object entity);
+
+        DbSet<T> Set<T>() where T : class;
+
+        ValueTask<EntityEntry> AddAsync(object entity, CancellationToken cancellationToken = default(CancellationToken));
+
+        EntityEntry Update(object entity);
 
         /// <summary>
         /// Gets and Consumes a Sequence Next Value

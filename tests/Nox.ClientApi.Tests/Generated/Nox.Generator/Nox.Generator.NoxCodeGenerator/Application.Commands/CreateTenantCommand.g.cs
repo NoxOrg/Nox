@@ -67,7 +67,7 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.WorkplacesId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.WorkplacesId)
@@ -85,34 +85,43 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Workplaces)
 			{
-				var relatedEntity = await WorkplaceFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await WorkplaceFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToWorkplaces(relatedEntity);
 			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.Tenants.Add(entityToCreate);
-        CreateLocalizations(entityToCreate, request.CultureCode);
+		await CreateLocalizationsAsync(entityToCreate, request.CultureCode);
 		await DbContext.SaveChangesAsync();
 		return new TenantKeyDto(entityToCreate.Id.Value);
 	}
 
-	private void CreateLocalizations(TenantEntity entity, Nox.Types.CultureCode cultureCode)
+	private async Task CreateLocalizationsAsync(TenantEntity entity, Nox.Types.CultureCode cultureCode)
 	{
-        CreateTenantBrandsLocalization(entity.TenantBrands, cultureCode);
-        CreateTenantContactLocalization(entity.TenantContact, cultureCode);
+        await CreateTenantBrandsLocalizationAsync(entity.TenantBrands, cultureCode);
+        await CreateTenantContactLocalizationAsync(entity.TenantContact, cultureCode);
 	}
-	
-	private void CreateTenantBrandsLocalization(List<ClientApi.Domain.TenantBrand> entities, Nox.Types.CultureCode cultureCode)
+	private async Task CreateTenantBrandsLocalizationAsync(List<ClientApi.Domain.TenantBrand> entities, Nox.Types.CultureCode cultureCode)
 	{
-		var entitiesLocalized = entities.Select(entity => TenantBrandLocalizedFactory.CreateLocalizedEntity(entity, cultureCode));
+		var entitiesLocalized = new List<TenantBrandLocalized>();
+		foreach (var entity in entities)
+		{
+			var entityLocalized = await TenantBrandLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
+			entitiesLocalized.Add(entityLocalized);
+		}
 		DbContext.TenantBrandsLocalized.AddRange(entitiesLocalized);
 	}
 	
-	private void CreateTenantContactLocalization(ClientApi.Domain.TenantContact? entity, Nox.Types.CultureCode cultureCode)
+	private async Task CreateTenantContactLocalizationAsync(ClientApi.Domain.TenantContact? entity, Nox.Types.CultureCode cultureCode)
 	{
+<<<<<<< main
 		if (entity is null) return;
 		var entityLocalized = TenantContactLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+=======
+		if(entity is null) return;
+		var entityLocalized = await TenantContactLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
+>>>>>>> Factory classes refactor has been completed (without tests)
 		DbContext.TenantContactsLocalized.Add(entityLocalized);
 	}	
 	

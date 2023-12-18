@@ -58,7 +58,7 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 		{
 			throw new EntityNotFoundException("Employee",  $"{keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.EmployeePhoneNumbers).LoadAsync();
+		await DbContext.Entry(entity).Collection(x => x.EmployeePhoneNumbers).LoadAsync(cancellationToken);
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

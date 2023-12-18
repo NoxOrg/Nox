@@ -91,7 +91,7 @@ internal abstract class PartialUpdate{{relationshipName}}For{{parent.Name}}Comma
 			throw new EntityNotFoundException("{{parent.Name}}.{{relationshipName}}", {{ownedKeysString}});
 		}
 
-		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
@@ -111,7 +111,7 @@ internal abstract class PartialUpdate{{relationshipName}}For{{parent.Name}}Comma
 		var entityLocalized = await _dbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x => x.{{entityKeys[0].Name}} == entity.{{entityKeys[0].Name}} && x.CultureCode == cultureCode);
 		if(entityLocalized is null)
 		{
-			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode, copyEntityAttributes: false);
+			entityLocalized = await _entityLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode, copyEntityAttributes: false);
 			_dbContext.{{entity.PluralName}}Localized.Add(entityLocalized);
 		}
 		else
@@ -119,7 +119,7 @@ internal abstract class PartialUpdate{{relationshipName}}For{{parent.Name}}Comma
 			_dbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
 
-		_entityLocalizedFactory.PartialUpdateLocalizedEntity(entityLocalized, updatedProperties);
+		await _entityLocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
 	}
 	{{- end }}
 }

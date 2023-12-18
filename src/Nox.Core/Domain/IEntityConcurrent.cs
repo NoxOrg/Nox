@@ -3,7 +3,7 @@
 /// <summary>
 /// Entities whose updates need to be handled with optimistic concurrency
 /// </summary>
-public interface IEntityConcurrent
+public interface IEntityConcurrent: IEntity
 {
     /// <summary>
     /// Gets the entity tag.

@@ -1,5 +1,7 @@
-﻿// Generated
+﻿
 
+// Generated
+//TODO: if CultureCode is not needed, remove it from the factory
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,26 +29,33 @@ internal partial class SecondTestEntityTwoRelationshipsOneToOneFactory : SecondT
 {
     public SecondTestEntityTwoRelationshipsOneToOneFactory
     (
-        IRepository repository
-    ) : base( repository)
+    ) : base()
     {}
 }
 
 internal abstract class SecondTestEntityTwoRelationshipsOneToOneFactoryBase : IEntityFactory<SecondTestEntityTwoRelationshipsOneToOneEntity, SecondTestEntityTwoRelationshipsOneToOneCreateDto, SecondTestEntityTwoRelationshipsOneToOneUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
     public SecondTestEntityTwoRelationshipsOneToOneFactoryBase(
-        IRepository repository
         )
     {
-        _repository = repository;
     }
 
-    public virtual async Task<SecondTestEntityTwoRelationshipsOneToOneEntity> CreateEntityAsync(SecondTestEntityTwoRelationshipsOneToOneCreateDto createDto)
+    public virtual async Task<SecondTestEntityTwoRelationshipsOneToOneEntity> CreateEntityAsync(SecondTestEntityTwoRelationshipsOneToOneCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
+<<<<<<< main
         return await ToEntityAsync(createDto);
+=======
+        try
+        {
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
+>>>>>>> Factory classes refactor has been completed (without tests)
     }
 
     public virtual async Task UpdateEntityAsync(SecondTestEntityTwoRelationshipsOneToOneEntity entity, SecondTestEntityTwoRelationshipsOneToOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
@@ -54,12 +63,28 @@ internal abstract class SecondTestEntityTwoRelationshipsOneToOneFactoryBase : IE
         await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
-    public virtual void PartialUpdateEntity(SecondTestEntityTwoRelationshipsOneToOneEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(SecondTestEntityTwoRelationshipsOneToOneEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+<<<<<<< main
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+=======
+<<<<<<< main
+        try
+        {
+             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
+=======
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        await Task.CompletedTask;
+>>>>>>> Factory classes refactor has been completed (without tests)
+>>>>>>> Factory classes refactor has been completed (without tests)
     }
 
-    private async Task<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOne> ToEntityAsync(SecondTestEntityTwoRelationshipsOneToOneCreateDto createDto)
+    private async Task<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOne> ToEntityAsync(SecondTestEntityTwoRelationshipsOneToOneCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOne();
@@ -93,7 +118,4 @@ internal abstract class SecondTestEntityTwoRelationshipsOneToOneFactoryBase : IE
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 }

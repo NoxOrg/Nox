@@ -6,6 +6,8 @@
 using Nox.Application.Factories;
 using Nox.Extensions;
 using Nox.Types;
+using Nox.Domain;
+using Microsoft.EntityFrameworkCore;
 
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{codeGeneratorState.DomainNameSpace}};
@@ -15,6 +17,9 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Factories;
 
 internal partial class {{className}} : {{className}}Base
 {
+    public {{className}}(IRepository repository):base(repository)
+    {
+    }
 }
 
 internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedEntityName}}, {{entity.Name}}Entity, {{entityUpdateDto}}>
@@ -33,17 +38,17 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
     }
    
 
-    public virtual async Task UpdateLocalizedEntityAsync({{ localizedEntityName}} localizedEntity, {{entityUpdateDto}} updateDto, CultureCode cultureCode)
+    public virtual async Task UpdateLocalizedEntityAsync({{entity.Name}}Entity entity, {{entityUpdateDto}} updateDto, CultureCode cultureCode)
     {
-        var entityLocalized = await Repository.FirstOrDefaultAsync<{{localizedEntityName}}>(x =>{{for key in entity.Keys }} x.{{key.Name}} == updateDto.{{key.Name}} &&{{end}} x.CultureCode == cultureCode);
+        var entityLocalized = await Repository.Query<{{localizedEntityName}}>(x =>{{for key in entityKeys }} x.{{key.Name}} == entity.{{key.Name}} &&{{end}} x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
-            await CreateLocalizedEntityAsync(entity, cultureCode);
+            entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
         }
         else
         {
             {{- for attribute in entityLocalizedAttributes }}
-            localizedEntity.{{attribute.Name}} = updateDto.{{attribute.Name}} == null
+            entityLocalized.{{attribute.Name}} = updateDto.{{attribute.Name}} == null
                 ? null
                 : {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
             {{- if IsNoxTypeSimpleType attribute.Type -}}.ToValueFromNonNull<{{SinglePrimitiveTypeForKey attribute}}>()
@@ -51,17 +56,17 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
             {{- end}});
             {{- end }}
             
-            await Repository.UpdateAsync(localizedEntity);
+            Repository.Update(entityLocalized);
         }
         
     }
 
-    public virtual async Task PartialUpdateLocalizedEntity({{ localizedEntityName}} localizedEntity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateLocalizedEntityAsync({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        var entityLocalized = await Repository.FirstOrDefaultAsync<{{localizedEntityName}}>(x =>{{for key in entity.Keys }} x.{{key.Name}} == updateDto.{{key.Name}} &&{{end}} x.CultureCode == cultureCode);
+        var entityLocalized = await Repository.Query<{{localizedEntityName}}>(x =>{{for key in entityKeys }} x.{{key.Name}} == entity.{{key.Name}} &&{{end}} x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
-            await CreateLocalizedEntityAsync(entity, cultureCode);
+            entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
         }
         else
         {
@@ -72,13 +77,13 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
 
             if (updatedProperties.TryGetValue("{{attribute.Name}}", out var {{attribute.Name}}UpdateValue))
             {
-                localizedEntity.{{attribute.Name}} = {{attribute.Name}}UpdateValue == null
+                entityLocalized.{{attribute.Name}} = {{attribute.Name}}UpdateValue == null
                     ? null
                     : {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue);
             }
 
             {{- end }}
-            await Repository.UpdateAsync(localizedEntity);
+            Repository.Update(entityLocalized);
         }
         
     }

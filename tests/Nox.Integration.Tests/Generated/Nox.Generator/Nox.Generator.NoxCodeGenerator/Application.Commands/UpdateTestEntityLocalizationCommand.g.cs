@@ -77,15 +77,10 @@ internal abstract class UpdateTestEntityLocalizationCommandHandlerBase : Command
 
 	private async Task UpdateLocalizationsAsync(TestEntityLocalizationEntity entity, TestEntityLocalizationUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
-		await UpdateTestEntityLocalizationLocalizationAsync(entity, updateDto, cultureCode);
-	}
-
-	private async Task UpdateTestEntityLocalizationLocalizationAsync(TestEntityLocalizationEntity entity, TestEntityLocalizationUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
-	{
 		var entityLocalized = await DbContext.TestEntityLocalizationsLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
 		if(entityLocalized is null)
 		{
-			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+			entityLocalized = await _entityLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
 			DbContext.TestEntityLocalizationsLocalized.Add(entityLocalized);
 		}
 		else
@@ -93,6 +88,6 @@ internal abstract class UpdateTestEntityLocalizationCommandHandlerBase : Command
 			DbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
 
-		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
+		await _entityLocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
 	}
 }

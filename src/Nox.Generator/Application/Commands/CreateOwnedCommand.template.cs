@@ -75,14 +75,14 @@ internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandl
 			throw new EntityNotFoundException("{{parent.Name}}",  $"{{parent.Keys | keysToString}}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
+		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefTo{{relationshipName}}(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		{{- if entity.IsLocalized }}
-		var entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, request.CultureCode);
+		var entityLocalized = await _entityLocalizedFactory.CreateLocalizedEntityAsync(entity, request.CultureCode);
 		_dbContext.{{entity.PluralName}}Localized.Add(entityLocalized);
 		{{- end }}
 

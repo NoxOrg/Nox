@@ -63,7 +63,7 @@ internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandBas
 		BankNoteEntity? entity;
 		if(request.EntityDto.Id is null)
 		{
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
 		}
 		else
 		{
@@ -86,9 +86,9 @@ internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandBas
 		return new BankNoteKeyDto(entity.Id.Value);
 	}
 	
-	private async Task<BankNoteEntity> CreateEntityAsync(BankNoteUpsertDto upsertDto, CurrencyEntity parent)
+	private async Task<BankNoteEntity> CreateEntityAsync(BankNoteUpsertDto upsertDto, CurrencyEntity parent, Nox.Types.CultureCode cultureCode)
 	{
-		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
 		parent.CreateRefToBankNotes(entity);
 		return entity;
 	}

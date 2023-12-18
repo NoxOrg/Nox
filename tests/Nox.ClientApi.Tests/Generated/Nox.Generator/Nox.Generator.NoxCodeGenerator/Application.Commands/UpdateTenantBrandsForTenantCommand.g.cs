@@ -67,7 +67,7 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBa
 		TenantBrandEntity? entity;
 		if(request.EntityDto.Id is null)
 		{
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
 		}
 		else
 		{
@@ -91,9 +91,9 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBa
 		return new TenantBrandKeyDto(entity.Id.Value);
 	}
 	
-	private async Task<TenantBrandEntity> CreateEntityAsync(TenantBrandUpsertDto upsertDto, TenantEntity parent)
+	private async Task<TenantBrandEntity> CreateEntityAsync(TenantBrandUpsertDto upsertDto, TenantEntity parent, Nox.Types.CultureCode cultureCode)
 	{
-		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
 		parent.CreateRefToTenantBrands(entity);
 		return entity;
 	}
@@ -103,7 +103,7 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBa
 		var entityLocalized = await _dbContext.TenantBrandsLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
 		if(entityLocalized is null)
 		{
-			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+			entityLocalized = await _entityLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
 			_dbContext.TenantBrandsLocalized.Add(entityLocalized);
 		}
 		else
@@ -111,7 +111,7 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBa
 			_dbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
 
-		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
+		await _entityLocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
 	}
 }
 

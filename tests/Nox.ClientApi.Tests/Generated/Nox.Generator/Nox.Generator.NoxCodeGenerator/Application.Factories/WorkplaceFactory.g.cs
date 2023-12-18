@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,39 +27,89 @@ internal partial class WorkplaceFactory : WorkplaceFactoryBase
 {
     public WorkplaceFactory
     (
-        IRepository repository
-    ) : base( repository)
+        IRepository repository,
+        IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> workplaceLocalizedFactory
+    ) : base(repository, workplaceLocalizedFactory)
     {}
 }
 
 internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto>
 {
     private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    protected readonly IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> WorkplaceLocalizedFactory;
     private readonly IRepository _repository;
 
     public WorkplaceFactoryBase(
-        IRepository repository
+        IRepository repository,
+        IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> workplaceLocalizedFactory
         )
     {
         _repository = repository;
+        WorkplaceLocalizedFactory = workplaceLocalizedFactory;
     }
 
-    public virtual async Task<WorkplaceEntity> CreateEntityAsync(WorkplaceCreateDto createDto)
+    public virtual async Task<WorkplaceEntity> CreateEntityAsync(WorkplaceCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
+<<<<<<< main
         return await ToEntityAsync(createDto);
+=======
+        try
+        {
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            await WorkplaceLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
+            return entity;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
+>>>>>>> Factory classes refactor has been completed (without tests)
     }
 
     public virtual async Task UpdateEntityAsync(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
+<<<<<<< main
         await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+=======
+<<<<<<< main
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
+=======
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        await WorkplaceLocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
+>>>>>>> Factory classes refactor has been completed (without tests)
+>>>>>>> Factory classes refactor has been completed (without tests)
     }
 
-    public virtual void PartialUpdateEntity(WorkplaceEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(WorkplaceEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+<<<<<<< main
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+=======
+<<<<<<< main
+        try
+        {
+             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
+=======
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        await WorkplaceLocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
+        
+>>>>>>> Factory classes refactor has been completed (without tests)
+>>>>>>> Factory classes refactor has been completed (without tests)
     }
 
-    private async Task<ClientApi.Domain.Workplace> ToEntityAsync(WorkplaceCreateDto createDto)
+    private async Task<ClientApi.Domain.Workplace> ToEntityAsync(WorkplaceCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.Workplace();
@@ -151,7 +201,6 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
 }

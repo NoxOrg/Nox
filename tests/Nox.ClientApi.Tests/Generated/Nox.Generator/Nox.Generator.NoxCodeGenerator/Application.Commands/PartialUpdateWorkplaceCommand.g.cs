@@ -59,7 +59,7 @@ internal abstract class PartialUpdateWorkplaceCommandHandlerBase : CommandBase<P
 		{
 			throw new EntityNotFoundException("Workplace",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await PartiallyUpdateLocalizedEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 
@@ -75,7 +75,7 @@ internal abstract class PartialUpdateWorkplaceCommandHandlerBase : CommandBase<P
 		var entityLocalized = await DbContext.WorkplacesLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
 		if(entityLocalized is null)
 		{
-			entityLocalized = EntityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode, copyEntityAttributes: false);
+			entityLocalized = await EntityLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode, copyEntityAttributes: false);
 			DbContext.WorkplacesLocalized.Add(entityLocalized);
 		}
 		else
@@ -83,6 +83,6 @@ internal abstract class PartialUpdateWorkplaceCommandHandlerBase : CommandBase<P
 			DbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
 
-		EntityLocalizedFactory.PartialUpdateLocalizedEntity(entityLocalized, updatedProperties);
+		await EntityLocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
 	}
 }

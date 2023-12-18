@@ -63,7 +63,7 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 		CountryTimeZoneEntity? entity;
 		if(request.EntityDto.Id is null)
 		{
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
 		}
 		else
 		{
@@ -86,9 +86,9 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 		return new CountryTimeZoneKeyDto(entity.Id.Value);
 	}
 	
-	private async Task<CountryTimeZoneEntity> CreateEntityAsync(CountryTimeZoneUpsertDto upsertDto, CountryEntity parent)
+	private async Task<CountryTimeZoneEntity> CreateEntityAsync(CountryTimeZoneUpsertDto upsertDto, CountryEntity parent, Nox.Types.CultureCode cultureCode)
 	{
-		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
 		parent.CreateRefToCountryTimeZones(entity);
 		return entity;
 	}

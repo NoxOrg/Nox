@@ -60,7 +60,7 @@ internal abstract class CreateTestEntityOneOrManyToZeroOrManyCommandHandlerBase 
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.TestEntityZeroOrManyToOneOrManiesId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.TestEntityZeroOrManyToOneOrManiesId)
@@ -78,7 +78,7 @@ internal abstract class CreateTestEntityOneOrManyToZeroOrManyCommandHandlerBase 
 		{
 			foreach(var relatedCreateDto in request.EntityDto.TestEntityZeroOrManyToOneOrManies)
 			{
-				var relatedEntity = await TestEntityZeroOrManyToOneOrManyFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await TestEntityZeroOrManyToOneOrManyFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToTestEntityZeroOrManyToOneOrManies(relatedEntity);
 			}
 		}

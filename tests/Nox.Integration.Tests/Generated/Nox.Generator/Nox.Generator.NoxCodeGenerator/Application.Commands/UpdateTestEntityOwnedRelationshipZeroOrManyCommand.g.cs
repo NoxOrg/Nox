@@ -58,7 +58,7 @@ internal abstract class UpdateTestEntityOwnedRelationshipZeroOrManyCommandHandle
 		{
 			throw new EntityNotFoundException("TestEntityOwnedRelationshipZeroOrMany",  $"{keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.SecEntityOwnedRelZeroOrManies).LoadAsync();
+		await DbContext.Entry(entity).Collection(x => x.SecEntityOwnedRelZeroOrManies).LoadAsync(cancellationToken);
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

@@ -61,7 +61,7 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEn
 		await _dbContext.Entry(parentEntity).Reference(e => e.SecondTestEntityOwnedRelationshipZeroOrOne).LoadAsync(cancellationToken);
 		var entity = parentEntity.SecondTestEntityOwnedRelationshipZeroOrOne;
 		if (entity is null)
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
 		else
 			await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 
@@ -76,9 +76,9 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEn
 		return new SecondTestEntityOwnedRelationshipZeroOrOneKeyDto();
 	}
 	
-	private async Task<SecondTestEntityOwnedRelationshipZeroOrOneEntity> CreateEntityAsync(SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto upsertDto, TestEntityOwnedRelationshipZeroOrOneEntity parent)
+	private async Task<SecondTestEntityOwnedRelationshipZeroOrOneEntity> CreateEntityAsync(SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto upsertDto, TestEntityOwnedRelationshipZeroOrOneEntity parent, Nox.Types.CultureCode cultureCode)
 	{
-		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
 		parent.CreateRefToSecondTestEntityOwnedRelationshipZeroOrOne(entity);
 		return entity;
 	}

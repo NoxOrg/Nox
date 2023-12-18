@@ -16,24 +16,24 @@ public sealed class Repository : IRepository
 
     #region IRepository
 
-    public async Task<IQueryable<T>> Query<T>(Expression<Func<T, bool>> predicate) where T : IEntity
+    public  IQueryable<T> Query<T>(Expression<Func<T, bool>> predicate) where T :class, IEntity
     {
-        _dbContext.
+        return _dbContext.Set<T>().Where(predicate: predicate);
     }
 
-    public async Task<IQueryable<T>> QueryOwned<T>(Expression<Func<T, bool>> predicate) where T : IOwnedEntity
+    public  IQueryable<T> QueryOwned<T>(Expression<Func<T, bool>> predicate) where T : class, IOwnedEntity
     {
-        throw new NotImplementedException();
+        return _dbContext.Set<T>().Where(predicate: predicate);
     }
 
-    public async Task AddAsync<T>(T entity) where T : class
+    public async Task AddAsync(object entity)
     {
-        throw new NotImplementedException();
+        await _dbContext.AddAsync(entity);
     }
 
-    public async Task UpdateAsync<T>(T entity) where T : class
+    public void Update(object entity)
     {
-        throw new NotImplementedException();
+        _dbContext.Update(entity);
     }
 
     public void Delete<T>(T entity) where T : IEntity

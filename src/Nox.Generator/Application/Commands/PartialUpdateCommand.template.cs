@@ -71,7 +71,7 @@ internal abstract class PartialUpdate{{entity.Name}}CommandHandlerBase : Command
 		{
 			throw new EntityNotFoundException("{{entity.Name}}",  $"{{entity.Keys | keysToString}}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		{{- if !entity.IsOwnedEntity }}
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		{{- end }}
@@ -93,7 +93,7 @@ internal abstract class PartialUpdate{{entity.Name}}CommandHandlerBase : Command
 		var entityLocalized = await DbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x => x.{{entity.Keys[0].Name}} == entity.{{entity.Keys[0].Name}} && x.CultureCode == cultureCode);
 		if(entityLocalized is null)
 		{
-			entityLocalized = EntityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode, copyEntityAttributes: false);
+			entityLocalized = await EntityLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode, copyEntityAttributes: false);
 			DbContext.{{entity.PluralName}}Localized.Add(entityLocalized);
 		}
 		else
@@ -101,7 +101,7 @@ internal abstract class PartialUpdate{{entity.Name}}CommandHandlerBase : Command
 			DbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
 
-		EntityLocalizedFactory.PartialUpdateLocalizedEntity(entityLocalized, updatedProperties);
+		await EntityLocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
 	}
 	{{- end }}
 }

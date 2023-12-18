@@ -60,7 +60,7 @@ internal abstract class CreateThirdTestEntityZeroOrOneCommandHandlerBase : Comma
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.ThirdTestEntityExactlyOneId is not null)
 		{
 			var relatedKey = TestWebApp.Domain.ThirdTestEntityExactlyOneMetadata.CreateId(request.EntityDto.ThirdTestEntityExactlyOneId.NonNullValue<System.String>());
@@ -72,7 +72,7 @@ internal abstract class CreateThirdTestEntityZeroOrOneCommandHandlerBase : Comma
 		}
 		else if(request.EntityDto.ThirdTestEntityExactlyOne is not null)
 		{
-			var relatedEntity = await ThirdTestEntityExactlyOneFactory.CreateEntityAsync(request.EntityDto.ThirdTestEntityExactlyOne);
+			var relatedEntity = await ThirdTestEntityExactlyOneFactory.CreateEntityAsync(request.EntityDto.ThirdTestEntityExactlyOne, request.CultureCode);
 			entityToCreate.CreateRefToThirdTestEntityExactlyOne(relatedEntity);
 		}
 

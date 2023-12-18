@@ -64,7 +64,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.CountriesId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.CountriesId)
@@ -82,7 +82,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Countries)
 			{
-				var relatedEntity = await CountryFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await CountryFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToCountries(relatedEntity);
 			}
 		}
@@ -103,7 +103,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		{
 			foreach(var relatedCreateDto in request.EntityDto.MinimumCashStocks)
 			{
-				var relatedEntity = await MinimumCashStockFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await MinimumCashStockFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToMinimumCashStocks(relatedEntity);
 			}
 		}

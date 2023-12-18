@@ -55,7 +55,7 @@ internal abstract class CreateForReferenceNumberCommandHandlerBase : CommandBase
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.ForReferenceNumbers.Add(entityToCreate);

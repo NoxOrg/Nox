@@ -61,7 +61,7 @@ internal partial class UpdateEmailAddressForStoreCommandHandlerBase : CommandBas
 		await _dbContext.Entry(parentEntity).Reference(e => e.EmailAddress).LoadAsync(cancellationToken);
 		var entity = parentEntity.EmailAddress;
 		if (entity is null)
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
 		else
 			await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 
@@ -76,9 +76,9 @@ internal partial class UpdateEmailAddressForStoreCommandHandlerBase : CommandBas
 		return new EmailAddressKeyDto();
 	}
 	
-	private async Task<EmailAddressEntity> CreateEntityAsync(EmailAddressUpsertDto upsertDto, StoreEntity parent)
+	private async Task<EmailAddressEntity> CreateEntityAsync(EmailAddressUpsertDto upsertDto, StoreEntity parent, Nox.Types.CultureCode cultureCode)
 	{
-		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
 		parent.CreateRefToEmailAddress(entity);
 		return entity;
 	}

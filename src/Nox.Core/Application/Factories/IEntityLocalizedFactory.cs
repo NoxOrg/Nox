@@ -20,18 +20,18 @@ namespace Nox.Application.Factories
         /// <summary>
         /// Updates a localized entity from an update dto.
         /// </summary>
-        /// <param name="localizedEntity"></param>
+        /// <param name="entity"></param>
         /// <param name="updateDto"></param>
         /// <param name="cultureCode"></param>
         /// <returns></returns>
-        Task UpdateLocalizedEntityAsync(TEntityLocalizedType localizedEntity, TUpdateEntityDtoType updateDto, CultureCode cultureCode);
+        Task UpdateLocalizedEntityAsync(TEntityType entity, TUpdateEntityDtoType updateDto, CultureCode cultureCode);
 
         /// <summary>
         /// Updates some properties of a localized entity.
         /// </summary>
-        /// <param name="localizedEntity"></param>
+        /// <param name="entity"></param>
         /// <param name="updatedProperties"></param>
         /// <param name="cultureCode"></param>
-        Task PartialUpdateLocalizedEntityAsync(TEntityLocalizedType localizedEntity, Dictionary<string, dynamic> updatedProperties, CultureCode cultureCode);
+        Task PartialUpdateLocalizedEntityAsync(TEntityType entity, Dictionary<string, dynamic> updatedProperties, CultureCode cultureCode);
     }
 }

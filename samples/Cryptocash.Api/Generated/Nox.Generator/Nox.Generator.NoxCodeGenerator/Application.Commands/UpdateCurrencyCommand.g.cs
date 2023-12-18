@@ -58,8 +58,8 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 		{
 			throw new EntityNotFoundException("Currency",  $"{keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.BankNotes).LoadAsync();
-		await DbContext.Entry(entity).Collection(x => x.ExchangeRates).LoadAsync();
+		await DbContext.Entry(entity).Collection(x => x.BankNotes).LoadAsync(cancellationToken);
+		await DbContext.Entry(entity).Collection(x => x.ExchangeRates).LoadAsync(cancellationToken);
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

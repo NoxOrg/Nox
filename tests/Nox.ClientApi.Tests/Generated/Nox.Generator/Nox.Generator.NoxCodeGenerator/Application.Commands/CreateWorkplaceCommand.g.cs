@@ -68,7 +68,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.CountryId is not null)
 		{
 			var relatedKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
@@ -80,7 +80,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		}
 		else if(request.EntityDto.Country is not null)
 		{
-			var relatedEntity = await CountryFactory.CreateEntityAsync(request.EntityDto.Country);
+			var relatedEntity = await CountryFactory.CreateEntityAsync(request.EntityDto.Country, request.CultureCode);
 			entityToCreate.CreateRefToCountry(relatedEntity);
 		}
 		if(request.EntityDto.TenantsId.Any())
@@ -100,26 +100,26 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Tenants)
 			{
-				var relatedEntity = await TenantFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await TenantFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToTenants(relatedEntity);
 			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.Workplaces.Add(entityToCreate);
-        CreateLocalizations(entityToCreate, request.CultureCode);
+		await CreateLocalizationsAsync(entityToCreate, request.CultureCode);
 		await DbContext.SaveChangesAsync();
 		return new WorkplaceKeyDto(entityToCreate.Id.Value);
 	}
 
-	private void CreateLocalizations(WorkplaceEntity entity, Nox.Types.CultureCode cultureCode)
+	private async Task CreateLocalizationsAsync(WorkplaceEntity entity, Nox.Types.CultureCode cultureCode)
 	{
-		CreateWorkplaceLocalization(entity, cultureCode);
+		await CreateWorkplaceLocalizationAsync(entity, cultureCode);
 	}
 
-	private void CreateWorkplaceLocalization(WorkplaceEntity entity, Nox.Types.CultureCode cultureCode)
+	private async Task CreateWorkplaceLocalizationAsync(WorkplaceEntity entity, Nox.Types.CultureCode cultureCode)
 	{
-		var entityLocalized = EntityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+		var entityLocalized = await EntityLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
 		DbContext.WorkplacesLocalized.Add(entityLocalized);
 	}
 }

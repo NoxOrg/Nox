@@ -65,7 +65,7 @@ internal abstract class PartialUpdateTenantBrandsForTenantCommandHandlerBase: Co
 			throw new EntityNotFoundException("Tenant.TenantBrands", $"{ownedId.ToString()}");
 		}
 
-		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
@@ -82,7 +82,7 @@ internal abstract class PartialUpdateTenantBrandsForTenantCommandHandlerBase: Co
 		var entityLocalized = await _dbContext.TenantBrandsLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
 		if(entityLocalized is null)
 		{
-			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode, copyEntityAttributes: false);
+			entityLocalized = await _entityLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode, copyEntityAttributes: false);
 			_dbContext.TenantBrandsLocalized.Add(entityLocalized);
 		}
 		else
@@ -90,6 +90,6 @@ internal abstract class PartialUpdateTenantBrandsForTenantCommandHandlerBase: Co
 			_dbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
 
-		_entityLocalizedFactory.PartialUpdateLocalizedEntity(entityLocalized, updatedProperties);
+		await _entityLocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
 	}
 }

@@ -60,7 +60,7 @@ internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLan
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.VendingMachinesId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.VendingMachinesId)
@@ -78,7 +78,7 @@ internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLan
 		{
 			foreach(var relatedCreateDto in request.EntityDto.VendingMachines)
 			{
-				var relatedEntity = await VendingMachineFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await VendingMachineFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToVendingMachines(relatedEntity);
 			}
 		}

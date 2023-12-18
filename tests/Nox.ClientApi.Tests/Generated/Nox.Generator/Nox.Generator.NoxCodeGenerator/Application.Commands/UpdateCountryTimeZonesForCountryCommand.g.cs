@@ -63,14 +63,14 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 		CountryTimeZoneEntity? entity;
 		if(request.EntityDto.Id is null)
 		{
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
 		}
 		else
 		{
 			var ownedId = ClientApi.Domain.CountryTimeZoneMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.String>());
 			entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
 			if (entity is null)
-				entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+				entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
 			else
 				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		}
@@ -86,9 +86,9 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 		return new CountryTimeZoneKeyDto(entity.Id.Value);
 	}
 	
-	private async Task<CountryTimeZoneEntity> CreateEntityAsync(CountryTimeZoneUpsertDto upsertDto, CountryEntity parent)
+	private async Task<CountryTimeZoneEntity> CreateEntityAsync(CountryTimeZoneUpsertDto upsertDto, CountryEntity parent, Nox.Types.CultureCode cultureCode)
 	{
-		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
 		parent.CreateRefToCountryTimeZones(entity);
 		return entity;
 	}

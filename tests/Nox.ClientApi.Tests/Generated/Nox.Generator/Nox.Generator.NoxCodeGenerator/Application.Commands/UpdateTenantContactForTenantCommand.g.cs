@@ -65,7 +65,7 @@ internal partial class UpdateTenantContactForTenantCommandHandlerBase : CommandB
 		await _dbContext.Entry(parentEntity).Reference(e => e.TenantContact).LoadAsync(cancellationToken);
 		var entity = parentEntity.TenantContact;
 		if (entity is null)
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
 		else
 			await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 
@@ -81,9 +81,9 @@ internal partial class UpdateTenantContactForTenantCommandHandlerBase : CommandB
 		return new TenantContactKeyDto();
 	}
 	
-	private async Task<TenantContactEntity> CreateEntityAsync(TenantContactUpsertDto upsertDto, TenantEntity parent)
+	private async Task<TenantContactEntity> CreateEntityAsync(TenantContactUpsertDto upsertDto, TenantEntity parent, Nox.Types.CultureCode cultureCode)
 	{
-		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
 		parent.CreateRefToTenantContact(entity);
 		return entity;
 	}
@@ -93,7 +93,7 @@ internal partial class UpdateTenantContactForTenantCommandHandlerBase : CommandB
 		var entityLocalized = await _dbContext.TenantContactsLocalized.FirstOrDefaultAsync(x => x.TenantId == entity.TenantId && x.CultureCode == cultureCode);
 		if(entityLocalized is null)
 		{
-			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+			entityLocalized = await _entityLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
 			_dbContext.TenantContactsLocalized.Add(entityLocalized);
 		}
 		else
@@ -101,6 +101,6 @@ internal partial class UpdateTenantContactForTenantCommandHandlerBase : CommandB
 			_dbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
 
-		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
+		await _entityLocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
 	}
 }

@@ -72,7 +72,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.CustomerId is not null)
 		{
 			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Guid>());
@@ -84,7 +84,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		}
 		else if(request.EntityDto.Customer is not null)
 		{
-			var relatedEntity = await CustomerFactory.CreateEntityAsync(request.EntityDto.Customer);
+			var relatedEntity = await CustomerFactory.CreateEntityAsync(request.EntityDto.Customer, request.CultureCode);
 			entityToCreate.CreateRefToCustomer(relatedEntity);
 		}
 		if(request.EntityDto.VendingMachineId is not null)
@@ -98,7 +98,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		}
 		else if(request.EntityDto.VendingMachine is not null)
 		{
-			var relatedEntity = await VendingMachineFactory.CreateEntityAsync(request.EntityDto.VendingMachine);
+			var relatedEntity = await VendingMachineFactory.CreateEntityAsync(request.EntityDto.VendingMachine, request.CultureCode);
 			entityToCreate.CreateRefToVendingMachine(relatedEntity);
 		}
 		if(request.EntityDto.CommissionId is not null)
@@ -112,7 +112,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		}
 		else if(request.EntityDto.Commission is not null)
 		{
-			var relatedEntity = await CommissionFactory.CreateEntityAsync(request.EntityDto.Commission);
+			var relatedEntity = await CommissionFactory.CreateEntityAsync(request.EntityDto.Commission, request.CultureCode);
 			entityToCreate.CreateRefToCommission(relatedEntity);
 		}
 		if(request.EntityDto.TransactionId is not null)
@@ -126,7 +126,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		}
 		else if(request.EntityDto.Transaction is not null)
 		{
-			var relatedEntity = await TransactionFactory.CreateEntityAsync(request.EntityDto.Transaction);
+			var relatedEntity = await TransactionFactory.CreateEntityAsync(request.EntityDto.Transaction, request.CultureCode);
 			entityToCreate.CreateRefToTransaction(relatedEntity);
 		}
 

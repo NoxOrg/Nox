@@ -5,6 +5,8 @@
 using Nox.Application.Factories;
 using Nox.Extensions;
 using Nox.Types;
+using Nox.Domain;
+using Microsoft.EntityFrameworkCore;
 
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
@@ -14,11 +16,67 @@ namespace ClientApi.Application.Factories;
 
 internal partial class TenantBrandLocalizedFactory : TenantBrandLocalizedFactoryBase
 {
+    public TenantBrandLocalizedFactory(IRepository repository):base(repository)
+    {
+    }
 }
 
 internal abstract class TenantBrandLocalizedFactoryBase : IEntityLocalizedFactory<TenantBrandLocalized, TenantBrandEntity, TenantBrandUpsertDto>
 {
-    public virtual TenantBrandLocalized CreateLocalizedEntity(TenantBrandEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
+    protected readonly IRepository Repository;
+
+    protected TenantBrandLocalizedFactoryBase(IRepository repository)
+    {
+        Repository = repository;
+    }
+
+    public virtual async Task<TenantBrandLocalized> CreateLocalizedEntityAsync(TenantBrandEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
+    {
+        var localizedEntity = await CreateInternalAsync(entity, cultureCode, copyEntityAttributes);
+        return localizedEntity;
+    }
+   
+
+    public virtual async Task UpdateLocalizedEntityAsync(TenantBrandEntity entity, TenantBrandUpsertDto updateDto, CultureCode cultureCode)
+    {
+        var entityLocalized = await Repository.Query<TenantBrandLocalized>(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
+        if (entityLocalized is null)
+        {
+            entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
+        }
+        else
+        {
+            entityLocalized.Description = updateDto.Description == null
+                ? null
+                : ClientApi.Domain.TenantBrandMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
+            
+            Repository.Update(entityLocalized);
+        }
+        
+    }
+
+    public virtual async Task PartialUpdateLocalizedEntityAsync(TenantBrandEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    {
+        var entityLocalized = await Repository.Query<TenantBrandLocalized>(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
+        if (entityLocalized is null)
+        {
+            entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
+        }
+        else
+        {
+
+            if (updatedProperties.TryGetValue("Description", out var DescriptionUpdateValue))
+            {
+                entityLocalized.Description = DescriptionUpdateValue == null
+                    ? null
+                    : ClientApi.Domain.TenantBrandMetadata.CreateDescription(DescriptionUpdateValue);
+            }
+            Repository.Update(entityLocalized);
+        }
+        
+    }
+
+    private async  Task<TenantBrandLocalized> CreateInternalAsync(TenantBrandEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
         var localizedEntity = new TenantBrandLocalized
         {
@@ -30,25 +88,7 @@ internal abstract class TenantBrandLocalizedFactoryBase : IEntityLocalizedFactor
         {
             localizedEntity.Description = entity.Description;
         }
-
+        await Repository.AddAsync(localizedEntity);
         return localizedEntity;
-    }
-
-    public virtual void UpdateLocalizedEntity(TenantBrandLocalized localizedEntity, TenantBrandUpsertDto updateDto)
-    {
-        localizedEntity.Description = updateDto.Description == null
-            ? null
-            : ClientApi.Domain.TenantBrandMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
-    }
-
-    public virtual void PartialUpdateLocalizedEntity(TenantBrandLocalized localizedEntity, Dictionary<string, dynamic> updatedProperties)
-    {
-
-        if (updatedProperties.TryGetValue("Description", out var DescriptionUpdateValue))
-        {
-            localizedEntity.Description = DescriptionUpdateValue == null
-                ? null
-                : ClientApi.Domain.TenantBrandMetadata.CreateDescription(DescriptionUpdateValue);
-        }
     }
 }

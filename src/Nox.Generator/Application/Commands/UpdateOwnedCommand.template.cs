@@ -82,7 +82,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		await _dbContext.Entry(parentEntity).Reference(e => e.{{relationshipName}}).LoadAsync(cancellationToken);
 		var entity = parentEntity.{{relationshipName}};
 		if (entity is null)
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
 		else
 			await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		{{- else }}
@@ -93,7 +93,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		{{entity.Name}}Entity? entity;
 		if(request.EntityDto.{{key.Name}} is null)
 		{
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
 		}
 		else
 		{
@@ -103,7 +103,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 				{{- if !(IsNoxTypeCreatable key.Type) }}
 				throw new EntityNotFoundException("{{entity.Name}}",  $"{{keysToString entity.Keys 'owned'}}");
 				{{- else }}
-				entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+				entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
 				{{- end }}
 			else
 				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -125,9 +125,9 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}
 	
-	private async Task<{{entity.Name}}Entity> CreateEntityAsync({{entity.Name}}UpsertDto upsertDto, {{parent.Name}}Entity parent)
+	private async Task<{{entity.Name}}Entity> CreateEntityAsync({{entity.Name}}UpsertDto upsertDto, {{parent.Name}}Entity parent, Nox.Types.CultureCode cultureCode)
 	{
-		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
 		parent.CreateRefTo{{relationshipName}}(entity);
 		return entity;
 	}
@@ -139,7 +139,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		var entityLocalized = await _dbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x => x.{{entityKeys[0].Name}} == entity.{{entityKeys[0].Name}} && x.CultureCode == cultureCode);
 		if(entityLocalized is null)
 		{
-			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+			entityLocalized = await _entityLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
 			_dbContext.{{entity.PluralName}}Localized.Add(entityLocalized);
 		}
 		else
@@ -147,7 +147,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 			_dbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
 
-		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
+		await _entityLocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
 	}
 	{{- end }}
 }

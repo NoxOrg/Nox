@@ -62,13 +62,13 @@ internal abstract class CreateTenantContactForTenantCommandHandlerBase : Command
 			throw new EntityNotFoundException("Tenant",  $"{keyId.ToString()}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
+		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefToTenantContact(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-		var entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, request.CultureCode);
+		var entityLocalized = await _entityLocalizedFactory.CreateLocalizedEntityAsync(entity, request.CultureCode);
 		_dbContext.TenantContactsLocalized.Add(entityLocalized);
 
 		var result = await _dbContext.SaveChangesAsync();

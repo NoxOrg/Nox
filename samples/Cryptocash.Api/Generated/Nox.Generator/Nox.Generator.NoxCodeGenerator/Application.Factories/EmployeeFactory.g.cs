@@ -1,5 +1,7 @@
-﻿// Generated
+﻿
 
+// Generated
+//TODO: if CultureCode is not needed, remove it from the factory
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,30 +29,41 @@ internal partial class EmployeeFactory : EmployeeFactoryBase
 {
     public EmployeeFactory
     (
-        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> employeephonenumberfactory,
-        IRepository repository
-    ) : base(employeephonenumberfactory, repository)
+        IRepository repository,
+        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> employeephonenumberfactory
+    ) : base(repository, employeephonenumberfactory)
     {}
 }
 
 internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
     protected IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> EmployeePhoneNumberFactory {get;}
 
     public EmployeeFactoryBase(
-        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> employeephonenumberfactory,
-        IRepository repository
+        IRepository repository,
+        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> employeephonenumberfactory
         )
     {
-        EmployeePhoneNumberFactory = employeephonenumberfactory;
         _repository = repository;
+        EmployeePhoneNumberFactory = employeephonenumberfactory;
     }
 
-    public virtual async Task<EmployeeEntity> CreateEntityAsync(EmployeeCreateDto createDto)
+    public virtual async Task<EmployeeEntity> CreateEntityAsync(EmployeeCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
+<<<<<<< main
         return await ToEntityAsync(createDto);
+=======
+        try
+        {
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }        
+>>>>>>> Factory classes refactor has been completed (without tests)
     }
 
     public virtual async Task UpdateEntityAsync(EmployeeEntity entity, EmployeeUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
@@ -58,15 +71,32 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
-    public virtual void PartialUpdateEntity(EmployeeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(EmployeeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+<<<<<<< main
         PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+=======
+<<<<<<< main
+        try
+        {
+             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+        }   
+=======
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        await Task.CompletedTask;
+>>>>>>> Factory classes refactor has been completed (without tests)
+>>>>>>> Factory classes refactor has been completed (without tests)
     }
 
-    private async Task<Cryptocash.Domain.Employee> ToEntityAsync(EmployeeCreateDto createDto)
+    private async Task<Cryptocash.Domain.Employee> ToEntityAsync(EmployeeCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.Employee();
+<<<<<<< main
         exceptionCollector.Collect("FirstName", () => entity.SetIfNotNull(createDto.FirstName, (entity) => entity.FirstName = 
             Cryptocash.Domain.EmployeeMetadata.CreateFirstName(createDto.FirstName.NonNullValue<System.String>())));
         exceptionCollector.Collect("LastName", () => entity.SetIfNotNull(createDto.LastName, (entity) => entity.LastName = 
@@ -81,12 +111,36 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
             Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(createDto.LastWorkingDay.NonNullValue<System.DateTime>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
+=======
+        entity.SetIfNotNull(createDto.FirstName, (entity) => entity.FirstName = 
+            Cryptocash.Domain.EmployeeMetadata.CreateFirstName(createDto.FirstName.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.LastName, (entity) => entity.LastName = 
+            Cryptocash.Domain.EmployeeMetadata.CreateLastName(createDto.LastName.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.EmailAddress, (entity) => entity.EmailAddress = 
+            Cryptocash.Domain.EmployeeMetadata.CreateEmailAddress(createDto.EmailAddress.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Address, (entity) => entity.Address = 
+            Cryptocash.Domain.EmployeeMetadata.CreateAddress(createDto.Address.NonNullValue<StreetAddressDto>()));
+        entity.SetIfNotNull(createDto.FirstWorkingDay, (entity) => entity.FirstWorkingDay = 
+            Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(createDto.FirstWorkingDay.NonNullValue<System.DateTime>()));
+        entity.SetIfNotNull(createDto.LastWorkingDay, (entity) => entity.LastWorkingDay = 
+            Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(createDto.LastWorkingDay.NonNullValue<System.DateTime>()));
+<<<<<<< main
+>>>>>>> Factory classes refactor has been completed (without tests)
         entity.EnsureId(createDto.Id);
         foreach (var dto in createDto.EmployeePhoneNumbers)
+=======
+        createDto.EmployeePhoneNumbers?.ForEach(async dto =>
+>>>>>>> Factory classes refactor has been completed (without tests)
         {
+<<<<<<< main
             var newRelatedEntity = await EmployeePhoneNumberFactory.CreateEntityAsync(dto);
             entity.CreateRefToEmployeePhoneNumbers(newRelatedEntity);
         }        
+=======
+            var employeePhoneNumber = await EmployeePhoneNumberFactory.CreateEntityAsync(dto, cultureCode);
+            entity.CreateRefToEmployeePhoneNumbers(employeePhoneNumber);
+        });
+>>>>>>> Factory classes refactor has been completed (without tests)
         return await Task.FromResult(entity);
     }
 
@@ -168,9 +222,6 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
 
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
-
 	private async Task UpdateOwnedEntitiesAsync(EmployeeEntity entity, EmployeeUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
         if(!updateDto.EmployeePhoneNumbers.Any())
@@ -184,7 +235,10 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
 			foreach(var ownedUpsertDto in updateDto.EmployeePhoneNumbers)
 			{
 				if(ownedUpsertDto.Id is null)
-					updatedEmployeePhoneNumbers.Add(await EmployeePhoneNumberFactory.CreateEntityAsync(ownedUpsertDto));
+                {
+                    var ownedEntity = await EmployeePhoneNumberFactory.CreateEntityAsync(ownedUpsertDto, cultureCode);
+					updatedEmployeePhoneNumbers.Add(ownedEntity);
+                }
 				else
 				{
 					var key = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
@@ -199,7 +253,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
 				}
 			}
             _repository.DeleteOwned<Cryptocash.Domain.EmployeePhoneNumber>(
-                entity.EmployeePhoneNumbers.Where(x => !updatedEmployeePhoneNumbers.Any(upd => upd.Id == x.Id)).ToList());
+                entity.EmployeePhoneNumbers.Where(x => !updatedEmployeePhoneNumbers.Exists(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToEmployeePhoneNumbers(updatedEmployeePhoneNumbers);
 		}
 	}

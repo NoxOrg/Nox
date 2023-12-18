@@ -77,15 +77,10 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 
 	private async Task UpdateLocalizationsAsync(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
-		await UpdateWorkplaceLocalizationAsync(entity, updateDto, cultureCode);
-	}
-
-	private async Task UpdateWorkplaceLocalizationAsync(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
-	{
 		var entityLocalized = await DbContext.WorkplacesLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
 		if(entityLocalized is null)
 		{
-			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+			entityLocalized = await _entityLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
 			DbContext.WorkplacesLocalized.Add(entityLocalized);
 		}
 		else
@@ -93,6 +88,6 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 			DbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
 
-		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
+		await _entityLocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
 	}
 }

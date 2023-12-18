@@ -99,7 +99,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 
 	{{- for relationship in entity.Relationships }}
 		{{- relationshipName = GetNavigationPropertyName entity relationship }}
@@ -128,7 +128,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 		}
 		else if(request.EntityDto.{{relationshipName}} is not null)
 		{
-			var relatedEntity = await {{fieldFactoryName relationship.Entity}}.CreateEntityAsync(request.EntityDto.{{relationshipName}});
+			var relatedEntity = await {{fieldFactoryName relationship.Entity}}.CreateEntityAsync(request.EntityDto.{{relationshipName}}, request.CultureCode);
 			entityToCreate.CreateRefTo{{relationshipName}}(relatedEntity);
 		}
 		{{- else}}
@@ -151,7 +151,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 		{
 			foreach(var relatedCreateDto in request.EntityDto.{{relationshipName}})
 			{
-				var relatedEntity = await {{fieldFactoryName relationship.Entity}}.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await {{fieldFactoryName relationship.Entity}}.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefTo{{relationshipName}}(relatedEntity);
 			}
 		}
@@ -161,30 +161,30 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.{{entity.PluralName}}.Add(entityToCreate);
 		{{- if entity.IsLocalized || entity.HasLocalizedOwnedRelationships }}
-        CreateLocalizations(entityToCreate, request.CultureCode);
+		await CreateLocalizationsAsync(entityToCreate, request.CultureCode);
 		{{- end }}
 		await DbContext.SaveChangesAsync();
 		return new {{entity.Name}}KeyDto({{primaryKeysQuery}});
 	}
 	{{- if entity.IsLocalized || entity.HasLocalizedOwnedRelationships }}
 
-	private void CreateLocalizations({{entity.Name}}Entity entity, Nox.Types.CultureCode cultureCode)
+	private async Task CreateLocalizationsAsync({{entity.Name}}Entity entity, Nox.Types.CultureCode cultureCode)
 	{
 		{{- if entity.IsLocalized }}
-		Create{{entity.Name}}Localization(entity, cultureCode);
+		await Create{{entity.Name}}LocalizationAsync(entity, cultureCode);
 		{{- end}}
 		{{- for relationship in entity.OwnedRelationships }}
 		{{- if relationship.Related.Entity.IsLocalized }}
 		{{- relationshipName = GetNavigationPropertyName entity relationship}}
-        Create{{relationshipName}}Localization(entity.{{relationshipName}}, cultureCode);
+        await Create{{relationshipName}}LocalizationAsync(entity.{{relationshipName}}, cultureCode);
 		{{- end }}
 		{{- end }}
 	}
 	{{- if entity.IsLocalized }}
 
-	private void Create{{entity.Name}}Localization({{entity.Name}}Entity entity, Nox.Types.CultureCode cultureCode)
+	private async Task Create{{entity.Name}}LocalizationAsync({{entity.Name}}Entity entity, Nox.Types.CultureCode cultureCode)
 	{
-		var entityLocalized = EntityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+		var entityLocalized = await EntityLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
 		DbContext.{{entity.PluralName}}Localized.Add(entityLocalized);
 	}	
 	{{- end}}
@@ -193,21 +193,25 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 	{{- relationshipName = GetNavigationPropertyName entity relationship}}
 	{{- if relationship.Relationship == "ZeroOrOne" || relationship.Relationship == "ExactlyOne" }}
 	
-	private void Create{{relationshipName}}Localization({{codeGeneratorState.DomainNameSpace}}.{{relationship.Related.Entity.Name}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} entity, Nox.Types.CultureCode cultureCode)
+	private async Task Create{{relationshipName}}LocalizationAsync({{codeGeneratorState.DomainNameSpace}}.{{relationship.Related.Entity.Name}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} entity, Nox.Types.CultureCode cultureCode)
 	{
 		{{- if relationship.Relationship == "ZeroOrOne"}}
 		if (entity is null) return;
 		{{- end}}
-		var entityLocalized = {{relationship.Related.Entity.Name}}LocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+		var entityLocalized = await {{relationship.Related.Entity.Name}}LocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
 		DbContext.{{relationship.Related.Entity.PluralName}}Localized.Add(entityLocalized);
 	}	
 	{{else}}
-	
-	private void Create{{relationshipName}}Localization(List<{{codeGeneratorState.DomainNameSpace}}.{{relationship.Related.Entity.Name}}> entities, Nox.Types.CultureCode cultureCode)
+	private async Task Create{{relationshipName}}LocalizationAsync(List<{{codeGeneratorState.DomainNameSpace}}.{{relationship.Related.Entity.Name}}> entities, Nox.Types.CultureCode cultureCode)
 	{
-		var entitiesLocalized = entities.Select(entity => {{relationship.Related.Entity.Name}}LocalizedFactory.CreateLocalizedEntity(entity, cultureCode));
+		var entitiesLocalized = new List<{{relationship.Related.Entity.Name}}Localized>();
+		foreach (var entity in entities)
+		{
+			var entityLocalized = await {{relationship.Related.Entity.Name}}LocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
+			entitiesLocalized.Add(entityLocalized);
+		}
 		DbContext.{{relationship.Related.Entity.PluralName}}Localized.AddRange(entitiesLocalized);
-	}	
+	}
 	{{- end}}
 	{{- end}}
 	{{- end}}
