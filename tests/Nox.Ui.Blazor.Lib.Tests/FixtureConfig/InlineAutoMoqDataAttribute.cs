@@ -1,6 +1,6 @@
 ﻿using AutoFixture.Xunit2;
 
-namespace No.Ui.Blazor.Lib.Tests.FixtureConfig;
+namespace Nox.Ui.Blazor.Lib.Tests.FixtureConfig;
 
 public class InlineAutoMoqDataAttribute : CompositeDataAttribute
 {

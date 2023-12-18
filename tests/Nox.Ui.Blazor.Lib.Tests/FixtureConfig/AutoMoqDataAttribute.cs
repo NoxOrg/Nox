@@ -2,7 +2,7 @@
 using AutoFixture.Xunit2;
 using AutoFixture;
 
-namespace No.Ui.Blazor.Lib.Tests.FixtureConfig;
+namespace Nox.Ui.Blazor.Lib.Tests.FixtureConfig;
 
 public class AutoMoqDataAttribute : AutoDataAttribute
 {
