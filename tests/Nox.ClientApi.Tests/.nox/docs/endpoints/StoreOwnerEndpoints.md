@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## StoreOwner Endpoints
 
+### Get StoreOwner Count
+- **GET** `/api/v1/StoreOwners/$count`
+  - Description: Retrieve the number of StoreOwners.
+
 ### Get StoreOwner by ID
 - **GET** `/api/v1/StoreOwners/{key}`
   - Description: Retrieve information about a StoreOwner by ID.

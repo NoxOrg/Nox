@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## Currency Endpoints
 
+### Get Currency Count
+- **GET** `/api/v1/Currencies/$count`
+  - Description: Retrieve the number of Currencies.
+
 ### Get Currency by ID
 - **GET** `/api/v1/Currencies/{key}`
   - Description: Retrieve information about a Currency by ID.

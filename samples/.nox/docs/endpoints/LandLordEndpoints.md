@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## LandLord Endpoints
 
+### Get LandLord Count
+- **GET** `/api/LandLords/$count`
+  - Description: Retrieve the number of LandLords.
+
 ### Get LandLord by ID
 - **GET** `/api/LandLords/{key}`
   - Description: Retrieve information about a LandLord by ID.

@@ -12,7 +12,7 @@ This event is triggered when a new Commission is created.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Commission unique identifier
+Id|Guid|Commission unique identifier
 Rate|Percentage|Commission rate
 EffectiveAt|DateTime|Exchange rate conversion amount
 CountryId|CountryCode2|Country unique identifier
@@ -27,7 +27,7 @@ This event is triggered when an existing Commission is updated.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Commission unique identifier
+Id|Guid|Commission unique identifier
 Rate|Percentage|Commission rate
 EffectiveAt|DateTime|Exchange rate conversion amount
 CountryId|CountryCode2|Country unique identifier
@@ -42,7 +42,7 @@ This event is triggered when an existing Commission is deleted.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Commission unique identifier
+Id|Guid|Commission unique identifier
 Rate|Percentage|Commission rate
 EffectiveAt|DateTime|Exchange rate conversion amount
 CountryId|CountryCode2|Country unique identifier

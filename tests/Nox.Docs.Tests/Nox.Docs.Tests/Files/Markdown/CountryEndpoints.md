@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## Country Endpoints
 
+### Get Country Count
+- **GET** `/api/v1/Countries/$count`
+  - Description: Retrieve the number of Countries.
+
 ### Get Country by ID
 - **GET** `/api/v1/Countries/{key}`
   - Description: Retrieve information about a Country by ID.

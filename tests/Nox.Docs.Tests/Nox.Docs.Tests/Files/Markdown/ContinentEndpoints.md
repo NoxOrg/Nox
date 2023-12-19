@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## Continent Endpoints
 
+### Get Continent Count
+- **GET** `/api/v1/Continents/$count`
+  - Description: Retrieve the number of Continents.
+
 ### Get Continent by ID
 - **GET** `/api/v1/Continents/{key}`
   - Description: Retrieve information about a Continent by ID.

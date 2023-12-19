@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## Tenant Endpoints
 
+### Get Tenant Count
+- **GET** `/api/v1/Tenants/$count`
+  - Description: Retrieve the number of Tenants.
+
 ### Get Tenant by ID
 - **GET** `/api/v1/Tenants/{key}`
   - Description: Retrieve information about a Tenant by ID.

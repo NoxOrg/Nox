@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## VendingMachine Endpoints
 
+### Get VendingMachine Count
+- **GET** `/api/VendingMachines/$count`
+  - Description: Retrieve the number of VendingMachines.
+
 ### Get VendingMachine by ID
 - **GET** `/api/VendingMachines/{key}`
   - Description: Retrieve information about a VendingMachine by ID.

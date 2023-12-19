@@ -12,7 +12,7 @@ This event is triggered when a new Employee is created.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Employee's unique identifier
+Id|Guid|Employee's unique identifier
 FirstName|Text|Employee's first name
 LastName|Text|Employee's last name
 EmailAddress|Email|Employee's email address
@@ -31,7 +31,7 @@ This event is triggered when an existing Employee is updated.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Employee's unique identifier
+Id|Guid|Employee's unique identifier
 FirstName|Text|Employee's first name
 LastName|Text|Employee's last name
 EmailAddress|Email|Employee's email address
@@ -50,7 +50,7 @@ This event is triggered when an existing Employee is deleted.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Employee's unique identifier
+Id|Guid|Employee's unique identifier
 FirstName|Text|Employee's first name
 LastName|Text|Employee's last name
 EmailAddress|Email|Employee's email address

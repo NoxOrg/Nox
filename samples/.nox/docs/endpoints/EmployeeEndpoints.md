@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## Employee Endpoints
 
+### Get Employee Count
+- **GET** `/api/Employees/$count`
+  - Description: Retrieve the number of Employees.
+
 ### Get Employee by ID
 - **GET** `/api/Employees/{key}`
   - Description: Retrieve information about a Employee by ID.

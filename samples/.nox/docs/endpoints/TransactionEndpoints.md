@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## Transaction Endpoints
 
+### Get Transaction Count
+- **GET** `/api/Transactions/$count`
+  - Description: Retrieve the number of Transactions.
+
 ### Get Transaction by ID
 - **GET** `/api/Transactions/{key}`
   - Description: Retrieve information about a Transaction by ID.

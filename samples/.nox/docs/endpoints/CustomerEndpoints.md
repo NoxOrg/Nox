@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## Customer Endpoints
 
+### Get Customer Count
+- **GET** `/api/Customers/$count`
+  - Description: Retrieve the number of Customers.
+
 ### Get Customer by ID
 - **GET** `/api/Customers/{key}`
   - Description: Retrieve information about a Customer by ID.

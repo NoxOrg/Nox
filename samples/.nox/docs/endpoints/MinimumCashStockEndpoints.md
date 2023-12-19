@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## MinimumCashStock Endpoints
 
+### Get MinimumCashStock Count
+- **GET** `/api/MinimumCashStocks/$count`
+  - Description: Retrieve the number of MinimumCashStocks.
+
 ### Get MinimumCashStock by ID
 - **GET** `/api/MinimumCashStocks/{key}`
   - Description: Retrieve information about a MinimumCashStock by ID.

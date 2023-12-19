@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## People Endpoints
 
+### Get People Count
+- **GET** `/api/v1/Peoples/$count`
+  - Description: Retrieve the number of Peoples.
+
 ### Get People by ID
 - **GET** `/api/v1/Peoples/{key}`
   - Description: Retrieve information about a People by ID.

@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## Booking Endpoints
 
+### Get Booking Count
+- **GET** `/api/Bookings/$count`
+  - Description: Retrieve the number of Bookings.
+
 ### Get Booking by ID
 - **GET** `/api/Bookings/{key}`
   - Description: Retrieve information about a Booking by ID.

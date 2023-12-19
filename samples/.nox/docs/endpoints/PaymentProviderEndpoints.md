@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## PaymentProvider Endpoints
 
+### Get PaymentProvider Count
+- **GET** `/api/PaymentProviders/$count`
+  - Description: Retrieve the number of PaymentProviders.
+
 ### Get PaymentProvider by ID
 - **GET** `/api/PaymentProviders/{key}`
   - Description: Retrieve information about a PaymentProvider by ID.

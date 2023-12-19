@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## Workplace Endpoints
 
+### Get Workplace Count
+- **GET** `/api/v1/Workplaces/$count`
+  - Description: Retrieve the number of Workplaces.
+
 ### Get Workplace by ID
 - **GET** `/api/v1/Workplaces/{key}`
   - Description: Retrieve information about a Workplace by ID.

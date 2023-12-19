@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## Commission Endpoints
 
+### Get Commission Count
+- **GET** `/api/Commissions/$count`
+  - Description: Retrieve the number of Commissions.
+
 ### Get Commission by ID
 - **GET** `/api/Commissions/{key}`
   - Description: Retrieve information about a Commission by ID.

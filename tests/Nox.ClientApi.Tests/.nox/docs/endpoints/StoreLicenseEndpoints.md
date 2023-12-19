@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## StoreLicense Endpoints
 
+### Get StoreLicense Count
+- **GET** `/api/v1/StoreLicenses/$count`
+  - Description: Retrieve the number of StoreLicenses.
+
 ### Get StoreLicense by ID
 - **GET** `/api/v1/StoreLicenses/{key}`
   - Description: Retrieve information about a StoreLicense by ID.

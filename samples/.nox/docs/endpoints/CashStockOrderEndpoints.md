@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## CashStockOrder Endpoints
 
+### Get CashStockOrder Count
+- **GET** `/api/CashStockOrders/$count`
+  - Description: Retrieve the number of CashStockOrders.
+
 ### Get CashStockOrder by ID
 - **GET** `/api/CashStockOrders/{key}`
   - Description: Retrieve information about a CashStockOrder by ID.

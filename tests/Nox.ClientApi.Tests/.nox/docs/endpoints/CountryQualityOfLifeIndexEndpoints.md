@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## CountryQualityOfLifeIndex Endpoints
 
+### Get CountryQualityOfLifeIndex Count
+- **GET** `/api/v1/CountryQualityOfLifeIndices/$count`
+  - Description: Retrieve the number of CountryQualityOfLifeIndices.
+
 ### Get CountryQualityOfLifeIndex by ID
 - **GET** `/api/v1/CountryQualityOfLifeIndices/{key}`
   - Description: Retrieve information about a CountryQualityOfLifeIndex by ID.

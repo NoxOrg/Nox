@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## {{entity.Name}} Endpoints
 {{ if entity.Persistence.Read.IsEnabled }}
+### Get {{entity.Name}} Count
+- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/$count`
+  - Description: Retrieve the number of {{entity.PluralName}}.
+
 ### Get {{entity.Name}} by ID
 - **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}`
   - Description: Retrieve information about a {{entity.Name}} by ID.

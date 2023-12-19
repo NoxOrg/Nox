@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## PaymentDetail Endpoints
 
+### Get PaymentDetail Count
+- **GET** `/api/PaymentDetails/$count`
+  - Description: Retrieve the number of PaymentDetails.
+
 ### Get PaymentDetail by ID
 - **GET** `/api/PaymentDetails/{key}`
   - Description: Retrieve information about a PaymentDetail by ID.

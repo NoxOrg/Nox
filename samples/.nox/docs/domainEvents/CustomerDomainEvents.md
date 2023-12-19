@@ -12,7 +12,7 @@ This event is triggered when a new Customer is created.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Customer's unique identifier
+Id|Guid|Customer's unique identifier
 FirstName|Text|Customer's first name
 LastName|Text|Customer's last name
 EmailAddress|Email|Customer's email address
@@ -30,7 +30,7 @@ This event is triggered when an existing Customer is updated.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Customer's unique identifier
+Id|Guid|Customer's unique identifier
 FirstName|Text|Customer's first name
 LastName|Text|Customer's last name
 EmailAddress|Email|Customer's email address
@@ -48,7 +48,7 @@ This event is triggered when an existing Customer is deleted.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Customer's unique identifier
+Id|Guid|Customer's unique identifier
 FirstName|Text|Customer's first name
 LastName|Text|Customer's last name
 EmailAddress|Email|Customer's email address
