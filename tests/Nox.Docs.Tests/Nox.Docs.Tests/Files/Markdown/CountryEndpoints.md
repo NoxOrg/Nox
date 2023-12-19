@@ -58,7 +58,6 @@ This document provides information about the various endpoints available in our 
 - **GET** `/api/v1/Countries/{key}/Continents/$ref`
   - Description: Retrieve all existing Continents relations for a specific Country.
 
-### People
 ## Custom Commands
 
 ### UpdatePopulationStatistics

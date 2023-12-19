@@ -59,7 +59,7 @@ This document provides information about the various endpoints available in our 
   - Description: Delete an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
 {{end}}{{end}}{{end-}}{{end}}{{if entity.Relationships|array.size>0}}
 ## Relationships Endpoints
-{{for relationship in entity.Relationships}}
+{{for relationship in entity.Relationships}}{{-if relationship.CanManageReference||relationship.CanManageEntity}}
 ### {{relationship.Entity}}{{-if relationship.CanManageReference}}
 {{if relationship.Related.Entity.Persistence.Read.IsEnabled}}
 #### Get {{relationship.Entity}} relations
@@ -105,7 +105,7 @@ This document provides information about the various endpoints available in our 
 #### Delete {{relationship.Entity}}
 - **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}`
   - Description: Delete all existing {{relationship.EntityPlural}} for a specific {{entity.Name}}.
-{{end}}{{end}}{{end-}}{{end}}{{if entity.Commands|array.size>0}}
+{{end}}{{end}}{{end}}{{end-}}{{end}}{{if entity.Commands|array.size>0}}
 ## Custom Commands
 {{for command in entity.Commands}}
 ### {{command.Name}}
