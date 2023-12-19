@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using Nox.Presentation.Api;
+using Nox.Presentation.Api.Providers;
 using System.Data.Common;
 
 namespace Nox.Infrastructure.Persistence;

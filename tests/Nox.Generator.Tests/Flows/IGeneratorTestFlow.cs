@@ -1,4 +1,6 @@
-﻿namespace Nox.Generator.Tests.Flows;
+﻿using System.Collections.Generic;
+
+namespace Nox.Generator.Tests.Flows;
 
 public interface IGeneratorTestFlow
 {

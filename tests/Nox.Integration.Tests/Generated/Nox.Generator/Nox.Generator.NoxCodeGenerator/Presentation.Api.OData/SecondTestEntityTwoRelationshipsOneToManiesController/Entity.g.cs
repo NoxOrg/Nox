@@ -28,7 +28,7 @@ public partial class SecondTestEntityTwoRelationshipsOneToManiesController : Sec
 {
     public SecondTestEntityTwoRelationshipsOneToManiesController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
 
     public SecondTestEntityTwoRelationshipsOneToManiesControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using System.Threading;
 
 namespace Nox.Generator.Tests;
 

@@ -28,7 +28,7 @@ public partial class ThirdTestEntityOneOrManiesController : ThirdTestEntityOneOr
 {
     public ThirdTestEntityOneOrManiesController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
 
     public ThirdTestEntityOneOrManiesControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
