@@ -19,6 +19,9 @@ namespace Cryptocash.Ui.Generated.Component
         public string TestIcon { get; set; } = IconHelper.GetIconSvgPath("Test");
         public string TestPageLink { get; set; } = "Test";
 
+        public string TestLibIcon { get; set; } = IconHelper.GetIconSvgPath("TestLib");
+        public string TestLibPageLink { get; set; } = "TestLib";
+
         #endregion
     }
 }

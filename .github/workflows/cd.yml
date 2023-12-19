@@ -75,10 +75,10 @@ jobs:
           additionalArguments: '/showConfig'
 
       - name: Build
-        run: dotnet build Nox.Generator.sln --warnaserror --configuration Release
+        run: dotnet build Nox.sln --warnaserror --configuration Release
 
       - name: Pack Nox
-        run: dotnet pack --no-build Nox.Generator.sln --configuration Release -o ./artifacts
+        run: dotnet pack --no-build Nox.sln --configuration Release -o ./artifacts
 
       - name: Publish Nox
         if: contains(github.ref,'refs/tags/v') || contains(github.ref,'refs/heads/main')
