@@ -106,6 +106,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/v1/Tenants/{key}/TenantWorkplaces/$ref`
   - Description: Delete all existing Workplaces relations for a specific Tenant.
 
+#### Get Workplace
+- **GET** `/api/v1/Tenants/{key}/TenantWorkplaces`
+  - Description: Retrieve all existing Workplaces for a specific Tenant.
+  
+#### Create Workplace
+- **POST** `/api/v1/Tenants/{key}/TenantWorkplaces/{relatedKey}`
+  - Description: Create a new Workplace for a specific Tenant.
+  
+#### Update Workplace
+- **PUT** `/api/v1/Tenants/{key}/TenantWorkplaces/{relatedKey}`
+  - Description: Updates an existing Workplace for a specific Tenant.
+- **PUT** `/api/v1/Tenants/{key}/TenantWorkplaces`
+  - Description: Updates the Workplace for a specific Tenant.
+
+#### Delete Workplace
+- **DELETE** `/api/v1/Tenants/{key}/TenantWorkplaces/{relatedKey}`
+  - Description: Delete an existing Workplace for a specific Tenant.
+
+#### Delete Workplace
+- **DELETE** `/api/v1/Tenants/{key}/TenantWorkplaces`
+  - Description: Delete all existing Workplaces for a specific Tenant.
+
 ## Related Entities
 
 [Workplace](WorkplaceEndpoints.md)

@@ -58,6 +58,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/MinimumCashStocks/{key}/MinimumCashStocksRequiredByVendingMachines/$ref`
   - Description: Delete all existing VendingMachines relations for a specific MinimumCashStock.
 
+#### Get VendingMachine
+- **GET** `/api/MinimumCashStocks/{key}/MinimumCashStocksRequiredByVendingMachines`
+  - Description: Retrieve all existing VendingMachines for a specific MinimumCashStock.
+  
+#### Create VendingMachine
+- **POST** `/api/MinimumCashStocks/{key}/MinimumCashStocksRequiredByVendingMachines/{relatedKey}`
+  - Description: Create a new VendingMachine for a specific MinimumCashStock.
+  
+#### Update VendingMachine
+- **PUT** `/api/MinimumCashStocks/{key}/MinimumCashStocksRequiredByVendingMachines/{relatedKey}`
+  - Description: Updates an existing VendingMachine for a specific MinimumCashStock.
+- **PUT** `/api/MinimumCashStocks/{key}/MinimumCashStocksRequiredByVendingMachines`
+  - Description: Updates the VendingMachine for a specific MinimumCashStock.
+
+#### Delete VendingMachine
+- **DELETE** `/api/MinimumCashStocks/{key}/MinimumCashStocksRequiredByVendingMachines/{relatedKey}`
+  - Description: Delete an existing VendingMachine for a specific MinimumCashStock.
+
+#### Delete VendingMachine
+- **DELETE** `/api/MinimumCashStocks/{key}/MinimumCashStocksRequiredByVendingMachines`
+  - Description: Delete all existing VendingMachines for a specific MinimumCashStock.
+
 ### Currency
 
 #### Get Currency relations
@@ -81,6 +103,28 @@ This document provides information about the various endpoints available in our 
 #### Delete Currency relations
 - **DELETE** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency/$ref`
   - Description: Delete all existing Currencies relations for a specific MinimumCashStock.
+
+#### Get Currency
+- **GET** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency`
+  - Description: Retrieve all existing Currencies for a specific MinimumCashStock.
+  
+#### Create Currency
+- **POST** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency/{relatedKey}`
+  - Description: Create a new Currency for a specific MinimumCashStock.
+  
+#### Update Currency
+- **PUT** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency/{relatedKey}`
+  - Description: Updates an existing Currency for a specific MinimumCashStock.
+- **PUT** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency`
+  - Description: Updates the Currency for a specific MinimumCashStock.
+
+#### Delete Currency
+- **DELETE** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency/{relatedKey}`
+  - Description: Delete an existing Currency for a specific MinimumCashStock.
+
+#### Delete Currency
+- **DELETE** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency`
+  - Description: Delete all existing Currencies for a specific MinimumCashStock.
 
 ## Related Entities
 

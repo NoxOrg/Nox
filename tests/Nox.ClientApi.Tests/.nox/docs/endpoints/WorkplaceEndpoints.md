@@ -58,6 +58,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/v1/Workplaces/{key}/BelongsToCountry/$ref`
   - Description: Delete all existing Countries relations for a specific Workplace.
 
+#### Get Country
+- **GET** `/api/v1/Workplaces/{key}/BelongsToCountry`
+  - Description: Retrieve all existing Countries for a specific Workplace.
+  
+#### Create Country
+- **POST** `/api/v1/Workplaces/{key}/BelongsToCountry/{relatedKey}`
+  - Description: Create a new Country for a specific Workplace.
+  
+#### Update Country
+- **PUT** `/api/v1/Workplaces/{key}/BelongsToCountry/{relatedKey}`
+  - Description: Updates an existing Country for a specific Workplace.
+- **PUT** `/api/v1/Workplaces/{key}/BelongsToCountry`
+  - Description: Updates the Country for a specific Workplace.
+
+#### Delete Country
+- **DELETE** `/api/v1/Workplaces/{key}/BelongsToCountry/{relatedKey}`
+  - Description: Delete an existing Country for a specific Workplace.
+
+#### Delete Country
+- **DELETE** `/api/v1/Workplaces/{key}/BelongsToCountry`
+  - Description: Delete all existing Countries for a specific Workplace.
+
 ### Tenant
 
 #### Get Tenant relations
@@ -81,6 +103,28 @@ This document provides information about the various endpoints available in our 
 #### Delete Tenant relations
 - **DELETE** `/api/v1/Workplaces/{key}/TenantsInWorkplace/$ref`
   - Description: Delete all existing Tenants relations for a specific Workplace.
+
+#### Get Tenant
+- **GET** `/api/v1/Workplaces/{key}/TenantsInWorkplace`
+  - Description: Retrieve all existing Tenants for a specific Workplace.
+  
+#### Create Tenant
+- **POST** `/api/v1/Workplaces/{key}/TenantsInWorkplace/{relatedKey}`
+  - Description: Create a new Tenant for a specific Workplace.
+  
+#### Update Tenant
+- **PUT** `/api/v1/Workplaces/{key}/TenantsInWorkplace/{relatedKey}`
+  - Description: Updates an existing Tenant for a specific Workplace.
+- **PUT** `/api/v1/Workplaces/{key}/TenantsInWorkplace`
+  - Description: Updates the Tenant for a specific Workplace.
+
+#### Delete Tenant
+- **DELETE** `/api/v1/Workplaces/{key}/TenantsInWorkplace/{relatedKey}`
+  - Description: Delete an existing Tenant for a specific Workplace.
+
+#### Delete Tenant
+- **DELETE** `/api/v1/Workplaces/{key}/TenantsInWorkplace`
+  - Description: Delete all existing Tenants for a specific Workplace.
 
 ## Related Entities
 

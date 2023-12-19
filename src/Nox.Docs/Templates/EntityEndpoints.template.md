@@ -66,6 +66,7 @@ This document provides information about the various endpoints available in our 
 ## Relationships Endpoints
 {{ for relationship in entity.Relationships }}
 ### {{relationship.Entity}}
+{{- if relationship.CanManageReference }}
 {{ if relationship.Related.Entity.Persistence.Read.IsEnabled }}
 #### Get {{relationship.Entity}} relations
 - **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}/$ref`
@@ -89,7 +90,31 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}/$ref`
   - Description: Delete all existing {{relationship.EntityPlural}} relations for a specific {{entity.Name}}.
 {{ end }}{{ end -}}
-{{ end}}{{ if entity.Commands | array.size > 0 }}
+{{- if relationship.CanManageEntity -}}
+{{ if relationship.Related.Entity.Persistence.Read.IsEnabled }}
+#### Get {{relationship.Entity}}
+- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}`
+  - Description: Retrieve all existing {{relationship.EntityPlural}} for a specific {{entity.Name}}.
+{{ end }}{{ if relationship.Related.Entity.Persistence.Create.IsEnabled }}  
+#### Create {{relationship.Entity}}
+- **POST** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}/{relatedKey}`
+  - Description: Create a new {{relationship.Entity}} for a specific {{entity.Name}}.
+{{ end }}{{ if relationship.Related.Entity.Persistence.Update.IsEnabled }}  
+#### Update {{relationship.Entity}}
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}/{relatedKey}`
+  - Description: Updates an existing {{relationship.Entity}} for a specific {{entity.Name}}.
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}`
+  - Description: Updates the {{relationship.Entity}} for a specific {{entity.Name}}.
+{{ end }}{{ if relationship.Related.Entity.Persistence.Delete.IsEnabled }}
+#### Delete {{relationship.Entity}}
+- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}/{relatedKey}`
+  - Description: Delete an existing {{relationship.Entity}} for a specific {{entity.Name}}.
+
+#### Delete {{relationship.Entity}}
+- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}`
+  - Description: Delete all existing {{relationship.EntityPlural}} for a specific {{entity.Name}}.
+{{ end }}{{ end }}{{ end -}}
+{{ end }}{{ if entity.Commands | array.size > 0 }}
 ## Custom Commands
 {{ for command in entity.Commands }}
 ### {{command.Name}}

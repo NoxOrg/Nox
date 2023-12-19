@@ -54,6 +54,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/v1/Peoples/{key}/CountriesInhabitedByPeople/$ref`
   - Description: Delete all existing Countries relations for a specific People.
 
+#### Get Country
+- **GET** `/api/v1/Peoples/{key}/CountriesInhabitedByPeople`
+  - Description: Retrieve all existing Countries for a specific People.
+  
+#### Create Country
+- **POST** `/api/v1/Peoples/{key}/CountriesInhabitedByPeople/{relatedKey}`
+  - Description: Create a new Country for a specific People.
+  
+#### Update Country
+- **PUT** `/api/v1/Peoples/{key}/CountriesInhabitedByPeople/{relatedKey}`
+  - Description: Updates an existing Country for a specific People.
+- **PUT** `/api/v1/Peoples/{key}/CountriesInhabitedByPeople`
+  - Description: Updates the Country for a specific People.
+
+#### Delete Country
+- **DELETE** `/api/v1/Peoples/{key}/CountriesInhabitedByPeople/{relatedKey}`
+  - Description: Delete an existing Country for a specific People.
+
+#### Delete Country
+- **DELETE** `/api/v1/Peoples/{key}/CountriesInhabitedByPeople`
+  - Description: Delete all existing Countries for a specific People.
+
 ## Related Entities
 
 [Country](CountryEndpoints.md)

@@ -58,6 +58,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer/$ref`
   - Description: Delete all existing Customers relations for a specific PaymentDetail.
 
+#### Get Customer
+- **GET** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer`
+  - Description: Retrieve all existing Customers for a specific PaymentDetail.
+  
+#### Create Customer
+- **POST** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer/{relatedKey}`
+  - Description: Create a new Customer for a specific PaymentDetail.
+  
+#### Update Customer
+- **PUT** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer/{relatedKey}`
+  - Description: Updates an existing Customer for a specific PaymentDetail.
+- **PUT** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer`
+  - Description: Updates the Customer for a specific PaymentDetail.
+
+#### Delete Customer
+- **DELETE** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer/{relatedKey}`
+  - Description: Delete an existing Customer for a specific PaymentDetail.
+
+#### Delete Customer
+- **DELETE** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer`
+  - Description: Delete all existing Customers for a specific PaymentDetail.
+
 ### PaymentProvider
 
 #### Get PaymentProvider relations
@@ -81,6 +103,28 @@ This document provides information about the various endpoints available in our 
 #### Delete PaymentProvider relations
 - **DELETE** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider/$ref`
   - Description: Delete all existing PaymentProviders relations for a specific PaymentDetail.
+
+#### Get PaymentProvider
+- **GET** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider`
+  - Description: Retrieve all existing PaymentProviders for a specific PaymentDetail.
+  
+#### Create PaymentProvider
+- **POST** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider/{relatedKey}`
+  - Description: Create a new PaymentProvider for a specific PaymentDetail.
+  
+#### Update PaymentProvider
+- **PUT** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider/{relatedKey}`
+  - Description: Updates an existing PaymentProvider for a specific PaymentDetail.
+- **PUT** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider`
+  - Description: Updates the PaymentProvider for a specific PaymentDetail.
+
+#### Delete PaymentProvider
+- **DELETE** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider/{relatedKey}`
+  - Description: Delete an existing PaymentProvider for a specific PaymentDetail.
+
+#### Delete PaymentProvider
+- **DELETE** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider`
+  - Description: Delete all existing PaymentProviders for a specific PaymentDetail.
 
 ## Related Entities
 

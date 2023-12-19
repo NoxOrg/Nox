@@ -58,6 +58,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/v1/Clients/{key}/ClientOf/$ref`
   - Description: Delete all existing Stores relations for a specific Client.
 
+#### Get Store
+- **GET** `/api/v1/Clients/{key}/ClientOf`
+  - Description: Retrieve all existing Stores for a specific Client.
+  
+#### Create Store
+- **POST** `/api/v1/Clients/{key}/ClientOf/{relatedKey}`
+  - Description: Create a new Store for a specific Client.
+  
+#### Update Store
+- **PUT** `/api/v1/Clients/{key}/ClientOf/{relatedKey}`
+  - Description: Updates an existing Store for a specific Client.
+- **PUT** `/api/v1/Clients/{key}/ClientOf`
+  - Description: Updates the Store for a specific Client.
+
+#### Delete Store
+- **DELETE** `/api/v1/Clients/{key}/ClientOf/{relatedKey}`
+  - Description: Delete an existing Store for a specific Client.
+
+#### Delete Store
+- **DELETE** `/api/v1/Clients/{key}/ClientOf`
+  - Description: Delete all existing Stores for a specific Client.
+
 ## Related Entities
 
 [Store](StoreEndpoints.md)

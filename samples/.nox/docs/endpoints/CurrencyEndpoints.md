@@ -108,6 +108,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Currencies/{key}/CurrencyUsedByCountry/$ref`
   - Description: Delete all existing Countries relations for a specific Currency.
 
+#### Get Country
+- **GET** `/api/Currencies/{key}/CurrencyUsedByCountry`
+  - Description: Retrieve all existing Countries for a specific Currency.
+  
+#### Create Country
+- **POST** `/api/Currencies/{key}/CurrencyUsedByCountry/{relatedKey}`
+  - Description: Create a new Country for a specific Currency.
+  
+#### Update Country
+- **PUT** `/api/Currencies/{key}/CurrencyUsedByCountry/{relatedKey}`
+  - Description: Updates an existing Country for a specific Currency.
+- **PUT** `/api/Currencies/{key}/CurrencyUsedByCountry`
+  - Description: Updates the Country for a specific Currency.
+
+#### Delete Country
+- **DELETE** `/api/Currencies/{key}/CurrencyUsedByCountry/{relatedKey}`
+  - Description: Delete an existing Country for a specific Currency.
+
+#### Delete Country
+- **DELETE** `/api/Currencies/{key}/CurrencyUsedByCountry`
+  - Description: Delete all existing Countries for a specific Currency.
+
 ### MinimumCashStock
 
 #### Get MinimumCashStock relations
@@ -131,6 +153,28 @@ This document provides information about the various endpoints available in our 
 #### Delete MinimumCashStock relations
 - **DELETE** `/api/Currencies/{key}/CurrencyUsedByMinimumCashStocks/$ref`
   - Description: Delete all existing MinimumCashStocks relations for a specific Currency.
+
+#### Get MinimumCashStock
+- **GET** `/api/Currencies/{key}/CurrencyUsedByMinimumCashStocks`
+  - Description: Retrieve all existing MinimumCashStocks for a specific Currency.
+  
+#### Create MinimumCashStock
+- **POST** `/api/Currencies/{key}/CurrencyUsedByMinimumCashStocks/{relatedKey}`
+  - Description: Create a new MinimumCashStock for a specific Currency.
+  
+#### Update MinimumCashStock
+- **PUT** `/api/Currencies/{key}/CurrencyUsedByMinimumCashStocks/{relatedKey}`
+  - Description: Updates an existing MinimumCashStock for a specific Currency.
+- **PUT** `/api/Currencies/{key}/CurrencyUsedByMinimumCashStocks`
+  - Description: Updates the MinimumCashStock for a specific Currency.
+
+#### Delete MinimumCashStock
+- **DELETE** `/api/Currencies/{key}/CurrencyUsedByMinimumCashStocks/{relatedKey}`
+  - Description: Delete an existing MinimumCashStock for a specific Currency.
+
+#### Delete MinimumCashStock
+- **DELETE** `/api/Currencies/{key}/CurrencyUsedByMinimumCashStocks`
+  - Description: Delete all existing MinimumCashStocks for a specific Currency.
 
 ## Related Entities
 

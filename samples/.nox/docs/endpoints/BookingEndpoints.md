@@ -58,6 +58,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Bookings/{key}/BookingForCustomer/$ref`
   - Description: Delete all existing Customers relations for a specific Booking.
 
+#### Get Customer
+- **GET** `/api/Bookings/{key}/BookingForCustomer`
+  - Description: Retrieve all existing Customers for a specific Booking.
+  
+#### Create Customer
+- **POST** `/api/Bookings/{key}/BookingForCustomer/{relatedKey}`
+  - Description: Create a new Customer for a specific Booking.
+  
+#### Update Customer
+- **PUT** `/api/Bookings/{key}/BookingForCustomer/{relatedKey}`
+  - Description: Updates an existing Customer for a specific Booking.
+- **PUT** `/api/Bookings/{key}/BookingForCustomer`
+  - Description: Updates the Customer for a specific Booking.
+
+#### Delete Customer
+- **DELETE** `/api/Bookings/{key}/BookingForCustomer/{relatedKey}`
+  - Description: Delete an existing Customer for a specific Booking.
+
+#### Delete Customer
+- **DELETE** `/api/Bookings/{key}/BookingForCustomer`
+  - Description: Delete all existing Customers for a specific Booking.
+
 ### VendingMachine
 
 #### Get VendingMachine relations
@@ -81,6 +103,28 @@ This document provides information about the various endpoints available in our 
 #### Delete VendingMachine relations
 - **DELETE** `/api/Bookings/{key}/BookingRelatedVendingMachine/$ref`
   - Description: Delete all existing VendingMachines relations for a specific Booking.
+
+#### Get VendingMachine
+- **GET** `/api/Bookings/{key}/BookingRelatedVendingMachine`
+  - Description: Retrieve all existing VendingMachines for a specific Booking.
+  
+#### Create VendingMachine
+- **POST** `/api/Bookings/{key}/BookingRelatedVendingMachine/{relatedKey}`
+  - Description: Create a new VendingMachine for a specific Booking.
+  
+#### Update VendingMachine
+- **PUT** `/api/Bookings/{key}/BookingRelatedVendingMachine/{relatedKey}`
+  - Description: Updates an existing VendingMachine for a specific Booking.
+- **PUT** `/api/Bookings/{key}/BookingRelatedVendingMachine`
+  - Description: Updates the VendingMachine for a specific Booking.
+
+#### Delete VendingMachine
+- **DELETE** `/api/Bookings/{key}/BookingRelatedVendingMachine/{relatedKey}`
+  - Description: Delete an existing VendingMachine for a specific Booking.
+
+#### Delete VendingMachine
+- **DELETE** `/api/Bookings/{key}/BookingRelatedVendingMachine`
+  - Description: Delete all existing VendingMachines for a specific Booking.
 
 ### Commission
 
@@ -106,6 +150,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Bookings/{key}/BookingFeesForCommission/$ref`
   - Description: Delete all existing Commissions relations for a specific Booking.
 
+#### Get Commission
+- **GET** `/api/Bookings/{key}/BookingFeesForCommission`
+  - Description: Retrieve all existing Commissions for a specific Booking.
+  
+#### Create Commission
+- **POST** `/api/Bookings/{key}/BookingFeesForCommission/{relatedKey}`
+  - Description: Create a new Commission for a specific Booking.
+  
+#### Update Commission
+- **PUT** `/api/Bookings/{key}/BookingFeesForCommission/{relatedKey}`
+  - Description: Updates an existing Commission for a specific Booking.
+- **PUT** `/api/Bookings/{key}/BookingFeesForCommission`
+  - Description: Updates the Commission for a specific Booking.
+
+#### Delete Commission
+- **DELETE** `/api/Bookings/{key}/BookingFeesForCommission/{relatedKey}`
+  - Description: Delete an existing Commission for a specific Booking.
+
+#### Delete Commission
+- **DELETE** `/api/Bookings/{key}/BookingFeesForCommission`
+  - Description: Delete all existing Commissions for a specific Booking.
+
 ### Transaction
 
 #### Get Transaction relations
@@ -129,6 +195,28 @@ This document provides information about the various endpoints available in our 
 #### Delete Transaction relations
 - **DELETE** `/api/Bookings/{key}/BookingRelatedTransaction/$ref`
   - Description: Delete all existing Transactions relations for a specific Booking.
+
+#### Get Transaction
+- **GET** `/api/Bookings/{key}/BookingRelatedTransaction`
+  - Description: Retrieve all existing Transactions for a specific Booking.
+  
+#### Create Transaction
+- **POST** `/api/Bookings/{key}/BookingRelatedTransaction/{relatedKey}`
+  - Description: Create a new Transaction for a specific Booking.
+  
+#### Update Transaction
+- **PUT** `/api/Bookings/{key}/BookingRelatedTransaction/{relatedKey}`
+  - Description: Updates an existing Transaction for a specific Booking.
+- **PUT** `/api/Bookings/{key}/BookingRelatedTransaction`
+  - Description: Updates the Transaction for a specific Booking.
+
+#### Delete Transaction
+- **DELETE** `/api/Bookings/{key}/BookingRelatedTransaction/{relatedKey}`
+  - Description: Delete an existing Transaction for a specific Booking.
+
+#### Delete Transaction
+- **DELETE** `/api/Bookings/{key}/BookingRelatedTransaction`
+  - Description: Delete all existing Transactions for a specific Booking.
 
 ## Related Entities
 

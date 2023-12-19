@@ -59,21 +59,6 @@ This document provides information about the various endpoints available in our 
   - Description: Retrieve all existing Continents relations for a specific Country.
 
 ### People
-
-#### Get People relations
-- **GET** `/api/v1/Countries/{key}/Inhabitants/$ref`
-  - Description: Retrieve all existing Peoples relations for a specific Country.
-  
-#### Create People relation
-- **POST** `/api/v1/Countries/{key}/Inhabitants/{relatedKey}/$ref`
-  - Description: Create a new People relation for a specific Country.
-  
-#### Update People relation
-- **PUT** `/api/v1/Countries/{key}/Inhabitants/{relatedKey}/$ref`
-  - Description: Updates an existing People relation for a specific Country.
-- **PUT** `/api/v1/Countries/{key}/Inhabitants/$ref`
-  - Description: Updates the People relations for a specific Country.
-
 ## Custom Commands
 
 ### UpdatePopulationStatistics

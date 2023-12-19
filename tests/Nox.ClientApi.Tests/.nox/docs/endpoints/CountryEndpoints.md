@@ -154,6 +154,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/v1/Countries/{key}/PhysicalWorkplaces/$ref`
   - Description: Delete all existing Workplaces relations for a specific Country.
 
+#### Get Workplace
+- **GET** `/api/v1/Countries/{key}/PhysicalWorkplaces`
+  - Description: Retrieve all existing Workplaces for a specific Country.
+  
+#### Create Workplace
+- **POST** `/api/v1/Countries/{key}/PhysicalWorkplaces/{relatedKey}`
+  - Description: Create a new Workplace for a specific Country.
+  
+#### Update Workplace
+- **PUT** `/api/v1/Countries/{key}/PhysicalWorkplaces/{relatedKey}`
+  - Description: Updates an existing Workplace for a specific Country.
+- **PUT** `/api/v1/Countries/{key}/PhysicalWorkplaces`
+  - Description: Updates the Workplace for a specific Country.
+
+#### Delete Workplace
+- **DELETE** `/api/v1/Countries/{key}/PhysicalWorkplaces/{relatedKey}`
+  - Description: Delete an existing Workplace for a specific Country.
+
+#### Delete Workplace
+- **DELETE** `/api/v1/Countries/{key}/PhysicalWorkplaces`
+  - Description: Delete all existing Workplaces for a specific Country.
+
 ## Related Entities
 
 [Workplace](WorkplaceEndpoints.md)

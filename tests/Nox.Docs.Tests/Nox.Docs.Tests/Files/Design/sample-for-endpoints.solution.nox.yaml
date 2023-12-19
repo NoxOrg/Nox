@@ -131,11 +131,15 @@ domain:
           description: is on
           relationship: oneOrMany
           entity: Continent
+          canManageEntity: false
+          canManageReference: true
 
         - name: Inhabitants
           description: is inhabited by
           relationship: oneOrMany
           entity: People
+          canManageEntity: false
+          canManageReference: false
 
       ownedRelationships:
         - name: CountryLocalNames

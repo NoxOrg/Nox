@@ -58,6 +58,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/LandLords/{key}/ContractedAreasForVendingMachines/$ref`
   - Description: Delete all existing VendingMachines relations for a specific LandLord.
 
+#### Get VendingMachine
+- **GET** `/api/LandLords/{key}/ContractedAreasForVendingMachines`
+  - Description: Retrieve all existing VendingMachines for a specific LandLord.
+  
+#### Create VendingMachine
+- **POST** `/api/LandLords/{key}/ContractedAreasForVendingMachines/{relatedKey}`
+  - Description: Create a new VendingMachine for a specific LandLord.
+  
+#### Update VendingMachine
+- **PUT** `/api/LandLords/{key}/ContractedAreasForVendingMachines/{relatedKey}`
+  - Description: Updates an existing VendingMachine for a specific LandLord.
+- **PUT** `/api/LandLords/{key}/ContractedAreasForVendingMachines`
+  - Description: Updates the VendingMachine for a specific LandLord.
+
+#### Delete VendingMachine
+- **DELETE** `/api/LandLords/{key}/ContractedAreasForVendingMachines/{relatedKey}`
+  - Description: Delete an existing VendingMachine for a specific LandLord.
+
+#### Delete VendingMachine
+- **DELETE** `/api/LandLords/{key}/ContractedAreasForVendingMachines`
+  - Description: Delete all existing VendingMachines for a specific LandLord.
+
 ## Related Entities
 
 [VendingMachine](VendingMachineEndpoints.md)

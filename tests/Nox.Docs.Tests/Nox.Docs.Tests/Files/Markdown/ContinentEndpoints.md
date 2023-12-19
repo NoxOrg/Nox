@@ -42,6 +42,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/v1/Continents/{key}/CountriesOnContinent/$ref`
   - Description: Delete all existing Countries relations for a specific Continent.
 
+#### Get Country
+- **GET** `/api/v1/Continents/{key}/CountriesOnContinent`
+  - Description: Retrieve all existing Countries for a specific Continent.
+  
+#### Create Country
+- **POST** `/api/v1/Continents/{key}/CountriesOnContinent/{relatedKey}`
+  - Description: Create a new Country for a specific Continent.
+  
+#### Update Country
+- **PUT** `/api/v1/Continents/{key}/CountriesOnContinent/{relatedKey}`
+  - Description: Updates an existing Country for a specific Continent.
+- **PUT** `/api/v1/Continents/{key}/CountriesOnContinent`
+  - Description: Updates the Country for a specific Continent.
+
+#### Delete Country
+- **DELETE** `/api/v1/Continents/{key}/CountriesOnContinent/{relatedKey}`
+  - Description: Delete an existing Country for a specific Continent.
+
+#### Delete Country
+- **DELETE** `/api/v1/Continents/{key}/CountriesOnContinent`
+  - Description: Delete all existing Countries for a specific Continent.
+
 ## Related Entities
 
 [Country](CountryEndpoints.md)

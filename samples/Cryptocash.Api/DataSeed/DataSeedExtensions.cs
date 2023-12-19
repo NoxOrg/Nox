@@ -35,11 +35,6 @@ public static class DataSeedExtensions
         dbContext.Database.Migrate();
 
         var dataSeeders = scope.ServiceProvider.GetServices<IDataSeeder>();
-
-        foreach (var dataSeeder in dataSeeders)
-        {
-            dataSeeder.Seed();
-        }
     }
 }
 

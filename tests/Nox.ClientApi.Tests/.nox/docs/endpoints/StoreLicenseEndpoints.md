@@ -58,6 +58,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/v1/StoreLicenses/{key}/StoreWithLicense/$ref`
   - Description: Delete all existing Stores relations for a specific StoreLicense.
 
+#### Get Store
+- **GET** `/api/v1/StoreLicenses/{key}/StoreWithLicense`
+  - Description: Retrieve all existing Stores for a specific StoreLicense.
+  
+#### Create Store
+- **POST** `/api/v1/StoreLicenses/{key}/StoreWithLicense/{relatedKey}`
+  - Description: Create a new Store for a specific StoreLicense.
+  
+#### Update Store
+- **PUT** `/api/v1/StoreLicenses/{key}/StoreWithLicense/{relatedKey}`
+  - Description: Updates an existing Store for a specific StoreLicense.
+- **PUT** `/api/v1/StoreLicenses/{key}/StoreWithLicense`
+  - Description: Updates the Store for a specific StoreLicense.
+
+#### Delete Store
+- **DELETE** `/api/v1/StoreLicenses/{key}/StoreWithLicense/{relatedKey}`
+  - Description: Delete an existing Store for a specific StoreLicense.
+
+#### Delete Store
+- **DELETE** `/api/v1/StoreLicenses/{key}/StoreWithLicense`
+  - Description: Delete all existing Stores for a specific StoreLicense.
+
 ### Currency
 
 #### Get Currency relations
@@ -82,6 +104,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/v1/StoreLicenses/{key}/DefaultCurrency/$ref`
   - Description: Delete all existing Currencies relations for a specific StoreLicense.
 
+#### Get Currency
+- **GET** `/api/v1/StoreLicenses/{key}/DefaultCurrency`
+  - Description: Retrieve all existing Currencies for a specific StoreLicense.
+  
+#### Create Currency
+- **POST** `/api/v1/StoreLicenses/{key}/DefaultCurrency/{relatedKey}`
+  - Description: Create a new Currency for a specific StoreLicense.
+  
+#### Update Currency
+- **PUT** `/api/v1/StoreLicenses/{key}/DefaultCurrency/{relatedKey}`
+  - Description: Updates an existing Currency for a specific StoreLicense.
+- **PUT** `/api/v1/StoreLicenses/{key}/DefaultCurrency`
+  - Description: Updates the Currency for a specific StoreLicense.
+
+#### Delete Currency
+- **DELETE** `/api/v1/StoreLicenses/{key}/DefaultCurrency/{relatedKey}`
+  - Description: Delete an existing Currency for a specific StoreLicense.
+
+#### Delete Currency
+- **DELETE** `/api/v1/StoreLicenses/{key}/DefaultCurrency`
+  - Description: Delete all existing Currencies for a specific StoreLicense.
+
 ### Currency
 
 #### Get Currency relations
@@ -105,6 +149,28 @@ This document provides information about the various endpoints available in our 
 #### Delete Currency relations
 - **DELETE** `/api/v1/StoreLicenses/{key}/SoldInCurrency/$ref`
   - Description: Delete all existing Currencies relations for a specific StoreLicense.
+
+#### Get Currency
+- **GET** `/api/v1/StoreLicenses/{key}/SoldInCurrency`
+  - Description: Retrieve all existing Currencies for a specific StoreLicense.
+  
+#### Create Currency
+- **POST** `/api/v1/StoreLicenses/{key}/SoldInCurrency/{relatedKey}`
+  - Description: Create a new Currency for a specific StoreLicense.
+  
+#### Update Currency
+- **PUT** `/api/v1/StoreLicenses/{key}/SoldInCurrency/{relatedKey}`
+  - Description: Updates an existing Currency for a specific StoreLicense.
+- **PUT** `/api/v1/StoreLicenses/{key}/SoldInCurrency`
+  - Description: Updates the Currency for a specific StoreLicense.
+
+#### Delete Currency
+- **DELETE** `/api/v1/StoreLicenses/{key}/SoldInCurrency/{relatedKey}`
+  - Description: Delete an existing Currency for a specific StoreLicense.
+
+#### Delete Currency
+- **DELETE** `/api/v1/StoreLicenses/{key}/SoldInCurrency`
+  - Description: Delete all existing Currencies for a specific StoreLicense.
 
 ## Related Entities
 

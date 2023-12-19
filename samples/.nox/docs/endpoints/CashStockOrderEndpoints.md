@@ -58,6 +58,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/$ref`
   - Description: Delete all existing VendingMachines relations for a specific CashStockOrder.
 
+#### Get VendingMachine
+- **GET** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine`
+  - Description: Retrieve all existing VendingMachines for a specific CashStockOrder.
+  
+#### Create VendingMachine
+- **POST** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/{relatedKey}`
+  - Description: Create a new VendingMachine for a specific CashStockOrder.
+  
+#### Update VendingMachine
+- **PUT** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/{relatedKey}`
+  - Description: Updates an existing VendingMachine for a specific CashStockOrder.
+- **PUT** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine`
+  - Description: Updates the VendingMachine for a specific CashStockOrder.
+
+#### Delete VendingMachine
+- **DELETE** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/{relatedKey}`
+  - Description: Delete an existing VendingMachine for a specific CashStockOrder.
+
+#### Delete VendingMachine
+- **DELETE** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine`
+  - Description: Delete all existing VendingMachines for a specific CashStockOrder.
+
 ### Employee
 
 #### Get Employee relations
@@ -81,6 +103,28 @@ This document provides information about the various endpoints available in our 
 #### Delete Employee relations
 - **DELETE** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/$ref`
   - Description: Delete all existing Employees relations for a specific CashStockOrder.
+
+#### Get Employee
+- **GET** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee`
+  - Description: Retrieve all existing Employees for a specific CashStockOrder.
+  
+#### Create Employee
+- **POST** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/{relatedKey}`
+  - Description: Create a new Employee for a specific CashStockOrder.
+  
+#### Update Employee
+- **PUT** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/{relatedKey}`
+  - Description: Updates an existing Employee for a specific CashStockOrder.
+- **PUT** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee`
+  - Description: Updates the Employee for a specific CashStockOrder.
+
+#### Delete Employee
+- **DELETE** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/{relatedKey}`
+  - Description: Delete an existing Employee for a specific CashStockOrder.
+
+#### Delete Employee
+- **DELETE** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee`
+  - Description: Delete all existing Employees for a specific CashStockOrder.
 
 ## Related Entities
 

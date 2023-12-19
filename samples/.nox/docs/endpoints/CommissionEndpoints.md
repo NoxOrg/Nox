@@ -58,6 +58,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Commissions/{key}/CommissionFeesForCountry/$ref`
   - Description: Delete all existing Countries relations for a specific Commission.
 
+#### Get Country
+- **GET** `/api/Commissions/{key}/CommissionFeesForCountry`
+  - Description: Retrieve all existing Countries for a specific Commission.
+  
+#### Create Country
+- **POST** `/api/Commissions/{key}/CommissionFeesForCountry/{relatedKey}`
+  - Description: Create a new Country for a specific Commission.
+  
+#### Update Country
+- **PUT** `/api/Commissions/{key}/CommissionFeesForCountry/{relatedKey}`
+  - Description: Updates an existing Country for a specific Commission.
+- **PUT** `/api/Commissions/{key}/CommissionFeesForCountry`
+  - Description: Updates the Country for a specific Commission.
+
+#### Delete Country
+- **DELETE** `/api/Commissions/{key}/CommissionFeesForCountry/{relatedKey}`
+  - Description: Delete an existing Country for a specific Commission.
+
+#### Delete Country
+- **DELETE** `/api/Commissions/{key}/CommissionFeesForCountry`
+  - Description: Delete all existing Countries for a specific Commission.
+
 ### Booking
 
 #### Get Booking relations
@@ -81,6 +103,28 @@ This document provides information about the various endpoints available in our 
 #### Delete Booking relations
 - **DELETE** `/api/Commissions/{key}/CommissionFeesForBooking/$ref`
   - Description: Delete all existing Bookings relations for a specific Commission.
+
+#### Get Booking
+- **GET** `/api/Commissions/{key}/CommissionFeesForBooking`
+  - Description: Retrieve all existing Bookings for a specific Commission.
+  
+#### Create Booking
+- **POST** `/api/Commissions/{key}/CommissionFeesForBooking/{relatedKey}`
+  - Description: Create a new Booking for a specific Commission.
+  
+#### Update Booking
+- **PUT** `/api/Commissions/{key}/CommissionFeesForBooking/{relatedKey}`
+  - Description: Updates an existing Booking for a specific Commission.
+- **PUT** `/api/Commissions/{key}/CommissionFeesForBooking`
+  - Description: Updates the Booking for a specific Commission.
+
+#### Delete Booking
+- **DELETE** `/api/Commissions/{key}/CommissionFeesForBooking/{relatedKey}`
+  - Description: Delete an existing Booking for a specific Commission.
+
+#### Delete Booking
+- **DELETE** `/api/Commissions/{key}/CommissionFeesForBooking`
+  - Description: Delete all existing Bookings for a specific Commission.
 
 ## Related Entities
 

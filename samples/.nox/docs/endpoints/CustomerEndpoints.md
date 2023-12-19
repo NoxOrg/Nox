@@ -58,6 +58,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Customers/{key}/CustomerRelatedPaymentDetails/$ref`
   - Description: Delete all existing PaymentDetails relations for a specific Customer.
 
+#### Get PaymentDetail
+- **GET** `/api/Customers/{key}/CustomerRelatedPaymentDetails`
+  - Description: Retrieve all existing PaymentDetails for a specific Customer.
+  
+#### Create PaymentDetail
+- **POST** `/api/Customers/{key}/CustomerRelatedPaymentDetails/{relatedKey}`
+  - Description: Create a new PaymentDetail for a specific Customer.
+  
+#### Update PaymentDetail
+- **PUT** `/api/Customers/{key}/CustomerRelatedPaymentDetails/{relatedKey}`
+  - Description: Updates an existing PaymentDetail for a specific Customer.
+- **PUT** `/api/Customers/{key}/CustomerRelatedPaymentDetails`
+  - Description: Updates the PaymentDetail for a specific Customer.
+
+#### Delete PaymentDetail
+- **DELETE** `/api/Customers/{key}/CustomerRelatedPaymentDetails/{relatedKey}`
+  - Description: Delete an existing PaymentDetail for a specific Customer.
+
+#### Delete PaymentDetail
+- **DELETE** `/api/Customers/{key}/CustomerRelatedPaymentDetails`
+  - Description: Delete all existing PaymentDetails for a specific Customer.
+
 ### Booking
 
 #### Get Booking relations
@@ -81,6 +103,28 @@ This document provides information about the various endpoints available in our 
 #### Delete Booking relations
 - **DELETE** `/api/Customers/{key}/CustomerRelatedBookings/$ref`
   - Description: Delete all existing Bookings relations for a specific Customer.
+
+#### Get Booking
+- **GET** `/api/Customers/{key}/CustomerRelatedBookings`
+  - Description: Retrieve all existing Bookings for a specific Customer.
+  
+#### Create Booking
+- **POST** `/api/Customers/{key}/CustomerRelatedBookings/{relatedKey}`
+  - Description: Create a new Booking for a specific Customer.
+  
+#### Update Booking
+- **PUT** `/api/Customers/{key}/CustomerRelatedBookings/{relatedKey}`
+  - Description: Updates an existing Booking for a specific Customer.
+- **PUT** `/api/Customers/{key}/CustomerRelatedBookings`
+  - Description: Updates the Booking for a specific Customer.
+
+#### Delete Booking
+- **DELETE** `/api/Customers/{key}/CustomerRelatedBookings/{relatedKey}`
+  - Description: Delete an existing Booking for a specific Customer.
+
+#### Delete Booking
+- **DELETE** `/api/Customers/{key}/CustomerRelatedBookings`
+  - Description: Delete all existing Bookings for a specific Customer.
 
 ### Transaction
 
@@ -106,6 +150,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Customers/{key}/CustomerRelatedTransactions/$ref`
   - Description: Delete all existing Transactions relations for a specific Customer.
 
+#### Get Transaction
+- **GET** `/api/Customers/{key}/CustomerRelatedTransactions`
+  - Description: Retrieve all existing Transactions for a specific Customer.
+  
+#### Create Transaction
+- **POST** `/api/Customers/{key}/CustomerRelatedTransactions/{relatedKey}`
+  - Description: Create a new Transaction for a specific Customer.
+  
+#### Update Transaction
+- **PUT** `/api/Customers/{key}/CustomerRelatedTransactions/{relatedKey}`
+  - Description: Updates an existing Transaction for a specific Customer.
+- **PUT** `/api/Customers/{key}/CustomerRelatedTransactions`
+  - Description: Updates the Transaction for a specific Customer.
+
+#### Delete Transaction
+- **DELETE** `/api/Customers/{key}/CustomerRelatedTransactions/{relatedKey}`
+  - Description: Delete an existing Transaction for a specific Customer.
+
+#### Delete Transaction
+- **DELETE** `/api/Customers/{key}/CustomerRelatedTransactions`
+  - Description: Delete all existing Transactions for a specific Customer.
+
 ### Country
 
 #### Get Country relations
@@ -129,6 +195,28 @@ This document provides information about the various endpoints available in our 
 #### Delete Country relations
 - **DELETE** `/api/Customers/{key}/CustomerBaseCountry/$ref`
   - Description: Delete all existing Countries relations for a specific Customer.
+
+#### Get Country
+- **GET** `/api/Customers/{key}/CustomerBaseCountry`
+  - Description: Retrieve all existing Countries for a specific Customer.
+  
+#### Create Country
+- **POST** `/api/Customers/{key}/CustomerBaseCountry/{relatedKey}`
+  - Description: Create a new Country for a specific Customer.
+  
+#### Update Country
+- **PUT** `/api/Customers/{key}/CustomerBaseCountry/{relatedKey}`
+  - Description: Updates an existing Country for a specific Customer.
+- **PUT** `/api/Customers/{key}/CustomerBaseCountry`
+  - Description: Updates the Country for a specific Customer.
+
+#### Delete Country
+- **DELETE** `/api/Customers/{key}/CustomerBaseCountry/{relatedKey}`
+  - Description: Delete an existing Country for a specific Customer.
+
+#### Delete Country
+- **DELETE** `/api/Customers/{key}/CustomerBaseCountry`
+  - Description: Delete all existing Countries for a specific Customer.
 
 ## Related Entities
 
