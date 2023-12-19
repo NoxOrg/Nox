@@ -1,5 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -8,6 +7,7 @@
     <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
     <IsPackable>false</IsPackable>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <RestoreAdditionalProjectSources>../../src/nuget</RestoreAdditionalProjectSources>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,10 +17,10 @@
     <PackageReference Include="Microsoft.Identity.Web" Version="2.15.5" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.15.5" />
     <PackageReference Include="MudBlazor" Version="6.11.1" />
+    <PackageReference Include="Nox.Generator.Tasks" Version="1.0.0.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Nox.Generator.Tasks\Nox.Generator.Tasks.csproj" />
     <ProjectReference Include="..\..\src\Nox.Ui.Blazor.Lib\Nox.Ui.Blazor.Lib.csproj" />
     <ProjectReference Include="..\Cryptocash.Api\Cryptocash.Api.csproj" />
   </ItemGroup>
@@ -37,5 +37,5 @@
   <ItemGroup>
     <Folder Include="Nox.Generated\" />
   </ItemGroup>
-  
+ 
 </Project>
