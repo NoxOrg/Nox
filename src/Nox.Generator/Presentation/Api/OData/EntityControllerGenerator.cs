@@ -65,6 +65,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine("using Nox.Application;");
             code.AppendLine("using Nox.Application.Dto;");
             code.AppendLine("using Nox.Extensions;");
+            code.AppendLine("using Nox.Exceptions;");
 
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
@@ -215,9 +216,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"var child = await TryGet{navigationName}(" +
             $"{GetPrimaryKeysQuery(parent)}, " +
             $"new {child.Name}KeyDto({GetPrimaryKeysQuery(child, "relatedKey")}));");
-        code.AppendLine($"if (child == null)");
+        code.AppendLine($"if (child is null)");
         code.StartBlock();
-        code.AppendLine($"return NotFound();");
+        code.AppendLine($"throw new EntityNotFoundException(\"{child.Name}\", $\"{GetPrimaryKeysToString(child, "relatedKey")}\");");
         code.EndBlock();
         code.AppendLine();
         code.AppendLine($"return Ok(child);");
@@ -248,7 +249,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
         code.AppendLine($"if (item is null)");
         code.StartBlock();
-        code.AppendLine($"return NotFound();");
+        code.AppendLine($"throw new EntityNotFoundException(\"{parent.Name}\", $\"{GetPrimaryKeysToString(parent)}\");");
         code.EndBlock();
         code.AppendLine();
 
@@ -318,11 +319,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                 $".{navigationName};");
         else
             code.AppendLine($"var child = await TryGet{navigationName}({GetPrimaryKeysQuery(parent)}, updatedKey);");
-
-        code.AppendLine($"if (child == null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
         code.AppendLine($"return Ok(child);");
 
@@ -599,7 +595,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             $".Include(x => x.{navigationName}).SingleOrDefault();");
         code.AppendLine($"if (entity is null)");
         code.StartBlock();
-        code.AppendLine($"return NotFound();");
+        code.AppendLine($"throw new EntityNotFoundException(\"{entity.Name}\", $\"{GetPrimaryKeysToString(entity)}\");");
         code.EndBlock();
         code.AppendLine();
 
@@ -656,7 +652,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine($"var query = await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)}));");
             code.AppendLine($"if (!query.Any())");
             code.StartBlock();
-            code.AppendLine($"return NotFound();");
+            code.AppendLine($"throw new EntityNotFoundException(\"{entity.Name}\", $\"{GetPrimaryKeysToString(entity)}\");");
             code.EndBlock();
             code.AppendLine($"return Ok(query.Include(x => x.{navigationName}).SelectMany(x => x.{navigationName}));");
         }
@@ -762,6 +758,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
                 $".Select(x => x.{navigationName}).SingleOrDefault();");
             code.AppendLine($"if (related == null)");
+            code.StartBlock();
+            code.AppendLine($"throw new EntityNotFoundException(\"{navigationName}\", String.Empty);");
+            code.EndBlock();
         }
         else
         {
@@ -769,10 +768,10 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
                 $".SelectMany(x => x.{navigationName}).Any(x => {param});");
             code.AppendLine($"if (!related)");
+            code.StartBlock();
+            code.AppendLine($"throw new EntityNotFoundException(\"{navigationName}\", $\"{GetPrimaryKeysToString(relatedEntity, "relatedKey")}\");");
+            code.EndBlock();
         }
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
         code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
         var relatedKeyQuery = isSingleRelationship ?
@@ -780,10 +779,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             $"{GetPrimaryKeysQuery(relatedEntity, "relatedKey")}";
         code.AppendLine($"var updated = await _mediator.Send(new Update{relatedEntity.Name}Command({relatedKeyQuery}, " +
             $"{relatedEntity.Name.ToLowerFirstChar()}, _cultureCode, etag));");
-        code.AppendLine($"if (updated == null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
         code.AppendLine($"var updatedItem = (await _mediator.Send(new Get{relatedEntity.Name}ByIdQuery(updated.key{relatedEntity.Keys[0].Name}))).SingleOrDefault();");
         code.AppendLine();
@@ -818,7 +813,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             $".Any(x => {param});");
         code.AppendLine($"if (!related)");
         code.StartBlock();
-        code.AppendLine($"return NotFound();");
+        code.AppendLine($"throw new EntityNotFoundException(\"{navigationName}\", $\"{GetPrimaryKeysToString(relatedEntity, "relatedKey")}\");");
         code.EndBlock();
         code.AppendLine();
         var relatedKeyQuery = $"{GetPrimaryKeysQuery(relatedEntity, "relatedKey")}";
@@ -852,15 +847,11 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.EndBlock();
         code.AppendLine();
 
-        if (relationship.WithSingleEntity)
-            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
-                $".Select(x => x.{navigationName}).SingleOrDefault();");
-        else
-            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
-                $".Select(x => x.{navigationName}).SingleOrDefault();");
+        code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
+            $".Select(x => x.{navigationName}).SingleOrDefault();");
         code.AppendLine($"if (related == null)");
         code.StartBlock();
-        code.AppendLine($"return NotFound();");
+        code.AppendLine($"throw new EntityNotFoundException(\"{entity.Name}\", $\"{GetPrimaryKeysToString(entity)}\");");
         code.EndBlock();
         code.AppendLine();
 

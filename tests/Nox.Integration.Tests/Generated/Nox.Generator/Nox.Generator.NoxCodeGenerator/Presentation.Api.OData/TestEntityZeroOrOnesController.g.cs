@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -46,7 +47,7 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         var entity = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Include(x => x.SecondTestEntityZeroOrOne).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityZeroOrOne", $"{key.ToString()}");
         }
         
         if (entity.SecondTestEntityZeroOrOne is null)
@@ -117,15 +118,11 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Select(x => x.SecondTestEntityZeroOrOne).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("SecondTestEntityZeroOrOne", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateSecondTestEntityZeroOrOneCommand(related.Id, secondTestEntityZeroOrOne, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -143,7 +140,7 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Select(x => x.SecondTestEntityZeroOrOne).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityZeroOrOne", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();

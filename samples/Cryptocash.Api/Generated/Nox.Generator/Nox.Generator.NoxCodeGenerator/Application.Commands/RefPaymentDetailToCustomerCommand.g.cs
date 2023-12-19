@@ -164,10 +164,6 @@ internal abstract class RefPaymentDetailToCustomerCommandHandlerBase<TRequest> :
 		await OnCompletedAsync(request, entity);
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 		return true;
 	}
 }

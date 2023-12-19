@@ -99,11 +99,6 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateStoreOwnerCommand(key, storeOwner, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
-
         var item = (await _mediator.Send(new GetStoreOwnerByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -134,11 +129,6 @@ public abstract partial class StoreOwnersControllerBase : ODataController
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteStoreOwnerByIdCommand(new List<StoreOwnerKeyDto> { new StoreOwnerKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            return NotFound();
-        }
 
         return NoContent();
     }

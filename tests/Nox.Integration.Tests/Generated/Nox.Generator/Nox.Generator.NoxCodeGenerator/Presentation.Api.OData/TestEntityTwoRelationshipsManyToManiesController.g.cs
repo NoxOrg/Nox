@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -60,7 +61,7 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         var entity = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).Include(x => x.TestRelationshipOne).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityTwoRelationshipsManyToMany", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -104,7 +105,7 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         var query = await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityTwoRelationshipsManyToMany", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.TestRelationshipOne).SelectMany(x => x.TestRelationshipOne));
     }
@@ -132,15 +133,11 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipOne).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestRelationshipOne", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateSecondTestEntityTwoRelationshipsManyToManyCommand(relatedKey, secondTestEntityTwoRelationshipsManyToMany, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsManyToManyByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -158,7 +155,7 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipOne).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestRelationshipOne", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -198,7 +195,7 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         var entity = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).Include(x => x.TestRelationshipTwo).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityTwoRelationshipsManyToMany", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -242,7 +239,7 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         var query = await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityTwoRelationshipsManyToMany", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.TestRelationshipTwo).SelectMany(x => x.TestRelationshipTwo));
     }
@@ -270,15 +267,11 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipTwo).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestRelationshipTwo", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateSecondTestEntityTwoRelationshipsManyToManyCommand(relatedKey, secondTestEntityTwoRelationshipsManyToMany, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsManyToManyByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -296,7 +289,7 @@ public abstract partial class TestEntityTwoRelationshipsManyToManiesControllerBa
         var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipTwo).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestRelationshipTwo", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();

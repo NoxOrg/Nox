@@ -111,11 +111,6 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ primaryKeysQuery }}, {{ToLowerFirstChar entity.Name}}, _cultureCode));
         {{- end}}
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
-
         var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
         return Ok(item);
@@ -154,11 +149,6 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         {{- else }}
         var result = await _mediator.Send(new Delete{{entity.Name}}ByIdCommand(new List<{{entity.Name}}KeyDto> { new {{entity.Name}}KeyDto({{ primaryKeysQuery }}) }));
         {{- end }}
-
-        if (!result)
-        {
-            return NotFound();
-        }
 
         return NoContent();
     }

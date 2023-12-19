@@ -99,11 +99,6 @@ public abstract partial class ClientsControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateClientCommand(key, client, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
-
         var item = (await _mediator.Send(new GetClientByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -134,11 +129,6 @@ public abstract partial class ClientsControllerBase : ODataController
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteClientByIdCommand(new List<ClientKeyDto> { new ClientKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            return NotFound();
-        }
 
         return NoContent();
     }

@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -60,7 +61,7 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
         var entity = (await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(key))).Include(x => x.ThirdTestEntityZeroOrManies).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("ThirdTestEntityOneOrMany", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -104,7 +105,7 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
         var query = await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("ThirdTestEntityOneOrMany", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.ThirdTestEntityZeroOrManies).SelectMany(x => x.ThirdTestEntityZeroOrManies));
     }
@@ -132,15 +133,11 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
         var related = (await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(key))).SelectMany(x => x.ThirdTestEntityZeroOrManies).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("ThirdTestEntityZeroOrManies", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateThirdTestEntityZeroOrManyCommand(relatedKey, thirdTestEntityZeroOrMany, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetThirdTestEntityZeroOrManyByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -158,7 +155,7 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
         var related = (await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(key))).SelectMany(x => x.ThirdTestEntityZeroOrManies).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("ThirdTestEntityZeroOrManies", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();

@@ -77,10 +77,6 @@ internal partial class UpdateTenantContactForTenantCommandHandlerBase : CommandB
 
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new TenantContactKeyDto();
 	}

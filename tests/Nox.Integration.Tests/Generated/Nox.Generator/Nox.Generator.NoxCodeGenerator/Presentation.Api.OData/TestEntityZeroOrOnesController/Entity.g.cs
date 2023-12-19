@@ -99,11 +99,6 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateTestEntityZeroOrOneCommand(key, testEntityZeroOrOne, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
-
         var item = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -134,11 +129,6 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteTestEntityZeroOrOneByIdCommand(new List<TestEntityZeroOrOneKeyDto> { new TestEntityZeroOrOneKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            return NotFound();
-        }
 
         return NoContent();
     }

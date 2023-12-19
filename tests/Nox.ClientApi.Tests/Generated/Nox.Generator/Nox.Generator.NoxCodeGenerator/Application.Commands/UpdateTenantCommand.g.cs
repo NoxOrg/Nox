@@ -77,10 +77,6 @@ internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenan
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new TenantKeyDto(entity.Id.Value);
 	}

@@ -67,10 +67,6 @@ internal abstract class UpdateRatingProgramCommandHandlerBase : CommandBase<Upda
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new RatingProgramKeyDto(entity.StoreId.Value, entity.Id.Value);
 	}

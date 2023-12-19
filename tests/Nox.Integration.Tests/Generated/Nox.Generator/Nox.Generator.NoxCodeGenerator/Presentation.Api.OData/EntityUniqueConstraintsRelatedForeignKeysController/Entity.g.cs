@@ -99,11 +99,6 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateEntityUniqueConstraintsRelatedForeignKeyCommand(key, entityUniqueConstraintsRelatedForeignKey, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
-
         var item = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -134,11 +129,6 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteEntityUniqueConstraintsRelatedForeignKeyByIdCommand(new List<EntityUniqueConstraintsRelatedForeignKeyKeyDto> { new EntityUniqueConstraintsRelatedForeignKeyKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            return NotFound();
-        }
 
         return NoContent();
     }

@@ -66,10 +66,6 @@ internal abstract class UpdateClientCommandHandlerBase : CommandBase<UpdateClien
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new ClientKeyDto(entity.Id.Value);
 	}

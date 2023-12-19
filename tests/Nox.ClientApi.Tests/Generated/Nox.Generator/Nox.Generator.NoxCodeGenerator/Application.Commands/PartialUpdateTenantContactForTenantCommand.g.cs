@@ -74,10 +74,6 @@ internal abstract class PartialUpdateTenantContactForTenantCommandHandlerBase: C
 		_dbContext.Entry(entity).State = EntityState.Modified;
 		await PartiallyUpdateLocalizedEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new TenantContactKeyDto();
 	}

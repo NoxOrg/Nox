@@ -68,10 +68,6 @@ internal abstract class PartialUpdateBankNotesForCurrencyCommandHandlerBase: Com
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new BankNoteKeyDto(entity.Id.Value);
 	}

@@ -99,11 +99,6 @@ public abstract partial class ReferenceNumberEntitiesControllerBase : ODataContr
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateReferenceNumberEntityCommand(key, referenceNumberEntity, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
-
         var item = (await _mediator.Send(new GetReferenceNumberEntityByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -134,11 +129,6 @@ public abstract partial class ReferenceNumberEntitiesControllerBase : ODataContr
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteReferenceNumberEntityByIdCommand(new List<ReferenceNumberEntityKeyDto> { new ReferenceNumberEntityKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            return NotFound();
-        }
 
         return NoContent();
     }

@@ -66,10 +66,6 @@ internal abstract class UpdateSecondTestEntityZeroOrManyCommandHandlerBase : Com
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new SecondTestEntityZeroOrManyKeyDto(entity.Id.Value);
 	}

@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -46,7 +47,7 @@ public abstract partial class TransactionsControllerBase : ODataController
         var entity = (await _mediator.Send(new GetTransactionByIdQuery(key))).Include(x => x.Customer).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Transaction", $"{key.ToString()}");
         }
         
         if (entity.Customer is null)
@@ -93,15 +94,11 @@ public abstract partial class TransactionsControllerBase : ODataController
         var related = (await _mediator.Send(new GetTransactionByIdQuery(key))).Select(x => x.Customer).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Customer", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCustomerCommand(related.Id, customer, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetCustomerByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -125,7 +122,7 @@ public abstract partial class TransactionsControllerBase : ODataController
         var entity = (await _mediator.Send(new GetTransactionByIdQuery(key))).Include(x => x.Booking).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Transaction", $"{key.ToString()}");
         }
         
         if (entity.Booking is null)
@@ -172,15 +169,11 @@ public abstract partial class TransactionsControllerBase : ODataController
         var related = (await _mediator.Send(new GetTransactionByIdQuery(key))).Select(x => x.Booking).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Booking", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateBookingCommand(related.Id, booking, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetBookingByIdQuery(updated.keyId))).SingleOrDefault();
         

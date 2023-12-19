@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -46,7 +47,7 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
         var entity = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(key))).Include(x => x.SecondTestEntityExactlyOne).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityExactlyOne", $"{key.ToString()}");
         }
         
         if (entity.SecondTestEntityExactlyOne is null)
@@ -93,15 +94,11 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
         var related = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(key))).Select(x => x.SecondTestEntityExactlyOne).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("SecondTestEntityExactlyOne", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateSecondTestEntityExactlyOneCommand(related.Id, secondTestEntityExactlyOne, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(updated.keyId))).SingleOrDefault();
         

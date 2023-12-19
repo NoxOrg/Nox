@@ -82,10 +82,6 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new ExchangeRateKeyDto(entity.Id.Value);
 	}

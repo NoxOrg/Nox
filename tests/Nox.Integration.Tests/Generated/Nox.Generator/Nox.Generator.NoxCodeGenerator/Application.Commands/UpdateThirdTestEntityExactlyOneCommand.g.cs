@@ -66,10 +66,6 @@ internal abstract class UpdateThirdTestEntityExactlyOneCommandHandlerBase : Comm
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new ThirdTestEntityExactlyOneKeyDto(entity.Id.Value);
 	}

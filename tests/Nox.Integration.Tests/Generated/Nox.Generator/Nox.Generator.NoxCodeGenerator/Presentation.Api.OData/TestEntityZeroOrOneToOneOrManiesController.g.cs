@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -46,7 +47,7 @@ public abstract partial class TestEntityZeroOrOneToOneOrManiesControllerBase : O
         var entity = (await _mediator.Send(new GetTestEntityZeroOrOneToOneOrManyByIdQuery(key))).Include(x => x.TestEntityOneOrManyToZeroOrOne).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityZeroOrOneToOneOrMany", $"{key.ToString()}");
         }
         
         if (entity.TestEntityOneOrManyToZeroOrOne is null)
@@ -117,15 +118,11 @@ public abstract partial class TestEntityZeroOrOneToOneOrManiesControllerBase : O
         var related = (await _mediator.Send(new GetTestEntityZeroOrOneToOneOrManyByIdQuery(key))).Select(x => x.TestEntityOneOrManyToZeroOrOne).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityOneOrManyToZeroOrOne", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateTestEntityOneOrManyToZeroOrOneCommand(related.Id, testEntityOneOrManyToZeroOrOne, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetTestEntityOneOrManyToZeroOrOneByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -143,7 +140,7 @@ public abstract partial class TestEntityZeroOrOneToOneOrManiesControllerBase : O
         var related = (await _mediator.Send(new GetTestEntityZeroOrOneToOneOrManyByIdQuery(key))).Select(x => x.TestEntityOneOrManyToZeroOrOne).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityZeroOrOneToOneOrMany", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();

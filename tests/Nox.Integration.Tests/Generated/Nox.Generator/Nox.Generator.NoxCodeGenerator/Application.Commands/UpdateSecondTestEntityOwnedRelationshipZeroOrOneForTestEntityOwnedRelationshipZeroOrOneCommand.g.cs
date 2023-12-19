@@ -72,10 +72,6 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEn
 
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new SecondTestEntityOwnedRelationshipZeroOrOneKeyDto();
 	}

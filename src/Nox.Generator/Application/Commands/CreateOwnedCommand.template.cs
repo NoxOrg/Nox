@@ -87,10 +87,6 @@ internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandl
 		{{- end }}
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}

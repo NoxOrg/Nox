@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -40,7 +41,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         
         if (item is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
         }
         
         return Ok(item.BankNotes);
@@ -55,10 +56,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetBankNotes(key, new BankNoteKeyDto(relatedKey));
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -88,10 +85,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var updatedKey = await _mediator.Send(new UpdateBankNotesForCurrencyCommand(new CurrencyKeyDto(key), bankNote, _cultureCode, etag));
         
         var child = await TryGetBankNotes(key, updatedKey);
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -154,7 +147,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         
         if (item is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
         }
         
         return Ok(item.ExchangeRates);
@@ -169,10 +162,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetExchangeRates(key, new ExchangeRateKeyDto(relatedKey));
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -202,10 +191,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var updatedKey = await _mediator.Send(new UpdateExchangeRatesForCurrencyCommand(new CurrencyKeyDto(key), exchangeRate, _cultureCode, etag));
         
         var child = await TryGetExchangeRates(key, updatedKey);
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -293,7 +278,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var entity = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Include(x => x.Countries).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -337,7 +322,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var query = await _mediator.Send(new GetCurrencyByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.Countries).SelectMany(x => x.Countries));
     }
@@ -365,15 +350,11 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.Countries).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Countries", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCountryCommand(relatedKey, country, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -391,7 +372,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.Countries).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Countries", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -431,7 +412,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var entity = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Include(x => x.MinimumCashStocks).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -487,7 +468,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var query = await _mediator.Send(new GetCurrencyByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.MinimumCashStocks).SelectMany(x => x.MinimumCashStocks));
     }
@@ -515,15 +496,11 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStocks", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateMinimumCashStockCommand(relatedKey, minimumCashStock, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetMinimumCashStockByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -541,7 +518,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStocks", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -561,7 +538,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Select(x => x.MinimumCashStocks).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();

@@ -64,10 +64,6 @@ internal partial class DeleteSecondTestEntityOwnedRelationshipZeroOrOneForTestEn
 		DbContext.Entry(entity).State = EntityState.Deleted;
 
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return true;
 	}

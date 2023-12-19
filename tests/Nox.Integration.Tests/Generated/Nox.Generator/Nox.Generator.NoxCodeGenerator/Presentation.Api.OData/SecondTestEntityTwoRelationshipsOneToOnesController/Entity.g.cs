@@ -99,11 +99,6 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateSecondTestEntityTwoRelationshipsOneToOneCommand(key, secondTestEntityTwoRelationshipsOneToOne, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
-
         var item = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -134,11 +129,6 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteSecondTestEntityTwoRelationshipsOneToOneByIdCommand(new List<SecondTestEntityTwoRelationshipsOneToOneKeyDto> { new SecondTestEntityTwoRelationshipsOneToOneKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            return NotFound();
-        }
 
         return NoContent();
     }

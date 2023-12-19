@@ -82,10 +82,6 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<
 
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new HolidayKeyDto(entity.Id.Value);
 	}

@@ -66,10 +66,6 @@ internal abstract class CreateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelat
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new SecEntityOwnedRelExactlyOneKeyDto();
 	}

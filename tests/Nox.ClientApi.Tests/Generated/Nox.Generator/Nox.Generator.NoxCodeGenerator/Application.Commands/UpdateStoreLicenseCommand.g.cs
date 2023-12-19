@@ -66,10 +66,6 @@ internal abstract class UpdateStoreLicenseCommandHandlerBase : CommandBase<Updat
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new StoreLicenseKeyDto(entity.Id.Value);
 	}

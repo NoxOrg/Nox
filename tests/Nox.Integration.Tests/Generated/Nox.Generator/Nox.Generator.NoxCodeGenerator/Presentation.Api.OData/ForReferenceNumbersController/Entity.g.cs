@@ -99,11 +99,6 @@ public abstract partial class ForReferenceNumbersControllerBase : ODataControlle
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateForReferenceNumberCommand(key, forReferenceNumber, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
-
         var item = (await _mediator.Send(new GetForReferenceNumberByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -134,11 +129,6 @@ public abstract partial class ForReferenceNumbersControllerBase : ODataControlle
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteForReferenceNumberByIdCommand(new List<ForReferenceNumberKeyDto> { new ForReferenceNumberKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            return NotFound();
-        }
 
         return NoContent();
     }

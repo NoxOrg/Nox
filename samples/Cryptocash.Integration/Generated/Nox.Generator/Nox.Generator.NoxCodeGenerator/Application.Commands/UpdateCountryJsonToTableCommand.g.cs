@@ -66,10 +66,6 @@ internal abstract class UpdateCountryJsonToTableCommandHandlerBase : CommandBase
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new CountryJsonToTableKeyDto(entity.Id.Value);
 	}

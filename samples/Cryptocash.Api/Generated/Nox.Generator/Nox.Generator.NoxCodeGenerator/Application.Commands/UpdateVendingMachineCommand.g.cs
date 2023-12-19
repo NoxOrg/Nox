@@ -66,10 +66,6 @@ internal abstract class UpdateVendingMachineCommandHandlerBase : CommandBase<Upd
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new VendingMachineKeyDto(entity.Id.Value);
 	}

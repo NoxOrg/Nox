@@ -72,10 +72,6 @@ internal abstract class CreateTenantBrandsForTenantCommandHandlerBase : CommandB
 		_dbContext.TenantBrandsLocalized.Add(entityLocalized);
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new TenantBrandKeyDto(entity.Id.Value);
 	}

@@ -68,10 +68,6 @@ internal abstract class PartialUpdateEmployeePhoneNumbersForEmployeeCommandHandl
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new EmployeePhoneNumberKeyDto(entity.Id.Value);
 	}

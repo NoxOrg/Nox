@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -60,7 +61,7 @@ public abstract partial class TestEntityZeroOrManiesControllerBase : ODataContro
         var entity = (await _mediator.Send(new GetTestEntityZeroOrManyByIdQuery(key))).Include(x => x.SecondTestEntityZeroOrManies).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityZeroOrMany", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -116,7 +117,7 @@ public abstract partial class TestEntityZeroOrManiesControllerBase : ODataContro
         var query = await _mediator.Send(new GetTestEntityZeroOrManyByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityZeroOrMany", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.SecondTestEntityZeroOrManies).SelectMany(x => x.SecondTestEntityZeroOrManies));
     }
@@ -144,15 +145,11 @@ public abstract partial class TestEntityZeroOrManiesControllerBase : ODataContro
         var related = (await _mediator.Send(new GetTestEntityZeroOrManyByIdQuery(key))).SelectMany(x => x.SecondTestEntityZeroOrManies).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("SecondTestEntityZeroOrManies", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateSecondTestEntityZeroOrManyCommand(relatedKey, secondTestEntityZeroOrMany, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetSecondTestEntityZeroOrManyByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -170,7 +167,7 @@ public abstract partial class TestEntityZeroOrManiesControllerBase : ODataContro
         var related = (await _mediator.Send(new GetTestEntityZeroOrManyByIdQuery(key))).SelectMany(x => x.SecondTestEntityZeroOrManies).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("SecondTestEntityZeroOrManies", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -190,7 +187,7 @@ public abstract partial class TestEntityZeroOrManiesControllerBase : ODataContro
         var related = (await _mediator.Send(new GetTestEntityZeroOrManyByIdQuery(key))).Select(x => x.SecondTestEntityZeroOrManies).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityZeroOrMany", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();

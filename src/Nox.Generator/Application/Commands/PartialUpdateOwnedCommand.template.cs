@@ -101,10 +101,6 @@ internal abstract class PartialUpdate{{relationshipName}}For{{parent.Name}}Comma
 		await PartiallyUpdateLocalizedEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		{{- end }}
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}

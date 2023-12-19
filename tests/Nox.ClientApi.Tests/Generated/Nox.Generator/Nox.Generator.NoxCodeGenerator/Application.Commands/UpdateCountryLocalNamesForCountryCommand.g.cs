@@ -82,10 +82,6 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new CountryLocalNameKeyDto(entity.Id.Value);
 	}

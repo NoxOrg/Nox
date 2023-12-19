@@ -87,10 +87,6 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBa
 
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new TenantBrandKeyDto(entity.Id.Value);
 	}

@@ -99,11 +99,6 @@ public abstract partial class SecondTestEntityExactlyOnesControllerBase : ODataC
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateSecondTestEntityExactlyOneCommand(key, secondTestEntityExactlyOne, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
-
         var item = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -134,11 +129,6 @@ public abstract partial class SecondTestEntityExactlyOnesControllerBase : ODataC
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteSecondTestEntityExactlyOneByIdCommand(new List<SecondTestEntityExactlyOneKeyDto> { new SecondTestEntityExactlyOneKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            return NotFound();
-        }
 
         return NoContent();
     }

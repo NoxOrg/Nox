@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -46,7 +47,7 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         var entity = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Include(x => x.VendingMachine).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("CashStockOrder", $"{key.ToString()}");
         }
         
         if (entity.VendingMachine is null)
@@ -93,15 +94,11 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.VendingMachine).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachine", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateVendingMachineCommand(related.Id, vendingMachine, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -125,7 +122,7 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         var entity = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Include(x => x.Employee).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("CashStockOrder", $"{key.ToString()}");
         }
         
         if (entity.Employee is null)
@@ -172,15 +169,11 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.Employee).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Employee", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateEmployeeCommand(related.Id, employee, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetEmployeeByIdQuery(updated.keyId))).SingleOrDefault();
         

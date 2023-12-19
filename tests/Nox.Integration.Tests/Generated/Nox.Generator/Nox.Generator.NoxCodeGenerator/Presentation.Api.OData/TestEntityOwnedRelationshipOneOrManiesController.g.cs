@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -40,7 +41,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
         
         if (item is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityOwnedRelationshipOneOrMany", $"{key.ToString()}");
         }
         
         return Ok(item.SecEntityOwnedRelOneOrManies);
@@ -55,10 +56,6 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetSecEntityOwnedRelOneOrManies(key, new SecEntityOwnedRelOneOrManyKeyDto(relatedKey));
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -88,10 +85,6 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
         var updatedKey = await _mediator.Send(new UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand(new TestEntityOwnedRelationshipOneOrManyKeyDto(key), secEntityOwnedRelOneOrMany, _cultureCode, etag));
         
         var child = await TryGetSecEntityOwnedRelOneOrManies(key, updatedKey);
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }

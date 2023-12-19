@@ -72,10 +72,6 @@ internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : Comman
 
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new CountryBarCodeKeyDto();
 	}

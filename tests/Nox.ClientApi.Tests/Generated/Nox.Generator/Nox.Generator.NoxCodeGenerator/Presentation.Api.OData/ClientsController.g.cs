@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
 using ClientApi.Application.Queries;
@@ -60,7 +61,7 @@ public abstract partial class ClientsControllerBase : ODataController
         var entity = (await _mediator.Send(new GetClientByIdQuery(key))).Include(x => x.Stores).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Client", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -116,7 +117,7 @@ public abstract partial class ClientsControllerBase : ODataController
         var query = await _mediator.Send(new GetClientByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("Client", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.Stores).SelectMany(x => x.Stores));
     }
@@ -144,15 +145,11 @@ public abstract partial class ClientsControllerBase : ODataController
         var related = (await _mediator.Send(new GetClientByIdQuery(key))).SelectMany(x => x.Stores).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Stores", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateStoreCommand(relatedKey, store, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetStoreByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -170,7 +167,7 @@ public abstract partial class ClientsControllerBase : ODataController
         var related = (await _mediator.Send(new GetClientByIdQuery(key))).SelectMany(x => x.Stores).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Stores", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -190,7 +187,7 @@ public abstract partial class ClientsControllerBase : ODataController
         var related = (await _mediator.Send(new GetClientByIdQuery(key))).Select(x => x.Stores).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Client", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();

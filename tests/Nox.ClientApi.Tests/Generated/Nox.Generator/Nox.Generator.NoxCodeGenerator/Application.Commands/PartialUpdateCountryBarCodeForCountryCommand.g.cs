@@ -69,10 +69,6 @@ internal abstract class PartialUpdateCountryBarCodeForCountryCommandHandlerBase:
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new CountryBarCodeKeyDto();
 	}

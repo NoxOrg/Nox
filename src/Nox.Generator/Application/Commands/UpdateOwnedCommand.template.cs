@@ -121,10 +121,6 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}

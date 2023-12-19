@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -60,7 +61,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         var entity = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Include(x => x.VendingMachines).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStock", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -116,7 +117,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         var query = await _mediator.Send(new GetMinimumCashStockByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStock", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.VendingMachines).SelectMany(x => x.VendingMachines));
     }
@@ -144,15 +145,11 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachines", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateVendingMachineCommand(relatedKey, vendingMachine, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -170,7 +167,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachines", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -190,7 +187,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStock", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -215,7 +212,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         var entity = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Include(x => x.Currency).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStock", $"{key.ToString()}");
         }
         
         if (entity.Currency is null)
@@ -262,15 +259,11 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Select(x => x.Currency).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Currency", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCurrencyCommand(related.Id, currency, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId))).SingleOrDefault();
         

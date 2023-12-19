@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -60,7 +61,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
         var entity = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key))).Include(x => x.EntityUniqueConstraintsWithForeignKeys).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("EntityUniqueConstraintsRelatedForeignKey", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -116,7 +117,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
         var query = await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("EntityUniqueConstraintsRelatedForeignKey", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.EntityUniqueConstraintsWithForeignKeys).SelectMany(x => x.EntityUniqueConstraintsWithForeignKeys));
     }
@@ -144,15 +145,11 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
         var related = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key))).SelectMany(x => x.EntityUniqueConstraintsWithForeignKeys).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKeys", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateEntityUniqueConstraintsWithForeignKeyCommand(relatedKey, entityUniqueConstraintsWithForeignKey, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -170,7 +167,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
         var related = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key))).SelectMany(x => x.EntityUniqueConstraintsWithForeignKeys).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKeys", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -190,7 +187,7 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
         var related = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key))).Select(x => x.EntityUniqueConstraintsWithForeignKeys).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("EntityUniqueConstraintsRelatedForeignKey", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();

@@ -99,11 +99,6 @@ public abstract partial class RatingProgramsControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateRatingProgramCommand(keyStoreId, keyId, ratingProgram, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            return NotFound();
-        }
-
         var item = (await _mediator.Send(new GetRatingProgramByIdQuery(updatedKey.keyStoreId, updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -134,11 +129,6 @@ public abstract partial class RatingProgramsControllerBase : ODataController
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteRatingProgramByIdCommand(new List<RatingProgramKeyDto> { new RatingProgramKeyDto(keyStoreId, keyId) }, etag));
-
-        if (!result)
-        {
-            return NotFound();
-        }
 
         return NoContent();
     }

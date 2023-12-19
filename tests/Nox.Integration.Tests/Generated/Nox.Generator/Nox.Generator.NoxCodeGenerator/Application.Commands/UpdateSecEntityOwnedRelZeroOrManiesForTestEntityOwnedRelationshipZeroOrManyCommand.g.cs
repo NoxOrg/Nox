@@ -82,10 +82,6 @@ internal partial class UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRela
 
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new SecEntityOwnedRelZeroOrManyKeyDto(entity.Id.Value);
 	}

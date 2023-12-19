@@ -72,10 +72,6 @@ internal abstract class CreateTenantContactForTenantCommandHandlerBase : Command
 		_dbContext.TenantContactsLocalized.Add(entityLocalized);
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new TenantContactKeyDto();
 	}

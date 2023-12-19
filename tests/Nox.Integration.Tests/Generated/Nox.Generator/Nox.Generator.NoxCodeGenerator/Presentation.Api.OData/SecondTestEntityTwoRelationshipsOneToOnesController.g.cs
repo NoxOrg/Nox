@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -46,7 +47,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         var entity = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Include(x => x.TestRelationshipOneOnOtherSide).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("SecondTestEntityTwoRelationshipsOneToOne", $"{key.ToString()}");
         }
         
         if (entity.TestRelationshipOneOnOtherSide is null)
@@ -117,15 +118,11 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipOneOnOtherSide).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestRelationshipOneOnOtherSide", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateTestEntityTwoRelationshipsOneToOneCommand(related.Id, testEntityTwoRelationshipsOneToOne, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -143,7 +140,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipOneOnOtherSide).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("SecondTestEntityTwoRelationshipsOneToOne", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -168,7 +165,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         var entity = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Include(x => x.TestRelationshipTwoOnOtherSide).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("SecondTestEntityTwoRelationshipsOneToOne", $"{key.ToString()}");
         }
         
         if (entity.TestRelationshipTwoOnOtherSide is null)
@@ -239,15 +236,11 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipTwoOnOtherSide).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestRelationshipTwoOnOtherSide", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateTestEntityTwoRelationshipsOneToOneCommand(related.Id, testEntityTwoRelationshipsOneToOne, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -265,7 +258,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipTwoOnOtherSide).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("SecondTestEntityTwoRelationshipsOneToOne", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();

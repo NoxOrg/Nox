@@ -82,10 +82,6 @@ internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandBas
 
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			throw new DatabaseSaveException();
-		}
 
 		return new BankNoteKeyDto(entity.Id.Value);
 	}
