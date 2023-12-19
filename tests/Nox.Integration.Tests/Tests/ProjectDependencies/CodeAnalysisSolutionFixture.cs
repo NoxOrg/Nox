@@ -7,7 +7,7 @@ namespace Nox.Integration.Tests.ProjectDependencies;
 
 public class CodeAnalysisSolutionFixture : IAsyncLifetime
 {
-    private const string _solutionPath = "Nox.Generator.sln";
+    private const string _solutionPath = "Nox.sln";
 
     public Microsoft.CodeAnalysis.Solution Solution { get; private set; } = null!;
     public ProjectDependencyGraph ProjectDependencyGraph { get; private set; } = null!;
