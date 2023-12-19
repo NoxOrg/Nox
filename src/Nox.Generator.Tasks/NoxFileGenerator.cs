@@ -11,7 +11,7 @@ using YamlDotNet.Core;
 
 namespace Nox.Generator.Tasks;
 
-internal class NoxFileGenerator
+public class NoxFileGenerator
 {
     private readonly List<string> _errors = new();
     private readonly IEnumerable<string> _noxYamls = Array.Empty<string>();
