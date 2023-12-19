@@ -6,7 +6,7 @@ namespace Nox.Presentation.Api.OData;
 
 public class ApiRouteEtagOperationFilter:  IOperationFilter
 {
-    private readonly string[] _eTagRequiredHttpMethods = { "PUT", "PATCH", "DELETE" };
+    private  static readonly  string[] _eTagRequiredHttpMethods = { "PUT", "PATCH", "DELETE" };
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
         Console.WriteLine(context.ApiDescription.HttpMethod);
