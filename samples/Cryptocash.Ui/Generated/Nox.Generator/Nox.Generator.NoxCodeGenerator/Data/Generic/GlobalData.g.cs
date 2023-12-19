@@ -17,7 +17,7 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         /// <summary>
         /// Property DefaultDomainEntity used to display default Domain Entity if not currently selected
         /// </summary>
-        public string DefaultDomainEntity { get; set; } = "Test";
+        public string DefaultDomainEntity { get; set; } = "TestLib";
 
         /// <summary>
         /// Property ValuesChanged used to handle trigger events to make sure global data is updated
