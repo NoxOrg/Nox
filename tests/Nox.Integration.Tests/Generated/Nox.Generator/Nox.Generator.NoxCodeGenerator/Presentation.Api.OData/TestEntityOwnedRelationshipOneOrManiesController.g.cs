@@ -56,6 +56,10 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetSecEntityOwnedRelOneOrManies(key, new SecEntityOwnedRelOneOrManyKeyDto(relatedKey));
+        if (child is null)
+        {
+            throw new EntityNotFoundException("SecEntityOwnedRelOneOrMany", $"{relatedKey.ToString()}");
+        }
         
         return Ok(child);
     }

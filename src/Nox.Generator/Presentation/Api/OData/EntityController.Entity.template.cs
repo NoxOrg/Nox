@@ -1,4 +1,14 @@
-﻿// Generated
+﻿{{- func keyNameWithPrefix(name, prefix = "key")	
+    ret ("{" + prefix + name + ".ToString()}")
+end -}}
+{{- func keysToString(keys)
+    if keys.size > 1
+	    ret (keys | array.map "Name" | array.each @keyNameWithPrefix | array.join ", ")
+    else
+        ret "{key.ToString()}"
+    end
+end -}}
+// Generated
 
 #nullable enable
 
@@ -11,6 +21,7 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 using System;
 using System.Net.Http.Headers;

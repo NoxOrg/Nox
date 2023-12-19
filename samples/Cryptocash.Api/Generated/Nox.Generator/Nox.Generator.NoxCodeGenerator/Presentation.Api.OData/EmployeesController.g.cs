@@ -56,6 +56,10 @@ public abstract partial class EmployeesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetEmployeePhoneNumbers(key, new EmployeePhoneNumberKeyDto(relatedKey));
+        if (child is null)
+        {
+            throw new EntityNotFoundException("EmployeePhoneNumber", $"{relatedKey.ToString()}");
+        }
         
         return Ok(child);
     }

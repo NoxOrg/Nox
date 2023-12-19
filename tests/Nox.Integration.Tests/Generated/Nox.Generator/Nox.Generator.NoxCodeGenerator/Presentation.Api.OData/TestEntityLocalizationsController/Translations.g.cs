@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 using System;
 using System.ComponentModel.Design;
@@ -40,7 +41,7 @@ public abstract partial class TestEntityLocalizationsControllerBase
         
         if (etag == System.Guid.Empty)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityLocalization", $"{key.ToString()}");
         }
         
         var updatedProperties = new Dictionary<string, dynamic>();
@@ -48,6 +49,10 @@ public abstract partial class TestEntityLocalizationsControllerBase
         
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityLocalizationCommand(key, updatedProperties, Nox.Types.CultureCode.From(cultureCode) , etag));
 
+        if (updatedKey is null)
+        {
+            throw new EntityNotFoundException("TestEntityLocalization", $"{key.ToString()}");
+        }
         var item = (await _mediator.Send(new GetTestEntityLocalizationTranslationsByIdQuery( updatedKey.keyId, Nox.Types.CultureCode.From(cultureCode)))).SingleOrDefault();
 
         return Ok(item);

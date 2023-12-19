@@ -56,6 +56,10 @@ public abstract partial class CurrenciesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetBankNotes(key, new BankNoteKeyDto(relatedKey));
+        if (child is null)
+        {
+            throw new EntityNotFoundException("BankNote", $"{relatedKey.ToString()}");
+        }
         
         return Ok(child);
     }
@@ -162,6 +166,10 @@ public abstract partial class CurrenciesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetExchangeRates(key, new ExchangeRateKeyDto(relatedKey));
+        if (child is null)
+        {
+            throw new EntityNotFoundException("ExchangeRate", $"{relatedKey.ToString()}");
+        }
         
         return Ok(child);
     }

@@ -56,6 +56,10 @@ public abstract partial class CountriesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetCountryTimeZones(key, new CountryTimeZoneKeyDto(relatedKey));
+        if (child is null)
+        {
+            throw new EntityNotFoundException("CountryTimeZone", $"{relatedKey.ToString()}");
+        }
         
         return Ok(child);
     }
@@ -162,6 +166,10 @@ public abstract partial class CountriesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetHolidays(key, new HolidayKeyDto(relatedKey));
+        if (child is null)
+        {
+            throw new EntityNotFoundException("Holiday", $"{relatedKey.ToString()}");
+        }
         
         return Ok(child);
     }
