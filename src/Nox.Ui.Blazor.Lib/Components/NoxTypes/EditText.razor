@@ -1,0 +1,12 @@
+﻿@using MudBlazor
+@using static EditText
+
+<MudTextField Label="@Title"
+              Variant="Variant.Outlined"
+              FullWidth="true"
+              Clearable="true"
+              Required="true"
+              MaxLength="@MaxLength"
+              Validation="@(new Func<string, string>(ValidateLength))"
+              TextChanged="OnTextChanged"                
+              Value="Text" />
