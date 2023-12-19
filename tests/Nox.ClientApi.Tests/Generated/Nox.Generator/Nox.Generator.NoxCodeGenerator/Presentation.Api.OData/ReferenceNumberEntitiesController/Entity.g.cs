@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 using System;
 using System.Net.Http.Headers;
@@ -101,7 +102,7 @@ public abstract partial class ReferenceNumberEntitiesControllerBase : ODataContr
 
         if (updatedKey is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("ReferenceNumberEntity", $"{key.ToString()}");
         }
 
         var item = (await _mediator.Send(new GetReferenceNumberEntityByIdQuery(updatedKey.keyId))).SingleOrDefault();
@@ -127,7 +128,7 @@ public abstract partial class ReferenceNumberEntitiesControllerBase : ODataContr
 
         if (updatedKey is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("ReferenceNumberEntity", $"{key.ToString()}");
         }
 
         var item = (await _mediator.Send(new GetReferenceNumberEntityByIdQuery(updatedKey.keyId))).SingleOrDefault();
@@ -142,7 +143,7 @@ public abstract partial class ReferenceNumberEntitiesControllerBase : ODataContr
 
         if (!result)
         {
-            return NotFound();
+            throw new EntityNotFoundException("ReferenceNumberEntity", $"{key.ToString()}");
         }
 
         return NoContent();

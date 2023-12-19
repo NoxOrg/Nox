@@ -12,7 +12,7 @@ This event is triggered when a new PaymentProvider is created.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Payment provider unique identifier
+Id|Guid|Payment provider unique identifier
 PaymentProviderName|Text|Payment provider name
 PaymentProviderType|Text|Payment provider account type
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
@@ -26,7 +26,7 @@ This event is triggered when an existing PaymentProvider is updated.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Payment provider unique identifier
+Id|Guid|Payment provider unique identifier
 PaymentProviderName|Text|Payment provider name
 PaymentProviderType|Text|Payment provider account type
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
@@ -40,7 +40,7 @@ This event is triggered when an existing PaymentProvider is deleted.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Payment provider unique identifier
+Id|Guid|Payment provider unique identifier
 PaymentProviderName|Text|Payment provider name
 PaymentProviderType|Text|Payment provider account type
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*

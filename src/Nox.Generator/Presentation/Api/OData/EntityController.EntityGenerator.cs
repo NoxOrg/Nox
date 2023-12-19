@@ -37,8 +37,8 @@ internal class EntityControllerEntityGenerator : EntityControllerGeneratorBase
                 .WithFileNameSuffix("Entity")
                 .WithObject("entity", entity)
                 .WithObject("primaryKeysQuery", GetPrimaryKeysQuery(entity))
-                .WithObject("createdKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "createdKey.key", true))
-                .WithObject("updatedKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "updatedKey.key", true))
+                .WithObject("createdKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "createdKey.key", withKeyName: true))
+                .WithObject("updatedKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "updatedKey.key", withKeyName: true))
                 .WithObject("primaryKeysRoute", GetPrimaryKeysRoute(entity, codeGeneratorState.Solution))
                 .GenerateSourceCodeFromResource(templateName);
         }

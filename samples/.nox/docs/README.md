@@ -101,9 +101,9 @@ ExpiryDateTime|DateTime|Booking's expiry date.|
 CancelledDateTime|DateTime|Booking's cancelled date.|
 Status|Formula|Booking's status.|
 VatNumber|VatNumber|Booking's related vat number.|
-CustomerId|AutoNumber|Customer's unique identifier.|Required, Foreign Key
+CustomerId|Guid|Customer's unique identifier.|Required, Foreign Key
 VendingMachineId|Guid|Vending machine unique identifier.|Required, Foreign Key
-CommissionId|AutoNumber|Commission unique identifier.|Required, Foreign Key
+CommissionId|Guid|Commission unique identifier.|Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -158,7 +158,7 @@ Exchange commission rate and amount. *This entity is auditable and tracks info a
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|AutoNumber|Commission unique identifier.|Required, Primary Key
+Id|Guid|Commission unique identifier.|Required, Primary Key
 Rate|Percentage|Commission rate.|Required
 EffectiveAt|DateTime|Exchange rate conversion amount.|Required
 CountryId|CountryCode2|Country unique identifier.|Required, Foreign Key
@@ -335,7 +335,7 @@ Customer definition and related data. *This entity is auditable and tracks info 
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|AutoNumber|Customer's unique identifier.|Required, Primary Key
+Id|Guid|Customer's unique identifier.|Required, Primary Key
 FirstName|Text|Customer's first name.|Required, MinLength: 4, MaxLength: 63
 LastName|Text|Customer's last name.|Required, MinLength: 4, MaxLength: 63
 EmailAddress|Email|Customer's email address.|Required
@@ -367,7 +367,7 @@ Employee definition and related data. *This entity is auditable and tracks info 
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|AutoNumber|Employee's unique identifier.|Required, Primary Key
+Id|Guid|Employee's unique identifier.|Required, Primary Key
 FirstName|Text|Employee's first name.|Required, MinLength: 4, MaxLength: 63
 LastName|Text|Employee's last name.|Required, MinLength: 4, MaxLength: 63
 EmailAddress|Email|Employee's email address.|Required
@@ -470,8 +470,8 @@ Id|AutoNumber|Customer payment account unique identifier.|Required, Primary Key
 PaymentAccountName|Text|Payment account name.|Required, MinLength: 4, MaxLength: 63
 PaymentAccountNumber|Text|Payment account reference number.|Required, MinLength: 4, MaxLength: 63
 PaymentAccountSortCode|Text|Payment account sort code.|MinLength: 4, MaxLength: 63
-CustomerId|AutoNumber|Customer's unique identifier.|Required, Foreign Key
-PaymentProviderId|AutoNumber|Payment provider unique identifier.|Required, Foreign Key
+CustomerId|Guid|Customer's unique identifier.|Required, Foreign Key
+PaymentProviderId|Guid|Payment provider unique identifier.|Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -495,7 +495,7 @@ Payment provider related data. *This entity is auditable and tracks info about w
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|AutoNumber|Payment provider unique identifier.|Required, Primary Key
+Id|Guid|Payment provider unique identifier.|Required, Primary Key
 PaymentProviderName|Text|Payment provider name.|Required, MinLength: 4, MaxLength: 63
 PaymentProviderType|Text|Payment provider account type.|Required, MinLength: 4, MaxLength: 63
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
@@ -520,12 +520,12 @@ Customer transaction log and related data. *This entity is auditable and tracks 
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|AutoNumber|Customer transaction unique identifier.|Required, Primary Key
+Id|Guid|Customer transaction unique identifier.|Required, Primary Key
 TransactionType|Text|Transaction type.|Required, MinLength: 4, MaxLength: 63
 ProcessedOnDateTime|DateTime|Transaction processed datetime.|Required
 Amount|Money|Transaction amount.|Required
 Reference|Text|Transaction external reference.|Required, MinLength: 4, MaxLength: 63
-CustomerId|AutoNumber|Customer's unique identifier.|Required, Foreign Key
+CustomerId|Guid|Customer's unique identifier.|Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 

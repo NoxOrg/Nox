@@ -21,9 +21,9 @@ ExpiryDateTime|DateTime|Booking's expiry date
 CancelledDateTime|DateTime|Booking's cancelled date
 Status|Formula|Booking's status
 VatNumber|VatNumber|Booking's related vat number
-CustomerId|AutoNumber|Customer's unique identifier
+CustomerId|Guid|Customer's unique identifier
 VendingMachineId|Guid|Vending machine unique identifier
-CommissionId|AutoNumber|Commission unique identifier
+CommissionId|Guid|Commission unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -44,9 +44,9 @@ ExpiryDateTime|DateTime|Booking's expiry date
 CancelledDateTime|DateTime|Booking's cancelled date
 Status|Formula|Booking's status
 VatNumber|VatNumber|Booking's related vat number
-CustomerId|AutoNumber|Customer's unique identifier
+CustomerId|Guid|Customer's unique identifier
 VendingMachineId|Guid|Vending machine unique identifier
-CommissionId|AutoNumber|Commission unique identifier
+CommissionId|Guid|Commission unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -67,8 +67,8 @@ ExpiryDateTime|DateTime|Booking's expiry date
 CancelledDateTime|DateTime|Booking's cancelled date
 Status|Formula|Booking's status
 VatNumber|VatNumber|Booking's related vat number
-CustomerId|AutoNumber|Customer's unique identifier
+CustomerId|Guid|Customer's unique identifier
 VendingMachineId|Guid|Vending machine unique identifier
-CommissionId|AutoNumber|Commission unique identifier
+CommissionId|Guid|Commission unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

@@ -16,8 +16,8 @@ Id|AutoNumber|Customer payment account unique identifier
 PaymentAccountName|Text|Payment account name
 PaymentAccountNumber|Text|Payment account reference number
 PaymentAccountSortCode|Text|Payment account sort code
-CustomerId|AutoNumber|Customer's unique identifier
-PaymentProviderId|AutoNumber|Payment provider unique identifier
+CustomerId|Guid|Customer's unique identifier
+PaymentProviderId|Guid|Payment provider unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -33,8 +33,8 @@ Id|AutoNumber|Customer payment account unique identifier
 PaymentAccountName|Text|Payment account name
 PaymentAccountNumber|Text|Payment account reference number
 PaymentAccountSortCode|Text|Payment account sort code
-CustomerId|AutoNumber|Customer's unique identifier
-PaymentProviderId|AutoNumber|Payment provider unique identifier
+CustomerId|Guid|Customer's unique identifier
+PaymentProviderId|Guid|Payment provider unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -50,7 +50,7 @@ Id|AutoNumber|Customer payment account unique identifier
 PaymentAccountName|Text|Payment account name
 PaymentAccountNumber|Text|Payment account reference number
 PaymentAccountSortCode|Text|Payment account sort code
-CustomerId|AutoNumber|Customer's unique identifier
-PaymentProviderId|AutoNumber|Payment provider unique identifier
+CustomerId|Guid|Customer's unique identifier
+PaymentProviderId|Guid|Payment provider unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

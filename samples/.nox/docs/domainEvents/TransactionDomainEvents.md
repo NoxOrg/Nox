@@ -12,12 +12,12 @@ This event is triggered when a new Transaction is created.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Customer transaction unique identifier
+Id|Guid|Customer transaction unique identifier
 TransactionType|Text|Transaction type
 ProcessedOnDateTime|DateTime|Transaction processed datetime
 Amount|Money|Transaction amount
 Reference|Text|Transaction external reference
-CustomerId|AutoNumber|Customer's unique identifier
+CustomerId|Guid|Customer's unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -29,12 +29,12 @@ This event is triggered when an existing Transaction is updated.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Customer transaction unique identifier
+Id|Guid|Customer transaction unique identifier
 TransactionType|Text|Transaction type
 ProcessedOnDateTime|DateTime|Transaction processed datetime
 Amount|Money|Transaction amount
 Reference|Text|Transaction external reference
-CustomerId|AutoNumber|Customer's unique identifier
+CustomerId|Guid|Customer's unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -46,11 +46,11 @@ This event is triggered when an existing Transaction is deleted.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|AutoNumber|Customer transaction unique identifier
+Id|Guid|Customer transaction unique identifier
 TransactionType|Text|Transaction type
 ProcessedOnDateTime|DateTime|Transaction processed datetime
 Amount|Money|Transaction amount
 Reference|Text|Transaction external reference
-CustomerId|AutoNumber|Customer's unique identifier
+CustomerId|Guid|Customer's unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

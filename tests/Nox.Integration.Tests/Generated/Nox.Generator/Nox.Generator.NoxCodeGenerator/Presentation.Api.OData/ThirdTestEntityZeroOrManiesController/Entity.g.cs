@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 using System;
 using System.Net.Http.Headers;
@@ -101,7 +102,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
 
         if (updatedKey is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("ThirdTestEntityZeroOrMany", $"{key.ToString()}");
         }
 
         var item = (await _mediator.Send(new GetThirdTestEntityZeroOrManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
@@ -127,7 +128,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
 
         if (updatedKey is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("ThirdTestEntityZeroOrMany", $"{key.ToString()}");
         }
 
         var item = (await _mediator.Send(new GetThirdTestEntityZeroOrManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
@@ -142,7 +143,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
 
         if (!result)
         {
-            return NotFound();
+            throw new EntityNotFoundException("ThirdTestEntityZeroOrMany", $"{key.ToString()}");
         }
 
         return NoContent();
