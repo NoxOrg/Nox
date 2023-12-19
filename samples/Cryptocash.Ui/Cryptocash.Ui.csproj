@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Nox.Generator.Tasks\Nox.Generator.Tasks.csproj" />
     <ProjectReference Include="..\..\src\Nox.Ui.Blazor.Lib\Nox.Ui.Blazor.Lib.csproj" />
     <ProjectReference Include="..\Cryptocash.Api\Cryptocash.Api.csproj" />
   </ItemGroup>

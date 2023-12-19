@@ -26,10 +26,12 @@
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		  <PrivateAssets>all</PrivateAssets>
 	  </PackageReference>
+	  <PackageReference Include="Microsoft.Build.Framework" Version="17.7.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Nox.Docs\Nox.Docs.csproj" />
+    <ProjectReference Include="..\..\src\Nox.Generator.Tasks\Nox.Generator.Tasks.csproj" />
     <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj" />
     <ProjectReference Include="..\Cryptocash.Api\Cryptocash.Api.csproj" />
   </ItemGroup>
