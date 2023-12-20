@@ -93,7 +93,8 @@ internal class NoxUseOptions : INoxUseOptions
         {
             appBuilder.UseMiddleware<VersionMiddleware>();
         });
-        builder.UseMiddleware<NoxApiMiddleware>().UseRouting();        
+        builder.UseMiddleware<RelatedEndpointsMiddleware>().UseRouting();
+        builder.UseMiddleware<NoxApiMiddleware>().UseRouting();
 
         if (_useODataRouteDebug)
         {
