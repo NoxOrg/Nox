@@ -16,8 +16,7 @@ public class NoxSolutionEntityEndpointsMarkdownExtensionsTests
             .Build();
 
         // Act
-        var actual = noxSolution.ToMarkdownEntityEndpoints()
-            .OrderBy(m => m.Name);
+        var actual = noxSolution.ToMarkdownEntityEndpoints();
 
         // Assert
         var expected = new[]
@@ -25,8 +24,7 @@ public class NoxSolutionEntityEndpointsMarkdownExtensionsTests
             CreateMarkdownFile("People"),
             CreateMarkdownFile("Country"),
             CreateMarkdownFile("Continent"),
-        }
-        .OrderBy(m => m.Name);
+        };
 
         actual.Should().BeEquivalentTo(expected);
     }

@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## RatingProgram Endpoints
 
+### Get RatingProgram Count
+- **GET** `/api/v1/RatingPrograms/$count`
+  - Description: Retrieve the number of RatingPrograms.
+
 ### Get RatingProgram by ID
 - **GET** `/api/v1/RatingPrograms/{key}`
   - Description: Retrieve information about a RatingProgram by ID.
