@@ -28,7 +28,7 @@ public partial class TestEntityOwnedRelationshipExactlyOnesController : TestEnti
 {
     public TestEntityOwnedRelationshipExactlyOnesController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
 
     public TestEntityOwnedRelationshipExactlyOnesControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;

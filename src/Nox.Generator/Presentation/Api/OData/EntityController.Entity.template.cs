@@ -38,7 +38,7 @@ public partial class {{entity.PluralName}}Controller : {{entity.PluralName}}Cont
 {
     public {{entity.PluralName}}Controller(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -57,7 +57,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
 
     public {{entity.PluralName}}ControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         {{- for query in entity.Queries }},
         {{ query.Name }}QueryBase {{ ToLowerFirstChar query.Name }}
         {{- end }}
