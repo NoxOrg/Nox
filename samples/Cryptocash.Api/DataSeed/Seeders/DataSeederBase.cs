@@ -20,20 +20,19 @@ internal abstract class DataSeederBase<TModel, TEntity> : IDataSeeder
 
     public void Seed()
     {
-        return;
-        // var dbSet = _dbContext.Set<TEntity>();
-        //
-        // if (dbSet.Any())
-        // {
-        //     return;
-        // }
-        //
-        // var models = ReadModelsFromFile();
-        // var entities = models.Select(CreateEntityFromModel).ToList();
-        //
-        // dbSet.AddRange(entities);
-        //
-        // _dbContext.SaveChanges();
+        var dbSet = _dbContext.Set<TEntity>();
+
+        if (dbSet.Any())
+        {
+            return;
+        }
+
+        var models = ReadModelsFromFile();
+        var entities = models.Select(CreateEntityFromModel).ToList();
+
+        dbSet.AddRange(entities);
+
+        _dbContext.SaveChanges();
     }
 
     private IEnumerable<TModel> ReadModelsFromFile()

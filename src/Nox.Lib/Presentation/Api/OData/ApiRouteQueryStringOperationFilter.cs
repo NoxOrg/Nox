@@ -10,10 +10,9 @@ public class ApiRouteQueryStringOperationFilter: IOperationFilter
 
     public ApiRouteQueryStringOperationFilter(NoxSolution noxSolution)
     {
-        var noxSolution1 = noxSolution;
         _auditEntityPaths = 
-            noxSolution1.Domain!.Entities.Where(e => e.Persistence.IsAudited)
-                .Select(e=> string.Concat(noxSolution1.Presentation.ApiConfiguration.ApiRoutePrefix.Trim('/'), "/", e.PluralName));
+            noxSolution.Domain!.Entities.Where(e => e.Persistence.IsAudited)
+                .Select(e=> string.Concat(noxSolution.Presentation.ApiConfiguration.ApiRoutePrefix.Trim('/'), "/", e.PluralName));
     }
     
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
