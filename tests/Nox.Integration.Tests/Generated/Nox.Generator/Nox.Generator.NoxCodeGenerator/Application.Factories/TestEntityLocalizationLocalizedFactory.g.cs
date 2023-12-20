@@ -30,9 +30,9 @@ internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLoca
         Repository = repository;
     }
 
-    public virtual async Task<TestEntityLocalizationLocalized> CreateLocalizedEntityAsync(TestEntityLocalizationEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
+    public virtual TestEntityLocalizationLocalized CreateLocalizedEntity(TestEntityLocalizationEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
-        var localizedEntity = await CreateInternalAsync(entity, cultureCode, copyEntityAttributes);
+        var localizedEntity = CreateInternal(entity, cultureCode, copyEntityAttributes);
         return localizedEntity;
     }
    
@@ -42,17 +42,11 @@ internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLoca
         var entityLocalized = await Repository.Query<TestEntityLocalizationLocalized>(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
-            entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
+            entityLocalized = CreateLocalizedEntity(entity, cultureCode);
         }
-        else
-        {
-            entityLocalized.TextFieldToLocalize = updateDto.TextFieldToLocalize == null
-                ? null
-                : TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(updateDto.TextFieldToLocalize.ToValueFromNonNull<System.String>());
-            
-            Repository.Update(entityLocalized);
-        }
-        
+        entityLocalized.TextFieldToLocalize = updateDto.TextFieldToLocalize == null
+            ? null
+            : TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(updateDto.TextFieldToLocalize.ToValueFromNonNull<System.String>());
     }
 
     public virtual async Task PartialUpdateLocalizedEntityAsync(TestEntityLocalizationEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -60,23 +54,17 @@ internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLoca
         var entityLocalized = await Repository.Query<TestEntityLocalizationLocalized>(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
-            entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
+            entityLocalized = CreateLocalizedEntity(entity, cultureCode);
         }
-        else
+        if (updatedProperties.TryGetValue("TextFieldToLocalize", out var TextFieldToLocalizeUpdateValue))
         {
-
-            if (updatedProperties.TryGetValue("TextFieldToLocalize", out var TextFieldToLocalizeUpdateValue))
-            {
-                entityLocalized.TextFieldToLocalize = TextFieldToLocalizeUpdateValue == null
-                    ? null
-                    : TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(TextFieldToLocalizeUpdateValue);
-            }
-            Repository.Update(entityLocalized);
+            entityLocalized.TextFieldToLocalize = TextFieldToLocalizeUpdateValue == null
+                ? null
+                : TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(TextFieldToLocalizeUpdateValue);
         }
-        
     }
 
-    private async  Task<TestEntityLocalizationLocalized> CreateInternalAsync(TestEntityLocalizationEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
+    private TestEntityLocalizationLocalized CreateInternal(TestEntityLocalizationEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
         var localizedEntity = new TestEntityLocalizationLocalized
         {
@@ -88,7 +76,7 @@ internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLoca
         {
             localizedEntity.TextFieldToLocalize = entity.TextFieldToLocalize;
         }
-        await Repository.AddAsync(localizedEntity);
+        entity.CreateRefToLocalizedTestEntityLocalizations(localizedEntity);
         return localizedEntity;
     }
 }

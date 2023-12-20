@@ -116,6 +116,7 @@ internal abstract partial class TestEntityZeroOrOneBase : AuditableEntityBase, I
         SecondTestEntityZeroOrOneId = null;
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

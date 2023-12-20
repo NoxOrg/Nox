@@ -109,6 +109,7 @@ internal abstract partial class CountryQueryToCustomTableBase : EntityBase, IEnt
         InternalDomainEvents.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

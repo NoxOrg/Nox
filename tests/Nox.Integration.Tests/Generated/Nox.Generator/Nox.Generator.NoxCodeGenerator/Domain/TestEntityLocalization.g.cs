@@ -97,6 +97,20 @@ internal abstract partial class TestEntityLocalizationBase : AuditableEntityBase
         InternalDomainEvents.Clear();
     }
 
+        /// <summary>
+        /// TestEntityLocalization localized entities.
+        /// </summary>
+        public virtual List<TestEntityLocalizationLocalized> LocalizedTestEntityLocalizations  { get; private set; } = new();
+    
+    
+    	/// <summary>
+    	/// Creates a new TestEntityLocalizationLocalized entity.
+    	/// </summary>
+        public virtual void CreateRefToLocalizedTestEntityLocalizations(TestEntityLocalizationLocalized relatedTestEntityLocalizationLocalized)
+    	{
+    		LocalizedTestEntityLocalizations.Add(relatedTestEntityLocalizationLocalized);
+    	}
+        
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

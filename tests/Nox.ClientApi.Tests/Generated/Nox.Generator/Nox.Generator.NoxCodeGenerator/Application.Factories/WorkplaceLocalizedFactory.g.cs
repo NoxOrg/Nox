@@ -30,9 +30,9 @@ internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<
         Repository = repository;
     }
 
-    public virtual async Task<WorkplaceLocalized> CreateLocalizedEntityAsync(WorkplaceEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
+    public virtual WorkplaceLocalized CreateLocalizedEntity(WorkplaceEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
-        var localizedEntity = await CreateInternalAsync(entity, cultureCode, copyEntityAttributes);
+        var localizedEntity = CreateInternal(entity, cultureCode, copyEntityAttributes);
         return localizedEntity;
     }
    
@@ -42,7 +42,7 @@ internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<
         var entityLocalized = await Repository.Query<WorkplaceLocalized>(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
-            entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
+            entityLocalized = CreateLocalizedEntity(entity, cultureCode);
         }
         entityLocalized.Description = updateDto.Description == null
             ? null
@@ -54,7 +54,7 @@ internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<
         var entityLocalized = await Repository.Query<WorkplaceLocalized>(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
-            entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
+            entityLocalized = CreateLocalizedEntity(entity, cultureCode);
         }
         if (updatedProperties.TryGetValue("Description", out var DescriptionUpdateValue))
         {
@@ -64,7 +64,7 @@ internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<
         }
     }
 
-    private async  Task<WorkplaceLocalized> CreateInternalAsync(WorkplaceEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
+    private WorkplaceLocalized CreateInternal(WorkplaceEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
         var localizedEntity = new WorkplaceLocalized
         {
@@ -76,7 +76,7 @@ internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<
         {
             localizedEntity.Description = entity.Description;
         }
-        await Repository.AddAsync(localizedEntity);
+        entity.CreateRefToLocalizedWorkplaces(localizedEntity);
         return localizedEntity;
     }
 }

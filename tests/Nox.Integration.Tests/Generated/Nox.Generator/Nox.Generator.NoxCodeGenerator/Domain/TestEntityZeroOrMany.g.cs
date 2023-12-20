@@ -117,6 +117,7 @@ internal abstract partial class TestEntityZeroOrManyBase : AuditableEntityBase, 
         SecondTestEntityZeroOrManies.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

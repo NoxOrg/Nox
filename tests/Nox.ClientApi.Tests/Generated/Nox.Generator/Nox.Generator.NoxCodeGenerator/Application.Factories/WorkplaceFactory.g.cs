@@ -56,7 +56,7 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         try
         {
             var entity =  await ToEntityAsync(createDto, cultureCode);
-            await WorkplaceLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
+            WorkplaceLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
             return entity;
         }
         catch (NoxTypeValidationException ex)

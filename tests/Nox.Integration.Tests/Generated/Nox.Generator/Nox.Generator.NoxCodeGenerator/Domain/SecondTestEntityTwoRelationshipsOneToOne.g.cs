@@ -131,6 +131,7 @@ internal abstract partial class SecondTestEntityTwoRelationshipsOneToOneBase : E
         TestRelationshipTwoOnOtherSide = null;
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

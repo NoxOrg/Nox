@@ -109,6 +109,7 @@ internal abstract partial class CountryJsonToTableBase : EntityBase, IEntityConc
         InternalDomainEvents.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

@@ -162,6 +162,7 @@ internal abstract partial class CommissionBase : AuditableEntityBase, IEntityCon
         Bookings.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

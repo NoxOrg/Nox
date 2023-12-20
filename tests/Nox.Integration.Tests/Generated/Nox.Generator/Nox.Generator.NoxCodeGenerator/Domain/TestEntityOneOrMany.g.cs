@@ -123,6 +123,7 @@ internal abstract partial class TestEntityOneOrManyBase : AuditableEntityBase, I
         SecondTestEntityOneOrManies.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

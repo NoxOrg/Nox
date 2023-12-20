@@ -206,6 +206,7 @@ internal abstract partial class TenantBase : EntityBase, IEntityConcurrent
         TenantContact = null;
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

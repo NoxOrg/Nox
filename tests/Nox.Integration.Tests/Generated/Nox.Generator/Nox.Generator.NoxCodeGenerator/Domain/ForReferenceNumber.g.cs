@@ -105,6 +105,7 @@ internal abstract partial class ForReferenceNumberBase : EntityBase, IEntityConc
         InternalDomainEvents.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

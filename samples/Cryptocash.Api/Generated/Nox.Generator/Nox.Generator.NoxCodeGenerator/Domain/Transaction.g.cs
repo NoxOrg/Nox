@@ -173,6 +173,7 @@ internal abstract partial class TransactionBase : AuditableEntityBase, IEntityCo
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

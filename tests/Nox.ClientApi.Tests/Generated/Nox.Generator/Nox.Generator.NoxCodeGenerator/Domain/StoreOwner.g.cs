@@ -153,6 +153,7 @@ internal abstract partial class StoreOwnerBase : AuditableEntityBase, IEntityCon
         Stores.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

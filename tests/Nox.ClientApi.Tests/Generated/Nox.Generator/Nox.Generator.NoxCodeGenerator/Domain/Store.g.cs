@@ -229,6 +229,7 @@ internal abstract partial class StoreBase : AuditableEntityBase, IEntityConcurre
         EmailAddress = null;
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

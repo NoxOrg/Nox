@@ -56,7 +56,7 @@ internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntit
         try
         {
             var entity =  await ToEntityAsync(createDto, cultureCode);
-            await TenantBrandLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
+            TenantBrandLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
             return entity;
         }
         catch (NoxTypeValidationException ex)

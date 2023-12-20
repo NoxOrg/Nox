@@ -31,9 +31,9 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
         Repository = repository;
     }
 
-    public virtual async Task<{{localizedEntityName}}> CreateLocalizedEntityAsync({{entity.Name}}Entity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
+    public virtual {{localizedEntityName}} CreateLocalizedEntity({{entity.Name}}Entity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
-        var localizedEntity = await CreateInternalAsync(entity, cultureCode, copyEntityAttributes);
+        var localizedEntity = CreateInternal(entity, cultureCode, copyEntityAttributes);
         return localizedEntity;
     }
    
@@ -43,7 +43,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
         var entityLocalized = await Repository.Query<{{localizedEntityName}}>(x =>{{for key in entityKeys }} x.{{key.Name}} == entity.{{key.Name}} &&{{end}} x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
-            entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
+            entityLocalized = CreateLocalizedEntity(entity, cultureCode);
         }
         
         {{- for attribute in entityLocalizedAttributes }}
@@ -61,7 +61,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
         var entityLocalized = await Repository.Query<{{localizedEntityName}}>(x =>{{for key in entityKeys }} x.{{key.Name}} == entity.{{key.Name}} &&{{end}} x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
-            entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
+            entityLocalized = CreateLocalizedEntity(entity, cultureCode);
         }
         
         {{- for attribute in entityLocalizedAttributes }}
@@ -77,7 +77,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
         {{- end }}
     }
 
-    private async  Task<{{localizedEntityName}}> CreateInternalAsync({{entity.Name}}Entity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
+    private {{localizedEntityName}} CreateInternal({{entity.Name}}Entity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
         var localizedEntity = new {{localizedEntityName}}
         {
@@ -91,7 +91,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
             localizedEntity.{{attribute.Name}} = entity.{{attribute.Name}};
             {{- end }}
         }
-        await Repository.AddAsync(localizedEntity);
+        entity.CreateRefToLocalized{{entity.PluralName}}(localizedEntity);
         return localizedEntity;
     }
 }

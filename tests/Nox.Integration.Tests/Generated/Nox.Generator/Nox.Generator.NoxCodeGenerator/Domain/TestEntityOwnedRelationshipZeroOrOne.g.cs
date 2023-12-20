@@ -120,6 +120,7 @@ internal abstract partial class TestEntityOwnedRelationshipZeroOrOneBase : Audit
         SecondTestEntityOwnedRelationshipZeroOrOne = null;
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

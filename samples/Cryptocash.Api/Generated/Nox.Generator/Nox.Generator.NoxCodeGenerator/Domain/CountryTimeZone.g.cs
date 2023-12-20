@@ -91,4 +91,5 @@ internal abstract partial class CountryTimeZoneBase : EntityBase, IOwnedEntity
         InternalDomainEvents.Clear();
     }
 
+    
 }

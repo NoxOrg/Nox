@@ -56,7 +56,7 @@ internal abstract class TestEntityLocalizationFactoryBase : IEntityFactory<TestE
         try
         {
             var entity =  await ToEntityAsync(createDto, cultureCode);
-            await TestEntityLocalizationLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
+            TestEntityLocalizationLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
             return entity;
         }
         catch (NoxTypeValidationException ex)

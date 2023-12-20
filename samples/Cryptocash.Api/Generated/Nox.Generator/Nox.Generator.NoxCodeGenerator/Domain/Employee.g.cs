@@ -193,6 +193,7 @@ internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcu
         EmployeePhoneNumbers.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

@@ -107,6 +107,7 @@ internal abstract partial class TestEntityWithNuidBase : AuditableEntityBase, IE
         InternalDomainEvents.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

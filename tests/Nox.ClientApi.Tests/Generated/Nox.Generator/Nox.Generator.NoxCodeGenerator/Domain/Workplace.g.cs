@@ -183,6 +183,20 @@ internal abstract partial class WorkplaceBase : AuditableEntityBase, IEntityConc
         Tenants.Clear();
     }
 
+        /// <summary>
+        /// Workplace localized entities.
+        /// </summary>
+        public virtual List<WorkplaceLocalized> LocalizedWorkplaces  { get; private set; } = new();
+    
+    
+    	/// <summary>
+    	/// Creates a new WorkplaceLocalized entity.
+    	/// </summary>
+        public virtual void CreateRefToLocalizedWorkplaces(WorkplaceLocalized relatedWorkplaceLocalized)
+    	{
+    		LocalizedWorkplaces.Add(relatedWorkplaceLocalized);
+    	}
+        
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

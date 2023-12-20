@@ -115,6 +115,7 @@ internal abstract partial class TestEntityForUniqueConstraintsBase : EntityBase,
         InternalDomainEvents.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

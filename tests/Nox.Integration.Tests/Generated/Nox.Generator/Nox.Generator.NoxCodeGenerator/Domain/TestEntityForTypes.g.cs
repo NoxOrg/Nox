@@ -425,6 +425,7 @@ internal abstract partial class TestEntityForTypesBase : AuditableEntityBase, IE
         InternalDomainEvents.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

@@ -269,6 +269,7 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
         MinimumCashStocks.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

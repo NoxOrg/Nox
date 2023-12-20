@@ -111,4 +111,5 @@ internal abstract partial class EmailAddressBase : EntityBase, IOwnedEntity
         InternalDomainEvents.Clear();
     }
 
+    
 }

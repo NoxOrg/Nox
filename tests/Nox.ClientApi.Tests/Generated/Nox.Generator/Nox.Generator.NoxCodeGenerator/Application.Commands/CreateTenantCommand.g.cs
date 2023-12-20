@@ -87,38 +87,6 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 		await DbContext.SaveChangesAsync();
 		return new TenantKeyDto(entityToCreate.Id.Value);
 	}
-<<<<<<< main
-
-	private async Task CreateLocalizationsAsync(TenantEntity entity, Nox.Types.CultureCode cultureCode)
-	{
-        await CreateTenantBrandsLocalizationAsync(entity.TenantBrands, cultureCode);
-        await CreateTenantContactLocalizationAsync(entity.TenantContact, cultureCode);
-	}
-	private async Task CreateTenantBrandsLocalizationAsync(List<ClientApi.Domain.TenantBrand> entities, Nox.Types.CultureCode cultureCode)
-	{
-		var entitiesLocalized = new List<TenantBrandLocalized>();
-		foreach (var entity in entities)
-		{
-			var entityLocalized = await TenantBrandLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
-			entitiesLocalized.Add(entityLocalized);
-		}
-		DbContext.TenantBrandsLocalized.AddRange(entitiesLocalized);
-	}
-	
-	private async Task CreateTenantContactLocalizationAsync(ClientApi.Domain.TenantContact? entity, Nox.Types.CultureCode cultureCode)
-	{
-<<<<<<< main
-		if (entity is null) return;
-		var entityLocalized = TenantContactLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
-=======
-		if(entity is null) return;
-		var entityLocalized = await TenantContactLocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
->>>>>>> Factory classes refactor has been completed (without tests)
-		DbContext.TenantContactsLocalized.Add(entityLocalized);
-	}	
-	
-=======
->>>>>>> Implementation extended for all commands
 }
 
 public class CreateTenantValidator : AbstractValidator<CreateTenantCommand>

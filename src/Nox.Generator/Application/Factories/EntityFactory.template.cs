@@ -104,7 +104,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         {
             var entity =  await ToEntityAsync(createDto, cultureCode);
             {{- if entity.IsLocalized }}
-            await {{entity.Name}}LocalizedFactory.CreateLocalizedEntityAsync(entity, cultureCode);
+            {{entity.Name}}LocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
             {{- end }}
             return entity;
         }

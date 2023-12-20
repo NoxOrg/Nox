@@ -103,6 +103,7 @@ internal abstract partial class TestEntityForAutoNumberUsagesBase : EntityBase, 
         InternalDomainEvents.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

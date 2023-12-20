@@ -30,9 +30,9 @@ internal abstract class TenantContactLocalizedFactoryBase : IEntityLocalizedFact
         Repository = repository;
     }
 
-    public virtual async Task<TenantContactLocalized> CreateLocalizedEntityAsync(TenantContactEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
+    public virtual TenantContactLocalized CreateLocalizedEntity(TenantContactEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
-        var localizedEntity = await CreateInternalAsync(entity, cultureCode, copyEntityAttributes);
+        var localizedEntity = CreateInternal(entity, cultureCode, copyEntityAttributes);
         return localizedEntity;
     }
    
@@ -42,7 +42,7 @@ internal abstract class TenantContactLocalizedFactoryBase : IEntityLocalizedFact
         var entityLocalized = await Repository.Query<TenantContactLocalized>(x => x.TenantId == entity.TenantId && x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
-            entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
+            entityLocalized = CreateLocalizedEntity(entity, cultureCode);
         }
         entityLocalized.Description = updateDto.Description == null
             ? null
@@ -54,7 +54,7 @@ internal abstract class TenantContactLocalizedFactoryBase : IEntityLocalizedFact
         var entityLocalized = await Repository.Query<TenantContactLocalized>(x => x.TenantId == entity.TenantId && x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
-            entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
+            entityLocalized = CreateLocalizedEntity(entity, cultureCode);
         }
         if (updatedProperties.TryGetValue("Description", out var DescriptionUpdateValue))
         {
@@ -64,7 +64,7 @@ internal abstract class TenantContactLocalizedFactoryBase : IEntityLocalizedFact
         }
     }
 
-    private async  Task<TenantContactLocalized> CreateInternalAsync(TenantContactEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
+    private TenantContactLocalized CreateInternal(TenantContactEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
         var localizedEntity = new TenantContactLocalized
         {
@@ -76,7 +76,7 @@ internal abstract class TenantContactLocalizedFactoryBase : IEntityLocalizedFact
         {
             localizedEntity.Description = entity.Description;
         }
-        await Repository.AddAsync(localizedEntity);
+        entity.CreateRefToLocalizedTenantContacts(localizedEntity);
         return localizedEntity;
     }
 }
