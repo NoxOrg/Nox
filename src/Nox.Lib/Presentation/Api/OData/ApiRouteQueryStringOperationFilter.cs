@@ -18,18 +18,18 @@ public class ApiRouteQueryStringOperationFilter: IOperationFilter
     
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-         
-        if (context.ApiDescription.HttpMethod == HttpMethod.Get.Method && _auditEntityPaths.Contains(context.ApiDescription.RelativePath))
+        if (context.ApiDescription.HttpMethod == HttpMethod.Get.Method && _auditEntityPaths.Any(p => context.ApiDescription.RelativePath!.Contains(p)))
         {
             operation.Parameters.Add(new OpenApiParameter
             {
-                Name = "query",
-                Description = "query string parameter",
+                Name = "lang",
+                Description = "language parameter",
                 In = ParameterLocation.Query,
                 Style = ParameterStyle.Simple,
                 Schema = new OpenApiSchema
                 {
-                    Type = "string"
+                    Type = "string",
+                    Pattern = "^[a-z]{2}-[A-Z]{2}$"
                 },
                 Required = false
             });
