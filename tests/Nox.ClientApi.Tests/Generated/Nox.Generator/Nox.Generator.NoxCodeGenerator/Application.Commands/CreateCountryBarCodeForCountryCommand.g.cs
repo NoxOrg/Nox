@@ -1,5 +1,4 @@
-﻿﻿
-// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
@@ -20,7 +20,7 @@ using ClientApi.Application.Dto;
 using CountryBarCodeEntity = ClientApi.Domain.CountryBarCode;
 
 namespace ClientApi.Application.Commands;
-public partial record CreateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, CountryBarCodeUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto?>;
+public partial record CreateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, CountryBarCodeUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto>;
 
 internal partial class CreateCountryBarCodeForCountryCommandHandler : CreateCountryBarCodeForCountryCommandHandlerBase
 {
@@ -55,7 +55,7 @@ internal abstract class CreateCountryBarCodeForCountryCommandHandlerBase : Comma
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
 		}
 
 		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
@@ -66,10 +66,6 @@ internal abstract class CreateCountryBarCodeForCountryCommandHandlerBase : Comma
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new CountryBarCodeKeyDto();
 	}

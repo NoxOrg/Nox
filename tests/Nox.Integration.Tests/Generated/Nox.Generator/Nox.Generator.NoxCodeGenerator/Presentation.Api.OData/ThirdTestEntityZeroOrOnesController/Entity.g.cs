@@ -100,11 +100,6 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateThirdTestEntityZeroOrOneCommand(key, thirdTestEntityZeroOrOne, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("ThirdTestEntityZeroOrOne", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateThirdTestEntityZeroOrOneCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("ThirdTestEntityZeroOrOne", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteThirdTestEntityZeroOrOneByIdCommand(new List<ThirdTestEntityZeroOrOneKeyDto> { new ThirdTestEntityZeroOrOneKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("ThirdTestEntityZeroOrOne", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

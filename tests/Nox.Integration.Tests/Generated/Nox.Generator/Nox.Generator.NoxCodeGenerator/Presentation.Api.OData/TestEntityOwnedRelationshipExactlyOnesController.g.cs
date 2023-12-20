@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -40,7 +41,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         
         if (item is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityOwnedRelationshipExactlyOne", $"{key.ToString()}");
         }
         
         return Ok(item.SecEntityOwnedRelExactlyOne);
@@ -55,17 +56,8 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         
         var etag = Request.GetDecodedEtagHeader();
         var createdKey = await _mediator.Send(new CreateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), secEntityOwnedRelExactlyOne, _cultureCode, etag));
-        if (createdKey == null)
-        {
-            return NotFound();
-        }
         
         var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipExactlyOneByIdQuery(key))).SingleOrDefault()?.SecEntityOwnedRelExactlyOne;
-        if (child == null)
-        {
-            return NotFound();
-        }
-        
         return Created(child);
     }
     
@@ -78,16 +70,8 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), secEntityOwnedRelExactlyOne, _cultureCode, etag));
-        if (updatedKey == null)
-        {
-            return NotFound();
-        }
         
         var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipExactlyOneByIdQuery(key))).SingleOrDefault()?.SecEntityOwnedRelExactlyOne;
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -112,15 +96,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new PartialUpdateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), updateProperties, _cultureCode, etag));
         
-        if (updated is null)
-        {
-            return NotFound();
-        }
         var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipExactlyOneByIdQuery(key))).SingleOrDefault()?.SecEntityOwnedRelExactlyOne;
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -133,10 +109,6 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new DeleteSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key)));
-        if (!result)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }

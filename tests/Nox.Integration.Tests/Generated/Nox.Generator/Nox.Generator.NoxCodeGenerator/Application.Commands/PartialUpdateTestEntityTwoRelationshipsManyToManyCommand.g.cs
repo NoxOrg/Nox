@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -16,7 +17,7 @@ using TestEntityTwoRelationshipsManyToManyEntity = TestWebApp.Domain.TestEntityT
 
 namespace TestWebApp.Application.Commands;
 
-public partial record PartialUpdateTestEntityTwoRelationshipsManyToManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityTwoRelationshipsManyToManyKeyDto?>;
+public partial record PartialUpdateTestEntityTwoRelationshipsManyToManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityTwoRelationshipsManyToManyKeyDto>;
 
 internal partial class PartialUpdateTestEntityTwoRelationshipsManyToManyCommandHandler : PartialUpdateTestEntityTwoRelationshipsManyToManyCommandHandlerBase
 {
@@ -28,7 +29,7 @@ internal partial class PartialUpdateTestEntityTwoRelationshipsManyToManyCommandH
 	{
 	}
 }
-internal abstract class PartialUpdateTestEntityTwoRelationshipsManyToManyCommandHandlerBase : CommandBase<PartialUpdateTestEntityTwoRelationshipsManyToManyCommand, TestEntityTwoRelationshipsManyToManyEntity>, IRequestHandler<PartialUpdateTestEntityTwoRelationshipsManyToManyCommand, TestEntityTwoRelationshipsManyToManyKeyDto?>
+internal abstract class PartialUpdateTestEntityTwoRelationshipsManyToManyCommandHandlerBase : CommandBase<PartialUpdateTestEntityTwoRelationshipsManyToManyCommand, TestEntityTwoRelationshipsManyToManyEntity>, IRequestHandler<PartialUpdateTestEntityTwoRelationshipsManyToManyCommand, TestEntityTwoRelationshipsManyToManyKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityTwoRelationshipsManyToManyEntity, TestEntityTwoRelationshipsManyToManyCreateDto, TestEntityTwoRelationshipsManyToManyUpdateDto> EntityFactory { get; }
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateTestEntityTwoRelationshipsManyToManyCommand
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<TestEntityTwoRelationshipsManyToManyKeyDto?> Handle(PartialUpdateTestEntityTwoRelationshipsManyToManyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TestEntityTwoRelationshipsManyToManyKeyDto> Handle(PartialUpdateTestEntityTwoRelationshipsManyToManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,7 +53,7 @@ internal abstract class PartialUpdateTestEntityTwoRelationshipsManyToManyCommand
 		var entity = await DbContext.TestEntityTwoRelationshipsManyToManies.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("TestEntityTwoRelationshipsManyToMany",  $"{keyId.ToString()}");
 		}
 		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using TestEntityForAutoNumberUsagesEntity = TestWebApp.Domain.TestEntityForAutoN
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateTestEntityForAutoNumberUsagesCommand(System.Int64 keyId, TestEntityForAutoNumberUsagesUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityForAutoNumberUsagesKeyDto?>;
+public partial record UpdateTestEntityForAutoNumberUsagesCommand(System.Int64 keyId, TestEntityForAutoNumberUsagesUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityForAutoNumberUsagesKeyDto>;
 
 internal partial class UpdateTestEntityForAutoNumberUsagesCommandHandler : UpdateTestEntityForAutoNumberUsagesCommandHandlerBase
 {
@@ -31,7 +32,7 @@ internal partial class UpdateTestEntityForAutoNumberUsagesCommandHandler : Updat
 	}
 }
 
-internal abstract class UpdateTestEntityForAutoNumberUsagesCommandHandlerBase : CommandBase<UpdateTestEntityForAutoNumberUsagesCommand, TestEntityForAutoNumberUsagesEntity>, IRequestHandler<UpdateTestEntityForAutoNumberUsagesCommand, TestEntityForAutoNumberUsagesKeyDto?>
+internal abstract class UpdateTestEntityForAutoNumberUsagesCommandHandlerBase : CommandBase<UpdateTestEntityForAutoNumberUsagesCommand, TestEntityForAutoNumberUsagesEntity>, IRequestHandler<UpdateTestEntityForAutoNumberUsagesCommand, TestEntityForAutoNumberUsagesKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> _entityFactory;
@@ -46,7 +47,7 @@ internal abstract class UpdateTestEntityForAutoNumberUsagesCommandHandlerBase : 
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<TestEntityForAutoNumberUsagesKeyDto?> Handle(UpdateTestEntityForAutoNumberUsagesCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TestEntityForAutoNumberUsagesKeyDto> Handle(UpdateTestEntityForAutoNumberUsagesCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +56,7 @@ internal abstract class UpdateTestEntityForAutoNumberUsagesCommandHandlerBase : 
 		var entity = await DbContext.TestEntityForAutoNumberUsages.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("TestEntityForAutoNumberUsages",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +66,6 @@ internal abstract class UpdateTestEntityForAutoNumberUsagesCommandHandlerBase : 
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new TestEntityForAutoNumberUsagesKeyDto(entity.Id.Value);
 	}

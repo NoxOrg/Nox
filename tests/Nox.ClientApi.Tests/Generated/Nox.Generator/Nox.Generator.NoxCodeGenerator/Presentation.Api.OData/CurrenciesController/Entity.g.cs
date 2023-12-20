@@ -100,11 +100,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateCurrencyCommand(key, currency, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetCurrencyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateCurrencyCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetCurrencyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteCurrencyByIdCommand(new List<CurrencyKeyDto> { new CurrencyKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

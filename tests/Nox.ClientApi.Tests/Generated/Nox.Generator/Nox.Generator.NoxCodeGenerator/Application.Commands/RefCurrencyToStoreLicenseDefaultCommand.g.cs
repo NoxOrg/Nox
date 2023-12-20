@@ -1,5 +1,4 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -41,13 +41,13 @@ internal partial class CreateRefCurrencyToStoreLicenseDefaultCommandHandler
 		var entity = await GetCurrency(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Currency",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetStoreLicense(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("StoreLicense",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.CreateRefToStoreLicenseDefault(relatedEntity);
@@ -78,7 +78,7 @@ internal partial class UpdateRefCurrencyToStoreLicenseDefaultCommandHandler
 		var entity = await GetCurrency(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Currency",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntities = new List<ClientApi.Domain.StoreLicense>();
@@ -87,7 +87,7 @@ internal partial class UpdateRefCurrencyToStoreLicenseDefaultCommandHandler
 			var relatedEntity = await GetStoreLicense(keyDto);
 			if (relatedEntity == null)
 			{
-				return false;
+				throw new RelatedEntityNotFoundException("StoreLicense", $"{keyDto.keyId.ToString()}");
 			}
 			relatedEntities.Add(relatedEntity);
 		}
@@ -121,13 +121,13 @@ internal partial class DeleteRefCurrencyToStoreLicenseDefaultCommandHandler
         var entity = await GetCurrency(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Currency",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetStoreLicense(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("StoreLicense", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.DeleteRefToStoreLicenseDefault(relatedEntity);
@@ -158,7 +158,7 @@ internal partial class DeleteAllRefCurrencyToStoreLicenseDefaultCommandHandler
         var entity = await GetCurrency(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Currency",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		await DbContext.Entry(entity).Collection(x => x.StoreLicenseDefault).LoadAsync();
 		entity.DeleteAllRefToStoreLicenseDefault();
@@ -208,10 +208,6 @@ internal abstract class RefCurrencyToStoreLicenseDefaultCommandHandlerBase<TRequ
 		await OnCompletedAsync(request, entity);
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return false;
-		}
 		return true;
 	}
 }

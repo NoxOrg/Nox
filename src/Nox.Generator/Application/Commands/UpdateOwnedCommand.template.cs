@@ -2,6 +2,10 @@
 {{- func keyType(key)
    ret (key.Type == "EntityId") ? (SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity) : (SinglePrimitiveTypeForKey key)
 end -}}
+{{- func keysToString(keys, prefix = "key")
+	keyNameWithPrefix(name) = ("{" + prefix + name + ".ToString()}")
+	ret (keys | array.map "Name" | array.each @keyNameWithPrefix | array.join ", ")
+end -}}
 ﻿// Generated
 
 #nullable enable
@@ -13,6 +17,7 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Extensions;
+using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using {{codeGeneratorState.PersistenceNameSpace}};
@@ -23,7 +28,7 @@ using {{parent.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{parent.Na
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public partial record Update{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}UpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+public partial record Update{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}UpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto>;
 
 internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandler : Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase
 {
@@ -37,7 +42,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 	}
 }
 
-internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase : CommandBase<Update{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <Update{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
+internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase : CommandBase<Update{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <Update{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}KeyDto>
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> _entityFactory;
@@ -59,7 +64,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		{{- end }}
 	}
 
-	public virtual async Task<{{entity.Name}}KeyDto?> Handle(Update{{relationshipName}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
+	public virtual async Task<{{entity.Name}}KeyDto> Handle(Update{{relationshipName}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -70,7 +75,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		var parentEntity = await _dbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("{{parent.Name}}",  $"{{keysToString parent.Keys}}");
 		}
 
 		{{- if relationship.WithSingleEntity }}
@@ -96,7 +101,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 			entity = parentEntity.{{relationshipName}}.SingleOrDefault(x => x.{{key.Name}} == owned{{key.Name}});
 			if (entity is null)
 				{{- if !(IsNoxTypeCreatable key.Type) }}
-				return null;
+				throw new EntityNotFoundException("{{entity.Name}}",  $"{{keysToString entity.Keys 'owned'}}");
 				{{- else }}
 				entity = await CreateEntityAsync(request.EntityDto, parentEntity);
 				{{- end }}
@@ -116,10 +121,6 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}

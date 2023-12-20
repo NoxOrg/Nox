@@ -1,5 +1,4 @@
-﻿﻿
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -9,13 +8,15 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using CountryBarCodeEntity = ClientApi.Domain.CountryBarCode;
 
 namespace ClientApi.Application.Commands;
-public partial record PartialUpdateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto?>;
+public partial record PartialUpdateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto>;
 
 internal partial class PartialUpdateCountryBarCodeForCountryCommandHandler: PartialUpdateCountryBarCodeForCountryCommandHandlerBase
 {
@@ -27,7 +28,7 @@ internal partial class PartialUpdateCountryBarCodeForCountryCommandHandler: Part
 	{
 	}
 }
-internal abstract class PartialUpdateCountryBarCodeForCountryCommandHandlerBase: CommandBase<PartialUpdateCountryBarCodeForCountryCommand, CountryBarCodeEntity>, IRequestHandler <PartialUpdateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto?>
+internal abstract class PartialUpdateCountryBarCodeForCountryCommandHandlerBase: CommandBase<PartialUpdateCountryBarCodeForCountryCommand, CountryBarCodeEntity>, IRequestHandler <PartialUpdateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto>
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<CountryBarCodeEntity, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> _entityFactory;
@@ -42,7 +43,7 @@ internal abstract class PartialUpdateCountryBarCodeForCountryCommandHandlerBase:
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<CountryBarCodeKeyDto?> Handle(PartialUpdateCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryBarCodeKeyDto> Handle(PartialUpdateCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -51,14 +52,14 @@ internal abstract class PartialUpdateCountryBarCodeForCountryCommandHandlerBase:
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
 		}
 		await _dbContext.Entry(parentEntity).Reference(e => e.CountryBarCode).LoadAsync(cancellationToken);
 		var entity = parentEntity.CountryBarCode;
 		
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Country.CountryBarCode", String.Empty);
 		}
 
 		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
@@ -68,10 +69,6 @@ internal abstract class PartialUpdateCountryBarCodeForCountryCommandHandlerBase:
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new CountryBarCodeKeyDto();
 	}

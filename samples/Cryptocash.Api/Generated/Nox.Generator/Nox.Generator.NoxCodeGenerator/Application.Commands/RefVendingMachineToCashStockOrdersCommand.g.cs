@@ -1,5 +1,4 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -41,13 +41,13 @@ internal partial class CreateRefVendingMachineToCashStockOrdersCommandHandler
 		var entity = await GetVendingMachine(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetCashStockOrder(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("CashStockOrder",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.CreateRefToCashStockOrders(relatedEntity);
@@ -78,7 +78,7 @@ internal partial class UpdateRefVendingMachineToCashStockOrdersCommandHandler
 		var entity = await GetVendingMachine(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntities = new List<Cryptocash.Domain.CashStockOrder>();
@@ -87,7 +87,7 @@ internal partial class UpdateRefVendingMachineToCashStockOrdersCommandHandler
 			var relatedEntity = await GetCashStockOrder(keyDto);
 			if (relatedEntity == null)
 			{
-				return false;
+				throw new RelatedEntityNotFoundException("CashStockOrder", $"{keyDto.keyId.ToString()}");
 			}
 			relatedEntities.Add(relatedEntity);
 		}
@@ -121,13 +121,13 @@ internal partial class DeleteRefVendingMachineToCashStockOrdersCommandHandler
         var entity = await GetVendingMachine(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetCashStockOrder(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("CashStockOrder", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.DeleteRefToCashStockOrders(relatedEntity);
@@ -158,7 +158,7 @@ internal partial class DeleteAllRefVendingMachineToCashStockOrdersCommandHandler
         var entity = await GetVendingMachine(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		await DbContext.Entry(entity).Collection(x => x.CashStockOrders).LoadAsync();
 		entity.DeleteAllRefToCashStockOrders();
@@ -208,10 +208,6 @@ internal abstract class RefVendingMachineToCashStockOrdersCommandHandlerBase<TRe
 		await OnCompletedAsync(request, entity);
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return false;
-		}
 		return true;
 	}
 }

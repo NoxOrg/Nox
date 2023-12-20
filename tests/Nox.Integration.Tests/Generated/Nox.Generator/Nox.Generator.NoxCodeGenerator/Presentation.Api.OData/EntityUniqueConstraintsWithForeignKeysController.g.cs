@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -37,10 +38,6 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
         }
         
         var createdRef = await _mediator.Send(new CreateRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand(new EntityUniqueConstraintsWithForeignKeyKeyDto(key), new EntityUniqueConstraintsRelatedForeignKeyKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -50,7 +47,7 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
         var entity = (await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(key))).Include(x => x.EntityUniqueConstraintsRelatedForeignKey).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKey", $"{key.ToString()}");
         }
         
         if (entity.EntityUniqueConstraintsRelatedForeignKey is null)
@@ -97,15 +94,11 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
         var related = (await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(key))).Select(x => x.EntityUniqueConstraintsRelatedForeignKey).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("EntityUniqueConstraintsRelatedForeignKey", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateEntityUniqueConstraintsRelatedForeignKeyCommand(related.Id, entityUniqueConstraintsRelatedForeignKey, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(updated.keyId))).SingleOrDefault();
         

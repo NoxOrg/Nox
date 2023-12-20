@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateTestEntityForTypesCommand(System.String keyId, TestEntityForTypesUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityForTypesKeyDto?>;
+public partial record UpdateTestEntityForTypesCommand(System.String keyId, TestEntityForTypesUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityForTypesKeyDto>;
 
 internal partial class UpdateTestEntityForTypesCommandHandler : UpdateTestEntityForTypesCommandHandlerBase
 {
@@ -31,7 +32,7 @@ internal partial class UpdateTestEntityForTypesCommandHandler : UpdateTestEntity
 	}
 }
 
-internal abstract class UpdateTestEntityForTypesCommandHandlerBase : CommandBase<UpdateTestEntityForTypesCommand, TestEntityForTypesEntity>, IRequestHandler<UpdateTestEntityForTypesCommand, TestEntityForTypesKeyDto?>
+internal abstract class UpdateTestEntityForTypesCommandHandlerBase : CommandBase<UpdateTestEntityForTypesCommand, TestEntityForTypesEntity>, IRequestHandler<UpdateTestEntityForTypesCommand, TestEntityForTypesKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> _entityFactory;
@@ -46,7 +47,7 @@ internal abstract class UpdateTestEntityForTypesCommandHandlerBase : CommandBase
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<TestEntityForTypesKeyDto?> Handle(UpdateTestEntityForTypesCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TestEntityForTypesKeyDto> Handle(UpdateTestEntityForTypesCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +56,7 @@ internal abstract class UpdateTestEntityForTypesCommandHandlerBase : CommandBase
 		var entity = await DbContext.TestEntityForTypes.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("TestEntityForTypes",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +66,6 @@ internal abstract class UpdateTestEntityForTypesCommandHandlerBase : CommandBase
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new TestEntityForTypesKeyDto(entity.Id.Value);
 	}

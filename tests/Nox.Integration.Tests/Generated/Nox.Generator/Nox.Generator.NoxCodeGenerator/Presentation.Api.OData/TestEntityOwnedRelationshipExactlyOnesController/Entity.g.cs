@@ -100,11 +100,6 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateTestEntityOwnedRelationshipExactlyOneCommand(key, testEntityOwnedRelationshipExactlyOne, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityOwnedRelationshipExactlyOne", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityOwnedRelationshipExactlyOneByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityOwnedRelationshipExactlyOneCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityOwnedRelationshipExactlyOne", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityOwnedRelationshipExactlyOneByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteTestEntityOwnedRelationshipExactlyOneByIdCommand(new List<TestEntityOwnedRelationshipExactlyOneKeyDto> { new TestEntityOwnedRelationshipExactlyOneKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("TestEntityOwnedRelationshipExactlyOne", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

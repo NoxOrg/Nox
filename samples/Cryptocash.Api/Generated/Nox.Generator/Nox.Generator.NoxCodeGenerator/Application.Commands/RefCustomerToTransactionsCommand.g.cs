@@ -1,5 +1,4 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -41,13 +41,13 @@ internal partial class CreateRefCustomerToTransactionsCommandHandler
 		var entity = await GetCustomer(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Customer",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetTransaction(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("Transaction",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.CreateRefToTransactions(relatedEntity);
@@ -78,7 +78,7 @@ internal partial class UpdateRefCustomerToTransactionsCommandHandler
 		var entity = await GetCustomer(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Customer",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntities = new List<Cryptocash.Domain.Transaction>();
@@ -87,7 +87,7 @@ internal partial class UpdateRefCustomerToTransactionsCommandHandler
 			var relatedEntity = await GetTransaction(keyDto);
 			if (relatedEntity == null)
 			{
-				return false;
+				throw new RelatedEntityNotFoundException("Transaction", $"{keyDto.keyId.ToString()}");
 			}
 			relatedEntities.Add(relatedEntity);
 		}
@@ -121,13 +121,13 @@ internal partial class DeleteRefCustomerToTransactionsCommandHandler
         var entity = await GetCustomer(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Customer",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetTransaction(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("Transaction", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.DeleteRefToTransactions(relatedEntity);
@@ -158,7 +158,7 @@ internal partial class DeleteAllRefCustomerToTransactionsCommandHandler
         var entity = await GetCustomer(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Customer",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		await DbContext.Entry(entity).Collection(x => x.Transactions).LoadAsync();
 		entity.DeleteAllRefToTransactions();
@@ -208,10 +208,6 @@ internal abstract class RefCustomerToTransactionsCommandHandlerBase<TRequest> : 
 		await OnCompletedAsync(request, entity);
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return false;
-		}
 		return true;
 	}
 }

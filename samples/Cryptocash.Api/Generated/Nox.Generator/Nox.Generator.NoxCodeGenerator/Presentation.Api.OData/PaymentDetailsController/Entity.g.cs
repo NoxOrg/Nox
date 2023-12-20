@@ -100,11 +100,6 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdatePaymentDetailCommand(key, paymentDetail, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("PaymentDetail", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetPaymentDetailByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdatePaymentDetailCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("PaymentDetail", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetPaymentDetailByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeletePaymentDetailByIdCommand(new List<PaymentDetailKeyDto> { new PaymentDetailKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("PaymentDetail", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

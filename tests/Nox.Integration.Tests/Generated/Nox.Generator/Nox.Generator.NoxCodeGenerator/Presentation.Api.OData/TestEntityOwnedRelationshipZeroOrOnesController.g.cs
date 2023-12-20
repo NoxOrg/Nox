@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -40,7 +41,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
         
         if (item is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityOwnedRelationshipZeroOrOne", $"{key.ToString()}");
         }
         
         return Ok(item.SecondTestEntityOwnedRelationshipZeroOrOne);
@@ -55,17 +56,8 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
         
         var etag = Request.GetDecodedEtagHeader();
         var createdKey = await _mediator.Send(new CreateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(new TestEntityOwnedRelationshipZeroOrOneKeyDto(key), secondTestEntityOwnedRelationshipZeroOrOne, _cultureCode, etag));
-        if (createdKey == null)
-        {
-            return NotFound();
-        }
         
         var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipZeroOrOneByIdQuery(key))).SingleOrDefault()?.SecondTestEntityOwnedRelationshipZeroOrOne;
-        if (child == null)
-        {
-            return NotFound();
-        }
-        
         return Created(child);
     }
     
@@ -78,16 +70,8 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
         
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(new TestEntityOwnedRelationshipZeroOrOneKeyDto(key), secondTestEntityOwnedRelationshipZeroOrOne, _cultureCode, etag));
-        if (updatedKey == null)
-        {
-            return NotFound();
-        }
         
         var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipZeroOrOneByIdQuery(key))).SingleOrDefault()?.SecondTestEntityOwnedRelationshipZeroOrOne;
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -112,15 +96,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new PartialUpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(new TestEntityOwnedRelationshipZeroOrOneKeyDto(key), updateProperties, _cultureCode, etag));
         
-        if (updated is null)
-        {
-            return NotFound();
-        }
         var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipZeroOrOneByIdQuery(key))).SingleOrDefault()?.SecondTestEntityOwnedRelationshipZeroOrOne;
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -133,10 +109,6 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new DeleteSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(new TestEntityOwnedRelationshipZeroOrOneKeyDto(key)));
-        if (!result)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }

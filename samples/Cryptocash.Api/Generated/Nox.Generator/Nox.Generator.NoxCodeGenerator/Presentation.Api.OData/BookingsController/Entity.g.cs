@@ -100,11 +100,6 @@ public abstract partial class BookingsControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateBookingCommand(key, booking, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("Booking", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetBookingByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class BookingsControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateBookingCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("Booking", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetBookingByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class BookingsControllerBase : ODataController
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteBookingByIdCommand(new List<BookingKeyDto> { new BookingKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("Booking", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

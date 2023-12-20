@@ -1,5 +1,4 @@
-﻿
-using Nox.Types;
+﻿using Nox.Types;
 
 namespace Nox.Domain;
 

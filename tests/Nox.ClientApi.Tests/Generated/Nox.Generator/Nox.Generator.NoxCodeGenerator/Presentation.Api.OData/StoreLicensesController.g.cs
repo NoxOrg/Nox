@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
 using ClientApi.Application.Queries;
@@ -37,10 +38,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefStoreLicenseToStoreCommand(new StoreLicenseKeyDto(key), new StoreKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -50,7 +47,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         var entity = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Include(x => x.Store).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("StoreLicense", $"{key.ToString()}");
         }
         
         if (entity.Store is null)
@@ -97,15 +94,11 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.Store).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Store", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateStoreCommand(related.Id, store, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetStoreByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -120,10 +113,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefStoreLicenseToDefaultCurrencyCommand(new StoreLicenseKeyDto(key), new CurrencyKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -133,7 +122,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         var entity = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Include(x => x.DefaultCurrency).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("StoreLicense", $"{key.ToString()}");
         }
         
         if (entity.DefaultCurrency is null)
@@ -152,10 +141,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefStoreLicenseToDefaultCurrencyCommand(new StoreLicenseKeyDto(key), new CurrencyKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -168,10 +153,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefStoreLicenseToDefaultCurrencyCommand(new StoreLicenseKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -212,15 +193,11 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.DefaultCurrency).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("DefaultCurrency", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCurrencyCommand(related.Id, currency, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -238,15 +215,11 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.DefaultCurrency).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("StoreLicense", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteCurrencyByIdCommand(new List<CurrencyKeyDto> { new CurrencyKeyDto(related.Id) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         return NoContent();
     }
     
@@ -258,10 +231,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefStoreLicenseToSoldInCurrencyCommand(new StoreLicenseKeyDto(key), new CurrencyKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -271,7 +240,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         var entity = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Include(x => x.SoldInCurrency).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("StoreLicense", $"{key.ToString()}");
         }
         
         if (entity.SoldInCurrency is null)
@@ -290,10 +259,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefStoreLicenseToSoldInCurrencyCommand(new StoreLicenseKeyDto(key), new CurrencyKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -306,10 +271,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefStoreLicenseToSoldInCurrencyCommand(new StoreLicenseKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -350,15 +311,11 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.SoldInCurrency).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("SoldInCurrency", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCurrencyCommand(related.Id, currency, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -376,15 +333,11 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.SoldInCurrency).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("StoreLicense", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteCurrencyByIdCommand(new List<CurrencyKeyDto> { new CurrencyKeyDto(related.Id) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         return NoContent();
     }
     

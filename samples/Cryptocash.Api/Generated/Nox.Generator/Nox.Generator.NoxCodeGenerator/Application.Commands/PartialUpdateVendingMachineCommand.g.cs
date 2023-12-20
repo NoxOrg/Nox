@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -16,7 +17,7 @@ using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record PartialUpdateVendingMachineCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <VendingMachineKeyDto?>;
+public partial record PartialUpdateVendingMachineCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <VendingMachineKeyDto>;
 
 internal partial class PartialUpdateVendingMachineCommandHandler : PartialUpdateVendingMachineCommandHandlerBase
 {
@@ -28,7 +29,7 @@ internal partial class PartialUpdateVendingMachineCommandHandler : PartialUpdate
 	{
 	}
 }
-internal abstract class PartialUpdateVendingMachineCommandHandlerBase : CommandBase<PartialUpdateVendingMachineCommand, VendingMachineEntity>, IRequestHandler<PartialUpdateVendingMachineCommand, VendingMachineKeyDto?>
+internal abstract class PartialUpdateVendingMachineCommandHandlerBase : CommandBase<PartialUpdateVendingMachineCommand, VendingMachineEntity>, IRequestHandler<PartialUpdateVendingMachineCommand, VendingMachineKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<VendingMachineEntity, VendingMachineCreateDto, VendingMachineUpdateDto> EntityFactory { get; }
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateVendingMachineCommandHandlerBase : CommandB
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<VendingMachineKeyDto?> Handle(PartialUpdateVendingMachineCommand request, CancellationToken cancellationToken)
+	public virtual async Task<VendingMachineKeyDto> Handle(PartialUpdateVendingMachineCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,7 +53,7 @@ internal abstract class PartialUpdateVendingMachineCommandHandlerBase : CommandB
 		var entity = await DbContext.VendingMachines.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("VendingMachine",  $"{keyId.ToString()}");
 		}
 		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

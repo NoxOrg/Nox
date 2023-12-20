@@ -1,5 +1,4 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -41,13 +41,13 @@ internal partial class CreateRefPaymentDetailToCustomerCommandHandler
 		var entity = await GetPaymentDetail(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("PaymentDetail",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetCustomer(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("Customer",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.CreateRefToCustomer(relatedEntity);
@@ -78,13 +78,13 @@ internal partial class DeleteRefPaymentDetailToCustomerCommandHandler
         var entity = await GetPaymentDetail(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("PaymentDetail",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetCustomer(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("Customer", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.DeleteRefToCustomer(relatedEntity);
@@ -115,7 +115,7 @@ internal partial class DeleteAllRefPaymentDetailToCustomerCommandHandler
         var entity = await GetPaymentDetail(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("PaymentDetail",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToCustomer();
 
@@ -164,10 +164,6 @@ internal abstract class RefPaymentDetailToCustomerCommandHandlerBase<TRequest> :
 		await OnCompletedAsync(request, entity);
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return false;
-		}
 		return true;
 	}
 }

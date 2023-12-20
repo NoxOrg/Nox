@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using CryptocashIntegration.Infrastructure.Persistence;
 using CryptocashIntegration.Domain;
@@ -16,7 +17,7 @@ using CountryQueryToTableEntity = CryptocashIntegration.Domain.CountryQueryToTab
 
 namespace CryptocashIntegration.Application.Commands;
 
-public partial record PartialUpdateCountryQueryToTableCommand(System.Int32 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryQueryToTableKeyDto?>;
+public partial record PartialUpdateCountryQueryToTableCommand(System.Int32 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryQueryToTableKeyDto>;
 
 internal partial class PartialUpdateCountryQueryToTableCommandHandler : PartialUpdateCountryQueryToTableCommandHandlerBase
 {
@@ -28,7 +29,7 @@ internal partial class PartialUpdateCountryQueryToTableCommandHandler : PartialU
 	{
 	}
 }
-internal abstract class PartialUpdateCountryQueryToTableCommandHandlerBase : CommandBase<PartialUpdateCountryQueryToTableCommand, CountryQueryToTableEntity>, IRequestHandler<PartialUpdateCountryQueryToTableCommand, CountryQueryToTableKeyDto?>
+internal abstract class PartialUpdateCountryQueryToTableCommandHandlerBase : CommandBase<PartialUpdateCountryQueryToTableCommand, CountryQueryToTableEntity>, IRequestHandler<PartialUpdateCountryQueryToTableCommand, CountryQueryToTableKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<CountryQueryToTableEntity, CountryQueryToTableCreateDto, CountryQueryToTableUpdateDto> EntityFactory { get; }
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateCountryQueryToTableCommandHandlerBase : Com
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<CountryQueryToTableKeyDto?> Handle(PartialUpdateCountryQueryToTableCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryQueryToTableKeyDto> Handle(PartialUpdateCountryQueryToTableCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,7 +53,7 @@ internal abstract class PartialUpdateCountryQueryToTableCommandHandlerBase : Com
 		var entity = await DbContext.CountryQueryToTables.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("CountryQueryToTable",  $"{keyId.ToString()}");
 		}
 		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

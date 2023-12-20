@@ -100,11 +100,6 @@ public abstract partial class CountryQueryToCustomTablesControllerBase : ODataCo
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateCountryQueryToCustomTableCommand(key, countryQueryToCustomTable, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("CountryQueryToCustomTable", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetCountryQueryToCustomTableByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class CountryQueryToCustomTablesControllerBase : ODataCo
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateCountryQueryToCustomTableCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("CountryQueryToCustomTable", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetCountryQueryToCustomTableByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class CountryQueryToCustomTablesControllerBase : ODataCo
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteCountryQueryToCustomTableByIdCommand(new List<CountryQueryToCustomTableKeyDto> { new CountryQueryToCustomTableKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("CountryQueryToCustomTable", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

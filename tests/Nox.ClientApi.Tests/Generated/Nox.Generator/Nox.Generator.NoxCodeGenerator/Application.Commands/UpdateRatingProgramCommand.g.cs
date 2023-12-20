@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateRatingProgramCommand(System.Guid keyStoreId, System.Int64 keyId, RatingProgramUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<RatingProgramKeyDto?>;
+public partial record UpdateRatingProgramCommand(System.Guid keyStoreId, System.Int64 keyId, RatingProgramUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<RatingProgramKeyDto>;
 
 internal partial class UpdateRatingProgramCommandHandler : UpdateRatingProgramCommandHandlerBase
 {
@@ -31,7 +32,7 @@ internal partial class UpdateRatingProgramCommandHandler : UpdateRatingProgramCo
 	}
 }
 
-internal abstract class UpdateRatingProgramCommandHandlerBase : CommandBase<UpdateRatingProgramCommand, RatingProgramEntity>, IRequestHandler<UpdateRatingProgramCommand, RatingProgramKeyDto?>
+internal abstract class UpdateRatingProgramCommandHandlerBase : CommandBase<UpdateRatingProgramCommand, RatingProgramEntity>, IRequestHandler<UpdateRatingProgramCommand, RatingProgramKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> _entityFactory;
@@ -46,7 +47,7 @@ internal abstract class UpdateRatingProgramCommandHandlerBase : CommandBase<Upda
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<RatingProgramKeyDto?> Handle(UpdateRatingProgramCommand request, CancellationToken cancellationToken)
+	public virtual async Task<RatingProgramKeyDto> Handle(UpdateRatingProgramCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -56,7 +57,7 @@ internal abstract class UpdateRatingProgramCommandHandlerBase : CommandBase<Upda
 		var entity = await DbContext.RatingPrograms.FindAsync(keyStoreId, keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("RatingProgram",  $"{keyStoreId.ToString()}, {keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -66,10 +67,6 @@ internal abstract class UpdateRatingProgramCommandHandlerBase : CommandBase<Upda
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new RatingProgramKeyDto(entity.StoreId.Value, entity.Id.Value);
 	}

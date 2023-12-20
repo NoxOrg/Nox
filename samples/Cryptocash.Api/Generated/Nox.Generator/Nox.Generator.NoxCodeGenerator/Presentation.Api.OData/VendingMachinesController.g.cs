@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -37,10 +38,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefVendingMachineToCountryCommand(new VendingMachineKeyDto(key), new CountryKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -50,7 +47,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var entity = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Include(x => x.Country).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachine", $"{key.ToString()}");
         }
         
         if (entity.Country is null)
@@ -97,15 +94,11 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Country", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCountryCommand(related.Id, country, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -120,10 +113,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefVendingMachineToLandLordCommand(new VendingMachineKeyDto(key), new LandLordKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -133,7 +122,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var entity = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Include(x => x.LandLord).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachine", $"{key.ToString()}");
         }
         
         if (entity.LandLord is null)
@@ -180,15 +169,11 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.LandLord).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("LandLord", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateLandLordCommand(related.Id, landLord, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetLandLordByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -203,10 +188,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefVendingMachineToBookingsCommand(new VendingMachineKeyDto(key), new BookingKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -221,10 +202,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         
         var relatedKeysDto = referencesDto.References.Select(x => new BookingKeyDto(x)).ToList();
         var updatedRef = await _mediator.Send(new UpdateRefVendingMachineToBookingsCommand(new VendingMachineKeyDto(key), relatedKeysDto));
-        if (!updatedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -234,7 +211,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var entity = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Include(x => x.Bookings).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachine", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -253,10 +230,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefVendingMachineToBookingsCommand(new VendingMachineKeyDto(key), new BookingKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -269,10 +242,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToBookingsCommand(new VendingMachineKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -298,7 +267,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var query = await _mediator.Send(new GetVendingMachineByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachine", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.Bookings).SelectMany(x => x.Bookings));
     }
@@ -326,15 +295,11 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Bookings", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateBookingCommand(relatedKey, booking, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetBookingByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -352,15 +317,11 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Bookings", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteBookingByIdCommand(new List<BookingKeyDto> { new BookingKeyDto(relatedKey) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -376,7 +337,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.Bookings).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachine", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -392,10 +353,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefVendingMachineToCashStockOrdersCommand(new VendingMachineKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -410,10 +367,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         
         var relatedKeysDto = referencesDto.References.Select(x => new CashStockOrderKeyDto(x)).ToList();
         var updatedRef = await _mediator.Send(new UpdateRefVendingMachineToCashStockOrdersCommand(new VendingMachineKeyDto(key), relatedKeysDto));
-        if (!updatedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -423,7 +376,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var entity = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Include(x => x.CashStockOrders).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachine", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -442,10 +395,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefVendingMachineToCashStockOrdersCommand(new VendingMachineKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -458,10 +407,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToCashStockOrdersCommand(new VendingMachineKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -487,7 +432,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var query = await _mediator.Send(new GetVendingMachineByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachine", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.CashStockOrders).SelectMany(x => x.CashStockOrders));
     }
@@ -515,15 +460,11 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.CashStockOrders).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("CashStockOrders", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCashStockOrderCommand(relatedKey, cashStockOrder, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetCashStockOrderByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -541,15 +482,11 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.CashStockOrders).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("CashStockOrders", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteCashStockOrderByIdCommand(new List<CashStockOrderKeyDto> { new CashStockOrderKeyDto(relatedKey) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -565,7 +502,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.CashStockOrders).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachine", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -581,10 +518,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefVendingMachineToMinimumCashStocksCommand(new VendingMachineKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -599,10 +532,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         
         var relatedKeysDto = referencesDto.References.Select(x => new MinimumCashStockKeyDto(x)).ToList();
         var updatedRef = await _mediator.Send(new UpdateRefVendingMachineToMinimumCashStocksCommand(new VendingMachineKeyDto(key), relatedKeysDto));
-        if (!updatedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -612,7 +541,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var entity = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Include(x => x.MinimumCashStocks).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachine", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -631,10 +560,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefVendingMachineToMinimumCashStocksCommand(new VendingMachineKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -647,10 +572,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToMinimumCashStocksCommand(new VendingMachineKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -676,7 +597,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var query = await _mediator.Send(new GetVendingMachineByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachine", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.MinimumCashStocks).SelectMany(x => x.MinimumCashStocks));
     }
@@ -704,15 +625,11 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStocks", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateMinimumCashStockCommand(relatedKey, minimumCashStock, _cultureCode, etag));
-        if (updated == null)
-        {
-            return NotFound();
-        }
         
         var updatedItem = (await _mediator.Send(new GetMinimumCashStockByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -730,15 +647,11 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStocks", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteMinimumCashStockByIdCommand(new List<MinimumCashStockKeyDto> { new MinimumCashStockKeyDto(relatedKey) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -754,7 +667,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.MinimumCashStocks).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachine", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();

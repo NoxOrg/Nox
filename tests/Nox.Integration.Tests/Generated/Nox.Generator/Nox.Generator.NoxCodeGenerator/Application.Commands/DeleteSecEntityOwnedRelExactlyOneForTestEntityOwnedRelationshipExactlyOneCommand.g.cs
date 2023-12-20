@@ -1,5 +1,4 @@
-﻿﻿
-﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -9,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
@@ -47,13 +47,13 @@ internal partial class DeleteSecEntityOwnedRelExactlyOneForTestEntityOwnedRelati
 		var parentEntity = await DbContext.TestEntityOwnedRelationshipExactlyOnes.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityOwnedRelationshipExactlyOne",  $"{keyId.ToString()}");
 		}
 		await DbContext.Entry(parentEntity).Reference(e => e.SecEntityOwnedRelExactlyOne).LoadAsync(cancellationToken);
 		var entity = parentEntity.SecEntityOwnedRelExactlyOne;
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityOwnedRelationshipExactlyOne.SecEntityOwnedRelExactlyOne",  String.Empty);
 		}
 
 		parentEntity.DeleteRefToSecEntityOwnedRelExactlyOne(entity);
@@ -64,10 +64,6 @@ internal partial class DeleteSecEntityOwnedRelExactlyOneForTestEntityOwnedRelati
 		DbContext.Entry(entity).State = EntityState.Deleted;
 
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
-		if (result < 1)
-		{
-			return false;
-		}
 
 		return true;
 	}

@@ -100,11 +100,6 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateThirdTestEntityOneOrManyCommand(key, thirdTestEntityOneOrMany, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("ThirdTestEntityOneOrMany", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateThirdTestEntityOneOrManyCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("ThirdTestEntityOneOrMany", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteThirdTestEntityOneOrManyByIdCommand(new List<ThirdTestEntityOneOrManyKeyDto> { new ThirdTestEntityOneOrManyKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("ThirdTestEntityOneOrMany", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

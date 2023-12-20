@@ -100,11 +100,6 @@ public abstract partial class TestEntityForTypesControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateTestEntityForTypesCommand(key, testEntityForTypes, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityForTypes", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityForTypesByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class TestEntityForTypesControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityForTypesCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityForTypes", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityForTypesByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class TestEntityForTypesControllerBase : ODataController
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteTestEntityForTypesByIdCommand(new List<TestEntityForTypesKeyDto> { new TestEntityForTypesKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("TestEntityForTypes", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

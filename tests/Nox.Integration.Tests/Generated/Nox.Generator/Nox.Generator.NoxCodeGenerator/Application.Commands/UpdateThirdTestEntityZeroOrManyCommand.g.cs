@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using ThirdTestEntityZeroOrManyEntity = TestWebApp.Domain.ThirdTestEntityZeroOrM
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateThirdTestEntityZeroOrManyCommand(System.String keyId, ThirdTestEntityZeroOrManyUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<ThirdTestEntityZeroOrManyKeyDto?>;
+public partial record UpdateThirdTestEntityZeroOrManyCommand(System.String keyId, ThirdTestEntityZeroOrManyUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<ThirdTestEntityZeroOrManyKeyDto>;
 
 internal partial class UpdateThirdTestEntityZeroOrManyCommandHandler : UpdateThirdTestEntityZeroOrManyCommandHandlerBase
 {
@@ -31,7 +32,7 @@ internal partial class UpdateThirdTestEntityZeroOrManyCommandHandler : UpdateThi
 	}
 }
 
-internal abstract class UpdateThirdTestEntityZeroOrManyCommandHandlerBase : CommandBase<UpdateThirdTestEntityZeroOrManyCommand, ThirdTestEntityZeroOrManyEntity>, IRequestHandler<UpdateThirdTestEntityZeroOrManyCommand, ThirdTestEntityZeroOrManyKeyDto?>
+internal abstract class UpdateThirdTestEntityZeroOrManyCommandHandlerBase : CommandBase<UpdateThirdTestEntityZeroOrManyCommand, ThirdTestEntityZeroOrManyEntity>, IRequestHandler<UpdateThirdTestEntityZeroOrManyCommand, ThirdTestEntityZeroOrManyKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<ThirdTestEntityZeroOrManyEntity, ThirdTestEntityZeroOrManyCreateDto, ThirdTestEntityZeroOrManyUpdateDto> _entityFactory;
@@ -46,7 +47,7 @@ internal abstract class UpdateThirdTestEntityZeroOrManyCommandHandlerBase : Comm
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<ThirdTestEntityZeroOrManyKeyDto?> Handle(UpdateThirdTestEntityZeroOrManyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<ThirdTestEntityZeroOrManyKeyDto> Handle(UpdateThirdTestEntityZeroOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +56,7 @@ internal abstract class UpdateThirdTestEntityZeroOrManyCommandHandlerBase : Comm
 		var entity = await DbContext.ThirdTestEntityZeroOrManies.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("ThirdTestEntityZeroOrMany",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +66,6 @@ internal abstract class UpdateThirdTestEntityZeroOrManyCommandHandlerBase : Comm
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new ThirdTestEntityZeroOrManyKeyDto(entity.Id.Value);
 	}

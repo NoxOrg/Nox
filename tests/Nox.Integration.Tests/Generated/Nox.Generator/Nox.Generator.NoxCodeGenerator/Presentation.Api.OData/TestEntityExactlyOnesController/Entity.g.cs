@@ -100,11 +100,6 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateTestEntityExactlyOneCommand(key, testEntityExactlyOne, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityExactlyOne", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityExactlyOneCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityExactlyOne", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteTestEntityExactlyOneByIdCommand(new List<TestEntityExactlyOneKeyDto> { new TestEntityExactlyOneKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("TestEntityExactlyOne", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

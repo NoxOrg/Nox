@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Extensions;
+using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
@@ -19,7 +20,7 @@ using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateEmployeePhoneNumbersForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
+public partial record UpdateEmployeePhoneNumbersForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto>;
 
 internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandler : UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase
 {
@@ -32,7 +33,7 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandler : Upd
 	}
 }
 
-internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase : CommandBase<UpdateEmployeePhoneNumbersForEmployeeCommand, EmployeePhoneNumberEntity>, IRequestHandler <UpdateEmployeePhoneNumbersForEmployeeCommand, EmployeePhoneNumberKeyDto?>
+internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase : CommandBase<UpdateEmployeePhoneNumbersForEmployeeCommand, EmployeePhoneNumberEntity>, IRequestHandler <UpdateEmployeePhoneNumbersForEmployeeCommand, EmployeePhoneNumberKeyDto>
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> _entityFactory;
@@ -47,7 +48,7 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<EmployeePhoneNumberKeyDto?> Handle(UpdateEmployeePhoneNumbersForEmployeeCommand request, CancellationToken cancellationToken)
+	public virtual async Task<EmployeePhoneNumberKeyDto> Handle(UpdateEmployeePhoneNumbersForEmployeeCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +56,7 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 		var parentEntity = await _dbContext.Employees.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Employee",  $"{keyId.ToString()}");
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.EmployeePhoneNumbers).LoadAsync(cancellationToken);
 		
@@ -69,7 +70,7 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 			var ownedId = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
 			entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
 			if (entity is null)
-				return null;
+				throw new EntityNotFoundException("EmployeePhoneNumber",  $"{ownedId.ToString()}");
 			else
 				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		}
@@ -81,10 +82,6 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new EmployeePhoneNumberKeyDto(entity.Id.Value);
 	}

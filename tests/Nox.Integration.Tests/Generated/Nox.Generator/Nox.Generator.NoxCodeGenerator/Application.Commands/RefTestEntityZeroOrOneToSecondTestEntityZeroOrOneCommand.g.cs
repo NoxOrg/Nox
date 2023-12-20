@@ -1,5 +1,4 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -41,13 +41,13 @@ internal partial class CreateRefTestEntityZeroOrOneToSecondTestEntityZeroOrOneCo
 		var entity = await GetTestEntityZeroOrOne(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityZeroOrOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetSecondTestEntityZeroOrOne(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("SecondTestEntityZeroOrOne",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.CreateRefToSecondTestEntityZeroOrOne(relatedEntity);
@@ -78,13 +78,13 @@ internal partial class DeleteRefTestEntityZeroOrOneToSecondTestEntityZeroOrOneCo
         var entity = await GetTestEntityZeroOrOne(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityZeroOrOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetSecondTestEntityZeroOrOne(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("SecondTestEntityZeroOrOne", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.DeleteRefToSecondTestEntityZeroOrOne(relatedEntity);
@@ -115,7 +115,7 @@ internal partial class DeleteAllRefTestEntityZeroOrOneToSecondTestEntityZeroOrOn
         var entity = await GetTestEntityZeroOrOne(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityZeroOrOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToSecondTestEntityZeroOrOne();
 
@@ -164,10 +164,6 @@ internal abstract class RefTestEntityZeroOrOneToSecondTestEntityZeroOrOneCommand
 		await OnCompletedAsync(request, entity);
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return false;
-		}
 		return true;
 	}
 }

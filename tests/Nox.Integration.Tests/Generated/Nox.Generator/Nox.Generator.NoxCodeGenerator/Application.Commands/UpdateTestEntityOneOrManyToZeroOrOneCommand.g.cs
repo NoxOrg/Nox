@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using TestEntityOneOrManyToZeroOrOneEntity = TestWebApp.Domain.TestEntityOneOrMa
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateTestEntityOneOrManyToZeroOrOneCommand(System.String keyId, TestEntityOneOrManyToZeroOrOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityOneOrManyToZeroOrOneKeyDto?>;
+public partial record UpdateTestEntityOneOrManyToZeroOrOneCommand(System.String keyId, TestEntityOneOrManyToZeroOrOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityOneOrManyToZeroOrOneKeyDto>;
 
 internal partial class UpdateTestEntityOneOrManyToZeroOrOneCommandHandler : UpdateTestEntityOneOrManyToZeroOrOneCommandHandlerBase
 {
@@ -31,7 +32,7 @@ internal partial class UpdateTestEntityOneOrManyToZeroOrOneCommandHandler : Upda
 	}
 }
 
-internal abstract class UpdateTestEntityOneOrManyToZeroOrOneCommandHandlerBase : CommandBase<UpdateTestEntityOneOrManyToZeroOrOneCommand, TestEntityOneOrManyToZeroOrOneEntity>, IRequestHandler<UpdateTestEntityOneOrManyToZeroOrOneCommand, TestEntityOneOrManyToZeroOrOneKeyDto?>
+internal abstract class UpdateTestEntityOneOrManyToZeroOrOneCommandHandlerBase : CommandBase<UpdateTestEntityOneOrManyToZeroOrOneCommand, TestEntityOneOrManyToZeroOrOneEntity>, IRequestHandler<UpdateTestEntityOneOrManyToZeroOrOneCommand, TestEntityOneOrManyToZeroOrOneKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityOneOrManyToZeroOrOneEntity, TestEntityOneOrManyToZeroOrOneCreateDto, TestEntityOneOrManyToZeroOrOneUpdateDto> _entityFactory;
@@ -46,7 +47,7 @@ internal abstract class UpdateTestEntityOneOrManyToZeroOrOneCommandHandlerBase :
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<TestEntityOneOrManyToZeroOrOneKeyDto?> Handle(UpdateTestEntityOneOrManyToZeroOrOneCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TestEntityOneOrManyToZeroOrOneKeyDto> Handle(UpdateTestEntityOneOrManyToZeroOrOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +56,7 @@ internal abstract class UpdateTestEntityOneOrManyToZeroOrOneCommandHandlerBase :
 		var entity = await DbContext.TestEntityOneOrManyToZeroOrOnes.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("TestEntityOneOrManyToZeroOrOne",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +66,6 @@ internal abstract class UpdateTestEntityOneOrManyToZeroOrOneCommandHandlerBase :
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new TestEntityOneOrManyToZeroOrOneKeyDto(entity.Id.Value);
 	}

@@ -100,11 +100,6 @@ public abstract partial class TestEntityZeroOrOneToExactlyOnesControllerBase : O
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateTestEntityZeroOrOneToExactlyOneCommand(key, testEntityZeroOrOneToExactlyOne, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityZeroOrOneToExactlyOne", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityZeroOrOneToExactlyOneByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class TestEntityZeroOrOneToExactlyOnesControllerBase : O
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityZeroOrOneToExactlyOneCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityZeroOrOneToExactlyOne", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityZeroOrOneToExactlyOneByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class TestEntityZeroOrOneToExactlyOnesControllerBase : O
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteTestEntityZeroOrOneToExactlyOneByIdCommand(new List<TestEntityZeroOrOneToExactlyOneKeyDto> { new TestEntityZeroOrOneToExactlyOneKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("TestEntityZeroOrOneToExactlyOne", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

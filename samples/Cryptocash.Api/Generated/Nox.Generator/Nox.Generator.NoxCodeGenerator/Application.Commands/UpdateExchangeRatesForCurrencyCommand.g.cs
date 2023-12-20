@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Extensions;
+using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
@@ -19,7 +20,7 @@ using CurrencyEntity = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateExchangeRatesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <ExchangeRateKeyDto?>;
+public partial record UpdateExchangeRatesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <ExchangeRateKeyDto>;
 
 internal partial class UpdateExchangeRatesForCurrencyCommandHandler : UpdateExchangeRatesForCurrencyCommandHandlerBase
 {
@@ -32,7 +33,7 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandler : UpdateExch
 	}
 }
 
-internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : CommandBase<UpdateExchangeRatesForCurrencyCommand, ExchangeRateEntity>, IRequestHandler <UpdateExchangeRatesForCurrencyCommand, ExchangeRateKeyDto?>
+internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : CommandBase<UpdateExchangeRatesForCurrencyCommand, ExchangeRateEntity>, IRequestHandler <UpdateExchangeRatesForCurrencyCommand, ExchangeRateKeyDto>
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> _entityFactory;
@@ -47,7 +48,7 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<ExchangeRateKeyDto?> Handle(UpdateExchangeRatesForCurrencyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<ExchangeRateKeyDto> Handle(UpdateExchangeRatesForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +56,7 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 		var parentEntity = await _dbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Currency",  $"{keyId.ToString()}");
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.ExchangeRates).LoadAsync(cancellationToken);
 		
@@ -69,7 +70,7 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 			var ownedId = Cryptocash.Domain.ExchangeRateMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
 			entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);
 			if (entity is null)
-				return null;
+				throw new EntityNotFoundException("ExchangeRate",  $"{ownedId.ToString()}");
 			else
 				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		}
@@ -81,10 +82,6 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new ExchangeRateKeyDto(entity.Id.Value);
 	}

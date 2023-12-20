@@ -100,11 +100,6 @@ public abstract partial class TenantsControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateTenantCommand(key, tenant, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("Tenant", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTenantByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class TenantsControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTenantCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("Tenant", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTenantByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class TenantsControllerBase : ODataController
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteTenantByIdCommand(new List<TenantKeyDto> { new TenantKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("Tenant", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

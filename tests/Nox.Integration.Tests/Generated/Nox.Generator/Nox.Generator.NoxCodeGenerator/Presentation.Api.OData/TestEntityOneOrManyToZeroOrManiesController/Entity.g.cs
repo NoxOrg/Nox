@@ -100,11 +100,6 @@ public abstract partial class TestEntityOneOrManyToZeroOrManiesControllerBase : 
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateTestEntityOneOrManyToZeroOrManyCommand(key, testEntityOneOrManyToZeroOrMany, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityOneOrManyToZeroOrMany", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityOneOrManyToZeroOrManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class TestEntityOneOrManyToZeroOrManiesControllerBase : 
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityOneOrManyToZeroOrManyCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityOneOrManyToZeroOrMany", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityOneOrManyToZeroOrManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class TestEntityOneOrManyToZeroOrManiesControllerBase : 
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteTestEntityOneOrManyToZeroOrManyByIdCommand(new List<TestEntityOneOrManyToZeroOrManyKeyDto> { new TestEntityOneOrManyToZeroOrManyKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("TestEntityOneOrManyToZeroOrMany", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

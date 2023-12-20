@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -16,7 +17,7 @@ using SecondTestEntityOneOrManyEntity = TestWebApp.Domain.SecondTestEntityOneOrM
 
 namespace TestWebApp.Application.Commands;
 
-public partial record PartialUpdateSecondTestEntityOneOrManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <SecondTestEntityOneOrManyKeyDto?>;
+public partial record PartialUpdateSecondTestEntityOneOrManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <SecondTestEntityOneOrManyKeyDto>;
 
 internal partial class PartialUpdateSecondTestEntityOneOrManyCommandHandler : PartialUpdateSecondTestEntityOneOrManyCommandHandlerBase
 {
@@ -28,7 +29,7 @@ internal partial class PartialUpdateSecondTestEntityOneOrManyCommandHandler : Pa
 	{
 	}
 }
-internal abstract class PartialUpdateSecondTestEntityOneOrManyCommandHandlerBase : CommandBase<PartialUpdateSecondTestEntityOneOrManyCommand, SecondTestEntityOneOrManyEntity>, IRequestHandler<PartialUpdateSecondTestEntityOneOrManyCommand, SecondTestEntityOneOrManyKeyDto?>
+internal abstract class PartialUpdateSecondTestEntityOneOrManyCommandHandlerBase : CommandBase<PartialUpdateSecondTestEntityOneOrManyCommand, SecondTestEntityOneOrManyEntity>, IRequestHandler<PartialUpdateSecondTestEntityOneOrManyCommand, SecondTestEntityOneOrManyKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<SecondTestEntityOneOrManyEntity, SecondTestEntityOneOrManyCreateDto, SecondTestEntityOneOrManyUpdateDto> EntityFactory { get; }
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateSecondTestEntityOneOrManyCommandHandlerBase
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<SecondTestEntityOneOrManyKeyDto?> Handle(PartialUpdateSecondTestEntityOneOrManyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<SecondTestEntityOneOrManyKeyDto> Handle(PartialUpdateSecondTestEntityOneOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,7 +53,7 @@ internal abstract class PartialUpdateSecondTestEntityOneOrManyCommandHandlerBase
 		var entity = await DbContext.SecondTestEntityOneOrManies.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("SecondTestEntityOneOrMany",  $"{keyId.ToString()}");
 		}
 		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

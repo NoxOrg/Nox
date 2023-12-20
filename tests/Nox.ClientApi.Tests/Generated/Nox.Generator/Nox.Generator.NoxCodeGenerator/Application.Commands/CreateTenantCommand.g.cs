@@ -111,7 +111,7 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 	
 	private void CreateTenantContactLocalization(ClientApi.Domain.TenantContact? entity, Nox.Types.CultureCode cultureCode)
 	{
-		if(entity is null) return;
+		if (entity is null) return;
 		var entityLocalized = TenantContactLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
 		DbContext.TenantContactsLocalized.Add(entityLocalized);
 	}	

@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Extensions;
+using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
@@ -19,7 +20,7 @@ using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, CountryBarCodeUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto?>;
+public partial record UpdateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, CountryBarCodeUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto>;
 
 internal partial class UpdateCountryBarCodeForCountryCommandHandler : UpdateCountryBarCodeForCountryCommandHandlerBase
 {
@@ -32,7 +33,7 @@ internal partial class UpdateCountryBarCodeForCountryCommandHandler : UpdateCoun
 	}
 }
 
-internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : CommandBase<UpdateCountryBarCodeForCountryCommand, CountryBarCodeEntity>, IRequestHandler <UpdateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto?>
+internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : CommandBase<UpdateCountryBarCodeForCountryCommand, CountryBarCodeEntity>, IRequestHandler <UpdateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto>
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<CountryBarCodeEntity, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> _entityFactory;
@@ -47,7 +48,7 @@ internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : Comman
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<CountryBarCodeKeyDto?> Handle(UpdateCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryBarCodeKeyDto> Handle(UpdateCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +56,7 @@ internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : Comman
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
 		}
 		await _dbContext.Entry(parentEntity).Reference(e => e.CountryBarCode).LoadAsync(cancellationToken);
 		var entity = parentEntity.CountryBarCode;
@@ -71,10 +72,6 @@ internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : Comman
 
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new CountryBarCodeKeyDto();
 	}
