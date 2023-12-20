@@ -381,7 +381,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                     PropertyInfo? prop = testItem!.GetType().GetProperty("Id", BindingFlags.Public | BindingFlags.Instance);
                     if (prop != null && prop.CanWrite)
                     {
-                        prop.SetValue(testItem, 1, null);
+                        prop.SetValue(testItem, new System.Guid(), null);
                     }
 
                     testData.Add(testItem);

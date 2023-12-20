@@ -19,7 +19,7 @@ public class CurrencyService : IEntityService
     {
         ApiUiService rtnApiUiService = new();
 
-        rtnApiUiService.Url = BaseApiUrl + "api/v1/Currencies";
+        rtnApiUiService.Url = BaseApiUrl + "api/Currencies";
 
         rtnApiUiService.OrderList = new List<SortOrder> {
             new SortOrder()
