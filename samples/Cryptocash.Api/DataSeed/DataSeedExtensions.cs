@@ -16,14 +16,14 @@ public static class DataSeedExtensions
             .AddScoped<IDataSeeder, CryptocashCountryDataSeeder>()
             .AddScoped<IDataSeeder, CryptocashEmployeeDataSeeder>()
             .AddScoped<IDataSeeder, CryptocashLandLordDataSeeder>()
-            .AddScoped<IDataSeeder, CryptocashBookingDataSeeder>()
-            .AddScoped<IDataSeeder, CryptocashCashStockOrderDataSeeder>()
-            .AddScoped<IDataSeeder, CryptocashCommissionDataSeeder>()        
-            .AddScoped<IDataSeeder, CryptocashCustomerDataSeeder>()             
-            .AddScoped<IDataSeeder, CryptocashMinimumCashStockDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashCommissionDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashCustomerDataSeeder>()
             .AddScoped<IDataSeeder, CryptocashPaymentDetailDataSeeder>()
-            .AddScoped<IDataSeeder, CryptocashTransactionDataSeeder>()
-            .AddScoped<IDataSeeder, CryptocashVendingMachineDataSeeder>();
+            .AddScoped<IDataSeeder, CryptocashVendingMachineDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashMinimumCashStockDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashCashStockOrderDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashBookingDataSeeder>()
+            .AddScoped<IDataSeeder, CryptocashTransactionDataSeeder>();
     }
 
     public static void SeedDataIfRequired(this WebApplication app)

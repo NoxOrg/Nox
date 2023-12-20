@@ -20,7 +20,7 @@ public class CountryService : IEntityService
     {
         ApiUiService rtnApiUiService = new();
 
-        rtnApiUiService.Url = BaseApiUrl + "api/v1/Countries";
+        rtnApiUiService.Url = BaseApiUrl + "api/Countries";
 
         rtnApiUiService.OrderList = new List<SortOrder> {
             new SortOrder()

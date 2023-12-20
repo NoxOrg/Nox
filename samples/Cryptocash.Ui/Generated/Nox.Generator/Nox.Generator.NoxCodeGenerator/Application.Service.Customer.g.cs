@@ -18,7 +18,7 @@ public class CustomerService : IEntityService
     {
         ApiUiService rtnApiUiService = new();
 
-        rtnApiUiService.Url = BaseApiUrl + "api/v1/Customers";
+        rtnApiUiService.Url = BaseApiUrl + "api/Customers";
 
         rtnApiUiService.Paging = new Paging()
         {
