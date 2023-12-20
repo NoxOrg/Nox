@@ -1,5 +1,4 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -41,13 +41,13 @@ internal partial class CreateRefPaymentProviderToPaymentDetailsCommandHandler
 		var entity = await GetPaymentProvider(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("PaymentProvider",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetPaymentDetail(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("PaymentDetail",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.CreateRefToPaymentDetails(relatedEntity);
@@ -78,7 +78,7 @@ internal partial class UpdateRefPaymentProviderToPaymentDetailsCommandHandler
 		var entity = await GetPaymentProvider(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("PaymentProvider",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntities = new List<Cryptocash.Domain.PaymentDetail>();
@@ -87,7 +87,7 @@ internal partial class UpdateRefPaymentProviderToPaymentDetailsCommandHandler
 			var relatedEntity = await GetPaymentDetail(keyDto);
 			if (relatedEntity == null)
 			{
-				return false;
+				throw new RelatedEntityNotFoundException("PaymentDetail", $"{keyDto.keyId.ToString()}");
 			}
 			relatedEntities.Add(relatedEntity);
 		}
@@ -121,13 +121,13 @@ internal partial class DeleteRefPaymentProviderToPaymentDetailsCommandHandler
         var entity = await GetPaymentProvider(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("PaymentProvider",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetPaymentDetail(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("PaymentDetail", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.DeleteRefToPaymentDetails(relatedEntity);
@@ -158,7 +158,7 @@ internal partial class DeleteAllRefPaymentProviderToPaymentDetailsCommandHandler
         var entity = await GetPaymentProvider(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("PaymentProvider",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		await DbContext.Entry(entity).Collection(x => x.PaymentDetails).LoadAsync();
 		entity.DeleteAllRefToPaymentDetails();
@@ -208,10 +208,6 @@ internal abstract class RefPaymentProviderToPaymentDetailsCommandHandlerBase<TRe
 		await OnCompletedAsync(request, entity);
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return false;
-		}
 		return true;
 	}
 }

@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateCountryCommand(System.Int64 keyId, CountryUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CountryKeyDto?>;
+public partial record UpdateCountryCommand(System.Int64 keyId, CountryUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CountryKeyDto>;
 
 internal partial class UpdateCountryCommandHandler : UpdateCountryCommandHandlerBase
 {
@@ -31,7 +32,7 @@ internal partial class UpdateCountryCommandHandler : UpdateCountryCommandHandler
 	}
 }
 
-internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCountryCommand, CountryEntity>, IRequestHandler<UpdateCountryCommand, CountryKeyDto?>
+internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCountryCommand, CountryEntity>, IRequestHandler<UpdateCountryCommand, CountryKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> _entityFactory;
@@ -46,7 +47,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<CountryKeyDto?> Handle(UpdateCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryKeyDto> Handle(UpdateCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +56,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		var entity = await DbContext.Countries.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
 		}
 		await DbContext.Entry(entity).Collection(x => x.CountryLocalNames).LoadAsync();
 		await DbContext.Entry(entity).Reference(x => x.CountryBarCode).LoadAsync();
@@ -69,10 +70,6 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new CountryKeyDto(entity.Id.Value);
 	}

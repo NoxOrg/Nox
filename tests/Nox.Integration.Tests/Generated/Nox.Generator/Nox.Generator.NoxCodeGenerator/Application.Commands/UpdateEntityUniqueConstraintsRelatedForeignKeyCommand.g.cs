@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using EntityUniqueConstraintsRelatedForeignKeyEntity = TestWebApp.Domain.EntityU
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateEntityUniqueConstraintsRelatedForeignKeyCommand(System.Int32 keyId, EntityUniqueConstraintsRelatedForeignKeyUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<EntityUniqueConstraintsRelatedForeignKeyKeyDto?>;
+public partial record UpdateEntityUniqueConstraintsRelatedForeignKeyCommand(System.Int32 keyId, EntityUniqueConstraintsRelatedForeignKeyUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<EntityUniqueConstraintsRelatedForeignKeyKeyDto>;
 
 internal partial class UpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandler : UpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase
 {
@@ -31,7 +32,7 @@ internal partial class UpdateEntityUniqueConstraintsRelatedForeignKeyCommandHand
 	}
 }
 
-internal abstract class UpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase : CommandBase<UpdateEntityUniqueConstraintsRelatedForeignKeyCommand, EntityUniqueConstraintsRelatedForeignKeyEntity>, IRequestHandler<UpdateEntityUniqueConstraintsRelatedForeignKeyCommand, EntityUniqueConstraintsRelatedForeignKeyKeyDto?>
+internal abstract class UpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase : CommandBase<UpdateEntityUniqueConstraintsRelatedForeignKeyCommand, EntityUniqueConstraintsRelatedForeignKeyEntity>, IRequestHandler<UpdateEntityUniqueConstraintsRelatedForeignKeyCommand, EntityUniqueConstraintsRelatedForeignKeyKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<EntityUniqueConstraintsRelatedForeignKeyEntity, EntityUniqueConstraintsRelatedForeignKeyCreateDto, EntityUniqueConstraintsRelatedForeignKeyUpdateDto> _entityFactory;
@@ -46,7 +47,7 @@ internal abstract class UpdateEntityUniqueConstraintsRelatedForeignKeyCommandHan
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<EntityUniqueConstraintsRelatedForeignKeyKeyDto?> Handle(UpdateEntityUniqueConstraintsRelatedForeignKeyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<EntityUniqueConstraintsRelatedForeignKeyKeyDto> Handle(UpdateEntityUniqueConstraintsRelatedForeignKeyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +56,7 @@ internal abstract class UpdateEntityUniqueConstraintsRelatedForeignKeyCommandHan
 		var entity = await DbContext.EntityUniqueConstraintsRelatedForeignKeys.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("EntityUniqueConstraintsRelatedForeignKey",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +66,6 @@ internal abstract class UpdateEntityUniqueConstraintsRelatedForeignKeyCommandHan
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new EntityUniqueConstraintsRelatedForeignKeyKeyDto(entity.Id.Value);
 	}

@@ -100,11 +100,6 @@ public abstract partial class ReferenceNumberEntitiesControllerBase : ODataContr
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateReferenceNumberEntityCommand(key, referenceNumberEntity, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("ReferenceNumberEntity", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetReferenceNumberEntityByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class ReferenceNumberEntitiesControllerBase : ODataContr
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateReferenceNumberEntityCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("ReferenceNumberEntity", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetReferenceNumberEntityByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class ReferenceNumberEntitiesControllerBase : ODataContr
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteReferenceNumberEntityByIdCommand(new List<ReferenceNumberEntityKeyDto> { new ReferenceNumberEntityKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("ReferenceNumberEntity", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

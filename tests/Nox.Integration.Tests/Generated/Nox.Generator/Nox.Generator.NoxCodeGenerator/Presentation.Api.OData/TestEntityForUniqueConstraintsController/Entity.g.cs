@@ -100,11 +100,6 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateTestEntityForUniqueConstraintsCommand(key, testEntityForUniqueConstraints, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityForUniqueConstraints", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityForUniqueConstraintsByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityForUniqueConstraintsCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityForUniqueConstraints", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityForUniqueConstraintsByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteTestEntityForUniqueConstraintsByIdCommand(new List<TestEntityForUniqueConstraintsKeyDto> { new TestEntityForUniqueConstraintsKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("TestEntityForUniqueConstraints", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -16,7 +17,7 @@ using EntityUniqueConstraintsRelatedForeignKeyEntity = TestWebApp.Domain.EntityU
 
 namespace TestWebApp.Application.Commands;
 
-public partial record PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand(System.Int32 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EntityUniqueConstraintsRelatedForeignKeyKeyDto?>;
+public partial record PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand(System.Int32 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EntityUniqueConstraintsRelatedForeignKeyKeyDto>;
 
 internal partial class PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandler : PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase
 {
@@ -28,7 +29,7 @@ internal partial class PartialUpdateEntityUniqueConstraintsRelatedForeignKeyComm
 	{
 	}
 }
-internal abstract class PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase : CommandBase<PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand, EntityUniqueConstraintsRelatedForeignKeyEntity>, IRequestHandler<PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand, EntityUniqueConstraintsRelatedForeignKeyKeyDto?>
+internal abstract class PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase : CommandBase<PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand, EntityUniqueConstraintsRelatedForeignKeyEntity>, IRequestHandler<PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand, EntityUniqueConstraintsRelatedForeignKeyKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<EntityUniqueConstraintsRelatedForeignKeyEntity, EntityUniqueConstraintsRelatedForeignKeyCreateDto, EntityUniqueConstraintsRelatedForeignKeyUpdateDto> EntityFactory { get; }
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCom
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<EntityUniqueConstraintsRelatedForeignKeyKeyDto?> Handle(PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<EntityUniqueConstraintsRelatedForeignKeyKeyDto> Handle(PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,7 +53,7 @@ internal abstract class PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCom
 		var entity = await DbContext.EntityUniqueConstraintsRelatedForeignKeys.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("EntityUniqueConstraintsRelatedForeignKey",  $"{keyId.ToString()}");
 		}
 		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

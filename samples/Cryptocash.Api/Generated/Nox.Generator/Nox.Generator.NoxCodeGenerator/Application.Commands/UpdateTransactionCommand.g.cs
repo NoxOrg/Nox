@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using TransactionEntity = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateTransactionCommand(System.Guid keyId, TransactionUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TransactionKeyDto?>;
+public partial record UpdateTransactionCommand(System.Guid keyId, TransactionUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TransactionKeyDto>;
 
 internal partial class UpdateTransactionCommandHandler : UpdateTransactionCommandHandlerBase
 {
@@ -31,7 +32,7 @@ internal partial class UpdateTransactionCommandHandler : UpdateTransactionComman
 	}
 }
 
-internal abstract class UpdateTransactionCommandHandlerBase : CommandBase<UpdateTransactionCommand, TransactionEntity>, IRequestHandler<UpdateTransactionCommand, TransactionKeyDto?>
+internal abstract class UpdateTransactionCommandHandlerBase : CommandBase<UpdateTransactionCommand, TransactionEntity>, IRequestHandler<UpdateTransactionCommand, TransactionKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> _entityFactory;
@@ -46,7 +47,7 @@ internal abstract class UpdateTransactionCommandHandlerBase : CommandBase<Update
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<TransactionKeyDto?> Handle(UpdateTransactionCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TransactionKeyDto> Handle(UpdateTransactionCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +56,7 @@ internal abstract class UpdateTransactionCommandHandlerBase : CommandBase<Update
 		var entity = await DbContext.Transactions.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Transaction",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +66,6 @@ internal abstract class UpdateTransactionCommandHandlerBase : CommandBase<Update
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new TransactionKeyDto(entity.Id.Value);
 	}

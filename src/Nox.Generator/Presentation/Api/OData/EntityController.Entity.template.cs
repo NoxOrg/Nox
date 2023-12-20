@@ -122,11 +122,6 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ primaryKeysQuery }}, {{ToLowerFirstChar entity.Name}}, _cultureCode));
         {{- end}}
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("{{entity.Name}}", $"{{entity.Keys | keysToString}}");
-        }
-
         var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
         return Ok(item);
@@ -151,11 +146,6 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         var updatedKey = await _mediator.Send(new PartialUpdate{{ entity.Name }}Command({{ primaryKeysQuery }}, updatedProperties, _cultureCode));
         {{- end}}
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("{{entity.Name}}", $"{{entity.Keys | keysToString}}");
-        }
-
         var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
         return Ok(item);
@@ -170,11 +160,6 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         {{- else }}
         var result = await _mediator.Send(new Delete{{entity.Name}}ByIdCommand(new List<{{entity.Name}}KeyDto> { new {{entity.Name}}KeyDto({{ primaryKeysQuery }}) }));
         {{- end }}
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("{{entity.Name}}", $"{{entity.Keys | keysToString}}");
-        }
 
         return NoContent();
     }

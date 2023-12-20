@@ -1,5 +1,11 @@
 ﻿{{-relatedEntity = relationship.Related.Entity }}
 {{-relationshipName = GetNavigationPropertyName entity relationship }}
+
+{{- func keysToString(keys, prefix = "key")
+	keyNameWithPrefix(name) = ("{" + prefix + name + ".ToString()}")
+	ret (keys | array.map "Name" | array.each @keyNameWithPrefix | array.join ", ")
+end -}}
+
 // Generated
 
 #nullable enable
@@ -12,6 +18,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
@@ -42,13 +49,13 @@ internal partial class CreateRef{{entity.Name}}To{{relationshipName}}CommandHand
 		var entity = await Get{{entity.Name}}(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("{{entity.Name}}",  $"{{keysToString entity.Keys 'request.EntityKeyDto.key'}}");
 		}
 
 		var relatedEntity = await Get{{relatedEntity.Name}}(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("{{relatedEntity.Name}}",  $"{{keysToString relatedEntity.Keys 'request.RelatedEntityKeyDto.key'}}");
 		}
 
 		entity.CreateRefTo{{relationshipName}}(relatedEntity);
@@ -81,7 +88,7 @@ internal partial class UpdateRef{{entity.Name}}To{{relationshipName}}CommandHand
 		var entity = await Get{{entity.Name}}(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("{{entity.Name}}",  $"{{keysToString entity.Keys 'request.EntityKeyDto.key'}}");
 		}
 
 		var relatedEntities = new List<{{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}>();
@@ -90,7 +97,7 @@ internal partial class UpdateRef{{entity.Name}}To{{relationshipName}}CommandHand
 			var relatedEntity = await Get{{relatedEntity.Name}}(keyDto);
 			if (relatedEntity == null)
 			{
-				return false;
+				throw new RelatedEntityNotFoundException("{{relatedEntity.Name}}", $"{{keysToString relatedEntity.Keys 'keyDto.key'}}");
 			}
 			relatedEntities.Add(relatedEntity);
 		}
@@ -125,13 +132,13 @@ internal partial class DeleteRef{{entity.Name}}To{{relationshipName}}CommandHand
         var entity = await Get{{entity.Name}}(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("{{entity.Name}}",  $"{{keysToString entity.Keys 'request.EntityKeyDto.key'}}");
 		}
 
 		var relatedEntity = await Get{{relatedEntity.Name}}(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("{{relatedEntity.Name}}", $"{{keysToString relatedEntity.Keys 'request.RelatedEntityKeyDto.key'}}");
 		}
 
 		entity.DeleteRefTo{{relationshipName}}(relatedEntity);
@@ -162,7 +169,7 @@ internal partial class DeleteAllRef{{entity.Name}}To{{relationshipName}}CommandH
         var entity = await Get{{entity.Name}}(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("{{entity.Name}}",  $"{{keysToString entity.Keys 'request.EntityKeyDto.key'}}");
 		}
 
 		{{- if relationship.WithMultiEntity }}
@@ -219,10 +226,6 @@ internal abstract class Ref{{entity.Name}}To{{relationshipName}}CommandHandlerBa
 		await OnCompletedAsync(request, entity);
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return false;
-		}
 		return true;
 	}
 }

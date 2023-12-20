@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using ForReferenceNumberEntity = TestWebApp.Domain.ForReferenceNumber;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateForReferenceNumberCommand(System.String keyId, ForReferenceNumberUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<ForReferenceNumberKeyDto?>;
+public partial record UpdateForReferenceNumberCommand(System.String keyId, ForReferenceNumberUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<ForReferenceNumberKeyDto>;
 
 internal partial class UpdateForReferenceNumberCommandHandler : UpdateForReferenceNumberCommandHandlerBase
 {
@@ -31,7 +32,7 @@ internal partial class UpdateForReferenceNumberCommandHandler : UpdateForReferen
 	}
 }
 
-internal abstract class UpdateForReferenceNumberCommandHandlerBase : CommandBase<UpdateForReferenceNumberCommand, ForReferenceNumberEntity>, IRequestHandler<UpdateForReferenceNumberCommand, ForReferenceNumberKeyDto?>
+internal abstract class UpdateForReferenceNumberCommandHandlerBase : CommandBase<UpdateForReferenceNumberCommand, ForReferenceNumberEntity>, IRequestHandler<UpdateForReferenceNumberCommand, ForReferenceNumberKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<ForReferenceNumberEntity, ForReferenceNumberCreateDto, ForReferenceNumberUpdateDto> _entityFactory;
@@ -46,7 +47,7 @@ internal abstract class UpdateForReferenceNumberCommandHandlerBase : CommandBase
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<ForReferenceNumberKeyDto?> Handle(UpdateForReferenceNumberCommand request, CancellationToken cancellationToken)
+	public virtual async Task<ForReferenceNumberKeyDto> Handle(UpdateForReferenceNumberCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +56,7 @@ internal abstract class UpdateForReferenceNumberCommandHandlerBase : CommandBase
 		var entity = await DbContext.ForReferenceNumbers.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("ForReferenceNumber",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +66,6 @@ internal abstract class UpdateForReferenceNumberCommandHandlerBase : CommandBase
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new ForReferenceNumberKeyDto(entity.Id.Value);
 	}

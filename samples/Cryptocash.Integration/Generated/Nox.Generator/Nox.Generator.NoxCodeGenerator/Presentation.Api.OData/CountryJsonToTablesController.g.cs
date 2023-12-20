@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using CryptocashIntegration.Application;
 using CryptocashIntegration.Application.Dto;
 using CryptocashIntegration.Application.Queries;

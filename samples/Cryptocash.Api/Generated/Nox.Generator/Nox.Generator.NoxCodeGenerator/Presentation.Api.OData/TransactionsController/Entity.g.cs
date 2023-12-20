@@ -100,11 +100,6 @@ public abstract partial class TransactionsControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateTransactionCommand(key, transaction, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("Transaction", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTransactionByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class TransactionsControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTransactionCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("Transaction", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTransactionByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class TransactionsControllerBase : ODataController
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteTransactionByIdCommand(new List<TransactionKeyDto> { new TransactionKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("Transaction", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

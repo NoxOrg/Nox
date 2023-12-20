@@ -1,9 +1,8 @@
 using System.Net;
-using Nox.Exceptions;
 
-namespace Nox.Domain;
+namespace Nox.Exceptions;
 
-public class RelationshipDeletionException: Exception, IApplicationException
+public class RelationshipDeletionException : Exception, IApplicationException
 {
     public RelationshipDeletionException(string message)
         : base(message)

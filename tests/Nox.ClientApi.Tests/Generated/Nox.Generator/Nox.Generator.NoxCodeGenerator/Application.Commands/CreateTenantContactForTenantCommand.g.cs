@@ -1,5 +1,4 @@
-﻿﻿
-// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
@@ -20,7 +20,7 @@ using ClientApi.Application.Dto;
 using TenantContactEntity = ClientApi.Domain.TenantContact;
 
 namespace ClientApi.Application.Commands;
-public partial record CreateTenantContactForTenantCommand(TenantKeyDto ParentKeyDto, TenantContactUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantContactKeyDto?>;
+public partial record CreateTenantContactForTenantCommand(TenantKeyDto ParentKeyDto, TenantContactUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantContactKeyDto>;
 
 internal partial class CreateTenantContactForTenantCommandHandler : CreateTenantContactForTenantCommandHandlerBase
 {
@@ -59,7 +59,7 @@ internal abstract class CreateTenantContactForTenantCommandHandlerBase : Command
 		var parentEntity = await _dbContext.Tenants.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Tenant",  $"{keyId.ToString()}");
 		}
 
 		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
@@ -72,10 +72,6 @@ internal abstract class CreateTenantContactForTenantCommandHandlerBase : Command
 		_dbContext.TenantContactsLocalized.Add(entityLocalized);
 
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new TenantContactKeyDto();
 	}

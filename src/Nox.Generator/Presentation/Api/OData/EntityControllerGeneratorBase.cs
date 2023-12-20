@@ -47,4 +47,10 @@ internal abstract class EntityControllerGeneratorBase : INoxCodeGenerator
 
         return string.Empty;
     }
+
+    protected static string GetPrimaryKeysToString(Entity entity, string prefix = "key")
+    {
+        var withKeyName = entity.Keys.Count > 1;
+        return string.Join(", ", entity.Keys.Select(k => $"{{{prefix}{(withKeyName ? k.Name : "")}.ToString()}}"));
+    }
 }

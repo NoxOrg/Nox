@@ -100,11 +100,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateStoreLicenseCommand(key, storeLicense, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("StoreLicense", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetStoreLicenseByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateStoreLicenseCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("StoreLicense", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetStoreLicenseByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteStoreLicenseByIdCommand(new List<StoreLicenseKeyDto> { new StoreLicenseKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("StoreLicense", $"{key.ToString()}");
-        }
 
         return NoContent();
     }
