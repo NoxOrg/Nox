@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
@@ -305,7 +305,7 @@ namespace Nox.Configuration
         private void AddSwagger(IServiceCollection services)
         {
             if (!_withSwagger) return;
-
+            
             services.AddSwaggerGen(opts =>
             {
                 opts.EnableAnnotations();
@@ -314,6 +314,7 @@ namespace Nox.Configuration
                 opts.SchemaFilter<DeltaSchemaFilter>();
                 opts.DocumentFilter<ApiRouteMappingDocumentFilter>();
                 opts.OperationFilter<ApiRouteEtagOperationFilter>();
+                opts.OperationFilter<ApiRouteQueryStringOperationFilter>();
             });
         }
 
