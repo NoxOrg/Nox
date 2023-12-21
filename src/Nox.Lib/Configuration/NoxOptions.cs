@@ -313,8 +313,8 @@ namespace Nox.Configuration
                 opts.CustomOperationIds(e => $"{e.HttpMethod}_{e.RelativePath}");
                 opts.SchemaFilter<DeltaSchemaFilter>();
                 opts.DocumentFilter<ApiRouteMappingDocumentFilter>();
-                opts.OperationFilter<ApiRouteEtagOperationFilter>();
-                opts.OperationFilter<ApiRouteQueryStringOperationFilter>();
+                opts.OperationFilter<EtagHeaderOperationFilter>();
+                opts.OperationFilter<LanguageQueryParameterOperationFilter>();
             });
         }
 

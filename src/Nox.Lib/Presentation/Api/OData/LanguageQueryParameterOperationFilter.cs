@@ -4,14 +4,14 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Nox.Presentation.Api.OData;
 
-public class ApiRouteQueryStringOperationFilter: IOperationFilter
+public class LanguageQueryParameterOperationFilter: IOperationFilter
 {
     private readonly HashSet<string> _auditEntityPaths;
 
-    public ApiRouteQueryStringOperationFilter(NoxSolution noxSolution)
+    public LanguageQueryParameterOperationFilter(NoxSolution noxSolution)
     {
         _auditEntityPaths = 
-            noxSolution.Domain!.Entities.Where(e => e.Persistence.IsAudited)
+            noxSolution.Domain!.Entities.Where(e => e.IsLocalized)
                 .Select(e=> string.Concat(noxSolution.Presentation.ApiConfiguration.ApiRoutePrefix, "/", e.PluralName)).ToHashSet();
     }
     
@@ -28,7 +28,7 @@ public class ApiRouteQueryStringOperationFilter: IOperationFilter
                 Schema = new OpenApiSchema
                 {
                     Type = "string",
-                    Pattern = @"^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$"
+                    Pattern = Nox.Types.Abstractions.CultureCode.RegularExpression
                 },
                 Required = false
             });
