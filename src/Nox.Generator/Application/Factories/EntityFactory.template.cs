@@ -71,58 +71,39 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 
     public virtual async Task<{{entity.Name}}Entity> CreateEntityAsync({{entityCreateDto}} createDto)
     {
-        try
-        {
-            return await ToEntityAsync(createDto);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }        
+        return await ToEntityAsync(createDto);
     }
 
     public virtual async Task UpdateEntityAsync({{entity.Name}}Entity entity, {{entityUpdateDto}} updateDto, Nox.Types.CultureCode cultureCode)
     {
-        try
-        {
-            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }   
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        try
-        {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }   
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private async Task<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}> ToEntityAsync({{entityCreateDto}} createDto)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}();
         {{- for key in entity.Keys }}
             {{- if !IsNoxTypeCreatable key.Type || key.Type == "Guid" -}}
                 {{ continue; -}}
             {{- end }}
-        entity.{{key.Name}} = {{entity.Name}}Metadata.Create{{key.Name}}(createDto.{{key.Name}}.NonNullValue<{{keyType key}}>());
+        exceptionCollector.Collect("{{key.Name}}",() => entity.{{key.Name}} = {{entity.Name}}Metadata.Create{{key.Name}}(createDto.{{key.Name}}.NonNullValue<{{keyType key}}>()));
         {{- end }}
 
         {{- for attribute in entity.Attributes }}
             {{- if !IsNoxTypeCreatable attribute.Type -}}
                 {{ continue; }}
             {{- end}}
-        entity.SetIfNotNull(createDto.{{attribute.Name}}, (entity) => entity.{{attribute.Name}} = 
-            {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(createDto.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>()));
+        exceptionCollector.Collect("{{attribute.Name}}", () => entity.SetIfNotNull(createDto.{{attribute.Name}}, (entity) => entity.{{attribute.Name}} = 
+            {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(createDto.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>())));
         {{- end }}
 
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         {{- for key in entity.Keys ~}}		   
             {{- if key.Type == "Guid" }}
         entity.Ensure{{key.Name}}(createDto.{{key.Name}});
@@ -154,22 +135,23 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
             entity.CreateRefTo{{relationshipName}}(await {{relationship.Entity}}Factory.CreateEntityAsync(createDto.{{relationshipName}}));
         }
             {{-end}}
-        {{- end }}
+        {{- end }}        
         {{if awaiting}}return entity;{{else}}return await Task.FromResult(entity);{{- end }}
     }
 
     private async Task UpdateEntityInternalAsync({{entity.Name}}Entity entity, {{entityUpdateDto}} updateDto, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         {{- for attribute in entity.Attributes }}
             {{- if !IsNoxTypeUpdatable attribute.Type -}}
                 {{ continue; }}
             {{- end}}
         {{ if attribute.IsLocalized }}if(IsDefaultCultureCode(cultureCode)) {{ end }}
         {{- if attribute.IsRequired -}}
-        entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
+        exceptionCollector.Collect("{{attribute.Name}}",() => entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
             {{- if IsNoxTypeSimpleType attribute.Type -}}.NonNullValue<{{SinglePrimitiveTypeForKey attribute}}>()
             {{- else -}}.NonNullValue<{{attribute.Type}}Dto>()
-            {{- end}});
+            {{- end}}));
         {{- else -}}
         if(updateDto.{{attribute.Name}} is null)
         {
@@ -177,20 +159,22 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         }
         else
         {
-            entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
+            exceptionCollector.Collect("{{attribute.Name}}",() =>entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
             {{- if IsNoxTypeSimpleType attribute.Type -}}.ToValueFromNonNull<{{SinglePrimitiveTypeForKey attribute}}>()
             {{- else -}}.ToValueFromNonNull<{{attribute.Type}}Dto>()
-            {{- end}});
+            {{- end}}));
         }      
         {{- end }}
         {{- end }}
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
 
         {{- for key in entity.Keys ~}}
 		    {{- if key.Type == "Nuid" }}
 		entity.Ensure{{key.Name}}();
 		    {{- end }}
 		{{- end }}
-
+        
         {{- if (entity.OwnedRelationships | array.size) > 0 }}
 	    await UpdateOwnedEntitiesAsync(entity, updateDto, cultureCode);    
         {{- else }}
@@ -200,6 +184,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 
     private void PartialUpdateEntityInternal({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         {{- for attribute in entity.Attributes }}
             {{- if !IsNoxTypeUpdatable attribute.Type -}}
                 {{ continue; }}
@@ -208,26 +193,23 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         if ({{- if attribute.IsLocalized }}IsDefaultCultureCode(cultureCode) && {{ end -}} updatedProperties.TryGetValue("{{attribute.Name}}", out var {{attribute.Name}}UpdateValue))
         {
             {{- if attribute.IsRequired }}
-            if ({{attribute.Name}}UpdateValue == null)
-            {
-                throw new ArgumentException("Attribute '{{attribute.Name}}' can't be null");
-            }
+            ArgumentNullException.ThrowIfNull({{attribute.Name}}UpdateValue, "Attribute '{{attribute.Name}}' can't be null.");            
             {{- else }}
             if ({{attribute.Name}}UpdateValue == null) { entity.{{attribute.Name}} = null; }
             else
             {{- end }}
             {
                 {{- if IsNoxTypeSimpleType attribute.Type }}
-                entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue);
+                exceptionCollector.Collect("{{attribute.Name}}",() =>entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue));
                 {{- else }}
                 var entityToUpdate = entity.{{attribute.Name}} is null ? new {{attribute.Type}}Dto() : entity.{{attribute.Name}}.ToDto();
                 {{attribute.Type}}Dto.UpdateFromDictionary(entityToUpdate, {{attribute.Name}}UpdateValue);
-                entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(entityToUpdate);
+                exceptionCollector.Collect("{{attribute.Name}}",() =>entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(entityToUpdate));
                 {{- end }}
             }
         }
-
         {{- end }}
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
 
         {{- for key in entity.Keys ~}}
 		    {{- if key.Type == "Nuid" }}

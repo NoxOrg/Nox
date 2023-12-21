@@ -46,73 +46,56 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
 
     public virtual async Task<BookingEntity> CreateEntityAsync(BookingCreateDto createDto)
     {
-        try
-        {
-            return await ToEntityAsync(createDto);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }        
+        return await ToEntityAsync(createDto);
     }
 
     public virtual async Task UpdateEntityAsync(BookingEntity entity, BookingUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        try
-        {
-            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }   
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(BookingEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        try
-        {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }   
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private async Task<Cryptocash.Domain.Booking> ToEntityAsync(BookingCreateDto createDto)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.Booking();
-        entity.SetIfNotNull(createDto.AmountFrom, (entity) => entity.AmountFrom = 
-            Cryptocash.Domain.BookingMetadata.CreateAmountFrom(createDto.AmountFrom.NonNullValue<MoneyDto>()));
-        entity.SetIfNotNull(createDto.AmountTo, (entity) => entity.AmountTo = 
-            Cryptocash.Domain.BookingMetadata.CreateAmountTo(createDto.AmountTo.NonNullValue<MoneyDto>()));
-        entity.SetIfNotNull(createDto.RequestedPickUpDate, (entity) => entity.RequestedPickUpDate = 
-            Cryptocash.Domain.BookingMetadata.CreateRequestedPickUpDate(createDto.RequestedPickUpDate.NonNullValue<DateTimeRangeDto>()));
-        entity.SetIfNotNull(createDto.PickedUpDateTime, (entity) => entity.PickedUpDateTime = 
-            Cryptocash.Domain.BookingMetadata.CreatePickedUpDateTime(createDto.PickedUpDateTime.NonNullValue<DateTimeRangeDto>()));
-        entity.SetIfNotNull(createDto.ExpiryDateTime, (entity) => entity.ExpiryDateTime = 
-            Cryptocash.Domain.BookingMetadata.CreateExpiryDateTime(createDto.ExpiryDateTime.NonNullValue<System.DateTimeOffset>()));
-        entity.SetIfNotNull(createDto.CancelledDateTime, (entity) => entity.CancelledDateTime = 
-            Cryptocash.Domain.BookingMetadata.CreateCancelledDateTime(createDto.CancelledDateTime.NonNullValue<System.DateTimeOffset>()));
-        entity.SetIfNotNull(createDto.VatNumber, (entity) => entity.VatNumber = 
-            Cryptocash.Domain.BookingMetadata.CreateVatNumber(createDto.VatNumber.NonNullValue<VatNumberDto>()));
-        entity.EnsureId(createDto.Id);
+        exceptionCollector.Collect("AmountFrom", () => entity.SetIfNotNull(createDto.AmountFrom, (entity) => entity.AmountFrom = 
+            Cryptocash.Domain.BookingMetadata.CreateAmountFrom(createDto.AmountFrom.NonNullValue<MoneyDto>())));
+        exceptionCollector.Collect("AmountTo", () => entity.SetIfNotNull(createDto.AmountTo, (entity) => entity.AmountTo = 
+            Cryptocash.Domain.BookingMetadata.CreateAmountTo(createDto.AmountTo.NonNullValue<MoneyDto>())));
+        exceptionCollector.Collect("RequestedPickUpDate", () => entity.SetIfNotNull(createDto.RequestedPickUpDate, (entity) => entity.RequestedPickUpDate = 
+            Cryptocash.Domain.BookingMetadata.CreateRequestedPickUpDate(createDto.RequestedPickUpDate.NonNullValue<DateTimeRangeDto>())));
+        exceptionCollector.Collect("PickedUpDateTime", () => entity.SetIfNotNull(createDto.PickedUpDateTime, (entity) => entity.PickedUpDateTime = 
+            Cryptocash.Domain.BookingMetadata.CreatePickedUpDateTime(createDto.PickedUpDateTime.NonNullValue<DateTimeRangeDto>())));
+        exceptionCollector.Collect("ExpiryDateTime", () => entity.SetIfNotNull(createDto.ExpiryDateTime, (entity) => entity.ExpiryDateTime = 
+            Cryptocash.Domain.BookingMetadata.CreateExpiryDateTime(createDto.ExpiryDateTime.NonNullValue<System.DateTimeOffset>())));
+        exceptionCollector.Collect("CancelledDateTime", () => entity.SetIfNotNull(createDto.CancelledDateTime, (entity) => entity.CancelledDateTime = 
+            Cryptocash.Domain.BookingMetadata.CreateCancelledDateTime(createDto.CancelledDateTime.NonNullValue<System.DateTimeOffset>())));
+        exceptionCollector.Collect("VatNumber", () => entity.SetIfNotNull(createDto.VatNumber, (entity) => entity.VatNumber = 
+            Cryptocash.Domain.BookingMetadata.CreateVatNumber(createDto.VatNumber.NonNullValue<VatNumberDto>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
+        entity.EnsureId(createDto.Id);        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(BookingEntity entity, BookingUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.AmountFrom = Cryptocash.Domain.BookingMetadata.CreateAmountFrom(updateDto.AmountFrom.NonNullValue<MoneyDto>());
-        entity.AmountTo = Cryptocash.Domain.BookingMetadata.CreateAmountTo(updateDto.AmountTo.NonNullValue<MoneyDto>());
-        entity.RequestedPickUpDate = Cryptocash.Domain.BookingMetadata.CreateRequestedPickUpDate(updateDto.RequestedPickUpDate.NonNullValue<DateTimeRangeDto>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        exceptionCollector.Collect("AmountFrom",() => entity.AmountFrom = Cryptocash.Domain.BookingMetadata.CreateAmountFrom(updateDto.AmountFrom.NonNullValue<MoneyDto>()));
+        exceptionCollector.Collect("AmountTo",() => entity.AmountTo = Cryptocash.Domain.BookingMetadata.CreateAmountTo(updateDto.AmountTo.NonNullValue<MoneyDto>()));
+        exceptionCollector.Collect("RequestedPickUpDate",() => entity.RequestedPickUpDate = Cryptocash.Domain.BookingMetadata.CreateRequestedPickUpDate(updateDto.RequestedPickUpDate.NonNullValue<DateTimeRangeDto>()));
         if(updateDto.PickedUpDateTime is null)
         {
              entity.PickedUpDateTime = null;
         }
         else
         {
-            entity.PickedUpDateTime = Cryptocash.Domain.BookingMetadata.CreatePickedUpDateTime(updateDto.PickedUpDateTime.ToValueFromNonNull<DateTimeRangeDto>());
+            exceptionCollector.Collect("PickedUpDateTime",() =>entity.PickedUpDateTime = Cryptocash.Domain.BookingMetadata.CreatePickedUpDateTime(updateDto.PickedUpDateTime.ToValueFromNonNull<DateTimeRangeDto>()));
         }
         if(updateDto.ExpiryDateTime is null)
         {
@@ -120,7 +103,7 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
         }
         else
         {
-            entity.ExpiryDateTime = Cryptocash.Domain.BookingMetadata.CreateExpiryDateTime(updateDto.ExpiryDateTime.ToValueFromNonNull<System.DateTimeOffset>());
+            exceptionCollector.Collect("ExpiryDateTime",() =>entity.ExpiryDateTime = Cryptocash.Domain.BookingMetadata.CreateExpiryDateTime(updateDto.ExpiryDateTime.ToValueFromNonNull<System.DateTimeOffset>()));
         }
         if(updateDto.CancelledDateTime is null)
         {
@@ -128,7 +111,7 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
         }
         else
         {
-            entity.CancelledDateTime = Cryptocash.Domain.BookingMetadata.CreateCancelledDateTime(updateDto.CancelledDateTime.ToValueFromNonNull<System.DateTimeOffset>());
+            exceptionCollector.Collect("CancelledDateTime",() =>entity.CancelledDateTime = Cryptocash.Domain.BookingMetadata.CreateCancelledDateTime(updateDto.CancelledDateTime.ToValueFromNonNull<System.DateTimeOffset>()));
         }
         if(updateDto.VatNumber is null)
         {
@@ -136,50 +119,44 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
         }
         else
         {
-            entity.VatNumber = Cryptocash.Domain.BookingMetadata.CreateVatNumber(updateDto.VatNumber.ToValueFromNonNull<VatNumberDto>());
+            exceptionCollector.Collect("VatNumber",() =>entity.VatNumber = Cryptocash.Domain.BookingMetadata.CreateVatNumber(updateDto.VatNumber.ToValueFromNonNull<VatNumberDto>()));
         }
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(BookingEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("AmountFrom", out var AmountFromUpdateValue))
         {
-            if (AmountFromUpdateValue == null)
-            {
-                throw new ArgumentException("Attribute 'AmountFrom' can't be null");
-            }
+            ArgumentNullException.ThrowIfNull(AmountFromUpdateValue, "Attribute 'AmountFrom' can't be null.");
             {
                 var entityToUpdate = entity.AmountFrom is null ? new MoneyDto() : entity.AmountFrom.ToDto();
                 MoneyDto.UpdateFromDictionary(entityToUpdate, AmountFromUpdateValue);
-                entity.AmountFrom = Cryptocash.Domain.BookingMetadata.CreateAmountFrom(entityToUpdate);
+                exceptionCollector.Collect("AmountFrom",() =>entity.AmountFrom = Cryptocash.Domain.BookingMetadata.CreateAmountFrom(entityToUpdate));
             }
         }
 
         if (updatedProperties.TryGetValue("AmountTo", out var AmountToUpdateValue))
         {
-            if (AmountToUpdateValue == null)
-            {
-                throw new ArgumentException("Attribute 'AmountTo' can't be null");
-            }
+            ArgumentNullException.ThrowIfNull(AmountToUpdateValue, "Attribute 'AmountTo' can't be null.");
             {
                 var entityToUpdate = entity.AmountTo is null ? new MoneyDto() : entity.AmountTo.ToDto();
                 MoneyDto.UpdateFromDictionary(entityToUpdate, AmountToUpdateValue);
-                entity.AmountTo = Cryptocash.Domain.BookingMetadata.CreateAmountTo(entityToUpdate);
+                exceptionCollector.Collect("AmountTo",() =>entity.AmountTo = Cryptocash.Domain.BookingMetadata.CreateAmountTo(entityToUpdate));
             }
         }
 
         if (updatedProperties.TryGetValue("RequestedPickUpDate", out var RequestedPickUpDateUpdateValue))
         {
-            if (RequestedPickUpDateUpdateValue == null)
-            {
-                throw new ArgumentException("Attribute 'RequestedPickUpDate' can't be null");
-            }
+            ArgumentNullException.ThrowIfNull(RequestedPickUpDateUpdateValue, "Attribute 'RequestedPickUpDate' can't be null.");
             {
                 var entityToUpdate = entity.RequestedPickUpDate is null ? new DateTimeRangeDto() : entity.RequestedPickUpDate.ToDto();
                 DateTimeRangeDto.UpdateFromDictionary(entityToUpdate, RequestedPickUpDateUpdateValue);
-                entity.RequestedPickUpDate = Cryptocash.Domain.BookingMetadata.CreateRequestedPickUpDate(entityToUpdate);
+                exceptionCollector.Collect("RequestedPickUpDate",() =>entity.RequestedPickUpDate = Cryptocash.Domain.BookingMetadata.CreateRequestedPickUpDate(entityToUpdate));
             }
         }
 
@@ -190,7 +167,7 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
             {
                 var entityToUpdate = entity.PickedUpDateTime is null ? new DateTimeRangeDto() : entity.PickedUpDateTime.ToDto();
                 DateTimeRangeDto.UpdateFromDictionary(entityToUpdate, PickedUpDateTimeUpdateValue);
-                entity.PickedUpDateTime = Cryptocash.Domain.BookingMetadata.CreatePickedUpDateTime(entityToUpdate);
+                exceptionCollector.Collect("PickedUpDateTime",() =>entity.PickedUpDateTime = Cryptocash.Domain.BookingMetadata.CreatePickedUpDateTime(entityToUpdate));
             }
         }
 
@@ -199,7 +176,7 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
             if (ExpiryDateTimeUpdateValue == null) { entity.ExpiryDateTime = null; }
             else
             {
-                entity.ExpiryDateTime = Cryptocash.Domain.BookingMetadata.CreateExpiryDateTime(ExpiryDateTimeUpdateValue);
+                exceptionCollector.Collect("ExpiryDateTime",() =>entity.ExpiryDateTime = Cryptocash.Domain.BookingMetadata.CreateExpiryDateTime(ExpiryDateTimeUpdateValue));
             }
         }
 
@@ -208,7 +185,7 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
             if (CancelledDateTimeUpdateValue == null) { entity.CancelledDateTime = null; }
             else
             {
-                entity.CancelledDateTime = Cryptocash.Domain.BookingMetadata.CreateCancelledDateTime(CancelledDateTimeUpdateValue);
+                exceptionCollector.Collect("CancelledDateTime",() =>entity.CancelledDateTime = Cryptocash.Domain.BookingMetadata.CreateCancelledDateTime(CancelledDateTimeUpdateValue));
             }
         }
 
@@ -219,9 +196,10 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
             {
                 var entityToUpdate = entity.VatNumber is null ? new VatNumberDto() : entity.VatNumber.ToDto();
                 VatNumberDto.UpdateFromDictionary(entityToUpdate, VatNumberUpdateValue);
-                entity.VatNumber = Cryptocash.Domain.BookingMetadata.CreateVatNumber(entityToUpdate);
+                exceptionCollector.Collect("VatNumber",() =>entity.VatNumber = Cryptocash.Domain.BookingMetadata.CreateVatNumber(entityToUpdate));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
