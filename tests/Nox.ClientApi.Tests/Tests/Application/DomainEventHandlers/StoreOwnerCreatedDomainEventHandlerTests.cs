@@ -7,8 +7,10 @@ namespace ClientApi.Tests.Application.DomainEventHandlers;
 public class StoreOwnerCreatedDomainEventHandlerTests: NoxWebApiTestBase
 {
     
-    public StoreOwnerCreatedDomainEventHandlerTests(ITestOutputHelper testOutput, TestDatabaseContainerService containerService, bool enableMessagingTests = false)  
-        : base(testOutput, containerService, enableMessagingTests)
+    public StoreOwnerCreatedDomainEventHandlerTests(
+        ITestOutputHelper testOutput,
+        TestDatabaseContainerService containerService)  
+        : base(testOutput, containerService, false)
     {
     }
     
