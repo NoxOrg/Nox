@@ -6,20 +6,33 @@ using Nox.Ui.Blazor.Lib.Components.NoxTypes;
 
 namespace Nox.Ui.Blazor.Lib.Tests;
 
-public class EditTextTests : TestContext
+public class UiTextFixture
 {
-#nullable enable
+    public IFixture Fixture { get; }
+
+    public UiTextFixture() 
+    {
+        Fixture = new Fixture();
+    }
+}
+
+public class EditTextTests : TestContext, IClassFixture<UiTextFixture>
+{
+    private UiTextFixture _fixture { get; }
+
+    public EditTextTests(UiTextFixture fixture)
+    {
+        _fixture = fixture;
+    }
 
     /// <summary>
     /// Bunit test which renders ui component and then checks html output of input Title is valid
     /// </summary>
-    /// <param name="fixture"></param>
-    [Theory]
-    [AutoMoqData]
-    public void When_EditText_Should_Render_Title(IFixture fixture)
+    [Fact]
+    public void When_EditText_Should_Render_Title() 
     {
         // Arrange
-        string expectedTitle = fixture.Create<string>();
+        string expectedTitle = _fixture.Fixture.Create<string>();
 
         // Act
         var rendered = RenderComponent<EditText>(parameters => parameters
@@ -35,13 +48,11 @@ public class EditTextTests : TestContext
     /// <summary>
     /// BUnit test which renders ui component and then checks if TextChanged eventcallback<string> from text manual input is valid
     /// </summary>
-    /// <param name="fixture"></param>
-    [Theory]
-    [AutoMoqData]
-    public void When_EditText_Should_Update_TextChanged(IFixture fixture)
+    [Fact]
+    public void When_EditText_Should_Update_TextChanged()
     {
         // Arrange
-        string expectedText = fixture.Create<string>();
+        string expectedText = _fixture.Fixture.Create<string>();
         string value = string.Empty;
 
         // Act
