@@ -5,6 +5,9 @@ using System.Net;
 using Nox.Types;
 using Xunit.Abstractions;
 using ClientApi.Domain;
+using ClientApi.Tests.Tests.Models;
+using Nox.Exceptions;
+using System.Text.Json;
 
 namespace ClientApi.Tests.Controllers
 {
@@ -149,6 +152,10 @@ namespace ClientApi.Tests.Controllers
             // Assert
             // represent a nox type exception
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            var content = await result.Content.ReadAsStringAsync();
+            var applicationError = DeserializeResponse<ApplicationErrorCodeResponse<List<AttributeNoxTypeValidationException>>>(content);
+            applicationError!.Error.Details.Should().HaveCount(1);
+            applicationError!.Error.Details.First().AttributeName.Should().Be("Id");
         }
 
         [Fact]

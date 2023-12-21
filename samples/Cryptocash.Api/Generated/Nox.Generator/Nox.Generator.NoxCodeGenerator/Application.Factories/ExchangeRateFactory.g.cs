@@ -46,81 +46,62 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
 
     public virtual async Task<ExchangeRateEntity> CreateEntityAsync(ExchangeRateUpsertDto createDto)
     {
-        try
-        {
-            return await ToEntityAsync(createDto);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }        
+        return await ToEntityAsync(createDto);
     }
 
     public virtual async Task UpdateEntityAsync(ExchangeRateEntity entity, ExchangeRateUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        try
-        {
-            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }   
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(ExchangeRateEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        try
-        {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }   
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private async Task<Cryptocash.Domain.ExchangeRate> ToEntityAsync(ExchangeRateUpsertDto createDto)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.ExchangeRate();
-        entity.SetIfNotNull(createDto.EffectiveRate, (entity) => entity.EffectiveRate = 
-            Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(createDto.EffectiveRate.NonNullValue<System.Int32>()));
-        entity.SetIfNotNull(createDto.EffectiveAt, (entity) => entity.EffectiveAt = 
-            Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(createDto.EffectiveAt.NonNullValue<System.DateTimeOffset>()));
+        exceptionCollector.Collect("EffectiveRate", () => entity.SetIfNotNull(createDto.EffectiveRate, (entity) => entity.EffectiveRate = 
+            Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(createDto.EffectiveRate.NonNullValue<System.Int32>())));
+        exceptionCollector.Collect("EffectiveAt", () => entity.SetIfNotNull(createDto.EffectiveAt, (entity) => entity.EffectiveAt = 
+            Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(createDto.EffectiveAt.NonNullValue<System.DateTimeOffset>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(ExchangeRateEntity entity, ExchangeRateUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(updateDto.EffectiveRate.NonNullValue<System.Int32>());
-        entity.EffectiveAt = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        exceptionCollector.Collect("EffectiveRate",() => entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(updateDto.EffectiveRate.NonNullValue<System.Int32>()));
+        exceptionCollector.Collect("EffectiveAt",() => entity.EffectiveAt = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>()));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(ExchangeRateEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("EffectiveRate", out var EffectiveRateUpdateValue))
         {
-            if (EffectiveRateUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(EffectiveRateUpdateValue, "Attribute 'EffectiveRate' can't be null.");
             {
-                throw new ArgumentException("Attribute 'EffectiveRate' can't be null");
-            }
-            {
-                entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(EffectiveRateUpdateValue);
+                exceptionCollector.Collect("EffectiveRate",() =>entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(EffectiveRateUpdateValue));
             }
         }
 
         if (updatedProperties.TryGetValue("EffectiveAt", out var EffectiveAtUpdateValue))
         {
-            if (EffectiveAtUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(EffectiveAtUpdateValue, "Attribute 'EffectiveAt' can't be null.");
             {
-                throw new ArgumentException("Attribute 'EffectiveAt' can't be null");
-            }
-            {
-                entity.EffectiveAt = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(EffectiveAtUpdateValue);
+                exceptionCollector.Collect("EffectiveAt",() =>entity.EffectiveAt = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(EffectiveAtUpdateValue));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)

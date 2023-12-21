@@ -46,67 +46,51 @@ internal abstract class TestEntityForAutoNumberUsagesFactoryBase : IEntityFactor
 
     public virtual async Task<TestEntityForAutoNumberUsagesEntity> CreateEntityAsync(TestEntityForAutoNumberUsagesCreateDto createDto)
     {
-        try
-        {
-            return await ToEntityAsync(createDto);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }        
+        return await ToEntityAsync(createDto);
     }
 
     public virtual async Task UpdateEntityAsync(TestEntityForAutoNumberUsagesEntity entity, TestEntityForAutoNumberUsagesUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        try
-        {
-            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }   
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TestEntityForAutoNumberUsagesEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        try
-        {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }   
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private async Task<TestWebApp.Domain.TestEntityForAutoNumberUsages> ToEntityAsync(TestEntityForAutoNumberUsagesCreateDto createDto)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.TestEntityForAutoNumberUsages();
-        entity.SetIfNotNull(createDto.TextField, (entity) => entity.TextField = 
-            TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>()));
+        exceptionCollector.Collect("TextField", () => entity.SetIfNotNull(createDto.TextField, (entity) => entity.TextField = 
+            TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(TestEntityForAutoNumberUsagesEntity entity, TestEntityForAutoNumberUsagesUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.TextField = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateTextField(updateDto.TextField.NonNullValue<System.String>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        exceptionCollector.Collect("TextField",() => entity.TextField = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateTextField(updateDto.TextField.NonNullValue<System.String>()));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(TestEntityForAutoNumberUsagesEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("TextField", out var TextFieldUpdateValue))
         {
-            if (TextFieldUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(TextFieldUpdateValue, "Attribute 'TextField' can't be null.");
             {
-                throw new ArgumentException("Attribute 'TextField' can't be null");
-            }
-            {
-                entity.TextField = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateTextField(TextFieldUpdateValue);
+                exceptionCollector.Collect("TextField",() =>entity.TextField = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateTextField(TextFieldUpdateValue));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)

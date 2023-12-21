@@ -279,7 +279,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
         }
     }
 
-    private TResult? DeserializeResponse<TResult>(string response)
+    protected TResult? DeserializeResponse<TResult>(string response)
     {
         return JsonSerializer.Deserialize<TResult>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new JsonStringEnumConverter() } });
     }

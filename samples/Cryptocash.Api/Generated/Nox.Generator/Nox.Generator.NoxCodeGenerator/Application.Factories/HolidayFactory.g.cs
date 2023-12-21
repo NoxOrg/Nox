@@ -46,95 +46,73 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
 
     public virtual async Task<HolidayEntity> CreateEntityAsync(HolidayUpsertDto createDto)
     {
-        try
-        {
-            return await ToEntityAsync(createDto);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }        
+        return await ToEntityAsync(createDto);
     }
 
     public virtual async Task UpdateEntityAsync(HolidayEntity entity, HolidayUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        try
-        {
-            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }   
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(HolidayEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        try
-        {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }   
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private async Task<Cryptocash.Domain.Holiday> ToEntityAsync(HolidayUpsertDto createDto)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.Holiday();
-        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            Cryptocash.Domain.HolidayMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.Type, (entity) => entity.Type = 
-            Cryptocash.Domain.HolidayMetadata.CreateType(createDto.Type.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.Date, (entity) => entity.Date = 
-            Cryptocash.Domain.HolidayMetadata.CreateDate(createDto.Date.NonNullValue<System.DateTime>()));
+        exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            Cryptocash.Domain.HolidayMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+        exceptionCollector.Collect("Type", () => entity.SetIfNotNull(createDto.Type, (entity) => entity.Type = 
+            Cryptocash.Domain.HolidayMetadata.CreateType(createDto.Type.NonNullValue<System.String>())));
+        exceptionCollector.Collect("Date", () => entity.SetIfNotNull(createDto.Date, (entity) => entity.Date = 
+            Cryptocash.Domain.HolidayMetadata.CreateDate(createDto.Date.NonNullValue<System.DateTime>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(HolidayEntity entity, HolidayUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
-        entity.Type = Cryptocash.Domain.HolidayMetadata.CreateType(updateDto.Type.NonNullValue<System.String>());
-        entity.Date = Cryptocash.Domain.HolidayMetadata.CreateDate(updateDto.Date.NonNullValue<System.DateTime>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        exceptionCollector.Collect("Name",() => entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Type",() => entity.Type = Cryptocash.Domain.HolidayMetadata.CreateType(updateDto.Type.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Date",() => entity.Date = Cryptocash.Domain.HolidayMetadata.CreateDate(updateDto.Date.NonNullValue<System.DateTime>()));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(HolidayEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
         {
-            if (NameUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                throw new ArgumentException("Attribute 'Name' can't be null");
-            }
-            {
-                entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(NameUpdateValue);
+                exceptionCollector.Collect("Name",() =>entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(NameUpdateValue));
             }
         }
 
         if (updatedProperties.TryGetValue("Type", out var TypeUpdateValue))
         {
-            if (TypeUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(TypeUpdateValue, "Attribute 'Type' can't be null.");
             {
-                throw new ArgumentException("Attribute 'Type' can't be null");
-            }
-            {
-                entity.Type = Cryptocash.Domain.HolidayMetadata.CreateType(TypeUpdateValue);
+                exceptionCollector.Collect("Type",() =>entity.Type = Cryptocash.Domain.HolidayMetadata.CreateType(TypeUpdateValue));
             }
         }
 
         if (updatedProperties.TryGetValue("Date", out var DateUpdateValue))
         {
-            if (DateUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(DateUpdateValue, "Attribute 'Date' can't be null.");
             {
-                throw new ArgumentException("Attribute 'Date' can't be null");
-            }
-            {
-                entity.Date = Cryptocash.Domain.HolidayMetadata.CreateDate(DateUpdateValue);
+                exceptionCollector.Collect("Date",() =>entity.Date = Cryptocash.Domain.HolidayMetadata.CreateDate(DateUpdateValue));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)

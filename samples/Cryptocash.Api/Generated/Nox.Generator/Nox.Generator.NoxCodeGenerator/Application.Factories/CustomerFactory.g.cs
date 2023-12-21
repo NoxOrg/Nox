@@ -46,120 +46,94 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
 
     public virtual async Task<CustomerEntity> CreateEntityAsync(CustomerCreateDto createDto)
     {
-        try
-        {
-            return await ToEntityAsync(createDto);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }        
+        return await ToEntityAsync(createDto);
     }
 
     public virtual async Task UpdateEntityAsync(CustomerEntity entity, CustomerUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        try
-        {
-            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }   
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CustomerEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        try
-        {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }   
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private async Task<Cryptocash.Domain.Customer> ToEntityAsync(CustomerCreateDto createDto)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.Customer();
-        entity.SetIfNotNull(createDto.FirstName, (entity) => entity.FirstName = 
-            Cryptocash.Domain.CustomerMetadata.CreateFirstName(createDto.FirstName.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.LastName, (entity) => entity.LastName = 
-            Cryptocash.Domain.CustomerMetadata.CreateLastName(createDto.LastName.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.EmailAddress, (entity) => entity.EmailAddress = 
-            Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(createDto.EmailAddress.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.Address, (entity) => entity.Address = 
-            Cryptocash.Domain.CustomerMetadata.CreateAddress(createDto.Address.NonNullValue<StreetAddressDto>()));
-        entity.SetIfNotNull(createDto.MobileNumber, (entity) => entity.MobileNumber = 
-            Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(createDto.MobileNumber.NonNullValue<System.String>()));
-        entity.EnsureId(createDto.Id);
+        exceptionCollector.Collect("FirstName", () => entity.SetIfNotNull(createDto.FirstName, (entity) => entity.FirstName = 
+            Cryptocash.Domain.CustomerMetadata.CreateFirstName(createDto.FirstName.NonNullValue<System.String>())));
+        exceptionCollector.Collect("LastName", () => entity.SetIfNotNull(createDto.LastName, (entity) => entity.LastName = 
+            Cryptocash.Domain.CustomerMetadata.CreateLastName(createDto.LastName.NonNullValue<System.String>())));
+        exceptionCollector.Collect("EmailAddress", () => entity.SetIfNotNull(createDto.EmailAddress, (entity) => entity.EmailAddress = 
+            Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(createDto.EmailAddress.NonNullValue<System.String>())));
+        exceptionCollector.Collect("Address", () => entity.SetIfNotNull(createDto.Address, (entity) => entity.Address = 
+            Cryptocash.Domain.CustomerMetadata.CreateAddress(createDto.Address.NonNullValue<StreetAddressDto>())));
+        exceptionCollector.Collect("MobileNumber", () => entity.SetIfNotNull(createDto.MobileNumber, (entity) => entity.MobileNumber = 
+            Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(createDto.MobileNumber.NonNullValue<System.String>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
+        entity.EnsureId(createDto.Id);        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(CustomerEntity entity, CustomerUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.FirstName = Cryptocash.Domain.CustomerMetadata.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>());
-        entity.LastName = Cryptocash.Domain.CustomerMetadata.CreateLastName(updateDto.LastName.NonNullValue<System.String>());
-        entity.EmailAddress = Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(updateDto.EmailAddress.NonNullValue<System.String>());
-        entity.Address = Cryptocash.Domain.CustomerMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        exceptionCollector.Collect("FirstName",() => entity.FirstName = Cryptocash.Domain.CustomerMetadata.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>()));
+        exceptionCollector.Collect("LastName",() => entity.LastName = Cryptocash.Domain.CustomerMetadata.CreateLastName(updateDto.LastName.NonNullValue<System.String>()));
+        exceptionCollector.Collect("EmailAddress",() => entity.EmailAddress = Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(updateDto.EmailAddress.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Address",() => entity.Address = Cryptocash.Domain.CustomerMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>()));
         if(updateDto.MobileNumber is null)
         {
              entity.MobileNumber = null;
         }
         else
         {
-            entity.MobileNumber = Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(updateDto.MobileNumber.ToValueFromNonNull<System.String>());
+            exceptionCollector.Collect("MobileNumber",() =>entity.MobileNumber = Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(updateDto.MobileNumber.ToValueFromNonNull<System.String>()));
         }
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(CustomerEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("FirstName", out var FirstNameUpdateValue))
         {
-            if (FirstNameUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(FirstNameUpdateValue, "Attribute 'FirstName' can't be null.");
             {
-                throw new ArgumentException("Attribute 'FirstName' can't be null");
-            }
-            {
-                entity.FirstName = Cryptocash.Domain.CustomerMetadata.CreateFirstName(FirstNameUpdateValue);
+                exceptionCollector.Collect("FirstName",() =>entity.FirstName = Cryptocash.Domain.CustomerMetadata.CreateFirstName(FirstNameUpdateValue));
             }
         }
 
         if (updatedProperties.TryGetValue("LastName", out var LastNameUpdateValue))
         {
-            if (LastNameUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(LastNameUpdateValue, "Attribute 'LastName' can't be null.");
             {
-                throw new ArgumentException("Attribute 'LastName' can't be null");
-            }
-            {
-                entity.LastName = Cryptocash.Domain.CustomerMetadata.CreateLastName(LastNameUpdateValue);
+                exceptionCollector.Collect("LastName",() =>entity.LastName = Cryptocash.Domain.CustomerMetadata.CreateLastName(LastNameUpdateValue));
             }
         }
 
         if (updatedProperties.TryGetValue("EmailAddress", out var EmailAddressUpdateValue))
         {
-            if (EmailAddressUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(EmailAddressUpdateValue, "Attribute 'EmailAddress' can't be null.");
             {
-                throw new ArgumentException("Attribute 'EmailAddress' can't be null");
-            }
-            {
-                entity.EmailAddress = Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(EmailAddressUpdateValue);
+                exceptionCollector.Collect("EmailAddress",() =>entity.EmailAddress = Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(EmailAddressUpdateValue));
             }
         }
 
         if (updatedProperties.TryGetValue("Address", out var AddressUpdateValue))
         {
-            if (AddressUpdateValue == null)
-            {
-                throw new ArgumentException("Attribute 'Address' can't be null");
-            }
+            ArgumentNullException.ThrowIfNull(AddressUpdateValue, "Attribute 'Address' can't be null.");
             {
                 var entityToUpdate = entity.Address is null ? new StreetAddressDto() : entity.Address.ToDto();
                 StreetAddressDto.UpdateFromDictionary(entityToUpdate, AddressUpdateValue);
-                entity.Address = Cryptocash.Domain.CustomerMetadata.CreateAddress(entityToUpdate);
+                exceptionCollector.Collect("Address",() =>entity.Address = Cryptocash.Domain.CustomerMetadata.CreateAddress(entityToUpdate));
             }
         }
 
@@ -168,9 +142,10 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
             if (MobileNumberUpdateValue == null) { entity.MobileNumber = null; }
             else
             {
-                entity.MobileNumber = Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(MobileNumberUpdateValue);
+                exceptionCollector.Collect("MobileNumber",() =>entity.MobileNumber = Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(MobileNumberUpdateValue));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
