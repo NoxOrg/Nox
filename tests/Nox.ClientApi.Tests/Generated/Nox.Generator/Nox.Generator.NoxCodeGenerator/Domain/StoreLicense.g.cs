@@ -172,6 +172,7 @@ internal abstract partial class StoreLicenseBase : AuditableEntityBase, IEntityC
         SoldInCurrencyId = null;
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

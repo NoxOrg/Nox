@@ -24,9 +24,8 @@ internal partial class PartialUpdateWorkplaceCommandHandler : PartialUpdateWorkp
 	public PartialUpdateWorkplaceCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
-		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> entityLocalizedFactory)
-		: base(dbContext,noxSolution, entityFactory, entityLocalizedFactory)
+		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory)
+		: base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -34,18 +33,15 @@ internal abstract class PartialUpdateWorkplaceCommandHandlerBase : CommandBase<P
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> EntityFactory { get; }
-	public IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> EntityLocalizedFactory { get; }
-
+	
 	public PartialUpdateWorkplaceCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
-		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> entityLocalizedFactory)
+		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory; 
-		EntityLocalizedFactory = entityLocalizedFactory;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<WorkplaceKeyDto> Handle(PartialUpdateWorkplaceCommand request, CancellationToken cancellationToken)
@@ -59,30 +55,13 @@ internal abstract class PartialUpdateWorkplaceCommandHandlerBase : CommandBase<P
 		{
 			throw new EntityNotFoundException("Workplace",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await PartiallyUpdateLocalizedEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 
 		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		return new WorkplaceKeyDto(entity.Id.Value);
-	}
-
-	private async Task PartiallyUpdateLocalizedEntityAsync(WorkplaceEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
-	{
-		var entityLocalized = await DbContext.WorkplacesLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
-		if(entityLocalized is null)
-		{
-			entityLocalized = EntityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode, copyEntityAttributes: false);
-			DbContext.WorkplacesLocalized.Add(entityLocalized);
-		}
-		else
-		{
-			DbContext.Entry(entityLocalized).State = EntityState.Modified;
-		}
-
-		EntityLocalizedFactory.PartialUpdateLocalizedEntity(entityLocalized, updatedProperties);
 	}
 }

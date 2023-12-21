@@ -135,6 +135,7 @@ internal abstract partial class TestEntityOwnedRelationshipOneOrManyBase : Audit
         SecEntityOwnedRelOneOrManies.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

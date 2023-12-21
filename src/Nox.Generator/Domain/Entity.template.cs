@@ -377,6 +377,22 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
     }
 {{-end}}
 
+    {{ if entity.IsLocalized ~}}
+    /// <summary>
+    /// {{entity.Name}} localized entities.
+    /// </summary>
+    public virtual List<{{entity.Name}}Localized> Localized{{entity.PluralName}}  { get; private set; } = new();
+
+
+	/// <summary>
+	/// Creates a new {{entity.Name}}Localized entity.
+	/// </summary>
+    public virtual void CreateRefToLocalized{{entity.PluralName}}({{entity.Name}}Localized related{{entity.Name}}Localized)
+	{
+		Localized{{entity.PluralName}}.Add(related{{entity.Name}}Localized);
+	}
+    {{ end ~}}
+
 {{ if !entity.IsOwnedEntity ~}}
     /// <summary>
     /// Entity tag used as concurrency token.

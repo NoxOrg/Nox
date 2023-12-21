@@ -98,6 +98,7 @@ internal abstract partial class CountryQualityOfLifeIndexBase : EntityBase, IEnt
         InternalDomainEvents.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

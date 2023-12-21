@@ -22,9 +22,8 @@ internal partial class PartialUpdateTenantBrandsForTenantCommandHandler: Partial
 	public PartialUpdateTenantBrandsForTenantCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> entityFactory,
-		IEntityLocalizedFactory<TenantBrandLocalized, TenantBrandEntity, TenantBrandUpsertDto> entityLocalizedFactory)
-		: base(dbContext, noxSolution, entityFactory, entityLocalizedFactory)
+		IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -32,18 +31,15 @@ internal abstract class PartialUpdateTenantBrandsForTenantCommandHandlerBase: Co
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> _entityFactory;
-	protected readonly IEntityLocalizedFactory<TenantBrandLocalized, TenantBrandEntity, TenantBrandUpsertDto> _entityLocalizedFactory;
-
+	
 	protected PartialUpdateTenantBrandsForTenantCommandHandlerBase(
 		AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> entityFactory,
-		IEntityLocalizedFactory<TenantBrandLocalized, TenantBrandEntity, TenantBrandUpsertDto> entityLocalizedFactory)
+		IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> entityFactory)
 		: base(noxSolution)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory; 
-		_entityLocalizedFactory = entityLocalizedFactory;
+		_entityFactory = entityFactory;
 	}
 
 	public virtual async Task<TenantBrandKeyDto> Handle(PartialUpdateTenantBrandsForTenantCommand request, CancellationToken cancellationToken)
@@ -65,31 +61,15 @@ internal abstract class PartialUpdateTenantBrandsForTenantCommandHandlerBase: Co
 			throw new EntityNotFoundException("Tenant.TenantBrands", $"{ownedId.ToString()}");
 		}
 
-		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
-		await PartiallyUpdateLocalizedEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new TenantBrandKeyDto(entity.Id.Value);
-	}
-
-	private async Task PartiallyUpdateLocalizedEntityAsync(TenantBrandEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
-	{
-		var entityLocalized = await _dbContext.TenantBrandsLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
-		if(entityLocalized is null)
-		{
-			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode, copyEntityAttributes: false);
-			_dbContext.TenantBrandsLocalized.Add(entityLocalized);
-		}
-		else
-		{
-			_dbContext.Entry(entityLocalized).State = EntityState.Modified;
-		}
-
-		_entityLocalizedFactory.PartialUpdateLocalizedEntity(entityLocalized, updatedProperties);
 	}
 }

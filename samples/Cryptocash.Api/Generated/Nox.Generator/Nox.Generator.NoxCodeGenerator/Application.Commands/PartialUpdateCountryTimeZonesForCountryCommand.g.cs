@@ -31,7 +31,7 @@ internal abstract class PartialUpdateCountryTimeZonesForCountryCommandHandlerBas
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> _entityFactory;
-
+	
 	protected PartialUpdateCountryTimeZonesForCountryCommandHandlerBase(
 		AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -61,12 +61,13 @@ internal abstract class PartialUpdateCountryTimeZonesForCountryCommandHandlerBas
 			throw new EntityNotFoundException("Country.CountryTimeZones", $"{ownedId.ToString()}");
 		}
 
-		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new CountryTimeZoneKeyDto(entity.Id.Value);

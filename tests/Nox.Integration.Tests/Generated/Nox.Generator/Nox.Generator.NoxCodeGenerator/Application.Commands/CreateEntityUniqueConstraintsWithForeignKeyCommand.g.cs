@@ -47,7 +47,7 @@ internal abstract class CreateEntityUniqueConstraintsWithForeignKeyCommandHandle
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey, EntityUniqueConstraintsRelatedForeignKeyCreateDto, EntityUniqueConstraintsRelatedForeignKeyUpdateDto> EntityUniqueConstraintsRelatedForeignKeyFactory,
 		IEntityFactory<EntityUniqueConstraintsWithForeignKeyEntity, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -59,7 +59,7 @@ internal abstract class CreateEntityUniqueConstraintsWithForeignKeyCommandHandle
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.EntityUniqueConstraintsRelatedForeignKeyId is not null)
 		{
 			var relatedKey = TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(request.EntityDto.EntityUniqueConstraintsRelatedForeignKeyId.NonNullValue<System.Int32>());
@@ -71,7 +71,7 @@ internal abstract class CreateEntityUniqueConstraintsWithForeignKeyCommandHandle
 		}
 		else if(request.EntityDto.EntityUniqueConstraintsRelatedForeignKey is not null)
 		{
-			var relatedEntity = await EntityUniqueConstraintsRelatedForeignKeyFactory.CreateEntityAsync(request.EntityDto.EntityUniqueConstraintsRelatedForeignKey);
+			var relatedEntity = await EntityUniqueConstraintsRelatedForeignKeyFactory.CreateEntityAsync(request.EntityDto.EntityUniqueConstraintsRelatedForeignKey, request.CultureCode);
 			entityToCreate.CreateRefToEntityUniqueConstraintsRelatedForeignKey(relatedEntity);
 		}
 

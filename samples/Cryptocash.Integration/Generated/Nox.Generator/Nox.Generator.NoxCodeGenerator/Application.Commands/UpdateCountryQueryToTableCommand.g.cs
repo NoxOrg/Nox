@@ -27,7 +27,7 @@ internal partial class UpdateCountryQueryToTableCommandHandler : UpdateCountryQu
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryQueryToTableEntity, CountryQueryToTableCreateDto, CountryQueryToTableUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdateCountryQueryToTableCommandHandlerBase : CommandBas
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CountryQueryToTableEntity, CountryQueryToTableCreateDto, CountryQueryToTableUpdateDto> _entityFactory;
-
 	protected UpdateCountryQueryToTableCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

@@ -334,6 +334,7 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
         Holidays.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

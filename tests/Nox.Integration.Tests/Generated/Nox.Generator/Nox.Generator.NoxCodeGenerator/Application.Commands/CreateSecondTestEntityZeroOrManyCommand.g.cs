@@ -48,7 +48,7 @@ internal abstract class CreateSecondTestEntityZeroOrManyCommandHandlerBase : Com
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrMany, TestEntityZeroOrManyCreateDto, TestEntityZeroOrManyUpdateDto> TestEntityZeroOrManyFactory,
 		IEntityFactory<SecondTestEntityZeroOrManyEntity, SecondTestEntityZeroOrManyCreateDto, SecondTestEntityZeroOrManyUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -60,7 +60,7 @@ internal abstract class CreateSecondTestEntityZeroOrManyCommandHandlerBase : Com
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.TestEntityZeroOrManiesId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.TestEntityZeroOrManiesId)
@@ -78,7 +78,7 @@ internal abstract class CreateSecondTestEntityZeroOrManyCommandHandlerBase : Com
 		{
 			foreach(var relatedCreateDto in request.EntityDto.TestEntityZeroOrManies)
 			{
-				var relatedEntity = await TestEntityZeroOrManyFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await TestEntityZeroOrManyFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToTestEntityZeroOrManies(relatedEntity);
 			}
 		}

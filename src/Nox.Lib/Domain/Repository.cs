@@ -1,4 +1,6 @@
-﻿using Nox.Extensions;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Nox.Extensions;
 using Nox.Infrastructure.Persistence;
 
 namespace Nox.Domain;
@@ -14,6 +16,22 @@ public sealed class Repository : IRepository
     }
 
     #region IRepository
+
+    public  IQueryable<T> Query<T>(Expression<Func<T, bool>> predicate) where T :class, IEntity
+    {
+        return _dbContext.Set<T>().Where(predicate: predicate);
+    }
+
+    public async Task AddAsync<T>(T entity) where T : class, IEntity
+    {
+        await _dbContext.AddEntityAsync(entity);
+    }
+
+    public void Update(object entity)
+    {
+        _dbContext.Update(entity);
+    }
+
     public void Delete<T>(T entity) where T : IEntity
     {
         _dbContext.Remove(entity);

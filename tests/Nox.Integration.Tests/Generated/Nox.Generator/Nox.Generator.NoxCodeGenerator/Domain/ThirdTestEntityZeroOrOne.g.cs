@@ -111,6 +111,7 @@ internal abstract partial class ThirdTestEntityZeroOrOneBase : AuditableEntityBa
         ThirdTestEntityExactlyOne = null;
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

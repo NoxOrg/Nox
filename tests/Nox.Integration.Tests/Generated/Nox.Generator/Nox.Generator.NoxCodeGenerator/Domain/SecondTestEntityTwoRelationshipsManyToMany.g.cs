@@ -143,6 +143,7 @@ internal abstract partial class SecondTestEntityTwoRelationshipsManyToManyBase :
         TestRelationshipTwoOnOtherSide.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

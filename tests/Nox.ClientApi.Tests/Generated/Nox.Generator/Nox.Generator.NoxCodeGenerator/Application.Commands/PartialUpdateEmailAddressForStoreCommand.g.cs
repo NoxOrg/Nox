@@ -32,7 +32,7 @@ internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: Com
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> _entityFactory;
-
+	
 	protected PartialUpdateEmailAddressForStoreCommandHandlerBase(
 		AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -62,12 +62,13 @@ internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: Com
 			throw new EntityNotFoundException("Store.EmailAddress", String.Empty);
 		}
 
-		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new EmailAddressKeyDto();

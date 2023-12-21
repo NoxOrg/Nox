@@ -27,7 +27,7 @@ internal partial class UpdateCountryCommandHandler : UpdateCountryCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> _entityFactory;
-
 	protected UpdateCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -58,8 +57,8 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		{
 			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.CountryTimeZones).LoadAsync();
-		await DbContext.Entry(entity).Collection(x => x.Holidays).LoadAsync();
+		await DbContext.Entry(entity).Collection(x => x.CountryTimeZones).LoadAsync(cancellationToken);
+		await DbContext.Entry(entity).Collection(x => x.Holidays).LoadAsync(cancellationToken);
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

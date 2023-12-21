@@ -119,4 +119,18 @@ internal abstract partial class TenantContactBase : EntityBase, IOwnedEntity
         InternalDomainEvents.Clear();
     }
 
+        /// <summary>
+        /// TenantContact localized entities.
+        /// </summary>
+        public virtual List<TenantContactLocalized> LocalizedTenantContacts  { get; private set; } = new();
+    
+    
+    	/// <summary>
+    	/// Creates a new TenantContactLocalized entity.
+    	/// </summary>
+        public virtual void CreateRefToLocalizedTenantContacts(TenantContactLocalized relatedTenantContactLocalized)
+    	{
+    		LocalizedTenantContacts.Add(relatedTenantContactLocalized);
+    	}
+        
 }

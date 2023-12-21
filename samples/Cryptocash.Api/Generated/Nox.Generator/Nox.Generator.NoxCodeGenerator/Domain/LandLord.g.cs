@@ -137,6 +137,7 @@ internal abstract partial class LandLordBase : AuditableEntityBase, IEntityConcu
         VendingMachines.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

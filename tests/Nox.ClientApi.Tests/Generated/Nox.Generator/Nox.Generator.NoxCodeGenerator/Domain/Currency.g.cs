@@ -161,6 +161,7 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
         StoreLicenseSoldIn.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

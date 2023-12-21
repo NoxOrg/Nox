@@ -91,4 +91,5 @@ internal abstract partial class SecEntityOwnedRelOneOrManyBase : EntityBase, IOw
         InternalDomainEvents.Clear();
     }
 
+    
 }

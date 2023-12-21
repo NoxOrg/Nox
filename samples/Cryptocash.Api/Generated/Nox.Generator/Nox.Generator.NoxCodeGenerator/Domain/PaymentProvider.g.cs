@@ -137,6 +137,7 @@ internal abstract partial class PaymentProviderBase : AuditableEntityBase, IEnti
         PaymentDetails.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

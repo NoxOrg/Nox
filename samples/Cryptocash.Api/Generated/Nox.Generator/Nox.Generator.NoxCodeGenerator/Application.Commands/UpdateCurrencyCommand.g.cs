@@ -27,7 +27,7 @@ internal partial class UpdateCurrencyCommandHandler : UpdateCurrencyCommandHandl
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto> _entityFactory;
-
 	protected UpdateCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -58,8 +57,8 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 		{
 			throw new EntityNotFoundException("Currency",  $"{keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.BankNotes).LoadAsync();
-		await DbContext.Entry(entity).Collection(x => x.ExchangeRates).LoadAsync();
+		await DbContext.Entry(entity).Collection(x => x.BankNotes).LoadAsync(cancellationToken);
+		await DbContext.Entry(entity).Collection(x => x.ExchangeRates).LoadAsync(cancellationToken);
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

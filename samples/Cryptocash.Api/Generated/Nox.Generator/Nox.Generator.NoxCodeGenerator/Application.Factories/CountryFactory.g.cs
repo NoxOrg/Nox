@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,47 +27,69 @@ internal partial class CountryFactory : CountryFactoryBase
 {
     public CountryFactory
     (
+        IRepository repository,
         IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
-        IEntityFactory<Cryptocash.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory,
-        IRepository repository
-    ) : base(countrytimezonefactory,holidayfactory, repository)
+        IEntityFactory<Cryptocash.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory
+    ) : base(repository, countrytimezonefactory, holidayfactory)
     {}
 }
 
 internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
     protected IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> CountryTimeZoneFactory {get;}
     protected IEntityFactory<Cryptocash.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> HolidayFactory {get;}
 
     public CountryFactoryBase(
+        IRepository repository,
         IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
-        IEntityFactory<Cryptocash.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory,
-        IRepository repository
+        IEntityFactory<Cryptocash.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory
         )
     {
+        _repository = repository;
         CountryTimeZoneFactory = countrytimezonefactory;
         HolidayFactory = holidayfactory;
-        _repository = repository;
     }
 
-    public virtual async Task<CountryEntity> CreateEntityAsync(CountryCreateDto createDto)
+    public virtual async Task<CountryEntity> CreateEntityAsync(CountryCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
-        return await ToEntityAsync(createDto);
+        try
+        {
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryEntity));
+        }        
     }
 
     public virtual async Task UpdateEntityAsync(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryEntity));
+        }   
     }
 
-    public virtual void PartialUpdateEntity(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        try
+        {
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryEntity));
+        }   
     }
 
-    private async Task<Cryptocash.Domain.Country> ToEntityAsync(CountryCreateDto createDto)
+    private async Task<Cryptocash.Domain.Country> ToEntityAsync(CountryCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.Country();
@@ -102,16 +124,16 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             Cryptocash.Domain.CountryMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
-        foreach (var dto in createDto.CountryTimeZones)
+        createDto.CountryTimeZones?.ForEach(async dto =>
         {
-            var newRelatedEntity = await CountryTimeZoneFactory.CreateEntityAsync(dto);
-            entity.CreateRefToCountryTimeZones(newRelatedEntity);
-        }
-        foreach (var dto in createDto.Holidays)
+            var countryTimeZone = await CountryTimeZoneFactory.CreateEntityAsync(dto, cultureCode);
+            entity.CreateRefToCountryTimeZones(countryTimeZone);
+        });
+        createDto.Holidays?.ForEach(async dto =>
         {
-            var newRelatedEntity = await HolidayFactory.CreateEntityAsync(dto);
-            entity.CreateRefToHolidays(newRelatedEntity);
-        }        
+            var holiday = await HolidayFactory.CreateEntityAsync(dto, cultureCode);
+            entity.CreateRefToHolidays(holiday);
+        });        
         return await Task.FromResult(entity);
     }
 
@@ -353,9 +375,6 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
 
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
-
 	private async Task UpdateOwnedEntitiesAsync(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
         if(!updateDto.CountryTimeZones.Any())
@@ -369,7 +388,10 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 			foreach(var ownedUpsertDto in updateDto.CountryTimeZones)
 			{
 				if(ownedUpsertDto.Id is null)
-					updatedCountryTimeZones.Add(await CountryTimeZoneFactory.CreateEntityAsync(ownedUpsertDto));
+                {
+                    var ownedEntity = await CountryTimeZoneFactory.CreateEntityAsync(ownedUpsertDto, cultureCode);
+					updatedCountryTimeZones.Add(ownedEntity);
+                }
 				else
 				{
 					var key = Cryptocash.Domain.CountryTimeZoneMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
@@ -384,7 +406,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 				}
 			}
             _repository.DeleteOwned<Cryptocash.Domain.CountryTimeZone>(
-                entity.CountryTimeZones.Where(x => !updatedCountryTimeZones.Any(upd => upd.Id == x.Id)).ToList());
+                entity.CountryTimeZones.Where(x => !updatedCountryTimeZones.Exists(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToCountryTimeZones(updatedCountryTimeZones);
 		}
         if(!updateDto.Holidays.Any())
@@ -398,7 +420,10 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 			foreach(var ownedUpsertDto in updateDto.Holidays)
 			{
 				if(ownedUpsertDto.Id is null)
-					updatedHolidays.Add(await HolidayFactory.CreateEntityAsync(ownedUpsertDto));
+                {
+                    var ownedEntity = await HolidayFactory.CreateEntityAsync(ownedUpsertDto, cultureCode);
+					updatedHolidays.Add(ownedEntity);
+                }
 				else
 				{
 					var key = Cryptocash.Domain.HolidayMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
@@ -413,7 +438,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 				}
 			}
             _repository.DeleteOwned<Cryptocash.Domain.Holiday>(
-                entity.Holidays.Where(x => !updatedHolidays.Any(upd => upd.Id == x.Id)).ToList());
+                entity.Holidays.Where(x => !updatedHolidays.Exists(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToHolidays(updatedHolidays);
 		}
 	}

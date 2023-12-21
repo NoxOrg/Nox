@@ -303,6 +303,7 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
         ExchangeRates.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

@@ -97,4 +97,5 @@ internal abstract partial class BankNoteBase : EntityBase, IOwnedEntity
         InternalDomainEvents.Clear();
     }
 
+    
 }

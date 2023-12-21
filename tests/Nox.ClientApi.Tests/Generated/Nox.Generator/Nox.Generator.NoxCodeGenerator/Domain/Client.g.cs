@@ -131,6 +131,7 @@ internal abstract partial class ClientBase : AuditableEntityBase, IEntityConcurr
         Stores.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

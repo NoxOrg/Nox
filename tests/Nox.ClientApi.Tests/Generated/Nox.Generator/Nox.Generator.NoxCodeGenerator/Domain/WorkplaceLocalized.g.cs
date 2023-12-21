@@ -19,7 +19,7 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Workplace.
 /// </summary>
-internal partial class WorkplaceLocalized : IEntityConcurrent
+internal partial class WorkplaceLocalized : IEntity, IEntityConcurrent 
 {
     /// <summary>
     /// Workplace unique identifier (Required).

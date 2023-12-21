@@ -25,10 +25,12 @@ internal class EntityLocalizedFactoryGenerator : INoxCodeGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
+            
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithFileNamePrefix("Application.Factories")
                 .WithClassName($"{entity.Name}LocalizedFactory")
                 .WithObject("entity", entity)
+                .WithObject("entityKeys", entity.GetKeys())
                 .WithObject("localizedEntityName", $"{entity.Name}Localized")
                 .WithObject("entityLocalizedAttributes", entity.GetLocalizedAttributes())
                 .GenerateSourceCodeFromResource("Application.Factories.EntityLocalizedFactory");

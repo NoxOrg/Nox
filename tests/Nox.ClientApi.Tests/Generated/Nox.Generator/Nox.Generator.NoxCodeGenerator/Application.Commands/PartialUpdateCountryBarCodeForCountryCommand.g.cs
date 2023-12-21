@@ -32,7 +32,7 @@ internal abstract class PartialUpdateCountryBarCodeForCountryCommandHandlerBase:
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<CountryBarCodeEntity, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> _entityFactory;
-
+	
 	protected PartialUpdateCountryBarCodeForCountryCommandHandlerBase(
 		AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -62,12 +62,13 @@ internal abstract class PartialUpdateCountryBarCodeForCountryCommandHandlerBase:
 			throw new EntityNotFoundException("Country.CountryBarCode", String.Empty);
 		}
 
-		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new CountryBarCodeKeyDto();

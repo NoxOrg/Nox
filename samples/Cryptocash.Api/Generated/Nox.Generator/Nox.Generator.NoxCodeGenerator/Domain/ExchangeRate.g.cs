@@ -97,4 +97,5 @@ internal abstract partial class ExchangeRateBase : EntityBase, IOwnedEntity
         InternalDomainEvents.Clear();
     }
 
+    
 }

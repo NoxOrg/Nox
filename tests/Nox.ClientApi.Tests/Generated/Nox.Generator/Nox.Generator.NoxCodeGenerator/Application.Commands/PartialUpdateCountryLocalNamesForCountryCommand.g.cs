@@ -31,7 +31,7 @@ internal abstract class PartialUpdateCountryLocalNamesForCountryCommandHandlerBa
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> _entityFactory;
-
+	
 	protected PartialUpdateCountryLocalNamesForCountryCommandHandlerBase(
 		AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -61,12 +61,13 @@ internal abstract class PartialUpdateCountryLocalNamesForCountryCommandHandlerBa
 			throw new EntityNotFoundException("Country.CountryLocalNames", $"{ownedId.ToString()}");
 		}
 
-		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new CountryLocalNameKeyDto(entity.Id.Value);

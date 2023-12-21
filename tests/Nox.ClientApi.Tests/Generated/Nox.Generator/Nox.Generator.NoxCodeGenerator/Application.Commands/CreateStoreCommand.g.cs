@@ -54,7 +54,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory,
 		IEntityFactory<ClientApi.Domain.Client, ClientCreateDto, ClientUpdateDto> ClientFactory,
 		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -68,7 +68,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.StoreOwnerId is not null)
 		{
 			var relatedKey = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.EntityDto.StoreOwnerId.NonNullValue<System.String>());
@@ -80,7 +80,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		}
 		else if(request.EntityDto.StoreOwner is not null)
 		{
-			var relatedEntity = await StoreOwnerFactory.CreateEntityAsync(request.EntityDto.StoreOwner);
+			var relatedEntity = await StoreOwnerFactory.CreateEntityAsync(request.EntityDto.StoreOwner, request.CultureCode);
 			entityToCreate.CreateRefToStoreOwner(relatedEntity);
 		}
 		if(request.EntityDto.StoreLicenseId is not null)
@@ -94,7 +94,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		}
 		else if(request.EntityDto.StoreLicense is not null)
 		{
-			var relatedEntity = await StoreLicenseFactory.CreateEntityAsync(request.EntityDto.StoreLicense);
+			var relatedEntity = await StoreLicenseFactory.CreateEntityAsync(request.EntityDto.StoreLicense, request.CultureCode);
 			entityToCreate.CreateRefToStoreLicense(relatedEntity);
 		}
 		if(request.EntityDto.ClientsId.Any())
@@ -114,7 +114,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Clients)
 			{
-				var relatedEntity = await ClientFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await ClientFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToClients(relatedEntity);
 			}
 		}
