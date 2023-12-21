@@ -41,9 +41,6 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
 
     public virtual async Task<TransactionEntity> CreateEntityAsync(TransactionCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
-<<<<<<< main
-        return await ToEntityAsync(createDto);
-=======
         try
         {
             var entity =  await ToEntityAsync(createDto, cultureCode);
@@ -51,25 +48,24 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TransactionEntity));
         }        
->>>>>>> Factory classes refactor has been completed (without tests)
     }
 
     public virtual async Task UpdateEntityAsync(TransactionEntity entity, TransactionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TransactionEntity));
+        }   
     }
 
     public virtual async Task PartialUpdateEntityAsync(TransactionEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-<<<<<<< main
-<<<<<<< main
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-=======
-<<<<<<< main
-=======
->>>>>>> Merge conflicts have been resolved
         try
         {
             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
@@ -77,16 +73,8 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TransactionEntity));
         }   
-<<<<<<< main
-=======
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-        await Task.CompletedTask;
->>>>>>> Factory classes refactor has been completed (without tests)
->>>>>>> Factory classes refactor has been completed (without tests)
-=======
->>>>>>> Merge conflicts have been resolved
     }
 
     private async Task<Cryptocash.Domain.Transaction> ToEntityAsync(TransactionCreateDto createDto, Nox.Types.CultureCode cultureCode)

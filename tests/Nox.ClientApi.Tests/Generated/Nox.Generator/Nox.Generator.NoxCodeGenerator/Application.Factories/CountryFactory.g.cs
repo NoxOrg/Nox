@@ -61,9 +61,6 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 
     public virtual async Task<CountryEntity> CreateEntityAsync(CountryCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
-<<<<<<< main
-        return await ToEntityAsync(createDto);
-=======
         try
         {
             var entity =  await ToEntityAsync(createDto, cultureCode);
@@ -71,25 +68,24 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryEntity));
         }        
->>>>>>> Factory classes refactor has been completed (without tests)
     }
 
     public virtual async Task UpdateEntityAsync(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryEntity));
+        }   
     }
 
     public virtual async Task PartialUpdateEntityAsync(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-<<<<<<< main
-<<<<<<< main
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-=======
-<<<<<<< main
-=======
->>>>>>> Merge conflicts have been resolved
         try
         {
             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
@@ -97,23 +93,14 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryEntity));
         }   
-<<<<<<< main
-=======
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-        await Task.CompletedTask;
->>>>>>> Factory classes refactor has been completed (without tests)
->>>>>>> Factory classes refactor has been completed (without tests)
-=======
->>>>>>> Merge conflicts have been resolved
     }
 
     private async Task<ClientApi.Domain.Country> ToEntityAsync(CountryCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.Country();
-<<<<<<< main
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
             ClientApi.Domain.CountryMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("Population", () => entity.SetIfNotNull(createDto.Population, (entity) => entity.Population = 
@@ -136,30 +123,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             ClientApi.Domain.CountryMetadata.CreateContinent(createDto.Continent.NonNullValue<System.Int32>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
-        foreach (var dto in createDto.CountryLocalNames)
-=======
-        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            ClientApi.Domain.CountryMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.Population, (entity) => entity.Population = 
-            ClientApi.Domain.CountryMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>()));
-        entity.SetIfNotNull(createDto.CountryDebt, (entity) => entity.CountryDebt = 
-            ClientApi.Domain.CountryMetadata.CreateCountryDebt(createDto.CountryDebt.NonNullValue<MoneyDto>()));
-        entity.SetIfNotNull(createDto.CapitalCityLocation, (entity) => entity.CapitalCityLocation = 
-            ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(createDto.CapitalCityLocation.NonNullValue<LatLongDto>()));
-        entity.SetIfNotNull(createDto.FirstLanguageCode, (entity) => entity.FirstLanguageCode = 
-            ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(createDto.FirstLanguageCode.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.CountryIsoNumeric, (entity) => entity.CountryIsoNumeric = 
-            ClientApi.Domain.CountryMetadata.CreateCountryIsoNumeric(createDto.CountryIsoNumeric.NonNullValue<System.UInt16>()));
-        entity.SetIfNotNull(createDto.CountryIsoAlpha3, (entity) => entity.CountryIsoAlpha3 = 
-            ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(createDto.CountryIsoAlpha3.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.GoogleMapsUrl, (entity) => entity.GoogleMapsUrl = 
-            ClientApi.Domain.CountryMetadata.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.StartOfWeek, (entity) => entity.StartOfWeek = 
-            ClientApi.Domain.CountryMetadata.CreateStartOfWeek(createDto.StartOfWeek.NonNullValue<System.UInt16>()));
-        entity.SetIfNotNull(createDto.Continent, (entity) => entity.Continent = 
-            ClientApi.Domain.CountryMetadata.CreateContinent(createDto.Continent.NonNullValue<System.Int32>()));
         createDto.CountryLocalNames?.ForEach(async dto =>
->>>>>>> Factory classes refactor has been completed (without tests)
         {
             var countryLocalName = await CountryLocalNameFactory.CreateEntityAsync(dto, cultureCode);
             entity.CreateRefToCountryLocalNames(countryLocalName);
@@ -176,15 +140,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         });
         createDto.Holidays?.ForEach(async dto =>
         {
-<<<<<<< main
-            var newRelatedEntity = await HolidayFactory.CreateEntityAsync(dto);
-            entity.CreateRefToHolidays(newRelatedEntity);
-        }        
-=======
             var holiday = await HolidayFactory.CreateEntityAsync(dto, cultureCode);
             entity.CreateRefToHolidays(holiday);
-        });
->>>>>>> Factory classes refactor has been completed (without tests)
+        });        
         return await Task.FromResult(entity);
     }
 

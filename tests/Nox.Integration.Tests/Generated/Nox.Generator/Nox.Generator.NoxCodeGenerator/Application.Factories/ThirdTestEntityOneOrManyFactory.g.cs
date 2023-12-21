@@ -41,9 +41,6 @@ internal abstract class ThirdTestEntityOneOrManyFactoryBase : IEntityFactory<Thi
 
     public virtual async Task<ThirdTestEntityOneOrManyEntity> CreateEntityAsync(ThirdTestEntityOneOrManyCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
-<<<<<<< main
-        return await ToEntityAsync(createDto);
-=======
         try
         {
             var entity =  await ToEntityAsync(createDto, cultureCode);
@@ -51,25 +48,24 @@ internal abstract class ThirdTestEntityOneOrManyFactoryBase : IEntityFactory<Thi
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(ThirdTestEntityOneOrManyEntity));
         }        
->>>>>>> Factory classes refactor has been completed (without tests)
     }
 
     public virtual async Task UpdateEntityAsync(ThirdTestEntityOneOrManyEntity entity, ThirdTestEntityOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(ThirdTestEntityOneOrManyEntity));
+        }   
     }
 
     public virtual async Task PartialUpdateEntityAsync(ThirdTestEntityOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-<<<<<<< main
-<<<<<<< main
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-=======
-<<<<<<< main
-=======
->>>>>>> Merge conflicts have been resolved
         try
         {
             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
@@ -77,16 +73,8 @@ internal abstract class ThirdTestEntityOneOrManyFactoryBase : IEntityFactory<Thi
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(ThirdTestEntityOneOrManyEntity));
         }   
-<<<<<<< main
-=======
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-        await Task.CompletedTask;
->>>>>>> Factory classes refactor has been completed (without tests)
->>>>>>> Factory classes refactor has been completed (without tests)
-=======
->>>>>>> Merge conflicts have been resolved
     }
 
     private async Task<TestWebApp.Domain.ThirdTestEntityOneOrMany> ToEntityAsync(ThirdTestEntityOneOrManyCreateDto createDto, Nox.Types.CultureCode cultureCode)

@@ -49,9 +49,6 @@ internal abstract class TestEntityOwnedRelationshipExactlyOneFactoryBase : IEnti
 
     public virtual async Task<TestEntityOwnedRelationshipExactlyOneEntity> CreateEntityAsync(TestEntityOwnedRelationshipExactlyOneCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
-<<<<<<< main
-        return await ToEntityAsync(createDto);
-=======
         try
         {
             var entity =  await ToEntityAsync(createDto, cultureCode);
@@ -59,25 +56,24 @@ internal abstract class TestEntityOwnedRelationshipExactlyOneFactoryBase : IEnti
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TestEntityOwnedRelationshipExactlyOneEntity));
         }        
->>>>>>> Factory classes refactor has been completed (without tests)
     }
 
     public virtual async Task UpdateEntityAsync(TestEntityOwnedRelationshipExactlyOneEntity entity, TestEntityOwnedRelationshipExactlyOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TestEntityOwnedRelationshipExactlyOneEntity));
+        }   
     }
 
     public virtual async Task PartialUpdateEntityAsync(TestEntityOwnedRelationshipExactlyOneEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-<<<<<<< main
-<<<<<<< main
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-=======
-<<<<<<< main
-=======
->>>>>>> Merge conflicts have been resolved
         try
         {
             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
@@ -85,16 +81,8 @@ internal abstract class TestEntityOwnedRelationshipExactlyOneFactoryBase : IEnti
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TestEntityOwnedRelationshipExactlyOneEntity));
         }   
-<<<<<<< main
-=======
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-        await Task.CompletedTask;
->>>>>>> Factory classes refactor has been completed (without tests)
->>>>>>> Factory classes refactor has been completed (without tests)
-=======
->>>>>>> Merge conflicts have been resolved
     }
 
     private async Task<TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOne> ToEntityAsync(TestEntityOwnedRelationshipExactlyOneCreateDto createDto, Nox.Types.CultureCode cultureCode)
@@ -108,14 +96,9 @@ internal abstract class TestEntityOwnedRelationshipExactlyOneFactoryBase : IEnti
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         if (createDto.SecEntityOwnedRelExactlyOne is not null)
         {
-<<<<<<< main
-            entity.CreateRefToSecEntityOwnedRelExactlyOne(await SecEntityOwnedRelExactlyOneFactory.CreateEntityAsync(createDto.SecEntityOwnedRelExactlyOne));
-        }        
-=======
             var secEntityOwnedRelExactlyOne = await SecEntityOwnedRelExactlyOneFactory.CreateEntityAsync(createDto.SecEntityOwnedRelExactlyOne, cultureCode);
             entity.CreateRefToSecEntityOwnedRelExactlyOne(secEntityOwnedRelExactlyOne);
-        }
->>>>>>> Factory classes refactor has been completed (without tests)
+        }        
         return await Task.FromResult(entity);
     }
 

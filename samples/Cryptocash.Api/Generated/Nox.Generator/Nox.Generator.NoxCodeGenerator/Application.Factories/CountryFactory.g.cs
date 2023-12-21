@@ -53,9 +53,6 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 
     public virtual async Task<CountryEntity> CreateEntityAsync(CountryCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
-<<<<<<< main
-        return await ToEntityAsync(createDto);
-=======
         try
         {
             var entity =  await ToEntityAsync(createDto, cultureCode);
@@ -63,25 +60,24 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryEntity));
         }        
->>>>>>> Factory classes refactor has been completed (without tests)
     }
 
     public virtual async Task UpdateEntityAsync(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryEntity));
+        }   
     }
 
     public virtual async Task PartialUpdateEntityAsync(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-<<<<<<< main
-<<<<<<< main
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-=======
-<<<<<<< main
-=======
->>>>>>> Merge conflicts have been resolved
         try
         {
             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
@@ -89,23 +85,14 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryEntity));
         }   
-<<<<<<< main
-=======
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-        await Task.CompletedTask;
->>>>>>> Factory classes refactor has been completed (without tests)
->>>>>>> Factory classes refactor has been completed (without tests)
-=======
->>>>>>> Merge conflicts have been resolved
     }
 
     private async Task<Cryptocash.Domain.Country> ToEntityAsync(CountryCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.Country();
-<<<<<<< main
         exceptionCollector.Collect("Id",() => entity.Id = CountryMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
             Cryptocash.Domain.CountryMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
@@ -137,54 +124,16 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             Cryptocash.Domain.CountryMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
-        foreach (var dto in createDto.CountryTimeZones)
-=======
-        entity.Id = CountryMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
-        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            Cryptocash.Domain.CountryMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.OfficialName, (entity) => entity.OfficialName = 
-            Cryptocash.Domain.CountryMetadata.CreateOfficialName(createDto.OfficialName.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.CountryIsoNumeric, (entity) => entity.CountryIsoNumeric = 
-            Cryptocash.Domain.CountryMetadata.CreateCountryIsoNumeric(createDto.CountryIsoNumeric.NonNullValue<System.UInt16>()));
-        entity.SetIfNotNull(createDto.CountryIsoAlpha3, (entity) => entity.CountryIsoAlpha3 = 
-            Cryptocash.Domain.CountryMetadata.CreateCountryIsoAlpha3(createDto.CountryIsoAlpha3.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.GeoCoords, (entity) => entity.GeoCoords = 
-            Cryptocash.Domain.CountryMetadata.CreateGeoCoords(createDto.GeoCoords.NonNullValue<LatLongDto>()));
-        entity.SetIfNotNull(createDto.FlagEmoji, (entity) => entity.FlagEmoji = 
-            Cryptocash.Domain.CountryMetadata.CreateFlagEmoji(createDto.FlagEmoji.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.FlagSvg, (entity) => entity.FlagSvg = 
-            Cryptocash.Domain.CountryMetadata.CreateFlagSvg(createDto.FlagSvg.NonNullValue<ImageDto>()));
-        entity.SetIfNotNull(createDto.FlagPng, (entity) => entity.FlagPng = 
-            Cryptocash.Domain.CountryMetadata.CreateFlagPng(createDto.FlagPng.NonNullValue<ImageDto>()));
-        entity.SetIfNotNull(createDto.CoatOfArmsSvg, (entity) => entity.CoatOfArmsSvg = 
-            Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsSvg(createDto.CoatOfArmsSvg.NonNullValue<ImageDto>()));
-        entity.SetIfNotNull(createDto.CoatOfArmsPng, (entity) => entity.CoatOfArmsPng = 
-            Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsPng(createDto.CoatOfArmsPng.NonNullValue<ImageDto>()));
-        entity.SetIfNotNull(createDto.GoogleMapsUrl, (entity) => entity.GoogleMapsUrl = 
-            Cryptocash.Domain.CountryMetadata.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.OpenStreetMapsUrl, (entity) => entity.OpenStreetMapsUrl = 
-            Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(createDto.OpenStreetMapsUrl.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.StartOfWeek, (entity) => entity.StartOfWeek = 
-            Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(createDto.StartOfWeek.NonNullValue<System.UInt16>()));
-        entity.SetIfNotNull(createDto.Population, (entity) => entity.Population = 
-            Cryptocash.Domain.CountryMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>()));
         createDto.CountryTimeZones?.ForEach(async dto =>
->>>>>>> Factory classes refactor has been completed (without tests)
         {
             var countryTimeZone = await CountryTimeZoneFactory.CreateEntityAsync(dto, cultureCode);
             entity.CreateRefToCountryTimeZones(countryTimeZone);
         });
         createDto.Holidays?.ForEach(async dto =>
         {
-<<<<<<< main
-            var newRelatedEntity = await HolidayFactory.CreateEntityAsync(dto);
-            entity.CreateRefToHolidays(newRelatedEntity);
-        }        
-=======
             var holiday = await HolidayFactory.CreateEntityAsync(dto, cultureCode);
             entity.CreateRefToHolidays(holiday);
-        });
->>>>>>> Factory classes refactor has been completed (without tests)
+        });        
         return await Task.FromResult(entity);
     }
 

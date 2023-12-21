@@ -53,9 +53,6 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
 
     public virtual async Task<TenantEntity> CreateEntityAsync(TenantCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
-<<<<<<< main
-        return await ToEntityAsync(createDto);
-=======
         try
         {
             var entity =  await ToEntityAsync(createDto, cultureCode);
@@ -63,25 +60,24 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TenantEntity));
         }        
->>>>>>> Factory classes refactor has been completed (without tests)
     }
 
     public virtual async Task UpdateEntityAsync(TenantEntity entity, TenantUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TenantEntity));
+        }   
     }
 
     public virtual async Task PartialUpdateEntityAsync(TenantEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-<<<<<<< main
-<<<<<<< main
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-=======
-<<<<<<< main
-=======
->>>>>>> Merge conflicts have been resolved
         try
         {
             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
@@ -89,16 +85,8 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TenantEntity));
         }   
-<<<<<<< main
-=======
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-        await Task.CompletedTask;
->>>>>>> Factory classes refactor has been completed (without tests)
->>>>>>> Factory classes refactor has been completed (without tests)
-=======
->>>>>>> Merge conflicts have been resolved
     }
 
     private async Task<ClientApi.Domain.Tenant> ToEntityAsync(TenantCreateDto createDto, Nox.Types.CultureCode cultureCode)
@@ -119,14 +107,9 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
         });
         if (createDto.TenantContact is not null)
         {
-<<<<<<< main
-            entity.CreateRefToTenantContact(await TenantContactFactory.CreateEntityAsync(createDto.TenantContact));
-        }        
-=======
             var tenantContact = await TenantContactFactory.CreateEntityAsync(createDto.TenantContact, cultureCode);
             entity.CreateRefToTenantContact(tenantContact);
-        }
->>>>>>> Factory classes refactor has been completed (without tests)
+        }        
         return await Task.FromResult(entity);
     }
 

@@ -110,7 +110,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof({{entity.Name}}Entity));
         }        
     }
 
@@ -127,7 +127,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof({{entity.Name}}Entity));
         }   
     }
 
@@ -144,7 +144,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof({{entity.Name}}Entity));
         }   
     }
 

@@ -41,9 +41,6 @@ internal abstract class CountryJsonToTableFactoryBase : IEntityFactory<CountryJs
 
     public virtual async Task<CountryJsonToTableEntity> CreateEntityAsync(CountryJsonToTableCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
-<<<<<<< main
-        return await ToEntityAsync(createDto);
-=======
         try
         {
             var entity =  await ToEntityAsync(createDto, cultureCode);
@@ -51,21 +48,24 @@ internal abstract class CountryJsonToTableFactoryBase : IEntityFactory<CountryJs
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryJsonToTableEntity));
         }        
->>>>>>> Merge conflicts have been resolved
     }
 
     public virtual async Task UpdateEntityAsync(CountryJsonToTableEntity entity, CountryJsonToTableUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryJsonToTableEntity));
+        }   
     }
 
     public virtual async Task PartialUpdateEntityAsync(CountryJsonToTableEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-<<<<<<< main
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-=======
         try
         {
             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
@@ -73,9 +73,8 @@ internal abstract class CountryJsonToTableFactoryBase : IEntityFactory<CountryJs
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryJsonToTableEntity));
         }   
->>>>>>> Merge conflicts have been resolved
     }
 
     private async Task<CryptocashIntegration.Domain.CountryJsonToTable> ToEntityAsync(CountryJsonToTableCreateDto createDto, Nox.Types.CultureCode cultureCode)
