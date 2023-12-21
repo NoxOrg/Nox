@@ -19,7 +19,7 @@ namespace SampleWebApp.Domain;
 /// <summary>
 /// The list of countries.
 /// </summary>
-internal partial class CountryLocalized : IEntityConcurrent
+internal partial class CountryLocalized : IEntity, IEntityConcurrent 
 {
     /// <summary>
     ///  (Required).

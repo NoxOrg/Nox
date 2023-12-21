@@ -30,9 +30,9 @@ internal abstract class CountryLocalizedFactoryBase : IEntityLocalizedFactory<Co
         Repository = repository;
     }
 
-    public virtual async Task<CountryLocalized> CreateLocalizedEntityAsync(CountryEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
+    public virtual CountryLocalized CreateLocalizedEntity(CountryEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
-        var localizedEntity = await CreateInternalAsync(entity, cultureCode, copyEntityAttributes);
+        var localizedEntity = CreateInternal(entity, cultureCode, copyEntityAttributes);
         return localizedEntity;
     }
    
@@ -42,7 +42,7 @@ internal abstract class CountryLocalizedFactoryBase : IEntityLocalizedFactory<Co
         var entityLocalized = await Repository.Query<CountryLocalized>(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
-            entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
+            entityLocalized = CreateLocalizedEntity(entity, cultureCode);
         }
         entityLocalized.FormalName = updateDto.FormalName == null
             ? null
@@ -60,7 +60,7 @@ internal abstract class CountryLocalizedFactoryBase : IEntityLocalizedFactory<Co
         var entityLocalized = await Repository.Query<CountryLocalized>(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
-            entityLocalized = await CreateLocalizedEntityAsync(entity, cultureCode);
+            entityLocalized = CreateLocalizedEntity(entity, cultureCode);
         }
         if (updatedProperties.TryGetValue("FormalName", out var FormalNameUpdateValue))
         {
@@ -82,7 +82,7 @@ internal abstract class CountryLocalizedFactoryBase : IEntityLocalizedFactory<Co
         }
     }
 
-    private async  Task<CountryLocalized> CreateInternalAsync(CountryEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
+    private CountryLocalized CreateInternal(CountryEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
         var localizedEntity = new CountryLocalized
         {
@@ -96,7 +96,7 @@ internal abstract class CountryLocalizedFactoryBase : IEntityLocalizedFactory<Co
             localizedEntity.AlphaCode3 = entity.AlphaCode3;
             localizedEntity.Capital = entity.Capital;
         }
-        await Repository.AddAsync(localizedEntity);
+        entity.CreateRefToLocalizedCountries(localizedEntity);
         return localizedEntity;
     }
 }
