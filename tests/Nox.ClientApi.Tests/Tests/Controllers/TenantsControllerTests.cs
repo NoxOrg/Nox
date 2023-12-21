@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using ClientApi.Application.Dto;
 using AutoFixture;
 using System.Net;
@@ -146,7 +146,7 @@ namespace ClientApi.Tests.Controllers
             frResult.TenantBrands[0].Description.Should().Be(frTenant.TenantBrands[0].Description);
         }
 
-        // [Fact(Skip = "Nuid relationship issue and update owned entity localization limitation.")]
+        [Fact(Skip = "Nuid relationship issue")]
         [Fact]
         public async Task UpdateTenantWithTenantBrands_WithTenantBrandDescription_CreatesLocalization()
         {
@@ -204,12 +204,19 @@ namespace ClientApi.Tests.Controllers
             frResult!.Id.Should().Be(tenantId);
             frResult.Name.Should().Be(frTenant.Name);
             frResult.TenantBrands.Should().HaveCount(3);
-            frResult.TenantBrands[0].Name.Should().Be(frTenant.TenantBrands[0].Name);
-            frResult.TenantBrands[0].Description.Should().Be(frTenant.TenantBrands[0].Description);
-            frResult.TenantBrands[1].Name.Should().Be(frTenant.TenantBrands[1].Name);
-            frResult.TenantBrands[1].Description.Should().Be(frTenant.TenantBrands[1].Description);
-            frResult.TenantBrands[2].Name.Should().Be(frTenant.TenantBrands[1].Name);
-            frResult.TenantBrands[2].Description.Should().Be(frTenant.TenantBrands[1].Description);
+            
+            frResult.TenantBrands.Should().ContainSingle(tb =>
+                tb.Name.Equals(frTenant.TenantBrands[0].Name) &&
+                tb.Description.Equals(frTenant.TenantBrands[0].Description) && 
+                tb.Id.Equals(frTenant.TenantBrands[0].Id));
+            
+            frResult.TenantBrands.Should().ContainSingle(tb =>
+                tb.Name.Equals(frTenant.TenantBrands[1].Name) &&
+                tb.Description.Equals(frTenant.TenantBrands[1].Description));
+            
+            frResult.TenantBrands.Should().ContainSingle(tb =>
+                tb.Name.Equals(frTenant.TenantBrands[2].Name) &&
+                tb.Description.Equals(frTenant.TenantBrands[2].Description));
         }
 
 
