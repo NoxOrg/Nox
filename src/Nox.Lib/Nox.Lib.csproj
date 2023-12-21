@@ -6,6 +6,7 @@
 		<Nullable>enable</Nullable>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<RootNamespace>Nox</RootNamespace>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -21,15 +22,7 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>nox.png</PackageIcon>
 	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	</PropertyGroup>
-
+	
 	<ItemGroup>
 		<PackageReference Include="CloudNative.CloudEvents" Version="2.7.1" />
 		<PackageReference Include="CloudNative.CloudEvents.SystemTextJson" Version="2.7.1" />
