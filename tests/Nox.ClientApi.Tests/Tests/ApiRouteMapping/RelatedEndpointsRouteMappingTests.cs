@@ -2,17 +2,14 @@
 using ClientApi.Application.Dto;
 using AutoFixture;
 using Xunit.Abstractions;
-using Nox.Application.Dto;
 
 namespace ClientApi.Tests.ApiRouteMapping;
 public partial class RelatedEndpointsRouteMappingTests : NoxWebApiTestBase
 {
     public RelatedEndpointsRouteMappingTests(ITestOutputHelper testOutputHelper,
-    TestDatabaseContainerService containerService
-    )
+    TestDatabaseContainerService containerService)
     : base(testOutputHelper, containerService)
-    {
-    }
+    { }
 
     [Fact]
     public async Task WhenPatchRelatedEntity_ShouldSucceed()

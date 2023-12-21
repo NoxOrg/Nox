@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Nox.Lib;
 using Nox.Solution;
+using System.Collections.Generic;
 
 namespace Nox.Middlewares;
 
@@ -10,29 +10,21 @@ internal class RelatedEndpointsMiddleware
 
     private readonly RequestDelegate _next;
 
-    private readonly IEnumerable<string> _entitiesPluralNames;
+    private readonly HashSet<string> _entitiesPluralNames;
 
-    private readonly IEnumerable<string> _navigationNames;
+    private readonly HashSet<string> _navigationNames;
 
     public RelatedEndpointsMiddleware(RequestDelegate next, NoxSolution solution)
     {
         _next = next;
 
         _apiPrefix = solution.Presentation.ApiConfiguration.ApiRoutePrefix;
-
-        if (solution.Domain is null)
-        {
-            _entitiesPluralNames = Array.Empty<string>();
-            _navigationNames = Array.Empty<string>();
-        }
-        else
-        {
-            _entitiesPluralNames = solution.Domain.Entities.Select(e => e.PluralName).ToList();
-            _navigationNames = solution.Domain.Entities
-                .SelectMany(e => e.Relationships.Select(r => e.GetNavigationPropertyName(r)))
-                .Distinct()
-                .ToList();
-        }
+        
+        _entitiesPluralNames = solution.Domain!.Entities.Select(e => e.PluralName).ToHashSet();
+        _navigationNames = solution.Domain!.Entities
+            .SelectMany(e => e.Relationships.Select(r => e.GetNavigationPropertyName(r)))
+            .Distinct()
+            .ToHashSet();
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -45,17 +37,9 @@ internal class RelatedEndpointsMiddleware
             return;
         }
 
-        if (!requestPath.StartsWithSegments(_apiPrefix))
+        if (HttpMethods.IsPatch(context.Request.Method))
         {
-            await _next(context);
-            return;
-        }
-
-        if (context.Request.Method == "PATCH")
-        {
-            var segments = ParsePath(requestPath);
-
-            if (!ValidateSegments(segments))
+            if(!TryParseAndValidatePath(requestPath, out var segments))
             {
                 await _next(context);
                 return;
@@ -63,7 +47,6 @@ internal class RelatedEndpointsMiddleware
 
             var newPath = BuildNewPatchPath(segments);
             context.Request.Path = newPath;
-            context.Request.QueryString = context.Request.QueryString;
         }
 
         await _next(context);
@@ -71,57 +54,45 @@ internal class RelatedEndpointsMiddleware
     }
 
 
-    private List<string> ParsePath(string path)
+    private bool TryParseAndValidatePath(string path, out List<string> segments)
     {
-        List<string> segments = new List<string>();
-
-        if (path.StartsWith(_apiPrefix, StringComparison.OrdinalIgnoreCase))
-        {
-            path = path.Substring(_apiPrefix.Value!.Length);
-        }
-
-        if (path.StartsWith("/", StringComparison.Ordinal)) 
-        {
-            path = path.Substring(1);
-        }
+        segments = new List<string>();
 
         ReadOnlySpan<char> pathSpan = path.AsSpan();
-        int startIndex = 0;
+        int startIndex = _apiPrefix.Value!.Length + 1; //start after prefix+slash - e.g. /api/v1/
+        int count = 0;
 
         while (startIndex < pathSpan.Length)
         {
             int slashIndex = pathSpan.Slice(startIndex).IndexOf('/');
             if (slashIndex == -1)
             {
-                segments.Add(pathSpan.Slice(startIndex).ToString());
+                var newSegment = pathSpan.Slice(startIndex).ToString();
+                if (!IsValidSegment(newSegment, count++))
+                    return false;
+                segments.Add(newSegment);
                 break;
             }
             else
             {
-                segments.Add(pathSpan.Slice(startIndex, slashIndex).ToString());
+                var newSegment = pathSpan.Slice(startIndex, slashIndex).ToString();
+                if (!IsValidSegment(newSegment, count++))
+                    return false;
+                segments.Add(newSegment);
                 startIndex += slashIndex + 1;
             }
         }
-
-        return segments;
+        return true;
     }
 
-    private bool ValidateSegments(List<string> segments)
+    private bool IsValidSegment(string segment, int index)
     {
-        if (segments.Count < 3) //at least 2 entities should be present /Entity/key/RelatedEntity
-            return false;
-
-        if (!_entitiesPluralNames.Contains(segments[0], StringComparer.OrdinalIgnoreCase))
-            return false;
-
-        for (int i = 2; i < segments.Count; i += 2)
-        {
-            if (!_navigationNames.Contains(segments[i], StringComparer.OrdinalIgnoreCase))
-            {
-                return false;
-            }
-        }
-        return true;
+        if (index == 0)
+            return _entitiesPluralNames.Contains(segment, StringComparer.OrdinalIgnoreCase);
+        else if (index % 2 == 0)
+            return _navigationNames.Contains(segment, StringComparer.OrdinalIgnoreCase);
+        else
+            return true; //even segments are valid by default
     }
 
     private PathString BuildNewPatchPath(List<string> segments)
