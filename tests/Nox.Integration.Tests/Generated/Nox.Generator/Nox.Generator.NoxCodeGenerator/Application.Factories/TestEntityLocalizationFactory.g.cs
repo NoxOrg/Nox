@@ -46,82 +46,63 @@ internal abstract class TestEntityLocalizationFactoryBase : IEntityFactory<TestE
 
     public virtual async Task<TestEntityLocalizationEntity> CreateEntityAsync(TestEntityLocalizationCreateDto createDto)
     {
-        try
-        {
-            return await ToEntityAsync(createDto);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }        
+        return await ToEntityAsync(createDto);
     }
 
     public virtual async Task UpdateEntityAsync(TestEntityLocalizationEntity entity, TestEntityLocalizationUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        try
-        {
-            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }   
+        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TestEntityLocalizationEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        try
-        {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-        }
-        catch (NoxTypeValidationException ex)
-        {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
-        }   
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private async Task<TestWebApp.Domain.TestEntityLocalization> ToEntityAsync(TestEntityLocalizationCreateDto createDto)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.TestEntityLocalization();
-        entity.Id = TestEntityLocalizationMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
-        entity.SetIfNotNull(createDto.TextFieldToLocalize, (entity) => entity.TextFieldToLocalize = 
-            TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(createDto.TextFieldToLocalize.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.NumberField, (entity) => entity.NumberField = 
-            TestWebApp.Domain.TestEntityLocalizationMetadata.CreateNumberField(createDto.NumberField.NonNullValue<System.Int16>()));
+        exceptionCollector.Collect("Id",() => entity.Id = TestEntityLocalizationMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
+        exceptionCollector.Collect("TextFieldToLocalize", () => entity.SetIfNotNull(createDto.TextFieldToLocalize, (entity) => entity.TextFieldToLocalize = 
+            TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(createDto.TextFieldToLocalize.NonNullValue<System.String>())));
+        exceptionCollector.Collect("NumberField", () => entity.SetIfNotNull(createDto.NumberField, (entity) => entity.NumberField = 
+            TestWebApp.Domain.TestEntityLocalizationMetadata.CreateNumberField(createDto.NumberField.NonNullValue<System.Int16>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(TestEntityLocalizationEntity entity, TestEntityLocalizationUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        if(IsDefaultCultureCode(cultureCode)) entity.TextFieldToLocalize = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(updateDto.TextFieldToLocalize.NonNullValue<System.String>());
-        entity.NumberField = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateNumberField(updateDto.NumberField.NonNullValue<System.Int16>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        if(IsDefaultCultureCode(cultureCode)) exceptionCollector.Collect("TextFieldToLocalize",() => entity.TextFieldToLocalize = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(updateDto.TextFieldToLocalize.NonNullValue<System.String>()));
+        exceptionCollector.Collect("NumberField",() => entity.NumberField = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateNumberField(updateDto.NumberField.NonNullValue<System.Int16>()));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(TestEntityLocalizationEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (IsDefaultCultureCode(cultureCode) && updatedProperties.TryGetValue("TextFieldToLocalize", out var TextFieldToLocalizeUpdateValue))
         {
-            if (TextFieldToLocalizeUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(TextFieldToLocalizeUpdateValue, "Attribute 'TextFieldToLocalize' can't be null.");
             {
-                throw new ArgumentException("Attribute 'TextFieldToLocalize' can't be null");
-            }
-            {
-                entity.TextFieldToLocalize = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(TextFieldToLocalizeUpdateValue);
+                exceptionCollector.Collect("TextFieldToLocalize",() =>entity.TextFieldToLocalize = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(TextFieldToLocalizeUpdateValue));
             }
         }
 
         if (updatedProperties.TryGetValue("NumberField", out var NumberFieldUpdateValue))
         {
-            if (NumberFieldUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(NumberFieldUpdateValue, "Attribute 'NumberField' can't be null.");
             {
-                throw new ArgumentException("Attribute 'NumberField' can't be null");
-            }
-            {
-                entity.NumberField = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateNumberField(NumberFieldUpdateValue);
+                exceptionCollector.Collect("NumberField",() =>entity.NumberField = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateNumberField(NumberFieldUpdateValue));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
