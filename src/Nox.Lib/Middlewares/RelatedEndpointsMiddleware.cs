@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Nox.Solution;
-using System.Collections.Generic;
 
 namespace Nox.Middlewares;
 
@@ -12,7 +11,8 @@ internal class RelatedEndpointsMiddleware
 
     private readonly HashSet<string> _entitiesPluralNames;
 
-    private readonly HashSet<string> _navigationNames;
+    private readonly Dictionary<string, string> _navigationNameToEntityPluralName = 
+        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
     public RelatedEndpointsMiddleware(RequestDelegate next, NoxSolution solution)
     {
@@ -21,10 +21,18 @@ internal class RelatedEndpointsMiddleware
         _apiPrefix = solution.Presentation.ApiConfiguration.ApiRoutePrefix;
         
         _entitiesPluralNames = solution.Domain!.Entities.Select(e => e.PluralName).ToHashSet();
-        _navigationNames = solution.Domain!.Entities
-            .SelectMany(e => e.Relationships.Select(r => e.GetNavigationPropertyName(r)))
-            .Distinct()
-            .ToHashSet();
+
+        foreach (var entity in solution.Domain!.Entities)
+        {
+            foreach(var relationship in entity.Relationships)
+            {
+                var navigationName = entity.GetNavigationPropertyName(relationship);
+                if (!_navigationNameToEntityPluralName.ContainsKey(navigationName))
+                {
+                    _navigationNameToEntityPluralName[navigationName] = relationship.EntityPlural;
+                }
+            }
+        }
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -45,8 +53,7 @@ internal class RelatedEndpointsMiddleware
                 return;
             }
 
-            var newPath = BuildNewPatchPath(segments);
-            context.Request.Path = newPath;
+            context.Request.Path = BuildNewPatchPath(segments);
         }
 
         await _next(context);
@@ -82,7 +89,8 @@ internal class RelatedEndpointsMiddleware
                 startIndex += slashIndex + 1;
             }
         }
-        return true;
+
+        return segments.Count > 3;
     }
 
     private bool IsValidSegment(string segment, int index)
@@ -90,7 +98,7 @@ internal class RelatedEndpointsMiddleware
         if (index == 0)
             return _entitiesPluralNames.Contains(segment, StringComparer.OrdinalIgnoreCase);
         else if (index % 2 == 0)
-            return _navigationNames.Contains(segment, StringComparer.OrdinalIgnoreCase);
+            return _navigationNameToEntityPluralName.ContainsKey(segment);
         else
             return true; //even segments are valid by default
     }
@@ -102,11 +110,11 @@ internal class RelatedEndpointsMiddleware
 
         if (isEvenCount)
         {
-            return new PathString(_apiPrefix + "/" + segments[^1]);
+            return new PathString(_apiPrefix + "/" + _navigationNameToEntityPluralName[segments[^1]]);
         }
         else
         {
-            return new PathString(_apiPrefix + "/" + segments[count - 2] + "/" + segments[^1]);
+            return new PathString(_apiPrefix + "/" + _navigationNameToEntityPluralName[segments[count - 2]] + "/" + segments[^1]);
         }
     }
 }
