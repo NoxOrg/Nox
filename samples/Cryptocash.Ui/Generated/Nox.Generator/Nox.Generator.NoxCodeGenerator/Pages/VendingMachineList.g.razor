@@ -7,6 +7,7 @@
 @using Cryptocash.Ui.Generated.Data.Enum;
 @using Cryptocash.Ui.Generated.Nox_Generator.Nox_Generator_NoxCodeGenerator.Component
 @using Cryptocash.Ui.Generated.Pages.Generic
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes
 @using MudBlazor
 @using global::Cryptocash.Ui.Generated.Data.Helper;
 
@@ -90,7 +91,7 @@
                                                                              Title="Public Ip" />
                                                     </MudItem>
                                                     <MudItem xs=6>
-                                                        <UiEditText_g @bind-Text="CurrentAddEntity.SerialNumber"
+                                                        <EditText @bind-Text="CurrentAddEntity.SerialNumber"
                                                                       Title="Serial Number"
                                                                       MaxLength="63"
                                                                       MinLength="4" />
@@ -107,7 +108,7 @@
                                                                       Format="#.##" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <UiEditMoney_g @bind-Money="CurrentAddEntity.RentPerSquareMetre"
+                                                            <EditMoney @bind-Money="CurrentAddEntityRentPerSquareMetre"
                                                                        Currency="GetCurrencyByCountryId(CurrentAddEntity.CountryId)"
                                                                        Title="Rent per Square Metre"
                                                                        Format="#.##" />
@@ -231,7 +232,7 @@
                                                                                  Title="Public Ip" />
                                                         </MudItem>
                                                         <MudItem xs=6>
-                                                            <UiEditText_g @bind-Text="CurrentEditEntity.SerialNumber"
+                                                            <EditText @bind-Text="CurrentEditEntity.SerialNumber"
                                                                           Title="Serial Number"
                                                                           MaxLength="63"
                                                                           MinLength="4" />
@@ -248,13 +249,13 @@
                                                                           Format="#.##" />
                                                         </MudItem>
 @*                                                         <MudItem xs="6">
-                                                            <UiEditMoney_g @bind-Money="CurrentEditEntity.RentPerSquareMetre"
+                                                          <EditMoney @bind-Money="CurrentEditEntityRentPerSquareMetre"
                                                                            Currency="GetCurrencyByCountryId(CurrentEditEntity.CountryId)"
                                                                            Title="Rent per Square Metre"
                                                                            Format="#.##" />
                                                         </MudItem>
-                                                        <MudItem xs="6">
-                                                        <UiEditEntityExactlyOneLandLord_g @bind-LandLordIdLong="CurrentEditEntity.LandLordId"
+                                                      <MudItem xs="6">
+                                                            <UiEditEntityExactlyOneLandLord_g @bind-LandLordIdLong="CurrentEditEntity.LandLordId"
                                                                                           Title="Contracted Area LandLord"
                                                                                           LandLordSelectionList="LandLordEntityData?.EntityList" />
                                                         </MudItem> *@
@@ -426,7 +427,7 @@
                                 @if (CurrentApiUiService!.IsPropertyShowInSearch("SerialNumber"))
                                 {
                                     <MudTd>
-                                        <UiViewText_g Text="@context.SerialNumber" />
+                                        <ViewText Text="@context.SerialNumber" />
                                     </MudTd>
                                 }
 

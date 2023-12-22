@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
@@ -36,6 +36,10 @@
 
 	<ItemGroup>
 	  <Folder Include="wwwroot\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Nox.Core\Nox.Core.csproj" />
 	</ItemGroup>
 
 </Project>
