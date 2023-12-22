@@ -91,8 +91,8 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             }
         }
 
-        modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
-            builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
+        modelBuilder.ForEntitiesOfType<IEtag>(
+            builder => builder.Property(nameof(IEtag.Etag)).IsConcurrencyToken());
     }
     
     private void ConfigureEnumeratedAttributes(ModelBuilder modelBuilder, Entity entity)

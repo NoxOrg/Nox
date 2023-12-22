@@ -50,7 +50,7 @@ internal record CountryQualityOfLifeIndexDeleted(CountryQualityOfLifeIndex Count
 /// <summary>
 /// Country Quality Of Life Index.
 /// </summary>
-internal abstract partial class CountryQualityOfLifeIndexBase : EntityBase, IEntityConcurrent
+internal abstract partial class CountryQualityOfLifeIndexBase : EntityBase, IEtag
 {
     /// <summary>
     ///     

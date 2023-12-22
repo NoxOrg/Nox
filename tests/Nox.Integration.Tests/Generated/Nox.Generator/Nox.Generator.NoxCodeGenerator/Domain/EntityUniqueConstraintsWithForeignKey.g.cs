@@ -50,7 +50,7 @@ internal record EntityUniqueConstraintsWithForeignKeyDeleted(EntityUniqueConstra
 /// <summary>
 /// Entity created for testing constraints with Foreign Key.
 /// </summary>
-internal abstract partial class EntityUniqueConstraintsWithForeignKeyBase : EntityBase, IEntityConcurrent
+internal abstract partial class EntityUniqueConstraintsWithForeignKeyBase : EntityBase, IEtag
 {
     /// <summary>
     ///     

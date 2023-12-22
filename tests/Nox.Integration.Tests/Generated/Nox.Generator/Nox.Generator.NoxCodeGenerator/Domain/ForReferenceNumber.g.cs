@@ -50,7 +50,7 @@ internal record ForReferenceNumberDeleted(ForReferenceNumber ForReferenceNumber)
 /// <summary>
 /// Entity created for testing auto number usages.
 /// </summary>
-internal abstract partial class ForReferenceNumberBase : EntityBase, IEntityConcurrent
+internal abstract partial class ForReferenceNumberBase : EntityBase, IEtag
 {
     /// <summary>
     /// Workplace Id    

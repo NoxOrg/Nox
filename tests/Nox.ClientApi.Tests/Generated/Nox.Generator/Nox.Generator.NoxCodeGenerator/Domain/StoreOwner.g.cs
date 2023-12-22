@@ -50,7 +50,7 @@ internal record StoreOwnerDeleted(StoreOwner StoreOwner) : IDomainEvent, INotifi
 /// <summary>
 /// Store owners.
 /// </summary>
-internal abstract partial class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class StoreOwnerBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

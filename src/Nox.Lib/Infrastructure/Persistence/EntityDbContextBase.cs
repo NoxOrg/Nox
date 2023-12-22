@@ -48,7 +48,7 @@ namespace Nox.Infrastructure.Persistence
             }
             catch (DbUpdateConcurrencyException)
             {
-                throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided", HttpStatusCode.Conflict);
+                throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEtag.Etag)} must be provided", HttpStatusCode.Conflict);
             }
         }
 
@@ -91,7 +91,7 @@ namespace Nox.Infrastructure.Persistence
                 AuditEntity(entry);
             }
 
-            foreach (var entry in ChangeTracker.Entries<IEntityConcurrent>())
+            foreach (var entry in ChangeTracker.Entries<IEtag>())
             {
                 TrackConcurrency(entry);
             }
@@ -136,7 +136,7 @@ namespace Nox.Infrastructure.Persistence
                 }
             }
         }
-        private void TrackConcurrency(EntityEntry<IEntityConcurrent> entry)
+        private void TrackConcurrency(EntityEntry<IEtag> entry)
         {
             switch (entry.State)
             {
