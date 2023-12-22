@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using System.Text;
 using System;
 using Nox.Types.Common;
@@ -14,22 +13,17 @@ namespace Nox.Types;
 /// <remarks>Placeholder, needs to be implemented</remarks>
 public sealed class Nuid : ValueObject<uint, Nuid>, IComparable, IComparable<Nuid>, IEquatable<Nuid>
 {
-
     private NuidTypeOptions _options = new NuidTypeOptions();
-
 
     public static Nuid From(string textToEncode)
     {
-        return From(textToEncode, new NuidTypeOptions() );
+        return From(textToEncode, new NuidTypeOptions());
     }
 
     public static Nuid From(string textToEncode, NuidTypeOptions options)
     {
         var unsignedValue = ToUInt32(textToEncode);
-        var nuid = From(unsignedValue);
-        nuid._options = options;
-
-        return nuid;
+        return From(unsignedValue, options);
     }
 
     public static Nuid From(uint value, NuidTypeOptions options)
@@ -38,7 +32,6 @@ public sealed class Nuid : ValueObject<uint, Nuid>, IComparable, IComparable<Nui
         nuid._options = options;
         return nuid;
     }
-
 
     public string ToHex()
     {
@@ -64,7 +57,7 @@ public sealed class Nuid : ValueObject<uint, Nuid>, IComparable, IComparable<Nui
 
     public int CompareTo(object? obj)
     {
-        if (obj == null) return 1;
+        if (obj is null) return 1;
 
         if (obj is not Nuid nuidObj)
         {
@@ -91,7 +84,7 @@ public sealed class Nuid : ValueObject<uint, Nuid>, IComparable, IComparable<Nui
     }
 
     public override int GetHashCode() => Value.GetHashCode();
-      
+
     public static bool operator ==(Nuid a, Nuid b) => EqualsCore(a, b);
 
     public static bool operator !=(Nuid a, Nuid b) => !EqualsCore(a, b);
@@ -106,18 +99,17 @@ public sealed class Nuid : ValueObject<uint, Nuid>, IComparable, IComparable<Nui
 
     private static bool EqualsCore(in Nuid left, in Nuid right)
     {
+        if (ReferenceEquals(left, right))
+        {
+            return true;
+        }
+
         if (left is null || right is null)
         {
             return false;
         }
 
-        uint leftVal = left.Value;
-        uint rightVal = right.Value;
-        ref uint rA = ref Unsafe.AsRef(in leftVal);
-        ref uint rB = ref Unsafe.AsRef(in rightVal);
-
-        // Compare each element
-        return rA == rB;
+        return left.CompareTo(right) == 0;
     }
 
     private static uint ToUInt32(string input)
