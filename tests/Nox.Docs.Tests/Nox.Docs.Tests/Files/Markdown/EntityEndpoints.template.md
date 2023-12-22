@@ -33,7 +33,7 @@ This document provides information about the various endpoints available in our 
   - Description: Delete an existing {{entity.Name}}.
 {{end}}{{if entity.OwnedRelationships|array.size>0}}
 ## Owned Relationships Endpoints
-{{for ownedRelationship in entity.OwnedRelationships}}{{-if ownedRelationship.CanManageEntity}}
+{{for ownedRelationship in entity.OwnedRelationships}}{{-if ownedRelationship.ApiGenerateRelatedEndpoint}}
 ### {{ownedRelationship.Entity}}
 {{if entity.Persistence.Read.IsEnabled&&ownedRelationship.Related.Entity.Persistence.Read.IsEnabled}}
 #### Get {{ownedRelationship.EntityPlural}}
@@ -59,8 +59,8 @@ This document provides information about the various endpoints available in our 
   - Description: Delete an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
 {{end}}{{end}}{{end-}}{{end}}{{if entity.Relationships|array.size>0}}
 ## Relationships Endpoints
-{{for relationship in entity.Relationships}}{{-if relationship.CanManageReference||relationship.CanManageEntity}}
-### {{relationship.Entity}}{{-if relationship.CanManageReference}}
+{{for relationship in entity.Relationships}}{{-if relationship.ApiGenerateReferenceEndpoint||relationship.ApiGenerateRelatedEndpoint}}
+### {{relationship.Entity}}{{-if relationship.ApiGenerateReferenceEndpoint}}
 {{if relationship.Related.Entity.Persistence.Read.IsEnabled}}
 #### Get {{relationship.Entity}} relations
 - **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}/$ref`
@@ -83,7 +83,7 @@ This document provides information about the various endpoints available in our 
 #### Delete {{relationship.Entity}} relations
 - **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}/$ref`
   - Description: Delete all existing {{relationship.EntityPlural}} relations for a specific {{entity.Name}}.
-{{end}}{{end-}}{{-if relationship.CanManageEntity-}}{{if relationship.Related.Entity.Persistence.Read.IsEnabled}}
+{{end}}{{end-}}{{-if relationship.ApiGenerateRelatedEndpoint-}}{{if relationship.Related.Entity.Persistence.Read.IsEnabled}}
 #### Get {{relationship.Entity}}
 - **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}`
   - Description: Retrieve all existing {{relationship.EntityPlural}} for a specific {{entity.Name}}.

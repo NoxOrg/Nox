@@ -22,6 +22,20 @@ internal class RelatedEndpointsMiddleware
         
         _entitiesPluralNames = solution.Domain!.Entities.Select(e => e.PluralName).ToHashSet();
 
+
+        /*
+        _navigationNameToEntityPluralName is used to map navigationName to EntityPluralName (existing controller name)
+        e.g. for the following endpoints 
+            /Country/Key/Capital/Key/Monuments/key
+            /Country/Key/MajorCities/Key/Monuments/key
+            /Continent/Key/Cities/Key/Monuments/key
+            /Address/Key/City/Key/Monuments/key
+        the dictionary for Cities will be the following
+            Capital, Cities
+            MajorCities, Cities
+            Cities, Cities
+            City, City
+        */
         foreach (var entity in solution.Domain!.Entities)
         {
             foreach(var relationship in entity.Relationships)

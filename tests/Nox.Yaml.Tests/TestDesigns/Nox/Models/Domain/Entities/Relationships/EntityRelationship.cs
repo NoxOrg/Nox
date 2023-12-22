@@ -41,11 +41,11 @@ public class EntityRelationship
 
     [Title("Define the Entity on this relationship side contains a Reference endpoints to the related Entity.")]
     [Description("Default is true, determines whether OData $ref endpoints are generated for this relationship.")]
-    public bool CanManageReference { get; internal set; } = true;
+    public bool ApiGenerateReferenceEndpoint { get; internal set; } = true;
 
     [Title("Define the Entity on this relationship side contains endpoints to manage the related Entity.")]
     [Description("Default is true, determines whether navigation routing endpoints are generated for the related entities, including enabling ODataQueries for related entities.")]
-    public bool CanManageEntity { get; internal set; } = true;
+    public bool ApiGenerateRelatedEndpoint { get; internal set; } = true;
 
     [YamlIgnore]
     public bool ShouldGenerateForeignOnThisSide => EntityRelationshipExtensions.ShouldGenerateForeignKeyOnThisSide(this);

@@ -319,7 +319,7 @@
       },
       "additionalProperties": false
     },
-    "manageRelationshipDepth": {    
+    "apiGenerateRelatedEndpointsMaxDepth": {    
       "title": "Depth of relationship navigation.",
       "description": "Specifies the depth for generating related entities endpoints.",
       "oneOf": [
