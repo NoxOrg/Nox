@@ -50,7 +50,7 @@ internal record CustomerDeleted(Customer Customer) : IDomainEvent, INotification
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-internal abstract partial class CustomerBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CustomerBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Customer's unique identifier    

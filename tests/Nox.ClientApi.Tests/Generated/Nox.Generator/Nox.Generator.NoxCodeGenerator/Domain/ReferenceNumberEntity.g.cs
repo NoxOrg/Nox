@@ -50,7 +50,7 @@ internal record ReferenceNumberEntityDeleted(ReferenceNumberEntity ReferenceNumb
 /// <summary>
 /// ReferenceNumberEntity.
 /// </summary>
-internal abstract partial class ReferenceNumberEntityBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class ReferenceNumberEntityBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

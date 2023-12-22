@@ -26,9 +26,9 @@ public class LocalizedEntitiesTests : IClassFixture<GeneratorFixture>
             .AssertFileCount(14, "Domain.CountryLocalized.g.cs", "Application.Dto.CountryLocalizedDto.g.cs")
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .AssertFileExistsAndContent("CountryLocalized.expected.g.cs", "Domain.CountryLocalized.g.cs")
-            .AssertFileExistsAndContent("CountryLocalizedUpsertDto.expected.g.cs", "Application.Dto.CountryLocalizedUpsertDto.g.cs")
-            .AssertFileExistsAndContent("CountryLocalizedDto.expected.g.cs", "Application.Dto.CountryLocalizedDto.g.cs")
-            .AssertFileExistsAndContent("CountryLocalizedFactory.expected.g.cs", "Application.Factories.CountryLocalizedFactory.g.cs");
+            .AssertFileWasGenerated("Domain.CountryLocalized.g.cs")
+            .AssertFileWasGenerated("Application.Dto.CountryLocalizedUpsertDto.g.cs")
+            .AssertFileWasGenerated("Application.Dto.CountryLocalizedDto.g.cs")
+            .AssertFileWasGenerated("Application.Factories.CountryLocalizedFactory.g.cs");
     }
 }

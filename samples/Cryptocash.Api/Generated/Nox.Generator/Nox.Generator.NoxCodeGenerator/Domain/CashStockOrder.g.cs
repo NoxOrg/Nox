@@ -50,7 +50,7 @@ internal record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEv
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Vending machine's order unique identifier    

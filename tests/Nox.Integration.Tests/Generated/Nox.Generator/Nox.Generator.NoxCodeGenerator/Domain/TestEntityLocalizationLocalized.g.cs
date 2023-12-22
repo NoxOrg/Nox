@@ -19,7 +19,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// Entity created for testing localization.
 /// </summary>
-internal partial class TestEntityLocalizationLocalized : IEntity, IEntityConcurrent 
+internal partial class TestEntityLocalizationLocalized : IEntity, IEtag 
 {
     /// <summary>
     ///  (Required).

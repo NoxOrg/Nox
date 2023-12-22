@@ -50,7 +50,7 @@ internal record SecondTestEntityExactlyOneDeleted(SecondTestEntityExactlyOne Sec
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class SecondTestEntityExactlyOneBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class SecondTestEntityExactlyOneBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

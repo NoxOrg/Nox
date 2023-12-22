@@ -50,7 +50,7 @@ internal record TransactionDeleted(Transaction Transaction) : IDomainEvent, INot
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-internal abstract partial class TransactionBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TransactionBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Customer transaction unique identifier    

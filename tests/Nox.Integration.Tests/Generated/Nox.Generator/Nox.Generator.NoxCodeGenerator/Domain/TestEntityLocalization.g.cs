@@ -50,7 +50,7 @@ internal record TestEntityLocalizationDeleted(TestEntityLocalization TestEntityL
 /// <summary>
 /// Entity created for testing localization.
 /// </summary>
-internal abstract partial class TestEntityLocalizationBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityLocalizationBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

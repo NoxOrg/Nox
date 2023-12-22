@@ -50,7 +50,7 @@ internal record TestEntityZeroOrOneToOneOrManyDeleted(TestEntityZeroOrOneToOneOr
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-internal abstract partial class TestEntityZeroOrOneToOneOrManyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityZeroOrOneToOneOrManyBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

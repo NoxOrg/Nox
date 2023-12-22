@@ -50,7 +50,7 @@ internal record ClientDeleted(Client Client) : IDomainEvent, INotification;
 /// <summary>
 /// Client of a Store.
 /// </summary>
-internal abstract partial class ClientBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class ClientBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

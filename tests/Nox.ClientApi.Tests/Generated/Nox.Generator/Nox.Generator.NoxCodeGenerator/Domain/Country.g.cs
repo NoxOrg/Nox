@@ -50,7 +50,7 @@ internal record CountryDeleted(Country Country) : IDomainEvent, INotification;
 /// <summary>
 /// Country Entity Country representation for the Client API tests.
 /// </summary>
-internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CountryBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// The unique identifier    
