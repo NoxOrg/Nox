@@ -50,7 +50,7 @@ internal record TestEntityTwoRelationshipsOneToManyDeleted(TestEntityTwoRelation
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class TestEntityTwoRelationshipsOneToManyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityTwoRelationshipsOneToManyBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

@@ -50,7 +50,7 @@ internal record WorkplaceDeleted(Workplace Workplace) : IDomainEvent, INotificat
 /// <summary>
 /// Workplace.
 /// </summary>
-internal abstract partial class WorkplaceBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class WorkplaceBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Workplace unique identifier    

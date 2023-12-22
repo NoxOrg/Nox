@@ -50,7 +50,7 @@ internal record TestEntityWithNuidDeleted(TestEntityWithNuid TestEntityWithNuid)
 /// <summary>
 /// Entity created for testing nuid.
 /// </summary>
-internal abstract partial class TestEntityWithNuidBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityWithNuidBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

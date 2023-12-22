@@ -50,7 +50,7 @@ internal record EmployeeDeleted(Employee Employee) : IDomainEvent, INotification
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class EmployeeBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Employee's unique identifier    

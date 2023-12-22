@@ -50,7 +50,7 @@ internal record TestEntityOwnedRelationshipZeroOrManyDeleted(TestEntityOwnedRela
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class TestEntityOwnedRelationshipZeroOrManyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityOwnedRelationshipZeroOrManyBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
