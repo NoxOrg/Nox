@@ -285,7 +285,7 @@ The endpoints below are generated to manage CRUD operations for Entity (e.g. Cou
 - **Response:** Returns a status code indicating success or failure.
 
 #### Owned Entities endpoints
-The following endpoints are generated based on `relationship => canManageEntity` yaml configuration.
+The following endpoints are generated based on `relationship => apiGenerateRelatedEndpoint` yaml configuration.
 
 ##### GET `/api/<EntityPluralName>/<key>/<OwnedEntityName>` (e.g. `/api/Countries/1/CountryLocalNames`)
 - **Description:** Retrieves owned entities (e.g. CountryLocalNames) associated with a specific entity (e.g. country). OData query is enabled for this endpoint.
@@ -329,7 +329,7 @@ The following endpoints are generated based on `relationship => canManageEntity`
 - **Response:** Returns a status code indicating success or failure.
 
 #### Related Entities endpoints to manage the related entity
-The following endpoints are generated based on `relationship => canManageEntity` yaml configuration.
+The following endpoints are generated based on `relationship => apiGenerateRelatedEndpoint` yaml configuration.
 
 ##### GET `/api/<EntityPluralName>/<key>/<RelatedEntityPluralName>` (e.g. `/api/Countries/1/TimeZones`)
 - **Description:** Retrieves all related entities (e.g. time zones) associated with a specific entity (e.g. country). OData query is enabled for this endpoint.
@@ -373,7 +373,7 @@ The following endpoints are generated based on `relationship => canManageEntity`
 - **Response:** Returns a status code indicating success or failure.
 
 #### Related Entities endpoints to manage the relationship between the existing entities
-The following endpoints are generated based on `relationship => canManageReference` yaml configuration.
+The following endpoints are generated based on `relationship => apiGenerateReferenceEndpoint` yaml configuration.
 
 ##### GET `/api/<EntityPluralName>/<key>/<RelatedEntityPluralName>/$ref` (e.g. `/api/Countries/1/TimeZones/$ref`)
 - **Description:** Retrieves references to the related entities (e.g. time zones) associated with a specific country.

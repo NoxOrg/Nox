@@ -84,7 +84,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
     [Title("Depth of relationship navigation.")]
     [Description("Specifies the depth for generating related entities endpoints.")]
     [Minimum(1), Maximum(5)]
-    public int ManageRelationshipDepth { get; internal set; } = 1;
+    public int ApiGenerateRelatedEndpointsMaxDepth { get; internal set; } = 1;
 
     [YamlIgnore]
     public bool IsOwnedEntity { get; internal set; }

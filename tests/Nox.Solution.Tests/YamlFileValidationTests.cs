@@ -381,8 +381,8 @@ public class YamlFileValidationTests
 
         var expectedErrors = new[]
         {
-            "Invalid value [0] for property [manageRelationshipDepth] is less than minimum [1]. (at line 20 in entity-managerelationshipdepth-validation.solution.nox.yaml)",
-            "Invalid value [7] for property [manageRelationshipDepth] is more than maximum [5]. (at line 37 in entity-managerelationshipdepth-validation.solution.nox.yaml)"
+            "Invalid value [0] for property [apiGenerateRelatedEndpointsMaxDepth] is less than minimum [1]. (at line 20 in entity-managerelationshipdepth-validation.solution.nox.yaml)",
+            "Invalid value [7] for property [apiGenerateRelatedEndpointsMaxDepth] is more than maximum [5]. (at line 37 in entity-managerelationshipdepth-validation.solution.nox.yaml)"
         };
 
         action.Should()

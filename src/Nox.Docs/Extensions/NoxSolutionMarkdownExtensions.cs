@@ -226,8 +226,8 @@ public static class NoxSolutionMarkdownExtensions
 
         foreach (var relationship in relationships)
         {
-            var canManageRef = relationship.CanManageReference? "Yes" : "No";
-            var canManageEntity = relationship.CanManageEntity? "Yes" : "No";
+            var canManageRef = relationship.ApiGenerateReferenceEndpoint? "Yes" : "No";
+            var canManageEntity = relationship.ApiGenerateRelatedEndpoint? "Yes" : "No";
             sb.AppendLine($"{relationship.Description}|{relationship.Relationship}|{relationship.Related.Entity.Name}|{relationship.Name}|{canManageRef}|{canManageEntity}");
         }
         return sb.ToString();

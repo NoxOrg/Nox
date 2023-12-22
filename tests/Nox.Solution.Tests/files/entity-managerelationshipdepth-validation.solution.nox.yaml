@@ -17,7 +17,7 @@ domain:
 
     - name: People
       description: The list of people
-      manageRelationshipDepth: 0
+      apiGenerateRelatedEndpointsMaxDepth: 0
 
       persistence: 
         isAudited: true
@@ -34,7 +34,7 @@ domain:
 
     - name: Currency
       description: The list of currencies
-      manageRelationshipDepth: 7
+      apiGenerateRelatedEndpointsMaxDepth: 7
 
       persistence: 
         isAudited: true
@@ -57,7 +57,7 @@ domain:
 
     - name: CountryLocalName
       description: The list of country local names
-      manageRelationshipDepth: 5
+      apiGenerateRelatedEndpointsMaxDepth: 5
 
       persistence: 
         isAudited: false
