@@ -73,13 +73,13 @@ namespace Nox.Configuration
             return this;
         }
 
-        public INoxOptions WithDatabaseContexts<T, D>() where T : DbContext, Infrastructure.Persistence.IAppDbContext where D : DbContext
+        public INoxOptions WithDatabaseContexts<T, D>() where T : EntityDbContextBase where D : DbContext
         {
             _configureDatabaseContext = (services) =>
             {
                 services.AddSingleton<DbContextOptions<T>>();
                 services.AddDbContext<T>();
-                services.AddScoped(typeof(Infrastructure.Persistence.IAppDbContext),serviceProvider => serviceProvider.GetRequiredService<T>());
+                services.AddScoped(typeof(EntityDbContextBase),serviceProvider => serviceProvider.GetRequiredService<T>());
                 services.AddDbContext<D>();
             };
 

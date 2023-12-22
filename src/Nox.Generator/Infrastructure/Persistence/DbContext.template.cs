@@ -32,7 +32,7 @@ using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.PersistenceNameSpace}};
 
-internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase, Nox.Infrastructure.Persistence.IAppDbContext
+internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;

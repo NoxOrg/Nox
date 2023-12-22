@@ -14,6 +14,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Nox.Infrastructure.Persistence
 {
+    /// <summary>
+    /// Domain Entities DbContext
+    /// </summary>
     public abstract class EntityDbContextBase : DbContext
     {
         protected readonly IPublisher _publisher;
