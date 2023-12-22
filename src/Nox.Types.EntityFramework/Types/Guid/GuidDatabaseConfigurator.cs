@@ -16,7 +16,8 @@ public class GuidDatabaseConfigurator : INoxTypeDatabaseConfigurator
         NoxTypeDatabaseConfiguration property,
         Entity entity,
         bool isKey,
-        ModelBuilder modelBuilder, EntityTypeBuilder entityTypeBuilder)
+        ModelBuilder modelBuilder,
+        EntityTypeBuilder entityTypeBuilder)
     {
         entityTypeBuilder
             .Property(property.Name)
