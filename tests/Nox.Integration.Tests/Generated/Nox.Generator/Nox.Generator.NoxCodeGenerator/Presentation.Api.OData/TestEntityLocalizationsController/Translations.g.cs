@@ -28,8 +28,7 @@ namespace TestWebApp.Presentation.Api.OData;
 
 
 public abstract partial class TestEntityLocalizationsControllerBase
-{  
-    
+{
     [HttpPut("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/{cultureCode}")]
     public virtual async Task<ActionResult<TestEntityLocalizationLocalizedDto>> PutTestEntityLocalizationLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode, [FromBody] TestEntityLocalizationLocalizedUpsertDto testEntityLocalizationLocalizedUpsertDto)
     {
@@ -58,6 +57,25 @@ public abstract partial class TestEntityLocalizationsControllerBase
         return Ok(item);
     }
 
+    [HttpDelete("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/{cultureCode}")]
+    public virtual async Task<ActionResult<TestEntityLocalizationLocalizedDto>> DeleteTestEntityLocalizationLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
+               
+        var isDeleted = await _mediator.Send(new DeleteTestEntityLocalizationLocalizationsCommand(key, Nox.Types.CultureCode.From(cultureCode)));
+
+        if (!isDeleted)
+        {
+            throw new EntityNotFoundException("TestEntityLocalization", $"{key.ToString()}");
+        }
+        
+        return NoContent();
+    }
 
     [HttpGet("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/")]
     public virtual async Task<ActionResult<IQueryable<TestEntityLocalizationLocalizedDto>>> GetTestEntityLocalizationLocalizedNonConventional( [FromRoute] System.String key)
@@ -66,4 +84,5 @@ public abstract partial class TestEntityLocalizationsControllerBase
             
         return Ok(result);
     }
+
 }

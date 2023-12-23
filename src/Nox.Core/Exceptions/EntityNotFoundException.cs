@@ -12,6 +12,12 @@ public class EntityNotFoundException : Exception, IApplicationException
         ErrorDetails = new { Entity = entityName, Key = entityId };
     }
 
+    public EntityNotFoundException(string entityName, string entityId, string cultureCode)
+        : this($"{entityName} with Id {entityId} and Culture Code {cultureCode} was not found")
+    {
+        ErrorDetails = new { Entity = entityName, Key = entityId, CultureCode = cultureCode };
+    }
+
     public EntityNotFoundException(string message)
         : base(message)
     {

@@ -88,7 +88,9 @@
 //  - Nox.Generator.Application.Commands.CreateOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.DeleteByIdCommandGenerator
 //  - Nox.Generator.Application.Commands.DeleteEnumerationTranslationsCommandGenerator
+//  - Nox.Generator.Application.Commands.DeleteLocalizationCommandGenerator
 //  - Nox.Generator.Application.Commands.DeleteOwnedCommandGenerator
+//  - Nox.Generator.Application.Commands.DeleteOwnedEntityLocalizationCommandGenerator
 //  - Nox.Generator.Application.Commands.PartialUpdateCommandGenerator
 //  - Nox.Generator.Application.Commands.PartialUpdateOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.RefToCommandGenerator

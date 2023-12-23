@@ -28,8 +28,7 @@ namespace ClientApi.Presentation.Api.OData;
 
 
 public abstract partial class WorkplacesControllerBase
-{  
-    
+{
     [HttpPut("/api/v1/Workplaces/{key}/WorkplacesLocalized/{cultureCode}")]
     public virtual async Task<ActionResult<WorkplaceLocalizedDto>> PutWorkplaceLocalized( [FromRoute] System.Int64 key, [FromRoute] System.String cultureCode, [FromBody] WorkplaceLocalizedUpsertDto workplaceLocalizedUpsertDto)
     {
@@ -58,6 +57,25 @@ public abstract partial class WorkplacesControllerBase
         return Ok(item);
     }
 
+    [HttpDelete("/api/v1/Workplaces/{key}/WorkplacesLocalized/{cultureCode}")]
+    public virtual async Task<ActionResult<WorkplaceLocalizedDto>> DeleteWorkplaceLocalized( [FromRoute] System.Int64 key, [FromRoute] System.String cultureCode)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
+               
+        var isDeleted = await _mediator.Send(new DeleteWorkplaceLocalizationsCommand(key, Nox.Types.CultureCode.From(cultureCode)));
+
+        if (!isDeleted)
+        {
+            throw new EntityNotFoundException("Workplace", $"{key.ToString()}");
+        }
+        
+        return NoContent();
+    }
 
     [HttpGet("/api/v1/Workplaces/{key}/WorkplacesLocalized/")]
     public virtual async Task<ActionResult<IQueryable<WorkplaceLocalizedDto>>> GetWorkplaceLocalizedNonConventional( [FromRoute] System.Int64 key)
@@ -66,4 +84,5 @@ public abstract partial class WorkplacesControllerBase
             
         return Ok(result);
     }
+
 }

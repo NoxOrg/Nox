@@ -19,7 +19,7 @@ namespace {{codeGeneratorState.DomainNameSpace}};
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-internal partial class {{className}} : IEntity, IEtag 
+internal partial class {{className}} : IEntity, IEtag
 {
 {{- for key in entityKeys }}
     /// <summary>

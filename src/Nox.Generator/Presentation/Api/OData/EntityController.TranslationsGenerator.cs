@@ -24,11 +24,21 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
 
         const string templateName = @"Presentation.Api.OData.EntityController.Translations";
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.GetLocalizedEntities().Where(e => !e.IsOwnedEntity))
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(x => !x.IsOwnedEntity && (x.IsLocalized || x.HasLocalizedOwnedRelationships)))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
             var keysForRouting = GetPrimaryKeysQuery(entity).Split(',').Select(x => x.Trim()).ToList();
+            var ownedEntitiesWithLocalizedAttributes = entity.OwnedRelationships
+                .Select(x => new
+                {
+                    IsWithMultiEntity = x.WithMultiEntity,
+                    OwnedEntity = x.Related.Entity,
+                    LocalizedAttributes = x.Related.Entity.GetLocalizedAttributes(),
+                    NavigationName = entity.GetNavigationPropertyName(x)
+                })
+                .Where(x => x.LocalizedAttributes.Any())
+                .ToList();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"{entity.PluralName}Controller")
@@ -40,6 +50,7 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
                 .WithObject("updatedKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "updatedKey.key", true))
                 .WithObject("keysForRouting", keysForRouting)
                 .WithObject("localizedAttributes", entity.GetLocalizedAttributes())
+                .WithObject("ownedLocalizedRelationships", ownedEntitiesWithLocalizedAttributes)
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);
         }
