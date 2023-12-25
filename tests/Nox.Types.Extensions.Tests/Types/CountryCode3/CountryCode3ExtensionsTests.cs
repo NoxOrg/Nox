@@ -2,7 +2,7 @@
 
 namespace Nox.Types.Extensions.Tests.Types;
 
-public class CountryCode3ExtensionsTests
+public class CountryCode3ExtensionsTests : WorldTestBase
 {
     [Theory]
     [InlineData("462", "MV", "MDV", "Maldives")]
@@ -10,8 +10,7 @@ public class CountryCode3ExtensionsTests
     [InlineData("732", "EH", "ESH", "Western Sahara")]
     public void WhenGettingReferenceCountry_WithValidCountryCode3_ThenReturnsCountry(string countryNumber, string countryCode2, string countryCode3, string countryName)
     {
-        // Arrange
-        // Act
+        // Arrange Act
         var country = CountryCode3.From(countryCode3).GetReferenceCountry();
 
         // Assert
