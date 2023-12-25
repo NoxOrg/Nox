@@ -123,6 +123,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Ui.Blazor.Lib", "src\No
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Ui.Blazor.Lib.Tests", "tests\Nox.Ui.Blazor.Lib.Tests\Nox.Ui.Blazor.Lib.Tests.csproj", "{CEA6BF82-8B7D-48CA-AEEB-C6F960220CEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Types.Extensions", "src\Nox.Types.Extensions\Nox.Types.Extensions.csproj", "{57208925-20BE-4CD8-A2C3-270C069FFD11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Types.Extensions.Tests", "tests\Nox.Types.Extensions.Tests\Nox.Types.Extensions.Tests.csproj", "{BAFE2592-B741-480D-B8F1-654E7014DD1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -277,6 +281,14 @@ Global
 		{CEA6BF82-8B7D-48CA-AEEB-C6F960220CEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEA6BF82-8B7D-48CA-AEEB-C6F960220CEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEA6BF82-8B7D-48CA-AEEB-C6F960220CEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57208925-20BE-4CD8-A2C3-270C069FFD11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57208925-20BE-4CD8-A2C3-270C069FFD11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57208925-20BE-4CD8-A2C3-270C069FFD11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57208925-20BE-4CD8-A2C3-270C069FFD11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAFE2592-B741-480D-B8F1-654E7014DD1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAFE2592-B741-480D-B8F1-654E7014DD1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAFE2592-B741-480D-B8F1-654E7014DD1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAFE2592-B741-480D-B8F1-654E7014DD1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -318,6 +330,8 @@ Global
 		{18280395-66FF-4F3E-BD56-E87ABA4964C5} = {BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}
 		{55C02B4C-E39A-4923-A892-AE3CE0D46681} = {3FFB224D-7F21-4EAE-BECF-6C8B6573E2DC}
 		{CEA6BF82-8B7D-48CA-AEEB-C6F960220CEB} = {3FFB224D-7F21-4EAE-BECF-6C8B6573E2DC}
+		{57208925-20BE-4CD8-A2C3-270C069FFD11} = {110C16ED-A11D-4B5A-ABB2-0E0F4692C77A}
+		{BAFE2592-B741-480D-B8F1-654E7014DD1E} = {110C16ED-A11D-4B5A-ABB2-0E0F4692C77A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}
