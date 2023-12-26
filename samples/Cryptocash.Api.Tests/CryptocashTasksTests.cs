@@ -8,10 +8,10 @@ public class CryptocashTasksTests
     public void GeneratorTaskTest()
     {
 #if DEBUG
-        var outputFolder = "..\\..\\..\\..\\Cryptocash.Ui\\Nox.Generated";
-        var designFolder = "..\\..\\..\\..\\.nox";
-        var generatorYamlPath = "..\\..\\..\\..\\Cryptocash.Ui\\generator.nox.yaml";
-
+        var outputFolder = Path.Combine("..", "..", "..", "..", "Cryptocash.Ui", "Nox.Generated");
+        var designFolder = Path.Combine("..", "..", "..", "..", ".nox");
+        var generatorYamlPath = Path.Combine("..", "..", "..", "..", "Cryptocash.Ui", "generator.nox.yaml");
+        
         Directory.Delete(outputFolder, true);
         Directory.CreateDirectory(outputFolder);
 

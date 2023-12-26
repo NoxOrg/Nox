@@ -16,8 +16,11 @@ public class LocalizationTests
         var defaultCulture = solution.Application!.Localization!.DefaultCulture;
         var supportedCultures = solution.Application.Localization.SupportedCultures;
 
+        var expectedSupportedCultures = new List<Culture>
+            { Culture.en, Culture.en_US, Culture.de_DE, Culture.fr_FR, Culture.it_IT };
+
         defaultCulture.Should().Be(Culture.en_US);
-        supportedCultures.Should().BeEquivalentTo("en", "en-US", "de-DE", "fr-FR", "it-IT");
+        supportedCultures.Should().BeEquivalentTo( expectedSupportedCultures );
     }
 
     [Fact]
@@ -29,8 +32,12 @@ public class LocalizationTests
 
         var defaultCulture = solution.Application!.Localization!.DefaultCulture;
         var supportedCultures = solution.Application.Localization.SupportedCultures;
+        
+        var expectedSupportedCultures = new List<Culture>
+            { Culture.en, Culture.en_US, Culture.de_DE, Culture.fr_FR, Culture.it_IT };
+
 
         defaultCulture.Should().Be(Culture.en_US);
-        supportedCultures.Should().BeEquivalentTo("en", "en-US", "de-DE", "fr-FR", "it-IT");
+        supportedCultures.Should().BeEquivalentTo(expectedSupportedCultures);
     }
 }
