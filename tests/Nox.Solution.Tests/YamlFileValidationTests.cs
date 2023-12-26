@@ -374,23 +374,30 @@ public class YamlFileValidationTests
     [Fact]
     public void WhenCreateEntity_ShouldValidateManageRelationshipDepth()
     {
-        //entity-managerelationshipdepth-validation.solution.nox
-        var action = () => new NoxSolutionBuilder()
-            .WithFile($"./files/entity-managerelationshipdepth-validation.solution.nox.yaml")
+        var minValidationSolution = () => new NoxSolutionBuilder()
+            .WithFile($"./files/endpoints.depth.minvalidation.solution.nox.yaml")
+            .Build();
+        var maxValidationSolution = () => new NoxSolutionBuilder()
+            .WithFile($"./files/endpoints.depth.maxvalidation.solution.nox.yaml")
             .Build();
 
-        var expectedErrors = new[]
-        {
-            "Invalid value [0] for property [apiGenerateRelatedEndpointsMaxDepth] is less than minimum [1]. (at line 20 in entity-managerelationshipdepth-validation.solution.nox.yaml)",
-            "Invalid value [7] for property [apiGenerateRelatedEndpointsMaxDepth] is more than maximum [5]. (at line 37 in entity-managerelationshipdepth-validation.solution.nox.yaml)"
-        };
+        var minError = "Invalid value [0] for property [apiGenerateRelatedEndpointsMaxDepth] is less than minimum [1]. (at line 22 in endpoints.depth.minvalidation.solution.nox.yaml)";
+        var maxError = "Invalid value [7] for property [apiGenerateRelatedEndpointsMaxDepth] is more than maximum [5]. (at line 22 in endpoints.depth.maxvalidation.solution.nox.yaml)";
 
-        action.Should()
+        minValidationSolution.Should()
            .ThrowExactly<NoxYamlValidationException>()
            .Which.Errors
            .Should().NotBeEmpty()
-            .And.HaveCount(2)
-            .And.Subject.Select(x => x.ErrorMessage)
-            .Should().BeEquivalentTo(expectedErrors);
+           .And.HaveCount(1)
+           .And.Subject.Select(x => x.ErrorMessage)
+           .Should().BeEquivalentTo(minError);
+
+        maxValidationSolution.Should()
+           .ThrowExactly<NoxYamlValidationException>()
+           .Which.Errors
+           .Should().NotBeEmpty()
+           .And.HaveCount(1)
+           .And.Subject.Select(x => x.ErrorMessage)
+           .Should().BeEquivalentTo(maxError);
     }
 }

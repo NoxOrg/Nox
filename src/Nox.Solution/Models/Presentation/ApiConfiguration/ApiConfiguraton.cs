@@ -11,6 +11,11 @@ namespace Nox.Solution;
 [AdditionalProperties(false)]
 public class ApiConfiguration : YamlConfigNode<NoxSolution,Presentation>
 {
+    [Title("Depth of relationship navigation.")]
+    [Description("Specifies the depth for generating related entities endpoints.")]
+    [Minimum(1), Maximum(5)]
+    public int ApiGenerateRelatedEndpointsMaxDepth { get; internal set; } = 1;
+
     [Title("The api route prefix, defaults to api/v1 or to api/vMajor({Solution.Version}) if Version is set in the root of the Solution.")]
     [Description(@"Defines the prefix for all Api routes end points.")]
     public string ApiRoutePrefix { get; internal set; } = null!;

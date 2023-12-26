@@ -318,20 +318,6 @@
         ]
       },
       "additionalProperties": false
-    },
-    "apiGenerateRelatedEndpointsMaxDepth": {    
-      "title": "Depth of relationship navigation.",
-      "description": "Specifies the depth for generating related entities endpoints.",
-      "oneOf": [
-        {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 5
-        },
-        {
-          "type": "null"
-        }
-      ]
     }
   },
   "additionalProperties": false
