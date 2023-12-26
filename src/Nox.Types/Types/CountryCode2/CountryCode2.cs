@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
 namespace Nox.Types;
+
 /// <summary>
-///   Class for two-letter country codes (ISO alpha-2).
+/// Class for two-letter country codes (ISO alpha-2).
 /// </summary>
 public sealed class CountryCode2 : ValueObject<string, CountryCode2>
 {
-
     private static readonly HashSet<string> _countryCode2s = new()
     {
         "AF", "AX", "AL", "DZ", "AS", "AD", "AO", "AI", "AQ", "AG", "AR", "AM", "AW", "AU", "AT", "AZ",
@@ -32,7 +32,7 @@ public sealed class CountryCode2 : ValueObject<string, CountryCode2>
     {
         var result = base.Validate();
 
-        if(!_countryCode2s.Contains(Value))
+        if (!_countryCode2s.Contains(Value))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox CountryCode2 type with unsupported value '{Value}'."));
         }
