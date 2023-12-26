@@ -414,11 +414,14 @@ internal class SchemaProperty
     /// <returns>A list of JSON schema enumerators.</returns>
     private static List<string>? ToEnumValues(Type? type)
     {
-        if (type is null || !type.IsEnum) return null;
-
+        if (type is null ) return null;
+        Type? enumType = null;
+        if (!type.IsEnum && !IsEnumerableOfEnum(type, out enumType)) return null;
+        
+        enumType ??= type;
         return _enumCache.GetOrAdd(type,
             key => new Lazy<string[]>(
-                () => GetEnumValuesAsStringArray(key)
+                () => GetEnumValuesAsStringArray(enumType)
             )).Value.ToList();
 
     }
@@ -454,8 +457,33 @@ internal class SchemaProperty
                 return enumNames;
             }
         }
-        // Do not camelCase if all enum values have a DisplayName attribute
+        // Do not camelCase if enum values have a DisplayName attribute
         return hasDisplayName ? enumNames : enumNames.Select(n => n.ToCamelCase()).ToArray();
+    }
+    
+    private static bool IsEnumerableOfEnum(Type type, out Type? enumType)
+    {
+         enumType = GetEnumerableTypes(type).FirstOrDefault(t => t.IsEnum);
+         var result = enumType is not null;
+         return result;
+    }
+
+    private static IEnumerable<Type> GetEnumerableTypes(Type type)
+    {
+        if (type is { IsInterface: true, IsGenericType: true }
+            && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+        {
+            yield return type.GetGenericArguments()[0];
+        }
+
+        foreach (var intType in type.GetInterfaces())
+        {
+            if (intType.IsGenericType
+                && intType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            {
+                yield return intType.GetGenericArguments()[0];
+            }
+        }
     }
 
 

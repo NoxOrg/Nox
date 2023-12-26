@@ -23,6 +23,7 @@ public class Localization : YamlConfigNode<NoxSolution, Application>
     [Title("The default culture code for the solution.")]
     [Description("The default culture code used for formatting and translation.")]
     [Required]
+    
     public Culture DefaultCulture { get; set; } = Culture.en_US;
 
     public override void SetDefaults(NoxSolution topNode, Application parentNode, string yamlPath)
