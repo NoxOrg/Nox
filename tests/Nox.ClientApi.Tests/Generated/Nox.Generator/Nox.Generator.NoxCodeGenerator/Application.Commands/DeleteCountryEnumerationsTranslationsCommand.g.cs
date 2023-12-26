@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Types.Abstractions.Extensions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using CountryEntity = ClientApi.Domain.Country;
@@ -57,13 +58,11 @@ internal abstract class DeleteCountriesContinentsTranslationsCommandHandlerBase 
 
 public class DeleteCountriesContinentsTranslationsCommandValidator : AbstractValidator<DeleteCountriesContinentsTranslationsCommand>
 {
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-
-    public DeleteCountriesContinentsTranslationsCommandValidator()
+	public DeleteCountriesContinentsTranslationsCommandValidator(NoxSolution noxSolution)
     {
 		RuleFor(x => x.CultureCode)
-			.Must(x => x != _defaultCultureCode)
-			.WithMessage($"{nameof(DeleteCountriesContinentsTranslationsCommand)} : {nameof(DeleteCountriesContinentsTranslationsCommand.CultureCode)} cannot be the default culture code: {_defaultCultureCode.Value}.");
+			.Must(x => x.Value != noxSolution!.Application!.Localization!.DefaultCulture!.ToDisplayName())
+			.WithMessage($"{nameof(DeleteCountriesContinentsTranslationsCommand)} : {nameof(DeleteCountriesContinentsTranslationsCommand.CultureCode)} cannot be the default culture code: {noxSolution!.Application!.Localization!.DefaultCulture!.ToDisplayName()}.");
 			
     }
 }

@@ -1,4 +1,6 @@
 ﻿using FluentAssertions;
+using Nox.Types;
+using Nox.Yaml.Enums.CultureCode;
 
 namespace Nox.Solution.Tests;
 
@@ -14,7 +16,7 @@ public class LocalizationTests
         var defaultCulture = solution.Application!.Localization!.DefaultCulture;
         var supportedCultures = solution.Application.Localization.SupportedCultures;
 
-        defaultCulture.Should().Be("en-US");
+        defaultCulture.Should().Be(Culture.en_US);
         supportedCultures.Should().BeEquivalentTo("en", "en-US", "de-DE", "fr-FR", "it-IT");
     }
 
@@ -28,7 +30,7 @@ public class LocalizationTests
         var defaultCulture = solution.Application!.Localization!.DefaultCulture;
         var supportedCultures = solution.Application.Localization.SupportedCultures;
 
-        defaultCulture.Should().Be("en-US");
+        defaultCulture.Should().Be(Culture.en_US);
         supportedCultures.Should().BeEquivalentTo("en", "en-US", "de-DE", "fr-FR", "it-IT");
     }
 }

@@ -422,12 +422,26 @@ internal class SchemaProperty
             )).Value.ToList();
 
     }
-
+    
     private static string[] GetEnumValuesAsStringArray(Type type)
     {
+        if (!type.IsEnum)
+        {
+            throw new ArgumentException("Type must be an enum", nameof(type));
+        }
 
-        var enumNames = System.Enum.GetNames(type);
-
+        var hasDisplayName = false;
+        var enumNames = System.Enum.GetValues(type).Cast<Enum>().Select(enumValue =>
+            {
+                var field = type.GetField(enumValue.ToString());
+                var attr = field.GetCustomAttribute<DisplayNameAttribute>();
+                if (attr == null) return enumValue.ToString();
+                hasDisplayName = true;
+                return attr.DisplayName;
+            })
+            .OrderBy(e => e).ToArray();
+            
+        
         if (enumNames.Length > 1)
         {
             var firstLength = enumNames[0].Length;
@@ -435,15 +449,15 @@ internal class SchemaProperty
             // don't camelCase abbreviations or codes (i.e. enums where all string values are the same length
             // and less than four characters long.
 
-            if (firstLength < 4 && enumNames.All(n => n.Length == firstLength))
+            if (firstLength < 4 && Array.TrueForAll( enumNames,n => n.Length == firstLength))
             {
-                return enumNames.OrderBy(e => e).ToArray();
+                return enumNames;
             }
         }
-
-        return enumNames.Select(n => n.ToCamelCase()).OrderBy(e => e).ToArray();
-
+        // Do not camelCase if all enum values have a DisplayName attribute
+        return hasDisplayName ? enumNames : enumNames.Select(n => n.ToCamelCase()).ToArray();
     }
+
 
     /// <summary>
     /// Return an enumerator to process child properties of a property based on an existing instance 

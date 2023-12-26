@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-
+using Nox.Types;
 using Nox.Yaml;
 using Nox.Yaml.Attributes;
 using Nox.Types.Abstractions;
+using Nox.Yaml.Enums.CultureCode;
 
 namespace Nox.Solution;
 
@@ -16,15 +17,13 @@ public class Localization : YamlConfigNode<NoxSolution, Application>
 {
     [Title("The list of culture codes supported by the solution.")]
     [Description("The list of culture codes that the solution supports.")]
-    [Pattern(CultureCode.RegularExpression)]
     [Required]
-    public IReadOnlyList<string> SupportedCultures { get; set; } = new List<string>() { "en-US" };
+    public IReadOnlyList<Culture> SupportedCultures { get; set; } = new List<Culture>() { Culture.en_US };
 
     [Title("The default culture code for the solution.")]
     [Description("The default culture code used for formatting and translation.")]
-    [Pattern(CultureCode.RegularExpression)]
     [Required]
-    public string DefaultCulture { get; set; } = "en-US";
+    public Culture DefaultCulture { get; set; } = Culture.en_US;
 
     public override void SetDefaults(NoxSolution topNode, Application parentNode, string yamlPath)
     {

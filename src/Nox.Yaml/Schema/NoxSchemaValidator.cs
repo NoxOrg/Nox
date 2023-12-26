@@ -1,4 +1,5 @@
-﻿using Nox.Yaml.Exceptions;
+﻿using Nox.Types.Abstractions.TypeConverters;
+using Nox.Yaml.Exceptions;
 using Nox.Yaml.Parser;
 using Nox.Yaml.Schema.Generator;
 using Nox.Yaml.Schema.Validator;
@@ -45,6 +46,7 @@ internal static class NoxSchemaValidator
     {
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
+            .WithTypeConverter(new CultureTypeConverter())
             .WithNodeTypeResolver(new ReadOnlyCollectionNodeTypeResolver())
             .Build();
 

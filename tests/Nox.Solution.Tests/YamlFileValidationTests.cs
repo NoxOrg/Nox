@@ -74,6 +74,7 @@ public class YamlFileValidationTests
     [InlineData("team.solution.nox.yaml", "TestService")]
     [InlineData("variables.solution.nox.yaml", "TestService")]
     [InlineData("version-control.solution.nox.yaml", "TestService")]
+    [InlineData("localization-without-default-culture-in-supported-cultures.solution.nox.yaml", "MinimalService")]
     public void Deserialize_Solution_WithValidation_Success(string yamlFile, string expectedServiceName)
     {
         var yaml = File.ReadAllText($"./files/{yamlFile}");

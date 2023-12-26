@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Types.Abstractions.Extensions;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
@@ -62,13 +63,11 @@ internal abstract class {{deleteCommand}}HandlerBase : CommandCollectionBase<{{d
 
 public class {{deleteCommand}}Validator : AbstractValidator<{{deleteCommand}}>
 {
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("{{codeGeneratorState.Solution.Application.Localization.DefaultCulture}}");
-
-    public {{deleteCommand}}Validator()
+	public {{deleteCommand}}Validator(NoxSolution noxSolution)
     {
 		RuleFor(x => x.{{codeGeneratorState.LocalizationCultureField}})
-			.Must(x => x != _defaultCultureCode)
-			.WithMessage($"{%{{}%}nameof({{deleteCommand}}){%{}}%} : {%{{}%}nameof({{deleteCommand}}.{{codeGeneratorState.LocalizationCultureField}}){%{}}%} cannot be the default culture code: {_defaultCultureCode.Value}.");
+			.Must(x => x.Value != noxSolution!.Application!.Localization!.DefaultCulture!.ToDisplayName())
+			.WithMessage($"{%{{}%}nameof({{deleteCommand}}){%{}}%} : {%{{}%}nameof({{deleteCommand}}.{{codeGeneratorState.LocalizationCultureField}}){%{}}%} cannot be the default culture code: {noxSolution!.Application!.Localization!.DefaultCulture!.ToDisplayName()}.");
 			
     }
 }	
