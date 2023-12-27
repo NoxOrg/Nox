@@ -4,7 +4,7 @@ using Nox.Ui.Blazor.Lib.Models;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 
-public class UiEditMoney : ComponentBase
+public partial class EditMoney : ComponentBase
 {
 
     #region Declarations
