@@ -16,7 +16,7 @@ internal class RelatedEndpointsMiddleware
     private readonly Dictionary<string, string> _navigationNameToEntityPluralName = 
         new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-    private readonly Dictionary<(string entityName, string navigationName), bool> _canRedirect = new(); 
+    private readonly HashSet<(string entityName, string navigationName)> _canRedirect = new(); 
 
     public RelatedEndpointsMiddleware(RequestDelegate next, NoxSolution solution)
     {
@@ -43,7 +43,7 @@ internal class RelatedEndpointsMiddleware
         */
         foreach (var entity in solution.Domain!.Entities)
         {
-            foreach(var relationship in entity.Relationships)
+            foreach (var relationship in entity.Relationships)
             {
                 var navigationName = entity.GetNavigationPropertyName(relationship);
                 if (!_navigationNameToEntityPluralName.ContainsKey(navigationName))
@@ -51,7 +51,10 @@ internal class RelatedEndpointsMiddleware
                     _navigationNameToEntityPluralName[navigationName] = relationship.EntityPlural;
                 }
 
-                _canRedirect.Add((entity.PluralName.ToLower(), navigationName.ToLower()), relationship.ApiGenerateRelatedEndpoint);
+                if (relationship.ApiGenerateRelatedEndpoint)
+                {
+                    _canRedirect.Add((entity.PluralName.ToLower(), navigationName.ToLower()));
+                }
             }
         }
     }
@@ -146,10 +149,7 @@ internal class RelatedEndpointsMiddleware
 
     private bool IsFirstPairValid(string entityName, string navigationName)
     {
-        if(!_canRedirect.TryGetValue((entityName, navigationName), out var canRedirect))
-            return false;
-
-        return canRedirect;
+        return _canRedirect.Contains((entityName, navigationName));
     }
 
     private PathString BuildNewPatchPath(List<string> segments)
