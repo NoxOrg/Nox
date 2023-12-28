@@ -48,7 +48,7 @@ internal abstract class CreateThirdTestEntityOneOrManyCommandHandlerBase : Comma
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.ThirdTestEntityZeroOrMany, ThirdTestEntityZeroOrManyCreateDto, ThirdTestEntityZeroOrManyUpdateDto> ThirdTestEntityZeroOrManyFactory,
 		IEntityFactory<ThirdTestEntityOneOrManyEntity, ThirdTestEntityOneOrManyCreateDto, ThirdTestEntityOneOrManyUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -60,7 +60,7 @@ internal abstract class CreateThirdTestEntityOneOrManyCommandHandlerBase : Comma
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.ThirdTestEntityZeroOrManiesId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.ThirdTestEntityZeroOrManiesId)
@@ -78,7 +78,7 @@ internal abstract class CreateThirdTestEntityOneOrManyCommandHandlerBase : Comma
 		{
 			foreach(var relatedCreateDto in request.EntityDto.ThirdTestEntityZeroOrManies)
 			{
-				var relatedEntity = await ThirdTestEntityZeroOrManyFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await ThirdTestEntityZeroOrManyFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToThirdTestEntityZeroOrManies(relatedEntity);
 			}
 		}

@@ -97,4 +97,5 @@ internal abstract partial class CountryLocalNameBase : EntityBase, IOwnedEntity
         InternalDomainEvents.Clear();
     }
 
+    
 }

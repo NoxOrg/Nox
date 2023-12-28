@@ -50,7 +50,7 @@ internal record TestEntityTwoRelationshipsManyToManyDeleted(TestEntityTwoRelatio
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class TestEntityTwoRelationshipsManyToManyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityTwoRelationshipsManyToManyBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -155,6 +155,7 @@ internal abstract partial class TestEntityTwoRelationshipsManyToManyBase : Audit
         TestRelationshipTwo.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

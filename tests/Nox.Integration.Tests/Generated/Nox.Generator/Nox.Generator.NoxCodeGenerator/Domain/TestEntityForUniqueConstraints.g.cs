@@ -50,7 +50,7 @@ internal record TestEntityForUniqueConstraintsDeleted(TestEntityForUniqueConstra
 /// <summary>
 /// Entity created for testing constraints.
 /// </summary>
-internal abstract partial class TestEntityForUniqueConstraintsBase : EntityBase, IEntityConcurrent
+internal abstract partial class TestEntityForUniqueConstraintsBase : EntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -115,6 +115,7 @@ internal abstract partial class TestEntityForUniqueConstraintsBase : EntityBase,
         InternalDomainEvents.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

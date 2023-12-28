@@ -50,7 +50,7 @@ internal record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDo
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-internal abstract partial class MinimumCashStockBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class MinimumCashStockBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Vending machine cash stock unique identifier    
@@ -142,6 +142,7 @@ internal abstract partial class MinimumCashStockBase : AuditableEntityBase, IEnt
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

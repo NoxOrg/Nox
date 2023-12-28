@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -28,13 +28,12 @@ internal partial class ReferenceNumberEntityFactory : ReferenceNumberEntityFacto
     public ReferenceNumberEntityFactory
     (
         IRepository repository
-    ) : base( repository)
+    ) : base(repository)
     {}
 }
 
 internal abstract class ReferenceNumberEntityFactoryBase : IEntityFactory<ReferenceNumberEntityEntity, ReferenceNumberEntityCreateDto, ReferenceNumberEntityUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
     public ReferenceNumberEntityFactoryBase(
@@ -44,22 +43,45 @@ internal abstract class ReferenceNumberEntityFactoryBase : IEntityFactory<Refere
         _repository = repository;
     }
 
-    public virtual async Task<ReferenceNumberEntityEntity> CreateEntityAsync(ReferenceNumberEntityCreateDto createDto)
+    public virtual async Task<ReferenceNumberEntityEntity> CreateEntityAsync(ReferenceNumberEntityCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
-        return await ToEntityAsync(createDto);
+        try
+        {
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(ReferenceNumberEntityEntity));
+        }        
     }
 
     public virtual async Task UpdateEntityAsync(ReferenceNumberEntityEntity entity, ReferenceNumberEntityUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(ReferenceNumberEntityEntity));
+        }   
     }
 
-    public virtual void PartialUpdateEntity(ReferenceNumberEntityEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(ReferenceNumberEntityEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        try
+        {
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(ReferenceNumberEntityEntity));
+        }   
     }
 
-    private async Task<ClientApi.Domain.ReferenceNumberEntity> ToEntityAsync(ReferenceNumberEntityCreateDto createDto)
+    private async Task<ClientApi.Domain.ReferenceNumberEntity> ToEntityAsync(ReferenceNumberEntityCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.ReferenceNumberEntity();
@@ -85,7 +107,4 @@ internal abstract class ReferenceNumberEntityFactoryBase : IEntityFactory<Refere
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 }

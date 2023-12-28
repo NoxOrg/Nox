@@ -50,7 +50,7 @@ internal record ReferenceNumberEntityDeleted(ReferenceNumberEntity ReferenceNumb
 /// <summary>
 /// ReferenceNumberEntity.
 /// </summary>
-internal abstract partial class ReferenceNumberEntityBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class ReferenceNumberEntityBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -105,6 +105,7 @@ internal abstract partial class ReferenceNumberEntityBase : AuditableEntityBase,
         InternalDomainEvents.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

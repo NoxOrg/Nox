@@ -33,7 +33,7 @@ internal abstract class PartialUpdateEntityUniqueConstraintsWithForeignKeyComman
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<EntityUniqueConstraintsWithForeignKeyEntity, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateEntityUniqueConstraintsWithForeignKeyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -55,7 +55,7 @@ internal abstract class PartialUpdateEntityUniqueConstraintsWithForeignKeyComman
 		{
 			throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKey",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

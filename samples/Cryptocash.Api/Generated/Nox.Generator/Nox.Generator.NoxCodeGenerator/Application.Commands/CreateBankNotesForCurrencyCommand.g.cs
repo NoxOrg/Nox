@@ -36,7 +36,7 @@ internal abstract class CreateBankNotesForCurrencyCommandHandlerBase : CommandBa
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> _entityFactory;
-
+	
 	protected CreateBankNotesForCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -58,13 +58,13 @@ internal abstract class CreateBankNotesForCurrencyCommandHandlerBase : CommandBa
 			throw new EntityNotFoundException("Currency",  $"{keyId.ToString()}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
+		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefToBankNotes(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new BankNoteKeyDto(entity.Id.Value);

@@ -51,7 +51,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory,
 		IEntityFactory<Cryptocash.Domain.PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> PaymentProviderFactory,
 		IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -64,7 +64,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.CustomerId is not null)
 		{
 			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Guid>());
@@ -76,7 +76,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		}
 		else if(request.EntityDto.Customer is not null)
 		{
-			var relatedEntity = await CustomerFactory.CreateEntityAsync(request.EntityDto.Customer);
+			var relatedEntity = await CustomerFactory.CreateEntityAsync(request.EntityDto.Customer, request.CultureCode);
 			entityToCreate.CreateRefToCustomer(relatedEntity);
 		}
 		if(request.EntityDto.PaymentProviderId is not null)
@@ -90,7 +90,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		}
 		else if(request.EntityDto.PaymentProvider is not null)
 		{
-			var relatedEntity = await PaymentProviderFactory.CreateEntityAsync(request.EntityDto.PaymentProvider);
+			var relatedEntity = await PaymentProviderFactory.CreateEntityAsync(request.EntityDto.PaymentProvider, request.CultureCode);
 			entityToCreate.CreateRefToPaymentProvider(relatedEntity);
 		}
 

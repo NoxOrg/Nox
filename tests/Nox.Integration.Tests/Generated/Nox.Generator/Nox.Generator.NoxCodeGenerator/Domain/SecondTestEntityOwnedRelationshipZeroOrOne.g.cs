@@ -91,4 +91,5 @@ internal abstract partial class SecondTestEntityOwnedRelationshipZeroOrOneBase :
         InternalDomainEvents.Clear();
     }
 
+    
 }

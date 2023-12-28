@@ -50,7 +50,7 @@ internal record LandLordDeleted(LandLord LandLord) : IDomainEvent, INotification
 /// <summary>
 /// Landlord related data.
 /// </summary>
-internal abstract partial class LandLordBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class LandLordBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Landlord unique identifier    
@@ -137,6 +137,7 @@ internal abstract partial class LandLordBase : AuditableEntityBase, IEntityConcu
         VendingMachines.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

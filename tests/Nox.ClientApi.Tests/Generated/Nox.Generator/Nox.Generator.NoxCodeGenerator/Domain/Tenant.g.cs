@@ -50,7 +50,7 @@ internal record TenantDeleted(Tenant Tenant) : IDomainEvent, INotification;
 /// <summary>
 /// Tenant.
 /// </summary>
-internal abstract partial class TenantBase : EntityBase, IEntityConcurrent
+internal abstract partial class TenantBase : EntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -206,6 +206,7 @@ internal abstract partial class TenantBase : EntityBase, IEntityConcurrent
         TenantContact = null;
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

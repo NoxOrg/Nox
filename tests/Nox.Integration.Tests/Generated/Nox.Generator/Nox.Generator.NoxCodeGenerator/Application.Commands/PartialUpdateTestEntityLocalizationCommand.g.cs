@@ -24,9 +24,8 @@ internal partial class PartialUpdateTestEntityLocalizationCommandHandler : Parti
 	public PartialUpdateTestEntityLocalizationCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory,
-		IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> entityLocalizedFactory)
-		: base(dbContext,noxSolution, entityFactory, entityLocalizedFactory)
+		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory)
+		: base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -34,18 +33,15 @@ internal abstract class PartialUpdateTestEntityLocalizationCommandHandlerBase : 
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> EntityFactory { get; }
-	public IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> EntityLocalizedFactory { get; }
-
+	
 	public PartialUpdateTestEntityLocalizationCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory,
-		IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> entityLocalizedFactory)
+		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory; 
-		EntityLocalizedFactory = entityLocalizedFactory;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<TestEntityLocalizationKeyDto> Handle(PartialUpdateTestEntityLocalizationCommand request, CancellationToken cancellationToken)
@@ -59,30 +55,13 @@ internal abstract class PartialUpdateTestEntityLocalizationCommandHandlerBase : 
 		{
 			throw new EntityNotFoundException("TestEntityLocalization",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await PartiallyUpdateLocalizedEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 
 		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		return new TestEntityLocalizationKeyDto(entity.Id.Value);
-	}
-
-	private async Task PartiallyUpdateLocalizedEntityAsync(TestEntityLocalizationEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
-	{
-		var entityLocalized = await DbContext.TestEntityLocalizationsLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
-		if(entityLocalized is null)
-		{
-			entityLocalized = EntityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode, copyEntityAttributes: false);
-			DbContext.TestEntityLocalizationsLocalized.Add(entityLocalized);
-		}
-		else
-		{
-			DbContext.Entry(entityLocalized).State = EntityState.Modified;
-		}
-
-		EntityLocalizedFactory.PartialUpdateLocalizedEntity(entityLocalized, updatedProperties);
 	}
 }

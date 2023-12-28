@@ -103,4 +103,5 @@ internal abstract partial class HolidayBase : EntityBase, IOwnedEntity
         InternalDomainEvents.Clear();
     }
 
+    
 }

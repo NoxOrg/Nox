@@ -36,7 +36,7 @@ internal abstract class CreateCountryBarCodeForCountryCommandHandlerBase : Comma
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<CountryBarCodeEntity, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> _entityFactory;
-
+	
 	protected CreateCountryBarCodeForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -58,13 +58,13 @@ internal abstract class CreateCountryBarCodeForCountryCommandHandlerBase : Comma
 			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
+		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefToCountryBarCode(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new CountryBarCodeKeyDto();

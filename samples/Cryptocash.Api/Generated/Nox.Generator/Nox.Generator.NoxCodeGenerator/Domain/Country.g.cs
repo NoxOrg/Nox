@@ -50,7 +50,7 @@ internal record CountryDeleted(Country Country) : IDomainEvent, INotification;
 /// <summary>
 /// Country and related data.
 /// </summary>
-internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CountryBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Country unique identifier    
@@ -360,6 +360,7 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
         Holidays.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

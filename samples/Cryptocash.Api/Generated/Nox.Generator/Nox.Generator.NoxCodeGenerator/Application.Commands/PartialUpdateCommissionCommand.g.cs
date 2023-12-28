@@ -33,7 +33,7 @@ internal abstract class PartialUpdateCommissionCommandHandlerBase : CommandBase<
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateCommissionCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -55,7 +55,7 @@ internal abstract class PartialUpdateCommissionCommandHandlerBase : CommandBase<
 		{
 			throw new EntityNotFoundException("Commission",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

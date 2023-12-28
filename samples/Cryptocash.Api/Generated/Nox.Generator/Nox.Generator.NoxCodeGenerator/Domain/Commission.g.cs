@@ -50,7 +50,7 @@ internal record CommissionDeleted(Commission Commission) : IDomainEvent, INotifi
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-internal abstract partial class CommissionBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CommissionBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Commission unique identifier    
@@ -162,6 +162,7 @@ internal abstract partial class CommissionBase : AuditableEntityBase, IEntityCon
         Bookings.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

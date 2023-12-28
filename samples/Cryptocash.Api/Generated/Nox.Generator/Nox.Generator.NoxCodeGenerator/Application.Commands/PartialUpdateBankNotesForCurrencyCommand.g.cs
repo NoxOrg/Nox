@@ -31,7 +31,7 @@ internal abstract class PartialUpdateBankNotesForCurrencyCommandHandlerBase: Com
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> _entityFactory;
-
+	
 	protected PartialUpdateBankNotesForCurrencyCommandHandlerBase(
 		AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -61,12 +61,13 @@ internal abstract class PartialUpdateBankNotesForCurrencyCommandHandlerBase: Com
 			throw new EntityNotFoundException("Currency.BankNotes", $"{ownedId.ToString()}");
 		}
 
-		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
+		
 		var result = await _dbContext.SaveChangesAsync();
 
 		return new BankNoteKeyDto(entity.Id.Value);

@@ -1,19 +1,37 @@
-﻿using Nox.Extensions;
+﻿using System.Linq.Expressions;
+using Nox.Extensions;
 using Nox.Infrastructure.Persistence;
 
 namespace Nox.Domain;
 
 public sealed class Repository : IRepository
 {
-    private readonly IAppDbContext _dbContext;
+    private readonly EntityDbContextBase _dbContext;
 
-    public Repository(IAppDbContext dbContext)
+    public Repository(EntityDbContextBase dbContext)
     {
         ArgumentNullException.ThrowIfNull(dbContext, nameof(dbContext));
         _dbContext = dbContext;
     }
 
     #region IRepository
+
+    public  IQueryable<T> Query<T>(Expression<Func<T, bool>> predicate) where T :class, IEntity
+    {
+        return _dbContext.Set<T>().Where(predicate: predicate);
+    }
+
+    public async ValueTask<T> AddAsync<T>(T entity, CancellationToken cancellationToken = default(CancellationToken)) where T : class, IEntity
+    {
+        var entry = await _dbContext.AddAsync(entity, cancellationToken);
+        return entry.Entity;
+    }
+
+    public void Update<T>(T entity) where T : IEntity
+    {
+        _dbContext.Update(entity);
+    }
+
     public void Delete<T>(T entity) where T : IEntity
     {
         _dbContext.Remove(entity);

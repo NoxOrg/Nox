@@ -50,7 +50,7 @@ internal record SecondTestEntityOneOrManyDeleted(SecondTestEntityOneOrMany Secon
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class SecondTestEntityOneOrManyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class SecondTestEntityOneOrManyBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -123,6 +123,7 @@ internal abstract partial class SecondTestEntityOneOrManyBase : AuditableEntityB
         TestEntityOneOrManies.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

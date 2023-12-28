@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,39 +27,57 @@ internal partial class TransactionFactory : TransactionFactoryBase
 {
     public TransactionFactory
     (
-        IRepository repository
-    ) : base( repository)
+    ) : base()
     {}
 }
 
 internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
     public TransactionFactoryBase(
-        IRepository repository
         )
     {
-        _repository = repository;
     }
 
-    public virtual async Task<TransactionEntity> CreateEntityAsync(TransactionCreateDto createDto)
+    public virtual async Task<TransactionEntity> CreateEntityAsync(TransactionCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
-        return await ToEntityAsync(createDto);
+        try
+        {
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TransactionEntity));
+        }        
     }
 
     public virtual async Task UpdateEntityAsync(TransactionEntity entity, TransactionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TransactionEntity));
+        }   
     }
 
-    public virtual void PartialUpdateEntity(TransactionEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(TransactionEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        try
+        {
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TransactionEntity));
+        }   
     }
 
-    private async Task<Cryptocash.Domain.Transaction> ToEntityAsync(TransactionCreateDto createDto)
+    private async Task<Cryptocash.Domain.Transaction> ToEntityAsync(TransactionCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.Transaction();
@@ -128,7 +146,4 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 }

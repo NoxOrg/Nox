@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,47 +27,69 @@ internal partial class CurrencyFactory : CurrencyFactoryBase
 {
     public CurrencyFactory
     (
+        IRepository repository,
         IEntityFactory<Cryptocash.Domain.BankNote, BankNoteUpsertDto, BankNoteUpsertDto> banknotefactory,
-        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> exchangeratefactory,
-        IRepository repository
-    ) : base(banknotefactory,exchangeratefactory, repository)
+        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> exchangeratefactory
+    ) : base(repository, banknotefactory, exchangeratefactory)
     {}
 }
 
 internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
     protected IEntityFactory<Cryptocash.Domain.BankNote, BankNoteUpsertDto, BankNoteUpsertDto> BankNoteFactory {get;}
     protected IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> ExchangeRateFactory {get;}
 
     public CurrencyFactoryBase(
+        IRepository repository,
         IEntityFactory<Cryptocash.Domain.BankNote, BankNoteUpsertDto, BankNoteUpsertDto> banknotefactory,
-        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> exchangeratefactory,
-        IRepository repository
+        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateUpsertDto, ExchangeRateUpsertDto> exchangeratefactory
         )
     {
+        _repository = repository;
         BankNoteFactory = banknotefactory;
         ExchangeRateFactory = exchangeratefactory;
-        _repository = repository;
     }
 
-    public virtual async Task<CurrencyEntity> CreateEntityAsync(CurrencyCreateDto createDto)
+    public virtual async Task<CurrencyEntity> CreateEntityAsync(CurrencyCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
-        return await ToEntityAsync(createDto);
+        try
+        {
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CurrencyEntity));
+        }        
     }
 
     public virtual async Task UpdateEntityAsync(CurrencyEntity entity, CurrencyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CurrencyEntity));
+        }   
     }
 
-    public virtual void PartialUpdateEntity(CurrencyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(CurrencyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        try
+        {
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CurrencyEntity));
+        }   
     }
 
-    private async Task<Cryptocash.Domain.Currency> ToEntityAsync(CurrencyCreateDto createDto)
+    private async Task<Cryptocash.Domain.Currency> ToEntityAsync(CurrencyCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.Currency();
@@ -100,16 +122,16 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
             Cryptocash.Domain.CurrencyMetadata.CreateMinorToMajorValue(createDto.MinorToMajorValue.NonNullValue<MoneyDto>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
-        foreach (var dto in createDto.BankNotes)
+        createDto.BankNotes?.ForEach(async dto =>
         {
-            var newRelatedEntity = await BankNoteFactory.CreateEntityAsync(dto);
-            entity.CreateRefToBankNotes(newRelatedEntity);
-        }
-        foreach (var dto in createDto.ExchangeRates)
+            var bankNote = await BankNoteFactory.CreateEntityAsync(dto, cultureCode);
+            entity.CreateRefToBankNotes(bankNote);
+        });
+        createDto.ExchangeRates?.ForEach(async dto =>
         {
-            var newRelatedEntity = await ExchangeRateFactory.CreateEntityAsync(dto);
-            entity.CreateRefToExchangeRates(newRelatedEntity);
-        }        
+            var exchangeRate = await ExchangeRateFactory.CreateEntityAsync(dto, cultureCode);
+            entity.CreateRefToExchangeRates(exchangeRate);
+        });        
         return await Task.FromResult(entity);
     }
 
@@ -262,9 +284,6 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
 
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
-
 	private async Task UpdateOwnedEntitiesAsync(CurrencyEntity entity, CurrencyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
         if(!updateDto.BankNotes.Any())
@@ -278,7 +297,10 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 			foreach(var ownedUpsertDto in updateDto.BankNotes)
 			{
 				if(ownedUpsertDto.Id is null)
-					updatedBankNotes.Add(await BankNoteFactory.CreateEntityAsync(ownedUpsertDto));
+                {
+                    var ownedEntity = await BankNoteFactory.CreateEntityAsync(ownedUpsertDto, cultureCode);
+					updatedBankNotes.Add(ownedEntity);
+                }
 				else
 				{
 					var key = Cryptocash.Domain.BankNoteMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
@@ -293,7 +315,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 				}
 			}
             _repository.DeleteOwned<Cryptocash.Domain.BankNote>(
-                entity.BankNotes.Where(x => !updatedBankNotes.Any(upd => upd.Id == x.Id)).ToList());
+                entity.BankNotes.Where(x => !updatedBankNotes.Exists(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToBankNotes(updatedBankNotes);
 		}
         if(!updateDto.ExchangeRates.Any())
@@ -307,7 +329,10 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 			foreach(var ownedUpsertDto in updateDto.ExchangeRates)
 			{
 				if(ownedUpsertDto.Id is null)
-					updatedExchangeRates.Add(await ExchangeRateFactory.CreateEntityAsync(ownedUpsertDto));
+                {
+                    var ownedEntity = await ExchangeRateFactory.CreateEntityAsync(ownedUpsertDto, cultureCode);
+					updatedExchangeRates.Add(ownedEntity);
+                }
 				else
 				{
 					var key = Cryptocash.Domain.ExchangeRateMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
@@ -322,7 +347,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 				}
 			}
             _repository.DeleteOwned<Cryptocash.Domain.ExchangeRate>(
-                entity.ExchangeRates.Where(x => !updatedExchangeRates.Any(upd => upd.Id == x.Id)).ToList());
+                entity.ExchangeRates.Where(x => !updatedExchangeRates.Exists(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToExchangeRates(updatedExchangeRates);
 		}
 	}

@@ -50,7 +50,7 @@ internal record EntityUniqueConstraintsRelatedForeignKeyDeleted(EntityUniqueCons
 /// <summary>
 /// Entity created for testing constraints.
 /// </summary>
-internal abstract partial class EntityUniqueConstraintsRelatedForeignKeyBase : EntityBase, IEntityConcurrent
+internal abstract partial class EntityUniqueConstraintsRelatedForeignKeyBase : EntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -117,6 +117,7 @@ internal abstract partial class EntityUniqueConstraintsRelatedForeignKeyBase : E
         EntityUniqueConstraintsWithForeignKeys.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

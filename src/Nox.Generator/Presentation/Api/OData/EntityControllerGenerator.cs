@@ -145,7 +145,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine();
             foreach (var relationship in entity.OwnedRelationships)
             {
-                if (!relationship.CanManageEntity)
+                if (!relationship.ApiGenerateRelatedEndpoint)
                     continue;
 
                 var child = relationship.Related.Entity;
@@ -440,7 +440,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine();
             foreach (var relationship in entity.Relationships)
             {
-                if (relationship.CanManageReference)
+                if (relationship.ApiGenerateReferenceEndpoint)
                 {
                     if (CanCreate(entity)) GenerateCreateRefTo(entity, relationship, code, solution);
                     if (CanUpdate(entity)) GenerateUpdateAllRefTo(entity, relationship, code, solution);
@@ -452,7 +452,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                     }
                 }
 
-                if (relationship.CanManageEntity)
+                if (relationship.ApiGenerateRelatedEndpoint)
                 {
                     if (CanCreate(entity)) GenerateRelatedPost(solution, relationship, entity, code);
                     if (CanRead(entity))

@@ -33,7 +33,7 @@ internal abstract class PartialUpdateMinimumCashStockCommandHandlerBase : Comman
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateMinimumCashStockCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -55,7 +55,7 @@ internal abstract class PartialUpdateMinimumCashStockCommandHandlerBase : Comman
 		{
 			throw new EntityNotFoundException("MinimumCashStock",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

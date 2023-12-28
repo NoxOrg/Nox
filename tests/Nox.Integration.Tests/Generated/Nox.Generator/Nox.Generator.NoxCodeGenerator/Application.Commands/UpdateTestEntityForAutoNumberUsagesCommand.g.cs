@@ -27,7 +27,7 @@ internal partial class UpdateTestEntityForAutoNumberUsagesCommandHandler : Updat
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdateTestEntityForAutoNumberUsagesCommandHandlerBase : 
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> _entityFactory;
-
 	protected UpdateTestEntityForAutoNumberUsagesCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

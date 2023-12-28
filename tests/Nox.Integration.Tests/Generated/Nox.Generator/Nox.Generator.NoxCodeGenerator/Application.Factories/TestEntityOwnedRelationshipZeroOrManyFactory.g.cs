@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,43 +27,65 @@ internal partial class TestEntityOwnedRelationshipZeroOrManyFactory : TestEntity
 {
     public TestEntityOwnedRelationshipZeroOrManyFactory
     (
-        IEntityFactory<TestWebApp.Domain.SecEntityOwnedRelZeroOrMany, SecEntityOwnedRelZeroOrManyUpsertDto, SecEntityOwnedRelZeroOrManyUpsertDto> secentityownedrelzeroormanyfactory,
-        IRepository repository
-    ) : base(secentityownedrelzeroormanyfactory, repository)
+        IRepository repository,
+        IEntityFactory<TestWebApp.Domain.SecEntityOwnedRelZeroOrMany, SecEntityOwnedRelZeroOrManyUpsertDto, SecEntityOwnedRelZeroOrManyUpsertDto> secentityownedrelzeroormanyfactory
+    ) : base(repository, secentityownedrelzeroormanyfactory)
     {}
 }
 
 internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEntityFactory<TestEntityOwnedRelationshipZeroOrManyEntity, TestEntityOwnedRelationshipZeroOrManyCreateDto, TestEntityOwnedRelationshipZeroOrManyUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
     protected IEntityFactory<TestWebApp.Domain.SecEntityOwnedRelZeroOrMany, SecEntityOwnedRelZeroOrManyUpsertDto, SecEntityOwnedRelZeroOrManyUpsertDto> SecEntityOwnedRelZeroOrManyFactory {get;}
 
     public TestEntityOwnedRelationshipZeroOrManyFactoryBase(
-        IEntityFactory<TestWebApp.Domain.SecEntityOwnedRelZeroOrMany, SecEntityOwnedRelZeroOrManyUpsertDto, SecEntityOwnedRelZeroOrManyUpsertDto> secentityownedrelzeroormanyfactory,
-        IRepository repository
+        IRepository repository,
+        IEntityFactory<TestWebApp.Domain.SecEntityOwnedRelZeroOrMany, SecEntityOwnedRelZeroOrManyUpsertDto, SecEntityOwnedRelZeroOrManyUpsertDto> secentityownedrelzeroormanyfactory
         )
     {
-        SecEntityOwnedRelZeroOrManyFactory = secentityownedrelzeroormanyfactory;
         _repository = repository;
+        SecEntityOwnedRelZeroOrManyFactory = secentityownedrelzeroormanyfactory;
     }
 
-    public virtual async Task<TestEntityOwnedRelationshipZeroOrManyEntity> CreateEntityAsync(TestEntityOwnedRelationshipZeroOrManyCreateDto createDto)
+    public virtual async Task<TestEntityOwnedRelationshipZeroOrManyEntity> CreateEntityAsync(TestEntityOwnedRelationshipZeroOrManyCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
-        return await ToEntityAsync(createDto);
+        try
+        {
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TestEntityOwnedRelationshipZeroOrManyEntity));
+        }        
     }
 
     public virtual async Task UpdateEntityAsync(TestEntityOwnedRelationshipZeroOrManyEntity entity, TestEntityOwnedRelationshipZeroOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TestEntityOwnedRelationshipZeroOrManyEntity));
+        }   
     }
 
-    public virtual void PartialUpdateEntity(TestEntityOwnedRelationshipZeroOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(TestEntityOwnedRelationshipZeroOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        try
+        {
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TestEntityOwnedRelationshipZeroOrManyEntity));
+        }   
     }
 
-    private async Task<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany> ToEntityAsync(TestEntityOwnedRelationshipZeroOrManyCreateDto createDto)
+    private async Task<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany> ToEntityAsync(TestEntityOwnedRelationshipZeroOrManyCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany();
@@ -72,11 +94,11 @@ internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEnti
             TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateTextTestField(createDto.TextTestField.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
-        foreach (var dto in createDto.SecEntityOwnedRelZeroOrManies)
+        createDto.SecEntityOwnedRelZeroOrManies?.ForEach(async dto =>
         {
-            var newRelatedEntity = await SecEntityOwnedRelZeroOrManyFactory.CreateEntityAsync(dto);
-            entity.CreateRefToSecEntityOwnedRelZeroOrManies(newRelatedEntity);
-        }        
+            var secEntityOwnedRelZeroOrMany = await SecEntityOwnedRelZeroOrManyFactory.CreateEntityAsync(dto, cultureCode);
+            entity.CreateRefToSecEntityOwnedRelZeroOrManies(secEntityOwnedRelZeroOrMany);
+        });        
         return await Task.FromResult(entity);
     }
 
@@ -103,9 +125,6 @@ internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEnti
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
 
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
-
 	private async Task UpdateOwnedEntitiesAsync(TestEntityOwnedRelationshipZeroOrManyEntity entity, TestEntityOwnedRelationshipZeroOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
         if(!updateDto.SecEntityOwnedRelZeroOrManies.Any())
@@ -119,13 +138,16 @@ internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEnti
 			foreach(var ownedUpsertDto in updateDto.SecEntityOwnedRelZeroOrManies)
 			{
 				if(ownedUpsertDto.Id is null)
-					updatedSecEntityOwnedRelZeroOrManies.Add(await SecEntityOwnedRelZeroOrManyFactory.CreateEntityAsync(ownedUpsertDto));
+                {
+                    var ownedEntity = await SecEntityOwnedRelZeroOrManyFactory.CreateEntityAsync(ownedUpsertDto, cultureCode);
+					updatedSecEntityOwnedRelZeroOrManies.Add(ownedEntity);
+                }
 				else
 				{
 					var key = TestWebApp.Domain.SecEntityOwnedRelZeroOrManyMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.String>());
 					var ownedEntity = entity.SecEntityOwnedRelZeroOrManies.FirstOrDefault(x => x.Id == key);
 					if(ownedEntity is null)
-						updatedSecEntityOwnedRelZeroOrManies.Add(await SecEntityOwnedRelZeroOrManyFactory.CreateEntityAsync(ownedUpsertDto));
+						updatedSecEntityOwnedRelZeroOrManies.Add(await SecEntityOwnedRelZeroOrManyFactory.CreateEntityAsync(ownedUpsertDto, cultureCode));
 					else
 					{
 						await SecEntityOwnedRelZeroOrManyFactory.UpdateEntityAsync(ownedEntity, ownedUpsertDto, cultureCode);
@@ -134,7 +156,7 @@ internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEnti
 				}
 			}
             _repository.DeleteOwned<TestWebApp.Domain.SecEntityOwnedRelZeroOrMany>(
-                entity.SecEntityOwnedRelZeroOrManies.Where(x => !updatedSecEntityOwnedRelZeroOrManies.Any(upd => upd.Id == x.Id)).ToList());
+                entity.SecEntityOwnedRelZeroOrManies.Where(x => !updatedSecEntityOwnedRelZeroOrManies.Exists(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToSecEntityOwnedRelZeroOrManies(updatedSecEntityOwnedRelZeroOrManies);
 		}
 	}

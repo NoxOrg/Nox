@@ -33,7 +33,7 @@ internal abstract class PartialUpdateBookingCommandHandlerBase : CommandBase<Par
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateBookingCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -55,7 +55,7 @@ internal abstract class PartialUpdateBookingCommandHandlerBase : CommandBase<Par
 		{
 			throw new EntityNotFoundException("Booking",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

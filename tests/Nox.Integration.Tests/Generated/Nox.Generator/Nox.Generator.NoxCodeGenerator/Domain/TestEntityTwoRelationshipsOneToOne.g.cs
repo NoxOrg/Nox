@@ -50,7 +50,7 @@ internal record TestEntityTwoRelationshipsOneToOneDeleted(TestEntityTwoRelations
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class TestEntityTwoRelationshipsOneToOneBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityTwoRelationshipsOneToOneBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -141,6 +141,7 @@ internal abstract partial class TestEntityTwoRelationshipsOneToOneBase : Auditab
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

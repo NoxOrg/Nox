@@ -48,7 +48,7 @@ internal abstract class CreateTestEntityTwoRelationshipsOneToOneCommandHandlerBa
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOne, SecondTestEntityTwoRelationshipsOneToOneCreateDto, SecondTestEntityTwoRelationshipsOneToOneUpdateDto> SecondTestEntityTwoRelationshipsOneToOneFactory,
 		IEntityFactory<TestEntityTwoRelationshipsOneToOneEntity, TestEntityTwoRelationshipsOneToOneCreateDto, TestEntityTwoRelationshipsOneToOneUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -60,7 +60,7 @@ internal abstract class CreateTestEntityTwoRelationshipsOneToOneCommandHandlerBa
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.TestRelationshipOneId is not null)
 		{
 			var relatedKey = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOneMetadata.CreateId(request.EntityDto.TestRelationshipOneId.NonNullValue<System.String>());
@@ -72,7 +72,7 @@ internal abstract class CreateTestEntityTwoRelationshipsOneToOneCommandHandlerBa
 		}
 		else if(request.EntityDto.TestRelationshipOne is not null)
 		{
-			var relatedEntity = await SecondTestEntityTwoRelationshipsOneToOneFactory.CreateEntityAsync(request.EntityDto.TestRelationshipOne);
+			var relatedEntity = await SecondTestEntityTwoRelationshipsOneToOneFactory.CreateEntityAsync(request.EntityDto.TestRelationshipOne, request.CultureCode);
 			entityToCreate.CreateRefToTestRelationshipOne(relatedEntity);
 		}
 		if(request.EntityDto.TestRelationshipTwoId is not null)
@@ -86,7 +86,7 @@ internal abstract class CreateTestEntityTwoRelationshipsOneToOneCommandHandlerBa
 		}
 		else if(request.EntityDto.TestRelationshipTwo is not null)
 		{
-			var relatedEntity = await SecondTestEntityTwoRelationshipsOneToOneFactory.CreateEntityAsync(request.EntityDto.TestRelationshipTwo);
+			var relatedEntity = await SecondTestEntityTwoRelationshipsOneToOneFactory.CreateEntityAsync(request.EntityDto.TestRelationshipTwo, request.CultureCode);
 			entityToCreate.CreateRefToTestRelationshipTwo(relatedEntity);
 		}
 

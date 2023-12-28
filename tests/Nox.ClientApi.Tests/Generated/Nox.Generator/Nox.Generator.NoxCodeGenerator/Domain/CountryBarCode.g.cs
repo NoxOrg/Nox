@@ -97,4 +97,5 @@ internal abstract partial class CountryBarCodeBase : EntityBase, IOwnedEntity
         InternalDomainEvents.Clear();
     }
 
+    
 }

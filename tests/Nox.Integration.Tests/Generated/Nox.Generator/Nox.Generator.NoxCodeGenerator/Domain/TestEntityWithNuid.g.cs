@@ -50,7 +50,7 @@ internal record TestEntityWithNuidDeleted(TestEntityWithNuid TestEntityWithNuid)
 /// <summary>
 /// Entity created for testing nuid.
 /// </summary>
-internal abstract partial class TestEntityWithNuidBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityWithNuidBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -107,6 +107,7 @@ internal abstract partial class TestEntityWithNuidBase : AuditableEntityBase, IE
         InternalDomainEvents.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

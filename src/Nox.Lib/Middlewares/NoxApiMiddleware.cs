@@ -39,12 +39,6 @@ public class NoxApiMiddleware
             return;
         }
 
-        if (!requestPath.StartsWithSegments(_apiPrefix))
-        {
-            await _next(context);
-            return;
-        }
-
         if (!_verbMatchers.TryGetValue(context.Request.Method, out List<RouteMatcher>? matchers))
         {
             await _next(context);

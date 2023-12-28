@@ -50,7 +50,7 @@ internal record TestEntityOwnedRelationshipZeroOrManyDeleted(TestEntityOwnedRela
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class TestEntityOwnedRelationshipZeroOrManyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityOwnedRelationshipZeroOrManyBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -129,6 +129,7 @@ internal abstract partial class TestEntityOwnedRelationshipZeroOrManyBase : Audi
         SecEntityOwnedRelZeroOrManies.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

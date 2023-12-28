@@ -50,7 +50,7 @@ internal record TestEntityOwnedRelationshipZeroOrOneDeleted(TestEntityOwnedRelat
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class TestEntityOwnedRelationshipZeroOrOneBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityOwnedRelationshipZeroOrOneBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -120,6 +120,7 @@ internal abstract partial class TestEntityOwnedRelationshipZeroOrOneBase : Audit
         SecondTestEntityOwnedRelationshipZeroOrOne = null;
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

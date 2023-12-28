@@ -35,6 +35,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Nox.Core\Nox.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Folder Include="wwwroot\" />
 	</ItemGroup>
 

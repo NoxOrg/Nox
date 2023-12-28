@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,18 +27,17 @@ internal partial class CountryFactory : CountryFactoryBase
 {
     public CountryFactory
     (
+        IRepository repository,
         IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> countrylocalnamefactory,
         IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory,
         IEntityFactory<ClientApi.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
-        IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory,
-        IRepository repository
-    ) : base(countrylocalnamefactory,countrybarcodefactory,countrytimezonefactory,holidayfactory, repository)
+        IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory
+    ) : base(repository, countrylocalnamefactory, countrybarcodefactory, countrytimezonefactory, holidayfactory)
     {}
 }
 
 internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
     protected IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> CountryLocalNameFactory {get;}
     protected IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> CountryBarCodeFactory {get;}
@@ -46,36 +45,59 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
     protected IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> HolidayFactory {get;}
 
     public CountryFactoryBase(
+        IRepository repository,
         IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> countrylocalnamefactory,
         IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory,
         IEntityFactory<ClientApi.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
-        IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory,
-        IRepository repository
+        IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory
         )
     {
+        _repository = repository;
         CountryLocalNameFactory = countrylocalnamefactory;
         CountryBarCodeFactory = countrybarcodefactory;
         CountryTimeZoneFactory = countrytimezonefactory;
         HolidayFactory = holidayfactory;
-        _repository = repository;
     }
 
-    public virtual async Task<CountryEntity> CreateEntityAsync(CountryCreateDto createDto)
+    public virtual async Task<CountryEntity> CreateEntityAsync(CountryCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
-        return await ToEntityAsync(createDto);
+        try
+        {
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryEntity));
+        }        
     }
 
     public virtual async Task UpdateEntityAsync(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        try
+        {
+            await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryEntity));
+        }   
     }
 
-    public virtual void PartialUpdateEntity(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+        try
+        {
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
+        }
+        catch (NoxTypeValidationException ex)
+        {
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryEntity));
+        }   
     }
 
-    private async Task<ClientApi.Domain.Country> ToEntityAsync(CountryCreateDto createDto)
+    private async Task<ClientApi.Domain.Country> ToEntityAsync(CountryCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.Country();
@@ -101,25 +123,26 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             ClientApi.Domain.CountryMetadata.CreateContinent(createDto.Continent.NonNullValue<System.Int32>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
-        foreach (var dto in createDto.CountryLocalNames)
+        createDto.CountryLocalNames?.ForEach(async dto =>
         {
-            var newRelatedEntity = await CountryLocalNameFactory.CreateEntityAsync(dto);
-            entity.CreateRefToCountryLocalNames(newRelatedEntity);
-        }
+            var countryLocalName = await CountryLocalNameFactory.CreateEntityAsync(dto, cultureCode);
+            entity.CreateRefToCountryLocalNames(countryLocalName);
+        });
         if (createDto.CountryBarCode is not null)
         {
-            entity.CreateRefToCountryBarCode(await CountryBarCodeFactory.CreateEntityAsync(createDto.CountryBarCode));
+            var countryBarCode = await CountryBarCodeFactory.CreateEntityAsync(createDto.CountryBarCode, cultureCode);
+            entity.CreateRefToCountryBarCode(countryBarCode);
         }
-        foreach (var dto in createDto.CountryTimeZones)
+        createDto.CountryTimeZones?.ForEach(async dto =>
         {
-            var newRelatedEntity = await CountryTimeZoneFactory.CreateEntityAsync(dto);
-            entity.CreateRefToCountryTimeZones(newRelatedEntity);
-        }
-        foreach (var dto in createDto.Holidays)
+            var countryTimeZone = await CountryTimeZoneFactory.CreateEntityAsync(dto, cultureCode);
+            entity.CreateRefToCountryTimeZones(countryTimeZone);
+        });
+        createDto.Holidays?.ForEach(async dto =>
         {
-            var newRelatedEntity = await HolidayFactory.CreateEntityAsync(dto);
-            entity.CreateRefToHolidays(newRelatedEntity);
-        }        
+            var holiday = await HolidayFactory.CreateEntityAsync(dto, cultureCode);
+            entity.CreateRefToHolidays(holiday);
+        });        
         return await Task.FromResult(entity);
     }
 
@@ -303,9 +326,6 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
 
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
-
 	private async Task UpdateOwnedEntitiesAsync(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
         if(!updateDto.CountryLocalNames.Any())
@@ -319,7 +339,10 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 			foreach(var ownedUpsertDto in updateDto.CountryLocalNames)
 			{
 				if(ownedUpsertDto.Id is null)
-					updatedCountryLocalNames.Add(await CountryLocalNameFactory.CreateEntityAsync(ownedUpsertDto));
+                {
+                    var ownedEntity = await CountryLocalNameFactory.CreateEntityAsync(ownedUpsertDto, cultureCode);
+					updatedCountryLocalNames.Add(ownedEntity);
+                }
 				else
 				{
 					var key = ClientApi.Domain.CountryLocalNameMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
@@ -334,7 +357,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 				}
 			}
             _repository.DeleteOwned<ClientApi.Domain.CountryLocalName>(
-                entity.CountryLocalNames.Where(x => !updatedCountryLocalNames.Any(upd => upd.Id == x.Id)).ToList());
+                entity.CountryLocalNames.Where(x => !updatedCountryLocalNames.Exists(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToCountryLocalNames(updatedCountryLocalNames);
 		}
 		if(updateDto.CountryBarCode is null)
@@ -348,7 +371,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if(entity.CountryBarCode is not null)
                 await CountryBarCodeFactory.UpdateEntityAsync(entity.CountryBarCode, updateDto.CountryBarCode, cultureCode);
             else
-			    entity.CreateRefToCountryBarCode(await CountryBarCodeFactory.CreateEntityAsync(updateDto.CountryBarCode));
+			    entity.CreateRefToCountryBarCode(await CountryBarCodeFactory.CreateEntityAsync(updateDto.CountryBarCode, cultureCode));
 		}
         if(!updateDto.CountryTimeZones.Any())
         { 
@@ -361,13 +384,16 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 			foreach(var ownedUpsertDto in updateDto.CountryTimeZones)
 			{
 				if(ownedUpsertDto.Id is null)
-					updatedCountryTimeZones.Add(await CountryTimeZoneFactory.CreateEntityAsync(ownedUpsertDto));
+                {
+                    var ownedEntity = await CountryTimeZoneFactory.CreateEntityAsync(ownedUpsertDto, cultureCode);
+					updatedCountryTimeZones.Add(ownedEntity);
+                }
 				else
 				{
 					var key = ClientApi.Domain.CountryTimeZoneMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.String>());
 					var ownedEntity = entity.CountryTimeZones.FirstOrDefault(x => x.Id == key);
 					if(ownedEntity is null)
-						updatedCountryTimeZones.Add(await CountryTimeZoneFactory.CreateEntityAsync(ownedUpsertDto));
+						updatedCountryTimeZones.Add(await CountryTimeZoneFactory.CreateEntityAsync(ownedUpsertDto, cultureCode));
 					else
 					{
 						await CountryTimeZoneFactory.UpdateEntityAsync(ownedEntity, ownedUpsertDto, cultureCode);
@@ -376,7 +402,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 				}
 			}
             _repository.DeleteOwned<ClientApi.Domain.CountryTimeZone>(
-                entity.CountryTimeZones.Where(x => !updatedCountryTimeZones.Any(upd => upd.Id == x.Id)).ToList());
+                entity.CountryTimeZones.Where(x => !updatedCountryTimeZones.Exists(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToCountryTimeZones(updatedCountryTimeZones);
 		}
         if(!updateDto.Holidays.Any())
@@ -390,13 +416,16 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 			foreach(var ownedUpsertDto in updateDto.Holidays)
 			{
 				if(ownedUpsertDto.Id is null)
-					updatedHolidays.Add(await HolidayFactory.CreateEntityAsync(ownedUpsertDto));
+                {
+                    var ownedEntity = await HolidayFactory.CreateEntityAsync(ownedUpsertDto, cultureCode);
+					updatedHolidays.Add(ownedEntity);
+                }
 				else
 				{
 					var key = ClientApi.Domain.HolidayMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Guid>());
 					var ownedEntity = entity.Holidays.FirstOrDefault(x => x.Id == key);
 					if(ownedEntity is null)
-						updatedHolidays.Add(await HolidayFactory.CreateEntityAsync(ownedUpsertDto));
+						updatedHolidays.Add(await HolidayFactory.CreateEntityAsync(ownedUpsertDto, cultureCode));
 					else
 					{
 						await HolidayFactory.UpdateEntityAsync(ownedEntity, ownedUpsertDto, cultureCode);
@@ -405,7 +434,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 				}
 			}
             _repository.DeleteOwned<ClientApi.Domain.Holiday>(
-                entity.Holidays.Where(x => !updatedHolidays.Any(upd => upd.Id == x.Id)).ToList());
+                entity.Holidays.Where(x => !updatedHolidays.Exists(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToHolidays(updatedHolidays);
 		}
 	}

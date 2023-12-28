@@ -97,4 +97,5 @@ internal abstract partial class EmployeePhoneNumberBase : EntityBase, IOwnedEnti
         InternalDomainEvents.Clear();
     }
 
+    
 }

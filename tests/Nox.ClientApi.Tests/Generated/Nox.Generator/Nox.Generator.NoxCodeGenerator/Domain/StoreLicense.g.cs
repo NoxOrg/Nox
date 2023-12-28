@@ -50,7 +50,7 @@ internal record StoreLicenseDeleted(StoreLicense StoreLicense) : IDomainEvent, I
 /// <summary>
 /// Store license info.
 /// </summary>
-internal abstract partial class StoreLicenseBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class StoreLicenseBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -172,6 +172,7 @@ internal abstract partial class StoreLicenseBase : AuditableEntityBase, IEntityC
         SoldInCurrencyId = null;
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

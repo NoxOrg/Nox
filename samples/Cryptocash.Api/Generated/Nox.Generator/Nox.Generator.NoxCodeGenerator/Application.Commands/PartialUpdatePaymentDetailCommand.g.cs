@@ -33,7 +33,7 @@ internal abstract class PartialUpdatePaymentDetailCommandHandlerBase : CommandBa
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdatePaymentDetailCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -55,7 +55,7 @@ internal abstract class PartialUpdatePaymentDetailCommandHandlerBase : CommandBa
 		{
 			throw new EntityNotFoundException("PaymentDetail",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

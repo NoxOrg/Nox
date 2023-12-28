@@ -50,7 +50,7 @@ internal record ThirdTestEntityZeroOrOneDeleted(ThirdTestEntityZeroOrOne ThirdTe
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class ThirdTestEntityZeroOrOneBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class ThirdTestEntityZeroOrOneBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -111,6 +111,7 @@ internal abstract partial class ThirdTestEntityZeroOrOneBase : AuditableEntityBa
         ThirdTestEntityExactlyOne = null;
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

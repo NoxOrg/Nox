@@ -27,7 +27,7 @@ internal partial class UpdateStoreLicenseCommandHandler : UpdateStoreLicenseComm
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdateStoreLicenseCommandHandlerBase : CommandBase<Updat
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> _entityFactory;
-
 	protected UpdateStoreLicenseCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

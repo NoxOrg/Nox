@@ -50,7 +50,7 @@ internal record TestEntityExactlyOneToZeroOrOneDeleted(TestEntityExactlyOneToZer
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class TestEntityExactlyOneToZeroOrOneBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityExactlyOneToZeroOrOneBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -116,6 +116,7 @@ internal abstract partial class TestEntityExactlyOneToZeroOrOneBase : AuditableE
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

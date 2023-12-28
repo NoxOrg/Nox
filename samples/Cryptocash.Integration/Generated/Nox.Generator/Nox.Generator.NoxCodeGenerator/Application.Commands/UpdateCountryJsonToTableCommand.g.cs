@@ -27,7 +27,7 @@ internal partial class UpdateCountryJsonToTableCommandHandler : UpdateCountryJso
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryJsonToTableEntity, CountryJsonToTableCreateDto, CountryJsonToTableUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdateCountryJsonToTableCommandHandlerBase : CommandBase
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CountryJsonToTableEntity, CountryJsonToTableCreateDto, CountryJsonToTableUpdateDto> _entityFactory;
-
 	protected UpdateCountryJsonToTableCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

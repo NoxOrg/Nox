@@ -50,7 +50,7 @@ internal record SecondTestEntityTwoRelationshipsOneToOneDeleted(SecondTestEntity
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class SecondTestEntityTwoRelationshipsOneToOneBase : EntityBase, IEntityConcurrent
+internal abstract partial class SecondTestEntityTwoRelationshipsOneToOneBase : EntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -131,6 +131,7 @@ internal abstract partial class SecondTestEntityTwoRelationshipsOneToOneBase : E
         TestRelationshipTwoOnOtherSide = null;
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

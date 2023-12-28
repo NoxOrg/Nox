@@ -47,7 +47,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsOneToOneCommandHan
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityTwoRelationshipsOneToOne, TestEntityTwoRelationshipsOneToOneCreateDto, TestEntityTwoRelationshipsOneToOneUpdateDto> TestEntityTwoRelationshipsOneToOneFactory,
 		IEntityFactory<SecondTestEntityTwoRelationshipsOneToOneEntity, SecondTestEntityTwoRelationshipsOneToOneCreateDto, SecondTestEntityTwoRelationshipsOneToOneUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -59,7 +59,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsOneToOneCommandHan
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.TestRelationshipOneOnOtherSideId is not null)
 		{
 			var relatedKey = TestWebApp.Domain.TestEntityTwoRelationshipsOneToOneMetadata.CreateId(request.EntityDto.TestRelationshipOneOnOtherSideId.NonNullValue<System.String>());
@@ -71,7 +71,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsOneToOneCommandHan
 		}
 		else if(request.EntityDto.TestRelationshipOneOnOtherSide is not null)
 		{
-			var relatedEntity = await TestEntityTwoRelationshipsOneToOneFactory.CreateEntityAsync(request.EntityDto.TestRelationshipOneOnOtherSide);
+			var relatedEntity = await TestEntityTwoRelationshipsOneToOneFactory.CreateEntityAsync(request.EntityDto.TestRelationshipOneOnOtherSide, request.CultureCode);
 			entityToCreate.CreateRefToTestRelationshipOneOnOtherSide(relatedEntity);
 		}
 		if(request.EntityDto.TestRelationshipTwoOnOtherSideId is not null)
@@ -85,7 +85,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsOneToOneCommandHan
 		}
 		else if(request.EntityDto.TestRelationshipTwoOnOtherSide is not null)
 		{
-			var relatedEntity = await TestEntityTwoRelationshipsOneToOneFactory.CreateEntityAsync(request.EntityDto.TestRelationshipTwoOnOtherSide);
+			var relatedEntity = await TestEntityTwoRelationshipsOneToOneFactory.CreateEntityAsync(request.EntityDto.TestRelationshipTwoOnOtherSide, request.CultureCode);
 			entityToCreate.CreateRefToTestRelationshipTwoOnOtherSide(relatedEntity);
 		}
 

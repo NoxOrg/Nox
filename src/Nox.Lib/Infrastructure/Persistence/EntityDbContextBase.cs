@@ -14,6 +14,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Nox.Infrastructure.Persistence
 {
+    /// <summary>
+    /// Domain Entities DbContext
+    /// </summary>
     public abstract class EntityDbContextBase : DbContext
     {
         protected readonly IPublisher _publisher;
@@ -48,8 +51,14 @@ namespace Nox.Infrastructure.Persistence
             }
             catch (DbUpdateConcurrencyException)
             {
-                throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided", HttpStatusCode.Conflict);
+                throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEtag.Etag)} must be provided", HttpStatusCode.Conflict);
             }
+        }
+
+        public async ValueTask<T> AddEntityAsync<T>(T entity, CancellationToken cancellationToken = default(CancellationToken)) where T : class, IEntity
+        {
+            var entry = await base.AddAsync(entity, cancellationToken);
+            return entry.Entity;
         }
 
         public virtual async Task<long> GetSequenceNextValueAsync(string sequenceName)
@@ -85,7 +94,7 @@ namespace Nox.Infrastructure.Persistence
                 AuditEntity(entry);
             }
 
-            foreach (var entry in ChangeTracker.Entries<IEntityConcurrent>())
+            foreach (var entry in ChangeTracker.Entries<IEtag>())
             {
                 TrackConcurrency(entry);
             }
@@ -130,7 +139,7 @@ namespace Nox.Infrastructure.Persistence
                 }
             }
         }
-        private void TrackConcurrency(EntityEntry<IEntityConcurrent> entry)
+        private void TrackConcurrency(EntityEntry<IEtag> entry)
         {
             switch (entry.State)
             {

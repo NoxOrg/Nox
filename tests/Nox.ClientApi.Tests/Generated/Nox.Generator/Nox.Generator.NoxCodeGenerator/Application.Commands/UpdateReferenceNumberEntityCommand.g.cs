@@ -27,7 +27,7 @@ internal partial class UpdateReferenceNumberEntityCommandHandler : UpdateReferen
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ReferenceNumberEntityEntity, ReferenceNumberEntityCreateDto, ReferenceNumberEntityUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,7 +36,6 @@ internal abstract class UpdateReferenceNumberEntityCommandHandlerBase : CommandB
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<ReferenceNumberEntityEntity, ReferenceNumberEntityCreateDto, ReferenceNumberEntityUpdateDto> _entityFactory;
-
 	protected UpdateReferenceNumberEntityCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,

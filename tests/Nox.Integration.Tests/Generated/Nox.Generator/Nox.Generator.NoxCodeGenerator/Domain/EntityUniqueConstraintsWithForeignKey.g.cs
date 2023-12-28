@@ -50,7 +50,7 @@ internal record EntityUniqueConstraintsWithForeignKeyDeleted(EntityUniqueConstra
 /// <summary>
 /// Entity created for testing constraints with Foreign Key.
 /// </summary>
-internal abstract partial class EntityUniqueConstraintsWithForeignKeyBase : EntityBase, IEntityConcurrent
+internal abstract partial class EntityUniqueConstraintsWithForeignKeyBase : EntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -136,6 +136,7 @@ internal abstract partial class EntityUniqueConstraintsWithForeignKeyBase : Enti
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

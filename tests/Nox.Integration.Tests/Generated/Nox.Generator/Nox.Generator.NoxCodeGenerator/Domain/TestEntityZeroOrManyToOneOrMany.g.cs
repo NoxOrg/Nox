@@ -50,7 +50,7 @@ internal record TestEntityZeroOrManyToOneOrManyDeleted(TestEntityZeroOrManyToOne
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class TestEntityZeroOrManyToOneOrManyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityZeroOrManyToOneOrManyBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -117,6 +117,7 @@ internal abstract partial class TestEntityZeroOrManyToOneOrManyBase : AuditableE
         TestEntityOneOrManyToZeroOrManies.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

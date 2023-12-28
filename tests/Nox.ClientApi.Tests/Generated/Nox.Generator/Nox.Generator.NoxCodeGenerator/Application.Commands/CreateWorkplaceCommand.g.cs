@@ -31,9 +31,8 @@ internal partial class CreateWorkplaceCommandHandler : CreateWorkplaceCommandHan
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<ClientApi.Domain.Tenant, TenantCreateDto, TenantUpdateDto> TenantFactory,
-		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
-		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> entityLocalizedFactory)
-		: base(dbContext, noxSolution,CountryFactory, TenantFactory, entityFactory, entityLocalizedFactory)
+		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,CountryFactory, TenantFactory, entityFactory)
 	{
 	}
 }
@@ -43,7 +42,6 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 {
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> EntityFactory;
-	protected readonly IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> EntityLocalizedFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Tenant, TenantCreateDto, TenantUpdateDto> TenantFactory;
 
@@ -52,13 +50,11 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<ClientApi.Domain.Tenant, TenantCreateDto, TenantUpdateDto> TenantFactory,
-		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
-		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> entityLocalizedFactory)
-		: base(noxSolution)
+		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory; 
-		EntityLocalizedFactory = entityLocalizedFactory;
+		EntityFactory = entityFactory;
 		this.CountryFactory = CountryFactory;
 		this.TenantFactory = TenantFactory;
 	}
@@ -68,7 +64,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.CountryId is not null)
 		{
 			var relatedKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
@@ -80,7 +76,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		}
 		else if(request.EntityDto.Country is not null)
 		{
-			var relatedEntity = await CountryFactory.CreateEntityAsync(request.EntityDto.Country);
+			var relatedEntity = await CountryFactory.CreateEntityAsync(request.EntityDto.Country, request.CultureCode);
 			entityToCreate.CreateRefToCountry(relatedEntity);
 		}
 		if(request.EntityDto.TenantsId.Any())
@@ -100,26 +96,14 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Tenants)
 			{
-				var relatedEntity = await TenantFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await TenantFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToTenants(relatedEntity);
 			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.Workplaces.Add(entityToCreate);
-        CreateLocalizations(entityToCreate, request.CultureCode);
 		await DbContext.SaveChangesAsync();
 		return new WorkplaceKeyDto(entityToCreate.Id.Value);
-	}
-
-	private void CreateLocalizations(WorkplaceEntity entity, Nox.Types.CultureCode cultureCode)
-	{
-		CreateWorkplaceLocalization(entity, cultureCode);
-	}
-
-	private void CreateWorkplaceLocalization(WorkplaceEntity entity, Nox.Types.CultureCode cultureCode)
-	{
-		var entityLocalized = EntityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
-		DbContext.WorkplacesLocalized.Add(entityLocalized);
 	}
 }

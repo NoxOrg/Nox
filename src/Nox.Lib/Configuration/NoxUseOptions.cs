@@ -10,6 +10,7 @@ using Nox.Lib;
 using Serilog;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Nox.Middlewares;
+using Nox.Solution;
 
 namespace Nox;
 
@@ -93,7 +94,19 @@ internal class NoxUseOptions : INoxUseOptions
         {
             appBuilder.UseMiddleware<VersionMiddleware>();
         });
-        builder.UseMiddleware<NoxApiMiddleware>().UseRouting();        
+
+        var solution = builder.ApplicationServices.GetRequiredService<NoxSolution>();
+        var apiPrefix = solution.Presentation.ApiConfiguration.ApiRoutePrefix;
+
+        builder.UseWhen(context => context.Request.Path.StartsWithSegments(apiPrefix) && solution.Domain is not null,
+            appBuilder =>
+            {
+                appBuilder
+                    .UseMiddleware<RelatedEndpointsMiddleware>()
+                    .UseMiddleware<NoxApiMiddleware>();                    
+            });
+
+        builder.UseRouting();
 
         if (_useODataRouteDebug)
         {

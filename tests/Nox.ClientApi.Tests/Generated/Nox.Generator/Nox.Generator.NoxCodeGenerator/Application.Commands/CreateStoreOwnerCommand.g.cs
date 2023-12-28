@@ -48,7 +48,7 @@ internal abstract class CreateStoreOwnerCommandHandlerBase : CommandBase<CreateS
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -60,7 +60,7 @@ internal abstract class CreateStoreOwnerCommandHandlerBase : CommandBase<CreateS
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.StoresId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.StoresId)
@@ -78,7 +78,7 @@ internal abstract class CreateStoreOwnerCommandHandlerBase : CommandBase<CreateS
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Stores)
 			{
-				var relatedEntity = await StoreFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await StoreFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToStores(relatedEntity);
 			}
 		}

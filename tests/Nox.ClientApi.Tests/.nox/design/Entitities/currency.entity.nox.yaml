@@ -46,12 +46,12 @@ relationships:
       description: List of store licenses where this currency is a default one
       relationship: oneOrMany
       entity: StoreLicense
-      canManageEntity: false
-      canManageReference: false
+      apiGenerateRelatedEndpoint: false
+      apiGenerateReferenceEndpoint: false
 
     - name: StoreLicenseSoldIn
       description: List of store licenses that were sold in this currency
       relationship: oneOrMany
       entity: StoreLicense
-      canManageEntity: false
-      canManageReference: false
+      apiGenerateRelatedEndpoint: false
+      apiGenerateReferenceEndpoint: false

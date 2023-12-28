@@ -50,7 +50,7 @@ internal record CountryJsonToTableDeleted(CountryJsonToTable CountryJsonToTable)
 /// <summary>
 /// Country and related data for Json file integration.
 /// </summary>
-internal abstract partial class CountryJsonToTableBase : EntityBase, IEntityConcurrent
+internal abstract partial class CountryJsonToTableBase : EntityBase, IEtag
 {
     /// <summary>
     /// Country unique identifier    
@@ -109,6 +109,7 @@ internal abstract partial class CountryJsonToTableBase : EntityBase, IEntityConc
         InternalDomainEvents.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

@@ -50,7 +50,7 @@ internal record PaymentDetailDeleted(PaymentDetail PaymentDetail) : IDomainEvent
 /// <summary>
 /// Customer payment account related data.
 /// </summary>
-internal abstract partial class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class PaymentDetailBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Customer payment account unique identifier    
@@ -153,6 +153,7 @@ internal abstract partial class PaymentDetailBase : AuditableEntityBase, IEntity
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

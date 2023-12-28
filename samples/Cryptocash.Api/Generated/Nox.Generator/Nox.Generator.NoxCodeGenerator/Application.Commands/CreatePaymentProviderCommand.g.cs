@@ -48,7 +48,7 @@ internal abstract class CreatePaymentProviderCommandHandlerBase : CommandBase<Cr
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> PaymentDetailFactory,
 		IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -60,7 +60,7 @@ internal abstract class CreatePaymentProviderCommandHandlerBase : CommandBase<Cr
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.PaymentDetailsId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.PaymentDetailsId)
@@ -78,7 +78,7 @@ internal abstract class CreatePaymentProviderCommandHandlerBase : CommandBase<Cr
 		{
 			foreach(var relatedCreateDto in request.EntityDto.PaymentDetails)
 			{
-				var relatedEntity = await PaymentDetailFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await PaymentDetailFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToPaymentDetails(relatedEntity);
 			}
 		}

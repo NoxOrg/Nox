@@ -50,7 +50,7 @@ internal record StoreDeleted(Store Store) : IDomainEvent, INotification;
 /// <summary>
 /// Stores.
 /// </summary>
-internal abstract partial class StoreBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class StoreBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -229,6 +229,7 @@ internal abstract partial class StoreBase : AuditableEntityBase, IEntityConcurre
         EmailAddress = null;
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
