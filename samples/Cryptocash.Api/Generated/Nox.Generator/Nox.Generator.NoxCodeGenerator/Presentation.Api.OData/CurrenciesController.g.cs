@@ -369,6 +369,38 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok(updatedItem);
     }
     
+    [HttpPatch("/api/Currencies/{key}/Countries/{relatedKey}")]
+    public virtual async Task<ActionResult<CountryDto>> PatchtoCountriesNonConventional(System.String key, System.String relatedKey, [FromBody] Delta<CountryPartialUpdateDto> country)
+    {
+        if (!ModelState.IsValid || country is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.Countries).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Countries", $"{relatedKey.ToString()}");
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in country.GetChangedPropertyNames())
+        {
+            if(country.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(relatedKey, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/Currencies/{key}/Countries/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteToCountries([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
@@ -509,6 +541,38 @@ public abstract partial class CurrenciesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateMinimumCashStockCommand(relatedKey, minimumCashStock, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetMinimumCashStockByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
+    public virtual async Task<ActionResult<MinimumCashStockDto>> PatchtoMinimumCashStocksNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<MinimumCashStockPartialUpdateDto> minimumCashStock)
+    {
+        if (!ModelState.IsValid || minimumCashStock is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("MinimumCashStocks", $"{relatedKey.ToString()}");
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in minimumCashStock.GetChangedPropertyNames())
+        {
+            if(minimumCashStock.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateMinimumCashStockCommand(relatedKey, updateProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetMinimumCashStockByIdQuery(updated.keyId))).SingleOrDefault();
         

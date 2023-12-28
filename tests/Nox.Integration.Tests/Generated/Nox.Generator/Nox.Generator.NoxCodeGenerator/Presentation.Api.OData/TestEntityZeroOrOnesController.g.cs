@@ -129,6 +129,37 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         return Ok(updatedItem);
     }
     
+    public virtual async Task<ActionResult<SecondTestEntityZeroOrOneDto>> PatchToSecondTestEntityZeroOrOne(System.String key, [FromBody] Delta<SecondTestEntityZeroOrOnePartialUpdateDto> secondTestEntityZeroOrOne)
+    {
+        if (!ModelState.IsValid || secondTestEntityZeroOrOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Select(x => x.SecondTestEntityZeroOrOne).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("SecondTestEntityZeroOrOne", String.Empty);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in secondTestEntityZeroOrOne.GetChangedPropertyNames())
+        {
+            if(secondTestEntityZeroOrOne.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityZeroOrOneCommand(related.Id, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/v1/TestEntityZeroOrOnes/{key}/SecondTestEntityZeroOrOne")]
     public virtual async Task<ActionResult> DeleteToSecondTestEntityZeroOrOne([FromRoute] System.String key)
     {

@@ -105,6 +105,37 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
         return Ok(updatedItem);
     }
     
+    public virtual async Task<ActionResult<ThirdTestEntityZeroOrOneDto>> PatchToThirdTestEntityZeroOrOne(System.String key, [FromBody] Delta<ThirdTestEntityZeroOrOnePartialUpdateDto> thirdTestEntityZeroOrOne)
+    {
+        if (!ModelState.IsValid || thirdTestEntityZeroOrOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(key))).Select(x => x.ThirdTestEntityZeroOrOne).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("ThirdTestEntityZeroOrOne", String.Empty);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in thirdTestEntityZeroOrOne.GetChangedPropertyNames())
+        {
+            if(thirdTestEntityZeroOrOne.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateThirdTestEntityZeroOrOneCommand(related.Id, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     #endregion
     
 }

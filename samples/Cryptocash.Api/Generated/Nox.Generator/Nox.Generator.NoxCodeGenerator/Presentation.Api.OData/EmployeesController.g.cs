@@ -244,6 +244,37 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(updatedItem);
     }
     
+    public virtual async Task<ActionResult<CashStockOrderDto>> PatchToCashStockOrder(System.Guid key, [FromBody] Delta<CashStockOrderPartialUpdateDto> cashStockOrder)
+    {
+        if (!ModelState.IsValid || cashStockOrder is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.CashStockOrder).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("CashStockOrder", String.Empty);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in cashStockOrder.GetChangedPropertyNames())
+        {
+            if(cashStockOrder.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCashStockOrderCommand(related.Id, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetCashStockOrderByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/Employees/{key}/CashStockOrder")]
     public virtual async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Guid key)
     {

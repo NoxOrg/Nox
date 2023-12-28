@@ -330,6 +330,37 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(updatedItem);
     }
     
+    public virtual async Task<ActionResult<CurrencyDto>> PatchToCurrency(System.String key, [FromBody] Delta<CurrencyPartialUpdateDto> currency)
+    {
+        if (!ModelState.IsValid || currency is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Currency).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("Currency", String.Empty);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in currency.GetChangedPropertyNames())
+        {
+            if(currency.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCurrencyCommand(related.Id, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     public virtual async Task<ActionResult> CreateRefToCommissions([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -438,6 +469,38 @@ public abstract partial class CountriesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCommissionCommand(relatedKey, commission, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetCommissionByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/Countries/{key}/Commissions/{relatedKey}")]
+    public virtual async Task<ActionResult<CommissionDto>> PatchtoCommissionsNonConventional(System.String key, System.Guid relatedKey, [FromBody] Delta<CommissionPartialUpdateDto> commission)
+    {
+        if (!ModelState.IsValid || commission is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Commissions).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Commissions", $"{relatedKey.ToString()}");
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in commission.GetChangedPropertyNames())
+        {
+            if(commission.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCommissionCommand(relatedKey, updateProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetCommissionByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -584,6 +647,38 @@ public abstract partial class CountriesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateVendingMachineCommand(relatedKey, vendingMachine, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/Countries/{key}/VendingMachines/{relatedKey}")]
+    public virtual async Task<ActionResult<VendingMachineDto>> PatchtoVendingMachinesNonConventional(System.String key, System.Guid relatedKey, [FromBody] Delta<VendingMachinePartialUpdateDto> vendingMachine)
+    {
+        if (!ModelState.IsValid || vendingMachine is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("VendingMachines", $"{relatedKey.ToString()}");
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in vendingMachine.GetChangedPropertyNames())
+        {
+            if(vendingMachine.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateVendingMachineCommand(relatedKey, updateProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -749,6 +844,38 @@ public abstract partial class CountriesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCustomerCommand(relatedKey, customer, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetCustomerByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/Countries/{key}/Customers/{relatedKey}")]
+    public virtual async Task<ActionResult<CustomerDto>> PatchtoCustomersNonConventional(System.String key, System.Guid relatedKey, [FromBody] Delta<CustomerPartialUpdateDto> customer)
+    {
+        if (!ModelState.IsValid || customer is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Customers).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Customers", $"{relatedKey.ToString()}");
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in customer.GetChangedPropertyNames())
+        {
+            if(customer.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCustomerCommand(relatedKey, updateProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetCustomerByIdQuery(updated.keyId))).SingleOrDefault();
         

@@ -105,6 +105,37 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
         return Ok(updatedItem);
     }
     
+    public virtual async Task<ActionResult<EntityUniqueConstraintsRelatedForeignKeyDto>> PatchToEntityUniqueConstraintsRelatedForeignKey(System.Guid key, [FromBody] Delta<EntityUniqueConstraintsRelatedForeignKeyPartialUpdateDto> entityUniqueConstraintsRelatedForeignKey)
+    {
+        if (!ModelState.IsValid || entityUniqueConstraintsRelatedForeignKey is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(key))).Select(x => x.EntityUniqueConstraintsRelatedForeignKey).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("EntityUniqueConstraintsRelatedForeignKey", String.Empty);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in entityUniqueConstraintsRelatedForeignKey.GetChangedPropertyNames())
+        {
+            if(entityUniqueConstraintsRelatedForeignKey.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateEntityUniqueConstraintsRelatedForeignKeyCommand(related.Id, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     #endregion
     
 }

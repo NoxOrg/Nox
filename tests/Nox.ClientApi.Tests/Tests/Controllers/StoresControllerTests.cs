@@ -323,6 +323,44 @@ namespace ClientApi.Tests.Tests.Controllers
         }
         #endregion
 
+        #region PATCH related entity /api/{EntityPluralName}/{EntityKey}/{NavigationName} => /api/stores/1/storeowner
+        [Fact]
+        public async Task WhenPatchRelatedStoreOwner_ShouldSucceed()
+        {
+            // Arrange
+            var ownerExpectedName = _fixture.Create<string>();
+            var storeResponse = await CreateStore();
+            var ownerResponse = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(Endpoints.StoreOwnersUrl, new StoreOwnerCreateDto
+            {
+                Id = "002",
+                Name = _fixture.Create<string>(),
+                TemporaryOwnerName = _fixture.Create<string>()
+            });
+            await PostAsync($"{Endpoints.StoresUrl}/{storeResponse!.Id}/{nameof(StoreDto.StoreOwner)}/{ownerResponse!.Id}/$ref");
+            var getOwnedResponse = await GetODataSimpleResponseAsync<StoreOwnerDto>($"{Endpoints.StoreOwnersUrl}/{ownerResponse!.Id}");
+
+            // Act
+            var headers = CreateEtagHeader(getOwnedResponse!.Etag);
+            var patchResponse = await PatchAsync<StoreOwnerPartialUpdateDto, StoreOwnerDto>(
+                $"{Endpoints.StoresUrl}/{storeResponse!.Id}/{nameof(StoreDto.StoreOwner)}",
+                new StoreOwnerPartialUpdateDto
+                {
+                    Name = ownerExpectedName
+                },
+                headers);
+
+            const string oDataRequest = $"$expand={nameof(StoreDto.StoreOwner)}";
+            var getStoreResponse = await GetODataSimpleResponseAsync<StoreDto>($"{Endpoints.StoresUrl}/{storeResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            patchResponse.Should().NotBeNull();
+
+            getStoreResponse.Should().NotBeNull();
+            getStoreResponse!.StoreOwner.Should().NotBeNull();
+            getStoreResponse!.StoreOwner!.Name.Should().Be(ownerExpectedName);
+        }
+        #endregion
+
         [Fact]
         public async Task CanNotNavigateTo_EmailAddress()
         {

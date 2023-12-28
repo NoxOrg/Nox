@@ -144,6 +144,38 @@ public abstract partial class TestEntityOneOrManyToExactlyOnesControllerBase : O
         return Ok(updatedItem);
     }
     
+    [HttpPatch("/api/v1/TestEntityOneOrManyToExactlyOnes/{key}/TestEntityExactlyOneToOneOrManies/{relatedKey}")]
+    public virtual async Task<ActionResult<TestEntityExactlyOneToOneOrManyDto>> PatchtoTestEntityExactlyOneToOneOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] Delta<TestEntityExactlyOneToOneOrManyPartialUpdateDto> testEntityExactlyOneToOneOrMany)
+    {
+        if (!ModelState.IsValid || testEntityExactlyOneToOneOrMany is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityOneOrManyToExactlyOneByIdQuery(key))).SelectMany(x => x.TestEntityExactlyOneToOneOrManies).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("TestEntityExactlyOneToOneOrManies", $"{relatedKey.ToString()}");
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in testEntityExactlyOneToOneOrMany.GetChangedPropertyNames())
+        {
+            if(testEntityExactlyOneToOneOrMany.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTestEntityExactlyOneToOneOrManyCommand(relatedKey, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetTestEntityExactlyOneToOneOrManyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/v1/TestEntityOneOrManyToExactlyOnes/{key}/TestEntityExactlyOneToOneOrManies/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteToTestEntityExactlyOneToOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {

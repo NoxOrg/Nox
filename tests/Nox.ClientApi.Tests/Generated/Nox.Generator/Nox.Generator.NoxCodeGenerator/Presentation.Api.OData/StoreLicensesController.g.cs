@@ -105,6 +105,37 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Ok(updatedItem);
     }
     
+    public virtual async Task<ActionResult<StoreDto>> PatchToStore(System.Int64 key, [FromBody] Delta<StorePartialUpdateDto> store)
+    {
+        if (!ModelState.IsValid || store is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.Store).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("Store", String.Empty);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in store.GetChangedPropertyNames())
+        {
+            if(store.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateStoreCommand(related.Id, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetStoreByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     public virtual async Task<ActionResult> CreateRefToDefaultCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -198,6 +229,37 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCurrencyCommand(related.Id, currency, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<CurrencyDto>> PatchToDefaultCurrency(System.Int64 key, [FromBody] Delta<CurrencyPartialUpdateDto> currency)
+    {
+        if (!ModelState.IsValid || currency is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.DefaultCurrency).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("DefaultCurrency", String.Empty);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in currency.GetChangedPropertyNames())
+        {
+            if(currency.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCurrencyCommand(related.Id, updateProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -316,6 +378,37 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCurrencyCommand(related.Id, currency, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<CurrencyDto>> PatchToSoldInCurrency(System.Int64 key, [FromBody] Delta<CurrencyPartialUpdateDto> currency)
+    {
+        if (!ModelState.IsValid || currency is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.SoldInCurrency).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("SoldInCurrency", String.Empty);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in currency.GetChangedPropertyNames())
+        {
+            if(currency.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCurrencyCommand(related.Id, updateProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId))).SingleOrDefault();
         

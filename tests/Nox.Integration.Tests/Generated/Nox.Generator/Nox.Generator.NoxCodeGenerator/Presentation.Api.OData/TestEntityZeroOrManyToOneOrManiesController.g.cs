@@ -156,6 +156,38 @@ public abstract partial class TestEntityZeroOrManyToOneOrManiesControllerBase : 
         return Ok(updatedItem);
     }
     
+    [HttpPatch("/api/v1/TestEntityZeroOrManyToOneOrManies/{key}/TestEntityOneOrManyToZeroOrManies/{relatedKey}")]
+    public virtual async Task<ActionResult<TestEntityOneOrManyToZeroOrManyDto>> PatchtoTestEntityOneOrManyToZeroOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] Delta<TestEntityOneOrManyToZeroOrManyPartialUpdateDto> testEntityOneOrManyToZeroOrMany)
+    {
+        if (!ModelState.IsValid || testEntityOneOrManyToZeroOrMany is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityZeroOrManyToOneOrManyByIdQuery(key))).SelectMany(x => x.TestEntityOneOrManyToZeroOrManies).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("TestEntityOneOrManyToZeroOrManies", $"{relatedKey.ToString()}");
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in testEntityOneOrManyToZeroOrMany.GetChangedPropertyNames())
+        {
+            if(testEntityOneOrManyToZeroOrMany.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTestEntityOneOrManyToZeroOrManyCommand(relatedKey, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetTestEntityOneOrManyToZeroOrManyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/v1/TestEntityZeroOrManyToOneOrManies/{key}/TestEntityOneOrManyToZeroOrManies/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteToTestEntityOneOrManyToZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {

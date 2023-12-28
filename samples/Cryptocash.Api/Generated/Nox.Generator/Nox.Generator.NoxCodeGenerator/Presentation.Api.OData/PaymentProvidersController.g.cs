@@ -156,6 +156,38 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return Ok(updatedItem);
     }
     
+    [HttpPatch("/api/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
+    public virtual async Task<ActionResult<PaymentDetailDto>> PatchtoPaymentDetailsNonConventional(System.Guid key, System.Int64 relatedKey, [FromBody] Delta<PaymentDetailPartialUpdateDto> paymentDetail)
+    {
+        if (!ModelState.IsValid || paymentDetail is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetPaymentProviderByIdQuery(key))).SelectMany(x => x.PaymentDetails).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("PaymentDetails", $"{relatedKey.ToString()}");
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in paymentDetail.GetChangedPropertyNames())
+        {
+            if(paymentDetail.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdatePaymentDetailCommand(relatedKey, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetPaymentDetailByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {

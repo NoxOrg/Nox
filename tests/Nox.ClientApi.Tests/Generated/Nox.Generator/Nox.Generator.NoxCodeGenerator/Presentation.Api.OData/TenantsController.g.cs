@@ -354,6 +354,38 @@ public abstract partial class TenantsControllerBase : ODataController
         return Ok(updatedItem);
     }
     
+    [HttpPatch("/api/v1/Tenants/{key}/Workplaces/{relatedKey}")]
+    public virtual async Task<ActionResult<WorkplaceDto>> PatchtoWorkplacesNonConventional(System.UInt32 key, System.Int64 relatedKey, [FromBody] Delta<WorkplacePartialUpdateDto> workplace)
+    {
+        if (!ModelState.IsValid || workplace is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTenantByIdQuery(key))).SelectMany(x => x.Workplaces).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Workplaces", $"{relatedKey.ToString()}");
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in workplace.GetChangedPropertyNames())
+        {
+            if(workplace.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateWorkplaceCommand(relatedKey, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetWorkplaceByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/v1/Tenants/{key}/Workplaces/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
     {

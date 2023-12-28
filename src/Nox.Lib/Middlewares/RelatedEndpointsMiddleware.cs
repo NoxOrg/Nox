@@ -69,27 +69,13 @@ internal class RelatedEndpointsMiddleware
             return;
         }
 
-
-        if (HttpMethods.IsPatch(context.Request.Method))
+        if (!TryParseAndValidatePath(out var segments, requestPath))
         {
-            if(!TryParseAndValidatePath(out var segments, requestPath, minSegmentCount: 3))
-            {
-                await _next(context);
-                return;
-            }
-
-            context.Request.Path = BuildNewPatchPath(segments);
+            await _next(context);
+            return;
         }
-        else
-        {
-            if (!TryParseAndValidatePath(out var segments, requestPath))
-            {
-                await _next(context);
-                return;
-            }
 
-            context.Request.Path = BuildNewPath(segments);
-        }
+        context.Request.Path = BuildNewPath(segments);        
 
         await _next(context);
         return;
@@ -160,21 +146,6 @@ internal class RelatedEndpointsMiddleware
     private bool IsFirstPairValid(string entityName, string navigationName)
     {
         return _canRedirect.Contains((entityName, navigationName));
-    }
-
-    private PathString BuildNewPatchPath(List<string> segments)
-    {
-        int count = segments.Count;
-        bool isEvenCount = count % 2 != 0;
-
-        if (isEvenCount)
-        {
-            return new PathString(_apiPrefix + _navigationNameToEntityPluralName[segments[^1]]);
-        }
-        else
-        {
-            return new PathString(_apiPrefix + _navigationNameToEntityPluralName[segments[count - 2]] + "/" + segments[^1]);
-        }
     }
 
     private PathString BuildNewPath(List<string> segments)

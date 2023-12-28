@@ -129,6 +129,37 @@ public abstract partial class TestEntityZeroOrOneToZeroOrManiesControllerBase : 
         return Ok(updatedItem);
     }
     
+    public virtual async Task<ActionResult<TestEntityZeroOrManyToZeroOrOneDto>> PatchToTestEntityZeroOrManyToZeroOrOne(System.String key, [FromBody] Delta<TestEntityZeroOrManyToZeroOrOnePartialUpdateDto> testEntityZeroOrManyToZeroOrOne)
+    {
+        if (!ModelState.IsValid || testEntityZeroOrManyToZeroOrOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityZeroOrOneToZeroOrManyByIdQuery(key))).Select(x => x.TestEntityZeroOrManyToZeroOrOne).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("TestEntityZeroOrManyToZeroOrOne", String.Empty);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in testEntityZeroOrManyToZeroOrOne.GetChangedPropertyNames())
+        {
+            if(testEntityZeroOrManyToZeroOrOne.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTestEntityZeroOrManyToZeroOrOneCommand(related.Id, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetTestEntityZeroOrManyToZeroOrOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/v1/TestEntityZeroOrOneToZeroOrManies/{key}/TestEntityZeroOrManyToZeroOrOne")]
     public virtual async Task<ActionResult> DeleteToTestEntityZeroOrManyToZeroOrOne([FromRoute] System.String key)
     {

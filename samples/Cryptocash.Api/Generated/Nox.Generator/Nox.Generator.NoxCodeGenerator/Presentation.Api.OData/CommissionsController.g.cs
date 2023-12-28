@@ -129,6 +129,37 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Ok(updatedItem);
     }
     
+    public virtual async Task<ActionResult<CountryDto>> PatchToCountry(System.Guid key, [FromBody] Delta<CountryPartialUpdateDto> country)
+    {
+        if (!ModelState.IsValid || country is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("Country", String.Empty);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in country.GetChangedPropertyNames())
+        {
+            if(country.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(related.Id, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/Commissions/{key}/Country")]
     public virtual async Task<ActionResult> DeleteToCountry([FromRoute] System.Guid key)
     {
@@ -268,6 +299,38 @@ public abstract partial class CommissionsControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateBookingCommand(relatedKey, booking, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetBookingByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/Commissions/{key}/Bookings/{relatedKey}")]
+    public virtual async Task<ActionResult<BookingDto>> PatchtoBookingsNonConventional(System.Guid key, System.Guid relatedKey, [FromBody] Delta<BookingPartialUpdateDto> booking)
+    {
+        if (!ModelState.IsValid || booking is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Bookings", $"{relatedKey.ToString()}");
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in booking.GetChangedPropertyNames())
+        {
+            if(booking.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateBookingCommand(relatedKey, updateProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetBookingByIdQuery(updated.keyId))).SingleOrDefault();
         
