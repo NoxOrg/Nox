@@ -39,7 +39,10 @@ public partial class EditLength : ComponentBase
 
     protected async Task OnLengthChanged(string newValue)
     {
-        if (!string.IsNullOrWhiteSpace(newValue))
+       if (decimal.TryParse(newValue, out decimal parsedDecimal))
+          Length = parsedDecimal;
+       else
+          Length = null;
         {
             _ = decimal.TryParse(newValue, out decimal parsedDouble);
 
