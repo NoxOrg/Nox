@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace ClientApi.Domain;
 
@@ -198,58 +199,28 @@ public partial class WorkplaceMetadata
         public static Nox.Types.Nuid CreateTenantId(System.UInt32 value)
             => Nox.Types.Nuid.From(value, TenantIdTypeOptions);
         
-
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Workplace")
-                .GetAttributeByName("Name")?
-                .UserInterface;
-
+        public static TypeUserInterface? NameUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'ReferenceNumber'
         /// </summary>
-        public static TypeUserInterface? ReferenceNumberUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Workplace")
-                .GetAttributeByName("ReferenceNumber")?
-                .UserInterface;
-
+        public static TypeUserInterface? ReferenceNumberUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'Description'
         /// </summary>
-        public static TypeUserInterface? DescriptionUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Workplace")
-                .GetAttributeByName("Description")?
-                .UserInterface;
-
+        public static TypeUserInterface? DescriptionUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'Greeting'
         /// </summary>
-        public static TypeUserInterface? GreetingUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Workplace")
-                .GetAttributeByName("Greeting")?
-                .UserInterface;
-
+        public static TypeUserInterface? GreetingUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'Ownership'
         /// </summary>
-        public static TypeUserInterface? OwnershipUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Workplace")
-                .GetAttributeByName("Ownership")?
-                .UserInterface;
-
+        public static TypeUserInterface? OwnershipUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'Type'
         /// </summary>
-        public static TypeUserInterface? TypeUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Workplace")
-                .GetAttributeByName("Type")?
-                .UserInterface;
+        public static TypeUserInterface? TypeUiOptions {get; private set;} = null; 
 }

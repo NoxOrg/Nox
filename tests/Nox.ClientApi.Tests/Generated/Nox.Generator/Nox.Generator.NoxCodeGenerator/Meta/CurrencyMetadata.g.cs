@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace ClientApi.Domain;
 
@@ -62,22 +63,12 @@ public partial class CurrencyMetadata
         public static Nox.Types.Text CreateSymbol(System.String value)
             => Nox.Types.Text.From(value, SymbolTypeOptions);
         
-
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Currency")
-                .GetAttributeByName("Name")?
-                .UserInterface;
-
+        public static TypeUserInterface? NameUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'Symbol'
         /// </summary>
-        public static TypeUserInterface? SymbolUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Currency")
-                .GetAttributeByName("Symbol")?
-                .UserInterface;
+        public static TypeUserInterface? SymbolUiOptions {get; private set;} = null; 
 }

@@ -2,6 +2,7 @@
 using Xunit.Abstractions;
 using ClientApi.Domain;
 using FluentAssertions;
+using Nox;
 
 namespace ClientApi.Tests.Domain.Meta
 {
@@ -24,13 +25,17 @@ namespace ClientApi.Tests.Domain.Meta
                 .Build();
             
             //Act
-            var nameUiOptions = CountryMetadata.NameUiOptions(noxSolution);
+            var nameUiOptions = CountryMetadata.NameUiOptions;
 
             //Assert
             nameUiOptions.Should().NotBeNull();
+            nameUiOptions!.Label.Should().Be("Country Name");
             nameUiOptions!.CanSort.Should().BeTrue();
             nameUiOptions!.CanSearch.Should().BeTrue();
             nameUiOptions!.CanFilter.Should().BeTrue();
+            nameUiOptions!.ShowOnCreateForm.Should().BeTrue();
+            nameUiOptions!.ShowOnUpdateForm.Should().BeFalse();
+            nameUiOptions!.ShowInSearchResults.Should().Be(ShowInSearchResultsOption.OptionalAndOnByDefault);
         }
     }
 }
