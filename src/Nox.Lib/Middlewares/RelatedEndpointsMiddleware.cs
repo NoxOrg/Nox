@@ -22,7 +22,7 @@ internal class RelatedEndpointsMiddleware
     {
         _next = next;
 
-        _apiPrefix = solution.Presentation.ApiConfiguration.ApiRoutePrefix;
+        _apiPrefix = solution.Presentation.ApiConfiguration.ApiRoutePrefix + "/";
 
         _endpointsMaxDepth = solution.Presentation.ApiConfiguration.ApiGenerateRelatedEndpointsMaxDepth;
 
@@ -103,7 +103,7 @@ internal class RelatedEndpointsMiddleware
         segments = new List<string>();
 
         ReadOnlySpan<char> pathSpan = path.AsSpan();
-        int startIndex = _apiPrefix.Value!.Length + 1; //start after prefix+slash - e.g. /api/v1/
+        int startIndex = _apiPrefix.Value!.Length; //start after prefix - e.g. /api/v1/
         int count = 0;
 
         while (startIndex < pathSpan.Length)
@@ -169,11 +169,11 @@ internal class RelatedEndpointsMiddleware
 
         if (isEvenCount)
         {
-            return new PathString(_apiPrefix + "/" + _navigationNameToEntityPluralName[segments[^1]]);
+            return new PathString(_apiPrefix + _navigationNameToEntityPluralName[segments[^1]]);
         }
         else
         {
-            return new PathString(_apiPrefix + "/" + _navigationNameToEntityPluralName[segments[count - 2]] + "/" + segments[^1]);
+            return new PathString(_apiPrefix + _navigationNameToEntityPluralName[segments[count - 2]] + "/" + segments[^1]);
         }
     }
 
@@ -184,11 +184,11 @@ internal class RelatedEndpointsMiddleware
 
         if (isEvenCount)
         {
-            return new PathString(_apiPrefix + "/" + _navigationNameToEntityPluralName[segments[count - 3]] + "/" + segments[count - 2] + "/" + segments[^1]);
+            return new PathString(_apiPrefix + _navigationNameToEntityPluralName[segments[count - 3]] + "/" + segments[count - 2] + "/" + segments[^1]);
         }
         else
         {
-            return new PathString(_apiPrefix + "/" + _navigationNameToEntityPluralName[segments[count - 4]] + "/" + segments[count - 3] + "/" + segments[count - 2] + "/" + segments[^1]);
+            return new PathString(_apiPrefix + _navigationNameToEntityPluralName[segments[count - 4]] + "/" + segments[count - 3] + "/" + segments[count - 2] + "/" + segments[^1]);
         }
     }
 }
