@@ -39,7 +39,10 @@ public partial class EditArea : ComponentBase
 
     protected async Task OnAreaChanged(string newValue)
     {
-        if (!string.IsNullOrWhiteSpace(newValue))
+    if (decimal.TryParse(newValue, out decimal parsedDecimal))
+        Area = parsedDecimal;
+    else
+        Area = null;
         {
             _ = decimal.TryParse(newValue, out decimal parsedDouble);
 
