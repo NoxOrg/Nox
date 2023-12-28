@@ -28,6 +28,9 @@
                     CurrencyCode = Nox.Types.CurrencyCode.GBP
                 };
     string testCurrencySymbol = "£";
+    Decimal? testArea = (Decimal)5645.27;
+    bool testBoolean = true;
+    Decimal? testDistance = (Decimal)1174.25;
 
     #endregion
 
@@ -82,9 +85,18 @@
                                                     <MudItem xs="6">
                                                         <EditText Title="Text" />
                                                     </MudItem>
-                                                <MudItem xs="6">
-                                                    <EditMoney Title="Money" Money="testMoney" Currency="testMoney.CurrencyCode" />
-                                                </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditMoney Title="Money" Money="testMoney" Currency="testMoney.CurrencyCode" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditArea Title="Area" Area="testArea" AreaUnit="Nox.Types.AreaUnit.SquareMeter" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditBoolean Title="Boolean" Boolean="testBoolean" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditDistance Title="Distance" Distance="testDistance" DistanceUnit="Nox.Types.DistanceUnit.Kilometer" />
+                                                    </MudItem>
                                                 </MudGrid>
                                     </MudItem>
                                     <MudItem xs="12">
@@ -124,6 +136,9 @@
                             <HeaderContent>
                                 <MudTh>Text</MudTh>
                                 <MudTh>Money</MudTh>
+                                <MudTh>Area</MudTh>
+                                <MudTh>Boolean</MudTh>
+                                <MudTh>Distance</MudTh>
                             </HeaderContent>
                             <RowTemplate> 
                                 <MudTd Style="vertical-align:top;">
@@ -131,6 +146,15 @@
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <ViewMoney Money="testMoney" Symbol="@testCurrencySymbol" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewArea Area="testArea" AreaUnit="Nox.Types.AreaUnit.SquareMeter" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewBoolean Boolean="testBoolean" TitleTrue="True" TitleFalse="False" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewDistance Distance="testDistance" DistanceUnit="Nox.Types.DistanceUnit.Kilometer" />
                                 </MudTd>
                             </RowTemplate>
                             <NoRecordsContent>

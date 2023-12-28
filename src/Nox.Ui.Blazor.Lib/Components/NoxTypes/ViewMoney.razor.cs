@@ -3,7 +3,7 @@ using Nox.Ui.Blazor.Lib.Models;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 
-public class UiViewMoney : ComponentBase
+public partial class ViewMoney : ComponentBase
 {
 
     #region Declarations

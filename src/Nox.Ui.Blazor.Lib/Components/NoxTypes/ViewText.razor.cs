@@ -2,7 +2,7 @@
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 
-public class UiViewText : ComponentBase
+public partial class ViewText : ComponentBase
 {
     #region Declarations
 
