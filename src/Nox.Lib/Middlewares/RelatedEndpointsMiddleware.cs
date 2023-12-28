@@ -22,7 +22,7 @@ internal class RelatedEndpointsMiddleware
     {
         _next = next;
 
-        _apiPrefix = solution.Presentation.ApiConfiguration.ApiRoutePrefix;
+        _apiPrefix = solution.Presentation.ApiConfiguration.ApiRoutePrefix + "/";
 
         _endpointsMaxDepth = solution.Presentation.ApiConfiguration.ApiGenerateRelatedEndpointsMaxDepth;
 
@@ -72,7 +72,7 @@ internal class RelatedEndpointsMiddleware
 
         if (HttpMethods.IsPatch(context.Request.Method))
         {
-            if(!TryParseAndValidatePath(requestPath, out var segments))
+            if(!TryParseAndValidatePath(out var segments, requestPath, minSegmentCount: 3))
             {
                 await _next(context);
                 return;
@@ -80,20 +80,30 @@ internal class RelatedEndpointsMiddleware
 
             context.Request.Path = BuildNewPatchPath(segments);
         }
+        else
+        {
+            if (!TryParseAndValidatePath(out var segments, requestPath))
+            {
+                await _next(context);
+                return;
+            }
+
+            context.Request.Path = BuildNewPath(segments);
+        }
 
         await _next(context);
         return;
     }
 
 
-    private bool TryParseAndValidatePath(string path, out List<string> segments)
+    private bool TryParseAndValidatePath(out List<string> segments, string path, int minSegmentCount = 5)
     {
         path = path.ToLower();
 
         segments = new List<string>();
 
         ReadOnlySpan<char> pathSpan = path.AsSpan();
-        int startIndex = _apiPrefix.Value!.Length + 1; //start after prefix+slash - e.g. /api/v1/
+        int startIndex = _apiPrefix.Value!.Length; //start after prefix - e.g. /api/v1/
         int count = 0;
 
         while (startIndex < pathSpan.Length)
@@ -117,7 +127,7 @@ internal class RelatedEndpointsMiddleware
             }
         }
 
-        if (segments.Count <= 3)
+        if (segments.Count < minSegmentCount)
             return false;
 
         if (!IsFirstPairValid(segments[0], segments[2]))
@@ -159,11 +169,26 @@ internal class RelatedEndpointsMiddleware
 
         if (isEvenCount)
         {
-            return new PathString(_apiPrefix + "/" + _navigationNameToEntityPluralName[segments[^1]]);
+            return new PathString(_apiPrefix + _navigationNameToEntityPluralName[segments[^1]]);
         }
         else
         {
-            return new PathString(_apiPrefix + "/" + _navigationNameToEntityPluralName[segments[count - 2]] + "/" + segments[^1]);
+            return new PathString(_apiPrefix + _navigationNameToEntityPluralName[segments[count - 2]] + "/" + segments[^1]);
+        }
+    }
+
+    private PathString BuildNewPath(List<string> segments)
+    {
+        int count = segments.Count;
+        bool isEvenCount = count % 2 != 0;
+
+        if (isEvenCount)
+        {
+            return new PathString(_apiPrefix + _navigationNameToEntityPluralName[segments[count - 3]] + "/" + segments[count - 2] + "/" + segments[^1]);
+        }
+        else
+        {
+            return new PathString(_apiPrefix + _navigationNameToEntityPluralName[segments[count - 4]] + "/" + segments[count - 3] + "/" + segments[count - 2] + "/" + segments[^1]);
         }
     }
 }

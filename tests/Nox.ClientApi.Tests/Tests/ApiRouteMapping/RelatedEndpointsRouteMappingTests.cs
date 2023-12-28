@@ -3,6 +3,7 @@ using ClientApi.Application.Dto;
 using AutoFixture;
 using Xunit.Abstractions;
 using System.Net;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace ClientApi.Tests.ApiRouteMapping;
 public partial class RelatedEndpointsRouteMappingTests : NoxWebApiTestBase
@@ -11,6 +12,8 @@ public partial class RelatedEndpointsRouteMappingTests : NoxWebApiTestBase
     TestDatabaseContainerService containerService)
     : base(testOutputHelper, containerService)
     { }
+
+    #region PATCH
 
     [Fact]
     public async Task WhenPatchRelatedEntity_ShouldSucceed()
@@ -100,19 +103,27 @@ public partial class RelatedEndpointsRouteMappingTests : NoxWebApiTestBase
         //Act & Assert
         var headers = CreateEtagHeader(getWorkplaceResponse!.Etag);
         
-        var patchResponseWith6Segments = await PatchAsync(
-            $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}",
+        var patchResponseDepth4 = await PatchAsync(
+            $"{Endpoints.CountriesUrl}/{countryResponse!.Id}" +
+            $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
+            $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
+            $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
+            $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}",
             new WorkplacePartialUpdateDto { Name = expectedName },
             headers,
             throwOnError: false);
-        patchResponseWith6Segments!.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
+        patchResponseDepth4!.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
 
-        var patchResponseWith5Segments = await PatchAsync(
-            $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}/{nameof(CountryDto.Workplaces)}",
+        var patchResponseDepth4WithoutId = await PatchAsync(
+            $"{Endpoints.CountriesUrl}/{countryResponse!.Id}" +
+            $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
+            $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
+            $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
+            $"/{nameof(CountryDto.Workplaces)}",
             new WorkplacePartialUpdateDto { Name = expectedName },
             headers,
             throwOnError: false);
-        patchResponseWith5Segments!.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
+        patchResponseDepth4WithoutId!.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
 
         var patchResponse = await PatchAsync(
             $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}",
@@ -149,6 +160,128 @@ public partial class RelatedEndpointsRouteMappingTests : NoxWebApiTestBase
         //Assert
         patchResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
+
+    [Fact]
+    public async Task WhenPatchSecondDepthRelatedEntity_ShouldSucceed()
+    {
+        // Arrange
+        var expectedName = _fixture.Create<string>();
+
+        var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto { Name = _fixture.Create<string>() });
+        var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
+            new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+        var tenantResponse = await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TenantsUrl, 
+            new TenantCreateDto { Name = _fixture.Create<string>() });
+
+        await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}/$ref");
+        await PostAsync($"{Endpoints.TenantsUrl}/{tenantResponse!.Id}/{nameof(TenantDto.Workplaces)}/{workplaceResponse!.Id}/$ref");
+
+        var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}");
+
+        //Act
+        var headers = CreateEtagHeader(getCountryResponse!.Etag);
+        var patchResponse = await PatchAsync<CountryPartialUpdateDto, CountryDto>(
+            $"{Endpoints.TenantsUrl}/{tenantResponse!.Id}/{nameof(TenantDto.Workplaces)}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}/{countryResponse!.Id}",
+            new CountryPartialUpdateDto
+            {
+                Name = expectedName
+            },
+            headers);
+
+        getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}");
+
+        //Assert
+        patchResponse.Should().NotBeNull();
+
+        getCountryResponse.Should().NotBeNull();
+        getCountryResponse!.Name.Should().Be(expectedName);
+    }
+
+    #endregion PATCH
+
+    #region GET
+
+    #region GET /api/v1/Tenants/1/Workplaces/1/Country
+    [Fact]
+    public async Task WhenGetSecondDepthRelatedEntity_ShouldSucceed()
+    {
+        // Arrange
+        var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto { Name = _fixture.Create<string>() });
+        var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
+            new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+        var tenantResponse = await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TenantsUrl,
+            new TenantCreateDto { Name = _fixture.Create<string>() });
+
+        await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}/$ref");
+        await PostAsync($"{Endpoints.TenantsUrl}/{tenantResponse!.Id}/{nameof(TenantDto.Workplaces)}/{workplaceResponse!.Id}/$ref");
+
+        //Act
+        var getResponse = await GetODataSimpleResponseAsync<CountryDto>(
+            $"{Endpoints.TenantsUrl}/{tenantResponse!.Id}/{nameof(TenantDto.Workplaces)}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}");
+
+        //Assert
+        getResponse.Should().NotBeNull();
+        getResponse!.Name.Should().NotBeNullOrEmpty();
+        getResponse!.Id.Should().Be(countryResponse!.Id);
+    }
+    #endregion
+
+    #region GET /api/v1/Countries/1/Workplaces/1/Tenants/1
+    [Fact]
+    public async Task WhenGetByIdSecondDepthRelatedEntity_ShouldSucceed()
+    {
+        // Arrange
+        var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto { Name = _fixture.Create<string>() });
+        var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
+            new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+        var tenantResponse = await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TenantsUrl,
+            new TenantCreateDto { Name = _fixture.Create<string>() });
+
+        await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}/$ref");
+        await PostAsync($"{Endpoints.TenantsUrl}/{tenantResponse!.Id}/{nameof(TenantDto.Workplaces)}/{workplaceResponse!.Id}/$ref");
+
+        //Act
+        var getResponse = await GetODataSimpleResponseAsync<TenantDto>(
+            $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Tenants)}/{tenantResponse!.Id}");
+
+        //Assert
+        getResponse.Should().NotBeNull();
+        getResponse!.Name.Should().NotBeNullOrEmpty();
+        getResponse!.Id.Should().Be(tenantResponse!.Id);
+    }
+    #endregion
+
+    #region GET /api/v1/Countries/1/Workplaces/1/Tenants
+    [Fact]
+    public async Task WhenGetAllSecondDepthRelatedEntity_ShouldSucceed()
+    {
+        // Arrange
+        var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto { Name = _fixture.Create<string>() });
+        var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
+            new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+        var tenantResponse = await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TenantsUrl,
+            new TenantCreateDto { Name = _fixture.Create<string>() });
+
+        await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}/$ref");
+        await PostAsync($"{Endpoints.TenantsUrl}/{tenantResponse!.Id}/{nameof(TenantDto.Workplaces)}/{workplaceResponse!.Id}/$ref");
+
+        //Act
+        var getResponse = await GetODataCollectionResponseAsync<IEnumerable<TenantDto>>(
+            $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Tenants)}");
+
+        //Assert
+        getResponse.Should().NotBeNull();
+        getResponse!.Should().HaveCount(1);
+        getResponse!.First().Name.Should().NotBeNullOrEmpty();
+        getResponse!.First().Id.Should().Be(tenantResponse!.Id);
+    }
+    #endregion
+
+    #endregion GET
 
 
     private async Task<StoreDto?> CreateStore()
