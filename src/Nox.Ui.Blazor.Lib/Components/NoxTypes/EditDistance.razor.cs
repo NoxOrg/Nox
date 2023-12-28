@@ -39,7 +39,10 @@ public partial class EditDistance : ComponentBase
 
     protected async Task OnDistanceChanged(string newValue)
     {
-        if (!string.IsNullOrWhiteSpace(newValue))
+        if (decimal.TryParse(newValue, out decimal parsedDecimal))
+        Disctance= parsedDecimal;
+    else
+        Disctance= null;
         {
             _ = decimal.TryParse(newValue, out decimal parsedDouble);
 
