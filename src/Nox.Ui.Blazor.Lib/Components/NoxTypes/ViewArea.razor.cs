@@ -41,7 +41,8 @@ public partial class ViewArea : ComponentBase
 
     private string DisplayAreaUnit()
     {
-        if (AreaUnit == AreaUnit.SquareFoot)
+        switch(AreaUnit)
+        ...
         {
             return " " + AreaUnit.SquareFoot.Symbol;
         }
