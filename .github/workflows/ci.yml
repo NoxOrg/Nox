@@ -7,13 +7,13 @@ on:
     paths:
       - src/**
       - tests/**
-      - .github/workflows/ci.yaml
+      - .github/workflows/ci.yml
   push:
     branches: [ main ]
     paths:
       - src/**
       - tests/**
-      - .github/workflows/ci.yaml
+      - .github/workflows/ci.yml
 
 jobs:
   build:
@@ -24,6 +24,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'zulu' 
 
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v3
@@ -35,13 +43,43 @@ jobs:
 
       - name: Restore
         run: dotnet restore Nox.sln
-
-      - name: Build
-        run: dotnet build Nox.sln --warnaserror --configuration Release --no-restore /p:ContinuousIntegrationBuild=true
-
-      - name: Run Tests
-        run: dotnet test Nox.sln --no-restore --verbosity minimal --configuration Release --filter "FullyQualifiedName!~Nox.Secrets.Tests" --logger "trx;LogFileName=test-results.trx"
-
+        
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+          
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v3
+        with:
+          path: ./.sonar/scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+          
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        run: |
+          New-Item -Path ./.sonar/scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
+        shell: pwsh
+        
+      - name: Install dotnet-coverage
+        run: dotnet tool install -g dotnet-coverage
+      
+      - name: Build, test and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          ./.sonar/scanner/dotnet-sonarscanner begin /k:"NoxOrg_Nox" /o:"noxorg" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+          dotnet build Nox.sln --warnaserror --configuration Release --no-restore --no-incremental
+          dotnet-coverage collect 'dotnet test Nox.sln --no-restore --verbosity minimal --configuration Release --filter "FullyQualifiedName!~Nox.Secrets.Tests" --logger "trx;LogFileName=test-results.trx"' -f xml -o "coverage.xml" 
+          ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+        shell: pwsh
+        
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: ${{ always() }}
