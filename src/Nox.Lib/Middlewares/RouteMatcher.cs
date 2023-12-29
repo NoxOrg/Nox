@@ -23,6 +23,7 @@ internal class RouteMatcher
         var template = $"{prefix}{leadingChar}{apiRoute.Route}";
 
         _apiRoute = apiRoute;
+        _apiRoute = apiRoute;
 
         _matcher = new ApiRouteMatcher(template, 
             apiRoute
