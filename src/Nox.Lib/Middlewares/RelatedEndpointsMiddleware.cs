@@ -102,7 +102,7 @@ internal class RelatedEndpointsMiddleware
             if (slashIndex == -1)
             {
                 var newSegment = pathSpan.Slice(startIndex).ToString();
-                if (!IsSegmentValid(newSegment, count++, isLast: true))
+                if (!IsSegmentValid(newSegment, count, isLast: true))
                     return false;
                 segments.Add(newSegment);
                 break;
@@ -141,7 +141,7 @@ internal class RelatedEndpointsMiddleware
     private bool IsDepthAndCountValid(List<string> segments)
     {
         var count = segments.Count;
-        if (segments.Last().Equals(_refSegment, StringComparison.OrdinalIgnoreCase))
+        if (segments[count - 1].Equals(_refSegment, StringComparison.OrdinalIgnoreCase))
             count--;
 
         if (count < _minSegmentCount)
@@ -159,7 +159,7 @@ internal class RelatedEndpointsMiddleware
     private PathString BuildNewPath(List<string> segments)
     {
         var lastSegment = string.Empty;
-        if (segments.Last().Equals(_refSegment, StringComparison.OrdinalIgnoreCase))
+        if (segments[segments.Count - 1].Equals(_refSegment, StringComparison.OrdinalIgnoreCase))
         {
             segments.RemoveAt(segments.Count - 1);
             lastSegment = _refSegment;
