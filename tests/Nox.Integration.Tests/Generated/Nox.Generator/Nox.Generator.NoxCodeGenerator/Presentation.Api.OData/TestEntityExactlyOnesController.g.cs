@@ -105,6 +105,37 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
         return Ok(updatedItem);
     }
     
+    public virtual async Task<ActionResult<SecondTestEntityExactlyOneDto>> PatchToSecondTestEntityExactlyOne(System.String key, [FromBody] Delta<SecondTestEntityExactlyOnePartialUpdateDto> secondTestEntityExactlyOne)
+    {
+        if (!ModelState.IsValid || secondTestEntityExactlyOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(key))).Select(x => x.SecondTestEntityExactlyOne).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("SecondTestEntityExactlyOne", String.Empty);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in secondTestEntityExactlyOne.GetChangedPropertyNames())
+        {
+            if(secondTestEntityExactlyOne.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityExactlyOneCommand(related.Id, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     #endregion
     
 }

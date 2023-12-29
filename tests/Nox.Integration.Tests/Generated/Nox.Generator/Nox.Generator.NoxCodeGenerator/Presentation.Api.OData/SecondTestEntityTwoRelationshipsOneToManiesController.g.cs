@@ -129,6 +129,37 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
         return Ok(updatedItem);
     }
     
+    public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToManyDto>> PatchToTestRelationshipOneOnOtherSide(System.String key, [FromBody] Delta<TestEntityTwoRelationshipsOneToManyPartialUpdateDto> testEntityTwoRelationshipsOneToMany)
+    {
+        if (!ModelState.IsValid || testEntityTwoRelationshipsOneToMany is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipOneOnOtherSide).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("TestRelationshipOneOnOtherSide", String.Empty);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in testEntityTwoRelationshipsOneToMany.GetChangedPropertyNames())
+        {
+            if(testEntityTwoRelationshipsOneToMany.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTestEntityTwoRelationshipsOneToManyCommand(related.Id, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/v1/SecondTestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipOneOnOtherSide")]
     public virtual async Task<ActionResult> DeleteToTestRelationshipOneOnOtherSide([FromRoute] System.String key)
     {
@@ -241,6 +272,37 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToManiesControl
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateTestEntityTwoRelationshipsOneToManyCommand(related.Id, testEntityTwoRelationshipsOneToMany, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToManyDto>> PatchToTestRelationshipTwoOnOtherSide(System.String key, [FromBody] Delta<TestEntityTwoRelationshipsOneToManyPartialUpdateDto> testEntityTwoRelationshipsOneToMany)
+    {
+        if (!ModelState.IsValid || testEntityTwoRelationshipsOneToMany is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipTwoOnOtherSide).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("TestRelationshipTwoOnOtherSide", String.Empty);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in testEntityTwoRelationshipsOneToMany.GetChangedPropertyNames())
+        {
+            if(testEntityTwoRelationshipsOneToMany.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTestEntityTwoRelationshipsOneToManyCommand(related.Id, updateProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(updated.keyId))).SingleOrDefault();
         

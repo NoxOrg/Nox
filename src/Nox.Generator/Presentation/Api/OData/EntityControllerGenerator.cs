@@ -460,7 +460,11 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                         GenerateRelatedGet(solution, relationship, entity, code);
                         GenerateRelatedGetById(solution, relationship, entity, code);
                     }
-                    if (CanUpdate(entity)) GenerateRelatedPut(solution, relationship, entity, code);
+                    if (CanUpdate(entity))
+                    {
+                        GenerateRelatedPut(solution, relationship, entity, code);
+                        GenerateRelatedPatch(solution, relationship, entity, code);
+                    }
                     if (CanDelete(entity))
                     {
                         GenerateRelatedDelete(solution, relationship, entity, code);
@@ -784,6 +788,82 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
         code.AppendLine($"return Ok(updatedItem);");
 
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateRelatedPatch(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    {
+        var relatedEntity = relationship.Related.Entity;
+        var navigationName = entity.GetNavigationPropertyName(relationship);
+        var isSingleRelationship = relationship.WithSingleEntity();
+
+        if (isSingleRelationship)
+        {
+            code.AppendLine($"public virtual async Task<ActionResult<{relatedEntity.Name}Dto>> PatchTo{navigationName}(" +
+                $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")}, " +
+                $"[FromBody] Delta<{relatedEntity.Name}PartialUpdateDto> {relatedEntity.Name.ToLowerFirstChar()})");
+        }
+        else
+        {
+            code.AppendLine($"[HttpPatch(\"{solution.Presentation.ApiConfiguration.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{navigationName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
+            code.AppendLine($"public virtual async Task<ActionResult<{relatedEntity.Name}Dto>> Patchto{navigationName}NonConventional(" +
+                $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")}, " +
+                $"{GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey", "")}, " +
+                $"[FromBody] Delta<{relatedEntity.Name}PartialUpdateDto> {relatedEntity.Name.ToLowerFirstChar()})");
+        }
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid || {relatedEntity.Name.ToLowerFirstChar()} is null)");
+        code.StartBlock();
+        code.AppendLine($"throw new Nox.Exceptions.BadRequestException(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+
+        if (isSingleRelationship)
+        {
+            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
+                $".Select(x => x.{navigationName}).SingleOrDefault();");
+            code.AppendLine($"if (related == null)");
+            code.StartBlock();
+            code.AppendLine($"throw new EntityNotFoundException(\"{navigationName}\", String.Empty);");
+            code.EndBlock();
+        }
+        else
+        {
+            var param = string.Join(" && ", relatedEntity.Keys.Select(k => $"x.{k.Name} == relatedKey{(relatedEntity.Keys.Count > 1 ? k.Name : "")}"));
+            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
+                $".SelectMany(x => x.{navigationName}).Any(x => {param});");
+            code.AppendLine($"if (!related)");
+            code.StartBlock();
+            code.AppendLine($"throw new EntityNotFoundException(\"{navigationName}\", $\"{GetPrimaryKeysToString(relatedEntity, "relatedKey")}\");");
+            code.EndBlock();
+        }
+
+        code.AppendLine();
+        code.AppendLine(@$"var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in {relatedEntity.Name.ToLowerFirstChar()}.GetChangedPropertyNames())
+        {{
+            if({relatedEntity.Name.ToLowerFirstChar()}.TryGetPropertyValue(propertyName, out dynamic value))
+            {{
+                updateProperties[propertyName] = value;                
+            }}           
+        }}");
+
+        code.AppendLine();
+        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
+        var relatedKeyQuery = isSingleRelationship ?
+            $"{GetPrimaryKeysQuery(relatedEntity, "related.", true)}" :
+            $"{GetPrimaryKeysQuery(relatedEntity, "relatedKey")}";
+        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{relatedEntity.Name}Command({relatedKeyQuery}, " +
+            $"updateProperties, _cultureCode, etag));");
+        code.AppendLine();
+        code.AppendLine($"var updatedItem = (await _mediator.Send(new Get{relatedEntity.Name}ByIdQuery(updated.key{relatedEntity.Keys[0].Name}))).SingleOrDefault();");
+        code.AppendLine();
+        code.AppendLine($"return Ok(updatedItem);");
+
+        // End method
         code.EndBlock();
         code.AppendLine();
     }

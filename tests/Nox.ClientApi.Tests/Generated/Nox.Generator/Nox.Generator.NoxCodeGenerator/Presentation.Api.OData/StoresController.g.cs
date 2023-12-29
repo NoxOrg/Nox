@@ -134,6 +134,37 @@ public abstract partial class StoresControllerBase : ODataController
         return Ok(updatedItem);
     }
     
+    public virtual async Task<ActionResult<StoreOwnerDto>> PatchToStoreOwner(System.Guid key, [FromBody] Delta<StoreOwnerPartialUpdateDto> storeOwner)
+    {
+        if (!ModelState.IsValid || storeOwner is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.StoreOwner).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("StoreOwner", String.Empty);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in storeOwner.GetChangedPropertyNames())
+        {
+            if(storeOwner.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateStoreOwnerCommand(related.Id, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetStoreOwnerByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/v1/Stores/{key}/StoreOwner")]
     public virtual async Task<ActionResult> DeleteToStoreOwner([FromRoute] System.Guid key)
     {
@@ -246,6 +277,37 @@ public abstract partial class StoresControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateStoreLicenseCommand(related.Id, storeLicense, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetStoreLicenseByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<StoreLicenseDto>> PatchToStoreLicense(System.Guid key, [FromBody] Delta<StoreLicensePartialUpdateDto> storeLicense)
+    {
+        if (!ModelState.IsValid || storeLicense is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.StoreLicense).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("StoreLicense", String.Empty);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in storeLicense.GetChangedPropertyNames())
+        {
+            if(storeLicense.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateStoreLicenseCommand(related.Id, updateProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetStoreLicenseByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -391,6 +453,38 @@ public abstract partial class StoresControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateClientCommand(relatedKey, client, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetClientByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/v1/Stores/{key}/Clients/{relatedKey}")]
+    public virtual async Task<ActionResult<ClientDto>> PatchtoClientsNonConventional(System.Guid key, System.Guid relatedKey, [FromBody] Delta<ClientPartialUpdateDto> client)
+    {
+        if (!ModelState.IsValid || client is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).SelectMany(x => x.Clients).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Clients", $"{relatedKey.ToString()}");
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in client.GetChangedPropertyNames())
+        {
+            if(client.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateClientCommand(relatedKey, updateProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetClientByIdQuery(updated.keyId))).SingleOrDefault();
         

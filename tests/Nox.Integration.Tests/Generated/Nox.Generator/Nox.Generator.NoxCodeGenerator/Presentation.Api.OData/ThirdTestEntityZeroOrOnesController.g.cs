@@ -129,6 +129,37 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
         return Ok(updatedItem);
     }
     
+    public virtual async Task<ActionResult<ThirdTestEntityExactlyOneDto>> PatchToThirdTestEntityExactlyOne(System.String key, [FromBody] Delta<ThirdTestEntityExactlyOnePartialUpdateDto> thirdTestEntityExactlyOne)
+    {
+        if (!ModelState.IsValid || thirdTestEntityExactlyOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(key))).Select(x => x.ThirdTestEntityExactlyOne).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("ThirdTestEntityExactlyOne", String.Empty);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in thirdTestEntityExactlyOne.GetChangedPropertyNames())
+        {
+            if(thirdTestEntityExactlyOne.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateThirdTestEntityExactlyOneCommand(related.Id, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/v1/ThirdTestEntityZeroOrOnes/{key}/ThirdTestEntityExactlyOne")]
     public virtual async Task<ActionResult> DeleteToThirdTestEntityExactlyOne([FromRoute] System.String key)
     {

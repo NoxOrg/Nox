@@ -156,6 +156,38 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
         return Ok(updatedItem);
     }
     
+    [HttpPatch("/api/v1/SecondTestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipOneOnOtherSide/{relatedKey}")]
+    public virtual async Task<ActionResult<TestEntityTwoRelationshipsManyToManyDto>> PatchtoTestRelationshipOneOnOtherSideNonConventional(System.String key, System.String relatedKey, [FromBody] Delta<TestEntityTwoRelationshipsManyToManyPartialUpdateDto> testEntityTwoRelationshipsManyToMany)
+    {
+        if (!ModelState.IsValid || testEntityTwoRelationshipsManyToMany is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipOneOnOtherSide).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("TestRelationshipOneOnOtherSide", $"{relatedKey.ToString()}");
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in testEntityTwoRelationshipsManyToMany.GetChangedPropertyNames())
+        {
+            if(testEntityTwoRelationshipsManyToMany.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTestEntityTwoRelationshipsManyToManyCommand(relatedKey, updateProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/v1/SecondTestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipOneOnOtherSide/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteToTestRelationshipOneOnOtherSide([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
@@ -315,6 +347,38 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateTestEntityTwoRelationshipsManyToManyCommand(relatedKey, testEntityTwoRelationshipsManyToMany, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/v1/SecondTestEntityTwoRelationshipsManyToManies/{key}/TestRelationshipTwoOnOtherSide/{relatedKey}")]
+    public virtual async Task<ActionResult<TestEntityTwoRelationshipsManyToManyDto>> PatchtoTestRelationshipTwoOnOtherSideNonConventional(System.String key, System.String relatedKey, [FromBody] Delta<TestEntityTwoRelationshipsManyToManyPartialUpdateDto> testEntityTwoRelationshipsManyToMany)
+    {
+        if (!ModelState.IsValid || testEntityTwoRelationshipsManyToMany is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsManyToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipTwoOnOtherSide).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("TestRelationshipTwoOnOtherSide", $"{relatedKey.ToString()}");
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in testEntityTwoRelationshipsManyToMany.GetChangedPropertyNames())
+        {
+            if(testEntityTwoRelationshipsManyToMany.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTestEntityTwoRelationshipsManyToManyCommand(relatedKey, updateProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsManyToManyByIdQuery(updated.keyId))).SingleOrDefault();
         
