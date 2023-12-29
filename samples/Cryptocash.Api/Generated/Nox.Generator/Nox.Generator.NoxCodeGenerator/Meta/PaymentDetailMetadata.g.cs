@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace Cryptocash.Domain;
 
@@ -96,31 +97,40 @@ public partial class PaymentDetailMetadata
         public static Nox.Types.Guid CreatePaymentProviderId(System.Guid value)
             => Nox.Types.Guid.From(value);
         
-
         /// <summary>
         /// User Interface for property 'PaymentAccountName'
         /// </summary>
-        public static TypeUserInterface? PaymentAccountNameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("PaymentDetail")
-                .GetAttributeByName("PaymentAccountName")?
-                .UserInterface;
-
+        public static TypeUserInterface? PaymentAccountNameUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'PaymentAccountNumber'
         /// </summary>
-        public static TypeUserInterface? PaymentAccountNumberUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("PaymentDetail")
-                .GetAttributeByName("PaymentAccountNumber")?
-                .UserInterface;
-
+        public static TypeUserInterface? PaymentAccountNumberUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'PaymentAccountSortCode'
         /// </summary>
-        public static TypeUserInterface? PaymentAccountSortCodeUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("PaymentDetail")
-                .GetAttributeByName("PaymentAccountSortCode")?
-                .UserInterface;
+        public static TypeUserInterface? PaymentAccountSortCodeUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
 }

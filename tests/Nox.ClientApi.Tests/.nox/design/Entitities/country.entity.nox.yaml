@@ -34,7 +34,7 @@ attributes:
       label: Country Name
       showInSearchResults: optionalAndOnByDefault
       canSort: true
-      canSearch: true
+      canSearch: false
       canFilter: true
       showOnCreateForm: true
       showOnUpdateForm: false

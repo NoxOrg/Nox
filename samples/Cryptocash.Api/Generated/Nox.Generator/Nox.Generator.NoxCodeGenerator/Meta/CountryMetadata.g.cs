@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace Cryptocash.Domain;
 
@@ -180,130 +181,151 @@ public partial class CountryMetadata
         public static Nox.Types.CurrencyCode3 CreateCurrencyId(System.String value)
             => Nox.Types.CurrencyCode3.From(value);
         
-
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("Name")?
-                .UserInterface;
-
+        public static TypeUserInterface? NameUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'OfficialName'
         /// </summary>
-        public static TypeUserInterface? OfficialNameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("OfficialName")?
-                .UserInterface;
-
+        public static TypeUserInterface? OfficialNameUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'CountryIsoNumeric'
         /// </summary>
-        public static TypeUserInterface? CountryIsoNumericUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("CountryIsoNumeric")?
-                .UserInterface;
-
+        public static TypeUserInterface? CountryIsoNumericUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'CountryIsoAlpha3'
         /// </summary>
-        public static TypeUserInterface? CountryIsoAlpha3UiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("CountryIsoAlpha3")?
-                .UserInterface;
-
+        public static TypeUserInterface? CountryIsoAlpha3UiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'GeoCoords'
         /// </summary>
-        public static TypeUserInterface? GeoCoordsUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("GeoCoords")?
-                .UserInterface;
-
+        public static TypeUserInterface? GeoCoordsUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'FlagEmoji'
         /// </summary>
-        public static TypeUserInterface? FlagEmojiUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("FlagEmoji")?
-                .UserInterface;
-
+        public static TypeUserInterface? FlagEmojiUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOffByDefault,
+        }; 
         /// <summary>
         /// User Interface for property 'FlagSvg'
         /// </summary>
-        public static TypeUserInterface? FlagSvgUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("FlagSvg")?
-                .UserInterface;
-
+        public static TypeUserInterface? FlagSvgUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOffByDefault,
+        }; 
         /// <summary>
         /// User Interface for property 'FlagPng'
         /// </summary>
-        public static TypeUserInterface? FlagPngUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("FlagPng")?
-                .UserInterface;
-
+        public static TypeUserInterface? FlagPngUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOffByDefault,
+        }; 
         /// <summary>
         /// User Interface for property 'CoatOfArmsSvg'
         /// </summary>
-        public static TypeUserInterface? CoatOfArmsSvgUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("CoatOfArmsSvg")?
-                .UserInterface;
-
+        public static TypeUserInterface? CoatOfArmsSvgUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOffByDefault,
+        }; 
         /// <summary>
         /// User Interface for property 'CoatOfArmsPng'
         /// </summary>
-        public static TypeUserInterface? CoatOfArmsPngUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("CoatOfArmsPng")?
-                .UserInterface;
-
+        public static TypeUserInterface? CoatOfArmsPngUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOffByDefault,
+        }; 
         /// <summary>
         /// User Interface for property 'GoogleMapsUrl'
         /// </summary>
-        public static TypeUserInterface? GoogleMapsUrlUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("GoogleMapsUrl")?
-                .UserInterface;
-
+        public static TypeUserInterface? GoogleMapsUrlUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOffByDefault,
+        }; 
         /// <summary>
         /// User Interface for property 'OpenStreetMapsUrl'
         /// </summary>
-        public static TypeUserInterface? OpenStreetMapsUrlUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("OpenStreetMapsUrl")?
-                .UserInterface;
-
+        public static TypeUserInterface? OpenStreetMapsUrlUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOffByDefault,
+        }; 
         /// <summary>
         /// User Interface for property 'StartOfWeek'
         /// </summary>
-        public static TypeUserInterface? StartOfWeekUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("StartOfWeek")?
-                .UserInterface;
-
+        public static TypeUserInterface? StartOfWeekUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'Population'
         /// </summary>
-        public static TypeUserInterface? PopulationUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("Population")?
-                .UserInterface;
+        public static TypeUserInterface? PopulationUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
 }

@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace Cryptocash.Domain;
 
@@ -231,121 +232,160 @@ public partial class CurrencyMetadata
         public static Nox.Types.AutoNumber CreateExchangeRateId(System.Int64 value)
             => Nox.Types.AutoNumber.FromDatabase(value);
         
-
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Currency")
-                .GetAttributeByName("Name")?
-                .UserInterface;
-
+        public static TypeUserInterface? NameUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'CurrencyIsoNumeric'
         /// </summary>
-        public static TypeUserInterface? CurrencyIsoNumericUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Currency")
-                .GetAttributeByName("CurrencyIsoNumeric")?
-                .UserInterface;
-
+        public static TypeUserInterface? CurrencyIsoNumericUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'Symbol'
         /// </summary>
-        public static TypeUserInterface? SymbolUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Currency")
-                .GetAttributeByName("Symbol")?
-                .UserInterface;
-
+        public static TypeUserInterface? SymbolUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'ThousandsSeparator'
         /// </summary>
-        public static TypeUserInterface? ThousandsSeparatorUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Currency")
-                .GetAttributeByName("ThousandsSeparator")?
-                .UserInterface;
-
+        public static TypeUserInterface? ThousandsSeparatorUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'DecimalSeparator'
         /// </summary>
-        public static TypeUserInterface? DecimalSeparatorUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Currency")
-                .GetAttributeByName("DecimalSeparator")?
-                .UserInterface;
-
+        public static TypeUserInterface? DecimalSeparatorUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'SpaceBetweenAmountAndSymbol'
         /// </summary>
-        public static TypeUserInterface? SpaceBetweenAmountAndSymbolUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Currency")
-                .GetAttributeByName("SpaceBetweenAmountAndSymbol")?
-                .UserInterface;
-
+        public static TypeUserInterface? SpaceBetweenAmountAndSymbolUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'SymbolOnLeft'
         /// </summary>
-        public static TypeUserInterface? SymbolOnLeftUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Currency")
-                .GetAttributeByName("SymbolOnLeft")?
-                .UserInterface;
-
+        public static TypeUserInterface? SymbolOnLeftUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'DecimalDigits'
         /// </summary>
-        public static TypeUserInterface? DecimalDigitsUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Currency")
-                .GetAttributeByName("DecimalDigits")?
-                .UserInterface;
-
+        public static TypeUserInterface? DecimalDigitsUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'MajorName'
         /// </summary>
-        public static TypeUserInterface? MajorNameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Currency")
-                .GetAttributeByName("MajorName")?
-                .UserInterface;
-
+        public static TypeUserInterface? MajorNameUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'MajorSymbol'
         /// </summary>
-        public static TypeUserInterface? MajorSymbolUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Currency")
-                .GetAttributeByName("MajorSymbol")?
-                .UserInterface;
-
+        public static TypeUserInterface? MajorSymbolUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'MinorName'
         /// </summary>
-        public static TypeUserInterface? MinorNameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Currency")
-                .GetAttributeByName("MinorName")?
-                .UserInterface;
-
+        public static TypeUserInterface? MinorNameUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'MinorSymbol'
         /// </summary>
-        public static TypeUserInterface? MinorSymbolUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Currency")
-                .GetAttributeByName("MinorSymbol")?
-                .UserInterface;
-
+        public static TypeUserInterface? MinorSymbolUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'MinorToMajorValue'
         /// </summary>
-        public static TypeUserInterface? MinorToMajorValueUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Currency")
-                .GetAttributeByName("MinorToMajorValue")?
-                .UserInterface;
+        public static TypeUserInterface? MinorToMajorValueUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
 }

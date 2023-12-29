@@ -150,11 +150,9 @@ public partial class StoreMetadata
             IconPosition = IconPosition.Begin, 
             InputOrder = 0,
             ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
-            CanSort = true, 
+            CanSort = true,
             CanSearch = true, 
             CanFilter = true,
-            ShowOnCreateForm = true,
-            ShowOnUpdateForm = true,
         }; 
         /// <summary>
         /// User Interface for property 'Status'

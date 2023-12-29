@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace Cryptocash.Domain;
 
@@ -62,22 +63,28 @@ public partial class PaymentProviderMetadata
         public static Nox.Types.Text CreatePaymentProviderType(System.String value)
             => Nox.Types.Text.From(value, PaymentProviderTypeTypeOptions);
         
-
         /// <summary>
         /// User Interface for property 'PaymentProviderName'
         /// </summary>
-        public static TypeUserInterface? PaymentProviderNameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("PaymentProvider")
-                .GetAttributeByName("PaymentProviderName")?
-                .UserInterface;
-
+        public static TypeUserInterface? PaymentProviderNameUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'PaymentProviderType'
         /// </summary>
-        public static TypeUserInterface? PaymentProviderTypeUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("PaymentProvider")
-                .GetAttributeByName("PaymentProviderType")?
-                .UserInterface;
+        public static TypeUserInterface? PaymentProviderTypeUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
 }

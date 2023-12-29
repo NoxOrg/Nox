@@ -31,11 +31,22 @@ namespace ClientApi.Tests.Domain.Meta
             nameUiOptions.Should().NotBeNull();
             nameUiOptions!.Label.Should().Be("Country Name");
             nameUiOptions!.CanSort.Should().BeTrue();
-            nameUiOptions!.CanSearch.Should().BeTrue();
+            nameUiOptions!.CanSearch.Should().BeFalse();
             nameUiOptions!.CanFilter.Should().BeTrue();
             nameUiOptions!.ShowOnCreateForm.Should().BeTrue();
             nameUiOptions!.ShowOnUpdateForm.Should().BeFalse();
             nameUiOptions!.ShowInSearchResults.Should().Be(ShowInSearchResultsOption.OptionalAndOnByDefault);
+            nameUiOptions!.IconPosition.Should().Be(IconPosition.Begin);
+            nameUiOptions!.InputOrder.Should().Be(0);
+            nameUiOptions.Widget.Should().BeNull();
+            nameUiOptions!.Icon.Should().BeNull();
+            nameUiOptions!.InputMask.Should().BeNull();
+            nameUiOptions!.OutputMask.Should().BeNull();
+            nameUiOptions!.Regex.Should().BeNull();
+            nameUiOptions!.PageGroup.Should().BeNull();
+            nameUiOptions!.FieldGroup.Should().BeNull();
+            nameUiOptions!.HelpHint.Should().BeNull();
+            nameUiOptions!.ErrorMessage.Should().BeNull();
         }
     }
 }

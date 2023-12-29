@@ -231,10 +231,8 @@ public partial class CountryMetadata
             IconPosition = IconPosition.Begin, 
             InputOrder = 0,
             ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
-            CanSort = true, 
-            CanSearch = true, 
+            CanSort = true,
             CanFilter = true,
-            ShowOnCreateForm = true,
             ShowOnUpdateForm = false,
         }; 
         /// <summary>

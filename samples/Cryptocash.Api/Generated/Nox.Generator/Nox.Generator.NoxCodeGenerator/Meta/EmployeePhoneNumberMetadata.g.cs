@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace Cryptocash.Domain;
 
@@ -49,22 +50,28 @@ public partial class EmployeePhoneNumberMetadata
         public static Nox.Types.PhoneNumber CreatePhoneNumber(System.String value)
             => Nox.Types.PhoneNumber.From(value);
         
-
         /// <summary>
         /// User Interface for property 'PhoneNumberType'
         /// </summary>
-        public static TypeUserInterface? PhoneNumberTypeUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("EmployeePhoneNumber")
-                .GetAttributeByName("PhoneNumberType")?
-                .UserInterface;
-
+        public static TypeUserInterface? PhoneNumberTypeUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'PhoneNumber'
         /// </summary>
-        public static TypeUserInterface? PhoneNumberUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("EmployeePhoneNumber")
-                .GetAttributeByName("PhoneNumber")?
-                .UserInterface;
+        public static TypeUserInterface? PhoneNumberUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
 }

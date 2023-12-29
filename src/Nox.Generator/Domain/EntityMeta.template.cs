@@ -87,11 +87,22 @@ public partial class {{className}}
         {{~ end ~}}
             InputOrder = {{ui.InputOrder}},
             ShowInSearchResults = ShowInSearchResultsOption.{{ui.ShowInSearchResults}},
-            CanSort = {{ui.CanSort}}, 
+            {{~ ## Generate boolean parameters if their values are not default ## ~}}
+        {{~ if ui.CanSort == true ~}}   
+            CanSort = {{ui.CanSort}},
+        {{~ end ~}}
+        {{~ if ui.CanSearch == true ~}}
             CanSearch = {{ui.CanSearch}}, 
+        {{~ end ~}}
+        {{~ if ui.CanFilter == true ~}}
             CanFilter = {{ui.CanFilter}},
+        {{~ end ~}}
+        {{~ if ui.ShowOnCreateForm == false ~}}
             ShowOnCreateForm = {{ui.ShowOnCreateForm}},
+        {{~ end ~}}
+        {{~ if ui.ShowOnUpdateForm == false ~}}
             ShowOnUpdateForm = {{ui.ShowOnUpdateForm}},
+        {{~ end ~}}
         }; {{ end }}
            
     {{- end }}
