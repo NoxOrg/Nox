@@ -99,10 +99,7 @@
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <UiEditYear_g Title="Year" />
-                                                    </MudItem>
-                                                    <MudItem xs="6">
-                                                        <UiEditBoolean_g Title="Boolean" />
-                                                    </MudItem>
+                                                    </MudItem>                                                    
                                                     <MudItem xs="6">
                                                         <UiEditWeight_g Title="Weight" WeightUnit="Nox.Types.WeightUnit.Kilogram" />
                                                     </MudItem>
@@ -110,13 +107,7 @@
                                                         <UiEditVolume_g Title="Volume" VolumeUnit="Nox.Types.VolumeUnit.CubicMeter" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <UiEditDistance_g Title="Distance" DistanceUnit="Nox.Types.DistanceUnit.Kilometer" />
-                                                    </MudItem>
-                                                    <MudItem xs="6">
                                                         <UiEditLength_g Title="Length" LengthUnit="Nox.Types.LengthUnit.Meter" />
-                                                    </MudItem>
-                                                    <MudItem xs="6">
-                                                        <UiEditArea_g Title="Area" AreaUnit="Nox.Types.AreaUnit.SquareMeter" />
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <UiEditTemperature_g Title="Temperature" TemperatureUnit="Nox.Types.TemperatureUnit.Celsius" />
@@ -201,9 +192,6 @@
                         float? testPercentage = (float)36.67;
                         Decimal? testWeight = (Decimal)23.56;
                         Decimal? testVolume = (Decimal)85.31;
-                        Decimal? testDistance = (Decimal)74.25;
-                        Decimal? testLength = (Decimal)11.87;
-                        Decimal? testArea = (Decimal)45.27;
                         Decimal? testTemperature = (Decimal)14.33;
                         Decimal? testNumber = (Decimal)23.75;
                         CountryDto testCountry = new CountryDto()
@@ -278,12 +266,8 @@
                             <HeaderContent>
                                 <MudTh>Percentage</MudTh>
                                 <MudTh>Year</MudTh>
-                                <MudTh>Boolean</MudTh>
                                 <MudTh>Weight</MudTh>
                                 <MudTh>Volume</MudTh>
-                                <MudTh>Distance</MudTh>
-                                <MudTh>Length</MudTh>
-                                <MudTh>Area</MudTh>
                                 <MudTh>Temperature</MudTh>
                                 <MudTh>Country</MudTh>
                                 <MudTh>Number</MudTh>
@@ -308,23 +292,11 @@
                                     <UiViewYear_g Year="2023" />
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
-                                    <UiViewBoolean_g Boolean="true" TitleTrue="True" TitleFalse="False" />
-                                </MudTd>
-                                <MudTd Style="vertical-align:top;">
                                     <UiViewWeight_g Weight="@testWeight" WeightUnit="Nox.Types.WeightUnit.Kilogram" />
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <UiViewVolume_g Volume="@testVolume" VolumeUnit="Nox.Types.VolumeUnit.CubicMeter" />
-                                </MudTd>
-                                <MudTd Style="vertical-align:top;">
-                                    <UiViewDistance_g Distance="@testDistance" DistanceUnit="Nox.Types.DistanceUnit.Kilometer" />
-                                </MudTd>
-                                <MudTd Style="vertical-align:top;">
-                                    <UiViewLength_g Length="@testLength" LengthUnit="Nox.Types.LengthUnit.Meter" />
-                                </MudTd>
-                                <MudTd Style="vertical-align:top;">
-                                    <UiViewArea_g Area="@testArea" AreaUnit="Nox.Types.AreaUnit.SquareMeter" />
-                                </MudTd>
+                                </MudTd>                                
                                 <MudTd Style="vertical-align:top;">
                                     <UiViewTemperature_g Temperature="@testTemperature" TemperatureUnit="Nox.Types.TemperatureUnit.Celsius" />
                                 </MudTd>
