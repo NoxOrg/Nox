@@ -170,18 +170,10 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
             throw new EntityNotFoundException("TestRelationshipOne", $"{relatedKey.ToString()}");
         }
         
-        var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in secondTestEntityTwoRelationshipsOneToMany.GetChangedPropertyNames())
-        {
-            if(secondTestEntityTwoRelationshipsOneToMany.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<SecondTestEntityTwoRelationshipsOneToManyPartialUpdateDto>(secondTestEntityTwoRelationshipsOneToMany);
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityTwoRelationshipsOneToManyCommand(relatedKey, updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityTwoRelationshipsOneToManyCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -367,18 +359,10 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
             throw new EntityNotFoundException("TestRelationshipTwo", $"{relatedKey.ToString()}");
         }
         
-        var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in secondTestEntityTwoRelationshipsOneToMany.GetChangedPropertyNames())
-        {
-            if(secondTestEntityTwoRelationshipsOneToMany.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<SecondTestEntityTwoRelationshipsOneToManyPartialUpdateDto>(secondTestEntityTwoRelationshipsOneToMany);
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityTwoRelationshipsOneToManyCommand(relatedKey, updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityTwoRelationshipsOneToManyCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToManyByIdQuery(updated.keyId))).SingleOrDefault();
         

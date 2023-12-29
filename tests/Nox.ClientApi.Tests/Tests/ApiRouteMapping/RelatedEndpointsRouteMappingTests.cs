@@ -3,6 +3,7 @@ using ClientApi.Application.Dto;
 using AutoFixture;
 using Xunit.Abstractions;
 using System.Net;
+using Nox.Application.Dto;
 
 namespace ClientApi.Tests.ApiRouteMapping;
 public partial class RelatedEndpointsRouteMappingTests : NoxWebApiTestBase
@@ -205,6 +206,79 @@ public partial class RelatedEndpointsRouteMappingTests : NoxWebApiTestBase
     #endregion
 
     #endregion GET
+
+    #region REF
+
+    #region POST /api/v1/Countries/1/Workplaces/1/Tenants/1
+    [Fact]
+    public async Task WhenPostRefToRelatedEntity_ShouldSucceed()
+    {
+        // Arrange
+        var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto { Name = _fixture.Create<string>() });
+        var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
+            new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+        var tenantResponse = await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TenantsUrl,
+            new TenantCreateDto { Name = _fixture.Create<string>() });
+
+        await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}/$ref");
+
+        //Act
+        await PostAsync(
+            $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/" +
+            $"{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}/" +
+            $"{nameof(WorkplaceDto.Tenants)}/{tenantResponse!.Id}/$ref");
+
+        const string oDataRequest = $"$expand={nameof(WorkplaceDto.Tenants)}";
+        var getResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}?{oDataRequest}");        
+
+        //Assert
+        getResponse.Should().NotBeNull();
+        getResponse!.Tenants.Should().NotBeNull();
+        getResponse!.Tenants.Should().HaveCount(1);
+        getResponse!.Tenants.First().Id.Should().Be(tenantResponse!.Id);
+    }
+    #endregion
+
+    #region PUT /api/v1/Countries/1/Workplaces/1/Tenants
+    [Fact]
+    public async Task WhenPostRefsToRelatedEntity_ShouldSucceed()
+    {
+        // Arrange
+        var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto { Name = _fixture.Create<string>() });
+        var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
+            new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+        var tenantResponse1 = await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TenantsUrl,
+            new TenantCreateDto { Name = _fixture.Create<string>() });
+        var tenantResponse2 = await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TenantsUrl,
+            new TenantCreateDto { Name = _fixture.Create<string>() });
+
+        await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}/$ref");
+
+        //Act
+        await PutAsync(
+            $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/" +
+            $"{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}/" +
+            $"{nameof(WorkplaceDto.Tenants)}/$ref",
+            new ReferencesDto<UInt32>
+            {
+                References = new List<UInt32> { tenantResponse1!.Id, tenantResponse2!.Id }
+            });
+
+        const string oDataRequest = $"$expand={nameof(WorkplaceDto.Tenants)}";
+        var getResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}?{oDataRequest}");
+
+        //Assert
+        getResponse.Should().NotBeNull();
+        getResponse!.Tenants.Should().NotBeNull();
+        getResponse!.Tenants.Should().HaveCount(2);
+        getResponse!.Tenants.Should().Contain(t => t.Id == tenantResponse1!.Id);
+        getResponse!.Tenants.Should().Contain(t => t.Id == tenantResponse2!.Id);
+    }
+    #endregion
+
+    #endregion REF
 
 
     private async Task<StoreDto?> CreateStore()

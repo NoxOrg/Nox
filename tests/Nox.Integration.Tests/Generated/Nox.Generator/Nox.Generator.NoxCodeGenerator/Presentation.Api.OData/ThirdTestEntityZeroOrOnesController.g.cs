@@ -142,18 +142,10 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
             throw new EntityNotFoundException("ThirdTestEntityExactlyOne", String.Empty);
         }
         
-        var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in thirdTestEntityExactlyOne.GetChangedPropertyNames())
-        {
-            if(thirdTestEntityExactlyOne.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<ThirdTestEntityExactlyOnePartialUpdateDto>(thirdTestEntityExactlyOne);
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateThirdTestEntityExactlyOneCommand(related.Id, updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateThirdTestEntityExactlyOneCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(updated.keyId))).SingleOrDefault();
         

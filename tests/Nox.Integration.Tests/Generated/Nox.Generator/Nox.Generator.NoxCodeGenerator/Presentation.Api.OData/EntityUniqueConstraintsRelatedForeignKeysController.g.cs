@@ -170,18 +170,10 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
             throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKeys", $"{relatedKey.ToString()}");
         }
         
-        var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in entityUniqueConstraintsWithForeignKey.GetChangedPropertyNames())
-        {
-            if(entityUniqueConstraintsWithForeignKey.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<EntityUniqueConstraintsWithForeignKeyPartialUpdateDto>(entityUniqueConstraintsWithForeignKey);
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateEntityUniqueConstraintsWithForeignKeyCommand(relatedKey, updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateEntityUniqueConstraintsWithForeignKeyCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(updated.keyId))).SingleOrDefault();
         
