@@ -29,7 +29,8 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 17
-          
+          distribution: 'zulu' 
+
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v3
         with:
