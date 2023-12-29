@@ -67,13 +67,13 @@ jobs:
         run: dotnet build Nox.sln --warnaserror --configuration Release --no-restore /p:ContinuousIntegrationBuild=true
         if: false
 
-      - name: Analyze
+      - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           ./.sonar/scanner/dotnet-sonarscanner begin /k:"NoxOrg_Nox" /o:"noxorg" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          run: dotnet build Nox.sln --warnaserror --configuration Release --no-restore --no-incremental
+          dotnet build Nox.sln --warnaserror --configuration Release --no-restore --no-incremental
           ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
         shell: pwsh
         
