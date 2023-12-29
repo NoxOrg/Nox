@@ -66,6 +66,9 @@ jobs:
           dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
         shell: pwsh
         
+      - name: Install dotnet-coverage
+        run: dotnet tool install -g dotnet-coverage
+      
       - name: Build, test and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
