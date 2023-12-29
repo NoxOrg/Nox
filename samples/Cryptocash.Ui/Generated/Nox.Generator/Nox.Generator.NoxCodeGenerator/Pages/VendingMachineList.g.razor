@@ -82,7 +82,7 @@
                                             <MudTabPanel Text="Details">
                                                 <MudGrid Style="margin-top:15px;">
                                                     <MudItem xs="6">
-                                                        <UiEditMacAddress_g @bind-MacAddress="CurrentAddEntity.MacAddress"
+                                                        <EditMacAddress @bind-MacAddress="CurrentAddEntity.MacAddress"
                                                                             Title="MAC Address"
                                                                             Format="##:##:##:##:##:##" />
                                                     </MudItem>
@@ -223,7 +223,7 @@
                                             <MudTabPanel Text="Details">
                                                 <MudGrid Style="margin-top:15px;">
                                                         <MudItem xs="6">
-                                                            <UiEditMacAddress_g @bind-MacAddress="CurrentEditEntity.MacAddress"
+                                                            <EditMacAddress @bind-MacAddress="CurrentEditEntity.MacAddress"
                                                                                 Title="MAC Address"
                                                                                 Format="##:##:##:##:##:##" />
                                                         </MudItem>
@@ -434,7 +434,7 @@
                                 @if (CurrentApiUiService!.IsPropertyShowInSearch("MacAddress"))
                                 {
                                     <MudTd>
-                                        <UiViewMacAddress_g MacAddress="@context.MacAddress" MacAddressFormat="Nox.Types.MacAddressFormat.ByteGroupWithColon" />
+                                        <ViewMacAddress MacAddress="@context.MacAddress" MacAddressFormat="Nox.Types.MacAddressFormat.ByteGroupWithColon" />
                                     </MudTd>
                                 }
 
