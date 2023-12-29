@@ -102,10 +102,10 @@
                                                                          CountrySelectionList="CountryEntityData?.EntityList" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <UiEditArea_g @bind-Area="CurrentAddEntity.InstallationFootPrint"
+                                                        <EditArea @bind-Area="CurrentAddEntity.InstallationFootPrint"
                                                                       Title="Installation Area"
                                                                       AreaUnit="Nox.Types.AreaUnit.SquareMeter"
-                                                                      Format="#.##" />
+                                                                      Format="#,##0.##" />
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                             <EditMoney @bind-Money="CurrentAddEntityRentPerSquareMetre"
@@ -243,10 +243,10 @@
                                                                              CountrySelectionList="CountryEntityData?.EntityList" />
                                                         </MudItem> *@
                                                         <MudItem xs="6">
-                                                            <UiEditArea_g @bind-Area="CurrentEditEntity.InstallationFootPrint"
+                                                            <EditArea @bind-Area="CurrentEditEntity.InstallationFootPrint"
                                                                           Title="Installation Area"
                                                                           AreaUnit="Nox.Types.AreaUnit.SquareMeter"
-                                                                          Format="#.##" />
+                                                                      Format="#,##0.##" />
                                                         </MudItem>
 @*                                                         <MudItem xs="6">
                                                           <EditMoney @bind-Money="CurrentEditEntityRentPerSquareMetre"
