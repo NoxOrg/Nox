@@ -79,8 +79,7 @@ internal class SchemaValidator
         {
             var allowedProperties = schemaProperty
                 .GetChildSchemaProperties(objectInstance)
-                .Select(p => p.Name)
-                ?? Enumerable.Empty<string>();
+                .Select(p => p.Name);
 
             foreach (var prop in objectInstance)
             {
