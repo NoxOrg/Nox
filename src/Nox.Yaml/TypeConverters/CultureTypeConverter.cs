@@ -11,15 +11,6 @@ namespace Nox.Types.Abstractions.TypeConverters;
 
 public class CultureTypeConverter: IYamlTypeConverter
 {
-    private static readonly ImmutableSortedDictionary<string,Culture> CultureCodeToCulture = Enum.GetValues(typeof(Culture))
-        .Cast<Culture>()
-        .ToImmutableSortedDictionary(x =>
-            {
-                var field = x.GetType().GetField(x.ToString())!;
-                var attribute = field.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() as DisplayNameAttribute;
-                return attribute?.DisplayName ?? x.ToString();
-            }, 
-            x => x);
     public bool Accepts(Type type)
     {
         return type == typeof(Culture);
@@ -31,7 +22,7 @@ public class CultureTypeConverter: IYamlTypeConverter
             throw new InvalidOperationException("Expected a YAML scalar");
         
         var scalar = parser!.Consume<Scalar>();
-        if (CultureCodeToCulture.TryGetValue(scalar.Value, out var cultureValue))
+        if (Yaml.Constants.CultureCodes.TryGetValue(scalar.Value, out var cultureValue))
         {
             return cultureValue;
         }
@@ -46,7 +37,7 @@ public class CultureTypeConverter: IYamlTypeConverter
             return;
 
         Culture culture = (Culture)value;
-        var kvp = CultureCodeToCulture.FirstOrDefault(k => k.Value == culture);
+        var kvp = Yaml.Constants.CultureCodes.FirstOrDefault(k => k.Value == culture);
         
         emitter.Emit(new MappingStart(null, null, false, MappingStyle.Block));
         

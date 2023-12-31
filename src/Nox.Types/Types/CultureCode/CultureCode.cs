@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using Nox.Types.Abstractions.Extensions;
 using Nox.Yaml.Attributes;
 using Nox.Yaml.Enums.CultureCode;
 
@@ -14,13 +15,6 @@ namespace Nox.Types;
 /// </summary>
 public partial class CultureCode : ValueObject<string, CultureCode>
 {
-    private static readonly ImmutableHashSet<string> SupportedCultureCodes = System.Enum.GetValues(typeof(Culture)).Cast<Culture>().Select(v =>
-    {
-        var field =  v.GetType().GetField(v.ToString())!;
-        var attribute = field.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() as DisplayNameAttribute;
-        return attribute?.DisplayName ?? v.ToString();
-    }).ToImmutableHashSet();
-    
     /// <summary>
     /// Validates the <see cref="CultureCode"/> object.
     /// </summary>
@@ -29,7 +23,7 @@ public partial class CultureCode : ValueObject<string, CultureCode>
     {
         var result = base.Validate();
 
-        if (!SupportedCultureCodes.Contains(Value))
+        if (!Nox.Yaml.Constants.CultureCodes.Select(k=>k.Key).Contains(Value))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox CultureCode type with unsupported value '{Value}'."));
         }
@@ -44,17 +38,9 @@ public partial class CultureCode : ValueObject<string, CultureCode>
     /// <returns>A new instance of <see cref="CultureCode"/></returns>
     public static CultureCode From(Culture value)
     {
-       
-        var field =  value.GetType().GetField(value.ToString());
-        DisplayNameAttribute? attribute = null;
-        if(field is not null)
-        {
-            attribute = field.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() as DisplayNameAttribute;
-        }
-        var cultureCode = attribute?.DisplayName ?? value.ToString();
         var newObject = new CultureCode
         {
-            Value = cultureCode
+            Value = value.ToDisplayName()
         };
         
         var validationResult = newObject.Validate();
