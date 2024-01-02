@@ -3,7 +3,10 @@ using Nox.Solution;
 
 namespace Nox.Lib;
 
-public class NoxApiMiddleware
+/// <summary>
+/// Uses Nox Solution <see cref="ApiRouteMapping"/> to re route calls to default paths
+/// </summary>
+public class ApiRoutingMiddleware
 {
     private readonly PathString _apiPrefix;
 
@@ -11,7 +14,7 @@ public class NoxApiMiddleware
 
     private readonly Dictionary<string, List<RouteMatcher>> _verbMatchers = new();
 
-    public NoxApiMiddleware(RequestDelegate next, NoxSolution solution)
+    public ApiRoutingMiddleware(RequestDelegate next, NoxSolution solution)
     {
         _next = next;
 
