@@ -50,7 +50,7 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.14" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
 		<PackageReference Include="Microsoft.OData.ModelBuilder" Version="1.0.9" />
-		<PackageReference Include="Moq" Version="4.20.69" />
+		<PackageReference Include="Moq" Version="4.20.70" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
 		<PackageReference Include="Npgsql" Version="7.0.6" />
 		<PackageReference Include="Testcontainers" Version="3.6.0" />
