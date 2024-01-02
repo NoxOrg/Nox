@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace TestWebApp.Domain;
 
@@ -73,22 +74,12 @@ public partial class TestEntityLocalizationMetadata
         public static Nox.Types.Number CreateNumberField(System.Int16 value)
             => Nox.Types.Number.From(value, NumberFieldTypeOptions);
         
-
         /// <summary>
         /// User Interface for property 'TextFieldToLocalize'
         /// </summary>
-        public static TypeUserInterface? TextFieldToLocalizeUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityLocalization")
-                .GetAttributeByName("TextFieldToLocalize")?
-                .UserInterface;
-
+        public static TypeUserInterface? TextFieldToLocalizeUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'NumberField'
         /// </summary>
-        public static TypeUserInterface? NumberFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityLocalization")
-                .GetAttributeByName("NumberField")?
-                .UserInterface;
+        public static TypeUserInterface? NumberFieldUiOptions {get; private set;} = null; 
 }

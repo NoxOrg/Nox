@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace TestWebApp.Domain;
 
@@ -55,13 +56,8 @@ public partial class SecEntityOwnedRelZeroOrManyMetadata
         public static Nox.Types.Text CreateTextTestField2(System.String value)
             => Nox.Types.Text.From(value, TextTestField2TypeOptions);
         
-
         /// <summary>
         /// User Interface for property 'TextTestField2'
         /// </summary>
-        public static TypeUserInterface? TextTestField2UiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("SecEntityOwnedRelZeroOrMany")
-                .GetAttributeByName("TextTestField2")?
-                .UserInterface;
+        public static TypeUserInterface? TextTestField2UiOptions {get; private set;} = null; 
 }

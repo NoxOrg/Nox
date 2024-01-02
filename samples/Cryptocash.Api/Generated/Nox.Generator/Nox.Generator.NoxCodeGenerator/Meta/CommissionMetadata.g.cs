@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace Cryptocash.Domain;
 
@@ -43,22 +44,28 @@ public partial class CommissionMetadata
         public static Nox.Types.CountryCode2 CreateCountryId(System.String value)
             => Nox.Types.CountryCode2.From(value);
         
-
         /// <summary>
         /// User Interface for property 'Rate'
         /// </summary>
-        public static TypeUserInterface? RateUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Commission")
-                .GetAttributeByName("Rate")?
-                .UserInterface;
-
+        public static TypeUserInterface? RateUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'EffectiveAt'
         /// </summary>
-        public static TypeUserInterface? EffectiveAtUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Commission")
-                .GetAttributeByName("EffectiveAt")?
-                .UserInterface;
+        public static TypeUserInterface? EffectiveAtUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
 }

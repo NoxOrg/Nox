@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace TestWebApp.Domain;
 
@@ -53,13 +54,8 @@ public partial class ForReferenceNumberMetadata
         public static Nox.Types.ReferenceNumber CreateWorkplaceNumber(System.String value)
             => Nox.Types.ReferenceNumber.From(value, WorkplaceNumberTypeOptions);
         
-
         /// <summary>
         /// User Interface for property 'WorkplaceNumber'
         /// </summary>
-        public static TypeUserInterface? WorkplaceNumberUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("ForReferenceNumber")
-                .GetAttributeByName("WorkplaceNumber")?
-                .UserInterface;
+        public static TypeUserInterface? WorkplaceNumberUiOptions {get; private set;} = null; 
 }
