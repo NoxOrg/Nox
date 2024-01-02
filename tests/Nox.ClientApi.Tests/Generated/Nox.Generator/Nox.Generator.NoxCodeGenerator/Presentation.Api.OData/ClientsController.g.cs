@@ -170,18 +170,10 @@ public abstract partial class ClientsControllerBase : ODataController
             throw new EntityNotFoundException("Stores", $"{relatedKey.ToString()}");
         }
         
-        var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in store.GetChangedPropertyNames())
-        {
-            if(store.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<StorePartialUpdateDto>(store);
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateStoreCommand(relatedKey, updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateStoreCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetStoreByIdQuery(updated.keyId))).SingleOrDefault();
         

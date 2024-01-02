@@ -99,23 +99,15 @@ public abstract partial class CurrenciesControllerBase : ODataController
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var updateProperties = new Dictionary<string, dynamic>();
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<BankNoteUpsertDto>(bankNote);
         
-        foreach (var propertyName in bankNote.GetChangedPropertyNames())
-        {
-            if(bankNote.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
-        
-        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
+        if(!updatedProperties.ContainsKey("Id") || updatedProperties["Id"] == null)
         {
             throw new Nox.Exceptions.BadRequestException("Id is required.");
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateBankNotesForCurrencyCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(updateProperties["Id"]), updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateBankNotesForCurrencyCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(updatedProperties["Id"]), updatedProperties, _cultureCode, etag));
         
         var child = await TryGetBankNotes(key, updated!);
         
@@ -209,23 +201,15 @@ public abstract partial class CurrenciesControllerBase : ODataController
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var updateProperties = new Dictionary<string, dynamic>();
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<ExchangeRateUpsertDto>(exchangeRate);
         
-        foreach (var propertyName in exchangeRate.GetChangedPropertyNames())
-        {
-            if(exchangeRate.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
-        
-        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
+        if(!updatedProperties.ContainsKey("Id") || updatedProperties["Id"] == null)
         {
             throw new Nox.Exceptions.BadRequestException("Id is required.");
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateExchangeRatesForCurrencyCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(updateProperties["Id"]), updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateExchangeRatesForCurrencyCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(updatedProperties["Id"]), updatedProperties, _cultureCode, etag));
         
         var child = await TryGetExchangeRates(key, updated!);
         
@@ -383,18 +367,10 @@ public abstract partial class CurrenciesControllerBase : ODataController
             throw new EntityNotFoundException("Countries", $"{relatedKey.ToString()}");
         }
         
-        var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in country.GetChangedPropertyNames())
-        {
-            if(country.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CountryPartialUpdateDto>(country);
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCountryCommand(relatedKey, updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -561,18 +537,10 @@ public abstract partial class CurrenciesControllerBase : ODataController
             throw new EntityNotFoundException("MinimumCashStocks", $"{relatedKey.ToString()}");
         }
         
-        var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in minimumCashStock.GetChangedPropertyNames())
-        {
-            if(minimumCashStock.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<MinimumCashStockPartialUpdateDto>(minimumCashStock);
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateMinimumCashStockCommand(relatedKey, updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateMinimumCashStockCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetMinimumCashStockByIdQuery(updated.keyId))).SingleOrDefault();
         

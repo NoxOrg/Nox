@@ -158,18 +158,10 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
             throw new EntityNotFoundException("TestEntityOneOrManies", $"{relatedKey.ToString()}");
         }
         
-        var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in testEntityOneOrMany.GetChangedPropertyNames())
-        {
-            if(testEntityOneOrMany.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<TestEntityOneOrManyPartialUpdateDto>(testEntityOneOrMany);
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateTestEntityOneOrManyCommand(relatedKey, updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateTestEntityOneOrManyCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetTestEntityOneOrManyByIdQuery(updated.keyId))).SingleOrDefault();
         

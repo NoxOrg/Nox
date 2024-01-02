@@ -343,20 +343,12 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.StartBlock();
         code.AppendLine($"throw new Nox.Exceptions.BadRequestException(ModelState);");
         code.EndBlock();
-        code.AppendLine(@$"var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in {child.Name.ToLowerFirstChar()}.GetChangedPropertyNames())
-        {{
-            if({child.Name.ToLowerFirstChar()}.TryGetPropertyValue(propertyName, out dynamic value))
-            {{
-                updateProperties[propertyName] = value;                
-            }}           
-        }}");
+        code.AppendLine($"var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<{child.Name}UpsertDto>({child.Name.ToLowerFirstChar()});");
         code.AppendLine();
 
         if (child.Keys.Any())
         {
-            code.AppendLine($"if(!updateProperties.ContainsKey(\"{child.Keys[0].Name}\") || updateProperties[\"{child.Keys[0].Name}\"] == null)");
+            code.AppendLine($"if(!updatedProperties.ContainsKey(\"{child.Keys[0].Name}\") || updatedProperties[\"{child.Keys[0].Name}\"] == null)");
             code.StartBlock();
             code.AppendLine($"throw new Nox.Exceptions.BadRequestException(\"{child.Keys[0].Name} is required.\");");
             code.EndBlock();
@@ -367,12 +359,12 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         if (isSingleRelationship)
             code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{navigationName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
-                $"updateProperties, _cultureCode, etag));");
+                $"updatedProperties, _cultureCode, etag));");
         else
             code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{navigationName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
-                $"new {child.Name}KeyDto(updateProperties[\"{child.Keys[0].Name}\"]), " +
-                $"updateProperties, _cultureCode, etag));");
+                $"new {child.Name}KeyDto(updatedProperties[\"{child.Keys[0].Name}\"]), " +
+                $"updatedProperties, _cultureCode, etag));");
         code.AppendLine();
 
         if (isSingleRelationship)
@@ -841,23 +833,14 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         }
 
         code.AppendLine();
-        code.AppendLine(@$"var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in {relatedEntity.Name.ToLowerFirstChar()}.GetChangedPropertyNames())
-        {{
-            if({relatedEntity.Name.ToLowerFirstChar()}.TryGetPropertyValue(propertyName, out dynamic value))
-            {{
-                updateProperties[propertyName] = value;                
-            }}           
-        }}");
-
+        code.AppendLine($"var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<{relatedEntity.Name}PartialUpdateDto>({relatedEntity.Name.ToLowerFirstChar()});");
         code.AppendLine();
         code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
         var relatedKeyQuery = isSingleRelationship ?
             $"{GetPrimaryKeysQuery(relatedEntity, "related.", true)}" :
             $"{GetPrimaryKeysQuery(relatedEntity, "relatedKey")}";
         code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{relatedEntity.Name}Command({relatedKeyQuery}, " +
-            $"updateProperties, _cultureCode, etag));");
+            $"updatedProperties, _cultureCode, etag));");
         code.AppendLine();
         code.AppendLine($"var updatedItem = (await _mediator.Send(new Get{relatedEntity.Name}ByIdQuery(updated.key{relatedEntity.Keys[0].Name}))).SingleOrDefault();");
         code.AppendLine();

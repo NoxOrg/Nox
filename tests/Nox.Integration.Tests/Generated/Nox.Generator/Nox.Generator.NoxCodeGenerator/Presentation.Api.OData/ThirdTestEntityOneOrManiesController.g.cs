@@ -158,18 +158,10 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
             throw new EntityNotFoundException("ThirdTestEntityZeroOrManies", $"{relatedKey.ToString()}");
         }
         
-        var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in thirdTestEntityZeroOrMany.GetChangedPropertyNames())
-        {
-            if(thirdTestEntityZeroOrMany.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<ThirdTestEntityZeroOrManyPartialUpdateDto>(thirdTestEntityZeroOrMany);
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateThirdTestEntityZeroOrManyCommand(relatedKey, updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateThirdTestEntityZeroOrManyCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetThirdTestEntityZeroOrManyByIdQuery(updated.keyId))).SingleOrDefault();
         

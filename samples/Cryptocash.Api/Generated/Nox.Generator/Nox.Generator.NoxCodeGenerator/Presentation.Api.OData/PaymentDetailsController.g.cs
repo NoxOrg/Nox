@@ -118,18 +118,10 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
             throw new EntityNotFoundException("Customer", String.Empty);
         }
         
-        var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in customer.GetChangedPropertyNames())
-        {
-            if(customer.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CustomerPartialUpdateDto>(customer);
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCustomerCommand(related.Id, updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateCustomerCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetCustomerByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -224,18 +216,10 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
             throw new EntityNotFoundException("PaymentProvider", String.Empty);
         }
         
-        var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in paymentProvider.GetChangedPropertyNames())
-        {
-            if(paymentProvider.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<PaymentProviderPartialUpdateDto>(paymentProvider);
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdatePaymentProviderCommand(related.Id, updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdatePaymentProviderCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetPaymentProviderByIdQuery(updated.keyId))).SingleOrDefault();
         

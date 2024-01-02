@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Nox.Solution;
+using System.Text;
 
 namespace Nox.Middlewares;
 
 internal class RelatedEndpointsMiddleware
 {
+    private const string _refSegment = "$ref";
+    private const int _minSegmentCount = 5;
+ 
     private readonly RequestDelegate _next;
 
     private readonly PathString _apiPrefix;
@@ -82,7 +86,7 @@ internal class RelatedEndpointsMiddleware
     }
 
 
-    private bool TryParseAndValidatePath(out List<string> segments, string path, int minSegmentCount = 5)
+    private bool TryParseAndValidatePath(out List<string> segments, string path)
     {
         path = path.ToLower();
 
@@ -98,7 +102,7 @@ internal class RelatedEndpointsMiddleware
             if (slashIndex == -1)
             {
                 var newSegment = pathSpan.Slice(startIndex).ToString();
-                if (!IsSegmentValid(newSegment, count++))
+                if (!IsSegmentValid(newSegment, count, isLast: true))
                     return false;
                 segments.Add(newSegment);
                 break;
@@ -113,18 +117,20 @@ internal class RelatedEndpointsMiddleware
             }
         }
 
-        if (segments.Count < minSegmentCount)
+        if (!IsDepthAndCountValid(segments))
             return false;
 
         if (!IsFirstPairValid(segments[0], segments[2]))
             return false;
 
-        return IsDepthValid(segments);
+        return true;
     }
 
-    private bool IsSegmentValid(string segment, int index)
+    private bool IsSegmentValid(string segment, int index, bool isLast = false)
     {
-        if (index == 0)
+        if (isLast && segment.Equals(_refSegment, StringComparison.OrdinalIgnoreCase))
+            return true;
+        else if (index == 0)
             return _entitiesPluralNames.Contains(segment, StringComparer.OrdinalIgnoreCase);
         else if (index % 2 == 0)
             return _navigationNameToEntityPluralName.ContainsKey(segment);
@@ -132,14 +138,16 @@ internal class RelatedEndpointsMiddleware
             return true; //even segments are valid by default
     }
 
-    private bool IsDepthValid(List<string> segments)
+    private bool IsDepthAndCountValid(List<string> segments)
     {
         var count = segments.Count;
-        //if(segments.Last() == "$ref")
-        //    count--;
+        if (segments[count - 1].Equals(_refSegment, StringComparison.OrdinalIgnoreCase))
+            count--;
+
+        if (count < _minSegmentCount)
+            return false;
 
         var depth = (int)Math.Ceiling((double)count / 2) - 1;
-
         return depth <= _endpointsMaxDepth;
     }
 
@@ -150,16 +158,30 @@ internal class RelatedEndpointsMiddleware
 
     private PathString BuildNewPath(List<string> segments)
     {
+        var lastSegment = string.Empty;
+        if (segments[segments.Count - 1].Equals(_refSegment, StringComparison.OrdinalIgnoreCase))
+        {
+            segments.RemoveAt(segments.Count - 1);
+            lastSegment = _refSegment;
+        }
+
         int count = segments.Count;
         bool isEvenCount = count % 2 != 0;
+        int start = isEvenCount ? count - 3 : count - 4;
+
+        var pathBuilder = new StringBuilder(_apiPrefix);
+        pathBuilder.Append(_navigationNameToEntityPluralName[segments[start]]);
+        pathBuilder.Append('/');
 
         if (isEvenCount)
         {
-            return new PathString(_apiPrefix + _navigationNameToEntityPluralName[segments[count - 3]] + "/" + segments[count - 2] + "/" + segments[^1]);
+            pathBuilder.Append($"{segments[count - 2]}/{segments[count - 1]}/{lastSegment}");
         }
         else
         {
-            return new PathString(_apiPrefix + _navigationNameToEntityPluralName[segments[count - 4]] + "/" + segments[count - 3] + "/" + segments[count - 2] + "/" + segments[^1]);
+            pathBuilder.Append($"{segments[count - 3]}/{segments[count - 2]}/{segments[count - 1]}/{lastSegment}");
         }
+
+        return new PathString(pathBuilder.ToString());
     }
 }
