@@ -24,7 +24,7 @@ public partial class ViewTemperature : ComponentBase
         {
             if (Temperature.HasValue)
             {
-                return Temperature.Value.ToString(Format) + DisplayTemperatureUnit();
+                return Temperature.Value.ToString(Format) + " " + DisplayTemperatureUnit();
             }
 
             return String.Empty;
@@ -35,12 +35,12 @@ public partial class ViewTemperature : ComponentBase
     {
         if (TemperatureUnit == TemperatureUnit.Fahrenheit)
         {
-            return " " + TemperatureUnit.Fahrenheit.Symbol;
+            return TemperatureUnit.Fahrenheit.Symbol;
         }
 
         if (TemperatureUnit == TemperatureUnit.Celsius)
         {
-            return " " + TemperatureUnit.Celsius.Symbol;
+            return TemperatureUnit.Celsius.Symbol;
         }
 
         return String.Empty;

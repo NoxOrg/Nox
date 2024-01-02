@@ -49,5 +49,5 @@ public partial class EditMacAddress : ComponentBase
         };
     }
 
-    private static char AllUpperCase(char c) => c.ToString().ToUpperInvariant()[0];
+    private static char AllUpperCase(char c) => Char.ToUpper(c);
 }

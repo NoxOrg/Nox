@@ -25,7 +25,7 @@ public partial class ViewLength : ComponentBase
             if (Length != null
                 && Length > 0)
             {
-                return Length?.ToString(Format) + DisplayLengthUnit();
+                return Length?.ToString(Format) + " " + DisplayLengthUnit();
             }
 
             return String.Empty;
@@ -36,12 +36,12 @@ public partial class ViewLength : ComponentBase
     {
         if (LengthUnit == LengthUnit.Foot)
         {
-            return " " + LengthUnit.Foot.Symbol;
+            return LengthUnit.Foot.Symbol;
         }
 
         if (LengthUnit == LengthUnit.Meter)
         {
-            return " " + LengthUnit.Meter.Symbol;
+            return LengthUnit.Meter.Symbol;
         }
 
         return String.Empty;
