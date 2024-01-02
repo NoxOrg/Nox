@@ -26,7 +26,7 @@ public partial class ViewArea : ComponentBase
             if (Area != null
                 && Area > 0)
             {
-                return Area?.ToString(Format) + DisplayAreaUnit();
+                return Area?.ToString(Format) + " " + DisplayAreaUnit();
             }
 
             return string.Empty;
@@ -37,12 +37,12 @@ public partial class ViewArea : ComponentBase
     {
         if (AreaUnit == AreaUnit.SquareFoot)
         {
-            return " " + AreaUnit.SquareFoot.Symbol;
+            return AreaUnit.SquareFoot.Symbol;
         }
 
         if (AreaUnit == AreaUnit.SquareMeter)
         {
-            return " " + AreaUnit.SquareMeter.Symbol;
+            return AreaUnit.SquareMeter.Symbol;
         }
 
         return String.Empty;       

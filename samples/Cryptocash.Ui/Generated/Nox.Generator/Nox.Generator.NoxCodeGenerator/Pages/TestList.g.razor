@@ -92,11 +92,7 @@
                                     <MudItem xs="12">
                                         <MudTabs Rounded="true" Border="true" HideSlider="true">
                                             <MudTabPanel Text="Details">
-                                                <MudGrid Style="margin-top:15px;">
-                                                    <MudItem xs="6">
-                                                        <UiEditPercentage_g Title="Percentage"
-                                                            Format="#.##" />
-                                                    </MudItem>
+                                                <MudGrid Style="margin-top:15px;">                                                    
                                                     <MudItem xs="6">
                                                         <UiEditYear_g Title="Year" />
                                                     </MudItem>                                                    
@@ -108,13 +104,7 @@
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <UiEditLength_g Title="Length" LengthUnit="Nox.Types.LengthUnit.Meter" />
-                                                    </MudItem>
-                                                    <MudItem xs="6">
-                                                        <UiEditTemperature_g Title="Temperature" TemperatureUnit="Nox.Types.TemperatureUnit.Celsius" />
-                                                    </MudItem>
-                                                    <MudItem xs="6">
-                                                        <UiEditNumber_g Title="Number" Format="#.##" Minimum="0" Maximum="100" />
-                                                    </MudItem>
+                                                    </MudItem>                                                    
                                                     <MudItem xs="6">
                                                         <UiEditCurrency_g Title="Currency" CurrencySelectionList="@testCurrencySelectionList" />
                                                     </MudItem>
@@ -189,11 +179,8 @@
                     @if (PagedData != null
                    && CurrentApiUiService != null)
                     {
-                        float? testPercentage = (float)36.67;
                         Decimal? testWeight = (Decimal)23.56;
-                        Decimal? testVolume = (Decimal)85.31;
-                        Decimal? testTemperature = (Decimal)14.33;
-                        Decimal? testNumber = (Decimal)23.75;
+                        Decimal? testVolume = (Decimal)85.31;                        
                         CountryDto testCountry = new CountryDto()
                                 {
                                     Name = "United Kingdom"
@@ -263,14 +250,11 @@
                                   Style="border-style:solid;border-width:2px;border-color:lightgray;"
                                   HeaderClass="custom-header"
                                   Dense="true">
-                            <HeaderContent>
-                                <MudTh>Percentage</MudTh>
+                            <HeaderContent>                                
                                 <MudTh>Year</MudTh>
                                 <MudTh>Weight</MudTh>
-                                <MudTh>Volume</MudTh>
-                                <MudTh>Temperature</MudTh>
+                                <MudTh>Volume</MudTh>                                
                                 <MudTh>Country</MudTh>
-                                <MudTh>Number</MudTh>
                                 <MudTh>Money</MudTh>
                                 <MudTh>Currency</MudTh>
                                 <MudTh>LatLong</MudTh>
@@ -284,10 +268,7 @@
                                 <MudTh>DateTime</MudTh>
                                 <MudTh>DateTimeRange</MudTh>
                             </HeaderContent>
-                            <RowTemplate> 
-                                <MudTd Style="vertical-align:top;">
-                                    <UiViewPercentage_g Percentage="@testPercentage" />                                    
-                                </MudTd> 
+                            <RowTemplate>                                 
                                 <MudTd Style="vertical-align:top;">
                                     <UiViewYear_g Year="2023" />
                                 </MudTd>
@@ -296,15 +277,9 @@
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <UiViewVolume_g Volume="@testVolume" VolumeUnit="Nox.Types.VolumeUnit.CubicMeter" />
-                                </MudTd>                                
-                                <MudTd Style="vertical-align:top;">
-                                    <UiViewTemperature_g Temperature="@testTemperature" TemperatureUnit="Nox.Types.TemperatureUnit.Celsius" />
-                                </MudTd>
+                                </MudTd>  
                                 <MudTd Style="vertical-align:top;">
                                     <UiViewCountry_g Country="@testCountry" />
-                                </MudTd>
-                                <MudTd Style="vertical-align:top;">
-                                    <UiViewNumber_g Number="@testNumber" Format="#.##" />
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <UiViewCurrency_g Currency="@testCurrency" />

@@ -24,7 +24,7 @@ public partial class ViewDistance : ComponentBase
             if (Distance != null
                 && Distance > 0)
             {
-                return Distance?.ToString(Format) + DisplayDistanceUnit();
+                return Distance?.ToString(Format) + " " + DisplayDistanceUnit();
             }
 
             return String.Empty;
@@ -35,12 +35,12 @@ public partial class ViewDistance : ComponentBase
     {
         if (DistanceUnit == DistanceUnit.Kilometer)
         {
-            return " " + DistanceUnit.Kilometer.Symbol;
+            return DistanceUnit.Kilometer.Symbol;
         }
 
         if (DistanceUnit == DistanceUnit.Mile)
         {
-            return " " + DistanceUnit.Mile.Symbol;
+            return DistanceUnit.Mile.Symbol;
         }
 
         return String.Empty;
