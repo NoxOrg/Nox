@@ -43,6 +43,8 @@ internal static class {{className}}
             configurator.WithHealthChecks(healthChecksBuilder => healthChecksBuilder.AddDbContextCheck<AppDbContext>());
             configureNox?.Invoke(configurator);
         });
+
+        services.AddScoped<Nox.Application.Queries.IValidateEntityChainQueryHandler, {{solutionName}}.Application.Queries.ValidateEntityChainQueryHandler>();
        
         {{- if configPresentation == true }}
         services.AddNoxOdata(configureNoxOdata);

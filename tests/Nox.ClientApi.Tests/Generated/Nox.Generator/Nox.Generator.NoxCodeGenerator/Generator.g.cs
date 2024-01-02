@@ -69,6 +69,7 @@
 //  - Nox.Generator.Application.Queries.QueryGenerator
 //  - Nox.Generator.Application.Queries.TranslationsByIdQueryGenerator
 //  - Nox.Generator.Application.Queries.TranslationsQueryGenerator
+//  - Nox.Generator.Application.Queries.ValidateEntityChainQueryGenerator
 //  - Nox.Generator.Application.Integration.CustomTransformHandlerGenerator
 //  - Nox.Generator.Application.Integration.EtlEventGenerator
 //  - Nox.Generator.Application.Factories.EntityFactoryGenerator

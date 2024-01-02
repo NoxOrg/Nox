@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
+using Microsoft.AspNetCore.Http;
+using Nox.Application.Queries;
 using Nox.Solution;
 using System.Buffers;
 
@@ -21,13 +23,16 @@ internal class RelatedEntityRoutingMiddleware
     /// </summary>
     private readonly int _apiPrefixSliceIndex;
     private readonly int _endpointsMaxDepth;
+    private readonly IValidateEntityChainQueryHandler _validator;
     private readonly HashSet<string> _entitiesPluralNamesLowerCase;
     private readonly Dictionary<string, string> _navigationNameToEntityPluralName = new(StringComparer.OrdinalIgnoreCase);
     private readonly IReadOnlySet<(string entityName, string navigationName)> _canRedirect;
     private readonly ArrayPool<string> poolOfStrings = ArrayPool<string>.Shared;
 
-    public RelatedEntityRoutingMiddleware(RequestDelegate next, NoxSolution solution)
+    public RelatedEntityRoutingMiddleware(RequestDelegate next, NoxSolution solution, IValidateEntityChainQueryHandler validator)
     {
+        _validator = validator;
+
         _next = next;
 
         _apiPrefix = solution.Presentation.ApiConfiguration.ApiRoutePrefix + "/";
@@ -137,6 +142,9 @@ internal class RelatedEntityRoutingMiddleware
 
             if (!IsFirstPairValid(segments[0], segments[2]))
                 return false;
+            
+            if (!IsChainValid(segments, segmentsCount))
+                return false;
 
             redirectPath = BuildRedirectToPath(segments, segmentsCount);
             return true;
@@ -175,6 +183,23 @@ internal class RelatedEntityRoutingMiddleware
     private bool IsFirstPairValid(string entityName, string navigationName)
     {
         return _canRedirect.Contains((entityName, navigationName));
+    }
+
+    private bool IsChainValid(IReadOnlyList<string> segments, int segmentCount)
+    {
+        var count = segmentCount;
+        if (segments[count - 1].Equals(_refSegment))
+            count--;
+
+        var navigationPropertiesCount = (count - 3) / 2;
+        var navigationProperties = new (string, string)[navigationPropertiesCount];
+
+        for (int i = 2, j = 0; i < count - 1 && j < navigationPropertiesCount; i += 2, j++)
+        {
+            navigationProperties[j] = (segments[i], segments[i + 1]);
+        }
+
+        return _validator.Handle(new ValidateEntityChainQuery (segments[0], segments[1], navigationProperties));
     }
 
     private PathString BuildRedirectToPath(IReadOnlyList<string> segments, int segmentsCount)
