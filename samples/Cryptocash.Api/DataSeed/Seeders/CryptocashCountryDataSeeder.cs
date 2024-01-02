@@ -35,7 +35,7 @@ internal class CryptocashCountryDataSeeder : DataSeederBase<CountryDto, Country>
             CoatOfArmsPng = model.CoatOfArmsPng == null ? null : Image.From(model.CoatOfArmsPng!),
             GoogleMapsUrl = Url.From(model.GoogleMapsUrl!),
             OpenStreetMapsUrl = Url.From(model.OpenStreetMapsUrl!),
-            StartOfWeek = Nox.Types.DayOfWeek.From((ushort)model.StartOfWeek!),
+            StartOfWeek = Nox.Types.DayOfWeek.From(model.StartOfWeek!),
             CurrencyId = CurrencyCode3.From(model.CurrencyId!),
             Population = Number.From(model.Population)
         };
