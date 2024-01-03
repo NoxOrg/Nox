@@ -3,13 +3,13 @@ using Microsoft.OpenApi.Models;
 using Nox.Solution;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Nox.OData;
+namespace Nox.Presentation.Api.Swagger;
 
 /// <summary>
 /// This filter is intended to format default OData generated API
 /// to more usable form specyfing particular entities available
 /// </summary>
-public class ApiRouteMappingDocumentFilter : IDocumentFilter
+internal class ApiRouteMappingDocumentFilter : IDocumentFilter
 {
     private readonly NoxSolution _solution;
 

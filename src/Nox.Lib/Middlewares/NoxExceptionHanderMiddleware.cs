@@ -7,7 +7,7 @@ using Nox.Types;
 
 namespace Nox.Lib;
 
-public class NoxExceptionHanderMiddleware
+internal class NoxExceptionHanderMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<NoxExceptionHanderMiddleware> _logger;

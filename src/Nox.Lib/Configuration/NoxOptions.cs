@@ -14,7 +14,6 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.EntityFramework.Sqlite;
 using Nox.EntityFramework.Postgres;
 using Nox.EntityFramework.SqlServer;
-using Nox.OData;
 using Nox.Infrastructure.Messaging.InMemoryBus;
 using Nox.Infrastructure.Messaging.AzureServiceBus;
 using Nox.Infrastructure;
@@ -24,8 +23,8 @@ using Nox.Domain;
 using Nox.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Nox.Integration.SqlServer;
-using Nox.Presentation.Api.OData;
 using SqlKata.Compilers;
+using Nox.Presentation.Api.Swagger;
 
 namespace Nox.Configuration
 {
