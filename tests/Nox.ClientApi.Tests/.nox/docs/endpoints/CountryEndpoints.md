@@ -176,9 +176,57 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/v1/Countries/{key}/PhysicalWorkplaces`
   - Description: Delete all existing Workplaces for a specific Country.
 
+### Store
+
+#### Get Store relations
+- **GET** `/api/v1/Countries/{key}/StoresInTheCountry/$ref`
+  - Description: Retrieve all existing Stores relations for a specific Country.
+  
+#### Create Store relation
+- **POST** `/api/v1/Countries/{key}/StoresInTheCountry/{relatedKey}/$ref`
+  - Description: Create a new Store relation for a specific Country.
+  
+#### Update Store relation
+- **PUT** `/api/v1/Countries/{key}/StoresInTheCountry/{relatedKey}/$ref`
+  - Description: Updates an existing Store relation for a specific Country.
+- **PUT** `/api/v1/Countries/{key}/StoresInTheCountry/$ref`
+  - Description: Updates the Store relations for a specific Country.
+
+#### Delete Store relation
+- **DELETE** `/api/v1/Countries/{key}/StoresInTheCountry/{relatedKey}/$ref`
+  - Description: Delete an existing Store relation for a specific Country.
+
+#### Delete Store relations
+- **DELETE** `/api/v1/Countries/{key}/StoresInTheCountry/$ref`
+  - Description: Delete all existing Stores relations for a specific Country.
+
+#### Get Store
+- **GET** `/api/v1/Countries/{key}/StoresInTheCountry`
+  - Description: Retrieve all existing Stores for a specific Country.
+  
+#### Create Store
+- **POST** `/api/v1/Countries/{key}/StoresInTheCountry/{relatedKey}`
+  - Description: Create a new Store for a specific Country.
+  
+#### Update Store
+- **PUT** `/api/v1/Countries/{key}/StoresInTheCountry/{relatedKey}`
+  - Description: Updates an existing Store for a specific Country.
+- **PUT** `/api/v1/Countries/{key}/StoresInTheCountry`
+  - Description: Updates the Store for a specific Country.
+
+#### Delete Store
+- **DELETE** `/api/v1/Countries/{key}/StoresInTheCountry/{relatedKey}`
+  - Description: Delete an existing Store for a specific Country.
+
+#### Delete Store
+- **DELETE** `/api/v1/Countries/{key}/StoresInTheCountry`
+  - Description: Delete all existing Stores for a specific Country.
+
 ## Related Entities
 
 [Workplace](WorkplaceEndpoints.md)
+
+[Store](StoreEndpoints.md)
 
 ## Enumerations Endpoints
 

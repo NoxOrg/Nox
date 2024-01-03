@@ -210,8 +210,6 @@ public partial class RelatedEndpointsRouteMappingTests : NoxWebApiTestBase
     }
     #endregion
 
-
-    /*
     #region GET /api/v1/Tenants/1/Workplaces/1/Country/1/Stores/1/StoreLicense/1/DefaultCurrency/1
     [Fact]
     public async Task WhenGetFifthDepthRelatedEntity_ShouldSucceed()
@@ -320,7 +318,7 @@ public partial class RelatedEndpointsRouteMappingTests : NoxWebApiTestBase
             $"/{nameof(StoreLicenseDto.DefaultCurrency)}");
         depth5GetCurrencyWithInvalidEntityName.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
-    */
+
     #endregion GET
 
     #region REF

@@ -53,12 +53,12 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
         _navigationNameToEntityPluralName = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {           
             { "workplaces", "workplaces" },           
+            { "stores", "stores" },           
+            { "country", "countries" },           
             { "storeowner", "storeowners" },           
             { "storelicense", "storelicenses" },           
             { "clients", "clients" },           
-            { "country", "countries" },           
             { "tenants", "tenants" },           
-            { "stores", "stores" },           
             { "store", "stores" },           
             { "defaultcurrency", "currencies" },           
             { "soldincurrency", "currencies" },           
@@ -69,6 +69,8 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
         _isSingleRelationship = new()
         {           
             { ("countries", "workplaces"), false },           
+            { ("countries", "stores"), false },           
+            { ("stores", "country"), true },           
             { ("stores", "storeowner"), true },           
             { ("stores", "storelicense"), true },           
             { ("stores", "clients"), false },           
@@ -93,7 +95,7 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
 
         var aggregateDbSet = (IQueryable)context.DbSet;
 
-        var query = aggregateDbSet.Where($"{context.KeyName} == {relationshipChain.EntityKey}");
+        var query = aggregateDbSet.Where($"{context.KeyName} == @0", relationshipChain.EntityKey);
 
         var previousAggregateRoot = relationshipChain.EntityName;
 
@@ -113,7 +115,7 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
             if (!_entityContextPerEntityName.TryGetValue(relatedPluralName, out var relatedContext))
                 return false;
             
-            query = query.Where($"{relatedContext.KeyName} == {property.NavigationKey}");
+            query = query.Where($"{relatedContext.KeyName} == @0", property.NavigationKey);
             previousAggregateRoot = relatedPluralName;
         }
 

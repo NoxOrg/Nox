@@ -29,11 +29,12 @@ internal partial class CreateStoreCommandHandler : CreateStoreCommandHandlerBase
 	public CreateStoreCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
+		IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> StoreOwnerFactory,
 		IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory,
 		IEntityFactory<ClientApi.Domain.Client, ClientCreateDto, ClientUpdateDto> ClientFactory,
 		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,StoreOwnerFactory, StoreLicenseFactory, ClientFactory, entityFactory)
+		: base(dbContext, noxSolution,CountryFactory, StoreOwnerFactory, StoreLicenseFactory, ClientFactory, entityFactory)
 	{
 	}
 }
@@ -43,6 +44,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 {
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> EntityFactory;
+	protected readonly IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> StoreOwnerFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Client, ClientCreateDto, ClientUpdateDto> ClientFactory;
@@ -50,6 +52,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 	protected CreateStoreCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
+		IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> StoreOwnerFactory,
 		IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory,
 		IEntityFactory<ClientApi.Domain.Client, ClientCreateDto, ClientUpdateDto> ClientFactory,
@@ -58,6 +61,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
+		this.CountryFactory = CountryFactory;
 		this.StoreOwnerFactory = StoreOwnerFactory;
 		this.StoreLicenseFactory = StoreLicenseFactory;
 		this.ClientFactory = ClientFactory;
@@ -69,6 +73,20 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		await OnExecutingAsync(request);
 
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
+		if(request.EntityDto.CountryId is not null)
+		{
+			var relatedKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
+			var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToCountry(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("Country", request.EntityDto.CountryId.NonNullValue<System.Int64>().ToString());
+		}
+		else if(request.EntityDto.Country is not null)
+		{
+			var relatedEntity = await CountryFactory.CreateEntityAsync(request.EntityDto.Country, request.CultureCode);
+			entityToCreate.CreateRefToCountry(relatedEntity);
+		}
 		if(request.EntityDto.StoreOwnerId is not null)
 		{
 			var relatedKey = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.EntityDto.StoreOwnerId.NonNullValue<System.String>());

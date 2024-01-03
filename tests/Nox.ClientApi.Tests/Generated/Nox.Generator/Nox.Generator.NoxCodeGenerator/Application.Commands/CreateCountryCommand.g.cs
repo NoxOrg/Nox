@@ -30,8 +30,9 @@ internal partial class CreateCountryCommandHandler : CreateCountryCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory,
+		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,WorkplaceFactory, entityFactory)
+		: base(dbContext, noxSolution,WorkplaceFactory, StoreFactory, entityFactory)
 	{
 	}
 }
@@ -42,17 +43,20 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory;
+	protected readonly IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory;
 
 	protected CreateCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory,
+		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
 		this.WorkplaceFactory = WorkplaceFactory;
+		this.StoreFactory = StoreFactory;
 	}
 
 	public virtual async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
@@ -80,6 +84,27 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 			{
 				var relatedEntity = await WorkplaceFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToWorkplaces(relatedEntity);
+			}
+		}
+		if(request.EntityDto.StoresId.Any())
+		{
+			foreach(var relatedId in request.EntityDto.StoresId)
+			{
+				var relatedKey = ClientApi.Domain.StoreMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToStores(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("Stores", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.Stores)
+			{
+				var relatedEntity = await StoreFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
+				entityToCreate.CreateRefToStores(relatedEntity);
 			}
 		}
 
