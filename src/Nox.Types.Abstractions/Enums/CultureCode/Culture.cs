@@ -1,6 +1,6 @@
 using Nox.Yaml.Attributes;
 
-namespace Nox.Yaml.Enums.CultureCode;
+namespace Nox.Types;
 
 public enum Culture
 {

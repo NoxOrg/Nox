@@ -1,13 +1,12 @@
 using System;
-using System.Collections.Immutable;
 using System.Linq;
-using Nox.Yaml.Attributes;
-using Nox.Yaml.Enums.CultureCode;
+using Nox.Types;
+using Nox.Types.Abstractions;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace Nox.Types.Abstractions.TypeConverters;
+namespace Nox.Solution.YamlTypeConverters;
 
 public class CultureTypeConverter: IYamlTypeConverter
 {
@@ -22,7 +21,7 @@ public class CultureTypeConverter: IYamlTypeConverter
             throw new InvalidOperationException("Expected a YAML scalar");
         
         var scalar = parser!.Consume<Scalar>();
-        if (Yaml.Constants.CultureCodes.TryGetValue(scalar.Value, out var cultureValue))
+        if (CultureCode.CultureCodeDisplayNames.TryGetValue(scalar.Value, out var cultureValue))
         {
             return cultureValue;
         }
@@ -37,7 +36,7 @@ public class CultureTypeConverter: IYamlTypeConverter
             return;
 
         Culture culture = (Culture)value;
-        var kvp = Yaml.Constants.CultureCodes.FirstOrDefault(k => k.Value == culture);
+        var kvp = CultureCode.CultureCodeDisplayNames.FirstOrDefault(k => k.Value == culture);
         
         emitter.Emit(new MappingStart(null, null, false, MappingStyle.Block));
         

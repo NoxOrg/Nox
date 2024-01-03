@@ -1,8 +1,6 @@
 using FluentAssertions;
-using Nox.Yaml.Enums.CultureCode;
 
 namespace Nox.Types.Tests.Types;
-
 
 public class CultureCodeTests
 {
@@ -18,7 +16,7 @@ public class CultureCodeTests
         // Assert
         culture.Should().NotBeNull();
     }
-    
+
     [Theory]
     [InlineData(Culture.en)]
     [InlineData(Culture.tr_TR)]
@@ -31,7 +29,7 @@ public class CultureCodeTests
         // Assert
         cultureCode.Should().NotBeNull();
     }
-    
+
     [Theory]
     [InlineData((Culture)(-1))]
     [InlineData((Culture)(5000))]
@@ -42,7 +40,8 @@ public class CultureCodeTests
 
         // Assert
         action.Should().Throw<NoxTypeValidationException>()
-              .WithMessage($"The Nox type validation failed with 1 error(s). PropertyName: Value. Error: Could not create a Nox CultureCode type with unsupported value '{culture}'.");
+            .WithMessage(
+                $"The Nox type validation failed with 1 error(s). PropertyName: Value. Error: Could not create a Nox CultureCode type with unsupported value '{culture}'.");
     }
 
     [Theory]
@@ -58,9 +57,10 @@ public class CultureCodeTests
 
         // Assert
         action.Should().Throw<NoxTypeValidationException>()
-              .WithMessage($"The Nox type validation failed with 1 error(s). PropertyName: Value. Error: Could not create a Nox CultureCode type with unsupported value '{cultureCode}'.");
+            .WithMessage(
+                $"The Nox type validation failed with 1 error(s). PropertyName: Value. Error: Could not create a Nox CultureCode type with unsupported value '{cultureCode}'.");
     }
-    
+
     [Fact]
     public void TryCreateCulture_FromValidInput_ShouldSucceed()
     {
@@ -71,7 +71,7 @@ public class CultureCodeTests
         result.IsValid.Should().BeTrue();
         culture!.Value.Should().Be("tr-TR");
     }
-    
+
     [Fact]
     public void TryCreateCulture_FromInvalidInput_ShouldFail()
     {
@@ -82,29 +82,29 @@ public class CultureCodeTests
         result.IsValid.Should().BeFalse();
         culture.Should().BeNull();
     }
-    
+
     [Fact]
     public void CompareEqualCultures_ShouldBeEqual()
     {
         // Arrange & Act
         var culture1 = CultureCode.From("tr-TR");
-        var culture2 =  CultureCode.From("tr-TR");
+        var culture2 = CultureCode.From("tr-TR");
 
         // Assert
         culture1.Should().BeEquivalentTo(culture2);
     }
-    
+
     [Fact]
     public void CompareUnequalCultures_ShouldNotBeEqual()
     {
         // Arrange & Act
         var culture1 = CultureCode.From("tr-TR");
-        var culture2 =  CultureCode.From("en-US");
+        var culture2 = CultureCode.From("en-US");
 
         // Assert
         culture1.Should().NotBeEquivalentTo(culture2);
     }
-    
+
     [Fact]
     public void ToStringOnCulture_ShouldReturnCorrectString()
     {

@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Nox.Solution.Schema;
+using Nox.Solution.YamlTypeConverters;
 using Nox.Yaml.Exceptions;
 using Nox.Yaml.Parser;
 
@@ -79,7 +80,7 @@ public class YamlFileValidationTests
     {
         var yaml = File.ReadAllText($"./files/{yamlFile}");
 
-        var model = NoxSchemaValidator.Deserialize<NoxSolution>(yaml, yamlFile)!;
+        var model = NoxSchemaValidator.Deserialize<NoxSolution>(yaml, yamlFile, new []{ new CultureTypeConverter()} )!;
 
         model.Name.Should().Be(expectedServiceName);
     }

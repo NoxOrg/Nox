@@ -1,12 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 using Nox.Types.Abstractions.Extensions;
-using Nox.Yaml.Attributes;
-using Nox.Yaml.Enums.CultureCode;
 
 namespace Nox.Types;
 
@@ -23,7 +15,7 @@ public partial class CultureCode : ValueObject<string, CultureCode>
     {
         var result = base.Validate();
 
-        if (!Nox.Yaml.Constants.CultureCodes.Select(k=>k.Key).Contains(Value))
+        if(!Abstractions.CultureCode.CultureCodeDisplayNames.TryGetValue(Value, out _))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox CultureCode type with unsupported value '{Value}'."));
         }

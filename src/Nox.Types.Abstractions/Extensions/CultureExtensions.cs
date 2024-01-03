@@ -1,6 +1,5 @@
 using System.Linq;
 using Nox.Yaml.Attributes;
-using Nox.Yaml.Enums.CultureCode;
 
 namespace Nox.Types.Abstractions.Extensions;
 

@@ -1,5 +1,4 @@
-﻿using Nox.Types.Abstractions.TypeConverters;
-using Nox.Yaml.Exceptions;
+﻿using Nox.Yaml.Exceptions;
 using Nox.Yaml.Parser;
 using Nox.Yaml.Schema.Generator;
 using Nox.Yaml.Schema.Validator;
@@ -19,9 +18,11 @@ internal static class NoxSchemaValidator
     /// </summary>
     /// <typeparam name="T">Any type corresponds to yaml content.</typeparam>
     /// <param name="yaml">Yaml string content.</param>
+    /// <param name="fileName">File name of the yaml content.</param>
+    /// <param name="yamlTypeConverters">Optional list of yaml type converters.</param>
     /// <returns>Deserialized instance of type T.</returns>
     /// <exception cref="NoxYamlException">Errors containing all validation deserialization errors.</exception>
-    public static T Deserialize<T>(string yaml, string? fileName = null)
+    public static T Deserialize<T>(string yaml, string? fileName = null, IEnumerable<IYamlTypeConverter>? yamlTypeConverters = null)
     {
         fileName ??= "YAML";
 
@@ -30,7 +31,7 @@ internal static class NoxSchemaValidator
             { fileName, () => new StringReader(yaml) }
         };
 
-        var yamlRefResolver = new YamlReferenceResolver(yamlContentProvider, fileName);
+        var yamlRefResolver = new YamlReferenceResolver(yamlContentProvider, fileName, yamlTypeConverters);
 
         return Deserialize<T>(yamlRefResolver);
     }
@@ -44,11 +45,17 @@ internal static class NoxSchemaValidator
     /// <exception cref="NoxYamlException">Errors containing all validation deserialization errors.</exception>
     public static T Deserialize<T>(YamlReferenceResolver yamlRefResolver)
     {
-        var deserializer = new DeserializerBuilder()
+        var builder = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
-            .WithTypeConverter(new CultureTypeConverter())
-            .WithNodeTypeResolver(new ReadOnlyCollectionNodeTypeResolver())
-            .Build();
+            .WithNodeTypeResolver(new ReadOnlyCollectionNodeTypeResolver());
+
+        foreach (var typeConverter in yamlRefResolver.YamlTypeConverters)
+        {
+            builder = builder.WithTypeConverter(typeConverter);
+        }
+       
+        
+        var deserializer = builder.Build();
 
         T yamlTypedObjectInstance;
 

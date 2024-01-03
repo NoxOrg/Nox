@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Types.EntityFramework.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Microsoft.Extensions.Logging;
-using Nox.Yaml.Enums.CultureCode;
 
 namespace Nox.Infrastructure.Persistence
 {

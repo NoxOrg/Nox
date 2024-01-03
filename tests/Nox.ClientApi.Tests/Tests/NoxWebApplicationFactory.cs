@@ -1,11 +1,9 @@
-﻿﻿using Divergic.Logging.Xunit;
+﻿using Divergic.Logging.Xunit;
 using MassTransit;
-using MassTransit.Testing;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Nox.Types.EntityFramework.Abstractions;
-using ClientApi.Infrastructure.Persistence;
 using Xunit.Abstractions;
 using Nox.Solution;
 using Nox.Infrastructure;

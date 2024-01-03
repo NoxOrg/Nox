@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Nox.Types;
-using Nox.Yaml.Enums.CultureCode;
 
 namespace Nox.Solution.Tests;
 
