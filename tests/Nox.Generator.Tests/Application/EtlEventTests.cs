@@ -18,7 +18,7 @@ public class EtlEventTests
         // Assert the driver doesn't recompute the output
         GeneratorFixture.GenerateSourceCodeFor(sourcePaths)
             .AssertOutputResult()
-            .AssertFileCount(24)
+            .AssertFileCount(25)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
             .AssertFileExistsAndContent("Application.Integration.EtlEvents.CreatedEventDto.expected.g.cs", "Application.Integration.EtlEvents.TestIntegrationRecordCreatedDto.g.cs")

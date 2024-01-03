@@ -63,6 +63,7 @@
 //  - Nox.Generator.Application.CustomIntegrationEventGenerator
 //  - Nox.Generator.Application.DefaultIntegrationEventGenerator
 //  - Nox.Generator.Application.ServiceCollectionExtensionsGenerator
+//  - Nox.Generator.Application.Services.RelationshipChainValidatorGenerator
 //  - Nox.Generator.Application.Queries.ByIdQueryGenerator
 //  - Nox.Generator.Application.Queries.EnumerationQueryGenerator
 //  - Nox.Generator.Application.Queries.EnumerationTranslationsQueryGenerator

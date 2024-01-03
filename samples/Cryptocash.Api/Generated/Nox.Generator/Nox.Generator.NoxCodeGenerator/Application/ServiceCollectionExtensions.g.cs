@@ -41,6 +41,8 @@ internal static class ServiceCollectionExtensions
             configurator.WithHealthChecks(healthChecksBuilder => healthChecksBuilder.AddDbContextCheck<AppDbContext>());
             configureNox?.Invoke(configurator);
         });
+
+        services.AddScoped<Nox.Application.Services.IRelationshipChainValidator, Cryptocash.Application.Services.RelationshipChainValidator>();
         services.AddNoxOdata(configureNoxOdata);
         return services;
     }
