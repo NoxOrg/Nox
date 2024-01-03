@@ -95,16 +95,7 @@
                                                 <MudGrid Style="margin-top:15px;">                                                    
                                                     <MudItem xs="6">
                                                         <UiEditYear_g Title="Year" />
-                                                    </MudItem>                                                    
-                                                    <MudItem xs="6">
-                                                        <UiEditWeight_g Title="Weight" WeightUnit="Nox.Types.WeightUnit.Kilogram" />
-                                                    </MudItem>
-                                                    <MudItem xs="6">
-                                                        <UiEditVolume_g Title="Volume" VolumeUnit="Nox.Types.VolumeUnit.CubicMeter" />
-                                                    </MudItem>
-                                                    <MudItem xs="6">
-                                                        <UiEditLength_g Title="Length" LengthUnit="Nox.Types.LengthUnit.Meter" />
-                                                    </MudItem>                                                    
+                                                    </MudItem>                                       
                                                     <MudItem xs="6">
                                                         <UiEditCurrency_g Title="Currency" CurrencySelectionList="@testCurrencySelectionList" />
                                                     </MudItem>
@@ -178,9 +169,7 @@
                 <MudItem xs="12">
                     @if (PagedData != null
                    && CurrentApiUiService != null)
-                    {
-                        Decimal? testWeight = (Decimal)23.56;
-                        Decimal? testVolume = (Decimal)85.31;                        
+                    {                                                                   
                         CountryDto testCountry = new CountryDto()
                                 {
                                     Name = "United Kingdom"
@@ -251,9 +240,7 @@
                                   HeaderClass="custom-header"
                                   Dense="true">
                             <HeaderContent>                                
-                                <MudTh>Year</MudTh>
-                                <MudTh>Weight</MudTh>
-                                <MudTh>Volume</MudTh>                                
+                                <MudTh>Year</MudTh>                                          
                                 <MudTh>Country</MudTh>
                                 <MudTh>Money</MudTh>
                                 <MudTh>Currency</MudTh>
@@ -272,12 +259,6 @@
                                 <MudTd Style="vertical-align:top;">
                                     <UiViewYear_g Year="2023" />
                                 </MudTd>
-                                <MudTd Style="vertical-align:top;">
-                                    <UiViewWeight_g Weight="@testWeight" WeightUnit="Nox.Types.WeightUnit.Kilogram" />
-                                </MudTd>
-                                <MudTd Style="vertical-align:top;">
-                                    <UiViewVolume_g Volume="@testVolume" VolumeUnit="Nox.Types.VolumeUnit.CubicMeter" />
-                                </MudTd>  
                                 <MudTd Style="vertical-align:top;">
                                     <UiViewCountry_g Country="@testCountry" />
                                 </MudTd>
