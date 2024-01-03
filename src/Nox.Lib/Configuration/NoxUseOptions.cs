@@ -101,8 +101,7 @@ internal class NoxUseOptions : INoxUseOptions
         builder.UseWhen(context => context.Request.Path.StartsWithSegments(apiPrefix) && solution.Domain is not null,
             appBuilder =>
             {
-                if (solution.Presentation.ApiConfiguration.ApiGenerateRelatedEndpointsMaxDepth > 1 &&
-                    solution.Domain!.Entities.Any(entity => entity.Relationships.Any(r => r.ApiGenerateRelatedEndpoint || r.ApiGenerateReferenceEndpoint)))
+                if (RelatedEntityRoutingMiddleware.IsApplicable(solution))
                 { 
                     appBuilder.UseMiddleware<RelatedEntityRoutingMiddleware>();
                 }
