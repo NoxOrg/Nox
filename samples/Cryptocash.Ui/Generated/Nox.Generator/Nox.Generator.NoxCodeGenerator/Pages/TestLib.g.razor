@@ -36,6 +36,8 @@
     decimal? testNumber = (decimal)1223.75;
     decimal? testPercentage = (decimal)36.67;
     decimal? testTemperature = (decimal)14.33;
+    decimal? testVolume = (Decimal)85.31;
+    decimal? testWeight = (Decimal)23.56;    
 
     #endregion
 
@@ -117,6 +119,12 @@
                                                     <MudItem xs="6">
                                                         <EditTemperature Title="Temperature" Temperature="@testTemperature" TemperatureUnit="Nox.Types.TemperatureUnit.Celsius" />
                                                     </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditVolume Title="Volume" Volume="@testVolume" VolumeUnit="Nox.Types.VolumeUnit.CubicMeter" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditWeight Title="Weight" Weight="@testWeight" WeightUnit="Nox.Types.WeightUnit.Kilogram" />
+                                                    </MudItem>  
                                                 </MudGrid>
                                     </MudItem>
                                     <MudItem xs="12">
@@ -164,6 +172,8 @@
                                 <MudTh>Number</MudTh>
                                 <MudTh>Percentage</MudTh>
                                 <MudTh>Temperature</MudTh>
+                                <MudTh>Volume</MudTh>
+                                <MudTh>Weight</MudTh>
                             </HeaderContent>
                             <RowTemplate> 
                                 <MudTd Style="vertical-align:top;">
@@ -195,6 +205,12 @@
                                 </MudTd> 
                                 <MudTd Style="vertical-align:top;">
                                     <ViewTemperature Temperature="@testTemperature" TemperatureUnit="Nox.Types.TemperatureUnit.Celsius" />
+                                </MudTd>                                
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewVolume Volume="@testVolume" VolumeUnit="Nox.Types.VolumeUnit.CubicMeter" />
+                                </MudTd>  
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewWeight Weight="@testWeight" WeightUnit="Nox.Types.WeightUnit.Kilogram" />
                                 </MudTd>
                             </RowTemplate>
                             <NoRecordsContent>
