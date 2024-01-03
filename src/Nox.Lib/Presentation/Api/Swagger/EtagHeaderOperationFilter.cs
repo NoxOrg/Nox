@@ -1,9 +1,9 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Nox.Presentation.Api.OData;
+namespace Nox.Presentation.Api.Swagger;
 
-public class EtagHeaderOperationFilter:  IOperationFilter
+internal class EtagHeaderOperationFilter:  IOperationFilter
 {
     private  static readonly  HashSet<string> ETagRequiredHttpMethods = new() { HttpMethod.Delete.Method, HttpMethod.Patch.Method, HttpMethod.Put.Method };
     public void Apply(OpenApiOperation operation, OperationFilterContext context)

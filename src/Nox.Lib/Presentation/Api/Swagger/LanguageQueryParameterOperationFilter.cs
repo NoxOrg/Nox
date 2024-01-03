@@ -1,11 +1,11 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Nox.Presentation.Api.OData;
+namespace Nox.Presentation.Api.Swagger;
 
-public class LanguageQueryParameterOperationFilter: IOperationFilter
+internal class LanguageQueryParameterOperationFilter : IOperationFilter
 {
-    
+
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
         if (context.ApiDescription.HttpMethod == HttpMethod.Get.Method)
@@ -19,7 +19,7 @@ public class LanguageQueryParameterOperationFilter: IOperationFilter
                 Schema = new OpenApiSchema
                 {
                     Type = "string",
-                    Pattern = Nox.Types.Abstractions.CultureCode.RegularExpression
+                    Pattern = Types.Abstractions.CultureCode.RegularExpression
                 },
                 Required = false
             });

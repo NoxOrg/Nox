@@ -4,7 +4,7 @@ using System.Text;
 namespace Nox.Lib;
 
 [DebuggerDisplay("{_routePattern}")]
-public class ApiRouteMatcher
+internal class ApiRouteMatcher
 {
 
     private readonly string _routePattern;
