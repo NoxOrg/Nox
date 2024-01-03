@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Diagnostics;
 
-namespace Nox.OData;
+namespace Nox.Presentation.Api.Swagger;
 
 internal class DeltaSchemaFilter : ISchemaFilter
 {
