@@ -5,22 +5,22 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 
 using Nox.Application.Commands;
-using Nox.Application.Queries;
+using Nox.Application.Services;
 
 using {{codeGeneratorState.DtoNameSpace}};
 using {{codeGeneratorState.PersistenceNameSpace}};
 
-namespace {{codeGeneratorState.ApplicationQueriesNameSpace}};
+namespace {{codeGeneratorState.ApplicationNameSpace}}.Services;
 
-internal partial class {{className}}Handler : {{className}}HandlerBase
+internal partial class {{className}} : {{className}}Base
 {
-    public {{className}}Handler(DtoDbContext dataDbContext): base(dataDbContext)
+    public {{className}}(DtoDbContext dataDbContext): base(dataDbContext)
     {
     
     }
 }
 
-internal abstract class {{className}}HandlerBase: IValidateEntityChainQueryHandler
+internal abstract class {{className}}Base: I{{className}}
 {
     private readonly Dictionary<string, (object DbSet, string KeyName)> _entityContextPerEntityName;
 
@@ -31,7 +31,7 @@ internal abstract class {{className}}HandlerBase: IValidateEntityChainQueryHandl
     public DtoDbContext DataDbContext { get; }
 
 #region Constructor
-    public  {{className}}HandlerBase(DtoDbContext dataDbContext)
+    public  {{className}}Base(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
 
@@ -58,18 +58,18 @@ internal abstract class {{className}}HandlerBase: IValidateEntityChainQueryHandl
     }
 #endregion Constructor
 
-    public virtual bool Handle({{className}} request)
+    public virtual bool IsValid(RelationshipChain relationshipChain)
     {
-        if (!_entityContextPerEntityName.TryGetValue(request.EntityName, out var context))
+        if (!_entityContextPerEntityName.TryGetValue(relationshipChain.EntityName, out var context))
             return false;
 
         var aggregateDbSet = (IQueryable)context.DbSet;
 
-        var query = aggregateDbSet.Where($"{context.KeyName} == {request.EntityKey}");
+        var query = aggregateDbSet.Where($"{context.KeyName} == {relationshipChain.EntityKey}");
 
-        var previousAggregateRoot = request.EntityName;
+        var previousAggregateRoot = relationshipChain.EntityName;
 
-        foreach (var property in request.NavigationProperties)
+        foreach (var property in relationshipChain.SortedNavigationProperties)
         {
             if (!_isSingleRelationship.TryGetValue((previousAggregateRoot, property.NavigationName), out var isSingle))
                 return false;
@@ -89,6 +89,6 @@ internal abstract class {{className}}HandlerBase: IValidateEntityChainQueryHandl
             previousAggregateRoot = relatedPluralName;
         }
 
-        return query.Count() > 0;
+        return query.Any();
     }
 }

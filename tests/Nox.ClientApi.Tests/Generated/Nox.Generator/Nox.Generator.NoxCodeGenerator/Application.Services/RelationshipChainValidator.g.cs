@@ -5,22 +5,22 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 
 using Nox.Application.Commands;
-using Nox.Application.Queries;
+using Nox.Application.Services;
 
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
 
-namespace ClientApi.Application.Queries;
+namespace ClientApi.Application.Services;
 
-internal partial class ValidateEntityChainQueryHandler : ValidateEntityChainQueryHandlerBase
+internal partial class RelationshipChainValidator : RelationshipChainValidatorBase
 {
-    public ValidateEntityChainQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    public RelationshipChainValidator(DtoDbContext dataDbContext): base(dataDbContext)
     {
     
     }
 }
 
-internal abstract class ValidateEntityChainQueryHandlerBase: IValidateEntityChainQueryHandler
+internal abstract class RelationshipChainValidatorBase: IRelationshipChainValidator
 {
     private readonly Dictionary<string, (object DbSet, string KeyName)> _entityContextPerEntityName;
 
@@ -31,7 +31,7 @@ internal abstract class ValidateEntityChainQueryHandlerBase: IValidateEntityChai
     public DtoDbContext DataDbContext { get; }
 
 #region Constructor
-    public  ValidateEntityChainQueryHandlerBase(DtoDbContext dataDbContext)
+    public  RelationshipChainValidatorBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
 
@@ -86,18 +86,18 @@ internal abstract class ValidateEntityChainQueryHandlerBase: IValidateEntityChai
     }
 #endregion Constructor
 
-    public virtual bool Handle(ValidateEntityChainQuery request)
+    public virtual bool IsValid(RelationshipChain relationshipChain)
     {
-        if (!_entityContextPerEntityName.TryGetValue(request.EntityName, out var context))
+        if (!_entityContextPerEntityName.TryGetValue(relationshipChain.EntityName, out var context))
             return false;
 
         var aggregateDbSet = (IQueryable)context.DbSet;
 
-        var query = aggregateDbSet.Where($"{context.KeyName} == {request.EntityKey}");
+        var query = aggregateDbSet.Where($"{context.KeyName} == {relationshipChain.EntityKey}");
 
-        var previousAggregateRoot = request.EntityName;
+        var previousAggregateRoot = relationshipChain.EntityName;
 
-        foreach (var property in request.NavigationProperties)
+        foreach (var property in relationshipChain.SortedNavigationProperties)
         {
             if (!_isSingleRelationship.TryGetValue((previousAggregateRoot, property.NavigationName), out var isSingle))
                 return false;
@@ -117,6 +117,6 @@ internal abstract class ValidateEntityChainQueryHandlerBase: IValidateEntityChai
             previousAggregateRoot = relatedPluralName;
         }
 
-        return query.Count() > 0;
+        return query.Any();
     }
 }

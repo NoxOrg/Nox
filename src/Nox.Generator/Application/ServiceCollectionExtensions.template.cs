@@ -44,7 +44,7 @@ internal static class {{className}}
             configureNox?.Invoke(configurator);
         });
 
-        services.AddScoped<Nox.Application.Queries.IValidateEntityChainQueryHandler, {{solutionName}}.Application.Queries.ValidateEntityChainQueryHandler>();
+        services.AddScoped<Nox.Application.Services.IRelationshipChainValidator, {{solutionName}}.Application.Services.RelationshipChainValidator>();
        
         {{- if configPresentation == true }}
         services.AddNoxOdata(configureNoxOdata);

@@ -42,7 +42,7 @@ internal static class ServiceCollectionExtensions
             configureNox?.Invoke(configurator);
         });
 
-        services.AddScoped<Nox.Application.Queries.IValidateEntityChainQueryHandler, TestWebApp.Application.Queries.ValidateEntityChainQueryHandler>();
+        services.AddScoped<Nox.Application.Services.IRelationshipChainValidator, TestWebApp.Application.Services.RelationshipChainValidator>();
         services.AddNoxOdata(configureNoxOdata);
         return services;
     }

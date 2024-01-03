@@ -5,9 +5,9 @@ using Nox.Solution;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nox.Generator.Application.Queries;
+namespace Nox.Generator.Application.Services;
 
-internal class ValidateEntityChainQueryGenerator : ApplicationEntityDependentGeneratorBase
+internal class RelationshipChainValidatorGenerator : ApplicationEntityDependentGeneratorBase
 {
     protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
     {
@@ -30,14 +30,13 @@ internal class ValidateEntityChainQueryGenerator : ApplicationEntityDependentGen
                 isSingleRelationship.Add((entity.PluralName.ToLower(), navigationName.ToLower()), relationship.WithSingleEntity);
             }
         }
-        isSingleRelationship.TryGetValue(("a", "asd"), out var isSingle);
 
         new TemplateCodeBuilder(context, codeGeneratorState)
-            .WithClassName($"ValidateEntityChainQuery")
-            .WithFileNamePrefix($"Application.Queries")
+            .WithClassName($"RelationshipChainValidator")
+            .WithFileNamePrefix($"Application.Services")
             .WithObject("entities", entities.Where(e => !e.IsOwnedEntity))
             .WithObject("navigationNameToEntityPluralName", navigationNameToEntityPluralName)
             .WithObject("isSingleRelationship", isSingleRelationship)
-            .GenerateSourceCodeFromResource("Application.Queries.ValidateEntityChainQuery");        
+            .GenerateSourceCodeFromResource("Application.Services.RelationshipChainValidator");        
     }
 }

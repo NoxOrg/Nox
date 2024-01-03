@@ -63,13 +63,13 @@
 //  - Nox.Generator.Application.CustomIntegrationEventGenerator
 //  - Nox.Generator.Application.DefaultIntegrationEventGenerator
 //  - Nox.Generator.Application.ServiceCollectionExtensionsGenerator
+//  - Nox.Generator.Application.Services.RelationshipChainValidatorGenerator
 //  - Nox.Generator.Application.Queries.ByIdQueryGenerator
 //  - Nox.Generator.Application.Queries.EnumerationQueryGenerator
 //  - Nox.Generator.Application.Queries.EnumerationTranslationsQueryGenerator
 //  - Nox.Generator.Application.Queries.QueryGenerator
 //  - Nox.Generator.Application.Queries.TranslationsByIdQueryGenerator
 //  - Nox.Generator.Application.Queries.TranslationsQueryGenerator
-//  - Nox.Generator.Application.Queries.ValidateEntityChainQueryGenerator
 //  - Nox.Generator.Application.Integration.CustomTransformHandlerGenerator
 //  - Nox.Generator.Application.Integration.EtlEventGenerator
 //  - Nox.Generator.Application.Factories.EntityFactoryGenerator
