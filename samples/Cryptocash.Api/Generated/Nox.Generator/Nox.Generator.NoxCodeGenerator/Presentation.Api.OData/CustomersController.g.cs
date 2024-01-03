@@ -156,6 +156,30 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(updatedItem);
     }
     
+    [HttpPatch("/api/Customers/{key}/PaymentDetails/{relatedKey}")]
+    public virtual async Task<ActionResult<PaymentDetailDto>> PatchtoPaymentDetailsNonConventional(System.Guid key, System.Int64 relatedKey, [FromBody] Delta<PaymentDetailPartialUpdateDto> paymentDetail)
+    {
+        if (!ModelState.IsValid || paymentDetail is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.PaymentDetails).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("PaymentDetails", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<PaymentDetailPartialUpdateDto>(paymentDetail);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdatePaymentDetailCommand(relatedKey, updatedProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetPaymentDetailByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/Customers/{key}/PaymentDetails/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
@@ -315,6 +339,30 @@ public abstract partial class CustomersControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateBookingCommand(relatedKey, booking, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetBookingByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/Customers/{key}/Bookings/{relatedKey}")]
+    public virtual async Task<ActionResult<BookingDto>> PatchtoBookingsNonConventional(System.Guid key, System.Guid relatedKey, [FromBody] Delta<BookingPartialUpdateDto> booking)
+    {
+        if (!ModelState.IsValid || booking is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Bookings", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<BookingPartialUpdateDto>(booking);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateBookingCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetBookingByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -486,6 +534,30 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(updatedItem);
     }
     
+    [HttpPatch("/api/Customers/{key}/Transactions/{relatedKey}")]
+    public virtual async Task<ActionResult<TransactionDto>> PatchtoTransactionsNonConventional(System.Guid key, System.Guid relatedKey, [FromBody] Delta<TransactionPartialUpdateDto> transaction)
+    {
+        if (!ModelState.IsValid || transaction is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Transactions).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Transactions", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<TransactionPartialUpdateDto>(transaction);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTransactionCommand(relatedKey, updatedProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetTransactionByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/Customers/{key}/Transactions/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteToTransactions([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
@@ -594,6 +666,29 @@ public abstract partial class CustomersControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCountryCommand(related.Id, country, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<CountryDto>> PatchToCountry(System.Guid key, [FromBody] Delta<CountryPartialUpdateDto> country)
+    {
+        if (!ModelState.IsValid || country is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("Country", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CountryPartialUpdateDto>(country);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
         

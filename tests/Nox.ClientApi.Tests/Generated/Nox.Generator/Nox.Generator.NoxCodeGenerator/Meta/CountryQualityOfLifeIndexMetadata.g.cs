@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace ClientApi.Domain;
 
@@ -47,13 +48,8 @@ public partial class CountryQualityOfLifeIndexMetadata
         public static Nox.Types.Number CreateIndexRating(System.Int32 value)
             => Nox.Types.Number.From(value, IndexRatingTypeOptions);
         
-
         /// <summary>
         /// User Interface for property 'IndexRating'
         /// </summary>
-        public static TypeUserInterface? IndexRatingUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("CountryQualityOfLifeIndex")
-                .GetAttributeByName("IndexRating")?
-                .UserInterface;
+        public static TypeUserInterface? IndexRatingUiOptions {get; private set;} = null; 
 }

@@ -3,6 +3,7 @@ using System.Reflection;
 using Serilog;
 using Nox.Domain;
 using Microsoft.Extensions.DependencyInjection;
+using Nox.Infrastructure.Persistence;
 
 namespace Nox.Configuration;
 
@@ -29,9 +30,9 @@ public interface INoxOptions
     /// <summary>
     /// Set the generated DbContext for Dto and Entities
     /// </summary>
-    /// <typeparam name="T">DbContext for the Application Domain, <see cref="Infrastructure.Persistence.IAppDbContext"/></typeparam>
+    /// <typeparam name="T">DbContext for the Application Domain, <see cref="EntityDbContextBase"/></typeparam>
     /// <typeparam name="D"></typeparam>
-    INoxOptions WithDatabaseContexts<T, D>() where T : DbContext, Infrastructure.Persistence.IAppDbContext where D : DbContext;
+    INoxOptions WithDatabaseContexts<T, D>() where T : EntityDbContextBase where D : DbContext;
 
     /// <summary>
     /// Set the IRepository instance type

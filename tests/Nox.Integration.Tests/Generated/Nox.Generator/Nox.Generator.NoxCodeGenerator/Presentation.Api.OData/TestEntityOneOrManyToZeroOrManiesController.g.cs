@@ -144,6 +144,30 @@ public abstract partial class TestEntityOneOrManyToZeroOrManiesControllerBase : 
         return Ok(updatedItem);
     }
     
+    [HttpPatch("/api/v1/TestEntityOneOrManyToZeroOrManies/{key}/TestEntityZeroOrManyToOneOrManies/{relatedKey}")]
+    public virtual async Task<ActionResult<TestEntityZeroOrManyToOneOrManyDto>> PatchtoTestEntityZeroOrManyToOneOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] Delta<TestEntityZeroOrManyToOneOrManyPartialUpdateDto> testEntityZeroOrManyToOneOrMany)
+    {
+        if (!ModelState.IsValid || testEntityZeroOrManyToOneOrMany is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityOneOrManyToZeroOrManyByIdQuery(key))).SelectMany(x => x.TestEntityZeroOrManyToOneOrManies).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("TestEntityZeroOrManyToOneOrManies", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<TestEntityZeroOrManyToOneOrManyPartialUpdateDto>(testEntityZeroOrManyToOneOrMany);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTestEntityZeroOrManyToOneOrManyCommand(relatedKey, updatedProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetTestEntityZeroOrManyToOneOrManyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/v1/TestEntityOneOrManyToZeroOrManies/{key}/TestEntityZeroOrManyToOneOrManies/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteToTestEntityZeroOrManyToOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {

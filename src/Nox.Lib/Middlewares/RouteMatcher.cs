@@ -7,7 +7,6 @@ namespace Nox.Lib;
 [DebuggerDisplay("{_apiRoute}")]
 internal class RouteMatcher
 {
-
     private readonly ApiRouteMatcher _matcher;
 
     private readonly ApiRouteMapping _apiRoute;

@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace Cryptocash.Domain;
 
@@ -90,49 +91,64 @@ public partial class CustomerMetadata
         public static Nox.Types.CountryCode2 CreateCountryId(System.String value)
             => Nox.Types.CountryCode2.From(value);
         
-
         /// <summary>
         /// User Interface for property 'FirstName'
         /// </summary>
-        public static TypeUserInterface? FirstNameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Customer")
-                .GetAttributeByName("FirstName")?
-                .UserInterface;
-
+        public static TypeUserInterface? FirstNameUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'LastName'
         /// </summary>
-        public static TypeUserInterface? LastNameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Customer")
-                .GetAttributeByName("LastName")?
-                .UserInterface;
-
+        public static TypeUserInterface? LastNameUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'EmailAddress'
         /// </summary>
-        public static TypeUserInterface? EmailAddressUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Customer")
-                .GetAttributeByName("EmailAddress")?
-                .UserInterface;
-
+        public static TypeUserInterface? EmailAddressUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'Address'
         /// </summary>
-        public static TypeUserInterface? AddressUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Customer")
-                .GetAttributeByName("Address")?
-                .UserInterface;
-
+        public static TypeUserInterface? AddressUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'MobileNumber'
         /// </summary>
-        public static TypeUserInterface? MobileNumberUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Customer")
-                .GetAttributeByName("MobileNumber")?
-                .UserInterface;
+        public static TypeUserInterface? MobileNumberUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
 }

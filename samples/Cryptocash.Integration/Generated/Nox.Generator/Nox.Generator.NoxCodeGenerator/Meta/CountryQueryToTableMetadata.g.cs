@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace CryptocashIntegration.Domain;
 
@@ -49,22 +50,12 @@ public partial class CountryQueryToTableMetadata
         public static Nox.Types.Number CreatePopulation(System.Int32 value)
             => Nox.Types.Number.From(value);
         
-
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("CountryQueryToTable")
-                .GetAttributeByName("Name")?
-                .UserInterface;
-
+        public static TypeUserInterface? NameUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'Population'
         /// </summary>
-        public static TypeUserInterface? PopulationUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("CountryQueryToTable")
-                .GetAttributeByName("Population")?
-                .UserInterface;
+        public static TypeUserInterface? PopulationUiOptions {get; private set;} = null; 
 }

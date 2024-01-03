@@ -34,7 +34,7 @@ This document provides information about the various endpoints available in our 
 {{ end }}{{ if entity.OwnedRelationships | array.size > 0 }}
 ## Owned Relationships Endpoints
 {{ for ownedRelationship in entity.OwnedRelationships }}
-{{- if ownedRelationship.CanManageEntity }}
+{{- if ownedRelationship.ApiGenerateRelatedEndpoint }}
 ### {{ownedRelationship.Entity}}
 {{ if entity.Persistence.Read.IsEnabled && ownedRelationship.Related.Entity.Persistence.Read.IsEnabled }}
 #### Get {{ownedRelationship.EntityPlural}}
@@ -65,9 +65,9 @@ This document provides information about the various endpoints available in our 
 {{ end}}{{ if entity.Relationships | array.size > 0 }}
 ## Relationships Endpoints
 {{ for relationship in entity.Relationships }}
-{{- if relationship.CanManageReference || relationship.CanManageEntity }}
+{{- if relationship.ApiGenerateReferenceEndpoint || relationship.ApiGenerateRelatedEndpoint }}
 ### {{relationship.Entity}}
-{{- if relationship.CanManageReference }}
+{{- if relationship.ApiGenerateReferenceEndpoint }}
 {{ if relationship.Related.Entity.Persistence.Read.IsEnabled }}
 #### Get {{relationship.Entity}} relations
 - **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}/$ref`
@@ -91,7 +91,7 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}/$ref`
   - Description: Delete all existing {{relationship.EntityPlural}} relations for a specific {{entity.Name}}.
 {{ end }}{{ end -}}
-{{- if relationship.CanManageEntity -}}
+{{- if relationship.ApiGenerateRelatedEndpoint -}}
 {{ if relationship.Related.Entity.Persistence.Read.IsEnabled }}
 #### Get {{relationship.Entity}}
 - **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}`

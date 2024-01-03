@@ -31,12 +31,13 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Country Name
       showInSearchResults: optionalAndOnByDefault
       canSort: true
-      canSearch: true
+      canSearch: false
       canFilter: true
       showOnCreateForm: true
-      showOnUpdateForm: true
+      showOnUpdateForm: false
 
   - name: Population
     description: Population

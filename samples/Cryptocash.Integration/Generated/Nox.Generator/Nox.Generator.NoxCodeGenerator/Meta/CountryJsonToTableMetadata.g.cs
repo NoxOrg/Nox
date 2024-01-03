@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace CryptocashIntegration.Domain;
 
@@ -63,40 +64,20 @@ public partial class CountryJsonToTableMetadata
         public static Nox.Types.DateTime CreateEditDate(System.DateTimeOffset value)
             => Nox.Types.DateTime.From(value);
         
-
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("CountryJsonToTable")
-                .GetAttributeByName("Name")?
-                .UserInterface;
-
+        public static TypeUserInterface? NameUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'Population'
         /// </summary>
-        public static TypeUserInterface? PopulationUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("CountryJsonToTable")
-                .GetAttributeByName("Population")?
-                .UserInterface;
-
+        public static TypeUserInterface? PopulationUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'CreateDate'
         /// </summary>
-        public static TypeUserInterface? CreateDateUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("CountryJsonToTable")
-                .GetAttributeByName("CreateDate")?
-                .UserInterface;
-
+        public static TypeUserInterface? CreateDateUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'EditDate'
         /// </summary>
-        public static TypeUserInterface? EditDateUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("CountryJsonToTable")
-                .GetAttributeByName("EditDate")?
-                .UserInterface;
+        public static TypeUserInterface? EditDateUiOptions {get; private set;} = null; 
 }

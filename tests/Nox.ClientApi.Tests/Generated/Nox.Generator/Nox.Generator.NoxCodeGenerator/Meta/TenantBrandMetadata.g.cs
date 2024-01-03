@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace ClientApi.Domain;
 
@@ -62,22 +63,12 @@ public partial class TenantBrandMetadata
         public static Nox.Types.Text CreateDescription(System.String value)
             => Nox.Types.Text.From(value, DescriptionTypeOptions);
         
-
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TenantBrand")
-                .GetAttributeByName("Name")?
-                .UserInterface;
-
+        public static TypeUserInterface? NameUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'Description'
         /// </summary>
-        public static TypeUserInterface? DescriptionUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TenantBrand")
-                .GetAttributeByName("Description")?
-                .UserInterface;
+        public static TypeUserInterface? DescriptionUiOptions {get; private set;} = null; 
 }

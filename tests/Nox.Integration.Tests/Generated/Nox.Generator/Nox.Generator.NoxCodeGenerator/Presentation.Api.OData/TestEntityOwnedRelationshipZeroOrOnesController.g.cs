@@ -82,19 +82,11 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in secondTestEntityOwnedRelationshipZeroOrOne.GetChangedPropertyNames())
-        {
-            if(secondTestEntityOwnedRelationshipZeroOrOne.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto>(secondTestEntityOwnedRelationshipZeroOrOne);
         
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(new TestEntityOwnedRelationshipZeroOrOneKeyDto(key), updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(new TestEntityOwnedRelationshipZeroOrOneKeyDto(key), updatedProperties, _cultureCode, etag));
         
         var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipZeroOrOneByIdQuery(key))).SingleOrDefault()?.SecondTestEntityOwnedRelationshipZeroOrOne;
         

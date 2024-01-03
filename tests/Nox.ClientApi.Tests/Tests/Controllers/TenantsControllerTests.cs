@@ -146,7 +146,7 @@ namespace ClientApi.Tests.Controllers
             frResult.TenantBrands[0].Description.Should().Be(frTenant.TenantBrands[0].Description);
         }
 
-        [Fact(Skip = "Nuid relationship issue")]
+        [Fact]
         public async Task UpdateTenantWithTenantBrands_WithTenantBrandDescription_CreatesLocalization()
         {
             // Arrange

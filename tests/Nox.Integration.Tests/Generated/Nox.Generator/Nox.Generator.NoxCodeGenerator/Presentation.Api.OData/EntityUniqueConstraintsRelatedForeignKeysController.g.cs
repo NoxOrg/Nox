@@ -156,6 +156,30 @@ public abstract partial class EntityUniqueConstraintsRelatedForeignKeysControlle
         return Ok(updatedItem);
     }
     
+    [HttpPatch("/api/v1/EntityUniqueConstraintsRelatedForeignKeys/{key}/EntityUniqueConstraintsWithForeignKeys/{relatedKey}")]
+    public virtual async Task<ActionResult<EntityUniqueConstraintsWithForeignKeyDto>> PatchtoEntityUniqueConstraintsWithForeignKeysNonConventional(System.Int32 key, System.Guid relatedKey, [FromBody] Delta<EntityUniqueConstraintsWithForeignKeyPartialUpdateDto> entityUniqueConstraintsWithForeignKey)
+    {
+        if (!ModelState.IsValid || entityUniqueConstraintsWithForeignKey is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetEntityUniqueConstraintsRelatedForeignKeyByIdQuery(key))).SelectMany(x => x.EntityUniqueConstraintsWithForeignKeys).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKeys", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<EntityUniqueConstraintsWithForeignKeyPartialUpdateDto>(entityUniqueConstraintsWithForeignKey);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateEntityUniqueConstraintsWithForeignKeyCommand(relatedKey, updatedProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/v1/EntityUniqueConstraintsRelatedForeignKeys/{key}/EntityUniqueConstraintsWithForeignKeys/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteToEntityUniqueConstraintsWithForeignKeys([FromRoute] System.Int32 key, [FromRoute] System.Guid relatedKey)
     {

@@ -5,10 +5,10 @@ namespace Nox.Domain;
 
 public interface IRepository
 {
-    // needs to work with IEntity, IOwnedEntity and localized entity
     IQueryable<T> Query<T>(Expression<Func<T, bool>> predicate) where T : class, IEntity;
-    Task AddAsync<T>(T entity) where T : class, IEntity;
-    void Update(object entity);
+    ValueTask<T> AddAsync<T>(T entity, CancellationToken cancellationToken = default(CancellationToken)) where T : class, IEntity;
+
+    void Update<T>(T entity) where T : IEntity;
 
     /// <summary>
     /// Deletes Entity

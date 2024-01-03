@@ -129,6 +129,29 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         return Ok(updatedItem);
     }
     
+    public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToOneDto>> PatchToTestRelationshipOneOnOtherSide(System.String key, [FromBody] Delta<TestEntityTwoRelationshipsOneToOnePartialUpdateDto> testEntityTwoRelationshipsOneToOne)
+    {
+        if (!ModelState.IsValid || testEntityTwoRelationshipsOneToOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipOneOnOtherSide).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("TestRelationshipOneOnOtherSide", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<TestEntityTwoRelationshipsOneToOnePartialUpdateDto>(testEntityTwoRelationshipsOneToOne);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTestEntityTwoRelationshipsOneToOneCommand(related.Id, updatedProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/v1/SecondTestEntityTwoRelationshipsOneToOnes/{key}/TestRelationshipOneOnOtherSide")]
     public virtual async Task<ActionResult> DeleteToTestRelationshipOneOnOtherSide([FromRoute] System.String key)
     {
@@ -241,6 +264,29 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateTestEntityTwoRelationshipsOneToOneCommand(related.Id, testEntityTwoRelationshipsOneToOne, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToOneDto>> PatchToTestRelationshipTwoOnOtherSide(System.String key, [FromBody] Delta<TestEntityTwoRelationshipsOneToOnePartialUpdateDto> testEntityTwoRelationshipsOneToOne)
+    {
+        if (!ModelState.IsValid || testEntityTwoRelationshipsOneToOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipTwoOnOtherSide).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("TestRelationshipTwoOnOtherSide", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<TestEntityTwoRelationshipsOneToOnePartialUpdateDto>(testEntityTwoRelationshipsOneToOne);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTestEntityTwoRelationshipsOneToOneCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(updated.keyId))).SingleOrDefault();
         

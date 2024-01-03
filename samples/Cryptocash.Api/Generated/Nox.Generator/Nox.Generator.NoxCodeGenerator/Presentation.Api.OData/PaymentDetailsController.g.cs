@@ -105,6 +105,29 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         return Ok(updatedItem);
     }
     
+    public virtual async Task<ActionResult<CustomerDto>> PatchToCustomer(System.Int64 key, [FromBody] Delta<CustomerPartialUpdateDto> customer)
+    {
+        if (!ModelState.IsValid || customer is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetPaymentDetailByIdQuery(key))).Select(x => x.Customer).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("Customer", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CustomerPartialUpdateDto>(customer);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCustomerCommand(related.Id, updatedProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetCustomerByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     public virtual async Task<ActionResult> CreateRefToPaymentProvider([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -174,6 +197,29 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdatePaymentProviderCommand(related.Id, paymentProvider, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetPaymentProviderByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<PaymentProviderDto>> PatchToPaymentProvider(System.Int64 key, [FromBody] Delta<PaymentProviderPartialUpdateDto> paymentProvider)
+    {
+        if (!ModelState.IsValid || paymentProvider is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetPaymentDetailByIdQuery(key))).Select(x => x.PaymentProvider).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("PaymentProvider", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<PaymentProviderPartialUpdateDto>(paymentProvider);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdatePaymentProviderCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetPaymentProviderByIdQuery(updated.keyId))).SingleOrDefault();
         

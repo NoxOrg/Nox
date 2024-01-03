@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Nox.Extensions;
 using Nox.Infrastructure.Persistence;
 
@@ -7,9 +6,9 @@ namespace Nox.Domain;
 
 public sealed class Repository : IRepository
 {
-    private readonly IAppDbContext _dbContext;
+    private readonly EntityDbContextBase _dbContext;
 
-    public Repository(IAppDbContext dbContext)
+    public Repository(EntityDbContextBase dbContext)
     {
         ArgumentNullException.ThrowIfNull(dbContext, nameof(dbContext));
         _dbContext = dbContext;
@@ -22,12 +21,13 @@ public sealed class Repository : IRepository
         return _dbContext.Set<T>().Where(predicate: predicate);
     }
 
-    public async Task AddAsync<T>(T entity) where T : class, IEntity
+    public async ValueTask<T> AddAsync<T>(T entity, CancellationToken cancellationToken = default(CancellationToken)) where T : class, IEntity
     {
-        await _dbContext.AddEntityAsync(entity);
+        var entry = await _dbContext.AddAsync(entity, cancellationToken);
+        return entry.Entity;
     }
 
-    public void Update(object entity)
+    public void Update<T>(T entity) where T : IEntity
     {
         _dbContext.Update(entity);
     }

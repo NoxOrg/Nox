@@ -10,6 +10,7 @@
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes;
 @using MudBlazor
 @using System.Globalization;
+@using Nox.Ui.Blazor.Lib.Models
 @using global::Cryptocash.Ui.Generated.Data.Helper;
 
 
@@ -19,6 +20,25 @@
 
 @if (!IsLoading)
 {
+    #region Test Data
+
+    string AddLabel = "ADD Test Lib";
+    MoneyModel testMoney = new MoneyModel() {
+                    Amount = (decimal)6432.43,
+                    CurrencyCode = Nox.Types.CurrencyCode.GBP
+                };
+    string testCurrencySymbol = "£";
+    decimal? testArea = (decimal)5645.27;
+    bool testBoolean = true;
+    decimal? testDistance = (decimal)1174.25;
+    decimal? testLength = (decimal)1311.87;
+    string testMacAddress = "ddaaccbbeedd";
+    decimal? testNumber = (decimal)1223.75;
+    decimal? testPercentage = (decimal)36.67;
+    decimal? testTemperature = (decimal)14.33;
+
+    #endregion
+
     <MudGrid Spacing="0">
         <MudItem xs="12">
             <MudGrid Spacing="2" Style="margin-top:10px;">
@@ -50,9 +70,7 @@
             <MudGrid Spacing="2" Style="margin-top:15px;">
 
                 @if (CurrentApiUiService != null && CurrentAddEntity != null)
-                {
-                    var AddLabel = "ADD Test Lib";
-
+                {     
                     <MudItem xs="12" Class="align-left justify-left">
                         <MudButton OnClick="AddEntityOpenDialog"
                                    Variant="Variant.Filled"
@@ -71,6 +89,33 @@
                                                 <MudGrid Style="margin-top:15px;">
                                                     <MudItem xs="6">
                                                         <EditText Title="Text" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditMoney Title="Money" Money="@testMoney" Currency="testMoney.CurrencyCode" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditArea Title="Area" Area="@testArea" AreaUnit="Nox.Types.AreaUnit.SquareMeter" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditBoolean Title="Boolean" Boolean="@testBoolean" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditDistance Title="Distance" Distance="@testDistance" DistanceUnit="Nox.Types.DistanceUnit.Kilometer" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditLength Title="Length" Length="@testLength" LengthUnit="Nox.Types.LengthUnit.Meter" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditMacAddress Title="MAC Address" MacAddress="@testMacAddress" Format="##:##:##:##:##:##" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditNumber Title="Number" Number="@testNumber" Minimum="0" Maximum="2000" Format="#,##0.##" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditPercentage Title="Percentage" Percentage="@testPercentage" Format="#.##" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditTemperature Title="Temperature" Temperature="@testTemperature" TemperatureUnit="Nox.Types.TemperatureUnit.Celsius" />
                                                     </MudItem>
                                                 </MudGrid>
                                     </MudItem>
@@ -110,11 +155,47 @@
                                   Dense="true">
                             <HeaderContent>
                                 <MudTh>Text</MudTh>
+                                <MudTh>Money</MudTh>
+                                <MudTh>Area</MudTh>
+                                <MudTh>Boolean</MudTh>
+                                <MudTh>Distance</MudTh>
+                                <MudTh>Length</MudTh>
+                                <MudTh>MacAddress</MudTh>
+                                <MudTh>Number</MudTh>
+                                <MudTh>Percentage</MudTh>
+                                <MudTh>Temperature</MudTh>
                             </HeaderContent>
                             <RowTemplate> 
                                 <MudTd Style="vertical-align:top;">
                                     <ViewText Text="Test Text" />                                  
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewMoney Money="@testMoney" Symbol="@testCurrencySymbol" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewArea Area="@testArea" AreaUnit="Nox.Types.AreaUnit.SquareMeter" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewBoolean Boolean="@testBoolean" TitleTrue="True" TitleFalse="False" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewDistance Distance="@testDistance" DistanceUnit="Nox.Types.DistanceUnit.Kilometer" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewLength Length="@testLength" LengthUnit="Nox.Types.LengthUnit.Meter" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewMacAddress MacAddress="@testMacAddress" MacAddressFormat="Nox.Types.MacAddressFormat.ByteGroupWithColon" />
                                 </MudTd> 
+                                <MudTd Style="vertical-align:top;">                                    
+                                    <ViewNumber Number="@testNumber" Format="#,##0.##" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewPercentage Percentage="@testPercentage" />                                    
+                                </MudTd> 
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewTemperature Temperature="@testTemperature" TemperatureUnit="Nox.Types.TemperatureUnit.Celsius" />
+                                </MudTd>
                             </RowTemplate>
                             <NoRecordsContent>
                                 <MudText Typo="Typo.h6">No Results Found</MudText>

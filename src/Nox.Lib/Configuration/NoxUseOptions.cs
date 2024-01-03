@@ -40,7 +40,7 @@ internal class NoxUseOptions : INoxUseOptions
         _useODataRouteDebug = true;
         return this;
     }
-    public INoxUseOptions UseHealthChecks(bool use = true)
+    public INoxUseOptions UseHealthChecks(bool use)
     {
         _useHealthChecks = use;
         return this;
@@ -102,8 +102,8 @@ internal class NoxUseOptions : INoxUseOptions
             appBuilder =>
             {
                 appBuilder
-                    .UseMiddleware<RelatedEndpointsMiddleware>()
-                    .UseMiddleware<NoxApiMiddleware>();                    
+                    .UseMiddleware<RelatedEntityRoutingMiddleware>()
+                    .UseMiddleware<ApiRoutingMiddleware>();                    
             });
 
         builder.UseRouting();

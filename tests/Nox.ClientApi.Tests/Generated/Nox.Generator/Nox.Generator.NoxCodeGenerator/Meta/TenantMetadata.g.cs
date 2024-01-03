@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace ClientApi.Domain;
 
@@ -98,22 +99,12 @@ public partial class TenantMetadata
         public static Nox.Types.AutoNumber CreateWorkplaceId(System.Int64 value)
             => Nox.Types.AutoNumber.FromDatabase(value);
         
-
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Tenant")
-                .GetAttributeByName("Name")?
-                .UserInterface;
-
+        public static TypeUserInterface? NameUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'Status'
         /// </summary>
-        public static TypeUserInterface? StatusUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Tenant")
-                .GetAttributeByName("Status")?
-                .UserInterface;
+        public static TypeUserInterface? StatusUiOptions {get; private set;} = null; 
 }

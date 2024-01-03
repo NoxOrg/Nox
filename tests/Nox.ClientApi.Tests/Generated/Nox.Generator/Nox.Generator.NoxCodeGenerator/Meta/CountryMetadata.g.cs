@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace ClientApi.Domain;
 
@@ -221,112 +222,61 @@ public partial class CountryMetadata
         public static Nox.Types.Guid CreateHolidayId(System.Guid value)
             => Nox.Types.Guid.From(value);
         
-
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("Name")?
-                .UserInterface;
-
+        public static TypeUserInterface? NameUiOptions {get; private set;} = new()
+        {
+            Label = "Country Name", 
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanFilter = true,
+            ShowOnUpdateForm = false,
+        }; 
         /// <summary>
         /// User Interface for property 'Population'
         /// </summary>
-        public static TypeUserInterface? PopulationUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("Population")?
-                .UserInterface;
-
+        public static TypeUserInterface? PopulationUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'CountryDebt'
         /// </summary>
-        public static TypeUserInterface? CountryDebtUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("CountryDebt")?
-                .UserInterface;
-
+        public static TypeUserInterface? CountryDebtUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'DebtPerCapita'
         /// </summary>
-        public static TypeUserInterface? DebtPerCapitaUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("DebtPerCapita")?
-                .UserInterface;
-
+        public static TypeUserInterface? DebtPerCapitaUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'CapitalCityLocation'
         /// </summary>
-        public static TypeUserInterface? CapitalCityLocationUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("CapitalCityLocation")?
-                .UserInterface;
-
+        public static TypeUserInterface? CapitalCityLocationUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'FirstLanguageCode'
         /// </summary>
-        public static TypeUserInterface? FirstLanguageCodeUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("FirstLanguageCode")?
-                .UserInterface;
-
+        public static TypeUserInterface? FirstLanguageCodeUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'ShortDescription'
         /// </summary>
-        public static TypeUserInterface? ShortDescriptionUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("ShortDescription")?
-                .UserInterface;
-
+        public static TypeUserInterface? ShortDescriptionUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'CountryIsoNumeric'
         /// </summary>
-        public static TypeUserInterface? CountryIsoNumericUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("CountryIsoNumeric")?
-                .UserInterface;
-
+        public static TypeUserInterface? CountryIsoNumericUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'CountryIsoAlpha3'
         /// </summary>
-        public static TypeUserInterface? CountryIsoAlpha3UiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("CountryIsoAlpha3")?
-                .UserInterface;
-
+        public static TypeUserInterface? CountryIsoAlpha3UiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'GoogleMapsUrl'
         /// </summary>
-        public static TypeUserInterface? GoogleMapsUrlUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("GoogleMapsUrl")?
-                .UserInterface;
-
+        public static TypeUserInterface? GoogleMapsUrlUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'StartOfWeek'
         /// </summary>
-        public static TypeUserInterface? StartOfWeekUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("StartOfWeek")?
-                .UserInterface;
-
+        public static TypeUserInterface? StartOfWeekUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'Continent'
         /// </summary>
-        public static TypeUserInterface? ContinentUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Country")
-                .GetAttributeByName("Continent")?
-                .UserInterface;
+        public static TypeUserInterface? ContinentUiOptions {get; private set;} = null; 
 }
