@@ -22,7 +22,7 @@
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		  <PrivateAssets>all</PrivateAssets>
 	  </PackageReference>
-	  <PackageReference Include="Microsoft.Build.Framework" Version="17.7.2" />
+	  <PackageReference Include="Microsoft.Build.Framework" Version="17.8.3" />
   </ItemGroup>
 
   <ItemGroup>
