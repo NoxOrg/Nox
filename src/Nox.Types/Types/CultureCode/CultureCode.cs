@@ -22,26 +22,11 @@ public partial class CultureCode : ValueObject<string, CultureCode>
 
         return result;
     }
-    
+
     /// <summary>
     /// Creates a new instance of <see cref="CultureCode"/>
     /// <param name="value">The Culture value type of <see cref="Culture"/> to create the <see cref="CultureCode"/> with</param>
     /// </summary>
     /// <returns>A new instance of <see cref="CultureCode"/></returns>
-    public static CultureCode From(Culture value)
-    {
-        var newObject = new CultureCode
-        {
-            Value = value.ToDisplayName()
-        };
-        
-        var validationResult = newObject.Validate();
-        
-        if(!validationResult.IsValid)
-        {
-            throw new NoxTypeValidationException(validationResult.Errors);
-        }
-
-        return newObject;
-    }
+    public static CultureCode From(Culture value) => From(value.ToDisplayName());
 }

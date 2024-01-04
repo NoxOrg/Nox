@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Immutable;
 using System.Linq;
-using Nox.Yaml.Attributes;
+using Nox.Types.Abstractions.Extensions;
 
 namespace Nox.Types.Abstractions
 {
@@ -11,12 +11,6 @@ namespace Nox.Types.Abstractions
         
         public static readonly ImmutableSortedDictionary<string,Culture> CultureCodeDisplayNames = Enum.GetValues(typeof(Culture))
             .Cast<Culture>()
-            .ToImmutableSortedDictionary(x =>
-                {
-                    var field = x.GetType().GetField(x.ToString())!;
-                    var attribute = field.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() as DisplayNameAttribute;
-                    return attribute?.DisplayName ?? x.ToString();
-                }, 
-                x => x);
+            .ToImmutableSortedDictionary(culture => culture.ToDisplayName(), culture => culture);
     }
 }
