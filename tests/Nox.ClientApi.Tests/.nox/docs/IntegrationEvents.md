@@ -169,6 +169,7 @@ Address|StreetAddressDto|Street Address
 Location|LatLongDto|Location
 OpeningDay|System.DateTimeOffset|Opening day
 Status|System.Int32|Store Status
+CountryId|System.Int64|The unique identifier
 StoreOwnerId|System.String|
 ClientId|System.Guid|
 

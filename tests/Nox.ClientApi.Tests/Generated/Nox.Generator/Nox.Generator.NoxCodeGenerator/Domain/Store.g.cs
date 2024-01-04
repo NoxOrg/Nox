@@ -130,6 +130,31 @@ internal abstract partial class StoreBase : AuditableEntityBase, IEtag
     }
 
     /// <summary>
+    /// Store country where the store is located ZeroOrOne Countries
+    /// </summary>
+    public virtual Country? Country { get; private set; } = null!;
+
+    /// <summary>
+    /// Foreign key for relationship ZeroOrOne to entity Country
+    /// </summary>
+    public Nox.Types.AutoNumber? CountryId { get; set; } = null!;
+
+    public virtual void CreateRefToCountry(Country relatedCountry)
+    {
+        Country = relatedCountry;
+    }
+
+    public virtual void DeleteRefToCountry(Country relatedCountry)
+    {
+        Country = null;
+    }
+
+    public virtual void DeleteAllRefToCountry()
+    {
+        CountryId = null;
+    }
+
+    /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
     public virtual StoreOwner? StoreOwner { get; private set; } = null!;

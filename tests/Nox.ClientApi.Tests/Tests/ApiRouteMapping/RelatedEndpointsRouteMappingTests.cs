@@ -4,6 +4,7 @@ using AutoFixture;
 using Xunit.Abstractions;
 using System.Net;
 using Nox.Application.Dto;
+using ClientApi.Tests.Tests.Models;
 
 namespace ClientApi.Tests.ApiRouteMapping;
 public partial class RelatedEndpointsRouteMappingTests : NoxWebApiTestBase
@@ -36,6 +37,8 @@ public partial class RelatedEndpointsRouteMappingTests : NoxWebApiTestBase
             $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
             $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
             $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
+            $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
+            $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
             $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}",
             new WorkplacePartialUpdateDto { Name = expectedName },
             headers,
@@ -44,6 +47,8 @@ public partial class RelatedEndpointsRouteMappingTests : NoxWebApiTestBase
 
         var patchResponseDepth4WithoutId = await PatchAsync(
             $"{Endpoints.CountriesUrl}/{countryResponse!.Id}" +
+            $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
+            $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
             $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
             $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
             $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
@@ -204,6 +209,115 @@ public partial class RelatedEndpointsRouteMappingTests : NoxWebApiTestBase
         getResponse!.First().Id.Should().Be(tenantResponse!.Id);
     }
     #endregion
+
+    #region GET /api/v1/Tenants/1/Workplaces/1/Country/1/Stores/1/StoreLicense/1/DefaultCurrency/1
+    [Fact]
+    public async Task WhenGetFifthDepthRelatedEntity_ShouldSucceed()
+    {
+        // Arrange
+        var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto { Name = _fixture.Create<string>() });
+        var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
+            new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+        var tenantResponse = await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TenantsUrl,
+            new TenantCreateDto { Name = _fixture.Create<string>() });
+        var storeResponse = await CreateStore();
+        var licenseResponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, new StoreLicenseCreateDto
+        {
+            Issuer = _fixture.Create<string>(),
+            StoreId = storeResponse!.Id,
+        });
+        var currencyResponse = await PostAsync<CurrencyCreateDto, CurrencyDto>(Endpoints.CurrenciesUrl, new CurrencyCreateDto
+        {
+            Id = "USD",
+            Name = "US dollar"
+        });
+
+        await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}/$ref");
+        await PostAsync($"{Endpoints.TenantsUrl}/{tenantResponse!.Id}/{nameof(TenantDto.Workplaces)}/{workplaceResponse!.Id}/$ref");
+        await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Stores)}/{storeResponse!.Id}/$ref");
+        await PostAsync($"{Endpoints.StoreLicensesUrl}/{licenseResponse!.Id}/{nameof(StoreLicenseDto.DefaultCurrency)}/{currencyResponse!.Id}/$ref");
+
+        //Act & Assert
+        var depth5GetRef = await GetODataSimpleResponseAsync<ODataReferenceResponse>(
+            $"{Endpoints.TenantsUrl}/{tenantResponse!.Id}" +
+            $"/{nameof(TenantDto.Workplaces)}/{workplaceResponse!.Id}" +
+            $"/{nameof(WorkplaceDto.Country)}/{countryResponse!.Id}" +
+            $"/{nameof(CountryDto.Stores)}/{storeResponse!.Id}" +
+            $"/{nameof(StoreDto.StoreLicense)}/{licenseResponse!.Id}" +
+            $"/{nameof(StoreLicenseDto.DefaultCurrency)}" +
+            "/$ref");
+        depth5GetRef.Should().NotBeNull();
+
+        var depth5GetCurrency = await GetODataSimpleResponseAsync<CurrencyDto>(
+            $"{Endpoints.TenantsUrl}/{tenantResponse!.Id}" +
+            $"/{nameof(TenantDto.Workplaces)}/{workplaceResponse!.Id}" +
+            $"/{nameof(WorkplaceDto.Country)}/{countryResponse!.Id}" +
+            $"/{nameof(CountryDto.Stores)}/{storeResponse!.Id}" +
+            $"/{nameof(StoreDto.StoreLicense)}/{licenseResponse!.Id}" +
+            $"/{nameof(StoreLicenseDto.DefaultCurrency)}");
+        depth5GetCurrency.Should().NotBeNull();
+    }
+    #endregion
+
+    [Fact]
+    public async Task WhenGetRelatedEntity_WithInvlidRequest_ShouldFail()
+    {
+        // Arrange
+        var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
+            new CountryCreateDto { Name = _fixture.Create<string>() });
+        var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
+            new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+        var tenantResponse = await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TenantsUrl,
+            new TenantCreateDto { Name = _fixture.Create<string>() });
+        var storeResponse = await CreateStore();
+        var licenseResponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, new StoreLicenseCreateDto
+        {
+            Issuer = _fixture.Create<string>(),
+            StoreId = storeResponse!.Id,
+        });
+        var currencyResponse = await PostAsync<CurrencyCreateDto, CurrencyDto>(Endpoints.CurrenciesUrl, new CurrencyCreateDto
+        {
+            Id = "USD",
+            Name = "US dollar"
+        });
+
+        await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}/$ref");
+        await PostAsync($"{Endpoints.TenantsUrl}/{tenantResponse!.Id}/{nameof(TenantDto.Workplaces)}/{workplaceResponse!.Id}/$ref");
+        await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Stores)}/{storeResponse!.Id}/$ref");
+        await PostAsync($"{Endpoints.StoreLicensesUrl}/{licenseResponse!.Id}/{nameof(StoreLicenseDto.DefaultCurrency)}/{currencyResponse!.Id}/$ref");
+
+        //Act & Assert
+        var depth7GetRef = await GetAsync(
+            $"{Endpoints.TenantsUrl}/{tenantResponse!.Id}" +
+            $"/{nameof(TenantDto.Workplaces)}/{workplaceResponse!.Id}" +
+            $"/{nameof(WorkplaceDto.Country)}/{countryResponse!.Id}" +
+            $"/{nameof(CountryDto.Workplaces)}/{workplaceResponse!.Id}" +
+            $"/{nameof(WorkplaceDto.Country)}/{countryResponse!.Id}" +
+            $"/{nameof(CountryDto.Stores)}/{storeResponse!.Id}" +
+            $"/{nameof(StoreDto.StoreLicense)}/{licenseResponse!.Id}" +
+            $"/{nameof(StoreLicenseDto.DefaultCurrency)}" +
+            "/$ref");
+        depth7GetRef.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+        var depth5GetCurrencyWithInvalidId = await GetAsync(
+            $"{Endpoints.TenantsUrl}/{tenantResponse!.Id}" +
+            $"/{nameof(TenantDto.Workplaces)}/{workplaceResponse!.Id+1}" +
+            $"/{nameof(WorkplaceDto.Country)}/{countryResponse!.Id}" +
+            $"/{nameof(CountryDto.Stores)}/{storeResponse!.Id}" +
+            $"/{nameof(StoreDto.StoreLicense)}/{licenseResponse!.Id}" +
+            $"/{nameof(StoreLicenseDto.DefaultCurrency)}");
+        depth5GetCurrencyWithInvalidId.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+        var depth5GetCurrencyWithInvalidEntityName = await GetAsync(
+            $"{Endpoints.TenantsUrl}/{tenantResponse!.Id}" +
+            $"/{nameof(TenantDto.Workplaces)}/{workplaceResponse!.Id + 1}" +
+            $"/Countries/{countryResponse!.Id}" +
+            $"/{nameof(CountryDto.Stores)}/{storeResponse!.Id}" +
+            $"/{nameof(StoreDto.StoreLicense)}/{licenseResponse!.Id}" +
+            $"/{nameof(StoreLicenseDto.DefaultCurrency)}");
+        depth5GetCurrencyWithInvalidEntityName.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
 
     #endregion GET
 

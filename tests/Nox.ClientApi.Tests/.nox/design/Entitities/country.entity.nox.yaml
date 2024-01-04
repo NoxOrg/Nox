@@ -140,6 +140,11 @@ relationships:
       relationship: zeroOrMany
       entity: Workplace
 
+    - name: StoresInTheCountry
+      description: Country stores
+      relationship: zeroOrMany
+      entity: Store
+
 persistence:
     isAudited: true    
     create:

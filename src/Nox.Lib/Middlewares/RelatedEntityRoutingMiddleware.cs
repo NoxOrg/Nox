@@ -12,6 +12,13 @@ namespace Nox.Middlewares;
 /// </summary>
 internal class RelatedEntityRoutingMiddleware
 {
+    internal static bool IsApplicable(NoxSolution solution)
+    {
+        return
+            solution.Presentation.ApiConfiguration.ApiGenerateRelatedEndpointsMaxDepth > 1 &&
+            solution.Domain!.Entities.Any(entity => entity.Relationships.Any(r => r.ApiGenerateRelatedEndpoint || r.ApiGenerateReferenceEndpoint));
+    }
+
     private readonly RequestDelegate _next;
     private const string _refSegment = "$ref";
     private const int _minSegmentCount = 5;

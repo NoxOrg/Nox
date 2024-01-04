@@ -65,7 +65,7 @@ internal abstract class {{className}}Base: I{{className}}
 
         var aggregateDbSet = (IQueryable)context.DbSet;
 
-        var query = aggregateDbSet.Where($"{context.KeyName} == {relationshipChain.EntityKey}");
+        var query = aggregateDbSet.Where($"{context.KeyName} == @0", relationshipChain.EntityKey);
 
         var previousAggregateRoot = relationshipChain.EntityName;
 
@@ -85,7 +85,7 @@ internal abstract class {{className}}Base: I{{className}}
             if (!_entityContextPerEntityName.TryGetValue(relatedPluralName, out var relatedContext))
                 return false;
             
-            query = query.Where($"{relatedContext.KeyName} == {property.NavigationKey}");
+            query = query.Where($"{relatedContext.KeyName} == @0", property.NavigationKey);
             previousAggregateRoot = relatedPluralName;
         }
 

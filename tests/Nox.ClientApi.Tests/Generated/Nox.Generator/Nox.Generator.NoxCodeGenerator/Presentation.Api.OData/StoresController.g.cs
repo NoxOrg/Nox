@@ -35,6 +35,147 @@ public abstract partial class StoresControllerBase : ODataController
     
     #region Relationships
     
+    public virtual async Task<ActionResult> CreateRefToCountry([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefStoreToCountryCommand(new StoreKeyDto(key), new CountryKeyDto(relatedKey)));
+        
+        return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> GetRefToCountry([FromRoute] System.Guid key)
+    {
+        var entity = (await _mediator.Send(new GetStoreByIdQuery(key))).Include(x => x.Country).SingleOrDefault();
+        if (entity is null)
+        {
+            throw new EntityNotFoundException("Store", $"{key.ToString()}");
+        }
+        
+        if (entity.Country is null)
+        {
+            return Ok();
+        }
+        var references = new System.Uri($"Countries/{entity.Country.Id}", UriKind.Relative);
+        return Ok(references);
+    }
+    
+    public virtual async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefStoreToCountryCommand(new StoreKeyDto(key), new CountryKeyDto(relatedKey)));
+        
+        return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefStoreToCountryCommand(new StoreKeyDto(key)));
+        
+        return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToCountry([FromRoute] System.Guid key, [FromBody] CountryCreateDto country)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        country.StoresId = new List<System.Guid> { key };
+        var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<CountryDto>> GetCountry(System.Guid key)
+    {
+        var query = await _mediator.Send(new GetStoreByIdQuery(key));
+        if (!query.Any())
+        {
+            return SingleResult.Create<CountryDto>(Enumerable.Empty<CountryDto>().AsQueryable());
+        }
+        return SingleResult.Create(query.Where(x => x.Country != null).Select(x => x.Country!));
+    }
+    
+    public virtual async Task<ActionResult<CountryDto>> PutToCountry(System.Guid key, [FromBody] CountryUpdateDto country)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("Country", String.Empty);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCountryCommand(related.Id, country, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<CountryDto>> PatchToCountry(System.Guid key, [FromBody] Delta<CountryPartialUpdateDto> country)
+    {
+        if (!ModelState.IsValid || country is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("Country", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CountryPartialUpdateDto>(country);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(related.Id, updatedProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpDelete("/api/v1/Stores/{key}/Country")]
+    public virtual async Task<ActionResult> DeleteToCountry([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("Store", $"{key.ToString()}");
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCountryByIdCommand(new List<CountryKeyDto> { new CountryKeyDto(related.Id) }, etag));
+        return NoContent();
+    }
+    
     public virtual async Task<ActionResult> CreateRefToStoreOwner([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)

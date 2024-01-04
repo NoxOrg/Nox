@@ -36,6 +36,52 @@ This document provides information about the various endpoints available in our 
 
 ## Relationships Endpoints
 
+### Country
+
+#### Get Country relations
+- **GET** `/api/v1/Stores/{key}/CountryOfTheStore/$ref`
+  - Description: Retrieve all existing Countries relations for a specific Store.
+  
+#### Create Country relation
+- **POST** `/api/v1/Stores/{key}/CountryOfTheStore/{relatedKey}/$ref`
+  - Description: Create a new Country relation for a specific Store.
+  
+#### Update Country relation
+- **PUT** `/api/v1/Stores/{key}/CountryOfTheStore/{relatedKey}/$ref`
+  - Description: Updates an existing Country relation for a specific Store.
+- **PUT** `/api/v1/Stores/{key}/CountryOfTheStore/$ref`
+  - Description: Updates the Country relations for a specific Store.
+
+#### Delete Country relation
+- **DELETE** `/api/v1/Stores/{key}/CountryOfTheStore/{relatedKey}/$ref`
+  - Description: Delete an existing Country relation for a specific Store.
+
+#### Delete Country relations
+- **DELETE** `/api/v1/Stores/{key}/CountryOfTheStore/$ref`
+  - Description: Delete all existing Countries relations for a specific Store.
+
+#### Get Country
+- **GET** `/api/v1/Stores/{key}/CountryOfTheStore`
+  - Description: Retrieve all existing Countries for a specific Store.
+  
+#### Create Country
+- **POST** `/api/v1/Stores/{key}/CountryOfTheStore/{relatedKey}`
+  - Description: Create a new Country for a specific Store.
+  
+#### Update Country
+- **PUT** `/api/v1/Stores/{key}/CountryOfTheStore/{relatedKey}`
+  - Description: Updates an existing Country for a specific Store.
+- **PUT** `/api/v1/Stores/{key}/CountryOfTheStore`
+  - Description: Updates the Country for a specific Store.
+
+#### Delete Country
+- **DELETE** `/api/v1/Stores/{key}/CountryOfTheStore/{relatedKey}`
+  - Description: Delete an existing Country for a specific Store.
+
+#### Delete Country
+- **DELETE** `/api/v1/Stores/{key}/CountryOfTheStore`
+  - Description: Delete all existing Countries for a specific Store.
+
 ### StoreOwner
 
 #### Get StoreOwner relations
@@ -175,6 +221,8 @@ This document provides information about the various endpoints available in our 
   - Description: Delete all existing Clients for a specific Store.
 
 ## Related Entities
+
+[Country](CountryEndpoints.md)
 
 [StoreOwner](StoreOwnerEndpoints.md)
 
