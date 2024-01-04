@@ -94,14 +94,38 @@ public abstract partial class {{className}}Base
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         
+        var etag = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ primaryKeysQuery }}))).Select(e=>e.Etag).SingleOrDefault();
+        
+        if (etag == System.Guid.Empty)
+        {
+            throw new EntityNotFoundException("{{entity.Name}}", $"{{entity.Keys | keysToString}}");
+        }
+        
         var updatedProperties = new Dictionary<string, dynamic>();
        
         {{- for attribute in localizedRelationship.LocalizedAttributes }}
         updatedProperties.Add(nameof({{ToLowerFirstChar localizedRelationship.OwnedEntity.Name}}LocalizedUpsertDto.{{attribute.Name}}), {{ToLowerFirstChar localizedRelationship.OwnedEntity.Name}}LocalizedUpsertDto.{{attribute.Name}}.ToValueFromNonNull());
         {{- end }}
 
-        await Task.Delay(1);
-        throw new NotImplementedException();
+        {{- if localizedRelationship.IsWithMultiEntity }}
+        var updatedKey = await _mediator.Send(new PartialUpdate{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}For{{entity.Name}}Command(
+            new {{entity.Name}}KeyDto({{primaryKeysQuery}}),
+            new {{localizedRelationship.OwnedEntity.Name}}KeyDto({{localizedRelationship.OwnedEntityKeysQuery}}),
+            updatedProperties, Nox.Types.CultureCode.From(cultureCode), etag));
+        {{- else}}
+        var updatedKey = await _mediator.Send(new PartialUpdate{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}For{{entity.Name}}Command(
+            new {{entity.Name}}KeyDto({{primaryKeysQuery}}),
+            updatedProperties, Nox.Types.CultureCode.From(cultureCode), etag));
+        {{- end}}
+
+        if (updatedKey is null)
+        {
+            throw new EntityNotFoundException("{{entity.Name}}", $"{{entity.Keys | keysToString}}");
+        }
+
+        var item = (await _mediator.Send(new Get{{localizedRelationship.OwnedEntity.Name}}TranslationsByIdQuery( {{ localizedRelationship.UpdatedKeyPrimaryKeysQuery }}, Nox.Types.CultureCode.From({{cultureCode}})))).SingleOrDefault();
+
+        return Ok(item);
     }
     {{- end }}
 

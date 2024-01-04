@@ -150,7 +150,6 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **GET** `/api/v1/Workplaces/WorkplaceTypes`
   - **Description**: Retrieve non-conventional values of Types for a specific Workplace.
 ## Localized Endpoints
-
 - **GET** `/api/v1/Workplaces/{key}/WorkplacesLocalized`
   - Description: Retrieve all WorkplacesLocalized for a specific Workplace.
 

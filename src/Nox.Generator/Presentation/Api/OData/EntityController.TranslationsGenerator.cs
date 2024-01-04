@@ -35,7 +35,11 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
                 {
                     IsWithMultiEntity = x.WithMultiEntity,
                     OwnedEntity = x.Related.Entity,
-                    LocalizedAttributes = x.Related.Entity.GetLocalizedAttributes()
+                    LocalizedAttributes = x.Related.Entity.GetLocalizedAttributes(),
+                    OwnedEntityKeysQuery = string.Join(", ", x.Related.Entity.Keys.Select(k => $"{x.Related.Entity.Name.ToLowerFirstChar()}LocalizedUpsertDto.{k.Name}!.Value")),
+                    UpdatedKeyPrimaryKeysQuery = x.WithMultiEntity 
+                        ? GetPrimaryKeysQuery(x.Related.Entity, "updatedKey.key", true)
+                        : GetPrimaryKeysQuery(entity)
                 })
                 .Where(x => x.LocalizedAttributes.Any())
                 .ToList();

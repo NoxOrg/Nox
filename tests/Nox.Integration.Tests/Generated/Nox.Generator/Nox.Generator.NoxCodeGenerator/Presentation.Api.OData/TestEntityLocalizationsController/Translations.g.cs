@@ -17,6 +17,7 @@ using System;
 using System.ComponentModel.Design;
 using System.Net.Http.Headers;
 using TestWebApp.Application;
+using System.Threading.Tasks;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
 using TestWebApp.Application.Commands;
@@ -28,8 +29,7 @@ namespace TestWebApp.Presentation.Api.OData;
 
 
 public abstract partial class TestEntityLocalizationsControllerBase
-{  
-    
+{
     [HttpPut("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/{cultureCode}")]
     public virtual async Task<ActionResult<TestEntityLocalizationLocalizedDto>> PutTestEntityLocalizationLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode, [FromBody] TestEntityLocalizationLocalizedUpsertDto testEntityLocalizationLocalizedUpsertDto)
     {
@@ -66,4 +66,6 @@ public abstract partial class TestEntityLocalizationsControllerBase
             
         return Ok(result);
     }
+
+
 }
