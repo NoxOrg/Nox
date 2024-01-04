@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 
 namespace Nox.Lib.Tests.ApiMiddleware;
-public class NoxApiMidllewareTests
+public class ApiRouteMatcherTests
 {
 
     private readonly string _testPattern = "/Customers/{CustomerId}/Contacts/{ContactId}?$select={Properties}";

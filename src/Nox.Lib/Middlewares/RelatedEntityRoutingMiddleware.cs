@@ -16,7 +16,9 @@ internal class RelatedEntityRoutingMiddleware
     {
         return
             solution.Presentation.ApiConfiguration.ApiGenerateRelatedEndpointsMaxDepth > 1 &&
-            solution.Domain!.Entities.Any(entity => entity.Relationships.Any(r => r.ApiGenerateRelatedEndpoint || r.ApiGenerateReferenceEndpoint));
+            solution.Domain!.Entities.Any(entity =>
+                entity.Relationships.Any(r => r.ApiGenerateRelatedEndpoint || r.ApiGenerateReferenceEndpoint)
+            );
     }
 
     private readonly RequestDelegate _next;
@@ -50,7 +52,7 @@ internal class RelatedEntityRoutingMiddleware
         _maxSegmentsCount = _endpointsMaxDepth * 2 + 3; //Entity + Key + $ref + 2*RelatedEntities Max Depth
 
         _entitiesPluralNamesLowerCase = solution.Domain!.Entities.Select(e => e.PluralName.ToLower()).ToHashSet();
-               
+
 
         /*
         _navigationNameToEntityPluralName is used to map navigationName to EntityPluralName (existing controller name)
@@ -105,7 +107,7 @@ internal class RelatedEntityRoutingMiddleware
 
 
     private bool CanRedirectRequest(string path, out string redirectPath)
-    {        
+    {
         redirectPath = string.Empty;
         path = path.ToLower();
         var segments = poolOfStrings.Rent(_maxSegmentsCount);
@@ -119,7 +121,7 @@ internal class RelatedEntityRoutingMiddleware
 
             while (startIndex < pathSpan.Length)
             {
-                if(segmentsCount == _maxSegmentsCount)
+                if (segmentsCount == _maxSegmentsCount)
                 {
                     return false;
                 }
@@ -148,7 +150,7 @@ internal class RelatedEntityRoutingMiddleware
 
             if (!IsFirstPairValid(segments[0], segments[2]))
                 return false;
-            
+
             if (!IsChainValid(segments, segmentsCount))
                 return false;
 
@@ -205,7 +207,7 @@ internal class RelatedEntityRoutingMiddleware
             navigationProperties[j] = (navigationName: segments[i], navigationKey: segments[i + 1]);
         }
 
-        return _relationshipChainValidator.IsValid(new RelationshipChain (segments[0], segments[1], navigationProperties));
+        return _relationshipChainValidator.IsValid(new RelationshipChain(segments[0], segments[1], navigationProperties));
     }
 
     private PathString BuildRedirectToPath(IReadOnlyList<string> segments, int segmentsCount)
