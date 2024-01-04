@@ -30,44 +30,17 @@ public partial class ViewTime : ComponentBase
 
     public string DisplayTime
     {
-
         get
         {
-            string ReturnTime = String.Empty;
-
-            if (Hour != null
-                && Hour >= 0
-                && Hour <= 23)
+            if (Hour.HasValue && Hour >= 0 && Hour <= 23)
             {
-                int tempMinute = 0;
-                if (Minute != null
-                    && Minute >= 0
-                    && Minute <= 59)
-                {
-                    tempMinute = (int)Minute;
-                }
-
-                int tempSecond = 0;
-                if (Second != null
-                    && Second >= 0
-                    && Second <= 59)
-                {
-                    tempSecond = (int)Second;
-                }
-
-                int tempMillisecond = 0;
-                if (Millisecond != null
-                    && Millisecond >= 0
-                    && Millisecond <= 99)
-                {
-                    tempMillisecond = (int)Millisecond;
-                }
-
+                int tempMinute = Minute.HasValue && Minute >= 0 && Minute <= 59 ? (int)Minute : 0;
+                int tempSecond = Second.HasValue && Second >= 0 && Second <= 59 ? (int)Second : 0;
+                int tempMillisecond = Millisecond.HasValue && Millisecond >= 0 && Millisecond <= 99 ? (int)Millisecond : 0;
                 System.DateTime dateTime = new(1, 1, 1, (int)Hour, tempMinute, tempSecond, tempMillisecond, DateTimeKind.Unspecified);
                 return dateTime.ToString(Format, CultureInfo);
             }
-
-            return ReturnTime;
+            return string.Empty;
         }
     }
 
