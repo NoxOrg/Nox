@@ -11,6 +11,7 @@ using Serilog;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Nox.Middlewares;
 using Nox.Solution;
+using Microsoft.Extensions.Logging;
 
 namespace Nox;
 
@@ -31,7 +32,7 @@ internal class NoxUseOptions : INoxUseOptions
 
     public INoxUseOptions UseNoxElasticMonitoring()
     {
-        _useNoxElasticMonitoring = true;       
+        _useNoxElasticMonitoring = true;
         return this;
     }
 
@@ -62,6 +63,9 @@ internal class NoxUseOptions : INoxUseOptions
     {
         if (_useSerilogRequestLogging)
             builder.UseSerilogRequestLogging();
+
+
+        var logger = builder.ApplicationServices.GetRequiredService<ILogger<NoxUseOptions>>();
 
         //Middleware order is important
         //1. Exception
@@ -102,10 +106,23 @@ internal class NoxUseOptions : INoxUseOptions
             appBuilder =>
             {
                 if (RelatedEntityRoutingMiddleware.IsApplicable(solution))
-                { 
+                {
                     appBuilder.UseMiddleware<RelatedEntityRoutingMiddleware>();
+                    logger.LogInformation("Using RelatedEntityRoutingMiddleware middleware");
                 }
-                appBuilder.UseMiddleware<ApiRoutingMiddleware>();                    
+                else
+                {
+                    logger.LogInformation("Skipping RelatedEntityRoutingMiddleware middleware");
+                }
+                if (ApiRoutingMiddleware.IsApplicable(solution))
+                {
+                    appBuilder.UseMiddleware<ApiRoutingMiddleware>();
+                    logger.LogInformation("Using ApiRoutingMiddleware  middleware");
+                }
+                else
+                {
+                    logger.LogInformation("Skipping ApiRoutingMiddleware middleware");
+                }
             });
 
         builder.UseRouting();
@@ -118,7 +135,7 @@ internal class NoxUseOptions : INoxUseOptions
         {
             builder.ApplicationServices.UseEtlBox(_useEtlBoxCheckLicense);
         }
-        if(_useNoxElasticMonitoring)
+        if (_useNoxElasticMonitoring)
         {
             builder.UseNoxAllElasticApm();
         }
