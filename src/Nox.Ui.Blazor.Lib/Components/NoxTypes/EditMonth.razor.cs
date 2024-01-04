@@ -22,7 +22,7 @@ public partial class EditMonth : ComponentBase
     [Parameter]
     public EventCallback<byte?> MonthChanged { get; set; }
 
-    public Dictionary<byte, string?>? MonthSelectionList { get; set; } = new Dictionary<byte, string?>();
+    public static Dictionary<byte, string?> MonthSelectionList { get; set; } = new Dictionary<byte, string?>();
 
     public string? CurrentMonthStr { get; set; }
 
@@ -37,7 +37,7 @@ public partial class EditMonth : ComponentBase
 
         foreach (var CurrentMonth in months)
         {
-            MonthSelectionList?.Add((byte)CurrentMonth.I, CurrentMonth.M);
+            MonthSelectionList.Add((byte)CurrentMonth.I, CurrentMonth.M);
         }
     }
 

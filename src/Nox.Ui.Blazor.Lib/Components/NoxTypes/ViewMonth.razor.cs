@@ -16,14 +16,13 @@ public partial class ViewMonth : ComponentBase
     [Parameter]
     public CultureInfo CultureInfo { get; set; } = CultureInfo.CurrentCulture;
 
-    public Dictionary<byte, string?>? MonthSelectionList { get; set; } = new Dictionary<byte, string?>();
+    public static Dictionary<byte, string?> MonthSelectionList { get; set; } = new Dictionary<byte, string?>();
 
     public string DisplayMonth
     {
         get
         {
-            if (MonthSelectionList == null
-                || MonthSelectionList.Count < 1)
+            if (MonthSelectionList.Count < 1)
             {
                 var months = Enumerable.Range(1, 12).Select(i => new { I = i, M = CultureInfo.GetCultureInfo(CultureInfo.LCID).DateTimeFormat?.GetMonthName(i) });
 

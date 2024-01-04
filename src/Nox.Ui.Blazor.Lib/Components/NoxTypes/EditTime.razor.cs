@@ -66,20 +66,17 @@ public partial class EditTime : ComponentBase
 
     public string? CurrentMillisecondStr { get; set; }
 
-    public Dictionary<int, string?>? HourSelectionList { get; set; } = new Dictionary<int, string?>();
+    public static Dictionary<int, string?> HourSelectionList { get; set; } = new Dictionary<int, string?>();
 
-    public Dictionary<int, string?>? MinuteSelectionList { get; set; } = new Dictionary<int, string?>();
+    public static Dictionary<int, string?> MinuteSelectionList { get; set; } = new Dictionary<int, string?>();
 
-    public Dictionary<int, string?>? SecondSelectionList { get; set; } = new Dictionary<int, string?>();
+    public static Dictionary<int, string?> SecondSelectionList { get; set; } = new Dictionary<int, string?>();
 
-    public Dictionary<int, string?>? MillisecondSelectionList { get; set; } = new Dictionary<int, string?>();
+    public static Dictionary<int, string?> MillisecondSelectionList { get; set; } = new Dictionary<int, string?>();
 
     #endregion
 
-    /// <summary>
-    /// Handles initial loading
-    /// </summary>
-    protected override void OnInitialized()
+    static EditTime()
     {
         for (int i = 0; i < 24; i++)
         {
@@ -92,12 +89,9 @@ public partial class EditTime : ComponentBase
             SecondSelectionList?.Add(i, String.Format("{0:00}", i));
         }
 
-        if (DisplayMillisecond)
+        for (int i = 0; i < 100; i++)
         {
-            for (int i = 0; i < 100; i++)
-            {
-                MillisecondSelectionList?.Add(i, String.Format("{0:00}", i));
-            }
+            MillisecondSelectionList?.Add(i, String.Format("{0:00}", i));
         }
     }
 
