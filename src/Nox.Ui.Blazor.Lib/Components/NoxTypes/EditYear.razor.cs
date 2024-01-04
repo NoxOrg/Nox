@@ -26,7 +26,7 @@ public partial class EditYear : ComponentBase
         }
     }
 
-    public string Format = "####";
+    private readonly string Format = "####";
 
     #endregion
 

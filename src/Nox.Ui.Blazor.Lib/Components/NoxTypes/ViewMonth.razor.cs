@@ -27,13 +27,10 @@ public partial class ViewMonth : ComponentBase
             {
                 var months = Enumerable.Range(1, 12).Select(i => new { I = i, M = CultureInfo.GetCultureInfo(CultureInfo.LCID).DateTimeFormat?.GetMonthName(i) });
 
-                if (months != null)
+                foreach (var CurrentMonth in months)
                 {
-                    foreach (var CurrentMonth in months)
-                    {
-                        MonthSelectionList?.Add((byte)CurrentMonth.I, CurrentMonth.M);
-                    }
-                }
+                    MonthSelectionList?.Add((byte)CurrentMonth.I, CurrentMonth.M);
+                }                
             }
 
             if (Month != null

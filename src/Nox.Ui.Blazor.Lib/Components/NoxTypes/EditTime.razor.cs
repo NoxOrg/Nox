@@ -103,69 +103,53 @@ public partial class EditTime : ComponentBase
 
     protected async Task OnHourChanged(string newValue)
     {
-        int CurrentHour = -1;
-
         if (!string.IsNullOrWhiteSpace(newValue)
-            && int.TryParse(newValue, out CurrentHour))
+            && int.TryParse(newValue, out int CurrentHour)
+            && CurrentHour >= 0
+            && CurrentHour <= 23)
         {
-            if (CurrentHour >= 0
-                && CurrentHour <= 23)
-            {
-                Hour = CurrentHour;
-                CurrentHourStr = Hour.ToString();
-                await UpdateTime();
-            }
+            Hour = CurrentHour;
+            CurrentHourStr = Hour.ToString();
+            await UpdateTime();
         }
     }
 
     protected async Task OnMinuteChanged(string newValue)
     {
-        int CurrentMinute = -1;
-
         if (!string.IsNullOrWhiteSpace(newValue)
-            && int.TryParse(newValue, out CurrentMinute))
+            && int.TryParse(newValue, out int CurrentMinute)
+            && CurrentMinute >= 0
+            && CurrentMinute <= 59)
         {
-            if (CurrentMinute >= 0
-                && CurrentMinute <= 59)
-            {
-                Minute = CurrentMinute;
-                CurrentMinuteStr = Minute.ToString();
-                await UpdateTime();
-            }
+            Minute = CurrentMinute;
+            CurrentMinuteStr = Minute.ToString();
+            await UpdateTime();
         }
     }
 
     protected async Task OnSecondChanged(string newValue)
     {
-        int CurrentSecond = -1;
-
         if (!string.IsNullOrWhiteSpace(newValue)
-            && int.TryParse(newValue, out CurrentSecond))
+            && int.TryParse(newValue, out int CurrentSecond)
+            && CurrentSecond >= 0
+            && CurrentSecond <= 59)
         {
-            if (CurrentSecond >= 0
-                && CurrentSecond <= 59)
-            {
-                Second = CurrentSecond;
-                CurrentSecondStr = Second.ToString();
-                await UpdateTime();
-            }
+            Second = CurrentSecond;
+            CurrentSecondStr = Second.ToString();
+            await UpdateTime();
         }
     }
 
     protected async Task OnMillisecondChanged(string newValue)
     {
-        int CurrentMillisecond = -1;
-
         if (!string.IsNullOrWhiteSpace(newValue)
-            && int.TryParse(newValue, out CurrentMillisecond))
+            && int.TryParse(newValue, out int CurrentMillisecond)
+            && CurrentMillisecond >= 0
+            && CurrentMillisecond <= 100)
         {
-            if (CurrentMillisecond >= 0
-                && CurrentMillisecond <= 100)
-            {
-                Millisecond = CurrentMillisecond;
-                CurrentMillisecondStr = Millisecond.ToString();
-                await UpdateTime();
-            }
+            Millisecond = CurrentMillisecond;
+            CurrentMillisecondStr = Millisecond.ToString();
+            await UpdateTime();
         }
     }
 
@@ -197,7 +181,7 @@ public partial class EditTime : ComponentBase
         await UpdateTime();
     }
 
-    protected string ErrorRequiredMessage(string? CurrentTitle)
+    protected static string ErrorRequiredMessage(string? CurrentTitle)
     {
         return CurrentTitle + " is required";
     }

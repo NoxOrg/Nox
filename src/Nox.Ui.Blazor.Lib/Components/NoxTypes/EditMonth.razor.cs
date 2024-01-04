@@ -35,29 +35,22 @@ public partial class EditMonth : ComponentBase
     {
         var months = Enumerable.Range(1, 12).Select(i => new { I = i, M = CultureInfo.GetCultureInfo(CultureInfo.LCID).DateTimeFormat?.GetMonthName(i) });
 
-        if (months != null)
+        foreach (var CurrentMonth in months)
         {
-            foreach (var CurrentMonth in months)
-            {
-                MonthSelectionList?.Add((byte)CurrentMonth.I, CurrentMonth.M);
-            }
+            MonthSelectionList?.Add((byte)CurrentMonth.I, CurrentMonth.M);
         }
     }
 
     protected async Task OnMonthChanged(string newValue)
     {
-        byte CurrentMonth = 0;
-
         if (!string.IsNullOrWhiteSpace(newValue)
-            && byte.TryParse(newValue, out CurrentMonth))
+            && byte.TryParse(newValue, out byte CurrentMonth)
+            && CurrentMonth >= 1
+            && CurrentMonth <= 12)
         {
-            if (CurrentMonth >= 1
-                && CurrentMonth <= 12)
-            {
-                Month = CurrentMonth;
-                CurrentMonthStr = Month.ToString();
-                await MonthChanged.InvokeAsync(Month);
-            }
+            Month = CurrentMonth;
+            CurrentMonthStr = Month.ToString();
+            await MonthChanged.InvokeAsync(Month);
         }
     }
 
@@ -68,7 +61,7 @@ public partial class EditMonth : ComponentBase
         await MonthChanged.InvokeAsync(Month);
     }
 
-    protected string ErrorRequiredMessage(string? CurrentTitle)
+    protected static string ErrorRequiredMessage(string? CurrentTitle)
     {
         return CurrentTitle + " is required";
     }

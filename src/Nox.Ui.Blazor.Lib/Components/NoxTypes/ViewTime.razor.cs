@@ -63,7 +63,7 @@ public partial class ViewTime : ComponentBase
                     tempMillisecond = (int)Millisecond;
                 }
 
-                System.DateTime dateTime = new System.DateTime(1, 1, 1, (int)Hour, tempMinute, tempSecond, tempMillisecond);
+                System.DateTime dateTime = new(1, 1, 1, (int)Hour, tempMinute, tempSecond, tempMillisecond, DateTimeKind.Unspecified);
                 return dateTime.ToString(Format, CultureInfo);
             }
 
