@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Nox.Middlewares;
 using Nox.Solution;
 
 namespace Nox.Lib;
@@ -41,7 +42,7 @@ internal class ApiRoutingMiddleware
     {
         var requestPath = context.Request.Path;
 
-        if (!requestPath.HasValue)
+        if (!requestPath.HasValue || context.Items.TryGetValue(RelatedEntityRoutingMiddleware.RoutedBy,out var _))
         {
             await _next(context);
             return;
