@@ -66,13 +66,13 @@ public partial class EditTime : ComponentBase
 
     public string? CurrentMillisecondStr { get; set; }
 
-    public static Dictionary<int, string?> HourSelectionList { get; set; } = new Dictionary<int, string?>();
+    public static Dictionary<int, string> HourSelectionList { get; set; } = new Dictionary<int, string>();
 
-    public static Dictionary<int, string?> MinuteSelectionList { get; set; } = new Dictionary<int, string?>();
+    public static Dictionary<int, string> MinuteSelectionList { get; set; } = new Dictionary<int, string>();
 
-    public static Dictionary<int, string?> SecondSelectionList { get; set; } = new Dictionary<int, string?>();
+    public static Dictionary<int, string> SecondSelectionList { get; set; } = new Dictionary<int, string>();
 
-    public static Dictionary<int, string?> MillisecondSelectionList { get; set; } = new Dictionary<int, string?>();
+    public static Dictionary<int, string> MillisecondSelectionList { get; set; } = new Dictionary<int, string>();
 
     #endregion
 
@@ -80,18 +80,18 @@ public partial class EditTime : ComponentBase
     {
         for (int i = 0; i < 24; i++)
         {
-            HourSelectionList?.Add(i, String.Format("{0:00}", i));
+            HourSelectionList.Add(i, String.Format("{0:00}", i));
         }
 
         for (int i = 0; i < 60; i++)
         {
-            MinuteSelectionList?.Add(i, String.Format("{0:00}", i));
-            SecondSelectionList?.Add(i, String.Format("{0:00}", i));
+            MinuteSelectionList.Add(i, String.Format("{0:00}", i));
+            SecondSelectionList.Add(i, String.Format("{0:00}", i));
         }
 
         for (int i = 0; i < 100; i++)
         {
-            MillisecondSelectionList?.Add(i, String.Format("{0:00}", i));
+            MillisecondSelectionList.Add(i, String.Format("{0:00}", i));
         }
     }
 
@@ -192,24 +192,8 @@ public partial class EditTime : ComponentBase
     {
         get
         {
-            int CurrentItems = 1;
-
-            if (DisplayMinute)
-            {
-                CurrentItems += 1;
-            }
-
-            if (DisplaySecond)
-            {
-                CurrentItems += 1;
-            }
-
-            if (DisplayMillisecond)
-            {
-                CurrentItems += 1;
-            }
-
-            return 12 / CurrentItems;
+            int totaltems = 1 + (DisplayMinute ? 1 : 0) + (DisplaySecond ? 1 : 0) + (DisplayMillisecond ? 1 : 0);
+            return 12 / totaltems;
         }
     }
 }

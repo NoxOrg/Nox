@@ -22,7 +22,7 @@ public partial class EditMonth : ComponentBase
     [Parameter]
     public EventCallback<byte?> MonthChanged { get; set; }
 
-    public static Dictionary<byte, string?> MonthSelectionList { get; set; } = new Dictionary<byte, string?>();
+    public static Dictionary<byte, string> MonthSelectionList { get; set; } = new Dictionary<byte, string>();
 
     public string? CurrentMonthStr { get; set; }
 
@@ -33,7 +33,7 @@ public partial class EditMonth : ComponentBase
     /// </summary>
     protected override void OnInitialized()
     {
-        var months = Enumerable.Range(1, 12).Select(i => new { I = i, M = CultureInfo.GetCultureInfo(CultureInfo.LCID).DateTimeFormat?.GetMonthName(i) });
+        var months = Enumerable.Range(1, 12).Select(i => new { I = i, M = CultureInfo.GetCultureInfo(CultureInfo.LCID).DateTimeFormat.GetMonthName(i) });
 
         foreach (var CurrentMonth in months)
         {
