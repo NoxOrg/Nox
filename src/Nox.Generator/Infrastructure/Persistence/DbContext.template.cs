@@ -32,14 +32,39 @@ using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.PersistenceNameSpace}};
 
-internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
+internal partial class AppDbContext: AppDbContextBase
+{
+    public AppDbContext(
+           DbContextOptions<AppDbContext> options,
+           IPublisher publisher,
+           NoxSolution noxSolution,
+           INoxDatabaseProvider databaseProvider,
+           INoxClientAssemblyProvider clientAssemblyProvider,
+           IUserProvider userProvider,
+           ISystemProvider systemProvider,
+           NoxCodeGenConventions codeGeneratorState,
+           ILogger<AppDbContext> logger
+       ) : base(
+           options,
+           publisher,
+           noxSolution,
+           databaseProvider,
+           clientAssemblyProvider,
+           userProvider,
+           systemProvider,
+           codeGeneratorState,
+           logger)
+    {}
+}
+
+internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistence.EntityDbContextBase
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
     private readonly NoxCodeGenConventions _codeGenConventions;
 
-    public AppDbContext(
+    public AppDbContextBase(
             DbContextOptions<AppDbContext> options,
             IPublisher publisher,
             NoxSolution noxSolution,
