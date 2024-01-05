@@ -44,6 +44,17 @@
       "description": "The name of the target entity that this entity relates to.",
       "type": "string"
     },
+    "refRelationshipName": {    
+      "description": "The name of the relationship in the related entity that this relationship refers to.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "userInterface": {    
       "anyOf": [
         { "$ref": "typeUserInterface.json" },
