@@ -940,11 +940,13 @@ domain:
             description: First relationship to the same entity
             relationship: exactlyOne
             entity: SecondTestEntityTwoRelationshipsOneToOne
+            refRelationshipName: TestRelationshipOneOnOtherSide
 
           - name: TestRelationshipTwo
             description: Second relationship to the same entity
             relationship: exactlyOne
             entity: SecondTestEntityTwoRelationshipsOneToOne
+            refRelationshipName: TestRelationshipTwoOnOtherSide
 
     - name: SecondTestEntityTwoRelationshipsOneToOne
 
@@ -975,11 +977,13 @@ domain:
             description: First relationship to the same entity on the other side
             relationship: zeroOrOne
             entity: TestEntityTwoRelationshipsOneToOne
+            refRelationshipName: TestRelationshipOne
 
           - name: TestRelationshipTwoOnOtherSide
             description: Second relationship to the same entity on the other side
             relationship: zeroOrOne
             entity: TestEntityTwoRelationshipsOneToOne
+            refRelationshipName: TestRelationshipTwo
 
     - name: TestEntityTwoRelationshipsManyToMany
       keys:
@@ -1006,11 +1010,13 @@ domain:
             description: First relationship to the same entity
             relationship: oneOrMany
             entity: SecondTestEntityTwoRelationshipsManyToMany
+            refRelationshipName: TestRelationshipOneOnOtherSide
 
           - name: TestRelationshipTwo
             description: Second relationship to the same entity
             relationship: oneOrMany
             entity: SecondTestEntityTwoRelationshipsManyToMany
+            refRelationshipName: TestRelationshipTwoOnOtherSide
 
     - name: SecondTestEntityTwoRelationshipsManyToMany
 
@@ -1041,12 +1047,13 @@ domain:
             description: First relationship to the same entity on the other side
             relationship: zeroOrMany
             entity: TestEntityTwoRelationshipsManyToMany
+            refRelationshipName: TestRelationshipOne
 
           - name: TestRelationshipTwoOnOtherSide
             description: Second relationship to the same entity on the other side
             relationship: zeroOrMany
             entity: TestEntityTwoRelationshipsManyToMany
-
+            refRelationshipName: TestRelationshipTwo
 
     - name: TestEntityTwoRelationshipsOneToMany
       keys:
@@ -1073,11 +1080,13 @@ domain:
             description: First relationship to the same entity
             relationship: zeroOrMany
             entity: SecondTestEntityTwoRelationshipsOneToMany
+            refRelationshipName: TestRelationshipOneOnOtherSide
 
           - name: TestRelationshipTwo
             description: Second relationship to the same entity
             relationship: zeroOrMany
             entity: SecondTestEntityTwoRelationshipsOneToMany
+            refRelationshipName: TestRelationshipTwoOnOtherSide
 
     - name: SecondTestEntityTwoRelationshipsOneToMany
 
@@ -1108,11 +1117,13 @@ domain:
             description: First relationship to the same entity on the other side
             relationship: zeroOrOne
             entity: TestEntityTwoRelationshipsOneToMany
+            refRelationshipName: TestRelationshipOne
 
           - name: TestRelationshipTwoOnOtherSide
             description: Second relationship to the same entity on the other side
             relationship: zeroOrOne
             entity: TestEntityTwoRelationshipsOneToMany
+            refRelationshipName: TestRelationshipTwo
 
     - name: TestEntityForTypes
       description: Entity created for testing database

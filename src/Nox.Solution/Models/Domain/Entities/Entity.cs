@@ -173,7 +173,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
             foreach(var relationship in grouping)
             {
                 relationship.Related.Entity = otherEntity;
-                relationship.Related.EntityRelationship = relatedRelationships.FirstOrDefault(x => x.Name == relationship.RefRelationshipName) ?? relatedRelationships.First();
+                relationship.Related.EntityRelationship = relatedRelationships.Find(x => x.Name == relationship.RefRelationshipName) ?? relatedRelationships[0];
             }
         }
     }
