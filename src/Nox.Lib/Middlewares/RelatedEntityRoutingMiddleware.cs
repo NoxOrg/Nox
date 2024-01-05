@@ -12,6 +12,10 @@ namespace Nox.Middlewares;
 /// </summary>
 internal class RelatedEntityRoutingMiddleware
 {
+    /// <summary>
+    /// HttpContext Item that defines if this middleware re routed the request
+    /// </summary>
+    public const string RoutedBy = "RelatedEntityRoutingMiddlewareRoutedBy";
     internal static bool IsApplicable(NoxSolution solution)
     {
         return
@@ -101,6 +105,7 @@ internal class RelatedEntityRoutingMiddleware
         if (CanRedirectRequest(requestPath, out string redirectPath))
         {
             context.Request.Path = redirectPath;
+            context.Items[RoutedBy] = true;
         }
         await _next(context);
     }
