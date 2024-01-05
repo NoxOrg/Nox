@@ -29,7 +29,9 @@ internal sealed class RelatedEntityRoutingPathBuilder
         return result;
     }
 
+#pragma warning disable S3776 // Cognitive Complexity of methods should not be too high
     private void GetAllRelatedPathsForEntity(Entity entity, int maxDepth, HashSet<Entity> visited, List<(string, OpenApiPathItem)> result, int currentDepth = 0, string path = "")
+#pragma warning restore S3776 // Cognitive Complexity of methods should not be too high
     {
         visited.Add(entity);
         if(currentDepth == 0)
@@ -52,16 +54,15 @@ internal sealed class RelatedEntityRoutingPathBuilder
         {
             if (!visited.Contains(relatedEntity))
             {
-                foreach (var edge in _graph.GetEdges(entity, relatedEntity))
+                foreach (var relationship in _graph.GetEdges(entity, relatedEntity))
                 {
-                    //Validate first pair
-                    if (currentDepth == 0 && !edge.ApiGenerateReferenceEndpoint && !edge.ApiGenerateRelatedEndpoint)
+                    if (!IsPairValid(currentDepth, relationship))
                         continue;
 
                     if (currentDepth > 0)
-                        AddResult(result, entity, edge, path);
+                        AddResult(result, entity, relationship, path);
 
-                    var navigationName = entity.GetNavigationPropertyName(edge);
+                    var navigationName = entity.GetNavigationPropertyName(relationship);
                     var newPath = $"{path}/{navigationName}/{{key}}";
 
                     GetAllRelatedPathsForEntity(relatedEntity, maxDepth, visited, result, currentDepth + 1, newPath);
@@ -70,6 +71,14 @@ internal sealed class RelatedEntityRoutingPathBuilder
         }
 
         visited.Remove(entity);
+    }
+
+    private static bool IsPairValid(int currentDepth, EntityRelationship relationship)
+    {
+        if (currentDepth == 0)
+            return relationship.ApiGenerateReferenceEndpoint || relationship.ApiGenerateRelatedEndpoint;
+
+        return true;
     }
 
     private static void AddResult(List<(string, OpenApiPathItem)> result, Entity currentEntity, EntityRelationship relationship, string existingPath)

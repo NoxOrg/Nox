@@ -190,7 +190,7 @@ internal class RelatedEntityRoutingMiddleware
         return _canRedirect.Contains((entityName, navigationName));
     }
 
-    private bool IsChainValid(IReadOnlyList<string> segments, int segmentCount, IRelationshipChainValidator relationshipChainValidator)
+    private static bool IsChainValid(IReadOnlyList<string> segments, int segmentCount, IRelationshipChainValidator relationshipChainValidator)
     {
         var count = segmentCount;
         if (segments[count - 1].Equals(_refSegment))
