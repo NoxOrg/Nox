@@ -3,37 +3,38 @@ using Nox.Solution;
 
 namespace Nox.Presentation.Api;
 
-internal class RelatedEndpointsPathBuilder
+internal sealed class RelatedEntityRoutingPathBuilder
 {
     private readonly MultipleEdgesGraph<Entity, EntityRelationship> _graph = new();
 
-    public RelatedEndpointsPathBuilder(IReadOnlyList<Entity> entities)
+    public RelatedEntityRoutingPathBuilder(IReadOnlyList<Entity> entities)
     {
         foreach (var entity in entities)
         {
-            _graph.AddNode(entity);
+            _graph.TryAddNode(entity);
             foreach (var relationship in entity.Relationships)
             {
+                _graph.TryAddNode(entity);
                 _graph.AddEdge(entity, relationship.Related.Entity, relationship);
             }
         }
     }
 
-    public List<(string, OpenApiPathItem)> GetAllRelatedPathesForEntity(Entity startNode, int maxDepth)
+    public List<(string, OpenApiPathItem)> GetAllRelatedPathsForEntity(Entity startNode, int maxDepth)
     {
         var visited = new HashSet<Entity>();
         var result = new List<(string, OpenApiPathItem)>();
-        GetAllRelatedPathesForEntity(startNode, maxDepth, visited, result);
+        GetAllRelatedPathsForEntity(startNode, maxDepth, visited, result);
 
         return result;
     }
 
-    private void GetAllRelatedPathesForEntity(Entity currentNode, int maxDepth, HashSet<Entity> visited, List<(string, OpenApiPathItem)> result, int currentDepth = 0, string path = "")
+    private void GetAllRelatedPathsForEntity(Entity entity, int maxDepth, HashSet<Entity> visited, List<(string, OpenApiPathItem)> result, int currentDepth = 0, string path = "")
     {
-        visited.Add(currentNode);
+        visited.Add(entity);
         if(currentDepth == 0)
         {
-            path = $"{currentNode.PluralName}/{{key}}";
+            path = $"{entity.PluralName}/{{key}}";
         }
 
 
@@ -42,36 +43,36 @@ internal class RelatedEndpointsPathBuilder
             return;
         }
 
-        if (!_graph.Edges.ContainsKey(currentNode))
+        if(!_graph.TryGetNodeValue(entity, out var entityValue))
         {
             return;
         }
 
-        foreach (var neighbor in _graph.Edges[currentNode].Keys)
+        foreach (var relatedEntity in entityValue.Keys)
         {
-            if (!visited.Contains(neighbor))
+            if (!visited.Contains(relatedEntity))
             {
-                foreach (var edge in _graph.Edges[currentNode][neighbor])
+                foreach (var edge in _graph.GetEdges(entity, relatedEntity))
                 {
                     //Validate first pair
                     if (currentDepth == 0 && !edge.ApiGenerateReferenceEndpoint && !edge.ApiGenerateRelatedEndpoint)
                         continue;
 
                     if (currentDepth > 0)
-                        AddResult(result, currentNode, edge, path);
+                        AddResult(result, entity, edge, path);
 
-                    var navigationName = currentNode.GetNavigationPropertyName(edge);
+                    var navigationName = entity.GetNavigationPropertyName(edge);
                     var newPath = $"{path}/{navigationName}/{{key}}";
 
-                    GetAllRelatedPathesForEntity(neighbor, maxDepth, visited, result, currentDepth + 1, newPath);
+                    GetAllRelatedPathsForEntity(relatedEntity, maxDepth, visited, result, currentDepth + 1, newPath);
                 }
             }
         }
 
-        visited.Remove(currentNode);
+        visited.Remove(entity);
     }
 
-    private void AddResult(List<(string, OpenApiPathItem)> result, Entity currentEntity, EntityRelationship relationship, string existingPath)
+    private static void AddResult(List<(string, OpenApiPathItem)> result, Entity currentEntity, EntityRelationship relationship, string existingPath)
     {
         var navigationName = currentEntity.GetNavigationPropertyName(relationship);
 
@@ -135,7 +136,7 @@ internal class RelatedEndpointsPathBuilder
         }
     }
 
-    private void AddOperation(OpenApiPathItem pathItem, OperationType operationType)
+    private static void AddOperation(OpenApiPathItem pathItem, OperationType operationType)
     {
         pathItem.Operations.Add(operationType,
             new OpenApiOperation

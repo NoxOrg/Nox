@@ -31,16 +31,13 @@ internal class RelatedEntityRoutingMiddleware
     /// </summary>
     private readonly int _apiPrefixSliceIndex;
     private readonly int _endpointsMaxDepth;
-    private readonly IRelationshipChainValidator _relationshipChainValidator;
     private readonly HashSet<string> _entitiesPluralNamesLowerCase;
     private readonly Dictionary<string, string> _navigationNameToEntityPluralName = new(StringComparer.OrdinalIgnoreCase);
     private readonly IReadOnlySet<(string entityName, string navigationName)> _canRedirect;
     private readonly ArrayPool<string> poolOfStrings = ArrayPool<string>.Shared;
 
-    public RelatedEntityRoutingMiddleware(RequestDelegate next, NoxSolution solution, IRelationshipChainValidator relationshipChainValidator)
+    public RelatedEntityRoutingMiddleware(RequestDelegate next, NoxSolution solution)
     {
-        _relationshipChainValidator = relationshipChainValidator;
-
         _next = next;
 
         _apiPrefix = solution.Presentation.ApiConfiguration.ApiRoutePrefix + "/";
@@ -88,7 +85,7 @@ internal class RelatedEntityRoutingMiddleware
 
     }
 
-    public async Task InvokeAsync(HttpContext context)
+    public async Task InvokeAsync(HttpContext context, IRelationshipChainValidator relationshipChainValidator)
     {
         var requestPath = context.Request.Path;
 
@@ -98,7 +95,7 @@ internal class RelatedEntityRoutingMiddleware
             return;
         }
 
-        if (CanRedirectRequest(requestPath, out string redirectPath))
+        if (CanRedirectRequest(requestPath, relationshipChainValidator, out string redirectPath))
         {
             context.Request.Path = redirectPath;
         }
@@ -106,7 +103,7 @@ internal class RelatedEntityRoutingMiddleware
     }
 
 
-    private bool CanRedirectRequest(string path, out string redirectPath)
+    private bool CanRedirectRequest(string path, IRelationshipChainValidator relationshipChainValidator, out string redirectPath)
     {
         redirectPath = string.Empty;
         path = path.ToLower();
@@ -151,7 +148,7 @@ internal class RelatedEntityRoutingMiddleware
             if (!IsFirstPairValid(segments[0], segments[2]))
                 return false;
 
-            if (!IsChainValid(segments, segmentsCount))
+            if (!IsChainValid(segments, segmentsCount, relationshipChainValidator))
                 return false;
 
             redirectPath = BuildRedirectToPath(segments, segmentsCount);
@@ -193,7 +190,7 @@ internal class RelatedEntityRoutingMiddleware
         return _canRedirect.Contains((entityName, navigationName));
     }
 
-    private bool IsChainValid(IReadOnlyList<string> segments, int segmentCount)
+    private bool IsChainValid(IReadOnlyList<string> segments, int segmentCount, IRelationshipChainValidator relationshipChainValidator)
     {
         var count = segmentCount;
         if (segments[count - 1].Equals(_refSegment))
@@ -207,7 +204,7 @@ internal class RelatedEntityRoutingMiddleware
             navigationProperties[j] = (navigationName: segments[i], navigationKey: segments[i + 1]);
         }
 
-        return _relationshipChainValidator.IsValid(new RelationshipChain(segments[0], segments[1], navigationProperties));
+        return relationshipChainValidator.IsValid(new RelationshipChain(segments[0], segments[1], navigationProperties));
     }
 
     private PathString BuildRedirectToPath(IReadOnlyList<string> segments, int segmentsCount)
