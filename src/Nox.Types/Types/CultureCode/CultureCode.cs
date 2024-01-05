@@ -15,7 +15,7 @@ public partial class CultureCode : ValueObject<string, CultureCode>
     {
         var result = base.Validate();
 
-        if(!Abstractions.CultureCode.CultureCodeDisplayNames.TryGetValue(Value, out _))
+        if(!Abstractions.CultureCode.DisplayNames.TryGetValue(Value, out _))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox CultureCode type with unsupported value '{Value}'."));
         }

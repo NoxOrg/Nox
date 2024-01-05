@@ -21,7 +21,7 @@ public class CultureTypeConverter: IYamlTypeConverter
             throw new InvalidOperationException("Expected a YAML scalar");
         
         var scalar = parser!.Consume<Scalar>();
-        if (CultureCode.CultureCodeDisplayNames.TryGetValue(scalar.Value, out var cultureValue))
+        if (CultureCode.DisplayNames.TryGetValue(scalar.Value, out var cultureValue))
         {
             return cultureValue;
         }
@@ -36,7 +36,7 @@ public class CultureTypeConverter: IYamlTypeConverter
             return;
 
         Culture culture = (Culture)value;
-        var kvp = CultureCode.CultureCodeDisplayNames.FirstOrDefault(k => k.Value == culture);
+        var kvp = CultureCode.DisplayNames.FirstOrDefault(k => k.Value == culture);
         
         emitter.Emit(new MappingStart(null, null, false, MappingStyle.Block));
         
