@@ -99,6 +99,13 @@ public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.S
     public string? StatusName { get; set; } = default!;
 
     /// <summary>
+    /// Store country where the store is located ZeroOrOne Countries
+    /// </summary>
+    //EF maps ForeignKey Automatically
+    public System.Int64? CountryId { get; set; } = default!;
+    public virtual CountryDto? Country { get; set; } = null!;
+
+    /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
     //EF maps ForeignKey Automatically

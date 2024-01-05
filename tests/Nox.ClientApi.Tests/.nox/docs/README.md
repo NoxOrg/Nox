@@ -26,6 +26,7 @@ erDiagram
     }
     Store {
     }
+    Store}o..o|Country : "country where the store is located"
     Store}o..o{Client : "clients of the store"
     Store||--o|EmailAddress : "Verified emails"
     Workplace {
@@ -133,6 +134,7 @@ HolidayId|Guid|Country's holiday unique identifier.|Required, Owned Entity
 Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
 -----------|-----------|--------------|----|---------------|------------------
 Country workplaces|ZeroOrMany|Workplace|PhysicalWorkplaces|Yes|Yes
+Country stores|ZeroOrMany|Store|StoresInTheCountry|Yes|Yes
 
 
 ### Country.CountryBarCode (Owned by Country)
@@ -303,6 +305,7 @@ Address|StreetAddress|Street Address.|Required
 Location|LatLong|Location.|Required
 OpeningDay|DateTime|Opening day.|
 Status|Enumeration|Store Status.|Values: System.Collections.Generic.List`1[Nox.Types.EnumerationValues], IsLocalized: false
+CountryId|AutoNumber|The unique identifier.|Required, Foreign Key, StartsAt: 10, IncrementsBy: 5
 StoreOwnerId|Text||Required, Foreign Key, MinLength: 3, MaxLength: 3, IsUnicode: false
 ClientId|Guid||Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
@@ -312,6 +315,7 @@ ClientId|Guid||Required, Foreign Key
 
 Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
 -----------|-----------|--------------|----|---------------|------------------
+country where the store is located|ZeroOrOne|Country|CountryOfTheStore|Yes|Yes
 Owner of the Store|ZeroOrOne|StoreOwner|Ownership|Yes|Yes
 License that this store uses|ZeroOrOne|StoreLicense|License|Yes|Yes
 clients of the store|ZeroOrMany|Client|ClientsOfStore|Yes|Yes

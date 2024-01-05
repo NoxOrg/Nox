@@ -189,6 +189,32 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEtag
     public virtual void DeleteAllRefToWorkplaces()
     {
         Workplaces.Clear();
+    }
+
+    /// <summary>
+    /// Country Country stores ZeroOrMany Stores
+    /// </summary>
+    public virtual List<Store> Stores { get; private set; } = new();
+
+    public virtual void CreateRefToStores(Store relatedStore)
+    {
+        Stores.Add(relatedStore);
+    }
+
+    public virtual void UpdateRefToStores(List<Store> relatedStore)
+    {
+        Stores.Clear();
+        Stores.AddRange(relatedStore);
+    }
+
+    public virtual void DeleteRefToStores(Store relatedStore)
+    {
+        Stores.Remove(relatedStore);
+    }
+
+    public virtual void DeleteAllRefToStores()
+    {
+        Stores.Clear();
     }﻿
 
     /// <summary>

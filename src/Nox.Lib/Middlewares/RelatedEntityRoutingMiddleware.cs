@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Nox.Application.Services;
 using Nox.Solution;
 using System.Buffers;
 
@@ -11,6 +12,15 @@ namespace Nox.Middlewares;
 /// </summary>
 internal class RelatedEntityRoutingMiddleware
 {
+    internal static bool IsApplicable(NoxSolution solution)
+    {
+        return
+            solution.Presentation.ApiConfiguration.ApiGenerateRelatedEndpointsMaxDepth > 1 &&
+            solution.Domain!.Entities.Any(entity =>
+                entity.Relationships.Any(r => r.ApiGenerateRelatedEndpoint || r.ApiGenerateReferenceEndpoint)
+            );
+    }
+
     private readonly RequestDelegate _next;
     private const string _refSegment = "$ref";
     private const int _minSegmentCount = 5;
@@ -21,13 +31,16 @@ internal class RelatedEntityRoutingMiddleware
     /// </summary>
     private readonly int _apiPrefixSliceIndex;
     private readonly int _endpointsMaxDepth;
+    private readonly IRelationshipChainValidator _relationshipChainValidator;
     private readonly HashSet<string> _entitiesPluralNamesLowerCase;
     private readonly Dictionary<string, string> _navigationNameToEntityPluralName = new(StringComparer.OrdinalIgnoreCase);
     private readonly IReadOnlySet<(string entityName, string navigationName)> _canRedirect;
     private readonly ArrayPool<string> poolOfStrings = ArrayPool<string>.Shared;
 
-    public RelatedEntityRoutingMiddleware(RequestDelegate next, NoxSolution solution)
+    public RelatedEntityRoutingMiddleware(RequestDelegate next, NoxSolution solution, IRelationshipChainValidator relationshipChainValidator)
     {
+        _relationshipChainValidator = relationshipChainValidator;
+
         _next = next;
 
         _apiPrefix = solution.Presentation.ApiConfiguration.ApiRoutePrefix + "/";
@@ -39,7 +52,7 @@ internal class RelatedEntityRoutingMiddleware
         _maxSegmentsCount = _endpointsMaxDepth * 2 + 3; //Entity + Key + $ref + 2*RelatedEntities Max Depth
 
         _entitiesPluralNamesLowerCase = solution.Domain!.Entities.Select(e => e.PluralName.ToLower()).ToHashSet();
-               
+
 
         /*
         _navigationNameToEntityPluralName is used to map navigationName to EntityPluralName (existing controller name)
@@ -65,7 +78,7 @@ internal class RelatedEntityRoutingMiddleware
                     _navigationNameToEntityPluralName[navigationName] = relationship.EntityPlural;
                 }
 
-                if (relationship.ApiGenerateRelatedEndpoint)
+                if (relationship.ApiGenerateRelatedEndpoint || relationship.ApiGenerateReferenceEndpoint)
                 {
                     canRedirect.Add((entity.PluralName.ToLower(), navigationName.ToLower()));
                 }
@@ -94,7 +107,7 @@ internal class RelatedEntityRoutingMiddleware
 
 
     private bool CanRedirectRequest(string path, out string redirectPath)
-    {        
+    {
         redirectPath = string.Empty;
         path = path.ToLower();
         var segments = poolOfStrings.Rent(_maxSegmentsCount);
@@ -108,7 +121,7 @@ internal class RelatedEntityRoutingMiddleware
 
             while (startIndex < pathSpan.Length)
             {
-                if(segmentsCount == _maxSegmentsCount)
+                if (segmentsCount == _maxSegmentsCount)
                 {
                     return false;
                 }
@@ -136,6 +149,9 @@ internal class RelatedEntityRoutingMiddleware
                 return false;
 
             if (!IsFirstPairValid(segments[0], segments[2]))
+                return false;
+
+            if (!IsChainValid(segments, segmentsCount))
                 return false;
 
             redirectPath = BuildRedirectToPath(segments, segmentsCount);
@@ -175,6 +191,23 @@ internal class RelatedEntityRoutingMiddleware
     private bool IsFirstPairValid(string entityName, string navigationName)
     {
         return _canRedirect.Contains((entityName, navigationName));
+    }
+
+    private bool IsChainValid(IReadOnlyList<string> segments, int segmentCount)
+    {
+        var count = segmentCount;
+        if (segments[count - 1].Equals(_refSegment))
+            count--;
+
+        var navigationPropertiesCount = (count - 3) / 2; //remove the first pair and last segment that we don't need to validate
+        var navigationProperties = new (string navigationName, string navigationKey)[navigationPropertiesCount];
+
+        for (int i = 2, j = 0; i < count - 1 && j < navigationPropertiesCount; i += 2, j++)
+        {
+            navigationProperties[j] = (navigationName: segments[i], navigationKey: segments[i + 1]);
+        }
+
+        return _relationshipChainValidator.IsValid(new RelationshipChain(segments[0], segments[1], navigationProperties));
     }
 
     private PathString BuildRedirectToPath(IReadOnlyList<string> segments, int segmentsCount)

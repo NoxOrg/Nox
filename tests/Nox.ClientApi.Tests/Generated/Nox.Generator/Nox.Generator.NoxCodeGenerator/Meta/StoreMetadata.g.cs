@@ -105,6 +105,13 @@ public partial class StoreMetadata
         
     
         /// <summary>
+        /// Factory for property 'CountryId'
+        /// </summary>
+        public static Nox.Types.AutoNumber CreateCountryId(System.Int64 value)
+            => Nox.Types.AutoNumber.FromDatabase(value);
+        
+    
+        /// <summary>
         /// Type options for property 'StoreOwnerId'
         /// </summary>
         public static Nox.Types.TextTypeOptions StoreOwnerIdTypeOptions {get; private set;} = new ()

@@ -18,6 +18,7 @@ Address|StreetAddress|Street Address
 Location|LatLong|Location
 OpeningDay|DateTime|Opening day
 Status|Enumeration|Store Status
+CountryId|AutoNumber|The unique identifier
 StoreOwnerId|Text|
 ClientId|Guid|
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
@@ -37,6 +38,7 @@ Address|StreetAddress|Street Address
 Location|LatLong|Location
 OpeningDay|DateTime|Opening day
 Status|Enumeration|Store Status
+CountryId|AutoNumber|The unique identifier
 StoreOwnerId|Text|
 ClientId|Guid|
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
@@ -56,6 +58,7 @@ Address|StreetAddress|Street Address
 Location|LatLong|Location
 OpeningDay|DateTime|Opening day
 Status|Enumeration|Store Status
+CountryId|AutoNumber|The unique identifier
 StoreOwnerId|Text|
 ClientId|Guid|
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*

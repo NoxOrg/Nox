@@ -6,8 +6,13 @@ namespace Nox.Lib;
 /// <summary>
 /// Uses Nox Solution <see cref="ApiRouteMapping"/> to re route calls to default paths
 /// </summary>
-public class ApiRoutingMiddleware
+internal class ApiRoutingMiddleware
 {
+    internal static bool IsApplicable(NoxSolution solution)
+    {
+        return solution.Presentation.ApiConfiguration.ApiRouteMappings.Any();
+    }
+
     private readonly PathString _apiPrefix;
 
     private readonly RequestDelegate _next;

@@ -43,6 +43,8 @@ internal static class {{className}}
             configurator.WithHealthChecks(healthChecksBuilder => healthChecksBuilder.AddDbContextCheck<AppDbContext>());
             configureNox?.Invoke(configurator);
         });
+
+        services.AddScoped<Nox.Application.Services.IRelationshipChainValidator, {{solutionName}}.Application.Services.RelationshipChainValidator>();
        
         {{- if configPresentation == true }}
         services.AddNoxOdata(configureNoxOdata);

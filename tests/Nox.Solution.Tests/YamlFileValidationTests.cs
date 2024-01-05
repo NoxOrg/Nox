@@ -10,9 +10,9 @@ public class YamlFileValidationTests
     [Theory]
     [InlineData("unsupported-version-control.solution.nox")]
     [InlineData("not-found.yaml")]
-    public void UseYamlFile_ThrowsException_NoxYamlException(string filrName)
+    public void UseYamlFile_ThrowsException_NoxYamlException(string fileName)
     {
-        var solutionBuilder = new NoxSolutionBuilder().WithFile($"./files/{filrName}");
+        var solutionBuilder = new NoxSolutionBuilder().WithFile($"./files/{fileName}");
 
         solutionBuilder
             .Invoking(solution => solution.Build())

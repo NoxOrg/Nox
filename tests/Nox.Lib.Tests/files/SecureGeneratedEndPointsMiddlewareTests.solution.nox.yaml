@@ -1,0 +1,109 @@
+#
+# workplace.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: SecureGeneratedEndPointsMiddleware
+
+version: "1.0"
+
+description: Test SecureGeneratedEndPointsMiddleware
+
+domain:
+
+  entities:
+
+    - name: Country
+      description: All EndPoints Are Reachable
+      
+      persistence:
+        create:
+          isEnabled: true
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+        delete:
+          isEnabled: true
+   
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: guid          
+        
+      attributes:
+
+        - name: Name
+          description: The country's common name
+          type: text          
+
+    - name: City
+      description: Can not Read neither Update
+      
+      persistence:
+        create:
+          isEnabled: true
+        read:
+          isEnabled: false
+        update:
+          isEnabled: false
+        delete:
+          isEnabled: true
+   
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: guid          
+        
+      attributes:
+
+        - name: Name
+          description: The country's common name
+          type: text 
+
+      relationships:
+
+        - name: rel1
+          description: desc1
+          relationship: oneOrMany
+          entity: Person
+          apiGenerateRelatedEndpoint: true
+          apiGenerateReferenceEndpoint: false
+
+    - name: Person
+      description: Can not Create neither delete
+      
+      persistence:
+        create:
+          isEnabled: false
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+        delete:
+          isEnabled: false
+   
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: guid          
+        
+      attributes:
+
+        - name: Name
+          description: The country's common name
+          type: text 
+
+      relationships:
+
+        - name: rel1
+          description: desc1
+          relationship: oneOrMany
+          entity: City
+          apiGenerateRelatedEndpoint: false
+          apiGenerateReferenceEndpoint: true

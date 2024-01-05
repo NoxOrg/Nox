@@ -1,0 +1,15 @@
+﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using MudBlazor
+
+<MudNumericField Label="@Title"
+                 Variant="Variant.Outlined"
+                 FullWidth="true"
+                 Clearable="true"
+                 Required="true"
+                 RequiredError="@ErrorRequiredMessage"
+                 Format="@Format"
+                 TextChanged="OnVolumeChanged"
+                 Adornment="Adornment.End"
+                 AdornmentIcon="@GetAdornmentIcon()"
+                 Min="0"
+                 Value="Volume" />

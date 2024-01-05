@@ -150,6 +150,11 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     public virtual List<WorkplaceDto> Workplaces { get; set; } = new();
 
     /// <summary>
+    /// Country Country stores ZeroOrMany Stores
+    /// </summary>
+    public virtual List<StoreDto> Stores { get; set; } = new();
+
+    /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
     public virtual List<CountryLocalNameDto> CountryLocalNames { get; set; } = new();

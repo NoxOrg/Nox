@@ -48,6 +48,7 @@
 		<PackageReference Include="Serilog.Sinks.Console" Version="5.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
 		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
+		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.7" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -75,6 +76,7 @@
 	<ItemGroup>
 		<InternalsVisibleTo Include="Nox.Integration.Tests" />
 		<InternalsVisibleTo Include="Nox.ClientApi.Tests" />
+		<InternalsVisibleTo Include="Nox.Lib.Tests" />		
 	</ItemGroup>
 	<ItemGroup>
 		<Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\YamlDotNet.dll">
