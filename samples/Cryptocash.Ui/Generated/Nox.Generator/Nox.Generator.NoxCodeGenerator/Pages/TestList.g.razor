@@ -176,9 +176,6 @@
                                 Name = "LandLord B"
                             }
                         };
-                        CultureInfo testCultureInfo = CultureInfo.GetCultureInfo("en-GB"); 
-                        DateTime? testDate = DateTime.Now;
-                        DateTime? testDateEnd = DateTime.Now.AddHours(23);
 
                         <MudTable ServerData="@(new Func<TableState, Task<TableData<CustomerDto>>>(ServerReload))"
                                   T="CustomerDto"
