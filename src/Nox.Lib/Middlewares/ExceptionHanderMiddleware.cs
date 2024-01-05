@@ -7,14 +7,14 @@ using Nox.Types;
 
 namespace Nox.Lib;
 
-internal class NoxExceptionHanderMiddleware
+internal class ExceptionHanderMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<NoxExceptionHanderMiddleware> _logger;
+    private readonly ILogger<ExceptionHanderMiddleware> _logger;
 
-    public NoxExceptionHanderMiddleware(
+    public ExceptionHanderMiddleware(
         RequestDelegate next,
-        ILogger<NoxExceptionHanderMiddleware> logger)
+        ILogger<ExceptionHanderMiddleware> logger)
     {
         _next = next;
         _logger = logger;
@@ -61,9 +61,7 @@ internal class NoxExceptionHanderMiddleware
         object? errorDetails,
         HttpStatusCode? statusCode)
     {
-        var message = $"Error occurred during request: {context.Request?.Path}";
-
-        _logger.LogError(exception, message);
+        _logger.LogError(exception, "Error occurred during request: {Path}",context.Request?.Path);
 
         if (!context.Response.HasStarted)
         {
@@ -75,7 +73,7 @@ internal class NoxExceptionHanderMiddleware
         {
             error = new
             {
-                message,
+                message = $"Error occurred during request: {context.Request?.Path}",
                 //Unique id for this error type, use error code if provided, otherwise use the exception type name
                 id = Nuid.From(errorCode ?? exception.GetType().FullName!).ToString(),
                 code = errorCode ?? "undefined",

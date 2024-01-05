@@ -3,6 +3,7 @@ using Nox.Yaml.VariableProviders.Environment;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Nox.Solution.YamlTypeConverters;
 
 namespace Nox.Solution;
 
@@ -24,6 +25,7 @@ public class NoxSolutionBuilder
             .WithSearchFromExecutionFolder("./design")
             .WithSearchFromExecutionFolder("./Design")
             .WithSearchFromRepositoryRoot("./.nox/design")
+            .WithYamlTypeConverter(new CultureTypeConverter())
             .WithEnvironmentVariableDefaultsProvider(
                 new EnvironmentVariableDefaultsProvider<NoxSolutionBasicsOnly>(s => s.Variables ?? new Dictionary<string, object>())
             );

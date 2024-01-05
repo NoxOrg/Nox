@@ -13,5 +13,5 @@ application:
     supportedCultures:
       - en
       - en-US
-      - sr-SR-Latn
-      - sr-SR-Cyrl
+      - sr-Latn-BA
+      - sr-Cyrl-BA

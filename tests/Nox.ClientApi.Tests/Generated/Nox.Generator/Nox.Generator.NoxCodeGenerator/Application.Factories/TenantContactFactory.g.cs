@@ -28,24 +28,27 @@ internal partial class TenantContactFactory : TenantContactFactoryBase
     public TenantContactFactory
     (
         IRepository repository,
-        IEntityLocalizedFactory<TenantContactLocalized, TenantContactEntity, TenantContactUpsertDto> tenantContactLocalizedFactory
-    ) : base(repository, tenantContactLocalizedFactory)
+        IEntityLocalizedFactory<TenantContactLocalized, TenantContactEntity, TenantContactUpsertDto> tenantContactLocalizedFactory,
+        NoxSolution noxSolution
+    ) : base(repository, tenantContactLocalizedFactory, noxSolution)
     {}
 }
 
 internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly Nox.Types.CultureCode _defaultCultureCode;
     protected readonly IEntityLocalizedFactory<TenantContactLocalized, TenantContactEntity, TenantContactUpsertDto> TenantContactLocalizedFactory;
     private readonly IRepository _repository;
 
     public TenantContactFactoryBase(
         IRepository repository,
-        IEntityLocalizedFactory<TenantContactLocalized, TenantContactEntity, TenantContactUpsertDto> tenantContactLocalizedFactory
+        IEntityLocalizedFactory<TenantContactLocalized, TenantContactEntity, TenantContactUpsertDto> tenantContactLocalizedFactory,
+        NoxSolution noxSolution
         )
     {
         _repository = repository;
         TenantContactLocalizedFactory = tenantContactLocalizedFactory;
+        _defaultCultureCode = Nox.Types.CultureCode.From(noxSolution!.Application!.Localization!.DefaultCulture);
     }
 
     public virtual async Task<TenantContactEntity> CreateEntityAsync(TenantContactUpsertDto createDto, Nox.Types.CultureCode cultureCode)
@@ -144,6 +147,6 @@ internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactE
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+    private bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
 }
