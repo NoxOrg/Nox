@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Immutable;
+using System.Text.RegularExpressions;
 using Nox.Yaml.Exceptions;
 using System.Text;
 using YamlDotNet.Serialization;
@@ -21,12 +22,15 @@ internal class YamlReferenceResolver
 
     private readonly StringBuilder _contentAsStringBuilder;
 
+    public ImmutableArray<IYamlTypeConverter> YamlTypeConverters { get; }
 
-    public YamlReferenceResolver(IDictionary<string, Func<TextReader>> filesAndContent, string rootKey)
+    public YamlReferenceResolver(IDictionary<string, Func<TextReader>> filesAndContent, string rootKey, IEnumerable<IYamlTypeConverter>? yamlTypeConverters = null)
     {
         _filesAndContent = filesAndContent;
 
         _rootKey = rootKey;
+        
+        YamlTypeConverters = yamlTypeConverters?.ToImmutableArray() ?? Array.Empty<IYamlTypeConverter>().ToImmutableArray();
 
         _content = new List<YamlLineInfo>();
 

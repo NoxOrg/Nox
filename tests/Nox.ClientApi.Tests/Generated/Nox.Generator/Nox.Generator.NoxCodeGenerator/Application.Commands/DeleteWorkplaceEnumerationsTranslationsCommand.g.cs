@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Types.Abstractions.Extensions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using WorkplaceEntity = ClientApi.Domain.Workplace;
@@ -57,13 +58,11 @@ internal abstract class DeleteWorkplacesOwnershipsTranslationsCommandHandlerBase
 
 public class DeleteWorkplacesOwnershipsTranslationsCommandValidator : AbstractValidator<DeleteWorkplacesOwnershipsTranslationsCommand>
 {
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-
-    public DeleteWorkplacesOwnershipsTranslationsCommandValidator()
+	public DeleteWorkplacesOwnershipsTranslationsCommandValidator(NoxSolution noxSolution)
     {
 		RuleFor(x => x.CultureCode)
-			.Must(x => x != _defaultCultureCode)
-			.WithMessage($"{nameof(DeleteWorkplacesOwnershipsTranslationsCommand)} : {nameof(DeleteWorkplacesOwnershipsTranslationsCommand.CultureCode)} cannot be the default culture code: {_defaultCultureCode.Value}.");
+			.Must(x => x.Value != noxSolution!.Application!.Localization!.DefaultCulture!.ToDisplayName())
+			.WithMessage($"{nameof(DeleteWorkplacesOwnershipsTranslationsCommand)} : {nameof(DeleteWorkplacesOwnershipsTranslationsCommand.CultureCode)} cannot be the default culture code: {noxSolution!.Application!.Localization!.DefaultCulture!.ToDisplayName()}.");
 			
     }
 }

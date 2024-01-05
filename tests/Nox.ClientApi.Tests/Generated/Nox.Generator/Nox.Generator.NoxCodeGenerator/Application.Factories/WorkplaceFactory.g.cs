@@ -28,24 +28,27 @@ internal partial class WorkplaceFactory : WorkplaceFactoryBase
     public WorkplaceFactory
     (
         IRepository repository,
-        IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> workplaceLocalizedFactory
-    ) : base(repository, workplaceLocalizedFactory)
+        IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> workplaceLocalizedFactory,
+        NoxSolution noxSolution
+    ) : base(repository, workplaceLocalizedFactory, noxSolution)
     {}
 }
 
 internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly Nox.Types.CultureCode _defaultCultureCode;
     protected readonly IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> WorkplaceLocalizedFactory;
     private readonly IRepository _repository;
 
     public WorkplaceFactoryBase(
         IRepository repository,
-        IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> workplaceLocalizedFactory
+        IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> workplaceLocalizedFactory,
+        NoxSolution noxSolution
         )
     {
         _repository = repository;
         WorkplaceLocalizedFactory = workplaceLocalizedFactory;
+        _defaultCultureCode = Nox.Types.CultureCode.From(noxSolution!.Application!.Localization!.DefaultCulture);
     }
 
     public virtual async Task<WorkplaceEntity> CreateEntityAsync(WorkplaceCreateDto createDto, Nox.Types.CultureCode cultureCode)
@@ -181,6 +184,6 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+    private bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
 }
