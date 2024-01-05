@@ -96,35 +96,6 @@
                                                     <MudItem xs="6">
                                                         <UiEditCurrency_g Title="Currency" CurrencySelectionList="@testCurrencySelectionList" />
                                                     </MudItem>
-                                                    <MudItem xs="6">
-                                                        <UiEditDayOfWeek_g Title="DayOfWeek" CultureInfo="testCultureInfo" />
-                                                    </MudItem>
-                                                    <MudItem xs="6">
-                                                        <UiEditDate_g Title="Date" CultureInfo="testCultureInfo" />
-                                                    </MudItem>
-                                                    <MudItem xs="6">
-                                                        <UiEditDateTime_g DisplayMinute="true"
-                                                            DisplaySecond="false"
-                                                            DisplayMillisecond="false"
-                                                            CultureInfo="@testCultureInfo"
-                                                            TitleDateTime="DateTime"
-                                                            TitleHour="Hour"
-                                                            TitleMinute="Minute"
-                                                            TitleSecond="Second" />
-                                                    </MudItem>
-                                                    <MudItem xs="6">
-                                                        <UiEditDateTimeRange_g DisplayMinute="true"
-                                                            DisplaySecond="false"
-                                                            DisplayMillisecond="false"
-                                                            CultureInfo="@testCultureInfo"
-                                                            TitleDateTimeRange="DateTimeRange"
-                                                            TitleHourStart="Start Hour"
-                                                            TitleMinuteStart="Start Minute"
-                                                            TitleSecondStart="Start Second"
-                                                            TitleHourEnd="End Hour"
-                                                            TitleMinuteEnd="End Minute"
-                                                            TitleSecondEnd="End Second" />
-                                                    </MudItem>
                                                 </MudGrid>
                                             </MudTabPanel>
                                         </MudTabs>
@@ -205,8 +176,7 @@
                                 Name = "LandLord B"
                             }
                         };
-                        CultureInfo testCultureInfo = CultureInfo.GetCultureInfo("en-GB");                        
-                        byte testDay = 1;                        
+                        CultureInfo testCultureInfo = CultureInfo.GetCultureInfo("en-GB"); 
                         DateTime? testDate = DateTime.Now;
                         DateTime? testDateEnd = DateTime.Now.AddHours(23);
 
@@ -226,11 +196,7 @@
                                 <MudTh>LatLong</MudTh>
                                 <MudTh>StreetAddress</MudTh>
                                 <MudTh>EntityExactlyOne</MudTh>
-                                <MudTh>EntityZeroOrMany</MudTh>                                
-                                <MudTh>DayOfWeek</MudTh>
-                                <MudTh>Date</MudTh>
-                                <MudTh>DateTime</MudTh>
-                                <MudTh>DateTimeRange</MudTh>
+                                <MudTh>EntityZeroOrMany</MudTh>                          
                             </HeaderContent>
                             <RowTemplate>
                                 <MudTd Style="vertical-align:top;">
@@ -250,18 +216,6 @@
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <UiViewEntityZeroOrManyLandLord_g LandLordList="@testLandLordList" />
-                                </MudTd>
-                                <MudTd Style="vertical-align:top;">
-                                    <UiViewDayOfWeek_g DayOfWeek="@testDay" CultureInfo="@testCultureInfo" />
-                                </MudTd>
-                                <MudTd Style="vertical-align:top;">
-                                    <UiViewDate_g Date="@testDate" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy"/>
-                                </MudTd>
-                                <MudTd Style="vertical-align:top;">
-                                    <UiViewDateTime_g DateTime="@testDate" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy HH:mm:ss" />
-                                </MudTd>
-                                <MudTd Style="vertical-align:top;">
-                                    <UiViewDateTimeRange_g DateTimeStart="@testDate" DateTimeEnd="@testDateEnd" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy HH:mm:ss" />
                                 </MudTd>
                             </RowTemplate>
                             <NoRecordsContent>

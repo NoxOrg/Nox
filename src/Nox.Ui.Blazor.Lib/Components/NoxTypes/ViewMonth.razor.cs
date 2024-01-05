@@ -22,7 +22,7 @@ public partial class ViewMonth : ComponentBase
     {
         get
         {
-            if (MonthSelectionList.Count < 1)
+            if (MonthSelectionList.Count == 0)
             {
                 var months = Enumerable.Range(1, 12).Select(i => new { I = i, M = CultureInfo.GetCultureInfo(CultureInfo.LCID).DateTimeFormat?.GetMonthName(i) });
 

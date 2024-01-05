@@ -33,12 +33,15 @@ public partial class EditMonth : ComponentBase
     /// </summary>
     protected override void OnInitialized()
     {
-        var months = Enumerable.Range(1, 12).Select(i => new { I = i, M = CultureInfo.GetCultureInfo(CultureInfo.LCID).DateTimeFormat.GetMonthName(i) });
-
-        foreach (var CurrentMonth in months)
+        if (MonthSelectionList.Count == 0)
         {
-            MonthSelectionList.Add((byte)CurrentMonth.I, CurrentMonth.M);
-        }
+            var months = Enumerable.Range(1, 12).Select(i => new { I = i, M = CultureInfo.GetCultureInfo(CultureInfo.LCID).DateTimeFormat.GetMonthName(i) });
+
+            foreach (var CurrentMonth in months)
+            {
+                MonthSelectionList.Add((byte)CurrentMonth.I, CurrentMonth.M);
+            }
+        }        
     }
 
     protected async Task OnMonthChanged(string newValue)
