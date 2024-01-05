@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Nox.Types;
-using Nox.Ui.Blazor.Lib.Models;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 
@@ -25,7 +24,7 @@ public partial class EditArea : ComponentBase
     {
         get
         {
-            return Title + " is required";
+            return string.Format(Resources.Resources.FieldIsRequired, Title);
         }
     }
 
