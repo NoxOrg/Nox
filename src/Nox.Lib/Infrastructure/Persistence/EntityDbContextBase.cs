@@ -224,7 +224,7 @@ namespace Nox.Infrastructure.Persistence
         /// <summary>
         /// Configure Entity Enumeration Localization 
         /// </summary>
-        protected virtual void ConfigureEnumerationLocalized(EntityTypeBuilder enumModelBuilder, Type enumType, Type enumLocalizedType, EnumerationTypeOptions enumTypeOptions, string defaultCultureCode)
+        protected virtual void ConfigureEnumerationLocalized(EntityTypeBuilder enumModelBuilder, Type enumType, Type enumLocalizedType, EnumerationTypeOptions enumTypeOptions, Culture defaultCultureCode)
         {
             enumModelBuilder.HasKey(nameof(EnumerationLocalizedBase.Id), nameof(EnumerationLocalizedBase.CultureCode));
 
@@ -247,7 +247,7 @@ namespace Nox.Infrastructure.Persistence
 
             foreach (var enumValue in enumTypeOptions.Values)
             {
-                enumModelBuilder.HasData(new { Id = Enumeration.From(enumValue.Id, enumTypeOptions), Name = enumValue.Name, CultureCode = CultureCode.From(defaultCultureCode) });
+                enumModelBuilder.HasData(new { Id = Enumeration.From(enumValue.Id, enumTypeOptions), Name = enumValue.Name, CultureCode = Types.CultureCode.From(defaultCultureCode) });
             }
         }
     }

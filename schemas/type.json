@@ -1217,7 +1217,20 @@
             "supportedFileFormats": {    
               "oneOf": [
                 {
-                  "type": "array"
+                  "type": "array",
+                  "enum": [
+                    "all",
+                    "csv",
+                    "doc",
+                    "docx",
+                    "eml",
+                    "pdf",
+                    "ppt",
+                    "pptx",
+                    "txt",
+                    "xls",
+                    "xlsx"
+                  ]
                 },
                 {
                   "type": "null"
@@ -1552,7 +1565,18 @@
             "imageFormatTypes": {    
               "oneOf": [
                 {
-                  "type": "array"
+                  "type": "array",
+                  "enum": [
+                    "all",
+                    "bmp",
+                    "gif",
+                    "ico",
+                    "jpeg",
+                    "png",
+                    "svg",
+                    "tiff",
+                    "webp"
+                  ]
                 },
                 {
                   "type": "null"

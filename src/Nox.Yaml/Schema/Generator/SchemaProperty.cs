@@ -414,20 +414,37 @@ internal class SchemaProperty
     /// <returns>A list of JSON schema enumerators.</returns>
     private static List<string>? ToEnumValues(Type? type)
     {
-        if (type is null || !type.IsEnum) return null;
-
+        if (type is null ) return null;
+        Type? enumType = null;
+        if (!type.IsEnum && !IsEnumerableOfEnum(type, out enumType)) return null;
+        
+        enumType ??= type;
         return _enumCache.GetOrAdd(type,
             key => new Lazy<string[]>(
-                () => GetEnumValuesAsStringArray(key)
+                () => GetEnumValuesAsStringArray(enumType)
             )).Value.ToList();
 
     }
-
+    
     private static string[] GetEnumValuesAsStringArray(Type type)
     {
+        if (!type.IsEnum)
+        {
+            throw new ArgumentException("Type must be an enum", nameof(type));
+        }
 
-        var enumNames = System.Enum.GetNames(type);
-
+        var hasDisplayName = false;
+        var enumNames = System.Enum.GetValues(type).Cast<Enum>().Select(enumValue =>
+            {
+                var field = type.GetField(enumValue.ToString());
+                var attr = field.GetCustomAttribute<DisplayNameAttribute>();
+                if (attr == null) return enumValue.ToString();
+                hasDisplayName = true;
+                return attr.DisplayName;
+            })
+            .OrderBy(e => e).ToArray();
+            
+        
         if (enumNames.Length > 1)
         {
             var firstLength = enumNames[0].Length;
@@ -435,15 +452,40 @@ internal class SchemaProperty
             // don't camelCase abbreviations or codes (i.e. enums where all string values are the same length
             // and less than four characters long.
 
-            if (firstLength < 4 && enumNames.All(n => n.Length == firstLength))
+            if (firstLength < 4 && Array.TrueForAll( enumNames,n => n.Length == firstLength))
             {
-                return enumNames.OrderBy(e => e).ToArray();
+                return enumNames;
             }
         }
-
-        return enumNames.Select(n => n.ToCamelCase()).OrderBy(e => e).ToArray();
-
+        // Do not camelCase if enum values have a DisplayName attribute
+        return hasDisplayName ? enumNames : enumNames.Select(n => n.ToCamelCase()).ToArray();
     }
+    
+    private static bool IsEnumerableOfEnum(Type type, out Type? enumType)
+    {
+         enumType = GetEnumerableTypes(type).FirstOrDefault(t => t.IsEnum);
+         var result = enumType is not null;
+         return result;
+    }
+
+    private static IEnumerable<Type> GetEnumerableTypes(Type type)
+    {
+        if (type is { IsInterface: true, IsGenericType: true }
+            && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+        {
+            yield return type.GetGenericArguments()[0];
+        }
+
+        foreach (var intType in type.GetInterfaces())
+        {
+            if (intType.IsGenericType
+                && intType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            {
+                yield return intType.GetGenericArguments()[0];
+            }
+        }
+    }
+
 
     /// <summary>
     /// Return an enumerator to process child properties of a property based on an existing instance 
