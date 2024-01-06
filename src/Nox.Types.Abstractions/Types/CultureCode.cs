@@ -9,7 +9,7 @@ namespace Nox.Types.Abstractions
     {
         public const string RegularExpression = @"^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$";
         
-        public static readonly ImmutableSortedDictionary<string,Culture> CultureCodeDisplayNames = Enum.GetValues(typeof(Culture))
+        public static readonly ImmutableSortedDictionary<string,Culture> DisplayNames = Enum.GetValues(typeof(Culture))
             .Cast<Culture>()
             .ToImmutableSortedDictionary(culture => culture.ToDisplayName(), culture => culture);
     }
