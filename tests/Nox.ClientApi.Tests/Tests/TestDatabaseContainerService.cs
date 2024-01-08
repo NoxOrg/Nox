@@ -53,8 +53,8 @@ public class TestDatabaseContainerService : IAsyncLifetime, ITestDatabaseService
         }
         return DbProviderKind switch
         {
-            DatabaseServerProvider.Postgres => new PostgreSqlTestProvider(connectionString, configurations, noxSolutionCodeGeneratorState, noxClientAssemblyProvider),
-            DatabaseServerProvider.SqlServer => new MsSqlTestProvider(connectionString, configurations, noxSolutionCodeGeneratorState, noxClientAssemblyProvider),
+            DatabaseServerProvider.Postgres => new PostgreSqlTestProvider(connectionString, configurations, noxSolutionCodeGeneratorState),
+            DatabaseServerProvider.SqlServer => new MsSqlTestProvider(connectionString, configurations, noxSolutionCodeGeneratorState),
             _ => throw new NotImplementedException($"{DbProviderKind} is not suported"),
         };
     }

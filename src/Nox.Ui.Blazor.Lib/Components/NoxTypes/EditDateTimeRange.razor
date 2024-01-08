@@ -1,15 +1,15 @@
-﻿@using Cryptocash.Ui.Generated.Component;
-@inherits UiEditDateTimeRangeBase
+﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using MudBlazor
 
 <MudGrid>
     <MudItem xs="12">
         <MudDateRangePicker Label="@TitleDateTimeRange"
-                       Variant="Variant.Outlined"
-                       Required="true"
-                       RequiredError="@ErrorRequiredMessage(TitleDateTimeRange)"
-                       TextChanged="OnDateTimeRangeChanged"
-                       DateFormat="@Format"
-                       DateRange="@DateTimeRange">
+                            Variant="Variant.Outlined"
+                            Required="true"
+                            RequiredError="@ErrorRequiredMessage(TitleDateTimeRange)"
+                            TextChanged="OnDateTimeRangeChanged"
+                            DateFormat="@Format"
+                            DateRange="@DateTimeRange">
         </MudDateRangePicker>
     </MudItem>
     <MudItem xs="12">

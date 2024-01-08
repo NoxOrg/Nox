@@ -11,9 +11,8 @@ internal class PostgreSqlTestProvider : PostgresDatabaseProvider
     public PostgreSqlTestProvider(
         string connectionString,
         IEnumerable<INoxTypeDatabaseConfigurator> configurators,
-        NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        INoxClientAssemblyProvider clientAssemblyProvider
-        ) : base(configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider)
+        NoxCodeGenConventions noxSolutionCodeGeneratorState
+        ) : base(configurators, noxSolutionCodeGeneratorState)
     {
         ConnectionString = connectionString;
     }
