@@ -39,7 +39,7 @@ public class EntityRelationship : YamlConfigNode<NoxSolution,Entity>
     )]
     public string Entity { get; internal set; } = null!;
 
-    [Description("The name of the relationship in the related entity that this relationship refers to.")]
+    [Title("The name of the relationship in the related entity that this relationship refers to.")]
     public string? RefRelationshipName { get; internal set; } = null;
 
     public TypeUserInterface? UserInterface { get; internal set; }

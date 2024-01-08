@@ -173,7 +173,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
             foreach(var relationship in grouping)
             {
                 relationship.Related.Entity = otherEntity;
-                relationship.Related.EntityRelationship = relatedRelationships.Find(x => x.Name == relationship.RefRelationshipName) ?? relatedRelationships[0];
+                relationship.Related.EntityRelationship = relatedRelationships.Find(x => relationship.RefRelationshipName is not null && x.Name == relationship.RefRelationshipName) ?? relatedRelationships[0];
             }
         }
     }
@@ -425,7 +425,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         // Validate that in case there are no multiple relationships to the same entity, that the RefRelationshipName is not populated
         var messages1 = relationshipsGroupedByRelatedEntity
             .Where(g => g.Count() == 1 && !string.IsNullOrWhiteSpace(g.First().RefRelationshipName))
-            .Select(x => $"Relationship [{x.First().Name}] on entity [{Name}] has a non-null RefRelationshipName value, but there is only one relationship that refers to [{x.First().Entity}].");
+            .Select(x => $"The relationship with name [{x.First().Name}] on the entity [{Name}] has a non-null RefRelationshipName value. There is only one relationship referencing [{x.First().Entity}], RefRelationshipName is unnecessary in these cases.");
 
         foreach (var message in messages1)
         {
@@ -437,7 +437,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
             .Where(g => g.Count() > 1)
             .SelectMany(g => g, (g, r) => new { RelatedEntity = g.Key, Relationship = r})
             .Where(x => string.IsNullOrWhiteSpace(x.Relationship.RefRelationshipName))
-            .Select(x => $"Relationship [{x.Relationship.Name}] on entity [{Name}] is missing RefRelationshipName value, but there are multiple relationships that refer to [{x.RelatedEntity}].");
+            .Select(x => $"The relationship with name [{x.Relationship.Name}] on the entity [{Name}] lacks RefRelationshipName value. With multiple relationships referencing [{x.RelatedEntity}], it is not possible to unambiguously select the correct association.");
 
         foreach (var message in messages2)
         {

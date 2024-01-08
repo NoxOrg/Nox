@@ -286,8 +286,8 @@ public class YamlFileValidationTests
             "Relationship [CurrenciesCountryLegal] on entity [Currency] refers to related entity [Currency] with composite key. Must be simple key on Currency.",
             "Relationship [Id] on entity [Currency] refers to related entity [Currency] with composite key. Must be simple key on Currency.",
             "Relationship [Id] on entity [Currency] refers to related entity [Currency] with composite key. Must be simple key on Currency.",
-            "Relationship [CurrenciesCountryLegal] on entity [Currency] is missing RefRelationshipName value, but there are multiple relationships that refer to [Currency].",
-            "Relationship [CurrenciesCountryLegal] on entity [Currency] is missing RefRelationshipName value, but there are multiple relationships that refer to [Currency]."
+            "The relationship with name [CurrenciesCountryLegal] on the entity [Currency] lacks RefRelationshipName value. With multiple relationships referencing [Currency], it is not possible to unambiguously select the correct association.",
+            "The relationship with name [CurrenciesCountryLegal] on the entity [Currency] lacks RefRelationshipName value. With multiple relationships referencing [Currency], it is not possible to unambiguously select the correct association."
         };
 
         action.Should()
@@ -425,11 +425,11 @@ public class YamlFileValidationTests
         action.Should().ThrowExactly<NoxYamlValidationException>()
             .Which.Errors.Select(x => x.ErrorMessage)
             .Should().BeEquivalentTo(
-                "Relationship [UsedInCountries] on entity [Currency] has a non-null RefRelationshipName value, but there is only one relationship that refers to [Country].",
-                "Relationship [ExchangeRateTo] on entity [Currency] is missing RefRelationshipName value, but there are multiple relationships that refer to [ExchangeRate].",
-                "Relationship [ExchangeRateFrom] on entity [Currency] is missing RefRelationshipName value, but there are multiple relationships that refer to [ExchangeRate].",
-                "Relationship [CurrencyTo] on entity [ExchangeRate] is missing RefRelationshipName value, but there are multiple relationships that refer to [Currency].",
-                "Relationship [CurrencyFrom] on entity [ExchangeRate] is missing RefRelationshipName value, but there are multiple relationships that refer to [Currency]."
+                "The relationship with name [UsedInCountries] on the entity [Currency] has a non-null RefRelationshipName value. There is only one relationship referencing [Country], RefRelationshipName is unnecessary in these cases.",
+                "The relationship with name [ExchangeRateTo] on the entity [Currency] lacks RefRelationshipName value. With multiple relationships referencing [ExchangeRate], it is not possible to unambiguously select the correct association.",
+                "The relationship with name [ExchangeRateFrom] on the entity [Currency] lacks RefRelationshipName value. With multiple relationships referencing [ExchangeRate], it is not possible to unambiguously select the correct association.",
+                "The relationship with name [CurrencyTo] on the entity [ExchangeRate] lacks RefRelationshipName value. With multiple relationships referencing [Currency], it is not possible to unambiguously select the correct association.",
+                "The relationship with name [CurrencyFrom] on the entity [ExchangeRate] lacks RefRelationshipName value. With multiple relationships referencing [Currency], it is not possible to unambiguously select the correct association."
             );
     }
 
