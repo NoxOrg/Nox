@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-	<UsingTask TaskName="Nox.Generator.Tasks.NoxGeneratorTask" AssemblyFile="..\..\src\Nox.Generator.Tasks\bin\Debug\netstandard2.0\Nox.Generator.Tasks.dll" />
+  <UsingTask TaskName="Nox.Generator.Tasks.NoxGeneratorTask" AssemblyFile="..\..\src\Nox.Generator.Tasks\bin\Debug\netstandard2.0\Nox.Generator.Tasks.dll" />
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -21,45 +21,39 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!--<ProjectReference Include="..\..\src\Nox.Generator.Tasks\Nox.Generator.Tasks.csproj" />-->
     <ProjectReference Include="..\..\src\Nox.Ui.Blazor.Lib\Nox.Ui.Blazor.Lib.csproj" />
     <ProjectReference Include="..\Cryptocash.Api\Cryptocash.Api.csproj" />
   </ItemGroup>
+	
 
-  <!--<ItemGroup>
+  <ItemGroup>
+    <RazorComponent Include="Nox.Generated\**\*.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <AdditionalFiles Include="../.nox/design/**/*.yaml" LinkBase="Design">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </AdditionalFiles>
     <AdditionalFiles Include="../.nox/docs/**/*.md" LinkBase="Docs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </AdditionalFiles>
-  </ItemGroup>-->
-
-  <ItemGroup>
-    <Folder Include="Nox.Generated\" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <OutputDirectory>Nox.Generated</OutputDirectory>
+  </PropertyGroup>
+  <ItemGroup>
+    <InputFiles Include="../.nox/design/**/*.yaml" />
+      <InputFiles Include="../.nox/docs/**/*.md" />
+      <InputFiles Include="*generator.nox.yaml" />
+  </ItemGroup>
 
+  <Target Name="NoxGeneratorBeforeTarget" BeforeTargets="CoreCompile" Inputs="@(InputFiles)" Outputs="$(OutputDirectory)">
+    <NoxGeneratorTask NoxYamlFiles="@(InputFiles)" OutputDirectory="$(OutputDirectory)"></NoxGeneratorTask>
+  </Target>
 
-	<PropertyGroup>
-		<OutputDirectory>Nox.Generated</OutputDirectory>
-	</PropertyGroup>
-	<ItemGroup>
-		<InputFiles Include="../.nox/design/**/*.yaml" />
-		<InputFiles Include="../.nox/docs/**/*.md" />
-		<InputFiles Include="*generator.nox.yaml" />
-	</ItemGroup>
-
-
-	
-
-	<Target Name="CustomBeforeTarget"  BeforeTargets="CoreCompile">
-		<!--Calling our custom task-->
-		<NoxGeneratorTask NoxYamlFiles="@(InputFiles)" OutputDirectory="$(OutputDirectory)"></NoxGeneratorTask>
-	</Target>
-
-	<Target Name="CustomAfterTarget" AfterTargets="CoreClean">
-		<RemoveDir Directories="$(OutputDirectory)" />
-	</Target>
+  <Target Name="NoxGeneratorAfterTarget" AfterTargets="CoreClean">
+    <RemoveDir Directories="$(OutputDirectory)" />
+  </Target>
   
 </Project>
