@@ -22,10 +22,8 @@ public class NoxTestPostgreContainerFixture : NoxTestContainerFixtureBase<Postgr
   
     protected override INoxDatabaseProvider GetDatabaseProvider(
        IEnumerable<INoxTypeDatabaseConfigurator> configurators,
-       NoxCodeGenConventions noxSolutionCodeGeneratorState,
-       INoxClientAssemblyProvider clientAssemblyProvider
-       )
+       NoxCodeGenConventions noxSolutionCodeGeneratorState)
     {
-        return new PostgreSqlTestProvider(_container.GetConnectionString(), configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider);
+        return new PostgreSqlTestProvider(_container.GetConnectionString(), configurators, noxSolutionCodeGeneratorState);
     }
 }
