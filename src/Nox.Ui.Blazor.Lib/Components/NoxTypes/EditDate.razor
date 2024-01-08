@@ -1,0 +1,13 @@
+﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using MudBlazor
+
+<MudDatePicker Label="@Title"
+               Variant="Variant.Outlined"
+               Required="true"
+               RequiredError="@ErrorRequiredMessage(Title)"
+               TextChanged="OnDateChanged"
+               Editable="true"
+               Placeholder="DisplayPlaceholder"
+               DateFormat="@Format"
+               Date="@Date">
+</MudDatePicker>
