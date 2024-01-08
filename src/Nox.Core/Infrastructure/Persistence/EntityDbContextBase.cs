@@ -51,7 +51,7 @@ namespace Nox.Infrastructure.Persistence
             }
             catch (DbUpdateConcurrencyException)
             {
-                throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEtag.Etag)} must be provided", HttpStatusCode.Conflict);
+                throw new Exceptions.ConcurrencyException($"Latest value of {nameof(IEtag.Etag)} must be provided", HttpStatusCode.Conflict);
             }
         }
 
@@ -125,12 +125,12 @@ namespace Nox.Infrastructure.Persistence
         private void ReattachOwnedEntries<T>(EntityEntry<AuditableEntityBase> parentEntry)
             where T : class
         {
-            foreach (var navigationEntry in parentEntry.Navigations)
+            foreach (var navigationEntry in parentEntry.Navigations.Select(n=> n.CurrentValue))
             {
                 foreach (var ownedEntry in ChangeTracker.Entries<T>())
                 {
                     var isOwnedAndDeltetedEntry = ownedEntry.Metadata.IsOwned() && ownedEntry.State == EntityState.Deleted;
-                    var isOwnedByCurrentParentEntry = ownedEntry.Entity == navigationEntry.CurrentValue || (navigationEntry.CurrentValue as IEnumerable<T>)?.Contains(ownedEntry.Entity) == true;
+                    var isOwnedByCurrentParentEntry = ownedEntry.Entity == navigationEntry || (navigationEntry as IEnumerable<T>)?.Contains(ownedEntry.Entity) == true;
 
                     if (isOwnedAndDeltetedEntry && isOwnedByCurrentParentEntry)
                     {
@@ -139,7 +139,7 @@ namespace Nox.Infrastructure.Persistence
                 }
             }
         }
-        private void TrackConcurrency(EntityEntry<IEtag> entry)
+        private static void TrackConcurrency(EntityEntry<IEtag> entry)
         {
             switch (entry.State)
             {

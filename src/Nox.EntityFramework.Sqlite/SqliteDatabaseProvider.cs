@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Nox.Infrastructure;
 using Nox.Solution;
 
 using Nox.Types.EntityFramework.Abstractions;
@@ -13,9 +12,8 @@ public class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDatabaseProvi
     
     public SqliteDatabaseProvider(
         IEnumerable<INoxTypeDatabaseConfigurator> configurators,
-        NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        INoxClientAssemblyProvider clientAssemblyProvider
-        ) : base(configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider, typeof(ISqliteNoxTypeDatabaseConfigurator))
+        NoxCodeGenConventions noxSolutionCodeGeneratorState
+        ) : base(configurators, noxSolutionCodeGeneratorState, typeof(ISqliteNoxTypeDatabaseConfigurator))
     {
     }
 

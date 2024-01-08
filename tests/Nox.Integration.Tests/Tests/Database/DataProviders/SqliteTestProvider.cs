@@ -13,8 +13,7 @@ internal class SqliteTestProvider : SqliteDatabaseProvider
 
     public SqliteTestProvider(
         IEnumerable<INoxTypeDatabaseConfigurator> configurators,
-        NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        INoxClientAssemblyProvider clientAssemblyProvider) : base(configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider)
+        NoxCodeGenConventions noxSolutionCodeGeneratorState) : base(configurators, noxSolutionCodeGeneratorState)
     {
         ConnectionString = InMemoryConnectionString;
     }

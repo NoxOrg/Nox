@@ -1,6 +1,5 @@
 ﻿using CloudNative.CloudEvents;
 using MassTransit;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
@@ -22,14 +21,14 @@ namespace Nox.Infrastructure.Messaging
             IPublishEndpoint bus,
             ILogger<OutboxRepository> logger,
             IUserProvider userProvider,
-            IWebHostEnvironment webHostEnvironment,
+            IHostEnvironment hostEnvironment,
             NoxSolution noxSolution)
         {
             _bus = bus;
             _logger = logger;
             _userProvider = userProvider;
             _noxSolution = noxSolution;
-            _messagePrefix = webHostEnvironment.EnvironmentName == Environments.Production ? string.Empty : $"{webHostEnvironment.EnvironmentName.ToLower()}.";
+            _messagePrefix = hostEnvironment.EnvironmentName == Environments.Production ? string.Empty : $"{hostEnvironment.EnvironmentName.ToLower()}.";
         }
 
         public async Task AddAsync<T>(T integrationEvent) where T : IIntegrationEvent

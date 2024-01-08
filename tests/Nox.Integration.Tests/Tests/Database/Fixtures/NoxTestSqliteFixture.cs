@@ -9,10 +9,8 @@ public class NoxTestSqliteFixture : NoxTestDataContextFixtureBase
 {
     protected override INoxDatabaseProvider GetDatabaseProvider(
         IEnumerable<INoxTypeDatabaseConfigurator> configurators,
-        NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        INoxClientAssemblyProvider clientAssemblyProvider
-        )
+        NoxCodeGenConventions noxSolutionCodeGeneratorState)
     {
-        return new SqliteTestProvider(configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider);
+        return new SqliteTestProvider(configurators, noxSolutionCodeGeneratorState);
     }
 }

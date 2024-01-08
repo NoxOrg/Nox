@@ -119,7 +119,7 @@ internal abstract partial class DtoDbContextBase : DbContext
                 var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
                     ?? throw new TypeNotFoundException(dtoName);
 
-                _noxDtoDatabaseConfigurator.ConfigureDto(modelBuilder.Entity(type).ToTable(entity.Persistence.TableName), entity);
+                _noxDtoDatabaseConfigurator.ConfigureDto(modelBuilder.Entity(type).ToTable(entity.Persistence.TableName), entity, _clientAssemblyProvider.ClientAssembly);
 
                 if (entity.IsLocalized)
                 {

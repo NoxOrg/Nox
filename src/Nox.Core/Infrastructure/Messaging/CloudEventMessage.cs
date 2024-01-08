@@ -36,11 +36,14 @@ namespace Nox.Infrastructure.Messaging
             Time = cloudEvent.Time;
             Subject = cloudEvent.Subject;
         }
-        //public string? xtenantid { get; set; }
-        //public string? xapplicationid { get; set; }
-        //public string? xcorrelationid { get; set; }
-        //public string? xtraceid { get; set; }
-        //public string? xtraceparent { get; set; }
-        //public string? xinstanceid { get; set; }
-    }   
+
+#pragma warning disable S125 // Sections of code should not be commented out
+                            //public string? xtenantid { get; set; }
+                            //public string? xapplicationid { get; set; }
+                            //public string? xcorrelationid { get; set; }
+                            //public string? xtraceid { get; set; }
+                            //public string? xtraceparent { get; set; }
+                            //public string? xinstanceid { get; set; }
+    }
+#pragma warning restore S125 // Sections of code should not be commented out
 }

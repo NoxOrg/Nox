@@ -127,7 +127,7 @@ internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistenc
             ConfigureEnumeratedAttributes(modelBuilder, entity);
 
             var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
-            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(modelBuilder, modelBuilder.Entity(type!).ToTable(entity.Persistence.TableName), entity);
+            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(modelBuilder, modelBuilder.Entity(type!).ToTable(entity.Persistence.TableName), entity, _clientAssemblyProvider.ClientAssembly);
 
             if (entity.IsLocalized)
             {
