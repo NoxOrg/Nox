@@ -6,7 +6,7 @@
                  FullWidth="true"
                  Clearable="true"
                  Required="true"
-                 RequiredError="@ErrorRequiredMessage"
+                 RequiredError="@string.Format(@Resources.Resources.FieldIsRequired, @Title)"
                  Format="@Format"
                  TextChanged="OnAreaChanged"
                  Adornment="Adornment.End"
