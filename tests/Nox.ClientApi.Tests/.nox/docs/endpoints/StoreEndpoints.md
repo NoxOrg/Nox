@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## Store Endpoints
 
+### Get Store Count
+- **GET** `/api/v1/Stores/$count`
+  - Description: Retrieve the number of Stores.
+
 ### Get Store by ID
 - **GET** `/api/v1/Stores/{key}`
   - Description: Retrieve information about a Store by ID.
@@ -32,6 +36,52 @@ This document provides information about the various endpoints available in our 
 
 ## Relationships Endpoints
 
+### Country
+
+#### Get Country relations
+- **GET** `/api/v1/Stores/{key}/CountryOfTheStore/$ref`
+  - Description: Retrieve all existing Countries relations for a specific Store.
+  
+#### Create Country relation
+- **POST** `/api/v1/Stores/{key}/CountryOfTheStore/{relatedKey}/$ref`
+  - Description: Create a new Country relation for a specific Store.
+  
+#### Update Country relation
+- **PUT** `/api/v1/Stores/{key}/CountryOfTheStore/{relatedKey}/$ref`
+  - Description: Updates an existing Country relation for a specific Store.
+- **PUT** `/api/v1/Stores/{key}/CountryOfTheStore/$ref`
+  - Description: Updates the Country relations for a specific Store.
+
+#### Delete Country relation
+- **DELETE** `/api/v1/Stores/{key}/CountryOfTheStore/{relatedKey}/$ref`
+  - Description: Delete an existing Country relation for a specific Store.
+
+#### Delete Country relations
+- **DELETE** `/api/v1/Stores/{key}/CountryOfTheStore/$ref`
+  - Description: Delete all existing Countries relations for a specific Store.
+
+#### Get Country
+- **GET** `/api/v1/Stores/{key}/CountryOfTheStore`
+  - Description: Retrieve all existing Countries for a specific Store.
+  
+#### Create Country
+- **POST** `/api/v1/Stores/{key}/CountryOfTheStore/{relatedKey}`
+  - Description: Create a new Country for a specific Store.
+  
+#### Update Country
+- **PUT** `/api/v1/Stores/{key}/CountryOfTheStore/{relatedKey}`
+  - Description: Updates an existing Country for a specific Store.
+- **PUT** `/api/v1/Stores/{key}/CountryOfTheStore`
+  - Description: Updates the Country for a specific Store.
+
+#### Delete Country
+- **DELETE** `/api/v1/Stores/{key}/CountryOfTheStore/{relatedKey}`
+  - Description: Delete an existing Country for a specific Store.
+
+#### Delete Country
+- **DELETE** `/api/v1/Stores/{key}/CountryOfTheStore`
+  - Description: Delete all existing Countries for a specific Store.
+
 ### StoreOwner
 
 #### Get StoreOwner relations
@@ -55,6 +105,28 @@ This document provides information about the various endpoints available in our 
 #### Delete StoreOwner relations
 - **DELETE** `/api/v1/Stores/{key}/Ownership/$ref`
   - Description: Delete all existing StoreOwners relations for a specific Store.
+
+#### Get StoreOwner
+- **GET** `/api/v1/Stores/{key}/Ownership`
+  - Description: Retrieve all existing StoreOwners for a specific Store.
+  
+#### Create StoreOwner
+- **POST** `/api/v1/Stores/{key}/Ownership/{relatedKey}`
+  - Description: Create a new StoreOwner for a specific Store.
+  
+#### Update StoreOwner
+- **PUT** `/api/v1/Stores/{key}/Ownership/{relatedKey}`
+  - Description: Updates an existing StoreOwner for a specific Store.
+- **PUT** `/api/v1/Stores/{key}/Ownership`
+  - Description: Updates the StoreOwner for a specific Store.
+
+#### Delete StoreOwner
+- **DELETE** `/api/v1/Stores/{key}/Ownership/{relatedKey}`
+  - Description: Delete an existing StoreOwner for a specific Store.
+
+#### Delete StoreOwner
+- **DELETE** `/api/v1/Stores/{key}/Ownership`
+  - Description: Delete all existing StoreOwners for a specific Store.
 
 ### StoreLicense
 
@@ -80,6 +152,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/v1/Stores/{key}/License/$ref`
   - Description: Delete all existing StoreLicenses relations for a specific Store.
 
+#### Get StoreLicense
+- **GET** `/api/v1/Stores/{key}/License`
+  - Description: Retrieve all existing StoreLicenses for a specific Store.
+  
+#### Create StoreLicense
+- **POST** `/api/v1/Stores/{key}/License/{relatedKey}`
+  - Description: Create a new StoreLicense for a specific Store.
+  
+#### Update StoreLicense
+- **PUT** `/api/v1/Stores/{key}/License/{relatedKey}`
+  - Description: Updates an existing StoreLicense for a specific Store.
+- **PUT** `/api/v1/Stores/{key}/License`
+  - Description: Updates the StoreLicense for a specific Store.
+
+#### Delete StoreLicense
+- **DELETE** `/api/v1/Stores/{key}/License/{relatedKey}`
+  - Description: Delete an existing StoreLicense for a specific Store.
+
+#### Delete StoreLicense
+- **DELETE** `/api/v1/Stores/{key}/License`
+  - Description: Delete all existing StoreLicenses for a specific Store.
+
 ### Client
 
 #### Get Client relations
@@ -104,7 +198,31 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/v1/Stores/{key}/ClientsOfStore/$ref`
   - Description: Delete all existing Clients relations for a specific Store.
 
+#### Get Client
+- **GET** `/api/v1/Stores/{key}/ClientsOfStore`
+  - Description: Retrieve all existing Clients for a specific Store.
+  
+#### Create Client
+- **POST** `/api/v1/Stores/{key}/ClientsOfStore/{relatedKey}`
+  - Description: Create a new Client for a specific Store.
+  
+#### Update Client
+- **PUT** `/api/v1/Stores/{key}/ClientsOfStore/{relatedKey}`
+  - Description: Updates an existing Client for a specific Store.
+- **PUT** `/api/v1/Stores/{key}/ClientsOfStore`
+  - Description: Updates the Client for a specific Store.
+
+#### Delete Client
+- **DELETE** `/api/v1/Stores/{key}/ClientsOfStore/{relatedKey}`
+  - Description: Delete an existing Client for a specific Store.
+
+#### Delete Client
+- **DELETE** `/api/v1/Stores/{key}/ClientsOfStore`
+  - Description: Delete all existing Clients for a specific Store.
+
 ## Related Entities
+
+[Country](CountryEndpoints.md)
 
 [StoreOwner](StoreOwnerEndpoints.md)
 

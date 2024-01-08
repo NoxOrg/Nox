@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -16,7 +17,7 @@ using ReferenceNumberEntityEntity = ClientApi.Domain.ReferenceNumberEntity;
 
 namespace ClientApi.Application.Commands;
 
-public partial record PartialUpdateReferenceNumberEntityCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <ReferenceNumberEntityKeyDto?>;
+public partial record PartialUpdateReferenceNumberEntityCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <ReferenceNumberEntityKeyDto>;
 
 internal partial class PartialUpdateReferenceNumberEntityCommandHandler : PartialUpdateReferenceNumberEntityCommandHandlerBase
 {
@@ -28,11 +29,11 @@ internal partial class PartialUpdateReferenceNumberEntityCommandHandler : Partia
 	{
 	}
 }
-internal abstract class PartialUpdateReferenceNumberEntityCommandHandlerBase : CommandBase<PartialUpdateReferenceNumberEntityCommand, ReferenceNumberEntityEntity>, IRequestHandler<PartialUpdateReferenceNumberEntityCommand, ReferenceNumberEntityKeyDto?>
+internal abstract class PartialUpdateReferenceNumberEntityCommandHandlerBase : CommandBase<PartialUpdateReferenceNumberEntityCommand, ReferenceNumberEntityEntity>, IRequestHandler<PartialUpdateReferenceNumberEntityCommand, ReferenceNumberEntityKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<ReferenceNumberEntityEntity, ReferenceNumberEntityCreateDto, ReferenceNumberEntityUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateReferenceNumberEntityCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateReferenceNumberEntityCommandHandlerBase : C
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<ReferenceNumberEntityKeyDto?> Handle(PartialUpdateReferenceNumberEntityCommand request, CancellationToken cancellationToken)
+	public virtual async Task<ReferenceNumberEntityKeyDto> Handle(PartialUpdateReferenceNumberEntityCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,9 +53,9 @@ internal abstract class PartialUpdateReferenceNumberEntityCommandHandlerBase : C
 		var entity = await DbContext.ReferenceNumberEntities.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("ReferenceNumberEntity",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

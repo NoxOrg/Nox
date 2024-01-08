@@ -131,11 +131,15 @@ domain:
           description: is on
           relationship: oneOrMany
           entity: Continent
+          apiGenerateRelatedEndpoint: false
+          apiGenerateReferenceEndpoint: true
 
         - name: Inhabitants
           description: is inhabited by
           relationship: oneOrMany
           entity: People
+          apiGenerateRelatedEndpoint: false
+          apiGenerateReferenceEndpoint: false
 
       ownedRelationships:
         - name: CountryLocalNames

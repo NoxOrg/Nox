@@ -28,7 +28,7 @@ public partial class ForReferenceNumbersController : ForReferenceNumbersControll
 {
     public ForReferenceNumbersController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class ForReferenceNumbersControllerBase : ODataControlle
 
     public ForReferenceNumbersControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class ForReferenceNumbersControllerBase : ODataControlle
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateForReferenceNumberCommand(key, forReferenceNumber, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("ForReferenceNumber", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetForReferenceNumberByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class ForReferenceNumbersControllerBase : ODataControlle
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateForReferenceNumberCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("ForReferenceNumber", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetForReferenceNumberByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class ForReferenceNumbersControllerBase : ODataControlle
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteForReferenceNumberByIdCommand(new List<ForReferenceNumberKeyDto> { new ForReferenceNumberKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("ForReferenceNumber", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

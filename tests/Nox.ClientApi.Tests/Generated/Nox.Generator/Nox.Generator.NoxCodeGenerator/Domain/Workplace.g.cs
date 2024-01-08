@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
@@ -49,7 +50,7 @@ internal record WorkplaceDeleted(Workplace Workplace) : IDomainEvent, INotificat
 /// <summary>
 /// Workplace.
 /// </summary>
-internal abstract partial class WorkplaceBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class WorkplaceBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Workplace unique identifier    
@@ -182,6 +183,20 @@ internal abstract partial class WorkplaceBase : AuditableEntityBase, IEntityConc
         Tenants.Clear();
     }
 
+        /// <summary>
+        /// Workplace localized entities.
+        /// </summary>
+        public virtual List<WorkplaceLocalized> LocalizedWorkplaces  { get; private set; } = new();
+    
+    
+    	/// <summary>
+    	/// Creates a new WorkplaceLocalized entity.
+    	/// </summary>
+        public virtual void CreateRefToLocalizedWorkplaces(WorkplaceLocalized relatedWorkplaceLocalized)
+    	{
+    		LocalizedWorkplaces.Add(relatedWorkplaceLocalized);
+    	}
+        
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
@@ -32,6 +32,14 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.13" />
 		<PackageReference Include="MudBlazor" Version="6.11.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Nox.Core\Nox.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="wwwroot\" />
 	</ItemGroup>
 
 </Project>

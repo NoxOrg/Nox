@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,32 +27,28 @@ internal partial class TestEntityExactlyOneToZeroOrManyFactory : TestEntityExact
 {
     public TestEntityExactlyOneToZeroOrManyFactory
     (
-        IRepository repository
-    ) : base( repository)
+    ) : base()
     {}
 }
 
 internal abstract class TestEntityExactlyOneToZeroOrManyFactoryBase : IEntityFactory<TestEntityExactlyOneToZeroOrManyEntity, TestEntityExactlyOneToZeroOrManyCreateDto, TestEntityExactlyOneToZeroOrManyUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
     public TestEntityExactlyOneToZeroOrManyFactoryBase(
-        IRepository repository
         )
     {
-        _repository = repository;
     }
 
-    public virtual async Task<TestEntityExactlyOneToZeroOrManyEntity> CreateEntityAsync(TestEntityExactlyOneToZeroOrManyCreateDto createDto)
+    public virtual async Task<TestEntityExactlyOneToZeroOrManyEntity> CreateEntityAsync(TestEntityExactlyOneToZeroOrManyCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-            return await ToEntityAsync(createDto);
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TestEntityExactlyOneToZeroOrManyEntity));
         }        
     }
 
@@ -64,52 +60,55 @@ internal abstract class TestEntityExactlyOneToZeroOrManyFactoryBase : IEntityFac
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TestEntityExactlyOneToZeroOrManyEntity));
         }   
     }
 
-    public virtual void PartialUpdateEntity(TestEntityExactlyOneToZeroOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(TestEntityExactlyOneToZeroOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TestEntityExactlyOneToZeroOrManyEntity));
         }   
     }
 
-    private async Task<TestWebApp.Domain.TestEntityExactlyOneToZeroOrMany> ToEntityAsync(TestEntityExactlyOneToZeroOrManyCreateDto createDto)
+    private async Task<TestWebApp.Domain.TestEntityExactlyOneToZeroOrMany> ToEntityAsync(TestEntityExactlyOneToZeroOrManyCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.TestEntityExactlyOneToZeroOrMany();
-        entity.Id = TestEntityExactlyOneToZeroOrManyMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
-        entity.SetIfNotNull(createDto.TextTestField, (entity) => entity.TextTestField = 
-            TestWebApp.Domain.TestEntityExactlyOneToZeroOrManyMetadata.CreateTextTestField(createDto.TextTestField.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Id",() => entity.Id = TestEntityExactlyOneToZeroOrManyMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
+        exceptionCollector.Collect("TextTestField", () => entity.SetIfNotNull(createDto.TextTestField, (entity) => entity.TextTestField = 
+            TestWebApp.Domain.TestEntityExactlyOneToZeroOrManyMetadata.CreateTextTestField(createDto.TextTestField.NonNullValue<System.String>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(TestEntityExactlyOneToZeroOrManyEntity entity, TestEntityExactlyOneToZeroOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.TextTestField = TestWebApp.Domain.TestEntityExactlyOneToZeroOrManyMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        exceptionCollector.Collect("TextTestField",() => entity.TextTestField = TestWebApp.Domain.TestEntityExactlyOneToZeroOrManyMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>()));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(TestEntityExactlyOneToZeroOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("TextTestField", out var TextTestFieldUpdateValue))
         {
-            if (TextTestFieldUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(TextTestFieldUpdateValue, "Attribute 'TextTestField' can't be null.");
             {
-                throw new ArgumentException("Attribute 'TextTestField' can't be null");
-            }
-            {
-                entity.TextTestField = TestWebApp.Domain.TestEntityExactlyOneToZeroOrManyMetadata.CreateTextTestField(TextTestFieldUpdateValue);
+                exceptionCollector.Collect("TextTestField",() =>entity.TextTestField = TestWebApp.Domain.TestEntityExactlyOneToZeroOrManyMetadata.CreateTextTestField(TextTestFieldUpdateValue));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 }

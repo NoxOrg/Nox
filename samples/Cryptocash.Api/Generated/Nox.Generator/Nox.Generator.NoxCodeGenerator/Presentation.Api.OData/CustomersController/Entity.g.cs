@@ -28,7 +28,7 @@ public partial class CustomersController : CustomersControllerBase
 {
     public CustomersController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class CustomersControllerBase : ODataController
 
     public CustomersControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class CustomersControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateCustomerCommand(key, customer, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("Customer", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetCustomerByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class CustomersControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateCustomerCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("Customer", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetCustomerByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class CustomersControllerBase : ODataController
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteCustomerByIdCommand(new List<CustomerKeyDto> { new CustomerKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("Customer", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

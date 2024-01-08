@@ -28,7 +28,7 @@ public partial class TestEntityOneOrManiesController : TestEntityOneOrManiesCont
 {
     public TestEntityOneOrManiesController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
 
     public TestEntityOneOrManiesControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateTestEntityOneOrManyCommand(key, testEntityOneOrMany, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityOneOrMany", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityOneOrManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityOneOrManyCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityOneOrMany", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityOneOrManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteTestEntityOneOrManyByIdCommand(new List<TestEntityOneOrManyKeyDto> { new TestEntityOneOrManyKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("TestEntityOneOrMany", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## Country Endpoints
 
+### Get Country Count
+- **GET** `/api/Countries/$count`
+  - Description: Retrieve the number of Countries.
+
 ### Get Country by ID
 - **GET** `/api/Countries/{key}`
   - Description: Retrieve information about a Country by ID.
@@ -104,6 +108,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Countries/{key}/CountryUsedByCurrency/$ref`
   - Description: Delete all existing Currencies relations for a specific Country.
 
+#### Get Currency
+- **GET** `/api/Countries/{key}/CountryUsedByCurrency`
+  - Description: Retrieve all existing Currencies for a specific Country.
+  
+#### Create Currency
+- **POST** `/api/Countries/{key}/CountryUsedByCurrency/{relatedKey}`
+  - Description: Create a new Currency for a specific Country.
+  
+#### Update Currency
+- **PUT** `/api/Countries/{key}/CountryUsedByCurrency/{relatedKey}`
+  - Description: Updates an existing Currency for a specific Country.
+- **PUT** `/api/Countries/{key}/CountryUsedByCurrency`
+  - Description: Updates the Currency for a specific Country.
+
+#### Delete Currency
+- **DELETE** `/api/Countries/{key}/CountryUsedByCurrency/{relatedKey}`
+  - Description: Delete an existing Currency for a specific Country.
+
+#### Delete Currency
+- **DELETE** `/api/Countries/{key}/CountryUsedByCurrency`
+  - Description: Delete all existing Currencies for a specific Country.
+
 ### Commission
 
 #### Get Commission relations
@@ -127,6 +153,28 @@ This document provides information about the various endpoints available in our 
 #### Delete Commission relations
 - **DELETE** `/api/Countries/{key}/CountryUsedByCommissions/$ref`
   - Description: Delete all existing Commissions relations for a specific Country.
+
+#### Get Commission
+- **GET** `/api/Countries/{key}/CountryUsedByCommissions`
+  - Description: Retrieve all existing Commissions for a specific Country.
+  
+#### Create Commission
+- **POST** `/api/Countries/{key}/CountryUsedByCommissions/{relatedKey}`
+  - Description: Create a new Commission for a specific Country.
+  
+#### Update Commission
+- **PUT** `/api/Countries/{key}/CountryUsedByCommissions/{relatedKey}`
+  - Description: Updates an existing Commission for a specific Country.
+- **PUT** `/api/Countries/{key}/CountryUsedByCommissions`
+  - Description: Updates the Commission for a specific Country.
+
+#### Delete Commission
+- **DELETE** `/api/Countries/{key}/CountryUsedByCommissions/{relatedKey}`
+  - Description: Delete an existing Commission for a specific Country.
+
+#### Delete Commission
+- **DELETE** `/api/Countries/{key}/CountryUsedByCommissions`
+  - Description: Delete all existing Commissions for a specific Country.
 
 ### VendingMachine
 
@@ -152,6 +200,28 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Countries/{key}/CountryUsedByVendingMachines/$ref`
   - Description: Delete all existing VendingMachines relations for a specific Country.
 
+#### Get VendingMachine
+- **GET** `/api/Countries/{key}/CountryUsedByVendingMachines`
+  - Description: Retrieve all existing VendingMachines for a specific Country.
+  
+#### Create VendingMachine
+- **POST** `/api/Countries/{key}/CountryUsedByVendingMachines/{relatedKey}`
+  - Description: Create a new VendingMachine for a specific Country.
+  
+#### Update VendingMachine
+- **PUT** `/api/Countries/{key}/CountryUsedByVendingMachines/{relatedKey}`
+  - Description: Updates an existing VendingMachine for a specific Country.
+- **PUT** `/api/Countries/{key}/CountryUsedByVendingMachines`
+  - Description: Updates the VendingMachine for a specific Country.
+
+#### Delete VendingMachine
+- **DELETE** `/api/Countries/{key}/CountryUsedByVendingMachines/{relatedKey}`
+  - Description: Delete an existing VendingMachine for a specific Country.
+
+#### Delete VendingMachine
+- **DELETE** `/api/Countries/{key}/CountryUsedByVendingMachines`
+  - Description: Delete all existing VendingMachines for a specific Country.
+
 ### Customer
 
 #### Get Customer relations
@@ -175,6 +245,28 @@ This document provides information about the various endpoints available in our 
 #### Delete Customer relations
 - **DELETE** `/api/Countries/{key}/CountryUsedByCustomers/$ref`
   - Description: Delete all existing Customers relations for a specific Country.
+
+#### Get Customer
+- **GET** `/api/Countries/{key}/CountryUsedByCustomers`
+  - Description: Retrieve all existing Customers for a specific Country.
+  
+#### Create Customer
+- **POST** `/api/Countries/{key}/CountryUsedByCustomers/{relatedKey}`
+  - Description: Create a new Customer for a specific Country.
+  
+#### Update Customer
+- **PUT** `/api/Countries/{key}/CountryUsedByCustomers/{relatedKey}`
+  - Description: Updates an existing Customer for a specific Country.
+- **PUT** `/api/Countries/{key}/CountryUsedByCustomers`
+  - Description: Updates the Customer for a specific Country.
+
+#### Delete Customer
+- **DELETE** `/api/Countries/{key}/CountryUsedByCustomers/{relatedKey}`
+  - Description: Delete an existing Customer for a specific Country.
+
+#### Delete Customer
+- **DELETE** `/api/Countries/{key}/CountryUsedByCustomers`
+  - Description: Delete all existing Customers for a specific Country.
 
 ## Related Entities
 

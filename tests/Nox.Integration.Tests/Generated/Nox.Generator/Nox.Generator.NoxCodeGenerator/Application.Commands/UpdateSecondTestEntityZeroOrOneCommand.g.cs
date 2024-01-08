@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using SecondTestEntityZeroOrOneEntity = TestWebApp.Domain.SecondTestEntityZeroOr
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateSecondTestEntityZeroOrOneCommand(System.String keyId, SecondTestEntityZeroOrOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<SecondTestEntityZeroOrOneKeyDto?>;
+public partial record UpdateSecondTestEntityZeroOrOneCommand(System.String keyId, SecondTestEntityZeroOrOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<SecondTestEntityZeroOrOneKeyDto>;
 
 internal partial class UpdateSecondTestEntityZeroOrOneCommandHandler : UpdateSecondTestEntityZeroOrOneCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateSecondTestEntityZeroOrOneCommandHandler : UpdateSec
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<SecondTestEntityZeroOrOneEntity, SecondTestEntityZeroOrOneCreateDto, SecondTestEntityZeroOrOneUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateSecondTestEntityZeroOrOneCommandHandlerBase : CommandBase<UpdateSecondTestEntityZeroOrOneCommand, SecondTestEntityZeroOrOneEntity>, IRequestHandler<UpdateSecondTestEntityZeroOrOneCommand, SecondTestEntityZeroOrOneKeyDto?>
+internal abstract class UpdateSecondTestEntityZeroOrOneCommandHandlerBase : CommandBase<UpdateSecondTestEntityZeroOrOneCommand, SecondTestEntityZeroOrOneEntity>, IRequestHandler<UpdateSecondTestEntityZeroOrOneCommand, SecondTestEntityZeroOrOneKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<SecondTestEntityZeroOrOneEntity, SecondTestEntityZeroOrOneCreateDto, SecondTestEntityZeroOrOneUpdateDto> _entityFactory;
-
 	protected UpdateSecondTestEntityZeroOrOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateSecondTestEntityZeroOrOneCommandHandlerBase : Comm
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<SecondTestEntityZeroOrOneKeyDto?> Handle(UpdateSecondTestEntityZeroOrOneCommand request, CancellationToken cancellationToken)
+	public virtual async Task<SecondTestEntityZeroOrOneKeyDto> Handle(UpdateSecondTestEntityZeroOrOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +55,7 @@ internal abstract class UpdateSecondTestEntityZeroOrOneCommandHandlerBase : Comm
 		var entity = await DbContext.SecondTestEntityZeroOrOnes.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("SecondTestEntityZeroOrOne",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +65,6 @@ internal abstract class UpdateSecondTestEntityZeroOrOneCommandHandlerBase : Comm
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new SecondTestEntityZeroOrOneKeyDto(entity.Id.Value);
 	}

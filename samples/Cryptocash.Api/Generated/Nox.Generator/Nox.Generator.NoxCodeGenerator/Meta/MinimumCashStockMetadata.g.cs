@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace Cryptocash.Domain;
 
@@ -43,13 +44,16 @@ public partial class MinimumCashStockMetadata
         public static Nox.Types.CurrencyCode3 CreateCurrencyId(System.String value)
             => Nox.Types.CurrencyCode3.From(value);
         
-
         /// <summary>
         /// User Interface for property 'Amount'
         /// </summary>
-        public static TypeUserInterface? AmountUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("MinimumCashStock")
-                .GetAttributeByName("Amount")?
-                .UserInterface;
+        public static TypeUserInterface? AmountUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
 }

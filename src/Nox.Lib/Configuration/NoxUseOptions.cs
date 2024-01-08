@@ -10,6 +10,8 @@ using Nox.Lib;
 using Serilog;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Nox.Middlewares;
+using Nox.Solution;
+using Microsoft.Extensions.Logging;
 
 namespace Nox;
 
@@ -30,7 +32,7 @@ internal class NoxUseOptions : INoxUseOptions
 
     public INoxUseOptions UseNoxElasticMonitoring()
     {
-        _useNoxElasticMonitoring = true;       
+        _useNoxElasticMonitoring = true;
         return this;
     }
 
@@ -39,7 +41,7 @@ internal class NoxUseOptions : INoxUseOptions
         _useODataRouteDebug = true;
         return this;
     }
-    public INoxUseOptions UseHealthChecks(bool use = true)
+    public INoxUseOptions UseHealthChecks(bool use)
     {
         _useHealthChecks = use;
         return this;
@@ -62,38 +64,58 @@ internal class NoxUseOptions : INoxUseOptions
         if (_useSerilogRequestLogging)
             builder.UseSerilogRequestLogging();
 
+        var logger = builder.ApplicationServices.GetRequiredService<ILogger<NoxUseOptions>>();
+
         //Middleware order is important
         //1. Exception
         //2. HealthChecks
         //3. Version
         //4. Routing Mechanism
+        builder.UseMiddleware<ExceptionHanderMiddleware>();
 
-        builder.UseMiddleware<NoxExceptionHanderMiddleware>();
-        if (_useHealthChecks && builder is IEndpointRouteBuilder endpointRouteBuilder)
-        {
-            // aggregates all IHealthChecks...
-            endpointRouteBuilder.MapHealthChecks("/healthz", new HealthCheckOptions
-            {
-                Predicate = healthCheck => !healthCheck.Tags.Contains("ready")
-            });
-            //liveness probe
-            //No Custom Health Check, service is live
-            endpointRouteBuilder.MapHealthChecks("/healthz/live", new HealthCheckOptions
-            {
-                Predicate = _ => false
-            });
-            //readiness probe
-            endpointRouteBuilder.MapHealthChecks("/healthz/ready", new HealthCheckOptions
-            {
-                Predicate = healthCheck => healthCheck.Tags.Contains("ready")
-            });
-        }
+        ConfigureHealthChecks(builder);
 
         builder.UseWhen(context => context.Request.Path.StartsWithSegments("/version"), appBuilder =>
         {
             appBuilder.UseMiddleware<VersionMiddleware>();
         });
-        builder.UseMiddleware<NoxApiMiddleware>().UseRouting();        
+
+        var solution = builder.ApplicationServices.GetRequiredService<NoxSolution>();
+        var apiPrefix = solution.Presentation.ApiConfiguration.ApiRoutePrefix;
+
+        builder.UseWhen(context => context.Request.Path.StartsWithSegments(apiPrefix) && solution.Domain is not null,
+            appBuilder =>
+            {
+                if (SecureGeneratedEndPointsMiddleware.IsApplicable(solution))
+                {
+                    appBuilder.UseMiddleware<SecureGeneratedEndPointsMiddleware>();
+                    logger.LogInformation("Using SecureGeneratedEndPointsMiddleware middleware");
+                }
+                else
+                {
+                    logger.LogInformation("Skipping SecureGeneratedEndPointsMiddleware middleware");
+                }
+                if (RelatedEntityRoutingMiddleware.IsApplicable(solution))
+                {
+                    appBuilder.UseMiddleware<RelatedEntityRoutingMiddleware>();
+                    logger.LogInformation("Using RelatedEntityRoutingMiddleware middleware");
+                }
+                else
+                {
+                    logger.LogInformation("Skipping RelatedEntityRoutingMiddleware middleware");
+                }
+                if (ApiRoutingMiddleware.IsApplicable(solution))
+                {
+                    appBuilder.UseMiddleware<ApiRoutingMiddleware>();
+                    logger.LogInformation("Using ApiRoutingMiddleware  middleware");
+                }
+                else
+                {
+                    logger.LogInformation("Skipping ApiRoutingMiddleware middleware");
+                }
+            });
+
+        builder.UseRouting();
 
         if (_useODataRouteDebug)
         {
@@ -103,7 +125,7 @@ internal class NoxUseOptions : INoxUseOptions
         {
             builder.ApplicationServices.UseEtlBox(_useEtlBoxCheckLicense);
         }
-        if(_useNoxElasticMonitoring)
+        if (_useNoxElasticMonitoring)
         {
             builder.UseNoxAllElasticApm();
         }
@@ -124,5 +146,28 @@ internal class NoxUseOptions : INoxUseOptions
             .GetService<INoxIntegrationContext>();
 
         integrationContext?.ExecuteStartupIntegrations();
+    }
+
+    private void ConfigureHealthChecks(IApplicationBuilder builder)
+    {
+        if (_useHealthChecks && builder is IEndpointRouteBuilder endpointRouteBuilder)
+        {
+            // aggregates all IHealthChecks...
+            endpointRouteBuilder.MapHealthChecks("/healthz", new HealthCheckOptions
+            {
+                Predicate = healthCheck => !healthCheck.Tags.Contains("ready")
+            });
+            //liveness probe
+            //No Custom Health Check, service is live
+            endpointRouteBuilder.MapHealthChecks("/healthz/live", new HealthCheckOptions
+            {
+                Predicate = _ => false
+            });
+            //readiness probe
+            endpointRouteBuilder.MapHealthChecks("/healthz/ready", new HealthCheckOptions
+            {
+                Predicate = healthCheck => healthCheck.Tags.Contains("ready")
+            });
+        }
     }
 }

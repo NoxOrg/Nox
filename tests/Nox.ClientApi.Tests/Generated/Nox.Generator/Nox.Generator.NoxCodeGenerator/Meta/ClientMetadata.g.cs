@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace ClientApi.Domain;
 
@@ -49,13 +50,8 @@ public partial class ClientMetadata
         public static Nox.Types.Guid CreateStoreId(System.Guid value)
             => Nox.Types.Guid.From(value);
         
-
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Client")
-                .GetAttributeByName("Name")?
-                .UserInterface;
+        public static TypeUserInterface? NameUiOptions {get; private set;} = null; 
 }

@@ -28,7 +28,7 @@ public partial class EntityUniqueConstraintsWithForeignKeysController : EntityUn
 {
     public EntityUniqueConstraintsWithForeignKeysController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
 
     public EntityUniqueConstraintsWithForeignKeysControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateEntityUniqueConstraintsWithForeignKeyCommand(key, entityUniqueConstraintsWithForeignKey, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKey", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateEntityUniqueConstraintsWithForeignKeyCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKey", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetEntityUniqueConstraintsWithForeignKeyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class EntityUniqueConstraintsWithForeignKeysControllerBa
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteEntityUniqueConstraintsWithForeignKeyByIdCommand(new List<EntityUniqueConstraintsWithForeignKeyKeyDto> { new EntityUniqueConstraintsWithForeignKeyKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKey", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

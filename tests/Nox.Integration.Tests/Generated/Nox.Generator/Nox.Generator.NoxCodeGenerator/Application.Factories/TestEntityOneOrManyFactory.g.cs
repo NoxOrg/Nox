@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,32 +27,28 @@ internal partial class TestEntityOneOrManyFactory : TestEntityOneOrManyFactoryBa
 {
     public TestEntityOneOrManyFactory
     (
-        IRepository repository
-    ) : base( repository)
+    ) : base()
     {}
 }
 
 internal abstract class TestEntityOneOrManyFactoryBase : IEntityFactory<TestEntityOneOrManyEntity, TestEntityOneOrManyCreateDto, TestEntityOneOrManyUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
     public TestEntityOneOrManyFactoryBase(
-        IRepository repository
         )
     {
-        _repository = repository;
     }
 
-    public virtual async Task<TestEntityOneOrManyEntity> CreateEntityAsync(TestEntityOneOrManyCreateDto createDto)
+    public virtual async Task<TestEntityOneOrManyEntity> CreateEntityAsync(TestEntityOneOrManyCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-            return await ToEntityAsync(createDto);
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TestEntityOneOrManyEntity));
         }        
     }
 
@@ -64,52 +60,55 @@ internal abstract class TestEntityOneOrManyFactoryBase : IEntityFactory<TestEnti
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TestEntityOneOrManyEntity));
         }   
     }
 
-    public virtual void PartialUpdateEntity(TestEntityOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(TestEntityOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TestEntityOneOrManyEntity));
         }   
     }
 
-    private async Task<TestWebApp.Domain.TestEntityOneOrMany> ToEntityAsync(TestEntityOneOrManyCreateDto createDto)
+    private async Task<TestWebApp.Domain.TestEntityOneOrMany> ToEntityAsync(TestEntityOneOrManyCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.TestEntityOneOrMany();
-        entity.Id = TestEntityOneOrManyMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
-        entity.SetIfNotNull(createDto.TextTestField, (entity) => entity.TextTestField = 
-            TestWebApp.Domain.TestEntityOneOrManyMetadata.CreateTextTestField(createDto.TextTestField.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Id",() => entity.Id = TestEntityOneOrManyMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
+        exceptionCollector.Collect("TextTestField", () => entity.SetIfNotNull(createDto.TextTestField, (entity) => entity.TextTestField = 
+            TestWebApp.Domain.TestEntityOneOrManyMetadata.CreateTextTestField(createDto.TextTestField.NonNullValue<System.String>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(TestEntityOneOrManyEntity entity, TestEntityOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.TextTestField = TestWebApp.Domain.TestEntityOneOrManyMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        exceptionCollector.Collect("TextTestField",() => entity.TextTestField = TestWebApp.Domain.TestEntityOneOrManyMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>()));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(TestEntityOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("TextTestField", out var TextTestFieldUpdateValue))
         {
-            if (TextTestFieldUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(TextTestFieldUpdateValue, "Attribute 'TextTestField' can't be null.");
             {
-                throw new ArgumentException("Attribute 'TextTestField' can't be null");
-            }
-            {
-                entity.TextTestField = TestWebApp.Domain.TestEntityOneOrManyMetadata.CreateTextTestField(TextTestFieldUpdateValue);
+                exceptionCollector.Collect("TextTestField",() =>entity.TextTestField = TestWebApp.Domain.TestEntityOneOrManyMetadata.CreateTextTestField(TextTestFieldUpdateValue));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 }

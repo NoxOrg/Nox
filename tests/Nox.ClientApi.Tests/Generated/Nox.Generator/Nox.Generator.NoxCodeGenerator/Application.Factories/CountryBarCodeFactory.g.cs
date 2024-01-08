@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,32 +27,28 @@ internal partial class CountryBarCodeFactory : CountryBarCodeFactoryBase
 {
     public CountryBarCodeFactory
     (
-        IRepository repository
-    ) : base( repository)
+    ) : base()
     {}
 }
 
 internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCodeEntity, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
     public CountryBarCodeFactoryBase(
-        IRepository repository
         )
     {
-        _repository = repository;
     }
 
-    public virtual async Task<CountryBarCodeEntity> CreateEntityAsync(CountryBarCodeUpsertDto createDto)
+    public virtual async Task<CountryBarCodeEntity> CreateEntityAsync(CountryBarCodeUpsertDto createDto, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-            return await ToEntityAsync(createDto);
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryBarCodeEntity));
         }        
     }
 
@@ -64,57 +60,62 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryBarCodeEntity));
         }   
     }
 
-    public virtual void PartialUpdateEntity(CountryBarCodeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(CountryBarCodeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryBarCodeEntity));
         }   
     }
 
-    private async Task<ClientApi.Domain.CountryBarCode> ToEntityAsync(CountryBarCodeUpsertDto createDto)
+    private async Task<ClientApi.Domain.CountryBarCode> ToEntityAsync(CountryBarCodeUpsertDto createDto, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.CountryBarCode();
-        entity.SetIfNotNull(createDto.BarCodeName, (entity) => entity.BarCodeName = 
-            ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(createDto.BarCodeName.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.BarCodeNumber, (entity) => entity.BarCodeNumber = 
-            ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(createDto.BarCodeNumber.NonNullValue<System.Int32>()));
+        exceptionCollector.Collect("BarCodeName", () => entity.SetIfNotNull(createDto.BarCodeName, (entity) => entity.BarCodeName = 
+            ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(createDto.BarCodeName.NonNullValue<System.String>())));
+        exceptionCollector.Collect("BarCodeNumber", () => entity.SetIfNotNull(createDto.BarCodeNumber, (entity) => entity.BarCodeNumber = 
+            ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(createDto.BarCodeNumber.NonNullValue<System.Int32>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(CountryBarCodeEntity entity, CountryBarCodeUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(updateDto.BarCodeName.NonNullValue<System.String>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        exceptionCollector.Collect("BarCodeName",() => entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(updateDto.BarCodeName.NonNullValue<System.String>()));
         if(updateDto.BarCodeNumber is null)
         {
              entity.BarCodeNumber = null;
         }
         else
         {
-            entity.BarCodeNumber = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(updateDto.BarCodeNumber.ToValueFromNonNull<System.Int32>());
+            exceptionCollector.Collect("BarCodeNumber",() =>entity.BarCodeNumber = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(updateDto.BarCodeNumber.ToValueFromNonNull<System.Int32>()));
         }
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(CountryBarCodeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("BarCodeName", out var BarCodeNameUpdateValue))
         {
-            if (BarCodeNameUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(BarCodeNameUpdateValue, "Attribute 'BarCodeName' can't be null.");
             {
-                throw new ArgumentException("Attribute 'BarCodeName' can't be null");
-            }
-            {
-                entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(BarCodeNameUpdateValue);
+                exceptionCollector.Collect("BarCodeName",() =>entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(BarCodeNameUpdateValue));
             }
         }
 
@@ -123,11 +124,9 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
             if (BarCodeNumberUpdateValue == null) { entity.BarCodeNumber = null; }
             else
             {
-                entity.BarCodeNumber = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(BarCodeNumberUpdateValue);
+                exceptionCollector.Collect("BarCodeNumber",() =>entity.BarCodeNumber = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(BarCodeNumberUpdateValue));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 }

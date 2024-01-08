@@ -49,6 +49,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CountryDto>().ContainsMany(e => e.CountryTimeZones).AutoExpand = true;
         builder.EntityType<CountryDto>().ContainsMany(e => e.Holidays).AutoExpand = true;
         builder.EntityType<CountryDto>().ContainsMany(e => e.Workplaces);
+        builder.EntityType<CountryDto>().ContainsMany(e => e.Stores);
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CountryDto>().Ignore(e => e.Etag);
 
@@ -66,6 +67,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<StoreDto>("Stores");
 		builder.EntityType<StoreDto>().HasKey(e => new { e.Id });
         builder.EntityType<StoreDto>().ContainsOptional(e => e.EmailAddress).AutoExpand = true;
+        builder.EntityType<StoreDto>().ContainsOptional(e => e.Country);
         builder.EntityType<StoreDto>().ContainsOptional(e => e.StoreOwner);
         builder.EntityType<StoreDto>().ContainsOptional(e => e.StoreLicense);
         builder.EntityType<StoreDto>().ContainsMany(e => e.Clients);

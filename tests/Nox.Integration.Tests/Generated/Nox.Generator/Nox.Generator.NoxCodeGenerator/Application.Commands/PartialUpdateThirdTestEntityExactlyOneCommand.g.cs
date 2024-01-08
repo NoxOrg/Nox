@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -16,7 +17,7 @@ using ThirdTestEntityExactlyOneEntity = TestWebApp.Domain.ThirdTestEntityExactly
 
 namespace TestWebApp.Application.Commands;
 
-public partial record PartialUpdateThirdTestEntityExactlyOneCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <ThirdTestEntityExactlyOneKeyDto?>;
+public partial record PartialUpdateThirdTestEntityExactlyOneCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <ThirdTestEntityExactlyOneKeyDto>;
 
 internal partial class PartialUpdateThirdTestEntityExactlyOneCommandHandler : PartialUpdateThirdTestEntityExactlyOneCommandHandlerBase
 {
@@ -28,11 +29,11 @@ internal partial class PartialUpdateThirdTestEntityExactlyOneCommandHandler : Pa
 	{
 	}
 }
-internal abstract class PartialUpdateThirdTestEntityExactlyOneCommandHandlerBase : CommandBase<PartialUpdateThirdTestEntityExactlyOneCommand, ThirdTestEntityExactlyOneEntity>, IRequestHandler<PartialUpdateThirdTestEntityExactlyOneCommand, ThirdTestEntityExactlyOneKeyDto?>
+internal abstract class PartialUpdateThirdTestEntityExactlyOneCommandHandlerBase : CommandBase<PartialUpdateThirdTestEntityExactlyOneCommand, ThirdTestEntityExactlyOneEntity>, IRequestHandler<PartialUpdateThirdTestEntityExactlyOneCommand, ThirdTestEntityExactlyOneKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<ThirdTestEntityExactlyOneEntity, ThirdTestEntityExactlyOneCreateDto, ThirdTestEntityExactlyOneUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateThirdTestEntityExactlyOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateThirdTestEntityExactlyOneCommandHandlerBase
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<ThirdTestEntityExactlyOneKeyDto?> Handle(PartialUpdateThirdTestEntityExactlyOneCommand request, CancellationToken cancellationToken)
+	public virtual async Task<ThirdTestEntityExactlyOneKeyDto> Handle(PartialUpdateThirdTestEntityExactlyOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,9 +53,9 @@ internal abstract class PartialUpdateThirdTestEntityExactlyOneCommandHandlerBase
 		var entity = await DbContext.ThirdTestEntityExactlyOnes.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("ThirdTestEntityExactlyOne",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

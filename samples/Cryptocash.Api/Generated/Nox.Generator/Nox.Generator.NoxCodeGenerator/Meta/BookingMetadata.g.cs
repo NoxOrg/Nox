@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace Cryptocash.Domain;
 
@@ -109,76 +110,100 @@ public partial class BookingMetadata
         public static Nox.Types.Guid CreateCommissionId(System.Guid value)
             => Nox.Types.Guid.From(value);
         
-
         /// <summary>
         /// User Interface for property 'AmountFrom'
         /// </summary>
-        public static TypeUserInterface? AmountFromUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Booking")
-                .GetAttributeByName("AmountFrom")?
-                .UserInterface;
-
+        public static TypeUserInterface? AmountFromUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'AmountTo'
         /// </summary>
-        public static TypeUserInterface? AmountToUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Booking")
-                .GetAttributeByName("AmountTo")?
-                .UserInterface;
-
+        public static TypeUserInterface? AmountToUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'RequestedPickUpDate'
         /// </summary>
-        public static TypeUserInterface? RequestedPickUpDateUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Booking")
-                .GetAttributeByName("RequestedPickUpDate")?
-                .UserInterface;
-
+        public static TypeUserInterface? RequestedPickUpDateUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'PickedUpDateTime'
         /// </summary>
-        public static TypeUserInterface? PickedUpDateTimeUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Booking")
-                .GetAttributeByName("PickedUpDateTime")?
-                .UserInterface;
-
+        public static TypeUserInterface? PickedUpDateTimeUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'ExpiryDateTime'
         /// </summary>
-        public static TypeUserInterface? ExpiryDateTimeUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Booking")
-                .GetAttributeByName("ExpiryDateTime")?
-                .UserInterface;
-
+        public static TypeUserInterface? ExpiryDateTimeUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'CancelledDateTime'
         /// </summary>
-        public static TypeUserInterface? CancelledDateTimeUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Booking")
-                .GetAttributeByName("CancelledDateTime")?
-                .UserInterface;
-
+        public static TypeUserInterface? CancelledDateTimeUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'Status'
         /// </summary>
-        public static TypeUserInterface? StatusUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Booking")
-                .GetAttributeByName("Status")?
-                .UserInterface;
-
+        public static TypeUserInterface? StatusUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'VatNumber'
         /// </summary>
-        public static TypeUserInterface? VatNumberUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Booking")
-                .GetAttributeByName("VatNumber")?
-                .UserInterface;
+        public static TypeUserInterface? VatNumberUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
 }

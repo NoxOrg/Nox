@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -37,10 +38,6 @@ public abstract partial class TestEntityExactlyOneToZeroOrManiesControllerBase :
         }
         
         var createdRef = await _mediator.Send(new CreateRefTestEntityExactlyOneToZeroOrManyToTestEntityZeroOrManyToExactlyOneCommand(new TestEntityExactlyOneToZeroOrManyKeyDto(key), new TestEntityZeroOrManyToExactlyOneKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -50,7 +47,7 @@ public abstract partial class TestEntityExactlyOneToZeroOrManiesControllerBase :
         var entity = (await _mediator.Send(new GetTestEntityExactlyOneToZeroOrManyByIdQuery(key))).Include(x => x.TestEntityZeroOrManyToExactlyOne).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityExactlyOneToZeroOrMany", $"{key.ToString()}");
         }
         
         if (entity.TestEntityZeroOrManyToExactlyOne is null)
@@ -97,15 +94,34 @@ public abstract partial class TestEntityExactlyOneToZeroOrManiesControllerBase :
         var related = (await _mediator.Send(new GetTestEntityExactlyOneToZeroOrManyByIdQuery(key))).Select(x => x.TestEntityZeroOrManyToExactlyOne).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityZeroOrManyToExactlyOne", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateTestEntityZeroOrManyToExactlyOneCommand(related.Id, testEntityZeroOrManyToExactlyOne, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetTestEntityZeroOrManyToExactlyOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<TestEntityZeroOrManyToExactlyOneDto>> PatchToTestEntityZeroOrManyToExactlyOne(System.String key, [FromBody] Delta<TestEntityZeroOrManyToExactlyOnePartialUpdateDto> testEntityZeroOrManyToExactlyOne)
+    {
+        if (!ModelState.IsValid || testEntityZeroOrManyToExactlyOne is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetTestEntityExactlyOneToZeroOrManyByIdQuery(key))).Select(x => x.TestEntityZeroOrManyToExactlyOne).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("TestEntityZeroOrManyToExactlyOne", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<TestEntityZeroOrManyToExactlyOnePartialUpdateDto>(testEntityZeroOrManyToExactlyOne);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTestEntityZeroOrManyToExactlyOneCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetTestEntityZeroOrManyToExactlyOneByIdQuery(updated.keyId))).SingleOrDefault();
         

@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
@@ -49,7 +50,7 @@ internal record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEv
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class VendingMachineBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Vending machine unique identifier    
@@ -268,6 +269,7 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
         MinimumCashStocks.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

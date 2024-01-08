@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,32 +27,28 @@ internal partial class CountryQualityOfLifeIndexFactory : CountryQualityOfLifeIn
 {
     public CountryQualityOfLifeIndexFactory
     (
-        IRepository repository
-    ) : base( repository)
+    ) : base()
     {}
 }
 
 internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
     public CountryQualityOfLifeIndexFactoryBase(
-        IRepository repository
         )
     {
-        _repository = repository;
     }
 
-    public virtual async Task<CountryQualityOfLifeIndexEntity> CreateEntityAsync(CountryQualityOfLifeIndexCreateDto createDto)
+    public virtual async Task<CountryQualityOfLifeIndexEntity> CreateEntityAsync(CountryQualityOfLifeIndexCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-            return await ToEntityAsync(createDto);
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryQualityOfLifeIndexEntity));
         }        
     }
 
@@ -64,52 +60,55 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryQualityOfLifeIndexEntity));
         }   
     }
 
-    public virtual void PartialUpdateEntity(CountryQualityOfLifeIndexEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(CountryQualityOfLifeIndexEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryQualityOfLifeIndexEntity));
         }   
     }
 
-    private async Task<ClientApi.Domain.CountryQualityOfLifeIndex> ToEntityAsync(CountryQualityOfLifeIndexCreateDto createDto)
+    private async Task<ClientApi.Domain.CountryQualityOfLifeIndex> ToEntityAsync(CountryQualityOfLifeIndexCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.CountryQualityOfLifeIndex();
-        entity.CountryId = CountryQualityOfLifeIndexMetadata.CreateCountryId(createDto.CountryId.NonNullValue<System.Int64>());
-        entity.SetIfNotNull(createDto.IndexRating, (entity) => entity.IndexRating = 
-            ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(createDto.IndexRating.NonNullValue<System.Int32>()));
+        exceptionCollector.Collect("CountryId",() => entity.CountryId = CountryQualityOfLifeIndexMetadata.CreateCountryId(createDto.CountryId.NonNullValue<System.Int64>()));
+        exceptionCollector.Collect("IndexRating", () => entity.SetIfNotNull(createDto.IndexRating, (entity) => entity.IndexRating = 
+            ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(createDto.IndexRating.NonNullValue<System.Int32>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(CountryQualityOfLifeIndexEntity entity, CountryQualityOfLifeIndexUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(updateDto.IndexRating.NonNullValue<System.Int32>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        exceptionCollector.Collect("IndexRating",() => entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(updateDto.IndexRating.NonNullValue<System.Int32>()));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(CountryQualityOfLifeIndexEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("IndexRating", out var IndexRatingUpdateValue))
         {
-            if (IndexRatingUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(IndexRatingUpdateValue, "Attribute 'IndexRating' can't be null.");
             {
-                throw new ArgumentException("Attribute 'IndexRating' can't be null");
-            }
-            {
-                entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(IndexRatingUpdateValue);
+                exceptionCollector.Collect("IndexRating",() =>entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(IndexRatingUpdateValue));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 }

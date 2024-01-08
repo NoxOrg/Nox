@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -37,10 +38,6 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
         }
         
         var createdRef = await _mediator.Send(new CreateRefThirdTestEntityZeroOrManyToThirdTestEntityOneOrManiesCommand(new ThirdTestEntityZeroOrManyKeyDto(key), new ThirdTestEntityOneOrManyKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -55,10 +52,6 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
         
         var relatedKeysDto = referencesDto.References.Select(x => new ThirdTestEntityOneOrManyKeyDto(x)).ToList();
         var updatedRef = await _mediator.Send(new UpdateRefThirdTestEntityZeroOrManyToThirdTestEntityOneOrManiesCommand(new ThirdTestEntityZeroOrManyKeyDto(key), relatedKeysDto));
-        if (!updatedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -68,7 +61,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
         var entity = (await _mediator.Send(new GetThirdTestEntityZeroOrManyByIdQuery(key))).Include(x => x.ThirdTestEntityOneOrManies).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("ThirdTestEntityZeroOrMany", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -87,10 +80,6 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefThirdTestEntityZeroOrManyToThirdTestEntityOneOrManiesCommand(new ThirdTestEntityZeroOrManyKeyDto(key), new ThirdTestEntityOneOrManyKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -103,10 +92,6 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefThirdTestEntityZeroOrManyToThirdTestEntityOneOrManiesCommand(new ThirdTestEntityZeroOrManyKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -132,7 +117,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
         var query = await _mediator.Send(new GetThirdTestEntityZeroOrManyByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("ThirdTestEntityZeroOrMany", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.ThirdTestEntityOneOrManies).SelectMany(x => x.ThirdTestEntityOneOrManies));
     }
@@ -160,15 +145,35 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
         var related = (await _mediator.Send(new GetThirdTestEntityZeroOrManyByIdQuery(key))).SelectMany(x => x.ThirdTestEntityOneOrManies).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("ThirdTestEntityOneOrManies", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateThirdTestEntityOneOrManyCommand(relatedKey, thirdTestEntityOneOrMany, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/v1/ThirdTestEntityZeroOrManies/{key}/ThirdTestEntityOneOrManies/{relatedKey}")]
+    public virtual async Task<ActionResult<ThirdTestEntityOneOrManyDto>> PatchtoThirdTestEntityOneOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] Delta<ThirdTestEntityOneOrManyPartialUpdateDto> thirdTestEntityOneOrMany)
+    {
+        if (!ModelState.IsValid || thirdTestEntityOneOrMany is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetThirdTestEntityZeroOrManyByIdQuery(key))).SelectMany(x => x.ThirdTestEntityOneOrManies).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("ThirdTestEntityOneOrManies", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<ThirdTestEntityOneOrManyPartialUpdateDto>(thirdTestEntityOneOrMany);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateThirdTestEntityOneOrManyCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -186,15 +191,11 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
         var related = (await _mediator.Send(new GetThirdTestEntityZeroOrManyByIdQuery(key))).SelectMany(x => x.ThirdTestEntityOneOrManies).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("ThirdTestEntityOneOrManies", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteThirdTestEntityOneOrManyByIdCommand(new List<ThirdTestEntityOneOrManyKeyDto> { new ThirdTestEntityOneOrManyKeyDto(relatedKey) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -210,7 +211,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
         var related = (await _mediator.Send(new GetThirdTestEntityZeroOrManyByIdQuery(key))).Select(x => x.ThirdTestEntityOneOrManies).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("ThirdTestEntityZeroOrMany", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();

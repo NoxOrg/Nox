@@ -1,5 +1,4 @@
-﻿﻿
-// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
@@ -20,7 +20,7 @@ using TestWebApp.Application.Dto;
 using SecondTestEntityOwnedRelationshipZeroOrOneEntity = TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOne;
 
 namespace TestWebApp.Application.Commands;
-public partial record CreateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(TestEntityOwnedRelationshipZeroOrOneKeyDto ParentKeyDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <SecondTestEntityOwnedRelationshipZeroOrOneKeyDto?>;
+public partial record CreateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(TestEntityOwnedRelationshipZeroOrOneKeyDto ParentKeyDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <SecondTestEntityOwnedRelationshipZeroOrOneKeyDto>;
 
 internal partial class CreateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommandHandler : CreateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase
 {
@@ -36,7 +36,7 @@ internal abstract class CreateSecondTestEntityOwnedRelationshipZeroOrOneForTestE
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<SecondTestEntityOwnedRelationshipZeroOrOneEntity, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto> _entityFactory;
-
+	
 	protected CreateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -55,21 +55,17 @@ internal abstract class CreateSecondTestEntityOwnedRelationshipZeroOrOneForTestE
 		var parentEntity = await _dbContext.TestEntityOwnedRelationshipZeroOrOnes.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("TestEntityOwnedRelationshipZeroOrOne",  $"{keyId.ToString()}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
+		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefToSecondTestEntityOwnedRelationshipZeroOrOne(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
+		
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new SecondTestEntityOwnedRelationshipZeroOrOneKeyDto();
 	}

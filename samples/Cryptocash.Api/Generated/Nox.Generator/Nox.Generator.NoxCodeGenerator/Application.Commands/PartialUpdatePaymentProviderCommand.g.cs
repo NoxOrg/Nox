@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -16,7 +17,7 @@ using PaymentProviderEntity = Cryptocash.Domain.PaymentProvider;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record PartialUpdatePaymentProviderCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <PaymentProviderKeyDto?>;
+public partial record PartialUpdatePaymentProviderCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <PaymentProviderKeyDto>;
 
 internal partial class PartialUpdatePaymentProviderCommandHandler : PartialUpdatePaymentProviderCommandHandlerBase
 {
@@ -28,11 +29,11 @@ internal partial class PartialUpdatePaymentProviderCommandHandler : PartialUpdat
 	{
 	}
 }
-internal abstract class PartialUpdatePaymentProviderCommandHandlerBase : CommandBase<PartialUpdatePaymentProviderCommand, PaymentProviderEntity>, IRequestHandler<PartialUpdatePaymentProviderCommand, PaymentProviderKeyDto?>
+internal abstract class PartialUpdatePaymentProviderCommandHandlerBase : CommandBase<PartialUpdatePaymentProviderCommand, PaymentProviderEntity>, IRequestHandler<PartialUpdatePaymentProviderCommand, PaymentProviderKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdatePaymentProviderCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -43,7 +44,7 @@ internal abstract class PartialUpdatePaymentProviderCommandHandlerBase : Command
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<PaymentProviderKeyDto?> Handle(PartialUpdatePaymentProviderCommand request, CancellationToken cancellationToken)
+	public virtual async Task<PaymentProviderKeyDto> Handle(PartialUpdatePaymentProviderCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,9 +53,9 @@ internal abstract class PartialUpdatePaymentProviderCommandHandlerBase : Command
 		var entity = await DbContext.PaymentProviders.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("PaymentProvider",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

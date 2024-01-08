@@ -1,5 +1,4 @@
-﻿﻿
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -9,13 +8,15 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using BankNoteEntity = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Commands;
-public partial record PartialUpdateBankNotesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
+public partial record PartialUpdateBankNotesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <BankNoteKeyDto>;
 internal partial class PartialUpdateBankNotesForCurrencyCommandHandler: PartialUpdateBankNotesForCurrencyCommandHandlerBase
 {
 	public PartialUpdateBankNotesForCurrencyCommandHandler(
@@ -26,11 +27,11 @@ internal partial class PartialUpdateBankNotesForCurrencyCommandHandler: PartialU
 	{
 	}
 }
-internal abstract class PartialUpdateBankNotesForCurrencyCommandHandlerBase: CommandBase<PartialUpdateBankNotesForCurrencyCommand, BankNoteEntity>, IRequestHandler <PartialUpdateBankNotesForCurrencyCommand, BankNoteKeyDto?>
+internal abstract class PartialUpdateBankNotesForCurrencyCommandHandlerBase: CommandBase<PartialUpdateBankNotesForCurrencyCommand, BankNoteEntity>, IRequestHandler <PartialUpdateBankNotesForCurrencyCommand, BankNoteKeyDto>
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> _entityFactory;
-
+	
 	protected PartialUpdateBankNotesForCurrencyCommandHandlerBase(
 		AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -41,7 +42,7 @@ internal abstract class PartialUpdateBankNotesForCurrencyCommandHandlerBase: Com
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<BankNoteKeyDto?> Handle(PartialUpdateBankNotesForCurrencyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<BankNoteKeyDto> Handle(PartialUpdateBankNotesForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -50,27 +51,24 @@ internal abstract class PartialUpdateBankNotesForCurrencyCommandHandlerBase: Com
 		var parentEntity = await _dbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Currency",  $"{keyId.ToString()}");
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.BankNotes).LoadAsync(cancellationToken);
 		var ownedId = Cryptocash.Domain.BankNoteMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Currency.BankNotes", $"{ownedId.ToString()}");
 		}
 
-		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
+		
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new BankNoteKeyDto(entity.Id.Value);
 	}

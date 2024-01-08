@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
@@ -49,7 +50,7 @@ internal record TestEntityZeroOrOneToZeroOrManyDeleted(TestEntityZeroOrOneToZero
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-internal abstract partial class TestEntityZeroOrOneToZeroOrManyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityZeroOrOneToZeroOrManyBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -115,6 +116,7 @@ internal abstract partial class TestEntityZeroOrOneToZeroOrManyBase : AuditableE
         TestEntityZeroOrManyToZeroOrOneId = null;
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

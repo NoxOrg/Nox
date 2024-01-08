@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
@@ -49,7 +50,7 @@ internal record CountryDeleted(Country Country) : IDomainEvent, INotification;
 /// <summary>
 /// Country Entity Country representation for the Client API tests.
 /// </summary>
-internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CountryBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// The unique identifier    
@@ -188,6 +189,32 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     public virtual void DeleteAllRefToWorkplaces()
     {
         Workplaces.Clear();
+    }
+
+    /// <summary>
+    /// Country Country stores ZeroOrMany Stores
+    /// </summary>
+    public virtual List<Store> Stores { get; private set; } = new();
+
+    public virtual void CreateRefToStores(Store relatedStore)
+    {
+        Stores.Add(relatedStore);
+    }
+
+    public virtual void UpdateRefToStores(List<Store> relatedStore)
+    {
+        Stores.Clear();
+        Stores.AddRange(relatedStore);
+    }
+
+    public virtual void DeleteRefToStores(Store relatedStore)
+    {
+        Stores.Remove(relatedStore);
+    }
+
+    public virtual void DeleteAllRefToStores()
+    {
+        Stores.Clear();
     }﻿
 
     /// <summary>
@@ -333,6 +360,7 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
         Holidays.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

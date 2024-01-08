@@ -5,6 +5,8 @@
 #
 
 apiConfiguration:
+
+  apiGenerateRelatedEndpointsMaxDepth: 5
   
   $ref: ./apiConfiguration/apiConfiguration.nox.yaml
 

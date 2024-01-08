@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateBookingCommand(System.Guid keyId, BookingUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<BookingKeyDto?>;
+public partial record UpdateBookingCommand(System.Guid keyId, BookingUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<BookingKeyDto>;
 
 internal partial class UpdateBookingCommandHandler : UpdateBookingCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateBookingCommandHandler : UpdateBookingCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateBookingCommandHandlerBase : CommandBase<UpdateBookingCommand, BookingEntity>, IRequestHandler<UpdateBookingCommand, BookingKeyDto?>
+internal abstract class UpdateBookingCommandHandlerBase : CommandBase<UpdateBookingCommand, BookingEntity>, IRequestHandler<UpdateBookingCommand, BookingKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> _entityFactory;
-
 	protected UpdateBookingCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateBookingCommandHandlerBase : CommandBase<UpdateBook
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<BookingKeyDto?> Handle(UpdateBookingCommand request, CancellationToken cancellationToken)
+	public virtual async Task<BookingKeyDto> Handle(UpdateBookingCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +55,7 @@ internal abstract class UpdateBookingCommandHandlerBase : CommandBase<UpdateBook
 		var entity = await DbContext.Bookings.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Booking",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +65,6 @@ internal abstract class UpdateBookingCommandHandlerBase : CommandBase<UpdateBook
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new BookingKeyDto(entity.Id.Value);
 	}

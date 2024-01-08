@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace Cryptocash.Domain;
 
@@ -49,22 +50,28 @@ public partial class BankNoteMetadata
         public static Nox.Types.Money CreateValue(IMoney value)
             => Nox.Types.Money.From(value);
         
-
         /// <summary>
         /// User Interface for property 'CashNote'
         /// </summary>
-        public static TypeUserInterface? CashNoteUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("BankNote")
-                .GetAttributeByName("CashNote")?
-                .UserInterface;
-
+        public static TypeUserInterface? CashNoteUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'Value'
         /// </summary>
-        public static TypeUserInterface? ValueUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("BankNote")
-                .GetAttributeByName("Value")?
-                .UserInterface;
+        public static TypeUserInterface? ValueUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
 }

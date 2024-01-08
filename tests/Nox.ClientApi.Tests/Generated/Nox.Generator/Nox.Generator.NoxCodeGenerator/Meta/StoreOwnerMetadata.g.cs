@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace ClientApi.Domain;
 
@@ -127,58 +128,28 @@ public partial class StoreOwnerMetadata
         public static Nox.Types.Text CreateNotes(System.String value)
             => Nox.Types.Text.From(value, NotesTypeOptions);
         
-
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("StoreOwner")
-                .GetAttributeByName("Name")?
-                .UserInterface;
-
+        public static TypeUserInterface? NameUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'TemporaryOwnerName'
         /// </summary>
-        public static TypeUserInterface? TemporaryOwnerNameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("StoreOwner")
-                .GetAttributeByName("TemporaryOwnerName")?
-                .UserInterface;
-
+        public static TypeUserInterface? TemporaryOwnerNameUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'VatNumber'
         /// </summary>
-        public static TypeUserInterface? VatNumberUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("StoreOwner")
-                .GetAttributeByName("VatNumber")?
-                .UserInterface;
-
+        public static TypeUserInterface? VatNumberUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'StreetAddress'
         /// </summary>
-        public static TypeUserInterface? StreetAddressUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("StoreOwner")
-                .GetAttributeByName("StreetAddress")?
-                .UserInterface;
-
+        public static TypeUserInterface? StreetAddressUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'LocalGreeting'
         /// </summary>
-        public static TypeUserInterface? LocalGreetingUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("StoreOwner")
-                .GetAttributeByName("LocalGreeting")?
-                .UserInterface;
-
+        public static TypeUserInterface? LocalGreetingUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'Notes'
         /// </summary>
-        public static TypeUserInterface? NotesUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("StoreOwner")
-                .GetAttributeByName("Notes")?
-                .UserInterface;
+        public static TypeUserInterface? NotesUiOptions {get; private set;} = null; 
 }

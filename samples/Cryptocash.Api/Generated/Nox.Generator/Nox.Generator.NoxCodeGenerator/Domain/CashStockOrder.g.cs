@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
@@ -49,7 +50,7 @@ internal record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEv
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Vending machine's order unique identifier    
@@ -162,6 +163,7 @@ internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntit
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

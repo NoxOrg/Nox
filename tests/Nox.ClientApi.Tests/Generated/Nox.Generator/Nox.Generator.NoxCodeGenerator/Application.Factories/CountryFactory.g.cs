@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,18 +27,17 @@ internal partial class CountryFactory : CountryFactoryBase
 {
     public CountryFactory
     (
+        IRepository repository,
         IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> countrylocalnamefactory,
         IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory,
         IEntityFactory<ClientApi.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
-        IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory,
-        IRepository repository
-    ) : base(countrylocalnamefactory,countrybarcodefactory,countrytimezonefactory,holidayfactory, repository)
+        IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory
+    ) : base(repository, countrylocalnamefactory, countrybarcodefactory, countrytimezonefactory, holidayfactory)
     {}
 }
 
 internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
     protected IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> CountryLocalNameFactory {get;}
     protected IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> CountryBarCodeFactory {get;}
@@ -46,29 +45,30 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
     protected IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> HolidayFactory {get;}
 
     public CountryFactoryBase(
+        IRepository repository,
         IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> countrylocalnamefactory,
         IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory,
         IEntityFactory<ClientApi.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
-        IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory,
-        IRepository repository
+        IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory
         )
     {
+        _repository = repository;
         CountryLocalNameFactory = countrylocalnamefactory;
         CountryBarCodeFactory = countrybarcodefactory;
         CountryTimeZoneFactory = countrytimezonefactory;
         HolidayFactory = holidayfactory;
-        _repository = repository;
     }
 
-    public virtual async Task<CountryEntity> CreateEntityAsync(CountryCreateDto createDto)
+    public virtual async Task<CountryEntity> CreateEntityAsync(CountryCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-            return await ToEntityAsync(createDto);
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryEntity));
         }        
     }
 
@@ -80,77 +80,83 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryEntity));
         }   
     }
 
-    public virtual void PartialUpdateEntity(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(CountryEntity));
         }   
     }
 
-    private async Task<ClientApi.Domain.Country> ToEntityAsync(CountryCreateDto createDto)
+    private async Task<ClientApi.Domain.Country> ToEntityAsync(CountryCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.Country();
-        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            ClientApi.Domain.CountryMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.Population, (entity) => entity.Population = 
-            ClientApi.Domain.CountryMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>()));
-        entity.SetIfNotNull(createDto.CountryDebt, (entity) => entity.CountryDebt = 
-            ClientApi.Domain.CountryMetadata.CreateCountryDebt(createDto.CountryDebt.NonNullValue<MoneyDto>()));
-        entity.SetIfNotNull(createDto.CapitalCityLocation, (entity) => entity.CapitalCityLocation = 
-            ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(createDto.CapitalCityLocation.NonNullValue<LatLongDto>()));
-        entity.SetIfNotNull(createDto.FirstLanguageCode, (entity) => entity.FirstLanguageCode = 
-            ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(createDto.FirstLanguageCode.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.CountryIsoNumeric, (entity) => entity.CountryIsoNumeric = 
-            ClientApi.Domain.CountryMetadata.CreateCountryIsoNumeric(createDto.CountryIsoNumeric.NonNullValue<System.UInt16>()));
-        entity.SetIfNotNull(createDto.CountryIsoAlpha3, (entity) => entity.CountryIsoAlpha3 = 
-            ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(createDto.CountryIsoAlpha3.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.GoogleMapsUrl, (entity) => entity.GoogleMapsUrl = 
-            ClientApi.Domain.CountryMetadata.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.StartOfWeek, (entity) => entity.StartOfWeek = 
-            ClientApi.Domain.CountryMetadata.CreateStartOfWeek(createDto.StartOfWeek.NonNullValue<System.UInt16>()));
-        entity.SetIfNotNull(createDto.Continent, (entity) => entity.Continent = 
-            ClientApi.Domain.CountryMetadata.CreateContinent(createDto.Continent.NonNullValue<System.Int32>()));
-        foreach (var dto in createDto.CountryLocalNames)
+        exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            ClientApi.Domain.CountryMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+        exceptionCollector.Collect("Population", () => entity.SetIfNotNull(createDto.Population, (entity) => entity.Population = 
+            ClientApi.Domain.CountryMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>())));
+        exceptionCollector.Collect("CountryDebt", () => entity.SetIfNotNull(createDto.CountryDebt, (entity) => entity.CountryDebt = 
+            ClientApi.Domain.CountryMetadata.CreateCountryDebt(createDto.CountryDebt.NonNullValue<MoneyDto>())));
+        exceptionCollector.Collect("CapitalCityLocation", () => entity.SetIfNotNull(createDto.CapitalCityLocation, (entity) => entity.CapitalCityLocation = 
+            ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(createDto.CapitalCityLocation.NonNullValue<LatLongDto>())));
+        exceptionCollector.Collect("FirstLanguageCode", () => entity.SetIfNotNull(createDto.FirstLanguageCode, (entity) => entity.FirstLanguageCode = 
+            ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(createDto.FirstLanguageCode.NonNullValue<System.String>())));
+        exceptionCollector.Collect("CountryIsoNumeric", () => entity.SetIfNotNull(createDto.CountryIsoNumeric, (entity) => entity.CountryIsoNumeric = 
+            ClientApi.Domain.CountryMetadata.CreateCountryIsoNumeric(createDto.CountryIsoNumeric.NonNullValue<System.UInt16>())));
+        exceptionCollector.Collect("CountryIsoAlpha3", () => entity.SetIfNotNull(createDto.CountryIsoAlpha3, (entity) => entity.CountryIsoAlpha3 = 
+            ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(createDto.CountryIsoAlpha3.NonNullValue<System.String>())));
+        exceptionCollector.Collect("GoogleMapsUrl", () => entity.SetIfNotNull(createDto.GoogleMapsUrl, (entity) => entity.GoogleMapsUrl = 
+            ClientApi.Domain.CountryMetadata.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>())));
+        exceptionCollector.Collect("StartOfWeek", () => entity.SetIfNotNull(createDto.StartOfWeek, (entity) => entity.StartOfWeek = 
+            ClientApi.Domain.CountryMetadata.CreateStartOfWeek(createDto.StartOfWeek.NonNullValue<System.UInt16>())));
+        exceptionCollector.Collect("Continent", () => entity.SetIfNotNull(createDto.Continent, (entity) => entity.Continent = 
+            ClientApi.Domain.CountryMetadata.CreateContinent(createDto.Continent.NonNullValue<System.Int32>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
+        createDto.CountryLocalNames?.ForEach(async dto =>
         {
-            var newRelatedEntity = await CountryLocalNameFactory.CreateEntityAsync(dto);
-            entity.CreateRefToCountryLocalNames(newRelatedEntity);
-        }
+            var countryLocalName = await CountryLocalNameFactory.CreateEntityAsync(dto, cultureCode);
+            entity.CreateRefToCountryLocalNames(countryLocalName);
+        });
         if (createDto.CountryBarCode is not null)
         {
-            entity.CreateRefToCountryBarCode(await CountryBarCodeFactory.CreateEntityAsync(createDto.CountryBarCode));
+            var countryBarCode = await CountryBarCodeFactory.CreateEntityAsync(createDto.CountryBarCode, cultureCode);
+            entity.CreateRefToCountryBarCode(countryBarCode);
         }
-        foreach (var dto in createDto.CountryTimeZones)
+        createDto.CountryTimeZones?.ForEach(async dto =>
         {
-            var newRelatedEntity = await CountryTimeZoneFactory.CreateEntityAsync(dto);
-            entity.CreateRefToCountryTimeZones(newRelatedEntity);
-        }
-        foreach (var dto in createDto.Holidays)
+            var countryTimeZone = await CountryTimeZoneFactory.CreateEntityAsync(dto, cultureCode);
+            entity.CreateRefToCountryTimeZones(countryTimeZone);
+        });
+        createDto.Holidays?.ForEach(async dto =>
         {
-            var newRelatedEntity = await HolidayFactory.CreateEntityAsync(dto);
-            entity.CreateRefToHolidays(newRelatedEntity);
-        }
+            var holiday = await HolidayFactory.CreateEntityAsync(dto, cultureCode);
+            entity.CreateRefToHolidays(holiday);
+        });        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.Name = ClientApi.Domain.CountryMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        exceptionCollector.Collect("Name",() => entity.Name = ClientApi.Domain.CountryMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
         if(updateDto.Population is null)
         {
              entity.Population = null;
         }
         else
         {
-            entity.Population = ClientApi.Domain.CountryMetadata.CreatePopulation(updateDto.Population.ToValueFromNonNull<System.Int32>());
+            exceptionCollector.Collect("Population",() =>entity.Population = ClientApi.Domain.CountryMetadata.CreatePopulation(updateDto.Population.ToValueFromNonNull<System.Int32>()));
         }
         if(updateDto.CountryDebt is null)
         {
@@ -158,7 +164,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(updateDto.CountryDebt.ToValueFromNonNull<MoneyDto>());
+            exceptionCollector.Collect("CountryDebt",() =>entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(updateDto.CountryDebt.ToValueFromNonNull<MoneyDto>()));
         }
         if(updateDto.CapitalCityLocation is null)
         {
@@ -166,7 +172,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            entity.CapitalCityLocation = ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(updateDto.CapitalCityLocation.ToValueFromNonNull<LatLongDto>());
+            exceptionCollector.Collect("CapitalCityLocation",() =>entity.CapitalCityLocation = ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(updateDto.CapitalCityLocation.ToValueFromNonNull<LatLongDto>()));
         }
         if(updateDto.FirstLanguageCode is null)
         {
@@ -174,7 +180,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            entity.FirstLanguageCode = ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(updateDto.FirstLanguageCode.ToValueFromNonNull<System.String>());
+            exceptionCollector.Collect("FirstLanguageCode",() =>entity.FirstLanguageCode = ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(updateDto.FirstLanguageCode.ToValueFromNonNull<System.String>()));
         }
         if(updateDto.CountryIsoNumeric is null)
         {
@@ -182,7 +188,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            entity.CountryIsoNumeric = ClientApi.Domain.CountryMetadata.CreateCountryIsoNumeric(updateDto.CountryIsoNumeric.ToValueFromNonNull<System.UInt16>());
+            exceptionCollector.Collect("CountryIsoNumeric",() =>entity.CountryIsoNumeric = ClientApi.Domain.CountryMetadata.CreateCountryIsoNumeric(updateDto.CountryIsoNumeric.ToValueFromNonNull<System.UInt16>()));
         }
         if(updateDto.CountryIsoAlpha3 is null)
         {
@@ -190,7 +196,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            entity.CountryIsoAlpha3 = ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(updateDto.CountryIsoAlpha3.ToValueFromNonNull<System.String>());
+            exceptionCollector.Collect("CountryIsoAlpha3",() =>entity.CountryIsoAlpha3 = ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(updateDto.CountryIsoAlpha3.ToValueFromNonNull<System.String>()));
         }
         if(updateDto.GoogleMapsUrl is null)
         {
@@ -198,7 +204,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            entity.GoogleMapsUrl = ClientApi.Domain.CountryMetadata.CreateGoogleMapsUrl(updateDto.GoogleMapsUrl.ToValueFromNonNull<System.String>());
+            exceptionCollector.Collect("GoogleMapsUrl",() =>entity.GoogleMapsUrl = ClientApi.Domain.CountryMetadata.CreateGoogleMapsUrl(updateDto.GoogleMapsUrl.ToValueFromNonNull<System.String>()));
         }
         if(updateDto.StartOfWeek is null)
         {
@@ -206,7 +212,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            entity.StartOfWeek = ClientApi.Domain.CountryMetadata.CreateStartOfWeek(updateDto.StartOfWeek.ToValueFromNonNull<System.UInt16>());
+            exceptionCollector.Collect("StartOfWeek",() =>entity.StartOfWeek = ClientApi.Domain.CountryMetadata.CreateStartOfWeek(updateDto.StartOfWeek.ToValueFromNonNull<System.UInt16>()));
         }
         if(updateDto.Continent is null)
         {
@@ -214,22 +220,22 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            entity.Continent = ClientApi.Domain.CountryMetadata.CreateContinent(updateDto.Continent.ToValueFromNonNull<System.Int32>());
+            exceptionCollector.Collect("Continent",() =>entity.Continent = ClientApi.Domain.CountryMetadata.CreateContinent(updateDto.Continent.ToValueFromNonNull<System.Int32>()));
         }
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
 	    await UpdateOwnedEntitiesAsync(entity, updateDto, cultureCode);
     }
 
     private void PartialUpdateEntityInternal(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
         {
-            if (NameUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                throw new ArgumentException("Attribute 'Name' can't be null");
-            }
-            {
-                entity.Name = ClientApi.Domain.CountryMetadata.CreateName(NameUpdateValue);
+                exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.CountryMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -238,7 +244,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (PopulationUpdateValue == null) { entity.Population = null; }
             else
             {
-                entity.Population = ClientApi.Domain.CountryMetadata.CreatePopulation(PopulationUpdateValue);
+                exceptionCollector.Collect("Population",() =>entity.Population = ClientApi.Domain.CountryMetadata.CreatePopulation(PopulationUpdateValue));
             }
         }
 
@@ -249,7 +255,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             {
                 var entityToUpdate = entity.CountryDebt is null ? new MoneyDto() : entity.CountryDebt.ToDto();
                 MoneyDto.UpdateFromDictionary(entityToUpdate, CountryDebtUpdateValue);
-                entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(entityToUpdate);
+                exceptionCollector.Collect("CountryDebt",() =>entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(entityToUpdate));
             }
         }
 
@@ -260,7 +266,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             {
                 var entityToUpdate = entity.CapitalCityLocation is null ? new LatLongDto() : entity.CapitalCityLocation.ToDto();
                 LatLongDto.UpdateFromDictionary(entityToUpdate, CapitalCityLocationUpdateValue);
-                entity.CapitalCityLocation = ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(entityToUpdate);
+                exceptionCollector.Collect("CapitalCityLocation",() =>entity.CapitalCityLocation = ClientApi.Domain.CountryMetadata.CreateCapitalCityLocation(entityToUpdate));
             }
         }
 
@@ -269,7 +275,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (FirstLanguageCodeUpdateValue == null) { entity.FirstLanguageCode = null; }
             else
             {
-                entity.FirstLanguageCode = ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(FirstLanguageCodeUpdateValue);
+                exceptionCollector.Collect("FirstLanguageCode",() =>entity.FirstLanguageCode = ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(FirstLanguageCodeUpdateValue));
             }
         }
 
@@ -278,7 +284,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (CountryIsoNumericUpdateValue == null) { entity.CountryIsoNumeric = null; }
             else
             {
-                entity.CountryIsoNumeric = ClientApi.Domain.CountryMetadata.CreateCountryIsoNumeric(CountryIsoNumericUpdateValue);
+                exceptionCollector.Collect("CountryIsoNumeric",() =>entity.CountryIsoNumeric = ClientApi.Domain.CountryMetadata.CreateCountryIsoNumeric(CountryIsoNumericUpdateValue));
             }
         }
 
@@ -287,7 +293,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (CountryIsoAlpha3UpdateValue == null) { entity.CountryIsoAlpha3 = null; }
             else
             {
-                entity.CountryIsoAlpha3 = ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(CountryIsoAlpha3UpdateValue);
+                exceptionCollector.Collect("CountryIsoAlpha3",() =>entity.CountryIsoAlpha3 = ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(CountryIsoAlpha3UpdateValue));
             }
         }
 
@@ -296,7 +302,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (GoogleMapsUrlUpdateValue == null) { entity.GoogleMapsUrl = null; }
             else
             {
-                entity.GoogleMapsUrl = ClientApi.Domain.CountryMetadata.CreateGoogleMapsUrl(GoogleMapsUrlUpdateValue);
+                exceptionCollector.Collect("GoogleMapsUrl",() =>entity.GoogleMapsUrl = ClientApi.Domain.CountryMetadata.CreateGoogleMapsUrl(GoogleMapsUrlUpdateValue));
             }
         }
 
@@ -305,7 +311,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (StartOfWeekUpdateValue == null) { entity.StartOfWeek = null; }
             else
             {
-                entity.StartOfWeek = ClientApi.Domain.CountryMetadata.CreateStartOfWeek(StartOfWeekUpdateValue);
+                exceptionCollector.Collect("StartOfWeek",() =>entity.StartOfWeek = ClientApi.Domain.CountryMetadata.CreateStartOfWeek(StartOfWeekUpdateValue));
             }
         }
 
@@ -314,13 +320,11 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (ContinentUpdateValue == null) { entity.Continent = null; }
             else
             {
-                entity.Continent = ClientApi.Domain.CountryMetadata.CreateContinent(ContinentUpdateValue);
+                exceptionCollector.Collect("Continent",() =>entity.Continent = ClientApi.Domain.CountryMetadata.CreateContinent(ContinentUpdateValue));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 
 	private async Task UpdateOwnedEntitiesAsync(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
@@ -335,7 +339,10 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 			foreach(var ownedUpsertDto in updateDto.CountryLocalNames)
 			{
 				if(ownedUpsertDto.Id is null)
-					updatedCountryLocalNames.Add(await CountryLocalNameFactory.CreateEntityAsync(ownedUpsertDto));
+                {
+                    var ownedEntity = await CountryLocalNameFactory.CreateEntityAsync(ownedUpsertDto, cultureCode);
+					updatedCountryLocalNames.Add(ownedEntity);
+                }
 				else
 				{
 					var key = ClientApi.Domain.CountryLocalNameMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
@@ -350,7 +357,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 				}
 			}
             _repository.DeleteOwned<ClientApi.Domain.CountryLocalName>(
-                entity.CountryLocalNames.Where(x => !updatedCountryLocalNames.Any(upd => upd.Id == x.Id)).ToList());
+                entity.CountryLocalNames.Where(x => !updatedCountryLocalNames.Exists(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToCountryLocalNames(updatedCountryLocalNames);
 		}
 		if(updateDto.CountryBarCode is null)
@@ -364,7 +371,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if(entity.CountryBarCode is not null)
                 await CountryBarCodeFactory.UpdateEntityAsync(entity.CountryBarCode, updateDto.CountryBarCode, cultureCode);
             else
-			    entity.CreateRefToCountryBarCode(await CountryBarCodeFactory.CreateEntityAsync(updateDto.CountryBarCode));
+			    entity.CreateRefToCountryBarCode(await CountryBarCodeFactory.CreateEntityAsync(updateDto.CountryBarCode, cultureCode));
 		}
         if(!updateDto.CountryTimeZones.Any())
         { 
@@ -377,13 +384,16 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 			foreach(var ownedUpsertDto in updateDto.CountryTimeZones)
 			{
 				if(ownedUpsertDto.Id is null)
-					updatedCountryTimeZones.Add(await CountryTimeZoneFactory.CreateEntityAsync(ownedUpsertDto));
+                {
+                    var ownedEntity = await CountryTimeZoneFactory.CreateEntityAsync(ownedUpsertDto, cultureCode);
+					updatedCountryTimeZones.Add(ownedEntity);
+                }
 				else
 				{
 					var key = ClientApi.Domain.CountryTimeZoneMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.String>());
 					var ownedEntity = entity.CountryTimeZones.FirstOrDefault(x => x.Id == key);
 					if(ownedEntity is null)
-						updatedCountryTimeZones.Add(await CountryTimeZoneFactory.CreateEntityAsync(ownedUpsertDto));
+						updatedCountryTimeZones.Add(await CountryTimeZoneFactory.CreateEntityAsync(ownedUpsertDto, cultureCode));
 					else
 					{
 						await CountryTimeZoneFactory.UpdateEntityAsync(ownedEntity, ownedUpsertDto, cultureCode);
@@ -392,7 +402,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 				}
 			}
             _repository.DeleteOwned<ClientApi.Domain.CountryTimeZone>(
-                entity.CountryTimeZones.Where(x => !updatedCountryTimeZones.Any(upd => upd.Id == x.Id)).ToList());
+                entity.CountryTimeZones.Where(x => !updatedCountryTimeZones.Exists(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToCountryTimeZones(updatedCountryTimeZones);
 		}
         if(!updateDto.Holidays.Any())
@@ -406,13 +416,16 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 			foreach(var ownedUpsertDto in updateDto.Holidays)
 			{
 				if(ownedUpsertDto.Id is null)
-					updatedHolidays.Add(await HolidayFactory.CreateEntityAsync(ownedUpsertDto));
+                {
+                    var ownedEntity = await HolidayFactory.CreateEntityAsync(ownedUpsertDto, cultureCode);
+					updatedHolidays.Add(ownedEntity);
+                }
 				else
 				{
 					var key = ClientApi.Domain.HolidayMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Guid>());
 					var ownedEntity = entity.Holidays.FirstOrDefault(x => x.Id == key);
 					if(ownedEntity is null)
-						updatedHolidays.Add(await HolidayFactory.CreateEntityAsync(ownedUpsertDto));
+						updatedHolidays.Add(await HolidayFactory.CreateEntityAsync(ownedUpsertDto, cultureCode));
 					else
 					{
 						await HolidayFactory.UpdateEntityAsync(ownedEntity, ownedUpsertDto, cultureCode);
@@ -421,7 +434,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 				}
 			}
             _repository.DeleteOwned<ClientApi.Domain.Holiday>(
-                entity.Holidays.Where(x => !updatedHolidays.Any(upd => upd.Id == x.Id)).ToList());
+                entity.Holidays.Where(x => !updatedHolidays.Exists(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToHolidays(updatedHolidays);
 		}
 	}

@@ -30,14 +30,39 @@ using TestWebApp.Domain;
 
 namespace TestWebApp.Infrastructure.Persistence;
 
-internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase, Nox.Infrastructure.Persistence.IAppDbContext
+internal partial class AppDbContext: AppDbContextBase
+{
+    public AppDbContext(
+           DbContextOptions<AppDbContext> options,
+           IPublisher publisher,
+           NoxSolution noxSolution,
+           INoxDatabaseProvider databaseProvider,
+           INoxClientAssemblyProvider clientAssemblyProvider,
+           IUserProvider userProvider,
+           ISystemProvider systemProvider,
+           NoxCodeGenConventions codeGeneratorState,
+           ILogger<AppDbContext> logger
+       ) : base(
+           options,
+           publisher,
+           noxSolution,
+           databaseProvider,
+           clientAssemblyProvider,
+           userProvider,
+           systemProvider,
+           codeGeneratorState,
+           logger)
+    {}
+}
+
+internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistence.EntityDbContextBase
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
     private readonly NoxCodeGenConventions _codeGenConventions;
 
-    public AppDbContext(
+    public AppDbContextBase(
             DbContextOptions<AppDbContext> options,
             IPublisher publisher,
             NoxSolution noxSolution,
@@ -126,7 +151,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             ConfigureEnumeratedAttributes(modelBuilder, entity);
 
             var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
-            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(modelBuilder, modelBuilder.Entity(type!).ToTable(entity.Persistence.TableName), entity);
+            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(modelBuilder, modelBuilder.Entity(type!).ToTable(entity.Persistence.TableName), entity, _clientAssemblyProvider.ClientAssembly);
 
             if (entity.IsLocalized)
             {
@@ -136,8 +161,8 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             }
         }
 
-        modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
-            builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
+        modelBuilder.ForEntitiesOfType<IEtag>(
+            builder => builder.Property(nameof(IEtag.Etag)).IsConcurrencyToken());
     }
     
     private void ConfigureEnumeratedAttributes(ModelBuilder modelBuilder, Entity entity)

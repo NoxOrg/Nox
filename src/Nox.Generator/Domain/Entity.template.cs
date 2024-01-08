@@ -24,6 +24,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace {{codeGeneratorState.DomainNameSpace}};
 
@@ -72,7 +73,7 @@ internal record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomai
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
+internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEtag{{else}}EntityBase, IEtag{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
 {
 {{- for key in entityKeys }}
     /// <summary>
@@ -375,6 +376,22 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{- end }}
     }
 {{-end}}
+
+    {{ if entity.IsLocalized ~}}
+    /// <summary>
+    /// {{entity.Name}} localized entities.
+    /// </summary>
+    public virtual List<{{entity.Name}}Localized> Localized{{entity.PluralName}}  { get; private set; } = new();
+
+
+	/// <summary>
+	/// Creates a new {{entity.Name}}Localized entity.
+	/// </summary>
+    public virtual void CreateRefToLocalized{{entity.PluralName}}({{entity.Name}}Localized related{{entity.Name}}Localized)
+	{
+		Localized{{entity.PluralName}}.Add(related{{entity.Name}}Localized);
+	}
+    {{ end ~}}
 
 {{ if !entity.IsOwnedEntity ~}}
     /// <summary>

@@ -1,45 +1,53 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-    <PropertyGroup>
-        <PackageId>Nox.Core</PackageId>
-        <Authors>The Nox Factory</Authors>
-        <Description>Nox Core Library for all kinf of applications: WebApis, UI, etc..</Description>
-        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <Copyright>Copyright (c) The Nox Factory 2023</Copyright>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/NoxOrg/Nox.git</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-        <PackageIcon>nox.png</PackageIcon>
-        <RootNamespace>Nox</RootNamespace>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <None Include="../../docs/images/nox.png" Pack="true" PackagePath="" />
-    </ItemGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	<PropertyGroup>
+		<PackageId>Nox.Core</PackageId>
+		<Authors>The Nox Factory</Authors>
+		<Description>Nox Core Library for all kinf of applications: WebApis, UI, etc..</Description>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<Copyright>Copyright (c) The Nox Factory 2023</Copyright>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/NoxOrg/Nox.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageIcon>nox.png</PackageIcon>
+		<RootNamespace>Nox</RootNamespace>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../docs/images/nox.png" Pack="true" PackagePath="" />
+	</ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-    </ItemGroup>
+	<ItemGroup>
+		<InternalsVisibleTo Include="Nox.Lib" />
+		<InternalsVisibleTo Include="Nox.ClientApi.Tests" />
+	</ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
-    </ItemGroup>
-        
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+		<PackageReference Include="MassTransit" Version="8.1.3" />
+		<PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="8.1.3" />
+		<PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.1.3" />
+		<PackageReference Include="CloudNative.CloudEvents" Version="2.7.1" />
+		<PackageReference Include="CloudNative.CloudEvents.SystemTextJson" Version="2.7.1" />
+		<PackageReference Include="MediatR" Version="12.1.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Nox.Types.Extensions\Nox.Types.Extensions.csproj" />
+		<ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
+		<ProjectReference Include="..\Nox.EntityFramework.Postgres\Nox.EntityFramework.Postgres.csproj" />
+		<ProjectReference Include="..\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj" />
+		<ProjectReference Include="..\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
+	</ItemGroup>
+
 </Project>

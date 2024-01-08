@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
@@ -90,4 +91,5 @@ internal abstract partial class SecEntityOwnedRelOneOrManyBase : EntityBase, IOw
         InternalDomainEvents.Clear();
     }
 
+    
 }

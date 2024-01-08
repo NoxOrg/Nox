@@ -28,7 +28,7 @@ public partial class CashStockOrdersController : CashStockOrdersControllerBase
 {
     public CashStockOrdersController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
 
     public CashStockOrdersControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateCashStockOrderCommand(key, cashStockOrder, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("CashStockOrder", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetCashStockOrderByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateCashStockOrderCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("CashStockOrder", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetCashStockOrderByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteCashStockOrderByIdCommand(new List<CashStockOrderKeyDto> { new CashStockOrderKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("CashStockOrder", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

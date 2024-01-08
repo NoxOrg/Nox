@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,32 +27,28 @@ internal partial class EmployeePhoneNumberFactory : EmployeePhoneNumberFactoryBa
 {
     public EmployeePhoneNumberFactory
     (
-        IRepository repository
-    ) : base( repository)
+    ) : base()
     {}
 }
 
 internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
     public EmployeePhoneNumberFactoryBase(
-        IRepository repository
         )
     {
-        _repository = repository;
     }
 
-    public virtual async Task<EmployeePhoneNumberEntity> CreateEntityAsync(EmployeePhoneNumberUpsertDto createDto)
+    public virtual async Task<EmployeePhoneNumberEntity> CreateEntityAsync(EmployeePhoneNumberUpsertDto createDto, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-            return await ToEntityAsync(createDto);
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(EmployeePhoneNumberEntity));
         }        
     }
 
@@ -64,65 +60,65 @@ internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<Employee
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(EmployeePhoneNumberEntity));
         }   
     }
 
-    public virtual void PartialUpdateEntity(EmployeePhoneNumberEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(EmployeePhoneNumberEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(EmployeePhoneNumberEntity));
         }   
     }
 
-    private async Task<Cryptocash.Domain.EmployeePhoneNumber> ToEntityAsync(EmployeePhoneNumberUpsertDto createDto)
+    private async Task<Cryptocash.Domain.EmployeePhoneNumber> ToEntityAsync(EmployeePhoneNumberUpsertDto createDto, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.EmployeePhoneNumber();
-        entity.SetIfNotNull(createDto.PhoneNumberType, (entity) => entity.PhoneNumberType = 
-            Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumberType(createDto.PhoneNumberType.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.PhoneNumber, (entity) => entity.PhoneNumber = 
-            Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumber(createDto.PhoneNumber.NonNullValue<System.String>()));
+        exceptionCollector.Collect("PhoneNumberType", () => entity.SetIfNotNull(createDto.PhoneNumberType, (entity) => entity.PhoneNumberType = 
+            Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumberType(createDto.PhoneNumberType.NonNullValue<System.String>())));
+        exceptionCollector.Collect("PhoneNumber", () => entity.SetIfNotNull(createDto.PhoneNumber, (entity) => entity.PhoneNumber = 
+            Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumber(createDto.PhoneNumber.NonNullValue<System.String>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(EmployeePhoneNumberEntity entity, EmployeePhoneNumberUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumberType(updateDto.PhoneNumberType.NonNullValue<System.String>());
-        entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumber(updateDto.PhoneNumber.NonNullValue<System.String>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        exceptionCollector.Collect("PhoneNumberType",() => entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumberType(updateDto.PhoneNumberType.NonNullValue<System.String>()));
+        exceptionCollector.Collect("PhoneNumber",() => entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumber(updateDto.PhoneNumber.NonNullValue<System.String>()));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(EmployeePhoneNumberEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("PhoneNumberType", out var PhoneNumberTypeUpdateValue))
         {
-            if (PhoneNumberTypeUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(PhoneNumberTypeUpdateValue, "Attribute 'PhoneNumberType' can't be null.");
             {
-                throw new ArgumentException("Attribute 'PhoneNumberType' can't be null");
-            }
-            {
-                entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumberType(PhoneNumberTypeUpdateValue);
+                exceptionCollector.Collect("PhoneNumberType",() =>entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumberType(PhoneNumberTypeUpdateValue));
             }
         }
 
         if (updatedProperties.TryGetValue("PhoneNumber", out var PhoneNumberUpdateValue))
         {
-            if (PhoneNumberUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(PhoneNumberUpdateValue, "Attribute 'PhoneNumber' can't be null.");
             {
-                throw new ArgumentException("Attribute 'PhoneNumber' can't be null");
-            }
-            {
-                entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumber(PhoneNumberUpdateValue);
+                exceptionCollector.Collect("PhoneNumber",() =>entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumber(PhoneNumberUpdateValue));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 }

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Types.Abstractions.Extensions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
@@ -57,13 +58,11 @@ internal abstract class DeleteTestEntityForTypesEnumerationTestFieldsTranslation
 
 public class DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandValidator : AbstractValidator<DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand>
 {
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-
-    public DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandValidator()
+	public DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandValidator(NoxSolution noxSolution)
     {
 		RuleFor(x => x.CultureCode)
-			.Must(x => x != _defaultCultureCode)
-			.WithMessage($"{nameof(DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand)} : {nameof(DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand.CultureCode)} cannot be the default culture code: {_defaultCultureCode.Value}.");
+			.Must(x => x.Value != noxSolution!.Application!.Localization!.DefaultCulture!.ToDisplayName())
+			.WithMessage($"{nameof(DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand)} : {nameof(DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand.CultureCode)} cannot be the default culture code: {noxSolution!.Application!.Localization!.DefaultCulture!.ToDisplayName()}.");
 			
     }
 }

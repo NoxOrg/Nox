@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -28,13 +28,12 @@ internal partial class ForReferenceNumberFactory : ForReferenceNumberFactoryBase
     public ForReferenceNumberFactory
     (
         IRepository repository
-    ) : base( repository)
+    ) : base(repository)
     {}
 }
 
 internal abstract class ForReferenceNumberFactoryBase : IEntityFactory<ForReferenceNumberEntity, ForReferenceNumberCreateDto, ForReferenceNumberUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
 
     public ForReferenceNumberFactoryBase(
@@ -44,15 +43,16 @@ internal abstract class ForReferenceNumberFactoryBase : IEntityFactory<ForRefere
         _repository = repository;
     }
 
-    public virtual async Task<ForReferenceNumberEntity> CreateEntityAsync(ForReferenceNumberCreateDto createDto)
+    public virtual async Task<ForReferenceNumberEntity> CreateEntityAsync(ForReferenceNumberCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-            return await ToEntityAsync(createDto);
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(ForReferenceNumberEntity));
         }        
     }
 
@@ -64,41 +64,47 @@ internal abstract class ForReferenceNumberFactoryBase : IEntityFactory<ForRefere
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(ForReferenceNumberEntity));
         }   
     }
 
-    public virtual void PartialUpdateEntity(ForReferenceNumberEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(ForReferenceNumberEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(ForReferenceNumberEntity));
         }   
     }
 
-    private async Task<TestWebApp.Domain.ForReferenceNumber> ToEntityAsync(ForReferenceNumberCreateDto createDto)
+    private async Task<TestWebApp.Domain.ForReferenceNumber> ToEntityAsync(ForReferenceNumberCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.ForReferenceNumber();
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         var nextSequenceId =  await _repository.GetSequenceNextValueAsync(Nox.Solution.NoxCodeGenConventions.GetDatabaseSequenceName("ForReferenceNumber", "Id"));
         entity.EnsureId(nextSequenceId,TestWebApp.Domain.ForReferenceNumberMetadata.IdTypeOptions);
         var nextSequenceWorkplaceNumber =  await _repository.GetSequenceNextValueAsync(Nox.Solution.NoxCodeGenConventions.GetDatabaseSequenceName("ForReferenceNumber", "WorkplaceNumber"));
-        entity.EnsureWorkplaceNumber(nextSequenceWorkplaceNumber,TestWebApp.Domain.ForReferenceNumberMetadata.WorkplaceNumberTypeOptions);
+        entity.EnsureWorkplaceNumber(nextSequenceWorkplaceNumber,TestWebApp.Domain.ForReferenceNumberMetadata.WorkplaceNumberTypeOptions);        
         return entity;
     }
 
     private async Task UpdateEntityInternalAsync(ForReferenceNumberEntity entity, ForReferenceNumberUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(ForReferenceNumberEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 }

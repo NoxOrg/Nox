@@ -65,6 +65,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine("using Nox.Application;");
             code.AppendLine("using Nox.Application.Dto;");
             code.AppendLine("using Nox.Extensions;");
+            code.AppendLine("using Nox.Exceptions;");
 
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
@@ -144,7 +145,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine();
             foreach (var relationship in entity.OwnedRelationships)
             {
-                if (!relationship.CanManageEntity)
+                if (!relationship.ApiGenerateRelatedEndpoint)
                     continue;
 
                 var child = relationship.Related.Entity;
@@ -153,7 +154,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                 {
                     GenerateChildrenGet(solution, relationship, entity, code);
 
-                    if(!relationship.WithSingleEntity())
+                    if (!relationship.WithSingleEntity())
                         GenerateChildrenGetById(solution, relationship, child, entity, code);
                 }
 
@@ -215,9 +216,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"var child = await TryGet{navigationName}(" +
             $"{GetPrimaryKeysQuery(parent)}, " +
             $"new {child.Name}KeyDto({GetPrimaryKeysQuery(child, "relatedKey")}));");
-        code.AppendLine($"if (child == null)");
+        code.AppendLine($"if (child is null)");
         code.StartBlock();
-        code.AppendLine($"return NotFound();");
+        code.AppendLine($"throw new EntityNotFoundException(\"{child.Name}\", $\"{GetPrimaryKeysToString(child, "relatedKey")}\");");
         code.EndBlock();
         code.AppendLine();
         code.AppendLine($"return Ok(child);");
@@ -248,7 +249,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
         code.AppendLine($"if (item is null)");
         code.StartBlock();
-        code.AppendLine($"return NotFound();");
+        code.AppendLine($"throw new EntityNotFoundException(\"{parent.Name}\", $\"{GetPrimaryKeysToString(parent)}\");");
         code.EndBlock();
         code.AppendLine();
 
@@ -272,13 +273,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"throw new Nox.Exceptions.BadRequestException(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");        
+        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
         code.AppendLine($"var createdKey = await _mediator.Send(new Create{navigationName}For{parent.Name}Command(" +
             $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), {child.Name.ToLowerFirstChar()}, _cultureCode, etag));");
-        code.AppendLine($"if (createdKey == null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
 
         if (isSingleRelationship)
@@ -287,12 +284,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                 $".{navigationName};");
         else
             code.AppendLine($"var child = await TryGet{navigationName}({GetPrimaryKeysQuery(parent)}, createdKey);");
-
-        code.AppendLine($"if (child == null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
-        code.AppendLine();
         code.AppendLine($"return Created(child);");
 
         code.EndBlock();
@@ -320,11 +311,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"var updatedKey = await _mediator.Send(new Update{navigationName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
                 $"{child.Name.ToLowerFirstChar()}, _cultureCode, etag));");
-
-        code.AppendLine($"if (updatedKey == null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
 
         if (isSingleRelationship)
@@ -333,11 +319,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                 $".{navigationName};");
         else
             code.AppendLine($"var child = await TryGet{navigationName}({GetPrimaryKeysQuery(parent)}, updatedKey);");
-
-        code.AppendLine($"if (child == null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
         code.AppendLine($"return Ok(child);");
 
@@ -355,27 +336,19 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"public virtual async Task<ActionResult> PatchTo{navigationName}(" +
             $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
             $"[FromBody] Delta<{child.Name}UpsertDto> {child.Name.ToLowerFirstChar()})");
-        
+
         // Method content
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid || {child.Name.ToLowerFirstChar()} is null)");
         code.StartBlock();
         code.AppendLine($"throw new Nox.Exceptions.BadRequestException(ModelState);");
         code.EndBlock();
-        code.AppendLine(@$"var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in {child.Name.ToLowerFirstChar()}.GetChangedPropertyNames())
-        {{
-            if({child.Name.ToLowerFirstChar()}.TryGetPropertyValue(propertyName, out dynamic value))
-            {{
-                updateProperties[propertyName] = value;                
-            }}           
-        }}");
+        code.AppendLine($"var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<{child.Name}UpsertDto>({child.Name.ToLowerFirstChar()});");
         code.AppendLine();
 
         if (child.Keys.Any())
         {
-            code.AppendLine($"if(!updateProperties.ContainsKey(\"{child.Keys[0].Name}\") || updateProperties[\"{child.Keys[0].Name}\"] == null)");
+            code.AppendLine($"if(!updatedProperties.ContainsKey(\"{child.Keys[0].Name}\") || updatedProperties[\"{child.Keys[0].Name}\"] == null)");
             code.StartBlock();
             code.AppendLine($"throw new Nox.Exceptions.BadRequestException(\"{child.Keys[0].Name} is required.\");");
             code.EndBlock();
@@ -386,30 +359,21 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         if (isSingleRelationship)
             code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{navigationName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
-                $"updateProperties, _cultureCode, etag));");
+                $"updatedProperties, _cultureCode, etag));");
         else
             code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{navigationName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
-                $"new {child.Name}KeyDto(updateProperties[\"{child.Keys[0].Name}\"]), " +
-                $"updateProperties, _cultureCode, etag));");
+                $"new {child.Name}KeyDto(updatedProperties[\"{child.Keys[0].Name}\"]), " +
+                $"updatedProperties, _cultureCode, etag));");
         code.AppendLine();
-
-        code.AppendLine($"if (updated is null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
 
         if (isSingleRelationship)
             code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({GetPrimaryKeysQuery(parent)})))" +
                 $".SingleOrDefault()?" +
                 $".{navigationName};");
         else
-            code.AppendLine($"var child = await TryGet{navigationName}({GetPrimaryKeysQuery(parent)}, updated);");
+            code.AppendLine($"var child = await TryGet{navigationName}({GetPrimaryKeysQuery(parent)}, updated!);");
 
-        code.AppendLine($"if (child == null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
         code.AppendLine($"return Ok(child);");
 
@@ -424,7 +388,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         var isSingleRelationship = relationship.WithSingleEntity();
         var navigationName = parent.GetNavigationPropertyName(relationship);
 
-        if (isSingleRelationship) 
+        if (isSingleRelationship)
         {
             code.AppendLine($"[HttpDelete(\"{solution.Presentation.ApiConfiguration.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{navigationName}\")]");
             code.AppendLine($"public virtual async Task<ActionResult> Delete{child.Name}NonConventional(" +
@@ -452,10 +416,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
                 $"new {child.Name}KeyDto({GetPrimaryKeysQuery(child, "relatedKey")})));");
 
-        code.AppendLine($"if (!result)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
         code.AppendLine($"return NoContent();");
 
@@ -470,44 +430,48 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine();
             code.AppendLine($"#region Relationships");
             code.AppendLine();
+
             foreach (var relationship in entity.Relationships)
             {
-                if (relationship.CanManageReference)
-                {
-                    if (CanCreate(entity)) GenerateCreateRefTo(entity, relationship, code, solution);
-                    if (CanUpdate(entity)) GenerateUpdateAllRefTo(entity, relationship, code, solution);
-                    if (CanRead(entity)) GenerateGetRefTo(entity, relationship, code, solution);
-                    if (CanDelete(entity))
-                    {
-                        GenerateDeleteRefTo(entity, relationship, code, solution);
-                        GenerateDeleteAllRefTo(entity, relationship, code, solution);
-                    }
-                }
 
-                if (relationship.CanManageEntity)
-                {
-                    if (CanCreate(entity)) GenerateRelatedPost(solution, relationship, entity, code);
-                    if (CanRead(entity))
-                    {
-                        GenerateRelatedGet(solution, relationship, entity, code);
-                        GenerateRelatedGetById(solution, relationship, entity, code);
-                    }
-                    if (CanUpdate(entity)) GenerateRelatedPut(solution, relationship, entity, code);
-                    if (CanDelete(entity))
-                    {
-                        GenerateRelatedDelete(solution, relationship, entity, code);
-                        GenerateRelatedDeleteAll(solution, relationship, entity, code);
-                    }
-                }
+                bool hideEndPointFromSwagger = !relationship.ApiGenerateReferenceEndpoint || !CanCreate(entity);
+                GenerateCreateRefTo(entity, relationship, code, solution, hideEndPointFromSwagger);
+
+                hideEndPointFromSwagger = !relationship.ApiGenerateReferenceEndpoint || !CanUpdate(entity);
+                GenerateUpdateAllRefTo(entity, relationship, code, solution, hideEndPointFromSwagger);
+
+                hideEndPointFromSwagger = !relationship.ApiGenerateReferenceEndpoint || !CanRead(entity);
+                GenerateGetRefTo(entity, relationship, code, solution, hideEndPointFromSwagger);
+
+                hideEndPointFromSwagger = !relationship.ApiGenerateReferenceEndpoint || !CanDelete(entity);
+                GenerateDeleteRefTo(entity, relationship, code, solution, hideEndPointFromSwagger);
+                GenerateDeleteAllRefTo(entity, relationship, code, solution, hideEndPointFromSwagger);
+
+                hideEndPointFromSwagger = !relationship.ApiGenerateRelatedEndpoint || !CanCreate(entity);
+                GenerateRelatedPost(solution, relationship, entity, code, hideEndPointFromSwagger);
+
+                hideEndPointFromSwagger = !relationship.ApiGenerateRelatedEndpoint || !CanRead(entity);
+                GenerateRelatedGet(solution, relationship, entity, code, hideEndPointFromSwagger);
+                GenerateRelatedGetById(solution, relationship, entity, code, hideEndPointFromSwagger);
+
+                hideEndPointFromSwagger = !relationship.ApiGenerateRelatedEndpoint || !CanUpdate(entity);
+                GenerateRelatedPut(solution, relationship, entity, code, hideEndPointFromSwagger);
+                GenerateRelatedPatch(solution, relationship, entity, code, hideEndPointFromSwagger);
+
+                hideEndPointFromSwagger = !relationship.ApiGenerateRelatedEndpoint || !CanDelete(entity);
+                GenerateRelatedDelete(solution, relationship, entity, code, hideEndPointFromSwagger);
+                GenerateRelatedDeleteAll(solution, relationship, entity, code, hideEndPointFromSwagger);
             }
             code.AppendLine($"#endregion");
             code.AppendLine();
         }
     }
 
-    private static void GenerateCreateRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
+    private static void GenerateCreateRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution, bool hideEndPointFromSwagger)
     {
         var relatedEntity = relationship.Related.Entity;
+        if (hideEndPointFromSwagger)
+            code.AppendLine("[ApiExplorerSettings(IgnoreApi = true)]");
         code.AppendLine($"public virtual async Task<ActionResult> CreateRefTo{entity.GetNavigationPropertyName(relationship)}" +
             $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
 
@@ -519,10 +483,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
         code.AppendLine($"var createdRef = await _mediator.Send(new CreateRef{entity.Name}To{entity.GetNavigationPropertyName(relationship)}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({GetPrimaryKeysQuery(relatedEntity, "relatedKey")})));");
-        code.AppendLine($"if (!createdRef)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
 
         code.AppendLine($"return NoContent();");
@@ -532,14 +492,16 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
     }
 
-    private static void GenerateUpdateAllRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
+    private static void GenerateUpdateAllRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution, bool hideEndPointFromSwagger)
     {
         var relatedEntity = relationship.Related.Entity;
 
         if (relationship.WithSingleEntity || relatedEntity.Keys.Count() > 1)
             return;
 
-        var navigationName = entity.GetNavigationPropertyName(relationship); 
+        var navigationName = entity.GetNavigationPropertyName(relationship);
+        if (hideEndPointFromSwagger)
+            code.AppendLine("[ApiExplorerSettings(IgnoreApi = true)]");
         code.AppendLine($"[HttpPut(\"{solution.Presentation.ApiConfiguration.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{navigationName}/$ref\")]");
         code.AppendLine($"public virtual async Task<ActionResult> UpdateRefTo{navigationName}NonConventional" +
             $"({GetPrimaryKeysRoute(entity, solution)}, " +
@@ -554,10 +516,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"var relatedKeysDto = referencesDto.References.Select(x => new {relatedEntity.Name}KeyDto(x)).ToList();");
         code.AppendLine($"var updatedRef = await _mediator.Send(new UpdateRef{entity.Name}To{navigationName}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)}), relatedKeysDto));");
-        code.AppendLine($"if (!updatedRef)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
 
         code.AppendLine($"return NoContent();");
@@ -567,14 +525,15 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
     }
 
-    private static void GenerateDeleteRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
+    private static void GenerateDeleteRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution, bool hideEndPointFromSwagger)
     {
         if (relationship.Relationship == EntityRelationshipType.ExactlyOne)
             return;
 
         var relatedEntity = relationship.Related.Entity;
         var navigationName = entity.GetNavigationPropertyName(relationship);
-
+        if (hideEndPointFromSwagger)
+            code.AppendLine("[ApiExplorerSettings(IgnoreApi = true)]");
         code.AppendLine($"public virtual async Task<ActionResult> DeleteRefTo{navigationName}" +
             $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
 
@@ -586,10 +545,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
         code.AppendLine($"var deletedRef = await _mediator.Send(new DeleteRef{entity.Name}To{navigationName}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({GetPrimaryKeysQuery(relatedEntity, "relatedKey")})));");
-        code.AppendLine($"if (!deletedRef)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
 
         code.AppendLine($"return NoContent();");
@@ -599,14 +554,15 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
     }
 
-    private static void GenerateDeleteAllRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
+    private static void GenerateDeleteAllRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution, bool hideEndPointFromSwagger)
     {
-        if (relationship.Relationship == EntityRelationshipType.ExactlyOne || 
+        if (relationship.Relationship == EntityRelationshipType.ExactlyOne ||
             relationship.Relationship == EntityRelationshipType.OneOrMany)
             return;
 
         var navigationName = entity.GetNavigationPropertyName(relationship);
-
+        if (hideEndPointFromSwagger)
+            code.AppendLine("[ApiExplorerSettings(IgnoreApi = true)]");
         code.AppendLine($"public virtual async Task<ActionResult> DeleteRefTo{navigationName}({GetPrimaryKeysRoute(entity, solution)})");
 
         code.StartBlock();
@@ -618,10 +574,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
         code.AppendLine($"var deletedAllRef = await _mediator.Send(new DeleteAllRef{entity.Name}To{navigationName}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)})));");
-        code.AppendLine($"if (!deletedAllRef)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
 
         code.AppendLine($"return NoContent();");
@@ -631,10 +583,12 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
     }
 
-    private static void GenerateGetRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
+    private static void GenerateGetRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution, bool hideEndPointFromSwagger)
     {
         var relatedEntity = relationship.Related.Entity;
         var navigationName = entity.GetNavigationPropertyName(relationship);
+        if (hideEndPointFromSwagger)
+            code.AppendLine("[ApiExplorerSettings(IgnoreApi = true)]");
         code.AppendLine($"public virtual async Task<ActionResult> GetRefTo{navigationName}" +
             $"({GetPrimaryKeysRoute(entity, solution)})");
 
@@ -643,7 +597,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             $".Include(x => x.{navigationName}).SingleOrDefault();");
         code.AppendLine($"if (entity is null)");
         code.StartBlock();
-        code.AppendLine($"return NotFound();");
+        code.AppendLine($"throw new EntityNotFoundException(\"{entity.Name}\", $\"{GetPrimaryKeysToString(entity)}\");");
         code.EndBlock();
         code.AppendLine();
 
@@ -673,18 +627,19 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
     }
 
-    private static void GenerateRelatedGet(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    private static void GenerateRelatedGet(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code, bool hideEndPointFromSwagger)
     {
         var relatedEntity = relationship.Related.Entity;
         var navigationName = entity.GetNavigationPropertyName(relationship);
         var isSingleRelationship = relationship.WithSingleEntity();
-
+        if (hideEndPointFromSwagger)
+            code.AppendLine("[ApiExplorerSettings(IgnoreApi = true)]");
         code.AppendLine($"[EnableQuery]");
         if (isSingleRelationship)
         {
             code.AppendLine($"public virtual async Task<SingleResult<{relatedEntity.Name}Dto>> Get{navigationName}(" +
                 $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")})");
-            code.StartBlock(); 
+            code.StartBlock();
             code.AppendLine($"var query = await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)}));");
             code.AppendLine($"if (!query.Any())");
             code.StartBlock();
@@ -700,7 +655,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine($"var query = await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)}));");
             code.AppendLine($"if (!query.Any())");
             code.StartBlock();
-            code.AppendLine($"return NotFound();");
+            code.AppendLine($"throw new EntityNotFoundException(\"{entity.Name}\", $\"{GetPrimaryKeysToString(entity)}\");");
             code.EndBlock();
             code.AppendLine($"return Ok(query.Include(x => x.{navigationName}).SelectMany(x => x.{navigationName}));");
         }
@@ -709,15 +664,16 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
     }
 
-    private static void GenerateRelatedGetById(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    private static void GenerateRelatedGetById(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code, bool hideEndPointFromSwagger)
     {
         if (relationship.WithSingleEntity)
             return;
 
         var relatedEntity = relationship.Related.Entity;
         var navigationName = entity.GetNavigationPropertyName(relationship);
-
-        code.AppendLine($"[EnableQuery]"); 
+        if (hideEndPointFromSwagger)
+            code.AppendLine("[ApiExplorerSettings(IgnoreApi = true)]");
+        code.AppendLine($"[EnableQuery]");
         code.AppendLine($"[HttpGet(\"{solution.Presentation.ApiConfiguration.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{navigationName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
         code.AppendLine($"public virtual async Task<SingleResult<{relatedEntity.Name}Dto>> Get{navigationName}NonConventional(" +
             $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")}, " +
@@ -732,13 +688,13 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return SingleResult.Create<{relatedEntity.Name}Dto>(Enumerable.Empty<{relatedEntity.Name}Dto>().AsQueryable());");
         code.EndBlock();
         code.AppendLine($"return SingleResult.Create(related);");
-        
+
 
         code.EndBlock();
         code.AppendLine();
     }
 
-    private static void GenerateRelatedPost(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    private static void GenerateRelatedPost(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code, bool hideEndPointFromSwagger)
     {
         var relatedEntity = relationship.Related.Entity;
         var reversedRelationship = relationship.Related.EntityRelationship;
@@ -747,7 +703,8 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         //Only Single Keys entities are supported
         if (entity.HasCompositeKey || relatedEntity.HasCompositeKey)
             return;
-
+        if (hideEndPointFromSwagger)
+            code.AppendLine("[ApiExplorerSettings(IgnoreApi = true)]");
         code.AppendLine($"public virtual async Task<ActionResult> PostTo{entity.GetNavigationPropertyName(relationship)}" +
             $"({GetPrimaryKeysRoute(entity, solution)}, [FromBody] {relatedEntity.Name}CreateDto {relatedEntity.Name.ToLowerFirstChar()})");
 
@@ -758,7 +715,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.EndBlock();
         code.AppendLine();
 
-        if(reversedRelationship.WithSingleEntity())
+        if (reversedRelationship.WithSingleEntity())
             code.AppendLine($"{relatedEntity.Name.ToLowerFirstChar()}.{reversednavigationName}Id = key;");
         else
             code.AppendLine($"{relatedEntity.Name.ToLowerFirstChar()}.{reversednavigationName}Id = " +
@@ -773,12 +730,13 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
     }
 
-    private static void GenerateRelatedPut(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    private static void GenerateRelatedPut(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code, bool hideEndPointFromSwagger)
     {
         var relatedEntity = relationship.Related.Entity;
         var navigationName = entity.GetNavigationPropertyName(relationship);
         var isSingleRelationship = relationship.WithSingleEntity();
-
+        if (hideEndPointFromSwagger)
+            code.AppendLine("[ApiExplorerSettings(IgnoreApi = true)]");
         if (isSingleRelationship)
         {
             code.AppendLine($"public virtual async Task<ActionResult<{relatedEntity.Name}Dto>> PutTo{navigationName}(" +
@@ -806,6 +764,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
                 $".Select(x => x.{navigationName}).SingleOrDefault();");
             code.AppendLine($"if (related == null)");
+            code.StartBlock();
+            code.AppendLine($"throw new EntityNotFoundException(\"{navigationName}\", String.Empty);");
+            code.EndBlock();
         }
         else
         {
@@ -813,10 +774,10 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
                 $".SelectMany(x => x.{navigationName}).Any(x => {param});");
             code.AppendLine($"if (!related)");
+            code.StartBlock();
+            code.AppendLine($"throw new EntityNotFoundException(\"{navigationName}\", $\"{GetPrimaryKeysToString(relatedEntity, "relatedKey")}\");");
+            code.EndBlock();
         }
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
         code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
         var relatedKeyQuery = isSingleRelationship ?
@@ -824,10 +785,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             $"{GetPrimaryKeysQuery(relatedEntity, "relatedKey")}";
         code.AppendLine($"var updated = await _mediator.Send(new Update{relatedEntity.Name}Command({relatedKeyQuery}, " +
             $"{relatedEntity.Name.ToLowerFirstChar()}, _cultureCode, etag));");
-        code.AppendLine($"if (updated == null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
         code.AppendLine($"var updatedItem = (await _mediator.Send(new Get{relatedEntity.Name}ByIdQuery(updated.key{relatedEntity.Keys[0].Name}))).SingleOrDefault();");
         code.AppendLine();
@@ -837,14 +794,83 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
     }
 
-    private static void GenerateRelatedDelete(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    private static void GenerateRelatedPatch(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code, bool hideEndPointFromSwagger)
+    {
+        var relatedEntity = relationship.Related.Entity;
+        var navigationName = entity.GetNavigationPropertyName(relationship);
+        var isSingleRelationship = relationship.WithSingleEntity();
+        if (hideEndPointFromSwagger)
+            code.AppendLine("[ApiExplorerSettings(IgnoreApi = true)]");
+        if (isSingleRelationship)
+        {
+            code.AppendLine($"public virtual async Task<ActionResult<{relatedEntity.Name}Dto>> PatchTo{navigationName}(" +
+                $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")}, " +
+                $"[FromBody] Delta<{relatedEntity.Name}PartialUpdateDto> {relatedEntity.Name.ToLowerFirstChar()})");
+        }
+        else
+        {
+            code.AppendLine($"[HttpPatch(\"{solution.Presentation.ApiConfiguration.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{navigationName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
+            code.AppendLine($"public virtual async Task<ActionResult<{relatedEntity.Name}Dto>> Patchto{navigationName}NonConventional(" +
+                $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")}, " +
+                $"{GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey", "")}, " +
+                $"[FromBody] Delta<{relatedEntity.Name}PartialUpdateDto> {relatedEntity.Name.ToLowerFirstChar()})");
+        }
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid || {relatedEntity.Name.ToLowerFirstChar()} is null)");
+        code.StartBlock();
+        code.AppendLine($"throw new Nox.Exceptions.BadRequestException(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+
+        if (isSingleRelationship)
+        {
+            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
+                $".Select(x => x.{navigationName}).SingleOrDefault();");
+            code.AppendLine($"if (related == null)");
+            code.StartBlock();
+            code.AppendLine($"throw new EntityNotFoundException(\"{navigationName}\", String.Empty);");
+            code.EndBlock();
+        }
+        else
+        {
+            var param = string.Join(" && ", relatedEntity.Keys.Select(k => $"x.{k.Name} == relatedKey{(relatedEntity.Keys.Count > 1 ? k.Name : "")}"));
+            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
+                $".SelectMany(x => x.{navigationName}).Any(x => {param});");
+            code.AppendLine($"if (!related)");
+            code.StartBlock();
+            code.AppendLine($"throw new EntityNotFoundException(\"{navigationName}\", $\"{GetPrimaryKeysToString(relatedEntity, "relatedKey")}\");");
+            code.EndBlock();
+        }
+
+        code.AppendLine();
+        code.AppendLine($"var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<{relatedEntity.Name}PartialUpdateDto>({relatedEntity.Name.ToLowerFirstChar()});");
+        code.AppendLine();
+        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
+        var relatedKeyQuery = isSingleRelationship ?
+            $"{GetPrimaryKeysQuery(relatedEntity, "related.", true)}" :
+            $"{GetPrimaryKeysQuery(relatedEntity, "relatedKey")}";
+        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{relatedEntity.Name}Command({relatedKeyQuery}, " +
+            $"updatedProperties, _cultureCode, etag));");
+        code.AppendLine();
+        code.AppendLine($"var updatedItem = (await _mediator.Send(new Get{relatedEntity.Name}ByIdQuery(updated.key{relatedEntity.Keys[0].Name}))).SingleOrDefault();");
+        code.AppendLine();
+        code.AppendLine($"return Ok(updatedItem);");
+
+        // End method
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateRelatedDelete(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code, bool hideEndPointFromSwagger)
     {
         if (relationship.WithSingleEntity)
             return;
 
         var relatedEntity = relationship.Related.Entity;
         var navigationName = entity.GetNavigationPropertyName(relationship);
-
+        if (hideEndPointFromSwagger)
+            code.AppendLine("[ApiExplorerSettings(IgnoreApi = true)]");
         code.AppendLine($"[HttpDelete(\"{solution.Presentation.ApiConfiguration.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{navigationName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
         code.AppendLine($"public virtual async Task<ActionResult> DeleteTo{navigationName}" +
             $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
@@ -862,7 +888,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             $".Any(x => {param});");
         code.AppendLine($"if (!related)");
         code.StartBlock();
-        code.AppendLine($"return NotFound();");
+        code.AppendLine($"throw new EntityNotFoundException(\"{navigationName}\", $\"{GetPrimaryKeysToString(relatedEntity, "relatedKey")}\");");
         code.EndBlock();
         code.AppendLine();
         var relatedKeyQuery = $"{GetPrimaryKeysQuery(relatedEntity, "relatedKey")}";
@@ -870,10 +896,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"var deleted = await _mediator.Send(new Delete{relatedEntity.Name}ByIdCommand(" +
             $"new List<{relatedEntity.Name}KeyDto> {{ new {relatedEntity.Name}KeyDto({relatedKeyQuery}) }}, " +
             $"etag));");
-        code.AppendLine($"if (!deleted)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
         code.AppendLine();
         code.AppendLine($"return NoContent();");
 
@@ -881,7 +903,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
     }
 
-    private static void GenerateRelatedDeleteAll(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    private static void GenerateRelatedDeleteAll(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code, bool hideEndPointFromSwagger)
     {
         if (relationship.Relationship == EntityRelationshipType.ExactlyOne ||
             relationship.Relationship == EntityRelationshipType.OneOrMany)
@@ -889,7 +911,8 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
         var relatedEntity = relationship.Related.Entity;
         var navigationName = entity.GetNavigationPropertyName(relationship);
-
+        if (hideEndPointFromSwagger)
+            code.AppendLine("[ApiExplorerSettings(IgnoreApi = true)]");
         code.AppendLine($"[HttpDelete(\"{solution.Presentation.ApiConfiguration.ApiRoutePrefix}/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{navigationName}\")]");
         code.AppendLine($"public virtual async Task<ActionResult> DeleteTo{navigationName}({GetPrimaryKeysRoute(entity, solution)})");
 
@@ -900,15 +923,11 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.EndBlock();
         code.AppendLine();
 
-        if (relationship.WithSingleEntity)
-            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
-                $".Select(x => x.{navigationName}).SingleOrDefault();");
-        else
-            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
-                $".Select(x => x.{navigationName}).SingleOrDefault();");
+        code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
+            $".Select(x => x.{navigationName}).SingleOrDefault();");
         code.AppendLine($"if (related == null)");
         code.StartBlock();
-        code.AppendLine($"return NotFound();");
+        code.AppendLine($"throw new EntityNotFoundException(\"{entity.Name}\", $\"{GetPrimaryKeysToString(entity)}\");");
         code.EndBlock();
         code.AppendLine();
 
@@ -918,10 +937,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine($"var deleted = await _mediator.Send(new Delete{relatedEntity.Name}ByIdCommand(" +
                 $"new List<{relatedEntity.Name}KeyDto> {{ new {relatedEntity.Name}KeyDto({GetPrimaryKeysQuery(relatedEntity, "related.", true)}) }}, " +
                 $"etag));");
-            code.AppendLine($"if (!deleted)");
-            code.StartBlock();
-            code.AppendLine($"return NotFound();");
-            code.EndBlock();
         }
         else
             code.AppendLine($"await _mediator.Send(new Delete{relatedEntity.Name}ByIdCommand(" +

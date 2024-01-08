@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using TestEntityZeroOrManyEntity = TestWebApp.Domain.TestEntityZeroOrMany;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateTestEntityZeroOrManyCommand(System.String keyId, TestEntityZeroOrManyUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityZeroOrManyKeyDto?>;
+public partial record UpdateTestEntityZeroOrManyCommand(System.String keyId, TestEntityZeroOrManyUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityZeroOrManyKeyDto>;
 
 internal partial class UpdateTestEntityZeroOrManyCommandHandler : UpdateTestEntityZeroOrManyCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateTestEntityZeroOrManyCommandHandler : UpdateTestEnti
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityZeroOrManyEntity, TestEntityZeroOrManyCreateDto, TestEntityZeroOrManyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateTestEntityZeroOrManyCommandHandlerBase : CommandBase<UpdateTestEntityZeroOrManyCommand, TestEntityZeroOrManyEntity>, IRequestHandler<UpdateTestEntityZeroOrManyCommand, TestEntityZeroOrManyKeyDto?>
+internal abstract class UpdateTestEntityZeroOrManyCommandHandlerBase : CommandBase<UpdateTestEntityZeroOrManyCommand, TestEntityZeroOrManyEntity>, IRequestHandler<UpdateTestEntityZeroOrManyCommand, TestEntityZeroOrManyKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityZeroOrManyEntity, TestEntityZeroOrManyCreateDto, TestEntityZeroOrManyUpdateDto> _entityFactory;
-
 	protected UpdateTestEntityZeroOrManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateTestEntityZeroOrManyCommandHandlerBase : CommandBa
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<TestEntityZeroOrManyKeyDto?> Handle(UpdateTestEntityZeroOrManyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TestEntityZeroOrManyKeyDto> Handle(UpdateTestEntityZeroOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +55,7 @@ internal abstract class UpdateTestEntityZeroOrManyCommandHandlerBase : CommandBa
 		var entity = await DbContext.TestEntityZeroOrManies.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("TestEntityZeroOrMany",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +65,6 @@ internal abstract class UpdateTestEntityZeroOrManyCommandHandlerBase : CommandBa
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new TestEntityZeroOrManyKeyDto(entity.Id.Value);
 	}

@@ -1,5 +1,4 @@
-﻿﻿
-// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
@@ -20,7 +20,7 @@ using ClientApi.Application.Dto;
 using HolidayEntity = ClientApi.Domain.Holiday;
 
 namespace ClientApi.Application.Commands;
-public partial record CreateHolidaysForCountryCommand(CountryKeyDto ParentKeyDto, HolidayUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
+public partial record CreateHolidaysForCountryCommand(CountryKeyDto ParentKeyDto, HolidayUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <HolidayKeyDto>;
 
 internal partial class CreateHolidaysForCountryCommandHandler : CreateHolidaysForCountryCommandHandlerBase
 {
@@ -36,7 +36,7 @@ internal abstract class CreateHolidaysForCountryCommandHandlerBase : CommandBase
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> _entityFactory;
-
+	
 	protected CreateHolidaysForCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -55,21 +55,17 @@ internal abstract class CreateHolidaysForCountryCommandHandlerBase : CommandBase
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
+		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefToHolidays(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
+		
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new HolidayKeyDto(entity.Id.Value);
 	}

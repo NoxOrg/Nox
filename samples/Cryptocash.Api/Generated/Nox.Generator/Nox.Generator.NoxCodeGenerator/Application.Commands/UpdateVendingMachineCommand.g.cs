@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateVendingMachineCommand(System.Guid keyId, VendingMachineUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<VendingMachineKeyDto?>;
+public partial record UpdateVendingMachineCommand(System.Guid keyId, VendingMachineUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<VendingMachineKeyDto>;
 
 internal partial class UpdateVendingMachineCommandHandler : UpdateVendingMachineCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateVendingMachineCommandHandler : UpdateVendingMachine
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<VendingMachineEntity, VendingMachineCreateDto, VendingMachineUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateVendingMachineCommandHandlerBase : CommandBase<UpdateVendingMachineCommand, VendingMachineEntity>, IRequestHandler<UpdateVendingMachineCommand, VendingMachineKeyDto?>
+internal abstract class UpdateVendingMachineCommandHandlerBase : CommandBase<UpdateVendingMachineCommand, VendingMachineEntity>, IRequestHandler<UpdateVendingMachineCommand, VendingMachineKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<VendingMachineEntity, VendingMachineCreateDto, VendingMachineUpdateDto> _entityFactory;
-
 	protected UpdateVendingMachineCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateVendingMachineCommandHandlerBase : CommandBase<Upd
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<VendingMachineKeyDto?> Handle(UpdateVendingMachineCommand request, CancellationToken cancellationToken)
+	public virtual async Task<VendingMachineKeyDto> Handle(UpdateVendingMachineCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +55,7 @@ internal abstract class UpdateVendingMachineCommandHandlerBase : CommandBase<Upd
 		var entity = await DbContext.VendingMachines.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("VendingMachine",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +65,6 @@ internal abstract class UpdateVendingMachineCommandHandlerBase : CommandBase<Upd
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new VendingMachineKeyDto(entity.Id.Value);
 	}

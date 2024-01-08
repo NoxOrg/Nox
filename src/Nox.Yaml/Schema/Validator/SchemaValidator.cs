@@ -79,8 +79,7 @@ internal class SchemaValidator
         {
             var allowedProperties = schemaProperty
                 .GetChildSchemaProperties(objectInstance)
-                .Select(p => p.Name)
-                ?? Enumerable.Empty<string>();
+                .Select(p => p.Name);
 
             foreach (var prop in objectInstance)
             {
@@ -169,7 +168,7 @@ internal class SchemaValidator
                 {
                     if (obj.Value is not null && Convert.ToDouble(obj.Value) < minValue)
                     {
-                        _errors.Add($"Invalid value [{obj.Value}] for property [{property.Name}] is less than minumum [{property.Minimum}]. {fileInfo}");
+                        _errors.Add($"Invalid value [{obj.Value}] for property [{property.Name}] is less than minimum [{property.Minimum}]. {fileInfo}");
                     }
                 }
 
@@ -177,7 +176,7 @@ internal class SchemaValidator
                 {
                     if (obj.Value is not null && Convert.ToDouble(obj.Value) > maxValue)
                     {
-                        _errors.Add($"Invalid value [{obj.Value}] for property [{property.Name}] is more than maximum [{property.Minimum}]. {fileInfo}");
+                        _errors.Add($"Invalid value [{obj.Value}] for property [{property.Name}] is more than maximum [{property.Maximum}]. {fileInfo}");
                     }
                 }
             }

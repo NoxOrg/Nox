@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -37,10 +38,6 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefMinimumCashStockToVendingMachinesCommand(new MinimumCashStockKeyDto(key), new VendingMachineKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -55,10 +52,6 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         
         var relatedKeysDto = referencesDto.References.Select(x => new VendingMachineKeyDto(x)).ToList();
         var updatedRef = await _mediator.Send(new UpdateRefMinimumCashStockToVendingMachinesCommand(new MinimumCashStockKeyDto(key), relatedKeysDto));
-        if (!updatedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -68,7 +61,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         var entity = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Include(x => x.VendingMachines).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStock", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -87,10 +80,6 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefMinimumCashStockToVendingMachinesCommand(new MinimumCashStockKeyDto(key), new VendingMachineKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -103,10 +92,6 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefMinimumCashStockToVendingMachinesCommand(new MinimumCashStockKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -132,7 +117,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         var query = await _mediator.Send(new GetMinimumCashStockByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStock", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.VendingMachines).SelectMany(x => x.VendingMachines));
     }
@@ -160,15 +145,35 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachines", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateVendingMachineCommand(relatedKey, vendingMachine, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}")]
+    public virtual async Task<ActionResult<VendingMachineDto>> PatchtoVendingMachinesNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] Delta<VendingMachinePartialUpdateDto> vendingMachine)
+    {
+        if (!ModelState.IsValid || vendingMachine is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("VendingMachines", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<VendingMachinePartialUpdateDto>(vendingMachine);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateVendingMachineCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -186,15 +191,11 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachines", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteVendingMachineByIdCommand(new List<VendingMachineKeyDto> { new VendingMachineKeyDto(relatedKey) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -210,7 +211,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStock", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
@@ -226,10 +227,6 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefMinimumCashStockToCurrencyCommand(new MinimumCashStockKeyDto(key), new CurrencyKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -239,7 +236,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         var entity = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Include(x => x.Currency).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStock", $"{key.ToString()}");
         }
         
         if (entity.Currency is null)
@@ -286,15 +283,34 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Select(x => x.Currency).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Currency", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCurrencyCommand(related.Id, currency, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<CurrencyDto>> PatchToCurrency(System.Int64 key, [FromBody] Delta<CurrencyPartialUpdateDto> currency)
+    {
+        if (!ModelState.IsValid || currency is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Select(x => x.Currency).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("Currency", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CurrencyPartialUpdateDto>(currency);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCurrencyCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId))).SingleOrDefault();
         

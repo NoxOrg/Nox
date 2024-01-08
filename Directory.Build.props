@@ -1,0 +1,20 @@
+<Project>
+	<PropertyGroup>
+		<!-- Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<!-- Embed source files that are not tracked by the source control manager in the PDB -->
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<!-- Recommended: Embed symbols containing Source Link in the main file (exe/dll) -->
+		<DebugType>embedded</DebugType>
+		<!-- Include symbol files (*.pdb) in the built .nupkg -->
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+	</PropertyGroup>
+	<!-- Enable Source Links -->
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
+	</ItemGroup>
+	<!-- Deterministic build in GitHub -->
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+</Project>

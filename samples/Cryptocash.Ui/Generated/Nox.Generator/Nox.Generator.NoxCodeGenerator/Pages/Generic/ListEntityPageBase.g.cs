@@ -11,6 +11,9 @@ using Cryptocash.Ui.Generated.Data.Generic.Service;
 using Cryptocash.Application.Dto;
 using AutoMapper;
 using System.Reflection;
+using Nox.Ui.Blazor.Lib.Models;
+using Nox.Types;
+using YamlDotNet.Core.Tokens;
 
 namespace Cryptocash.Ui.Generated.Pages.Generic
 {
@@ -140,6 +143,11 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         public CreateT? CurrentAddEntity { get; set; } = default;
 
         /// <summary>
+        /// Property CurrentAddEntityRentPerSquareMetre used as a temporary storage whilst adding entity to api
+        /// </summary>
+        public MoneyModel? CurrentAddEntityRentPerSquareMetre { get; set; }
+
+        /// <summary>
         /// Property AddEntityValidateSuccess used to ensure form passed dataannotation validation before proceeding
         /// </summary>
         public bool AddEntityValidateSuccess { get; set; } = false;
@@ -163,6 +171,11 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// Property CurrentEditEntity used as a temporary storage whilst updating entity via api
         /// </summary>
         public EditT? CurrentEditEntity { get; set; } = default;
+
+        /// <summary>
+        /// Property CurrentEditEntityRentPerSquareMetre used as a temporary storage whilst updating entity via api
+        /// </summary>
+        public MoneyModel? CurrentEditEntityRentPerSquareMetre { get; set; }
 
         /// <summary>
         /// Property CurrentEditEntityId used as a temporary storage whilst updating entity via api
@@ -381,7 +394,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                     PropertyInfo? prop = testItem!.GetType().GetProperty("Id", BindingFlags.Public | BindingFlags.Instance);
                     if (prop != null && prop.CanWrite)
                     {
-                        prop.SetValue(testItem, 1, null);
+                        prop.SetValue(testItem, new System.Guid(), null);
                     }
 
                     testData.Add(testItem);
@@ -736,6 +749,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             {
                 if (CurrentAddEntity != null)
                 {
+                    AddModelsToAddEntity();
+
                     var config = new MapperConfiguration(cfg =>
                         cfg.CreateMap<CreateT, T>()
                     );
@@ -1055,7 +1070,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             return;
         }
 
-        protected CurrencyDto? GetCurrencyByCountryId(string? CountryId)
+        protected CurrencyCode? GetCurrencyByCountryId(string? CountryId)
         {
             var CurrencyId = string.Empty;
             if (!String.IsNullOrWhiteSpace(CountryId)
@@ -1071,14 +1086,85 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                 }
             }
 
-            if (!String.IsNullOrWhiteSpace(CurrencyId)
-                && CurrencyEntityData != null
-                && CurrencyEntityData.EntityList != null)
+            if (!String.IsNullOrWhiteSpace(CurrencyId))
             {
-                return CurrencyEntityData.EntityList.FirstOrDefault(Currency => String.Equals(Currency.Id, CurrencyId, StringComparison.CurrentCultureIgnoreCase));
+                CurrencyCode TempCurrencyCode;
+                Enum.TryParse(CurrencyId, out TempCurrencyCode);
+                if (Enum.IsDefined(typeof(CurrencyCode), TempCurrencyCode))
+                {
+                    return TempCurrencyCode;
+                }
             }
 
             return null;
+        }
+
+        #endregion
+
+        #region DTO Conversions
+
+        private MoneyDto? ConvertMoneyModeltoDto(MoneyModel? Money)
+        {
+            if (Money != null)
+            {
+                return new()
+                {
+                    Amount = Money.Amount,
+                    CurrencyCode = Money.CurrencyCode
+                };
+            }
+
+            return null;
+        }
+
+        private MoneyModel? ConvertDtotoMoneyModel(MoneyDto? Money)
+        {
+            if (Money != null)
+            {
+                return new()
+                {
+                    Amount = Money.Amount,
+                    CurrencyCode = Money.CurrencyCode
+                };
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// GENERATOR RELATED: Bespoke Class for CreateT to add Model Entities before Add Submit
+        /// </summary>
+        private void AddModelsToAddEntity()
+        {
+            Type? t = CurrentAddEntity?.GetType();
+            if (t != null)
+            {
+                PropertyInfo? propRentPerSquareMetre = t.GetProperty("RentPerSquareMetre");
+                MoneyDto? tempRentPerSquareMetre = ConvertMoneyModeltoDto(CurrentAddEntityRentPerSquareMetre);
+                if (propRentPerSquareMetre != null
+                    && tempRentPerSquareMetre != null)
+                {
+                    propRentPerSquareMetre.SetValue(CurrentAddEntity, tempRentPerSquareMetre);
+                }
+            }            
+        }
+
+        /// <summary>
+        /// GENERATOR RELATED: Bespoke Class for EditT to add Model Entities before Edit Submit
+        /// </summary>
+        private void AddModelsToEditEntity()
+        {
+            Type? t = CurrentEditEntity?.GetType();
+            if (t != null)
+            {
+                PropertyInfo? propRentPerSquareMetre = t.GetProperty("RentPerSquareMetre");
+                MoneyDto? tempRentPerSquareMetre = ConvertMoneyModeltoDto(CurrentEditEntityRentPerSquareMetre);
+                if (propRentPerSquareMetre != null
+                    && tempRentPerSquareMetre != null)
+                {
+                    propRentPerSquareMetre.SetValue(CurrentEditEntity, tempRentPerSquareMetre);
+                }
+            }
         }
 
         #endregion

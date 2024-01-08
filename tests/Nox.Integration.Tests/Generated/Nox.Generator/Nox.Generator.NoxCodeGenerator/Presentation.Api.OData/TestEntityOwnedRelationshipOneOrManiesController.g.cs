@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -40,7 +41,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
         
         if (item is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityOwnedRelationshipOneOrMany", $"{key.ToString()}");
         }
         
         return Ok(item.SecEntityOwnedRelOneOrManies);
@@ -55,9 +56,9 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetSecEntityOwnedRelOneOrManies(key, new SecEntityOwnedRelOneOrManyKeyDto(relatedKey));
-        if (child == null)
+        if (child is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("SecEntityOwnedRelOneOrMany", $"{relatedKey.ToString()}");
         }
         
         return Ok(child);
@@ -72,17 +73,8 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
         
         var etag = Request.GetDecodedEtagHeader();
         var createdKey = await _mediator.Send(new CreateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand(new TestEntityOwnedRelationshipOneOrManyKeyDto(key), secEntityOwnedRelOneOrMany, _cultureCode, etag));
-        if (createdKey == null)
-        {
-            return NotFound();
-        }
         
         var child = await TryGetSecEntityOwnedRelOneOrManies(key, createdKey);
-        if (child == null)
-        {
-            return NotFound();
-        }
-        
         return Created(child);
     }
     
@@ -95,16 +87,8 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
         
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand(new TestEntityOwnedRelationshipOneOrManyKeyDto(key), secEntityOwnedRelOneOrMany, _cultureCode, etag));
-        if (updatedKey == null)
-        {
-            return NotFound();
-        }
         
         var child = await TryGetSecEntityOwnedRelOneOrManies(key, updatedKey);
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -115,33 +99,17 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var updateProperties = new Dictionary<string, dynamic>();
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<SecEntityOwnedRelOneOrManyUpsertDto>(secEntityOwnedRelOneOrMany);
         
-        foreach (var propertyName in secEntityOwnedRelOneOrMany.GetChangedPropertyNames())
-        {
-            if(secEntityOwnedRelOneOrMany.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
-        
-        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
+        if(!updatedProperties.ContainsKey("Id") || updatedProperties["Id"] == null)
         {
             throw new Nox.Exceptions.BadRequestException("Id is required.");
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand(new TestEntityOwnedRelationshipOneOrManyKeyDto(key), new SecEntityOwnedRelOneOrManyKeyDto(updateProperties["Id"]), updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand(new TestEntityOwnedRelationshipOneOrManyKeyDto(key), new SecEntityOwnedRelOneOrManyKeyDto(updatedProperties["Id"]), updatedProperties, _cultureCode, etag));
         
-        if (updated is null)
-        {
-            return NotFound();
-        }
-        var child = await TryGetSecEntityOwnedRelOneOrManies(key, updated);
-        if (child == null)
-        {
-            return NotFound();
-        }
+        var child = await TryGetSecEntityOwnedRelOneOrManies(key, updated!);
         
         return Ok(child);
     }
@@ -154,10 +122,6 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new DeleteSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand(new TestEntityOwnedRelationshipOneOrManyKeyDto(key), new SecEntityOwnedRelOneOrManyKeyDto(relatedKey)));
-        if (!result)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }

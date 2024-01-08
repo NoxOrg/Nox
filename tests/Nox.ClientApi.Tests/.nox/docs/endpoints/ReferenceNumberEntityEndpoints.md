@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## ReferenceNumberEntity Endpoints
 
+### Get ReferenceNumberEntity Count
+- **GET** `/api/v1/ReferenceNumberEntities/$count`
+  - Description: Retrieve the number of ReferenceNumberEntities.
+
 ### Get ReferenceNumberEntity by ID
 - **GET** `/api/v1/ReferenceNumberEntities/{key}`
   - Description: Retrieve information about a ReferenceNumberEntity by ID.

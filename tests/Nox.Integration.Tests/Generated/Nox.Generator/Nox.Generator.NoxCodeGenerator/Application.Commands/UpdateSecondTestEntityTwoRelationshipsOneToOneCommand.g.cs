@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using SecondTestEntityTwoRelationshipsOneToOneEntity = TestWebApp.Domain.SecondT
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateSecondTestEntityTwoRelationshipsOneToOneCommand(System.String keyId, SecondTestEntityTwoRelationshipsOneToOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<SecondTestEntityTwoRelationshipsOneToOneKeyDto?>;
+public partial record UpdateSecondTestEntityTwoRelationshipsOneToOneCommand(System.String keyId, SecondTestEntityTwoRelationshipsOneToOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<SecondTestEntityTwoRelationshipsOneToOneKeyDto>;
 
 internal partial class UpdateSecondTestEntityTwoRelationshipsOneToOneCommandHandler : UpdateSecondTestEntityTwoRelationshipsOneToOneCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateSecondTestEntityTwoRelationshipsOneToOneCommandHand
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<SecondTestEntityTwoRelationshipsOneToOneEntity, SecondTestEntityTwoRelationshipsOneToOneCreateDto, SecondTestEntityTwoRelationshipsOneToOneUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateSecondTestEntityTwoRelationshipsOneToOneCommandHandlerBase : CommandBase<UpdateSecondTestEntityTwoRelationshipsOneToOneCommand, SecondTestEntityTwoRelationshipsOneToOneEntity>, IRequestHandler<UpdateSecondTestEntityTwoRelationshipsOneToOneCommand, SecondTestEntityTwoRelationshipsOneToOneKeyDto?>
+internal abstract class UpdateSecondTestEntityTwoRelationshipsOneToOneCommandHandlerBase : CommandBase<UpdateSecondTestEntityTwoRelationshipsOneToOneCommand, SecondTestEntityTwoRelationshipsOneToOneEntity>, IRequestHandler<UpdateSecondTestEntityTwoRelationshipsOneToOneCommand, SecondTestEntityTwoRelationshipsOneToOneKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<SecondTestEntityTwoRelationshipsOneToOneEntity, SecondTestEntityTwoRelationshipsOneToOneCreateDto, SecondTestEntityTwoRelationshipsOneToOneUpdateDto> _entityFactory;
-
 	protected UpdateSecondTestEntityTwoRelationshipsOneToOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateSecondTestEntityTwoRelationshipsOneToOneCommandHan
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<SecondTestEntityTwoRelationshipsOneToOneKeyDto?> Handle(UpdateSecondTestEntityTwoRelationshipsOneToOneCommand request, CancellationToken cancellationToken)
+	public virtual async Task<SecondTestEntityTwoRelationshipsOneToOneKeyDto> Handle(UpdateSecondTestEntityTwoRelationshipsOneToOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +55,7 @@ internal abstract class UpdateSecondTestEntityTwoRelationshipsOneToOneCommandHan
 		var entity = await DbContext.SecondTestEntityTwoRelationshipsOneToOnes.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("SecondTestEntityTwoRelationshipsOneToOne",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +65,6 @@ internal abstract class UpdateSecondTestEntityTwoRelationshipsOneToOneCommandHan
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new SecondTestEntityTwoRelationshipsOneToOneKeyDto(entity.Id.Value);
 	}

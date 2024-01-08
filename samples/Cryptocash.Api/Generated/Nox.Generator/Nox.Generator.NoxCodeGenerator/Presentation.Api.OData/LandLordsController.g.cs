@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -37,10 +38,6 @@ public abstract partial class LandLordsControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefLandLordToVendingMachinesCommand(new LandLordKeyDto(key), new VendingMachineKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -55,10 +52,6 @@ public abstract partial class LandLordsControllerBase : ODataController
         
         var relatedKeysDto = referencesDto.References.Select(x => new VendingMachineKeyDto(x)).ToList();
         var updatedRef = await _mediator.Send(new UpdateRefLandLordToVendingMachinesCommand(new LandLordKeyDto(key), relatedKeysDto));
-        if (!updatedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -68,7 +61,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         var entity = (await _mediator.Send(new GetLandLordByIdQuery(key))).Include(x => x.VendingMachines).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("LandLord", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -87,10 +80,6 @@ public abstract partial class LandLordsControllerBase : ODataController
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefLandLordToVendingMachinesCommand(new LandLordKeyDto(key), new VendingMachineKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -103,10 +92,6 @@ public abstract partial class LandLordsControllerBase : ODataController
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefLandLordToVendingMachinesCommand(new LandLordKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -132,7 +117,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         var query = await _mediator.Send(new GetLandLordByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("LandLord", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.VendingMachines).SelectMany(x => x.VendingMachines));
     }
@@ -160,15 +145,35 @@ public abstract partial class LandLordsControllerBase : ODataController
         var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachines", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateVendingMachineCommand(relatedKey, vendingMachine, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/LandLords/{key}/VendingMachines/{relatedKey}")]
+    public virtual async Task<ActionResult<VendingMachineDto>> PatchtoVendingMachinesNonConventional(System.Guid key, System.Guid relatedKey, [FromBody] Delta<VendingMachinePartialUpdateDto> vendingMachine)
+    {
+        if (!ModelState.IsValid || vendingMachine is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("VendingMachines", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<VendingMachinePartialUpdateDto>(vendingMachine);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateVendingMachineCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -186,15 +191,11 @@ public abstract partial class LandLordsControllerBase : ODataController
         var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachines", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteVendingMachineByIdCommand(new List<VendingMachineKeyDto> { new VendingMachineKeyDto(relatedKey) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -210,7 +211,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("LandLord", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();

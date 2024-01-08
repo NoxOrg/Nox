@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using CountryQueryToCustomTableEntity = CryptocashIntegration.Domain.CountryQuer
 
 namespace CryptocashIntegration.Application.Commands;
 
-public partial record UpdateCountryQueryToCustomTableCommand(System.Int32 keyId, CountryQueryToCustomTableUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CountryQueryToCustomTableKeyDto?>;
+public partial record UpdateCountryQueryToCustomTableCommand(System.Int32 keyId, CountryQueryToCustomTableUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CountryQueryToCustomTableKeyDto>;
 
 internal partial class UpdateCountryQueryToCustomTableCommandHandler : UpdateCountryQueryToCustomTableCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateCountryQueryToCustomTableCommandHandler : UpdateCou
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryQueryToCustomTableEntity, CountryQueryToCustomTableCreateDto, CountryQueryToCustomTableUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateCountryQueryToCustomTableCommandHandlerBase : CommandBase<UpdateCountryQueryToCustomTableCommand, CountryQueryToCustomTableEntity>, IRequestHandler<UpdateCountryQueryToCustomTableCommand, CountryQueryToCustomTableKeyDto?>
+internal abstract class UpdateCountryQueryToCustomTableCommandHandlerBase : CommandBase<UpdateCountryQueryToCustomTableCommand, CountryQueryToCustomTableEntity>, IRequestHandler<UpdateCountryQueryToCustomTableCommand, CountryQueryToCustomTableKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CountryQueryToCustomTableEntity, CountryQueryToCustomTableCreateDto, CountryQueryToCustomTableUpdateDto> _entityFactory;
-
 	protected UpdateCountryQueryToCustomTableCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateCountryQueryToCustomTableCommandHandlerBase : Comm
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<CountryQueryToCustomTableKeyDto?> Handle(UpdateCountryQueryToCustomTableCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryQueryToCustomTableKeyDto> Handle(UpdateCountryQueryToCustomTableCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +55,7 @@ internal abstract class UpdateCountryQueryToCustomTableCommandHandlerBase : Comm
 		var entity = await DbContext.CountryQueryToCustomTables.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("CountryQueryToCustomTable",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +65,6 @@ internal abstract class UpdateCountryQueryToCustomTableCommandHandlerBase : Comm
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new CountryQueryToCustomTableKeyDto(entity.Id.Value);
 	}

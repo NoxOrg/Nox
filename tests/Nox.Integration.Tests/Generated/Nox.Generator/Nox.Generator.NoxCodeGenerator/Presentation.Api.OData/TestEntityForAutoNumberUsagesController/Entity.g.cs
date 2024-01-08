@@ -28,7 +28,7 @@ public partial class TestEntityForAutoNumberUsagesController : TestEntityForAuto
 {
     public TestEntityForAutoNumberUsagesController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
 
     public TestEntityForAutoNumberUsagesControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateTestEntityForAutoNumberUsagesCommand(key, testEntityForAutoNumberUsages, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityForAutoNumberUsages", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityForAutoNumberUsagesByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityForAutoNumberUsagesCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityForAutoNumberUsages", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityForAutoNumberUsagesByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteTestEntityForAutoNumberUsagesByIdCommand(new List<TestEntityForAutoNumberUsagesKeyDto> { new TestEntityForAutoNumberUsagesKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("TestEntityForAutoNumberUsages", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

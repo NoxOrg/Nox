@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## Employee Endpoints
 
+### Get Employee Count
+- **GET** `/api/Employees/$count`
+  - Description: Retrieve the number of Employees.
+
 ### Get Employee by ID
 - **GET** `/api/Employees/{key}`
   - Description: Retrieve information about a Employee by ID.
@@ -79,6 +83,28 @@ This document provides information about the various endpoints available in our 
 #### Delete CashStockOrder relations
 - **DELETE** `/api/Employees/{key}/EmployeeReviewingCashStockOrder/$ref`
   - Description: Delete all existing CashStockOrders relations for a specific Employee.
+
+#### Get CashStockOrder
+- **GET** `/api/Employees/{key}/EmployeeReviewingCashStockOrder`
+  - Description: Retrieve all existing CashStockOrders for a specific Employee.
+  
+#### Create CashStockOrder
+- **POST** `/api/Employees/{key}/EmployeeReviewingCashStockOrder/{relatedKey}`
+  - Description: Create a new CashStockOrder for a specific Employee.
+  
+#### Update CashStockOrder
+- **PUT** `/api/Employees/{key}/EmployeeReviewingCashStockOrder/{relatedKey}`
+  - Description: Updates an existing CashStockOrder for a specific Employee.
+- **PUT** `/api/Employees/{key}/EmployeeReviewingCashStockOrder`
+  - Description: Updates the CashStockOrder for a specific Employee.
+
+#### Delete CashStockOrder
+- **DELETE** `/api/Employees/{key}/EmployeeReviewingCashStockOrder/{relatedKey}`
+  - Description: Delete an existing CashStockOrder for a specific Employee.
+
+#### Delete CashStockOrder
+- **DELETE** `/api/Employees/{key}/EmployeeReviewingCashStockOrder`
+  - Description: Delete all existing CashStockOrders for a specific Employee.
 
 ## Related Entities
 

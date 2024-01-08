@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -37,10 +38,6 @@ public abstract partial class BookingsControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefBookingToCustomerCommand(new BookingKeyDto(key), new CustomerKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -50,7 +47,7 @@ public abstract partial class BookingsControllerBase : ODataController
         var entity = (await _mediator.Send(new GetBookingByIdQuery(key))).Include(x => x.Customer).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Booking", $"{key.ToString()}");
         }
         
         if (entity.Customer is null)
@@ -97,15 +94,34 @@ public abstract partial class BookingsControllerBase : ODataController
         var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Customer).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Customer", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCustomerCommand(related.Id, customer, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetCustomerByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<CustomerDto>> PatchToCustomer(System.Guid key, [FromBody] Delta<CustomerPartialUpdateDto> customer)
+    {
+        if (!ModelState.IsValid || customer is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Customer).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("Customer", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CustomerPartialUpdateDto>(customer);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCustomerCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetCustomerByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -120,10 +136,6 @@ public abstract partial class BookingsControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefBookingToVendingMachineCommand(new BookingKeyDto(key), new VendingMachineKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -133,7 +145,7 @@ public abstract partial class BookingsControllerBase : ODataController
         var entity = (await _mediator.Send(new GetBookingByIdQuery(key))).Include(x => x.VendingMachine).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Booking", $"{key.ToString()}");
         }
         
         if (entity.VendingMachine is null)
@@ -180,15 +192,34 @@ public abstract partial class BookingsControllerBase : ODataController
         var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.VendingMachine).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("VendingMachine", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateVendingMachineCommand(related.Id, vendingMachine, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<VendingMachineDto>> PatchToVendingMachine(System.Guid key, [FromBody] Delta<VendingMachinePartialUpdateDto> vendingMachine)
+    {
+        if (!ModelState.IsValid || vendingMachine is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.VendingMachine).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("VendingMachine", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<VendingMachinePartialUpdateDto>(vendingMachine);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateVendingMachineCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -203,10 +234,6 @@ public abstract partial class BookingsControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefBookingToCommissionCommand(new BookingKeyDto(key), new CommissionKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -216,7 +243,7 @@ public abstract partial class BookingsControllerBase : ODataController
         var entity = (await _mediator.Send(new GetBookingByIdQuery(key))).Include(x => x.Commission).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Booking", $"{key.ToString()}");
         }
         
         if (entity.Commission is null)
@@ -263,15 +290,34 @@ public abstract partial class BookingsControllerBase : ODataController
         var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Commission).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Commission", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCommissionCommand(related.Id, commission, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetCommissionByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<CommissionDto>> PatchToCommission(System.Guid key, [FromBody] Delta<CommissionPartialUpdateDto> commission)
+    {
+        if (!ModelState.IsValid || commission is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Commission).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("Commission", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CommissionPartialUpdateDto>(commission);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCommissionCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetCommissionByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -286,10 +332,6 @@ public abstract partial class BookingsControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefBookingToTransactionCommand(new BookingKeyDto(key), new TransactionKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -299,7 +341,7 @@ public abstract partial class BookingsControllerBase : ODataController
         var entity = (await _mediator.Send(new GetBookingByIdQuery(key))).Include(x => x.Transaction).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Booking", $"{key.ToString()}");
         }
         
         if (entity.Transaction is null)
@@ -346,15 +388,34 @@ public abstract partial class BookingsControllerBase : ODataController
         var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Transaction).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Transaction", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateTransactionCommand(related.Id, transaction, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetTransactionByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<TransactionDto>> PatchToTransaction(System.Guid key, [FromBody] Delta<TransactionPartialUpdateDto> transaction)
+    {
+        if (!ModelState.IsValid || transaction is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Transaction).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("Transaction", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<TransactionPartialUpdateDto>(transaction);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTransactionCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetTransactionByIdQuery(updated.keyId))).SingleOrDefault();
         

@@ -1,5 +1,4 @@
-﻿﻿
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -9,13 +8,15 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using CountryTimeZoneEntity = Cryptocash.Domain.CountryTimeZone;
 
 namespace Cryptocash.Application.Commands;
-public partial record PartialUpdateCountryTimeZonesForCountryCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryTimeZoneKeyDto?>;
+public partial record PartialUpdateCountryTimeZonesForCountryCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryTimeZoneKeyDto>;
 internal partial class PartialUpdateCountryTimeZonesForCountryCommandHandler: PartialUpdateCountryTimeZonesForCountryCommandHandlerBase
 {
 	public PartialUpdateCountryTimeZonesForCountryCommandHandler(
@@ -26,11 +27,11 @@ internal partial class PartialUpdateCountryTimeZonesForCountryCommandHandler: Pa
 	{
 	}
 }
-internal abstract class PartialUpdateCountryTimeZonesForCountryCommandHandlerBase: CommandBase<PartialUpdateCountryTimeZonesForCountryCommand, CountryTimeZoneEntity>, IRequestHandler <PartialUpdateCountryTimeZonesForCountryCommand, CountryTimeZoneKeyDto?>
+internal abstract class PartialUpdateCountryTimeZonesForCountryCommandHandlerBase: CommandBase<PartialUpdateCountryTimeZonesForCountryCommand, CountryTimeZoneEntity>, IRequestHandler <PartialUpdateCountryTimeZonesForCountryCommand, CountryTimeZoneKeyDto>
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> _entityFactory;
-
+	
 	protected PartialUpdateCountryTimeZonesForCountryCommandHandlerBase(
 		AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -41,7 +42,7 @@ internal abstract class PartialUpdateCountryTimeZonesForCountryCommandHandlerBas
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<CountryTimeZoneKeyDto?> Handle(PartialUpdateCountryTimeZonesForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryTimeZoneKeyDto> Handle(PartialUpdateCountryTimeZonesForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -50,27 +51,24 @@ internal abstract class PartialUpdateCountryTimeZonesForCountryCommandHandlerBas
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.CountryTimeZones).LoadAsync(cancellationToken);
 		var ownedId = Cryptocash.Domain.CountryTimeZoneMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Country.CountryTimeZones", $"{ownedId.ToString()}");
 		}
 
-		_entityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(entity).State = EntityState.Modified;
+		
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new CountryTimeZoneKeyDto(entity.Id.Value);
 	}

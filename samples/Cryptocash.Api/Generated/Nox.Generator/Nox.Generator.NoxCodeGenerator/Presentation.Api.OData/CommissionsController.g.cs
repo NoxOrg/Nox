@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -37,10 +38,6 @@ public abstract partial class CommissionsControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefCommissionToCountryCommand(new CommissionKeyDto(key), new CountryKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -50,7 +47,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         var entity = (await _mediator.Send(new GetCommissionByIdQuery(key))).Include(x => x.Country).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Commission", $"{key.ToString()}");
         }
         
         if (entity.Country is null)
@@ -69,10 +66,6 @@ public abstract partial class CommissionsControllerBase : ODataController
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefCommissionToCountryCommand(new CommissionKeyDto(key), new CountryKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -85,10 +78,6 @@ public abstract partial class CommissionsControllerBase : ODataController
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefCommissionToCountryCommand(new CommissionKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -129,15 +118,34 @@ public abstract partial class CommissionsControllerBase : ODataController
         var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Country", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCountryCommand(related.Id, country, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<CountryDto>> PatchToCountry(System.Guid key, [FromBody] Delta<CountryPartialUpdateDto> country)
+    {
+        if (!ModelState.IsValid || country is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("Country", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CountryPartialUpdateDto>(country);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -155,15 +163,11 @@ public abstract partial class CommissionsControllerBase : ODataController
         var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Commission", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteCountryByIdCommand(new List<CountryKeyDto> { new CountryKeyDto(related.Id) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         return NoContent();
     }
     
@@ -175,10 +179,6 @@ public abstract partial class CommissionsControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefCommissionToBookingsCommand(new CommissionKeyDto(key), new BookingKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -193,10 +193,6 @@ public abstract partial class CommissionsControllerBase : ODataController
         
         var relatedKeysDto = referencesDto.References.Select(x => new BookingKeyDto(x)).ToList();
         var updatedRef = await _mediator.Send(new UpdateRefCommissionToBookingsCommand(new CommissionKeyDto(key), relatedKeysDto));
-        if (!updatedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -206,7 +202,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         var entity = (await _mediator.Send(new GetCommissionByIdQuery(key))).Include(x => x.Bookings).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Commission", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -225,10 +221,6 @@ public abstract partial class CommissionsControllerBase : ODataController
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefCommissionToBookingsCommand(new CommissionKeyDto(key), new BookingKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -241,10 +233,6 @@ public abstract partial class CommissionsControllerBase : ODataController
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefCommissionToBookingsCommand(new CommissionKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -270,7 +258,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         var query = await _mediator.Send(new GetCommissionByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("Commission", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.Bookings).SelectMany(x => x.Bookings));
     }
@@ -298,15 +286,35 @@ public abstract partial class CommissionsControllerBase : ODataController
         var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Bookings", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateBookingCommand(relatedKey, booking, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetBookingByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/Commissions/{key}/Bookings/{relatedKey}")]
+    public virtual async Task<ActionResult<BookingDto>> PatchtoBookingsNonConventional(System.Guid key, System.Guid relatedKey, [FromBody] Delta<BookingPartialUpdateDto> booking)
+    {
+        if (!ModelState.IsValid || booking is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Bookings", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<BookingPartialUpdateDto>(booking);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateBookingCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetBookingByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -324,15 +332,11 @@ public abstract partial class CommissionsControllerBase : ODataController
         var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Bookings", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteBookingByIdCommand(new List<BookingKeyDto> { new BookingKeyDto(relatedKey) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -348,7 +352,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.Bookings).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Commission", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();

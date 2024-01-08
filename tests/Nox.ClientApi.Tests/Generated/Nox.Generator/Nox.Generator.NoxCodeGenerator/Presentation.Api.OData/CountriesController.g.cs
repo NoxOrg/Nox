@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
 using ClientApi.Application.Queries;
@@ -40,7 +41,7 @@ public abstract partial class CountriesControllerBase : ODataController
         
         if (item is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Country", $"{key.ToString()}");
         }
         
         return Ok(item.CountryLocalNames);
@@ -55,9 +56,9 @@ public abstract partial class CountriesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetCountryLocalNames(key, new CountryLocalNameKeyDto(relatedKey));
-        if (child == null)
+        if (child is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("CountryLocalName", $"{relatedKey.ToString()}");
         }
         
         return Ok(child);
@@ -72,17 +73,8 @@ public abstract partial class CountriesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var createdKey = await _mediator.Send(new CreateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), countryLocalName, _cultureCode, etag));
-        if (createdKey == null)
-        {
-            return NotFound();
-        }
         
         var child = await TryGetCountryLocalNames(key, createdKey);
-        if (child == null)
-        {
-            return NotFound();
-        }
-        
         return Created(child);
     }
     
@@ -95,16 +87,8 @@ public abstract partial class CountriesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), countryLocalName, _cultureCode, etag));
-        if (updatedKey == null)
-        {
-            return NotFound();
-        }
         
         var child = await TryGetCountryLocalNames(key, updatedKey);
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -115,33 +99,17 @@ public abstract partial class CountriesControllerBase : ODataController
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var updateProperties = new Dictionary<string, dynamic>();
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CountryLocalNameUpsertDto>(countryLocalName);
         
-        foreach (var propertyName in countryLocalName.GetChangedPropertyNames())
-        {
-            if(countryLocalName.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
-        
-        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
+        if(!updatedProperties.ContainsKey("Id") || updatedProperties["Id"] == null)
         {
             throw new Nox.Exceptions.BadRequestException("Id is required.");
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(updateProperties["Id"]), updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(updatedProperties["Id"]), updatedProperties, _cultureCode, etag));
         
-        if (updated is null)
-        {
-            return NotFound();
-        }
-        var child = await TryGetCountryLocalNames(key, updated);
-        if (child == null)
-        {
-            return NotFound();
-        }
+        var child = await TryGetCountryLocalNames(key, updated!);
         
         return Ok(child);
     }
@@ -154,10 +122,6 @@ public abstract partial class CountriesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new DeleteCountryLocalNamesForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey)));
-        if (!result)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -179,7 +143,7 @@ public abstract partial class CountriesControllerBase : ODataController
         
         if (item is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Country", $"{key.ToString()}");
         }
         
         return Ok(item.CountryBarCode);
@@ -194,17 +158,8 @@ public abstract partial class CountriesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var createdKey = await _mediator.Send(new CreateCountryBarCodeForCountryCommand(new CountryKeyDto(key), countryBarCode, _cultureCode, etag));
-        if (createdKey == null)
-        {
-            return NotFound();
-        }
         
         var child = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.CountryBarCode;
-        if (child == null)
-        {
-            return NotFound();
-        }
-        
         return Created(child);
     }
     
@@ -217,16 +172,8 @@ public abstract partial class CountriesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateCountryBarCodeForCountryCommand(new CountryKeyDto(key), countryBarCode, _cultureCode, etag));
-        if (updatedKey == null)
-        {
-            return NotFound();
-        }
         
         var child = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.CountryBarCode;
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -237,29 +184,13 @@ public abstract partial class CountriesControllerBase : ODataController
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in countryBarCode.GetChangedPropertyNames())
-        {
-            if(countryBarCode.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CountryBarCodeUpsertDto>(countryBarCode);
         
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCountryBarCodeForCountryCommand(new CountryKeyDto(key), updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateCountryBarCodeForCountryCommand(new CountryKeyDto(key), updatedProperties, _cultureCode, etag));
         
-        if (updated is null)
-        {
-            return NotFound();
-        }
         var child = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.CountryBarCode;
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -272,10 +203,6 @@ public abstract partial class CountriesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new DeleteCountryBarCodeForCountryCommand(new CountryKeyDto(key)));
-        if (!result)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -291,7 +218,7 @@ public abstract partial class CountriesControllerBase : ODataController
         
         if (item is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Country", $"{key.ToString()}");
         }
         
         return Ok(item.CountryTimeZones);
@@ -306,9 +233,9 @@ public abstract partial class CountriesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetCountryTimeZones(key, new CountryTimeZoneKeyDto(relatedKey));
-        if (child == null)
+        if (child is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("CountryTimeZone", $"{relatedKey.ToString()}");
         }
         
         return Ok(child);
@@ -323,17 +250,8 @@ public abstract partial class CountriesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var createdKey = await _mediator.Send(new CreateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), countryTimeZone, _cultureCode, etag));
-        if (createdKey == null)
-        {
-            return NotFound();
-        }
         
         var child = await TryGetCountryTimeZones(key, createdKey);
-        if (child == null)
-        {
-            return NotFound();
-        }
-        
         return Created(child);
     }
     
@@ -346,16 +264,8 @@ public abstract partial class CountriesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), countryTimeZone, _cultureCode, etag));
-        if (updatedKey == null)
-        {
-            return NotFound();
-        }
         
         var child = await TryGetCountryTimeZones(key, updatedKey);
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -366,33 +276,17 @@ public abstract partial class CountriesControllerBase : ODataController
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var updateProperties = new Dictionary<string, dynamic>();
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CountryTimeZoneUpsertDto>(countryTimeZone);
         
-        foreach (var propertyName in countryTimeZone.GetChangedPropertyNames())
-        {
-            if(countryTimeZone.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
-        
-        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
+        if(!updatedProperties.ContainsKey("Id") || updatedProperties["Id"] == null)
         {
             throw new Nox.Exceptions.BadRequestException("Id is required.");
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(updateProperties["Id"]), updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(updatedProperties["Id"]), updatedProperties, _cultureCode, etag));
         
-        if (updated is null)
-        {
-            return NotFound();
-        }
-        var child = await TryGetCountryTimeZones(key, updated);
-        if (child == null)
-        {
-            return NotFound();
-        }
+        var child = await TryGetCountryTimeZones(key, updated!);
         
         return Ok(child);
     }
@@ -405,10 +299,6 @@ public abstract partial class CountriesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new DeleteCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey)));
-        if (!result)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -430,7 +320,7 @@ public abstract partial class CountriesControllerBase : ODataController
         
         if (item is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Country", $"{key.ToString()}");
         }
         
         return Ok(item.Holidays);
@@ -445,9 +335,9 @@ public abstract partial class CountriesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetHolidays(key, new HolidayKeyDto(relatedKey));
-        if (child == null)
+        if (child is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Holiday", $"{relatedKey.ToString()}");
         }
         
         return Ok(child);
@@ -462,17 +352,8 @@ public abstract partial class CountriesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var createdKey = await _mediator.Send(new CreateHolidaysForCountryCommand(new CountryKeyDto(key), holiday, _cultureCode, etag));
-        if (createdKey == null)
-        {
-            return NotFound();
-        }
         
         var child = await TryGetHolidays(key, createdKey);
-        if (child == null)
-        {
-            return NotFound();
-        }
-        
         return Created(child);
     }
     
@@ -485,16 +366,8 @@ public abstract partial class CountriesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateHolidaysForCountryCommand(new CountryKeyDto(key), holiday, _cultureCode, etag));
-        if (updatedKey == null)
-        {
-            return NotFound();
-        }
         
         var child = await TryGetHolidays(key, updatedKey);
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -505,33 +378,17 @@ public abstract partial class CountriesControllerBase : ODataController
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var updateProperties = new Dictionary<string, dynamic>();
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<HolidayUpsertDto>(holiday);
         
-        foreach (var propertyName in holiday.GetChangedPropertyNames())
-        {
-            if(holiday.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
-        
-        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
+        if(!updatedProperties.ContainsKey("Id") || updatedProperties["Id"] == null)
         {
             throw new Nox.Exceptions.BadRequestException("Id is required.");
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateHolidaysForCountryCommand(new CountryKeyDto(key), new HolidayKeyDto(updateProperties["Id"]), updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateHolidaysForCountryCommand(new CountryKeyDto(key), new HolidayKeyDto(updatedProperties["Id"]), updatedProperties, _cultureCode, etag));
         
-        if (updated is null)
-        {
-            return NotFound();
-        }
-        var child = await TryGetHolidays(key, updated);
-        if (child == null)
-        {
-            return NotFound();
-        }
+        var child = await TryGetHolidays(key, updated!);
         
         return Ok(child);
     }
@@ -544,10 +401,6 @@ public abstract partial class CountriesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new DeleteHolidaysForCountryCommand(new CountryKeyDto(key), new HolidayKeyDto(relatedKey)));
-        if (!result)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -571,10 +424,6 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefCountryToWorkplacesCommand(new CountryKeyDto(key), new WorkplaceKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -589,10 +438,6 @@ public abstract partial class CountriesControllerBase : ODataController
         
         var relatedKeysDto = referencesDto.References.Select(x => new WorkplaceKeyDto(x)).ToList();
         var updatedRef = await _mediator.Send(new UpdateRefCountryToWorkplacesCommand(new CountryKeyDto(key), relatedKeysDto));
-        if (!updatedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -602,7 +447,7 @@ public abstract partial class CountriesControllerBase : ODataController
         var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).Include(x => x.Workplaces).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Country", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -621,10 +466,6 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefCountryToWorkplacesCommand(new CountryKeyDto(key), new WorkplaceKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -637,10 +478,6 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefCountryToWorkplacesCommand(new CountryKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -666,7 +503,7 @@ public abstract partial class CountriesControllerBase : ODataController
         var query = await _mediator.Send(new GetCountryByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("Country", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.Workplaces).SelectMany(x => x.Workplaces));
     }
@@ -694,15 +531,35 @@ public abstract partial class CountriesControllerBase : ODataController
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Workplaces).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Workplaces", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateWorkplaceCommand(relatedKey, workplace, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetWorkplaceByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/v1/Countries/{key}/Workplaces/{relatedKey}")]
+    public virtual async Task<ActionResult<WorkplaceDto>> PatchtoWorkplacesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<WorkplacePartialUpdateDto> workplace)
+    {
+        if (!ModelState.IsValid || workplace is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Workplaces).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Workplaces", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<WorkplacePartialUpdateDto>(workplace);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateWorkplaceCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetWorkplaceByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -720,15 +577,11 @@ public abstract partial class CountriesControllerBase : ODataController
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Workplaces).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Workplaces", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteWorkplaceByIdCommand(new List<WorkplaceKeyDto> { new WorkplaceKeyDto(relatedKey) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -744,11 +597,200 @@ public abstract partial class CountriesControllerBase : ODataController
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Workplaces).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Country", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         await _mediator.Send(new DeleteWorkplaceByIdCommand(related.Select(item => new WorkplaceKeyDto(item.Id)), etag));
+        return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> CreateRefToStores([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefCountryToStoresCommand(new CountryKeyDto(key), new StoreKeyDto(relatedKey)));
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/Countries/{key}/Stores/$ref")]
+    public virtual async Task<ActionResult> UpdateRefToStoresNonConventional([FromRoute] System.Int64 key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new StoreKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefCountryToStoresCommand(new CountryKeyDto(key), relatedKeysDto));
+        
+        return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> GetRefToStores([FromRoute] System.Int64 key)
+    {
+        var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).Include(x => x.Stores).SingleOrDefault();
+        if (entity is null)
+        {
+            throw new EntityNotFoundException("Country", $"{key.ToString()}");
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in entity.Stores)
+        {
+            references.Add(new System.Uri($"Stores/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
+    }
+    
+    public virtual async Task<ActionResult> DeleteRefToStores([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCountryToStoresCommand(new CountryKeyDto(key), new StoreKeyDto(relatedKey)));
+        
+        return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> DeleteRefToStores([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCountryToStoresCommand(new CountryKeyDto(key)));
+        
+        return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToStores([FromRoute] System.Int64 key, [FromBody] StoreCreateDto store)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        store.CountryId = key;
+        var createdKey = await _mediator.Send(new CreateStoreCommand(store, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetStoreByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<StoreDto>>> GetStores(System.Int64 key)
+    {
+        var query = await _mediator.Send(new GetCountryByIdQuery(key));
+        if (!query.Any())
+        {
+            throw new EntityNotFoundException("Country", $"{key.ToString()}");
+        }
+        return Ok(query.Include(x => x.Stores).SelectMany(x => x.Stores));
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Countries/{key}/Stores/{relatedKey}")]
+    public virtual async Task<SingleResult<StoreDto>> GetStoresNonConventional(System.Int64 key, System.Guid relatedKey)
+    {
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Stores).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<StoreDto>(Enumerable.Empty<StoreDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
+    [HttpPut("/api/v1/Countries/{key}/Stores/{relatedKey}")]
+    public virtual async Task<ActionResult<StoreDto>> PutToStoresNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] StoreUpdateDto store)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Stores).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Stores", $"{relatedKey.ToString()}");
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateStoreCommand(relatedKey, store, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetStoreByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/v1/Countries/{key}/Stores/{relatedKey}")]
+    public virtual async Task<ActionResult<StoreDto>> PatchtoStoresNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] Delta<StorePartialUpdateDto> store)
+    {
+        if (!ModelState.IsValid || store is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Stores).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Stores", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<StorePartialUpdateDto>(store);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateStoreCommand(relatedKey, updatedProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetStoreByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpDelete("/api/v1/Countries/{key}/Stores/{relatedKey}")]
+    public virtual async Task<ActionResult> DeleteToStores([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Stores).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Stores", $"{relatedKey.ToString()}");
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteStoreByIdCommand(new List<StoreKeyDto> { new StoreKeyDto(relatedKey) }, etag));
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/Countries/{key}/Stores")]
+    public virtual async Task<ActionResult> DeleteToStores([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Stores).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("Country", $"{key.ToString()}");
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        await _mediator.Send(new DeleteStoreByIdCommand(related.Select(item => new StoreKeyDto(item.Id)), etag));
         return NoContent();
     }
     

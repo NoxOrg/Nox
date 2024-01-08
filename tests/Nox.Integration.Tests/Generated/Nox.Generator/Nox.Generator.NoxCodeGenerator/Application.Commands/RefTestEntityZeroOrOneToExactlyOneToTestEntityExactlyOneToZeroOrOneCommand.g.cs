@@ -1,5 +1,4 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -41,13 +41,13 @@ internal partial class CreateRefTestEntityZeroOrOneToExactlyOneToTestEntityExact
 		var entity = await GetTestEntityZeroOrOneToExactlyOne(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityZeroOrOneToExactlyOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetTestEntityExactlyOneToZeroOrOne(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("TestEntityExactlyOneToZeroOrOne",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.CreateRefToTestEntityExactlyOneToZeroOrOne(relatedEntity);
@@ -78,13 +78,13 @@ internal partial class DeleteRefTestEntityZeroOrOneToExactlyOneToTestEntityExact
         var entity = await GetTestEntityZeroOrOneToExactlyOne(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityZeroOrOneToExactlyOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetTestEntityExactlyOneToZeroOrOne(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("TestEntityExactlyOneToZeroOrOne", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.DeleteRefToTestEntityExactlyOneToZeroOrOne(relatedEntity);
@@ -115,7 +115,7 @@ internal partial class DeleteAllRefTestEntityZeroOrOneToExactlyOneToTestEntityEx
         var entity = await GetTestEntityZeroOrOneToExactlyOne(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("TestEntityZeroOrOneToExactlyOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToTestEntityExactlyOneToZeroOrOne();
 
@@ -164,10 +164,6 @@ internal abstract class RefTestEntityZeroOrOneToExactlyOneToTestEntityExactlyOne
 		await OnCompletedAsync(request, entity);
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return false;
-		}
 		return true;
 	}
 }

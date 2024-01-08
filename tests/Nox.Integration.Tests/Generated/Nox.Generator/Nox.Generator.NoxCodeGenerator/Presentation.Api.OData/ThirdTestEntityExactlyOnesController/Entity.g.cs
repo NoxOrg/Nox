@@ -28,7 +28,7 @@ public partial class ThirdTestEntityExactlyOnesController : ThirdTestEntityExact
 {
     public ThirdTestEntityExactlyOnesController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
 
     public ThirdTestEntityExactlyOnesControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateThirdTestEntityExactlyOneCommand(key, thirdTestEntityExactlyOne, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("ThirdTestEntityExactlyOne", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateThirdTestEntityExactlyOneCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("ThirdTestEntityExactlyOne", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteThirdTestEntityExactlyOneByIdCommand(new List<ThirdTestEntityExactlyOneKeyDto> { new ThirdTestEntityExactlyOneKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("ThirdTestEntityExactlyOne", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

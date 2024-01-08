@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace CryptocashIntegration.Domain;
 
@@ -49,7 +50,7 @@ internal record CountryQueryToTableDeleted(CountryQueryToTable CountryQueryToTab
 /// <summary>
 /// Country and related data.
 /// </summary>
-internal abstract partial class CountryQueryToTableBase : EntityBase, IEntityConcurrent
+internal abstract partial class CountryQueryToTableBase : EntityBase, IEtag
 {
     /// <summary>
     /// Country unique identifier    
@@ -96,6 +97,7 @@ internal abstract partial class CountryQueryToTableBase : EntityBase, IEntityCon
         InternalDomainEvents.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

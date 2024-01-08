@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
@@ -49,7 +50,7 @@ internal record RatingProgramDeleted(RatingProgram RatingProgram) : IDomainEvent
 /// <summary>
 /// Rating program for store.
 /// </summary>
-internal abstract partial class RatingProgramBase : EntityBase, IEntityConcurrent
+internal abstract partial class RatingProgramBase : EntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -97,6 +98,7 @@ internal abstract partial class RatingProgramBase : EntityBase, IEntityConcurren
         InternalDomainEvents.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

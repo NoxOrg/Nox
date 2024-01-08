@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
@@ -49,7 +50,7 @@ internal record TestEntityLocalizationDeleted(TestEntityLocalization TestEntityL
 /// <summary>
 /// Entity created for testing localization.
 /// </summary>
-internal abstract partial class TestEntityLocalizationBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityLocalizationBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -96,6 +97,20 @@ internal abstract partial class TestEntityLocalizationBase : AuditableEntityBase
         InternalDomainEvents.Clear();
     }
 
+        /// <summary>
+        /// TestEntityLocalization localized entities.
+        /// </summary>
+        public virtual List<TestEntityLocalizationLocalized> LocalizedTestEntityLocalizations  { get; private set; } = new();
+    
+    
+    	/// <summary>
+    	/// Creates a new TestEntityLocalizationLocalized entity.
+    	/// </summary>
+        public virtual void CreateRefToLocalizedTestEntityLocalizations(TestEntityLocalizationLocalized relatedTestEntityLocalizationLocalized)
+    	{
+    		LocalizedTestEntityLocalizations.Add(relatedTestEntityLocalizationLocalized);
+    	}
+        
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

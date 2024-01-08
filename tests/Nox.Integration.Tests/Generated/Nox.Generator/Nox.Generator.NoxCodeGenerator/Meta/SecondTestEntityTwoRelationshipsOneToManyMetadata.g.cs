@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace TestWebApp.Domain;
 
@@ -75,13 +76,8 @@ public partial class SecondTestEntityTwoRelationshipsOneToManyMetadata
         public static Nox.Types.Text CreateTestEntityTwoRelationshipsOneToManyId(System.String value)
             => Nox.Types.Text.From(value, TestEntityTwoRelationshipsOneToManyIdTypeOptions);
         
-
         /// <summary>
         /// User Interface for property 'TextTestField2'
         /// </summary>
-        public static TypeUserInterface? TextTestField2UiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("SecondTestEntityTwoRelationshipsOneToMany")
-                .GetAttributeByName("TextTestField2")?
-                .UserInterface;
+        public static TypeUserInterface? TextTestField2UiOptions {get; private set;} = null; 
 }

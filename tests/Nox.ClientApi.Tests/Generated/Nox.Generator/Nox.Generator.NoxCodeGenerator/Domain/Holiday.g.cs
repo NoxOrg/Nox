@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
@@ -116,4 +117,5 @@ internal abstract partial class HolidayBase : EntityBase, IOwnedEntity
         InternalDomainEvents.Clear();
     }
 
+    
 }

@@ -20,7 +20,7 @@ public class VendingMachineService : IEntityService
     {
         ApiUiService rtnApiUiService = new();
 
-        rtnApiUiService.Url = BaseApiUrl + "api/v1/VendingMachines";
+        rtnApiUiService.Url = BaseApiUrl + "api/VendingMachines";
 
         rtnApiUiService.OrderList = new List<SortOrder> {
             new SortOrder()

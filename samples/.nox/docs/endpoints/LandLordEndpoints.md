@@ -4,6 +4,10 @@ This document provides information about the various endpoints available in our 
 
 ## LandLord Endpoints
 
+### Get LandLord Count
+- **GET** `/api/LandLords/$count`
+  - Description: Retrieve the number of LandLords.
+
 ### Get LandLord by ID
 - **GET** `/api/LandLords/{key}`
   - Description: Retrieve information about a LandLord by ID.
@@ -53,6 +57,28 @@ This document provides information about the various endpoints available in our 
 #### Delete VendingMachine relations
 - **DELETE** `/api/LandLords/{key}/ContractedAreasForVendingMachines/$ref`
   - Description: Delete all existing VendingMachines relations for a specific LandLord.
+
+#### Get VendingMachine
+- **GET** `/api/LandLords/{key}/ContractedAreasForVendingMachines`
+  - Description: Retrieve all existing VendingMachines for a specific LandLord.
+  
+#### Create VendingMachine
+- **POST** `/api/LandLords/{key}/ContractedAreasForVendingMachines/{relatedKey}`
+  - Description: Create a new VendingMachine for a specific LandLord.
+  
+#### Update VendingMachine
+- **PUT** `/api/LandLords/{key}/ContractedAreasForVendingMachines/{relatedKey}`
+  - Description: Updates an existing VendingMachine for a specific LandLord.
+- **PUT** `/api/LandLords/{key}/ContractedAreasForVendingMachines`
+  - Description: Updates the VendingMachine for a specific LandLord.
+
+#### Delete VendingMachine
+- **DELETE** `/api/LandLords/{key}/ContractedAreasForVendingMachines/{relatedKey}`
+  - Description: Delete an existing VendingMachine for a specific LandLord.
+
+#### Delete VendingMachine
+- **DELETE** `/api/LandLords/{key}/ContractedAreasForVendingMachines`
+  - Description: Delete all existing VendingMachines for a specific LandLord.
 
 ## Related Entities
 

@@ -46,6 +46,7 @@ public class StoreDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.Select("Stores.Location_Latitude")
 			.Select("Stores.Location_Longitude")
 			.Select("StoresStatuses.Name as StatusName")
+			.Select("Stores.CountryId")
 			.Select("Stores.StoreOwnerId")
 			.Select("Stores.DeletedAtUtc")
 			.Select("Stores.Etag")

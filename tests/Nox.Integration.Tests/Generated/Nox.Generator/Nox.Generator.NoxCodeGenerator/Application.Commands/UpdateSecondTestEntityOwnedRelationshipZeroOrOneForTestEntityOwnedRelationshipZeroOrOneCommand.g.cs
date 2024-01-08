@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Extensions;
+using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using TestWebApp.Infrastructure.Persistence;
@@ -19,7 +20,7 @@ using TestEntityOwnedRelationshipZeroOrOneEntity = TestWebApp.Domain.TestEntityO
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(TestEntityOwnedRelationshipZeroOrOneKeyDto ParentKeyDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <SecondTestEntityOwnedRelationshipZeroOrOneKeyDto?>;
+public partial record UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(TestEntityOwnedRelationshipZeroOrOneKeyDto ParentKeyDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <SecondTestEntityOwnedRelationshipZeroOrOneKeyDto>;
 
 internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommandHandler : UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase
 {
@@ -32,7 +33,7 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEn
 	}
 }
 
-internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase : CommandBase<UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand, SecondTestEntityOwnedRelationshipZeroOrOneEntity>, IRequestHandler <UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand, SecondTestEntityOwnedRelationshipZeroOrOneKeyDto?>
+internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase : CommandBase<UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand, SecondTestEntityOwnedRelationshipZeroOrOneEntity>, IRequestHandler <UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand, SecondTestEntityOwnedRelationshipZeroOrOneKeyDto>
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<SecondTestEntityOwnedRelationshipZeroOrOneEntity, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto> _entityFactory;
@@ -47,7 +48,7 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEn
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<SecondTestEntityOwnedRelationshipZeroOrOneKeyDto?> Handle(UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand request, CancellationToken cancellationToken)
+	public virtual async Task<SecondTestEntityOwnedRelationshipZeroOrOneKeyDto> Handle(UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,12 +56,12 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEn
 		var parentEntity = await _dbContext.TestEntityOwnedRelationshipZeroOrOnes.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("TestEntityOwnedRelationshipZeroOrOne",  $"{keyId.ToString()}");
 		}
 		await _dbContext.Entry(parentEntity).Reference(e => e.SecondTestEntityOwnedRelationshipZeroOrOne).LoadAsync(cancellationToken);
 		var entity = parentEntity.SecondTestEntityOwnedRelationshipZeroOrOne;
 		if (entity is null)
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
 		else
 			await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 
@@ -68,20 +69,15 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEn
 		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
-
+		
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new SecondTestEntityOwnedRelationshipZeroOrOneKeyDto();
 	}
 	
-	private async Task<SecondTestEntityOwnedRelationshipZeroOrOneEntity> CreateEntityAsync(SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto upsertDto, TestEntityOwnedRelationshipZeroOrOneEntity parent)
+	private async Task<SecondTestEntityOwnedRelationshipZeroOrOneEntity> CreateEntityAsync(SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto upsertDto, TestEntityOwnedRelationshipZeroOrOneEntity parent, Nox.Types.CultureCode cultureCode)
 	{
-		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
 		parent.CreateRefToSecondTestEntityOwnedRelationshipZeroOrOne(entity);
 		return entity;
 	}

@@ -28,7 +28,7 @@ public partial class TestEntityTwoRelationshipsOneToManiesController : TestEntit
 {
     public TestEntityTwoRelationshipsOneToManiesController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
 
     public TestEntityTwoRelationshipsOneToManiesControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateTestEntityTwoRelationshipsOneToManyCommand(key, testEntityTwoRelationshipsOneToMany, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityTwoRelationshipsOneToMany", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityTwoRelationshipsOneToManyCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityTwoRelationshipsOneToMany", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteTestEntityTwoRelationshipsOneToManyByIdCommand(new List<TestEntityTwoRelationshipsOneToManyKeyDto> { new TestEntityTwoRelationshipsOneToManyKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("TestEntityTwoRelationshipsOneToMany", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

@@ -11,6 +11,20 @@
     }
   ],
   "properties": {
+    "apiGenerateRelatedEndpointsMaxDepth": {    
+      "title": "Depth of relationship navigation.",
+      "description": "Specifies the depth for generating related entities endpoints.",
+      "oneOf": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "apiRoutePrefix": {    
       "title": "The api route prefix, defaults to api/v1 or to api/vMajor({Solution.Version}) if Version is set in the root of the Solution.",
       "description": "Defines the prefix for all Api routes end points.",

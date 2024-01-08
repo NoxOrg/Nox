@@ -1,5 +1,4 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -41,13 +41,13 @@ internal partial class CreateRefWorkplaceToTenantsCommandHandler
 		var entity = await GetWorkplace(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Workplace",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetTenant(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("Tenant",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.CreateRefToTenants(relatedEntity);
@@ -78,7 +78,7 @@ internal partial class UpdateRefWorkplaceToTenantsCommandHandler
 		var entity = await GetWorkplace(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Workplace",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntities = new List<ClientApi.Domain.Tenant>();
@@ -87,7 +87,7 @@ internal partial class UpdateRefWorkplaceToTenantsCommandHandler
 			var relatedEntity = await GetTenant(keyDto);
 			if (relatedEntity == null)
 			{
-				return false;
+				throw new RelatedEntityNotFoundException("Tenant", $"{keyDto.keyId.ToString()}");
 			}
 			relatedEntities.Add(relatedEntity);
 		}
@@ -121,13 +121,13 @@ internal partial class DeleteRefWorkplaceToTenantsCommandHandler
         var entity = await GetWorkplace(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Workplace",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
 		var relatedEntity = await GetTenant(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			return false;
+			throw new RelatedEntityNotFoundException("Tenant", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
 		entity.DeleteRefToTenants(relatedEntity);
@@ -158,7 +158,7 @@ internal partial class DeleteAllRefWorkplaceToTenantsCommandHandler
         var entity = await GetWorkplace(request.EntityKeyDto);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Workplace",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		await DbContext.Entry(entity).Collection(x => x.Tenants).LoadAsync();
 		entity.DeleteAllRefToTenants();
@@ -208,10 +208,6 @@ internal abstract class RefWorkplaceToTenantsCommandHandlerBase<TRequest> : Comm
 		await OnCompletedAsync(request, entity);
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return false;
-		}
 		return true;
 	}
 }

@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,32 +27,28 @@ internal partial class BankNoteFactory : BankNoteFactoryBase
 {
     public BankNoteFactory
     (
-        IRepository repository
-    ) : base( repository)
+    ) : base()
     {}
 }
 
 internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
     public BankNoteFactoryBase(
-        IRepository repository
         )
     {
-        _repository = repository;
     }
 
-    public virtual async Task<BankNoteEntity> CreateEntityAsync(BankNoteUpsertDto createDto)
+    public virtual async Task<BankNoteEntity> CreateEntityAsync(BankNoteUpsertDto createDto, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-            return await ToEntityAsync(createDto);
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(BankNoteEntity));
         }        
     }
 
@@ -64,67 +60,67 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(BankNoteEntity));
         }   
     }
 
-    public virtual void PartialUpdateEntity(BankNoteEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(BankNoteEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(BankNoteEntity));
         }   
     }
 
-    private async Task<Cryptocash.Domain.BankNote> ToEntityAsync(BankNoteUpsertDto createDto)
+    private async Task<Cryptocash.Domain.BankNote> ToEntityAsync(BankNoteUpsertDto createDto, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.BankNote();
-        entity.SetIfNotNull(createDto.CashNote, (entity) => entity.CashNote = 
-            Cryptocash.Domain.BankNoteMetadata.CreateCashNote(createDto.CashNote.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.Value, (entity) => entity.Value = 
-            Cryptocash.Domain.BankNoteMetadata.CreateValue(createDto.Value.NonNullValue<MoneyDto>()));
+        exceptionCollector.Collect("CashNote", () => entity.SetIfNotNull(createDto.CashNote, (entity) => entity.CashNote = 
+            Cryptocash.Domain.BankNoteMetadata.CreateCashNote(createDto.CashNote.NonNullValue<System.String>())));
+        exceptionCollector.Collect("Value", () => entity.SetIfNotNull(createDto.Value, (entity) => entity.Value = 
+            Cryptocash.Domain.BankNoteMetadata.CreateValue(createDto.Value.NonNullValue<MoneyDto>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(BankNoteEntity entity, BankNoteUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(updateDto.CashNote.NonNullValue<System.String>());
-        entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(updateDto.Value.NonNullValue<MoneyDto>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        exceptionCollector.Collect("CashNote",() => entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(updateDto.CashNote.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Value",() => entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(updateDto.Value.NonNullValue<MoneyDto>()));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(BankNoteEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("CashNote", out var CashNoteUpdateValue))
         {
-            if (CashNoteUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(CashNoteUpdateValue, "Attribute 'CashNote' can't be null.");
             {
-                throw new ArgumentException("Attribute 'CashNote' can't be null");
-            }
-            {
-                entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(CashNoteUpdateValue);
+                exceptionCollector.Collect("CashNote",() =>entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(CashNoteUpdateValue));
             }
         }
 
         if (updatedProperties.TryGetValue("Value", out var ValueUpdateValue))
         {
-            if (ValueUpdateValue == null)
-            {
-                throw new ArgumentException("Attribute 'Value' can't be null");
-            }
+            ArgumentNullException.ThrowIfNull(ValueUpdateValue, "Attribute 'Value' can't be null.");
             {
                 var entityToUpdate = entity.Value is null ? new MoneyDto() : entity.Value.ToDto();
                 MoneyDto.UpdateFromDictionary(entityToUpdate, ValueUpdateValue);
-                entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(entityToUpdate);
+                exceptionCollector.Collect("Value",() =>entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(entityToUpdate));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 }

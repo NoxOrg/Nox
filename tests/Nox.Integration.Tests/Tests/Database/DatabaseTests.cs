@@ -1152,15 +1152,16 @@ public class DatabaseTests
 
         var text1 = Text.From("TX1");
         var text2 = Text.From("TX2");
+        var cultureCode = CultureCode.From("en-US");
 
-        var factory = new TestEntityForAutoNumberUsagesFactory(new Nox.Domain.Repository(DataContext));
+        var factory = new TestEntityForAutoNumberUsagesFactory();
 
         var newItemDto = new TestEntityForAutoNumberUsagesCreateDto
         {
             TextField = "TX1"
         };
 
-        var newItem = await factory.CreateEntityAsync(newItemDto);
+        var newItem = await factory.CreateEntityAsync(newItemDto, cultureCode);
 
         DataContext.TestEntityForAutoNumberUsages.Add(newItem);
 

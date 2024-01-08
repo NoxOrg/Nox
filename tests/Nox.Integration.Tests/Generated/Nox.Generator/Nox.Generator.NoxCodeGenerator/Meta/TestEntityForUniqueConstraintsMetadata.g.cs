@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace TestWebApp.Domain;
 
@@ -105,49 +106,24 @@ public partial class TestEntityForUniqueConstraintsMetadata
         public static Nox.Types.CurrencyCode3 CreateUniqueCurrencyCode(System.String value)
             => Nox.Types.CurrencyCode3.From(value);
         
-
         /// <summary>
         /// User Interface for property 'TextField'
         /// </summary>
-        public static TypeUserInterface? TextFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForUniqueConstraints")
-                .GetAttributeByName("TextField")?
-                .UserInterface;
-
+        public static TypeUserInterface? TextFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'NumberField'
         /// </summary>
-        public static TypeUserInterface? NumberFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForUniqueConstraints")
-                .GetAttributeByName("NumberField")?
-                .UserInterface;
-
+        public static TypeUserInterface? NumberFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'UniqueNumberField'
         /// </summary>
-        public static TypeUserInterface? UniqueNumberFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForUniqueConstraints")
-                .GetAttributeByName("UniqueNumberField")?
-                .UserInterface;
-
+        public static TypeUserInterface? UniqueNumberFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'UniqueCountryCode'
         /// </summary>
-        public static TypeUserInterface? UniqueCountryCodeUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForUniqueConstraints")
-                .GetAttributeByName("UniqueCountryCode")?
-                .UserInterface;
-
+        public static TypeUserInterface? UniqueCountryCodeUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'UniqueCurrencyCode'
         /// </summary>
-        public static TypeUserInterface? UniqueCurrencyCodeUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForUniqueConstraints")
-                .GetAttributeByName("UniqueCurrencyCode")?
-                .UserInterface;
+        public static TypeUserInterface? UniqueCurrencyCodeUiOptions {get; private set;} = null; 
 }

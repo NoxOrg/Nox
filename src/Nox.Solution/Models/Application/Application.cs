@@ -27,5 +27,5 @@ public class Application
     [AdditionalProperties(false)]
     public IReadOnlyList<IntegrationEvent> IntegrationEvents { get; internal set; } = Array.Empty<IntegrationEvent>();
 
-    public Localization? Localization { get; internal set; } = new Localization();
+    public Localization Localization { get; internal set; } = new Localization();
 }

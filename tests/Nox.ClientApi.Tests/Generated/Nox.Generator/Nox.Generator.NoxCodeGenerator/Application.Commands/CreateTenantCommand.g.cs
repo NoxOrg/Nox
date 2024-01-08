@@ -29,10 +29,8 @@ internal partial class CreateTenantCommandHandler : CreateTenantCommandHandlerBa
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory,
-		IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> entityFactory,
-		IEntityLocalizedFactory<TenantBrandLocalized, ClientApi.Domain.TenantBrand, TenantBrandUpsertDto> TenantBrandLocalizedFactory,
-		IEntityLocalizedFactory<TenantContactLocalized, ClientApi.Domain.TenantContact, TenantContactUpsertDto> TenantContactLocalizedFactory)
-		: base(dbContext, noxSolution,WorkplaceFactory, entityFactory, TenantBrandLocalizedFactory, TenantContactLocalizedFactory)
+		IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,WorkplaceFactory, entityFactory)
 	{
 	}
 }
@@ -42,23 +40,17 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 {
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> EntityFactory;
-	protected readonly IEntityLocalizedFactory<TenantBrandLocalized, ClientApi.Domain.TenantBrand, TenantBrandUpsertDto> TenantBrandLocalizedFactory;
-	protected readonly IEntityLocalizedFactory<TenantContactLocalized, ClientApi.Domain.TenantContact, TenantContactUpsertDto> TenantContactLocalizedFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory;
 
 	protected CreateTenantCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory,
-		IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> entityFactory,
-		IEntityLocalizedFactory<TenantBrandLocalized, ClientApi.Domain.TenantBrand, TenantBrandUpsertDto> TenantBrandLocalizedFactory,
-		IEntityLocalizedFactory<TenantContactLocalized, ClientApi.Domain.TenantContact, TenantContactUpsertDto> TenantContactLocalizedFactory)
-		: base(noxSolution)
+		IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> entityFactory)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
-		this.TenantBrandLocalizedFactory = TenantBrandLocalizedFactory;
-		this.TenantContactLocalizedFactory = TenantContactLocalizedFactory;
 		this.WorkplaceFactory = WorkplaceFactory;
 	}
 
@@ -67,7 +59,7 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.WorkplacesId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.WorkplacesId)
@@ -85,37 +77,16 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 		{
 			foreach(var relatedCreateDto in request.EntityDto.Workplaces)
 			{
-				var relatedEntity = await WorkplaceFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await WorkplaceFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToWorkplaces(relatedEntity);
 			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.Tenants.Add(entityToCreate);
-        CreateLocalizations(entityToCreate, request.CultureCode);
 		await DbContext.SaveChangesAsync();
 		return new TenantKeyDto(entityToCreate.Id.Value);
 	}
-
-	private void CreateLocalizations(TenantEntity entity, Nox.Types.CultureCode cultureCode)
-	{
-        CreateTenantBrandsLocalization(entity.TenantBrands, cultureCode);
-        CreateTenantContactLocalization(entity.TenantContact, cultureCode);
-	}
-	
-	private void CreateTenantBrandsLocalization(List<ClientApi.Domain.TenantBrand> entities, Nox.Types.CultureCode cultureCode)
-	{
-		var entitiesLocalized = entities.Select(entity => TenantBrandLocalizedFactory.CreateLocalizedEntity(entity, cultureCode));
-		DbContext.TenantBrandsLocalized.AddRange(entitiesLocalized);
-	}
-	
-	private void CreateTenantContactLocalization(ClientApi.Domain.TenantContact? entity, Nox.Types.CultureCode cultureCode)
-	{
-		if(entity is null) return;
-		var entityLocalized = TenantContactLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
-		DbContext.TenantContactsLocalized.Add(entityLocalized);
-	}	
-	
 }
 
 public class CreateTenantValidator : AbstractValidator<CreateTenantCommand>

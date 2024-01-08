@@ -28,7 +28,7 @@ public partial class CountryJsonToTablesController : CountryJsonToTablesControll
 {
     public CountryJsonToTablesController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class CountryJsonToTablesControllerBase : ODataControlle
 
     public CountryJsonToTablesControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class CountryJsonToTablesControllerBase : ODataControlle
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateCountryJsonToTableCommand(key, countryJsonToTable, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("CountryJsonToTable", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetCountryJsonToTableByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class CountryJsonToTablesControllerBase : ODataControlle
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateCountryJsonToTableCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("CountryJsonToTable", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetCountryJsonToTableByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class CountryJsonToTablesControllerBase : ODataControlle
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteCountryJsonToTableByIdCommand(new List<CountryJsonToTableKeyDto> { new CountryJsonToTableKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("CountryJsonToTable", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

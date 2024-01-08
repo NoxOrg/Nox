@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Nox.Solution.Schema;
+using Nox.Solution.YamlTypeConverters;
 using Nox.Yaml.Exceptions;
 using Nox.Yaml.Parser;
 
@@ -10,9 +11,9 @@ public class YamlFileValidationTests
     [Theory]
     [InlineData("unsupported-version-control.solution.nox")]
     [InlineData("not-found.yaml")]
-    public void UseYamlFile_ThrowsException_NoxYamlException(string filrName)
+    public void UseYamlFile_ThrowsException_NoxYamlException(string fileName)
     {
-        var solutionBuilder = new NoxSolutionBuilder().WithFile($"./files/{filrName}");
+        var solutionBuilder = new NoxSolutionBuilder().WithFile($"./files/{fileName}");
 
         solutionBuilder
             .Invoking(solution => solution.Build())
@@ -74,11 +75,12 @@ public class YamlFileValidationTests
     [InlineData("team.solution.nox.yaml", "TestService")]
     [InlineData("variables.solution.nox.yaml", "TestService")]
     [InlineData("version-control.solution.nox.yaml", "TestService")]
+    [InlineData("localization-without-default-culture-in-supported-cultures.solution.nox.yaml", "MinimalService")]
     public void Deserialize_Solution_WithValidation_Success(string yamlFile, string expectedServiceName)
     {
         var yaml = File.ReadAllText($"./files/{yamlFile}");
 
-        var model = NoxSchemaValidator.Deserialize<NoxSolution>(yaml, yamlFile)!;
+        var model = NoxSchemaValidator.Deserialize<NoxSolution>(yaml, yamlFile, new []{ new CultureTypeConverter()} )!;
 
         model.Name.Should().Be(expectedServiceName);
     }
@@ -95,8 +97,8 @@ public class YamlFileValidationTests
 
         Assert.Equal(2, errors.Length);
 
-        Assert.Equal("Invalid value [99999] for property [port] is more than maximum [0]. (at line 25 in invalid-server-port-numbers.solution.nox.yaml)", errors[0].ErrorMessage);
-        Assert.Equal("Invalid value [-1] for property [port] is less than minumum [0]. (at line 33 in invalid-server-port-numbers.solution.nox.yaml)", errors[1].ErrorMessage);
+        Assert.Equal("Invalid value [99999] for property [port] is more than maximum [65535]. (at line 25 in invalid-server-port-numbers.solution.nox.yaml)", errors[0].ErrorMessage);
+        Assert.Equal("Invalid value [-1] for property [port] is less than minimum [0]. (at line 33 in invalid-server-port-numbers.solution.nox.yaml)", errors[1].ErrorMessage);
     }
 
     [Fact]
@@ -350,7 +352,7 @@ public class YamlFileValidationTests
 
         Assert.Single(errors);
 
-        Assert.Equal("The value [\"eng\"] for property [defaultCulture] does not match pattern [^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$]. (at line 12 in localization-invalid-default-culture.solution.nox.yaml)", errors[0].ErrorMessage);
+        Assert.Equal("Invalid value [\"eng\"] for property [defaultCulture]. (at line 12 in localization-invalid-default-culture.solution.nox.yaml)", errors[0].ErrorMessage);
     }
 
     [Fact]
@@ -364,10 +366,40 @@ public class YamlFileValidationTests
 
         Assert.Equal(5, errors.Length);
 
-        Assert.Equal("The value [\"tR\"] for property [supportedCultures] does not match pattern [^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$]. (at line 13 in localization-invalid-supported-cultures.solution.nox.yaml)", errors[0].ErrorMessage);
-        Assert.Equal("The value [\"eng\"] for property [supportedCultures] does not match pattern [^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$]. (at line 13 in localization-invalid-supported-cultures.solution.nox.yaml)", errors[1].ErrorMessage);
-        Assert.Equal("The value [\"Sr-SR\"] for property [supportedCultures] does not match pattern [^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$]. (at line 13 in localization-invalid-supported-cultures.solution.nox.yaml)", errors[2].ErrorMessage);
-        Assert.Equal("The value [\"sr-SR-CYRL\"] for property [supportedCultures] does not match pattern [^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$]. (at line 13 in localization-invalid-supported-cultures.solution.nox.yaml)", errors[3].ErrorMessage);
-        Assert.Equal("The value [\"invalid\"] for property [supportedCultures] does not match pattern [^[a-z]{2}(?:-[A-Z]{2})?(?:-[A-Z][a-z]{3})?$]. (at line 13 in localization-invalid-supported-cultures.solution.nox.yaml)", errors[4].ErrorMessage);
+        Assert.Equal("Invalid value [\"tR\"] for property [supportedCultures]. (at line 13 in localization-invalid-supported-cultures.solution.nox.yaml)", errors[0].ErrorMessage);
+        Assert.Equal("Invalid value [\"eng\"] for property [supportedCultures]. (at line 13 in localization-invalid-supported-cultures.solution.nox.yaml)", errors[1].ErrorMessage);
+        Assert.Equal("Invalid value [\"Sr-SR\"] for property [supportedCultures]. (at line 13 in localization-invalid-supported-cultures.solution.nox.yaml)", errors[2].ErrorMessage);
+        Assert.Equal("Invalid value [\"sr-SR-Cyrl\"] for property [supportedCultures]. (at line 13 in localization-invalid-supported-cultures.solution.nox.yaml)", errors[3].ErrorMessage);
+        Assert.Equal("Invalid value [\"invalid\"] for property [supportedCultures]. (at line 13 in localization-invalid-supported-cultures.solution.nox.yaml)", errors[4].ErrorMessage);
+    }
+
+    [Fact]
+    public void WhenCreateEntity_ShouldValidateManageRelationshipDepth()
+    {
+        var minValidationSolution = () => new NoxSolutionBuilder()
+            .WithFile($"./files/endpoints.depth.minvalidation.solution.nox.yaml")
+            .Build();
+        var maxValidationSolution = () => new NoxSolutionBuilder()
+            .WithFile($"./files/endpoints.depth.maxvalidation.solution.nox.yaml")
+            .Build();
+
+        var minError = "Invalid value [0] for property [apiGenerateRelatedEndpointsMaxDepth] is less than minimum [1]. (at line 22 in endpoints.depth.minvalidation.solution.nox.yaml)";
+        var maxError = "Invalid value [7] for property [apiGenerateRelatedEndpointsMaxDepth] is more than maximum [5]. (at line 22 in endpoints.depth.maxvalidation.solution.nox.yaml)";
+
+        minValidationSolution.Should()
+           .ThrowExactly<NoxYamlValidationException>()
+           .Which.Errors
+           .Should().NotBeEmpty()
+           .And.HaveCount(1)
+           .And.Subject.Select(x => x.ErrorMessage)
+           .Should().BeEquivalentTo(minError);
+
+        maxValidationSolution.Should()
+           .ThrowExactly<NoxYamlValidationException>()
+           .Which.Errors
+           .Should().NotBeEmpty()
+           .And.HaveCount(1)
+           .And.Subject.Select(x => x.ErrorMessage)
+           .Should().BeEquivalentTo(maxError);
     }
 }

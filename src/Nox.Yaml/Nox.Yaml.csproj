@@ -23,6 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
     <PackageReference Include="YamlDotNet" Version="13.7.1" />
   </ItemGroup>
 

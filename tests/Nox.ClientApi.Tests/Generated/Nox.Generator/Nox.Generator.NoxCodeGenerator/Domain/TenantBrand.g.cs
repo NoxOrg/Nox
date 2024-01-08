@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
@@ -96,4 +97,18 @@ internal abstract partial class TenantBrandBase : EntityBase, IOwnedEntity
         InternalDomainEvents.Clear();
     }
 
+        /// <summary>
+        /// TenantBrand localized entities.
+        /// </summary>
+        public virtual List<TenantBrandLocalized> LocalizedTenantBrands  { get; private set; } = new();
+    
+    
+    	/// <summary>
+    	/// Creates a new TenantBrandLocalized entity.
+    	/// </summary>
+        public virtual void CreateRefToLocalizedTenantBrands(TenantBrandLocalized relatedTenantBrandLocalized)
+    	{
+    		LocalizedTenantBrands.Add(relatedTenantBrandLocalized);
+    	}
+        
 }

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
@@ -49,7 +50,7 @@ internal abstract class DeleteForReferenceNumberByIdCommandHandlerBase : Command
 			var entity = await DbContext.ForReferenceNumbers.FindAsync(keyId);
 			if (entity == null)
 			{
-				return false;
+				throw new EntityNotFoundException("ForReferenceNumber",  $"{keyId.ToString()}");
 			}
 			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

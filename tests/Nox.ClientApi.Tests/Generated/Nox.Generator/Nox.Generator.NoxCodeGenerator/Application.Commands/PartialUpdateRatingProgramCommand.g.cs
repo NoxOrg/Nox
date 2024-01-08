@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -16,7 +17,7 @@ using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Commands;
 
-public partial record PartialUpdateRatingProgramCommand(System.Guid keyStoreId, System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <RatingProgramKeyDto?>;
+public partial record PartialUpdateRatingProgramCommand(System.Guid keyStoreId, System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <RatingProgramKeyDto>;
 
 internal partial class PartialUpdateRatingProgramCommandHandler : PartialUpdateRatingProgramCommandHandlerBase
 {
@@ -28,11 +29,11 @@ internal partial class PartialUpdateRatingProgramCommandHandler : PartialUpdateR
 	{
 	}
 }
-internal abstract class PartialUpdateRatingProgramCommandHandlerBase : CommandBase<PartialUpdateRatingProgramCommand, RatingProgramEntity>, IRequestHandler<PartialUpdateRatingProgramCommand, RatingProgramKeyDto?>
+internal abstract class PartialUpdateRatingProgramCommandHandlerBase : CommandBase<PartialUpdateRatingProgramCommand, RatingProgramEntity>, IRequestHandler<PartialUpdateRatingProgramCommand, RatingProgramKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateRatingProgramCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateRatingProgramCommandHandlerBase : CommandBa
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<RatingProgramKeyDto?> Handle(PartialUpdateRatingProgramCommand request, CancellationToken cancellationToken)
+	public virtual async Task<RatingProgramKeyDto> Handle(PartialUpdateRatingProgramCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -53,9 +54,9 @@ internal abstract class PartialUpdateRatingProgramCommandHandlerBase : CommandBa
 		var entity = await DbContext.RatingPrograms.FindAsync(keyStoreId, keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("RatingProgram",  $"{keyStoreId.ToString()}, {keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

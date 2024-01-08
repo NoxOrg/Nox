@@ -1,5 +1,4 @@
-﻿﻿
-// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
@@ -20,7 +20,7 @@ using TestWebApp.Application.Dto;
 using SecEntityOwnedRelExactlyOneEntity = TestWebApp.Domain.SecEntityOwnedRelExactlyOne;
 
 namespace TestWebApp.Application.Commands;
-public partial record CreateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(TestEntityOwnedRelationshipExactlyOneKeyDto ParentKeyDto, SecEntityOwnedRelExactlyOneUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <SecEntityOwnedRelExactlyOneKeyDto?>;
+public partial record CreateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(TestEntityOwnedRelationshipExactlyOneKeyDto ParentKeyDto, SecEntityOwnedRelExactlyOneUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <SecEntityOwnedRelExactlyOneKeyDto>;
 
 internal partial class CreateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommandHandler : CreateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommandHandlerBase
 {
@@ -36,7 +36,7 @@ internal abstract class CreateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelat
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<SecEntityOwnedRelExactlyOneEntity, SecEntityOwnedRelExactlyOneUpsertDto, SecEntityOwnedRelExactlyOneUpsertDto> _entityFactory;
-
+	
 	protected CreateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -55,21 +55,17 @@ internal abstract class CreateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelat
 		var parentEntity = await _dbContext.TestEntityOwnedRelationshipExactlyOnes.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("TestEntityOwnedRelationshipExactlyOne",  $"{keyId.ToString()}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
+		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefToSecEntityOwnedRelExactlyOne(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
+		
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new SecEntityOwnedRelExactlyOneKeyDto();
 	}

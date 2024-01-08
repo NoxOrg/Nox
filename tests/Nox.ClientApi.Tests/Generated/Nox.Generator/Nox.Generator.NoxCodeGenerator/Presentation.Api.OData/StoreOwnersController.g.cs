@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
 using ClientApi.Application.Queries;
@@ -37,10 +38,6 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefStoreOwnerToStoresCommand(new StoreOwnerKeyDto(key), new StoreKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -55,10 +52,6 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         
         var relatedKeysDto = referencesDto.References.Select(x => new StoreKeyDto(x)).ToList();
         var updatedRef = await _mediator.Send(new UpdateRefStoreOwnerToStoresCommand(new StoreOwnerKeyDto(key), relatedKeysDto));
-        if (!updatedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -68,7 +61,7 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         var entity = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).Include(x => x.Stores).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("StoreOwner", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -87,10 +80,6 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefStoreOwnerToStoresCommand(new StoreOwnerKeyDto(key), new StoreKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -116,7 +105,7 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         var query = await _mediator.Send(new GetStoreOwnerByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("StoreOwner", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.Stores).SelectMany(x => x.Stores));
     }
@@ -144,15 +133,35 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         var related = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).SelectMany(x => x.Stores).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Stores", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateStoreCommand(relatedKey, store, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetStoreByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/v1/StoreOwners/{key}/Stores/{relatedKey}")]
+    public virtual async Task<ActionResult<StoreDto>> PatchtoStoresNonConventional(System.String key, System.Guid relatedKey, [FromBody] Delta<StorePartialUpdateDto> store)
+    {
+        if (!ModelState.IsValid || store is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).SelectMany(x => x.Stores).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Stores", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<StorePartialUpdateDto>(store);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateStoreCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetStoreByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -170,15 +179,11 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         var related = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).SelectMany(x => x.Stores).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Stores", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteStoreByIdCommand(new List<StoreKeyDto> { new StoreKeyDto(relatedKey) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }

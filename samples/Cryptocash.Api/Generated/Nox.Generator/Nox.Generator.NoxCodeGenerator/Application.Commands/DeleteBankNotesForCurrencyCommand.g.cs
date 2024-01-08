@@ -1,5 +1,4 @@
-﻿﻿
-﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -9,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -46,24 +46,20 @@ internal partial class DeleteBankNotesForCurrencyCommandHandlerBase : CommandBas
 		var parentEntity = await DbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Currency",  $"{keyId.ToString()}");
 		}
 		await DbContext.Entry(parentEntity).Collection(p => p.BankNotes).LoadAsync(cancellationToken);
 		var ownedId = Cryptocash.Domain.BankNoteMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("BankNote.BankNotes",  $"{ownedId.ToString()}");
 		}
 		parentEntity.BankNotes.Remove(entity);
 		await OnCompletedAsync(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;
 
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
-		if (result < 1)
-		{
-			return false;
-		}
 
 		return true;
 	}

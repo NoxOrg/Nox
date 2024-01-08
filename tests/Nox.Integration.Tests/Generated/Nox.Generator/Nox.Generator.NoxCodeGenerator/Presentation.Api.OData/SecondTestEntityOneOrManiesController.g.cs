@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -37,10 +38,6 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
         }
         
         var createdRef = await _mediator.Send(new CreateRefSecondTestEntityOneOrManyToTestEntityOneOrManiesCommand(new SecondTestEntityOneOrManyKeyDto(key), new TestEntityOneOrManyKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -55,10 +52,6 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
         
         var relatedKeysDto = referencesDto.References.Select(x => new TestEntityOneOrManyKeyDto(x)).ToList();
         var updatedRef = await _mediator.Send(new UpdateRefSecondTestEntityOneOrManyToTestEntityOneOrManiesCommand(new SecondTestEntityOneOrManyKeyDto(key), relatedKeysDto));
-        if (!updatedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -68,7 +61,7 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
         var entity = (await _mediator.Send(new GetSecondTestEntityOneOrManyByIdQuery(key))).Include(x => x.TestEntityOneOrManies).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("SecondTestEntityOneOrMany", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -87,10 +80,6 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefSecondTestEntityOneOrManyToTestEntityOneOrManiesCommand(new SecondTestEntityOneOrManyKeyDto(key), new TestEntityOneOrManyKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -116,7 +105,7 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
         var query = await _mediator.Send(new GetSecondTestEntityOneOrManyByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("SecondTestEntityOneOrMany", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.TestEntityOneOrManies).SelectMany(x => x.TestEntityOneOrManies));
     }
@@ -144,15 +133,35 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
         var related = (await _mediator.Send(new GetSecondTestEntityOneOrManyByIdQuery(key))).SelectMany(x => x.TestEntityOneOrManies).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityOneOrManies", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateTestEntityOneOrManyCommand(relatedKey, testEntityOneOrMany, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetTestEntityOneOrManyByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/v1/SecondTestEntityOneOrManies/{key}/TestEntityOneOrManies/{relatedKey}")]
+    public virtual async Task<ActionResult<TestEntityOneOrManyDto>> PatchtoTestEntityOneOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] Delta<TestEntityOneOrManyPartialUpdateDto> testEntityOneOrMany)
+    {
+        if (!ModelState.IsValid || testEntityOneOrMany is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetSecondTestEntityOneOrManyByIdQuery(key))).SelectMany(x => x.TestEntityOneOrManies).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("TestEntityOneOrManies", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<TestEntityOneOrManyPartialUpdateDto>(testEntityOneOrMany);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTestEntityOneOrManyCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetTestEntityOneOrManyByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -170,15 +179,11 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
         var related = (await _mediator.Send(new GetSecondTestEntityOneOrManyByIdQuery(key))).SelectMany(x => x.TestEntityOneOrManies).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityOneOrManies", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteTestEntityOneOrManyByIdCommand(new List<TestEntityOneOrManyKeyDto> { new TestEntityOneOrManyKeyDto(relatedKey) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }

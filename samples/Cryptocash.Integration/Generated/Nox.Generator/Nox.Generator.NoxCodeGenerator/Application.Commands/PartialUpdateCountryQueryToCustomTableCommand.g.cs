@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using CryptocashIntegration.Infrastructure.Persistence;
 using CryptocashIntegration.Domain;
@@ -16,7 +17,7 @@ using CountryQueryToCustomTableEntity = CryptocashIntegration.Domain.CountryQuer
 
 namespace CryptocashIntegration.Application.Commands;
 
-public partial record PartialUpdateCountryQueryToCustomTableCommand(System.Int32 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryQueryToCustomTableKeyDto?>;
+public partial record PartialUpdateCountryQueryToCustomTableCommand(System.Int32 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryQueryToCustomTableKeyDto>;
 
 internal partial class PartialUpdateCountryQueryToCustomTableCommandHandler : PartialUpdateCountryQueryToCustomTableCommandHandlerBase
 {
@@ -28,11 +29,11 @@ internal partial class PartialUpdateCountryQueryToCustomTableCommandHandler : Pa
 	{
 	}
 }
-internal abstract class PartialUpdateCountryQueryToCustomTableCommandHandlerBase : CommandBase<PartialUpdateCountryQueryToCustomTableCommand, CountryQueryToCustomTableEntity>, IRequestHandler<PartialUpdateCountryQueryToCustomTableCommand, CountryQueryToCustomTableKeyDto?>
+internal abstract class PartialUpdateCountryQueryToCustomTableCommandHandlerBase : CommandBase<PartialUpdateCountryQueryToCustomTableCommand, CountryQueryToCustomTableEntity>, IRequestHandler<PartialUpdateCountryQueryToCustomTableCommand, CountryQueryToCustomTableKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<CountryQueryToCustomTableEntity, CountryQueryToCustomTableCreateDto, CountryQueryToCustomTableUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateCountryQueryToCustomTableCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateCountryQueryToCustomTableCommandHandlerBase
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<CountryQueryToCustomTableKeyDto?> Handle(PartialUpdateCountryQueryToCustomTableCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryQueryToCustomTableKeyDto> Handle(PartialUpdateCountryQueryToCustomTableCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,9 +53,9 @@ internal abstract class PartialUpdateCountryQueryToCustomTableCommandHandlerBase
 		var entity = await DbContext.CountryQueryToCustomTables.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("CountryQueryToCustomTable",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

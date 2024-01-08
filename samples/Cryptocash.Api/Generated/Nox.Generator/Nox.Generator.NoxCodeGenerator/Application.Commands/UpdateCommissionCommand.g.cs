@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using CommissionEntity = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateCommissionCommand(System.Guid keyId, CommissionUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CommissionKeyDto?>;
+public partial record UpdateCommissionCommand(System.Guid keyId, CommissionUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CommissionKeyDto>;
 
 internal partial class UpdateCommissionCommandHandler : UpdateCommissionCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateCommissionCommandHandler : UpdateCommissionCommandH
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateCommissionCommandHandlerBase : CommandBase<UpdateCommissionCommand, CommissionEntity>, IRequestHandler<UpdateCommissionCommand, CommissionKeyDto?>
+internal abstract class UpdateCommissionCommandHandlerBase : CommandBase<UpdateCommissionCommand, CommissionEntity>, IRequestHandler<UpdateCommissionCommand, CommissionKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> _entityFactory;
-
 	protected UpdateCommissionCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateCommissionCommandHandlerBase : CommandBase<UpdateC
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<CommissionKeyDto?> Handle(UpdateCommissionCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CommissionKeyDto> Handle(UpdateCommissionCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +55,7 @@ internal abstract class UpdateCommissionCommandHandlerBase : CommandBase<UpdateC
 		var entity = await DbContext.Commissions.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Commission",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +65,6 @@ internal abstract class UpdateCommissionCommandHandlerBase : CommandBase<UpdateC
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new CommissionKeyDto(entity.Id.Value);
 	}

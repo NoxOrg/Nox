@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Extensions;
+using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
@@ -19,7 +20,7 @@ using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateHolidaysForCountryCommand(CountryKeyDto ParentKeyDto, HolidayUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
+public partial record UpdateHolidaysForCountryCommand(CountryKeyDto ParentKeyDto, HolidayUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <HolidayKeyDto>;
 
 internal partial class UpdateHolidaysForCountryCommandHandler : UpdateHolidaysForCountryCommandHandlerBase
 {
@@ -32,7 +33,7 @@ internal partial class UpdateHolidaysForCountryCommandHandler : UpdateHolidaysFo
 	}
 }
 
-internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<UpdateHolidaysForCountryCommand, HolidayEntity>, IRequestHandler <UpdateHolidaysForCountryCommand, HolidayKeyDto?>
+internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<UpdateHolidaysForCountryCommand, HolidayEntity>, IRequestHandler <UpdateHolidaysForCountryCommand, HolidayKeyDto>
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> _entityFactory;
@@ -47,7 +48,7 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<HolidayKeyDto?> Handle(UpdateHolidaysForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<HolidayKeyDto> Handle(UpdateHolidaysForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,21 +56,21 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.Holidays).LoadAsync(cancellationToken);
 		
 		HolidayEntity? entity;
 		if(request.EntityDto.Id is null)
 		{
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
 		}
 		else
 		{
 			var ownedId = ClientApi.Domain.HolidayMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Guid>());
 			entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
 			if (entity is null)
-				entity = await CreateEntityAsync(request.EntityDto, parentEntity);
+				entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
 			else
 				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		}
@@ -78,20 +79,15 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<
 		await OnCompletedAsync(request, entity!);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
-
+		
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new HolidayKeyDto(entity.Id.Value);
 	}
 	
-	private async Task<HolidayEntity> CreateEntityAsync(HolidayUpsertDto upsertDto, CountryEntity parent)
+	private async Task<HolidayEntity> CreateEntityAsync(HolidayUpsertDto upsertDto, CountryEntity parent, Nox.Types.CultureCode cultureCode)
 	{
-		var entity = await _entityFactory.CreateEntityAsync(upsertDto);
+		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
 		parent.CreateRefToHolidays(entity);
 		return entity;
 	}

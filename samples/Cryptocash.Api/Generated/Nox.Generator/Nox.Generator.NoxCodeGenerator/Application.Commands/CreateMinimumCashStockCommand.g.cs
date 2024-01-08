@@ -51,7 +51,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<Cryptocash.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory,
 		IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -64,7 +64,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.VendingMachinesId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.VendingMachinesId)
@@ -82,7 +82,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 		{
 			foreach(var relatedCreateDto in request.EntityDto.VendingMachines)
 			{
-				var relatedEntity = await VendingMachineFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await VendingMachineFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToVendingMachines(relatedEntity);
 			}
 		}
@@ -97,7 +97,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 		}
 		else if(request.EntityDto.Currency is not null)
 		{
-			var relatedEntity = await CurrencyFactory.CreateEntityAsync(request.EntityDto.Currency);
+			var relatedEntity = await CurrencyFactory.CreateEntityAsync(request.EntityDto.Currency, request.CultureCode);
 			entityToCreate.CreateRefToCurrency(relatedEntity);
 		}
 

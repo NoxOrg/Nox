@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -16,7 +17,7 @@ using TestEntityWithNuidEntity = TestWebApp.Domain.TestEntityWithNuid;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record PartialUpdateTestEntityWithNuidCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityWithNuidKeyDto?>;
+public partial record PartialUpdateTestEntityWithNuidCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityWithNuidKeyDto>;
 
 internal partial class PartialUpdateTestEntityWithNuidCommandHandler : PartialUpdateTestEntityWithNuidCommandHandlerBase
 {
@@ -28,11 +29,11 @@ internal partial class PartialUpdateTestEntityWithNuidCommandHandler : PartialUp
 	{
 	}
 }
-internal abstract class PartialUpdateTestEntityWithNuidCommandHandlerBase : CommandBase<PartialUpdateTestEntityWithNuidCommand, TestEntityWithNuidEntity>, IRequestHandler<PartialUpdateTestEntityWithNuidCommand, TestEntityWithNuidKeyDto?>
+internal abstract class PartialUpdateTestEntityWithNuidCommandHandlerBase : CommandBase<PartialUpdateTestEntityWithNuidCommand, TestEntityWithNuidEntity>, IRequestHandler<PartialUpdateTestEntityWithNuidCommand, TestEntityWithNuidKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityWithNuidEntity, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateTestEntityWithNuidCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateTestEntityWithNuidCommandHandlerBase : Comm
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<TestEntityWithNuidKeyDto?> Handle(PartialUpdateTestEntityWithNuidCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TestEntityWithNuidKeyDto> Handle(PartialUpdateTestEntityWithNuidCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,9 +53,9 @@ internal abstract class PartialUpdateTestEntityWithNuidCommandHandlerBase : Comm
 		var entity = await DbContext.TestEntityWithNuids.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("TestEntityWithNuid",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

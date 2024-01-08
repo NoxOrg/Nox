@@ -48,7 +48,7 @@ internal abstract class CreateTestEntityTwoRelationshipsManyToManyCommandHandler
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToMany, SecondTestEntityTwoRelationshipsManyToManyCreateDto, SecondTestEntityTwoRelationshipsManyToManyUpdateDto> SecondTestEntityTwoRelationshipsManyToManyFactory,
 		IEntityFactory<TestEntityTwoRelationshipsManyToManyEntity, TestEntityTwoRelationshipsManyToManyCreateDto, TestEntityTwoRelationshipsManyToManyUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -60,7 +60,7 @@ internal abstract class CreateTestEntityTwoRelationshipsManyToManyCommandHandler
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.TestRelationshipOneId.Any())
 		{
 			foreach(var relatedId in request.EntityDto.TestRelationshipOneId)
@@ -78,7 +78,7 @@ internal abstract class CreateTestEntityTwoRelationshipsManyToManyCommandHandler
 		{
 			foreach(var relatedCreateDto in request.EntityDto.TestRelationshipOne)
 			{
-				var relatedEntity = await SecondTestEntityTwoRelationshipsManyToManyFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await SecondTestEntityTwoRelationshipsManyToManyFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToTestRelationshipOne(relatedEntity);
 			}
 		}
@@ -99,7 +99,7 @@ internal abstract class CreateTestEntityTwoRelationshipsManyToManyCommandHandler
 		{
 			foreach(var relatedCreateDto in request.EntityDto.TestRelationshipTwo)
 			{
-				var relatedEntity = await SecondTestEntityTwoRelationshipsManyToManyFactory.CreateEntityAsync(relatedCreateDto);
+				var relatedEntity = await SecondTestEntityTwoRelationshipsManyToManyFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToTestRelationshipTwo(relatedEntity);
 			}
 		}

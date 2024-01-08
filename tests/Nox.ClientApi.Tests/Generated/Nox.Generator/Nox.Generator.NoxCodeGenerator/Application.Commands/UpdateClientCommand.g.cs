@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using ClientEntity = ClientApi.Domain.Client;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateClientCommand(System.Guid keyId, ClientUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<ClientKeyDto?>;
+public partial record UpdateClientCommand(System.Guid keyId, ClientUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<ClientKeyDto>;
 
 internal partial class UpdateClientCommandHandler : UpdateClientCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateClientCommandHandler : UpdateClientCommandHandlerBa
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateClientCommandHandlerBase : CommandBase<UpdateClientCommand, ClientEntity>, IRequestHandler<UpdateClientCommand, ClientKeyDto?>
+internal abstract class UpdateClientCommandHandlerBase : CommandBase<UpdateClientCommand, ClientEntity>, IRequestHandler<UpdateClientCommand, ClientKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> _entityFactory;
-
 	protected UpdateClientCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateClientCommandHandlerBase : CommandBase<UpdateClien
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<ClientKeyDto?> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
+	public virtual async Task<ClientKeyDto> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +55,7 @@ internal abstract class UpdateClientCommandHandlerBase : CommandBase<UpdateClien
 		var entity = await DbContext.Clients.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Client",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +65,6 @@ internal abstract class UpdateClientCommandHandlerBase : CommandBase<UpdateClien
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new ClientKeyDto(entity.Id.Value);
 	}

@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.CodeAnalysis;
+using System.IO;
+using System.Linq;
 
 namespace Nox.Generator.Tests.Flows;
 

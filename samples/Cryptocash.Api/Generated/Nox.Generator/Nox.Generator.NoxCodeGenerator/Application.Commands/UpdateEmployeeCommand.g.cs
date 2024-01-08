@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateEmployeeCommand(System.Guid keyId, EmployeeUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<EmployeeKeyDto?>;
+public partial record UpdateEmployeeCommand(System.Guid keyId, EmployeeUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<EmployeeKeyDto>;
 
 internal partial class UpdateEmployeeCommandHandler : UpdateEmployeeCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateEmployeeCommandHandler : UpdateEmployeeCommandHandl
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmployeeCommand, EmployeeEntity>, IRequestHandler<UpdateEmployeeCommand, EmployeeKeyDto?>
+internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmployeeCommand, EmployeeEntity>, IRequestHandler<UpdateEmployeeCommand, EmployeeKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> _entityFactory;
-
 	protected UpdateEmployeeCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<EmployeeKeyDto?> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
+	public virtual async Task<EmployeeKeyDto> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,9 +55,9 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 		var entity = await DbContext.Employees.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Employee",  $"{keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.EmployeePhoneNumbers).LoadAsync();
+		await DbContext.Entry(entity).Collection(x => x.EmployeePhoneNumbers).LoadAsync(cancellationToken);
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
@@ -66,10 +66,6 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new EmployeeKeyDto(entity.Id.Value);
 	}

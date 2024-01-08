@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using CountryJsonToTableEntity = CryptocashIntegration.Domain.CountryJsonToTable
 
 namespace CryptocashIntegration.Application.Commands;
 
-public partial record UpdateCountryJsonToTableCommand(System.Int32 keyId, CountryJsonToTableUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CountryJsonToTableKeyDto?>;
+public partial record UpdateCountryJsonToTableCommand(System.Int32 keyId, CountryJsonToTableUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CountryJsonToTableKeyDto>;
 
 internal partial class UpdateCountryJsonToTableCommandHandler : UpdateCountryJsonToTableCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateCountryJsonToTableCommandHandler : UpdateCountryJso
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryJsonToTableEntity, CountryJsonToTableCreateDto, CountryJsonToTableUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateCountryJsonToTableCommandHandlerBase : CommandBase<UpdateCountryJsonToTableCommand, CountryJsonToTableEntity>, IRequestHandler<UpdateCountryJsonToTableCommand, CountryJsonToTableKeyDto?>
+internal abstract class UpdateCountryJsonToTableCommandHandlerBase : CommandBase<UpdateCountryJsonToTableCommand, CountryJsonToTableEntity>, IRequestHandler<UpdateCountryJsonToTableCommand, CountryJsonToTableKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CountryJsonToTableEntity, CountryJsonToTableCreateDto, CountryJsonToTableUpdateDto> _entityFactory;
-
 	protected UpdateCountryJsonToTableCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateCountryJsonToTableCommandHandlerBase : CommandBase
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<CountryJsonToTableKeyDto?> Handle(UpdateCountryJsonToTableCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryJsonToTableKeyDto> Handle(UpdateCountryJsonToTableCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +55,7 @@ internal abstract class UpdateCountryJsonToTableCommandHandlerBase : CommandBase
 		var entity = await DbContext.CountryJsonToTables.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("CountryJsonToTable",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +65,6 @@ internal abstract class UpdateCountryJsonToTableCommandHandlerBase : CommandBase
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new CountryJsonToTableKeyDto(entity.Id.Value);
 	}

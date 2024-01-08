@@ -28,7 +28,7 @@ public partial class SecondTestEntityTwoRelationshipsManyToManiesController : Se
 {
     public SecondTestEntityTwoRelationshipsManyToManiesController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
 
     public SecondTestEntityTwoRelationshipsManyToManiesControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateSecondTestEntityTwoRelationshipsManyToManyCommand(key, secondTestEntityTwoRelationshipsManyToMany, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("SecondTestEntityTwoRelationshipsManyToMany", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsManyToManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateSecondTestEntityTwoRelationshipsManyToManyCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("SecondTestEntityTwoRelationshipsManyToMany", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsManyToManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteSecondTestEntityTwoRelationshipsManyToManyByIdCommand(new List<SecondTestEntityTwoRelationshipsManyToManyKeyDto> { new SecondTestEntityTwoRelationshipsManyToManyKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("SecondTestEntityTwoRelationshipsManyToMany", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

@@ -51,7 +51,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<Cryptocash.Domain.Employee, EmployeeCreateDto, EmployeeUpdateDto> EmployeeFactory,
 		IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -64,7 +64,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.VendingMachineId is not null)
 		{
 			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityDto.VendingMachineId.NonNullValue<System.Guid>());
@@ -76,7 +76,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		}
 		else if(request.EntityDto.VendingMachine is not null)
 		{
-			var relatedEntity = await VendingMachineFactory.CreateEntityAsync(request.EntityDto.VendingMachine);
+			var relatedEntity = await VendingMachineFactory.CreateEntityAsync(request.EntityDto.VendingMachine, request.CultureCode);
 			entityToCreate.CreateRefToVendingMachine(relatedEntity);
 		}
 		if(request.EntityDto.EmployeeId is not null)
@@ -90,7 +90,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		}
 		else if(request.EntityDto.Employee is not null)
 		{
-			var relatedEntity = await EmployeeFactory.CreateEntityAsync(request.EntityDto.Employee);
+			var relatedEntity = await EmployeeFactory.CreateEntityAsync(request.EntityDto.Employee, request.CultureCode);
 			entityToCreate.CreateRefToEmployee(relatedEntity);
 		}
 

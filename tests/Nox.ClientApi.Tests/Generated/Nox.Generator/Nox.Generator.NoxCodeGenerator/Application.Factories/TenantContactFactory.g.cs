@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,32 +27,41 @@ internal partial class TenantContactFactory : TenantContactFactoryBase
 {
     public TenantContactFactory
     (
-        IRepository repository
-    ) : base( repository)
+        IRepository repository,
+        IEntityLocalizedFactory<TenantContactLocalized, TenantContactEntity, TenantContactUpsertDto> tenantContactLocalizedFactory,
+        NoxSolution noxSolution
+    ) : base(repository, tenantContactLocalizedFactory, noxSolution)
     {}
 }
 
 internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly Nox.Types.CultureCode _defaultCultureCode;
+    protected readonly IEntityLocalizedFactory<TenantContactLocalized, TenantContactEntity, TenantContactUpsertDto> TenantContactLocalizedFactory;
     private readonly IRepository _repository;
 
     public TenantContactFactoryBase(
-        IRepository repository
+        IRepository repository,
+        IEntityLocalizedFactory<TenantContactLocalized, TenantContactEntity, TenantContactUpsertDto> tenantContactLocalizedFactory,
+        NoxSolution noxSolution
         )
     {
         _repository = repository;
+        TenantContactLocalizedFactory = tenantContactLocalizedFactory;
+        _defaultCultureCode = Nox.Types.CultureCode.From(noxSolution!.Application!.Localization!.DefaultCulture);
     }
 
-    public virtual async Task<TenantContactEntity> CreateEntityAsync(TenantContactUpsertDto createDto)
+    public virtual async Task<TenantContactEntity> CreateEntityAsync(TenantContactUpsertDto createDto, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-            return await ToEntityAsync(createDto);
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            TenantContactLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+            return entity;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TenantContactEntity));
         }        
     }
 
@@ -61,82 +70,83 @@ internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactE
         try
         {
             await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+            await TenantContactLocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TenantContactEntity));
         }   
     }
 
-    public virtual void PartialUpdateEntity(TenantContactEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(TenantContactEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await TenantContactLocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
+        
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TenantContactEntity));
         }   
     }
 
-    private async Task<ClientApi.Domain.TenantContact> ToEntityAsync(TenantContactUpsertDto createDto)
+    private async Task<ClientApi.Domain.TenantContact> ToEntityAsync(TenantContactUpsertDto createDto, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.TenantContact();
-        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            ClientApi.Domain.TenantContactMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.Description, (entity) => entity.Description = 
-            ClientApi.Domain.TenantContactMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.Email, (entity) => entity.Email = 
-            ClientApi.Domain.TenantContactMetadata.CreateEmail(createDto.Email.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            ClientApi.Domain.TenantContactMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+        exceptionCollector.Collect("Description", () => entity.SetIfNotNull(createDto.Description, (entity) => entity.Description = 
+            ClientApi.Domain.TenantContactMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>())));
+        exceptionCollector.Collect("Email", () => entity.SetIfNotNull(createDto.Email, (entity) => entity.Email = 
+            ClientApi.Domain.TenantContactMetadata.CreateEmail(createDto.Email.NonNullValue<System.String>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(TenantContactEntity entity, TenantContactUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.Name = ClientApi.Domain.TenantContactMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
-        if(IsDefaultCultureCode(cultureCode)) entity.Description = ClientApi.Domain.TenantContactMetadata.CreateDescription(updateDto.Description.NonNullValue<System.String>());
-        entity.Email = ClientApi.Domain.TenantContactMetadata.CreateEmail(updateDto.Email.NonNullValue<System.String>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        exceptionCollector.Collect("Name",() => entity.Name = ClientApi.Domain.TenantContactMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        if(IsDefaultCultureCode(cultureCode)) exceptionCollector.Collect("Description",() => entity.Description = ClientApi.Domain.TenantContactMetadata.CreateDescription(updateDto.Description.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Email",() => entity.Email = ClientApi.Domain.TenantContactMetadata.CreateEmail(updateDto.Email.NonNullValue<System.String>()));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(TenantContactEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
         {
-            if (NameUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                throw new ArgumentException("Attribute 'Name' can't be null");
-            }
-            {
-                entity.Name = ClientApi.Domain.TenantContactMetadata.CreateName(NameUpdateValue);
+                exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.TenantContactMetadata.CreateName(NameUpdateValue));
             }
         }
 
         if (IsDefaultCultureCode(cultureCode) && updatedProperties.TryGetValue("Description", out var DescriptionUpdateValue))
         {
-            if (DescriptionUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(DescriptionUpdateValue, "Attribute 'Description' can't be null.");
             {
-                throw new ArgumentException("Attribute 'Description' can't be null");
-            }
-            {
-                entity.Description = ClientApi.Domain.TenantContactMetadata.CreateDescription(DescriptionUpdateValue);
+                exceptionCollector.Collect("Description",() =>entity.Description = ClientApi.Domain.TenantContactMetadata.CreateDescription(DescriptionUpdateValue));
             }
         }
 
         if (updatedProperties.TryGetValue("Email", out var EmailUpdateValue))
         {
-            if (EmailUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(EmailUpdateValue, "Attribute 'Email' can't be null.");
             {
-                throw new ArgumentException("Attribute 'Email' can't be null");
-            }
-            {
-                entity.Email = ClientApi.Domain.TenantContactMetadata.CreateEmail(EmailUpdateValue);
+                exceptionCollector.Collect("Email",() =>entity.Email = ClientApi.Domain.TenantContactMetadata.CreateEmail(EmailUpdateValue));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+    private bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
 }

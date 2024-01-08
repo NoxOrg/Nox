@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
@@ -49,7 +50,7 @@ internal record TestEntityForAutoNumberUsagesDeleted(TestEntityForAutoNumberUsag
 /// <summary>
 /// Entity created for testing auto number usages.
 /// </summary>
-internal abstract partial class TestEntityForAutoNumberUsagesBase : EntityBase, IEntityConcurrent
+internal abstract partial class TestEntityForAutoNumberUsagesBase : EntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -102,6 +103,7 @@ internal abstract partial class TestEntityForAutoNumberUsagesBase : EntityBase, 
         InternalDomainEvents.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

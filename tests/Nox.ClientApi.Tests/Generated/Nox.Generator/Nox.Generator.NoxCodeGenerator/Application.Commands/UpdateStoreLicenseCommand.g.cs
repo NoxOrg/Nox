@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateStoreLicenseCommand(System.Int64 keyId, StoreLicenseUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<StoreLicenseKeyDto?>;
+public partial record UpdateStoreLicenseCommand(System.Int64 keyId, StoreLicenseUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<StoreLicenseKeyDto>;
 
 internal partial class UpdateStoreLicenseCommandHandler : UpdateStoreLicenseCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateStoreLicenseCommandHandler : UpdateStoreLicenseComm
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateStoreLicenseCommandHandlerBase : CommandBase<UpdateStoreLicenseCommand, StoreLicenseEntity>, IRequestHandler<UpdateStoreLicenseCommand, StoreLicenseKeyDto?>
+internal abstract class UpdateStoreLicenseCommandHandlerBase : CommandBase<UpdateStoreLicenseCommand, StoreLicenseEntity>, IRequestHandler<UpdateStoreLicenseCommand, StoreLicenseKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> _entityFactory;
-
 	protected UpdateStoreLicenseCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateStoreLicenseCommandHandlerBase : CommandBase<Updat
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<StoreLicenseKeyDto?> Handle(UpdateStoreLicenseCommand request, CancellationToken cancellationToken)
+	public virtual async Task<StoreLicenseKeyDto> Handle(UpdateStoreLicenseCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +55,7 @@ internal abstract class UpdateStoreLicenseCommandHandlerBase : CommandBase<Updat
 		var entity = await DbContext.StoreLicenses.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("StoreLicense",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +65,6 @@ internal abstract class UpdateStoreLicenseCommandHandlerBase : CommandBase<Updat
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new StoreLicenseKeyDto(entity.Id.Value);
 	}

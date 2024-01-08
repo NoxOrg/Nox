@@ -51,7 +51,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<ClientApi.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory,
 		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -64,7 +64,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.StoreId is not null)
 		{
 			var relatedKey = ClientApi.Domain.StoreMetadata.CreateId(request.EntityDto.StoreId.NonNullValue<System.Guid>());
@@ -76,7 +76,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		}
 		else if(request.EntityDto.Store is not null)
 		{
-			var relatedEntity = await StoreFactory.CreateEntityAsync(request.EntityDto.Store);
+			var relatedEntity = await StoreFactory.CreateEntityAsync(request.EntityDto.Store, request.CultureCode);
 			entityToCreate.CreateRefToStore(relatedEntity);
 		}
 		if(request.EntityDto.DefaultCurrencyId is not null)
@@ -90,7 +90,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		}
 		else if(request.EntityDto.DefaultCurrency is not null)
 		{
-			var relatedEntity = await CurrencyFactory.CreateEntityAsync(request.EntityDto.DefaultCurrency);
+			var relatedEntity = await CurrencyFactory.CreateEntityAsync(request.EntityDto.DefaultCurrency, request.CultureCode);
 			entityToCreate.CreateRefToDefaultCurrency(relatedEntity);
 		}
 		if(request.EntityDto.SoldInCurrencyId is not null)
@@ -104,7 +104,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		}
 		else if(request.EntityDto.SoldInCurrency is not null)
 		{
-			var relatedEntity = await CurrencyFactory.CreateEntityAsync(request.EntityDto.SoldInCurrency);
+			var relatedEntity = await CurrencyFactory.CreateEntityAsync(request.EntityDto.SoldInCurrency, request.CultureCode);
 			entityToCreate.CreateRefToSoldInCurrency(relatedEntity);
 		}
 

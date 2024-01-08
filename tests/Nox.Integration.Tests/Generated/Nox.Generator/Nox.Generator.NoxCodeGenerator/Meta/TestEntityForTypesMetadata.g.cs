@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace TestWebApp.Domain;
 
@@ -488,508 +489,228 @@ public partial class TestEntityForTypesMetadata
         public static Nox.Types.Image CreateImageTestField(IImage value)
             => Nox.Types.Image.From(value);
         
-
         /// <summary>
         /// User Interface for property 'TextTestField'
         /// </summary>
-        public static TypeUserInterface? TextTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("TextTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? TextTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'EnumerationTestField'
         /// </summary>
-        public static TypeUserInterface? EnumerationTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("EnumerationTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? EnumerationTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'NumberTestField'
         /// </summary>
-        public static TypeUserInterface? NumberTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("NumberTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? NumberTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'MoneyTestField'
         /// </summary>
-        public static TypeUserInterface? MoneyTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("MoneyTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? MoneyTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'CountryCode2TestField'
         /// </summary>
-        public static TypeUserInterface? CountryCode2TestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("CountryCode2TestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? CountryCode2TestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'StreetAddressTestField'
         /// </summary>
-        public static TypeUserInterface? StreetAddressTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("StreetAddressTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? StreetAddressTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'CurrencyCode3TestField'
         /// </summary>
-        public static TypeUserInterface? CurrencyCode3TestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("CurrencyCode3TestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? CurrencyCode3TestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'DayOfWeekTestField'
         /// </summary>
-        public static TypeUserInterface? DayOfWeekTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("DayOfWeekTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? DayOfWeekTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'JwtTokenTestField'
         /// </summary>
-        public static TypeUserInterface? JwtTokenTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("JwtTokenTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? JwtTokenTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'GeoCoordTestField'
         /// </summary>
-        public static TypeUserInterface? GeoCoordTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("GeoCoordTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? GeoCoordTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'AreaTestField'
         /// </summary>
-        public static TypeUserInterface? AreaTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("AreaTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? AreaTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'TimeZoneCodeTestField'
         /// </summary>
-        public static TypeUserInterface? TimeZoneCodeTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("TimeZoneCodeTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? TimeZoneCodeTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'BooleanTestField'
         /// </summary>
-        public static TypeUserInterface? BooleanTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("BooleanTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? BooleanTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'CountryCode3TestField'
         /// </summary>
-        public static TypeUserInterface? CountryCode3TestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("CountryCode3TestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? CountryCode3TestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'CountryNumberTestField'
         /// </summary>
-        public static TypeUserInterface? CountryNumberTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("CountryNumberTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? CountryNumberTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'CurrencyNumberTestField'
         /// </summary>
-        public static TypeUserInterface? CurrencyNumberTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("CurrencyNumberTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? CurrencyNumberTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'DateTimeTestField'
         /// </summary>
-        public static TypeUserInterface? DateTimeTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("DateTimeTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? DateTimeTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'DateTimeRangeTestField'
         /// </summary>
-        public static TypeUserInterface? DateTimeRangeTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("DateTimeRangeTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? DateTimeRangeTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'DistanceTestField'
         /// </summary>
-        public static TypeUserInterface? DistanceTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("DistanceTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? DistanceTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'EmailTestField'
         /// </summary>
-        public static TypeUserInterface? EmailTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("EmailTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? EmailTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'EncryptedTextTestField'
         /// </summary>
-        public static TypeUserInterface? EncryptedTextTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("EncryptedTextTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? EncryptedTextTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'GuidTestField'
         /// </summary>
-        public static TypeUserInterface? GuidTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("GuidTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? GuidTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'HashedTextTestField'
         /// </summary>
-        public static TypeUserInterface? HashedTextTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("HashedTextTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? HashedTextTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'InternetDomainTestField'
         /// </summary>
-        public static TypeUserInterface? InternetDomainTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("InternetDomainTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? InternetDomainTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'IpAddressV4TestField'
         /// </summary>
-        public static TypeUserInterface? IpAddressV4TestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("IpAddressV4TestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? IpAddressV4TestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'IpAddressV6TestField'
         /// </summary>
-        public static TypeUserInterface? IpAddressV6TestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("IpAddressV6TestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? IpAddressV6TestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'JsonTestField'
         /// </summary>
-        public static TypeUserInterface? JsonTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("JsonTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? JsonTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'LengthTestField'
         /// </summary>
-        public static TypeUserInterface? LengthTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("LengthTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? LengthTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'MacAddressTestField'
         /// </summary>
-        public static TypeUserInterface? MacAddressTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("MacAddressTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? MacAddressTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'MonthTestField'
         /// </summary>
-        public static TypeUserInterface? MonthTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("MonthTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? MonthTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'PasswordTestField'
         /// </summary>
-        public static TypeUserInterface? PasswordTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("PasswordTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? PasswordTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'PercentageTestField'
         /// </summary>
-        public static TypeUserInterface? PercentageTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("PercentageTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? PercentageTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'PhoneNumberTestField'
         /// </summary>
-        public static TypeUserInterface? PhoneNumberTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("PhoneNumberTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? PhoneNumberTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'TemperatureTestField'
         /// </summary>
-        public static TypeUserInterface? TemperatureTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("TemperatureTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? TemperatureTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'TranslatedTextTestField'
         /// </summary>
-        public static TypeUserInterface? TranslatedTextTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("TranslatedTextTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? TranslatedTextTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'UriTestField'
         /// </summary>
-        public static TypeUserInterface? UriTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("UriTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? UriTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'VolumeTestField'
         /// </summary>
-        public static TypeUserInterface? VolumeTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("VolumeTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? VolumeTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'WeightTestField'
         /// </summary>
-        public static TypeUserInterface? WeightTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("WeightTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? WeightTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'YearTestField'
         /// </summary>
-        public static TypeUserInterface? YearTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("YearTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? YearTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'CultureCodeTestField'
         /// </summary>
-        public static TypeUserInterface? CultureCodeTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("CultureCodeTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? CultureCodeTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'LanguageCodeTestField'
         /// </summary>
-        public static TypeUserInterface? LanguageCodeTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("LanguageCodeTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? LanguageCodeTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'YamlTestField'
         /// </summary>
-        public static TypeUserInterface? YamlTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("YamlTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? YamlTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'DateTimeDurationTestField'
         /// </summary>
-        public static TypeUserInterface? DateTimeDurationTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("DateTimeDurationTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? DateTimeDurationTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'TimeTestField'
         /// </summary>
-        public static TypeUserInterface? TimeTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("TimeTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? TimeTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'VatNumberTestField'
         /// </summary>
-        public static TypeUserInterface? VatNumberTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("VatNumberTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? VatNumberTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'DateTestField'
         /// </summary>
-        public static TypeUserInterface? DateTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("DateTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? DateTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'MarkdownTestField'
         /// </summary>
-        public static TypeUserInterface? MarkdownTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("MarkdownTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? MarkdownTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'FileTestField'
         /// </summary>
-        public static TypeUserInterface? FileTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("FileTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? FileTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'ColorTestField'
         /// </summary>
-        public static TypeUserInterface? ColorTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("ColorTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? ColorTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'UrlTestField'
         /// </summary>
-        public static TypeUserInterface? UrlTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("UrlTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? UrlTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'DateTimeScheduleTestField'
         /// </summary>
-        public static TypeUserInterface? DateTimeScheduleTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("DateTimeScheduleTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? DateTimeScheduleTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'UserTestField'
         /// </summary>
-        public static TypeUserInterface? UserTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("UserTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? UserTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'FormulaTestField'
         /// </summary>
-        public static TypeUserInterface? FormulaTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("FormulaTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? FormulaTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'AutoNumberTestField'
         /// </summary>
-        public static TypeUserInterface? AutoNumberTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("AutoNumberTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? AutoNumberTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'HtmlTestField'
         /// </summary>
-        public static TypeUserInterface? HtmlTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("HtmlTestField")?
-                .UserInterface;
-
+        public static TypeUserInterface? HtmlTestFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'ImageTestField'
         /// </summary>
-        public static TypeUserInterface? ImageTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForTypes")
-                .GetAttributeByName("ImageTestField")?
-                .UserInterface;
+        public static TypeUserInterface? ImageTestFieldUiOptions {get; private set;} = null; 
 }

@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using TestEntityOwnedRelationshipOneOrManyEntity = TestWebApp.Domain.TestEntityO
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateTestEntityOwnedRelationshipOneOrManyCommand(System.String keyId, TestEntityOwnedRelationshipOneOrManyUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityOwnedRelationshipOneOrManyKeyDto?>;
+public partial record UpdateTestEntityOwnedRelationshipOneOrManyCommand(System.String keyId, TestEntityOwnedRelationshipOneOrManyUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityOwnedRelationshipOneOrManyKeyDto>;
 
 internal partial class UpdateTestEntityOwnedRelationshipOneOrManyCommandHandler : UpdateTestEntityOwnedRelationshipOneOrManyCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateTestEntityOwnedRelationshipOneOrManyCommandHandler 
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityOwnedRelationshipOneOrManyEntity, TestEntityOwnedRelationshipOneOrManyCreateDto, TestEntityOwnedRelationshipOneOrManyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateTestEntityOwnedRelationshipOneOrManyCommandHandlerBase : CommandBase<UpdateTestEntityOwnedRelationshipOneOrManyCommand, TestEntityOwnedRelationshipOneOrManyEntity>, IRequestHandler<UpdateTestEntityOwnedRelationshipOneOrManyCommand, TestEntityOwnedRelationshipOneOrManyKeyDto?>
+internal abstract class UpdateTestEntityOwnedRelationshipOneOrManyCommandHandlerBase : CommandBase<UpdateTestEntityOwnedRelationshipOneOrManyCommand, TestEntityOwnedRelationshipOneOrManyEntity>, IRequestHandler<UpdateTestEntityOwnedRelationshipOneOrManyCommand, TestEntityOwnedRelationshipOneOrManyKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityOwnedRelationshipOneOrManyEntity, TestEntityOwnedRelationshipOneOrManyCreateDto, TestEntityOwnedRelationshipOneOrManyUpdateDto> _entityFactory;
-
 	protected UpdateTestEntityOwnedRelationshipOneOrManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateTestEntityOwnedRelationshipOneOrManyCommandHandler
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<TestEntityOwnedRelationshipOneOrManyKeyDto?> Handle(UpdateTestEntityOwnedRelationshipOneOrManyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TestEntityOwnedRelationshipOneOrManyKeyDto> Handle(UpdateTestEntityOwnedRelationshipOneOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,9 +55,9 @@ internal abstract class UpdateTestEntityOwnedRelationshipOneOrManyCommandHandler
 		var entity = await DbContext.TestEntityOwnedRelationshipOneOrManies.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("TestEntityOwnedRelationshipOneOrMany",  $"{keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.SecEntityOwnedRelOneOrManies).LoadAsync();
+		await DbContext.Entry(entity).Collection(x => x.SecEntityOwnedRelOneOrManies).LoadAsync(cancellationToken);
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
@@ -66,10 +66,6 @@ internal abstract class UpdateTestEntityOwnedRelationshipOneOrManyCommandHandler
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new TestEntityOwnedRelationshipOneOrManyKeyDto(entity.Id.Value);
 	}

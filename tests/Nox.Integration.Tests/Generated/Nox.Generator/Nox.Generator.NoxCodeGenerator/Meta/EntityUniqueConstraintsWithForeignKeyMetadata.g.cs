@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace TestWebApp.Domain;
 
@@ -56,22 +57,12 @@ public partial class EntityUniqueConstraintsWithForeignKeyMetadata
         public static Nox.Types.Number CreateEntityUniqueConstraintsRelatedForeignKeyId(System.Int32 value)
             => Nox.Types.Number.From(value);
         
-
         /// <summary>
         /// User Interface for property 'TextField'
         /// </summary>
-        public static TypeUserInterface? TextFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("EntityUniqueConstraintsWithForeignKey")
-                .GetAttributeByName("TextField")?
-                .UserInterface;
-
+        public static TypeUserInterface? TextFieldUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'SomeUniqueId'
         /// </summary>
-        public static TypeUserInterface? SomeUniqueIdUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("EntityUniqueConstraintsWithForeignKey")
-                .GetAttributeByName("SomeUniqueId")?
-                .UserInterface;
+        public static TypeUserInterface? SomeUniqueIdUiOptions {get; private set;} = null; 
 }

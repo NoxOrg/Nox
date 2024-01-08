@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,36 +27,36 @@ internal partial class TestEntityOwnedRelationshipZeroOrOneFactory : TestEntityO
 {
     public TestEntityOwnedRelationshipZeroOrOneFactory
     (
-        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOne, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto> secondtestentityownedrelationshipzerooronefactory,
-        IRepository repository
-    ) : base(secondtestentityownedrelationshipzerooronefactory, repository)
+        IRepository repository,
+        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOne, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto> secondtestentityownedrelationshipzerooronefactory
+    ) : base(repository, secondtestentityownedrelationshipzerooronefactory)
     {}
 }
 
 internal abstract class TestEntityOwnedRelationshipZeroOrOneFactoryBase : IEntityFactory<TestEntityOwnedRelationshipZeroOrOneEntity, TestEntityOwnedRelationshipZeroOrOneCreateDto, TestEntityOwnedRelationshipZeroOrOneUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     private readonly IRepository _repository;
     protected IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOne, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto> SecondTestEntityOwnedRelationshipZeroOrOneFactory {get;}
 
     public TestEntityOwnedRelationshipZeroOrOneFactoryBase(
-        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOne, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto> secondtestentityownedrelationshipzerooronefactory,
-        IRepository repository
+        IRepository repository,
+        IEntityFactory<TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOne, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto, SecondTestEntityOwnedRelationshipZeroOrOneUpsertDto> secondtestentityownedrelationshipzerooronefactory
         )
     {
-        SecondTestEntityOwnedRelationshipZeroOrOneFactory = secondtestentityownedrelationshipzerooronefactory;
         _repository = repository;
+        SecondTestEntityOwnedRelationshipZeroOrOneFactory = secondtestentityownedrelationshipzerooronefactory;
     }
 
-    public virtual async Task<TestEntityOwnedRelationshipZeroOrOneEntity> CreateEntityAsync(TestEntityOwnedRelationshipZeroOrOneCreateDto createDto)
+    public virtual async Task<TestEntityOwnedRelationshipZeroOrOneEntity> CreateEntityAsync(TestEntityOwnedRelationshipZeroOrOneCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-            return await ToEntityAsync(createDto);
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TestEntityOwnedRelationshipZeroOrOneEntity));
         }        
     }
 
@@ -68,58 +68,62 @@ internal abstract class TestEntityOwnedRelationshipZeroOrOneFactoryBase : IEntit
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TestEntityOwnedRelationshipZeroOrOneEntity));
         }   
     }
 
-    public virtual void PartialUpdateEntity(TestEntityOwnedRelationshipZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(TestEntityOwnedRelationshipZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TestEntityOwnedRelationshipZeroOrOneEntity));
         }   
     }
 
-    private async Task<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOne> ToEntityAsync(TestEntityOwnedRelationshipZeroOrOneCreateDto createDto)
+    private async Task<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOne> ToEntityAsync(TestEntityOwnedRelationshipZeroOrOneCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOne();
-        entity.Id = TestEntityOwnedRelationshipZeroOrOneMetadata.CreateId(createDto.Id.NonNullValue<System.String>());
-        entity.SetIfNotNull(createDto.TextTestField, (entity) => entity.TextTestField = 
-            TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOneMetadata.CreateTextTestField(createDto.TextTestField.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Id",() => entity.Id = TestEntityOwnedRelationshipZeroOrOneMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
+        exceptionCollector.Collect("TextTestField", () => entity.SetIfNotNull(createDto.TextTestField, (entity) => entity.TextTestField = 
+            TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOneMetadata.CreateTextTestField(createDto.TextTestField.NonNullValue<System.String>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         if (createDto.SecondTestEntityOwnedRelationshipZeroOrOne is not null)
         {
-            entity.CreateRefToSecondTestEntityOwnedRelationshipZeroOrOne(await SecondTestEntityOwnedRelationshipZeroOrOneFactory.CreateEntityAsync(createDto.SecondTestEntityOwnedRelationshipZeroOrOne));
-        }
+            var secondTestEntityOwnedRelationshipZeroOrOne = await SecondTestEntityOwnedRelationshipZeroOrOneFactory.CreateEntityAsync(createDto.SecondTestEntityOwnedRelationshipZeroOrOne, cultureCode);
+            entity.CreateRefToSecondTestEntityOwnedRelationshipZeroOrOne(secondTestEntityOwnedRelationshipZeroOrOne);
+        }        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(TestEntityOwnedRelationshipZeroOrOneEntity entity, TestEntityOwnedRelationshipZeroOrOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.TextTestField = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOneMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        exceptionCollector.Collect("TextTestField",() => entity.TextTestField = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOneMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>()));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
 	    await UpdateOwnedEntitiesAsync(entity, updateDto, cultureCode);
     }
 
     private void PartialUpdateEntityInternal(TestEntityOwnedRelationshipZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("TextTestField", out var TextTestFieldUpdateValue))
         {
-            if (TextTestFieldUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(TextTestFieldUpdateValue, "Attribute 'TextTestField' can't be null.");
             {
-                throw new ArgumentException("Attribute 'TextTestField' can't be null");
-            }
-            {
-                entity.TextTestField = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOneMetadata.CreateTextTestField(TextTestFieldUpdateValue);
+                exceptionCollector.Collect("TextTestField",() =>entity.TextTestField = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOneMetadata.CreateTextTestField(TextTestFieldUpdateValue));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 
 	private async Task UpdateOwnedEntitiesAsync(TestEntityOwnedRelationshipZeroOrOneEntity entity, TestEntityOwnedRelationshipZeroOrOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
@@ -134,7 +138,7 @@ internal abstract class TestEntityOwnedRelationshipZeroOrOneFactoryBase : IEntit
             if(entity.SecondTestEntityOwnedRelationshipZeroOrOne is not null)
                 await SecondTestEntityOwnedRelationshipZeroOrOneFactory.UpdateEntityAsync(entity.SecondTestEntityOwnedRelationshipZeroOrOne, updateDto.SecondTestEntityOwnedRelationshipZeroOrOne, cultureCode);
             else
-			    entity.CreateRefToSecondTestEntityOwnedRelationshipZeroOrOne(await SecondTestEntityOwnedRelationshipZeroOrOneFactory.CreateEntityAsync(updateDto.SecondTestEntityOwnedRelationshipZeroOrOne));
+			    entity.CreateRefToSecondTestEntityOwnedRelationshipZeroOrOne(await SecondTestEntityOwnedRelationshipZeroOrOneFactory.CreateEntityAsync(updateDto.SecondTestEntityOwnedRelationshipZeroOrOne, cultureCode));
 		}
 	}
 }

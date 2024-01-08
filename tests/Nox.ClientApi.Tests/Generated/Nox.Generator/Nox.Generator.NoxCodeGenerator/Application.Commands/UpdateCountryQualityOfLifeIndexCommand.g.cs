@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using CountryQualityOfLifeIndexEntity = ClientApi.Domain.CountryQualityOfLifeInd
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateCountryQualityOfLifeIndexCommand(System.Int64 keyCountryId, System.Int64 keyId, CountryQualityOfLifeIndexUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CountryQualityOfLifeIndexKeyDto?>;
+public partial record UpdateCountryQualityOfLifeIndexCommand(System.Int64 keyCountryId, System.Int64 keyId, CountryQualityOfLifeIndexUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CountryQualityOfLifeIndexKeyDto>;
 
 internal partial class UpdateCountryQualityOfLifeIndexCommandHandler : UpdateCountryQualityOfLifeIndexCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateCountryQualityOfLifeIndexCommandHandler : UpdateCou
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateCountryQualityOfLifeIndexCommandHandlerBase : CommandBase<UpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexEntity>, IRequestHandler<UpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexKeyDto?>
+internal abstract class UpdateCountryQualityOfLifeIndexCommandHandlerBase : CommandBase<UpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexEntity>, IRequestHandler<UpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> _entityFactory;
-
 	protected UpdateCountryQualityOfLifeIndexCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateCountryQualityOfLifeIndexCommandHandlerBase : Comm
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<CountryQualityOfLifeIndexKeyDto?> Handle(UpdateCountryQualityOfLifeIndexCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryQualityOfLifeIndexKeyDto> Handle(UpdateCountryQualityOfLifeIndexCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -56,7 +56,7 @@ internal abstract class UpdateCountryQualityOfLifeIndexCommandHandlerBase : Comm
 		var entity = await DbContext.CountryQualityOfLifeIndices.FindAsync(keyCountryId, keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("CountryQualityOfLifeIndex",  $"{keyCountryId.ToString()}, {keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -66,10 +66,6 @@ internal abstract class UpdateCountryQualityOfLifeIndexCommandHandlerBase : Comm
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new CountryQualityOfLifeIndexKeyDto(entity.CountryId.Value, entity.Id.Value);
 	}

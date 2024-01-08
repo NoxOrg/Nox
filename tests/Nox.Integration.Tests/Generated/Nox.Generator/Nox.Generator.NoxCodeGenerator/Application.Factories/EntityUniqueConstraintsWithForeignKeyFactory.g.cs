@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,32 +27,28 @@ internal partial class EntityUniqueConstraintsWithForeignKeyFactory : EntityUniq
 {
     public EntityUniqueConstraintsWithForeignKeyFactory
     (
-        IRepository repository
-    ) : base( repository)
+    ) : base()
     {}
 }
 
 internal abstract class EntityUniqueConstraintsWithForeignKeyFactoryBase : IEntityFactory<EntityUniqueConstraintsWithForeignKeyEntity, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
     public EntityUniqueConstraintsWithForeignKeyFactoryBase(
-        IRepository repository
         )
     {
-        _repository = repository;
     }
 
-    public virtual async Task<EntityUniqueConstraintsWithForeignKeyEntity> CreateEntityAsync(EntityUniqueConstraintsWithForeignKeyCreateDto createDto)
+    public virtual async Task<EntityUniqueConstraintsWithForeignKeyEntity> CreateEntityAsync(EntityUniqueConstraintsWithForeignKeyCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-            return await ToEntityAsync(createDto);
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(EntityUniqueConstraintsWithForeignKeyEntity));
         }        
     }
 
@@ -64,71 +60,74 @@ internal abstract class EntityUniqueConstraintsWithForeignKeyFactoryBase : IEnti
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(EntityUniqueConstraintsWithForeignKeyEntity));
         }   
     }
 
-    public virtual void PartialUpdateEntity(EntityUniqueConstraintsWithForeignKeyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(EntityUniqueConstraintsWithForeignKeyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(EntityUniqueConstraintsWithForeignKeyEntity));
         }   
     }
 
-    private async Task<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey> ToEntityAsync(EntityUniqueConstraintsWithForeignKeyCreateDto createDto)
+    private async Task<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey> ToEntityAsync(EntityUniqueConstraintsWithForeignKeyCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey();
-        entity.SetIfNotNull(createDto.TextField, (entity) => entity.TextField = 
-            TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.SomeUniqueId, (entity) => entity.SomeUniqueId = 
-            TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateSomeUniqueId(createDto.SomeUniqueId.NonNullValue<System.Int32>()));
-        entity.EnsureId(createDto.Id);
+        exceptionCollector.Collect("TextField", () => entity.SetIfNotNull(createDto.TextField, (entity) => entity.TextField = 
+            TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>())));
+        exceptionCollector.Collect("SomeUniqueId", () => entity.SetIfNotNull(createDto.SomeUniqueId, (entity) => entity.SomeUniqueId = 
+            TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateSomeUniqueId(createDto.SomeUniqueId.NonNullValue<System.Int32>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
+        entity.EnsureId(createDto.Id);        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(EntityUniqueConstraintsWithForeignKeyEntity entity, EntityUniqueConstraintsWithForeignKeyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         if(updateDto.TextField is null)
         {
              entity.TextField = null;
         }
         else
         {
-            entity.TextField = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateTextField(updateDto.TextField.ToValueFromNonNull<System.String>());
+            exceptionCollector.Collect("TextField",() =>entity.TextField = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateTextField(updateDto.TextField.ToValueFromNonNull<System.String>()));
         }
-        entity.SomeUniqueId = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateSomeUniqueId(updateDto.SomeUniqueId.NonNullValue<System.Int32>());
+        exceptionCollector.Collect("SomeUniqueId",() => entity.SomeUniqueId = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateSomeUniqueId(updateDto.SomeUniqueId.NonNullValue<System.Int32>()));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(EntityUniqueConstraintsWithForeignKeyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("TextField", out var TextFieldUpdateValue))
         {
             if (TextFieldUpdateValue == null) { entity.TextField = null; }
             else
             {
-                entity.TextField = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateTextField(TextFieldUpdateValue);
+                exceptionCollector.Collect("TextField",() =>entity.TextField = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateTextField(TextFieldUpdateValue));
             }
         }
 
         if (updatedProperties.TryGetValue("SomeUniqueId", out var SomeUniqueIdUpdateValue))
         {
-            if (SomeUniqueIdUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(SomeUniqueIdUpdateValue, "Attribute 'SomeUniqueId' can't be null.");
             {
-                throw new ArgumentException("Attribute 'SomeUniqueId' can't be null");
-            }
-            {
-                entity.SomeUniqueId = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateSomeUniqueId(SomeUniqueIdUpdateValue);
+                exceptionCollector.Collect("SomeUniqueId",() =>entity.SomeUniqueId = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateSomeUniqueId(SomeUniqueIdUpdateValue));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 }

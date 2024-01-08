@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using LandLordEntity = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateLandLordCommand(System.Guid keyId, LandLordUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<LandLordKeyDto?>;
+public partial record UpdateLandLordCommand(System.Guid keyId, LandLordUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<LandLordKeyDto>;
 
 internal partial class UpdateLandLordCommandHandler : UpdateLandLordCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateLandLordCommandHandler : UpdateLandLordCommandHandl
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateLandLordCommandHandlerBase : CommandBase<UpdateLandLordCommand, LandLordEntity>, IRequestHandler<UpdateLandLordCommand, LandLordKeyDto?>
+internal abstract class UpdateLandLordCommandHandlerBase : CommandBase<UpdateLandLordCommand, LandLordEntity>, IRequestHandler<UpdateLandLordCommand, LandLordKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> _entityFactory;
-
 	protected UpdateLandLordCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateLandLordCommandHandlerBase : CommandBase<UpdateLan
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<LandLordKeyDto?> Handle(UpdateLandLordCommand request, CancellationToken cancellationToken)
+	public virtual async Task<LandLordKeyDto> Handle(UpdateLandLordCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +55,7 @@ internal abstract class UpdateLandLordCommandHandlerBase : CommandBase<UpdateLan
 		var entity = await DbContext.LandLords.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("LandLord",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +65,6 @@ internal abstract class UpdateLandLordCommandHandlerBase : CommandBase<UpdateLan
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new LandLordKeyDto(entity.Id.Value);
 	}

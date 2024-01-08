@@ -28,7 +28,7 @@ public partial class TestEntityExactlyOneToOneOrManiesController : TestEntityExa
 {
     public TestEntityExactlyOneToOneOrManiesController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
 
     public TestEntityExactlyOneToOneOrManiesControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateTestEntityExactlyOneToOneOrManyCommand(key, testEntityExactlyOneToOneOrMany, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityExactlyOneToOneOrMany", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityExactlyOneToOneOrManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityExactlyOneToOneOrManyCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityExactlyOneToOneOrMany", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityExactlyOneToOneOrManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteTestEntityExactlyOneToOneOrManyByIdCommand(new List<TestEntityExactlyOneToOneOrManyKeyDto> { new TestEntityExactlyOneToOneOrManyKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("TestEntityExactlyOneToOneOrMany", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

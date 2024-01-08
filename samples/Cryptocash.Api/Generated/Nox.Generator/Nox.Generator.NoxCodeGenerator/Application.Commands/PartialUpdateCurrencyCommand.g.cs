@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -16,7 +17,7 @@ using CurrencyEntity = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record PartialUpdateCurrencyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CurrencyKeyDto?>;
+public partial record PartialUpdateCurrencyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CurrencyKeyDto>;
 
 internal partial class PartialUpdateCurrencyCommandHandler : PartialUpdateCurrencyCommandHandlerBase
 {
@@ -28,11 +29,11 @@ internal partial class PartialUpdateCurrencyCommandHandler : PartialUpdateCurren
 	{
 	}
 }
-internal abstract class PartialUpdateCurrencyCommandHandlerBase : CommandBase<PartialUpdateCurrencyCommand, CurrencyEntity>, IRequestHandler<PartialUpdateCurrencyCommand, CurrencyKeyDto?>
+internal abstract class PartialUpdateCurrencyCommandHandlerBase : CommandBase<PartialUpdateCurrencyCommand, CurrencyEntity>, IRequestHandler<PartialUpdateCurrencyCommand, CurrencyKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateCurrencyCommandHandlerBase : CommandBase<Pa
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<CurrencyKeyDto?> Handle(PartialUpdateCurrencyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CurrencyKeyDto> Handle(PartialUpdateCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,9 +53,9 @@ internal abstract class PartialUpdateCurrencyCommandHandlerBase : CommandBase<Pa
 		var entity = await DbContext.Currencies.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Currency",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

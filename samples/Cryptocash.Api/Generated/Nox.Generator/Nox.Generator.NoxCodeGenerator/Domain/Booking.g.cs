@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
@@ -49,7 +50,7 @@ internal record BookingDeleted(Booking Booking) : IDomainEvent, INotification;
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class BookingBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Booking unique identifier    
@@ -245,6 +246,7 @@ internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcur
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

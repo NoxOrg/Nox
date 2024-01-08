@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -37,10 +38,6 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         }
         
         var createdRef = await _mediator.Send(new CreateRefTestEntityZeroOrOneToSecondTestEntityZeroOrOneCommand(new TestEntityZeroOrOneKeyDto(key), new SecondTestEntityZeroOrOneKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -50,7 +47,7 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         var entity = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Include(x => x.SecondTestEntityZeroOrOne).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityZeroOrOne", $"{key.ToString()}");
         }
         
         if (entity.SecondTestEntityZeroOrOne is null)
@@ -69,10 +66,6 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefTestEntityZeroOrOneToSecondTestEntityZeroOrOneCommand(new TestEntityZeroOrOneKeyDto(key), new SecondTestEntityZeroOrOneKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -85,10 +78,6 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefTestEntityZeroOrOneToSecondTestEntityZeroOrOneCommand(new TestEntityZeroOrOneKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -129,15 +118,34 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Select(x => x.SecondTestEntityZeroOrOne).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("SecondTestEntityZeroOrOne", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateSecondTestEntityZeroOrOneCommand(related.Id, secondTestEntityZeroOrOne, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<SecondTestEntityZeroOrOneDto>> PatchToSecondTestEntityZeroOrOne(System.String key, [FromBody] Delta<SecondTestEntityZeroOrOnePartialUpdateDto> secondTestEntityZeroOrOne)
+    {
+        if (!ModelState.IsValid || secondTestEntityZeroOrOne is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Select(x => x.SecondTestEntityZeroOrOne).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("SecondTestEntityZeroOrOne", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<SecondTestEntityZeroOrOnePartialUpdateDto>(secondTestEntityZeroOrOne);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateSecondTestEntityZeroOrOneCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -155,15 +163,11 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Select(x => x.SecondTestEntityZeroOrOne).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestEntityZeroOrOne", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteSecondTestEntityZeroOrOneByIdCommand(new List<SecondTestEntityZeroOrOneKeyDto> { new SecondTestEntityZeroOrOneKeyDto(related.Id) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         return NoContent();
     }
     

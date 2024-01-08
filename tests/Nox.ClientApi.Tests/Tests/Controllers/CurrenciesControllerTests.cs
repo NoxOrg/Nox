@@ -24,7 +24,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region RELATIONSHIP
 
-        [Fact]
+        [Fact(Skip="We not are allowing to call related neither $ref end points, there are only hidden from swagger.")]
         public async Task CanManageReferenceTo_StoreLicenseDefault_NotFound()
         {
             //Arrange

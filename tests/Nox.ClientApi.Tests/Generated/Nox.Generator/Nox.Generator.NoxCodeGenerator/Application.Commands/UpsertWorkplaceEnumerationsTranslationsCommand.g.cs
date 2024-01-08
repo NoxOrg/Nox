@@ -11,6 +11,7 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Types.Abstractions.Extensions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -76,7 +77,6 @@ internal abstract class UpsertWorkplacesOwnershipsTranslationsCommandHandlerBase
 }
 public class UpsertWorkplacesOwnershipsTranslationsCommandValidator : AbstractValidator<UpsertWorkplacesOwnershipsTranslationsCommand>
 {
-	private static readonly string[] _supportedCultureCodes = new string[] { "en-US", "it-IT", "fr-FR", "de-DE", };
 	private static readonly int[] _supportedIds = new int[] { 1000, 4000, 5000, };
 	
     public UpsertWorkplacesOwnershipsTranslationsCommandValidator(NoxSolution noxSolution)
@@ -86,7 +86,7 @@ public class UpsertWorkplacesOwnershipsTranslationsCommandValidator : AbstractVa
 			.WithMessage($"{nameof(UpsertWorkplacesOwnershipsTranslationsCommand)} : {nameof(UpsertWorkplacesOwnershipsTranslationsCommand.WorkplaceOwnershipLocalizedDtos)} is required.");
 		
 		RuleForEach(x => x.WorkplaceOwnershipLocalizedDtos)
-			.Must(x => _supportedCultureCodes.Contains(x.CultureCode))
+			.Must(x => noxSolution!.Application!.Localization!.SupportedCultures.Select(c => c.ToDisplayName()).Contains(x.CultureCode))
 			.WithMessage((_,x) => $"{nameof(UpsertWorkplacesOwnershipsTranslationsCommand)} : {nameof(UpsertWorkplacesOwnershipsTranslationsCommand.WorkplaceOwnershipLocalizedDtos)} contains unsupported culture code: {x.CultureCode}.");
 		
 		RuleForEach(x => x.WorkplaceOwnershipLocalizedDtos)

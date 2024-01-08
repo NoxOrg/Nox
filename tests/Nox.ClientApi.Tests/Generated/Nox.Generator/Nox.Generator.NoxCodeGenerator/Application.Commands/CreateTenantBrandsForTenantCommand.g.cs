@@ -1,5 +1,4 @@
-﻿﻿
-// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
@@ -20,16 +20,15 @@ using ClientApi.Application.Dto;
 using TenantBrandEntity = ClientApi.Domain.TenantBrand;
 
 namespace ClientApi.Application.Commands;
-public partial record CreateTenantBrandsForTenantCommand(TenantKeyDto ParentKeyDto, TenantBrandUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantBrandKeyDto?>;
+public partial record CreateTenantBrandsForTenantCommand(TenantKeyDto ParentKeyDto, TenantBrandUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantBrandKeyDto>;
 
 internal partial class CreateTenantBrandsForTenantCommandHandler : CreateTenantBrandsForTenantCommandHandlerBase
 {
 	public CreateTenantBrandsForTenantCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> entityFactory,
-		IEntityLocalizedFactory<TenantBrandLocalized, TenantBrandEntity, TenantBrandUpsertDto> entityLocalizedFactory)
-		: base(dbContext, noxSolution, entityFactory, entityLocalizedFactory)
+		IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -37,18 +36,15 @@ internal abstract class CreateTenantBrandsForTenantCommandHandlerBase : CommandB
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> _entityFactory;
-	protected readonly IEntityLocalizedFactory<TenantBrandLocalized, TenantBrandEntity, TenantBrandUpsertDto> _entityLocalizedFactory;
-
+	
 	protected CreateTenantBrandsForTenantCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> entityFactory,
-		IEntityLocalizedFactory<TenantBrandLocalized, TenantBrandEntity, TenantBrandUpsertDto> entityLocalizedFactory)
+		IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> entityFactory)
 		: base(noxSolution)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory; 
-		_entityLocalizedFactory = entityLocalizedFactory;
+		_entityFactory = entityFactory;
 	}
 
 	public virtual  async Task<TenantBrandKeyDto?> Handle(CreateTenantBrandsForTenantCommand request, CancellationToken cancellationToken)
@@ -59,23 +55,17 @@ internal abstract class CreateTenantBrandsForTenantCommandHandlerBase : CommandB
 		var parentEntity = await _dbContext.Tenants.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Tenant",  $"{keyId.ToString()}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
+		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefToTenantBrands(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-		var entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, request.CultureCode);
-		_dbContext.TenantBrandsLocalized.Add(entityLocalized);
-
+		
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new TenantBrandKeyDto(entity.Id.Value);
 	}

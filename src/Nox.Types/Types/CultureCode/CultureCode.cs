@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+using Nox.Types.Abstractions.Extensions;
 
 namespace Nox.Types;
 
@@ -8,21 +8,6 @@ namespace Nox.Types;
 public partial class CultureCode : ValueObject<string, CultureCode>
 {
     /// <summary>
-    /// The culture code.
-    /// </summary>
-    private const string _twoLettersCultureCode = @"^[a-z]{2}$";
-
-    /// <summary>
-    /// The culture code.
-    /// </summary>
-    private const string _fiveLettersCultureCode = @"^[a-z]{2}-[A-Z]{2}$";
-
-    /// <summary>
-    /// The culture code.
-    /// </summary>
-    private const string _tenLettersCultureCode = @"^[a-z]{2}-[A-Z]{2}-[A-Z][a-z]{3}$";
-
-    /// <summary>
     /// Validates the <see cref="CultureCode"/> object.
     /// </summary>
     /// <returns>A validation result indicating whether the <see cref="CultureCode"/> object is valid or not.</returns>
@@ -30,9 +15,7 @@ public partial class CultureCode : ValueObject<string, CultureCode>
     {
         var result = base.Validate();
 
-        if (!CultureCodeRegex2().IsMatch(Value)
-            && !CultureCCodeRegex2_2().IsMatch(Value)
-            && !CultureCCodeRegex2_2_3().IsMatch(Value))
+        if(!Abstractions.CultureCode.DisplayNames.TryGetValue(Value, out _))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox CultureCode type with unsupported value '{Value}'."));
         }
@@ -40,13 +23,10 @@ public partial class CultureCode : ValueObject<string, CultureCode>
         return result;
     }
 
-    [GeneratedRegex("^[a-z]{2}$")]
-    private static partial Regex CultureCodeRegex2();
-
-    [GeneratedRegex("^[a-z]{2}-[A-Z]{2}$")]
-    private static partial Regex CultureCCodeRegex2_2();
-
-    [GeneratedRegex("^[a-z]{2}-[A-Z]{2}-[A-Z][a-z]{3}$")]
-    private static partial Regex CultureCCodeRegex2_2_3();
-
+    /// <summary>
+    /// Creates a new instance of <see cref="CultureCode"/>
+    /// <param name="value">The Culture value type of <see cref="Culture"/> to create the <see cref="CultureCode"/> with</param>
+    /// </summary>
+    /// <returns>A new instance of <see cref="CultureCode"/></returns>
+    public static CultureCode From(Culture value) => From(value.ToDisplayName());
 }

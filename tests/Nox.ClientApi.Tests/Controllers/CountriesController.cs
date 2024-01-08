@@ -42,13 +42,6 @@ public partial class CountriesController
 
         return Created(child);
     }
-    [EnableQuery]
-    public virtual async Task<SingleResult<ClientDto>> Get([FromRoute] System.Guid key)
-    {
-        var result = await _mediator.Send(new GetClientByIdQuery(key));
-        
-        return SingleResult.Create(result);
-    }
     /// <summary>
     /// Example of a OData Function / end point with Query enable
     /// <seealso cref="ClientApi.Tests.StartupFixture"/> how to add nox and configure a OData End point

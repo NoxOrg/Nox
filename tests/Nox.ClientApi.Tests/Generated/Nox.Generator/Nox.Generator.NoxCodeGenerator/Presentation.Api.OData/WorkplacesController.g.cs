@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
 using ClientApi.Application.Queries;
@@ -37,10 +38,6 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefWorkplaceToCountryCommand(new WorkplaceKeyDto(key), new CountryKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -50,7 +47,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         var entity = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Include(x => x.Country).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Workplace", $"{key.ToString()}");
         }
         
         if (entity.Country is null)
@@ -69,10 +66,6 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefWorkplaceToCountryCommand(new WorkplaceKeyDto(key), new CountryKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -85,10 +78,6 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefWorkplaceToCountryCommand(new WorkplaceKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -129,15 +118,34 @@ public abstract partial class WorkplacesControllerBase : ODataController
         var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Country", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCountryCommand(related.Id, country, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<CountryDto>> PatchToCountry(System.Int64 key, [FromBody] Delta<CountryPartialUpdateDto> country)
+    {
+        if (!ModelState.IsValid || country is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("Country", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CountryPartialUpdateDto>(country);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -155,15 +163,11 @@ public abstract partial class WorkplacesControllerBase : ODataController
         var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Workplace", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteCountryByIdCommand(new List<CountryKeyDto> { new CountryKeyDto(related.Id) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         return NoContent();
     }
     
@@ -175,10 +179,6 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefWorkplaceToTenantsCommand(new WorkplaceKeyDto(key), new TenantKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -193,10 +193,6 @@ public abstract partial class WorkplacesControllerBase : ODataController
         
         var relatedKeysDto = referencesDto.References.Select(x => new TenantKeyDto(x)).ToList();
         var updatedRef = await _mediator.Send(new UpdateRefWorkplaceToTenantsCommand(new WorkplaceKeyDto(key), relatedKeysDto));
-        if (!updatedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -206,7 +202,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         var entity = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Include(x => x.Tenants).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Workplace", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -225,10 +221,6 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefWorkplaceToTenantsCommand(new WorkplaceKeyDto(key), new TenantKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -241,10 +233,6 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefWorkplaceToTenantsCommand(new WorkplaceKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -270,7 +258,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         var query = await _mediator.Send(new GetWorkplaceByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("Workplace", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.Tenants).SelectMany(x => x.Tenants));
     }
@@ -298,15 +286,35 @@ public abstract partial class WorkplacesControllerBase : ODataController
         var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).SelectMany(x => x.Tenants).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Tenants", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateTenantCommand(relatedKey, tenant, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetTenantByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/v1/Workplaces/{key}/Tenants/{relatedKey}")]
+    public virtual async Task<ActionResult<TenantDto>> PatchtoTenantsNonConventional(System.Int64 key, System.UInt32 relatedKey, [FromBody] Delta<TenantPartialUpdateDto> tenant)
+    {
+        if (!ModelState.IsValid || tenant is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).SelectMany(x => x.Tenants).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Tenants", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<TenantPartialUpdateDto>(tenant);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTenantCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetTenantByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -324,15 +332,11 @@ public abstract partial class WorkplacesControllerBase : ODataController
         var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).SelectMany(x => x.Tenants).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Tenants", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteTenantByIdCommand(new List<TenantKeyDto> { new TenantKeyDto(relatedKey) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -348,7 +352,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Select(x => x.Tenants).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Workplace", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();

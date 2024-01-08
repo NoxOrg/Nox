@@ -1,5 +1,4 @@
-﻿﻿
-﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -9,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -47,13 +47,13 @@ internal partial class DeleteTenantContactForTenantCommandHandlerBase : CommandB
 		var parentEntity = await DbContext.Tenants.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Tenant",  $"{keyId.ToString()}");
 		}
 		await DbContext.Entry(parentEntity).Reference(e => e.TenantContact).LoadAsync(cancellationToken);
 		var entity = parentEntity.TenantContact;
 		if (entity == null)
 		{
-			return false;
+			throw new EntityNotFoundException("Tenant.TenantContact",  String.Empty);
 		}
 
 		parentEntity.DeleteRefToTenantContact(entity);
@@ -64,10 +64,6 @@ internal partial class DeleteTenantContactForTenantCommandHandlerBase : CommandB
 		DbContext.Entry(entity).State = EntityState.Deleted;
 
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
-		if (result < 1)
-		{
-			return false;
-		}
 
 		return true;
 	}

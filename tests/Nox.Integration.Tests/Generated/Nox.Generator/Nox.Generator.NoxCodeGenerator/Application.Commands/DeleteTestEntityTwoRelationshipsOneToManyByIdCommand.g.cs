@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
@@ -49,7 +50,7 @@ internal abstract class DeleteTestEntityTwoRelationshipsOneToManyByIdCommandHand
 			var entity = await DbContext.TestEntityTwoRelationshipsOneToManies.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
-				return false;
+				throw new EntityNotFoundException("TestEntityTwoRelationshipsOneToMany",  $"{keyId.ToString()}");
 			}
 			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

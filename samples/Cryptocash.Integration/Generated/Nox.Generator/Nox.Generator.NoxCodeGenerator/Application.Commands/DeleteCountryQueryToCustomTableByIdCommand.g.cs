@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 using CryptocashIntegration.Infrastructure.Persistence;
 using CryptocashIntegration.Domain;
 using CryptocashIntegration.Application.Dto;
@@ -49,7 +50,7 @@ internal abstract class DeleteCountryQueryToCustomTableByIdCommandHandlerBase : 
 			var entity = await DbContext.CountryQueryToCustomTables.FindAsync(keyId);
 			if (entity == null)
 			{
-				return false;
+				throw new EntityNotFoundException("CountryQueryToCustomTable",  $"{keyId.ToString()}");
 			}
 			entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

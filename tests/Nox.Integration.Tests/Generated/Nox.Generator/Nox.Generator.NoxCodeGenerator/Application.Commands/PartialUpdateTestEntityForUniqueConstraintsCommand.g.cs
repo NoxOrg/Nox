@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -16,7 +17,7 @@ using TestEntityForUniqueConstraintsEntity = TestWebApp.Domain.TestEntityForUniq
 
 namespace TestWebApp.Application.Commands;
 
-public partial record PartialUpdateTestEntityForUniqueConstraintsCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityForUniqueConstraintsKeyDto?>;
+public partial record PartialUpdateTestEntityForUniqueConstraintsCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityForUniqueConstraintsKeyDto>;
 
 internal partial class PartialUpdateTestEntityForUniqueConstraintsCommandHandler : PartialUpdateTestEntityForUniqueConstraintsCommandHandlerBase
 {
@@ -28,11 +29,11 @@ internal partial class PartialUpdateTestEntityForUniqueConstraintsCommandHandler
 	{
 	}
 }
-internal abstract class PartialUpdateTestEntityForUniqueConstraintsCommandHandlerBase : CommandBase<PartialUpdateTestEntityForUniqueConstraintsCommand, TestEntityForUniqueConstraintsEntity>, IRequestHandler<PartialUpdateTestEntityForUniqueConstraintsCommand, TestEntityForUniqueConstraintsKeyDto?>
+internal abstract class PartialUpdateTestEntityForUniqueConstraintsCommandHandlerBase : CommandBase<PartialUpdateTestEntityForUniqueConstraintsCommand, TestEntityForUniqueConstraintsEntity>, IRequestHandler<PartialUpdateTestEntityForUniqueConstraintsCommand, TestEntityForUniqueConstraintsKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateTestEntityForUniqueConstraintsCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateTestEntityForUniqueConstraintsCommandHandle
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<TestEntityForUniqueConstraintsKeyDto?> Handle(PartialUpdateTestEntityForUniqueConstraintsCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TestEntityForUniqueConstraintsKeyDto> Handle(PartialUpdateTestEntityForUniqueConstraintsCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,9 +53,9 @@ internal abstract class PartialUpdateTestEntityForUniqueConstraintsCommandHandle
 		var entity = await DbContext.TestEntityForUniqueConstraints.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("TestEntityForUniqueConstraints",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

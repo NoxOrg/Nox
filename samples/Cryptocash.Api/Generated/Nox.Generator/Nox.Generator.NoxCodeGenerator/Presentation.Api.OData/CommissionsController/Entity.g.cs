@@ -28,7 +28,7 @@ public partial class CommissionsController : CommissionsControllerBase
 {
     public CommissionsController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class CommissionsControllerBase : ODataController
 
     public CommissionsControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class CommissionsControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateCommissionCommand(key, commission, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("Commission", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetCommissionByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class CommissionsControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateCommissionCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("Commission", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetCommissionByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class CommissionsControllerBase : ODataController
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteCommissionByIdCommand(new List<CommissionKeyDto> { new CommissionKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("Commission", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
@@ -49,7 +50,7 @@ internal record EmployeeDeleted(Employee Employee) : IDomainEvent, INotification
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class EmployeeBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Employee's unique identifier    
@@ -192,6 +193,7 @@ internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcu
         EmployeePhoneNumbers.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

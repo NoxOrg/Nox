@@ -28,7 +28,7 @@ public partial class SecondTestEntityOneOrManiesController : SecondTestEntityOne
 {
     public SecondTestEntityOneOrManiesController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
 
     public SecondTestEntityOneOrManiesControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateSecondTestEntityOneOrManyCommand(key, secondTestEntityOneOrMany, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("SecondTestEntityOneOrMany", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetSecondTestEntityOneOrManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateSecondTestEntityOneOrManyCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("SecondTestEntityOneOrMany", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetSecondTestEntityOneOrManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteSecondTestEntityOneOrManyByIdCommand(new List<SecondTestEntityOneOrManyKeyDto> { new SecondTestEntityOneOrManyKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("SecondTestEntityOneOrMany", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

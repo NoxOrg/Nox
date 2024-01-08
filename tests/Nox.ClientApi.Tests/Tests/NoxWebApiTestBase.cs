@@ -2,16 +2,24 @@
 using ClientApi.Tests.Tests.Models;
 using FluentAssertions;
 using MassTransit.Testing;
-using Microsoft.AspNetCore.TestHost;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Xunit.Abstractions;
 
 namespace ClientApi.Tests;
 
+#region DEBUG
+/// <summary>
+/// Test againg a DatabaseInstance, use it for development/troubleshooting
+/// </summary>
+public abstract class NoxWebApiTestDbInstanceBase : NoxWebApiTestBase, IClassFixture<TestDatabaseInstanceService>
+{
+    protected NoxWebApiTestDbInstanceBase(ITestOutputHelper testOutput, ITestDatabaseService testDatabaseService, bool enableMessagingTests = false, string? environment = null) : base(testOutput, testDatabaseService, enableMessagingTests, environment)
+    {
+    }
+}
+#endregion
 public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerService>
-//For development Purposes
-//public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseInstanceService>
 {
     protected readonly Fixture _fixture = new Fixture();
     private readonly NoxAppClient _noxAppClient;
@@ -279,7 +287,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
         }
     }
 
-    private TResult? DeserializeResponse<TResult>(string response)
+    protected TResult? DeserializeResponse<TResult>(string response)
     {
         return JsonSerializer.Deserialize<TResult>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new JsonStringEnumConverter() } });
     }

@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using ReferenceNumberEntityEntity = ClientApi.Domain.ReferenceNumberEntity;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateReferenceNumberEntityCommand(System.String keyId, ReferenceNumberEntityUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<ReferenceNumberEntityKeyDto?>;
+public partial record UpdateReferenceNumberEntityCommand(System.String keyId, ReferenceNumberEntityUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<ReferenceNumberEntityKeyDto>;
 
 internal partial class UpdateReferenceNumberEntityCommandHandler : UpdateReferenceNumberEntityCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateReferenceNumberEntityCommandHandler : UpdateReferen
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ReferenceNumberEntityEntity, ReferenceNumberEntityCreateDto, ReferenceNumberEntityUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateReferenceNumberEntityCommandHandlerBase : CommandBase<UpdateReferenceNumberEntityCommand, ReferenceNumberEntityEntity>, IRequestHandler<UpdateReferenceNumberEntityCommand, ReferenceNumberEntityKeyDto?>
+internal abstract class UpdateReferenceNumberEntityCommandHandlerBase : CommandBase<UpdateReferenceNumberEntityCommand, ReferenceNumberEntityEntity>, IRequestHandler<UpdateReferenceNumberEntityCommand, ReferenceNumberEntityKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<ReferenceNumberEntityEntity, ReferenceNumberEntityCreateDto, ReferenceNumberEntityUpdateDto> _entityFactory;
-
 	protected UpdateReferenceNumberEntityCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateReferenceNumberEntityCommandHandlerBase : CommandB
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<ReferenceNumberEntityKeyDto?> Handle(UpdateReferenceNumberEntityCommand request, CancellationToken cancellationToken)
+	public virtual async Task<ReferenceNumberEntityKeyDto> Handle(UpdateReferenceNumberEntityCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +55,7 @@ internal abstract class UpdateReferenceNumberEntityCommandHandlerBase : CommandB
 		var entity = await DbContext.ReferenceNumberEntities.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("ReferenceNumberEntity",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +65,6 @@ internal abstract class UpdateReferenceNumberEntityCommandHandlerBase : CommandB
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new ReferenceNumberEntityKeyDto(entity.Id.Value);
 	}

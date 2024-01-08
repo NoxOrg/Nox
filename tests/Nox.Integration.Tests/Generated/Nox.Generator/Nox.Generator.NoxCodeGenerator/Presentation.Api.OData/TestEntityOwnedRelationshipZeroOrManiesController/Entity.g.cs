@@ -28,7 +28,7 @@ public partial class TestEntityOwnedRelationshipZeroOrManiesController : TestEnt
 {
     public TestEntityOwnedRelationshipZeroOrManiesController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
 
     public TestEntityOwnedRelationshipZeroOrManiesControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateTestEntityOwnedRelationshipZeroOrManyCommand(key, testEntityOwnedRelationshipZeroOrMany, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityOwnedRelationshipZeroOrMany", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityOwnedRelationshipZeroOrManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("TestEntityOwnedRelationshipZeroOrMany", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetTestEntityOwnedRelationshipZeroOrManyByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand(new List<TestEntityOwnedRelationshipZeroOrManyKeyDto> { new TestEntityOwnedRelationshipZeroOrManyKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("TestEntityOwnedRelationshipZeroOrMany", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

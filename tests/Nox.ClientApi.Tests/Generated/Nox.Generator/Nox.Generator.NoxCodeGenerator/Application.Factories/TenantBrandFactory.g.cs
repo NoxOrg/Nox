@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,32 +27,41 @@ internal partial class TenantBrandFactory : TenantBrandFactoryBase
 {
     public TenantBrandFactory
     (
-        IRepository repository
-    ) : base( repository)
+        IRepository repository,
+        IEntityLocalizedFactory<TenantBrandLocalized, TenantBrandEntity, TenantBrandUpsertDto> tenantBrandLocalizedFactory,
+        NoxSolution noxSolution
+    ) : base(repository, tenantBrandLocalizedFactory, noxSolution)
     {}
 }
 
 internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly Nox.Types.CultureCode _defaultCultureCode;
+    protected readonly IEntityLocalizedFactory<TenantBrandLocalized, TenantBrandEntity, TenantBrandUpsertDto> TenantBrandLocalizedFactory;
     private readonly IRepository _repository;
 
     public TenantBrandFactoryBase(
-        IRepository repository
+        IRepository repository,
+        IEntityLocalizedFactory<TenantBrandLocalized, TenantBrandEntity, TenantBrandUpsertDto> tenantBrandLocalizedFactory,
+        NoxSolution noxSolution
         )
     {
         _repository = repository;
+        TenantBrandLocalizedFactory = tenantBrandLocalizedFactory;
+        _defaultCultureCode = Nox.Types.CultureCode.From(noxSolution!.Application!.Localization!.DefaultCulture);
     }
 
-    public virtual async Task<TenantBrandEntity> CreateEntityAsync(TenantBrandUpsertDto createDto)
+    public virtual async Task<TenantBrandEntity> CreateEntityAsync(TenantBrandUpsertDto createDto, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-            return await ToEntityAsync(createDto);
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            TenantBrandLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+            return entity;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TenantBrandEntity));
         }        
     }
 
@@ -61,68 +70,72 @@ internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntit
         try
         {
             await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+            await TenantBrandLocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TenantBrandEntity));
         }   
     }
 
-    public virtual void PartialUpdateEntity(TenantBrandEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(TenantBrandEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await TenantBrandLocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
+        
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(TenantBrandEntity));
         }   
     }
 
-    private async Task<ClientApi.Domain.TenantBrand> ToEntityAsync(TenantBrandUpsertDto createDto)
+    private async Task<ClientApi.Domain.TenantBrand> ToEntityAsync(TenantBrandUpsertDto createDto, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.TenantBrand();
-        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            ClientApi.Domain.TenantBrandMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.Description, (entity) => entity.Description = 
-            ClientApi.Domain.TenantBrandMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
+            ClientApi.Domain.TenantBrandMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+        exceptionCollector.Collect("Description", () => entity.SetIfNotNull(createDto.Description, (entity) => entity.Description = 
+            ClientApi.Domain.TenantBrandMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(TenantBrandEntity entity, TenantBrandUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.Name = ClientApi.Domain.TenantBrandMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
-        if(IsDefaultCultureCode(cultureCode)) entity.Description = ClientApi.Domain.TenantBrandMetadata.CreateDescription(updateDto.Description.NonNullValue<System.String>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        exceptionCollector.Collect("Name",() => entity.Name = ClientApi.Domain.TenantBrandMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        if(IsDefaultCultureCode(cultureCode)) exceptionCollector.Collect("Description",() => entity.Description = ClientApi.Domain.TenantBrandMetadata.CreateDescription(updateDto.Description.NonNullValue<System.String>()));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(TenantBrandEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
         {
-            if (NameUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                throw new ArgumentException("Attribute 'Name' can't be null");
-            }
-            {
-                entity.Name = ClientApi.Domain.TenantBrandMetadata.CreateName(NameUpdateValue);
+                exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.TenantBrandMetadata.CreateName(NameUpdateValue));
             }
         }
 
         if (IsDefaultCultureCode(cultureCode) && updatedProperties.TryGetValue("Description", out var DescriptionUpdateValue))
         {
-            if (DescriptionUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(DescriptionUpdateValue, "Attribute 'Description' can't be null.");
             {
-                throw new ArgumentException("Attribute 'Description' can't be null");
-            }
-            {
-                entity.Description = ClientApi.Domain.TenantBrandMetadata.CreateDescription(DescriptionUpdateValue);
+                exceptionCollector.Collect("Description",() =>entity.Description = ClientApi.Domain.TenantBrandMetadata.CreateDescription(DescriptionUpdateValue));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+    private bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
 }

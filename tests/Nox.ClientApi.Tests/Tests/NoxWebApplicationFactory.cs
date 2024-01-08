@@ -1,11 +1,9 @@
-﻿﻿using Divergic.Logging.Xunit;
+﻿using Divergic.Logging.Xunit;
 using MassTransit;
-using MassTransit.Testing;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Nox.Types.EntityFramework.Abstractions;
-using ClientApi.Infrastructure.Persistence;
 using Xunit.Abstractions;
 using Nox.Solution;
 using Nox.Infrastructure;
@@ -19,7 +17,7 @@ public class NoxWebApplicationFactory : WebApplicationFactory<StartupFixture>
     private readonly ITestOutputHelper _testOutput;
     private readonly ITestDatabaseService _databaseService;
     private readonly bool _enableMessaging;
-    private readonly string Environment = Environments.Production;
+    private readonly string _environment = Environments.Production;
 
     public NoxWebApplicationFactory(
         ITestOutputHelper testOutput,
@@ -33,14 +31,14 @@ public class NoxWebApplicationFactory : WebApplicationFactory<StartupFixture>
 
         if (environment != null)
         {
-            Environment = environment;
+            _environment = environment;
         }
     }
 
     protected override IWebHostBuilder? CreateWebHostBuilder()
     {
         var host = WebHost.CreateDefaultBuilder(null!)
-            .UseEnvironment(Environment)
+            .UseEnvironment(_environment)
             .UseStartup<StartupFixture>()
             // this extension makes it sure that our lambda will run after the Startup.ConfigureServices()
             // method has been executed.

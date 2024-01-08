@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using TestWebApp.Application;
 using TestWebApp.Application.Dto;
 using TestWebApp.Application.Queries;
@@ -37,10 +38,6 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         }
         
         var createdRef = await _mediator.Send(new CreateRefSecondTestEntityTwoRelationshipsOneToOneToTestRelationshipOneOnOtherSideCommand(new SecondTestEntityTwoRelationshipsOneToOneKeyDto(key), new TestEntityTwoRelationshipsOneToOneKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -50,7 +47,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         var entity = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Include(x => x.TestRelationshipOneOnOtherSide).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("SecondTestEntityTwoRelationshipsOneToOne", $"{key.ToString()}");
         }
         
         if (entity.TestRelationshipOneOnOtherSide is null)
@@ -69,10 +66,6 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefSecondTestEntityTwoRelationshipsOneToOneToTestRelationshipOneOnOtherSideCommand(new SecondTestEntityTwoRelationshipsOneToOneKeyDto(key), new TestEntityTwoRelationshipsOneToOneKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -85,10 +78,6 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefSecondTestEntityTwoRelationshipsOneToOneToTestRelationshipOneOnOtherSideCommand(new SecondTestEntityTwoRelationshipsOneToOneKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -129,15 +118,34 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipOneOnOtherSide).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestRelationshipOneOnOtherSide", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateTestEntityTwoRelationshipsOneToOneCommand(related.Id, testEntityTwoRelationshipsOneToOne, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToOneDto>> PatchToTestRelationshipOneOnOtherSide(System.String key, [FromBody] Delta<TestEntityTwoRelationshipsOneToOnePartialUpdateDto> testEntityTwoRelationshipsOneToOne)
+    {
+        if (!ModelState.IsValid || testEntityTwoRelationshipsOneToOne is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipOneOnOtherSide).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("TestRelationshipOneOnOtherSide", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<TestEntityTwoRelationshipsOneToOnePartialUpdateDto>(testEntityTwoRelationshipsOneToOne);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTestEntityTwoRelationshipsOneToOneCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -155,15 +163,11 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipOneOnOtherSide).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("SecondTestEntityTwoRelationshipsOneToOne", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteTestEntityTwoRelationshipsOneToOneByIdCommand(new List<TestEntityTwoRelationshipsOneToOneKeyDto> { new TestEntityTwoRelationshipsOneToOneKeyDto(related.Id) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         return NoContent();
     }
     
@@ -175,10 +179,6 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         }
         
         var createdRef = await _mediator.Send(new CreateRefSecondTestEntityTwoRelationshipsOneToOneToTestRelationshipTwoOnOtherSideCommand(new SecondTestEntityTwoRelationshipsOneToOneKeyDto(key), new TestEntityTwoRelationshipsOneToOneKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -188,7 +188,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         var entity = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Include(x => x.TestRelationshipTwoOnOtherSide).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("SecondTestEntityTwoRelationshipsOneToOne", $"{key.ToString()}");
         }
         
         if (entity.TestRelationshipTwoOnOtherSide is null)
@@ -207,10 +207,6 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefSecondTestEntityTwoRelationshipsOneToOneToTestRelationshipTwoOnOtherSideCommand(new SecondTestEntityTwoRelationshipsOneToOneKeyDto(key), new TestEntityTwoRelationshipsOneToOneKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -223,10 +219,6 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefSecondTestEntityTwoRelationshipsOneToOneToTestRelationshipTwoOnOtherSideCommand(new SecondTestEntityTwoRelationshipsOneToOneKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -267,15 +259,34 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipTwoOnOtherSide).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("TestRelationshipTwoOnOtherSide", String.Empty);
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateTestEntityTwoRelationshipsOneToOneCommand(related.Id, testEntityTwoRelationshipsOneToOne, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    public virtual async Task<ActionResult<TestEntityTwoRelationshipsOneToOneDto>> PatchToTestRelationshipTwoOnOtherSide(System.String key, [FromBody] Delta<TestEntityTwoRelationshipsOneToOnePartialUpdateDto> testEntityTwoRelationshipsOneToOne)
+    {
+        if (!ModelState.IsValid || testEntityTwoRelationshipsOneToOne is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipTwoOnOtherSide).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("TestRelationshipTwoOnOtherSide", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<TestEntityTwoRelationshipsOneToOnePartialUpdateDto>(testEntityTwoRelationshipsOneToOne);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTestEntityTwoRelationshipsOneToOneCommand(related.Id, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -293,15 +304,11 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipTwoOnOtherSide).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("SecondTestEntityTwoRelationshipsOneToOne", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteTestEntityTwoRelationshipsOneToOneByIdCommand(new List<TestEntityTwoRelationshipsOneToOneKeyDto> { new TestEntityTwoRelationshipsOneToOneKeyDto(related.Id) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         return NoContent();
     }
     

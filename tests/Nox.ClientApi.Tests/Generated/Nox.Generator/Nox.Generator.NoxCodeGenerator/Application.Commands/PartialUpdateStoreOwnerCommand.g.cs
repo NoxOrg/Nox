@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -16,7 +17,7 @@ using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Commands;
 
-public partial record PartialUpdateStoreOwnerCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <StoreOwnerKeyDto?>;
+public partial record PartialUpdateStoreOwnerCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <StoreOwnerKeyDto>;
 
 internal partial class PartialUpdateStoreOwnerCommandHandler : PartialUpdateStoreOwnerCommandHandlerBase
 {
@@ -28,11 +29,11 @@ internal partial class PartialUpdateStoreOwnerCommandHandler : PartialUpdateStor
 	{
 	}
 }
-internal abstract class PartialUpdateStoreOwnerCommandHandlerBase : CommandBase<PartialUpdateStoreOwnerCommand, StoreOwnerEntity>, IRequestHandler<PartialUpdateStoreOwnerCommand, StoreOwnerKeyDto?>
+internal abstract class PartialUpdateStoreOwnerCommandHandlerBase : CommandBase<PartialUpdateStoreOwnerCommand, StoreOwnerEntity>, IRequestHandler<PartialUpdateStoreOwnerCommand, StoreOwnerKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateStoreOwnerCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateStoreOwnerCommandHandlerBase : CommandBase<
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<StoreOwnerKeyDto?> Handle(PartialUpdateStoreOwnerCommand request, CancellationToken cancellationToken)
+	public virtual async Task<StoreOwnerKeyDto> Handle(PartialUpdateStoreOwnerCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,9 +53,9 @@ internal abstract class PartialUpdateStoreOwnerCommandHandlerBase : CommandBase<
 		var entity = await DbContext.StoreOwners.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("StoreOwner",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

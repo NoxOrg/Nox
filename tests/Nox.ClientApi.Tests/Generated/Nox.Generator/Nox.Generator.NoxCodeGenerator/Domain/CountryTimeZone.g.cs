@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
@@ -90,4 +91,5 @@ internal abstract partial class CountryTimeZoneBase : EntityBase, IOwnedEntity
         InternalDomainEvents.Clear();
     }
 
+    
 }

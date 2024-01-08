@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
@@ -49,7 +50,7 @@ internal record CurrencyDeleted(Currency Currency) : IDomainEvent, INotification
 /// <summary>
 /// Currency and related data.
 /// </summary>
-internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CurrencyBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Currency unique identifier    
@@ -302,6 +303,7 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
         ExchangeRates.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

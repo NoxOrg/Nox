@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using TestEntityOwnedRelationshipExactlyOneEntity = TestWebApp.Domain.TestEntity
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateTestEntityOwnedRelationshipExactlyOneCommand(System.String keyId, TestEntityOwnedRelationshipExactlyOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityOwnedRelationshipExactlyOneKeyDto?>;
+public partial record UpdateTestEntityOwnedRelationshipExactlyOneCommand(System.String keyId, TestEntityOwnedRelationshipExactlyOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityOwnedRelationshipExactlyOneKeyDto>;
 
 internal partial class UpdateTestEntityOwnedRelationshipExactlyOneCommandHandler : UpdateTestEntityOwnedRelationshipExactlyOneCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateTestEntityOwnedRelationshipExactlyOneCommandHandler
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityOwnedRelationshipExactlyOneEntity, TestEntityOwnedRelationshipExactlyOneCreateDto, TestEntityOwnedRelationshipExactlyOneUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateTestEntityOwnedRelationshipExactlyOneCommandHandlerBase : CommandBase<UpdateTestEntityOwnedRelationshipExactlyOneCommand, TestEntityOwnedRelationshipExactlyOneEntity>, IRequestHandler<UpdateTestEntityOwnedRelationshipExactlyOneCommand, TestEntityOwnedRelationshipExactlyOneKeyDto?>
+internal abstract class UpdateTestEntityOwnedRelationshipExactlyOneCommandHandlerBase : CommandBase<UpdateTestEntityOwnedRelationshipExactlyOneCommand, TestEntityOwnedRelationshipExactlyOneEntity>, IRequestHandler<UpdateTestEntityOwnedRelationshipExactlyOneCommand, TestEntityOwnedRelationshipExactlyOneKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityOwnedRelationshipExactlyOneEntity, TestEntityOwnedRelationshipExactlyOneCreateDto, TestEntityOwnedRelationshipExactlyOneUpdateDto> _entityFactory;
-
 	protected UpdateTestEntityOwnedRelationshipExactlyOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateTestEntityOwnedRelationshipExactlyOneCommandHandle
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<TestEntityOwnedRelationshipExactlyOneKeyDto?> Handle(UpdateTestEntityOwnedRelationshipExactlyOneCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TestEntityOwnedRelationshipExactlyOneKeyDto> Handle(UpdateTestEntityOwnedRelationshipExactlyOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,9 +55,9 @@ internal abstract class UpdateTestEntityOwnedRelationshipExactlyOneCommandHandle
 		var entity = await DbContext.TestEntityOwnedRelationshipExactlyOnes.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("TestEntityOwnedRelationshipExactlyOne",  $"{keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Reference(x => x.SecEntityOwnedRelExactlyOne).LoadAsync();
+		await DbContext.Entry(entity).Reference(x => x.SecEntityOwnedRelExactlyOne).LoadAsync(cancellationToken);
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
@@ -66,10 +66,6 @@ internal abstract class UpdateTestEntityOwnedRelationshipExactlyOneCommandHandle
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new TestEntityOwnedRelationshipExactlyOneKeyDto(entity.Id.Value);
 	}

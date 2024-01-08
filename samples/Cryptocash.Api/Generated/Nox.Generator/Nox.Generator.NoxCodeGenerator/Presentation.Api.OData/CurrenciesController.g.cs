@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Application.Dto;
 using Nox.Extensions;
+using Nox.Exceptions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -40,7 +41,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         
         if (item is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
         }
         
         return Ok(item.BankNotes);
@@ -55,9 +56,9 @@ public abstract partial class CurrenciesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetBankNotes(key, new BankNoteKeyDto(relatedKey));
-        if (child == null)
+        if (child is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("BankNote", $"{relatedKey.ToString()}");
         }
         
         return Ok(child);
@@ -72,17 +73,8 @@ public abstract partial class CurrenciesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var createdKey = await _mediator.Send(new CreateBankNotesForCurrencyCommand(new CurrencyKeyDto(key), bankNote, _cultureCode, etag));
-        if (createdKey == null)
-        {
-            return NotFound();
-        }
         
         var child = await TryGetBankNotes(key, createdKey);
-        if (child == null)
-        {
-            return NotFound();
-        }
-        
         return Created(child);
     }
     
@@ -95,16 +87,8 @@ public abstract partial class CurrenciesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateBankNotesForCurrencyCommand(new CurrencyKeyDto(key), bankNote, _cultureCode, etag));
-        if (updatedKey == null)
-        {
-            return NotFound();
-        }
         
         var child = await TryGetBankNotes(key, updatedKey);
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -115,33 +99,17 @@ public abstract partial class CurrenciesControllerBase : ODataController
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var updateProperties = new Dictionary<string, dynamic>();
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<BankNoteUpsertDto>(bankNote);
         
-        foreach (var propertyName in bankNote.GetChangedPropertyNames())
-        {
-            if(bankNote.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
-        
-        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
+        if(!updatedProperties.ContainsKey("Id") || updatedProperties["Id"] == null)
         {
             throw new Nox.Exceptions.BadRequestException("Id is required.");
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateBankNotesForCurrencyCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(updateProperties["Id"]), updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateBankNotesForCurrencyCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(updatedProperties["Id"]), updatedProperties, _cultureCode, etag));
         
-        if (updated is null)
-        {
-            return NotFound();
-        }
-        var child = await TryGetBankNotes(key, updated);
-        if (child == null)
-        {
-            return NotFound();
-        }
+        var child = await TryGetBankNotes(key, updated!);
         
         return Ok(child);
     }
@@ -154,10 +122,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new DeleteBankNotesForCurrencyCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(relatedKey)));
-        if (!result)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -179,7 +143,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         
         if (item is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
         }
         
         return Ok(item.ExchangeRates);
@@ -194,9 +158,9 @@ public abstract partial class CurrenciesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var child = await TryGetExchangeRates(key, new ExchangeRateKeyDto(relatedKey));
-        if (child == null)
+        if (child is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("ExchangeRate", $"{relatedKey.ToString()}");
         }
         
         return Ok(child);
@@ -211,17 +175,8 @@ public abstract partial class CurrenciesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var createdKey = await _mediator.Send(new CreateExchangeRatesForCurrencyCommand(new CurrencyKeyDto(key), exchangeRate, _cultureCode, etag));
-        if (createdKey == null)
-        {
-            return NotFound();
-        }
         
         var child = await TryGetExchangeRates(key, createdKey);
-        if (child == null)
-        {
-            return NotFound();
-        }
-        
         return Created(child);
     }
     
@@ -234,16 +189,8 @@ public abstract partial class CurrenciesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateExchangeRatesForCurrencyCommand(new CurrencyKeyDto(key), exchangeRate, _cultureCode, etag));
-        if (updatedKey == null)
-        {
-            return NotFound();
-        }
         
         var child = await TryGetExchangeRates(key, updatedKey);
-        if (child == null)
-        {
-            return NotFound();
-        }
         
         return Ok(child);
     }
@@ -254,33 +201,17 @@ public abstract partial class CurrenciesControllerBase : ODataController
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var updateProperties = new Dictionary<string, dynamic>();
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<ExchangeRateUpsertDto>(exchangeRate);
         
-        foreach (var propertyName in exchangeRate.GetChangedPropertyNames())
-        {
-            if(exchangeRate.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
-        
-        if(!updateProperties.ContainsKey("Id") || updateProperties["Id"] == null)
+        if(!updatedProperties.ContainsKey("Id") || updatedProperties["Id"] == null)
         {
             throw new Nox.Exceptions.BadRequestException("Id is required.");
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateExchangeRatesForCurrencyCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(updateProperties["Id"]), updateProperties, _cultureCode, etag));
+        var updated = await _mediator.Send(new PartialUpdateExchangeRatesForCurrencyCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(updatedProperties["Id"]), updatedProperties, _cultureCode, etag));
         
-        if (updated is null)
-        {
-            return NotFound();
-        }
-        var child = await TryGetExchangeRates(key, updated);
-        if (child == null)
-        {
-            return NotFound();
-        }
+        var child = await TryGetExchangeRates(key, updated!);
         
         return Ok(child);
     }
@@ -293,10 +224,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
         var result = await _mediator.Send(new DeleteExchangeRatesForCurrencyCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(relatedKey)));
-        if (!result)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -320,10 +247,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefCurrencyToCountriesCommand(new CurrencyKeyDto(key), new CountryKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -338,10 +261,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         
         var relatedKeysDto = referencesDto.References.Select(x => new CountryKeyDto(x)).ToList();
         var updatedRef = await _mediator.Send(new UpdateRefCurrencyToCountriesCommand(new CurrencyKeyDto(key), relatedKeysDto));
-        if (!updatedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -351,7 +270,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var entity = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Include(x => x.Countries).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -370,10 +289,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefCurrencyToCountriesCommand(new CurrencyKeyDto(key), new CountryKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -399,7 +314,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var query = await _mediator.Send(new GetCurrencyByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.Countries).SelectMany(x => x.Countries));
     }
@@ -427,15 +342,35 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.Countries).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Countries", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCountryCommand(relatedKey, country, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/Currencies/{key}/Countries/{relatedKey}")]
+    public virtual async Task<ActionResult<CountryDto>> PatchtoCountriesNonConventional(System.String key, System.String relatedKey, [FromBody] Delta<CountryPartialUpdateDto> country)
+    {
+        if (!ModelState.IsValid || country is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.Countries).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Countries", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<CountryPartialUpdateDto>(country);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -453,15 +388,11 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.Countries).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Countries", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteCountryByIdCommand(new List<CountryKeyDto> { new CountryKeyDto(relatedKey) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -474,10 +405,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         }
         
         var createdRef = await _mediator.Send(new CreateRefCurrencyToMinimumCashStocksCommand(new CurrencyKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -492,10 +419,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         
         var relatedKeysDto = referencesDto.References.Select(x => new MinimumCashStockKeyDto(x)).ToList();
         var updatedRef = await _mediator.Send(new UpdateRefCurrencyToMinimumCashStocksCommand(new CurrencyKeyDto(key), relatedKeysDto));
-        if (!updatedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -505,7 +428,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var entity = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Include(x => x.MinimumCashStocks).SingleOrDefault();
         if (entity is null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
         }
         
         IList<System.Uri> references = new List<System.Uri>();
@@ -524,10 +447,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         }
         
         var deletedRef = await _mediator.Send(new DeleteRefCurrencyToMinimumCashStocksCommand(new CurrencyKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -540,10 +459,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         }
         
         var deletedAllRef = await _mediator.Send(new DeleteAllRefCurrencyToMinimumCashStocksCommand(new CurrencyKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -569,7 +484,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var query = await _mediator.Send(new GetCurrencyByIdQuery(key));
         if (!query.Any())
         {
-            return NotFound();
+            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
         }
         return Ok(query.Include(x => x.MinimumCashStocks).SelectMany(x => x.MinimumCashStocks));
     }
@@ -597,15 +512,35 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStocks", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateMinimumCashStockCommand(relatedKey, minimumCashStock, _cultureCode, etag));
-        if (updated == null)
+        
+        var updatedItem = (await _mediator.Send(new GetMinimumCashStockByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
+    public virtual async Task<ActionResult<MinimumCashStockDto>> PatchtoMinimumCashStocksNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<MinimumCashStockPartialUpdateDto> minimumCashStock)
+    {
+        if (!ModelState.IsValid || minimumCashStock is null)
         {
-            return NotFound();
+            throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        
+        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("MinimumCashStocks", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<MinimumCashStockPartialUpdateDto>(minimumCashStock);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateMinimumCashStockCommand(relatedKey, updatedProperties, _cultureCode, etag));
         
         var updatedItem = (await _mediator.Send(new GetMinimumCashStockByIdQuery(updated.keyId))).SingleOrDefault();
         
@@ -623,15 +558,11 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Any(x => x.Id == relatedKey);
         if (!related)
         {
-            return NotFound();
+            throw new EntityNotFoundException("MinimumCashStocks", $"{relatedKey.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();
         var deleted = await _mediator.Send(new DeleteMinimumCashStockByIdCommand(new List<MinimumCashStockKeyDto> { new MinimumCashStockKeyDto(relatedKey) }, etag));
-        if (!deleted)
-        {
-            return NotFound();
-        }
         
         return NoContent();
     }
@@ -647,7 +578,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Select(x => x.MinimumCashStocks).SingleOrDefault();
         if (related == null)
         {
-            return NotFound();
+            throw new EntityNotFoundException("Currency", $"{key.ToString()}");
         }
         
         var etag = Request.GetDecodedEtagHeader();

@@ -1,5 +1,5 @@
-﻿// Generated
-
+﻿
+// Generated
 #nullable enable
 
 using System.Threading.Tasks;
@@ -27,32 +27,28 @@ internal partial class PaymentProviderFactory : PaymentProviderFactoryBase
 {
     public PaymentProviderFactory
     (
-        IRepository repository
-    ) : base( repository)
+    ) : base()
     {}
 }
 
 internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
-    private readonly IRepository _repository;
 
     public PaymentProviderFactoryBase(
-        IRepository repository
         )
     {
-        _repository = repository;
     }
 
-    public virtual async Task<PaymentProviderEntity> CreateEntityAsync(PaymentProviderCreateDto createDto)
+    public virtual async Task<PaymentProviderEntity> CreateEntityAsync(PaymentProviderCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-            return await ToEntityAsync(createDto);
+            var entity =  await ToEntityAsync(createDto, cultureCode);
+            return entity;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(PaymentProviderEntity));
         }        
     }
 
@@ -64,66 +60,66 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(PaymentProviderEntity));
         }   
     }
 
-    public virtual void PartialUpdateEntity(PaymentProviderEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+    public virtual async Task PartialUpdateEntityAsync(PaymentProviderEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         try
         {
-             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
+            await Task.CompletedTask;
         }
         catch (NoxTypeValidationException ex)
         {
-            throw new Nox.Application.Factories.CreateUpdateEntityInvalidDataException(ex);
+            throw new CreateUpdateEntityInvalidDataException(ex, nameof(PaymentProviderEntity));
         }   
     }
 
-    private async Task<Cryptocash.Domain.PaymentProvider> ToEntityAsync(PaymentProviderCreateDto createDto)
+    private async Task<Cryptocash.Domain.PaymentProvider> ToEntityAsync(PaymentProviderCreateDto createDto, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.PaymentProvider();
-        entity.SetIfNotNull(createDto.PaymentProviderName, (entity) => entity.PaymentProviderName = 
-            Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(createDto.PaymentProviderName.NonNullValue<System.String>()));
-        entity.SetIfNotNull(createDto.PaymentProviderType, (entity) => entity.PaymentProviderType = 
-            Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(createDto.PaymentProviderType.NonNullValue<System.String>()));
-        entity.EnsureId(createDto.Id);
+        exceptionCollector.Collect("PaymentProviderName", () => entity.SetIfNotNull(createDto.PaymentProviderName, (entity) => entity.PaymentProviderName = 
+            Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(createDto.PaymentProviderName.NonNullValue<System.String>())));
+        exceptionCollector.Collect("PaymentProviderType", () => entity.SetIfNotNull(createDto.PaymentProviderType, (entity) => entity.PaymentProviderType = 
+            Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(createDto.PaymentProviderType.NonNullValue<System.String>())));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
+        entity.EnsureId(createDto.Id);        
         return await Task.FromResult(entity);
     }
 
     private async Task UpdateEntityInternalAsync(PaymentProviderEntity entity, PaymentProviderUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.PaymentProviderName = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(updateDto.PaymentProviderName.NonNullValue<System.String>());
-        entity.PaymentProviderType = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(updateDto.PaymentProviderType.NonNullValue<System.String>());
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
+        exceptionCollector.Collect("PaymentProviderName",() => entity.PaymentProviderName = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(updateDto.PaymentProviderName.NonNullValue<System.String>()));
+        exceptionCollector.Collect("PaymentProviderType",() => entity.PaymentProviderType = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(updateDto.PaymentProviderType.NonNullValue<System.String>()));
+
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
     }
 
     private void PartialUpdateEntityInternal(PaymentProviderEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
+        ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
 
         if (updatedProperties.TryGetValue("PaymentProviderName", out var PaymentProviderNameUpdateValue))
         {
-            if (PaymentProviderNameUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(PaymentProviderNameUpdateValue, "Attribute 'PaymentProviderName' can't be null.");
             {
-                throw new ArgumentException("Attribute 'PaymentProviderName' can't be null");
-            }
-            {
-                entity.PaymentProviderName = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(PaymentProviderNameUpdateValue);
+                exceptionCollector.Collect("PaymentProviderName",() =>entity.PaymentProviderName = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(PaymentProviderNameUpdateValue));
             }
         }
 
         if (updatedProperties.TryGetValue("PaymentProviderType", out var PaymentProviderTypeUpdateValue))
         {
-            if (PaymentProviderTypeUpdateValue == null)
+            ArgumentNullException.ThrowIfNull(PaymentProviderTypeUpdateValue, "Attribute 'PaymentProviderType' can't be null.");
             {
-                throw new ArgumentException("Attribute 'PaymentProviderType' can't be null");
-            }
-            {
-                entity.PaymentProviderType = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(PaymentProviderTypeUpdateValue);
+                exceptionCollector.Collect("PaymentProviderType",() =>entity.PaymentProviderType = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(PaymentProviderTypeUpdateValue));
             }
         }
+        CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 }

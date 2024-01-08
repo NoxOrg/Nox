@@ -1,5 +1,4 @@
-﻿﻿
-// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -11,6 +10,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
@@ -20,7 +20,7 @@ using Cryptocash.Application.Dto;
 using BankNoteEntity = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Commands;
-public partial record CreateBankNotesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
+public partial record CreateBankNotesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <BankNoteKeyDto>;
 
 internal partial class CreateBankNotesForCurrencyCommandHandler : CreateBankNotesForCurrencyCommandHandlerBase
 {
@@ -36,7 +36,7 @@ internal abstract class CreateBankNotesForCurrencyCommandHandlerBase : CommandBa
 {
 	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> _entityFactory;
-
+	
 	protected CreateBankNotesForCurrencyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -55,21 +55,17 @@ internal abstract class CreateBankNotesForCurrencyCommandHandlerBase : CommandBa
 		var parentEntity = await _dbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Currency",  $"{keyId.ToString()}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto);
+		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefToBankNotes(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-
+		
 		var result = await _dbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new BankNoteKeyDto(entity.Id.Value);
 	}

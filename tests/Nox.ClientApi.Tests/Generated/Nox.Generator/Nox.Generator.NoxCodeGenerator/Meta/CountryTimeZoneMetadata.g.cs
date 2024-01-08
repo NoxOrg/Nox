@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace ClientApi.Domain;
 
@@ -42,13 +43,8 @@ public partial class CountryTimeZoneMetadata
         public static Nox.Types.Text CreateName(System.String value)
             => Nox.Types.Text.From(value, NameTypeOptions);
         
-
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("CountryTimeZone")
-                .GetAttributeByName("Name")?
-                .UserInterface;
+        public static TypeUserInterface? NameUiOptions {get; private set;} = null; 
 }

@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -16,7 +17,7 @@ using TestEntityOwnedRelationshipZeroOrManyEntity = TestWebApp.Domain.TestEntity
 
 namespace TestWebApp.Application.Commands;
 
-public partial record PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityOwnedRelationshipZeroOrManyKeyDto?>;
+public partial record PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityOwnedRelationshipZeroOrManyKeyDto>;
 
 internal partial class PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommandHandler : PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase
 {
@@ -28,11 +29,11 @@ internal partial class PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommand
 	{
 	}
 }
-internal abstract class PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase : CommandBase<PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommand, TestEntityOwnedRelationshipZeroOrManyEntity>, IRequestHandler<PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommand, TestEntityOwnedRelationshipZeroOrManyKeyDto?>
+internal abstract class PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase : CommandBase<PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommand, TestEntityOwnedRelationshipZeroOrManyEntity>, IRequestHandler<PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommand, TestEntityOwnedRelationshipZeroOrManyKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityOwnedRelationshipZeroOrManyEntity, TestEntityOwnedRelationshipZeroOrManyCreateDto, TestEntityOwnedRelationshipZeroOrManyUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateTestEntityOwnedRelationshipZeroOrManyComman
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<TestEntityOwnedRelationshipZeroOrManyKeyDto?> Handle(PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TestEntityOwnedRelationshipZeroOrManyKeyDto> Handle(PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,9 +53,9 @@ internal abstract class PartialUpdateTestEntityOwnedRelationshipZeroOrManyComman
 		var entity = await DbContext.TestEntityOwnedRelationshipZeroOrManies.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("TestEntityOwnedRelationshipZeroOrMany",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

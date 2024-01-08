@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -16,7 +17,7 @@ using TestEntityOneOrManyToZeroOrManyEntity = TestWebApp.Domain.TestEntityOneOrM
 
 namespace TestWebApp.Application.Commands;
 
-public partial record PartialUpdateTestEntityOneOrManyToZeroOrManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityOneOrManyToZeroOrManyKeyDto?>;
+public partial record PartialUpdateTestEntityOneOrManyToZeroOrManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityOneOrManyToZeroOrManyKeyDto>;
 
 internal partial class PartialUpdateTestEntityOneOrManyToZeroOrManyCommandHandler : PartialUpdateTestEntityOneOrManyToZeroOrManyCommandHandlerBase
 {
@@ -28,11 +29,11 @@ internal partial class PartialUpdateTestEntityOneOrManyToZeroOrManyCommandHandle
 	{
 	}
 }
-internal abstract class PartialUpdateTestEntityOneOrManyToZeroOrManyCommandHandlerBase : CommandBase<PartialUpdateTestEntityOneOrManyToZeroOrManyCommand, TestEntityOneOrManyToZeroOrManyEntity>, IRequestHandler<PartialUpdateTestEntityOneOrManyToZeroOrManyCommand, TestEntityOneOrManyToZeroOrManyKeyDto?>
+internal abstract class PartialUpdateTestEntityOneOrManyToZeroOrManyCommandHandlerBase : CommandBase<PartialUpdateTestEntityOneOrManyToZeroOrManyCommand, TestEntityOneOrManyToZeroOrManyEntity>, IRequestHandler<PartialUpdateTestEntityOneOrManyToZeroOrManyCommand, TestEntityOneOrManyToZeroOrManyKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityOneOrManyToZeroOrManyEntity, TestEntityOneOrManyToZeroOrManyCreateDto, TestEntityOneOrManyToZeroOrManyUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateTestEntityOneOrManyToZeroOrManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateTestEntityOneOrManyToZeroOrManyCommandHandl
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<TestEntityOneOrManyToZeroOrManyKeyDto?> Handle(PartialUpdateTestEntityOneOrManyToZeroOrManyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TestEntityOneOrManyToZeroOrManyKeyDto> Handle(PartialUpdateTestEntityOneOrManyToZeroOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,9 +53,9 @@ internal abstract class PartialUpdateTestEntityOneOrManyToZeroOrManyCommandHandl
 		var entity = await DbContext.TestEntityOneOrManyToZeroOrManies.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("TestEntityOneOrManyToZeroOrMany",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace Cryptocash.Domain;
 
@@ -67,40 +68,53 @@ public partial class CashStockOrderMetadata
         public static Nox.Types.Guid CreateVendingMachineId(System.Guid value)
             => Nox.Types.Guid.From(value);
         
-
         /// <summary>
         /// User Interface for property 'Amount'
         /// </summary>
-        public static TypeUserInterface? AmountUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("CashStockOrder")
-                .GetAttributeByName("Amount")?
-                .UserInterface;
-
+        public static TypeUserInterface? AmountUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'RequestedDeliveryDate'
         /// </summary>
-        public static TypeUserInterface? RequestedDeliveryDateUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("CashStockOrder")
-                .GetAttributeByName("RequestedDeliveryDate")?
-                .UserInterface;
-
+        public static TypeUserInterface? RequestedDeliveryDateUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'DeliveryDateTime'
         /// </summary>
-        public static TypeUserInterface? DeliveryDateTimeUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("CashStockOrder")
-                .GetAttributeByName("DeliveryDateTime")?
-                .UserInterface;
-
+        public static TypeUserInterface? DeliveryDateTimeUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'Status'
         /// </summary>
-        public static TypeUserInterface? StatusUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("CashStockOrder")
-                .GetAttributeByName("Status")?
-                .UserInterface;
+        public static TypeUserInterface? StatusUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanFilter = true,
+            ShowOnCreateForm = false,
+            ShowOnUpdateForm = false,
+        }; 
 }

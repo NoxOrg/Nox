@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace TestWebApp.Domain;
 
@@ -56,31 +57,16 @@ public partial class TestEntityForAutoNumberUsagesMetadata
         public static Nox.Types.Text CreateTextField(System.String value)
             => Nox.Types.Text.From(value, TextFieldTypeOptions);
         
-
         /// <summary>
         /// User Interface for property 'AutoNumberFieldWithOptions'
         /// </summary>
-        public static TypeUserInterface? AutoNumberFieldWithOptionsUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForAutoNumberUsages")
-                .GetAttributeByName("AutoNumberFieldWithOptions")?
-                .UserInterface;
-
+        public static TypeUserInterface? AutoNumberFieldWithOptionsUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'AutoNumberFieldWithoutOptions'
         /// </summary>
-        public static TypeUserInterface? AutoNumberFieldWithoutOptionsUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForAutoNumberUsages")
-                .GetAttributeByName("AutoNumberFieldWithoutOptions")?
-                .UserInterface;
-
+        public static TypeUserInterface? AutoNumberFieldWithoutOptionsUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'TextField'
         /// </summary>
-        public static TypeUserInterface? TextFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityForAutoNumberUsages")
-                .GetAttributeByName("TextField")?
-                .UserInterface;
+        public static TypeUserInterface? TextFieldUiOptions {get; private set;} = null; 
 }

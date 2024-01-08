@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
@@ -49,7 +50,7 @@ internal record ClientDeleted(Client Client) : IDomainEvent, INotification;
 /// <summary>
 /// Client of a Store.
 /// </summary>
-internal abstract partial class ClientBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class ClientBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -130,6 +131,7 @@ internal abstract partial class ClientBase : AuditableEntityBase, IEntityConcurr
         Stores.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

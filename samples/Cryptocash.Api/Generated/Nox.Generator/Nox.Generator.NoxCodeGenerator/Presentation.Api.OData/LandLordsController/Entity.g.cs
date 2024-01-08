@@ -28,7 +28,7 @@ public partial class LandLordsController : LandLordsControllerBase
 {
     public LandLordsController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class LandLordsControllerBase : ODataController
 
     public LandLordsControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class LandLordsControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateLandLordCommand(key, landLord, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("LandLord", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetLandLordByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class LandLordsControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateLandLordCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("LandLord", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetLandLordByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class LandLordsControllerBase : ODataController
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteLandLordByIdCommand(new List<LandLordKeyDto> { new LandLordKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("LandLord", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

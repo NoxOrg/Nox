@@ -28,7 +28,7 @@ public partial class EmployeesController : EmployeesControllerBase
 {
     public EmployeesController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class EmployeesControllerBase : ODataController
 
     public EmployeesControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class EmployeesControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateEmployeeCommand(key, employee, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("Employee", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetEmployeeByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class EmployeesControllerBase : ODataController
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateEmployeeCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("Employee", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetEmployeeByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class EmployeesControllerBase : ODataController
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteEmployeeByIdCommand(new List<EmployeeKeyDto> { new EmployeeKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("Employee", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

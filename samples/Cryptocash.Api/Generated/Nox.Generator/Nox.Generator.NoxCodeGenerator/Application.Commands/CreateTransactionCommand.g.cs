@@ -51,7 +51,7 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory,
 		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory,
 		IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> entityFactory)
-		: base(noxSolution)
+	: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -64,7 +64,7 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto);
+		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.CustomerId is not null)
 		{
 			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Guid>());
@@ -76,7 +76,7 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		}
 		else if(request.EntityDto.Customer is not null)
 		{
-			var relatedEntity = await CustomerFactory.CreateEntityAsync(request.EntityDto.Customer);
+			var relatedEntity = await CustomerFactory.CreateEntityAsync(request.EntityDto.Customer, request.CultureCode);
 			entityToCreate.CreateRefToCustomer(relatedEntity);
 		}
 		if(request.EntityDto.BookingId is not null)
@@ -90,7 +90,7 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		}
 		else if(request.EntityDto.Booking is not null)
 		{
-			var relatedEntity = await BookingFactory.CreateEntityAsync(request.EntityDto.Booking);
+			var relatedEntity = await BookingFactory.CreateEntityAsync(request.EntityDto.Booking, request.CultureCode);
 			entityToCreate.CreateRefToBooking(relatedEntity);
 		}
 

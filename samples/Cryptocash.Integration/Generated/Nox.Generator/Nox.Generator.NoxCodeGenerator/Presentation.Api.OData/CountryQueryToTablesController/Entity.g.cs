@@ -28,7 +28,7 @@ public partial class CountryQueryToTablesController : CountryQueryToTablesContro
 {
     public CountryQueryToTablesController(
             IMediator mediator,
-            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+            Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
         ): base(mediator, httpLanguageProvider)
     {}
 }
@@ -47,7 +47,7 @@ public abstract partial class CountryQueryToTablesControllerBase : ODataControll
 
     public CountryQueryToTablesControllerBase(
         IMediator mediator,
-        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        Nox.Presentation.Api.Providers.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
@@ -100,11 +100,6 @@ public abstract partial class CountryQueryToTablesControllerBase : ODataControll
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateCountryQueryToTableCommand(key, countryQueryToTable, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("CountryQueryToTable", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetCountryQueryToTableByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -126,11 +121,6 @@ public abstract partial class CountryQueryToTablesControllerBase : ODataControll
         var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new PartialUpdateCountryQueryToTableCommand(key, updatedProperties, _cultureCode, etag));
 
-        if (updatedKey is null)
-        {
-            throw new EntityNotFoundException("CountryQueryToTable", $"{key.ToString()}");
-        }
-
         var item = (await _mediator.Send(new GetCountryQueryToTableByIdQuery(updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
@@ -140,11 +130,6 @@ public abstract partial class CountryQueryToTablesControllerBase : ODataControll
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteCountryQueryToTableByIdCommand(new List<CountryQueryToTableKeyDto> { new CountryQueryToTableKeyDto(key) }, etag));
-
-        if (!result)
-        {
-            throw new EntityNotFoundException("CountryQueryToTable", $"{key.ToString()}");
-        }
 
         return NoContent();
     }

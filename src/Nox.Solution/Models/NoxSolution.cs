@@ -75,7 +75,7 @@ public class NoxSolution : YamlConfigNode<NoxSolution>
 
     public override void Initialize(NoxSolution topNode, NoxSolution parentNode, string yamlPath)
     {
-        IntializeEntityNamesAndOwners();
+        InitializeEntityNamesAndOwners();
         InitializeEntityWithOwners();
         InitializeFullDataConnectionList();
     }
@@ -99,7 +99,7 @@ public class NoxSolution : YamlConfigNode<NoxSolution>
 
     private Dictionary<string, Entity> _ownedEntities = new();
 
-    private void IntializeEntityNamesAndOwners()
+    private void InitializeEntityNamesAndOwners()
     {
         _ownedEntities = Domain?.Entities
             .Where(e => e.OwnedRelationships is not null)

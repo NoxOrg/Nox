@@ -12,6 +12,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
@@ -49,7 +50,7 @@ internal record TestEntityTwoRelationshipsOneToManyDeleted(TestEntityTwoRelation
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class TestEntityTwoRelationshipsOneToManyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityTwoRelationshipsOneToManyBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     
@@ -142,6 +143,7 @@ internal abstract partial class TestEntityTwoRelationshipsOneToManyBase : Audita
         TestRelationshipTwo.Clear();
     }
 
+    
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

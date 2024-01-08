@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateStoreOwnerCommand(System.String keyId, StoreOwnerUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<StoreOwnerKeyDto?>;
+public partial record UpdateStoreOwnerCommand(System.String keyId, StoreOwnerUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<StoreOwnerKeyDto>;
 
 internal partial class UpdateStoreOwnerCommandHandler : UpdateStoreOwnerCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateStoreOwnerCommandHandler : UpdateStoreOwnerCommandH
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateStoreOwnerCommandHandlerBase : CommandBase<UpdateStoreOwnerCommand, StoreOwnerEntity>, IRequestHandler<UpdateStoreOwnerCommand, StoreOwnerKeyDto?>
+internal abstract class UpdateStoreOwnerCommandHandlerBase : CommandBase<UpdateStoreOwnerCommand, StoreOwnerEntity>, IRequestHandler<UpdateStoreOwnerCommand, StoreOwnerKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> _entityFactory;
-
 	protected UpdateStoreOwnerCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateStoreOwnerCommandHandlerBase : CommandBase<UpdateS
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<StoreOwnerKeyDto?> Handle(UpdateStoreOwnerCommand request, CancellationToken cancellationToken)
+	public virtual async Task<StoreOwnerKeyDto> Handle(UpdateStoreOwnerCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +55,7 @@ internal abstract class UpdateStoreOwnerCommandHandlerBase : CommandBase<UpdateS
 		var entity = await DbContext.StoreOwners.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("StoreOwner",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +65,6 @@ internal abstract class UpdateStoreOwnerCommandHandlerBase : CommandBase<UpdateS
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new StoreOwnerKeyDto(entity.Id.Value);
 	}

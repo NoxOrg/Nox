@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace Cryptocash.Domain;
 
@@ -36,22 +37,28 @@ public partial class ExchangeRateMetadata
         public static Nox.Types.DateTime CreateEffectiveAt(System.DateTimeOffset value)
             => Nox.Types.DateTime.From(value);
         
-
         /// <summary>
         /// User Interface for property 'EffectiveRate'
         /// </summary>
-        public static TypeUserInterface? EffectiveRateUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("ExchangeRate")
-                .GetAttributeByName("EffectiveRate")?
-                .UserInterface;
-
+        public static TypeUserInterface? EffectiveRateUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'EffectiveAt'
         /// </summary>
-        public static TypeUserInterface? EffectiveAtUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("ExchangeRate")
-                .GetAttributeByName("EffectiveAt")?
-                .UserInterface;
+        public static TypeUserInterface? EffectiveAtUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
 }

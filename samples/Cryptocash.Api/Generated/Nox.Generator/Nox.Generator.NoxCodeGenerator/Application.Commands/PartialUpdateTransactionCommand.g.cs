@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -8,6 +8,7 @@ using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Exceptions;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -16,7 +17,7 @@ using TransactionEntity = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record PartialUpdateTransactionCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TransactionKeyDto?>;
+public partial record PartialUpdateTransactionCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TransactionKeyDto>;
 
 internal partial class PartialUpdateTransactionCommandHandler : PartialUpdateTransactionCommandHandlerBase
 {
@@ -28,11 +29,11 @@ internal partial class PartialUpdateTransactionCommandHandler : PartialUpdateTra
 	{
 	}
 }
-internal abstract class PartialUpdateTransactionCommandHandlerBase : CommandBase<PartialUpdateTransactionCommand, TransactionEntity>, IRequestHandler<PartialUpdateTransactionCommand, TransactionKeyDto?>
+internal abstract class PartialUpdateTransactionCommandHandlerBase : CommandBase<PartialUpdateTransactionCommand, TransactionEntity>, IRequestHandler<PartialUpdateTransactionCommand, TransactionKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> EntityFactory { get; }
-
+	
 	public PartialUpdateTransactionCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -43,7 +44,7 @@ internal abstract class PartialUpdateTransactionCommandHandlerBase : CommandBase
 		EntityFactory = entityFactory;
 	}
 
-	public virtual async Task<TransactionKeyDto?> Handle(PartialUpdateTransactionCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TransactionKeyDto> Handle(PartialUpdateTransactionCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -52,9 +53,9 @@ internal abstract class PartialUpdateTransactionCommandHandlerBase : CommandBase
 		var entity = await DbContext.Transactions.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("Transaction",  $"{keyId.ToString()}");
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

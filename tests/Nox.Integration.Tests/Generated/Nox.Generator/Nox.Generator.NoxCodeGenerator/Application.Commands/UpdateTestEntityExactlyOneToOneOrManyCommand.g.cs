@@ -1,4 +1,5 @@
-﻿﻿﻿// Generated
+﻿﻿﻿
+// Generated
 
 #nullable enable
 
@@ -18,7 +19,7 @@ using TestEntityExactlyOneToOneOrManyEntity = TestWebApp.Domain.TestEntityExactl
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateTestEntityExactlyOneToOneOrManyCommand(System.String keyId, TestEntityExactlyOneToOneOrManyUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityExactlyOneToOneOrManyKeyDto?>;
+public partial record UpdateTestEntityExactlyOneToOneOrManyCommand(System.String keyId, TestEntityExactlyOneToOneOrManyUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityExactlyOneToOneOrManyKeyDto>;
 
 internal partial class UpdateTestEntityExactlyOneToOneOrManyCommandHandler : UpdateTestEntityExactlyOneToOneOrManyCommandHandlerBase
 {
@@ -26,16 +27,15 @@ internal partial class UpdateTestEntityExactlyOneToOneOrManyCommandHandler : Upd
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityExactlyOneToOneOrManyEntity, TestEntityExactlyOneToOneOrManyCreateDto, TestEntityExactlyOneToOneOrManyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateTestEntityExactlyOneToOneOrManyCommandHandlerBase : CommandBase<UpdateTestEntityExactlyOneToOneOrManyCommand, TestEntityExactlyOneToOneOrManyEntity>, IRequestHandler<UpdateTestEntityExactlyOneToOneOrManyCommand, TestEntityExactlyOneToOneOrManyKeyDto?>
+internal abstract class UpdateTestEntityExactlyOneToOneOrManyCommandHandlerBase : CommandBase<UpdateTestEntityExactlyOneToOneOrManyCommand, TestEntityExactlyOneToOneOrManyEntity>, IRequestHandler<UpdateTestEntityExactlyOneToOneOrManyCommand, TestEntityExactlyOneToOneOrManyKeyDto>
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityExactlyOneToOneOrManyEntity, TestEntityExactlyOneToOneOrManyCreateDto, TestEntityExactlyOneToOneOrManyUpdateDto> _entityFactory;
-
 	protected UpdateTestEntityExactlyOneToOneOrManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
@@ -46,7 +46,7 @@ internal abstract class UpdateTestEntityExactlyOneToOneOrManyCommandHandlerBase 
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<TestEntityExactlyOneToOneOrManyKeyDto?> Handle(UpdateTestEntityExactlyOneToOneOrManyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TestEntityExactlyOneToOneOrManyKeyDto> Handle(UpdateTestEntityExactlyOneToOneOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -55,7 +55,7 @@ internal abstract class UpdateTestEntityExactlyOneToOneOrManyCommandHandlerBase 
 		var entity = await DbContext.TestEntityExactlyOneToOneOrManies.FindAsync(keyId);
 		if (entity == null)
 		{
-			return null;
+			throw new EntityNotFoundException("TestEntityExactlyOneToOneOrMany",  $"{keyId.ToString()}");
 		}
 
 		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
@@ -65,10 +65,6 @@ internal abstract class UpdateTestEntityExactlyOneToOneOrManyCommandHandlerBase 
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if (result < 1)
-		{
-			return null;
-		}
 
 		return new TestEntityExactlyOneToOneOrManyKeyDto(entity.Id.Value);
 	}
