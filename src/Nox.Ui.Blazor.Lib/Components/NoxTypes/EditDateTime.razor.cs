@@ -100,15 +100,7 @@ public partial class EditDateTime : ComponentBase
     {
         if (DateTime.HasValue)
         {
-            Hour = DateTime.Value.Hour;
-            Minute = DateTime.Value.Minute;
-            Second = DateTime.Value.Second;
-            Millisecond = DateTime.Value.Millisecond;
-
-            CurrentHourStr = Hour.ToString();
-            CurrentMinuteStr = Minute.ToString();
-            CurrentSecondStr = Second.ToString();
-            CurrentMillisecondStr = Millisecond.ToString();
+            SetDateTime(DateTime);
         }
     }
 
@@ -117,16 +109,7 @@ public partial class EditDateTime : ComponentBase
         if (System.DateTime.TryParse(newValue, CultureInfo, out System.DateTime currentDate))
         {
             DateTime = currentDate;
-
-            Hour = DateTime.Value.Hour;
-            Minute = DateTime.Value.Minute;
-            Second = DateTime.Value.Second;
-            Millisecond = DateTime.Value.Millisecond;
-
-            CurrentHourStr = Hour.ToString();
-            CurrentMinuteStr = Minute.ToString();
-            CurrentSecondStr = Second.ToString();
-            CurrentMillisecondStr = Millisecond.ToString();
+            SetDateTime(DateTime);
         }
         else
         {
@@ -155,6 +138,22 @@ public partial class EditDateTime : ComponentBase
         {
             int totaltems = 1 + (DisplayMinute ? 1 : 0) + (DisplaySecond ? 1 : 0) + (DisplayMillisecond ? 1 : 0);
             return 12 / totaltems;
+        }
+    }
+
+    private void SetDateTime(System.DateTime? currentDate)
+    {
+        if (currentDate.HasValue)
+        {
+            Hour = currentDate.Value.Hour;
+            Minute = currentDate.Value.Minute;
+            Second = currentDate.Value.Second;
+            Millisecond = currentDate.Value.Millisecond;
+
+            CurrentHourStr = Hour.ToString();
+            CurrentMinuteStr = Minute.ToString();
+            CurrentSecondStr = Second.ToString();
+            CurrentMillisecondStr = Millisecond.ToString();
         }
     }
 
