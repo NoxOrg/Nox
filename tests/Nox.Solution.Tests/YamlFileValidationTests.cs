@@ -286,6 +286,8 @@ public class YamlFileValidationTests
             "Relationship [CurrenciesCountryLegal] on entity [Currency] refers to related entity [Currency] with composite key. Must be simple key on Currency.",
             "Relationship [Id] on entity [Currency] refers to related entity [Currency] with composite key. Must be simple key on Currency.",
             "Relationship [Id] on entity [Currency] refers to related entity [Currency] with composite key. Must be simple key on Currency.",
+            "The relationship with name [CurrenciesCountryLegal] on the entity [Currency] lacks RefRelationshipName value. With multiple relationships referencing [Currency], it is not possible to unambiguously select the correct association.",
+            "The relationship with name [CurrenciesCountryLegal] on the entity [Currency] lacks RefRelationshipName value. With multiple relationships referencing [Currency], it is not possible to unambiguously select the correct association."
         };
 
         action.Should()
@@ -401,5 +403,80 @@ public class YamlFileValidationTests
            .And.HaveCount(1)
            .And.Subject.Select(x => x.ErrorMessage)
            .Should().BeEquivalentTo(maxError);
+    }
+
+    [Fact]
+    public void Deserialize_WithMultipleRelationsToSameEntity_WhenConfigurationIsValid_ShouldNotThrowException()
+    {
+        var action = () => new NoxSolutionBuilder()
+            .WithFile($"./files/relationships-valid-multiple-relations-to-same-entity.solution.nox.yaml")
+            .Build();
+
+        action.Should().NotThrow();
+    }
+
+    [Fact]
+    public void Deserialize_WithMultipleRelationsToSameEntity_WhenRefRelationshipNamesAreNotPopulatedCorrectly_ShouldThrowException()
+    {
+        var action = () => new NoxSolutionBuilder()
+            .WithFile($"./files/relationships-ref-relationship-names-not-populated-correctly.solution.nox.yaml")
+            .Build();
+
+        action.Should().ThrowExactly<NoxYamlValidationException>()
+            .Which.Errors.Select(x => x.ErrorMessage)
+            .Should().BeEquivalentTo(
+                "The relationship with name [UsedInCountries] on the entity [Currency] has a non-null RefRelationshipName value. There is only one relationship referencing [Country], RefRelationshipName is unnecessary in these cases.",
+                "The relationship with name [ExchangeRateTo] on the entity [Currency] lacks RefRelationshipName value. With multiple relationships referencing [ExchangeRate], it is not possible to unambiguously select the correct association.",
+                "The relationship with name [ExchangeRateFrom] on the entity [Currency] lacks RefRelationshipName value. With multiple relationships referencing [ExchangeRate], it is not possible to unambiguously select the correct association.",
+                "The relationship with name [CurrencyTo] on the entity [ExchangeRate] lacks RefRelationshipName value. With multiple relationships referencing [Currency], it is not possible to unambiguously select the correct association.",
+                "The relationship with name [CurrencyFrom] on the entity [ExchangeRate] lacks RefRelationshipName value. With multiple relationships referencing [Currency], it is not possible to unambiguously select the correct association."
+            );
+    }
+
+    [Fact]
+    public void Deserialize_WithMultipleRelationsToSameEntity_WhenRefRelationshipNameRefersToNonExistentRelationshipName_ShoulThrowException()
+    {
+        var action = () => new NoxSolutionBuilder()
+            .WithFile($"./files/relationships-ref-relationship-name-refers-to-non-existent-relationship.solution.nox.yaml")
+            .Build();
+
+        action.Should().ThrowExactly<NoxYamlValidationException>()
+            .Which.Errors.Select(x => x.ErrorMessage)
+            .Should().BeEquivalentTo(
+                "Relationship [ExchangeRateTo] on entity [Currency] has a RefRelationshipName value of [InvalidRelationshipNameTest], but there is no relationship on [ExchangeRate] with that name.",
+                "Relationship [CurrencyTo] on entity [ExchangeRate] has a RefRelationshipName value of [ExchangeRateTo], but the relationship on [Currency] with that name does not refer back to [CurrencyTo]."
+            );
+    }
+
+    [Fact]
+    public void Deserialize_WithMultipleRelationsToSameEntity_WhenEntitiesAreNotCrossReferencedProperly_ShoulThrowException()
+    {
+        var action = () => new NoxSolutionBuilder()
+            .WithFile($"./files/relationships-ref-relationship-names-dont-cross-reference-properly.solution.nox.yaml")
+            .Build();
+
+        action.Should().ThrowExactly<NoxYamlValidationException>()
+            .Which.Errors.Select(x => x.ErrorMessage)
+            .Should().BeEquivalentTo(
+                "Relationship [ExchangeRateTo] on entity [Currency] has a RefRelationshipName value of [CurrencyTo], but the relationship on [ExchangeRate] with that name does not refer back to [ExchangeRateTo].",
+                "Relationship [ExchangeRateFrom] on entity [Currency] has a RefRelationshipName value of [CurrencyFrom], but the relationship on [ExchangeRate] with that name does not refer back to [ExchangeRateFrom].",
+                "Relationship [CurrencyTo] on entity [ExchangeRate] has a RefRelationshipName value of [ExchangeRateFrom], but the relationship on [Currency] with that name does not refer back to [CurrencyTo].",
+                "Relationship [CurrencyFrom] on entity [ExchangeRate] has a RefRelationshipName value of [ExchangeRateTo], but the relationship on [Currency] with that name does not refer back to [CurrencyFrom]."
+            );
+    }
+
+    [Fact]
+    public void Deserialize_WithMultipleRelationsToSameEntity_WhenRefRelationshipNamesAreNotUniqueForSameRelatedEntity_ShoulThrowException()
+    {
+        var action = () => new NoxSolutionBuilder()
+            .WithFile($"./files/relationships-ref-relationship-names-not-unique-for-same-related-entity.solution.nox.yaml")
+            .Build();
+
+        action.Should().ThrowExactly<NoxYamlValidationException>()
+            .Which.Errors.Select(x => x.ErrorMessage)
+            .Should().BeEquivalentTo(
+                "Relationship [ExchangeRateFromDuplicate] on entity [Currency] has a RefRelationshipName value of [CurrencyFrom], but the relationship on [ExchangeRate] with that name does not refer back to [ExchangeRateFromDuplicate].",
+                "Multiple Relationships [ExchangeRateFrom,ExchangeRateFromDuplicate] on entity [Currency] have same RefRelationshipName value of [CurrencyFrom] that refers to same entity [ExchangeRate]."
+            );
     }
 }
