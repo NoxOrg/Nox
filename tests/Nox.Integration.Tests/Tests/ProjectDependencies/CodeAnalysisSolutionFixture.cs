@@ -19,6 +19,7 @@ public class CodeAnalysisSolutionFixture : IAsyncLifetime
     public Project NoxGenerator { get; private set; } = null!;
     public Project NoxCore { get; private set; } = null!;
     public Project NoxTypesExtensionsProject { get; private set; } = null!;
+    public Project NoxUIBlazorProject { get; private set; } = null!;
 
     public async Task InitializeAsync()
     {
@@ -37,6 +38,7 @@ public class CodeAnalysisSolutionFixture : IAsyncLifetime
         NoxGenerator = Solution.Projects.Single(project => project.Name == "Nox.Generator");
         NoxCore = Solution.Projects.Single(project => project.Name == "Nox.Core");
         NoxTypesExtensionsProject = Solution.Projects.Single(project => project.Name == "Nox.Types.Extensions");
+        NoxUIBlazorProject = Solution.Projects.Single(project => project.Name == "Nox.Ui.Blazor.Lib");        
     }
 
     public Task DisposeAsync()

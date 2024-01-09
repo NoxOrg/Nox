@@ -35,11 +35,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Nox.Core\Nox.Core.csproj" />
+	  <Folder Include="wwwroot\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="wwwroot\" />
+	  <ProjectReference Include="..\Nox.Types.Extensions\Nox.Types.Extensions.csproj" />
+	  <ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
