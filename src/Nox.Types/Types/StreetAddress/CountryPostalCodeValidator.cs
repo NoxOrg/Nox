@@ -34,7 +34,7 @@ public static class CountryPostalCodeValidator
 
         foreach (var pattern in patterns)
         {
-            var isMath = Regex.IsMatch(postalCode, pattern);
+            var isMath = Regex.IsMatch(postalCode, pattern, RegexOptions.None,ValueObject.Regex_Default_Timeout_Miliseconds);
 
             if (!isMath)
             {

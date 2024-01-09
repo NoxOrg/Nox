@@ -21,7 +21,7 @@ public sealed class InternetDomain : ValueObject<string, InternetDomain>
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), "Could not create a Nox InternetDomain type with an empty value."));
         }
-        else if (!Regex.IsMatch(Value, InternetDomainPattern))
+        else if (!Regex.IsMatch(Value, InternetDomainPattern,RegexOptions.None, Regex_Default_Timeout_Miliseconds))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox InternetDomain type with unsupported value '{Value}'."));
         }

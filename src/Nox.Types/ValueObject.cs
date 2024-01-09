@@ -3,6 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Nox.Types;
+
+public abstract class ValueObject
+{
+    /// <summary>
+    /// Default timeout for ValueObject validation.
+    /// </summary>
+    public static readonly TimeSpan Regex_Default_Timeout_Miliseconds = TimeSpan.FromMilliseconds(100);
+
+
+    /// <summary>
+    /// Validates the value object.
+    /// </summary>
+    /// <returns>A validation result indicating whether the value object is valid or not.</returns>
+    internal virtual ValidationResult Validate()
+    {
+        return new ValidationResult() { };
+    }
+}
+
 /// <summary>
 /// Base abstract class for creating value objects in the Nox framework.
 /// A value object is an immutable type that represents an attribute or component of an entity.
@@ -10,16 +29,14 @@ namespace Nox.Types;
 /// </summary>
 /// <typeparam name="T">The underlying type of the value object.</typeparam>
 /// <typeparam name="TValueObject">The specific type of the value object.</typeparam>
-public abstract class ValueObject<T, TValueObject> : INoxType
+public abstract class ValueObject<T, TValueObject> : ValueObject, INoxType
     where TValueObject : ValueObject<T, TValueObject>, new()
-{
+{  
     /// <summary>
     /// Gets or sets the value of the value object.
     /// </summary>
     public virtual T Value { get; protected set; } = default!;
 
-  
-    
     protected ValueObject()
     { }
 
@@ -82,14 +99,6 @@ public abstract class ValueObject<T, TValueObject> : INoxType
         return validationResult;
     }
 
-    /// <summary>
-    /// Validates the value object.
-    /// </summary>
-    /// <returns>A validation result indicating whether the value object is valid or not.</returns>
-    internal virtual ValidationResult Validate()
-    {
-        return new ValidationResult() { };
-    }
 
     protected static bool EqualOperator(ValueObject<T, TValueObject>? left, ValueObject<T, TValueObject>? right)
     {
