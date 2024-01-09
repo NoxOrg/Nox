@@ -223,8 +223,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
         try
         {
             var deserializer = new DeserializerBuilder()
-                .WithNamingConvention(HyphenatedNamingConvention.Instance)
-                .WithNamingConvention(CamelCaseNamingConvention.Instance)
+               .WithNamingConvention(CamelCaseNamingConvention.Instance)
                 .Build();
 
             config = deserializer.Deserialize<GeneratorConfig>(configContent);
