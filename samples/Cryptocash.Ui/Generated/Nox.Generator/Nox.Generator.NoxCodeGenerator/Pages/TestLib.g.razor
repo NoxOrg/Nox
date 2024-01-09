@@ -47,6 +47,23 @@
     DateTime? testDate = DateTime.Now;
     DateTime? testDateEnd = DateTime.Now.AddHours(23);
     byte testDayOfWeek = 1;
+    StreetAddressModel testStreetAddress = new StreetAddressModel()
+    {
+        StreetNumber = "StreetNumber",
+        AddressLine1 = "AddressLine1",
+        AddressLine2 = "AddressLine2",
+        Route = "Route",
+        Locality = "Locality",
+        Neighborhood = "Neighborhood",
+        AdministrativeArea1 = "AdministrativeArea1",
+        AdministrativeArea2 = "AdministrativeArea2",
+        PostalCode = "PostalCode",
+        CountryId = Nox.Types.CountryCode.GB
+    };
+    List<CountryModel> testCountryList = new List<CountryModel>()
+    {
+        new CountryModel("GB", "Great Britain", "GBP")
+    };
 
     #endregion
 
@@ -184,6 +201,20 @@
                                                     <MudItem xs="6">
                                                         <EditDayOfWeek Title="DayOfWeek" DayOfWeek="@testDayOfWeek" CultureInfo="testCultureInfo" />
                                                     </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditStreetAddress @bind-StreetAddress="@testStreetAddress"
+                                                            TitleStreetNumber="StreetNumber"
+                                                            TitleAddressLine1="AddressLine1"
+                                                            TitleAddressLine2="AddressLine2"
+                                                            TitleRoute="Route"
+                                                            TitleLocality="Locality"
+                                                            TitleNeighborhood="Neighborhood"
+                                                            TitleAdministrativeArea1="AdministrativeArea1"
+                                                            TitleAdministrativeArea2="AdministrativeArea2"
+                                                            TitlePostalCode="PostalCode"
+                                                            TitleCountryId="CountryId"
+                                                            CountrySelectionList="CountryModelData" />
+                                                    </MudItem>
                                                 </MudGrid>
                                     </MudItem>
                                     <MudItem xs="12">
@@ -240,6 +271,7 @@
                                 <MudTh>DateTime</MudTh>
                                 <MudTh>DateTimeRange</MudTh>
                                 <MudTh>DayOfWeek</MudTh>
+                                <MudTh>StreetAddress</MudTh>
                             </HeaderContent>
                             <RowTemplate> 
                                 <MudTd Style="vertical-align:top;">
@@ -298,6 +330,9 @@
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <ViewDayOfWeek DayOfWeek="@testDayOfWeek" CultureInfo="@testCultureInfo" />
+                                </MudTd>                                
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewStreetAddress StreetAddress="@testStreetAddress" CountrySelectionList="@testCountryList" />
                                 </MudTd>
                             </RowTemplate>
                             <NoRecordsContent>

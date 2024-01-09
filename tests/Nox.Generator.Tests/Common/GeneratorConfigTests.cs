@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Nox.Generator.Tests.Common;
 
-public class GeneratorConfigTests : IClassFixture<GeneratorFixture>
+public class GeneratorConfigTests 
 {
     private const string FilesPath = "files/yaml/common/";
 

@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace Cryptocash.Ui.Pages
 {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    [IgnoreAntiforgeryToken]
+    [AutoValidateAntiforgeryToken]
     public class ErrorModel : PageModel
     {
         public string? RequestId { get; set; }
@@ -22,6 +22,14 @@ namespace Cryptocash.Ui.Pages
         public void OnGet()
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+        }
+
+        public ILogger<ErrorModel> GetLogger
+        {
+            get
+            {
+                return _logger;
+            }
         }
     }
 }

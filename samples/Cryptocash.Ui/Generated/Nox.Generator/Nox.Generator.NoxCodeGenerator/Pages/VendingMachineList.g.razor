@@ -131,7 +131,7 @@
                                                                              DisplayGoogleMap="DisplayGoogleMap" />
                                                         </MudItem>
                                                         <MudItem xs=12 sm=6>
-                                                            <UiEditStreetAddress_g @bind-StreetAddress="CurrentAddEntity.StreetAddress"
+                                                            <EditStreetAddress @bind-StreetAddress="CurrentAddEntityStreetAddress"
                                                                                    TitleStreetNumber="StreetNumber"
                                                                                    TitleAddressLine1="AddressLine1"
                                                                                    TitleAddressLine2="AddressLine2"
@@ -142,7 +142,7 @@
                                                                                    TitleAdministrativeArea2="AdministrativeArea2"
                                                                                    TitlePostalCode="PostalCode"
                                                                                    TitleCountryId="CountryId"
-                                                                                   CountrySelectionList="CountryEntityData?.EntityList" />
+                                                                                   CountrySelectionList="CountryModelData" />
                                                         </MudItem>
                                                     }
                                                     else
@@ -155,7 +155,7 @@
                                                                              DisplayGoogleMap="DisplayGoogleMap" />
                                                         </MudItem>
                                                         <MudItem xs=12>
-                                                            <UiEditStreetAddress_g @bind-StreetAddress="CurrentAddEntity.StreetAddress"
+                                                            <EditStreetAddress @bind-StreetAddress="CurrentAddEntityStreetAddress"
                                                                                    TitleStreetNumber="StreetNumber"
                                                                                    TitleAddressLine1="AddressLine1"
                                                                                    TitleAddressLine2="AddressLine2"
@@ -166,7 +166,7 @@
                                                                                    TitleAdministrativeArea2="AdministrativeArea2"
                                                                                    TitlePostalCode="PostalCode"
                                                                                    TitleCountryId="CountryId"
-                                                                                   CountrySelectionList="CountryEntityData?.EntityList" />
+                                                                               CountrySelectionList="CountryModelData" />
                                                         </MudItem>
                                                     }                                                  
                                                 </MudGrid>
@@ -273,7 +273,7 @@
                                                                              DisplayGoogleMap="DisplayGoogleMap" />
                                                         </MudItem>
                                                         <MudItem xs=12 sm=6>
-                                                            <UiEditStreetAddress_g @bind-StreetAddress="CurrentEditEntity.StreetAddress"
+                                                            <EditStreetAddress @bind-StreetAddress="CurrentEditEntityStreetAddress"
                                                                                    TitleStreetNumber="StreetNumber"
                                                                                    TitleAddressLine1="AddressLine1"
                                                                                    TitleAddressLine2="AddressLine2"
@@ -284,7 +284,7 @@
                                                                                    TitleAdministrativeArea2="AdministrativeArea2"
                                                                                    TitlePostalCode="PostalCode"
                                                                                    TitleCountryId="CountryId"
-                                                                                   CountrySelectionList="CountryEntityData?.EntityList" />
+                                                                                   CountrySelectionList="CountryModelData" />
                                                         </MudItem>
                                                     }
                                                     else
@@ -297,7 +297,7 @@
                                                                              DisplayGoogleMap="DisplayGoogleMap" />
                                                         </MudItem>
                                                         <MudItem xs=12>
-                                                            <UiEditStreetAddress_g @bind-StreetAddress="CurrentEditEntity.StreetAddress"
+                                                            <EditStreetAddress @bind-StreetAddress="CurrentEditEntityStreetAddress"
                                                                                TitleStreetNumber="StreetNumber"
                                                                                TitleAddressLine1="AddressLine1"
                                                                                TitleAddressLine2="AddressLine2"
@@ -308,7 +308,7 @@
                                                                                TitleAdministrativeArea2="AdministrativeArea2"
                                                                                TitlePostalCode="PostalCode"
                                                                                TitleCountryId="CountryId"
-                                                                               CountrySelectionList="CountryEntityData?.EntityList" />
+                                                                               CountrySelectionList="CountryModelData" />
                                                         </MudItem>
                                                     }
                                                 </MudGrid>

@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using YamlDotNet.Serialization;
 using System.Collections.Immutable;
+using System.Text.RegularExpressions;
 
 namespace Nox.Solution;
 
@@ -169,12 +170,10 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         {
             var otherEntity = grouping.Key;
             var relatedRelationships = otherEntity.Relationships.Where(r => r.Entity.Equals(Name)).ToList();
-            var count = Math.Min(grouping.Count(), relatedRelationships.Count);
-            for (var i = 0; i < count; i++)
+            foreach(var relationship in grouping)
             {
-                var relationship = grouping.ElementAt(i);
                 relationship.Related.Entity = otherEntity;
-                relationship.Related.EntityRelationship = relatedRelationships[i];
+                relationship.Related.EntityRelationship = relatedRelationships.Find(x => relationship.RefRelationshipName is not null && x.Name == relationship.RefRelationshipName) ?? relatedRelationships[0];
             }
         }
     }
@@ -203,6 +202,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         ValidateThatOwnedEntitiesDontHaveAttributeNamesWithOwnerEntityKeyNames(result);
         ValidateThatAllOwnerEntitiesHaveSimpleKeys(result);
         ValidateThatAllRelatedEntitiesHaveSimpleKeys(result);
+        ValidateRefRelationshipNames(result);
         ValidateUniqueAttributeConstraints(result);
         ValidateThatReferenceNumberPrefix(result);
 
@@ -416,7 +416,68 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
                 new ValidationFailure(rel.Name, $"Relationship [{rel.Name}] on entity [{Name}] refers to related entity [{rel.Entity}] with composite key. Must be simple key on {rel.Entity}.")
             );
         }
+    }
 
+    private void ValidateRefRelationshipNames(ValidationResult result)
+    {
+        var relationshipsGroupedByRelatedEntity = Relationships.GroupBy(x => x.Entity);
+
+        // Validate that in case there are no multiple relationships to the same entity, that the RefRelationshipName is not populated
+        var messages1 = relationshipsGroupedByRelatedEntity
+            .Where(g => g.Count() == 1 && !string.IsNullOrWhiteSpace(g.First().RefRelationshipName))
+            .Select(x => $"The relationship with name [{x.First().Name}] on the entity [{Name}] has a non-null RefRelationshipName value. There is only one relationship referencing [{x.First().Entity}], RefRelationshipName is unnecessary in these cases.");
+
+        foreach (var message in messages1)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Name), message));
+        }
+
+        // Validate that in case there are multiple relationships to the same entity, that the RefRelationshipName is populated
+        var messages2 = relationshipsGroupedByRelatedEntity
+            .Where(g => g.Count() > 1)
+            .SelectMany(g => g, (g, r) => new { RelatedEntity = g.Key, Relationship = r})
+            .Where(x => string.IsNullOrWhiteSpace(x.Relationship.RefRelationshipName))
+            .Select(x => $"The relationship with name [{x.Relationship.Name}] on the entity [{Name}] lacks RefRelationshipName value. With multiple relationships referencing [{x.RelatedEntity}], it is not possible to unambiguously select the correct association.");
+
+        foreach (var message in messages2)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Name), message));
+        }
+
+        // Validate that RefRelationshipName has a value that refers to an existing relationship
+        var messages3 = relationshipsGroupedByRelatedEntity
+            .Where(g => g.Count() > 1)
+            .SelectMany(g => g, (g, r) => new { RelatedEntity = g.Key, Relationship = r })
+            .Where(x => !string.IsNullOrWhiteSpace(x.Relationship.RefRelationshipName) && !x.Relationship.Related.Entity.Relationships.Any(r => r.Name == x.Relationship.RefRelationshipName))
+            .Select(x => $"Relationship [{x.Relationship.Name}] on entity [{Name}] has a RefRelationshipName value of [{x.Relationship.RefRelationshipName}], but there is no relationship on [{x.Relationship.Entity}] with that name.");
+
+        foreach (var message in messages3)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Name), message));
+        }
+
+        // Validate that RefRelationshipName values are properly cross-referenced
+        var messages4 = relationshipsGroupedByRelatedEntity
+            .Where(g => g.Count() > 1)
+            .SelectMany(g => g, (g, r) => new { RelatedEntity = g.Key, Relationship = r })
+            .Where(x => !string.IsNullOrWhiteSpace(x.Relationship.RefRelationshipName) && x.Relationship.Related.Entity.Relationships.FirstOrDefault(r => r.Name == x.Relationship.RefRelationshipName) != null && x.Relationship.Related.Entity.Relationships.FirstOrDefault(r => r.Name == x.Relationship.RefRelationshipName).RefRelationshipName != x.Relationship.Name)
+            .Select(x => $"Relationship [{x.Relationship.Name}] on entity [{Name}] has a RefRelationshipName value of [{x.Relationship.RefRelationshipName}], but the relationship on [{x.Relationship.Entity}] with that name does not refer back to [{x.Relationship.Name}].");
+
+        foreach (var message in messages4)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Name), message));
+        }
+
+        // Validate that RefRelationshipName values are unique for relationships to the same entity
+        var messages5 = relationshipsGroupedByRelatedEntity
+            .Where(x => x.Count() > 1)
+            .SelectMany(g => g.GroupBy(r => r.RefRelationshipName).Where(g => !string.IsNullOrWhiteSpace(g.Key) &&  g.Count() > 1))
+            .Select(x => $"Multiple Relationships [{string.Join(",", x.Select(y => y.Name))}] on entity [{Name}] have same RefRelationshipName value of [{x.First().RefRelationshipName}] that refers to same entity [{x.First().Entity}].");
+
+        foreach (var message in messages5)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Name), message));
+        }
     }
 
     private void ValidateUniqueAttributeConstraints(ValidationResult result)
