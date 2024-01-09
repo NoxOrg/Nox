@@ -80,7 +80,7 @@
                       Value="CurrentPostalCode" />
     </MudItem>
 
-    @if (CountrySelectionList != null && CountrySelectionList.Count > 0)
+    @if (CountrySelectionList.Any())
     {
         <MudItem xs="6">
             <MudSelect Label="@TitleCountryId"

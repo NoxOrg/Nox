@@ -88,7 +88,7 @@ public partial class EditStreetAddress : ComponentBase
     public string? TitleCountryId { get; set; }
 
     [Parameter]
-    public List<CountryModel>? CountrySelectionList { get; set; } = null;
+    public List<CountryModel> CountrySelectionList { get; set; } = new();
 
     [Parameter]
     public EventCallback<StreetAddressModel> StreetAddressChanged { get; set; }
