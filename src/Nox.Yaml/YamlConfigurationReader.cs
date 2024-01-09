@@ -291,7 +291,7 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
         {
             var matchPattern = _yamlFilePath?.WildCardToRegex() ?? _filePattern.WildCardToRegex();
 
-            var regex = new Regex(matchPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled,TimeSpan.FromMilliseconds(100));
+            var regex = new Regex(matchPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled,TimeSpan.FromMilliseconds(150));
 
             var solutionFiles = _yamlFilesAndContent
                 .Where(kv => regex.IsMatch(kv.Key))
