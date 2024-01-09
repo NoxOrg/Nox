@@ -7,5 +7,9 @@ internal enum NoxGeneratorKind
     Infrastructure,
     Presentation,
     Application,
+    /// <summary>
+    /// Dtos (Contracts) for the Api, Commands and Queries
+    /// </summary>
+    ApplicationDto,
     Ui
 }

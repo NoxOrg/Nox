@@ -7,11 +7,13 @@ public interface IGeneratorContentTestFlow
     IGeneratorContentTestFlow AssertFileExistsAndContent(string expectedFileName, string actualFileName);
 
     /// <summary>
-    /// Assserts that the file was generated in the expected file folder.
-    /// </summary>
-    /// <param name="expectedFileName"></param>
-    /// <returns></returns>
+    /// Asserts that the file was generated in the expected file folder.
+    /// </summary>    
     IGeneratorContentTestFlow AssertFileWasGenerated(string expectedFileName);
+    /// <summary>
+    /// Asserts that the file was NOT generated in the expected file folder.
+    /// </summary>    
+    IGeneratorContentTestFlow AssertFileWasNotGenerated(string expectedFileName);
 
     void SourceContains(string sourceName, string content);
 }

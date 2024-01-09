@@ -18,6 +18,11 @@ namespace Nox.Generator.Common
 
         public bool Application { get; set; } = true;
 
+        /// <summary>
+        /// Dtos (Contracts) for the Api, Commands and Queries
+        /// </summary>
+        public bool ApplicationDto { get; set; } = false;
+
         public bool Infrastructure { get; set; } = true;
 
         public bool Presentation { get; set; } = true;

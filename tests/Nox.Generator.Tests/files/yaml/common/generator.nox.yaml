@@ -9,7 +9,7 @@
 #    <AdditionalFiles Include="generator.nox.yaml" />
 #  </ItemGroup>
 
-# Genrates domain models, events and related types
+# Generates domain models, events and related types
 domain: false
 
 # Generates application logic and events
