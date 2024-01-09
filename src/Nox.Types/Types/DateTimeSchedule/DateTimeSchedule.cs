@@ -7,11 +7,11 @@ namespace Nox.Types;
 
 public class DateTimeSchedule : ValueObject<string, DateTimeSchedule>
 {
-    private readonly Regex _validSecondsAndMinutes = new(@"^(\*|(?:\*|(?:[0-9]|(?:[1-5][0-9])))\/(?:[0-9]|[1-5][0-9])|(?:[0-9]|[1-5][0-9])(?:(?:\-(?:[0-9]|[1-5][0-9]))?|(?:\,(?:[0-9]|[1-5][0-9]))*)(?:(?:\/(?:[0-9]|[1-5][0-9]))*)((?:\,(?:[0-9]|[1-5][0-9]))*))$");
-    private readonly Regex _validHours = new(@"^(\*|(?:\*|(?:[0-9]|1[0-9]|2[0-3]))\/(?:[0-9]|1[0-9]|2[0-3])|(?:[0-9]|1[0-9]|2[0-3])(?:(?:\-(?:[0-9]|1[0-9]|2[0-3]))?|(?:\,(?:[0-9]|1[0-9]|2[0-3]))*)(?:(?:\/(?:[0-9]|1[0-9]|2[0-3]))*)((?:\,(?:[0-9]|1[0-9]|2[0-3]))*))$");
-    private readonly Regex _validDayOfTheMonth = new(@"^(\*|\?|L(?:W|\-(?:[1-9]|(?:[12][0-9])|3[01]))?|(?:\*|[1-9]|(?:[12][0-9])|3[01])(?:W|\/(?:[1-9]|(?:[12][0-9])|3[01]))?|(?:[1-9]|(?:[12][0-9])|3[01])(?:(?:\-(?:[1-9]|(?:[12][0-9])|3[01]))?|(?:\,(?:[1-9]|(?:[12][0-9])|3[01]))*)(?:(?:\/(?:[1-9]|(?:[12][0-9])|3[01]))*)((?:\,(?:[1-9]|(?:[12][0-9])|3[01]))*))$");
-    private readonly Regex _validMonth = new(@"^(\*|(?:\*|(?:[1-9]|1[012]))\/(?:[1-9]|1[012])|(?:[1-9]|1[012]|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)(?:(?:\-(?:[1-9]|1[012]|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))?|(?:\,(?:[1-9]|1[012]|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))*)(?:(?:\/(?:[1-9]|1[012]))*)((?:\,(?:[1-9]|1[012]|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))*))$");
-    private readonly Regex _validDayOfWeek = new(@"^(\*|\?|[0-6](?:L|\#[1-5])?|(?:[0-6]|SUN|MON|TUE|WED|THU|FRI|SAT)(?:(?:\-(?:[0-6]|SUN|MON|TUE|WED|THU|FRI|SAT))?|(?:\,(?:[0-6]|SUN|MON|TUE|WED|THU|FRI|SAT))*)|(?:[0-6]|SUN|MON|TUE|WED|THU|FRI|SAT)(?:(?:\-(?:[0-6]|SUN|MON|TUE|WED|THU|FRI|SAT))(?:\,(?:[0-6]|SUN|MON|TUE|WED|THU|FRI|SAT))*))$");
+    private readonly Regex _validSecondsAndMinutes = new(@"^(\*|(?:\*|(?:[0-9]|(?:[1-5][0-9])))\/(?:[0-9]|[1-5][0-9])|(?:[0-9]|[1-5][0-9])(?:(?:\-(?:[0-9]|[1-5][0-9]))?|(?:\,(?:[0-9]|[1-5][0-9]))*)(?:(?:\/(?:[0-9]|[1-5][0-9]))*)((?:\,(?:[0-9]|[1-5][0-9]))*))$", RegexOptions.Compiled, Regex_Default_Timeout_Miliseconds);
+    private readonly Regex _validHours = new(@"^(\*|(?:\*|(?:[0-9]|1[0-9]|2[0-3]))\/(?:[0-9]|1[0-9]|2[0-3])|(?:[0-9]|1[0-9]|2[0-3])(?:(?:\-(?:[0-9]|1[0-9]|2[0-3]))?|(?:\,(?:[0-9]|1[0-9]|2[0-3]))*)(?:(?:\/(?:[0-9]|1[0-9]|2[0-3]))*)((?:\,(?:[0-9]|1[0-9]|2[0-3]))*))$", RegexOptions.Compiled, Regex_Default_Timeout_Miliseconds);
+    private readonly Regex _validDayOfTheMonth = new(@"^(\*|\?|L(?:W|\-(?:[1-9]|(?:[12][0-9])|3[01]))?|(?:\*|[1-9]|(?:[12][0-9])|3[01])(?:W|\/(?:[1-9]|(?:[12][0-9])|3[01]))?|(?:[1-9]|(?:[12][0-9])|3[01])(?:(?:\-(?:[1-9]|(?:[12][0-9])|3[01]))?|(?:\,(?:[1-9]|(?:[12][0-9])|3[01]))*)(?:(?:\/(?:[1-9]|(?:[12][0-9])|3[01]))*)((?:\,(?:[1-9]|(?:[12][0-9])|3[01]))*))$", RegexOptions.Compiled, Regex_Default_Timeout_Miliseconds);
+    private readonly Regex _validMonth = new(@"^(\*|(?:\*|(?:[1-9]|1[012]))\/(?:[1-9]|1[012])|(?:[1-9]|1[012]|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)(?:(?:\-(?:[1-9]|1[012]|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))?|(?:\,(?:[1-9]|1[012]|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))*)(?:(?:\/(?:[1-9]|1[012]))*)((?:\,(?:[1-9]|1[012]|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))*))$", RegexOptions.Compiled, Regex_Default_Timeout_Miliseconds);
+    private readonly Regex _validDayOfWeek = new(@"^(\*|\?|[0-6](?:L|\#[1-5])?|(?:[0-6]|SUN|MON|TUE|WED|THU|FRI|SAT)(?:(?:\-(?:[0-6]|SUN|MON|TUE|WED|THU|FRI|SAT))?|(?:\,(?:[0-6]|SUN|MON|TUE|WED|THU|FRI|SAT))*)|(?:[0-6]|SUN|MON|TUE|WED|THU|FRI|SAT)(?:(?:\-(?:[0-6]|SUN|MON|TUE|WED|THU|FRI|SAT))(?:\,(?:[0-6]|SUN|MON|TUE|WED|THU|FRI|SAT))*))$", RegexOptions.Compiled, Regex_Default_Timeout_Miliseconds);
     private readonly Regex _validYear = new(@"^(\*|(?:\*|(?:[1-9][0-9]{3}))\/(?:\d+)|(?:[1-9][0-9]{3})(?:(?:\-(?:[1-9][0-9]{3}))?|(?:\,(?:[1-9][0-9]{3}))*)(?:(?:\/(?:\d+))*)(?:(?:\/(?:[1-9][0-9]{3}))*)((?:\,(?:[1-9][0-9]{3}))*))$");
 
     /// <summary>
@@ -131,7 +131,7 @@ public class DateTimeSchedule : ValueObject<string, DateTimeSchedule>
         else if (tempCronExpressionSegments.Length == 6)
         {
             // check if 6th segment is a year
-            if (Regex.IsMatch(tempCronExpressionSegments[5], "\\d{4}$"))
+            if (Regex.IsMatch(tempCronExpressionSegments[5], "\\d{4}$", RegexOptions.Compiled, Regex_Default_Timeout_Miliseconds))
             {
                 // minute hour dayofthemonth month dayoftheweek year
                 Array.Copy(tempCronExpressionSegments, 0, cronExpressionSegments, 1, 6);
