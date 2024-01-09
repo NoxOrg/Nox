@@ -124,9 +124,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Ui.Blazor.Lib", "src\No
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Ui.Blazor.Lib.Tests", "tests\Nox.Ui.Blazor.Lib.Tests\Nox.Ui.Blazor.Lib.Tests.csproj", "{CEA6BF82-8B7D-48CA-AEEB-C6F960220CEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Types.Extensions", "src\Nox.Types.Extensions\Nox.Types.Extensions.csproj", "{57208925-20BE-4CD8-A2C3-270C069FFD11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Types.Extensions", "src\Nox.Types.Extensions\Nox.Types.Extensions.csproj", "{57208925-20BE-4CD8-A2C3-270C069FFD11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Types.Extensions.Tests", "tests\Nox.Types.Extensions.Tests\Nox.Types.Extensions.Tests.csproj", "{BAFE2592-B741-480D-B8F1-654E7014DD1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Types.Extensions.Tests", "tests\Nox.Types.Extensions.Tests\Nox.Types.Extensions.Tests.csproj", "{BAFE2592-B741-480D-B8F1-654E7014DD1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -247,7 +247,6 @@ Global
 		{470CA4DC-B1A1-4DAE-9A70-FEEE9C0FD173}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{470CA4DC-B1A1-4DAE-9A70-FEEE9C0FD173}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3CC4CBD7-2946-4171-BA1D-116955286B41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3CC4CBD7-2946-4171-BA1D-116955286B41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CC4CBD7-2946-4171-BA1D-116955286B41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CC4CBD7-2946-4171-BA1D-116955286B41}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7D47CA1F-E1A4-419E-AFB1-19D96203F000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -259,7 +258,6 @@ Global
 		{951B59F3-9C0B-4351-A745-08AE047898A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{951B59F3-9C0B-4351-A745-08AE047898A1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0105DEB7-C707-4AF2-807A-9478E3A4D2FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0105DEB7-C707-4AF2-807A-9478E3A4D2FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0105DEB7-C707-4AF2-807A-9478E3A4D2FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0105DEB7-C707-4AF2-807A-9478E3A4D2FC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0D664756-BD08-4692-9FD3-704505E3CA5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
