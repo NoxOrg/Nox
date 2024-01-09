@@ -144,6 +144,6 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{entity.PluralName}}Localized/{cultureCode}`
     - Description: Update or create values of {{entity.Name}}Localized for a specific {{entity.Name}}. Requires a payload with the new value of {{entity.Name}}LocalizedUpsertDto.
 {{~end~}}{{~if entity.HasLocalizedOwnedRelationships~}}{{for localizedRelationship in ownedLocalizedRelationships}}
-- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{if localizedRelationship.IsWithMultiEntity}}{{localizedRelationship.OwnedEntity.PluralName}}{{else}}{{localizedRelationship.OwnedEntity.Name}}{{end}}Localized/{cultureCode}` 
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}Localized/{cultureCode}` 
     - Description: Update or create value of {{localizedRelationship.OwnedEntity.Name}}Localized for a specific {{entity.Name}}. Requires a payload with the new value of {{localizedRelationship.OwnedEntity.Name}}LocalizedUpsertDto.
 {{~end~}}{{~end~}}
