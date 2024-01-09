@@ -38,8 +38,8 @@ public sealed class Html : ValueObject<string, Html>
     {
         bool ContainsTag(string value, string tagName)
         {
-            return Regex.IsMatch(value, $@"<{tagName}\s*>", RegexOptions.IgnoreCase) // opening tag
-                && Regex.IsMatch(value, $@"</{tagName}\s*>", RegexOptions.IgnoreCase); // closing tag
+            return Regex.IsMatch(value, $@"<{tagName}\s*>", RegexOptions.IgnoreCase, Regex_Default_Timeout_Miliseconds) // opening tag
+                && Regex.IsMatch(value, $@"</{tagName}\s*>", RegexOptions.IgnoreCase, Regex_Default_Timeout_Miliseconds); // closing tag
         }
 
         var result = base.Validate();

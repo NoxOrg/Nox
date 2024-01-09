@@ -1,37 +1,40 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Nox.Infrastructure;
 using Nox.Solution;
 using Nox.Solution.Extensions;
 using Nox.Types.EntityFramework.Abstractions;
+using System.Reflection;
 
 
 namespace Nox.Types.EntityFramework.Configurations;
 
 public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 {
-    private readonly NoxCodeGenConventions _codeGenConventions;
-    private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
+    private readonly NoxCodeGenConventions _codeGenConventions;    
     private readonly IEntityDtoSqlQueryBuilderProvider _sqlQueryBuilderProvider;
 
     public NoxDtoDatabaseConfigurator(
-        NoxCodeGenConventions codeGenConventions,
-        INoxClientAssemblyProvider clientAssemblyProvider,
+        NoxCodeGenConventions codeGenConventions,        
         IEntityDtoSqlQueryBuilderProvider sqlQueryBuilderProvider)
     {
         _codeGenConventions = codeGenConventions;
-        _clientAssemblyProvider = clientAssemblyProvider;
         _sqlQueryBuilderProvider = sqlQueryBuilderProvider;
     }
 
-    public void ConfigureDto(EntityTypeBuilder builder, Entity entity)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="entity"></param>
+    /// <param name="clientAssembly">The Client Assembly where entity is generated.</param>
+    public void ConfigureDto(EntityTypeBuilder builder, Entity entity, Assembly clientAssembly)
     {
         ConfigureTableName(builder, entity);
 
         ConfigureKeys(builder, keys: entity.GetKeys());
 
-        ConfigureAttributes(builder, entity);
+        ConfigureAttributes(builder, entity, clientAssembly);
 
         ConfigureRelationships(builder, entity);
 
@@ -58,7 +61,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         }
     }
 
-    private void ConfigureAttributes(EntityTypeBuilder builder, Entity entity)
+    private void ConfigureAttributes(EntityTypeBuilder builder, Entity entity, Assembly clientAssembly)
     {
         foreach (var attribute in entity.Attributes!)
         {
@@ -66,7 +69,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 
             if (attribute.Type == NoxType.VatNumber)
             {
-                var compoundDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGenConventions.GetEntityDtoTypeFullName("VatNumberDto"));
+                var compoundDtoType = clientAssembly.GetType(_codeGenConventions.GetEntityDtoTypeFullName("VatNumberDto"));
 
                 builder.OwnsOne(compoundDtoType!, attribute.Name)
                     .Property(nameof(VatNumber.CountryCode))
@@ -75,7 +78,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 
             if (attribute.Type == NoxType.StreetAddress)
             {
-                var compoundDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGenConventions.GetEntityDtoTypeFullName("StreetAddressDto"));
+                var compoundDtoType = clientAssembly.GetType(_codeGenConventions.GetEntityDtoTypeFullName("StreetAddressDto"));
 
                 builder.OwnsOne(compoundDtoType!, attribute.Name)
                     .Property(nameof(StreetAddress.CountryId))

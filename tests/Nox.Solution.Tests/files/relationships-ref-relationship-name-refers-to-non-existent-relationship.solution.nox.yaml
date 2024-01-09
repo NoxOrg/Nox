@@ -1,0 +1,112 @@
+#
+# relationships-ref-relationship-name-refers-to-non-existent-relationship.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: TestService
+
+description: Yaml file for testing domain
+
+overview: Overview
+
+domain:
+
+  entities:
+
+    - name: Currency
+      description: The list of currencies
+
+      persistence: 
+        isAudited: false
+
+      keys:
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+        - name: Name        
+          description: The currency name
+          type: text          
+          isRequired: true
+          textTypeOptions:
+            isUnicode: false
+            minLength: 10
+            maxLength: 20
+
+      relationships:
+         - name: ExchangeRateTo
+           description: Exchange rate to currency
+           relationship: zeroOrMany
+           entity: ExchangeRate
+           refRelationshipName: InvalidRelationshipNameTest
+
+         - name: ExchangeRateFrom
+           description: Exchange rate from currency
+           relationship: exactlyOne
+           entity: ExchangeRate 
+           refRelationshipName: CurrencyFrom
+
+         - name: UsedInCountries
+           description: used in 
+           relationship: oneOrMany
+           entity: Country
+
+    - name: ExchangeRate
+      description: Exchange rate between currencies
+
+      persistence: 
+        isAudited: false
+
+      keys:
+        - name: Id
+          isRequired: true
+          type: autoNumber
+
+      attributes:
+        - name: Name        
+          description: The country's common name
+          type: text
+          isRequired: true
+      
+      relationships:
+         - name: CurrencyTo
+           description: Exchange rate to currency
+           relationship: exactlyOne
+           entity: Currency
+           refRelationshipName: ExchangeRateTo
+
+         - name: CurrencyFrom
+           description: Exchange rate from currency
+           relationship: exactlyOne
+           entity: Currency
+           refRelationshipName: ExchangeRateFrom
+
+    - name: Country
+      description: Country
+
+      persistence: 
+        isAudited: false
+
+      keys:
+        - name: Id
+          isRequired: true
+          type: autoNumber
+
+      attributes:
+        - name: Name        
+          description: The country's common name
+          type: text
+          isRequired: true
+      
+      relationships:
+         - name: AcceptedCurrencies
+           description: accepted as tender
+           relationship: oneOrMany
+           entity: Currency

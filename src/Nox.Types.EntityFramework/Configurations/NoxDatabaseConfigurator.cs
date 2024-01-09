@@ -1,5 +1,4 @@
 ﻿using Nox.Solution;
-using Nox.Infrastructure;
 using Nox.Solution.Extensions;
 using Nox.Types.EntityFramework.Abstractions;
 
@@ -8,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using Nox.Types.EntityFramework.Exceptions;
 using Nox.Types.EntityFramework.Extensions;
+using System.Reflection;
 
 
 namespace Nox.Types.EntityFramework.Configurations
@@ -18,15 +18,12 @@ namespace Nox.Types.EntityFramework.Configurations
         protected readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesDatabaseConfigurations = new();
 
         protected NoxCodeGenConventions CodeGenConventions { get; }
-        protected INoxClientAssemblyProvider ClientAssemblyProvider { get; }
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NoxDatabaseConfigurator"/> class.
         /// </summary>
         /// <param name="configurators">An enumerable collection of INoxTypeDatabaseConfigurator instances to configure the database mappings.</param>
-        /// <param name="codeGenConventions">The code generation conventions to be used.</param>
-        /// <param name="clientAssemblyProvider">The provider for client assemblies.</param>
+        /// <param name="codeGenConventions">The code generation conventions to be used.</param>        
         /// <param name="databaseProviderSpecificOverrides">The type used to identify and override specific database provider configurators.</param>
         /// <remarks>
         /// This constructor initializes the database configurator with a collection of type-specific configurators.
@@ -35,11 +32,9 @@ namespace Nox.Types.EntityFramework.Configurations
         protected NoxDatabaseConfigurator(
             IEnumerable<INoxTypeDatabaseConfigurator> configurators,
             NoxCodeGenConventions codeGenConventions,
-            INoxClientAssemblyProvider clientAssemblyProvider,
             Type databaseProviderSpecificOverrides)
         {
             CodeGenConventions = codeGenConventions;
-            ClientAssemblyProvider = clientAssemblyProvider;
 
             var noxTypeDatabaseConfigurators =
                 configurators as INoxTypeDatabaseConfigurator[] ?? configurators.ToArray();
@@ -64,10 +59,13 @@ namespace Nox.Types.EntityFramework.Configurations
         /// <param name="modelBuilder">Model builder type of <see cref="ModelBuilder"/>.</param>
         /// <param name="builder">Entity builder type of <see cref="IEntityBuilder"/>.</param>
         /// <param name="entity">Entity param type of <see cref="Entity"/>.</param>
+        /// <param name="clientAssembly">The Client Assembly where entity is generated.</param>
         public virtual void ConfigureEntity(
             ModelBuilder modelBuilder,
             EntityTypeBuilder builder,
-            Entity entity)
+            Entity entity,
+            Assembly clientAssembly
+            )
         {
             ConfigureTableName(builder, entity);
 
@@ -77,9 +75,9 @@ namespace Nox.Types.EntityFramework.Configurations
 
             ConfigureSystemFields(builder, entity);
 
-            ConfigureRelationships(CodeGenConventions, builder, modelBuilder, entity);
+            ConfigureRelationships(builder, modelBuilder, entity,clientAssembly);
 
-            ConfigureOwnedRelationships(CodeGenConventions, builder, entity);
+            ConfigureOwnedRelationships(CodeGenConventions, builder, entity, clientAssembly);
 
             ConfigureUniqueAttributeConstraints(builder, entity);
         }
@@ -144,28 +142,27 @@ namespace Nox.Types.EntityFramework.Configurations
         }
 
         protected virtual void ConfigureRelationships(
-            NoxCodeGenConventions codeGeneratorState,
             EntityTypeBuilder builder,
             ModelBuilder modelBuilder,
-            Entity entity)
+            Entity entity,
+            Assembly clientAssembly)
         {
-            var relationships = GetRelationshipsToCreate(entity.Relationships)
+            var relationships = GetRelationshipsToCreate(entity.Relationships, clientAssembly)
                 .Where(r => r.Relationship.ConfigureThisSide());
 
             foreach (var relationship in relationships)
             {
-                ConfigureRelationship(codeGeneratorState, builder, modelBuilder, entity, relationship);
+                ConfigureRelationship(builder, modelBuilder, entity, relationship);
             }
         }
 
         private void ConfigureRelationship(
-            NoxCodeGenConventions codeGeneratorState,
             EntityTypeBuilder builder,
             ModelBuilder modelBuilder,
             Entity entity,
             EntityRelationshipWithType relationship)
         {
-            var relatedEntityTypeName = codeGeneratorState.GetEntityTypeFullName(relationship.Relationship.Entity);
+            var relatedEntityTypeName = CodeGenConventions.GetEntityTypeFullName(relationship.Relationship.Entity);
             var navigationPropertyName = entity.GetNavigationPropertyName(relationship.Relationship);
             var reversedNavigationPropertyName = relationship.Relationship.Related.Entity.GetNavigationPropertyName(relationship.Relationship.Related.EntityRelationship);
 
@@ -218,16 +215,17 @@ namespace Nox.Types.EntityFramework.Configurations
                 }
 
                 // Setup foreign key property
-                ConfigureRelationForeignKeyProperty(codeGeneratorState, builder, modelBuilder, entity, relationship);
+                ConfigureRelationForeignKeyProperty(builder, modelBuilder, entity, relationship);
             }
         }
 
         protected virtual void ConfigureOwnedRelationships(
             NoxCodeGenConventions codeGeneratorState,
             EntityTypeBuilder builder,
-            Entity entity)
+            Entity entity,
+            Assembly clientAssembly)
         {
-            var relationships = GetRelationshipsToCreate(entity.OwnedRelationships);
+            var relationships = GetRelationshipsToCreate(entity.OwnedRelationships, clientAssembly);
 
             foreach (var relationship in relationships)
             {
@@ -285,7 +283,6 @@ namespace Nox.Types.EntityFramework.Configurations
         }
 
         private void ConfigureRelationForeignKeyProperty(
-            NoxCodeGenConventions codeGeneratorState,
             EntityTypeBuilder builder,
             ModelBuilder modelBuilder,
             Entity entity,
@@ -310,7 +307,7 @@ namespace Nox.Types.EntityFramework.Configurations
                     isReadonly: false,
                     isRequired: relationship.Relationship.IsRequired());
 
-                databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, keyToBeConfigured, entity, isKey: false, modelBuilder: modelBuilder, entityTypeBuilder: builder);
+                databaseConfiguration.ConfigureEntityProperty(CodeGenConventions, keyToBeConfigured, entity, isKey: false, modelBuilder: modelBuilder, entityTypeBuilder: builder);
             }
         }
 
@@ -333,7 +330,7 @@ namespace Nox.Types.EntityFramework.Configurations
 #if DEBUG
                         Console.WriteLine($"    Setup Key {key.Name} as Foreign Key for Entity {entity.Name}");
 #endif
-                        ConfigureEntityKeyForEntityForeignKey(codeGeneratorState, builder, modelBuilder, entity, key, configureNavigationProperty, configureToManyRelationship: keys.Count > 1, deleteBehavior);
+                        ConfigureEntityKeyForEntityForeignKey(builder, modelBuilder, entity, key, configureNavigationProperty, configureToManyRelationship: keys.Count > 1, deleteBehavior);
                         keysPropertyNames.Add(key.Name);
                     }
                     else if (TypesDatabaseConfigurations.TryGetValue(key.Type,
@@ -356,7 +353,6 @@ namespace Nox.Types.EntityFramework.Configurations
         }
 
         protected virtual void ConfigureEntityKeyForEntityForeignKey(
-            NoxCodeGenConventions codeGeneratorState,
             EntityTypeBuilder builder,
             ModelBuilder modelBuilder,
             Entity entity,
@@ -366,7 +362,7 @@ namespace Nox.Types.EntityFramework.Configurations
             DeleteBehavior deleteBehavior = DeleteBehavior.NoAction)
         {
             // Key type of the Foreign Entity Key
-            var foreignEntityKeyType = codeGeneratorState.Solution.GetSingleKeyTypeForEntity(key.EntityIdTypeOptions!.Entity);
+            var foreignEntityKeyType = CodeGenConventions.Solution.GetSingleKeyTypeForEntity(key.EntityIdTypeOptions!.Entity);
 
             var relatedTypeName = CodeGenConventions.GetEntityTypeFullName(key.EntityIdTypeOptions.Entity);
             var navigationName = configureNavigationProperty ? key.EntityIdTypeOptions!.Entity : null;
@@ -392,13 +388,13 @@ namespace Nox.Types.EntityFramework.Configurations
             if (TypesDatabaseConfigurations.TryGetValue(foreignEntityKeyType,
                 out var databaseConfigurationForForeignKey))
             {
-                var foreignEntityKeyDefinition = codeGeneratorState.Solution.Domain!.GetEntityByName(key.EntityIdTypeOptions!.Entity).GetKeys()![0].ShallowCopy();
+                var foreignEntityKeyDefinition = CodeGenConventions.Solution.Domain!.GetEntityByName(key.EntityIdTypeOptions!.Entity).GetKeys()![0].ShallowCopy();
                 foreignEntityKeyDefinition.Name = key.Name;
                 foreignEntityKeyDefinition.Description = "-";
                 foreignEntityKeyDefinition.IsRequired = false;
                 foreignEntityKeyDefinition.IsReadonly = false;
 
-                databaseConfigurationForForeignKey.ConfigureEntityProperty(codeGeneratorState, foreignEntityKeyDefinition.ToNoxTypeDatabaseConfiguration(), entity, false, modelBuilder, builder);
+                databaseConfigurationForForeignKey.ConfigureEntityProperty(CodeGenConventions, foreignEntityKeyDefinition.ToNoxTypeDatabaseConfiguration(), entity, false, modelBuilder, builder);
             }
         }
 
@@ -495,7 +491,7 @@ namespace Nox.Types.EntityFramework.Configurations
             }
         }
 
-        private List<EntityRelationshipWithType> GetRelationshipsToCreate(IEnumerable<EntityRelationship> relationships)
+        private List<EntityRelationshipWithType> GetRelationshipsToCreate(IEnumerable<EntityRelationship> relationships, Assembly clientAssembly)
         {
             var fullRelationshipModels = new List<EntityRelationshipWithType>();
 
@@ -504,7 +500,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 fullRelationshipModels.Add(new EntityRelationshipWithType
                 {
                     Relationship = relationship,
-                    RelationshipEntityType = ClientAssemblyProvider.ClientAssembly.GetType(CodeGenConventions.GetEntityTypeFullName(relationship.Entity))!
+                    RelationshipEntityType = clientAssembly.GetType(CodeGenConventions.GetEntityTypeFullName(relationship.Entity))!
                 });
             }
             return fullRelationshipModels;

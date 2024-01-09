@@ -49,4 +49,34 @@ public class EntityTests
             .Where(exception => exception.Errors[0].ErrorMessage.Contains("Reference Number type must have a unique Prefix. Prefix [C - ] is duplicated."));
 
     }
+
+    [Fact]
+    public void WhenEntityHasMultipleRelationsToAnotherEntity_ShouldLoadCorrectRelationships()
+    {
+        var solution = new NoxSolutionBuilder()
+            .WithFile("./files/relationships-valid-multiple-relations-to-same-entity.solution.nox.yaml")
+            .Build();
+
+        var currency = solution.Domain!.Entities
+            .Single(e => e.Name == "Currency");
+
+        var exchangeRate = solution.Domain!.Entities
+            .Single(e => e.Name == "ExchangeRate");
+
+        currency.Relationships.Single(r => r.Name == "ExchangeRateTo")
+            .Related.EntityRelationship
+            .Should().Be(exchangeRate.Relationships.Single(x => x.Name == "CurrencyTo"));
+
+        currency.Relationships.Single(r => r.Name == "ExchangeRateFrom")
+            .Related.EntityRelationship
+            .Should().Be(exchangeRate.Relationships.Single(x => x.Name == "CurrencyFrom"));
+
+        exchangeRate.Relationships.Single(r => r.Name == "CurrencyTo")
+            .Related.EntityRelationship
+            .Should().Be(currency.Relationships.Single(x => x.Name == "ExchangeRateTo"));
+
+        exchangeRate.Relationships.Single(r => r.Name == "CurrencyFrom")
+            .Related.EntityRelationship
+            .Should().Be(currency.Relationships.Single(x => x.Name == "ExchangeRateFrom"));
+    }
 }

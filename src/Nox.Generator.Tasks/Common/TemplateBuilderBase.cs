@@ -79,11 +79,11 @@ internal abstract class TemplateBuilderBase
     /// <summary>
     /// Generates the class based on a file template 
     /// </summary>
-    /// <param name="templateFileName">the file relative namespace without template.cs. <example>Infrastructure.Persistence.DbContextGenerator.DbContext</example></param>
+    /// <param name="templateFileName">the file relative namespace without scriban-cs. <example>Infrastructure.Persistence.DbContextGenerator.DbContext</example></param>
     /// <returns></returns>
     public TemplateBuilderBase GenerateSourceCodeFromResource(string templateFileName)
     {
-        var resourceName = $"Nox.Generator.Tasks.{templateFileName}.template.cs";
+        var resourceName = $"Nox.Generator.Tasks.{templateFileName}.scriban-cs";
 
         _className ??= ComputeDefaultClassName(templateFileName);
 

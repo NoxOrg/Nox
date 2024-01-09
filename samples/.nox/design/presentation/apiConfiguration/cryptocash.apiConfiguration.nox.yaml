@@ -6,6 +6,8 @@
 
 apiRoutePrefix: /api
 
+apiGenerateRelatedEndpointsMaxDepth: 2
+
 apiRouteMappings:
 
   - $ref: ./apiRouteMappings/countriesByName.apiRouteMapping.nox.yaml

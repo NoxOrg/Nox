@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<Version>1.0.0.35</Version>
@@ -40,8 +40,7 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<Compile Remove="**\**\*.template.cs" />
-		<EmbeddedResource Include="**\**\*.template.cs" />
+		<EmbeddedResource Include="**\**\*.scriban-cs" />
 		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
 	</ItemGroup>
 

@@ -46,6 +46,7 @@ relationships:
       description: List of store licenses where this currency is a default one
       relationship: oneOrMany
       entity: StoreLicense
+      refRelationshipName: DefaultCurrency
       apiGenerateRelatedEndpoint: false
       apiGenerateReferenceEndpoint: false
 
@@ -53,5 +54,6 @@ relationships:
       description: List of store licenses that were sold in this currency
       relationship: oneOrMany
       entity: StoreLicense
+      refRelationshipName: SoldInCurrency
       apiGenerateRelatedEndpoint: false
       apiGenerateReferenceEndpoint: false

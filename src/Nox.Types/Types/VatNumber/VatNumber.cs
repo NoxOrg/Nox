@@ -47,8 +47,6 @@ public sealed class VatNumber : ValueObject<(string Number, CountryCode CountryC
 
     #endregion
 
-    private VatNumberTypeOptions _typeOptions = new();
-
     public string Number
     {
         get => Value.Number;
@@ -110,7 +108,7 @@ public sealed class VatNumber : ValueObject<(string Number, CountryCode CountryC
         }
 
         var regex = _vatNumberRegex[Value.CountryCode.ToString()];
-        if (!Regex.IsMatch(Value.Number, regex, RegexOptions.IgnoreCase))
+        if (!Regex.IsMatch(Value.Number, regex, RegexOptions.IgnoreCase, Regex_Default_Timeout_Miliseconds))
         {
             result.Errors.Add(new ValidationFailure(
                 nameof(Value), 

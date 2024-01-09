@@ -18,7 +18,27 @@ using DtoNameSpace = {{codeGeneratorState.DtoNameSpace}};
 
 namespace {{codeGeneratorState.RootNameSpace}}.Infrastructure.Persistence;
 
-internal class DtoDbContext : DbContext
+internal partial class DtoDbContext : DtoDbContextBase
+{
+    public DtoDbContext(
+      DbContextOptions<DtoDbContext> options,
+      NoxSolution noxSolution,
+      INoxDatabaseProvider databaseProvider,
+      INoxClientAssemblyProvider clientAssemblyProvider,
+      INoxDtoDatabaseConfigurator noxDtoDatabaseConfigurator,
+      NoxCodeGenConventions codeGeneratorState,
+      IEnumerable<IInterceptor> interceptors)
+      : base(
+          options,
+          noxSolution,
+          databaseProvider,
+          clientAssemblyProvider,
+          noxDtoDatabaseConfigurator,
+          codeGeneratorState,
+          interceptors)
+    { }
+}
+internal abstract partial class DtoDbContextBase : DbContext
 {
     /// <summary>
     /// The Nox solution configuration.
@@ -36,7 +56,7 @@ internal class DtoDbContext : DbContext
 
     private readonly IEnumerable<IInterceptor> _interceptors;
 
-    public DtoDbContext(
+    public DtoDbContextBase(
         DbContextOptions<DtoDbContext> options,
         NoxSolution noxSolution,
         INoxDatabaseProvider databaseProvider,
@@ -95,7 +115,7 @@ internal class DtoDbContext : DbContext
                 var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
                     ?? throw new TypeNotFoundException(dtoName);
 
-                _noxDtoDatabaseConfigurator.ConfigureDto(modelBuilder.Entity(type).ToTable(entity.Persistence.TableName), entity);
+                _noxDtoDatabaseConfigurator.ConfigureDto(modelBuilder.Entity(type).ToTable(entity.Persistence.TableName), entity, _clientAssemblyProvider.ClientAssembly);
 
                 if (entity.IsLocalized)
                 {

@@ -44,6 +44,9 @@
     CultureInfo testCultureInfo = CultureInfo.GetCultureInfo("en-GB");
     byte testMonth = 1;
     int testYear = 2024;
+    DateTime? testDate = DateTime.Now;
+    DateTime? testDateEnd = DateTime.Now.AddHours(23);
+    byte testDayOfWeek = 1;
 
     #endregion
 
@@ -146,7 +149,41 @@
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditYear Title="Year" Year="@testYear" />
-                                                    </MudItem>  
+                                                    </MudItem>                                                      
+                                                    <MudItem xs="6">
+                                                        <EditDate Title="Date" Date="@testDate" CultureInfo="testCultureInfo" />
+                                                    </MudItem>                                                    
+                                                    <MudItem xs="6">
+                                                        <EditDateTime 
+                                                            DateTime="@testDate"
+                                                            DisplayMinute="true"
+                                                            DisplaySecond="false"
+                                                            DisplayMillisecond="false"
+                                                            CultureInfo="@testCultureInfo"
+                                                            TitleDateTime="DateTime"
+                                                            TitleHour="Hour"
+                                                            TitleMinute="Minute"
+                                                            TitleSecond="Second" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditDateTimeRange 
+                                                            DateTimeStart="@testDate"
+                                                            DateTimeEnd="@testDateEnd"
+                                                            DisplayMinute="true"
+                                                            DisplaySecond="false"
+                                                            DisplayMillisecond="false"
+                                                            CultureInfo="@testCultureInfo"
+                                                            TitleDateTimeRange="DateTimeRange"
+                                                            TitleHourStart="Start Hour"
+                                                            TitleMinuteStart="Start Minute"
+                                                            TitleSecondStart="Start Second"
+                                                            TitleHourEnd="End Hour"
+                                                            TitleMinuteEnd="End Minute"
+                                                            TitleSecondEnd="End Second" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditDayOfWeek Title="DayOfWeek" DayOfWeek="@testDayOfWeek" CultureInfo="testCultureInfo" />
+                                                    </MudItem>
                                                 </MudGrid>
                                     </MudItem>
                                     <MudItem xs="12">
@@ -199,6 +236,10 @@
                                 <MudTh>Time</MudTh>
                                 <MudTh>Month</MudTh>
                                 <MudTh>Year</MudTh>
+                                <MudTh>Date</MudTh>                                                               
+                                <MudTh>DateTime</MudTh>
+                                <MudTh>DateTimeRange</MudTh>
+                                <MudTh>DayOfWeek</MudTh>
                             </HeaderContent>
                             <RowTemplate> 
                                 <MudTd Style="vertical-align:top;">
@@ -245,6 +286,18 @@
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <ViewYear Year="@testYear" />
+                                </MudTd>                                 
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewDate Date="@testDate" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy"/>
+                                </MudTd>                                
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewDateTime DateTime="@testDate" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy HH:mm:ss" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewDateTimeRange DateTimeStart="@testDate" DateTimeEnd="@testDateEnd" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy HH:mm:ss" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewDayOfWeek DayOfWeek="@testDayOfWeek" CultureInfo="@testCultureInfo" />
                                 </MudTd>
                             </RowTemplate>
                             <NoRecordsContent>

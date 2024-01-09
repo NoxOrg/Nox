@@ -17,6 +17,10 @@ internal class GeneratorConfigValidator : AbstractValidator<GeneratorConfig>
                 .Equal(false)
                 .WithMessage("Application should be false if UI is not None.");
 
+            RuleFor(config => config.ApplicationDto)
+                .Equal(false)
+                .WithMessage("Application-Dto should be false if UI is not None.");
+
             RuleFor(config => config.Infrastructure)
                 .Equal(false)
                 .WithMessage("Infrastructure should be false if UI is not None.");
