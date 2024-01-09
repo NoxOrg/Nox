@@ -58,6 +58,7 @@ This document provides information about the various endpoints available in our 
 - **GET** `/api/v1/Countries/{key}/Continents/$ref`
   - Description: Retrieve all existing Continents relations for a specific Country.
 
+
 ## Custom Commands
 
 ### UpdatePopulationStatistics
@@ -69,12 +70,6 @@ This document provides information about the various endpoints available in our 
 ### GetCountriesByContinent
 - **GET** `/GetCountriesByContinent`
   - Description: Returns a list of countries for a given continent
-
-## Related Entities
-
-[Continent](ContinentEndpoints.md)
-
-[People](PeopleEndpoints.md)
 
 ## Enumerations Endpoints
 
@@ -98,3 +93,8 @@ This section details the API endpoints related to enumeration attributes in a sp
 
 - **PUT** `/api/v1/Countries/{key}/CountriesLocalized/{cultureCode}`
     - Description: Update or create values of CountryLocalized for a specific Country. Requires a payload with the new value of CountryLocalizedUpsertDto.
+
+## Related Entities
+
+[Continent](ContinentEndpoints.md)
+[People](PeopleEndpoints.md)
