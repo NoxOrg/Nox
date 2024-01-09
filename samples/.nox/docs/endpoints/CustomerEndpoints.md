@@ -218,6 +218,78 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Customers/{key}/CustomerBaseCountry`
   - Description: Delete all existing Countries for a specific Customer.
 
+
+## Other Related Endpoints
+
+- **GET** `/api/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}/PaymentProvider`
+
+- **POST** `/api/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}/PaymentProvider`
+
+- **PUT** `/api/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}/PaymentProvider`
+
+- **PATCH** `/api/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}/PaymentProvider`
+
+- **GET** `/api/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}/PaymentProvider/$ref`
+
+- **POST** `/api/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}/PaymentProvider/{paymentProviderKey}/$ref`
+
+- **PUT** `/api/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}/PaymentProvider/{paymentProviderKey}/$ref`
+
+- **GET** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/VendingMachine`
+
+- **POST** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/VendingMachine`
+
+- **PUT** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/VendingMachine`
+
+- **PATCH** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/VendingMachine`
+
+- **GET** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/VendingMachine/$ref`
+
+- **POST** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/$ref`
+
+- **PUT** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/$ref`
+
+- **GET** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/Commission`
+
+- **POST** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/Commission`
+
+- **PUT** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/Commission`
+
+- **PATCH** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/Commission`
+
+- **GET** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/Commission/$ref`
+
+- **POST** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/Commission/{commissionKey}/$ref`
+
+- **PUT** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/Commission/{commissionKey}/$ref`
+
+- **GET** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/Transaction`
+
+- **POST** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/Transaction`
+
+- **PUT** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/Transaction`
+
+- **PATCH** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/Transaction`
+
+- **GET** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/Transaction/$ref`
+
+- **POST** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/Transaction/{transactionKey}/$ref`
+
+- **PUT** `/api/Customers/{customersKey}/Bookings/{bookingsKey}/Transaction/{transactionKey}/$ref`
+
+- **GET** `/api/Customers/{customersKey}/Country/{countryKey}/Currency`
+
+- **POST** `/api/Customers/{customersKey}/Country/{countryKey}/Currency`
+
+- **PUT** `/api/Customers/{customersKey}/Country/{countryKey}/Currency`
+
+- **PATCH** `/api/Customers/{customersKey}/Country/{countryKey}/Currency`
+
+- **GET** `/api/Customers/{customersKey}/Country/{countryKey}/Currency/$ref`
+
+- **POST** `/api/Customers/{customersKey}/Country/{countryKey}/Currency/{currencyKey}/$ref`
+
+- **PUT** `/api/Customers/{customersKey}/Country/{countryKey}/Currency/{currencyKey}/$ref`
 ## Related Entities
 
 [PaymentDetail](PaymentDetailEndpoints.md)
@@ -227,4 +299,3 @@ This document provides information about the various endpoints available in our 
 [Transaction](TransactionEndpoints.md)
 
 [Country](CountryEndpoints.md)
-

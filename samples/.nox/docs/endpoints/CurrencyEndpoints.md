@@ -176,9 +176,88 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Currencies/{key}/CurrencyUsedByMinimumCashStocks`
   - Description: Delete all existing MinimumCashStocks for a specific Currency.
 
+
+## Other Related Endpoints
+
+- **GET** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Commissions`
+
+- **POST** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Commissions`
+
+- **DELETE** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Commissions`
+
+- **GET** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Commissions/{commissionsKey}`
+
+- **PUT** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Commissions/{commissionsKey}`
+
+- **PATCH** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Commissions/{commissionsKey}`
+
+- **DELETE** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Commissions/{commissionsKey}`
+
+- **GET** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Commissions/$ref`
+
+- **PUT** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Commissions/$ref`
+
+- **DELETE** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Commissions/$ref`
+
+- **POST** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Commissions/{commissionsKey}/$ref`
+
+- **PUT** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Commissions/{commissionsKey}/$ref`
+
+- **DELETE** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Commissions/{commissionsKey}/$ref`
+
+- **GET** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/VendingMachines`
+
+- **POST** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/VendingMachines`
+
+- **DELETE** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/VendingMachines`
+
+- **GET** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}`
+
+- **PUT** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}`
+
+- **PATCH** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}`
+
+- **DELETE** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}`
+
+- **GET** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/VendingMachines/$ref`
+
+- **PUT** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/VendingMachines/$ref`
+
+- **DELETE** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/VendingMachines/$ref`
+
+- **POST** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/$ref`
+
+- **PUT** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/$ref`
+
+- **DELETE** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/$ref`
+
+- **GET** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Customers`
+
+- **POST** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Customers`
+
+- **DELETE** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Customers`
+
+- **GET** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Customers/{customersKey}`
+
+- **PUT** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Customers/{customersKey}`
+
+- **PATCH** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Customers/{customersKey}`
+
+- **DELETE** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Customers/{customersKey}`
+
+- **GET** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Customers/$ref`
+
+- **PUT** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Customers/$ref`
+
+- **DELETE** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Customers/$ref`
+
+- **POST** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Customers/{customersKey}/$ref`
+
+- **PUT** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Customers/{customersKey}/$ref`
+
+- **DELETE** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Customers/{customersKey}/$ref`
 ## Related Entities
 
 [Country](CountryEndpoints.md)
 
 [MinimumCashStock](MinimumCashStockEndpoints.md)
-

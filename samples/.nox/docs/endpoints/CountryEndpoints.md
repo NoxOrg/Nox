@@ -268,6 +268,152 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Countries/{key}/CountryUsedByCustomers`
   - Description: Delete all existing Customers for a specific Country.
 
+
+## Other Related Endpoints
+
+- **GET** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks`
+
+- **POST** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks`
+
+- **DELETE** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks`
+
+- **GET** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/{minimumCashStocksKey}`
+
+- **PUT** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/{minimumCashStocksKey}`
+
+- **PATCH** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/{minimumCashStocksKey}`
+
+- **DELETE** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/{minimumCashStocksKey}`
+
+- **GET** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/$ref`
+
+- **DELETE** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/$ref`
+
+- **POST** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
+
+- **DELETE** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
+
+- **GET** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings`
+
+- **POST** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings`
+
+- **DELETE** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings`
+
+- **GET** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/{bookingsKey}`
+
+- **PUT** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/{bookingsKey}`
+
+- **PATCH** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/{bookingsKey}`
+
+- **DELETE** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/{bookingsKey}`
+
+- **GET** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/$ref`
+
+- **DELETE** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/$ref`
+
+- **POST** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/{bookingsKey}/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/{bookingsKey}/$ref`
+
+- **DELETE** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/{bookingsKey}/$ref`
+
+- **GET** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/LandLord`
+
+- **POST** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/LandLord`
+
+- **PUT** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/LandLord`
+
+- **PATCH** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/LandLord`
+
+- **GET** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/LandLord/$ref`
+
+- **POST** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/LandLord/{landLordKey}/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/LandLord/{landLordKey}/$ref`
+
+- **GET** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders`
+
+- **POST** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders`
+
+- **DELETE** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders`
+
+- **GET** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **PUT** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **PATCH** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **DELETE** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **GET** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/$ref`
+
+- **DELETE** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/$ref`
+
+- **POST** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
+
+- **DELETE** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
+
+- **GET** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails`
+
+- **POST** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails`
+
+- **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails`
+
+- **GET** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}`
+
+- **PUT** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}`
+
+- **PATCH** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}`
+
+- **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}`
+
+- **GET** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/$ref`
+
+- **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/$ref`
+
+- **POST** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}/$ref`
+
+- **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}/$ref`
+
+- **GET** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions`
+
+- **POST** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions`
+
+- **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions`
+
+- **GET** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/{transactionsKey}`
+
+- **PUT** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/{transactionsKey}`
+
+- **PATCH** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/{transactionsKey}`
+
+- **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/{transactionsKey}`
+
+- **GET** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/$ref`
+
+- **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/$ref`
+
+- **POST** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/{transactionsKey}/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/{transactionsKey}/$ref`
+
+- **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/{transactionsKey}/$ref`
 ## Related Entities
 
 [Currency](CurrencyEndpoints.md)
@@ -277,4 +423,3 @@ This document provides information about the various endpoints available in our 
 [VendingMachine](VendingMachineEndpoints.md)
 
 [Customer](CustomerEndpoints.md)
-

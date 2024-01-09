@@ -126,9 +126,90 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency`
   - Description: Delete all existing Currencies for a specific MinimumCashStock.
 
+
+## Other Related Endpoints
+
+- **GET** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Country`
+
+- **POST** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Country`
+
+- **PUT** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Country`
+
+- **PATCH** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Country`
+
+- **GET** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Country/$ref`
+
+- **POST** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/$ref`
+
+- **PUT** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/$ref`
+
+- **GET** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/LandLord`
+
+- **POST** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/LandLord`
+
+- **PUT** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/LandLord`
+
+- **PATCH** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/LandLord`
+
+- **GET** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/LandLord/$ref`
+
+- **POST** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/LandLord/{landLordKey}/$ref`
+
+- **PUT** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/LandLord/{landLordKey}/$ref`
+
+- **GET** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Bookings`
+
+- **POST** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Bookings`
+
+- **DELETE** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Bookings`
+
+- **GET** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}`
+
+- **PUT** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}`
+
+- **PATCH** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}`
+
+- **DELETE** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}`
+
+- **GET** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Bookings/$ref`
+
+- **PUT** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Bookings/$ref`
+
+- **DELETE** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Bookings/$ref`
+
+- **POST** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}/$ref`
+
+- **PUT** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}/$ref`
+
+- **DELETE** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}/$ref`
+
+- **GET** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders`
+
+- **POST** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders`
+
+- **DELETE** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders`
+
+- **GET** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **PUT** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **PATCH** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **DELETE** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **GET** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/$ref`
+
+- **PUT** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/$ref`
+
+- **DELETE** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/$ref`
+
+- **POST** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
+
+- **PUT** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
+
+- **DELETE** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
 ## Related Entities
 
 [VendingMachine](VendingMachineEndpoints.md)
 
 [Currency](CurrencyEndpoints.md)
-

@@ -1,0 +1,151 @@
+#
+# related-entity-routing.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: TestService
+
+description: Yaml file for testing domain
+
+overview: Overview
+
+presentation:
+    apiConfiguration: 
+        apiGenerateRelatedEndpointsMaxDepth: 5
+
+domain:
+
+  entities:
+
+    - name: Country      
+      keys:
+        - name: Id
+          isRequired: true
+          type: autoNumber
+      attributes:
+        - name: Name
+          description: The country's common name
+          type: text
+          
+      relationships:
+        - name: CountryToCurrency
+          description: Country to Currency
+          relationship: zeroOrMany
+          entity: Currency
+        - name: CountryToWorkpalce
+          description: Country to Workplace
+          relationship: zeroOrMany
+          entity: Workplace
+
+    - name: Currency      
+      keys:
+        - name: Id
+          isRequired: true
+          type: autoNumber
+      attributes:
+        - name: Name
+          description: The country's common name
+          type: text
+      relationships:
+        - name: CurrencyToCountry
+          description: Currency to Country
+          relationship: zeroOrMany
+          entity: Country
+        - name: CurrencyToStore
+          description: Currency to Store
+          relationship: zeroOrMany
+          entity: Store
+        - name: DefaultCurrencyForLicense
+          description: Currency to License
+          relationship: zeroOrMany
+          entity: License
+        - name: SoldInCurrencyForLicense
+          description: Currency to License
+          relationship: zeroOrMany
+          entity: License
+
+    - name: Store      
+      keys:
+        - name: Id
+          isRequired: true
+          type: autoNumber
+      attributes:
+        - name: Name
+          description: The country's common name
+          type: text
+      relationships:
+        - name: StoreToCurrency
+          description: Store to Currency
+          relationship: zeroOrMany
+          entity: Currency
+        - name: StoreToLicense
+          description: Store to License
+          relationship: zeroOrOne
+          entity: License
+
+    - name: License   
+      keys:
+        - name: Id
+          isRequired: true
+          type: autoNumber
+      attributes:
+        - name: Name
+          description: The country's common name
+          type: text
+      relationships:
+        - name: LicenseToStore
+          description: License to Store
+          relationship: zeroOrOne
+          entity: Store
+        - name: LicenseToAgent
+          description: License to Agent
+          relationship: zeroOrOne
+          entity: Agent
+        - name: DefaultCurrency
+          description: License to Currency
+          relationship: zeroOrOne
+          entity: Currency
+        - name: SoldInCurrency
+          description: License to Currency
+          relationship: zeroOrOne
+          entity: Currency
+
+    - name: Agent
+      keys:
+        - name: Id
+          isRequired: true
+          type: autoNumber
+      attributes:
+        - name: Name
+          description: The country's common name
+          type: text
+      relationships:
+        - name: AgentToLicense
+          description: Agent to License
+          relationship: zeroOrOne
+          entity: License
+        - name: AgentToWorkplace
+          description: Agent to Workplace
+          relationship: zeroOrMany
+          entity: Workplace
+
+    - name: Workplace   
+      keys:
+        - name: Id
+          isRequired: true
+          type: autoNumber
+      attributes:
+        - name: Name
+          description: The country's common name
+          type: text
+      relationships:
+        - name: WorkplaceToAgent
+          description: WorkplaceToAgent
+          relationship: zeroOrMany
+          entity: Agent
+        - name: WorkplaceToCountry
+          description: WorkplaceToCountry
+          relationship: zeroOrMany
+          entity: Country

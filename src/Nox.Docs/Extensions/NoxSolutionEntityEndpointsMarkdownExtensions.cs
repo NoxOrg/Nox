@@ -1,4 +1,5 @@
-﻿using Nox.Docs.Models;
+﻿using Nox.Docs.Builders;
+using Nox.Docs.Models;
 using Nox.Solution;
 using Nox.Types;
 using Scriban;
@@ -23,13 +24,18 @@ public static class NoxSolutionEntityEndpointsMarkdownExtensions
 
         var markdowns = new List<EntityMarkdownFile>(entities.Count());
 
+        var pathBuilder = new RelatedEntityRoutingPathBuilder(entities.ToList());
+        var maxDepth = noxSolution.Presentation.ApiConfiguration.ApiGenerateRelatedEndpointsMaxDepth;
+
         foreach (var entity in entities)
         {
+            var relatedEndpoints = pathBuilder.GetAllRelatedPathsForEntity(entity, maxDepth);
             var model = new Dictionary<string, object>
             {
                 ["apiRoutePrefix"] = apiRoutePrefix,
                 ["entity"] = entity,
                 ["enumerationAttributes"] = entity.GetEnumerationAttributes(),
+                ["relatedEndpoints"] = relatedEndpoints
             };
 
             var markdown = new EntityMarkdownFile

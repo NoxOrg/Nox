@@ -69,6 +69,10 @@ internal static class ScribanScriptsExtensions
         scriptObject14.Import("GetNavigationPropertyName", new Func<Entity, EntityRelationship, string>(
             (entity, relationship) => entity.GetNavigationPropertyName(relationship)));
 
+        var scriptObject15 = new ScriptObject();
+        scriptObject15.Import("ToUpper", new Func<string, string>(
+            input => input.ToUpper()));
+
         context.PushGlobal(scriptObject1);
         context.PushGlobal(scriptObject2);
         context.PushGlobal(scriptObject3);
@@ -83,5 +87,6 @@ internal static class ScribanScriptsExtensions
         context.PushGlobal(scriptObject12);
         context.PushGlobal(scriptObject13);
         context.PushGlobal(scriptObject14);
+        context.PushGlobal(scriptObject15);
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace Nox.Presentation.Api;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Nox.Solution.Builders;
 
 internal sealed class MultipleEdgesGraph<TNode, TEdge> where TNode : notnull
 {

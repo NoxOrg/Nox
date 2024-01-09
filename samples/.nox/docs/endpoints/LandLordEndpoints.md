@@ -80,7 +80,100 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/LandLords/{key}/ContractedAreasForVendingMachines`
   - Description: Delete all existing VendingMachines for a specific LandLord.
 
+
+## Other Related Endpoints
+
+- **GET** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Country`
+
+- **POST** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Country`
+
+- **PUT** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Country`
+
+- **PATCH** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Country`
+
+- **GET** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Country/$ref`
+
+- **POST** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/$ref`
+
+- **PUT** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/$ref`
+
+- **GET** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Bookings`
+
+- **POST** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Bookings`
+
+- **DELETE** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Bookings`
+
+- **GET** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}`
+
+- **PUT** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}`
+
+- **PATCH** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}`
+
+- **DELETE** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}`
+
+- **GET** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Bookings/$ref`
+
+- **PUT** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Bookings/$ref`
+
+- **DELETE** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Bookings/$ref`
+
+- **POST** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}/$ref`
+
+- **PUT** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}/$ref`
+
+- **DELETE** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}/$ref`
+
+- **GET** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders`
+
+- **POST** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders`
+
+- **DELETE** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders`
+
+- **GET** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **PUT** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **PATCH** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **DELETE** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **GET** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/$ref`
+
+- **PUT** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/$ref`
+
+- **DELETE** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/$ref`
+
+- **POST** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
+
+- **PUT** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
+
+- **DELETE** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
+
+- **GET** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/MinimumCashStocks`
+
+- **POST** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/MinimumCashStocks`
+
+- **DELETE** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/MinimumCashStocks`
+
+- **GET** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/MinimumCashStocks/{minimumCashStocksKey}`
+
+- **PUT** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/MinimumCashStocks/{minimumCashStocksKey}`
+
+- **PATCH** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/MinimumCashStocks/{minimumCashStocksKey}`
+
+- **DELETE** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/MinimumCashStocks/{minimumCashStocksKey}`
+
+- **GET** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/MinimumCashStocks/$ref`
+
+- **PUT** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/MinimumCashStocks/$ref`
+
+- **DELETE** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/MinimumCashStocks/$ref`
+
+- **POST** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
+
+- **PUT** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
+
+- **DELETE** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
 ## Related Entities
 
 [VendingMachine](VendingMachineEndpoints.md)
-

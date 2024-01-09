@@ -126,9 +126,90 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Commissions/{key}/CommissionFeesForBooking`
   - Description: Delete all existing Bookings for a specific Commission.
 
+
+## Other Related Endpoints
+
+- **GET** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Currency`
+
+- **POST** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Currency`
+
+- **PUT** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Currency`
+
+- **PATCH** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Currency`
+
+- **GET** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Currency/$ref`
+
+- **POST** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Currency/{currencyKey}/$ref`
+
+- **PUT** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Currency/{currencyKey}/$ref`
+
+- **GET** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines`
+
+- **POST** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines`
+
+- **DELETE** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines`
+
+- **GET** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/{vendingMachinesKey}`
+
+- **PUT** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/{vendingMachinesKey}`
+
+- **PATCH** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/{vendingMachinesKey}`
+
+- **DELETE** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/{vendingMachinesKey}`
+
+- **GET** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/$ref`
+
+- **PUT** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/$ref`
+
+- **DELETE** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/$ref`
+
+- **POST** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/{vendingMachinesKey}/$ref`
+
+- **PUT** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/{vendingMachinesKey}/$ref`
+
+- **DELETE** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/{vendingMachinesKey}/$ref`
+
+- **GET** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers`
+
+- **POST** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers`
+
+- **DELETE** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers`
+
+- **GET** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/{customersKey}`
+
+- **PUT** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/{customersKey}`
+
+- **PATCH** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/{customersKey}`
+
+- **DELETE** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/{customersKey}`
+
+- **GET** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/$ref`
+
+- **PUT** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/$ref`
+
+- **DELETE** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/$ref`
+
+- **POST** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/{customersKey}/$ref`
+
+- **PUT** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/{customersKey}/$ref`
+
+- **DELETE** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/{customersKey}/$ref`
+
+- **GET** `/api/Commissions/{commissionsKey}/Bookings/{bookingsKey}/Transaction`
+
+- **POST** `/api/Commissions/{commissionsKey}/Bookings/{bookingsKey}/Transaction`
+
+- **PUT** `/api/Commissions/{commissionsKey}/Bookings/{bookingsKey}/Transaction`
+
+- **PATCH** `/api/Commissions/{commissionsKey}/Bookings/{bookingsKey}/Transaction`
+
+- **GET** `/api/Commissions/{commissionsKey}/Bookings/{bookingsKey}/Transaction/$ref`
+
+- **POST** `/api/Commissions/{commissionsKey}/Bookings/{bookingsKey}/Transaction/{transactionKey}/$ref`
+
+- **PUT** `/api/Commissions/{commissionsKey}/Bookings/{bookingsKey}/Transaction/{transactionKey}/$ref`
 ## Related Entities
 
 [Country](CountryEndpoints.md)
 
 [Booking](BookingEndpoints.md)
-

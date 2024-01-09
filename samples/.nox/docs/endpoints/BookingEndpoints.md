@@ -218,6 +218,140 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Bookings/{key}/BookingRelatedTransaction`
   - Description: Delete all existing Transactions for a specific Booking.
 
+
+## Other Related Endpoints
+
+- **GET** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/PaymentDetails`
+
+- **POST** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/PaymentDetails`
+
+- **DELETE** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/PaymentDetails`
+
+- **GET** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}`
+
+- **PUT** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}`
+
+- **PATCH** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}`
+
+- **DELETE** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}`
+
+- **GET** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/PaymentDetails/$ref`
+
+- **PUT** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/PaymentDetails/$ref`
+
+- **DELETE** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/PaymentDetails/$ref`
+
+- **POST** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}/$ref`
+
+- **PUT** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}/$ref`
+
+- **DELETE** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}/$ref`
+
+- **GET** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Transactions`
+
+- **POST** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Transactions`
+
+- **DELETE** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Transactions`
+
+- **GET** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Transactions/{transactionsKey}`
+
+- **PUT** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Transactions/{transactionsKey}`
+
+- **PATCH** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Transactions/{transactionsKey}`
+
+- **DELETE** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Transactions/{transactionsKey}`
+
+- **GET** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Transactions/$ref`
+
+- **PUT** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Transactions/$ref`
+
+- **DELETE** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Transactions/$ref`
+
+- **POST** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Transactions/{transactionsKey}/$ref`
+
+- **PUT** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Transactions/{transactionsKey}/$ref`
+
+- **DELETE** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Transactions/{transactionsKey}/$ref`
+
+- **GET** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Country`
+
+- **POST** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Country`
+
+- **PUT** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Country`
+
+- **PATCH** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Country`
+
+- **GET** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Country/$ref`
+
+- **POST** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Country/{countryKey}/$ref`
+
+- **PUT** `/api/Bookings/{bookingsKey}/Customer/{customerKey}/Country/{countryKey}/$ref`
+
+- **GET** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/LandLord`
+
+- **POST** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/LandLord`
+
+- **PUT** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/LandLord`
+
+- **PATCH** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/LandLord`
+
+- **GET** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/LandLord/$ref`
+
+- **POST** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/LandLord/{landLordKey}/$ref`
+
+- **PUT** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/LandLord/{landLordKey}/$ref`
+
+- **GET** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/CashStockOrders`
+
+- **POST** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/CashStockOrders`
+
+- **DELETE** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/CashStockOrders`
+
+- **GET** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **PUT** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **PATCH** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **DELETE** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **GET** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/CashStockOrders/$ref`
+
+- **PUT** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/CashStockOrders/$ref`
+
+- **DELETE** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/CashStockOrders/$ref`
+
+- **POST** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
+
+- **PUT** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
+
+- **DELETE** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
+
+- **GET** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks`
+
+- **POST** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks`
+
+- **DELETE** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks`
+
+- **GET** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}`
+
+- **PUT** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}`
+
+- **PATCH** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}`
+
+- **DELETE** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}`
+
+- **GET** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/$ref`
+
+- **PUT** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/$ref`
+
+- **DELETE** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/$ref`
+
+- **POST** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
+
+- **PUT** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
+
+- **DELETE** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
 ## Related Entities
 
 [Customer](CustomerEndpoints.md)
@@ -227,4 +361,3 @@ This document provides information about the various endpoints available in our 
 [Commission](CommissionEndpoints.md)
 
 [Transaction](TransactionEndpoints.md)
-

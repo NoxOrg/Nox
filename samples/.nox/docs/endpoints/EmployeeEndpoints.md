@@ -106,7 +106,22 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Employees/{key}/EmployeeReviewingCashStockOrder`
   - Description: Delete all existing CashStockOrders for a specific Employee.
 
+
+## Other Related Endpoints
+
+- **GET** `/api/Employees/{employeesKey}/CashStockOrder/{cashStockOrderKey}/VendingMachine`
+
+- **POST** `/api/Employees/{employeesKey}/CashStockOrder/{cashStockOrderKey}/VendingMachine`
+
+- **PUT** `/api/Employees/{employeesKey}/CashStockOrder/{cashStockOrderKey}/VendingMachine`
+
+- **PATCH** `/api/Employees/{employeesKey}/CashStockOrder/{cashStockOrderKey}/VendingMachine`
+
+- **GET** `/api/Employees/{employeesKey}/CashStockOrder/{cashStockOrderKey}/VendingMachine/$ref`
+
+- **POST** `/api/Employees/{employeesKey}/CashStockOrder/{cashStockOrderKey}/VendingMachine/{vendingMachineKey}/$ref`
+
+- **PUT** `/api/Employees/{employeesKey}/CashStockOrder/{cashStockOrderKey}/VendingMachine/{vendingMachineKey}/$ref`
 ## Related Entities
 
 [CashStockOrder](CashStockOrderEndpoints.md)
-
