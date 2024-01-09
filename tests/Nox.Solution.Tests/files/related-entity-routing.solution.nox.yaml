@@ -61,10 +61,12 @@ domain:
           description: Currency to License
           relationship: zeroOrMany
           entity: License
+          refRelationshipName: DefaultCurrency
         - name: SoldInCurrencyForLicense
           description: Currency to License
           relationship: zeroOrMany
           entity: License
+          refRelationshipName: SoldInCurrency
 
     - name: Store      
       keys:
@@ -107,10 +109,12 @@ domain:
           description: License to Currency
           relationship: zeroOrOne
           entity: Currency
+          refRelationshipName: DefaultCurrencyForLicense
         - name: SoldInCurrency
           description: License to Currency
           relationship: zeroOrOne
           entity: Currency
+          refRelationshipName: SoldInCurrencyForLicense
 
     - name: Agent
       keys:
