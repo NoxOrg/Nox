@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using System.Text.Json;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Nox.Exceptions;
 using Nox.Types;
@@ -20,7 +22,7 @@ internal class ExceptionHanderMiddleware
         _logger = logger;
     }
 
-    public async Task InvokeAsync(HttpContext httpContext)
+    public async Task InvokeAsync(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
     {
         try
         {
@@ -33,7 +35,8 @@ internal class ExceptionHanderMiddleware
                 ex, 
                 exception.ErrorCode,
                 exception.ErrorDetails, 
-                exception.StatusCode);
+                exception.StatusCode,
+                webHostEnvironment.IsDevelopment());
         }
         catch (Exception ex)
         {
@@ -41,8 +44,9 @@ internal class ExceptionHanderMiddleware
                 httpContext, 
                 ex,
                 null,
-                null,
-                HttpStatusCode.InternalServerError);
+                null,                
+                HttpStatusCode.InternalServerError,
+                webHostEnvironment.IsDevelopment());
         }
     }
     /// <summary>
@@ -58,8 +62,9 @@ internal class ExceptionHanderMiddleware
         HttpContext context,
         Exception exception,
         string? errorCode,
-        object? errorDetails,
-        HttpStatusCode? statusCode)
+        object? errorDetails,        
+        HttpStatusCode? statusCode,
+        bool isDevelopmentEnvironment)
     {
         _logger.LogError(exception, "Error occurred during request: {Path}",context.Request?.Path);
 
@@ -77,7 +82,8 @@ internal class ExceptionHanderMiddleware
                 //Unique id for this error type, use error code if provided, otherwise use the exception type name
                 id = Nuid.From(errorCode ?? exception.GetType().FullName!).ToString(),
                 code = errorCode ?? "undefined",
-                details = errorDetails
+                details = errorDetails,
+                exception = isDevelopmentEnvironment ? exception.ToString(): "hidden"
             }
         });
 
