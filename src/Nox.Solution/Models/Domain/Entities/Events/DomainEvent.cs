@@ -8,7 +8,7 @@ public class DomainEvent
 {
     [Required]
     [Title("Event name")]
-    [Description("Assign a descriptive name to the event. Should be a singular noun and be unique within a collection of events. PascalCase recommended.")]
+    [Description("Descriptive name for the domain event. Should be a singular noun and be unique within a collection of events. Pascal Case recommended.")]
     public string Name { get; internal set; } = null!;
 
     [Required]
