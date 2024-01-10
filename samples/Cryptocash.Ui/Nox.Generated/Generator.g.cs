@@ -68,6 +68,6 @@
 - IntegrationEvents.md
 - README.md
 - generator.nox.yaml
-Logging Verbosity Minimal
-SUCCESS.
+Errors ->
+- Property 'applicationDto' not found on type 'Nox.Generator.Tasks.Common.GeneratorConfig'.
 */

@@ -1,6 +1,6 @@
 ﻿namespace Nox.Generator.Common;
 
-internal enum NoxGeneratorKind
+public enum NoxGeneratorKind
 {
     None,
     Domain,

@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Domain;
@@ -18,6 +19,11 @@ namespace ClientApi.Application.Dto;
 /// </summary>
 public partial class TenantBrandLocalizedUpsertDto
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    [Required(ErrorMessage = "Id is required")]
+    public System.Int64? Id { get; set; }
     /// <summary>
     /// Teanant Brand Description
     /// </summary>

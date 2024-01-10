@@ -1,6 +1,7 @@
 ﻿using Nox.Docs.Builders;
 using Nox.Docs.Models;
 using Nox.Solution;
+using Nox.Solution.Extensions;
 using Nox.Types;
 using Scriban;
 
@@ -30,11 +31,19 @@ public static class NoxSolutionEntityEndpointsMarkdownExtensions
         foreach (var entity in entities)
         {
             var relatedEndpoints = pathBuilder.GetAllRelatedPathsForEntity(entity, maxDepth);
+            var ownedEntitiesWithLocalizedAttributes = entity.OwnedRelationships
+                .Select(x => new
+                {
+                    IsWithMultiEntity = x.WithMultiEntity,
+                    OwnedEntity = x.Related.Entity,
+                    LocalizedAttributes = x.Related.Entity.GetLocalizedAttributes(),
+                });
             var model = new Dictionary<string, object>
             {
                 ["apiRoutePrefix"] = apiRoutePrefix,
                 ["entity"] = entity,
                 ["enumerationAttributes"] = entity.GetEnumerationAttributes(),
+                ["ownedLocalizedRelationships"] = ownedEntitiesWithLocalizedAttributes,
                 ["relatedEndpoints"] = relatedEndpoints
             };
 

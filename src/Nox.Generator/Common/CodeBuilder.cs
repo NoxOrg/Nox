@@ -5,25 +5,27 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Nox.Generator.Common;
 
-internal class CodeBuilder 
+public class CodeBuilder 
 {
     private const int _spacing = 4;
-    
-    private readonly string _sourceFileName;
 
-    private readonly StringBuilder _stringBuilder;
+    protected readonly string _sourceFileName;
+
+    protected readonly StringBuilder _stringBuilder;
 
     private int _indentation = 0;
 
     private readonly SourceProductionContext _context;
 
-    public CodeBuilder(string sourceFileName, SourceProductionContext context)
+    public CodeBuilder(string sourceFileName, SourceProductionContext context): this(sourceFileName)
+    {
+        _context = context;
+    }
+    public CodeBuilder(string sourceFileName)
     {
         _sourceFileName = sourceFileName;
 
         _stringBuilder = new StringBuilder();
-
-        _context = context;
 
         _stringBuilder.AppendLine("// Generated");
         _stringBuilder.AppendLine();
@@ -96,7 +98,7 @@ internal class CodeBuilder
         return _spacing * _indentation;
     }
 
-    public void GenerateSourceCode()
+    public virtual void GenerateSourceCode()
     {
         _context.AddSource(_sourceFileName, SourceText.From(_stringBuilder.ToString(), Encoding.UTF8));
     }

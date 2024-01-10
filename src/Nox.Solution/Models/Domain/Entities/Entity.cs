@@ -89,6 +89,9 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
     public Entity? OwnerEntity { get; internal set; }
 
     [YamlIgnore]
+    public EntityRelationship? OwningRelationship { get; internal set; }
+
+    [YamlIgnore]
     public bool HasDomainEvents =>
         (Persistence.Create.RaiseDomainEvents || Persistence.Update.RaiseDomainEvents || Persistence.Delete.RaiseDomainEvents);
 

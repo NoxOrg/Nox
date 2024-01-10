@@ -7,18 +7,16 @@ namespace Nox.Generator.Common;
 /// <summary>
 /// Template for file generation out of the Code Generators. Creating a file in the local project.
 /// </summary>
-internal class TemplateFileBuilder : TemplateBuilderBase
+internal class TaskTemplateFileBuilder : TemplateBuilderBase
 {
-    private const string _outputFolder = "Nox.Generated";
+    private string _fileExtension = "g.cs";
 
-    private string? _fileExtension;
+    private readonly string _absoluteOutputPath;
 
-    private string _outputPath;
-
-    public TemplateFileBuilder(NoxCodeGenConventions codeGeneratorState, string? outputPath)
-        : base (codeGeneratorState)
+    public TaskTemplateFileBuilder(NoxCodeGenConventions codeGeneratorState, string absoluteOutputPath)
+        : base (codeGeneratorState, "scriban-cs")
     {
-        _outputPath = outputPath ?? "";
+        _absoluteOutputPath = absoluteOutputPath;
     }
 
     /// <summary>
@@ -26,7 +24,7 @@ internal class TemplateFileBuilder : TemplateBuilderBase
     /// </summary>
     /// <param name="fileExtension">Prefix to add to the file name. A dot will be added between the prefix and the class name</param>
     /// <returns></returns>
-    public TemplateFileBuilder WithFileExtension(string fileExtension)
+    public TaskTemplateFileBuilder WithFileExtension(string fileExtension)
     {
         _fileExtension = fileExtension;
         return this;
@@ -34,15 +32,11 @@ internal class TemplateFileBuilder : TemplateBuilderBase
 
     public override void SaveSourceCode(string fileName, string sourceCode)
     {
-#pragma warning disable RS1035 // Do not use APIs banned for analyzers
+        string absoluteFilePath = Path.Combine(_absoluteOutputPath, $"{fileName}.{_fileExtension}");
 
-        string absoluteFilePath = Path.Combine(_outputPath, _outputFolder, $"{fileName}.g.{_fileExtension}");
-
-        var file = new FileInfo(absoluteFilePath);
+        FileInfo file = new FileInfo(absoluteFilePath);
         file.Directory.Create(); // If the directory already exists, this method does nothing.
 
         File.WriteAllText(absoluteFilePath, sourceCode, Encoding.UTF8);
-
-#pragma warning restore RS1035 // Do not use APIs banned for analyzers
     }
 }

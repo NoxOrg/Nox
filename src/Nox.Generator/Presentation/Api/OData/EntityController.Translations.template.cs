@@ -27,6 +27,7 @@ using System;
 using System.ComponentModel.Design;
 using System.Net.Http.Headers;
 using {{codeGeneratorState.ApplicationNameSpace}};
+using System.Threading.Tasks;
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 using {{codeGeneratorState.ApplicationNameSpace}}.Commands;
@@ -43,7 +44,7 @@ namespace {{ codeGeneratorState.ODataNameSpace }};
 
 public abstract partial class {{className}}Base
 {  
-    
+    {{- if entity.IsLocalized }}
     [HttpPut("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.PluralName}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
     public virtual async Task<ActionResult<{{entity.Name}}LocalizedDto>> Put{{entity.Name}}Localized( {{ primaryKeysRoute }}, [FromRoute] System.String {{cultureCode}}, [FromBody] {{entity.Name}}LocalizedUpsertDto {{ToLowerFirstChar entity.Name}}LocalizedUpsertDto)
     {
@@ -83,4 +84,49 @@ public abstract partial class {{className}}Base
             
         return Ok(result);
     }
+    {{~ end ~}}
+    {{- for localizedRelationship in ownedLocalizedRelationships }}
+    [HttpPut("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
+    public virtual async Task<ActionResult<{{GetEntityDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}}>> Put{{localizedRelationship.OwnedEntity.Name}}Localized( {{ primaryKeysRoute }}, [FromRoute] System.String {{ cultureCode}}, [FromBody] {{ GetEntityUpsertDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}} {{ToLowerFirstChar localizedRelationship.OwnedEntity.Name}}LocalizedUpsertDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var etag = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ primaryKeysQuery }}))).Select(e=>e.Etag).SingleOrDefault();
+        
+        if (etag == System.Guid.Empty)
+        {
+            throw new EntityNotFoundException("{{entity.Name}}", $"{{entity.Keys | keysToString}}");
+        }
+        
+        var updatedProperties = new Dictionary<string, dynamic>();
+       
+        {{- for attribute in localizedRelationship.LocalizedAttributes }}
+        updatedProperties.Add(nameof({{ToLowerFirstChar localizedRelationship.OwnedEntity.Name}}LocalizedUpsertDto.{{attribute.Name}}), {{ToLowerFirstChar localizedRelationship.OwnedEntity.Name}}LocalizedUpsertDto.{{attribute.Name}}.ToValueFromNonNull());
+        {{- end }}
+
+        {{- if localizedRelationship.IsWithMultiEntity }}
+        var updatedKey = await _mediator.Send(new PartialUpdate{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}For{{entity.Name}}Command(
+            new {{entity.Name}}KeyDto({{primaryKeysQuery}}),
+            new {{localizedRelationship.OwnedEntity.Name}}KeyDto({{localizedRelationship.OwnedEntityKeysQuery}}),
+            updatedProperties, Nox.Types.CultureCode.From(cultureCode), etag));
+        {{- else}}
+        var updatedKey = await _mediator.Send(new PartialUpdate{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}For{{entity.Name}}Command(
+            new {{entity.Name}}KeyDto({{primaryKeysQuery}}),
+            updatedProperties, Nox.Types.CultureCode.From(cultureCode), etag));
+        {{- end}}
+
+        if (updatedKey is null)
+        {
+            throw new EntityNotFoundException("{{entity.Name}}", $"{{entity.Keys | keysToString}}");
+        }
+
+        var item = (await _mediator.Send(new Get{{localizedRelationship.OwnedEntity.Name}}TranslationsByIdQuery( {{ localizedRelationship.UpdatedKeyPrimaryKeysQuery }}, Nox.Types.CultureCode.From({{cultureCode}})))).SingleOrDefault();
+
+        return Ok(item);
+    }
+    {{- end }}
+
 }

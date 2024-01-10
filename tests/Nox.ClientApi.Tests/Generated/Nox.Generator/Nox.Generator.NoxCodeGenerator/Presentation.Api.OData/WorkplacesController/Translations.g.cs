@@ -17,6 +17,7 @@ using System;
 using System.ComponentModel.Design;
 using System.Net.Http.Headers;
 using ClientApi.Application;
+using System.Threading.Tasks;
 using ClientApi.Application.Dto;
 using ClientApi.Application.Queries;
 using ClientApi.Application.Commands;
@@ -28,8 +29,7 @@ namespace ClientApi.Presentation.Api.OData;
 
 
 public abstract partial class WorkplacesControllerBase
-{  
-    
+{
     [HttpPut("/api/v1/Workplaces/{key}/WorkplacesLocalized/{cultureCode}")]
     public virtual async Task<ActionResult<WorkplaceLocalizedDto>> PutWorkplaceLocalized( [FromRoute] System.Int64 key, [FromRoute] System.String cultureCode, [FromBody] WorkplaceLocalizedUpsertDto workplaceLocalizedUpsertDto)
     {
@@ -66,4 +66,6 @@ public abstract partial class WorkplacesControllerBase
             
         return Ok(result);
     }
+
+
 }
