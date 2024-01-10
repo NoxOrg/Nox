@@ -137,3 +137,10 @@ This document provides information about the various endpoints available in our 
 This section details the API endpoints related to enumeration attributes in a specific Tenant.
 - **GET** `/api/v1/Tenants/TenantStatuses`
   - **Description**: Retrieve non-conventional values of Statuses for a specific Tenant.
+## Localized Endpoints
+
+- **PUT** `/api/v1/Tenants/{key}/TenantBrandsLocalized/{cultureCode}` 
+    - Description: Update or create value of TenantBrandLocalized for a specific Tenant. Requires a payload with the new value of TenantBrandLocalizedUpsertDto.
+
+- **PUT** `/api/v1/Tenants/{key}/TenantContactLocalized/{cultureCode}` 
+    - Description: Update or create value of TenantContactLocalized for a specific Tenant. Requires a payload with the new value of TenantContactLocalizedUpsertDto.

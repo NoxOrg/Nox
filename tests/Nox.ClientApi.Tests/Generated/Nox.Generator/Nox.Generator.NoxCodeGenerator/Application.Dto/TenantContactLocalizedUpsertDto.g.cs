@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Domain;
