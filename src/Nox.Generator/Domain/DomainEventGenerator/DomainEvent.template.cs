@@ -2,9 +2,13 @@ using Nox.Domain;
 using {{codeGeneratorState.DomainNameSpace}};
 using MediatR;
 
-{{-for event in entity.Events}}
+{{ for event in entity.Events }}
 /// <summary>
+{{~ if event.Description ~}}
 /// {{event.Description}}
+{{~else~}}
+/// {{event.Name}}
+{{~end~}}
 /// </summary>
 internal record {{event.Name}}({{entity.Name}} {{entity.Name}}) : IDomainEvent, INotification;
-{{-end-}}
+{{ end }}

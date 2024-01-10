@@ -130,7 +130,3 @@ persistence:
     delete:
         isEnabled: true
         raiseEvents: domainAndIntegrationEvents
-        
-events:
-   - name: TestEvent
-     description: Test Event

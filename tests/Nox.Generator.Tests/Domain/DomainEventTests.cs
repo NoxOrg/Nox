@@ -26,7 +26,7 @@ public class DomainEventTests : IClassFixture<GeneratorFixture>
             .AssertFileCount(14)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .AssertFileWasGenerated("CountryNameUpdatedEvent.g.cs")
+            .AssertFileExistsAndContent("Domain.Events.CountryDomainEventsExpected.g.cs", "Domain.Events.CountryDomainEvents.g.cs")
             .AssertFileWasGenerated("Domain.Country.g.cs");
     }
 }

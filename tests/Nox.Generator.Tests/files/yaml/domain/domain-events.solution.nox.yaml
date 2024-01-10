@@ -31,6 +31,8 @@ domain:
       events:
         - name: CountryNameUpdatedEvent
           description: Raised when the name of a country is changes
+          
+        - name: CountryAlphaCode3UpdatedEvent
       
       keys:
 
