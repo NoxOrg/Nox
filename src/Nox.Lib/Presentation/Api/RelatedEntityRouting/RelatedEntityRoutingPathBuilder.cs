@@ -94,8 +94,8 @@ internal sealed partial class RelatedEntityRoutingPathBuilder : RelatedEntityRou
             operation.Parameters.Add(new OpenApiParameter
             {
                 Name = keyName,
-                AllowEmptyValue = false,
                 In = ParameterLocation.Path,
+                Required = true,
                 Schema = new OpenApiSchema()
                 {
                     Type = "string",
