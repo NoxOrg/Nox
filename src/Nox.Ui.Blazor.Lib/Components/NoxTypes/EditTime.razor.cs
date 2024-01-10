@@ -175,9 +175,9 @@ public partial class EditTime : ComponentBase
         await UpdateTime();
     }
 
-    protected static string ErrorRequiredMessage(string? CurrentTitle)
+    protected static string ErrorRequiredMessage(string? currentTitle)
     {
-        return CurrentTitle + " is required";
+        return string.Format(Resources.Resources.FieldIsRequired, currentTitle).Trim();
     }
 
     protected async Task UpdateTime()

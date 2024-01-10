@@ -22,7 +22,7 @@ public partial class EditYear : ComponentBase
     {
         get
         {
-            return Title + " is required";
+            return string.Format(Resources.Resources.FieldIsRequired, Title).Trim();
         }
     }
 

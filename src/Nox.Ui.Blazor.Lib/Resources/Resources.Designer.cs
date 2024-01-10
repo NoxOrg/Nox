@@ -77,5 +77,14 @@ namespace Nox.Ui.Blazor.Lib.Resources {
                 return ResourceManager.GetString("LatLongSummary", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is required and must be at least {1} characters long.
+        /// </summary>
+        internal static string TextValidateLength {
+            get {
+                return ResourceManager.GetString("TextValidateLength", resourceCulture);
+            }
+        }
     }
 }

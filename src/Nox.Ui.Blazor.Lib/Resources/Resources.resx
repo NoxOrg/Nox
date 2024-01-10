@@ -123,4 +123,7 @@
   <data name="LatLongSummary" xml:space="preserve">
     <value>Latitude: {0}, Longitude: {1}</value>
   </data>
+  <data name="TextValidateLength" xml:space="preserve">
+    <value>{0} is required and must be at least {1} characters long</value>
+  </data>
 </root>
