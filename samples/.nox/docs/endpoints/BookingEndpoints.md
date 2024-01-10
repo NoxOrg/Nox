@@ -79,7 +79,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Customer
 - **DELETE** `/api/Bookings/{key}/BookingForCustomer`
   - Description: Delete all existing Customers for a specific Booking.
-
 ### VendingMachine
 
 #### Get VendingMachine relations
@@ -125,7 +124,6 @@ This document provides information about the various endpoints available in our 
 #### Delete VendingMachine
 - **DELETE** `/api/Bookings/{key}/BookingRelatedVendingMachine`
   - Description: Delete all existing VendingMachines for a specific Booking.
-
 ### Commission
 
 #### Get Commission relations
@@ -171,7 +169,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Commission
 - **DELETE** `/api/Bookings/{key}/BookingFeesForCommission`
   - Description: Delete all existing Commissions for a specific Booking.
-
 ### Transaction
 
 #### Get Transaction relations
@@ -217,7 +214,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Transaction
 - **DELETE** `/api/Bookings/{key}/BookingRelatedTransaction`
   - Description: Delete all existing Transactions for a specific Booking.
-
 
 ## Other Related Endpoints
 
@@ -352,12 +348,10 @@ This document provides information about the various endpoints available in our 
 - **PUT** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
 
 - **DELETE** `/api/Bookings/{bookingsKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
+
 ## Related Entities
 
 [Customer](CustomerEndpoints.md)
-
 [VendingMachine](VendingMachineEndpoints.md)
-
 [Commission](CommissionEndpoints.md)
-
 [Transaction](TransactionEndpoints.md)

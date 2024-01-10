@@ -79,7 +79,6 @@ This document provides information about the various endpoints available in our 
 #### Delete VendingMachine
 - **DELETE** `/api/MinimumCashStocks/{key}/MinimumCashStocksRequiredByVendingMachines`
   - Description: Delete all existing VendingMachines for a specific MinimumCashStock.
-
 ### Currency
 
 #### Get Currency relations
@@ -125,7 +124,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Currency
 - **DELETE** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency`
   - Description: Delete all existing Currencies for a specific MinimumCashStock.
-
 
 ## Other Related Endpoints
 
@@ -208,8 +206,8 @@ This document provides information about the various endpoints available in our 
 - **PUT** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
 
 - **DELETE** `/api/MinimumCashStocks/{minimumCashStocksKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
+
 ## Related Entities
 
 [VendingMachine](VendingMachineEndpoints.md)
-
 [Currency](CurrencyEndpoints.md)

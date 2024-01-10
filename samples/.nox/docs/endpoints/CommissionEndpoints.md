@@ -79,7 +79,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Country
 - **DELETE** `/api/Commissions/{key}/CommissionFeesForCountry`
   - Description: Delete all existing Countries for a specific Commission.
-
 ### Booking
 
 #### Get Booking relations
@@ -125,7 +124,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Booking
 - **DELETE** `/api/Commissions/{key}/CommissionFeesForBooking`
   - Description: Delete all existing Bookings for a specific Commission.
-
 
 ## Other Related Endpoints
 
@@ -208,8 +206,8 @@ This document provides information about the various endpoints available in our 
 - **POST** `/api/Commissions/{commissionsKey}/Bookings/{bookingsKey}/Transaction/{transactionKey}/$ref`
 
 - **PUT** `/api/Commissions/{commissionsKey}/Bookings/{bookingsKey}/Transaction/{transactionKey}/$ref`
+
 ## Related Entities
 
 [Country](CountryEndpoints.md)
-
 [Booking](BookingEndpoints.md)

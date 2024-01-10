@@ -175,7 +175,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Workplace
 - **DELETE** `/api/v1/Countries/{key}/PhysicalWorkplaces`
   - Description: Delete all existing Workplaces for a specific Country.
-
 ### Store
 
 #### Get Store relations
@@ -236,7 +235,6 @@ This section details the API endpoints related to enumeration attributes in a sp
 
 - **PUT** `/api/v1/Countries/CountryContinentsLocalized`
   - **Description**: Update or create localized values of Continents for a specific Country. Requires a payload with the new values.
-
 
 ## Other Related Endpoints
 
@@ -371,8 +369,8 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **PUT** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/Clients/{clientsKey}/$ref`
 
 - **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/Clients/{clientsKey}/$ref`
+
 ## Related Entities
 
 [Workplace](WorkplaceEndpoints.md)
-
 [Store](StoreEndpoints.md)

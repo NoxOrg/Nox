@@ -79,7 +79,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Country
 - **DELETE** `/api/VendingMachines/{key}/VendingMachineInstallationCountry`
   - Description: Delete all existing Countries for a specific VendingMachine.
-
 ### LandLord
 
 #### Get LandLord relations
@@ -125,7 +124,6 @@ This document provides information about the various endpoints available in our 
 #### Delete LandLord
 - **DELETE** `/api/VendingMachines/{key}/VendingMachineContractedAreaLandLord`
   - Description: Delete all existing LandLords for a specific VendingMachine.
-
 ### Booking
 
 #### Get Booking relations
@@ -171,7 +169,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Booking
 - **DELETE** `/api/VendingMachines/{key}/VendingMachineRelatedBookings`
   - Description: Delete all existing Bookings for a specific VendingMachine.
-
 ### CashStockOrder
 
 #### Get CashStockOrder relations
@@ -217,7 +214,6 @@ This document provides information about the various endpoints available in our 
 #### Delete CashStockOrder
 - **DELETE** `/api/VendingMachines/{key}/VendingMachineRelatedCashStockOrders`
   - Description: Delete all existing CashStockOrders for a specific VendingMachine.
-
 ### MinimumCashStock
 
 #### Get MinimumCashStock relations
@@ -263,7 +259,6 @@ This document provides information about the various endpoints available in our 
 #### Delete MinimumCashStock
 - **DELETE** `/api/VendingMachines/{key}/VendingMachineRequiredMinimumCashStocks`
   - Description: Delete all existing MinimumCashStocks for a specific VendingMachine.
-
 
 ## Other Related Endpoints
 
@@ -360,14 +355,11 @@ This document provides information about the various endpoints available in our 
 - **POST** `/api/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/Employee/{employeeKey}/$ref`
 
 - **PUT** `/api/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/Employee/{employeeKey}/$ref`
+
 ## Related Entities
 
 [Country](CountryEndpoints.md)
-
 [LandLord](LandLordEndpoints.md)
-
 [Booking](BookingEndpoints.md)
-
 [CashStockOrder](CashStockOrderEndpoints.md)
-
 [MinimumCashStock](MinimumCashStockEndpoints.md)

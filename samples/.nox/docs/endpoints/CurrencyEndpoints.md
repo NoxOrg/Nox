@@ -129,7 +129,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Country
 - **DELETE** `/api/Currencies/{key}/CurrencyUsedByCountry`
   - Description: Delete all existing Countries for a specific Currency.
-
 ### MinimumCashStock
 
 #### Get MinimumCashStock relations
@@ -175,7 +174,6 @@ This document provides information about the various endpoints available in our 
 #### Delete MinimumCashStock
 - **DELETE** `/api/Currencies/{key}/CurrencyUsedByMinimumCashStocks`
   - Description: Delete all existing MinimumCashStocks for a specific Currency.
-
 
 ## Other Related Endpoints
 
@@ -256,8 +254,8 @@ This document provides information about the various endpoints available in our 
 - **PUT** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Customers/{customersKey}/$ref`
 
 - **DELETE** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Customers/{customersKey}/$ref`
+
 ## Related Entities
 
 [Country](CountryEndpoints.md)
-
 [MinimumCashStock](MinimumCashStockEndpoints.md)

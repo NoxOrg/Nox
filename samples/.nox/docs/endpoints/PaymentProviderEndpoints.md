@@ -80,7 +80,6 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/PaymentProviders/{key}/PaymentProviderRelatedPaymentDetails`
   - Description: Delete all existing PaymentDetails for a specific PaymentProvider.
 
-
 ## Other Related Endpoints
 
 - **GET** `/api/PaymentProviders/{paymentProvidersKey}/PaymentDetails/{paymentDetailsKey}/Customer`
@@ -96,6 +95,7 @@ This document provides information about the various endpoints available in our 
 - **POST** `/api/PaymentProviders/{paymentProvidersKey}/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/$ref`
 
 - **PUT** `/api/PaymentProviders/{paymentProvidersKey}/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/$ref`
+
 ## Related Entities
 
 [PaymentDetail](PaymentDetailEndpoints.md)

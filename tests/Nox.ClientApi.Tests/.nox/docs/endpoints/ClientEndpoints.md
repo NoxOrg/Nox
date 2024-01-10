@@ -80,7 +80,6 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/v1/Clients/{key}/ClientOf`
   - Description: Delete all existing Stores for a specific Client.
 
-
 ## Other Related Endpoints
 
 - **GET** `/api/v1/Clients/{clientsKey}/Stores/{storesKey}/Country`
@@ -234,6 +233,7 @@ This document provides information about the various endpoints available in our 
 - **PUT** `/api/v1/Clients/{clientsKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/SoldInCurrency/{soldInCurrencyKey}/$ref`
 
 - **DELETE** `/api/v1/Clients/{clientsKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/SoldInCurrency/{soldInCurrencyKey}/$ref`
+
 ## Related Entities
 
 [Store](StoreEndpoints.md)

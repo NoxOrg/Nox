@@ -79,7 +79,6 @@ This document provides information about the various endpoints available in our 
 #### Delete VendingMachine
 - **DELETE** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine`
   - Description: Delete all existing VendingMachines for a specific CashStockOrder.
-
 ### Employee
 
 #### Get Employee relations
@@ -125,7 +124,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Employee
 - **DELETE** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee`
   - Description: Delete all existing Employees for a specific CashStockOrder.
-
 
 ## Other Related Endpoints
 
@@ -208,8 +206,8 @@ This document provides information about the various endpoints available in our 
 - **PUT** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
 
 - **DELETE** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
+
 ## Related Entities
 
 [VendingMachine](VendingMachineEndpoints.md)
-
 [Employee](EmployeeEndpoints.md)

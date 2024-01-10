@@ -81,7 +81,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Country
 - **DELETE** `/api/v1/Stores/{key}/CountryOfTheStore`
   - Description: Delete all existing Countries for a specific Store.
-
 ### StoreOwner
 
 #### Get StoreOwner relations
@@ -127,7 +126,6 @@ This document provides information about the various endpoints available in our 
 #### Delete StoreOwner
 - **DELETE** `/api/v1/Stores/{key}/Ownership`
   - Description: Delete all existing StoreOwners for a specific Store.
-
 ### StoreLicense
 
 #### Get StoreLicense relations
@@ -173,7 +171,6 @@ This document provides information about the various endpoints available in our 
 #### Delete StoreLicense
 - **DELETE** `/api/v1/Stores/{key}/License`
   - Description: Delete all existing StoreLicenses for a specific Store.
-
 ### Client
 
 #### Get Client relations
@@ -319,12 +316,10 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **PUT** `/api/v1/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/SoldInCurrency/{soldInCurrencyKey}/$ref`
 
 - **DELETE** `/api/v1/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/SoldInCurrency/{soldInCurrencyKey}/$ref`
+
 ## Related Entities
 
 [Country](CountryEndpoints.md)
-
 [StoreOwner](StoreOwnerEndpoints.md)
-
 [StoreLicense](StoreLicenseEndpoints.md)
-
 [Client](ClientEndpoints.md)

@@ -80,7 +80,6 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/LandLords/{key}/ContractedAreasForVendingMachines`
   - Description: Delete all existing VendingMachines for a specific LandLord.
 
-
 ## Other Related Endpoints
 
 - **GET** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/Country`
@@ -174,6 +173,7 @@ This document provides information about the various endpoints available in our 
 - **PUT** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
 
 - **DELETE** `/api/LandLords/{landLordsKey}/VendingMachines/{vendingMachinesKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
+
 ## Related Entities
 
 [VendingMachine](VendingMachineEndpoints.md)

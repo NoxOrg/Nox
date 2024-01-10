@@ -79,7 +79,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Store
 - **DELETE** `/api/v1/StoreLicenses/{key}/StoreWithLicense`
   - Description: Delete all existing Stores for a specific StoreLicense.
-
 ### Currency
 
 #### Get Currency relations
@@ -125,7 +124,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Currency
 - **DELETE** `/api/v1/StoreLicenses/{key}/DefaultCurrency`
   - Description: Delete all existing Currencies for a specific StoreLicense.
-
 ### Currency
 
 #### Get Currency relations
@@ -171,7 +169,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Currency
 - **DELETE** `/api/v1/StoreLicenses/{key}/SoldInCurrency`
   - Description: Delete all existing Currencies for a specific StoreLicense.
-
 
 ## Other Related Endpoints
 
@@ -292,10 +289,9 @@ This document provides information about the various endpoints available in our 
 - **PUT** `/api/v1/StoreLicenses/{storeLicensesKey}/Store/{storeKey}/Clients/{clientsKey}/$ref`
 
 - **DELETE** `/api/v1/StoreLicenses/{storeLicensesKey}/Store/{storeKey}/Clients/{clientsKey}/$ref`
+
 ## Related Entities
 
 [Store](StoreEndpoints.md)
-
 [Currency](CurrencyEndpoints.md)
-
 [Currency](CurrencyEndpoints.md)

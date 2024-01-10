@@ -79,7 +79,6 @@ This document provides information about the various endpoints available in our 
 #### Delete PaymentDetail
 - **DELETE** `/api/Customers/{key}/CustomerRelatedPaymentDetails`
   - Description: Delete all existing PaymentDetails for a specific Customer.
-
 ### Booking
 
 #### Get Booking relations
@@ -125,7 +124,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Booking
 - **DELETE** `/api/Customers/{key}/CustomerRelatedBookings`
   - Description: Delete all existing Bookings for a specific Customer.
-
 ### Transaction
 
 #### Get Transaction relations
@@ -171,7 +169,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Transaction
 - **DELETE** `/api/Customers/{key}/CustomerRelatedTransactions`
   - Description: Delete all existing Transactions for a specific Customer.
-
 ### Country
 
 #### Get Country relations
@@ -217,7 +214,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Country
 - **DELETE** `/api/Customers/{key}/CustomerBaseCountry`
   - Description: Delete all existing Countries for a specific Customer.
-
 
 ## Other Related Endpoints
 
@@ -290,12 +286,10 @@ This document provides information about the various endpoints available in our 
 - **POST** `/api/Customers/{customersKey}/Country/{countryKey}/Currency/{currencyKey}/$ref`
 
 - **PUT** `/api/Customers/{customersKey}/Country/{countryKey}/Currency/{currencyKey}/$ref`
+
 ## Related Entities
 
 [PaymentDetail](PaymentDetailEndpoints.md)
-
 [Booking](BookingEndpoints.md)
-
 [Transaction](TransactionEndpoints.md)
-
 [Country](CountryEndpoints.md)

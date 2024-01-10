@@ -166,7 +166,7 @@ This section details the API endpoints related to enumeration attributes in a sp
 {{- for endpoint in relatedEndpoints}}
 {{- for verb in endpoint.Item2}}
 
-- **{{ToUpper verb}}** `{{apiRoutePrefix}}/{{endpoint.Item1}}`
+- **{{ verb | string.upcase }}** `{{apiRoutePrefix}}/{{endpoint.Item1}}`
 {{- end }}{{ end }}{{ end }}
 {{- if entity.Relationships | array.size > 0 }}
 

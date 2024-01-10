@@ -129,7 +129,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Currency
 - **DELETE** `/api/Countries/{key}/CountryUsedByCurrency`
   - Description: Delete all existing Currencies for a specific Country.
-
 ### Commission
 
 #### Get Commission relations
@@ -175,7 +174,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Commission
 - **DELETE** `/api/Countries/{key}/CountryUsedByCommissions`
   - Description: Delete all existing Commissions for a specific Country.
-
 ### VendingMachine
 
 #### Get VendingMachine relations
@@ -221,7 +219,6 @@ This document provides information about the various endpoints available in our 
 #### Delete VendingMachine
 - **DELETE** `/api/Countries/{key}/CountryUsedByVendingMachines`
   - Description: Delete all existing VendingMachines for a specific Country.
-
 ### Customer
 
 #### Get Customer relations
@@ -267,7 +264,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Customer
 - **DELETE** `/api/Countries/{key}/CountryUsedByCustomers`
   - Description: Delete all existing Customers for a specific Country.
-
 
 ## Other Related Endpoints
 
@@ -414,12 +410,10 @@ This document provides information about the various endpoints available in our 
 - **PUT** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/{transactionsKey}/$ref`
 
 - **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/{transactionsKey}/$ref`
+
 ## Related Entities
 
 [Currency](CurrencyEndpoints.md)
-
 [Commission](CommissionEndpoints.md)
-
 [VendingMachine](VendingMachineEndpoints.md)
-
 [Customer](CustomerEndpoints.md)

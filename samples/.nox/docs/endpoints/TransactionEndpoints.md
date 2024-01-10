@@ -79,7 +79,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Customer
 - **DELETE** `/api/Transactions/{key}/TransactionForCustomer`
   - Description: Delete all existing Customers for a specific Transaction.
-
 ### Booking
 
 #### Get Booking relations
@@ -125,7 +124,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Booking
 - **DELETE** `/api/Transactions/{key}/TransactionForBooking`
   - Description: Delete all existing Bookings for a specific Transaction.
-
 
 ## Other Related Endpoints
 
@@ -194,8 +192,8 @@ This document provides information about the various endpoints available in our 
 - **POST** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Country/{countryKey}/$ref`
 
 - **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Country/{countryKey}/$ref`
+
 ## Related Entities
 
 [Customer](CustomerEndpoints.md)
-
 [Booking](BookingEndpoints.md)

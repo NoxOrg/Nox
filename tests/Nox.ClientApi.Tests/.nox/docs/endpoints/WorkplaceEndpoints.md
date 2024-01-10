@@ -79,7 +79,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Country
 - **DELETE** `/api/v1/Workplaces/{key}/BelongsToCountry`
   - Description: Delete all existing Countries for a specific Workplace.
-
 ### Tenant
 
 #### Get Tenant relations
@@ -140,9 +139,9 @@ This section details the API endpoints related to enumeration attributes in a sp
 
 - **PUT** `/api/v1/Workplaces/WorkplaceOwnershipsLocalized`
   - **Description**: Update or create localized values of Ownerships for a specific Workplace. Requires a payload with the new values.
-
 - **GET** `/api/v1/Workplaces/WorkplaceTypes`
   - **Description**: Retrieve non-conventional values of Types for a specific Workplace.
+
 ## Localized Endpoints
 
 - **GET** `/api/v1/Workplaces/{key}/WorkplacesLocalized`
@@ -284,8 +283,8 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **PUT** `/api/v1/Workplaces/{workplacesKey}/Country/{countryKey}/Stores/{storesKey}/Clients/{clientsKey}/$ref`
 
 - **DELETE** `/api/v1/Workplaces/{workplacesKey}/Country/{countryKey}/Stores/{storesKey}/Clients/{clientsKey}/$ref`
+
 ## Related Entities
 
 [Country](CountryEndpoints.md)
-
 [Tenant](TenantEndpoints.md)

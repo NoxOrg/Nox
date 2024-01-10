@@ -287,6 +287,7 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **PUT** `/api/v1/Tenants/{tenantsKey}/Workplaces/{workplacesKey}/Country/{countryKey}/Stores/{storesKey}/Clients/{clientsKey}/$ref`
 
 - **DELETE** `/api/v1/Tenants/{tenantsKey}/Workplaces/{workplacesKey}/Country/{countryKey}/Stores/{storesKey}/Clients/{clientsKey}/$ref`
+
 ## Related Entities
 
 [Workplace](WorkplaceEndpoints.md)

@@ -79,7 +79,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Customer
 - **DELETE** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer`
   - Description: Delete all existing Customers for a specific PaymentDetail.
-
 ### PaymentProvider
 
 #### Get PaymentProvider relations
@@ -125,7 +124,6 @@ This document provides information about the various endpoints available in our 
 #### Delete PaymentProvider
 - **DELETE** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider`
   - Description: Delete all existing PaymentProviders for a specific PaymentDetail.
-
 
 ## Other Related Endpoints
 
@@ -194,8 +192,8 @@ This document provides information about the various endpoints available in our 
 - **POST** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Country/{countryKey}/$ref`
 
 - **PUT** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Country/{countryKey}/$ref`
+
 ## Related Entities
 
 [Customer](CustomerEndpoints.md)
-
 [PaymentProvider](PaymentProviderEndpoints.md)

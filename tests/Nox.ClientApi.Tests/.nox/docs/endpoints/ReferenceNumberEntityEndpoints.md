@@ -31,4 +31,3 @@ This document provides information about the various endpoints available in our 
 ### Delete ReferenceNumberEntity
 - **DELETE** `/api/v1/ReferenceNumberEntities/{key}`
   - Description: Delete an existing ReferenceNumberEntity.
-

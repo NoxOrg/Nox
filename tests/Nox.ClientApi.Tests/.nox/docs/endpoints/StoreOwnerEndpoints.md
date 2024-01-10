@@ -80,7 +80,6 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/v1/StoreOwners/{key}/Stores`
   - Description: Delete all existing Stores for a specific StoreOwner.
 
-
 ## Other Related Endpoints
 
 - **GET** `/api/v1/StoreOwners/{storeOwnersKey}/Stores/{storesKey}/Country`
@@ -240,6 +239,7 @@ This document provides information about the various endpoints available in our 
 - **PUT** `/api/v1/StoreOwners/{storeOwnersKey}/Stores/{storesKey}/Clients/{clientsKey}/$ref`
 
 - **DELETE** `/api/v1/StoreOwners/{storeOwnersKey}/Stores/{storesKey}/Clients/{clientsKey}/$ref`
+
 ## Related Entities
 
 [Store](StoreEndpoints.md)
