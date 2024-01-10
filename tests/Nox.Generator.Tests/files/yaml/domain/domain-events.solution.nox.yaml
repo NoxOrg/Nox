@@ -31,16 +31,6 @@ domain:
       events:
         - name: CountryNameUpdatedEvent
           description: Raised when the name of a country is changes
-          type: object
-          objectTypeOptions:
-            attributes:
-              - name: CountryId
-                description: The identifier of the country. The Iso Alpha2 code of the country
-                type: countryCode2
-                
-              - name: NewCountryName
-                description: The new name of the country
-                type: text
       
       keys:
 
