@@ -16,7 +16,7 @@ domain: true
 application: true
 
 # Generates application dtos/ contracts
-application-dto: true
+applicationDto: true
 
 # Generates persistence, DbContext and model configuration and mapping
 infrastructure: true
