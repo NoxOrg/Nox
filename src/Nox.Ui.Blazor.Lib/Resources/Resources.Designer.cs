@@ -68,5 +68,14 @@ namespace Nox.Ui.Blazor.Lib.Resources {
                 return ResourceManager.GetString("FieldIsRequired", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Latitude: {0}, Longitude: {1}.
+        /// </summary>
+        internal static string LatLongSummary {
+            get {
+                return ResourceManager.GetString("LatLongSummary", resourceCulture);
+            }
+        }
     }
 }

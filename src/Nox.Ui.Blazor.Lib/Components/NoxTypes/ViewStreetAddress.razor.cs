@@ -13,7 +13,7 @@ public partial class ViewStreetAddress : ComponentBase
     public StreetAddressModel? StreetAddress { get; set; }
 
     [Parameter]
-    public List<CountryModel>? CountrySelectionList { get; set; }
+    public List<CountryModel> CountrySelectionList { get; set; } = new();
 
     #endregion
 
@@ -39,8 +39,7 @@ public partial class ViewStreetAddress : ComponentBase
             AddNonEmpty(StreetAddress.PostalCode, streetAddressParts);
 
             if (!String.IsNullOrWhiteSpace(StreetAddress.CountryId.ToString()) 
-                && CountrySelectionList != null
-                && CountrySelectionList.Count > 0)
+                && CountrySelectionList.Any())
             {
                 CountryModel? foundCountry = CountrySelectionList.Find(Country => !string.IsNullOrEmpty(Country.Id) 
                 && Country.Id.Equals(StreetAddress!.CountryId.ToString()));

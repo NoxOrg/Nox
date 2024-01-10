@@ -138,8 +138,7 @@
                             DecimalSeparator = ".",
                             SpaceBetweenAmountAndSymbol = false,
                             DecimalDigits = 2
-                        };
-                        LatLongDto testLatLong = new LatLongDto((double)51.509865, (double)-0.118092);                        
+                        };                                                
                         LandLordDto testLandLord = new LandLordDto()
                         {
                             Name = "LandLord A"
@@ -167,9 +166,7 @@
                                   Dense="true">
                             <HeaderContent>                             
                                 <MudTh>Country</MudTh>
-                                <MudTh>Money</MudTh>
-                                <MudTh>Currency</MudTh>
-                                <MudTh>LatLong</MudTh>                                
+                                <MudTh>Currency</MudTh>                                                               
                                 <MudTh>EntityExactlyOne</MudTh>
                                 <MudTh>EntityZeroOrMany</MudTh>                          
                             </HeaderContent>
@@ -179,9 +176,6 @@
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <UiViewCurrency_g Currency="@testCurrency" />
-                                </MudTd>
-                                <MudTd Style="vertical-align:top;">
-                                    <UiViewLatLong_g LatLong="@testLatLong" />
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <UiViewEntityExactlyOneLandLord_g LandLord="@testLandLord" />

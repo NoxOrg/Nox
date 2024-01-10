@@ -1,5 +1,5 @@
-﻿@using Cryptocash.Ui.Generated.Component;
-@inherits UiEditLatLongBase
+﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using MudBlazor
 
 <MudGrid>
     <MudItem xs="6">
@@ -27,6 +27,6 @@
 @if (DisplayGoogleMap)
 {
     <div style="margin-top:30px;">
-        <UiEditGoogleMap_g LatLong="LatLong" LatLongChanged="OnLatLongChanged" />
+        <EditGoogleMap LatLong="LatLong" LatLongChanged="OnLatLongChanged" />
     </div>
 }

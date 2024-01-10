@@ -64,6 +64,7 @@
     {
         new CountryModel("GB", "Great Britain", "GBP")
     };
+    LatLongModel testLatLong = new LatLongModel(51.509865, -0.118092);
 
     #endregion
 
@@ -213,7 +214,14 @@
                                                             TitleAdministrativeArea2="AdministrativeArea2"
                                                             TitlePostalCode="PostalCode"
                                                             TitleCountryId="CountryId"
-                                                            CountrySelectionList="CountryModelData" />
+                                                            CountrySelectionList="@testCountryList" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditLatLong @bind-Latlong="@testLatLong"
+                                                            TitleLatitude="Latitude"
+                                                            TitleLongitude="Longitude"
+                                                            Format="#.########"
+                                                            DisplayGoogleMap="false" />
                                                     </MudItem>
                                                 </MudGrid>
                                     </MudItem>
@@ -272,6 +280,7 @@
                                 <MudTh>DateTimeRange</MudTh>
                                 <MudTh>DayOfWeek</MudTh>
                                 <MudTh>StreetAddress</MudTh>
+                                <MudTh>LatLong</MudTh>
                             </HeaderContent>
                             <RowTemplate> 
                                 <MudTd Style="vertical-align:top;">
@@ -333,6 +342,9 @@
                                 </MudTd>                                
                                 <MudTd Style="vertical-align:top;">
                                     <ViewStreetAddress StreetAddress="@testStreetAddress" CountrySelectionList="@testCountryList" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewLatLong LatLong="@testLatLong" />
                                 </MudTd>
                             </RowTemplate>
                             <NoRecordsContent>
