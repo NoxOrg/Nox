@@ -1,6 +1,6 @@
 ﻿using Nox.Solution;
 
-namespace Nox.Generator.Tasks.Common;
+namespace Nox.Generator.Common;
 
 internal interface INoxFileGenerator
 {

@@ -39,6 +39,7 @@
 //  - Infrastructure
 //  - Presentation
 //  - Application
+//  - ApplicationDto
 // Found Generators
 //  - Nox.Generator.Infrastructure.Persistence.DbContextGenerator
 //  - Nox.Generator.Infrastructure.Persistence.DtoDbContextGenerator
@@ -96,8 +97,6 @@
 //  - Nox.Generator.Application.Commands.UpdateCommandGenerator
 //  - Nox.Generator.Application.Commands.UpdateOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.UpsertEnumerationTranslationsCommandGenerator
-//  - Nox.Generator.Application.Commands.NavigationMenuGenerator
-//  - Nox.Generator.Application.Commands.NavigationMenuRazor
 // Nox.Generator.Presentation.Api.OData.NoxIntegrationControllerGenerator Skipping generator because no integrations defined
 // Nox.Generator.Application.Integration.CustomTransformHandlerGenerator Skipping generator because no integrations defined
 // Nox.Generator.Application.Integration.EtlEventGenerator Skipping generator because no integrations defined

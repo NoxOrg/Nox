@@ -1,4 +1,4 @@
-﻿using Nox.Generator.Tasks.Common;
+﻿using Nox.Generator.Common;
 using Nox.Solution;
 using System.Linq;
 
@@ -24,7 +24,7 @@ internal class NavigationMenuRazor : INoxFileGenerator
         var templateName = @"Ui.Components.NavigationMenuRazor";
         var entities = codeGeneratorState.Solution.Domain.Entities.Where(x => !x.IsOwnedEntity);
 
-        new TemplateFileBuilder(codeGeneratorState, absoluteOutputPath)
+        new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)
             .WithFileExtension("razor")
             .WithClassName($"NavigationMenu")
             .WithFileNamePrefix($"Ui.Components")

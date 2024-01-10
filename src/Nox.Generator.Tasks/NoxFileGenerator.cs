@@ -3,17 +3,13 @@ using System.IO;
 using System.Reflection;
 using System;
 using Nox.Solution;
-using Nox.Generator.Tasks.Common;
 using System.Linq;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
-using YamlDotNet.Core;
+using Nox.Generator.Common;
 
 namespace Nox.Generator.Tasks;
 
-public class NoxFileGenerator
+public class NoxFileGenerator: NoxGeneratorBase
 {
-    private readonly List<string> _errors = new();
     private readonly IEnumerable<string> _noxYamls = Array.Empty<string>();
     private readonly string? _projectRootDirectory;
     private readonly string _outputDirectory;
@@ -34,55 +30,39 @@ public class NoxFileGenerator
 
     public void GenerateFiles()
     {
-        var _debug = new CodeBuilder($"Generator.g.cs", AbsoluteOutputPath);
-        _errors.Clear();
+        var _debug = new TaskCodeBuilder($"Generator.g.cs", AbsoluteOutputPath);
+        List<string> errorCollection = new();
 
         _debug.AppendLine("/* Found files ->");
         _debug.AppendLine(string.Join("\r\n", _noxYamls.Select(path => $"- {Path.GetFileName(path)}")));
 
         try
         {
-            if (TryGetGeneratorConfig(out var config) && TryGetNoxSolution(out var solution))
+            if (TryGetGeneratorConfig(errorCollection, out var config) && TryGetNoxSolution(errorCollection, out var solution))
             {
                 _debug.AppendLine($"Logging Verbosity {config.LoggingVerbosity}");
 
                 var codeGeneratorState = new NoxCodeGenConventions(solution);
 
-                var generatorFlows = new (NoxGeneratorKind GeneratorKind, bool IsEnabled)[]
-                {
-                    (NoxGeneratorKind.None,true),
-                    (NoxGeneratorKind.Domain,config.Domain),
-                    (NoxGeneratorKind.Infrastructure,config.Infrastructure),
-                    (NoxGeneratorKind.Presentation,config.Presentation),
-                    (NoxGeneratorKind.Application,config.Application),
-                    (NoxGeneratorKind.Ui,config.Ui)
-                }
-                .Where(x => x.IsEnabled)
-                .Select(x => x.GeneratorKind)
-                .ToArray();
+                NoxGeneratorKind[] enabledGenerators = GetEnabledGenerators(config);
 
                 if (config.LoggingVerbosity == LoggingVerbosity.Diagnostic)
                 {
                     _debug.AppendLine($"Enabled Generators Types");
-                    _debug.AppendLine(string.Join("\r\n", generatorFlows.Select(flow => $"- {flow}")));
+                    _debug.AppendLine(string.Join("\r\n", enabledGenerators.Select(flow => $"- {flow}")));
                 }
 
-                var generatorInstances = Assembly
-                    .GetExecutingAssembly()
-                    .GetTypes()
-                    .Where(x => x.IsClass && !x.IsAbstract && typeof(INoxFileGenerator).IsAssignableFrom(x))
-                    .Select(x => (INoxFileGenerator)Activator.CreateInstance(x))
-                    .ToArray();
+                INoxFileGenerator[] generators = GetGenerators();
 
                 if (config.LoggingVerbosity == LoggingVerbosity.Diagnostic)
                 {
                     _debug.AppendLine($"Found Generators");
-                    _debug.AppendLine(string.Join("\r\n", generatorInstances.Select(i => $"- {i}")));
+                    _debug.AppendLine(string.Join("\r\n", generators.Select(i => $"- {i}")));
                 }
 
-                foreach (var flow in generatorFlows)
+                foreach (var flow in enabledGenerators)
                 {
-                    foreach (var flowInstance in generatorInstances.Where(x => x.GeneratorKind == flow))
+                    foreach (var flowInstance in generators.Where(x => x.GeneratorKind == flow))
                     {
                         flowInstance.Generate(
                             codeGeneratorState,
@@ -96,13 +76,13 @@ public class NoxFileGenerator
         }
         catch (Exception e)
         {
-            _errors.Add(e.Message + e.StackTrace);
+            errorCollection.Add(e.Message + e.StackTrace);
         }
 
-        if (_errors.Any())
+        if (errorCollection.Any())
         {
             _debug.AppendLine("Errors ->");
-            foreach (var e in _errors)
+            foreach (var e in errorCollection)
             {
                 _debug.AppendLine($"- {e}");
             }
@@ -116,7 +96,17 @@ public class NoxFileGenerator
         _debug.GenerateSourceCode();
     }
 
-    private bool TryGetGeneratorConfig(out GeneratorConfig config)
+    private static INoxFileGenerator[] GetGenerators()
+    {
+        return Assembly
+            .GetExecutingAssembly()
+            .GetTypes()
+            .Where(x => x.IsClass && !x.IsAbstract && typeof(INoxFileGenerator).IsAssignableFrom(x))
+            .Select(x => (INoxFileGenerator)Activator.CreateInstance(x))
+            .ToArray();
+    }
+
+    private bool TryGetGeneratorConfig(IList<string> errorCollection, out GeneratorConfig config)
     {
         config = null!;
 
@@ -131,7 +121,7 @@ public class NoxFileGenerator
 
         if (configFilesAndContent.Count() > 1)
         {
-            _errors.Add("More than one *generator.nox.yaml found in project.");
+            errorCollection.Add("More than one *generator.nox.yaml found in project.");
             return false;
         }
 
@@ -139,34 +129,14 @@ public class NoxFileGenerator
 
         if (configContent is null)
         {
-            _errors.Add($"Error loading config file contents from {configFilesAndContent.First()}.");
+            errorCollection.Add($"Error loading config file contents from {configFilesAndContent.First()}.");
             return false;
         }
 
-        try
-        {
-            var deserializer = new DeserializerBuilder()
-                .WithNamingConvention(CamelCaseNamingConvention.Instance)
-            .Build();
-
-            config = deserializer.Deserialize<GeneratorConfig>(configContent);
-            config.Validate();
-        }
-        catch (YamlException e)
-        {
-            _errors.Add(e.Message);
-            if (e.InnerException is not null)
-            {
-                _errors.Add(e.InnerException.Message);
-            }
-
-            return false;
-        }
-
-        return true;
+        return DesirializeGeneratorConfig(configContent, errorCollection, out config);
     }
 
-    private bool TryGetNoxSolution(out NoxSolution solution)
+    private bool TryGetNoxSolution(List<string> errorCollection, out NoxSolution solution)
     {
         solution = null!;
 
@@ -175,39 +145,22 @@ public class NoxFileGenerator
 
         if (!solutionFilePaths.Any())
         {
-            _errors.Add("No *.solution.nox.yaml files found.");
+            errorCollection.Add("No *.solution.nox.yaml files found.");
             return false;
         }
 
         if (solutionFilePaths.Count() > 1)
         {
-            _errors.Add("More than one *.solution.nox.yaml found.");
+            errorCollection.Add("More than one *.solution.nox.yaml found.");
             return false;
         }
 
-        try
-        {
-            var yamlsFilesAndContent = _noxYamls.ToDictionary(
+        var solutionYamlFiles = _noxYamls.ToDictionary(
                 item => item,
                 item => new Func<TextReader>(() => new StringReader(File.ReadAllText(item)))
             );
 
-            solution = new NoxSolutionBuilder()
-                .WithYamlFilesAndContent(yamlsFilesAndContent)
-                .Build();
-        }
-        catch (YamlException e)
-        {
-            _errors.Add(e.Message);
-            if (e.InnerException is not null)
-            {
-                _errors.Add(e.InnerException.Message);
-            }
-
-            return false;
-        }
-
-        return true;
+        return TryCreateSolution(errorCollection, ref solution, solutionYamlFiles);
     }
 
     private string? GetProjectRootDirectory()

@@ -10,22 +10,25 @@ using System.Reflection;
 
 namespace Nox.Generator.Common;
 
-internal abstract class TemplateBuilderBase
+public abstract class TemplateBuilderBase
 {
-    private static readonly Assembly Assembly = Assembly.GetExecutingAssembly();
+    private readonly Assembly _assemblyWithTemplates;
 
     private readonly NoxCodeGenConventions _noxCodeGenConventions;
-
+    
     private readonly Dictionary<string, object> _model;
 
     private string? _className;
     private string? _fileNamePrefix;
     private string? _fileNameSuffix;
+    private readonly string _fileExtension;
 
-    protected TemplateBuilderBase(NoxCodeGenConventions noxCodeGenConventions)
+    protected TemplateBuilderBase(NoxCodeGenConventions noxCodeGenConventions, string fileExtension = "template.cs")
     {
-        _noxCodeGenConventions = noxCodeGenConventions;
+        _assemblyWithTemplates = Assembly.GetCallingAssembly();
 
+        _noxCodeGenConventions = noxCodeGenConventions;
+        _fileExtension = fileExtension;
         _model = new Dictionary<string, object>
         {
             ["codeGeneratorState"] = _noxCodeGenConventions,
@@ -84,15 +87,14 @@ internal abstract class TemplateBuilderBase
     /// <returns></returns>
     public TemplateBuilderBase GenerateSourceCodeFromResource(string templateFileName)
     {
-        var resourceName = $"Nox.Generator.{templateFileName}.template.cs";
+        var resourceName = $"Nox.Generator.{templateFileName}.{_fileExtension}";
 
         _className ??= ComputeDefaultClassName(templateFileName);
 
         _model["className"] = _className;
         
         string template;
-
-        using (var stream = Assembly.GetManifestResourceStream(resourceName)!)
+        using (var stream = _assemblyWithTemplates.GetManifestResourceStream(resourceName)!)
         using (var reader = new StreamReader(stream))
         {
             template = reader.ReadToEnd();
