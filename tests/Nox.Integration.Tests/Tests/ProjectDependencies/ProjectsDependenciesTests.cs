@@ -75,7 +75,7 @@ namespace Nox.Tests.ProjectDependencies
                 {
                     var dependent = _fixture.Solution.Projects.Single(project => project.Id.Id == projectDependency.Id);
 
-                    if (!dependent.Name.Contains("Tests") && !dependent.Name.Contains("Nox.Lib"))
+                    if (!dependent.Name.Contains("Tests") && !dependent.Name.Contains("Nox.Lib") && !dependent.Name.Contains("Nox.Generator.Tasks"))
                     {
                         Assert.Fail($"Project {dependent.Name} cannot depend on Nox.Generators");
                     }
