@@ -15,7 +15,6 @@ internal class LanguageQueryParameterOperationFilter : IOperationFilter
                 Name = QueryParams.Language,
                 Description = "language parameter",
                 In = ParameterLocation.Query,
-                Style = ParameterStyle.Simple,
                 Schema = new OpenApiSchema
                 {
                     Type = "string",
