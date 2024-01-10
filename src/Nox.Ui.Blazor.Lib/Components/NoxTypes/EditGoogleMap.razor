@@ -1,5 +1,4 @@
-﻿@using Cryptocash.Ui.Generated.Component;
-@inherits UiEditGoogleMapBase
+﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
 
 <script>
     var oldMarker, dotNetHelper;
@@ -7,7 +6,7 @@
     var defaultLng;
     var addDefaultMarker = false;
 
-    function updateDefaultLatLong(lat, lng, defaultMarker){
+    function updateDefaultLatLong(lat, lng, defaultMarker) {
         defaultLat = lat;
         defaultLng = lng;
         addDefaultMarker = defaultMarker;
@@ -27,7 +26,7 @@
 
         map.addListener("click", (mapsMouseEvent) => {
 
-            placeMarker(mapsMouseEvent.latLng);        
+            placeMarker(mapsMouseEvent.latLng);
 
             PlaceMarkerCallbackHelpers.performPlaceMarker(mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng());
 
@@ -48,8 +47,8 @@
             map.setCenter(location);
 
         }
-    }  
-    
+    }
+
     class PlaceMarkerCallbackHelpers {
         static dotNetHelper;
 
@@ -64,7 +63,7 @@
 
     window.PlaceMarkerCallbackHelpers = PlaceMarkerCallbackHelpers;
 
-</script>   
+</script>
 
 <style>
     #map {
@@ -75,6 +74,6 @@
         position: relative;
         height: 0;
     }
-</style> 
+</style>
 
 <div id="map"></div>

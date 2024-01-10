@@ -154,6 +154,11 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         public StreetAddressModel? CurrentAddEntityStreetAddress { get; set; }
 
         /// <summary>
+        /// Property CurrentAddEntityLatLong used as a temporary storage whilst adding entity to api
+        /// </summary>
+        public LatLongModel? CurrentAddEntityLatLong { get; set; }
+
+        /// <summary>
         /// Property AddEntityValidateSuccess used to ensure form passed dataannotation validation before proceeding
         /// </summary>
         public bool AddEntityValidateSuccess { get; set; } = false;
@@ -187,6 +192,11 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// Property CurrentEditEntityStreetAddress used as a temporary storage whilst updating entity via api
         /// </summary>
         public StreetAddressModel? CurrentEditEntityStreetAddress { get; set; }
+
+        /// <summary>
+        /// Property CurrentEditEntityLatLong used as a temporary storage whilst updating entity via api
+        /// </summary>
+        public LatLongModel? CurrentEditEntityLatLong { get; set; }
 
         /// <summary>
         /// Property CurrentEditEntityId used as a temporary storage whilst updating entity via api
@@ -418,7 +428,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
 
                 PagedData = testData;
 
-                await GetAllCountries();
+                //await GetAllCountries();
             }
 
             if (CurrentEntityName == "VendingMachine") //TODO just VendingMachine for now
@@ -1223,6 +1233,26 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             return null;
         }
 
+        private LatLongDto? ConvertLatLongModeltoDto(LatLongModel? latLong)
+        {
+            if (latLong != null)
+            {
+                return new(latLong.Latitude, latLong.Longitude);
+            }
+
+            return null;
+        }
+
+        private LatLongModel? ConvertDtotoLatLongModel(LatLongDto? latLong)
+        {
+            if (latLong != null)
+            {
+                return new(latLong.Latitude, latLong.Longitude);
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// GENERATOR RELATED: Bespoke Class for CreateT to add Model Entities before Add Submit
         /// </summary>
@@ -1245,6 +1275,14 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                     && tempStreetAddress != null)
                 {
                     propStreetAddress.SetValue(CurrentAddEntity, tempStreetAddress);
+                }
+
+                PropertyInfo? propLatLong = t.GetProperty("GeoLocation");
+                LatLongDto? tempLatLong = ConvertLatLongModeltoDto(CurrentAddEntityLatLong);
+                if (propLatLong != null
+                    && tempLatLong != null)
+                {
+                    propLatLong.SetValue(CurrentAddEntity, tempLatLong);
                 }
             }            
         }
@@ -1272,6 +1310,14 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                 {
                     propStreetAddress.SetValue(CurrentEditEntity, tempStreetAddress);
                 }
+
+                PropertyInfo? propLatLong = t.GetProperty("GeoLocation");
+                LatLongDto? tempLatLong = ConvertLatLongModeltoDto(CurrentEditEntityLatLong);
+                if (propLatLong != null
+                    && tempLatLong != null)
+                {
+                    propLatLong.SetValue(CurrentEditEntity, tempLatLong);
+                }
             }
         }
 
@@ -1285,11 +1331,17 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             {
                 PropertyInfo? propStreetAddress = t.GetProperty("StreetAddress");
                 var getStreetAddress = propStreetAddress?.GetValue(CurrentEditEntity);
-
                 if (getStreetAddress != null)
                 {
                     CurrentEditEntityStreetAddress = ConvertDtotoStreetAddressModel((StreetAddressDto)getStreetAddress);
-                }                
+                }
+
+                PropertyInfo? propLatLong = t.GetProperty("GeoLocation");
+                var getLatLong = propLatLong?.GetValue(CurrentEditEntity);
+                if (getLatLong != null)
+                {
+                    CurrentEditEntityLatLong = ConvertDtotoLatLongModel((LatLongDto)getLatLong);
+                }
             }
         }
 
@@ -1297,12 +1349,14 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         {
             CurrentAddEntityRentPerSquareMetre = null;
             CurrentAddEntityStreetAddress = null;
+            CurrentAddEntityLatLong = null;
         }
 
         private void ResetEditModels()
         {
             CurrentEditEntityRentPerSquareMetre = null;
             CurrentEditEntityStreetAddress = null;
+            CurrentEditEntityLatLong = null;
         }
 
         #endregion

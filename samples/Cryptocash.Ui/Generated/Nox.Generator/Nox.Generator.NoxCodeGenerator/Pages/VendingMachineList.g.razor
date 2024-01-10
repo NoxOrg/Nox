@@ -124,7 +124,7 @@
                                                 <MudGrid Style="margin-top:15px;">
                                                     @if(DisplayGoogleMap){
                                                         <MudItem xs=12 sm=6>
-                                                            <UiEditLatLong_g @bind-Latlong="CurrentAddEntity.GeoLocation"
+                                                            <EditLatLong @bind-Latlong="CurrentAddEntityLatLong"
                                                                              TitleLatitude="Latitude"
                                                                              TitleLongitude="Longitude"
                                                                              Format="#.########"
@@ -148,7 +148,7 @@
                                                     else
                                                     {
                                                         <MudItem xs=12>
-                                                            <UiEditLatLong_g @bind-Latlong="CurrentAddEntity.GeoLocation"
+                                                            <EditLatLong @bind-Latlong="CurrentAddEntityLatLong"
                                                                              TitleLatitude="Latitude"
                                                                              TitleLongitude="Longitude"
                                                                              Format="#.########"
@@ -266,7 +266,7 @@
                                                     @if (DisplayGoogleMap)
                                                     {
                                                         <MudItem xs=12 sm=6>
-                                                            <UiEditLatLong_g @bind-Latlong="CurrentEditEntity.GeoLocation"
+                                                            <EditLatLong @bind-Latlong="CurrentEditEntityLatLong"
                                                                              TitleLatitude="Latitude"
                                                                              TitleLongitude="Longitude"
                                                                              Format="#.########"
@@ -290,7 +290,7 @@
                                                     else
                                                     {
                                                         <MudItem xs=12>
-                                                            <UiEditLatLong_g @bind-Latlong="CurrentEditEntity.GeoLocation"
+                                                            <EditLatLong @bind-Latlong="CurrentEditEntityLatLong"
                                                                              TitleLatitude="Latitude"
                                                                              TitleLongitude="Longitude"
                                                                              Format="#.########"
