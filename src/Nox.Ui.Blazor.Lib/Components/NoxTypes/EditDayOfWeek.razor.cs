@@ -72,6 +72,6 @@ public partial class EditDayOfWeek : ComponentBase
 
     protected static string ErrorRequiredMessage(string? currentTitle)
     {
-        return currentTitle + " is required";
+        return string.Format(Resources.Resources.FieldIsRequired, currentTitle).Trim();
     }
 }

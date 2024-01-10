@@ -35,7 +35,7 @@ public partial class EditMoney : ComponentBase
     {
         get
         {
-            return Title + " is required";
+            return string.Format(Resources.Resources.FieldIsRequired, Title).Trim();
         }
     }
 

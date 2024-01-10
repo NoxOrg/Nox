@@ -35,7 +35,7 @@ public partial class EditText : ComponentBase
     {
         if (arg != null
             && arg.Length < MinLength)
-            return String.Format("{0} is required and must be at least {1} characters long", Title, MinLength.ToString());
+            return String.Format(Resources.Resources.TextValidateLength, Title, MinLength.ToString()).Trim();
         return String.Empty;
     }
 }
