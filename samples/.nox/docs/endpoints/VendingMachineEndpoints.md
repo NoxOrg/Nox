@@ -79,7 +79,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Country
 - **DELETE** `/api/VendingMachines/{key}/VendingMachineInstallationCountry`
   - Description: Delete all existing Countries for a specific VendingMachine.
-
 ### LandLord
 
 #### Get LandLord relations
@@ -125,7 +124,6 @@ This document provides information about the various endpoints available in our 
 #### Delete LandLord
 - **DELETE** `/api/VendingMachines/{key}/VendingMachineContractedAreaLandLord`
   - Description: Delete all existing LandLords for a specific VendingMachine.
-
 ### Booking
 
 #### Get Booking relations
@@ -171,7 +169,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Booking
 - **DELETE** `/api/VendingMachines/{key}/VendingMachineRelatedBookings`
   - Description: Delete all existing Bookings for a specific VendingMachine.
-
 ### CashStockOrder
 
 #### Get CashStockOrder relations
@@ -217,7 +214,6 @@ This document provides information about the various endpoints available in our 
 #### Delete CashStockOrder
 - **DELETE** `/api/VendingMachines/{key}/VendingMachineRelatedCashStockOrders`
   - Description: Delete all existing CashStockOrders for a specific VendingMachine.
-
 ### MinimumCashStock
 
 #### Get MinimumCashStock relations
@@ -264,15 +260,106 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/VendingMachines/{key}/VendingMachineRequiredMinimumCashStocks`
   - Description: Delete all existing MinimumCashStocks for a specific VendingMachine.
 
+## Other Related Endpoints
+
+- **GET** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Currency`
+
+- **POST** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Currency`
+
+- **PUT** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Currency`
+
+- **PATCH** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Currency`
+
+- **GET** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Currency/$ref`
+
+- **POST** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Currency/{currencyKey}/$ref`
+
+- **PUT** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Currency/{currencyKey}/$ref`
+
+- **GET** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Commissions`
+
+- **POST** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Commissions`
+
+- **DELETE** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Commissions`
+
+- **GET** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Commissions/{commissionsKey}`
+
+- **PUT** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Commissions/{commissionsKey}`
+
+- **PATCH** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Commissions/{commissionsKey}`
+
+- **DELETE** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Commissions/{commissionsKey}`
+
+- **GET** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Commissions/$ref`
+
+- **PUT** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Commissions/$ref`
+
+- **DELETE** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Commissions/$ref`
+
+- **POST** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Commissions/{commissionsKey}/$ref`
+
+- **PUT** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Commissions/{commissionsKey}/$ref`
+
+- **DELETE** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Commissions/{commissionsKey}/$ref`
+
+- **GET** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Customers`
+
+- **POST** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Customers`
+
+- **DELETE** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Customers`
+
+- **GET** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Customers/{customersKey}`
+
+- **PUT** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Customers/{customersKey}`
+
+- **PATCH** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Customers/{customersKey}`
+
+- **DELETE** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Customers/{customersKey}`
+
+- **GET** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Customers/$ref`
+
+- **PUT** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Customers/$ref`
+
+- **DELETE** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Customers/$ref`
+
+- **POST** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Customers/{customersKey}/$ref`
+
+- **PUT** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Customers/{customersKey}/$ref`
+
+- **DELETE** `/api/VendingMachines/{vendingMachinesKey}/Country/{countryKey}/Customers/{customersKey}/$ref`
+
+- **GET** `/api/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}/Transaction`
+
+- **POST** `/api/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}/Transaction`
+
+- **PUT** `/api/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}/Transaction`
+
+- **PATCH** `/api/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}/Transaction`
+
+- **GET** `/api/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}/Transaction/$ref`
+
+- **POST** `/api/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}/Transaction/{transactionKey}/$ref`
+
+- **PUT** `/api/VendingMachines/{vendingMachinesKey}/Bookings/{bookingsKey}/Transaction/{transactionKey}/$ref`
+
+- **GET** `/api/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/Employee`
+
+- **POST** `/api/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/Employee`
+
+- **PUT** `/api/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/Employee`
+
+- **PATCH** `/api/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/Employee`
+
+- **GET** `/api/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/Employee/$ref`
+
+- **POST** `/api/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/Employee/{employeeKey}/$ref`
+
+- **PUT** `/api/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/Employee/{employeeKey}/$ref`
+
 ## Related Entities
 
 [Country](CountryEndpoints.md)
-
 [LandLord](LandLordEndpoints.md)
-
 [Booking](BookingEndpoints.md)
-
 [CashStockOrder](CashStockOrderEndpoints.md)
-
 [MinimumCashStock](MinimumCashStockEndpoints.md)
-

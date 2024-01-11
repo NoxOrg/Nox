@@ -79,7 +79,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Customer
 - **DELETE** `/api/Transactions/{key}/TransactionForCustomer`
   - Description: Delete all existing Customers for a specific Transaction.
-
 ### Booking
 
 #### Get Booking relations
@@ -126,9 +125,75 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Transactions/{key}/TransactionForBooking`
   - Description: Delete all existing Bookings for a specific Transaction.
 
+## Other Related Endpoints
+
+- **GET** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails`
+
+- **POST** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails`
+
+- **DELETE** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails`
+
+- **GET** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}`
+
+- **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}`
+
+- **PATCH** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}`
+
+- **DELETE** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}`
+
+- **GET** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/$ref`
+
+- **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/$ref`
+
+- **DELETE** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/$ref`
+
+- **POST** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}/$ref`
+
+- **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}/$ref`
+
+- **DELETE** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}/$ref`
+
+- **GET** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings`
+
+- **POST** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings`
+
+- **DELETE** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings`
+
+- **GET** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/{bookingsKey}`
+
+- **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/{bookingsKey}`
+
+- **PATCH** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/{bookingsKey}`
+
+- **DELETE** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/{bookingsKey}`
+
+- **GET** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/$ref`
+
+- **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/$ref`
+
+- **DELETE** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/$ref`
+
+- **POST** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/{bookingsKey}/$ref`
+
+- **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/{bookingsKey}/$ref`
+
+- **DELETE** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/{bookingsKey}/$ref`
+
+- **GET** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Country`
+
+- **POST** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Country`
+
+- **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Country`
+
+- **PATCH** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Country`
+
+- **GET** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Country/$ref`
+
+- **POST** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Country/{countryKey}/$ref`
+
+- **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Country/{countryKey}/$ref`
+
 ## Related Entities
 
 [Customer](CustomerEndpoints.md)
-
 [Booking](BookingEndpoints.md)
-

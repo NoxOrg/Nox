@@ -114,27 +114,25 @@ This document provides information about the various endpoints available in our 
 #### Delete {{relationship.Entity}}
 - **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{relationship.Name}}`
   - Description: Delete all existing {{relationship.EntityPlural}} for a specific {{entity.Name}}.
-{{ end }}{{ end }}{{ end }}{{ end -}}
-{{ end }}{{ if entity.Commands | array.size > 0 }}
+{{- end }}{{ end }}{{ end }}{{ end }}{{ end }}
+{{- if entity.Commands | array.size > 0 }}
+
 ## Custom Commands
 {{ for command in entity.Commands }}
 ### {{command.Name}}
 - **POST** `/{{command.Name}}`
   - Description: {{command.Description}}
-{{ end -}}
-{{ end}}{{ if entity.Queries | array.size > 0 }}
+{{- end }}{{ end }}
+{{- if entity.Queries | array.size > 0 }}
+
 ## Custom Queries
 {{ for query in entity.Queries }}
 ### {{query.Name}}
 - **GET** `/{{query.Name}}`
   - Description: {{query.Description}}
-{{ end -}}
-{{ end}}{{ if entity.Relationships | array.size > 0 }}
-## Related Entities
-{{ for relationship in entity.Relationships }}
-[{{relationship.Entity}}]({{relationship.Entity}}Endpoints.md)
-{{ end -}}
-{{ end -}}{{ if enumerationAttributes | array.size > 0 }}
+{{- end }}{{ end }}
+{{- if enumerationAttributes | array.size > 0 }}
+
 ## Enumerations Endpoints
 
 This section details the API endpoints related to enumeration attributes in a specific {{entity.Name}}.
@@ -151,8 +149,8 @@ This section details the API endpoints related to enumeration attributes in a sp
 
 - **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
   - **Description**: Update or create localized values of {{Pluralize(enumAtt.Attribute.Name)}} for a specific {{entity.Name}}. Requires a payload with the new values.
-{{end}}{{end}}{{end}}
-{{~ if entity.IsLocalized || entity.HasLocalizedOwnedRelationships ~}}
+{{- end}}{{end}}{{end}}
+{{- if entity.IsLocalized || entity.HasLocalizedOwnedRelationships }}
 ## Localized Endpoints
 {{~ end ~}}
 {{~ if entity.IsLocalized ~}}
@@ -168,3 +166,17 @@ This section details the API endpoints related to enumeration attributes in a sp
     - Description: Update or create value of {{localizedRelationship.OwnedEntity.Name}}Localized for a specific {{entity.Name}}. Requires a payload with the new value of {{localizedRelationship.OwnedEntity.Name}}LocalizedUpsertDto.
 {{~ end ~}}
 {{~ end ~}}
+{{- if relatedEndpoints | array.size > 0 }}
+
+## Other Related Endpoints
+{{- for endpoint in relatedEndpoints}}
+{{- for verb in endpoint.Item2}}
+
+- **{{ verb | string.upcase }}** `{{apiRoutePrefix}}/{{endpoint.Item1}}`
+{{- end }}{{ end }}{{ end }}
+{{- if entity.Relationships | array.size > 0 }}
+
+## Related Entities
+{{ for relationship in entity.Relationships }}
+[{{relationship.Entity}}]({{relationship.Entity}}Endpoints.md)
+{{- end }}{{ end }}

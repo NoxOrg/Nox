@@ -79,7 +79,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Customer
 - **DELETE** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer`
   - Description: Delete all existing Customers for a specific PaymentDetail.
-
 ### PaymentProvider
 
 #### Get PaymentProvider relations
@@ -126,9 +125,75 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider`
   - Description: Delete all existing PaymentProviders for a specific PaymentDetail.
 
+## Other Related Endpoints
+
+- **GET** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Bookings`
+
+- **POST** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Bookings`
+
+- **DELETE** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Bookings`
+
+- **GET** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Bookings/{bookingsKey}`
+
+- **PUT** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Bookings/{bookingsKey}`
+
+- **PATCH** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Bookings/{bookingsKey}`
+
+- **DELETE** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Bookings/{bookingsKey}`
+
+- **GET** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Bookings/$ref`
+
+- **PUT** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Bookings/$ref`
+
+- **DELETE** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Bookings/$ref`
+
+- **POST** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Bookings/{bookingsKey}/$ref`
+
+- **PUT** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Bookings/{bookingsKey}/$ref`
+
+- **DELETE** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Bookings/{bookingsKey}/$ref`
+
+- **GET** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Transactions`
+
+- **POST** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Transactions`
+
+- **DELETE** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Transactions`
+
+- **GET** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Transactions/{transactionsKey}`
+
+- **PUT** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Transactions/{transactionsKey}`
+
+- **PATCH** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Transactions/{transactionsKey}`
+
+- **DELETE** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Transactions/{transactionsKey}`
+
+- **GET** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Transactions/$ref`
+
+- **PUT** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Transactions/$ref`
+
+- **DELETE** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Transactions/$ref`
+
+- **POST** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Transactions/{transactionsKey}/$ref`
+
+- **PUT** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Transactions/{transactionsKey}/$ref`
+
+- **DELETE** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Transactions/{transactionsKey}/$ref`
+
+- **GET** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Country`
+
+- **POST** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Country`
+
+- **PUT** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Country`
+
+- **PATCH** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Country`
+
+- **GET** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Country/$ref`
+
+- **POST** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Country/{countryKey}/$ref`
+
+- **PUT** `/api/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/Country/{countryKey}/$ref`
+
 ## Related Entities
 
 [Customer](CustomerEndpoints.md)
-
 [PaymentProvider](PaymentProviderEndpoints.md)
-

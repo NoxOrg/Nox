@@ -175,7 +175,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Workplace
 - **DELETE** `/api/v1/Countries/{key}/PhysicalWorkplaces`
   - Description: Delete all existing Workplaces for a specific Country.
-
 ### Store
 
 #### Get Store relations
@@ -222,12 +221,6 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/v1/Countries/{key}/StoresInTheCountry`
   - Description: Delete all existing Stores for a specific Country.
 
-## Related Entities
-
-[Workplace](WorkplaceEndpoints.md)
-
-[Store](StoreEndpoints.md)
-
 ## Enumerations Endpoints
 
 This section details the API endpoints related to enumeration attributes in a specific Country.
@@ -243,3 +236,141 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **PUT** `/api/v1/Countries/CountryContinentsLocalized`
   - **Description**: Update or create localized values of Continents for a specific Country. Requires a payload with the new values.
 
+## Other Related Endpoints
+
+- **GET** `/api/v1/Countries/{countriesKey}/Workplaces/{workplacesKey}/Tenants`
+
+- **POST** `/api/v1/Countries/{countriesKey}/Workplaces/{workplacesKey}/Tenants`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Workplaces/{workplacesKey}/Tenants`
+
+- **GET** `/api/v1/Countries/{countriesKey}/Workplaces/{workplacesKey}/Tenants/{tenantsKey}`
+
+- **PUT** `/api/v1/Countries/{countriesKey}/Workplaces/{workplacesKey}/Tenants/{tenantsKey}`
+
+- **PATCH** `/api/v1/Countries/{countriesKey}/Workplaces/{workplacesKey}/Tenants/{tenantsKey}`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Workplaces/{workplacesKey}/Tenants/{tenantsKey}`
+
+- **GET** `/api/v1/Countries/{countriesKey}/Workplaces/{workplacesKey}/Tenants/$ref`
+
+- **PUT** `/api/v1/Countries/{countriesKey}/Workplaces/{workplacesKey}/Tenants/$ref`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Workplaces/{workplacesKey}/Tenants/$ref`
+
+- **POST** `/api/v1/Countries/{countriesKey}/Workplaces/{workplacesKey}/Tenants/{tenantsKey}/$ref`
+
+- **PUT** `/api/v1/Countries/{countriesKey}/Workplaces/{workplacesKey}/Tenants/{tenantsKey}/$ref`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Workplaces/{workplacesKey}/Tenants/{tenantsKey}/$ref`
+
+- **GET** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreOwner`
+
+- **POST** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreOwner`
+
+- **PUT** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreOwner`
+
+- **PATCH** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreOwner`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreOwner`
+
+- **GET** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreOwner/$ref`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreOwner/$ref`
+
+- **POST** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreOwner/{storeOwnerKey}/$ref`
+
+- **PUT** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreOwner/{storeOwnerKey}/$ref`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreOwner/{storeOwnerKey}/$ref`
+
+- **GET** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense`
+
+- **POST** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense`
+
+- **PUT** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense`
+
+- **PATCH** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense`
+
+- **GET** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/$ref`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/$ref`
+
+- **POST** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/$ref`
+
+- **PUT** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/$ref`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/$ref`
+
+- **GET** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/DefaultCurrency`
+
+- **POST** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/DefaultCurrency`
+
+- **PUT** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/DefaultCurrency`
+
+- **PATCH** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/DefaultCurrency`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/DefaultCurrency`
+
+- **GET** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/DefaultCurrency/$ref`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/DefaultCurrency/$ref`
+
+- **POST** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/DefaultCurrency/{defaultCurrencyKey}/$ref`
+
+- **PUT** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/DefaultCurrency/{defaultCurrencyKey}/$ref`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/DefaultCurrency/{defaultCurrencyKey}/$ref`
+
+- **GET** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/SoldInCurrency`
+
+- **POST** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/SoldInCurrency`
+
+- **PUT** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/SoldInCurrency`
+
+- **PATCH** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/SoldInCurrency`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/SoldInCurrency`
+
+- **GET** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/SoldInCurrency/$ref`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/SoldInCurrency/$ref`
+
+- **POST** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/SoldInCurrency/{soldInCurrencyKey}/$ref`
+
+- **PUT** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/SoldInCurrency/{soldInCurrencyKey}/$ref`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/StoreLicense/{storeLicenseKey}/SoldInCurrency/{soldInCurrencyKey}/$ref`
+
+- **GET** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/Clients`
+
+- **POST** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/Clients`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/Clients`
+
+- **GET** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/Clients/{clientsKey}`
+
+- **PUT** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/Clients/{clientsKey}`
+
+- **PATCH** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/Clients/{clientsKey}`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/Clients/{clientsKey}`
+
+- **GET** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/Clients/$ref`
+
+- **PUT** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/Clients/$ref`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/Clients/$ref`
+
+- **POST** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/Clients/{clientsKey}/$ref`
+
+- **PUT** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/Clients/{clientsKey}/$ref`
+
+- **DELETE** `/api/v1/Countries/{countriesKey}/Stores/{storesKey}/Clients/{clientsKey}/$ref`
+
+## Related Entities
+
+[Workplace](WorkplaceEndpoints.md)
+[Store](StoreEndpoints.md)

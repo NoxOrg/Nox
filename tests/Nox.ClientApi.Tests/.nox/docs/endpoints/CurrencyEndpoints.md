@@ -34,9 +34,8 @@ This document provides information about the various endpoints available in our 
 
 ## Relationships Endpoints
 
+
 ## Related Entities
 
 [StoreLicense](StoreLicenseEndpoints.md)
-
 [StoreLicense](StoreLicenseEndpoints.md)
-
