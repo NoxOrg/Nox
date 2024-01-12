@@ -45,100 +45,12 @@
             </MudGrid>
         </MudItem>
         <MudItem xs="12">
-            <MudGrid Spacing="2" Style="margin-top:15px;">
-
-                @if (CurrentApiUiService != null && CurrentAddEntity != null)
-                {
-                    var AddLabel = "ADD Test";
-                    List<CurrencyDto> testCurrencySelectionList = new List<CurrencyDto>()
-                            {
-                                new CurrencyDto()
-                                {
-                                    Id = "GBP",
-                                    Name = "British Pound",
-                                    Symbol = "£",
-                                    ThousandsSeparator = ",",
-                                    DecimalSeparator = ".",
-                                    SpaceBetweenAmountAndSymbol = false,
-                                    DecimalDigits = 2
-                                },
-                                new CurrencyDto()
-                                {
-                                    Id = "CHF",
-                                    Name = "Swiss Franc",
-                                    Symbol = "CHF",
-                                    ThousandsSeparator = ",",
-                                    DecimalSeparator = ".",
-                                    SpaceBetweenAmountAndSymbol = true,
-                                    DecimalDigits = 2
-                                }                               
-                            };
-
-                    <MudItem xs="12" Class="align-left justify-left">
-                        <MudButton OnClick="AddEntityOpenDialog"
-                                   Variant="Variant.Filled"
-                                   StartIcon="@Icons.Material.Filled.Add"
-                                   Color="Color.Info">ADD</MudButton>
-                    </MudItem>
-
-                    <MudDialog @bind-IsVisible="IsVisibleAddEntityDialog" Options="AddDialogOptions">
-                        <TitleContent>
-                            <MudText Typo="Typo.h6">@AddLabel</MudText>
-                        </TitleContent>
-                        <DialogContent>
-                            <MudForm @ref="AddEntityForm" @bind-IsValid="@AddEntityValidateSuccess">
-                                <MudGrid>
-                                    <MudItem xs="12">
-                                        <MudTabs Rounded="true" Border="true" HideSlider="true">
-                                            <MudTabPanel Text="Details">
-                                                <MudGrid Style="margin-top:15px;">      
-                                                    <MudItem xs="6">
-                                                        <UiEditCurrency_g Title="Currency" CurrencySelectionList="@testCurrencySelectionList" />
-                                                    </MudItem>
-                                                </MudGrid>
-                                            </MudTabPanel>
-                                        </MudTabs>
-                                    </MudItem>
-                                    <MudItem xs="12">
-                                        <UiErrorSummary_g Errors="AddErrors" />
-                                    </MudItem>
-                                </MudGrid>
-                            </MudForm>                                                                       
-                        </DialogContent>
-                        <DialogActions>                              
-                                    <MudButton OnClick="AddEntityCloseDialog"
-                                               Variant="Variant.Outlined"
-                                               Color="Color.Info"
-                                               Style="Margin:15px;">CANCEL</MudButton>
-                                    <MudButton OnClick="@(async () => await AddEntitySubmit())"
-                                               Variant="Variant.Filled"
-                                               Color="Color.Info"
-                                               Style="Margin:15px;">
-                                        <MudText>SUBMIT</MudText>
-                                    </MudButton>
-                        </DialogActions>
-                    </MudDialog>
-                }
+            <MudGrid Spacing="2" Style="margin-top:15px;">               
 
                 <MudItem xs="12">
                     @if (PagedData != null
                    && CurrentApiUiService != null)
-                    {                                                                   
-                        CountryDto testCountry = new CountryDto()
-                                {
-                                    Name = "United Kingdom"
-                                };
-                        MoneyDto testMoney = new MoneyDto((decimal)6432.43, Nox.Types.CurrencyCode.GBP);                        
-                        CurrencyDto testCurrency = new CurrencyDto()
-                        {
-                            Id = "GBP",
-                            Name = "British Pound",
-                            Symbol = "£",
-                            ThousandsSeparator = ",",
-                            DecimalSeparator = ".",
-                            SpaceBetweenAmountAndSymbol = false,
-                            DecimalDigits = 2
-                        };                                                
+                    {                                              
                         LandLordDto testLandLord = new LandLordDto()
                         {
                             Name = "LandLord A"
@@ -164,19 +76,11 @@
                                   Style="border-style:solid;border-width:2px;border-color:lightgray;"
                                   HeaderClass="custom-header"
                                   Dense="true">
-                            <HeaderContent>                             
-                                <MudTh>Country</MudTh>
-                                <MudTh>Currency</MudTh>                                                               
+                            <HeaderContent>                                                  
                                 <MudTh>EntityExactlyOne</MudTh>
                                 <MudTh>EntityZeroOrMany</MudTh>                          
                             </HeaderContent>
                             <RowTemplate>
-                                <MudTd Style="vertical-align:top;">
-                                    <UiViewCountry_g Country="@testCountry" />
-                                </MudTd>
-                                <MudTd Style="vertical-align:top;">
-                                    <UiViewCurrency_g Currency="@testCurrency" />
-                                </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <UiViewEntityExactlyOneLandLord_g LandLord="@testLandLord" />
                                 </MudTd>
