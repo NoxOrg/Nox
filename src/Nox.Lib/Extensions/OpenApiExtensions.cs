@@ -24,14 +24,6 @@ public static class OpenApiExtensions
         };
     }
 
-    public static void AddOperation(this OpenApiPathItem pathItem, List<OperationType> operationTypes, OpenApiOperation operation)
-    {
-        foreach (var type in operationTypes)
-        {
-            pathItem.Operations.Add(type, operation);
-        }
-    }
-
     public static OpenApiOperation WithPathParameters(this OpenApiOperation operation, List<string> parameterNames)
     {
         foreach (var name in parameterNames)
@@ -50,8 +42,11 @@ public static class OpenApiExtensions
         return operation;
     }
 
-    public static OpenApiOperation WithRequestBody(this OpenApiOperation operation, string referenceId)
+    public static OpenApiOperation WithRequestBody(this OpenApiOperation operation, string? referenceId)
     {
+        if (string.IsNullOrEmpty(referenceId))
+            return operation;
+
         operation.RequestBody = new OpenApiRequestBody
         {
             Content = new Dictionary<string, OpenApiMediaType>
@@ -75,8 +70,11 @@ public static class OpenApiExtensions
         return operation;
     }
 
-    public static OpenApiOperation WithResponseBody(this OpenApiOperation operation, string referenceId)
+    public static OpenApiOperation WithResponseBody(this OpenApiOperation operation, string? referenceId)
     {
+        if (string.IsNullOrEmpty(referenceId))
+            return operation;
+
         operation.Responses["200"].Content = new Dictionary<string, OpenApiMediaType>
         {
             {
