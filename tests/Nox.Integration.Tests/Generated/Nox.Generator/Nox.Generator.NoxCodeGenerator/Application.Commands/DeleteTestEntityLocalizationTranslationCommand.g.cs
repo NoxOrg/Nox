@@ -15,29 +15,29 @@ using TestEntityLocalizationLocalizedEntity = TestWebApp.Domain.TestEntityLocali
 
 namespace TestWebApp.Application.Commands;
 
-public partial record  DeleteTestEntityLocalizationLocalizationsCommand(System.String keyId, Nox.Types.CultureCode CultureCode) : IRequest<bool>;
+public partial record  DeleteTestEntityLocalizationTranslationCommand(System.String keyId, Nox.Types.CultureCode CultureCode) : IRequest<bool>;
 
-internal partial class DeleteTestEntityLocalizationLocalizationsCommandHandler : DeleteTestEntityLocalizationLocalizationsCommandHandlerBase
+internal partial class DeleteTestEntityLocalizationTranslationCommandHandler : DeleteTestEntityLocalizationTranslationCommandHandlerBase
 {
-    public DeleteTestEntityLocalizationLocalizationsCommandHandler(
+    public DeleteTestEntityLocalizationTranslationCommandHandler(
            AppDbContext dbContext,
                   NoxSolution noxSolution) : base(dbContext, noxSolution)
     {
     }
 }
 
-internal abstract class DeleteTestEntityLocalizationLocalizationsCommandHandlerBase : CommandBase<DeleteTestEntityLocalizationLocalizationsCommand, TestEntityLocalizationLocalizedEntity>, IRequestHandler<DeleteTestEntityLocalizationLocalizationsCommand, bool>
+internal abstract class DeleteTestEntityLocalizationTranslationCommandHandlerBase : CommandBase<DeleteTestEntityLocalizationTranslationCommand, TestEntityLocalizationLocalizedEntity>, IRequestHandler<DeleteTestEntityLocalizationTranslationCommand, bool>
 {
     public AppDbContext DbContext { get; }
 
-    public DeleteTestEntityLocalizationLocalizationsCommandHandlerBase(
+    public DeleteTestEntityLocalizationTranslationCommandHandlerBase(
            AppDbContext dbContext,
                   NoxSolution noxSolution) : base(noxSolution)
     {
         DbContext = dbContext;
     }
 
-    public virtual async Task<bool> Handle(DeleteTestEntityLocalizationLocalizationsCommand command, CancellationToken cancellationToken)
+    public virtual async Task<bool> Handle(DeleteTestEntityLocalizationTranslationCommand command, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         await OnExecutingAsync(command);
@@ -65,15 +65,15 @@ internal abstract class DeleteTestEntityLocalizationLocalizationsCommandHandlerB
     }
 }
 
-public class DeleteTestEntityLocalizationLocalizationsCommandValidator : AbstractValidator<DeleteTestEntityLocalizationLocalizationsCommand>
+public class DeleteTestEntityLocalizationTranslationCommandValidator : AbstractValidator<DeleteTestEntityLocalizationTranslationCommand>
 {
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en_US");
-
-    public DeleteTestEntityLocalizationLocalizationsCommandValidator()
+    public DeleteTestEntityLocalizationTranslationCommandValidator(NoxSolution noxSolution)
     {
+        var defaultCultureCode = Nox.Types.CultureCode.From(noxSolution!.Application!.Localization!.DefaultCulture);
+
 		RuleFor(x => x.CultureCode)
-			.Must(x => x != _defaultCultureCode)
-			.WithMessage($"{nameof(DeleteTestEntityLocalizationLocalizationsCommand)} : {nameof(DeleteTestEntityLocalizationLocalizationsCommand.CultureCode)} cannot be the default culture code: {_defaultCultureCode.Value}.");
+			.Must(x => x != defaultCultureCode)
+			.WithMessage($"{nameof(DeleteTestEntityLocalizationTranslationCommand)} : {nameof(DeleteTestEntityLocalizationTranslationCommand.CultureCode)} cannot be the default culture code: {defaultCultureCode.Value}.");
 			
     }
 }	

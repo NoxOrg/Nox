@@ -68,13 +68,8 @@ public abstract partial class TestEntityLocalizationsControllerBase
 
         Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
                
-        var isDeleted = await _mediator.Send(new DeleteTestEntityLocalizationLocalizationsCommand(key, Nox.Types.CultureCode.From(cultureCode)));
+        await _mediator.Send(new DeleteTestEntityLocalizationTranslationCommand(key, cultureCodeValue!));
 
-        if (!isDeleted)
-        {
-            throw new EntityNotFoundException("TestEntityLocalization", $"{key.ToString()}");
-        }
-        
         return NoContent();
     }
 

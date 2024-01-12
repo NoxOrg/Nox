@@ -15,29 +15,29 @@ using WorkplaceLocalizedEntity = ClientApi.Domain.WorkplaceLocalized;
 
 namespace ClientApi.Application.Commands;
 
-public partial record  DeleteWorkplaceLocalizationsCommand(System.Int64 keyId, Nox.Types.CultureCode CultureCode) : IRequest<bool>;
+public partial record  DeleteWorkplaceTranslationCommand(System.Int64 keyId, Nox.Types.CultureCode CultureCode) : IRequest<bool>;
 
-internal partial class DeleteWorkplaceLocalizationsCommandHandler : DeleteWorkplaceLocalizationsCommandHandlerBase
+internal partial class DeleteWorkplaceTranslationCommandHandler : DeleteWorkplaceTranslationCommandHandlerBase
 {
-    public DeleteWorkplaceLocalizationsCommandHandler(
+    public DeleteWorkplaceTranslationCommandHandler(
            AppDbContext dbContext,
                   NoxSolution noxSolution) : base(dbContext, noxSolution)
     {
     }
 }
 
-internal abstract class DeleteWorkplaceLocalizationsCommandHandlerBase : CommandBase<DeleteWorkplaceLocalizationsCommand, WorkplaceLocalizedEntity>, IRequestHandler<DeleteWorkplaceLocalizationsCommand, bool>
+internal abstract class DeleteWorkplaceTranslationCommandHandlerBase : CommandBase<DeleteWorkplaceTranslationCommand, WorkplaceLocalizedEntity>, IRequestHandler<DeleteWorkplaceTranslationCommand, bool>
 {
     public AppDbContext DbContext { get; }
 
-    public DeleteWorkplaceLocalizationsCommandHandlerBase(
+    public DeleteWorkplaceTranslationCommandHandlerBase(
            AppDbContext dbContext,
                   NoxSolution noxSolution) : base(noxSolution)
     {
         DbContext = dbContext;
     }
 
-    public virtual async Task<bool> Handle(DeleteWorkplaceLocalizationsCommand command, CancellationToken cancellationToken)
+    public virtual async Task<bool> Handle(DeleteWorkplaceTranslationCommand command, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         await OnExecutingAsync(command);
@@ -65,15 +65,15 @@ internal abstract class DeleteWorkplaceLocalizationsCommandHandlerBase : Command
     }
 }
 
-public class DeleteWorkplaceLocalizationsCommandValidator : AbstractValidator<DeleteWorkplaceLocalizationsCommand>
+public class DeleteWorkplaceTranslationCommandValidator : AbstractValidator<DeleteWorkplaceTranslationCommand>
 {
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en_US");
-
-    public DeleteWorkplaceLocalizationsCommandValidator()
+    public DeleteWorkplaceTranslationCommandValidator(NoxSolution noxSolution)
     {
+        var defaultCultureCode = Nox.Types.CultureCode.From(noxSolution!.Application!.Localization!.DefaultCulture);
+
 		RuleFor(x => x.CultureCode)
-			.Must(x => x != _defaultCultureCode)
-			.WithMessage($"{nameof(DeleteWorkplaceLocalizationsCommand)} : {nameof(DeleteWorkplaceLocalizationsCommand.CultureCode)} cannot be the default culture code: {_defaultCultureCode.Value}.");
+			.Must(x => x != defaultCultureCode)
+			.WithMessage($"{nameof(DeleteWorkplaceTranslationCommand)} : {nameof(DeleteWorkplaceTranslationCommand.CultureCode)} cannot be the default culture code: {defaultCultureCode.Value}.");
 			
     }
 }	

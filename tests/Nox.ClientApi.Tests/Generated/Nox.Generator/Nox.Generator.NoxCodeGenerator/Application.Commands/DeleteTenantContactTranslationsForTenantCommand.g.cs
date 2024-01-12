@@ -16,29 +16,29 @@ using TenantContactLocalizedEntity = ClientApi.Domain.TenantContactLocalized;
 
 namespace ClientApi.Application.Commands;
 
-public partial record  DeleteTenantContactLocalizationsForTenantCommand(System.UInt32 keyId, Nox.Types.CultureCode CultureCode) : IRequest<bool>;
+public partial record  DeleteTenantContactTranslationsForTenantCommand(System.UInt32 keyId, Nox.Types.CultureCode CultureCode) : IRequest<bool>;
 
-internal partial class DeleteTenantContactLocalizationsForTenantCommandHandler : DeleteTenantContactLocalizationsForTenantCommandHandlerBase
+internal partial class DeleteTenantContactTranslationsForTenantCommandHandler : DeleteTenantContactTranslationsForTenantCommandHandlerBase
 {
-    public DeleteTenantContactLocalizationsForTenantCommandHandler(
+    public DeleteTenantContactTranslationsForTenantCommandHandler(
            AppDbContext dbContext,
                   NoxSolution noxSolution) : base(dbContext, noxSolution)
     {
     }
 }
 
-internal abstract class DeleteTenantContactLocalizationsForTenantCommandHandlerBase : CommandBase<DeleteTenantContactLocalizationsForTenantCommand, TenantContactLocalizedEntity>, IRequestHandler<DeleteTenantContactLocalizationsForTenantCommand, bool>
+internal abstract class DeleteTenantContactTranslationsForTenantCommandHandlerBase : CommandBase<DeleteTenantContactTranslationsForTenantCommand, TenantContactLocalizedEntity>, IRequestHandler<DeleteTenantContactTranslationsForTenantCommand, bool>
 {
     public AppDbContext DbContext { get; }
 
-    public DeleteTenantContactLocalizationsForTenantCommandHandlerBase(
+    public DeleteTenantContactTranslationsForTenantCommandHandlerBase(
            AppDbContext dbContext,
                   NoxSolution noxSolution) : base(noxSolution)
     {
         DbContext = dbContext;
     }
 
-    public virtual async Task<bool> Handle(DeleteTenantContactLocalizationsForTenantCommand command, CancellationToken cancellationToken)
+    public virtual async Task<bool> Handle(DeleteTenantContactTranslationsForTenantCommand command, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         await OnExecutingAsync(command);
@@ -66,15 +66,15 @@ internal abstract class DeleteTenantContactLocalizationsForTenantCommandHandlerB
     }
 }
 
-public class DeleteTenantContactLocalizationsForTenantCommandValidator : AbstractValidator<DeleteTenantContactLocalizationsForTenantCommand>
+public class DeleteTenantContactTranslationsForTenantCommandValidator : AbstractValidator<DeleteTenantContactTranslationsForTenantCommand>
 {
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en_US");
-
-    public DeleteTenantContactLocalizationsForTenantCommandValidator()
+    public DeleteTenantContactTranslationsForTenantCommandValidator(NoxSolution noxSolution)
     {
+        var defaultCultureCode = Nox.Types.CultureCode.From(noxSolution!.Application!.Localization!.DefaultCulture);
+
 		RuleFor(x => x.CultureCode)
-			.Must(x => x != _defaultCultureCode)
-			.WithMessage($"{nameof(DeleteTenantContactLocalizationsForTenantCommand)} : {nameof(DeleteTenantContactLocalizationsForTenantCommand.CultureCode)} cannot be the default culture code: {_defaultCultureCode.Value}.");
+			.Must(x => x != defaultCultureCode)
+			.WithMessage($"{nameof(DeleteTenantContactTranslationsForTenantCommand)} : {nameof(DeleteTenantContactTranslationsForTenantCommand.CultureCode)} cannot be the default culture code: {defaultCultureCode.Value}.");
 			
     }
 }

@@ -16,29 +16,29 @@ using TenantBrandLocalizedEntity = ClientApi.Domain.TenantBrandLocalized;
 
 namespace ClientApi.Application.Commands;
 
-public partial record  DeleteTenantBrandsLocalizationsForTenantCommand(System.UInt32 keyId, Nox.Types.CultureCode CultureCode) : IRequest<bool>;
+public partial record  DeleteTenantBrandsTranslationsForTenantCommand(System.UInt32 keyId, Nox.Types.CultureCode CultureCode) : IRequest<bool>;
 
-internal partial class DeleteTenantBrandsLocalizationsForTenantCommandHandler : DeleteTenantBrandsLocalizationsForTenantCommandHandlerBase
+internal partial class DeleteTenantBrandsTranslationsForTenantCommandHandler : DeleteTenantBrandsTranslationsForTenantCommandHandlerBase
 {
-    public DeleteTenantBrandsLocalizationsForTenantCommandHandler(
+    public DeleteTenantBrandsTranslationsForTenantCommandHandler(
            AppDbContext dbContext,
                   NoxSolution noxSolution) : base(dbContext, noxSolution)
     {
     }
 }
 
-internal abstract class DeleteTenantBrandsLocalizationsForTenantCommandHandlerBase : CommandCollectionBase<DeleteTenantBrandsLocalizationsForTenantCommand, TenantBrandLocalizedEntity>, IRequestHandler<DeleteTenantBrandsLocalizationsForTenantCommand, bool>
+internal abstract class DeleteTenantBrandsTranslationsForTenantCommandHandlerBase : CommandCollectionBase<DeleteTenantBrandsTranslationsForTenantCommand, TenantBrandLocalizedEntity>, IRequestHandler<DeleteTenantBrandsTranslationsForTenantCommand, bool>
 {
     public AppDbContext DbContext { get; }
 
-    public DeleteTenantBrandsLocalizationsForTenantCommandHandlerBase(
+    public DeleteTenantBrandsTranslationsForTenantCommandHandlerBase(
            AppDbContext dbContext,
                   NoxSolution noxSolution) : base(noxSolution)
     {
         DbContext = dbContext;
     }
 
-    public virtual async Task<bool> Handle(DeleteTenantBrandsLocalizationsForTenantCommand command, CancellationToken cancellationToken)
+    public virtual async Task<bool> Handle(DeleteTenantBrandsTranslationsForTenantCommand command, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         await OnExecutingAsync(command);
@@ -69,15 +69,15 @@ internal abstract class DeleteTenantBrandsLocalizationsForTenantCommandHandlerBa
     }
 }
 
-public class DeleteTenantBrandsLocalizationsForTenantCommandValidator : AbstractValidator<DeleteTenantBrandsLocalizationsForTenantCommand>
+public class DeleteTenantBrandsTranslationsForTenantCommandValidator : AbstractValidator<DeleteTenantBrandsTranslationsForTenantCommand>
 {
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en_US");
-
-    public DeleteTenantBrandsLocalizationsForTenantCommandValidator()
+    public DeleteTenantBrandsTranslationsForTenantCommandValidator(NoxSolution noxSolution)
     {
+        var defaultCultureCode = Nox.Types.CultureCode.From(noxSolution!.Application!.Localization!.DefaultCulture);
+
 		RuleFor(x => x.CultureCode)
-			.Must(x => x != _defaultCultureCode)
-			.WithMessage($"{nameof(DeleteTenantBrandsLocalizationsForTenantCommand)} : {nameof(DeleteTenantBrandsLocalizationsForTenantCommand.CultureCode)} cannot be the default culture code: {_defaultCultureCode.Value}.");
+			.Must(x => x != defaultCultureCode)
+			.WithMessage($"{nameof(DeleteTenantBrandsTranslationsForTenantCommand)} : {nameof(DeleteTenantBrandsTranslationsForTenantCommand.CultureCode)} cannot be the default culture code: {defaultCultureCode.Value}.");
 			
     }
 }

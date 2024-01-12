@@ -74,13 +74,13 @@ internal abstract class {{ className}}HandlerBase : CommandBase<{{ className}}, 
 
 public class {{className}}Validator : AbstractValidator<{{className}}>
 {
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("{{codeGeneratorState.Solution.Application.Localization.DefaultCulture}}");
-
-    public {{className}}Validator()
+    public {{className}}Validator(NoxSolution noxSolution)
     {
+        var defaultCultureCode = Nox.Types.CultureCode.From(noxSolution!.Application!.Localization!.DefaultCulture);
+
 		RuleFor(x => x.{{codeGeneratorState.LocalizationCultureField}})
-			.Must(x => x != _defaultCultureCode)
-			.WithMessage($"{%{{}%}nameof({{className}}){%{}}%} : {%{{}%}nameof({{className}}.{{codeGeneratorState.LocalizationCultureField}}){%{}}%} cannot be the default culture code: {_defaultCultureCode.Value}.");
+			.Must(x => x != defaultCultureCode)
+			.WithMessage($"{%{{}%}nameof({{className}}){%{}}%} : {%{{}%}nameof({{className}}.{{codeGeneratorState.LocalizationCultureField}}){%{}}%} cannot be the default culture code: {defaultCultureCode.Value}.");
 			
     }
 }	

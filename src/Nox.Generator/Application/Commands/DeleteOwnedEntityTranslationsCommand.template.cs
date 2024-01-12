@@ -61,25 +61,25 @@ internal abstract class {{ className}}HandlerBase : {{if relationship.WithSingle
         var entity = await DbContext.{{entity.PluralName}}Localized.SingleOrDefaultAsync(x => {{for key in parent.Keys}}x.{{parent.Name}}{{key.Name}} == parentEntity.{{key.Name}} && {{end}}x.CultureCode == command.CultureCode, cancellationToken);
         if (entity is null)
         {
-            throw new EntityNotFoundException("{{parent.Name}}.{{navigationName}}",  String.Empty, command.{{codeGeneratorState.LocalizationCultureField}}.ToString());
+            throw new EntityNotFoundException("{{parent.Name}}.{{GetNavigationPropertyName parent relationship}}",  String.Empty, command.{{codeGeneratorState.LocalizationCultureField}}.ToString());
         }
 
         await OnCompletedAsync(command, entity);
 
         DbContext.Remove(entity);
         {{~else~}}
-        await DbContext.Entry(parentEntity).Collection(p => p.{{navigationName}}).LoadAsync(cancellationToken);
+        await DbContext.Entry(parentEntity).Collection(p => p.{{GetNavigationPropertyName parent relationship}}).LoadAsync(cancellationToken);
         {{if entity.Keys.size > 1}}
-        var entityKeys = parentEntity.{{navigationName}}.Select(x => new { {{for key in entity.Keys}} {{key.Name}} = x.{{key.Name}}{{if !for.last}}, {{end}}{{end}} }).ToList();
+        var entityKeys = parentEntity.{{GetNavigationPropertyName parent relationship}}.Select(x => new { {{for key in entity.Keys}} {{key.Name}} = x.{{key.Name}}{{if !for.last}}, {{end}}{{end}} }).ToList();
         var entities = await DbContext.{{entity.PluralName}}Localized.WhereAnyMatch(entityKeys, (x,y) => {{for key in entity.Keys}}x.{{key.Name}} == {{key.Name}} && {{end}}x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
         {{~ else ~}}
-        var entityKeys = parentEntity.{{navigationName}}.Select(x => x.{{entity.Keys[0].Name}}).ToList();
+        var entityKeys = parentEntity.{{GetNavigationPropertyName parent relationship}}.Select(x => x.{{entity.Keys[0].Name}}).ToList();
         var entities = await DbContext.{{entity.PluralName}}Localized.Where(x => entityKeys.Contains(x.{{entity.Keys[0].Name}}) && x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
         {{~ end ~}}
         
         if (!entities.Any())
         {
-            throw new EntityNotFoundException("{{parent.Name}}.{{navigationName}}",  String.Empty, command.{{codeGeneratorState.LocalizationCultureField}}.ToString());
+            throw new EntityNotFoundException("{{parent.Name}}.{{GetNavigationPropertyName parent relationship}}",  String.Empty, command.{{codeGeneratorState.LocalizationCultureField}}.ToString());
         }
 
         await OnCompletedAsync(command, entities);
@@ -94,13 +94,13 @@ internal abstract class {{ className}}HandlerBase : {{if relationship.WithSingle
 
 public class {{className}}Validator : AbstractValidator<{{className}}>
 {
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("{{codeGeneratorState.Solution.Application.Localization.DefaultCulture}}");
-
-    public {{className}}Validator()
+    public {{className}}Validator(NoxSolution noxSolution)
     {
+        var defaultCultureCode = Nox.Types.CultureCode.From(noxSolution!.Application!.Localization!.DefaultCulture);
+
 		RuleFor(x => x.{{codeGeneratorState.LocalizationCultureField}})
-			.Must(x => x != _defaultCultureCode)
-			.WithMessage($"{%{{}%}nameof({{className}}){%{}}%} : {%{{}%}nameof({{className}}.{{codeGeneratorState.LocalizationCultureField}}){%{}}%} cannot be the default culture code: {_defaultCultureCode.Value}.");
+			.Must(x => x != defaultCultureCode)
+			.WithMessage($"{%{{}%}nameof({{className}}){%{}}%} : {%{{}%}nameof({{className}}.{{codeGeneratorState.LocalizationCultureField}}){%{}}%} cannot be the default culture code: {defaultCultureCode.Value}.");
 			
     }
 }

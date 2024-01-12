@@ -84,15 +84,10 @@ public abstract partial class {{className}}Base
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
 
-        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom({{cultureCode}}, out var {{cultureCode}}Value));
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom({{cultureCode}}, out var cultureCodeValue));
                
-        var isDeleted = await _mediator.Send(new Delete{{ entity.Name }}LocalizationsCommand({{ primaryKeysQuery }}, Nox.Types.CultureCode.From({{cultureCode}})));
+        await _mediator.Send(new Delete{{ entity.Name }}TranslationCommand({{ primaryKeysQuery }}, cultureCodeValue!));
 
-        if (!isDeleted)
-        {
-            throw new EntityNotFoundException("{{entity.Name}}", $"{{entity.Keys | keysToString}}");
-        }
-        
         return NoContent();
     }
 
@@ -157,7 +152,7 @@ public abstract partial class {{className}}Base
 
         Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom({{cultureCode}}, out var {{cultureCode}}Value));
 
-        await _mediator.Send(new Delete{{localizedRelationship.NavigationName}}LocalizationsFor{{entity.Name}}Command({{ primaryKeysQuery }}, Nox.Types.CultureCode.From({{cultureCode}})));
+        await _mediator.Send(new Delete{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}TranslationsFor{{entity.Name}}Command({{ primaryKeysQuery }}, Nox.Types.CultureCode.From({{cultureCode}})));
 
         return NoContent();
     }

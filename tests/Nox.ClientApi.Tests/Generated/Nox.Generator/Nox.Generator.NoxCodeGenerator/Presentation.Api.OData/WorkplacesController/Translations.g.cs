@@ -68,13 +68,8 @@ public abstract partial class WorkplacesControllerBase
 
         Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
                
-        var isDeleted = await _mediator.Send(new DeleteWorkplaceLocalizationsCommand(key, Nox.Types.CultureCode.From(cultureCode)));
+        await _mediator.Send(new DeleteWorkplaceTranslationCommand(key, cultureCodeValue!));
 
-        if (!isDeleted)
-        {
-            throw new EntityNotFoundException("Workplace", $"{key.ToString()}");
-        }
-        
         return NoContent();
     }
 

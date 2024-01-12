@@ -72,7 +72,7 @@ public abstract partial class TenantsControllerBase
 
         Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
 
-        await _mediator.Send(new DeleteTenantBrandsLocalizationsForTenantCommand(key, Nox.Types.CultureCode.From(cultureCode)));
+        await _mediator.Send(new DeleteTenantBrandsTranslationsForTenantCommand(key, Nox.Types.CultureCode.From(cultureCode)));
 
         return NoContent();
     }
@@ -117,7 +117,7 @@ public abstract partial class TenantsControllerBase
 
         Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
 
-        await _mediator.Send(new DeleteTenantContactLocalizationsForTenantCommand(key, Nox.Types.CultureCode.From(cultureCode)));
+        await _mediator.Send(new DeleteTenantContactTranslationsForTenantCommand(key, Nox.Types.CultureCode.From(cultureCode)));
 
         return NoContent();
     }

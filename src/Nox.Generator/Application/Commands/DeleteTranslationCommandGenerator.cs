@@ -12,11 +12,11 @@ using System.Text;
 
 namespace Nox.Generator.Application.Commands;
 
-internal class DeleteLocalizationCommandGenerator : ApplicationEntityDependentGeneratorBase
+internal class DeleteTranslationCommandGenerator : ApplicationEntityDependentGeneratorBase
 {
     protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
     {
-        var templateName = @"Application.Commands.DeleteLocalizationCommand";
+        var templateName = @"Application.Commands.DeleteTranslationCommand";
         foreach (var entity in codeGeneratorState.Solution.Domain!.GetLocalizedEntities().Where(x => !x.IsOwnedEntity))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
@@ -25,7 +25,7 @@ internal class DeleteLocalizationCommandGenerator : ApplicationEntityDependentGe
             var primaryKeysFindQuery = string.Join(separator: ", ", entity.Keys.Select(k => $"key{k.Name}"));
 
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"Delete{entity.Name}LocalizationsCommand")
+                .WithClassName($"Delete{entity.Name}TranslationCommand")
                 .WithFileNamePrefix($"Application.Commands")
                 .WithObject("primaryKeys", primaryKeys)
                 .WithObject("primaryKeysFindQuery", primaryKeysFindQuery)
