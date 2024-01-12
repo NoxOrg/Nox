@@ -44,7 +44,6 @@ public static class NoxSolutionEntityEndpointsMarkdownExtensions
                 ["entity"] = entity,
                 ["enumerationAttributes"] = entity.GetEnumerationAttributes(),
                 ["ownedLocalizedRelationships"] = ownedEntitiesWithLocalizedAttributes,
-                ["ownedLocalizedRelationships"] = ownedEntitiesWithLocalizedAttributes,
                 ["relatedEndpoints"] = relatedEndpoints
             };
 
