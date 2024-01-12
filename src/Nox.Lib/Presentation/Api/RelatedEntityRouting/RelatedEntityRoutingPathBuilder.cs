@@ -1,4 +1,5 @@
 ﻿using Microsoft.OpenApi.Models;
+using Nox.Extensions;
 using Nox.Solution;
 using Nox.Solution.Builders;
 using System.Text.RegularExpressions;
@@ -15,52 +16,92 @@ internal sealed partial class RelatedEntityRoutingPathBuilder : RelatedEntityRou
     {
         var navigationName = currentEntity.GetNavigationPropertyName(relationship);
         var tagName = GetTagName(existingPath);
+        var relatedEntityName = relationship.Related.Entity.Name;
 
         if (relationship.WithSingleEntity)
         {
-            var path = $"{existingPath}/{navigationName}";
-            var pathItem = new OpenApiPathItem { Operations = new Dictionary<OperationType, OpenApiOperation>() };
-            AddOperations(pathItem, tagName, path, 
-                OperationType.Get, OperationType.Post, OperationType.Put, OperationType.Patch);
-            if(relationship.Relationship == EntityRelationshipType.ZeroOrOne)
-                AddOperations(pathItem, tagName, path, OperationType.Delete);
-            result.Add((path, pathItem));
-
-            var refPath = $"{existingPath}/{navigationName}/$ref";
-            var refPathItem = new OpenApiPathItem { Operations = new Dictionary<OperationType, OpenApiOperation>() };
-            AddOperations(refPathItem, tagName, refPath, OperationType.Get);
-            if (relationship.Relationship == EntityRelationshipType.ZeroOrOne)
-                AddOperations(refPathItem, tagName, refPath, OperationType.Delete);
-            result.Add((refPath, refPathItem));
-
-            var refPathWithKey = $"{existingPath}/{navigationName}/{{{GetKeyParameterName(navigationName)}}}/$ref";
-            var refPathWithKeyItem = new OpenApiPathItem { Operations = new Dictionary<OperationType, OpenApiOperation>() };
-            AddOperations(refPathWithKeyItem, tagName, refPathWithKey, OperationType.Post, OperationType.Put);
-            if (relationship.Relationship == EntityRelationshipType.ZeroOrOne)
-                AddOperations(refPathWithKeyItem, tagName, refPathWithKey, OperationType.Delete);
-            result.Add((refPathWithKey, refPathWithKeyItem));
+            {
+                var path = $"{existingPath}/{navigationName}";
+                var pathItem = new OpenApiPathItem { Operations = new Dictionary<OperationType, OpenApiOperation>() };
+                var keyNames = GetKeyNames(path);
+                pathItem.AddOperation(OperationType.Get,
+                    OpenApiExtensions.CreateOperation(tagName).WithPathParameters(keyNames).WithResponseBody($"{relatedEntityName}DtoSingleResult"));
+                pathItem.AddOperation(OperationType.Post,
+                    OpenApiExtensions.CreateOperation(tagName).WithPathParameters(keyNames).WithRequestBody($"{relatedEntityName}CreateDto"));
+                pathItem.AddOperation(OperationType.Put,
+                    OpenApiExtensions.CreateOperation(tagName).WithPathParameters(keyNames).WithRequestBody($"{relatedEntityName}UpdateDto").WithResponseBody($"{relatedEntityName}Dto"));
+                pathItem.AddOperation(OperationType.Patch,
+                    OpenApiExtensions.CreateOperation(tagName).WithPathParameters(keyNames).WithRequestBody($"{relatedEntityName}PartialUpdateDtoDelta").WithResponseBody($"{relatedEntityName}Dto"));
+                if (relationship.Relationship == EntityRelationshipType.ZeroOrOne)
+                    pathItem.AddOperation(OperationType.Delete, OpenApiExtensions.CreateOperation(tagName).WithPathParameters(keyNames));
+                result.Add((path, pathItem));
+            }
+            {
+                var path = $"{existingPath}/{navigationName}/$ref";
+                var pathItem = new OpenApiPathItem { Operations = new Dictionary<OperationType, OpenApiOperation>() };
+                var operation = OpenApiExtensions.CreateOperation(tagName).WithPathParameters(GetKeyNames(path));
+                pathItem.AddOperation(OperationType.Get, operation);
+                if (relationship.Relationship == EntityRelationshipType.ZeroOrOne)
+                    pathItem.AddOperation(OperationType.Delete, operation);
+                result.Add((path, pathItem));
+            }
+            {
+                var path = $"{existingPath}/{navigationName}/{{{GetKeyParameterName(navigationName)}}}/$ref";
+                var pathItem = new OpenApiPathItem { Operations = new Dictionary<OperationType, OpenApiOperation>() };
+                var operation = OpenApiExtensions.CreateOperation(tagName).WithPathParameters(GetKeyNames(path));
+                pathItem.AddOperation(new List<OperationType> { OperationType.Post, OperationType.Put }, operation);
+                if (relationship.Relationship == EntityRelationshipType.ZeroOrOne)
+                    pathItem.AddOperation(OperationType.Delete, operation);
+                result.Add((path, pathItem));
+            }
         }
         else
         {
-            var path = $"{existingPath}/{navigationName}";
-            var pathItem = new OpenApiPathItem { Operations = new Dictionary<OperationType, OpenApiOperation>() };
-            AddOperations(pathItem, tagName, path, OperationType.Get, OperationType.Post, OperationType.Delete);
-            result.Add((path, pathItem));
-
-            var pathWithKey = $"{existingPath}/{navigationName}/{{{GetKeyParameterName(navigationName)}}}";
-            var pathWithKeyItem = new OpenApiPathItem { Operations = new Dictionary<OperationType, OpenApiOperation>() };
-            AddOperations(pathWithKeyItem, tagName, pathWithKey, OperationType.Get, OperationType.Put, OperationType.Patch, OperationType.Delete);
-            result.Add((pathWithKey, pathWithKeyItem));
-
-            var refPath = $"{existingPath}/{navigationName}/$ref";
-            var refPathItem = new OpenApiPathItem { Operations = new Dictionary<OperationType, OpenApiOperation>() };
-            AddOperations(refPathItem, tagName, refPath, OperationType.Get, OperationType.Put, OperationType.Delete);
-            result.Add((refPath, refPathItem));
-
-            var refPathWithKey = $"{existingPath}/{navigationName}/{{{GetKeyParameterName(navigationName)}}}/$ref";
-            var refPathWithKeyItem = new OpenApiPathItem { Operations = new Dictionary<OperationType, OpenApiOperation>() };
-            AddOperations(refPathWithKeyItem, tagName, refPathWithKey, OperationType.Post, OperationType.Put, OperationType.Delete);
-            result.Add((refPathWithKey, refPathWithKeyItem));
+            {
+                var path = $"{existingPath}/{navigationName}";
+                var pathItem = new OpenApiPathItem { Operations = new Dictionary<OperationType, OpenApiOperation>() };
+                var keyNames = GetKeyNames(path);
+                pathItem.AddOperation(OperationType.Get,
+                    OpenApiExtensions.CreateOperation(tagName).WithPathParameters(keyNames).WithResponseBody($"{relatedEntityName}Dto"));
+                pathItem.AddOperation(OperationType.Post,
+                    OpenApiExtensions.CreateOperation(tagName).WithPathParameters(keyNames).WithRequestBody($"{relatedEntityName}CreateDto"));
+                pathItem.AddOperation(OperationType.Delete,
+                    OpenApiExtensions.CreateOperation(tagName).WithPathParameters(keyNames));
+                result.Add((path, pathItem));
+            }
+            {
+                var path = $"{existingPath}/{navigationName}/{{{GetKeyParameterName(navigationName)}}}";
+                var pathItem = new OpenApiPathItem { Operations = new Dictionary<OperationType, OpenApiOperation>() };
+                var keyNames = GetKeyNames(path);
+                pathItem.AddOperation(OperationType.Get,
+                    OpenApiExtensions.CreateOperation(tagName).WithPathParameters(keyNames).WithResponseBody($"{relatedEntityName}DtoSingleResult"));
+                pathItem.AddOperation(OperationType.Put,
+                    OpenApiExtensions.CreateOperation(tagName).WithPathParameters(keyNames).WithRequestBody($"{relatedEntityName}UpdateDto").WithResponseBody($"{relatedEntityName}Dto"));
+                pathItem.AddOperation(OperationType.Patch,
+                    OpenApiExtensions.CreateOperation(tagName).WithPathParameters(keyNames).WithRequestBody($"{relatedEntityName}PartialUpdateDtoDelta").WithResponseBody($"{relatedEntityName}Dto"));
+                pathItem.AddOperation(OperationType.Delete,
+                    OpenApiExtensions.CreateOperation(tagName).WithPathParameters(keyNames));
+                result.Add((path, pathItem));
+            }
+            {
+                var path = $"{existingPath}/{navigationName}/$ref";
+                var pathItem = new OpenApiPathItem { Operations = new Dictionary<OperationType, OpenApiOperation>() };
+                var keyNames = GetKeyNames(path);
+                pathItem.AddOperation(OperationType.Get,
+                    OpenApiExtensions.CreateOperation(tagName).WithPathParameters(keyNames));
+                pathItem.AddOperation(OperationType.Put,
+                    OpenApiExtensions.CreateOperation(tagName).WithPathParameters(keyNames).WithRequestBody("StringReferencesDto"));
+                pathItem.AddOperation(OperationType.Delete,
+                    OpenApiExtensions.CreateOperation(tagName).WithPathParameters(keyNames));
+                result.Add((path, pathItem));
+            }
+            {
+                var path = $"{existingPath}/{navigationName}/{{{GetKeyParameterName(navigationName)}}}/$ref";
+                var pathItem = new OpenApiPathItem { Operations = new Dictionary<OperationType, OpenApiOperation>() };
+                pathItem.AddOperation(new List<OperationType> { OperationType.Post, OperationType.Put, OperationType.Delete }, 
+                    OpenApiExtensions.CreateOperation(tagName).WithPathParameters(GetKeyNames(path)));
+                result.Add((path, pathItem));
+            }
         }
     }
 
@@ -69,51 +110,10 @@ internal sealed partial class RelatedEntityRoutingPathBuilder : RelatedEntityRou
         return path[..path.IndexOf('/')];
     }
 
-    private static void AddOperations(OpenApiPathItem pathItem, string tagName, string path, params OperationType[] operationTypes)
-    {
-
-        var operation = new OpenApiOperation
-        {
-            Summary = string.Empty,
-            Description = string.Empty,
-            Responses = new OpenApiResponses
-            {
-                ["200"] = new OpenApiResponse
-                {
-                    Description = "Success"
-                }
-            },
-            Tags = new List<OpenApiTag>
-                {
-                    new OpenApiTag { Name = tagName }
-                }
-        };
-
-        foreach (var keyName in GetKeysName(path))
-        {
-            operation.Parameters.Add(new OpenApiParameter
-            {
-                Name = keyName,
-                In = ParameterLocation.Path,
-                Required = true,
-                Schema = new OpenApiSchema()
-                {
-                    Type = "string",
-                }
-            });
-        }
-
-        foreach(var type in  operationTypes)
-        {
-            pathItem.Operations.Add(type, operation);
-        }
-
-    }
-
     [GeneratedRegex("{([^{}]*)}")]
     private static partial Regex KeysRegex();
 
-    private static List<string> GetKeysName(string path)
+    private static List<string> GetKeyNames(string path)
     {
         List<string> matches = new();
         Regex regex = KeysRegex();
