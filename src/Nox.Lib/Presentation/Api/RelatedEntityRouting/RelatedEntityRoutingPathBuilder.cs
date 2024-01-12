@@ -3,6 +3,7 @@ using Nox.Extensions;
 using Nox.Solution;
 using Nox.Solution.Builders;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace Nox.Presentation.Api;
 
@@ -92,19 +93,19 @@ internal sealed partial class RelatedEntityRoutingPathBuilder : RelatedEntityRou
         return matches;
     }
 
-    private void AddOperationItemsToResult(List<(string, OpenApiPathItem)> result, string path, string tagName, List<(OperationType? OperationType, string? RequestReferenceId, string? ResponseReferenceId)> operationsInfo)
+    private static void AddOperationItemsToResult(List<(string, OpenApiPathItem)> result, string path, string tagName, List<(OperationType? OperationType, string? RequestReferenceId, string? ResponseReferenceId)> operationsInfo)
     {
         var pathItem = new OpenApiPathItem { Operations = new Dictionary<OperationType, OpenApiOperation>() };
         var keyNames = GetKeyNames(path);
-        foreach (var info in operationsInfo)
+        foreach (var info in operationsInfo.Where(info => info.OperationType is not null))
         {
-            if (info.OperationType is not null)
-                pathItem.AddOperation(info.OperationType.Value,
-                       OpenApiExtensions.CreateOperation(tagName)
-                        .WithPathParameters(keyNames)
-                        .WithRequestBody(info.RequestReferenceId)
-                        .WithResponseBody(info.ResponseReferenceId));
+            pathItem.AddOperation(info.OperationType!.Value,
+                OpenApiExtensions.CreateOperation(tagName)
+                .WithPathParameters(keyNames)
+                .WithRequestBody(info.RequestReferenceId)
+                .WithResponseBody(info.ResponseReferenceId));
         }
+
         result.Add((path, pathItem));
     }
 }
