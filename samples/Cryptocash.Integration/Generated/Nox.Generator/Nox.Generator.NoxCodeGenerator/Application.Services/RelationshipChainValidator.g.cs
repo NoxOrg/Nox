@@ -9,12 +9,13 @@ using Nox.Application.Services;
 
 using CryptocashIntegration.Application.Dto;
 using CryptocashIntegration.Infrastructure.Persistence;
+using CryptocashIntegration.Domain;
 
 namespace CryptocashIntegration.Application.Services;
 
 internal partial class RelationshipChainValidator : RelationshipChainValidatorBase
 {
-    public RelationshipChainValidator(DtoDbContext dataDbContext): base(dataDbContext)
+    public RelationshipChainValidator(AppDbContext dataDbContext): base(dataDbContext)
     {
     
     }
@@ -28,10 +29,10 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
 
     private readonly Dictionary<(string EntityPluralName, string NavigationName), bool> _isSingleRelationship;
 
-    public DtoDbContext DataDbContext { get; }
+    public AppDbContext DataDbContext { get; }
 
 #region Constructor
-    public  RelationshipChainValidatorBase(DtoDbContext dataDbContext)
+    public  RelationshipChainValidatorBase(AppDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
 
@@ -59,15 +60,20 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
 
         var aggregateDbSet = (IQueryable)context.DbSet;
 
-        var query = aggregateDbSet.Where($"{context.KeyName} == @0", relationshipChain.EntityKey);
+        if (!TryParseKey(relationshipChain.EntityName, relationshipChain.EntityKey, out var aggregateParsedKey))
+            return false;
+
+        var query = aggregateDbSet.Where($"{context.KeyName} == @0", aggregateParsedKey);
 
         var previousAggregateRoot = relationshipChain.EntityName;
+        var previousKeyName = context.KeyName;
 
         foreach (var property in relationshipChain.SortedNavigationProperties)
         {
             if (!_isSingleRelationship.TryGetValue((previousAggregateRoot, property.NavigationName), out var isSingle))
                 return false;
 
+            query = query.Select($"new ({previousKeyName}, {property.NavigationName})");
             if (isSingle)
                 query = query.Select($"{property.NavigationName}");
             else        
@@ -79,10 +85,38 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
             if (!_entityContextPerEntityName.TryGetValue(relatedPluralName, out var relatedContext))
                 return false;
             
-            query = query.Where($"{relatedContext.KeyName} == @0", property.NavigationKey);
+            if (!TryParseKey(relatedPluralName, property.NavigationKey, out var navigationParsedKey))
+                return false;
+
+            query = query.Where($"{relatedContext.KeyName} == @0", navigationParsedKey);
             previousAggregateRoot = relatedPluralName;
+            previousKeyName = relatedContext.KeyName;
         }
 
-        return query.Any();
+        return query.Select($"{previousKeyName}").Any();
+    }
+
+    private bool TryParseKey(string entityName, string key, out Nox.Types.INoxType parsedKey)
+    {
+        parsedKey = null;
+        if (entityName.Equals("CountryQueryToTables", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Int32.TryParse(key, out var value)) return false;
+            parsedKey = CountryQueryToTableMetadata.CreateId(value);
+            return true;
+        }
+        if (entityName.Equals("CountryQueryToCustomTables", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Int32.TryParse(key, out var value)) return false;
+            parsedKey = CountryQueryToCustomTableMetadata.CreateId(value);
+            return true;
+        }
+        if (entityName.Equals("CountryJsonToTables", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Int32.TryParse(key, out var value)) return false;
+            parsedKey = CountryJsonToTableMetadata.CreateId(value);
+            return true;
+        }
+        return false;
     }
 }
