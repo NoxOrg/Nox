@@ -25,6 +25,9 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Nox.Integration.SqlServer;
 using SqlKata.Compilers;
 using Nox.Presentation.Api.Swagger;
+using Elastic.Apm.SerilogEnricher;
+using Elastic.CommonSchema.Serilog;
+using Microsoft.AspNetCore.Http;
 
 namespace Nox.Configuration
 {
@@ -213,12 +216,16 @@ namespace Nox.Configuration
             {
                 webApplicationBuilder.Host.UseSerilog((context, services, loggerConfig) =>
                 {
+                    var httpAccessor = services.GetService<HttpContextAccessor>();
+
                     loggerConfig
                     .ReadFrom.Configuration(context.Configuration)
                     .ReadFrom.Services(services)
                     .Enrich.FromLogContext()
+                    .Enrich.WithElasticApmCorrelationInfo()
+                    .Enrich.WithEcsHttpContext(httpAccessor!)
                     .WriteTo.Debug()
-                    .WriteTo.Console();
+                    .WriteTo.Console(new EcsTextFormatter());
 
                     _loggerConfigurationAction?.Invoke(loggerConfig);
                 });

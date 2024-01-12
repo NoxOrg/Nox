@@ -17,6 +17,4 @@ public class Dependencies
     public IReadOnlyList<DataConnection>? DataConnections { get; internal set; }
     
     public Notifications? Notifications { get; internal set; }
-    
-    public Monitoring? Monitoring { get; internal set; }
 }

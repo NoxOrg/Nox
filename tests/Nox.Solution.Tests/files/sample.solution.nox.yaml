@@ -511,12 +511,6 @@ infrastructure:
         user: whatsappUser
         password: whatsappPassword
 
-    monitoring:
-      name: SampleObservabiity
-      provider: elasticApm
-      serverUri: localhost
-      port: 8200
-
     uiLocalizations:
       name: SampleCurrencyDb.Localization
 

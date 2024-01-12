@@ -1,4 +1,4 @@
-ersion: '3.7'
+version: '3.7'
 
 volumes:
   esdata:
@@ -7,7 +7,7 @@ volumes:
 services:
   apm-server:
     container_name: apm-server
-    image: docker.elastic.co/apm/apm-server:7.17.10
+    image: docker.elastic.co/apm/apm-server:7.17.16
     depends_on:
       elasticsearch:
         condition: service_healthy
@@ -38,7 +38,7 @@ services:
 
   elasticsearch:
     container_name: elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.16
     environment:
     - bootstrap.memory_lock=true
     - cluster.name=docker-cluster
@@ -65,7 +65,7 @@ services:
 
   kibana:
     container_name: kibana
-    image: docker.elastic.co/kibana/kibana:7.17.10
+    image: docker.elastic.co/kibana/kibana:7.17.16
     depends_on:
       elasticsearch:
         condition: service_healthy
