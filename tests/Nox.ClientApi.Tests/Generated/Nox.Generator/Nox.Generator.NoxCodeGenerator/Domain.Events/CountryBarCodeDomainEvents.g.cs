@@ -1,6 +1,8 @@
 ﻿using Nox.Domain;
 using ClientApi.Domain;
 using MediatR;
+
+
 /// <summary>
 /// Barcode generated event
 /// </summary>
