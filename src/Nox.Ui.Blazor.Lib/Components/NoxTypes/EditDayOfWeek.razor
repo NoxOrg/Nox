@@ -1,0 +1,20 @@
+﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using MudBlazor
+
+@if (DayOfWeekSelectionList != null && DayOfWeekSelectionList.Count > 0)
+{
+    <MudSelect Label="@Title"
+               Variant="Variant.Outlined"
+               FullWidth="true"
+               Clearable="true"
+               Required="true"
+               RequiredError="@ErrorRequiredMessage(Title)"
+               TextChanged="OnDayOfWeekChanged"
+               Value="@CurrentDayOfWeekStr"
+               OnClearButtonClick="OnClear">
+        @foreach (var item in DayOfWeekSelectionList)
+        {
+            <MudSelectItem Value="@item.Key.ToString()">@item.Value</MudSelectItem>
+        }
+    </MudSelect>
+}

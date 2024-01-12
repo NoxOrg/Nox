@@ -67,7 +67,7 @@ internal abstract class DeleteTestEntityLocalizationLocalizationsCommandHandlerB
 
 public class DeleteTestEntityLocalizationLocalizationsCommandValidator : AbstractValidator<DeleteTestEntityLocalizationLocalizationsCommand>
 {
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en_US");
 
     public DeleteTestEntityLocalizationLocalizationsCommandValidator()
     {

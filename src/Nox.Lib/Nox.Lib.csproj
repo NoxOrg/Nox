@@ -24,11 +24,6 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="CloudNative.CloudEvents" Version="2.7.1" />
-		<PackageReference Include="CloudNative.CloudEvents.SystemTextJson" Version="2.7.1" />
-		<PackageReference Include="MassTransit" Version="8.1.3" />	
-		<PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="8.1.3" />
-		<PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.1.3" />		
 		<PackageReference Include="MediatR" Version="12.1.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.14" />
@@ -48,20 +43,16 @@
 		<PackageReference Include="Serilog.Sinks.Console" Version="5.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
 		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
+		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.7" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Nox.Docs\Nox.Docs.csproj" />
-		<ProjectReference Include="..\Nox.EntityFramework.Postgres\Nox.EntityFramework.Postgres.csproj" />
-		<ProjectReference Include="..\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj" />
-		<ProjectReference Include="..\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
 		<ProjectReference Include="..\Nox.Integration\Nox.Integration.csproj" />
 		<ProjectReference Include="..\Nox.Monitoring.ElasticApm\Nox.Monitoring.ElasticApm.csproj" />
 		<ProjectReference Include="..\Nox.Secrets\Nox.Secrets.csproj" />
-		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
 		<ProjectReference Include="..\Nox.Core\Nox.Core.csproj" />
 		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" PrivateAssets="all" />
-		<ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -75,6 +66,7 @@
 	<ItemGroup>
 		<InternalsVisibleTo Include="Nox.Integration.Tests" />
 		<InternalsVisibleTo Include="Nox.ClientApi.Tests" />
+		<InternalsVisibleTo Include="Nox.Lib.Tests" />		
 	</ItemGroup>
 	<ItemGroup>
 		<Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\YamlDotNet.dll">

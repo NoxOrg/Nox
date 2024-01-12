@@ -22,6 +22,8 @@ end -}}
     if entity.IsLocalized
         constructor.Params = constructor.Params | array.add ("IEntityLocalizedFactory<" + entity.Name + "Localized, " + entity.Name + "Entity, " + entityUpdateDto + "> " + (ToLowerFirstChar  entity.Name) + "LocalizedFactory")
         constructor.Names = constructor.Names | array.add ((ToLowerFirstChar  entity.Name) + "LocalizedFactory")
+        constructor.Params = constructor.Params | array.add "NoxSolution noxSolution"    
+        constructor.Names = constructor.Names | array.add "noxSolution"
     end
         
     for ownedEntity in ownedEntities
@@ -69,7 +71,7 @@ internal partial class {{className}} : {{className}}Base
 internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity, {{entityCreateDto}}, {{entityUpdateDto}}>
 {
     {{- if entity.IsLocalized }}
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("{{codeGeneratorState.Solution.Application.Localization.DefaultCulture}}");
+    private readonly Nox.Types.CultureCode _defaultCultureCode;
     protected readonly IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entityUpdateDto}}> {{entity.Name}}LocalizedFactory;
     {{- end }}
 
@@ -92,6 +94,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         {{- end }}
         {{- if entity.IsLocalized }}
         {{entity.Name}}LocalizedFactory = {{ToLowerFirstChar  entity.Name}}LocalizedFactory;
+        _defaultCultureCode = Nox.Types.CultureCode.From(noxSolution!.Application!.Localization!.DefaultCulture);
         {{- end }}
         {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
         {{ ownedEntity}}Factory = {{fieldFactoryName ownedEntity}};
@@ -284,7 +287,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
     }
 
     {{- if entity.IsLocalized }}
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+    private bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
     {{- end }}
 

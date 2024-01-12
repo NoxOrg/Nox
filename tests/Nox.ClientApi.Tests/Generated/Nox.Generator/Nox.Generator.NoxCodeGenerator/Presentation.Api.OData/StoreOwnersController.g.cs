@@ -144,6 +144,30 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         return Ok(updatedItem);
     }
     
+    [HttpPatch("/api/v1/StoreOwners/{key}/Stores/{relatedKey}")]
+    public virtual async Task<ActionResult<StoreDto>> PatchtoStoresNonConventional(System.String key, System.Guid relatedKey, [FromBody] Delta<StorePartialUpdateDto> store)
+    {
+        if (!ModelState.IsValid || store is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).SelectMany(x => x.Stores).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Stores", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<StorePartialUpdateDto>(store);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateStoreCommand(relatedKey, updatedProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetStoreByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/v1/StoreOwners/{key}/Stores/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteToStores([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
     {

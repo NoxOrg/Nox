@@ -1,4 +1,3 @@
-<<<<<<< main
 # API Endpoints for the Commission entity
 
 This document provides information about the various endpoints available in our API for the Commission entity.
@@ -80,7 +79,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Country
 - **DELETE** `/api/Commissions/{key}/CommissionFeesForCountry`
   - Description: Delete all existing Countries for a specific Commission.
-
 ### Booking
 
 #### Get Booking relations
@@ -127,97 +125,89 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Commissions/{key}/CommissionFeesForBooking`
   - Description: Delete all existing Bookings for a specific Commission.
 
-## Related Entities
+## Other Related Endpoints
 
-[Country](CountryEndpoints.md)
+- **GET** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Currency`
 
-[Booking](BookingEndpoints.md)
+- **POST** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Currency`
 
-=======
-# API Endpoints for the Commission entity
+- **PUT** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Currency`
 
-This document provides information about the various endpoints available in our API for the Commission entity.
+- **PATCH** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Currency`
 
-## Commission Endpoints
+- **GET** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Currency/$ref`
 
-### Get Commission by ID
-- **GET** `/api/Commissions/{key}`
-  - Description: Retrieve information about a Commission by ID.
-  
-### Get Commissions
-- **GET** `/api/Commissions`
-  - Description: Retrieve information about Commissions.
+- **POST** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Currency/{currencyKey}/$ref`
 
-### Create Commission
-- **POST** `/api/Commissions`
-  - Description: Create a new Commission.
+- **PUT** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Currency/{currencyKey}/$ref`
 
-### Update Commission
-- **PUT** `/api/Commissions/{key}`
-  - Description: Update an existing Commission.
+- **GET** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines`
 
-### Partially Update Commission
-- **PATCH** `/api/Commissions/{key}`
-  - Description: Partially update an existing Commission.
- 
-### Delete Commission
-- **DELETE** `/api/Commissions/{key}`
-  - Description: Delete an existing Commission.
+- **POST** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines`
 
-## Relationships Endpoints
+- **DELETE** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines`
 
-### Country
+- **GET** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/{vendingMachinesKey}`
 
-#### Get Country relations
-- **GET** `/api/Commissions/{key}/CommissionFeesForCountry/$ref`
-  - Description: Retrieve all existing Countries relations for a specific Commission.
-  
-#### Create Country relation
-- **POST** `/api/Commissions/{key}/CommissionFeesForCountry/{relatedKey}/$ref`
-  - Description: Create a new Country relation for a specific Commission.
-  
-#### Update Country relation
-- **PUT** `/api/Commissions/{key}/CommissionFeesForCountry/{relatedKey}/$ref`
-  - Description: Updates an existing Country relation for a specific Commission.
-- **PUT** `/api/Commissions/{key}/CommissionFeesForCountry/$ref`
-  - Description: Updates the Country relations for a specific Commission.
+- **PUT** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/{vendingMachinesKey}`
 
-#### Delete Country relation
-- **DELETE** `/api/Commissions/{key}/CommissionFeesForCountry/{relatedKey}/$ref`
-  - Description: Delete an existing Country relation for a specific Commission.
+- **PATCH** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/{vendingMachinesKey}`
 
-#### Delete Country relations
-- **DELETE** `/api/Commissions/{key}/CommissionFeesForCountry/$ref`
-  - Description: Delete all existing Countries relations for a specific Commission.
+- **DELETE** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/{vendingMachinesKey}`
 
-### Booking
+- **GET** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/$ref`
 
-#### Get Booking relations
-- **GET** `/api/Commissions/{key}/CommissionFeesForBooking/$ref`
-  - Description: Retrieve all existing Bookings relations for a specific Commission.
-  
-#### Create Booking relation
-- **POST** `/api/Commissions/{key}/CommissionFeesForBooking/{relatedKey}/$ref`
-  - Description: Create a new Booking relation for a specific Commission.
-  
-#### Update Booking relation
-- **PUT** `/api/Commissions/{key}/CommissionFeesForBooking/{relatedKey}/$ref`
-  - Description: Updates an existing Booking relation for a specific Commission.
-- **PUT** `/api/Commissions/{key}/CommissionFeesForBooking/$ref`
-  - Description: Updates the Booking relations for a specific Commission.
+- **PUT** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/$ref`
 
-#### Delete Booking relation
-- **DELETE** `/api/Commissions/{key}/CommissionFeesForBooking/{relatedKey}/$ref`
-  - Description: Delete an existing Booking relation for a specific Commission.
+- **DELETE** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/$ref`
 
-#### Delete Booking relations
-- **DELETE** `/api/Commissions/{key}/CommissionFeesForBooking/$ref`
-  - Description: Delete all existing Bookings relations for a specific Commission.
+- **POST** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/{vendingMachinesKey}/$ref`
+
+- **PUT** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/{vendingMachinesKey}/$ref`
+
+- **DELETE** `/api/Commissions/{commissionsKey}/Country/{countryKey}/VendingMachines/{vendingMachinesKey}/$ref`
+
+- **GET** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers`
+
+- **POST** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers`
+
+- **DELETE** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers`
+
+- **GET** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/{customersKey}`
+
+- **PUT** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/{customersKey}`
+
+- **PATCH** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/{customersKey}`
+
+- **DELETE** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/{customersKey}`
+
+- **GET** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/$ref`
+
+- **PUT** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/$ref`
+
+- **DELETE** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/$ref`
+
+- **POST** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/{customersKey}/$ref`
+
+- **PUT** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/{customersKey}/$ref`
+
+- **DELETE** `/api/Commissions/{commissionsKey}/Country/{countryKey}/Customers/{customersKey}/$ref`
+
+- **GET** `/api/Commissions/{commissionsKey}/Bookings/{bookingsKey}/Transaction`
+
+- **POST** `/api/Commissions/{commissionsKey}/Bookings/{bookingsKey}/Transaction`
+
+- **PUT** `/api/Commissions/{commissionsKey}/Bookings/{bookingsKey}/Transaction`
+
+- **PATCH** `/api/Commissions/{commissionsKey}/Bookings/{bookingsKey}/Transaction`
+
+- **GET** `/api/Commissions/{commissionsKey}/Bookings/{bookingsKey}/Transaction/$ref`
+
+- **POST** `/api/Commissions/{commissionsKey}/Bookings/{bookingsKey}/Transaction/{transactionKey}/$ref`
+
+- **PUT** `/api/Commissions/{commissionsKey}/Bookings/{bookingsKey}/Transaction/{transactionKey}/$ref`
 
 ## Related Entities
 
 [Country](CountryEndpoints.md)
-
 [Booking](BookingEndpoints.md)
-
->>>>>>> Factory classes refactor has been completed (without tests)

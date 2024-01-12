@@ -1,4 +1,3 @@
-<<<<<<< main
 # API Endpoints for the CashStockOrder entity
 
 This document provides information about the various endpoints available in our API for the CashStockOrder entity.
@@ -80,7 +79,6 @@ This document provides information about the various endpoints available in our 
 #### Delete VendingMachine
 - **DELETE** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine`
   - Description: Delete all existing VendingMachines for a specific CashStockOrder.
-
 ### Employee
 
 #### Get Employee relations
@@ -127,97 +125,89 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee`
   - Description: Delete all existing Employees for a specific CashStockOrder.
 
-## Related Entities
+## Other Related Endpoints
 
-[VendingMachine](VendingMachineEndpoints.md)
+- **GET** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Country`
 
-[Employee](EmployeeEndpoints.md)
+- **POST** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Country`
 
-=======
-# API Endpoints for the CashStockOrder entity
+- **PUT** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Country`
 
-This document provides information about the various endpoints available in our API for the CashStockOrder entity.
+- **PATCH** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Country`
 
-## CashStockOrder Endpoints
+- **GET** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Country/$ref`
 
-### Get CashStockOrder by ID
-- **GET** `/api/CashStockOrders/{key}`
-  - Description: Retrieve information about a CashStockOrder by ID.
-  
-### Get CashStockOrders
-- **GET** `/api/CashStockOrders`
-  - Description: Retrieve information about CashStockOrders.
+- **POST** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Country/{countryKey}/$ref`
 
-### Create CashStockOrder
-- **POST** `/api/CashStockOrders`
-  - Description: Create a new CashStockOrder.
+- **PUT** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Country/{countryKey}/$ref`
 
-### Update CashStockOrder
-- **PUT** `/api/CashStockOrders/{key}`
-  - Description: Update an existing CashStockOrder.
+- **GET** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/LandLord`
 
-### Partially Update CashStockOrder
-- **PATCH** `/api/CashStockOrders/{key}`
-  - Description: Partially update an existing CashStockOrder.
- 
-### Delete CashStockOrder
-- **DELETE** `/api/CashStockOrders/{key}`
-  - Description: Delete an existing CashStockOrder.
+- **POST** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/LandLord`
 
-## Relationships Endpoints
+- **PUT** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/LandLord`
 
-### VendingMachine
+- **PATCH** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/LandLord`
 
-#### Get VendingMachine relations
-- **GET** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/$ref`
-  - Description: Retrieve all existing VendingMachines relations for a specific CashStockOrder.
-  
-#### Create VendingMachine relation
-- **POST** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/{relatedKey}/$ref`
-  - Description: Create a new VendingMachine relation for a specific CashStockOrder.
-  
-#### Update VendingMachine relation
-- **PUT** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/{relatedKey}/$ref`
-  - Description: Updates an existing VendingMachine relation for a specific CashStockOrder.
-- **PUT** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/$ref`
-  - Description: Updates the VendingMachine relations for a specific CashStockOrder.
+- **GET** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/LandLord/$ref`
 
-#### Delete VendingMachine relation
-- **DELETE** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/{relatedKey}/$ref`
-  - Description: Delete an existing VendingMachine relation for a specific CashStockOrder.
+- **POST** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/LandLord/{landLordKey}/$ref`
 
-#### Delete VendingMachine relations
-- **DELETE** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/$ref`
-  - Description: Delete all existing VendingMachines relations for a specific CashStockOrder.
+- **PUT** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/LandLord/{landLordKey}/$ref`
 
-### Employee
+- **GET** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Bookings`
 
-#### Get Employee relations
-- **GET** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/$ref`
-  - Description: Retrieve all existing Employees relations for a specific CashStockOrder.
-  
-#### Create Employee relation
-- **POST** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/{relatedKey}/$ref`
-  - Description: Create a new Employee relation for a specific CashStockOrder.
-  
-#### Update Employee relation
-- **PUT** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/{relatedKey}/$ref`
-  - Description: Updates an existing Employee relation for a specific CashStockOrder.
-- **PUT** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/$ref`
-  - Description: Updates the Employee relations for a specific CashStockOrder.
+- **POST** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Bookings`
 
-#### Delete Employee relation
-- **DELETE** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/{relatedKey}/$ref`
-  - Description: Delete an existing Employee relation for a specific CashStockOrder.
+- **DELETE** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Bookings`
 
-#### Delete Employee relations
-- **DELETE** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/$ref`
-  - Description: Delete all existing Employees relations for a specific CashStockOrder.
+- **GET** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Bookings/{bookingsKey}`
+
+- **PUT** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Bookings/{bookingsKey}`
+
+- **PATCH** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Bookings/{bookingsKey}`
+
+- **DELETE** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Bookings/{bookingsKey}`
+
+- **GET** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Bookings/$ref`
+
+- **PUT** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Bookings/$ref`
+
+- **DELETE** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Bookings/$ref`
+
+- **POST** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Bookings/{bookingsKey}/$ref`
+
+- **PUT** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Bookings/{bookingsKey}/$ref`
+
+- **DELETE** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/Bookings/{bookingsKey}/$ref`
+
+- **GET** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks`
+
+- **POST** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks`
+
+- **DELETE** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks`
+
+- **GET** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}`
+
+- **PUT** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}`
+
+- **PATCH** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}`
+
+- **DELETE** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}`
+
+- **GET** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/$ref`
+
+- **PUT** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/$ref`
+
+- **DELETE** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/$ref`
+
+- **POST** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
+
+- **PUT** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
+
+- **DELETE** `/api/CashStockOrders/{cashStockOrdersKey}/VendingMachine/{vendingMachineKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
 
 ## Related Entities
 
 [VendingMachine](VendingMachineEndpoints.md)
-
 [Employee](EmployeeEndpoints.md)
-
->>>>>>> Factory classes refactor has been completed (without tests)

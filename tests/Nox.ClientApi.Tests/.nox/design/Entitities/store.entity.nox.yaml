@@ -60,6 +60,11 @@ attributes:
 
 relationships:
 
+    - name: CountryOfTheStore
+      description: country where the store is located
+      relationship: zeroOrOne
+      entity: Country
+
     - name: Ownership
       description: Owner of the Store
       relationship: zeroOrOne
@@ -81,7 +86,7 @@ ownedRelationships:
     description: Verified emails
     relationship: zeroOrOne #todo make exactly one when dto are ready
     entity: EmailAddress
-    canManageEntity: false
+    apiGenerateRelatedEndpoint: false
     
 persistence:
     isAudited: true

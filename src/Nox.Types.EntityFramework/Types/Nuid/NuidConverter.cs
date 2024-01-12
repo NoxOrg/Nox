@@ -4,7 +4,7 @@ namespace Nox.Types.EntityFramework.Types;
 
 public class NuidConverter : ValueConverter<Nuid, uint>
 {
-    public NuidConverter() : base(nuid => nuid.Value, nuid => Nuid.From(nuid))
+    public NuidConverter() : base(nuid => nuid.Value, nuidValue => Nuid.FromDatabase(nuidValue))
     {
     }
 }

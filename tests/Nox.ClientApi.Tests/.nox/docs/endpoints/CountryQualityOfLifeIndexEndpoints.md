@@ -31,4 +31,3 @@ This document provides information about the various endpoints available in our 
 ### Delete CountryQualityOfLifeIndex
 - **DELETE** `/api/v1/CountryQualityOfLifeIndices/{key}`
   - Description: Delete an existing CountryQualityOfLifeIndex.
-

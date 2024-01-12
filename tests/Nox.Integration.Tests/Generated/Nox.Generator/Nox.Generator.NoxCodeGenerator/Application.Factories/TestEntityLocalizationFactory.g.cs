@@ -28,24 +28,27 @@ internal partial class TestEntityLocalizationFactory : TestEntityLocalizationFac
     public TestEntityLocalizationFactory
     (
         IRepository repository,
-        IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> testEntityLocalizationLocalizedFactory
-    ) : base(repository, testEntityLocalizationLocalizedFactory)
+        IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> testEntityLocalizationLocalizedFactory,
+        NoxSolution noxSolution
+    ) : base(repository, testEntityLocalizationLocalizedFactory, noxSolution)
     {}
 }
 
 internal abstract class TestEntityLocalizationFactoryBase : IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto>
 {
-    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+    private readonly Nox.Types.CultureCode _defaultCultureCode;
     protected readonly IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> TestEntityLocalizationLocalizedFactory;
     private readonly IRepository _repository;
 
     public TestEntityLocalizationFactoryBase(
         IRepository repository,
-        IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> testEntityLocalizationLocalizedFactory
+        IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> testEntityLocalizationLocalizedFactory,
+        NoxSolution noxSolution
         )
     {
         _repository = repository;
         TestEntityLocalizationLocalizedFactory = testEntityLocalizationLocalizedFactory;
+        _defaultCultureCode = Nox.Types.CultureCode.From(noxSolution!.Application!.Localization!.DefaultCulture);
     }
 
     public virtual async Task<TestEntityLocalizationEntity> CreateEntityAsync(TestEntityLocalizationCreateDto createDto, Nox.Types.CultureCode cultureCode)
@@ -134,6 +137,6 @@ internal abstract class TestEntityLocalizationFactoryBase : IEntityFactory<TestE
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+    private bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
 }

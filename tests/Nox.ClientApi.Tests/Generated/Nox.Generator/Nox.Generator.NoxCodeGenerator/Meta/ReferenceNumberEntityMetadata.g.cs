@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace ClientApi.Domain;
 
@@ -53,13 +54,8 @@ public partial class ReferenceNumberEntityMetadata
         public static Nox.Types.ReferenceNumber CreateReferenceNumber(System.String value)
             => Nox.Types.ReferenceNumber.From(value, ReferenceNumberTypeOptions);
         
-
         /// <summary>
         /// User Interface for property 'ReferenceNumber'
         /// </summary>
-        public static TypeUserInterface? ReferenceNumberUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("ReferenceNumberEntity")
-                .GetAttributeByName("ReferenceNumber")?
-                .UserInterface;
+        public static TypeUserInterface? ReferenceNumberUiOptions {get; private set;} = null; 
 }

@@ -7,6 +7,7 @@ using Nox.Yaml.Serialization;
 using Nox.Yaml.VariableProviders.Environment;
 using Nox.Yaml.Validation;
 using System.Text.RegularExpressions;
+using YamlDotNet.Serialization;
 
 namespace Nox.Yaml;
 
@@ -35,6 +36,8 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
     private EnvironmentVariableDefaultsProvider<TVarsOnlyType>? _environmentVariableDefaultsProvider = null!;
 
     private SecretsVariableValueProvider<TVarsOnlyType>? _secretVariableValueProvider = default!;
+
+    private readonly List<IYamlTypeConverter> _yamlTypeConverters = new();
 
 
     public YamlConfigurationReader<TFullType,TVarsOnlyType> WithFile(string yamlFilePath)
@@ -135,6 +138,11 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
         return this;
     }
 
+    public YamlConfigurationReader<TFullType, TVarsOnlyType> WithYamlTypeConverter(IYamlTypeConverter yamlTypeConverter)
+    {
+        _yamlTypeConverters.Add(yamlTypeConverter);
+        return this;
+    }
     public TFullType Read()
     {
         ResolveAndValidateFilesAndContent();
@@ -232,7 +240,7 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
 
     private TFullType ResolveAndLoadConfiguration()
     {
-        var yamlRefResolver = new YamlReferenceResolver(_yamlFilesAndContent!, _rootFileAndContentKey!);
+        var yamlRefResolver = new YamlReferenceResolver(_yamlFilesAndContent!, _rootFileAndContentKey!, _yamlTypeConverters);
 
         var variablesOnlyObject = VariablesDeserializer.Deserialize<TVarsOnlyType>(yamlRefResolver.ToYamlString());
         
@@ -283,7 +291,7 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
         {
             var matchPattern = _yamlFilePath?.WildCardToRegex() ?? _filePattern.WildCardToRegex();
 
-            var regex = new Regex(matchPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            var regex = new Regex(matchPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled,TimeSpan.FromMilliseconds(150));
 
             var solutionFiles = _yamlFilesAndContent
                 .Where(kv => regex.IsMatch(kv.Key))

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<Version>1.0.0.35</Version>
@@ -26,8 +26,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.8.3" PrivateAssets="all" ExcludeAssets="Runtime" />
-		<PackageReference Include="Scriban" Version="5.9.0" PrivateAssets="all" IncludeAssets="Build" />		
+		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.8.3" PrivateAssets="all" ExcludeAssets="Runtime" />		
 		<PackageReference Include="YamlDotNet" Version="13.7.1" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="Humanizer.Core" Version="2.14.1" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="FluentValidation" Version="11.8.1" PrivateAssets="all" GeneratePathProperty="true" />
@@ -36,12 +35,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" />
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>
-		<Compile Remove="**\**\*.template.cs" />
-		<EmbeddedResource Include="**\**\*.template.cs" />
+		<EmbeddedResource Include="**\**\*.scriban-cs" />
+		<Compile Remove="Validation\**" />
+		<EmbeddedResource Remove="Validation\**" />
+		<None Remove="Validation\**" />
 		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
 	</ItemGroup>
 
@@ -98,6 +100,7 @@
 	<PropertyGroup>
 		<!-- Define the local NuGet feed path -->
 		<LocalFeedPath>..\nuget</LocalFeedPath>
+		<RootNamespace>Nox.Generator</RootNamespace>
 	</PropertyGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack">

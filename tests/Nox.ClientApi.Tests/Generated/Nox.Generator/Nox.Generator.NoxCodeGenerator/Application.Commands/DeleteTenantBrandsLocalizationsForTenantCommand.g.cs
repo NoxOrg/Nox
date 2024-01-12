@@ -71,7 +71,7 @@ internal abstract class DeleteTenantBrandsLocalizationsForTenantCommandHandlerBa
 
 public class DeleteTenantBrandsLocalizationsForTenantCommandValidator : AbstractValidator<DeleteTenantBrandsLocalizationsForTenantCommand>
 {
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en_US");
 
     public DeleteTenantBrandsLocalizationsForTenantCommandValidator()
     {

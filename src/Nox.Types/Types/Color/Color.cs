@@ -9,7 +9,7 @@ namespace Nox.Types;
 /// </summary>
 public class Color : ValueObject<string, Color>
 {
-    private readonly Regex _hexColorRegex = new Regex(@"^#(([A-Fa-f0-9]{3})|([A-Fa-f0-9]{6})|([A-Fa-f0-9]{8}))$");
+    private static readonly Regex _hexColorRegex = new (@"^#(([A-Fa-f0-9]{3})|([A-Fa-f0-9]{6})|([A-Fa-f0-9]{8}))$", RegexOptions.Compiled, Regex_Default_Timeout_Miliseconds);
 
     /// <summary>
     /// Creates a new instance of <see cref="Color"/> object.

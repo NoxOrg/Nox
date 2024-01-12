@@ -70,22 +70,27 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         _{{ ToLowerFirstChar query.Name}} = {{ ToLowerFirstChar query.Name }};
         {{- end }}
     }
-    {{~ if entity.Persistence == null || entity.Persistence.Read.IsEnabled }}
+    {{~ if entity.Persistence != null && !entity.Persistence.Read.IsEnabled }}
+    [ApiExplorerSettings(IgnoreApi = true)]
+    {{- end }}
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<{{entity.Name}}Dto>>> Get()
     {
         var result = await _mediator.Send(new Get{{entity.PluralName}}Query());
         return Ok(result);
     }
-
+    {{~ if entity.Persistence != null && !entity.Persistence.Read.IsEnabled }}
+    [ApiExplorerSettings(IgnoreApi = true)]
+    {{- end }}
     [EnableQuery]
     public virtual async Task<SingleResult<{{entity.Name}}Dto>> Get({{ primaryKeysRoute }})
     {
         var result = await _mediator.Send(new Get{{ entity.Name }}ByIdQuery({{ primaryKeysQuery }}));
         return SingleResult.Create(result);
     }
+    {{~ if entity.Persistence != null && !entity.Persistence.Create.IsEnabled }}
+    [ApiExplorerSettings(IgnoreApi = true)]
     {{- end }}
-    {{~ if entity.Persistence == null || entity.Persistence.Create.IsEnabled }}
     public virtual async Task<ActionResult<{{ entity.Name }}Dto>> Post([FromBody] {{entity.Name}}CreateDto {{ToLowerFirstChar entity.Name}})
     {
         if({{ToLowerFirstChar entity.Name}} is null)
@@ -103,8 +108,9 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
 
         return Created(item);
     }
-    {{- end}}
-    {{~ if entity.Persistence == null || entity.Persistence.Update.IsEnabled }}
+    {{~ if entity.Persistence != null && !entity.Persistence.Update.IsEnabled }}
+    [ApiExplorerSettings(IgnoreApi = true)]
+    {{- end }}
     public virtual async Task<ActionResult<{{entity.Name}}Dto>> Put({{ primaryKeysRoute }}, [FromBody] {{entity.Name}}UpdateDto {{ToLowerFirstChar entity.Name}})
     {
         if({{ToLowerFirstChar entity.Name}} is null)
@@ -126,7 +132,9 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
 
         return Ok(item);
     }
-
+    {{~ if entity.Persistence != null && !entity.Persistence.Update.IsEnabled }}
+    [ApiExplorerSettings(IgnoreApi = true)]
+    {{- end }}
     public virtual async Task<ActionResult<{{entity.Name}}Dto>> Patch({{ primaryKeysRoute }}, [FromBody] Delta<{{entity.Name}}PartialUpdateDto> {{ToLowerFirstChar entity.Name}})
     {
         if({{ToLowerFirstChar entity.Name}} is null)
@@ -150,8 +158,9 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
 
         return Ok(item);
     }
-    {{- end}}
-    {{~ if entity.Persistence == null || entity.Persistence.Delete.IsEnabled }}
+    {{~ if entity.Persistence != null && !entity.Persistence.Delete.IsEnabled }}
+    [ApiExplorerSettings(IgnoreApi = true)]
+    {{- end }}
     public virtual async Task<ActionResult> Delete({{ primaryKeysRoute }})
     {
         {{- if !entity.IsOwnedEntity }}
@@ -163,5 +172,4 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
 
         return NoContent();
     }
-    {{- end }}
 }

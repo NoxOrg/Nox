@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace TestWebApp.Domain;
 
@@ -75,13 +76,8 @@ public partial class TestEntityOneOrManyToZeroOrManyMetadata
         public static Nox.Types.Text CreateTestEntityZeroOrManyToOneOrManyId(System.String value)
             => Nox.Types.Text.From(value, TestEntityZeroOrManyToOneOrManyIdTypeOptions);
         
-
         /// <summary>
         /// User Interface for property 'TextTestField'
         /// </summary>
-        public static TypeUserInterface? TextTestFieldUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("TestEntityOneOrManyToZeroOrMany")
-                .GetAttributeByName("TextTestField")?
-                .UserInterface;
+        public static TypeUserInterface? TextTestFieldUiOptions {get; private set;} = null; 
 }

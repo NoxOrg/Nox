@@ -9,11 +9,14 @@
 #    <AdditionalFiles Include="generator.nox.yaml" />
 #  </ItemGroup>
 
-# Genrates domain models, events and related types
+# Generates domain models, events and related types
 domain: true
 
 # Generates application logic and events
 application: true
+
+# Generates application dtos/ contracts
+applicationDto: true
 
 # Generates persistence, DbContext and model configuration and mapping
 infrastructure: true

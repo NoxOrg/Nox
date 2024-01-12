@@ -105,6 +105,29 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
         return Ok(updatedItem);
     }
     
+    public virtual async Task<ActionResult<TestEntityOneOrManyToExactlyOneDto>> PatchToTestEntityOneOrManyToExactlyOne(System.String key, [FromBody] Delta<TestEntityOneOrManyToExactlyOnePartialUpdateDto> testEntityOneOrManyToExactlyOne)
+    {
+        if (!ModelState.IsValid || testEntityOneOrManyToExactlyOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityExactlyOneToOneOrManyByIdQuery(key))).Select(x => x.TestEntityOneOrManyToExactlyOne).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("TestEntityOneOrManyToExactlyOne", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<TestEntityOneOrManyToExactlyOnePartialUpdateDto>(testEntityOneOrManyToExactlyOne);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateTestEntityOneOrManyToExactlyOneCommand(related.Id, updatedProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetTestEntityOneOrManyToExactlyOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     #endregion
     
 }

@@ -68,7 +68,7 @@ internal abstract class DeleteTenantContactLocalizationsForTenantCommandHandlerB
 
 public class DeleteTenantContactLocalizationsForTenantCommandValidator : AbstractValidator<DeleteTenantContactLocalizationsForTenantCommand>
 {
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en_US");
 
     public DeleteTenantContactLocalizationsForTenantCommandValidator()
     {

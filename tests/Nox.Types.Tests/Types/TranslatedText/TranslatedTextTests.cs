@@ -96,7 +96,7 @@ public class TranslatedTextTests
     public void TranslatedText_WithDifferentOptions_NonEquality_Tests()
     {
         var translatedTestString = "It's a test designed to provoke an emotional response - Holden";
-        var cultureCode = CultureCode.From("en-UK");
+        var cultureCode = CultureCode.From("en-US");
 
         var translatedText1 = TranslatedText.From((cultureCode, translatedTestString), new TranslatedTextTypeOptions { MinLength =5, MaxLength=1000, CharacterCasing = TextTypeCasing.Lower});
 
@@ -114,7 +114,7 @@ public class TranslatedTextTests
     public void TranslatedText_WithInvalidTextCasing_ThrowsException()
     {
         var translatedTestString = "It's a test designed to provoke an emotional response - Holden";
-        var cultureCode = CultureCode.From("en-UK");
+        var cultureCode = CultureCode.From("en-US");
 
         var exception = Assert.Throws<NotSupportedException>(() => _ =
                  TranslatedText.From((cultureCode, translatedTestString), new TranslatedTextTypeOptions { MinLength = 5, MaxLength = 1000, CharacterCasing = (TextTypeCasing)100 })

@@ -1,4 +1,5 @@
-﻿using Nox.Docs.Models;
+﻿using Nox.Docs.Builders;
+using Nox.Docs.Models;
 using Nox.Solution;
 using Nox.Solution.Extensions;
 using Nox.Types;
@@ -24,8 +25,12 @@ public static class NoxSolutionEntityEndpointsMarkdownExtensions
 
         var markdowns = new List<EntityMarkdownFile>(entities.Count());
 
+        var pathBuilder = new RelatedEntityRoutingPathBuilder(entities.ToList());
+        var maxDepth = noxSolution.Presentation.ApiConfiguration.ApiGenerateRelatedEndpointsMaxDepth;
+
         foreach (var entity in entities)
         {
+            var relatedEndpoints = pathBuilder.GetAllRelatedPathsForEntity(entity, maxDepth);
             var ownedEntitiesWithLocalizedAttributes = entity.OwnedRelationships
                 .Select(x => new
                 {
@@ -33,13 +38,14 @@ public static class NoxSolutionEntityEndpointsMarkdownExtensions
                     OwnedEntity = x.Related.Entity,
                     LocalizedAttributes = x.Related.Entity.GetLocalizedAttributes(),
                 });
-
             var model = new Dictionary<string, object>
             {
                 ["apiRoutePrefix"] = apiRoutePrefix,
                 ["entity"] = entity,
                 ["enumerationAttributes"] = entity.GetEnumerationAttributes(),
-                ["ownedLocalizedRelationships"] = ownedEntitiesWithLocalizedAttributes
+                ["ownedLocalizedRelationships"] = ownedEntitiesWithLocalizedAttributes,
+                ["ownedLocalizedRelationships"] = ownedEntitiesWithLocalizedAttributes,
+                ["relatedEndpoints"] = relatedEndpoints
             };
 
             var markdown = new EntityMarkdownFile

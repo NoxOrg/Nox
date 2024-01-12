@@ -4,7 +4,7 @@ using System.Text;
 namespace Nox.Lib;
 
 [DebuggerDisplay("{_routePattern}")]
-public class ApiRouteMatcher
+internal class ApiRouteMatcher
 {
 
     private readonly string _routePattern;
@@ -282,7 +282,7 @@ public class ApiRouteMatcher
 
         if (routeParamCount == 0 && segmentIndex < routeSegmentCount)
         {
-            _segmentSpanCoords[segmentIndex++] = new(0, routeSpan.Length);
+            _segmentSpanCoords[segmentIndex] = new(0, routeSpan.Length);
         }
 
     }

@@ -42,8 +42,10 @@ relationships:
       description: Default currency for this license
       relationship: zeroOrOne
       entity: Currency
+      refRelationshipName: StoreLicenseDefault
 
     - name: SoldInCurrency
       description: Currency this license was sold in
       relationship: zeroOrOne
       entity: Currency
+      refRelationshipName: StoreLicenseSoldIn

@@ -1,4 +1,3 @@
-<<<<<<< main
 # API Endpoints for the Country entity
 
 This document provides information about the various endpoints available in our API for the Country entity.
@@ -130,7 +129,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Currency
 - **DELETE** `/api/Countries/{key}/CountryUsedByCurrency`
   - Description: Delete all existing Currencies for a specific Country.
-
 ### Commission
 
 #### Get Commission relations
@@ -176,7 +174,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Commission
 - **DELETE** `/api/Countries/{key}/CountryUsedByCommissions`
   - Description: Delete all existing Commissions for a specific Country.
-
 ### VendingMachine
 
 #### Get VendingMachine relations
@@ -222,7 +219,6 @@ This document provides information about the various endpoints available in our 
 #### Delete VendingMachine
 - **DELETE** `/api/Countries/{key}/CountryUsedByVendingMachines`
   - Description: Delete all existing VendingMachines for a specific Country.
-
 ### Customer
 
 #### Get Customer relations
@@ -269,203 +265,155 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Countries/{key}/CountryUsedByCustomers`
   - Description: Delete all existing Customers for a specific Country.
 
-## Related Entities
+## Other Related Endpoints
 
-[Currency](CurrencyEndpoints.md)
+- **GET** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks`
 
-[Commission](CommissionEndpoints.md)
+- **POST** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks`
 
-[VendingMachine](VendingMachineEndpoints.md)
+- **DELETE** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks`
 
-[Customer](CustomerEndpoints.md)
+- **GET** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/{minimumCashStocksKey}`
 
-=======
-# API Endpoints for the Country entity
+- **PUT** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/{minimumCashStocksKey}`
 
-This document provides information about the various endpoints available in our API for the Country entity.
+- **PATCH** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/{minimumCashStocksKey}`
 
-## Country Endpoints
+- **DELETE** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/{minimumCashStocksKey}`
 
-### Get Country by ID
-- **GET** `/api/Countries/{key}`
-  - Description: Retrieve information about a Country by ID.
-  
-### Get Countries
-- **GET** `/api/Countries`
-  - Description: Retrieve information about Countries.
+- **GET** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/$ref`
 
-### Create Country
-- **POST** `/api/Countries`
-  - Description: Create a new Country.
+- **PUT** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/$ref`
 
-### Update Country
-- **PUT** `/api/Countries/{key}`
-  - Description: Update an existing Country.
+- **DELETE** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/$ref`
 
-### Partially Update Country
-- **PATCH** `/api/Countries/{key}`
-  - Description: Partially update an existing Country.
- 
-### Delete Country
-- **DELETE** `/api/Countries/{key}`
-  - Description: Delete an existing Country.
+- **POST** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
 
-## Owned Relationships Endpoints
+- **PUT** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
 
-### CountryTimeZone
+- **DELETE** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks/{minimumCashStocksKey}/$ref`
 
-#### Get CountryTimeZones
-- **GET** `/api/Countries/{key}/CountryTimeZones`
-  - Description: Retrieve all CountryTimeZones for a specific Country.
-- **GET** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
-  - Description: Retrieve a CountryTimeZone by ID for a specific Country.
+- **GET** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings`
 
-#### Create CountryTimeZone
-- **POST** `/api/Countries/{key}/CountryTimeZones`
-  - Description: Create a new CountryTimeZone for a specific Country.
+- **POST** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings`
 
-#### Update CountryTimeZone
-- **PUT** `/api/Countries/{key}/CountryTimeZones`
-  - Description: Update an existing CountryTimeZone for a specific Country.
-  
-#### Partially Update CountryTimeZone
-- **PATCH** `/api/Countries/{key}/CountryTimeZones`
-  - Description: Partially update an existing CountryTimeZone for a specific Country.
+- **DELETE** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings`
 
-#### Delete CountryTimeZone
-- **DELETE** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
-  - Description: Delete an existing CountryTimeZone for a specific Country.
+- **GET** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/{bookingsKey}`
 
-### Holiday
+- **PUT** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/{bookingsKey}`
 
-#### Get Holidays
-- **GET** `/api/Countries/{key}/Holidays`
-  - Description: Retrieve all Holidays for a specific Country.
-- **GET** `/api/Countries/{key}/Holidays/{relatedKey}`
-  - Description: Retrieve a Holiday by ID for a specific Country.
+- **PATCH** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/{bookingsKey}`
 
-#### Create Holiday
-- **POST** `/api/Countries/{key}/Holidays`
-  - Description: Create a new Holiday for a specific Country.
+- **DELETE** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/{bookingsKey}`
 
-#### Update Holiday
-- **PUT** `/api/Countries/{key}/Holidays`
-  - Description: Update an existing Holiday for a specific Country.
-  
-#### Partially Update Holiday
-- **PATCH** `/api/Countries/{key}/Holidays`
-  - Description: Partially update an existing Holiday for a specific Country.
+- **GET** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/$ref`
 
-#### Delete Holiday
-- **DELETE** `/api/Countries/{key}/Holidays/{relatedKey}`
-  - Description: Delete an existing Holiday for a specific Country.
+- **PUT** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/$ref`
 
-## Relationships Endpoints
+- **DELETE** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/$ref`
 
-### Currency
+- **POST** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/{bookingsKey}/$ref`
 
-#### Get Currency relations
-- **GET** `/api/Countries/{key}/CountryUsedByCurrency/$ref`
-  - Description: Retrieve all existing Currencies relations for a specific Country.
-  
-#### Create Currency relation
-- **POST** `/api/Countries/{key}/CountryUsedByCurrency/{relatedKey}/$ref`
-  - Description: Create a new Currency relation for a specific Country.
-  
-#### Update Currency relation
-- **PUT** `/api/Countries/{key}/CountryUsedByCurrency/{relatedKey}/$ref`
-  - Description: Updates an existing Currency relation for a specific Country.
-- **PUT** `/api/Countries/{key}/CountryUsedByCurrency/$ref`
-  - Description: Updates the Currency relations for a specific Country.
+- **PUT** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/{bookingsKey}/$ref`
 
-#### Delete Currency relation
-- **DELETE** `/api/Countries/{key}/CountryUsedByCurrency/{relatedKey}/$ref`
-  - Description: Delete an existing Currency relation for a specific Country.
+- **DELETE** `/api/Countries/{countriesKey}/Commissions/{commissionsKey}/Bookings/{bookingsKey}/$ref`
 
-#### Delete Currency relations
-- **DELETE** `/api/Countries/{key}/CountryUsedByCurrency/$ref`
-  - Description: Delete all existing Currencies relations for a specific Country.
+- **GET** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/LandLord`
 
-### Commission
+- **POST** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/LandLord`
 
-#### Get Commission relations
-- **GET** `/api/Countries/{key}/CountryUsedByCommissions/$ref`
-  - Description: Retrieve all existing Commissions relations for a specific Country.
-  
-#### Create Commission relation
-- **POST** `/api/Countries/{key}/CountryUsedByCommissions/{relatedKey}/$ref`
-  - Description: Create a new Commission relation for a specific Country.
-  
-#### Update Commission relation
-- **PUT** `/api/Countries/{key}/CountryUsedByCommissions/{relatedKey}/$ref`
-  - Description: Updates an existing Commission relation for a specific Country.
-- **PUT** `/api/Countries/{key}/CountryUsedByCommissions/$ref`
-  - Description: Updates the Commission relations for a specific Country.
+- **PUT** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/LandLord`
 
-#### Delete Commission relation
-- **DELETE** `/api/Countries/{key}/CountryUsedByCommissions/{relatedKey}/$ref`
-  - Description: Delete an existing Commission relation for a specific Country.
+- **PATCH** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/LandLord`
 
-#### Delete Commission relations
-- **DELETE** `/api/Countries/{key}/CountryUsedByCommissions/$ref`
-  - Description: Delete all existing Commissions relations for a specific Country.
+- **GET** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/LandLord/$ref`
 
-### VendingMachine
+- **POST** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/LandLord/{landLordKey}/$ref`
 
-#### Get VendingMachine relations
-- **GET** `/api/Countries/{key}/CountryUsedByVendingMachines/$ref`
-  - Description: Retrieve all existing VendingMachines relations for a specific Country.
-  
-#### Create VendingMachine relation
-- **POST** `/api/Countries/{key}/CountryUsedByVendingMachines/{relatedKey}/$ref`
-  - Description: Create a new VendingMachine relation for a specific Country.
-  
-#### Update VendingMachine relation
-- **PUT** `/api/Countries/{key}/CountryUsedByVendingMachines/{relatedKey}/$ref`
-  - Description: Updates an existing VendingMachine relation for a specific Country.
-- **PUT** `/api/Countries/{key}/CountryUsedByVendingMachines/$ref`
-  - Description: Updates the VendingMachine relations for a specific Country.
+- **PUT** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/LandLord/{landLordKey}/$ref`
 
-#### Delete VendingMachine relation
-- **DELETE** `/api/Countries/{key}/CountryUsedByVendingMachines/{relatedKey}/$ref`
-  - Description: Delete an existing VendingMachine relation for a specific Country.
+- **GET** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders`
 
-#### Delete VendingMachine relations
-- **DELETE** `/api/Countries/{key}/CountryUsedByVendingMachines/$ref`
-  - Description: Delete all existing VendingMachines relations for a specific Country.
+- **POST** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders`
 
-### Customer
+- **DELETE** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders`
 
-#### Get Customer relations
-- **GET** `/api/Countries/{key}/CountryUsedByCustomers/$ref`
-  - Description: Retrieve all existing Customers relations for a specific Country.
-  
-#### Create Customer relation
-- **POST** `/api/Countries/{key}/CountryUsedByCustomers/{relatedKey}/$ref`
-  - Description: Create a new Customer relation for a specific Country.
-  
-#### Update Customer relation
-- **PUT** `/api/Countries/{key}/CountryUsedByCustomers/{relatedKey}/$ref`
-  - Description: Updates an existing Customer relation for a specific Country.
-- **PUT** `/api/Countries/{key}/CountryUsedByCustomers/$ref`
-  - Description: Updates the Customer relations for a specific Country.
+- **GET** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}`
 
-#### Delete Customer relation
-- **DELETE** `/api/Countries/{key}/CountryUsedByCustomers/{relatedKey}/$ref`
-  - Description: Delete an existing Customer relation for a specific Country.
+- **PUT** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}`
 
-#### Delete Customer relations
-- **DELETE** `/api/Countries/{key}/CountryUsedByCustomers/$ref`
-  - Description: Delete all existing Customers relations for a specific Country.
+- **PATCH** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **DELETE** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}`
+
+- **GET** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/$ref`
+
+- **DELETE** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/$ref`
+
+- **POST** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
+
+- **DELETE** `/api/Countries/{countriesKey}/VendingMachines/{vendingMachinesKey}/CashStockOrders/{cashStockOrdersKey}/$ref`
+
+- **GET** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails`
+
+- **POST** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails`
+
+- **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails`
+
+- **GET** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}`
+
+- **PUT** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}`
+
+- **PATCH** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}`
+
+- **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}`
+
+- **GET** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/$ref`
+
+- **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/$ref`
+
+- **POST** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}/$ref`
+
+- **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/PaymentDetails/{paymentDetailsKey}/$ref`
+
+- **GET** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions`
+
+- **POST** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions`
+
+- **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions`
+
+- **GET** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/{transactionsKey}`
+
+- **PUT** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/{transactionsKey}`
+
+- **PATCH** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/{transactionsKey}`
+
+- **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/{transactionsKey}`
+
+- **GET** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/$ref`
+
+- **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/$ref`
+
+- **POST** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/{transactionsKey}/$ref`
+
+- **PUT** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/{transactionsKey}/$ref`
+
+- **DELETE** `/api/Countries/{countriesKey}/Customers/{customersKey}/Transactions/{transactionsKey}/$ref`
 
 ## Related Entities
 
 [Currency](CurrencyEndpoints.md)
-
 [Commission](CommissionEndpoints.md)
-
 [VendingMachine](VendingMachineEndpoints.md)
-
 [Customer](CustomerEndpoints.md)
-
->>>>>>> Factory classes refactor has been completed (without tests)

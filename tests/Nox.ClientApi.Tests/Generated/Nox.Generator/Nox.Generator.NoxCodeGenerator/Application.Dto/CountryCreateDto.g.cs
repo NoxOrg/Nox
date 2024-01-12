@@ -89,6 +89,14 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     public virtual List<WorkplaceCreateDto> Workplaces { get; set; } = new();
 
     /// <summary>
+    /// Country Country stores ZeroOrMany Stores
+    /// </summary>
+    public virtual List<System.Guid> StoresId { get; set; } = new();
+    
+    [System.Text.Json.Serialization.JsonIgnore]
+    public virtual List<StoreCreateDto> Stores { get; set; } = new();
+
+    /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
     public virtual List<CountryLocalNameUpsertDto> CountryLocalNames { get; set; } = new();

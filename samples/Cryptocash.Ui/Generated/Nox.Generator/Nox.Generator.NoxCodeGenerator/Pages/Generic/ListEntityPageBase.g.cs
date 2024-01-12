@@ -11,6 +11,10 @@ using Cryptocash.Ui.Generated.Data.Generic.Service;
 using Cryptocash.Application.Dto;
 using AutoMapper;
 using System.Reflection;
+using Nox.Ui.Blazor.Lib.Models;
+using Nox.Types;
+using YamlDotNet.Core.Tokens;
+using Nox.Reference;
 
 namespace Cryptocash.Ui.Generated.Pages.Generic
 {
@@ -140,6 +144,21 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         public CreateT? CurrentAddEntity { get; set; } = default;
 
         /// <summary>
+        /// Property CurrentAddEntityRentPerSquareMetre used as a temporary storage whilst adding entity to api
+        /// </summary>
+        public MoneyModel? CurrentAddEntityRentPerSquareMetre { get; set; }
+
+        /// <summary>
+        /// Property CurrentAddEntityStreetAddress used as a temporary storage whilst adding entity to api
+        /// </summary>
+        public StreetAddressModel? CurrentAddEntityStreetAddress { get; set; }
+
+        /// <summary>
+        /// Property CurrentAddEntityLatLong used as a temporary storage whilst adding entity to api
+        /// </summary>
+        public LatLongModel? CurrentAddEntityLatLong { get; set; }
+
+        /// <summary>
         /// Property AddEntityValidateSuccess used to ensure form passed dataannotation validation before proceeding
         /// </summary>
         public bool AddEntityValidateSuccess { get; set; } = false;
@@ -165,6 +184,21 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         public EditT? CurrentEditEntity { get; set; } = default;
 
         /// <summary>
+        /// Property CurrentEditEntityRentPerSquareMetre used as a temporary storage whilst updating entity via api
+        /// </summary>
+        public MoneyModel? CurrentEditEntityRentPerSquareMetre { get; set; }
+
+        /// <summary>
+        /// Property CurrentEditEntityStreetAddress used as a temporary storage whilst updating entity via api
+        /// </summary>
+        public StreetAddressModel? CurrentEditEntityStreetAddress { get; set; }
+
+        /// <summary>
+        /// Property CurrentEditEntityLatLong used as a temporary storage whilst updating entity via api
+        /// </summary>
+        public LatLongModel? CurrentEditEntityLatLong { get; set; }
+
+        /// <summary>
         /// Property CurrentEditEntityId used as a temporary storage whilst updating entity via api
         /// </summary>
         public string? CurrentEditEntityId { get; set; }
@@ -178,6 +212,11 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// Property EditEntityValidateSuccess used to ensure form passed dataannotation validation before proceeding
         /// </summary>
         public bool EditEntityValidateSuccess { get; set; } = false;
+
+        /// <summary>
+        /// Property CountryModelData used to store Country list data in preparation for selection
+        /// </summary>
+        public List<CountryModel>? CountryModelData { get; set; }
 
         /// <summary>
         /// Property CountryEntityData used to store Country list data in preparation for selection
@@ -388,6 +427,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                 };                
 
                 PagedData = testData;
+
+                //await GetAllCountries();
             }
 
             if (CurrentEntityName == "VendingMachine") //TODO just VendingMachine for now
@@ -706,7 +747,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         private void ResetAddEntity()
         {
             AddErrors = new();
-            CurrentAddEntity = (CreateT?)Activator.CreateInstance(typeof(CreateT));
+            CurrentAddEntity = (CreateT?)Activator.CreateInstance(typeof(CreateT));  
+            ResetAddModels();
         }
 
         /// <summary>
@@ -736,6 +778,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             {
                 if (CurrentAddEntity != null)
                 {
+                    AddModelsToAddEntity();
+
                     var config = new MapperConfiguration(cfg =>
                         cfg.CreateMap<CreateT, T>()
                     );
@@ -794,6 +838,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             CurrentEditEntityId = String.Empty;
             CurrentEditEtag = null;
             CurrentEditEntity = (EditT?)Activator.CreateInstance(typeof(EditT));
+            ResetEditModels();
         }
 
         /// <summary>
@@ -808,6 +853,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                 CurrentEditEntityId = GetIdAsStringFromDto(SelectedEditEntity);
                 CurrentEditEtag = GetEtagFromDto(SelectedEditEntity);
                 CurrentEditEntity = ConvertToEditDto(SelectedEditEntity);
+
+                LoadModelsFromEditEntity();
 
                 IsVisibleEditEntityDialog = true;
             }            
@@ -870,6 +917,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             {
                 if (CurrentEditEntity != null)
                 {
+                    AddModelsToEditEntity();
+
                     var config = new MapperConfiguration(cfg =>
                         cfg.CreateMap<EditT, T>()
                     );
@@ -1026,7 +1075,26 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         protected async Task GetAllCountries()
         {
             ApiUiService CountryApiService = new CountryService().IntialiseApiUiService(ConfigurationHelper.Configuration?["BaseApiUrl"]);
-            CountryEntityData = await EntityDataService<CountryDto>.GetAsyncRecursivePagedEntityData(CountryApiService);           
+            CountryEntityData = await EntityDataService<CountryDto>.GetAsyncRecursivePagedEntityData(CountryApiService);
+
+            if (CountryEntityData != null
+                && CountryEntityData.EntityList != null)
+            {
+                CountryModelData = new List<CountryModel>();
+
+                foreach (CountryDto currentCountry in CountryEntityData.EntityList)
+                {
+                    if (!String.IsNullOrWhiteSpace(currentCountry.Id)
+                        && !String.IsNullOrWhiteSpace(currentCountry.Name)
+                        && !String.IsNullOrWhiteSpace(currentCountry.CurrencyId))
+                    {
+                        CountryModelData.Add(new CountryModel(
+                            currentCountry.Id, 
+                            currentCountry.Name, 
+                            currentCountry.CurrencyId));
+                    }
+                }
+            }            
 
             return;
         }
@@ -1055,7 +1123,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             return;
         }
 
-        protected CurrencyDto? GetCurrencyByCountryId(string? CountryId)
+        protected CurrencyCode? GetCurrencyByCountryId(string? CountryId)
         {
             var CurrencyId = string.Empty;
             if (!String.IsNullOrWhiteSpace(CountryId)
@@ -1071,14 +1139,224 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                 }
             }
 
-            if (!String.IsNullOrWhiteSpace(CurrencyId)
-                && CurrencyEntityData != null
-                && CurrencyEntityData.EntityList != null)
+            if (!String.IsNullOrWhiteSpace(CurrencyId))
             {
-                return CurrencyEntityData.EntityList.FirstOrDefault(Currency => String.Equals(Currency.Id, CurrencyId, StringComparison.CurrentCultureIgnoreCase));
+                CurrencyCode TempCurrencyCode;
+                Enum.TryParse(CurrencyId, out TempCurrencyCode);
+                if (Enum.IsDefined(typeof(CurrencyCode), TempCurrencyCode))
+                {
+                    return TempCurrencyCode;
+                }
             }
 
             return null;
+        }
+
+        #endregion
+
+        #region DTO Conversions
+
+        private MoneyDto? ConvertMoneyModeltoDto(MoneyModel? Money)
+        {
+            if (Money != null)
+            {
+                return new()
+                {
+                    Amount = Money.Amount,
+                    CurrencyCode = Money.CurrencyCode
+                };
+            }
+
+            return null;
+        }
+
+        private MoneyModel? ConvertDtotoMoneyModel(MoneyDto? Money)
+        {
+            if (Money != null)
+            {
+                return new()
+                {
+                    Amount = Money.Amount,
+                    CurrencyCode = Money.CurrencyCode
+                };
+            }
+
+            return null;
+        }
+
+        private StreetAddressDto? ConvertStreetAddressModeltoDto(StreetAddressModel? streetAddress)
+        {
+            if (streetAddress != null
+                && !String.IsNullOrWhiteSpace(streetAddress.AddressLine1)
+                && !String.IsNullOrWhiteSpace(streetAddress.PostalCode)
+                && streetAddress.CountryId != null)
+            {
+                return new()
+                {
+                   StreetNumber = streetAddress.StreetNumber,
+                   AddressLine1 = streetAddress.AddressLine1,
+                   AddressLine2 = streetAddress.AddressLine2,
+                   Route = streetAddress.Route,
+                   Locality = streetAddress.Locality,
+                   Neighborhood = streetAddress.Neighborhood,
+                   AdministrativeArea1 = streetAddress.AdministrativeArea1,
+                   AdministrativeArea2 = streetAddress.AdministrativeArea2,
+                   PostalCode = streetAddress.PostalCode,
+                   CountryId = (Nox.Types.CountryCode)streetAddress.CountryId
+                };
+            }
+
+            return null;
+        }
+
+        private StreetAddressModel? ConvertDtotoStreetAddressModel(StreetAddressDto? streetAddress)
+        {
+            if (streetAddress != null
+                && !String.IsNullOrWhiteSpace(streetAddress.AddressLine1)
+                && !String.IsNullOrWhiteSpace(streetAddress.PostalCode))
+            {
+                return new()
+                {
+                    StreetNumber = streetAddress.StreetNumber,
+                    AddressLine1 = streetAddress.AddressLine1,
+                    AddressLine2 = streetAddress.AddressLine2,
+                    Route = streetAddress.Route,
+                    Locality = streetAddress.Locality,
+                    Neighborhood = streetAddress.Neighborhood,
+                    AdministrativeArea1 = streetAddress.AdministrativeArea1,
+                    AdministrativeArea2 = streetAddress.AdministrativeArea2,
+                    PostalCode = streetAddress.PostalCode,
+                    CountryId = (Nox.Types.CountryCode)streetAddress.CountryId
+                };
+            }
+
+            return null;
+        }
+
+        private LatLongDto? ConvertLatLongModeltoDto(LatLongModel? latLong)
+        {
+            if (latLong != null)
+            {
+                return new(latLong.Latitude, latLong.Longitude);
+            }
+
+            return null;
+        }
+
+        private LatLongModel? ConvertDtotoLatLongModel(LatLongDto? latLong)
+        {
+            if (latLong != null)
+            {
+                return new(latLong.Latitude, latLong.Longitude);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// GENERATOR RELATED: Bespoke Class for CreateT to add Model Entities before Add Submit
+        /// </summary>
+        private void AddModelsToAddEntity()
+        {
+            Type? t = CurrentAddEntity?.GetType();
+            if (t != null)
+            {
+                PropertyInfo? propRentPerSquareMetre = t.GetProperty("RentPerSquareMetre");
+                MoneyDto? tempRentPerSquareMetre = ConvertMoneyModeltoDto(CurrentAddEntityRentPerSquareMetre);
+                if (propRentPerSquareMetre != null
+                    && tempRentPerSquareMetre != null)
+                {
+                    propRentPerSquareMetre.SetValue(CurrentAddEntity, tempRentPerSquareMetre);
+                }
+
+                PropertyInfo? propStreetAddress = t.GetProperty("StreetAddress");
+                StreetAddressDto? tempStreetAddress = ConvertStreetAddressModeltoDto(CurrentAddEntityStreetAddress);
+                if (propStreetAddress != null
+                    && tempStreetAddress != null)
+                {
+                    propStreetAddress.SetValue(CurrentAddEntity, tempStreetAddress);
+                }
+
+                PropertyInfo? propLatLong = t.GetProperty("GeoLocation");
+                LatLongDto? tempLatLong = ConvertLatLongModeltoDto(CurrentAddEntityLatLong);
+                if (propLatLong != null
+                    && tempLatLong != null)
+                {
+                    propLatLong.SetValue(CurrentAddEntity, tempLatLong);
+                }
+            }            
+        }
+
+        /// <summary>
+        /// GENERATOR RELATED: Bespoke Class for EditT to add Model Entities before Edit Submit
+        /// </summary>
+        private void AddModelsToEditEntity()
+        {
+            Type? t = CurrentEditEntity?.GetType();
+            if (t != null)
+            {
+                PropertyInfo? propRentPerSquareMetre = t.GetProperty("RentPerSquareMetre");
+                MoneyDto? tempRentPerSquareMetre = ConvertMoneyModeltoDto(CurrentEditEntityRentPerSquareMetre);
+                if (propRentPerSquareMetre != null
+                    && tempRentPerSquareMetre != null)
+                {
+                    propRentPerSquareMetre.SetValue(CurrentEditEntity, tempRentPerSquareMetre);
+                }
+
+                PropertyInfo? propStreetAddress = t.GetProperty("StreetAddress");
+                StreetAddressDto? tempStreetAddress = ConvertStreetAddressModeltoDto(CurrentEditEntityStreetAddress);
+                if (propStreetAddress != null
+                    && tempStreetAddress != null)
+                {
+                    propStreetAddress.SetValue(CurrentEditEntity, tempStreetAddress);
+                }
+
+                PropertyInfo? propLatLong = t.GetProperty("GeoLocation");
+                LatLongDto? tempLatLong = ConvertLatLongModeltoDto(CurrentEditEntityLatLong);
+                if (propLatLong != null
+                    && tempLatLong != null)
+                {
+                    propLatLong.SetValue(CurrentEditEntity, tempLatLong);
+                }
+            }
+        }
+
+        /// <summary>
+        /// GENERATOR RELATED: Bespoke Class for EditT to load Models Entities before Edit
+        /// </summary>
+        private void LoadModelsFromEditEntity()
+        {
+            Type? t = CurrentEditEntity?.GetType();
+            if (t != null)
+            {
+                PropertyInfo? propStreetAddress = t.GetProperty("StreetAddress");
+                var getStreetAddress = propStreetAddress?.GetValue(CurrentEditEntity);
+                if (getStreetAddress != null)
+                {
+                    CurrentEditEntityStreetAddress = ConvertDtotoStreetAddressModel((StreetAddressDto)getStreetAddress);
+                }
+
+                PropertyInfo? propLatLong = t.GetProperty("GeoLocation");
+                var getLatLong = propLatLong?.GetValue(CurrentEditEntity);
+                if (getLatLong != null)
+                {
+                    CurrentEditEntityLatLong = ConvertDtotoLatLongModel((LatLongDto)getLatLong);
+                }
+            }
+        }
+
+        private void ResetAddModels()
+        {
+            CurrentAddEntityRentPerSquareMetre = null;
+            CurrentAddEntityStreetAddress = null;
+            CurrentAddEntityLatLong = null;
+        }
+
+        private void ResetEditModels()
+        {
+            CurrentEditEntityRentPerSquareMetre = null;
+            CurrentEditEntityStreetAddress = null;
+            CurrentEditEntityLatLong = null;
         }
 
         #endregion

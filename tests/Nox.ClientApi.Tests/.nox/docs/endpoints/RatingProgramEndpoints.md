@@ -31,4 +31,3 @@ This document provides information about the various endpoints available in our 
 ### Delete RatingProgram
 - **DELETE** `/api/v1/RatingPrograms/{key}`
   - Description: Delete an existing RatingProgram.
-

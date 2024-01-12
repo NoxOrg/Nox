@@ -17,6 +17,7 @@ using System;
 using System.ComponentModel.Design;
 using System.Net.Http.Headers;
 using ClientApi.Application;
+using System.Threading.Tasks;
 using ClientApi.Application.Dto;
 using ClientApi.Application.Queries;
 using ClientApi.Application.Commands;

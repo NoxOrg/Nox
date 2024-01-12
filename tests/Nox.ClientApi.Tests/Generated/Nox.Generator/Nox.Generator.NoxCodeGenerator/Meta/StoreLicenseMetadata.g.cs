@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace ClientApi.Domain;
 
@@ -56,22 +57,12 @@ public partial class StoreLicenseMetadata
         public static Nox.Types.CurrencyCode3 CreateCurrencyId(System.String value)
             => Nox.Types.CurrencyCode3.From(value);
         
-
         /// <summary>
         /// User Interface for property 'Issuer'
         /// </summary>
-        public static TypeUserInterface? IssuerUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("StoreLicense")
-                .GetAttributeByName("Issuer")?
-                .UserInterface;
-
+        public static TypeUserInterface? IssuerUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'ExternalId'
         /// </summary>
-        public static TypeUserInterface? ExternalIdUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("StoreLicense")
-                .GetAttributeByName("ExternalId")?
-                .UserInterface;
+        public static TypeUserInterface? ExternalIdUiOptions {get; private set;} = null; 
 }

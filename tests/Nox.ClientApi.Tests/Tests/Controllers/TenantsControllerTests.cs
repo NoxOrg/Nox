@@ -146,7 +146,7 @@ namespace ClientApi.Tests.Controllers
             frResult.TenantBrands[0].Description.Should().Be(frTenant.TenantBrands[0].Description);
         }
 
-        [Fact(Skip = "Nuid relationship issue")]
+        [Fact]
         public async Task UpdateTenantWithTenantBrands_WithTenantBrandDescription_CreatesLocalization()
         {
             // Arrange
@@ -415,6 +415,335 @@ namespace ClientApi.Tests.Controllers
             itResult!.TenantContact!.Description.Should().Be("[" + enTenantContact.Description + "]");
         }
 
+        [Fact]
+        public async Task UpdateTenantBrandLocalization_WhenProvidingNonDefaultLocalizationAndItDoesntAlreadyExist_CreatesCorrectLocalizations()
+        {
+            // Arrange
+            var enTenant = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                TenantBrands = new List<TenantBrandUpsertDto>
+                {
+                    new()
+                    {
+                        Name = "Regus",
+                        Description = "Regus is part of a collective of global and regional workspace brands that form the IWG network.",
+                    },
+                },
+            };
+            var postTenantResult = await CreateTenantAsync(enTenant);
+            var createdEnResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "en-US");
+            var upsertTenantBrandLocalization = new TenantBrandLocalizedUpsertDto
+            {
+                Id = createdEnResult!.TenantBrands[0].Id,
+                Description = "Regus fait partie d’un collectif de marques mondiales et régionales d’espaces de travail qui forment le réseau IWG.",
+            };
+
+            // Act
+            var upsertTenantBrandLocalizationResult = await UpsertTenantBrandLocalizationAsync(postTenantResult!.Id, upsertTenantBrandLocalization, "fr-FR");
+            var enResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "en-US");
+            var frResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "fr-FR");
+
+            // Assert
+            upsertTenantBrandLocalizationResult.Should().NotBeNull();
+            upsertTenantBrandLocalizationResult!.Description.Should().Be(upsertTenantBrandLocalization.Description);
+            upsertTenantBrandLocalizationResult.CultureCode.Should().Be("fr-FR");
+
+            enResult.Should().NotBeNull();
+            enResult!.TenantBrands[0].Description.Should().Be(enTenant.TenantBrands[0].Description);
+
+            frResult.Should().NotBeNull();
+            frResult!.TenantBrands[0].Description.Should().Be(upsertTenantBrandLocalization.Description);
+        }
+
+        [Fact]
+        public async Task UpdateTenantBrandLocalization_WhenProvidingNonDefaultLocalizationAndItAlreadyExists_UpdatesCorrectLocalizations()
+        {
+            // Arrange
+            var enTenant = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                TenantBrands = new List<TenantBrandUpsertDto>
+                {
+                    new()
+                    {
+                        Name = "Regus",
+                        Description = "Regus is part of a collective of global and regional workspace brands that form the IWG network.",
+                    },
+                },
+            };
+            var postTenantResult = await CreateTenantAsync(enTenant);
+            var createdEnResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "en-US");
+            
+            var upsertTenantBrandLocalization1 = new TenantBrandLocalizedUpsertDto
+            {
+                Id = createdEnResult!.TenantBrands[0].Id,
+                Description = "Regus fait partie d’un collectif de marques mondiales et régionales d’espaces de travail qui forment le réseau IWG.",
+            };
+            await UpsertTenantBrandLocalizationAsync(postTenantResult!.Id, upsertTenantBrandLocalization1, "fr-FR");
+
+            var upsertTenantBrandLocalization2 = new TenantBrandLocalizedUpsertDto
+            {
+                Id = createdEnResult!.TenantBrands[0].Id,
+                Description = "Update - Regus fait partie d’un collectif de marques mondiales et régionales d’espaces de travail qui forment le réseau IWG.",
+            };
+
+            // Act
+            var upsertTenantBrandLocalizationResult = await UpsertTenantBrandLocalizationAsync(postTenantResult!.Id, upsertTenantBrandLocalization2, "fr-FR");
+            var enResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "en-US");
+            var frResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "fr-FR");
+
+            // Assert
+            upsertTenantBrandLocalizationResult.Should().NotBeNull();
+            upsertTenantBrandLocalizationResult!.Description.Should().Be(upsertTenantBrandLocalization2.Description);
+            upsertTenantBrandLocalizationResult.CultureCode.Should().Be("fr-FR");
+
+            enResult.Should().NotBeNull();
+            enResult!.TenantBrands[0].Description.Should().Be(enTenant.TenantBrands[0].Description);
+
+            frResult.Should().NotBeNull();
+            frResult!.TenantBrands[0].Description.Should().Be(upsertTenantBrandLocalization2.Description);
+        }
+
+        [Fact]
+        public async Task UpdateTenantBrandLocalization_WhenProvidingDefaultLocalization_UpdatesCorrectLocalizations()
+        {
+            // Arrange
+            var enTenant = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                TenantBrands = new List<TenantBrandUpsertDto>
+                {
+                    new()
+                    {
+                        Name = "Regus",
+                        Description = "Regus is part of a collective of global and regional workspace brands that form the IWG network.",
+                    },
+                },
+            };
+            var postTenantResult = await CreateTenantAsync(enTenant);
+            var createdEnResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "en-US");
+            var upsertTenantBrandLocalization = new TenantBrandLocalizedUpsertDto
+            {
+                Id = createdEnResult!.TenantBrands[0].Id,
+                Description = "Update - Regus is part of a collective of global and regional workspace brands that form the IWG network.",
+            };
+
+            // Act
+            var upsertTenantBrandLocalizationResult = await UpsertTenantBrandLocalizationAsync(postTenantResult!.Id, upsertTenantBrandLocalization, "en-US");
+            var enResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "en-US");
+            var frResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "fr-FR");
+
+            // Assert
+            upsertTenantBrandLocalizationResult.Should().NotBeNull();
+            upsertTenantBrandLocalizationResult!.Description.Should().Be(upsertTenantBrandLocalization.Description);
+            upsertTenantBrandLocalizationResult.CultureCode.Should().Be("en-US");
+
+            enResult.Should().NotBeNull();
+            enResult!.TenantBrands[0].Description.Should().Be(upsertTenantBrandLocalization.Description);
+
+            frResult.Should().NotBeNull();
+            frResult!.TenantBrands[0].Description.Should().Be($"[{upsertTenantBrandLocalization.Description}]");
+        }
+
+        [Fact]
+        public async Task UpdateTenantBrandLocalization_WhenProvidingDefaultLocalizationAndLocalizatinDoesntExist_UpdatesCorrectLocalizations()
+        {
+            // Arrange
+            var frTenant = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                TenantBrands = new List<TenantBrandUpsertDto>
+                {
+                    new()
+                    {
+                        Name = "Regus",
+                        Description = "Regus fait partie d’un collectif de marques mondiales et régionales d’espaces de travail qui forment le réseau IWG.",
+                    },
+                },
+            };
+            var postTenantResult = await CreateTenantAsync(frTenant, "fr-FR");
+            var createdFrResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "fr-FR");
+            var upsertTenantBrandLocalization = new TenantBrandLocalizedUpsertDto
+            {
+                Id = createdFrResult!.TenantBrands[0].Id,
+                Description = "Regus is part of a collective of global and regional workspace brands that form the IWG network.",
+            };
+
+            // Act
+            var upsertTenantBrandLocalizationResult = await UpsertTenantBrandLocalizationAsync(postTenantResult!.Id, upsertTenantBrandLocalization, "en-US");
+            var enResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "en-US");
+            var frResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "fr-FR");
+
+            // Assert
+            upsertTenantBrandLocalizationResult.Should().NotBeNull();
+            upsertTenantBrandLocalizationResult!.Description.Should().Be(upsertTenantBrandLocalization.Description);
+            upsertTenantBrandLocalizationResult.CultureCode.Should().Be("en-US");
+
+            enResult.Should().NotBeNull();
+            enResult!.TenantBrands[0].Description.Should().Be(upsertTenantBrandLocalization.Description);
+
+            frResult.Should().NotBeNull();
+            frResult!.TenantBrands[0].Description.Should().Be(frTenant.TenantBrands[0].Description);
+        }
+
+        [Fact]
+        public async Task UpdateTenantContactLocalization_WhenProvidingNonDefaultLocalizationAndItDoesntAlreadyExist_CreatesCorrectLocalizations()
+        {
+            // Arrange
+            var enTenant = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                TenantContact = new TenantContactUpsertDto
+                {
+                    Name = "IWG plc helpdesk",
+                    Description = "For more information please write to the email address below.",
+                    Email = "helpdesk@iwgplc.com"
+                }
+            };
+            var postTenantResult = await CreateTenantAsync(enTenant);
+
+            var upsertTenantContactLocalization = new TenantContactLocalizedUpsertDto
+            {
+                Description = "Pour plus d'informations, veuillez écrire à l'adresse e-mail ci-dessous.",
+            };
+
+            // Act
+            var upsertTenantContactLocalizationResult = await UpsertTenantContactLocalizationAsync(postTenantResult!.Id, upsertTenantContactLocalization, "fr-FR");
+            var enResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "en-US");
+            var frResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "fr-FR");
+
+            // Assert
+            upsertTenantContactLocalizationResult.Should().NotBeNull();
+            upsertTenantContactLocalizationResult!.Description.Should().Be(upsertTenantContactLocalization.Description);
+            upsertTenantContactLocalizationResult.CultureCode.Should().Be("fr-FR");
+
+            enResult.Should().NotBeNull();
+            enResult!.TenantContact!.Description.Should().Be(enTenant.TenantContact.Description);
+
+            frResult.Should().NotBeNull();
+            frResult!.TenantContact!.Description.Should().Be(upsertTenantContactLocalization.Description);
+        }
+
+        [Fact]
+        public async Task UpdateTenantContactLocalization_WhenProvidingNonDefaultLocalizationAndItAlreadyExists_UpdatesCorrectLocalizations()
+        {
+            // Arrange
+            var enTenant = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                TenantContact = new TenantContactUpsertDto
+                {
+                    Name = "IWG plc helpdesk",
+                    Description = "For more information please write to the email address below.",
+                    Email = "helpdesk@iwgplc.com"
+                }
+            };
+            var postTenantResult = await CreateTenantAsync(enTenant);
+
+            var upsertTenantContactLocalization1 = new TenantContactLocalizedUpsertDto
+            {
+                Description = "Pour plus d'informations, veuillez écrire à l'adresse e-mail ci-dessous.",
+            };
+            await UpsertTenantContactLocalizationAsync(postTenantResult!.Id, upsertTenantContactLocalization1, "fr-FR");
+
+            var upsertTenantContactLocalization2 = new TenantContactLocalizedUpsertDto
+            {
+                Description = "Update - Pour plus d'informations, veuillez écrire à l'adresse e-mail ci-dessous.",
+            };
+
+            // Act
+            var upsertTenantContactLocalizationResult = await UpsertTenantContactLocalizationAsync(postTenantResult!.Id, upsertTenantContactLocalization2, "fr-FR");
+            var enResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "en-US");
+            var frResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "fr-FR");
+
+            // Assert
+            upsertTenantContactLocalization2.Should().NotBeNull();
+            upsertTenantContactLocalizationResult!.Description.Should().Be(upsertTenantContactLocalization2.Description);
+            upsertTenantContactLocalizationResult.CultureCode.Should().Be("fr-FR");
+
+            enResult.Should().NotBeNull();
+            enResult!.TenantContact!.Description.Should().Be(enTenant.TenantContact.Description);
+
+            frResult.Should().NotBeNull();
+            frResult!.TenantContact!.Description.Should().Be(upsertTenantContactLocalization2.Description);
+        }
+
+        [Fact]
+        public async Task UpdateTenantContactLocalization_WhenProvidingDefaultLocalization_UpdatesCorrectLocalizations()
+        {
+            // Arrange
+            var enTenant = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                TenantContact = new TenantContactUpsertDto
+                {
+                    Name = "IWG plc helpdesk",
+                    Description = "For more information please write to the email address below.",
+                    Email = "helpdesk@iwgplc.com"
+                }
+            };
+            var postTenantResult = await CreateTenantAsync(enTenant);
+
+            var upsertTenantContactLocalization = new TenantContactLocalizedUpsertDto
+            {
+                Description = "Update - For more information please write to the email address below.",
+            };
+
+            // Act
+            var upsertTenantContactLocalizationResult = await UpsertTenantContactLocalizationAsync(postTenantResult!.Id, upsertTenantContactLocalization, "en-US");
+            var enResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "en-US");
+            var frResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "fr-FR");
+
+            // Assert
+            upsertTenantContactLocalizationResult.Should().NotBeNull();
+            upsertTenantContactLocalizationResult!.Description.Should().Be(upsertTenantContactLocalization.Description);
+            upsertTenantContactLocalizationResult.CultureCode.Should().Be("en-US");
+
+            enResult.Should().NotBeNull();
+            enResult!.TenantContact!.Description.Should().Be(upsertTenantContactLocalization.Description);
+
+            frResult.Should().NotBeNull();
+            frResult!.TenantContact!.Description.Should().Be($"[{upsertTenantContactLocalization.Description}]");
+        }
+
+        [Fact]
+        public async Task UpdateTenantContactLocalization_WhenProvidingDefaultLocalizationAndLocalizatinDoesntExist_UpdatesCorrectLocalizations()
+        {
+            // Arrange
+            var frTenant = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                TenantContact = new TenantContactUpsertDto
+                {
+                    Name = "IWG plc helpdesk",
+                    Description = "Pour plus d'informations, veuillez écrire à l'adresse e-mail ci-dessous.",
+                    Email = "helpdesk@iwgplc.com"
+                }
+            };
+            var postTenantResult = await CreateTenantAsync(frTenant, "fr-FR");
+
+            var upsertTenantContactLocalization = new TenantContactLocalizedUpsertDto
+            {
+                Description = "For more information please write to the email address below.",
+            };
+
+            // Act
+            var upsertTenantContactLocalizationResult = await UpsertTenantContactLocalizationAsync(postTenantResult!.Id, upsertTenantContactLocalization, "en-US");
+            var enResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "en-US");
+            var frResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "fr-FR");
+
+            // Assert
+            upsertTenantContactLocalizationResult.Should().NotBeNull();
+            upsertTenantContactLocalizationResult!.Description.Should().Be(upsertTenantContactLocalization.Description);
+            upsertTenantContactLocalizationResult.CultureCode.Should().Be("en-US");
+
+            enResult.Should().NotBeNull();
+            enResult!.TenantContact!.Description.Should().Be(upsertTenantContactLocalization.Description);
+
+            frResult.Should().NotBeNull();
+            frResult!.TenantContact!.Description.Should().Be(frTenant.TenantContact.Description);
+        }
         #endregion Localizations
 
         #endregion Owned Entities
@@ -578,6 +907,12 @@ namespace ClientApi.Tests.Controllers
             var etag = (await GetTenantByIdAsync(tenantId))!.Etag;
             await PatchAsync($"{Endpoints.TenantsUrl}/{tenantId}/TenantContact{CreateLangParam(language)}", tenantContact, CreateEtagHeader(etag));
         }
+
+        private async Task<TenantBrandLocalizedDto?> UpsertTenantBrandLocalizationAsync(uint tenantId, TenantBrandLocalizedUpsertDto tenantBrand, string language)
+            => await PutAsync<TenantBrandLocalizedUpsertDto, TenantBrandLocalizedDto>($"{Endpoints.TenantsUrl}/{tenantId}/TenantBrandsLocalized/{language}", tenantBrand, null!, false);
+
+        private async Task<TenantContactLocalizedDto?> UpsertTenantContactLocalizationAsync(uint tenantId, TenantContactLocalizedUpsertDto tenantContact, string language)
+            => await PutAsync<TenantContactLocalizedUpsertDto, TenantContactLocalizedDto>($"{Endpoints.TenantsUrl}/{tenantId}/TenantContactLocalized/{language}", tenantContact, null!, false);
 
         private async Task<WorkplaceDto?> CreateWorkplaceAsync(WorkplaceCreateDto workplace, string? language = null)
             => await PostAsync<WorkplaceCreateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}{CreateLangParam(language)}", workplace);

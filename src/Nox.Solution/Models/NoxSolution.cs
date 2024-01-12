@@ -117,7 +117,10 @@ public class NoxSolution : YamlConfigNode<NoxSolution>
             if (e.IsOwnedEntity)
             {
                 if (_ownedEntities.TryGetValue(e.Name, out var result))
+                {
                     e.OwnerEntity = result;
+                    e.OwningRelationship = result.OwnedRelationships!.FirstOrDefault(r => r.Entity.Equals(e.Name));
+                }
             }
         });
     }

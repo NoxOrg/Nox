@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace ClientApi.Domain;
 
@@ -62,22 +63,12 @@ public partial class CountryLocalNameMetadata
         public static Nox.Types.Text CreateNativeName(System.String value)
             => Nox.Types.Text.From(value, NativeNameTypeOptions);
         
-
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("CountryLocalName")
-                .GetAttributeByName("Name")?
-                .UserInterface;
-
+        public static TypeUserInterface? NameUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'NativeName'
         /// </summary>
-        public static TypeUserInterface? NativeNameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("CountryLocalName")
-                .GetAttributeByName("NativeName")?
-                .UserInterface;
+        public static TypeUserInterface? NativeNameUiOptions {get; private set;} = null; 
 }

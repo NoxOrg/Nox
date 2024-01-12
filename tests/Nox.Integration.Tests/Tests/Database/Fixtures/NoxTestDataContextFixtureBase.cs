@@ -35,9 +35,7 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
         {            
             return GetDatabaseProvider(
                 sp.GetServices<INoxTypeDatabaseConfigurator>(),
-                sp.GetRequiredService<NoxCodeGenConventions>(),
-                sp.GetRequiredService<INoxClientAssemblyProvider>()
-                );
+                sp.GetRequiredService<NoxCodeGenConventions>());
         });
 
         _serviceProvider = services.BuildServiceProvider();
@@ -66,7 +64,5 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
 
     protected abstract INoxDatabaseProvider GetDatabaseProvider(
         IEnumerable<INoxTypeDatabaseConfigurator> configurators,
-        NoxCodeGenConventions noxSolutionCodeGeneratorState,
-        INoxClientAssemblyProvider clientAssemblyProvider
-        );
+        NoxCodeGenConventions noxSolutionCodeGeneratorState);
 }

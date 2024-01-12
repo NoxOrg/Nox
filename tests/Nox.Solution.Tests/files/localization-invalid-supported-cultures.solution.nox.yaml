@@ -16,7 +16,7 @@ application:
       - eng 
       - en-US
       - Sr-SR
-      - sr-SR-Latn
+      - sr-Latn-BA
       - sr-SR-Cyrl
-      - sr-SR-CYRL
+      - sr-Cyrl-RS
       - invalid

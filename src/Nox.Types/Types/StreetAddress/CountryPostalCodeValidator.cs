@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -33,7 +34,7 @@ public static class CountryPostalCodeValidator
 
         foreach (var pattern in patterns)
         {
-            var isMath = Regex.IsMatch(postalCode, pattern);
+            var isMath = Regex.IsMatch(postalCode, pattern, RegexOptions.None,ValueObject.Regex_Default_Timeout_Miliseconds);
 
             if (!isMath)
             {
@@ -48,7 +49,7 @@ public static class CountryPostalCodeValidator
     /// <summary>
     /// Map between Country and regex for postal codes
     /// </summary>
-    public static readonly List<(string CountryCode, string Pattern)> PostalCodesMapping = new()
+    private static readonly ImmutableList<(string CountryCode, string Pattern)> PostalCodesMapping = ImmutableList.CreateRange(new []
     {
         ("AF",@"^\d{4}$"),
         ("AX",@"^\d{5}$"),
@@ -240,6 +241,6 @@ public static class CountryPostalCodeValidator
         ("VE",@"^\d{4}(\s[a-zA-Z]{1})?$"),
         ("VN",@"^\d{6}$"),
         ("WF",@"^986\d{2}$"),
-        ("ZM",@"^\d{5}$"),
-    };
+        ("ZM",@"^\d{5}$")
+    });
 }

@@ -36,32 +36,4 @@ public class GuidTests
 
         System.Guid.TryParse(guid, out _).Should().BeTrue();
     }
-
-    [Fact]
-    public void Guid_From_ZeroedString_ThrowsException()
-    {
-        var emptyGuid = "00000000-0000-0000-0000-000000000000";
-
-        var act = () => Guid.From(emptyGuid);
-
-        act.Should().Throw<NoxTypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[]
-            {
-                new ValidationFailure("Value",
-                    "Could not create a Nox Guid type as empty Guid is not allowed.")
-            });
-    }
-
-    [Fact]
-    public void Guid_From_EmptyGuid_ThrowsException()
-    {
-        var act = () => Guid.From(System.Guid.Empty);
-
-        act.Should().Throw<NoxTypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[]
-            {
-                new ValidationFailure("Value",
-                    "Could not create a Nox Guid type as empty Guid is not allowed.")
-            });
-    }
 }

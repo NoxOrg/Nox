@@ -1,4 +1,3 @@
-<<<<<<< main
 # API Endpoints for the PaymentProvider entity
 
 This document provides information about the various endpoints available in our API for the PaymentProvider entity.
@@ -81,69 +80,22 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/PaymentProviders/{key}/PaymentProviderRelatedPaymentDetails`
   - Description: Delete all existing PaymentDetails for a specific PaymentProvider.
 
-## Related Entities
+## Other Related Endpoints
 
-[PaymentDetail](PaymentDetailEndpoints.md)
+- **GET** `/api/PaymentProviders/{paymentProvidersKey}/PaymentDetails/{paymentDetailsKey}/Customer`
 
-=======
-# API Endpoints for the PaymentProvider entity
+- **POST** `/api/PaymentProviders/{paymentProvidersKey}/PaymentDetails/{paymentDetailsKey}/Customer`
 
-This document provides information about the various endpoints available in our API for the PaymentProvider entity.
+- **PUT** `/api/PaymentProviders/{paymentProvidersKey}/PaymentDetails/{paymentDetailsKey}/Customer`
 
-## PaymentProvider Endpoints
+- **PATCH** `/api/PaymentProviders/{paymentProvidersKey}/PaymentDetails/{paymentDetailsKey}/Customer`
 
-### Get PaymentProvider by ID
-- **GET** `/api/PaymentProviders/{key}`
-  - Description: Retrieve information about a PaymentProvider by ID.
-  
-### Get PaymentProviders
-- **GET** `/api/PaymentProviders`
-  - Description: Retrieve information about PaymentProviders.
+- **GET** `/api/PaymentProviders/{paymentProvidersKey}/PaymentDetails/{paymentDetailsKey}/Customer/$ref`
 
-### Create PaymentProvider
-- **POST** `/api/PaymentProviders`
-  - Description: Create a new PaymentProvider.
+- **POST** `/api/PaymentProviders/{paymentProvidersKey}/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/$ref`
 
-### Update PaymentProvider
-- **PUT** `/api/PaymentProviders/{key}`
-  - Description: Update an existing PaymentProvider.
-
-### Partially Update PaymentProvider
-- **PATCH** `/api/PaymentProviders/{key}`
-  - Description: Partially update an existing PaymentProvider.
- 
-### Delete PaymentProvider
-- **DELETE** `/api/PaymentProviders/{key}`
-  - Description: Delete an existing PaymentProvider.
-
-## Relationships Endpoints
-
-### PaymentDetail
-
-#### Get PaymentDetail relations
-- **GET** `/api/PaymentProviders/{key}/PaymentProviderRelatedPaymentDetails/$ref`
-  - Description: Retrieve all existing PaymentDetails relations for a specific PaymentProvider.
-  
-#### Create PaymentDetail relation
-- **POST** `/api/PaymentProviders/{key}/PaymentProviderRelatedPaymentDetails/{relatedKey}/$ref`
-  - Description: Create a new PaymentDetail relation for a specific PaymentProvider.
-  
-#### Update PaymentDetail relation
-- **PUT** `/api/PaymentProviders/{key}/PaymentProviderRelatedPaymentDetails/{relatedKey}/$ref`
-  - Description: Updates an existing PaymentDetail relation for a specific PaymentProvider.
-- **PUT** `/api/PaymentProviders/{key}/PaymentProviderRelatedPaymentDetails/$ref`
-  - Description: Updates the PaymentDetail relations for a specific PaymentProvider.
-
-#### Delete PaymentDetail relation
-- **DELETE** `/api/PaymentProviders/{key}/PaymentProviderRelatedPaymentDetails/{relatedKey}/$ref`
-  - Description: Delete an existing PaymentDetail relation for a specific PaymentProvider.
-
-#### Delete PaymentDetail relations
-- **DELETE** `/api/PaymentProviders/{key}/PaymentProviderRelatedPaymentDetails/$ref`
-  - Description: Delete all existing PaymentDetails relations for a specific PaymentProvider.
+- **PUT** `/api/PaymentProviders/{paymentProvidersKey}/PaymentDetails/{paymentDetailsKey}/Customer/{customerKey}/$ref`
 
 ## Related Entities
 
 [PaymentDetail](PaymentDetailEndpoints.md)
-
->>>>>>> Factory classes refactor has been completed (without tests)

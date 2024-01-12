@@ -1,0 +1,13 @@
+﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using MudBlazor
+
+<MudTextField Label="@Title"
+              Variant="Variant.Outlined"
+              FullWidth="true"
+              Clearable="true"
+              Required="true"
+              RequiredError="@ErrorRequiredMessage"
+              MaxLength="19"
+              TextChanged="OnMacAddressChanged"
+              Mask="DisplayMask()"
+              Value="MacAddress" />

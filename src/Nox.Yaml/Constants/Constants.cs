@@ -1,5 +1,4 @@
-﻿
-namespace Nox.Yaml;
+﻿namespace Nox.Yaml;
 
 public class Constants
 {

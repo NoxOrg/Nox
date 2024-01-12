@@ -129,6 +129,29 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
         return Ok(updatedItem);
     }
     
+    public virtual async Task<ActionResult<ThirdTestEntityExactlyOneDto>> PatchToThirdTestEntityExactlyOne(System.String key, [FromBody] Delta<ThirdTestEntityExactlyOnePartialUpdateDto> thirdTestEntityExactlyOne)
+    {
+        if (!ModelState.IsValid || thirdTestEntityExactlyOne is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(key))).Select(x => x.ThirdTestEntityExactlyOne).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("ThirdTestEntityExactlyOne", String.Empty);
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<ThirdTestEntityExactlyOnePartialUpdateDto>(thirdTestEntityExactlyOne);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateThirdTestEntityExactlyOneCommand(related.Id, updatedProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
     [HttpDelete("/api/v1/ThirdTestEntityZeroOrOnes/{key}/ThirdTestEntityExactlyOne")]
     public virtual async Task<ActionResult> DeleteToThirdTestEntityExactlyOne([FromRoute] System.String key)
     {

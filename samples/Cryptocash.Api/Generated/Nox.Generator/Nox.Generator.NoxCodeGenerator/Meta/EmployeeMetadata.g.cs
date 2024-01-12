@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace Cryptocash.Domain;
 
@@ -97,58 +98,76 @@ public partial class EmployeeMetadata
         public static Nox.Types.AutoNumber CreateEmployeePhoneNumberId(System.Int64 value)
             => Nox.Types.AutoNumber.FromDatabase(value);
         
-
         /// <summary>
         /// User Interface for property 'FirstName'
         /// </summary>
-        public static TypeUserInterface? FirstNameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Employee")
-                .GetAttributeByName("FirstName")?
-                .UserInterface;
-
+        public static TypeUserInterface? FirstNameUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'LastName'
         /// </summary>
-        public static TypeUserInterface? LastNameUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Employee")
-                .GetAttributeByName("LastName")?
-                .UserInterface;
-
+        public static TypeUserInterface? LastNameUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'EmailAddress'
         /// </summary>
-        public static TypeUserInterface? EmailAddressUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Employee")
-                .GetAttributeByName("EmailAddress")?
-                .UserInterface;
-
+        public static TypeUserInterface? EmailAddressUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'Address'
         /// </summary>
-        public static TypeUserInterface? AddressUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Employee")
-                .GetAttributeByName("Address")?
-                .UserInterface;
-
+        public static TypeUserInterface? AddressUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'FirstWorkingDay'
         /// </summary>
-        public static TypeUserInterface? FirstWorkingDayUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Employee")
-                .GetAttributeByName("FirstWorkingDay")?
-                .UserInterface;
-
+        public static TypeUserInterface? FirstWorkingDayUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'LastWorkingDay'
         /// </summary>
-        public static TypeUserInterface? LastWorkingDayUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Employee")
-                .GetAttributeByName("LastWorkingDay")?
-                .UserInterface;
+        public static TypeUserInterface? LastWorkingDayUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
 }

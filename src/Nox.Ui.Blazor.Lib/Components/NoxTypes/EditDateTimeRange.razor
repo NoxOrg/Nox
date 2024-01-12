@@ -1,0 +1,197 @@
+﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using MudBlazor
+
+<MudGrid>
+    <MudItem xs="12">
+        <MudDateRangePicker Label="@TitleDateTimeRange"
+                            Variant="Variant.Outlined"
+                            Required="true"
+                            RequiredError="@ErrorRequiredMessage(TitleDateTimeRange)"
+                            TextChanged="OnDateTimeRangeChanged"
+                            DateFormat="@Format"
+                            DateRange="@DateTimeRange">
+        </MudDateRangePicker>
+    </MudItem>
+    <MudItem xs="12">
+        <MudGrid>
+
+            @if (HourSelectionList != null && HourSelectionList.Count > 0)
+            {
+                <MudItem xs="@GetSpacingWidth">
+                    <MudSelect Label="@TitleHourStart"
+                               Variant="Variant.Outlined"
+                               FullWidth="true"
+                               Clearable="true"
+                               Required="true"
+                               RequiredError="@ErrorRequiredMessage(TitleHourStart)"
+                               TextChanged="OnHourStartChanged"
+                               Value="@CurrentHourStartStr"
+                               OnClearButtonClick="OnClearHourStart">
+                        @foreach (var item in HourSelectionList)
+                        {
+                            <MudSelectItem Value="@item.Key.ToString()">@item.Value</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+            }
+
+            @if (MinuteSelectionList != null
+            && MinuteSelectionList.Count > 0
+            && DisplayMinute)
+            {
+                <MudItem xs="@GetSpacingWidth">
+                    <MudSelect Label="@TitleMinuteStart"
+                               Variant="Variant.Outlined"
+                               FullWidth="true"
+                               Clearable="true"
+                               Required="true"
+                               RequiredError="@ErrorRequiredMessage(TitleMinuteStart)"
+                               TextChanged="OnMinuteStartChanged"
+                               Value="@CurrentMinuteStartStr"
+                               OnClearButtonClick="OnClearMinuteStart">
+                        @foreach (var item in MinuteSelectionList)
+                        {
+                            <MudSelectItem Value="@item.Key.ToString()">@item.Value</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+            }
+
+            @if (SecondSelectionList != null
+            && SecondSelectionList.Count > 0
+            && DisplaySecond)
+            {
+                <MudItem xs="@GetSpacingWidth">
+                    <MudSelect Label="@TitleSecondStart"
+                               Variant="Variant.Outlined"
+                               FullWidth="true"
+                               Clearable="true"
+                               Required="true"
+                               RequiredError="@ErrorRequiredMessage(TitleSecondStart)"
+                               TextChanged="OnSecondStartChanged"
+                               Value="@CurrentSecondStartStr"
+                               OnClearButtonClick="OnClearSecondStart">
+                        @foreach (var item in SecondSelectionList)
+                        {
+                            <MudSelectItem Value="@item.Key.ToString()">@item.Value</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+            }
+
+            @if (MillisecondSelectionList != null
+            && MillisecondSelectionList.Count > 0
+            && DisplayMillisecond)
+            {
+                <MudItem xs="@GetSpacingWidth">
+                    <MudSelect Label="@TitleMillisecondStart"
+                               Variant="Variant.Outlined"
+                               FullWidth="true"
+                               Clearable="true"
+                               Required="true"
+                               RequiredError="@ErrorRequiredMessage(TitleMillisecondStart)"
+                               TextChanged="OnMillisecondStartChanged"
+                               Value="@CurrentMillisecondStartStr"
+                               OnClearButtonClick="OnClearMillisecondStart">
+                        @foreach (var item in MillisecondSelectionList)
+                        {
+                            <MudSelectItem Value="@item.Key.ToString()">@item.Value</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+            }
+
+        </MudGrid>
+    </MudItem>
+    <MudItem xs="12">
+        <MudGrid>
+
+            @if (HourSelectionList != null && HourSelectionList.Count > 0)
+            {
+                <MudItem xs="@GetSpacingWidth">
+                    <MudSelect Label="@TitleHourEnd"
+                               Variant="Variant.Outlined"
+                               FullWidth="true"
+                               Clearable="true"
+                               Required="true"
+                               RequiredError="@ErrorRequiredMessage(TitleHourEnd)"
+                               TextChanged="OnHourEndChanged"
+                               Value="@CurrentHourEndStr"
+                               OnClearButtonClick="OnClearHourEnd">
+                        @foreach (var item in HourSelectionList)
+                        {
+                            <MudSelectItem Value="@item.Key.ToString()">@item.Value</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+            }
+
+            @if (MinuteSelectionList != null
+            && MinuteSelectionList.Count > 0
+            && DisplayMinute)
+            {
+                <MudItem xs="@GetSpacingWidth">
+                    <MudSelect Label="@TitleMinuteEnd"
+                               Variant="Variant.Outlined"
+                               FullWidth="true"
+                               Clearable="true"
+                               Required="true"
+                               RequiredError="@ErrorRequiredMessage(TitleMinuteEnd)"
+                               TextChanged="OnMinuteEndChanged"
+                               Value="@CurrentMinuteEndStr"
+                               OnClearButtonClick="OnClearMinuteEnd">
+                        @foreach (var item in MinuteSelectionList)
+                        {
+                            <MudSelectItem Value="@item.Key.ToString()">@item.Value</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+            }
+
+            @if (SecondSelectionList != null
+            && SecondSelectionList.Count > 0
+            && DisplaySecond)
+            {
+                <MudItem xs="@GetSpacingWidth">
+                    <MudSelect Label="@TitleSecondEnd"
+                               Variant="Variant.Outlined"
+                               FullWidth="true"
+                               Clearable="true"
+                               Required="true"
+                               RequiredError="@ErrorRequiredMessage(TitleSecondEnd)"
+                               TextChanged="OnSecondEndChanged"
+                               Value="@CurrentSecondEndStr"
+                               OnClearButtonClick="OnClearSecondEnd">
+                        @foreach (var item in SecondSelectionList)
+                        {
+                            <MudSelectItem Value="@item.Key.ToString()">@item.Value</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+            }
+
+            @if (MillisecondSelectionList != null
+            && MillisecondSelectionList.Count > 0
+            && DisplayMillisecond)
+            {
+                <MudItem xs="@GetSpacingWidth">
+                    <MudSelect Label="@TitleMillisecondEnd"
+                               Variant="Variant.Outlined"
+                               FullWidth="true"
+                               Clearable="true"
+                               Required="true"
+                               RequiredError="@ErrorRequiredMessage(TitleMillisecondEnd)"
+                               TextChanged="OnMillisecondEndChanged"
+                               Value="@CurrentMillisecondEndStr"
+                               OnClearButtonClick="OnClearMillisecondEnd">
+                        @foreach (var item in MillisecondSelectionList)
+                        {
+                            <MudSelectItem Value="@item.Key.ToString()">@item.Value</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+            }
+
+        </MudGrid>
+    </MudItem>
+</MudGrid>

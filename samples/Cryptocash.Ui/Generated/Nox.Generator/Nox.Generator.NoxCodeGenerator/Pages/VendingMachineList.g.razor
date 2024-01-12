@@ -7,6 +7,7 @@
 @using Cryptocash.Ui.Generated.Data.Enum;
 @using Cryptocash.Ui.Generated.Nox_Generator.Nox_Generator_NoxCodeGenerator.Component
 @using Cryptocash.Ui.Generated.Pages.Generic
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes
 @using MudBlazor
 @using global::Cryptocash.Ui.Generated.Data.Helper;
 
@@ -81,7 +82,7 @@
                                             <MudTabPanel Text="Details">
                                                 <MudGrid Style="margin-top:15px;">
                                                     <MudItem xs="6">
-                                                        <UiEditMacAddress_g @bind-MacAddress="CurrentAddEntity.MacAddress"
+                                                        <EditMacAddress @bind-MacAddress="CurrentAddEntity.MacAddress"
                                                                             Title="MAC Address"
                                                                             Format="##:##:##:##:##:##" />
                                                     </MudItem>
@@ -90,7 +91,7 @@
                                                                              Title="Public Ip" />
                                                     </MudItem>
                                                     <MudItem xs=6>
-                                                        <UiEditText_g @bind-Text="CurrentAddEntity.SerialNumber"
+                                                        <EditText @bind-Text="CurrentAddEntity.SerialNumber"
                                                                       Title="Serial Number"
                                                                       MaxLength="63"
                                                                       MinLength="4" />
@@ -101,13 +102,13 @@
                                                                          CountrySelectionList="CountryEntityData?.EntityList" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <UiEditArea_g @bind-Area="CurrentAddEntity.InstallationFootPrint"
+                                                        <EditArea @bind-Area="CurrentAddEntity.InstallationFootPrint"
                                                                       Title="Installation Area"
                                                                       AreaUnit="Nox.Types.AreaUnit.SquareMeter"
-                                                                      Format="#.##" />
+                                                                      Format="#,##0.##" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <UiEditMoney_g @bind-Money="CurrentAddEntity.RentPerSquareMetre"
+                                                            <EditMoney @bind-Money="CurrentAddEntityRentPerSquareMetre"
                                                                        Currency="GetCurrencyByCountryId(CurrentAddEntity.CountryId)"
                                                                        Title="Rent per Square Metre"
                                                                        Format="#.##" />
@@ -123,14 +124,14 @@
                                                 <MudGrid Style="margin-top:15px;">
                                                     @if(DisplayGoogleMap){
                                                         <MudItem xs=12 sm=6>
-                                                            <UiEditLatLong_g @bind-Latlong="CurrentAddEntity.GeoLocation"
+                                                            <EditLatLong @bind-Latlong="CurrentAddEntityLatLong"
                                                                              TitleLatitude="Latitude"
                                                                              TitleLongitude="Longitude"
                                                                              Format="#.########"
                                                                              DisplayGoogleMap="DisplayGoogleMap" />
                                                         </MudItem>
                                                         <MudItem xs=12 sm=6>
-                                                            <UiEditStreetAddress_g @bind-StreetAddress="CurrentAddEntity.StreetAddress"
+                                                            <EditStreetAddress @bind-StreetAddress="CurrentAddEntityStreetAddress"
                                                                                    TitleStreetNumber="StreetNumber"
                                                                                    TitleAddressLine1="AddressLine1"
                                                                                    TitleAddressLine2="AddressLine2"
@@ -141,20 +142,20 @@
                                                                                    TitleAdministrativeArea2="AdministrativeArea2"
                                                                                    TitlePostalCode="PostalCode"
                                                                                    TitleCountryId="CountryId"
-                                                                                   CountrySelectionList="CountryEntityData?.EntityList" />
+                                                                                   CountrySelectionList="CountryModelData" />
                                                         </MudItem>
                                                     }
                                                     else
                                                     {
                                                         <MudItem xs=12>
-                                                            <UiEditLatLong_g @bind-Latlong="CurrentAddEntity.GeoLocation"
+                                                            <EditLatLong @bind-Latlong="CurrentAddEntityLatLong"
                                                                              TitleLatitude="Latitude"
                                                                              TitleLongitude="Longitude"
                                                                              Format="#.########"
                                                                              DisplayGoogleMap="DisplayGoogleMap" />
                                                         </MudItem>
                                                         <MudItem xs=12>
-                                                            <UiEditStreetAddress_g @bind-StreetAddress="CurrentAddEntity.StreetAddress"
+                                                            <EditStreetAddress @bind-StreetAddress="CurrentAddEntityStreetAddress"
                                                                                    TitleStreetNumber="StreetNumber"
                                                                                    TitleAddressLine1="AddressLine1"
                                                                                    TitleAddressLine2="AddressLine2"
@@ -165,7 +166,7 @@
                                                                                    TitleAdministrativeArea2="AdministrativeArea2"
                                                                                    TitlePostalCode="PostalCode"
                                                                                    TitleCountryId="CountryId"
-                                                                                   CountrySelectionList="CountryEntityData?.EntityList" />
+                                                                               CountrySelectionList="CountryModelData" />
                                                         </MudItem>
                                                     }                                                  
                                                 </MudGrid>
@@ -222,7 +223,7 @@
                                             <MudTabPanel Text="Details">
                                                 <MudGrid Style="margin-top:15px;">
                                                         <MudItem xs="6">
-                                                            <UiEditMacAddress_g @bind-MacAddress="CurrentEditEntity.MacAddress"
+                                                            <EditMacAddress @bind-MacAddress="CurrentEditEntity.MacAddress"
                                                                                 Title="MAC Address"
                                                                                 Format="##:##:##:##:##:##" />
                                                         </MudItem>
@@ -231,7 +232,7 @@
                                                                                  Title="Public Ip" />
                                                         </MudItem>
                                                         <MudItem xs=6>
-                                                            <UiEditText_g @bind-Text="CurrentEditEntity.SerialNumber"
+                                                            <EditText @bind-Text="CurrentEditEntity.SerialNumber"
                                                                           Title="Serial Number"
                                                                           MaxLength="63"
                                                                           MinLength="4" />
@@ -242,19 +243,19 @@
                                                                              CountrySelectionList="CountryEntityData?.EntityList" />
                                                         </MudItem> *@
                                                         <MudItem xs="6">
-                                                            <UiEditArea_g @bind-Area="CurrentEditEntity.InstallationFootPrint"
+                                                            <EditArea @bind-Area="CurrentEditEntity.InstallationFootPrint"
                                                                           Title="Installation Area"
                                                                           AreaUnit="Nox.Types.AreaUnit.SquareMeter"
-                                                                          Format="#.##" />
+                                                                      Format="#,##0.##" />
                                                         </MudItem>
 @*                                                         <MudItem xs="6">
-                                                            <UiEditMoney_g @bind-Money="CurrentEditEntity.RentPerSquareMetre"
+                                                          <EditMoney @bind-Money="CurrentEditEntityRentPerSquareMetre"
                                                                            Currency="GetCurrencyByCountryId(CurrentEditEntity.CountryId)"
                                                                            Title="Rent per Square Metre"
                                                                            Format="#.##" />
                                                         </MudItem>
-                                                        <MudItem xs="6">
-                                                        <UiEditEntityExactlyOneLandLord_g @bind-LandLordIdLong="CurrentEditEntity.LandLordId"
+                                                      <MudItem xs="6">
+                                                            <UiEditEntityExactlyOneLandLord_g @bind-LandLordIdLong="CurrentEditEntity.LandLordId"
                                                                                           Title="Contracted Area LandLord"
                                                                                           LandLordSelectionList="LandLordEntityData?.EntityList" />
                                                         </MudItem> *@
@@ -265,14 +266,14 @@
                                                     @if (DisplayGoogleMap)
                                                     {
                                                         <MudItem xs=12 sm=6>
-                                                            <UiEditLatLong_g @bind-Latlong="CurrentEditEntity.GeoLocation"
+                                                            <EditLatLong @bind-Latlong="CurrentEditEntityLatLong"
                                                                              TitleLatitude="Latitude"
                                                                              TitleLongitude="Longitude"
                                                                              Format="#.########"
                                                                              DisplayGoogleMap="DisplayGoogleMap" />
                                                         </MudItem>
                                                         <MudItem xs=12 sm=6>
-                                                            <UiEditStreetAddress_g @bind-StreetAddress="CurrentEditEntity.StreetAddress"
+                                                            <EditStreetAddress @bind-StreetAddress="CurrentEditEntityStreetAddress"
                                                                                    TitleStreetNumber="StreetNumber"
                                                                                    TitleAddressLine1="AddressLine1"
                                                                                    TitleAddressLine2="AddressLine2"
@@ -283,20 +284,20 @@
                                                                                    TitleAdministrativeArea2="AdministrativeArea2"
                                                                                    TitlePostalCode="PostalCode"
                                                                                    TitleCountryId="CountryId"
-                                                                                   CountrySelectionList="CountryEntityData?.EntityList" />
+                                                                                   CountrySelectionList="CountryModelData" />
                                                         </MudItem>
                                                     }
                                                     else
                                                     {
                                                         <MudItem xs=12>
-                                                            <UiEditLatLong_g @bind-Latlong="CurrentEditEntity.GeoLocation"
+                                                            <EditLatLong @bind-Latlong="CurrentEditEntityLatLong"
                                                                              TitleLatitude="Latitude"
                                                                              TitleLongitude="Longitude"
                                                                              Format="#.########"
                                                                              DisplayGoogleMap="DisplayGoogleMap" />
                                                         </MudItem>
                                                         <MudItem xs=12>
-                                                            <UiEditStreetAddress_g @bind-StreetAddress="CurrentEditEntity.StreetAddress"
+                                                            <EditStreetAddress @bind-StreetAddress="CurrentEditEntityStreetAddress"
                                                                                TitleStreetNumber="StreetNumber"
                                                                                TitleAddressLine1="AddressLine1"
                                                                                TitleAddressLine2="AddressLine2"
@@ -307,7 +308,7 @@
                                                                                TitleAdministrativeArea2="AdministrativeArea2"
                                                                                TitlePostalCode="PostalCode"
                                                                                TitleCountryId="CountryId"
-                                                                               CountrySelectionList="CountryEntityData?.EntityList" />
+                                                                               CountrySelectionList="CountryModelData" />
                                                         </MudItem>
                                                     }
                                                 </MudGrid>
@@ -426,14 +427,14 @@
                                 @if (CurrentApiUiService!.IsPropertyShowInSearch("SerialNumber"))
                                 {
                                     <MudTd>
-                                        <UiViewText_g Text="@context.SerialNumber" />
+                                        <ViewText Text="@context.SerialNumber" />
                                     </MudTd>
                                 }
 
                                 @if (CurrentApiUiService!.IsPropertyShowInSearch("MacAddress"))
                                 {
                                     <MudTd>
-                                        <UiViewMacAddress_g MacAddress="@context.MacAddress" MacAddressFormat="Nox.Types.MacAddressFormat.ByteGroupWithColon" />
+                                        <ViewMacAddress MacAddress="@context.MacAddress" MacAddressFormat="Nox.Types.MacAddressFormat.ByteGroupWithColon" />
                                     </MudTd>
                                 }
 

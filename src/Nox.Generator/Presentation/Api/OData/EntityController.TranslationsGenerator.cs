@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+
 using Microsoft.CodeAnalysis;
 
 using Nox.Generator.Common;
@@ -35,7 +36,11 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
                     IsWithMultiEntity = x.WithMultiEntity,
                     OwnedEntity = x.Related.Entity,
                     LocalizedAttributes = x.Related.Entity.GetLocalizedAttributes(),
-                    NavigationName = entity.GetNavigationPropertyName(x)
+                    OwnedEntityKeysQuery = string.Join(", ", x.Related.Entity.Keys.Select(k => $"{x.Related.Entity.Name.ToLowerFirstChar()}LocalizedUpsertDto.{k.Name}!.Value")),
+                    NavigationName = entity.GetNavigationPropertyName(x),
+                    UpdatedKeyPrimaryKeysQuery = x.WithMultiEntity 
+                        ? GetPrimaryKeysQuery(x.Related.Entity, "updatedKey.key", true)
+                        : GetPrimaryKeysQuery(entity)
                 })
                 .Where(x => x.LocalizedAttributes.Any())
                 .ToList();
@@ -44,7 +49,7 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
                 .WithClassName($"{entity.PluralName}Controller")
                 .WithFileNamePrefix("Presentation.Api.OData")
                 .WithFileNameSuffix("Translations")
-                .WithObject("primaryKeysRoute", GetPrimaryKeysRoute(entity,codeGeneratorState.Solution))
+                .WithObject("primaryKeysRoute", GetPrimaryKeysRoute(entity, codeGeneratorState.Solution))
                 .WithObject("primaryKeysQuery", GetPrimaryKeysQuery(entity))
                 .WithObject("createdKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "createdKey.", true))
                 .WithObject("updatedKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "updatedKey.key", true))

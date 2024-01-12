@@ -14,7 +14,6 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.EntityFramework.Sqlite;
 using Nox.EntityFramework.Postgres;
 using Nox.EntityFramework.SqlServer;
-using Nox.OData;
 using Nox.Infrastructure.Messaging.InMemoryBus;
 using Nox.Infrastructure.Messaging.AzureServiceBus;
 using Nox.Infrastructure;
@@ -24,8 +23,8 @@ using Nox.Domain;
 using Nox.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Nox.Integration.SqlServer;
-using Nox.Presentation.Api.OData;
 using SqlKata.Compilers;
+using Nox.Presentation.Api.Swagger;
 
 namespace Nox.Configuration
 {
@@ -73,13 +72,13 @@ namespace Nox.Configuration
             return this;
         }
 
-        public INoxOptions WithDatabaseContexts<T, D>() where T : DbContext, Infrastructure.Persistence.IAppDbContext where D : DbContext
+        public INoxOptions WithDatabaseContexts<T, D>() where T : EntityDbContextBase where D : DbContext
         {
             _configureDatabaseContext = (services) =>
             {
                 services.AddSingleton<DbContextOptions<T>>();
                 services.AddDbContext<T>();
-                services.AddScoped(typeof(Infrastructure.Persistence.IAppDbContext),serviceProvider => serviceProvider.GetRequiredService<T>());
+                services.AddScoped(typeof(EntityDbContextBase),serviceProvider => serviceProvider.GetRequiredService<T>());
                 services.AddDbContext<D>();
             };
 
@@ -313,6 +312,7 @@ namespace Nox.Configuration
                 opts.CustomOperationIds(e => $"{e.HttpMethod}_{e.RelativePath}");
                 opts.SchemaFilter<DeltaSchemaFilter>();
                 opts.DocumentFilter<ApiRouteMappingDocumentFilter>();
+                opts.DocumentFilter<RelatedEntityRoutingDocumentFilter>();
                 opts.OperationFilter<EtagHeaderOperationFilter>();
                 opts.OperationFilter<LanguageQueryParameterOperationFilter>();
             });

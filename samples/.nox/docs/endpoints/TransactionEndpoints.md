@@ -1,4 +1,3 @@
-<<<<<<< main
 # API Endpoints for the Transaction entity
 
 This document provides information about the various endpoints available in our API for the Transaction entity.
@@ -80,7 +79,6 @@ This document provides information about the various endpoints available in our 
 #### Delete Customer
 - **DELETE** `/api/Transactions/{key}/TransactionForCustomer`
   - Description: Delete all existing Customers for a specific Transaction.
-
 ### Booking
 
 #### Get Booking relations
@@ -127,97 +125,75 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Transactions/{key}/TransactionForBooking`
   - Description: Delete all existing Bookings for a specific Transaction.
 
-## Related Entities
+## Other Related Endpoints
 
-[Customer](CustomerEndpoints.md)
+- **GET** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails`
 
-[Booking](BookingEndpoints.md)
+- **POST** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails`
 
-=======
-# API Endpoints for the Transaction entity
+- **DELETE** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails`
 
-This document provides information about the various endpoints available in our API for the Transaction entity.
+- **GET** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}`
 
-## Transaction Endpoints
+- **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}`
 
-### Get Transaction by ID
-- **GET** `/api/Transactions/{key}`
-  - Description: Retrieve information about a Transaction by ID.
-  
-### Get Transactions
-- **GET** `/api/Transactions`
-  - Description: Retrieve information about Transactions.
+- **PATCH** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}`
 
-### Create Transaction
-- **POST** `/api/Transactions`
-  - Description: Create a new Transaction.
+- **DELETE** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}`
 
-### Update Transaction
-- **PUT** `/api/Transactions/{key}`
-  - Description: Update an existing Transaction.
+- **GET** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/$ref`
 
-### Partially Update Transaction
-- **PATCH** `/api/Transactions/{key}`
-  - Description: Partially update an existing Transaction.
- 
-### Delete Transaction
-- **DELETE** `/api/Transactions/{key}`
-  - Description: Delete an existing Transaction.
+- **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/$ref`
 
-## Relationships Endpoints
+- **DELETE** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/$ref`
 
-### Customer
+- **POST** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}/$ref`
 
-#### Get Customer relations
-- **GET** `/api/Transactions/{key}/TransactionForCustomer/$ref`
-  - Description: Retrieve all existing Customers relations for a specific Transaction.
-  
-#### Create Customer relation
-- **POST** `/api/Transactions/{key}/TransactionForCustomer/{relatedKey}/$ref`
-  - Description: Create a new Customer relation for a specific Transaction.
-  
-#### Update Customer relation
-- **PUT** `/api/Transactions/{key}/TransactionForCustomer/{relatedKey}/$ref`
-  - Description: Updates an existing Customer relation for a specific Transaction.
-- **PUT** `/api/Transactions/{key}/TransactionForCustomer/$ref`
-  - Description: Updates the Customer relations for a specific Transaction.
+- **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}/$ref`
 
-#### Delete Customer relation
-- **DELETE** `/api/Transactions/{key}/TransactionForCustomer/{relatedKey}/$ref`
-  - Description: Delete an existing Customer relation for a specific Transaction.
+- **DELETE** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/PaymentDetails/{paymentDetailsKey}/$ref`
 
-#### Delete Customer relations
-- **DELETE** `/api/Transactions/{key}/TransactionForCustomer/$ref`
-  - Description: Delete all existing Customers relations for a specific Transaction.
+- **GET** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings`
 
-### Booking
+- **POST** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings`
 
-#### Get Booking relations
-- **GET** `/api/Transactions/{key}/TransactionForBooking/$ref`
-  - Description: Retrieve all existing Bookings relations for a specific Transaction.
-  
-#### Create Booking relation
-- **POST** `/api/Transactions/{key}/TransactionForBooking/{relatedKey}/$ref`
-  - Description: Create a new Booking relation for a specific Transaction.
-  
-#### Update Booking relation
-- **PUT** `/api/Transactions/{key}/TransactionForBooking/{relatedKey}/$ref`
-  - Description: Updates an existing Booking relation for a specific Transaction.
-- **PUT** `/api/Transactions/{key}/TransactionForBooking/$ref`
-  - Description: Updates the Booking relations for a specific Transaction.
+- **DELETE** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings`
 
-#### Delete Booking relation
-- **DELETE** `/api/Transactions/{key}/TransactionForBooking/{relatedKey}/$ref`
-  - Description: Delete an existing Booking relation for a specific Transaction.
+- **GET** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/{bookingsKey}`
 
-#### Delete Booking relations
-- **DELETE** `/api/Transactions/{key}/TransactionForBooking/$ref`
-  - Description: Delete all existing Bookings relations for a specific Transaction.
+- **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/{bookingsKey}`
+
+- **PATCH** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/{bookingsKey}`
+
+- **DELETE** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/{bookingsKey}`
+
+- **GET** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/$ref`
+
+- **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/$ref`
+
+- **DELETE** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/$ref`
+
+- **POST** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/{bookingsKey}/$ref`
+
+- **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/{bookingsKey}/$ref`
+
+- **DELETE** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Bookings/{bookingsKey}/$ref`
+
+- **GET** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Country`
+
+- **POST** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Country`
+
+- **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Country`
+
+- **PATCH** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Country`
+
+- **GET** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Country/$ref`
+
+- **POST** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Country/{countryKey}/$ref`
+
+- **PUT** `/api/Transactions/{transactionsKey}/Customer/{customerKey}/Country/{countryKey}/$ref`
 
 ## Related Entities
 
 [Customer](CustomerEndpoints.md)
-
 [Booking](BookingEndpoints.md)
-
->>>>>>> Factory classes refactor has been completed (without tests)

@@ -67,7 +67,7 @@ internal abstract class DeleteWorkplaceLocalizationsCommandHandlerBase : Command
 
 public class DeleteWorkplaceLocalizationsCommandValidator : AbstractValidator<DeleteWorkplaceLocalizationsCommand>
 {
-	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
+	private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en_US");
 
     public DeleteWorkplaceLocalizationsCommandValidator()
     {

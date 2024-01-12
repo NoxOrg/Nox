@@ -1333,11 +1333,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region Many to Many Relations
 
-        /// <summary>
-        /// Update references in a ManyToManyRelationship
-        /// </summary>
-        /// <returns></returns>
-        [Fact(Skip = "Issue while saving the entity")]
+        [Fact]
         public async Task Put_UpdateRefWorkplaceToTenants_InManyToManyRelationship_Success()
         {
             // Arrange
@@ -1372,7 +1368,7 @@ namespace ClientApi.Tests.Tests.Controllers
             result!.Tenants!.First().Id.Should().Be(tenant.Id);
         }
 
-        [Fact(Skip = "Tests are failing due to issue with related entities that have a Nuid id.")]
+        [Fact]
         public async Task WhenCreateWorkPlaceWithMultipleTenants_RelationNeedsToBeCreated()
         {
             // Arrange
@@ -1395,7 +1391,7 @@ namespace ClientApi.Tests.Tests.Controllers
             getWorkplaceResponse!.Tenants.Should().Contain(t => t.Id == tenantId2);
         }
 
-        [Fact(Skip = "Tests are failing due to issue with related entities that have a Nuid id.")]
+        [Fact]
         public async Task WhenAddingTenantRelationsToWorkplace_RelationNeedsToBeCreated()
         {
             // Arrange

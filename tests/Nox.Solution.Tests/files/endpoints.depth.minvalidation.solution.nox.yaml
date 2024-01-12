@@ -1,0 +1,22 @@
+#
+# endpoints.depth.minvalidation.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: SampleService
+
+platformId: "Nox"
+
+description: Sample Nox solution yaml configuration
+
+infrastructure:
+
+  endpoints:
+    
+presentation:
+
+    apiConfiguration: 
+
+        apiGenerateRelatedEndpointsMaxDepth: 0

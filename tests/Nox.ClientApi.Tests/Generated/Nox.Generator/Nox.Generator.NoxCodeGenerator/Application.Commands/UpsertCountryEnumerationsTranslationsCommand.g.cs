@@ -11,6 +11,7 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
+using Nox.Types.Abstractions.Extensions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -76,7 +77,6 @@ internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase 
 }
 public class UpsertCountriesContinentsTranslationsCommandValidator : AbstractValidator<UpsertCountriesContinentsTranslationsCommand>
 {
-	private static readonly string[] _supportedCultureCodes = new string[] { "de-DE", "en-US", "fr-FR", "it-IT", };
 	private static readonly int[] _supportedIds = new int[] { 1, 2, 3, 4, 5, };
 	
     public UpsertCountriesContinentsTranslationsCommandValidator(NoxSolution noxSolution)
@@ -86,7 +86,7 @@ public class UpsertCountriesContinentsTranslationsCommandValidator : AbstractVal
 			.WithMessage($"{nameof(UpsertCountriesContinentsTranslationsCommand)} : {nameof(UpsertCountriesContinentsTranslationsCommand.CountryContinentLocalizedDtos)} is required.");
 		
 		RuleForEach(x => x.CountryContinentLocalizedDtos)
-			.Must(x => _supportedCultureCodes.Contains(x.CultureCode))
+			.Must(x => noxSolution!.Application!.Localization!.SupportedCultures.Select(c => c.ToDisplayName()).Contains(x.CultureCode))
 			.WithMessage((_,x) => $"{nameof(UpsertCountriesContinentsTranslationsCommand)} : {nameof(UpsertCountriesContinentsTranslationsCommand.CountryContinentLocalizedDtos)} contains unsupported culture code: {x.CultureCode}.");
 		
 		RuleForEach(x => x.CountryContinentLocalizedDtos)

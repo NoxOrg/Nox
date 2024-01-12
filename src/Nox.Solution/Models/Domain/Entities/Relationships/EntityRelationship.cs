@@ -39,6 +39,9 @@ public class EntityRelationship : YamlConfigNode<NoxSolution,Entity>
     )]
     public string Entity { get; internal set; } = null!;
 
+    [Title("The name of the relationship in the related entity that this relationship refers to.")]
+    public string? RefRelationshipName { get; internal set; } = null;
+
     public TypeUserInterface? UserInterface { get; internal set; }
 
     [YamlIgnore] 
@@ -46,11 +49,11 @@ public class EntityRelationship : YamlConfigNode<NoxSolution,Entity>
 
     [Title("Define the Entity on this relationship side contains a Reference endpoints to the related Entity.")]
     [Description("Default is true, determines whether OData $ref endpoints are generated for this relationship.")]
-    public bool CanManageReference { get; internal set; } = true;
+    public bool ApiGenerateReferenceEndpoint { get; internal set; } = true;
 
     [Title("Define the Entity on this relationship side contains endpoints to manage the related Entity.")]
     [Description("Default is true, determines whether navigation routing endpoints are generated for the related entities, including enabling ODataQueries for related entities.")]
-    public bool CanManageEntity { get; internal set; } = true;
+    public bool ApiGenerateRelatedEndpoint { get; internal set; } = true;
 
     [YamlIgnore]
     public bool IsForeignKeyOnThisSide => EntityRelationshipExtensions.IsForeignKeyOnThisSide(this);

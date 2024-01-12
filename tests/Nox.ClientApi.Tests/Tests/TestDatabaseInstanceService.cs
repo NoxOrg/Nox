@@ -41,8 +41,8 @@ public class TestDatabaseInstanceService : IAsyncLifetime, ITestDatabaseService
     {        
         return DbProviderKind switch
         {
-            DatabaseServerProvider.Postgres => new PostgreSqlTestProvider("Host=localhost; Database=clientapitests; Username=dev; Password=12345", configurations, noxSolutionCodeGeneratorState, noxClientAssemblyProvider),
-            DatabaseServerProvider.SqlServer => new MsSqlTestProvider("Data Source=localhost;TrustServerCertificate=true;Initial Catalog=clientapitests;User ID=sa;password=Developer*123;", configurations, noxSolutionCodeGeneratorState, noxClientAssemblyProvider),
+            DatabaseServerProvider.Postgres => new PostgreSqlTestProvider("Host=localhost; Database=clientapitests; Username=dev; Password=12345", configurations, noxSolutionCodeGeneratorState),
+            DatabaseServerProvider.SqlServer => new MsSqlTestProvider("Data Source=localhost;TrustServerCertificate=true;Initial Catalog=clientapitests;User ID=sa;password=Developer*123;", configurations, noxSolutionCodeGeneratorState),
             _ => throw new NotImplementedException($"{DbProviderKind} is not suported"),
         };
     }

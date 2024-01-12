@@ -7,6 +7,7 @@ using Nox.Domain;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
+using Nox;
 
 namespace Cryptocash.Domain;
 
@@ -83,40 +84,52 @@ public partial class TransactionMetadata
         public static Nox.Types.Guid CreateCustomerId(System.Guid value)
             => Nox.Types.Guid.From(value);
         
-
         /// <summary>
         /// User Interface for property 'TransactionType'
         /// </summary>
-        public static TypeUserInterface? TransactionTypeUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Transaction")
-                .GetAttributeByName("TransactionType")?
-                .UserInterface;
-
+        public static TypeUserInterface? TransactionTypeUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'ProcessedOnDateTime'
         /// </summary>
-        public static TypeUserInterface? ProcessedOnDateTimeUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Transaction")
-                .GetAttributeByName("ProcessedOnDateTime")?
-                .UserInterface;
-
+        public static TypeUserInterface? ProcessedOnDateTimeUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'Amount'
         /// </summary>
-        public static TypeUserInterface? AmountUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Transaction")
-                .GetAttributeByName("Amount")?
-                .UserInterface;
-
+        public static TypeUserInterface? AmountUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
         /// <summary>
         /// User Interface for property 'Reference'
         /// </summary>
-        public static TypeUserInterface? ReferenceUiOptions(NoxSolution solution) 
-            => solution.Domain!
-                .GetEntityByName("Transaction")
-                .GetAttributeByName("Reference")?
-                .UserInterface;
+        public static TypeUserInterface? ReferenceUiOptions {get; private set;} = new()
+        {
+            IconPosition = IconPosition.Begin, 
+            InputOrder = 0,
+            ShowInSearchResults = ShowInSearchResultsOption.OptionalAndOnByDefault,
+            CanSort = true,
+            CanSearch = true, 
+            CanFilter = true,
+        }; 
 }

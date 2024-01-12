@@ -64,6 +64,14 @@ public abstract class StoreCreateDtoBase : IEntityDto<DomainNamespace.Store>
     public virtual System.Int32? Status { get; set; }
 
     /// <summary>
+    /// Store country where the store is located ZeroOrOne Countries
+    /// </summary>
+    public System.Int64? CountryId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore]
+    public virtual CountryCreateDto? Country { get; set; } = default!;
+
+    /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
     public System.String? StoreOwnerId { get; set; } = default!;
