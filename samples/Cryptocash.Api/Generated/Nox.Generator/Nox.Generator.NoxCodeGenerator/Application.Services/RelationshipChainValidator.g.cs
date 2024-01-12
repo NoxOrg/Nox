@@ -9,12 +9,13 @@ using Nox.Application.Services;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Services;
 
 internal partial class RelationshipChainValidator : RelationshipChainValidatorBase
 {
-    public RelationshipChainValidator(DtoDbContext dataDbContext): base(dataDbContext)
+    public RelationshipChainValidator(AppDbContext dataDbContext): base(dataDbContext)
     {
     
     }
@@ -28,10 +29,10 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
 
     private readonly Dictionary<(string EntityPluralName, string NavigationName), bool> _isSingleRelationship;
 
-    public DtoDbContext DataDbContext { get; }
+    public AppDbContext DataDbContext { get; }
 
 #region Constructor
-    public  RelationshipChainValidatorBase(DtoDbContext dataDbContext)
+    public  RelationshipChainValidatorBase(AppDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
 
@@ -121,15 +122,20 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
 
         var aggregateDbSet = (IQueryable)context.DbSet;
 
-        var query = aggregateDbSet.Where($"{context.KeyName} == @0", relationshipChain.EntityKey);
+        if (!TryParseKey(relationshipChain.EntityName, relationshipChain.EntityKey, out var aggregateParsedKey))
+            return false;
+
+        var query = aggregateDbSet.Where($"{context.KeyName} == @0", aggregateParsedKey);
 
         var previousAggregateRoot = relationshipChain.EntityName;
+        var previousKeyName = context.KeyName;
 
         foreach (var property in relationshipChain.SortedNavigationProperties)
         {
             if (!_isSingleRelationship.TryGetValue((previousAggregateRoot, property.NavigationName), out var isSingle))
                 return false;
 
+            query = query.Select($"new ({previousKeyName}, {property.NavigationName})");
             if (isSingle)
                 query = query.Select($"{property.NavigationName}");
             else        
@@ -141,10 +147,96 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
             if (!_entityContextPerEntityName.TryGetValue(relatedPluralName, out var relatedContext))
                 return false;
             
-            query = query.Where($"{relatedContext.KeyName} == @0", property.NavigationKey);
+            if (!TryParseKey(relatedPluralName, property.NavigationKey, out var navigationParsedKey))
+                return false;
+
+            query = query.Where($"{relatedContext.KeyName} == @0", navigationParsedKey);
             previousAggregateRoot = relatedPluralName;
+            previousKeyName = relatedContext.KeyName;
         }
 
-        return query.Any();
+        return query.Select($"{previousKeyName}").Any();
+    }
+
+    private bool TryParseKey(string entityName, string key, out Nox.Types.INoxType parsedKey)
+    {
+        parsedKey = null;
+        if (entityName.Equals("Bookings", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Guid.TryParse(key, out var value)) return false;
+            parsedKey = BookingMetadata.CreateId(value);
+            return true;
+        }
+        if (entityName.Equals("Commissions", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Guid.TryParse(key, out var value)) return false;
+            parsedKey = CommissionMetadata.CreateId(value);
+            return true;
+        }
+        if (entityName.Equals("Countries", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = CountryMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("Currencies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = CurrencyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("Customers", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Guid.TryParse(key, out var value)) return false;
+            parsedKey = CustomerMetadata.CreateId(value);
+            return true;
+        }
+        if (entityName.Equals("PaymentDetails", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Int64.TryParse(key, out var value)) return false;
+            parsedKey = PaymentDetailMetadata.CreateId(value);
+            return true;
+        }
+        if (entityName.Equals("Transactions", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Guid.TryParse(key, out var value)) return false;
+            parsedKey = TransactionMetadata.CreateId(value);
+            return true;
+        }
+        if (entityName.Equals("Employees", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Guid.TryParse(key, out var value)) return false;
+            parsedKey = EmployeeMetadata.CreateId(value);
+            return true;
+        }
+        if (entityName.Equals("LandLords", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Guid.TryParse(key, out var value)) return false;
+            parsedKey = LandLordMetadata.CreateId(value);
+            return true;
+        }
+        if (entityName.Equals("MinimumCashStocks", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Int64.TryParse(key, out var value)) return false;
+            parsedKey = MinimumCashStockMetadata.CreateId(value);
+            return true;
+        }
+        if (entityName.Equals("PaymentProviders", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Guid.TryParse(key, out var value)) return false;
+            parsedKey = PaymentProviderMetadata.CreateId(value);
+            return true;
+        }
+        if (entityName.Equals("VendingMachines", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Guid.TryParse(key, out var value)) return false;
+            parsedKey = VendingMachineMetadata.CreateId(value);
+            return true;
+        }
+        if (entityName.Equals("CashStockOrders", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Int64.TryParse(key, out var value)) return false;
+            parsedKey = CashStockOrderMetadata.CreateId(value);
+            return true;
+        }
+        return false;
     }
 }
