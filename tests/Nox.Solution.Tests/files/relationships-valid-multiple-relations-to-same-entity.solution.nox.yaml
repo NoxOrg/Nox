@@ -76,17 +76,17 @@ domain:
           isRequired: true
       
       relationships:
-         - name: CurrencyTo
-           description: Exchange rate to currency
-           relationship: exactlyOne
-           entity: Currency
-           refRelationshipName: ExchangeRateTo
+        - name: CurrencyFrom
+          description: Exchange rate from currency
+          relationship: exactlyOne
+          entity: Currency
+          refRelationshipName: ExchangeRateFrom
 
-         - name: CurrencyFrom
-           description: Exchange rate from currency
-           relationship: exactlyOne
-           entity: Currency
-           refRelationshipName: ExchangeRateFrom
+        - name: CurrencyTo
+          description: Exchange rate to currency
+          relationship: exactlyOne
+          entity: Currency
+          refRelationshipName: ExchangeRateTo
 
     - name: Country
       description: Country
