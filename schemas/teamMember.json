@@ -37,24 +37,6 @@
       "title": "Roles that a team member fulfills for this solution.",
       "description": "The list of one or more roles that the user fulfills for this solution. At least one role is required",
       "type": "array",
-      "enum": [
-        "administrator",
-        "architect",
-        "databaseAdministrator",
-        "developer",
-        "devOpsEngineer",
-        "endUser",
-        "manager",
-        "owner",
-        "projectManager",
-        "qualityAssurer",
-        "releaseEngineer",
-        "requirementAnalyst",
-        "supportEngineer",
-        "technicalWriter",
-        "tester",
-        "userExperienceDesigner"
-      ],
       "items":   {
         "oneOf": [
           {
