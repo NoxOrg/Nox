@@ -59,6 +59,11 @@ infrastructure:
         sharedAccessKeyName: your-shared-access-key-name
         sharedAccessKey: your-shared-access-key
 
+  monitoring:
+      provider: ElasticApm
+      elasticApmServer: 
+        serverUri: localhost
+
   endpoints:
     
     apiServer:
@@ -95,12 +100,6 @@ infrastructure:
         port: 8080
         user: whatsappUser
         password: whatsappPassword
-
-    monitoring:
-      name: SampleObservabiity
-      serverUri: localhost
-      provider: elasticApm
-      port: 8200
 
     uiLocalizations:
       name: SampleCurrencyDb.Localization

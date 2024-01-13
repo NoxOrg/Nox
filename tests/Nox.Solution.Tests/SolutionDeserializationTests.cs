@@ -319,11 +319,14 @@ public class SolutionDeserializationTests
         Assert.Equal("whatsappPassword", noxConfig.Infrastructure.Dependencies.Notifications.ImServer!.Password);
         
         
-        Assert.NotNull(noxConfig.Infrastructure.Dependencies.Monitoring);
-        Assert.Equal("SampleObservabiity", noxConfig.Infrastructure.Dependencies.Monitoring!.Name);
-        Assert.Equal("localhost", noxConfig.Infrastructure.Dependencies.Monitoring!.ServerUri);
-        Assert.Equal(8200, noxConfig.Infrastructure.Dependencies.Monitoring!.Port);
-        
+        Assert.NotNull(noxConfig.Infrastructure.Monitoring);
+        Assert.Equal(MonitoringProvider.ElasticApm, noxConfig.Infrastructure.Monitoring!.Provider);
+        Assert.NotNull(noxConfig.Infrastructure.Monitoring!.ElasticApmServer);
+        Assert.Equal("localhost", noxConfig.Infrastructure.Monitoring!.ElasticApmServer.ServerUri);
+        Assert.Equal(string.Empty, noxConfig.Infrastructure.Monitoring!.ElasticApmServer.ServiceName);
+        Assert.Equal(string.Empty, noxConfig.Infrastructure.Monitoring!.ElasticApmServer.SecretToken);
+        Assert.Equal("Production", noxConfig.Infrastructure.Monitoring!.ElasticApmServer.Environment);
+
         Assert.NotNull(noxConfig.Infrastructure.Dependencies.UiLocalizations);
         Assert.Equal("SampleCurrencyDb.Localization", noxConfig.Infrastructure.Dependencies.UiLocalizations!.Name);
         Assert.Equal("sqlserver.iwgplc.com", noxConfig.Infrastructure.Dependencies.UiLocalizations!.ServerUri);

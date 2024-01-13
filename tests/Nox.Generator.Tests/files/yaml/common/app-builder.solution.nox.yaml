@@ -22,10 +22,3 @@ infrastructure:
       user: sa
       password: Developer*123
       options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
-      
-  dependencies:
-    monitoring: 
-      name: elasticMonitoring
-      provider: elasticApm
-      serverUri: localhost
-
