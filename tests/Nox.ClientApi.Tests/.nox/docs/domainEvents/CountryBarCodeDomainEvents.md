@@ -39,3 +39,13 @@ Member|Type|Description
 BarCodeName|Text|Bar code name
 BarCodeNumber|Number|Bar code number
 
+# Custom Domain Events for the CountryBarCode entity
+### `BarcodeGeneratedEvent`
+
+**Description:**Barcode generated event
+
+**Members (Keys, Attributes & Relationships):**
+Member|Type|Description
+------|----|-----------
+BarCodeName|Text|Bar code name
+BarCodeNumber|Number|Bar code number
