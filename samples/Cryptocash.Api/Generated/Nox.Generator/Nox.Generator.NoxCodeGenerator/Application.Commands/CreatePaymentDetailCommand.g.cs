@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using PaymentDetailEntity = Cryptocash.Domain.PaymentDetail;
 
 namespace Cryptocash.Application.Commands;
@@ -67,7 +68,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.CustomerId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Guid>());
+			var relatedKey = Dto.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.Customers.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCustomer(relatedEntity);
@@ -81,7 +82,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		}
 		if(request.EntityDto.PaymentProviderId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.PaymentProviderMetadata.CreateId(request.EntityDto.PaymentProviderId.NonNullValue<System.Guid>());
+			var relatedKey = Dto.PaymentProviderMetadata.CreateId(request.EntityDto.PaymentProviderId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.PaymentProviders.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToPaymentProvider(relatedEntity);

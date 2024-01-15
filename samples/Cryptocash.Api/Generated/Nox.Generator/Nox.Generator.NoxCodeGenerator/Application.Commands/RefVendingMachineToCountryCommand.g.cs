@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
@@ -149,13 +150,13 @@ internal abstract class RefVendingMachineToCountryCommandHandlerBase<TRequest> :
 
 	protected async Task<VendingMachineEntity?> GetVendingMachine(VendingMachineKeyDto entityKeyDto)
 	{
-		var keyId = Cryptocash.Domain.VendingMachineMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.VendingMachineMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.VendingMachines.FindAsync(keyId);
 	}
 
 	protected async Task<Cryptocash.Domain.Country?> GetCountry(CountryKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = Cryptocash.Domain.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Countries.FindAsync(relatedKeyId);
 	}
 

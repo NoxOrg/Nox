@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
 using CurrencyEntity = Cryptocash.Domain.Currency;
 
@@ -52,7 +53,7 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await _dbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
@@ -67,7 +68,7 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 		}
 		else
 		{
-			var ownedId = Cryptocash.Domain.ExchangeRateMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
+			var ownedId =Dto.ExchangeRateMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
 			entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);
 			if (entity is null)
 				throw new EntityNotFoundException("ExchangeRate",  $"{ownedId.ToString()}");

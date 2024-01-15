@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using Cryptocash.Domain;
 using PaymentDetailEntity = Cryptocash.Domain.PaymentDetail;
 
@@ -82,11 +83,11 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetailE
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.PaymentDetail();
         exceptionCollector.Collect("PaymentAccountName", () => entity.SetIfNotNull(createDto.PaymentAccountName, (entity) => entity.PaymentAccountName = 
-            Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountName(createDto.PaymentAccountName.NonNullValue<System.String>())));
+            Dto.PaymentDetailMetadata.CreatePaymentAccountName(createDto.PaymentAccountName.NonNullValue<System.String>())));
         exceptionCollector.Collect("PaymentAccountNumber", () => entity.SetIfNotNull(createDto.PaymentAccountNumber, (entity) => entity.PaymentAccountNumber = 
-            Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountNumber(createDto.PaymentAccountNumber.NonNullValue<System.String>())));
+            Dto.PaymentDetailMetadata.CreatePaymentAccountNumber(createDto.PaymentAccountNumber.NonNullValue<System.String>())));
         exceptionCollector.Collect("PaymentAccountSortCode", () => entity.SetIfNotNull(createDto.PaymentAccountSortCode, (entity) => entity.PaymentAccountSortCode = 
-            Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountSortCode(createDto.PaymentAccountSortCode.NonNullValue<System.String>())));
+            Dto.PaymentDetailMetadata.CreatePaymentAccountSortCode(createDto.PaymentAccountSortCode.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -95,15 +96,15 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetailE
     private async Task UpdateEntityInternalAsync(PaymentDetailEntity entity, PaymentDetailUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("PaymentAccountName",() => entity.PaymentAccountName = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountName(updateDto.PaymentAccountName.NonNullValue<System.String>()));
-        exceptionCollector.Collect("PaymentAccountNumber",() => entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountNumber(updateDto.PaymentAccountNumber.NonNullValue<System.String>()));
+        exceptionCollector.Collect("PaymentAccountName",() => entity.PaymentAccountName = Dto.PaymentDetailMetadata.CreatePaymentAccountName(updateDto.PaymentAccountName.NonNullValue<System.String>()));
+        exceptionCollector.Collect("PaymentAccountNumber",() => entity.PaymentAccountNumber = Dto.PaymentDetailMetadata.CreatePaymentAccountNumber(updateDto.PaymentAccountNumber.NonNullValue<System.String>()));
         if(updateDto.PaymentAccountSortCode is null)
         {
              entity.PaymentAccountSortCode = null;
         }
         else
         {
-            exceptionCollector.Collect("PaymentAccountSortCode",() =>entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountSortCode(updateDto.PaymentAccountSortCode.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("PaymentAccountSortCode",() =>entity.PaymentAccountSortCode = Dto.PaymentDetailMetadata.CreatePaymentAccountSortCode(updateDto.PaymentAccountSortCode.ToValueFromNonNull<System.String>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -118,7 +119,7 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetailE
         {
             ArgumentNullException.ThrowIfNull(PaymentAccountNameUpdateValue, "Attribute 'PaymentAccountName' can't be null.");
             {
-                exceptionCollector.Collect("PaymentAccountName",() =>entity.PaymentAccountName = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountName(PaymentAccountNameUpdateValue));
+                exceptionCollector.Collect("PaymentAccountName",() =>entity.PaymentAccountName = Dto.PaymentDetailMetadata.CreatePaymentAccountName(PaymentAccountNameUpdateValue));
             }
         }
 
@@ -126,7 +127,7 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetailE
         {
             ArgumentNullException.ThrowIfNull(PaymentAccountNumberUpdateValue, "Attribute 'PaymentAccountNumber' can't be null.");
             {
-                exceptionCollector.Collect("PaymentAccountNumber",() =>entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountNumber(PaymentAccountNumberUpdateValue));
+                exceptionCollector.Collect("PaymentAccountNumber",() =>entity.PaymentAccountNumber = Dto.PaymentDetailMetadata.CreatePaymentAccountNumber(PaymentAccountNumberUpdateValue));
             }
         }
 
@@ -135,7 +136,7 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetailE
             if (PaymentAccountSortCodeUpdateValue == null) { entity.PaymentAccountSortCode = null; }
             else
             {
-                exceptionCollector.Collect("PaymentAccountSortCode",() =>entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountSortCode(PaymentAccountSortCodeUpdateValue));
+                exceptionCollector.Collect("PaymentAccountSortCode",() =>entity.PaymentAccountSortCode = Dto.PaymentDetailMetadata.CreatePaymentAccountSortCode(PaymentAccountSortCodeUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

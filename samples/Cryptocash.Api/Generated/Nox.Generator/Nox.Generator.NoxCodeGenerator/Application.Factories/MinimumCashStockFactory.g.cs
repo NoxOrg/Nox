@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using Cryptocash.Domain;
 using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 
@@ -82,7 +83,7 @@ internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCash
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.MinimumCashStock();
         exceptionCollector.Collect("Amount", () => entity.SetIfNotNull(createDto.Amount, (entity) => entity.Amount = 
-            Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(createDto.Amount.NonNullValue<MoneyDto>())));
+            Dto.MinimumCashStockMetadata.CreateAmount(createDto.Amount.NonNullValue<MoneyDto>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -91,7 +92,7 @@ internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCash
     private async Task UpdateEntityInternalAsync(MinimumCashStockEntity entity, MinimumCashStockUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Amount",() => entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>()));
+        exceptionCollector.Collect("Amount",() => entity.Amount = Dto.MinimumCashStockMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -107,7 +108,7 @@ internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCash
             {
                 var entityToUpdate = entity.Amount is null ? new MoneyDto() : entity.Amount.ToDto();
                 MoneyDto.UpdateFromDictionary(entityToUpdate, AmountUpdateValue);
-                exceptionCollector.Collect("Amount",() =>entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(entityToUpdate));
+                exceptionCollector.Collect("Amount",() =>entity.Amount = Dto.MinimumCashStockMetadata.CreateAmount(entityToUpdate));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

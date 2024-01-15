@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using CountryQualityOfLifeIndexEntity = ClientApi.Domain.CountryQualityOfLifeIndex;
 
 namespace ClientApi.Application.Commands;
@@ -45,8 +46,8 @@ internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase : 
 		var entities = new List<CountryQualityOfLifeIndexEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyCountryId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateCountryId(keyDto.keyCountryId);
-			var keyId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateId(keyDto.keyId);		
+			var keyCountryId = Dto.CountryQualityOfLifeIndexMetadata.CreateCountryId(keyDto.keyCountryId);
+			var keyId = Dto.CountryQualityOfLifeIndexMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.CountryQualityOfLifeIndices.FindAsync(keyCountryId, keyId);
 			if (entity == null)

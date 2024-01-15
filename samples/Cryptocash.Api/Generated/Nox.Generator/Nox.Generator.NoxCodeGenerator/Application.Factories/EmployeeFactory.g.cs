@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using Cryptocash.Domain;
 using EmployeeEntity = Cryptocash.Domain.Employee;
 
@@ -90,17 +91,17 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.Employee();
         exceptionCollector.Collect("FirstName", () => entity.SetIfNotNull(createDto.FirstName, (entity) => entity.FirstName = 
-            Cryptocash.Domain.EmployeeMetadata.CreateFirstName(createDto.FirstName.NonNullValue<System.String>())));
+            Dto.EmployeeMetadata.CreateFirstName(createDto.FirstName.NonNullValue<System.String>())));
         exceptionCollector.Collect("LastName", () => entity.SetIfNotNull(createDto.LastName, (entity) => entity.LastName = 
-            Cryptocash.Domain.EmployeeMetadata.CreateLastName(createDto.LastName.NonNullValue<System.String>())));
+            Dto.EmployeeMetadata.CreateLastName(createDto.LastName.NonNullValue<System.String>())));
         exceptionCollector.Collect("EmailAddress", () => entity.SetIfNotNull(createDto.EmailAddress, (entity) => entity.EmailAddress = 
-            Cryptocash.Domain.EmployeeMetadata.CreateEmailAddress(createDto.EmailAddress.NonNullValue<System.String>())));
+            Dto.EmployeeMetadata.CreateEmailAddress(createDto.EmailAddress.NonNullValue<System.String>())));
         exceptionCollector.Collect("Address", () => entity.SetIfNotNull(createDto.Address, (entity) => entity.Address = 
-            Cryptocash.Domain.EmployeeMetadata.CreateAddress(createDto.Address.NonNullValue<StreetAddressDto>())));
+            Dto.EmployeeMetadata.CreateAddress(createDto.Address.NonNullValue<StreetAddressDto>())));
         exceptionCollector.Collect("FirstWorkingDay", () => entity.SetIfNotNull(createDto.FirstWorkingDay, (entity) => entity.FirstWorkingDay = 
-            Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(createDto.FirstWorkingDay.NonNullValue<System.DateTime>())));
+            Dto.EmployeeMetadata.CreateFirstWorkingDay(createDto.FirstWorkingDay.NonNullValue<System.DateTime>())));
         exceptionCollector.Collect("LastWorkingDay", () => entity.SetIfNotNull(createDto.LastWorkingDay, (entity) => entity.LastWorkingDay = 
-            Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(createDto.LastWorkingDay.NonNullValue<System.DateTime>())));
+            Dto.EmployeeMetadata.CreateLastWorkingDay(createDto.LastWorkingDay.NonNullValue<System.DateTime>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         entity.EnsureId(createDto.Id);
@@ -115,18 +116,18 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
     private async Task UpdateEntityInternalAsync(EmployeeEntity entity, EmployeeUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("FirstName",() => entity.FirstName = Cryptocash.Domain.EmployeeMetadata.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>()));
-        exceptionCollector.Collect("LastName",() => entity.LastName = Cryptocash.Domain.EmployeeMetadata.CreateLastName(updateDto.LastName.NonNullValue<System.String>()));
-        exceptionCollector.Collect("EmailAddress",() => entity.EmailAddress = Cryptocash.Domain.EmployeeMetadata.CreateEmailAddress(updateDto.EmailAddress.NonNullValue<System.String>()));
-        exceptionCollector.Collect("Address",() => entity.Address = Cryptocash.Domain.EmployeeMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>()));
-        exceptionCollector.Collect("FirstWorkingDay",() => entity.FirstWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(updateDto.FirstWorkingDay.NonNullValue<System.DateTime>()));
+        exceptionCollector.Collect("FirstName",() => entity.FirstName = Dto.EmployeeMetadata.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>()));
+        exceptionCollector.Collect("LastName",() => entity.LastName = Dto.EmployeeMetadata.CreateLastName(updateDto.LastName.NonNullValue<System.String>()));
+        exceptionCollector.Collect("EmailAddress",() => entity.EmailAddress = Dto.EmployeeMetadata.CreateEmailAddress(updateDto.EmailAddress.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Address",() => entity.Address = Dto.EmployeeMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>()));
+        exceptionCollector.Collect("FirstWorkingDay",() => entity.FirstWorkingDay = Dto.EmployeeMetadata.CreateFirstWorkingDay(updateDto.FirstWorkingDay.NonNullValue<System.DateTime>()));
         if(updateDto.LastWorkingDay is null)
         {
              entity.LastWorkingDay = null;
         }
         else
         {
-            exceptionCollector.Collect("LastWorkingDay",() =>entity.LastWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(updateDto.LastWorkingDay.ToValueFromNonNull<System.DateTime>()));
+            exceptionCollector.Collect("LastWorkingDay",() =>entity.LastWorkingDay = Dto.EmployeeMetadata.CreateLastWorkingDay(updateDto.LastWorkingDay.ToValueFromNonNull<System.DateTime>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -141,7 +142,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         {
             ArgumentNullException.ThrowIfNull(FirstNameUpdateValue, "Attribute 'FirstName' can't be null.");
             {
-                exceptionCollector.Collect("FirstName",() =>entity.FirstName = Cryptocash.Domain.EmployeeMetadata.CreateFirstName(FirstNameUpdateValue));
+                exceptionCollector.Collect("FirstName",() =>entity.FirstName = Dto.EmployeeMetadata.CreateFirstName(FirstNameUpdateValue));
             }
         }
 
@@ -149,7 +150,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         {
             ArgumentNullException.ThrowIfNull(LastNameUpdateValue, "Attribute 'LastName' can't be null.");
             {
-                exceptionCollector.Collect("LastName",() =>entity.LastName = Cryptocash.Domain.EmployeeMetadata.CreateLastName(LastNameUpdateValue));
+                exceptionCollector.Collect("LastName",() =>entity.LastName = Dto.EmployeeMetadata.CreateLastName(LastNameUpdateValue));
             }
         }
 
@@ -157,7 +158,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         {
             ArgumentNullException.ThrowIfNull(EmailAddressUpdateValue, "Attribute 'EmailAddress' can't be null.");
             {
-                exceptionCollector.Collect("EmailAddress",() =>entity.EmailAddress = Cryptocash.Domain.EmployeeMetadata.CreateEmailAddress(EmailAddressUpdateValue));
+                exceptionCollector.Collect("EmailAddress",() =>entity.EmailAddress = Dto.EmployeeMetadata.CreateEmailAddress(EmailAddressUpdateValue));
             }
         }
 
@@ -167,7 +168,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
             {
                 var entityToUpdate = entity.Address is null ? new StreetAddressDto() : entity.Address.ToDto();
                 StreetAddressDto.UpdateFromDictionary(entityToUpdate, AddressUpdateValue);
-                exceptionCollector.Collect("Address",() =>entity.Address = Cryptocash.Domain.EmployeeMetadata.CreateAddress(entityToUpdate));
+                exceptionCollector.Collect("Address",() =>entity.Address = Dto.EmployeeMetadata.CreateAddress(entityToUpdate));
             }
         }
 
@@ -175,7 +176,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         {
             ArgumentNullException.ThrowIfNull(FirstWorkingDayUpdateValue, "Attribute 'FirstWorkingDay' can't be null.");
             {
-                exceptionCollector.Collect("FirstWorkingDay",() =>entity.FirstWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(FirstWorkingDayUpdateValue));
+                exceptionCollector.Collect("FirstWorkingDay",() =>entity.FirstWorkingDay = Dto.EmployeeMetadata.CreateFirstWorkingDay(FirstWorkingDayUpdateValue));
             }
         }
 
@@ -184,7 +185,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
             if (LastWorkingDayUpdateValue == null) { entity.LastWorkingDay = null; }
             else
             {
-                exceptionCollector.Collect("LastWorkingDay",() =>entity.LastWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(LastWorkingDayUpdateValue));
+                exceptionCollector.Collect("LastWorkingDay",() =>entity.LastWorkingDay = Dto.EmployeeMetadata.CreateLastWorkingDay(LastWorkingDayUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -209,7 +210,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
                 }
 				else
 				{
-					var key = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
+					var key = Dto.EmployeePhoneNumberMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
 					var ownedEntity = entity.EmployeePhoneNumbers.FirstOrDefault(x => x.Id == key);
 					if(ownedEntity is null)
 						throw new RelatedEntityNotFoundException("EmployeePhoneNumbers.Id", key.ToString());

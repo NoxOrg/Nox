@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
@@ -149,13 +150,13 @@ internal abstract class RefBookingToTransactionCommandHandlerBase<TRequest> : Co
 
 	protected async Task<BookingEntity?> GetBooking(BookingKeyDto entityKeyDto)
 	{
-		var keyId = Cryptocash.Domain.BookingMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.BookingMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.Bookings.FindAsync(keyId);
 	}
 
 	protected async Task<Cryptocash.Domain.Transaction?> GetTransaction(TransactionKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = Cryptocash.Domain.TransactionMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.TransactionMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Transactions.FindAsync(relatedKeyId);
 	}
 

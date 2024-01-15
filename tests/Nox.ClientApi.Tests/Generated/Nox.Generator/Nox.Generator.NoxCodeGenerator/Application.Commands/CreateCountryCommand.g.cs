@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
@@ -69,7 +70,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		{
 			foreach(var relatedId in request.EntityDto.WorkplacesId)
 			{
-				var relatedKey = ClientApi.Domain.WorkplaceMetadata.CreateId(relatedId);
+				var relatedKey = Dto.WorkplaceMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.Workplaces.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
@@ -90,7 +91,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		{
 			foreach(var relatedId in request.EntityDto.StoresId)
 			{
-				var relatedKey = ClientApi.Domain.StoreMetadata.CreateId(relatedId);
+				var relatedKey = Dto.StoreMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)

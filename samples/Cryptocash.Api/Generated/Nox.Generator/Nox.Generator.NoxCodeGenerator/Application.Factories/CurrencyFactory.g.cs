@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using Cryptocash.Domain;
 using CurrencyEntity = Cryptocash.Domain.Currency;
 
@@ -93,33 +94,33 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.Currency();
-        exceptionCollector.Collect("Id",() => entity.Id = CurrencyMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Id",() => entity.Id = Dto.CurrencyMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            Cryptocash.Domain.CurrencyMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.CurrencyMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("CurrencyIsoNumeric", () => entity.SetIfNotNull(createDto.CurrencyIsoNumeric, (entity) => entity.CurrencyIsoNumeric = 
-            Cryptocash.Domain.CurrencyMetadata.CreateCurrencyIsoNumeric(createDto.CurrencyIsoNumeric.NonNullValue<System.Int16>())));
+            Dto.CurrencyMetadata.CreateCurrencyIsoNumeric(createDto.CurrencyIsoNumeric.NonNullValue<System.Int16>())));
         exceptionCollector.Collect("Symbol", () => entity.SetIfNotNull(createDto.Symbol, (entity) => entity.Symbol = 
-            Cryptocash.Domain.CurrencyMetadata.CreateSymbol(createDto.Symbol.NonNullValue<System.String>())));
+            Dto.CurrencyMetadata.CreateSymbol(createDto.Symbol.NonNullValue<System.String>())));
         exceptionCollector.Collect("ThousandsSeparator", () => entity.SetIfNotNull(createDto.ThousandsSeparator, (entity) => entity.ThousandsSeparator = 
-            Cryptocash.Domain.CurrencyMetadata.CreateThousandsSeparator(createDto.ThousandsSeparator.NonNullValue<System.String>())));
+            Dto.CurrencyMetadata.CreateThousandsSeparator(createDto.ThousandsSeparator.NonNullValue<System.String>())));
         exceptionCollector.Collect("DecimalSeparator", () => entity.SetIfNotNull(createDto.DecimalSeparator, (entity) => entity.DecimalSeparator = 
-            Cryptocash.Domain.CurrencyMetadata.CreateDecimalSeparator(createDto.DecimalSeparator.NonNullValue<System.String>())));
+            Dto.CurrencyMetadata.CreateDecimalSeparator(createDto.DecimalSeparator.NonNullValue<System.String>())));
         exceptionCollector.Collect("SpaceBetweenAmountAndSymbol", () => entity.SetIfNotNull(createDto.SpaceBetweenAmountAndSymbol, (entity) => entity.SpaceBetweenAmountAndSymbol = 
-            Cryptocash.Domain.CurrencyMetadata.CreateSpaceBetweenAmountAndSymbol(createDto.SpaceBetweenAmountAndSymbol.NonNullValue<System.Boolean>())));
+            Dto.CurrencyMetadata.CreateSpaceBetweenAmountAndSymbol(createDto.SpaceBetweenAmountAndSymbol.NonNullValue<System.Boolean>())));
         exceptionCollector.Collect("SymbolOnLeft", () => entity.SetIfNotNull(createDto.SymbolOnLeft, (entity) => entity.SymbolOnLeft = 
-            Cryptocash.Domain.CurrencyMetadata.CreateSymbolOnLeft(createDto.SymbolOnLeft.NonNullValue<System.Boolean>())));
+            Dto.CurrencyMetadata.CreateSymbolOnLeft(createDto.SymbolOnLeft.NonNullValue<System.Boolean>())));
         exceptionCollector.Collect("DecimalDigits", () => entity.SetIfNotNull(createDto.DecimalDigits, (entity) => entity.DecimalDigits = 
-            Cryptocash.Domain.CurrencyMetadata.CreateDecimalDigits(createDto.DecimalDigits.NonNullValue<System.Int32>())));
+            Dto.CurrencyMetadata.CreateDecimalDigits(createDto.DecimalDigits.NonNullValue<System.Int32>())));
         exceptionCollector.Collect("MajorName", () => entity.SetIfNotNull(createDto.MajorName, (entity) => entity.MajorName = 
-            Cryptocash.Domain.CurrencyMetadata.CreateMajorName(createDto.MajorName.NonNullValue<System.String>())));
+            Dto.CurrencyMetadata.CreateMajorName(createDto.MajorName.NonNullValue<System.String>())));
         exceptionCollector.Collect("MajorSymbol", () => entity.SetIfNotNull(createDto.MajorSymbol, (entity) => entity.MajorSymbol = 
-            Cryptocash.Domain.CurrencyMetadata.CreateMajorSymbol(createDto.MajorSymbol.NonNullValue<System.String>())));
+            Dto.CurrencyMetadata.CreateMajorSymbol(createDto.MajorSymbol.NonNullValue<System.String>())));
         exceptionCollector.Collect("MinorName", () => entity.SetIfNotNull(createDto.MinorName, (entity) => entity.MinorName = 
-            Cryptocash.Domain.CurrencyMetadata.CreateMinorName(createDto.MinorName.NonNullValue<System.String>())));
+            Dto.CurrencyMetadata.CreateMinorName(createDto.MinorName.NonNullValue<System.String>())));
         exceptionCollector.Collect("MinorSymbol", () => entity.SetIfNotNull(createDto.MinorSymbol, (entity) => entity.MinorSymbol = 
-            Cryptocash.Domain.CurrencyMetadata.CreateMinorSymbol(createDto.MinorSymbol.NonNullValue<System.String>())));
+            Dto.CurrencyMetadata.CreateMinorSymbol(createDto.MinorSymbol.NonNullValue<System.String>())));
         exceptionCollector.Collect("MinorToMajorValue", () => entity.SetIfNotNull(createDto.MinorToMajorValue, (entity) => entity.MinorToMajorValue = 
-            Cryptocash.Domain.CurrencyMetadata.CreateMinorToMajorValue(createDto.MinorToMajorValue.NonNullValue<MoneyDto>())));
+            Dto.CurrencyMetadata.CreateMinorToMajorValue(createDto.MinorToMajorValue.NonNullValue<MoneyDto>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         createDto.BankNotes?.ForEach(async dto =>
@@ -138,16 +139,16 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
     private async Task UpdateEntityInternalAsync(CurrencyEntity entity, CurrencyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Name",() => entity.Name = Cryptocash.Domain.CurrencyMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
-        exceptionCollector.Collect("CurrencyIsoNumeric",() => entity.CurrencyIsoNumeric = Cryptocash.Domain.CurrencyMetadata.CreateCurrencyIsoNumeric(updateDto.CurrencyIsoNumeric.NonNullValue<System.Int16>()));
-        exceptionCollector.Collect("Symbol",() => entity.Symbol = Cryptocash.Domain.CurrencyMetadata.CreateSymbol(updateDto.Symbol.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Name",() => entity.Name = Dto.CurrencyMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        exceptionCollector.Collect("CurrencyIsoNumeric",() => entity.CurrencyIsoNumeric = Dto.CurrencyMetadata.CreateCurrencyIsoNumeric(updateDto.CurrencyIsoNumeric.NonNullValue<System.Int16>()));
+        exceptionCollector.Collect("Symbol",() => entity.Symbol = Dto.CurrencyMetadata.CreateSymbol(updateDto.Symbol.NonNullValue<System.String>()));
         if(updateDto.ThousandsSeparator is null)
         {
              entity.ThousandsSeparator = null;
         }
         else
         {
-            exceptionCollector.Collect("ThousandsSeparator",() =>entity.ThousandsSeparator = Cryptocash.Domain.CurrencyMetadata.CreateThousandsSeparator(updateDto.ThousandsSeparator.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("ThousandsSeparator",() =>entity.ThousandsSeparator = Dto.CurrencyMetadata.CreateThousandsSeparator(updateDto.ThousandsSeparator.ToValueFromNonNull<System.String>()));
         }
         if(updateDto.DecimalSeparator is null)
         {
@@ -155,16 +156,16 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         }
         else
         {
-            exceptionCollector.Collect("DecimalSeparator",() =>entity.DecimalSeparator = Cryptocash.Domain.CurrencyMetadata.CreateDecimalSeparator(updateDto.DecimalSeparator.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("DecimalSeparator",() =>entity.DecimalSeparator = Dto.CurrencyMetadata.CreateDecimalSeparator(updateDto.DecimalSeparator.ToValueFromNonNull<System.String>()));
         }
-        exceptionCollector.Collect("SpaceBetweenAmountAndSymbol",() => entity.SpaceBetweenAmountAndSymbol = Cryptocash.Domain.CurrencyMetadata.CreateSpaceBetweenAmountAndSymbol(updateDto.SpaceBetweenAmountAndSymbol.NonNullValue<System.Boolean>()));
-        exceptionCollector.Collect("SymbolOnLeft",() => entity.SymbolOnLeft = Cryptocash.Domain.CurrencyMetadata.CreateSymbolOnLeft(updateDto.SymbolOnLeft.NonNullValue<System.Boolean>()));
-        exceptionCollector.Collect("DecimalDigits",() => entity.DecimalDigits = Cryptocash.Domain.CurrencyMetadata.CreateDecimalDigits(updateDto.DecimalDigits.NonNullValue<System.Int32>()));
-        exceptionCollector.Collect("MajorName",() => entity.MajorName = Cryptocash.Domain.CurrencyMetadata.CreateMajorName(updateDto.MajorName.NonNullValue<System.String>()));
-        exceptionCollector.Collect("MajorSymbol",() => entity.MajorSymbol = Cryptocash.Domain.CurrencyMetadata.CreateMajorSymbol(updateDto.MajorSymbol.NonNullValue<System.String>()));
-        exceptionCollector.Collect("MinorName",() => entity.MinorName = Cryptocash.Domain.CurrencyMetadata.CreateMinorName(updateDto.MinorName.NonNullValue<System.String>()));
-        exceptionCollector.Collect("MinorSymbol",() => entity.MinorSymbol = Cryptocash.Domain.CurrencyMetadata.CreateMinorSymbol(updateDto.MinorSymbol.NonNullValue<System.String>()));
-        exceptionCollector.Collect("MinorToMajorValue",() => entity.MinorToMajorValue = Cryptocash.Domain.CurrencyMetadata.CreateMinorToMajorValue(updateDto.MinorToMajorValue.NonNullValue<MoneyDto>()));
+        exceptionCollector.Collect("SpaceBetweenAmountAndSymbol",() => entity.SpaceBetweenAmountAndSymbol = Dto.CurrencyMetadata.CreateSpaceBetweenAmountAndSymbol(updateDto.SpaceBetweenAmountAndSymbol.NonNullValue<System.Boolean>()));
+        exceptionCollector.Collect("SymbolOnLeft",() => entity.SymbolOnLeft = Dto.CurrencyMetadata.CreateSymbolOnLeft(updateDto.SymbolOnLeft.NonNullValue<System.Boolean>()));
+        exceptionCollector.Collect("DecimalDigits",() => entity.DecimalDigits = Dto.CurrencyMetadata.CreateDecimalDigits(updateDto.DecimalDigits.NonNullValue<System.Int32>()));
+        exceptionCollector.Collect("MajorName",() => entity.MajorName = Dto.CurrencyMetadata.CreateMajorName(updateDto.MajorName.NonNullValue<System.String>()));
+        exceptionCollector.Collect("MajorSymbol",() => entity.MajorSymbol = Dto.CurrencyMetadata.CreateMajorSymbol(updateDto.MajorSymbol.NonNullValue<System.String>()));
+        exceptionCollector.Collect("MinorName",() => entity.MinorName = Dto.CurrencyMetadata.CreateMinorName(updateDto.MinorName.NonNullValue<System.String>()));
+        exceptionCollector.Collect("MinorSymbol",() => entity.MinorSymbol = Dto.CurrencyMetadata.CreateMinorSymbol(updateDto.MinorSymbol.NonNullValue<System.String>()));
+        exceptionCollector.Collect("MinorToMajorValue",() => entity.MinorToMajorValue = Dto.CurrencyMetadata.CreateMinorToMajorValue(updateDto.MinorToMajorValue.NonNullValue<MoneyDto>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
 	    await UpdateOwnedEntitiesAsync(entity, updateDto, cultureCode);
@@ -178,7 +179,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         {
             ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = Cryptocash.Domain.CurrencyMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.CurrencyMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -186,7 +187,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         {
             ArgumentNullException.ThrowIfNull(CurrencyIsoNumericUpdateValue, "Attribute 'CurrencyIsoNumeric' can't be null.");
             {
-                exceptionCollector.Collect("CurrencyIsoNumeric",() =>entity.CurrencyIsoNumeric = Cryptocash.Domain.CurrencyMetadata.CreateCurrencyIsoNumeric(CurrencyIsoNumericUpdateValue));
+                exceptionCollector.Collect("CurrencyIsoNumeric",() =>entity.CurrencyIsoNumeric = Dto.CurrencyMetadata.CreateCurrencyIsoNumeric(CurrencyIsoNumericUpdateValue));
             }
         }
 
@@ -194,7 +195,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         {
             ArgumentNullException.ThrowIfNull(SymbolUpdateValue, "Attribute 'Symbol' can't be null.");
             {
-                exceptionCollector.Collect("Symbol",() =>entity.Symbol = Cryptocash.Domain.CurrencyMetadata.CreateSymbol(SymbolUpdateValue));
+                exceptionCollector.Collect("Symbol",() =>entity.Symbol = Dto.CurrencyMetadata.CreateSymbol(SymbolUpdateValue));
             }
         }
 
@@ -203,7 +204,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
             if (ThousandsSeparatorUpdateValue == null) { entity.ThousandsSeparator = null; }
             else
             {
-                exceptionCollector.Collect("ThousandsSeparator",() =>entity.ThousandsSeparator = Cryptocash.Domain.CurrencyMetadata.CreateThousandsSeparator(ThousandsSeparatorUpdateValue));
+                exceptionCollector.Collect("ThousandsSeparator",() =>entity.ThousandsSeparator = Dto.CurrencyMetadata.CreateThousandsSeparator(ThousandsSeparatorUpdateValue));
             }
         }
 
@@ -212,7 +213,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
             if (DecimalSeparatorUpdateValue == null) { entity.DecimalSeparator = null; }
             else
             {
-                exceptionCollector.Collect("DecimalSeparator",() =>entity.DecimalSeparator = Cryptocash.Domain.CurrencyMetadata.CreateDecimalSeparator(DecimalSeparatorUpdateValue));
+                exceptionCollector.Collect("DecimalSeparator",() =>entity.DecimalSeparator = Dto.CurrencyMetadata.CreateDecimalSeparator(DecimalSeparatorUpdateValue));
             }
         }
 
@@ -220,7 +221,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         {
             ArgumentNullException.ThrowIfNull(SpaceBetweenAmountAndSymbolUpdateValue, "Attribute 'SpaceBetweenAmountAndSymbol' can't be null.");
             {
-                exceptionCollector.Collect("SpaceBetweenAmountAndSymbol",() =>entity.SpaceBetweenAmountAndSymbol = Cryptocash.Domain.CurrencyMetadata.CreateSpaceBetweenAmountAndSymbol(SpaceBetweenAmountAndSymbolUpdateValue));
+                exceptionCollector.Collect("SpaceBetweenAmountAndSymbol",() =>entity.SpaceBetweenAmountAndSymbol = Dto.CurrencyMetadata.CreateSpaceBetweenAmountAndSymbol(SpaceBetweenAmountAndSymbolUpdateValue));
             }
         }
 
@@ -228,7 +229,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         {
             ArgumentNullException.ThrowIfNull(SymbolOnLeftUpdateValue, "Attribute 'SymbolOnLeft' can't be null.");
             {
-                exceptionCollector.Collect("SymbolOnLeft",() =>entity.SymbolOnLeft = Cryptocash.Domain.CurrencyMetadata.CreateSymbolOnLeft(SymbolOnLeftUpdateValue));
+                exceptionCollector.Collect("SymbolOnLeft",() =>entity.SymbolOnLeft = Dto.CurrencyMetadata.CreateSymbolOnLeft(SymbolOnLeftUpdateValue));
             }
         }
 
@@ -236,7 +237,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         {
             ArgumentNullException.ThrowIfNull(DecimalDigitsUpdateValue, "Attribute 'DecimalDigits' can't be null.");
             {
-                exceptionCollector.Collect("DecimalDigits",() =>entity.DecimalDigits = Cryptocash.Domain.CurrencyMetadata.CreateDecimalDigits(DecimalDigitsUpdateValue));
+                exceptionCollector.Collect("DecimalDigits",() =>entity.DecimalDigits = Dto.CurrencyMetadata.CreateDecimalDigits(DecimalDigitsUpdateValue));
             }
         }
 
@@ -244,7 +245,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         {
             ArgumentNullException.ThrowIfNull(MajorNameUpdateValue, "Attribute 'MajorName' can't be null.");
             {
-                exceptionCollector.Collect("MajorName",() =>entity.MajorName = Cryptocash.Domain.CurrencyMetadata.CreateMajorName(MajorNameUpdateValue));
+                exceptionCollector.Collect("MajorName",() =>entity.MajorName = Dto.CurrencyMetadata.CreateMajorName(MajorNameUpdateValue));
             }
         }
 
@@ -252,7 +253,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         {
             ArgumentNullException.ThrowIfNull(MajorSymbolUpdateValue, "Attribute 'MajorSymbol' can't be null.");
             {
-                exceptionCollector.Collect("MajorSymbol",() =>entity.MajorSymbol = Cryptocash.Domain.CurrencyMetadata.CreateMajorSymbol(MajorSymbolUpdateValue));
+                exceptionCollector.Collect("MajorSymbol",() =>entity.MajorSymbol = Dto.CurrencyMetadata.CreateMajorSymbol(MajorSymbolUpdateValue));
             }
         }
 
@@ -260,7 +261,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         {
             ArgumentNullException.ThrowIfNull(MinorNameUpdateValue, "Attribute 'MinorName' can't be null.");
             {
-                exceptionCollector.Collect("MinorName",() =>entity.MinorName = Cryptocash.Domain.CurrencyMetadata.CreateMinorName(MinorNameUpdateValue));
+                exceptionCollector.Collect("MinorName",() =>entity.MinorName = Dto.CurrencyMetadata.CreateMinorName(MinorNameUpdateValue));
             }
         }
 
@@ -268,7 +269,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         {
             ArgumentNullException.ThrowIfNull(MinorSymbolUpdateValue, "Attribute 'MinorSymbol' can't be null.");
             {
-                exceptionCollector.Collect("MinorSymbol",() =>entity.MinorSymbol = Cryptocash.Domain.CurrencyMetadata.CreateMinorSymbol(MinorSymbolUpdateValue));
+                exceptionCollector.Collect("MinorSymbol",() =>entity.MinorSymbol = Dto.CurrencyMetadata.CreateMinorSymbol(MinorSymbolUpdateValue));
             }
         }
 
@@ -278,7 +279,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
             {
                 var entityToUpdate = entity.MinorToMajorValue is null ? new MoneyDto() : entity.MinorToMajorValue.ToDto();
                 MoneyDto.UpdateFromDictionary(entityToUpdate, MinorToMajorValueUpdateValue);
-                exceptionCollector.Collect("MinorToMajorValue",() =>entity.MinorToMajorValue = Cryptocash.Domain.CurrencyMetadata.CreateMinorToMajorValue(entityToUpdate));
+                exceptionCollector.Collect("MinorToMajorValue",() =>entity.MinorToMajorValue = Dto.CurrencyMetadata.CreateMinorToMajorValue(entityToUpdate));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -303,7 +304,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
                 }
 				else
 				{
-					var key = Cryptocash.Domain.BankNoteMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
+					var key = Dto.BankNoteMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
 					var ownedEntity = entity.BankNotes.FirstOrDefault(x => x.Id == key);
 					if(ownedEntity is null)
 						throw new RelatedEntityNotFoundException("BankNotes.Id", key.ToString());
@@ -335,7 +336,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
                 }
 				else
 				{
-					var key = Cryptocash.Domain.ExchangeRateMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
+					var key = Dto.ExchangeRateMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
 					var ownedEntity = entity.ExchangeRates.FirstOrDefault(x => x.Id == key);
 					if(ownedEntity is null)
 						throw new RelatedEntityNotFoundException("ExchangeRates.Id", key.ToString());

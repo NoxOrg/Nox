@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using TenantEntity = ClientApi.Domain.Tenant;
 
@@ -94,9 +95,9 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.Tenant();
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            ClientApi.Domain.TenantMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.TenantMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("Status", () => entity.SetIfNotNull(createDto.Status, (entity) => entity.Status = 
-            ClientApi.Domain.TenantMetadata.CreateStatus(createDto.Status.NonNullValue<System.Int32>())));
+            Dto.TenantMetadata.CreateStatus(createDto.Status.NonNullValue<System.Int32>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
 		entity.EnsureId();
@@ -116,14 +117,14 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
     private async Task UpdateEntityInternalAsync(TenantEntity entity, TenantUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Name",() => entity.Name = ClientApi.Domain.TenantMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Name",() => entity.Name = Dto.TenantMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
         if(updateDto.Status is null)
         {
              entity.Status = null;
         }
         else
         {
-            exceptionCollector.Collect("Status",() =>entity.Status = ClientApi.Domain.TenantMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>()));
+            exceptionCollector.Collect("Status",() =>entity.Status = Dto.TenantMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -139,7 +140,7 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
         {
             ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.TenantMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.TenantMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -148,7 +149,7 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
             if (StatusUpdateValue == null) { entity.Status = null; }
             else
             {
-                exceptionCollector.Collect("Status",() =>entity.Status = ClientApi.Domain.TenantMetadata.CreateStatus(StatusUpdateValue));
+                exceptionCollector.Collect("Status",() =>entity.Status = Dto.TenantMetadata.CreateStatus(StatusUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -174,7 +175,7 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
                 }
 				else
 				{
-					var key = ClientApi.Domain.TenantBrandMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
+					var key = Dto.TenantBrandMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
 					var ownedEntity = entity.TenantBrands.FirstOrDefault(x => x.Id == key);
 					if(ownedEntity is null)
 						throw new RelatedEntityNotFoundException("TenantBrands.Id", key.ToString());

@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestWebApp.Domain;
 using TestEntityWithNuidEntity = TestWebApp.Domain.TestEntityWithNuid;
 
@@ -82,7 +83,7 @@ internal abstract class TestEntityWithNuidFactoryBase : IEntityFactory<TestEntit
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.TestEntityWithNuid();
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            TestWebApp.Domain.TestEntityWithNuidMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.TestEntityWithNuidMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
 		entity.EnsureId();        
@@ -92,7 +93,7 @@ internal abstract class TestEntityWithNuidFactoryBase : IEntityFactory<TestEntit
     private async Task UpdateEntityInternalAsync(TestEntityWithNuidEntity entity, TestEntityWithNuidUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Name",() => entity.Name = TestWebApp.Domain.TestEntityWithNuidMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Name",() => entity.Name = Dto.TestEntityWithNuidMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
 		entity.EnsureId();
@@ -107,7 +108,7 @@ internal abstract class TestEntityWithNuidFactoryBase : IEntityFactory<TestEntit
         {
             ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = TestWebApp.Domain.TestEntityWithNuidMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.TestEntityWithNuidMetadata.CreateName(NameUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

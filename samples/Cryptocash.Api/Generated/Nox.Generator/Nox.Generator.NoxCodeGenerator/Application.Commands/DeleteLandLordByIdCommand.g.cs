@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using LandLordEntity = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteLandLordByIdCommandHandlerBase : CommandCollection
 		var entities = new List<LandLordEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = Cryptocash.Domain.LandLordMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.LandLordMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.LandLords.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

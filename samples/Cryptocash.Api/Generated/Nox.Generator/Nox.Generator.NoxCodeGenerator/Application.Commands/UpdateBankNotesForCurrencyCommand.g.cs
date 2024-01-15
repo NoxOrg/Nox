@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using BankNoteEntity = Cryptocash.Domain.BankNote;
 using CurrencyEntity = Cryptocash.Domain.Currency;
 
@@ -52,7 +53,7 @@ internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandBas
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await _dbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
@@ -67,7 +68,7 @@ internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandBas
 		}
 		else
 		{
-			var ownedId = Cryptocash.Domain.BankNoteMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
+			var ownedId =Dto.BankNoteMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
 			entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
 			if (entity is null)
 				throw new EntityNotFoundException("BankNote",  $"{ownedId.ToString()}");

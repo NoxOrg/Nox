@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
@@ -193,13 +194,13 @@ internal abstract class RefTenantToWorkplacesCommandHandlerBase<TRequest> : Comm
 
 	protected async Task<TenantEntity?> GetTenant(TenantKeyDto entityKeyDto)
 	{
-		var keyId = ClientApi.Domain.TenantMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.TenantMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.Tenants.FindAsync(keyId);
 	}
 
 	protected async Task<ClientApi.Domain.Workplace?> GetWorkplace(WorkplaceKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = ClientApi.Domain.WorkplaceMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.WorkplaceMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Workplaces.FindAsync(relatedKeyId);
 	}
 

@@ -13,6 +13,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using ForReferenceNumberEntity = TestWebApp.Domain.ForReferenceNumber;
 
 namespace TestWebApp.Application.Commands;
@@ -48,7 +49,7 @@ internal abstract class PartialUpdateForReferenceNumberCommandHandlerBase : Comm
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.ForReferenceNumberMetadata.CreateId(request.keyId);
+		var keyId = Dto.ForReferenceNumberMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.ForReferenceNumbers.FindAsync(keyId);
 		if (entity == null)

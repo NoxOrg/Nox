@@ -13,6 +13,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityLocalizationEntity = TestWebApp.Domain.TestEntityLocalization;
 
 namespace TestWebApp.Application.Commands;
@@ -48,7 +49,7 @@ internal abstract class PartialUpdateTestEntityLocalizationCommandHandlerBase : 
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateId(request.keyId);
+		var keyId = Dto.TestEntityLocalizationMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityLocalizations.FindAsync(keyId);
 		if (entity == null)

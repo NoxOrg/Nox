@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using CryptocashIntegration.Infrastructure.Persistence;
 using CryptocashIntegration.Domain;
 using CryptocashIntegration.Application.Dto;
+using Dto = CryptocashIntegration.Application.Dto;
 using CountryJsonToTableEntity = CryptocashIntegration.Domain.CountryJsonToTable;
 
 namespace CryptocashIntegration.Application.Commands;

@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 public record EntityUniqueConstraintsWithForeignKeyKeyDto(System.Guid keyId);
@@ -32,15 +30,14 @@ public partial class EntityUniqueConstraintsWithForeignKeyDto : EntityUniqueCons
 /// </summary>
 public abstract class EntityUniqueConstraintsWithForeignKeyDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TextField is not null)
-            ExecuteActionAndCollectValidationExceptions("TextField", () => DomainNamespace.EntityUniqueConstraintsWithForeignKeyMetadata.CreateTextField(this.TextField.NonNullValue<System.String>()), result);
-        ExecuteActionAndCollectValidationExceptions("SomeUniqueId", () => DomainNamespace.EntityUniqueConstraintsWithForeignKeyMetadata.CreateSomeUniqueId(this.SomeUniqueId), result);
+            CollectValidationExceptions("TextField", () => EntityUniqueConstraintsWithForeignKeyMetadata.CreateTextField(this.TextField.NonNullValue<System.String>()), result);
+        CollectValidationExceptions("SomeUniqueId", () => EntityUniqueConstraintsWithForeignKeyMetadata.CreateSomeUniqueId(this.SomeUniqueId), result);
     
 
         return result;

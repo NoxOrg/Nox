@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 public record CountryKeyDto(System.Int64 keyId);
@@ -32,35 +30,34 @@ public partial class CountryDto : CountryDtoBase
 /// </summary>
 public abstract class CountryDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.CountryMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Name", () => CountryMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.Population is not null)
-            ExecuteActionAndCollectValidationExceptions("Population", () => DomainNamespace.CountryMetadata.CreatePopulation(this.Population.NonNullValue<System.Int32>()), result);
+            CollectValidationExceptions("Population", () => CountryMetadata.CreatePopulation(this.Population.NonNullValue<System.Int32>()), result);
         if (this.CountryDebt is not null)
-            ExecuteActionAndCollectValidationExceptions("CountryDebt", () => DomainNamespace.CountryMetadata.CreateCountryDebt(this.CountryDebt.NonNullValue<MoneyDto>()), result); 
+            CollectValidationExceptions("CountryDebt", () => CountryMetadata.CreateCountryDebt(this.CountryDebt.NonNullValue<MoneyDto>()), result); 
         if (this.CapitalCityLocation is not null)
-            ExecuteActionAndCollectValidationExceptions("CapitalCityLocation", () => DomainNamespace.CountryMetadata.CreateCapitalCityLocation(this.CapitalCityLocation.NonNullValue<LatLongDto>()), result);
+            CollectValidationExceptions("CapitalCityLocation", () => CountryMetadata.CreateCapitalCityLocation(this.CapitalCityLocation.NonNullValue<LatLongDto>()), result);
         if (this.FirstLanguageCode is not null)
-            ExecuteActionAndCollectValidationExceptions("FirstLanguageCode", () => DomainNamespace.CountryMetadata.CreateFirstLanguageCode(this.FirstLanguageCode.NonNullValue<System.String>()), result); 
+            CollectValidationExceptions("FirstLanguageCode", () => CountryMetadata.CreateFirstLanguageCode(this.FirstLanguageCode.NonNullValue<System.String>()), result); 
         if (this.CountryIsoNumeric is not null)
-            ExecuteActionAndCollectValidationExceptions("CountryIsoNumeric", () => DomainNamespace.CountryMetadata.CreateCountryIsoNumeric(this.CountryIsoNumeric.NonNullValue<System.UInt16>()), result);
+            CollectValidationExceptions("CountryIsoNumeric", () => CountryMetadata.CreateCountryIsoNumeric(this.CountryIsoNumeric.NonNullValue<System.UInt16>()), result);
         if (this.CountryIsoAlpha3 is not null)
-            ExecuteActionAndCollectValidationExceptions("CountryIsoAlpha3", () => DomainNamespace.CountryMetadata.CreateCountryIsoAlpha3(this.CountryIsoAlpha3.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("CountryIsoAlpha3", () => CountryMetadata.CreateCountryIsoAlpha3(this.CountryIsoAlpha3.NonNullValue<System.String>()), result);
         if (this.GoogleMapsUrl is not null)
-            ExecuteActionAndCollectValidationExceptions("GoogleMapsUrl", () => DomainNamespace.CountryMetadata.CreateGoogleMapsUrl(this.GoogleMapsUrl.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("GoogleMapsUrl", () => CountryMetadata.CreateGoogleMapsUrl(this.GoogleMapsUrl.NonNullValue<System.String>()), result);
         if (this.StartOfWeek is not null)
-            ExecuteActionAndCollectValidationExceptions("StartOfWeek", () => DomainNamespace.CountryMetadata.CreateStartOfWeek(this.StartOfWeek.NonNullValue<System.UInt16>()), result);
+            CollectValidationExceptions("StartOfWeek", () => CountryMetadata.CreateStartOfWeek(this.StartOfWeek.NonNullValue<System.UInt16>()), result);
         if (this.Continent is not null)
-            ExecuteActionAndCollectValidationExceptions("Continent", () => DomainNamespace.CountryMetadata.CreateContinent(this.Continent.NonNullValue<System.Int32>()), result);
+            CollectValidationExceptions("Continent", () => CountryMetadata.CreateContinent(this.Continent.NonNullValue<System.Int32>()), result);
 
         return result;
     }

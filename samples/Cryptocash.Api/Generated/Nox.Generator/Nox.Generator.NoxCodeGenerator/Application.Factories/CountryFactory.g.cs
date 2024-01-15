@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using Cryptocash.Domain;
 using CountryEntity = Cryptocash.Domain.Country;
 
@@ -93,35 +94,35 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.Country();
-        exceptionCollector.Collect("Id",() => entity.Id = CountryMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Id",() => entity.Id = Dto.CountryMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            Cryptocash.Domain.CountryMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.CountryMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("OfficialName", () => entity.SetIfNotNull(createDto.OfficialName, (entity) => entity.OfficialName = 
-            Cryptocash.Domain.CountryMetadata.CreateOfficialName(createDto.OfficialName.NonNullValue<System.String>())));
+            Dto.CountryMetadata.CreateOfficialName(createDto.OfficialName.NonNullValue<System.String>())));
         exceptionCollector.Collect("CountryIsoNumeric", () => entity.SetIfNotNull(createDto.CountryIsoNumeric, (entity) => entity.CountryIsoNumeric = 
-            Cryptocash.Domain.CountryMetadata.CreateCountryIsoNumeric(createDto.CountryIsoNumeric.NonNullValue<System.UInt16>())));
+            Dto.CountryMetadata.CreateCountryIsoNumeric(createDto.CountryIsoNumeric.NonNullValue<System.UInt16>())));
         exceptionCollector.Collect("CountryIsoAlpha3", () => entity.SetIfNotNull(createDto.CountryIsoAlpha3, (entity) => entity.CountryIsoAlpha3 = 
-            Cryptocash.Domain.CountryMetadata.CreateCountryIsoAlpha3(createDto.CountryIsoAlpha3.NonNullValue<System.String>())));
+            Dto.CountryMetadata.CreateCountryIsoAlpha3(createDto.CountryIsoAlpha3.NonNullValue<System.String>())));
         exceptionCollector.Collect("GeoCoords", () => entity.SetIfNotNull(createDto.GeoCoords, (entity) => entity.GeoCoords = 
-            Cryptocash.Domain.CountryMetadata.CreateGeoCoords(createDto.GeoCoords.NonNullValue<LatLongDto>())));
+            Dto.CountryMetadata.CreateGeoCoords(createDto.GeoCoords.NonNullValue<LatLongDto>())));
         exceptionCollector.Collect("FlagEmoji", () => entity.SetIfNotNull(createDto.FlagEmoji, (entity) => entity.FlagEmoji = 
-            Cryptocash.Domain.CountryMetadata.CreateFlagEmoji(createDto.FlagEmoji.NonNullValue<System.String>())));
+            Dto.CountryMetadata.CreateFlagEmoji(createDto.FlagEmoji.NonNullValue<System.String>())));
         exceptionCollector.Collect("FlagSvg", () => entity.SetIfNotNull(createDto.FlagSvg, (entity) => entity.FlagSvg = 
-            Cryptocash.Domain.CountryMetadata.CreateFlagSvg(createDto.FlagSvg.NonNullValue<ImageDto>())));
+            Dto.CountryMetadata.CreateFlagSvg(createDto.FlagSvg.NonNullValue<ImageDto>())));
         exceptionCollector.Collect("FlagPng", () => entity.SetIfNotNull(createDto.FlagPng, (entity) => entity.FlagPng = 
-            Cryptocash.Domain.CountryMetadata.CreateFlagPng(createDto.FlagPng.NonNullValue<ImageDto>())));
+            Dto.CountryMetadata.CreateFlagPng(createDto.FlagPng.NonNullValue<ImageDto>())));
         exceptionCollector.Collect("CoatOfArmsSvg", () => entity.SetIfNotNull(createDto.CoatOfArmsSvg, (entity) => entity.CoatOfArmsSvg = 
-            Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsSvg(createDto.CoatOfArmsSvg.NonNullValue<ImageDto>())));
+            Dto.CountryMetadata.CreateCoatOfArmsSvg(createDto.CoatOfArmsSvg.NonNullValue<ImageDto>())));
         exceptionCollector.Collect("CoatOfArmsPng", () => entity.SetIfNotNull(createDto.CoatOfArmsPng, (entity) => entity.CoatOfArmsPng = 
-            Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsPng(createDto.CoatOfArmsPng.NonNullValue<ImageDto>())));
+            Dto.CountryMetadata.CreateCoatOfArmsPng(createDto.CoatOfArmsPng.NonNullValue<ImageDto>())));
         exceptionCollector.Collect("GoogleMapsUrl", () => entity.SetIfNotNull(createDto.GoogleMapsUrl, (entity) => entity.GoogleMapsUrl = 
-            Cryptocash.Domain.CountryMetadata.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>())));
+            Dto.CountryMetadata.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>())));
         exceptionCollector.Collect("OpenStreetMapsUrl", () => entity.SetIfNotNull(createDto.OpenStreetMapsUrl, (entity) => entity.OpenStreetMapsUrl = 
-            Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(createDto.OpenStreetMapsUrl.NonNullValue<System.String>())));
+            Dto.CountryMetadata.CreateOpenStreetMapsUrl(createDto.OpenStreetMapsUrl.NonNullValue<System.String>())));
         exceptionCollector.Collect("StartOfWeek", () => entity.SetIfNotNull(createDto.StartOfWeek, (entity) => entity.StartOfWeek = 
-            Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(createDto.StartOfWeek.NonNullValue<System.UInt16>())));
+            Dto.CountryMetadata.CreateStartOfWeek(createDto.StartOfWeek.NonNullValue<System.UInt16>())));
         exceptionCollector.Collect("Population", () => entity.SetIfNotNull(createDto.Population, (entity) => entity.Population = 
-            Cryptocash.Domain.CountryMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>())));
+            Dto.CountryMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         createDto.CountryTimeZones?.ForEach(async dto =>
@@ -140,14 +141,14 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
     private async Task UpdateEntityInternalAsync(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Name",() => entity.Name = Cryptocash.Domain.CountryMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Name",() => entity.Name = Dto.CountryMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
         if(updateDto.OfficialName is null)
         {
              entity.OfficialName = null;
         }
         else
         {
-            exceptionCollector.Collect("OfficialName",() =>entity.OfficialName = Cryptocash.Domain.CountryMetadata.CreateOfficialName(updateDto.OfficialName.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("OfficialName",() =>entity.OfficialName = Dto.CountryMetadata.CreateOfficialName(updateDto.OfficialName.ToValueFromNonNull<System.String>()));
         }
         if(updateDto.CountryIsoNumeric is null)
         {
@@ -155,7 +156,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            exceptionCollector.Collect("CountryIsoNumeric",() =>entity.CountryIsoNumeric = Cryptocash.Domain.CountryMetadata.CreateCountryIsoNumeric(updateDto.CountryIsoNumeric.ToValueFromNonNull<System.UInt16>()));
+            exceptionCollector.Collect("CountryIsoNumeric",() =>entity.CountryIsoNumeric = Dto.CountryMetadata.CreateCountryIsoNumeric(updateDto.CountryIsoNumeric.ToValueFromNonNull<System.UInt16>()));
         }
         if(updateDto.CountryIsoAlpha3 is null)
         {
@@ -163,7 +164,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            exceptionCollector.Collect("CountryIsoAlpha3",() =>entity.CountryIsoAlpha3 = Cryptocash.Domain.CountryMetadata.CreateCountryIsoAlpha3(updateDto.CountryIsoAlpha3.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("CountryIsoAlpha3",() =>entity.CountryIsoAlpha3 = Dto.CountryMetadata.CreateCountryIsoAlpha3(updateDto.CountryIsoAlpha3.ToValueFromNonNull<System.String>()));
         }
         if(updateDto.GeoCoords is null)
         {
@@ -171,7 +172,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            exceptionCollector.Collect("GeoCoords",() =>entity.GeoCoords = Cryptocash.Domain.CountryMetadata.CreateGeoCoords(updateDto.GeoCoords.ToValueFromNonNull<LatLongDto>()));
+            exceptionCollector.Collect("GeoCoords",() =>entity.GeoCoords = Dto.CountryMetadata.CreateGeoCoords(updateDto.GeoCoords.ToValueFromNonNull<LatLongDto>()));
         }
         if(updateDto.FlagEmoji is null)
         {
@@ -179,7 +180,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            exceptionCollector.Collect("FlagEmoji",() =>entity.FlagEmoji = Cryptocash.Domain.CountryMetadata.CreateFlagEmoji(updateDto.FlagEmoji.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("FlagEmoji",() =>entity.FlagEmoji = Dto.CountryMetadata.CreateFlagEmoji(updateDto.FlagEmoji.ToValueFromNonNull<System.String>()));
         }
         if(updateDto.FlagSvg is null)
         {
@@ -187,7 +188,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            exceptionCollector.Collect("FlagSvg",() =>entity.FlagSvg = Cryptocash.Domain.CountryMetadata.CreateFlagSvg(updateDto.FlagSvg.ToValueFromNonNull<ImageDto>()));
+            exceptionCollector.Collect("FlagSvg",() =>entity.FlagSvg = Dto.CountryMetadata.CreateFlagSvg(updateDto.FlagSvg.ToValueFromNonNull<ImageDto>()));
         }
         if(updateDto.FlagPng is null)
         {
@@ -195,7 +196,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            exceptionCollector.Collect("FlagPng",() =>entity.FlagPng = Cryptocash.Domain.CountryMetadata.CreateFlagPng(updateDto.FlagPng.ToValueFromNonNull<ImageDto>()));
+            exceptionCollector.Collect("FlagPng",() =>entity.FlagPng = Dto.CountryMetadata.CreateFlagPng(updateDto.FlagPng.ToValueFromNonNull<ImageDto>()));
         }
         if(updateDto.CoatOfArmsSvg is null)
         {
@@ -203,7 +204,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            exceptionCollector.Collect("CoatOfArmsSvg",() =>entity.CoatOfArmsSvg = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsSvg(updateDto.CoatOfArmsSvg.ToValueFromNonNull<ImageDto>()));
+            exceptionCollector.Collect("CoatOfArmsSvg",() =>entity.CoatOfArmsSvg = Dto.CountryMetadata.CreateCoatOfArmsSvg(updateDto.CoatOfArmsSvg.ToValueFromNonNull<ImageDto>()));
         }
         if(updateDto.CoatOfArmsPng is null)
         {
@@ -211,7 +212,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            exceptionCollector.Collect("CoatOfArmsPng",() =>entity.CoatOfArmsPng = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsPng(updateDto.CoatOfArmsPng.ToValueFromNonNull<ImageDto>()));
+            exceptionCollector.Collect("CoatOfArmsPng",() =>entity.CoatOfArmsPng = Dto.CountryMetadata.CreateCoatOfArmsPng(updateDto.CoatOfArmsPng.ToValueFromNonNull<ImageDto>()));
         }
         if(updateDto.GoogleMapsUrl is null)
         {
@@ -219,7 +220,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            exceptionCollector.Collect("GoogleMapsUrl",() =>entity.GoogleMapsUrl = Cryptocash.Domain.CountryMetadata.CreateGoogleMapsUrl(updateDto.GoogleMapsUrl.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("GoogleMapsUrl",() =>entity.GoogleMapsUrl = Dto.CountryMetadata.CreateGoogleMapsUrl(updateDto.GoogleMapsUrl.ToValueFromNonNull<System.String>()));
         }
         if(updateDto.OpenStreetMapsUrl is null)
         {
@@ -227,10 +228,10 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         else
         {
-            exceptionCollector.Collect("OpenStreetMapsUrl",() =>entity.OpenStreetMapsUrl = Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(updateDto.OpenStreetMapsUrl.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("OpenStreetMapsUrl",() =>entity.OpenStreetMapsUrl = Dto.CountryMetadata.CreateOpenStreetMapsUrl(updateDto.OpenStreetMapsUrl.ToValueFromNonNull<System.String>()));
         }
-        exceptionCollector.Collect("StartOfWeek",() => entity.StartOfWeek = Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(updateDto.StartOfWeek.NonNullValue<System.UInt16>()));
-        exceptionCollector.Collect("Population",() => entity.Population = Cryptocash.Domain.CountryMetadata.CreatePopulation(updateDto.Population.NonNullValue<System.Int32>()));
+        exceptionCollector.Collect("StartOfWeek",() => entity.StartOfWeek = Dto.CountryMetadata.CreateStartOfWeek(updateDto.StartOfWeek.NonNullValue<System.UInt16>()));
+        exceptionCollector.Collect("Population",() => entity.Population = Dto.CountryMetadata.CreatePopulation(updateDto.Population.NonNullValue<System.Int32>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
 	    await UpdateOwnedEntitiesAsync(entity, updateDto, cultureCode);
@@ -244,7 +245,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         {
             ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = Cryptocash.Domain.CountryMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.CountryMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -253,7 +254,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (OfficialNameUpdateValue == null) { entity.OfficialName = null; }
             else
             {
-                exceptionCollector.Collect("OfficialName",() =>entity.OfficialName = Cryptocash.Domain.CountryMetadata.CreateOfficialName(OfficialNameUpdateValue));
+                exceptionCollector.Collect("OfficialName",() =>entity.OfficialName = Dto.CountryMetadata.CreateOfficialName(OfficialNameUpdateValue));
             }
         }
 
@@ -262,7 +263,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (CountryIsoNumericUpdateValue == null) { entity.CountryIsoNumeric = null; }
             else
             {
-                exceptionCollector.Collect("CountryIsoNumeric",() =>entity.CountryIsoNumeric = Cryptocash.Domain.CountryMetadata.CreateCountryIsoNumeric(CountryIsoNumericUpdateValue));
+                exceptionCollector.Collect("CountryIsoNumeric",() =>entity.CountryIsoNumeric = Dto.CountryMetadata.CreateCountryIsoNumeric(CountryIsoNumericUpdateValue));
             }
         }
 
@@ -271,7 +272,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (CountryIsoAlpha3UpdateValue == null) { entity.CountryIsoAlpha3 = null; }
             else
             {
-                exceptionCollector.Collect("CountryIsoAlpha3",() =>entity.CountryIsoAlpha3 = Cryptocash.Domain.CountryMetadata.CreateCountryIsoAlpha3(CountryIsoAlpha3UpdateValue));
+                exceptionCollector.Collect("CountryIsoAlpha3",() =>entity.CountryIsoAlpha3 = Dto.CountryMetadata.CreateCountryIsoAlpha3(CountryIsoAlpha3UpdateValue));
             }
         }
 
@@ -282,7 +283,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             {
                 var entityToUpdate = entity.GeoCoords is null ? new LatLongDto() : entity.GeoCoords.ToDto();
                 LatLongDto.UpdateFromDictionary(entityToUpdate, GeoCoordsUpdateValue);
-                exceptionCollector.Collect("GeoCoords",() =>entity.GeoCoords = Cryptocash.Domain.CountryMetadata.CreateGeoCoords(entityToUpdate));
+                exceptionCollector.Collect("GeoCoords",() =>entity.GeoCoords = Dto.CountryMetadata.CreateGeoCoords(entityToUpdate));
             }
         }
 
@@ -291,7 +292,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (FlagEmojiUpdateValue == null) { entity.FlagEmoji = null; }
             else
             {
-                exceptionCollector.Collect("FlagEmoji",() =>entity.FlagEmoji = Cryptocash.Domain.CountryMetadata.CreateFlagEmoji(FlagEmojiUpdateValue));
+                exceptionCollector.Collect("FlagEmoji",() =>entity.FlagEmoji = Dto.CountryMetadata.CreateFlagEmoji(FlagEmojiUpdateValue));
             }
         }
 
@@ -302,7 +303,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             {
                 var entityToUpdate = entity.FlagSvg is null ? new ImageDto() : entity.FlagSvg.ToDto();
                 ImageDto.UpdateFromDictionary(entityToUpdate, FlagSvgUpdateValue);
-                exceptionCollector.Collect("FlagSvg",() =>entity.FlagSvg = Cryptocash.Domain.CountryMetadata.CreateFlagSvg(entityToUpdate));
+                exceptionCollector.Collect("FlagSvg",() =>entity.FlagSvg = Dto.CountryMetadata.CreateFlagSvg(entityToUpdate));
             }
         }
 
@@ -313,7 +314,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             {
                 var entityToUpdate = entity.FlagPng is null ? new ImageDto() : entity.FlagPng.ToDto();
                 ImageDto.UpdateFromDictionary(entityToUpdate, FlagPngUpdateValue);
-                exceptionCollector.Collect("FlagPng",() =>entity.FlagPng = Cryptocash.Domain.CountryMetadata.CreateFlagPng(entityToUpdate));
+                exceptionCollector.Collect("FlagPng",() =>entity.FlagPng = Dto.CountryMetadata.CreateFlagPng(entityToUpdate));
             }
         }
 
@@ -324,7 +325,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             {
                 var entityToUpdate = entity.CoatOfArmsSvg is null ? new ImageDto() : entity.CoatOfArmsSvg.ToDto();
                 ImageDto.UpdateFromDictionary(entityToUpdate, CoatOfArmsSvgUpdateValue);
-                exceptionCollector.Collect("CoatOfArmsSvg",() =>entity.CoatOfArmsSvg = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsSvg(entityToUpdate));
+                exceptionCollector.Collect("CoatOfArmsSvg",() =>entity.CoatOfArmsSvg = Dto.CountryMetadata.CreateCoatOfArmsSvg(entityToUpdate));
             }
         }
 
@@ -335,7 +336,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             {
                 var entityToUpdate = entity.CoatOfArmsPng is null ? new ImageDto() : entity.CoatOfArmsPng.ToDto();
                 ImageDto.UpdateFromDictionary(entityToUpdate, CoatOfArmsPngUpdateValue);
-                exceptionCollector.Collect("CoatOfArmsPng",() =>entity.CoatOfArmsPng = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsPng(entityToUpdate));
+                exceptionCollector.Collect("CoatOfArmsPng",() =>entity.CoatOfArmsPng = Dto.CountryMetadata.CreateCoatOfArmsPng(entityToUpdate));
             }
         }
 
@@ -344,7 +345,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (GoogleMapsUrlUpdateValue == null) { entity.GoogleMapsUrl = null; }
             else
             {
-                exceptionCollector.Collect("GoogleMapsUrl",() =>entity.GoogleMapsUrl = Cryptocash.Domain.CountryMetadata.CreateGoogleMapsUrl(GoogleMapsUrlUpdateValue));
+                exceptionCollector.Collect("GoogleMapsUrl",() =>entity.GoogleMapsUrl = Dto.CountryMetadata.CreateGoogleMapsUrl(GoogleMapsUrlUpdateValue));
             }
         }
 
@@ -353,7 +354,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             if (OpenStreetMapsUrlUpdateValue == null) { entity.OpenStreetMapsUrl = null; }
             else
             {
-                exceptionCollector.Collect("OpenStreetMapsUrl",() =>entity.OpenStreetMapsUrl = Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(OpenStreetMapsUrlUpdateValue));
+                exceptionCollector.Collect("OpenStreetMapsUrl",() =>entity.OpenStreetMapsUrl = Dto.CountryMetadata.CreateOpenStreetMapsUrl(OpenStreetMapsUrlUpdateValue));
             }
         }
 
@@ -361,7 +362,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         {
             ArgumentNullException.ThrowIfNull(StartOfWeekUpdateValue, "Attribute 'StartOfWeek' can't be null.");
             {
-                exceptionCollector.Collect("StartOfWeek",() =>entity.StartOfWeek = Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(StartOfWeekUpdateValue));
+                exceptionCollector.Collect("StartOfWeek",() =>entity.StartOfWeek = Dto.CountryMetadata.CreateStartOfWeek(StartOfWeekUpdateValue));
             }
         }
 
@@ -369,7 +370,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         {
             ArgumentNullException.ThrowIfNull(PopulationUpdateValue, "Attribute 'Population' can't be null.");
             {
-                exceptionCollector.Collect("Population",() =>entity.Population = Cryptocash.Domain.CountryMetadata.CreatePopulation(PopulationUpdateValue));
+                exceptionCollector.Collect("Population",() =>entity.Population = Dto.CountryMetadata.CreatePopulation(PopulationUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -394,7 +395,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
                 }
 				else
 				{
-					var key = Cryptocash.Domain.CountryTimeZoneMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
+					var key = Dto.CountryTimeZoneMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
 					var ownedEntity = entity.CountryTimeZones.FirstOrDefault(x => x.Id == key);
 					if(ownedEntity is null)
 						throw new RelatedEntityNotFoundException("CountryTimeZones.Id", key.ToString());
@@ -426,7 +427,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
                 }
 				else
 				{
-					var key = Cryptocash.Domain.HolidayMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
+					var key = Dto.HolidayMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
 					var ownedEntity = entity.Holidays.FirstOrDefault(x => x.Id == key);
 					if(ownedEntity is null)
 						throw new RelatedEntityNotFoundException("Holidays.Id", key.ToString());

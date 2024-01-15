@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 public record EmailAddressKeyDto();
@@ -32,16 +30,15 @@ public partial class EmailAddressDto : EmailAddressDtoBase
 /// </summary>
 public abstract class EmailAddressDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Email is not null)
-            ExecuteActionAndCollectValidationExceptions("Email", () => DomainNamespace.EmailAddressMetadata.CreateEmail(this.Email.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Email", () => EmailAddressMetadata.CreateEmail(this.Email.NonNullValue<System.String>()), result);
         if (this.IsVerified is not null)
-            ExecuteActionAndCollectValidationExceptions("IsVerified", () => DomainNamespace.EmailAddressMetadata.CreateIsVerified(this.IsVerified.NonNullValue<System.Boolean>()), result);
+            CollectValidationExceptions("IsVerified", () => EmailAddressMetadata.CreateIsVerified(this.IsVerified.NonNullValue<System.Boolean>()), result);
 
         return result;
     }

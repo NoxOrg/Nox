@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Commands;
@@ -149,13 +150,13 @@ internal abstract class RefMinimumCashStockToCurrencyCommandHandlerBase<TRequest
 
 	protected async Task<MinimumCashStockEntity?> GetMinimumCashStock(MinimumCashStockKeyDto entityKeyDto)
 	{
-		var keyId = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.MinimumCashStockMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.MinimumCashStocks.FindAsync(keyId);
 	}
 
 	protected async Task<Cryptocash.Domain.Currency?> GetCurrency(CurrencyKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = Cryptocash.Domain.CurrencyMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.CurrencyMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Currencies.FindAsync(relatedKeyId);
 	}
 

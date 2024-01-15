@@ -13,6 +13,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using HolidayEntity = ClientApi.Domain.Holiday;
 
 namespace ClientApi.Application.Commands;
@@ -46,7 +47,7 @@ internal abstract class PartialUpdateHolidaysForCountryCommandHandlerBase: Comma
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
@@ -54,7 +55,7 @@ internal abstract class PartialUpdateHolidaysForCountryCommandHandlerBase: Comma
 			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.Holidays).LoadAsync(cancellationToken);
-		var ownedId = ClientApi.Domain.HolidayMetadata.CreateId(request.EntityKeyDto.keyId);
+		var ownedId = Dto.HolidayMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

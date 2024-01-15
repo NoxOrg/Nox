@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ReferenceNumberEntityEntity = ClientApi.Domain.ReferenceNumberEntity;
 
 namespace ClientApi.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteReferenceNumberEntityByIdCommandHandlerBase : Comm
 		var entities = new List<ReferenceNumberEntityEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = ClientApi.Domain.ReferenceNumberEntityMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.ReferenceNumberEntityMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.ReferenceNumberEntities.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

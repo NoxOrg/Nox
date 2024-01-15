@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Commands;
@@ -149,13 +150,13 @@ internal abstract class RefCashStockOrderToEmployeeCommandHandlerBase<TRequest> 
 
 	protected async Task<CashStockOrderEntity?> GetCashStockOrder(CashStockOrderKeyDto entityKeyDto)
 	{
-		var keyId = Cryptocash.Domain.CashStockOrderMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.CashStockOrderMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.CashStockOrders.FindAsync(keyId);
 	}
 
 	protected async Task<Cryptocash.Domain.Employee?> GetEmployee(EmployeeKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = Cryptocash.Domain.EmployeeMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.EmployeeMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Employees.FindAsync(relatedKeyId);
 	}
 

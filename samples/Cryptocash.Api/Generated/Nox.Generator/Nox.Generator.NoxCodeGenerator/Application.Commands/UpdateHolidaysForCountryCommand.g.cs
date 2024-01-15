@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using HolidayEntity = Cryptocash.Domain.Holiday;
 using CountryEntity = Cryptocash.Domain.Country;
 
@@ -52,7 +53,7 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
@@ -67,7 +68,7 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<
 		}
 		else
 		{
-			var ownedId = Cryptocash.Domain.HolidayMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
+			var ownedId =Dto.HolidayMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
 			entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
 			if (entity is null)
 				throw new EntityNotFoundException("Holiday",  $"{ownedId.ToString()}");

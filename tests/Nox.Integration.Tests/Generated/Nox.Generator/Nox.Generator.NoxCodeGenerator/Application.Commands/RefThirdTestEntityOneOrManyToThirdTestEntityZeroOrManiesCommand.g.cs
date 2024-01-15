@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using ThirdTestEntityOneOrManyEntity = TestWebApp.Domain.ThirdTestEntityOneOrMany;
 
 namespace TestWebApp.Application.Commands;
@@ -193,13 +194,13 @@ internal abstract class RefThirdTestEntityOneOrManyToThirdTestEntityZeroOrManies
 
 	protected async Task<ThirdTestEntityOneOrManyEntity?> GetThirdTestEntityOneOrMany(ThirdTestEntityOneOrManyKeyDto entityKeyDto)
 	{
-		var keyId = TestWebApp.Domain.ThirdTestEntityOneOrManyMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.ThirdTestEntityOneOrManyMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.ThirdTestEntityOneOrManies.FindAsync(keyId);
 	}
 
 	protected async Task<TestWebApp.Domain.ThirdTestEntityZeroOrMany?> GetThirdTestEntityZeroOrMany(ThirdTestEntityZeroOrManyKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = TestWebApp.Domain.ThirdTestEntityZeroOrManyMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.ThirdTestEntityZeroOrManyMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.ThirdTestEntityZeroOrManies.FindAsync(relatedKeyId);
 	}
 

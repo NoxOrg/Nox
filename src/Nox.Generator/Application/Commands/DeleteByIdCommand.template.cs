@@ -22,6 +22,7 @@ using Nox.Exceptions;
 using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
 using {{codeGenConventions.DtoNameSpace}};
+using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
@@ -58,7 +59,7 @@ internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandCol
 		{
 			{{- for key in entity.Keys }}
 			{{- keyType = SingleTypeForKey key }}
-			var key{{key.Name}} = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(keyDto.key{{key.Name}});
+			var key{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(keyDto.key{{key.Name}});
 			{{- end }}		
 
 			var entity = await DbContext.{{entity.PluralName}}.FindAsync({{entity.Keys | array.map "Name" | keysQuery}});

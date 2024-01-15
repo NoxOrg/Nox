@@ -9,6 +9,7 @@ using Nox.Domain;
 using Microsoft.EntityFrameworkCore;
 
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestWebApp.Domain;
 using TestEntityLocalizationEntity = TestWebApp.Domain.TestEntityLocalization;
 
@@ -46,7 +47,7 @@ internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLoca
         }
         entityLocalized.TextFieldToLocalize = updateDto.TextFieldToLocalize == null
             ? null
-            : TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(updateDto.TextFieldToLocalize.ToValueFromNonNull<System.String>());
+            : Dto.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(updateDto.TextFieldToLocalize.ToValueFromNonNull<System.String>());
     }
 
     public virtual async Task PartialUpdateLocalizedEntityAsync(TestEntityLocalizationEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -60,7 +61,7 @@ internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLoca
         {
             entityLocalized.TextFieldToLocalize = TextFieldToLocalizeUpdateValue == null
                 ? null
-                : TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(TextFieldToLocalizeUpdateValue);
+                : Dto.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(TextFieldToLocalizeUpdateValue);
         }
     }
 

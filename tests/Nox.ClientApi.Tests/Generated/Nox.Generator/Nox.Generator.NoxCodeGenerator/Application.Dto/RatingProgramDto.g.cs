@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 public record RatingProgramKeyDto(System.Guid keyStoreId, System.Int64 keyId);
@@ -32,18 +30,17 @@ public partial class RatingProgramDto : RatingProgramDtoBase
 /// </summary>
 public abstract class RatingProgramDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if(this.StoreId != default(System.Guid))
-            ExecuteActionAndCollectValidationExceptions("StoreId", () => DomainNamespace.RatingProgramMetadata.CreateStoreId(this.StoreId), result);
+            CollectValidationExceptions("StoreId", () => RatingProgramMetadata.CreateStoreId(this.StoreId), result);
         else
             result.Add("StoreId", new [] { "StoreId is Required." });
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.RatingProgramMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Name", () => RatingProgramMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
 
         return result;
     }

@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityTwoRelationshipsOneToManyEntity = TestWebApp.Domain.TestEntityTwoRelationshipsOneToMany;
 
 namespace TestWebApp.Application.Commands;
@@ -65,7 +66,7 @@ internal abstract class CreateTestEntityTwoRelationshipsOneToManyCommandHandlerB
 		{
 			foreach(var relatedId in request.EntityDto.TestRelationshipOneId)
 			{
-				var relatedKey = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToManyMetadata.CreateId(relatedId);
+				var relatedKey = Dto.SecondTestEntityTwoRelationshipsOneToManyMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.SecondTestEntityTwoRelationshipsOneToManies.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
@@ -86,7 +87,7 @@ internal abstract class CreateTestEntityTwoRelationshipsOneToManyCommandHandlerB
 		{
 			foreach(var relatedId in request.EntityDto.TestRelationshipTwoId)
 			{
-				var relatedKey = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToManyMetadata.CreateId(relatedId);
+				var relatedKey = Dto.SecondTestEntityTwoRelationshipsOneToManyMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.SecondTestEntityTwoRelationshipsOneToManies.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)

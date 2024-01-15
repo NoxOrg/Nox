@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteTenantByIdCommandHandlerBase : CommandCollectionBa
 		var entities = new List<TenantEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = ClientApi.Domain.TenantMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.TenantMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.Tenants.FindAsync(keyId);
 			if (entity == null)

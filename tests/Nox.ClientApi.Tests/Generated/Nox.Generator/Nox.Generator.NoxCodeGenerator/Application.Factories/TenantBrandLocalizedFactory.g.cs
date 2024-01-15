@@ -9,6 +9,7 @@ using Nox.Domain;
 using Microsoft.EntityFrameworkCore;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using TenantBrandEntity = ClientApi.Domain.TenantBrand;
 
@@ -46,7 +47,7 @@ internal abstract class TenantBrandLocalizedFactoryBase : IEntityLocalizedFactor
         }
         entityLocalized.Description = updateDto.Description == null
             ? null
-            : ClientApi.Domain.TenantBrandMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
+            : Dto.TenantBrandMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
     }
 
     public virtual async Task PartialUpdateLocalizedEntityAsync(TenantBrandEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -60,7 +61,7 @@ internal abstract class TenantBrandLocalizedFactoryBase : IEntityLocalizedFactor
         {
             entityLocalized.Description = DescriptionUpdateValue == null
                 ? null
-                : ClientApi.Domain.TenantBrandMetadata.CreateDescription(DescriptionUpdateValue);
+                : Dto.TenantBrandMetadata.CreateDescription(DescriptionUpdateValue);
         }
     }
 

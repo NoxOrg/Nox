@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 public record CurrencyKeyDto(System.String keyId);
@@ -32,56 +30,55 @@ public partial class CurrencyDto : CurrencyDtoBase
 /// </summary>
 public abstract class CurrencyDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.CurrencyMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Name", () => CurrencyMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("CurrencyIsoNumeric", () => DomainNamespace.CurrencyMetadata.CreateCurrencyIsoNumeric(this.CurrencyIsoNumeric), result);
+        CollectValidationExceptions("CurrencyIsoNumeric", () => CurrencyMetadata.CreateCurrencyIsoNumeric(this.CurrencyIsoNumeric), result);
     
         if (this.Symbol is not null)
-            ExecuteActionAndCollectValidationExceptions("Symbol", () => DomainNamespace.CurrencyMetadata.CreateSymbol(this.Symbol.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Symbol", () => CurrencyMetadata.CreateSymbol(this.Symbol.NonNullValue<System.String>()), result);
         else
             result.Add("Symbol", new [] { "Symbol is Required." });
     
         if (this.ThousandsSeparator is not null)
-            ExecuteActionAndCollectValidationExceptions("ThousandsSeparator", () => DomainNamespace.CurrencyMetadata.CreateThousandsSeparator(this.ThousandsSeparator.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("ThousandsSeparator", () => CurrencyMetadata.CreateThousandsSeparator(this.ThousandsSeparator.NonNullValue<System.String>()), result);
         if (this.DecimalSeparator is not null)
-            ExecuteActionAndCollectValidationExceptions("DecimalSeparator", () => DomainNamespace.CurrencyMetadata.CreateDecimalSeparator(this.DecimalSeparator.NonNullValue<System.String>()), result);
-        ExecuteActionAndCollectValidationExceptions("SpaceBetweenAmountAndSymbol", () => DomainNamespace.CurrencyMetadata.CreateSpaceBetweenAmountAndSymbol(this.SpaceBetweenAmountAndSymbol), result);
+            CollectValidationExceptions("DecimalSeparator", () => CurrencyMetadata.CreateDecimalSeparator(this.DecimalSeparator.NonNullValue<System.String>()), result);
+        CollectValidationExceptions("SpaceBetweenAmountAndSymbol", () => CurrencyMetadata.CreateSpaceBetweenAmountAndSymbol(this.SpaceBetweenAmountAndSymbol), result);
     
-        ExecuteActionAndCollectValidationExceptions("SymbolOnLeft", () => DomainNamespace.CurrencyMetadata.CreateSymbolOnLeft(this.SymbolOnLeft), result);
+        CollectValidationExceptions("SymbolOnLeft", () => CurrencyMetadata.CreateSymbolOnLeft(this.SymbolOnLeft), result);
     
-        ExecuteActionAndCollectValidationExceptions("DecimalDigits", () => DomainNamespace.CurrencyMetadata.CreateDecimalDigits(this.DecimalDigits), result);
+        CollectValidationExceptions("DecimalDigits", () => CurrencyMetadata.CreateDecimalDigits(this.DecimalDigits), result);
     
         if (this.MajorName is not null)
-            ExecuteActionAndCollectValidationExceptions("MajorName", () => DomainNamespace.CurrencyMetadata.CreateMajorName(this.MajorName.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("MajorName", () => CurrencyMetadata.CreateMajorName(this.MajorName.NonNullValue<System.String>()), result);
         else
             result.Add("MajorName", new [] { "MajorName is Required." });
     
         if (this.MajorSymbol is not null)
-            ExecuteActionAndCollectValidationExceptions("MajorSymbol", () => DomainNamespace.CurrencyMetadata.CreateMajorSymbol(this.MajorSymbol.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("MajorSymbol", () => CurrencyMetadata.CreateMajorSymbol(this.MajorSymbol.NonNullValue<System.String>()), result);
         else
             result.Add("MajorSymbol", new [] { "MajorSymbol is Required." });
     
         if (this.MinorName is not null)
-            ExecuteActionAndCollectValidationExceptions("MinorName", () => DomainNamespace.CurrencyMetadata.CreateMinorName(this.MinorName.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("MinorName", () => CurrencyMetadata.CreateMinorName(this.MinorName.NonNullValue<System.String>()), result);
         else
             result.Add("MinorName", new [] { "MinorName is Required." });
     
         if (this.MinorSymbol is not null)
-            ExecuteActionAndCollectValidationExceptions("MinorSymbol", () => DomainNamespace.CurrencyMetadata.CreateMinorSymbol(this.MinorSymbol.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("MinorSymbol", () => CurrencyMetadata.CreateMinorSymbol(this.MinorSymbol.NonNullValue<System.String>()), result);
         else
             result.Add("MinorSymbol", new [] { "MinorSymbol is Required." });
     
         if (this.MinorToMajorValue is not null)
-            ExecuteActionAndCollectValidationExceptions("MinorToMajorValue", () => DomainNamespace.CurrencyMetadata.CreateMinorToMajorValue(this.MinorToMajorValue.NonNullValue<MoneyDto>()), result);
+            CollectValidationExceptions("MinorToMajorValue", () => CurrencyMetadata.CreateMinorToMajorValue(this.MinorToMajorValue.NonNullValue<MoneyDto>()), result);
         else
             result.Add("MinorToMajorValue", new [] { "MinorToMajorValue is Required." });
     

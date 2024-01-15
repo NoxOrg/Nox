@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityLocalizationEntity = TestWebApp.Domain.TestEntityLocalization;
 
 namespace TestWebApp.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteTestEntityLocalizationByIdCommandHandlerBase : Com
 		var entities = new List<TestEntityLocalizationEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.TestEntityLocalizationMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.TestEntityLocalizations.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

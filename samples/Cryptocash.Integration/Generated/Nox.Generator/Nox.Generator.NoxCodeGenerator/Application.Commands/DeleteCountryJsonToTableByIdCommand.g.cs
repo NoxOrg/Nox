@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using CryptocashIntegration.Infrastructure.Persistence;
 using CryptocashIntegration.Domain;
 using CryptocashIntegration.Application.Dto;
+using Dto = CryptocashIntegration.Application.Dto;
 using CountryJsonToTableEntity = CryptocashIntegration.Domain.CountryJsonToTable;
 
 namespace CryptocashIntegration.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteCountryJsonToTableByIdCommandHandlerBase : Command
 		var entities = new List<CountryJsonToTableEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = CryptocashIntegration.Domain.CountryJsonToTableMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.CountryJsonToTableMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.CountryJsonToTables.FindAsync(keyId);
 			if (entity == null)

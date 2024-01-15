@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 public record TenantKeyDto(System.UInt32 keyId);
@@ -32,19 +30,18 @@ public partial class TenantDto : TenantDtoBase
 /// </summary>
 public abstract class TenantDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.TenantMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Name", () => TenantMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.Status is not null)
-            ExecuteActionAndCollectValidationExceptions("Status", () => DomainNamespace.TenantMetadata.CreateStatus(this.Status.NonNullValue<System.Int32>()), result);
+            CollectValidationExceptions("Status", () => TenantMetadata.CreateStatus(this.Status.NonNullValue<System.Int32>()), result);
 
         return result;
     }

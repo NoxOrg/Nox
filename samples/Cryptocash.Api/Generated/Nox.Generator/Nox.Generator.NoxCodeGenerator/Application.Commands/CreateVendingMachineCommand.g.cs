@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
@@ -79,7 +80,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.CountryId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.String>());
+			var relatedKey = Dto.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCountry(relatedEntity);
@@ -93,7 +94,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		}
 		if(request.EntityDto.LandLordId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.LandLordMetadata.CreateId(request.EntityDto.LandLordId.NonNullValue<System.Guid>());
+			var relatedKey = Dto.LandLordMetadata.CreateId(request.EntityDto.LandLordId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.LandLords.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToLandLord(relatedEntity);
@@ -109,7 +110,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		{
 			foreach(var relatedId in request.EntityDto.BookingsId)
 			{
-				var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(relatedId);
+				var relatedKey = Dto.BookingMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
@@ -130,7 +131,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		{
 			foreach(var relatedId in request.EntityDto.CashStockOrdersId)
 			{
-				var relatedKey = Cryptocash.Domain.CashStockOrderMetadata.CreateId(relatedId);
+				var relatedKey = Dto.CashStockOrderMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.CashStockOrders.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
@@ -151,7 +152,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		{
 			foreach(var relatedId in request.EntityDto.MinimumCashStocksId)
 			{
-				var relatedKey = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(relatedId);
+				var relatedKey = Dto.MinimumCashStockMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.MinimumCashStocks.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)

@@ -1,7 +1,7 @@
 ﻿using Nox.Solution;
 using Xunit.Abstractions;
-using ClientApi.Domain;
 using FluentAssertions;
+using ClientApi.Application.Dto;
 using Nox;
 
 namespace ClientApi.Tests.Domain.Meta

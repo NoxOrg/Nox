@@ -23,6 +23,7 @@ using Microsoft.Extensions.Logging;
 using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
@@ -58,7 +59,7 @@ internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandl
 		await OnExecutingAsync(request);
 
 		{{- for key in parent.Keys }}
-		var key{{key.Name}} = {{codeGenConventions.DomainNameSpace}}.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
+		var key{{key.Name}} = Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
 
 		var parentEntity = await _dbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});

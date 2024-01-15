@@ -29,6 +29,7 @@ using Microsoft.Extensions.Logging;
 using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
@@ -92,13 +93,13 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 			{{- if (array.size relatedEntity.Keys) == 1 }}
 
 			{{- key = array.first relatedEntity.Keys }}
-			var relatedKey = {{codeGenConventions.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationshipName}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>());
+			var relatedKey = Dto.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationshipName}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>());
 			var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync(relatedKey);
 			
 			{{- else }}
 
 			{{- for key in relatedEntity.Keys }}
-			var relatedKey{{key.Name}} = {{codeGenConventions.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}request.EntityDto.{{relationshipName}}Id!.key{{key.Name}});
+			var relatedKey{{key.Name}} = Dto.{{relatedEntity.Name}}Metadata.Create{{key.Name}}request.EntityDto.{{relationshipName}}Id!.key{{key.Name}});
 			{{- end }}
 			var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{relatedEntity.Keys | array.map "Name" | keysQuery}});
 			
@@ -120,7 +121,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 			{{- key = array.first relatedEntity.Keys }}
 			foreach(var relatedId in request.EntityDto.{{relationshipName}}Id)
 			{
-				var relatedKey = {{codeGenConventions.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedId);
+				var relatedKey = Dto.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedId);
 				var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)

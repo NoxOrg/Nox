@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using Cryptocash.Domain;
 using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
 
@@ -82,11 +83,11 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.CashStockOrder();
         exceptionCollector.Collect("Amount", () => entity.SetIfNotNull(createDto.Amount, (entity) => entity.Amount = 
-            Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(createDto.Amount.NonNullValue<MoneyDto>())));
+            Dto.CashStockOrderMetadata.CreateAmount(createDto.Amount.NonNullValue<MoneyDto>())));
         exceptionCollector.Collect("RequestedDeliveryDate", () => entity.SetIfNotNull(createDto.RequestedDeliveryDate, (entity) => entity.RequestedDeliveryDate = 
-            Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(createDto.RequestedDeliveryDate.NonNullValue<System.DateTime>())));
+            Dto.CashStockOrderMetadata.CreateRequestedDeliveryDate(createDto.RequestedDeliveryDate.NonNullValue<System.DateTime>())));
         exceptionCollector.Collect("DeliveryDateTime", () => entity.SetIfNotNull(createDto.DeliveryDateTime, (entity) => entity.DeliveryDateTime = 
-            Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(createDto.DeliveryDateTime.NonNullValue<System.DateTimeOffset>())));
+            Dto.CashStockOrderMetadata.CreateDeliveryDateTime(createDto.DeliveryDateTime.NonNullValue<System.DateTimeOffset>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -95,15 +96,15 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
     private async Task UpdateEntityInternalAsync(CashStockOrderEntity entity, CashStockOrderUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Amount",() => entity.Amount = Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>()));
-        exceptionCollector.Collect("RequestedDeliveryDate",() => entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(updateDto.RequestedDeliveryDate.NonNullValue<System.DateTime>()));
+        exceptionCollector.Collect("Amount",() => entity.Amount = Dto.CashStockOrderMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>()));
+        exceptionCollector.Collect("RequestedDeliveryDate",() => entity.RequestedDeliveryDate = Dto.CashStockOrderMetadata.CreateRequestedDeliveryDate(updateDto.RequestedDeliveryDate.NonNullValue<System.DateTime>()));
         if(updateDto.DeliveryDateTime is null)
         {
              entity.DeliveryDateTime = null;
         }
         else
         {
-            exceptionCollector.Collect("DeliveryDateTime",() =>entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(updateDto.DeliveryDateTime.ToValueFromNonNull<System.DateTimeOffset>()));
+            exceptionCollector.Collect("DeliveryDateTime",() =>entity.DeliveryDateTime = Dto.CashStockOrderMetadata.CreateDeliveryDateTime(updateDto.DeliveryDateTime.ToValueFromNonNull<System.DateTimeOffset>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -120,7 +121,7 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
             {
                 var entityToUpdate = entity.Amount is null ? new MoneyDto() : entity.Amount.ToDto();
                 MoneyDto.UpdateFromDictionary(entityToUpdate, AmountUpdateValue);
-                exceptionCollector.Collect("Amount",() =>entity.Amount = Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(entityToUpdate));
+                exceptionCollector.Collect("Amount",() =>entity.Amount = Dto.CashStockOrderMetadata.CreateAmount(entityToUpdate));
             }
         }
 
@@ -128,7 +129,7 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
         {
             ArgumentNullException.ThrowIfNull(RequestedDeliveryDateUpdateValue, "Attribute 'RequestedDeliveryDate' can't be null.");
             {
-                exceptionCollector.Collect("RequestedDeliveryDate",() =>entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(RequestedDeliveryDateUpdateValue));
+                exceptionCollector.Collect("RequestedDeliveryDate",() =>entity.RequestedDeliveryDate = Dto.CashStockOrderMetadata.CreateRequestedDeliveryDate(RequestedDeliveryDateUpdateValue));
             }
         }
 
@@ -137,7 +138,7 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
             if (DeliveryDateTimeUpdateValue == null) { entity.DeliveryDateTime = null; }
             else
             {
-                exceptionCollector.Collect("DeliveryDateTime",() =>entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(DeliveryDateTimeUpdateValue));
+                exceptionCollector.Collect("DeliveryDateTime",() =>entity.DeliveryDateTime = Dto.CashStockOrderMetadata.CreateDeliveryDateTime(DeliveryDateTimeUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

@@ -13,6 +13,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ReferenceNumberEntityEntity = ClientApi.Domain.ReferenceNumberEntity;
 
 namespace ClientApi.Application.Commands;
@@ -48,7 +49,7 @@ internal abstract class PartialUpdateReferenceNumberEntityCommandHandlerBase : C
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.ReferenceNumberEntityMetadata.CreateId(request.keyId);
+		var keyId = Dto.ReferenceNumberEntityMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.ReferenceNumberEntities.FindAsync(keyId);
 		if (entity == null)

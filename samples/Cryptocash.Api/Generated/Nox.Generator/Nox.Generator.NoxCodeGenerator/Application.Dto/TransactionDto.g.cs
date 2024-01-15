@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 public record TransactionKeyDto(System.Guid keyId);
@@ -32,26 +30,25 @@ public partial class TransactionDto : TransactionDtoBase
 /// </summary>
 public abstract class TransactionDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TransactionType is not null)
-            ExecuteActionAndCollectValidationExceptions("TransactionType", () => DomainNamespace.TransactionMetadata.CreateTransactionType(this.TransactionType.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("TransactionType", () => TransactionMetadata.CreateTransactionType(this.TransactionType.NonNullValue<System.String>()), result);
         else
             result.Add("TransactionType", new [] { "TransactionType is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("ProcessedOnDateTime", () => DomainNamespace.TransactionMetadata.CreateProcessedOnDateTime(this.ProcessedOnDateTime), result);
+        CollectValidationExceptions("ProcessedOnDateTime", () => TransactionMetadata.CreateProcessedOnDateTime(this.ProcessedOnDateTime), result);
     
         if (this.Amount is not null)
-            ExecuteActionAndCollectValidationExceptions("Amount", () => DomainNamespace.TransactionMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
+            CollectValidationExceptions("Amount", () => TransactionMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
         else
             result.Add("Amount", new [] { "Amount is Required." });
     
         if (this.Reference is not null)
-            ExecuteActionAndCollectValidationExceptions("Reference", () => DomainNamespace.TransactionMetadata.CreateReference(this.Reference.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Reference", () => TransactionMetadata.CreateReference(this.Reference.NonNullValue<System.String>()), result);
         else
             result.Add("Reference", new [] { "Reference is Required." });
     

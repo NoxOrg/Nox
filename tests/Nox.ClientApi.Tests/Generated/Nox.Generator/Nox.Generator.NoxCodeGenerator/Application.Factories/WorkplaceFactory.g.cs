@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using WorkplaceEntity = ClientApi.Domain.Workplace;
 
@@ -97,31 +98,31 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.Workplace();
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            ClientApi.Domain.WorkplaceMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.WorkplaceMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("Description", () => entity.SetIfNotNull(createDto.Description, (entity) => entity.Description = 
-            ClientApi.Domain.WorkplaceMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>())));
+            Dto.WorkplaceMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>())));
         exceptionCollector.Collect("Ownership", () => entity.SetIfNotNull(createDto.Ownership, (entity) => entity.Ownership = 
-            ClientApi.Domain.WorkplaceMetadata.CreateOwnership(createDto.Ownership.NonNullValue<System.Int32>())));
+            Dto.WorkplaceMetadata.CreateOwnership(createDto.Ownership.NonNullValue<System.Int32>())));
         exceptionCollector.Collect("Type", () => entity.SetIfNotNull(createDto.Type, (entity) => entity.Type = 
-            ClientApi.Domain.WorkplaceMetadata.CreateType(createDto.Type.NonNullValue<System.Int32>())));
+            Dto.WorkplaceMetadata.CreateType(createDto.Type.NonNullValue<System.Int32>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         var nextSequenceReferenceNumber =  await _repository.GetSequenceNextValueAsync(Nox.Solution.NoxCodeGenConventions.GetDatabaseSequenceName("Workplace", "ReferenceNumber"));
-        entity.EnsureReferenceNumber(nextSequenceReferenceNumber,ClientApi.Domain.WorkplaceMetadata.ReferenceNumberTypeOptions);        
+        entity.EnsureReferenceNumber(nextSequenceReferenceNumber,Dto.WorkplaceMetadata.ReferenceNumberTypeOptions);        
         return entity;
     }
 
     private async Task UpdateEntityInternalAsync(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Name",() => entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Name",() => entity.Name = Dto.WorkplaceMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
         if(IsDefaultCultureCode(cultureCode)) if(updateDto.Description is null)
         {
              entity.Description = null;
         }
         else
         {
-            exceptionCollector.Collect("Description",() =>entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("Description",() =>entity.Description = Dto.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>()));
         }
         if(updateDto.Ownership is null)
         {
@@ -129,7 +130,7 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         }
         else
         {
-            exceptionCollector.Collect("Ownership",() =>entity.Ownership = ClientApi.Domain.WorkplaceMetadata.CreateOwnership(updateDto.Ownership.ToValueFromNonNull<System.Int32>()));
+            exceptionCollector.Collect("Ownership",() =>entity.Ownership = Dto.WorkplaceMetadata.CreateOwnership(updateDto.Ownership.ToValueFromNonNull<System.Int32>()));
         }
         if(updateDto.Type is null)
         {
@@ -137,7 +138,7 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         }
         else
         {
-            exceptionCollector.Collect("Type",() =>entity.Type = ClientApi.Domain.WorkplaceMetadata.CreateType(updateDto.Type.ToValueFromNonNull<System.Int32>()));
+            exceptionCollector.Collect("Type",() =>entity.Type = Dto.WorkplaceMetadata.CreateType(updateDto.Type.ToValueFromNonNull<System.Int32>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -152,7 +153,7 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         {
             ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.WorkplaceMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -161,7 +162,7 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
             if (DescriptionUpdateValue == null) { entity.Description = null; }
             else
             {
-                exceptionCollector.Collect("Description",() =>entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(DescriptionUpdateValue));
+                exceptionCollector.Collect("Description",() =>entity.Description = Dto.WorkplaceMetadata.CreateDescription(DescriptionUpdateValue));
             }
         }
 
@@ -170,7 +171,7 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
             if (OwnershipUpdateValue == null) { entity.Ownership = null; }
             else
             {
-                exceptionCollector.Collect("Ownership",() =>entity.Ownership = ClientApi.Domain.WorkplaceMetadata.CreateOwnership(OwnershipUpdateValue));
+                exceptionCollector.Collect("Ownership",() =>entity.Ownership = Dto.WorkplaceMetadata.CreateOwnership(OwnershipUpdateValue));
             }
         }
 
@@ -179,7 +180,7 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
             if (TypeUpdateValue == null) { entity.Type = null; }
             else
             {
-                exceptionCollector.Collect("Type",() =>entity.Type = ClientApi.Domain.WorkplaceMetadata.CreateType(TypeUpdateValue));
+                exceptionCollector.Collect("Type",() =>entity.Type = Dto.WorkplaceMetadata.CreateType(TypeUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

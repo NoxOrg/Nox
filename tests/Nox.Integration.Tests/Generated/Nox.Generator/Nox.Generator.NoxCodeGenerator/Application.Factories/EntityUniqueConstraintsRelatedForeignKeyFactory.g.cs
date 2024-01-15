@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestWebApp.Domain;
 using EntityUniqueConstraintsRelatedForeignKeyEntity = TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey;
 
@@ -81,9 +82,9 @@ internal abstract class EntityUniqueConstraintsRelatedForeignKeyFactoryBase : IE
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey();
-        exceptionCollector.Collect("Id",() => entity.Id = EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(createDto.Id.NonNullValue<System.Int32>()));
+        exceptionCollector.Collect("Id",() => entity.Id = Dto.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(createDto.Id.NonNullValue<System.Int32>()));
         exceptionCollector.Collect("TextField", () => entity.SetIfNotNull(createDto.TextField, (entity) => entity.TextField = 
-            TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>())));
+            Dto.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -98,7 +99,7 @@ internal abstract class EntityUniqueConstraintsRelatedForeignKeyFactoryBase : IE
         }
         else
         {
-            exceptionCollector.Collect("TextField",() =>entity.TextField = TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateTextField(updateDto.TextField.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("TextField",() =>entity.TextField = Dto.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateTextField(updateDto.TextField.ToValueFromNonNull<System.String>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -114,7 +115,7 @@ internal abstract class EntityUniqueConstraintsRelatedForeignKeyFactoryBase : IE
             if (TextFieldUpdateValue == null) { entity.TextField = null; }
             else
             {
-                exceptionCollector.Collect("TextField",() =>entity.TextField = TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateTextField(TextFieldUpdateValue));
+                exceptionCollector.Collect("TextField",() =>entity.TextField = Dto.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateTextField(TextFieldUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

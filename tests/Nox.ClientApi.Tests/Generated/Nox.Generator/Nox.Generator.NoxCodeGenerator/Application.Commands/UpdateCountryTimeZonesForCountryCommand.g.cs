@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using CountryTimeZoneEntity = ClientApi.Domain.CountryTimeZone;
 using CountryEntity = ClientApi.Domain.Country;
 
@@ -52,7 +53,7 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
@@ -67,7 +68,7 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 		}
 		else
 		{
-			var ownedId = ClientApi.Domain.CountryTimeZoneMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.String>());
+			var ownedId =Dto.CountryTimeZoneMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.String>());
 			entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
 			if (entity is null)
 				entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);

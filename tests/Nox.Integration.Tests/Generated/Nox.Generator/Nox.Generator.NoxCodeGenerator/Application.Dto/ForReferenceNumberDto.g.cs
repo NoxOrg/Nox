@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 public record ForReferenceNumberKeyDto(System.String keyId);
@@ -32,14 +30,13 @@ public partial class ForReferenceNumberDto : ForReferenceNumberDtoBase
 /// </summary>
 public abstract class ForReferenceNumberDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.WorkplaceNumber is not null)
-            ExecuteActionAndCollectValidationExceptions("WorkplaceNumber", () => DomainNamespace.ForReferenceNumberMetadata.CreateWorkplaceNumber(this.WorkplaceNumber.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("WorkplaceNumber", () => ForReferenceNumberMetadata.CreateWorkplaceNumber(this.WorkplaceNumber.NonNullValue<System.String>()), result);
 
         return result;
     }

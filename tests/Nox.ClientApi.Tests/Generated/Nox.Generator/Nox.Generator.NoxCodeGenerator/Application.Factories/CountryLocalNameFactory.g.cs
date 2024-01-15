@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 
@@ -82,9 +83,9 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.CountryLocalName();
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            ClientApi.Domain.CountryLocalNameMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.CountryLocalNameMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("NativeName", () => entity.SetIfNotNull(createDto.NativeName, (entity) => entity.NativeName = 
-            ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(createDto.NativeName.NonNullValue<System.String>())));
+            Dto.CountryLocalNameMetadata.CreateNativeName(createDto.NativeName.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -93,14 +94,14 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
     private async Task UpdateEntityInternalAsync(CountryLocalNameEntity entity, CountryLocalNameUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Name",() => entity.Name = ClientApi.Domain.CountryLocalNameMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Name",() => entity.Name = Dto.CountryLocalNameMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
         if(updateDto.NativeName is null)
         {
              entity.NativeName = null;
         }
         else
         {
-            exceptionCollector.Collect("NativeName",() =>entity.NativeName = ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(updateDto.NativeName.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("NativeName",() =>entity.NativeName = Dto.CountryLocalNameMetadata.CreateNativeName(updateDto.NativeName.ToValueFromNonNull<System.String>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -115,7 +116,7 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
         {
             ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.CountryLocalNameMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.CountryLocalNameMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -124,7 +125,7 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
             if (NativeNameUpdateValue == null) { entity.NativeName = null; }
             else
             {
-                exceptionCollector.Collect("NativeName",() =>entity.NativeName = ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(NativeNameUpdateValue));
+                exceptionCollector.Collect("NativeName",() =>entity.NativeName = Dto.CountryLocalNameMetadata.CreateNativeName(NativeNameUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

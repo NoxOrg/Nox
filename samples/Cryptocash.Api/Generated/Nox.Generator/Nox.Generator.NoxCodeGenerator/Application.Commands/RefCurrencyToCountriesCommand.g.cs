@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using CurrencyEntity = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
@@ -193,13 +194,13 @@ internal abstract class RefCurrencyToCountriesCommandHandlerBase<TRequest> : Com
 
 	protected async Task<CurrencyEntity?> GetCurrency(CurrencyKeyDto entityKeyDto)
 	{
-		var keyId = Cryptocash.Domain.CurrencyMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.CurrencyMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.Currencies.FindAsync(keyId);
 	}
 
 	protected async Task<Cryptocash.Domain.Country?> GetCountry(CountryKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = Cryptocash.Domain.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Countries.FindAsync(relatedKeyId);
 	}
 

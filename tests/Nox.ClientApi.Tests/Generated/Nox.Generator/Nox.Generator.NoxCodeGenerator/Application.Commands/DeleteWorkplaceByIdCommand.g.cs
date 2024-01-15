@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteWorkplaceByIdCommandHandlerBase : CommandCollectio
 		var entities = new List<WorkplaceEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.WorkplaceMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.Workplaces.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

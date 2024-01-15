@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using LandLordEntity = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Commands;
@@ -193,13 +194,13 @@ internal abstract class RefLandLordToVendingMachinesCommandHandlerBase<TRequest>
 
 	protected async Task<LandLordEntity?> GetLandLord(LandLordKeyDto entityKeyDto)
 	{
-		var keyId = Cryptocash.Domain.LandLordMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.LandLordMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.LandLords.FindAsync(keyId);
 	}
 
 	protected async Task<Cryptocash.Domain.VendingMachine?> GetVendingMachine(VendingMachineKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.VendingMachineMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.VendingMachines.FindAsync(relatedKeyId);
 	}
 

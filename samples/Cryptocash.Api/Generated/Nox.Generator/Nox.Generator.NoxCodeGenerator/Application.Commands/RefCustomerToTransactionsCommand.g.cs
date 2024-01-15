@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
@@ -193,13 +194,13 @@ internal abstract class RefCustomerToTransactionsCommandHandlerBase<TRequest> : 
 
 	protected async Task<CustomerEntity?> GetCustomer(CustomerKeyDto entityKeyDto)
 	{
-		var keyId = Cryptocash.Domain.CustomerMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.CustomerMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.Customers.FindAsync(keyId);
 	}
 
 	protected async Task<Cryptocash.Domain.Transaction?> GetTransaction(TransactionKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = Cryptocash.Domain.TransactionMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.TransactionMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Transactions.FindAsync(relatedKeyId);
 	}
 

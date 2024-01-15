@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = CryptocashIntegration.Domain;
-
 namespace CryptocashIntegration.Application.Dto;
 
 public record CountryQueryToCustomTableKeyDto(System.Int32 keyId);
@@ -32,23 +30,22 @@ public partial class CountryQueryToCustomTableDto : CountryQueryToCustomTableDto
 /// </summary>
 public abstract class CountryQueryToCustomTableDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.CountryQueryToCustomTableMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Name", () => CountryQueryToCustomTableMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("Population", () => DomainNamespace.CountryQueryToCustomTableMetadata.CreatePopulation(this.Population), result);
+        CollectValidationExceptions("Population", () => CountryQueryToCustomTableMetadata.CreatePopulation(this.Population), result);
     
-        ExecuteActionAndCollectValidationExceptions("CreateDate", () => DomainNamespace.CountryQueryToCustomTableMetadata.CreateCreateDate(this.CreateDate), result);
+        CollectValidationExceptions("CreateDate", () => CountryQueryToCustomTableMetadata.CreateCreateDate(this.CreateDate), result);
     
         if (this.EditDate is not null)
-            ExecuteActionAndCollectValidationExceptions("EditDate", () => DomainNamespace.CountryQueryToCustomTableMetadata.CreateEditDate(this.EditDate.NonNullValue<System.DateTimeOffset>()), result);
+            CollectValidationExceptions("EditDate", () => CountryQueryToCustomTableMetadata.CreateEditDate(this.EditDate.NonNullValue<System.DateTimeOffset>()), result);
 
         return result;
     }

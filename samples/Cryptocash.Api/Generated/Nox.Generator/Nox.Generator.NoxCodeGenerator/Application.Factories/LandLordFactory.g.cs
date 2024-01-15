@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using Cryptocash.Domain;
 using LandLordEntity = Cryptocash.Domain.LandLord;
 
@@ -82,9 +83,9 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, Lan
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.LandLord();
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            Cryptocash.Domain.LandLordMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.LandLordMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("Address", () => entity.SetIfNotNull(createDto.Address, (entity) => entity.Address = 
-            Cryptocash.Domain.LandLordMetadata.CreateAddress(createDto.Address.NonNullValue<StreetAddressDto>())));
+            Dto.LandLordMetadata.CreateAddress(createDto.Address.NonNullValue<StreetAddressDto>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         entity.EnsureId(createDto.Id);        
@@ -94,8 +95,8 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, Lan
     private async Task UpdateEntityInternalAsync(LandLordEntity entity, LandLordUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Name",() => entity.Name = Cryptocash.Domain.LandLordMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
-        exceptionCollector.Collect("Address",() => entity.Address = Cryptocash.Domain.LandLordMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>()));
+        exceptionCollector.Collect("Name",() => entity.Name = Dto.LandLordMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Address",() => entity.Address = Dto.LandLordMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -109,7 +110,7 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, Lan
         {
             ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = Cryptocash.Domain.LandLordMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.LandLordMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -119,7 +120,7 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, Lan
             {
                 var entityToUpdate = entity.Address is null ? new StreetAddressDto() : entity.Address.ToDto();
                 StreetAddressDto.UpdateFromDictionary(entityToUpdate, AddressUpdateValue);
-                exceptionCollector.Collect("Address",() =>entity.Address = Cryptocash.Domain.LandLordMetadata.CreateAddress(entityToUpdate));
+                exceptionCollector.Collect("Address",() =>entity.Address = Dto.LandLordMetadata.CreateAddress(entityToUpdate));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

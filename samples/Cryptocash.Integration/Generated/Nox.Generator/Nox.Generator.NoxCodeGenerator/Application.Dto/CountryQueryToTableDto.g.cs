@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = CryptocashIntegration.Domain;
-
 namespace CryptocashIntegration.Application.Dto;
 
 public record CountryQueryToTableKeyDto(System.Int32 keyId);
@@ -32,18 +30,17 @@ public partial class CountryQueryToTableDto : CountryQueryToTableDtoBase
 /// </summary>
 public abstract class CountryQueryToTableDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.CountryQueryToTableMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Name", () => CountryQueryToTableMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("Population", () => DomainNamespace.CountryQueryToTableMetadata.CreatePopulation(this.Population), result);
+        CollectValidationExceptions("Population", () => CountryQueryToTableMetadata.CreatePopulation(this.Population), result);
     
 
         return result;

@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteEmployeeByIdCommandHandlerBase : CommandCollection
 		var entities = new List<EmployeeEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = Cryptocash.Domain.EmployeeMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.EmployeeMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.Employees.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

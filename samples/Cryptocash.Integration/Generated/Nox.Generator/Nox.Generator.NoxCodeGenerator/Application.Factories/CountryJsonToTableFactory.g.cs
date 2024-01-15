@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using CryptocashIntegration.Application.Dto;
+using Dto = CryptocashIntegration.Application.Dto;
 using CryptocashIntegration.Domain;
 using CountryJsonToTableEntity = CryptocashIntegration.Domain.CountryJsonToTable;
 
@@ -81,15 +82,15 @@ internal abstract class CountryJsonToTableFactoryBase : IEntityFactory<CountryJs
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new CryptocashIntegration.Domain.CountryJsonToTable();
-        exceptionCollector.Collect("Id",() => entity.Id = CountryJsonToTableMetadata.CreateId(createDto.Id.NonNullValue<System.Int32>()));
+        exceptionCollector.Collect("Id",() => entity.Id = Dto.CountryJsonToTableMetadata.CreateId(createDto.Id.NonNullValue<System.Int32>()));
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            CryptocashIntegration.Domain.CountryJsonToTableMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.CountryJsonToTableMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("Population", () => entity.SetIfNotNull(createDto.Population, (entity) => entity.Population = 
-            CryptocashIntegration.Domain.CountryJsonToTableMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>())));
+            Dto.CountryJsonToTableMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>())));
         exceptionCollector.Collect("CreateDate", () => entity.SetIfNotNull(createDto.CreateDate, (entity) => entity.CreateDate = 
-            CryptocashIntegration.Domain.CountryJsonToTableMetadata.CreateCreateDate(createDto.CreateDate.NonNullValue<System.DateTimeOffset>())));
+            Dto.CountryJsonToTableMetadata.CreateCreateDate(createDto.CreateDate.NonNullValue<System.DateTimeOffset>())));
         exceptionCollector.Collect("EditDate", () => entity.SetIfNotNull(createDto.EditDate, (entity) => entity.EditDate = 
-            CryptocashIntegration.Domain.CountryJsonToTableMetadata.CreateEditDate(createDto.EditDate.NonNullValue<System.DateTimeOffset>())));
+            Dto.CountryJsonToTableMetadata.CreateEditDate(createDto.EditDate.NonNullValue<System.DateTimeOffset>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -98,16 +99,16 @@ internal abstract class CountryJsonToTableFactoryBase : IEntityFactory<CountryJs
     private async Task UpdateEntityInternalAsync(CountryJsonToTableEntity entity, CountryJsonToTableUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Name",() => entity.Name = CryptocashIntegration.Domain.CountryJsonToTableMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
-        exceptionCollector.Collect("Population",() => entity.Population = CryptocashIntegration.Domain.CountryJsonToTableMetadata.CreatePopulation(updateDto.Population.NonNullValue<System.Int32>()));
-        exceptionCollector.Collect("CreateDate",() => entity.CreateDate = CryptocashIntegration.Domain.CountryJsonToTableMetadata.CreateCreateDate(updateDto.CreateDate.NonNullValue<System.DateTimeOffset>()));
+        exceptionCollector.Collect("Name",() => entity.Name = Dto.CountryJsonToTableMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Population",() => entity.Population = Dto.CountryJsonToTableMetadata.CreatePopulation(updateDto.Population.NonNullValue<System.Int32>()));
+        exceptionCollector.Collect("CreateDate",() => entity.CreateDate = Dto.CountryJsonToTableMetadata.CreateCreateDate(updateDto.CreateDate.NonNullValue<System.DateTimeOffset>()));
         if(updateDto.EditDate is null)
         {
              entity.EditDate = null;
         }
         else
         {
-            exceptionCollector.Collect("EditDate",() =>entity.EditDate = CryptocashIntegration.Domain.CountryJsonToTableMetadata.CreateEditDate(updateDto.EditDate.ToValueFromNonNull<System.DateTimeOffset>()));
+            exceptionCollector.Collect("EditDate",() =>entity.EditDate = Dto.CountryJsonToTableMetadata.CreateEditDate(updateDto.EditDate.ToValueFromNonNull<System.DateTimeOffset>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -122,7 +123,7 @@ internal abstract class CountryJsonToTableFactoryBase : IEntityFactory<CountryJs
         {
             ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = CryptocashIntegration.Domain.CountryJsonToTableMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.CountryJsonToTableMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -130,7 +131,7 @@ internal abstract class CountryJsonToTableFactoryBase : IEntityFactory<CountryJs
         {
             ArgumentNullException.ThrowIfNull(PopulationUpdateValue, "Attribute 'Population' can't be null.");
             {
-                exceptionCollector.Collect("Population",() =>entity.Population = CryptocashIntegration.Domain.CountryJsonToTableMetadata.CreatePopulation(PopulationUpdateValue));
+                exceptionCollector.Collect("Population",() =>entity.Population = Dto.CountryJsonToTableMetadata.CreatePopulation(PopulationUpdateValue));
             }
         }
 
@@ -138,7 +139,7 @@ internal abstract class CountryJsonToTableFactoryBase : IEntityFactory<CountryJs
         {
             ArgumentNullException.ThrowIfNull(CreateDateUpdateValue, "Attribute 'CreateDate' can't be null.");
             {
-                exceptionCollector.Collect("CreateDate",() =>entity.CreateDate = CryptocashIntegration.Domain.CountryJsonToTableMetadata.CreateCreateDate(CreateDateUpdateValue));
+                exceptionCollector.Collect("CreateDate",() =>entity.CreateDate = Dto.CountryJsonToTableMetadata.CreateCreateDate(CreateDateUpdateValue));
             }
         }
 
@@ -147,7 +148,7 @@ internal abstract class CountryJsonToTableFactoryBase : IEntityFactory<CountryJs
             if (EditDateUpdateValue == null) { entity.EditDate = null; }
             else
             {
-                exceptionCollector.Collect("EditDate",() =>entity.EditDate = CryptocashIntegration.Domain.CountryJsonToTableMetadata.CreateEditDate(EditDateUpdateValue));
+                exceptionCollector.Collect("EditDate",() =>entity.EditDate = Dto.CountryJsonToTableMetadata.CreateEditDate(EditDateUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
