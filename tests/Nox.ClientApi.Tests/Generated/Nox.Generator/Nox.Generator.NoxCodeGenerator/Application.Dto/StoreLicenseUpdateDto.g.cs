@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 /// <summary>
@@ -23,7 +21,7 @@ public partial class StoreLicenseUpdateDto : StoreLicenseUpdateDtoBase
 /// <summary>
 /// Store license info
 /// </summary>
-public partial class StoreLicenseUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.StoreLicense>
+public partial class StoreLicenseUpdateDtoBase: EntityDtoBase
 {
     /// <summary>
     /// License issuer     

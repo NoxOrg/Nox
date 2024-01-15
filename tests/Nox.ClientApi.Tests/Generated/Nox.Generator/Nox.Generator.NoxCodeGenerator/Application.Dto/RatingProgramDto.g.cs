@@ -30,7 +30,7 @@ public partial class RatingProgramDto : RatingProgramDtoBase
 /// <summary>
 /// Rating program for store.
 /// </summary>
-public abstract class RatingProgramDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.RatingProgram>
+public abstract class RatingProgramDtoBase : EntityDtoBase
 {
 
     #region Validation

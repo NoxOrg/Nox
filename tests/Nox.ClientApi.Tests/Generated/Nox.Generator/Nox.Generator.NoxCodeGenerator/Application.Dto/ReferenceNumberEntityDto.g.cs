@@ -30,7 +30,7 @@ public partial class ReferenceNumberEntityDto : ReferenceNumberEntityDtoBase
 /// <summary>
 /// ReferenceNumberEntity.
 /// </summary>
-public abstract class ReferenceNumberEntityDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.ReferenceNumberEntity>
+public abstract class ReferenceNumberEntityDtoBase : EntityDtoBase
 {
 
     #region Validation

@@ -30,7 +30,7 @@ public partial class BookingDto : BookingDtoBase
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public abstract class BookingDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Booking>
+public abstract class BookingDtoBase : EntityDtoBase
 {
 
     #region Validation

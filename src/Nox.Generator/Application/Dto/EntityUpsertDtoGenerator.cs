@@ -10,7 +10,7 @@ namespace Nox.Generator.Application.Dto;
 
 internal class EntityUpsertDtoGenerator : INoxCodeGenerator
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.ApplicationDto;
 
     public void Generate(
       SourceProductionContext context,

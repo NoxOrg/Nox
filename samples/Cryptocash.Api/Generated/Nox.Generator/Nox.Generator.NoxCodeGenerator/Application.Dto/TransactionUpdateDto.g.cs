@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
@@ -23,7 +21,7 @@ public partial class TransactionUpdateDto : TransactionUpdateDtoBase
 /// <summary>
 /// Customer transaction log and related data
 /// </summary>
-public partial class TransactionUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Transaction>
+public partial class TransactionUpdateDtoBase: EntityDtoBase
 {
     /// <summary>
     /// Transaction type     

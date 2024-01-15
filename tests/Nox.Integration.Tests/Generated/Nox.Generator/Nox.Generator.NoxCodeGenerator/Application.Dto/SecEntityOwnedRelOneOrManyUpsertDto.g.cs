@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
@@ -23,7 +21,7 @@ public partial class SecEntityOwnedRelOneOrManyUpsertDto : SecEntityOwnedRelOneO
 /// <summary>
 /// 
 /// </summary>
-public abstract class SecEntityOwnedRelOneOrManyUpsertDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.SecEntityOwnedRelOneOrMany>
+public abstract class SecEntityOwnedRelOneOrManyUpsertDtoBase: EntityDtoBase
 {
 
     /// <summary>

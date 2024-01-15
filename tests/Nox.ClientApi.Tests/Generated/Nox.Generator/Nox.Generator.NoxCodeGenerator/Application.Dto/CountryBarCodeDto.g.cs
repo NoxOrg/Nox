@@ -30,7 +30,7 @@ public partial class CountryBarCodeDto : CountryBarCodeDtoBase
 /// <summary>
 /// Bar code for country.
 /// </summary>
-public abstract class CountryBarCodeDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.CountryBarCode>
+public abstract class CountryBarCodeDtoBase : EntityDtoBase
 {
 
     #region Validation

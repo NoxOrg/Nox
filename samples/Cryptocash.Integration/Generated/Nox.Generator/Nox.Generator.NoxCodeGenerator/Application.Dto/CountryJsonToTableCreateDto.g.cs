@@ -10,8 +10,6 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using DomainNamespace = CryptocashIntegration.Domain;
-
 namespace CryptocashIntegration.Application.Dto;
 
 /// <summary>
@@ -25,7 +23,7 @@ public partial class CountryJsonToTableCreateDto : CountryJsonToTableCreateDtoBa
 /// <summary>
 /// Country and related data for Json file integration.
 /// </summary>
-public abstract class CountryJsonToTableCreateDtoBase : IEntityDto<DomainNamespace.CountryJsonToTable>
+public abstract class CountryJsonToTableCreateDtoBase 
 {
     /// <summary>
     /// Country unique identifier    

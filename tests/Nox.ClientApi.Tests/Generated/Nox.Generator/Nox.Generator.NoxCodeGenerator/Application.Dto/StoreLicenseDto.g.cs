@@ -30,7 +30,7 @@ public partial class StoreLicenseDto : StoreLicenseDtoBase
 /// <summary>
 /// Store license info.
 /// </summary>
-public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.StoreLicense>
+public abstract class StoreLicenseDtoBase : EntityDtoBase
 {
 
     #region Validation

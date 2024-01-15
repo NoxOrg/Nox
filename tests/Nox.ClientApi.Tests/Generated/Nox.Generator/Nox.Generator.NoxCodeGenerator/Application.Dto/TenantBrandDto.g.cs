@@ -30,7 +30,7 @@ public partial class TenantBrandDto : TenantBrandDtoBase
 /// <summary>
 /// Tenant Brand.
 /// </summary>
-public abstract class TenantBrandDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.TenantBrand>
+public abstract class TenantBrandDtoBase : EntityDtoBase
 {
 
     #region Validation

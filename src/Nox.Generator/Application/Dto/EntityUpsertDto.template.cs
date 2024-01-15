@@ -11,8 +11,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = {{codeGeneratorState.DomainNameSpace}};
-
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 /// <summary>
@@ -26,7 +24,7 @@ public partial class {{className}} : {{className}}Base
 /// <summary>
 /// {{entity.Description  | string.rstrip}}
 /// </summary>
-public abstract class {{className}}Base: EntityDtoBase, IEntityDto<DomainNamespace.{{entity.Name}}>
+public abstract class {{className}}Base: EntityDtoBase
 {
 {{- for key in entity.Keys }}
 

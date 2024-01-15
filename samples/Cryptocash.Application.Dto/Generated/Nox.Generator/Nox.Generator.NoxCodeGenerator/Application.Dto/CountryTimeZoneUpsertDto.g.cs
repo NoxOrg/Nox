@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
@@ -23,7 +21,7 @@ public partial class CountryTimeZoneUpsertDto : CountryTimeZoneUpsertDtoBase
 /// <summary>
 /// Time zone related to country
 /// </summary>
-public abstract class CountryTimeZoneUpsertDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.CountryTimeZone>
+public abstract class CountryTimeZoneUpsertDtoBase: EntityDtoBase
 {
 
     /// <summary>

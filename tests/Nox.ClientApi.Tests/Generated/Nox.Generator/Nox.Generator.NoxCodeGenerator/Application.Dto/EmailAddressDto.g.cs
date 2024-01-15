@@ -30,7 +30,7 @@ public partial class EmailAddressDto : EmailAddressDtoBase
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public abstract class EmailAddressDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.EmailAddress>
+public abstract class EmailAddressDtoBase : EntityDtoBase
 {
 
     #region Validation

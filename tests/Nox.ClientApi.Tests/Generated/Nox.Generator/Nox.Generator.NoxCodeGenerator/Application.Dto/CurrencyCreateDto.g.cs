@@ -10,8 +10,6 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 /// <summary>
@@ -25,7 +23,7 @@ public partial class CurrencyCreateDto : CurrencyCreateDtoBase
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public abstract class CurrencyCreateDtoBase : IEntityDto<DomainNamespace.Currency>
+public abstract class CurrencyCreateDtoBase 
 {
     /// <summary>
     /// Currency unique identifier    

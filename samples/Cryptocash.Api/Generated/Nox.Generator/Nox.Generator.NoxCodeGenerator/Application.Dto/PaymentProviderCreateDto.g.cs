@@ -10,8 +10,6 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
@@ -25,7 +23,7 @@ public partial class PaymentProviderCreateDto : PaymentProviderCreateDtoBase
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public abstract class PaymentProviderCreateDtoBase : IEntityDto<DomainNamespace.PaymentProvider>
+public abstract class PaymentProviderCreateDtoBase 
 {/// <summary>
     /// Payment provider unique identifier     
     /// </summary>

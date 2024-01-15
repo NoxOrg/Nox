@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = {{codeGeneratorState.DomainNameSpace}};
-
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 {{ #We Split Partial from Update Dto, so this one gets registered as a complextype in Odata for Delta to work properly }}
@@ -25,7 +23,7 @@ public partial class {{className}} : {{className}}Base
 /// <summary>
 /// {{entity.Description  | string.rstrip}}
 /// </summary>
-public partial class {{className}}Base: EntityDtoBase, IEntityDto<DomainNamespace.{{entity.Name}}>
+public partial class {{className}}Base: EntityDtoBase
 {
 {{- for attribute in entity.Attributes }}
     {{- if componentsInfo[attribute.Name].IsUpdatable == false -}}

@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 
@@ -25,7 +23,7 @@ public partial class StorePartialUpdateDto : StorePartialUpdateDtoBase
 /// <summary>
 /// Stores
 /// </summary>
-public partial class StorePartialUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Store>
+public partial class StorePartialUpdateDtoBase: EntityDtoBase
 {
     /// <summary>
     /// Store Name

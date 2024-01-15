@@ -30,7 +30,7 @@ public partial class TestEntityZeroOrOneDto : TestEntityZeroOrOneDtoBase
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class TestEntityZeroOrOneDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.TestEntityZeroOrOne>
+public abstract class TestEntityZeroOrOneDtoBase : EntityDtoBase
 {
 
     #region Validation

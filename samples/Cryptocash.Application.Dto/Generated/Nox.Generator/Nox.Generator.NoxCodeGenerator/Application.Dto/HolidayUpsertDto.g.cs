@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
@@ -23,7 +21,7 @@ public partial class HolidayUpsertDto : HolidayUpsertDtoBase
 /// <summary>
 /// Holiday related to country
 /// </summary>
-public abstract class HolidayUpsertDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Holiday>
+public abstract class HolidayUpsertDtoBase: EntityDtoBase
 {
 
     /// <summary>

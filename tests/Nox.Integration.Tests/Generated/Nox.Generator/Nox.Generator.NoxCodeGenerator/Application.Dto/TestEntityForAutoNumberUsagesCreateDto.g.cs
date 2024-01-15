@@ -10,8 +10,6 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using DomainNamespace = TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
@@ -25,7 +23,7 @@ public partial class TestEntityForAutoNumberUsagesCreateDto : TestEntityForAutoN
 /// <summary>
 /// Entity created for testing auto number usages.
 /// </summary>
-public abstract class TestEntityForAutoNumberUsagesCreateDtoBase : IEntityDto<DomainNamespace.TestEntityForAutoNumberUsages>
+public abstract class TestEntityForAutoNumberUsagesCreateDtoBase 
 {
     /// <summary>
     ///      

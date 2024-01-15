@@ -30,7 +30,7 @@ public partial class ForReferenceNumberDto : ForReferenceNumberDtoBase
 /// <summary>
 /// Entity created for testing auto number usages.
 /// </summary>
-public abstract class ForReferenceNumberDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.ForReferenceNumber>
+public abstract class ForReferenceNumberDtoBase : EntityDtoBase
 {
 
     #region Validation

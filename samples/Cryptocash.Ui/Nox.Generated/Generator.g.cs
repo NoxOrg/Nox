@@ -69,12 +69,6 @@
 - IntegrationEvents.md
 - README.md
 - generator.nox.yaml
-Errors ->
-- The Nox type validation failed with 1 error(s). PropertyName: . Error: Disallowed property ["monitoring"]. (at line 19 in cryptocash.infrastructure.nox.yaml)   at Nox.Solution.Schema.NoxSchemaValidator.Deserialize[T](YamlReferenceResolver yamlRefResolver) in C:\Users\Ricardo\Documents\github\Nox\src\Nox.Yaml\Schema\NoxSchemaValidator.cs:line 85
-   at Nox.Yaml.YamlConfigurationReader`2.ResolveAndLoadConfiguration() in C:\Users\Ricardo\Documents\github\Nox\src\Nox.Yaml\YamlConfigurationReader.cs:line 273
-   at Nox.Yaml.YamlConfigurationReader`2.Read() in C:\Users\Ricardo\Documents\github\Nox\src\Nox.Yaml\YamlConfigurationReader.cs:line 150
-   at Nox.Solution.NoxSolutionBuilder.Build() in C:\Users\Ricardo\Documents\github\Nox\src\Nox.Solution\NoxSolutionBuilder.cs:line 67
-   at Nox.Generator.NoxGeneratorBase.TryCreateSolution(IList`1 errorCollection, NoxSolution& solution, Dictionary`2 solutionFileAndContent) in C:\Users\Ricardo\Documents\github\Nox\src\Nox.Generator\Nox.Generator.cs:line 47
-   at Nox.Generator.Tasks.NoxFileGenerator.TryGetNoxSolution(List`1 errorCollection, NoxSolution& solution) in C:\Users\Ricardo\Documents\github\Nox\src\Nox.Generator.Tasks\NoxFileGenerator.cs:line 163
-   at Nox.Generator.Tasks.NoxFileGenerator.GenerateFiles() in C:\Users\Ricardo\Documents\github\Nox\src\Nox.Generator.Tasks\NoxFileGenerator.cs:line 41
+Logging Verbosity Minimal
+SUCCESS.
 */

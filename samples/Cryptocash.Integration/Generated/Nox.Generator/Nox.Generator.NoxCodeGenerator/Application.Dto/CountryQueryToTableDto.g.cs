@@ -30,7 +30,7 @@ public partial class CountryQueryToTableDto : CountryQueryToTableDtoBase
 /// <summary>
 /// Country and related data.
 /// </summary>
-public abstract class CountryQueryToTableDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.CountryQueryToTable>
+public abstract class CountryQueryToTableDtoBase : EntityDtoBase
 {
 
     #region Validation

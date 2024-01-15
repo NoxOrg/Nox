@@ -33,7 +33,7 @@ public partial class {{className}} : {{className}}Base
 /// <summary>
 /// {{entity.Description  | string.rstrip}}.
 /// </summary>
-public abstract class {{className}}Base : EntityDtoBase, IEntityDto<DomainNamespace.{{entity.Name}}>
+public abstract class {{className}}Base : EntityDtoBase
 {
 
     #region Validation

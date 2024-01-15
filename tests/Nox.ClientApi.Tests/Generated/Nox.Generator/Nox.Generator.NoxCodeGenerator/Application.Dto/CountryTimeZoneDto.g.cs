@@ -30,7 +30,7 @@ public partial class CountryTimeZoneDto : CountryTimeZoneDtoBase
 /// <summary>
 /// Time zone related to country.
 /// </summary>
-public abstract class CountryTimeZoneDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.CountryTimeZone>
+public abstract class CountryTimeZoneDtoBase : EntityDtoBase
 {
 
     #region Validation

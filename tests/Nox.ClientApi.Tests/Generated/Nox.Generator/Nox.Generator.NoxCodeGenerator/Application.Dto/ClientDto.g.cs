@@ -30,7 +30,7 @@ public partial class ClientDto : ClientDtoBase
 /// <summary>
 /// Client of a Store.
 /// </summary>
-public abstract class ClientDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Client>
+public abstract class ClientDtoBase : EntityDtoBase
 {
 
     #region Validation

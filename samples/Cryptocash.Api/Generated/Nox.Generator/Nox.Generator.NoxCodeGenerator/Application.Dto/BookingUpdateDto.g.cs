@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
@@ -23,7 +21,7 @@ public partial class BookingUpdateDto : BookingUpdateDtoBase
 /// <summary>
 /// Exchange booking and related data
 /// </summary>
-public partial class BookingUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Booking>
+public partial class BookingUpdateDtoBase: EntityDtoBase
 {
     /// <summary>
     /// Booking's amount exchanged from     

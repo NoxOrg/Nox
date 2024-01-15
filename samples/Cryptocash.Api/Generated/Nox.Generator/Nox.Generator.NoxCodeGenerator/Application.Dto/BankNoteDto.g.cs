@@ -30,7 +30,7 @@ public partial class BankNoteDto : BankNoteDtoBase
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public abstract class BankNoteDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.BankNote>
+public abstract class BankNoteDtoBase : EntityDtoBase
 {
 
     #region Validation

@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 /// <summary>
@@ -23,7 +21,7 @@ public partial class EmailAddressUpsertDto : EmailAddressUpsertDtoBase
 /// <summary>
 /// Verified Email Address
 /// </summary>
-public abstract class EmailAddressUpsertDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.EmailAddress>
+public abstract class EmailAddressUpsertDtoBase: EntityDtoBase
 {
 
     /// <summary>

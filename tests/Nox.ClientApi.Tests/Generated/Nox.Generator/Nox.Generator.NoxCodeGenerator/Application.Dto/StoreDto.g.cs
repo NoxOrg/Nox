@@ -30,7 +30,7 @@ public partial class StoreDto : StoreDtoBase
 /// <summary>
 /// Stores.
 /// </summary>
-public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Store>
+public abstract class StoreDtoBase : EntityDtoBase
 {
 
     #region Validation

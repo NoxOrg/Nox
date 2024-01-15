@@ -30,7 +30,7 @@ public partial class TestEntityForAutoNumberUsagesDto : TestEntityForAutoNumberU
 /// <summary>
 /// Entity created for testing auto number usages.
 /// </summary>
-public abstract class TestEntityForAutoNumberUsagesDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.TestEntityForAutoNumberUsages>
+public abstract class TestEntityForAutoNumberUsagesDtoBase : EntityDtoBase
 {
 
     #region Validation

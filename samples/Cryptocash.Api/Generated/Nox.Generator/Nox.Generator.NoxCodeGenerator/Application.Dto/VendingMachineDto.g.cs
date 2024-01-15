@@ -30,7 +30,7 @@ public partial class VendingMachineDto : VendingMachineDtoBase
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public abstract class VendingMachineDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.VendingMachine>
+public abstract class VendingMachineDtoBase : EntityDtoBase
 {
 
     #region Validation

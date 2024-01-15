@@ -30,7 +30,7 @@ public partial class CountryQualityOfLifeIndexDto : CountryQualityOfLifeIndexDto
 /// <summary>
 /// Country Quality Of Life Index.
 /// </summary>
-public abstract class CountryQualityOfLifeIndexDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.CountryQualityOfLifeIndex>
+public abstract class CountryQualityOfLifeIndexDtoBase : EntityDtoBase
 {
 
     #region Validation

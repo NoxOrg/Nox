@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
@@ -23,7 +21,7 @@ public partial class ExchangeRateUpsertDto : ExchangeRateUpsertDtoBase
 /// <summary>
 /// Exchange rate and related data
 /// </summary>
-public abstract class ExchangeRateUpsertDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.ExchangeRate>
+public abstract class ExchangeRateUpsertDtoBase: EntityDtoBase
 {
 
     /// <summary>

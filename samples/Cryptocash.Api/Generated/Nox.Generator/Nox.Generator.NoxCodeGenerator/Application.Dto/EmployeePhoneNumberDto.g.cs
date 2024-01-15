@@ -30,7 +30,7 @@ public partial class EmployeePhoneNumberDto : EmployeePhoneNumberDtoBase
 /// <summary>
 /// Employee phone number and related data.
 /// </summary>
-public abstract class EmployeePhoneNumberDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.EmployeePhoneNumber>
+public abstract class EmployeePhoneNumberDtoBase : EntityDtoBase
 {
 
     #region Validation

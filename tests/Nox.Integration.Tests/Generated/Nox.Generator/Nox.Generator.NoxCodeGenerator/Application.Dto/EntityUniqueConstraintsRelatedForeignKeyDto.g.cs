@@ -30,7 +30,7 @@ public partial class EntityUniqueConstraintsRelatedForeignKeyDto : EntityUniqueC
 /// <summary>
 /// Entity created for testing constraints.
 /// </summary>
-public abstract class EntityUniqueConstraintsRelatedForeignKeyDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.EntityUniqueConstraintsRelatedForeignKey>
+public abstract class EntityUniqueConstraintsRelatedForeignKeyDtoBase : EntityDtoBase
 {
 
     #region Validation

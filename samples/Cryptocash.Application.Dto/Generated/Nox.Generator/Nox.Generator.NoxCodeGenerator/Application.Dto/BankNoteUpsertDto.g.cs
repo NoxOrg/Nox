@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
@@ -23,7 +21,7 @@ public partial class BankNoteUpsertDto : BankNoteUpsertDtoBase
 /// <summary>
 /// Currencies related frequent and rare bank notes
 /// </summary>
-public abstract class BankNoteUpsertDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.BankNote>
+public abstract class BankNoteUpsertDtoBase: EntityDtoBase
 {
 
     /// <summary>
