@@ -26,7 +26,7 @@ using SqlKata;
 using SqlKata.Compilers;
 using SqlKata.Extensions;
 
-namespace {{codeGeneratorState.RootNameSpace}}.Infrastructure.Persistence;
+namespace {{codeGenConventions.RootNameSpace}}.Infrastructure.Persistence;
 
 public class {{className}} : IEntityDtoSqlQueryBuilder
 {

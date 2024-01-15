@@ -2,10 +2,10 @@
 
 #nullable enable
 
-using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using Nox.Integration.Abstractions.Interfaces;
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Integrations;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Integrations;
 
 public class {{className}}: {{entity.Name}}CreateDto, IEtlEventDto
 {

@@ -29,6 +29,7 @@
 //  - NoxReferenceData.dataConnection.nox.yaml
 //  - cryptocash.endpoints.nox.yaml
 //  - cryptocash.messaging.nox.yaml
+//  - cryptocash.monitoring.nox.yaml
 //  - cryptocash.persistence.nox.yaml
 //  - countriesByName.apiRouteMapping.nox.yaml
 //  - cryptocash.apiConfiguration.nox.yaml

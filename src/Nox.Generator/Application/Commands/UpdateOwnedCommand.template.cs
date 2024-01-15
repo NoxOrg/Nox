@@ -20,13 +20,13 @@ using Nox.Extensions;
 using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using {{codeGeneratorState.PersistenceNameSpace}};
-using {{codeGeneratorState.DomainNameSpace}};
-using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
-using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
-using {{parent.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{parent.Name}};
+using {{codeGenConventions.PersistenceNameSpace}};
+using {{codeGenConventions.DomainNameSpace}};
+using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
+using {{parent.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{parent.Name}};
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
 
 public partial record Update{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}UpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto>;
 
@@ -62,7 +62,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		await OnExecutingAsync(request);
 
 		{{- for key in parent.Keys }}
-		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
+		var key{{key.Name}} = {{codeGenConventions.DomainNameSpace}}.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
 		var parentEntity = await _dbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
 		if (parentEntity == null)
@@ -89,7 +89,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		}
 		else
 		{
-			var owned{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{key.Name}}.NonNullValue<{{keyType key}}>());
+			var owned{{key.Name}} = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{key.Name}}.NonNullValue<{{keyType key}}>());
 			entity = parentEntity.{{relationshipName}}.SingleOrDefault(x => x.{{key.Name}} == owned{{key.Name}});
 			if (entity is null)
 				{{- if !(IsNoxTypeCreatable key.Type) }}

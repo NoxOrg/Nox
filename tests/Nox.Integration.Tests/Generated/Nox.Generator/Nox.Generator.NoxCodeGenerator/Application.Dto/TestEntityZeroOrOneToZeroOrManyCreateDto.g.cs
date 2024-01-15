@@ -10,8 +10,6 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using DomainNamespace = TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
@@ -25,7 +23,7 @@ public partial class TestEntityZeroOrOneToZeroOrManyCreateDto : TestEntityZeroOr
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class TestEntityZeroOrOneToZeroOrManyCreateDtoBase : IEntityDto<DomainNamespace.TestEntityZeroOrOneToZeroOrMany>
+public abstract class TestEntityZeroOrOneToZeroOrManyCreateDtoBase 
 {
     /// <summary>
     ///     

@@ -12,21 +12,21 @@ internal class EntityLocalizedUpsertDtoGenerator : INoxCodeGenerator
 
     public void Generate(
         SourceProductionContext context,
-        NoxCodeGenConventions codeGeneratorState,
+        NoxCodeGenConventions codeGenConventions,
         GeneratorConfig config,
         Action<string> log,
         string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain is null)
+        if (codeGenConventions.Solution.Domain is null)
             return;
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.GetLocalizedEntities())
+        foreach (var entity in codeGenConventions.Solution.Domain.GetLocalizedEntities())
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName(NoxCodeGenConventions.GetEntityUpsertDtoNameForLocalizedType(entity.Name))
                 .WithFileNamePrefix("Application.Dto")
                 .WithObject("entity", entity)

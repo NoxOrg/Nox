@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 
@@ -25,7 +23,7 @@ public partial class CountryPartialUpdateDto : CountryPartialUpdateDtoBase
 /// <summary>
 /// Country and related data
 /// </summary>
-public partial class CountryPartialUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Country>
+public partial class CountryPartialUpdateDtoBase: EntityDtoBase
 {
     /// <summary>
     /// Country's name

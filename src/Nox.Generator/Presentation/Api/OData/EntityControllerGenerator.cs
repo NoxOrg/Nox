@@ -12,22 +12,22 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 {
     public override void Generate(
     SourceProductionContext context,
-    NoxCodeGenConventions codeGeneratorState,
+    NoxCodeGenConventions codeGenConventions,
     GeneratorConfig config, System.Action<string> log,
     string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain is null)
+        if (codeGenConventions.Solution.Domain is null)
         {
             return;
         }
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
+        foreach (var entity in codeGenConventions.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            if (codeGeneratorState.Solution.Domain.Entities.Any(e => e.OwnedRelationships != null && e.OwnedRelationships.Any(r => r.Entity.Equals(entity.Name))))
+            if (codeGenConventions.Solution.Domain.Entities.Any(e => e.OwnedRelationships != null && e.OwnedRelationships.Any(r => r.Entity.Equals(entity.Name))))
             {
                 continue;
             }
@@ -67,17 +67,17 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine("using Nox.Extensions;");
             code.AppendLine("using Nox.Exceptions;");
 
-            code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
-            code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
-            code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Queries;");
-            code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Commands;");
-            //code.AppendLine($"using {codeGeneratorState.DataTransferObjectsNameSpace};");
-            code.AppendLine($"using {codeGeneratorState.DomainNameSpace};");
-            code.AppendLine($"using {codeGeneratorState.PersistenceNameSpace};");
+            code.AppendLine($"using {codeGenConventions.ApplicationNameSpace};");
+            code.AppendLine($"using {codeGenConventions.ApplicationNameSpace}.Dto;");
+            code.AppendLine($"using {codeGenConventions.ApplicationNameSpace}.Queries;");
+            code.AppendLine($"using {codeGenConventions.ApplicationNameSpace}.Commands;");
+            //code.AppendLine($"using {codeGenConventions.DataTransferObjectsNameSpace};");
+            code.AppendLine($"using {codeGenConventions.DomainNameSpace};");
+            code.AppendLine($"using {codeGenConventions.PersistenceNameSpace};");
 
             code.AppendLine($"using Nox.Types;");
             code.AppendLine();
-            code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
+            code.AppendLine($"namespace {codeGenConventions.ODataNameSpace};");
             code.AppendLine();
 
             code.AppendLine($"public abstract partial class {controllerName}Base : ODataController");
@@ -98,8 +98,8 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             //    constructorParameters.Add(commandType, command.Name);
             //}
 
-            GenerateOwnedRelationships(codeGeneratorState.Solution, code, entity);
-            GenerateRelationships(codeGeneratorState.Solution, code, entity);
+            GenerateOwnedRelationships(codeGenConventions.Solution, code, entity);
+            GenerateRelationships(codeGenConventions.Solution, code, entity);
 
             // Generate GET request mapping for Queries
             foreach (var query in queries)
@@ -118,7 +118,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             // Generate POST request mapping for Command Handlers
             //foreach (var command in commands)
             //{
-            //    var typeDefinition = GenerateTypeDefinition(context, codeGeneratorState, command);
+            //    var typeDefinition = GenerateTypeDefinition(context, codeGenConventions, command);
 
             //    GenerateDocs(code, command.Description);
             //    code.AppendLine($"[HttpPost(\"{command.Name}\")]");

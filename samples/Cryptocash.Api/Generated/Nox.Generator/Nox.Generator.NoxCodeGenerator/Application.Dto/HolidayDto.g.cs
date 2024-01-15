@@ -30,7 +30,7 @@ public partial class HolidayDto : HolidayDtoBase
 /// <summary>
 /// Holiday related to country.
 /// </summary>
-public abstract class HolidayDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Holiday>
+public abstract class HolidayDtoBase : EntityDtoBase
 {
 
     #region Validation

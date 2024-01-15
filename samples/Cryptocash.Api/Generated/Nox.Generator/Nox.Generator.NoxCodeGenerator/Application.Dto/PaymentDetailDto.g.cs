@@ -30,7 +30,7 @@ public partial class PaymentDetailDto : PaymentDetailDtoBase
 /// <summary>
 /// Customer payment account related data.
 /// </summary>
-public abstract class PaymentDetailDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.PaymentDetail>
+public abstract class PaymentDetailDtoBase : EntityDtoBase
 {
 
     #region Validation

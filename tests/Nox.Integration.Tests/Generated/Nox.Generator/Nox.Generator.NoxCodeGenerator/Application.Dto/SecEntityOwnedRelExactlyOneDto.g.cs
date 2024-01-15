@@ -30,7 +30,7 @@ public partial class SecEntityOwnedRelExactlyOneDto : SecEntityOwnedRelExactlyOn
 /// <summary>
 /// .
 /// </summary>
-public abstract class SecEntityOwnedRelExactlyOneDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.SecEntityOwnedRelExactlyOne>
+public abstract class SecEntityOwnedRelExactlyOneDtoBase : EntityDtoBase
 {
 
     #region Validation

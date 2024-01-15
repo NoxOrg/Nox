@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 
@@ -25,6 +23,6 @@ public partial class ReferenceNumberEntityPartialUpdateDto : ReferenceNumberEnti
 /// <summary>
 /// ReferenceNumberEntity
 /// </summary>
-public partial class ReferenceNumberEntityPartialUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.ReferenceNumberEntity>
+public partial class ReferenceNumberEntityPartialUpdateDtoBase: EntityDtoBase
 {
 }

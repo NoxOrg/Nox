@@ -30,7 +30,7 @@ public partial class TransactionDto : TransactionDtoBase
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public abstract class TransactionDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Transaction>
+public abstract class TransactionDtoBase : EntityDtoBase
 {
 
     #region Validation

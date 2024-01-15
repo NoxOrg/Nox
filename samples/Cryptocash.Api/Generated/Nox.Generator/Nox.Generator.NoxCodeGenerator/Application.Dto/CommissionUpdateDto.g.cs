@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
@@ -23,7 +21,7 @@ public partial class CommissionUpdateDto : CommissionUpdateDtoBase
 /// <summary>
 /// Exchange commission rate and amount
 /// </summary>
-public partial class CommissionUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Commission>
+public partial class CommissionUpdateDtoBase: EntityDtoBase
 {
     /// <summary>
     /// Commission rate     

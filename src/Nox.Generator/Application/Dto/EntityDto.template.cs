@@ -15,9 +15,9 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = {{codeGeneratorState.DomainNameSpace}};
+using DomainNamespace = {{codeGenConventions.DomainNameSpace}};
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Dto;
 
 public record {{entity.Name}}KeyDto({{primaryKeys}});
 
@@ -33,7 +33,7 @@ public partial class {{className}} : {{className}}Base
 /// <summary>
 /// {{entity.Description  | string.rstrip}}.
 /// </summary>
-public abstract class {{className}}Base : EntityDtoBase, IEntityDto<DomainNamespace.{{entity.Name}}>
+public abstract class {{className}}Base : EntityDtoBase
 {
 
     #region Validation

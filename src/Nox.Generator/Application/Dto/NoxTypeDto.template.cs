@@ -5,7 +5,7 @@ using Nox.Types;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Dto;
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Dto;
 
 {{~ for noxType in compoundTypes ~}}
 [Owned]

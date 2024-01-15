@@ -30,7 +30,7 @@ public partial class CountryJsonToTableDto : CountryJsonToTableDtoBase
 /// <summary>
 /// Country and related data for Json file integration.
 /// </summary>
-public abstract class CountryJsonToTableDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.CountryJsonToTable>
+public abstract class CountryJsonToTableDtoBase : EntityDtoBase
 {
 
     #region Validation

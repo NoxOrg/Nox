@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 
@@ -25,7 +23,7 @@ public partial class CurrencyPartialUpdateDto : CurrencyPartialUpdateDtoBase
 /// <summary>
 /// Currency and related data
 /// </summary>
-public partial class CurrencyPartialUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Currency>
+public partial class CurrencyPartialUpdateDtoBase: EntityDtoBase
 {
     /// <summary>
     /// Currency's name

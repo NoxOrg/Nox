@@ -30,7 +30,7 @@ public partial class CommissionDto : CommissionDtoBase
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public abstract class CommissionDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Commission>
+public abstract class CommissionDtoBase : EntityDtoBase
 {
 
     #region Validation

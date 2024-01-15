@@ -2,7 +2,7 @@
 
 #nullable enable
 
-namespace {{ codeGeneratorState.ODataNameSpace }};
+namespace {{ codeGenConventions.ODataNameSpace }};
 
 public abstract partial class {{ entity.PluralName }}ControllerBase
 {

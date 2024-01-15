@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
@@ -23,7 +21,7 @@ public partial class EntityUniqueConstraintsRelatedForeignKeyUpdateDto : EntityU
 /// <summary>
 /// Entity created for testing constraints
 /// </summary>
-public partial class EntityUniqueConstraintsRelatedForeignKeyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.EntityUniqueConstraintsRelatedForeignKey>
+public partial class EntityUniqueConstraintsRelatedForeignKeyUpdateDtoBase: EntityDtoBase
 {
     /// <summary>
     ///      

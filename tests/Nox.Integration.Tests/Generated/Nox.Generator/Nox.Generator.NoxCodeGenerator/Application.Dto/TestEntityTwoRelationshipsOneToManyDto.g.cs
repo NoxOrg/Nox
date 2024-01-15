@@ -30,7 +30,7 @@ public partial class TestEntityTwoRelationshipsOneToManyDto : TestEntityTwoRelat
 /// <summary>
 /// .
 /// </summary>
-public abstract class TestEntityTwoRelationshipsOneToManyDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.TestEntityTwoRelationshipsOneToMany>
+public abstract class TestEntityTwoRelationshipsOneToManyDtoBase : EntityDtoBase
 {
 
     #region Validation

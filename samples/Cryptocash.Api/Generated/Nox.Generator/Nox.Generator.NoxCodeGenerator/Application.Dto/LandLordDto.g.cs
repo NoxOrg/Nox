@@ -30,7 +30,7 @@ public partial class LandLordDto : LandLordDtoBase
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public abstract class LandLordDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.LandLord>
+public abstract class LandLordDtoBase : EntityDtoBase
 {
 
     #region Validation

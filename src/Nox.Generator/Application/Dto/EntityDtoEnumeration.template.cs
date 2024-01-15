@@ -2,7 +2,7 @@
 
 #nullable enable
 
-namespace {{codeGeneratorState.DtoNameSpace}};
+namespace {{codeGenConventions.DtoNameSpace}};
 {{- for enumAtt in enumerationAttributes }}
 
 public partial record {{enumAtt.EntityNameForEnumeration}}: Nox.Application.Dto.EnumerationDtoBase

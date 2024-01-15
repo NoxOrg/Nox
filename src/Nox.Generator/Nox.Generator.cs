@@ -117,7 +117,7 @@ public class NoxCodeGenerator : NoxGeneratorBase, IIncrementalGenerator
             {
                 _debug.AppendLine($"// Logging Verbosity {config.LoggingVerbosity}");
 
-                var codeGeneratorState = new NoxCodeGenConventions(solution);
+                var codeGenConventions = new NoxCodeGenConventions(solution);
 
                 NoxGeneratorKind[] enabledGenerators = GetEnabledGenerators(config);
 
@@ -152,7 +152,7 @@ public class NoxCodeGenerator : NoxGeneratorBase, IIncrementalGenerator
                         {
                             flowInstance.Generate(
                             context,
-                            codeGeneratorState,
+                            codeGenConventions,
                             config,
                             (logMessage) => _debug.AppendLine($"// {flowInstance} {logMessage}"),
                             projectRoot

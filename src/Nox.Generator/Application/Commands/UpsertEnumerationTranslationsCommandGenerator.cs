@@ -9,7 +9,7 @@ namespace Nox.Generator.Application.Commands;
 
 internal class UpsertEnumerationTranslationsCommandGenerator : ApplicationEntityDependentGeneratorBase
 {
-    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
+    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, IEnumerable<Entity> entities)
     {
         var templateName = @"Application.Commands.UpsertEnumerationTranslationsCommand";
         foreach (var entity in entities)
@@ -22,9 +22,9 @@ internal class UpsertEnumerationTranslationsCommandGenerator : ApplicationEntity
                     .Where(attribute => attribute.Type == NoxType.Enumeration && attribute.EnumerationTypeOptions!.IsLocalized)
                     .Select(attribute => new {
                         Attribute = attribute,
-                        EntityNameForLocalizedEnumeration = codeGeneratorState.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name),
-                        EntityDtoNameForLocalizedEnumeration = codeGeneratorState.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name),
-                        EntityNameForEnumeration = codeGeneratorState.GetEntityNameForEnumeration(entity.Name, attribute.Name),
+                        EntityNameForLocalizedEnumeration = codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name),
+                        EntityDtoNameForLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name),
+                        EntityNameForEnumeration = codeGenConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name),
                         
                     });
 
@@ -33,7 +33,7 @@ internal class UpsertEnumerationTranslationsCommandGenerator : ApplicationEntity
                 continue;
             }
             
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"Upsert{entity.Name}EnumerationsTranslationsCommand")
                 .WithFileNamePrefix($"Application.Commands")
                 .WithObject("entity", entity)

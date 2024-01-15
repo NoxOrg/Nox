@@ -12,14 +12,14 @@ internal class EtlEventGenerator: INoxCodeGenerator
     
     public void Generate(
         SourceProductionContext context, 
-        NoxCodeGenConventions codeGeneratorState, 
+        NoxCodeGenConventions codeGenConventions, 
         GeneratorConfig config, 
         Action<string> log, 
         string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Application?.Integrations is null)
+        if (codeGenConventions.Solution.Application?.Integrations is null)
         {
             if(config.LoggingVerbosity == LoggingVerbosity.Diagnostic)
             {
@@ -28,13 +28,13 @@ internal class EtlEventGenerator: INoxCodeGenerator
             return;
         }
 
-        foreach (var integration in codeGeneratorState.Solution.Application.Integrations)
+        foreach (var integration in codeGenConventions.Solution.Application.Integrations)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
             //Find the entity this integration targets if any
             var targetDefinition = integration.Target;
             if (targetDefinition.TableOptions == null) continue;
-            var domainDefinition = codeGeneratorState.Solution.Domain;
+            var domainDefinition = codeGenConventions.Solution.Domain;
             if (domainDefinition == null) continue;
         
             var tableName = targetDefinition.TableOptions.TableName;
@@ -44,35 +44,35 @@ internal class EtlEventGenerator: INoxCodeGenerator
             if (entity == null) continue;
             
             //Created Event Payload
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{integration.Name}RecordCreatedDto")
                 .WithFileNamePrefix("Application.Integration.EtlEvents")
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource("Application.Integration.EtlCreatedEventDto");
             
             //Created Event
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{integration.Name}RecordCreatedEvent")
                 .WithFileNamePrefix("Application.Integration.EtlEvents")
                 .WithObject("integration", integration)
                 .GenerateSourceCodeFromResource("Application.Integration.EtlCreatedEvent");
             
             //Updated Event Payload
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{integration.Name}RecordUpdatedDto")
                 .WithFileNamePrefix("Application.Integration.EtlEvents")
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource("Application.Integration.EtlUpdatedEventDto");
             
             //Updated event
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{integration.Name}RecordUpdatedEvent")
                 .WithFileNamePrefix("Application.Integration.EtlEvents")
                 .WithObject("integration", integration)
                 .GenerateSourceCodeFromResource("Application.Integration.EtlUpdatedEvent");
             
             
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{integration.Name}ExecuteCompletedEvent")
                 .WithFileNamePrefix("Application.Integration.EtlEvents")
                 .WithObject("integration", integration)

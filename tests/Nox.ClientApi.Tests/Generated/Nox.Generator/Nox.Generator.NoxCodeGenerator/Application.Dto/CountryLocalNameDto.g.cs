@@ -30,7 +30,7 @@ public partial class CountryLocalNameDto : CountryLocalNameDtoBase
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public abstract class CountryLocalNameDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.CountryLocalName>
+public abstract class CountryLocalNameDtoBase : EntityDtoBase
 {
 
     #region Validation

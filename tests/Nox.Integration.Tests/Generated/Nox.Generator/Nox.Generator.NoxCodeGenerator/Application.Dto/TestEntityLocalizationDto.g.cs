@@ -30,7 +30,7 @@ public partial class TestEntityLocalizationDto : TestEntityLocalizationDtoBase
 /// <summary>
 /// Entity created for testing localization.
 /// </summary>
-public abstract class TestEntityLocalizationDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.TestEntityLocalization>
+public abstract class TestEntityLocalizationDtoBase : EntityDtoBase
 {
 
     #region Validation

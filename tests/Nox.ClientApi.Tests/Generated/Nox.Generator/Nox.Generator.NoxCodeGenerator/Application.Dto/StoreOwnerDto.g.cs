@@ -30,7 +30,7 @@ public partial class StoreOwnerDto : StoreOwnerDtoBase
 /// <summary>
 /// Store owners.
 /// </summary>
-public abstract class StoreOwnerDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.StoreOwner>
+public abstract class StoreOwnerDtoBase : EntityDtoBase
 {
 
     #region Validation

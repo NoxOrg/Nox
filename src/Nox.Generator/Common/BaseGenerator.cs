@@ -83,7 +83,7 @@ internal class BaseGenerator
         code.AppendLine($@"}}");
     }
 
-    public static string GenerateTypeDefinition(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, NoxComplexTypeDefinition typeDefinition, bool generateDto = false)
+    public static string GenerateTypeDefinition(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, NoxComplexTypeDefinition typeDefinition, bool generateDto = false)
     {
         string stringTypeDefinition;
         string typeName;
@@ -97,7 +97,7 @@ internal class BaseGenerator
 
                 if (generateDto && options is { Type: NoxType.Object, ObjectTypeOptions: not null })
                 {
-                    GenerateDtoFromDefinition(context, codeGeneratorState, typeName, options);
+                    GenerateDtoFromDefinition(context, codeGenConventions, typeName, options);
                 }
 
                 break;
@@ -109,7 +109,7 @@ internal class BaseGenerator
 
                 if (generateDto && collection is { Type: NoxType.Object, ObjectTypeOptions: not null })
                 {
-                    GenerateDtoFromDefinition(context, codeGeneratorState, typeName, collection);
+                    GenerateDtoFromDefinition(context, codeGenConventions, typeName, collection);
                 }
 
                 break;
@@ -120,7 +120,7 @@ internal class BaseGenerator
                 if (generateDto)
                 {
                     DtoDynamicGenerator.GenerateDto(context,
-                        codeGeneratorState,
+                        codeGenConventions,
                         typeDefinition.Name,
                         typeDefinition.Description,
                         typeDefinition.ObjectTypeOptions!.Attributes);
@@ -136,10 +136,10 @@ internal class BaseGenerator
         return stringTypeDefinition;
     }
    
-    private static void GenerateDtoFromDefinition(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, string typeName, ArrayTypeOptions options)
+    private static void GenerateDtoFromDefinition(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, string typeName, ArrayTypeOptions options)
     {
         DtoDynamicGenerator.GenerateDto(context,
-            codeGeneratorState,
+            codeGenConventions,
                                 typeName.ToUpperFirstChar(),
                                 options.Description,
                                 options.ObjectTypeOptions!.Attributes);

@@ -6,7 +6,7 @@ namespace Nox.Application.Factories
     /// <summary>
     /// Factory for Entities
     /// </summary>
-    public interface IEntityFactory<TEntityType, TCreateEntityDtoType, TUpdateEntityDtoType> where TEntityType : IEntity where TCreateEntityDtoType : IEntityDto<TEntityType> where TUpdateEntityDtoType : IEntityDto<TEntityType>
+    public interface IEntityFactory<TEntityType, TCreateEntityDtoType, TUpdateEntityDtoType> where TEntityType : IEntity 
     {
         /// <summary>
         /// Create an entity from a createDto instance

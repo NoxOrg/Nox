@@ -30,7 +30,7 @@ public partial class TestEntityWithNuidDto : TestEntityWithNuidDtoBase
 /// <summary>
 /// Entity created for testing nuid.
 /// </summary>
-public abstract class TestEntityWithNuidDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.TestEntityWithNuid>
+public abstract class TestEntityWithNuidDtoBase : EntityDtoBase
 {
 
     #region Validation

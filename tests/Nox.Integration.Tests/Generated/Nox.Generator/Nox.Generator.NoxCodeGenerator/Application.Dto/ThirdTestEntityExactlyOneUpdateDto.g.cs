@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
@@ -23,7 +21,7 @@ public partial class ThirdTestEntityExactlyOneUpdateDto : ThirdTestEntityExactly
 /// <summary>
 /// Entity created for testing database
 /// </summary>
-public partial class ThirdTestEntityExactlyOneUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.ThirdTestEntityExactlyOne>
+public partial class ThirdTestEntityExactlyOneUpdateDtoBase: EntityDtoBase
 {
     /// <summary>
     ///      

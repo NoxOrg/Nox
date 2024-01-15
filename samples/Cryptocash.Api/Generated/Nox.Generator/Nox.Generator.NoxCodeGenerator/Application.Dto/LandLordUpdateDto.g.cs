@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
@@ -23,7 +21,7 @@ public partial class LandLordUpdateDto : LandLordUpdateDtoBase
 /// <summary>
 /// Landlord related data
 /// </summary>
-public partial class LandLordUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.LandLord>
+public partial class LandLordUpdateDtoBase: EntityDtoBase
 {
     /// <summary>
     /// Landlord name     

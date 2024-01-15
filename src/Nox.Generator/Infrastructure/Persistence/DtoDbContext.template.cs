@@ -11,12 +11,12 @@ using Nox.Configuration;
 using Nox.Infrastructure;
 using Nox.Infrastructure.Persistence;
 
-{{- if codeGeneratorState.Solution.Domain != null }}
-using {{codeGeneratorState.RootNameSpace}}.Application.Dto;
-using DtoNameSpace = {{codeGeneratorState.DtoNameSpace}};
+{{- if codeGenConventions.Solution.Domain != null }}
+using {{codeGenConventions.RootNameSpace}}.Application.Dto;
+using DtoNameSpace = {{codeGenConventions.DtoNameSpace}};
 {{- end }}
 
-namespace {{codeGeneratorState.RootNameSpace}}.Infrastructure.Persistence;
+namespace {{codeGenConventions.RootNameSpace}}.Infrastructure.Persistence;
 
 internal partial class DtoDbContext : DtoDbContextBase
 {
@@ -26,7 +26,7 @@ internal partial class DtoDbContext : DtoDbContextBase
       INoxDatabaseProvider databaseProvider,
       INoxClientAssemblyProvider clientAssemblyProvider,
       INoxDtoDatabaseConfigurator noxDtoDatabaseConfigurator,
-      NoxCodeGenConventions codeGeneratorState,
+      NoxCodeGenConventions codeGenConventions,
       IEnumerable<IInterceptor> interceptors)
       : base(
           options,
@@ -34,7 +34,7 @@ internal partial class DtoDbContext : DtoDbContextBase
           databaseProvider,
           clientAssemblyProvider,
           noxDtoDatabaseConfigurator,
-          codeGeneratorState,
+          codeGenConventions,
           interceptors)
     { }
 }
@@ -62,7 +62,7 @@ internal abstract partial class DtoDbContextBase : DbContext
         INoxDatabaseProvider databaseProvider,
         INoxClientAssemblyProvider clientAssemblyProvider,
         INoxDtoDatabaseConfigurator noxDtoDatabaseConfigurator,
-        NoxCodeGenConventions codeGeneratorState,
+        NoxCodeGenConventions codeGenConventions,
         IEnumerable<IInterceptor> interceptors) 
         : base(options)
     {
@@ -70,7 +70,7 @@ internal abstract partial class DtoDbContextBase : DbContext
         _dbProvider = databaseProvider;
         _clientAssemblyProvider = clientAssemblyProvider;
         _noxDtoDatabaseConfigurator = noxDtoDatabaseConfigurator;
-        _codeGenConventions = codeGeneratorState;
+        _codeGenConventions = codeGenConventions;
         _interceptors = interceptors;
     }
 
@@ -95,7 +95,7 @@ internal abstract partial class DtoDbContextBase : DbContext
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "{{codeGeneratorState.RootNameSpace}}", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
+            _dbProvider.ConfigureDbContext(optionsBuilder, "{{codeGenConventions.RootNameSpace}}", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
             optionsBuilder.AddInterceptors(_interceptors);
         }
     }

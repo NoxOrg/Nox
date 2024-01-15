@@ -30,7 +30,7 @@ public partial class ExchangeRateDto : ExchangeRateDtoBase
 /// <summary>
 /// Exchange rate and related data.
 /// </summary>
-public abstract class ExchangeRateDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.ExchangeRate>
+public abstract class ExchangeRateDtoBase : EntityDtoBase
 {
 
     #region Validation

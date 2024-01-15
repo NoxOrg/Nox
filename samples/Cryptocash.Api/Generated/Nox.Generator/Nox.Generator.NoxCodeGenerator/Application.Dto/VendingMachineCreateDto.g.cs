@@ -10,8 +10,6 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
@@ -25,7 +23,7 @@ public partial class VendingMachineCreateDto : VendingMachineCreateDtoBase
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public abstract class VendingMachineCreateDtoBase : IEntityDto<DomainNamespace.VendingMachine>
+public abstract class VendingMachineCreateDtoBase 
 {/// <summary>
     /// Vending machine unique identifier     
     /// </summary>

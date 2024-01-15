@@ -30,7 +30,7 @@ public partial class CurrencyDto : CurrencyDtoBase
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public abstract class CurrencyDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Currency>
+public abstract class CurrencyDtoBase : EntityDtoBase
 {
 
     #region Validation

@@ -27,7 +27,7 @@ end -}}
     end
         
     for ownedEntity in ownedEntities
-        constructor.Params = constructor.Params | array.add ("IEntityFactory<" + codeGeneratorState.DomainNameSpace + "." + ownedEntity + ", " + ownedEntity + "UpsertDto, " + ownedEntity + "UpsertDto> " + (fieldFactoryName ownedEntity))
+        constructor.Params = constructor.Params | array.add ("IEntityFactory<" + codeGenConventions.DomainNameSpace + "." + ownedEntity + ", " + ownedEntity + "UpsertDto, " + ownedEntity + "UpsertDto> " + (fieldFactoryName ownedEntity))
         constructor.Names = constructor.Names | array.add ((fieldFactoryName ownedEntity))
     end
     ret constructor
@@ -51,11 +51,11 @@ using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
 
-using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
-using {{codeGeneratorState.DomainNameSpace}};
-using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
+using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using {{codeGenConventions.DomainNameSpace}};
+using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Factories;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Factories;
 
 internal partial class {{className}} : {{className}}Base
 {
@@ -80,7 +80,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
     {{- end }}
 
     {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
-    protected IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}UpsertDto, {{ownedEntity}}UpsertDto> {{ownedEntity}}Factory {get;}
+    protected IEntityFactory<{{codeGenConventions.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}UpsertDto, {{ownedEntity}}UpsertDto> {{ownedEntity}}Factory {get;}
     {{- end }}
 
     public {{className}}Base(
@@ -151,10 +151,10 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         }   
     }
 
-    private async Task<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}> ToEntityAsync({{entityCreateDto}} createDto, Nox.Types.CultureCode cultureCode)
+    private async Task<{{codeGenConventions.DomainNameSpace}}.{{entity.Name}}> ToEntityAsync({{entityCreateDto}} createDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        var entity = new {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}();
+        var entity = new {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}();
         {{- for key in entity.Keys }}
             {{- if !IsNoxTypeCreatable key.Type || key.Type == "Guid" -}}
                 {{ continue; -}}
@@ -167,7 +167,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
                 {{ continue; }}
             {{- end}}
         exceptionCollector.Collect("{{attribute.Name}}", () => entity.SetIfNotNull(createDto.{{attribute.Name}}, (entity) => entity.{{attribute.Name}} = 
-            {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(createDto.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>())));
+            {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(createDto.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>())));
         {{- end }}
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -184,7 +184,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 		entity.Ensure{{attribute.Name}}();		    
 		    {{- else if attribute.Type == "ReferenceNumber"; awaiting = true }}
         var nextSequence{{attribute.Name}} =  await _repository.GetSequenceNextValueAsync(Nox.Solution.NoxCodeGenConventions.GetDatabaseSequenceName("{{entity.Name}}", "{{attribute.Name}}"));
-        entity.Ensure{{attribute.Name}}(nextSequence{{attribute.Name}},{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.{{attribute.Name}}TypeOptions);
+        entity.Ensure{{attribute.Name}}(nextSequence{{attribute.Name}},{{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Metadata.{{attribute.Name}}TypeOptions);
             {{- end }}
 		{{- end }}
         
@@ -216,7 +216,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
             {{- end}}
         {{ if attribute.IsLocalized }}if(IsDefaultCultureCode(cultureCode)) {{ end }}
         {{- if attribute.IsRequired -}}
-        exceptionCollector.Collect("{{attribute.Name}}",() => entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
+        exceptionCollector.Collect("{{attribute.Name}}",() => entity.{{attribute.Name}} = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
             {{- if IsNoxTypeSimpleType attribute.Type -}}.NonNullValue<{{SinglePrimitiveTypeForKey attribute}}>()
             {{- else -}}.NonNullValue<{{attribute.Type}}Dto>()
             {{- end}}));
@@ -227,7 +227,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         }
         else
         {
-            exceptionCollector.Collect("{{attribute.Name}}",() =>entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
+            exceptionCollector.Collect("{{attribute.Name}}",() =>entity.{{attribute.Name}} = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
             {{- if IsNoxTypeSimpleType attribute.Type -}}.ToValueFromNonNull<{{SinglePrimitiveTypeForKey attribute}}>()
             {{- else -}}.ToValueFromNonNull<{{attribute.Type}}Dto>()
             {{- end}}));
@@ -268,11 +268,11 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
             {{- end }}
             {
                 {{- if IsNoxTypeSimpleType attribute.Type }}
-                exceptionCollector.Collect("{{attribute.Name}}",() =>entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue));
+                exceptionCollector.Collect("{{attribute.Name}}",() =>entity.{{attribute.Name}} = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue));
                 {{- else }}
                 var entityToUpdate = entity.{{attribute.Name}} is null ? new {{attribute.Type}}Dto() : entity.{{attribute.Name}}.ToDto();
                 {{attribute.Type}}Dto.UpdateFromDictionary(entityToUpdate, {{attribute.Name}}UpdateValue);
-                exceptionCollector.Collect("{{attribute.Name}}",() =>entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(entityToUpdate));
+                exceptionCollector.Collect("{{attribute.Name}}",() =>entity.{{attribute.Name}} = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(entityToUpdate));
                 {{- end }}
             }
         }
@@ -319,7 +319,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
             else
 			    entity.CreateRefTo{{navigationName}}(await {{ownedRelationship.Entity}}Factory.CreateEntityAsync(updateDto.{{navigationName}}, cultureCode));
 			{{- else # WithMultiEntity }}
-			var updated{{navigationName}} = new List<{{codeGeneratorState.DomainNameSpace}}.{{ownedRelationship.Entity}}>();
+			var updated{{navigationName}} = new List<{{codeGenConventions.DomainNameSpace}}.{{ownedRelationship.Entity}}>();
 			foreach(var ownedUpsertDto in updateDto.{{navigationName}})
 			{
 				if(ownedUpsertDto.{{key.Name}} is null)
@@ -329,7 +329,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
                 }
 				else
 				{
-					var key = {{codeGeneratorState.DomainNameSpace}}.{{ownedRelationship.Entity}}Metadata.Create{{key.Name}}(ownedUpsertDto.{{key.Name}}.NonNullValue<{{keyType key}}>());
+					var key = {{codeGenConventions.DomainNameSpace}}.{{ownedRelationship.Entity}}Metadata.Create{{key.Name}}(ownedUpsertDto.{{key.Name}}.NonNullValue<{{keyType key}}>());
 					var ownedEntity = entity.{{navigationName}}.FirstOrDefault(x => x.{{key.Name}} == key);
 					if(ownedEntity is null)
 						{{- if !IsNoxTypeCreatable key.Type }}
@@ -344,7 +344,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 					}
 				}
 			}
-            _repository.DeleteOwned<{{codeGeneratorState.DomainNameSpace}}.{{ownedRelationship.Entity}}>(
+            _repository.DeleteOwned<{{codeGenConventions.DomainNameSpace}}.{{ownedRelationship.Entity}}>(
                 entity.{{navigationName}}.Where(x => !updated{{navigationName}}.Exists(upd => upd.{{key.Name}} == x.{{key.Name}})).ToList());
 			entity.UpdateRefTo{{navigationName}}(updated{{navigationName}});
 			{{- end }}

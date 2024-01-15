@@ -30,7 +30,7 @@ public partial class MinimumCashStockDto : MinimumCashStockDtoBase
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public abstract class MinimumCashStockDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.MinimumCashStock>
+public abstract class MinimumCashStockDtoBase : EntityDtoBase
 {
 
     #region Validation

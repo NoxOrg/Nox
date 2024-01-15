@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 
@@ -25,7 +23,7 @@ public partial class CountryPartialUpdateDto : CountryPartialUpdateDtoBase
 /// <summary>
 /// Country Entity Country representation for the Client API tests
 /// </summary>
-public partial class CountryPartialUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Country>
+public partial class CountryPartialUpdateDtoBase: EntityDtoBase
 {
     /// <summary>
     /// The Country Name     Set a unique name for the country Do not use abbreviations

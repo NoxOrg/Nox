@@ -8,7 +8,7 @@ namespace Nox.Generator.Application.Commands;
 
 internal class RefToCommandGenerator : ApplicationEntityDependentGeneratorBase
 {
-    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
+    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, IEnumerable<Entity> entities)
     {
         var templateName = @"Application.Commands.RefToCommand";
         foreach (var entity in entities.Where(x => !x.IsOwnedEntity))
@@ -24,7 +24,7 @@ internal class RefToCommandGenerator : ApplicationEntityDependentGeneratorBase
                 var relatedEntityKeysFindQuery = string.Join(", ",
                     relationship.Related.Entity.Keys.Select(k => $"relatedKey{k.Name}"));
 
-                new TemplateCodeBuilder(context, codeGeneratorState)
+                new TemplateCodeBuilder(context, codeGenConventions)
                     .WithClassName($"Ref{entity.Name}To{entity.GetNavigationPropertyName(relationship)}Command")
                     .WithFileNamePrefix($"Application.Commands")
                     .WithObject("entity", entity)

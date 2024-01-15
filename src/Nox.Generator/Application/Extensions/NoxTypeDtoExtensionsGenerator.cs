@@ -15,7 +15,7 @@ internal class NoxTypeDtoExtensionsGenerator : INoxCodeGenerator
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions codeGeneratorState,
+      NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
@@ -23,7 +23,7 @@ internal class NoxTypeDtoExtensionsGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain is null)
+        if (codeGenConventions.Solution.Domain is null)
         {
             return;
         }
@@ -40,7 +40,7 @@ internal class NoxTypeDtoExtensionsGenerator : INoxCodeGenerator
 
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        new TemplateCodeBuilder(context, codeGeneratorState)
+        new TemplateCodeBuilder(context, codeGenConventions)
             .WithClassName("CompoundNoxTypesExtensions")
             .WithFileNamePrefix("Application.Extensions")
             .WithObject("compoundTypes", compoundTypes)

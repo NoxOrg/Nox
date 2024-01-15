@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
@@ -23,7 +21,7 @@ public partial class CashStockOrderUpdateDto : CashStockOrderUpdateDtoBase
 /// <summary>
 /// Vending machine cash stock order and related data
 /// </summary>
-public partial class CashStockOrderUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.CashStockOrder>
+public partial class CashStockOrderUpdateDtoBase: EntityDtoBase
 {
     /// <summary>
     /// Order amount     

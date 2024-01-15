@@ -5,7 +5,7 @@
 using MediatR;
 using Nox.Integration.Abstractions.Models;
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Integrations;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Integrations;
 
 public class {{ className }}: EtlExecuteCompletedEvent, INotification
 {

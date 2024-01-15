@@ -30,7 +30,7 @@ public partial class CashStockOrderDto : CashStockOrderDtoBase
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.CashStockOrder>
+public abstract class CashStockOrderDtoBase : EntityDtoBase
 {
 
     #region Validation

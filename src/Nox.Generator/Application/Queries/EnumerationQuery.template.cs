@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Commands;
 
-using DtoNameSpace = {{codeGeneratorState.DtoNameSpace}};
-using PersistenceNameSpace = {{codeGeneratorState.PersistenceNameSpace}};
+using DtoNameSpace = {{codeGenConventions.DtoNameSpace}};
+using PersistenceNameSpace = {{codeGenConventions.PersistenceNameSpace}};
 
-namespace {{codeGeneratorState.ApplicationQueriesNameSpace}};
+namespace {{codeGenConventions.ApplicationQueriesNameSpace}};
 
 {{- for enumAtt in enumerationAttributes }}
 public partial record Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}Query(Nox.Types.CultureCode cultureCode) : IRequest<IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}>>;

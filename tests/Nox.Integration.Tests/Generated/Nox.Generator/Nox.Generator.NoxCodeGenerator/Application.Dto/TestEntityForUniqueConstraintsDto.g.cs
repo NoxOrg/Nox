@@ -30,7 +30,7 @@ public partial class TestEntityForUniqueConstraintsDto : TestEntityForUniqueCons
 /// <summary>
 /// Entity created for testing constraints.
 /// </summary>
-public abstract class TestEntityForUniqueConstraintsDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.TestEntityForUniqueConstraints>
+public abstract class TestEntityForUniqueConstraintsDtoBase : EntityDtoBase
 {
 
     #region Validation

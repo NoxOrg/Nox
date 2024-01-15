@@ -10,8 +10,6 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using DomainNamespace = CryptocashIntegration.Domain;
-
 namespace CryptocashIntegration.Application.Dto;
 
 /// <summary>
@@ -25,7 +23,7 @@ public partial class CountryQueryToCustomTableCreateDto : CountryQueryToCustomTa
 /// <summary>
 /// Country and related data.
 /// </summary>
-public abstract class CountryQueryToCustomTableCreateDtoBase : IEntityDto<DomainNamespace.CountryQueryToCustomTable>
+public abstract class CountryQueryToCustomTableCreateDtoBase 
 {
     /// <summary>
     /// Country unique identifier    

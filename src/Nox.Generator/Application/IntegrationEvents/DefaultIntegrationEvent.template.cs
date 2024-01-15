@@ -10,11 +10,11 @@ end}}
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Infrastructure.Messaging;
-using DomainNamespace = {{codeGeneratorState.DomainNameSpace}};
+using DomainNamespace = {{codeGenConventions.DomainNameSpace}};
 
-using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.IntegrationEvents;
+namespace {{codeGenConventions.ApplicationNameSpace}}.IntegrationEvents;
 
 /// <summary>
 /// {{entity.Name}}{{operation}} integration event.

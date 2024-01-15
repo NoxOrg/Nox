@@ -30,7 +30,7 @@ public partial class WorkplaceDto : WorkplaceDtoBase
 /// <summary>
 /// Workplace.
 /// </summary>
-public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Workplace>
+public abstract class WorkplaceDtoBase : EntityDtoBase
 {
 
     #region Validation

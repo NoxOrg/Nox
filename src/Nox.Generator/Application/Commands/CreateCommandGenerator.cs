@@ -8,7 +8,7 @@ namespace Nox.Generator.Application.Commands;
 
 internal class CreateCommandGenerator : ApplicationEntityDependentGeneratorBase
 {
-    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
+    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, IEnumerable<Entity> entities)
     {
         var templateName = @"Application.Commands.CreateCommand";
         foreach (var entity in entities.Where(x => !x.IsOwnedEntity))
@@ -18,7 +18,7 @@ internal class CreateCommandGenerator : ApplicationEntityDependentGeneratorBase
             var primaryKeysQuery = string.Join(", ", entity.Keys.Select(k => $"entityToCreate.{k.Name}.Value"));
 
             var relatedEntities = entity.Relationships.GroupBy(r => r.Entity).Select(g => g.First().Entity).ToList();
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"Create{entity.Name}Command")
                 .WithFileNamePrefix($"Application.Commands")
                 .WithObject("entity", entity)

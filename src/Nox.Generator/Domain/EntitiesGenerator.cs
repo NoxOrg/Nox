@@ -11,7 +11,7 @@ internal class EntitiesGenerator : INoxCodeGenerator
 
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions codeGeneratorState,
+      NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
@@ -19,13 +19,13 @@ internal class EntitiesGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain is null) return;
+        if (codeGenConventions.Solution.Domain is null) return;
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
+        foreach (var entity in codeGenConventions.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName(entity.Name)
                 .WithFileNamePrefix($"Domain")
                 .WithObject("entity", entity)

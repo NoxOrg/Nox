@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 /// <summary>
@@ -23,7 +21,7 @@ public partial class TenantContactUpsertDto : TenantContactUpsertDtoBase
 /// <summary>
 /// Tenant Contact
 /// </summary>
-public abstract class TenantContactUpsertDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TenantContact>
+public abstract class TenantContactUpsertDtoBase: EntityDtoBase
 {
 
     /// <summary>
