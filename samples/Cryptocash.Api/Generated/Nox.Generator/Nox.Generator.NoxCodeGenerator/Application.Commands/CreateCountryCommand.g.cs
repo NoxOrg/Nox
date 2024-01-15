@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using CountryEntity = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
@@ -75,7 +76,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.CurrencyId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.CurrencyMetadata.CreateId(request.EntityDto.CurrencyId.NonNullValue<System.String>());
+			var relatedKey = Dto.CurrencyMetadata.CreateId(request.EntityDto.CurrencyId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.Currencies.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCurrency(relatedEntity);
@@ -91,7 +92,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		{
 			foreach(var relatedId in request.EntityDto.CommissionsId)
 			{
-				var relatedKey = Cryptocash.Domain.CommissionMetadata.CreateId(relatedId);
+				var relatedKey = Dto.CommissionMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.Commissions.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
@@ -112,7 +113,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		{
 			foreach(var relatedId in request.EntityDto.VendingMachinesId)
 			{
-				var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedId);
+				var relatedKey = Dto.VendingMachineMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
@@ -133,7 +134,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		{
 			foreach(var relatedId in request.EntityDto.CustomersId)
 			{
-				var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(relatedId);
+				var relatedKey = Dto.CustomerMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.Customers.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)

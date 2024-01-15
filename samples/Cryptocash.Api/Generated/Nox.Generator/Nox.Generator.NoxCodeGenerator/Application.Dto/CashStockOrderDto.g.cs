@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 public record CashStockOrderKeyDto(System.Int64 keyId);
@@ -32,21 +30,20 @@ public partial class CashStockOrderDto : CashStockOrderDtoBase
 /// </summary>
 public abstract class CashStockOrderDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Amount is not null)
-            ExecuteActionAndCollectValidationExceptions("Amount", () => DomainNamespace.CashStockOrderMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
+            CollectValidationExceptions("Amount", () => CashStockOrderMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
         else
             result.Add("Amount", new [] { "Amount is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("RequestedDeliveryDate", () => DomainNamespace.CashStockOrderMetadata.CreateRequestedDeliveryDate(this.RequestedDeliveryDate), result);
+        CollectValidationExceptions("RequestedDeliveryDate", () => CashStockOrderMetadata.CreateRequestedDeliveryDate(this.RequestedDeliveryDate), result);
     
         if (this.DeliveryDateTime is not null)
-            ExecuteActionAndCollectValidationExceptions("DeliveryDateTime", () => DomainNamespace.CashStockOrderMetadata.CreateDeliveryDateTime(this.DeliveryDateTime.NonNullValue<System.DateTimeOffset>()), result); 
+            CollectValidationExceptions("DeliveryDateTime", () => CashStockOrderMetadata.CreateDeliveryDateTime(this.DeliveryDateTime.NonNullValue<System.DateTimeOffset>()), result); 
 
         return result;
     }

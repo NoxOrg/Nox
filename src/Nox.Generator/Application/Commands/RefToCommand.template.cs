@@ -23,6 +23,7 @@ using Nox.Exceptions;
 using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
@@ -208,7 +209,7 @@ internal abstract class Ref{{entity.Name}}To{{relationshipName}}CommandHandlerBa
 	protected async Task<{{entity.Name}}Entity?> Get{{entity.Name}}({{entity.Name}}KeyDto entityKeyDto)
 	{
 		{{- for key in entity.Keys }}
-		var key{{key.Name}} = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(entityKeyDto.key{{key.Name}});
+		var key{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(entityKeyDto.key{{key.Name}});
 		{{- end }}
 		return await DbContext.{{entity.PluralName}}.FindAsync({{entityKeysFindQuery}});
 	}
@@ -216,7 +217,7 @@ internal abstract class Ref{{entity.Name}}To{{relationshipName}}CommandHandlerBa
 	protected async Task<{{codeGenConventions.DomainNameSpace}}.{{relatedEntity.Name}}?> Get{{relatedEntity.Name}}({{relatedEntity.Name}}KeyDto relatedEntityKeyDto)
 	{
 		{{- for key in relatedEntity.Keys }}
-		var relatedKey{{key.Name}} = {{codeGenConventions.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedEntityKeyDto.key{{key.Name}});
+		var relatedKey{{key.Name}} = Dto.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedEntityKeyDto.key{{key.Name}});
 		{{- end }}
 		return await DbContext.{{relatedEntity.PluralName}}.FindAsync({{relatedEntityKeysFindQuery}});
 	}

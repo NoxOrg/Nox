@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 public record TestEntityForUniqueConstraintsKeyDto(System.String keyId);
@@ -32,28 +30,27 @@ public partial class TestEntityForUniqueConstraintsDto : TestEntityForUniqueCons
 /// </summary>
 public abstract class TestEntityForUniqueConstraintsDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TextField is not null)
-            ExecuteActionAndCollectValidationExceptions("TextField", () => DomainNamespace.TestEntityForUniqueConstraintsMetadata.CreateTextField(this.TextField.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("TextField", () => TestEntityForUniqueConstraintsMetadata.CreateTextField(this.TextField.NonNullValue<System.String>()), result);
         else
             result.Add("TextField", new [] { "TextField is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("NumberField", () => DomainNamespace.TestEntityForUniqueConstraintsMetadata.CreateNumberField(this.NumberField), result);
+        CollectValidationExceptions("NumberField", () => TestEntityForUniqueConstraintsMetadata.CreateNumberField(this.NumberField), result);
     
-        ExecuteActionAndCollectValidationExceptions("UniqueNumberField", () => DomainNamespace.TestEntityForUniqueConstraintsMetadata.CreateUniqueNumberField(this.UniqueNumberField), result);
+        CollectValidationExceptions("UniqueNumberField", () => TestEntityForUniqueConstraintsMetadata.CreateUniqueNumberField(this.UniqueNumberField), result);
     
         if (this.UniqueCountryCode is not null)
-            ExecuteActionAndCollectValidationExceptions("UniqueCountryCode", () => DomainNamespace.TestEntityForUniqueConstraintsMetadata.CreateUniqueCountryCode(this.UniqueCountryCode.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("UniqueCountryCode", () => TestEntityForUniqueConstraintsMetadata.CreateUniqueCountryCode(this.UniqueCountryCode.NonNullValue<System.String>()), result);
         else
             result.Add("UniqueCountryCode", new [] { "UniqueCountryCode is Required." });
     
         if (this.UniqueCurrencyCode is not null)
-            ExecuteActionAndCollectValidationExceptions("UniqueCurrencyCode", () => DomainNamespace.TestEntityForUniqueConstraintsMetadata.CreateUniqueCurrencyCode(this.UniqueCurrencyCode.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("UniqueCurrencyCode", () => TestEntityForUniqueConstraintsMetadata.CreateUniqueCurrencyCode(this.UniqueCurrencyCode.NonNullValue<System.String>()), result);
         else
             result.Add("UniqueCurrencyCode", new [] { "UniqueCurrencyCode is Required." });
     

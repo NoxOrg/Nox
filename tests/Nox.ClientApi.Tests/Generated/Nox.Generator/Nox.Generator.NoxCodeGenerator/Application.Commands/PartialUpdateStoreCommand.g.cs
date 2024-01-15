@@ -13,6 +13,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
@@ -48,7 +49,7 @@ internal abstract class PartialUpdateStoreCommandHandlerBase : CommandBase<Parti
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.keyId);
+		var keyId = Dto.StoreMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Stores.FindAsync(keyId);
 		if (entity == null)

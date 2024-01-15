@@ -9,6 +9,7 @@ using Nox.Domain;
 using Microsoft.EntityFrameworkCore;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using WorkplaceEntity = ClientApi.Domain.Workplace;
 
@@ -46,7 +47,7 @@ internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<
         }
         entityLocalized.Description = updateDto.Description == null
             ? null
-            : ClientApi.Domain.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
+            : Dto.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
     }
 
     public virtual async Task PartialUpdateLocalizedEntityAsync(WorkplaceEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -60,7 +61,7 @@ internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<
         {
             entityLocalized.Description = DescriptionUpdateValue == null
                 ? null
-                : ClientApi.Domain.WorkplaceMetadata.CreateDescription(DescriptionUpdateValue);
+                : Dto.WorkplaceMetadata.CreateDescription(DescriptionUpdateValue);
         }
     }
 

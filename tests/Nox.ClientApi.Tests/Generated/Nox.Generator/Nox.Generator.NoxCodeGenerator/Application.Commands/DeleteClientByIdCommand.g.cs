@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientEntity = ClientApi.Domain.Client;
 
 namespace ClientApi.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteClientByIdCommandHandlerBase : CommandCollectionBa
 		var entities = new List<ClientEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = ClientApi.Domain.ClientMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.ClientMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.Clients.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

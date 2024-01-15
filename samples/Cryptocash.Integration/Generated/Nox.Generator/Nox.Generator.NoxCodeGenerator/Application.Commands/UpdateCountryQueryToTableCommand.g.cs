@@ -15,6 +15,7 @@ using FluentValidation;
 using CryptocashIntegration.Infrastructure.Persistence;
 using CryptocashIntegration.Domain;
 using CryptocashIntegration.Application.Dto;
+using Dto = CryptocashIntegration.Application.Dto;
 using CountryQueryToTableEntity = CryptocashIntegration.Domain.CountryQueryToTable;
 
 namespace CryptocashIntegration.Application.Commands;
@@ -50,7 +51,7 @@ internal abstract class UpdateCountryQueryToTableCommandHandlerBase : CommandBas
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreateId(request.keyId);
+		var keyId = Dto.CountryQueryToTableMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.CountryQueryToTables.FindAsync(keyId);
 		if (entity == null)

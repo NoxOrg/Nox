@@ -15,6 +15,7 @@ using FluentValidation;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientEntity = ClientApi.Domain.Client;
 
 namespace ClientApi.Application.Commands;
@@ -50,7 +51,7 @@ internal abstract class UpdateClientCommandHandlerBase : CommandBase<UpdateClien
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.ClientMetadata.CreateId(request.keyId);
+		var keyId = Dto.ClientMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Clients.FindAsync(keyId);
 		if (entity == null)

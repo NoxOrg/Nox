@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using TenantBrandEntity = ClientApi.Domain.TenantBrand;
 using TenantEntity = ClientApi.Domain.Tenant;
 
@@ -52,7 +53,7 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBa
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.TenantMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.TenantMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await _dbContext.Tenants.FindAsync(keyId);
 		if (parentEntity == null)
 		{
@@ -67,7 +68,7 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBa
 		}
 		else
 		{
-			var ownedId = ClientApi.Domain.TenantBrandMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
+			var ownedId =Dto.TenantBrandMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
 			entity = parentEntity.TenantBrands.SingleOrDefault(x => x.Id == ownedId);
 			if (entity is null)
 				throw new EntityNotFoundException("TenantBrand",  $"{ownedId.ToString()}");

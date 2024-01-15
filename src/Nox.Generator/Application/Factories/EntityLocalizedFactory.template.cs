@@ -10,6 +10,7 @@ using Nox.Domain;
 using Microsoft.EntityFrameworkCore;
 
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using {{codeGenConventions.DomainNameSpace}};
 using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
 
@@ -49,7 +50,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
         {{- for attribute in entityLocalizedAttributes }}
         entityLocalized.{{attribute.Name}} = updateDto.{{attribute.Name}} == null
             ? null
-            : {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
+            : Dto.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
         {{- if IsNoxTypeSimpleType attribute.Type -}}.ToValueFromNonNull<{{SinglePrimitiveTypeForKey attribute}}>()
         {{- else -}}.ToValueFromNonNull<{{attribute.Type}}Dto>()
         {{- end}});
@@ -72,7 +73,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
         {
             entityLocalized.{{attribute.Name}} = {{attribute.Name}}UpdateValue == null
                 ? null
-                : {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue);
+                : Dto.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue);
         }
         {{- end }}
     }

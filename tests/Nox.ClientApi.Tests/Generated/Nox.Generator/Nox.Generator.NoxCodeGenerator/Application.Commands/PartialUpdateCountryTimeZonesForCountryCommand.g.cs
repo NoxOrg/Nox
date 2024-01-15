@@ -13,6 +13,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using CountryTimeZoneEntity = ClientApi.Domain.CountryTimeZone;
 
 namespace ClientApi.Application.Commands;
@@ -46,7 +47,7 @@ internal abstract class PartialUpdateCountryTimeZonesForCountryCommandHandlerBas
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
@@ -54,7 +55,7 @@ internal abstract class PartialUpdateCountryTimeZonesForCountryCommandHandlerBas
 			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.CountryTimeZones).LoadAsync(cancellationToken);
-		var ownedId = ClientApi.Domain.CountryTimeZoneMetadata.CreateId(request.EntityKeyDto.keyId);
+		var ownedId = Dto.CountryTimeZoneMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

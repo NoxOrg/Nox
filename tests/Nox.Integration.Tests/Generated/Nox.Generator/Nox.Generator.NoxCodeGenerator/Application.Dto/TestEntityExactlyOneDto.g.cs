@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 public record TestEntityExactlyOneKeyDto(System.String keyId);
@@ -32,14 +30,13 @@ public partial class TestEntityExactlyOneDto : TestEntityExactlyOneDtoBase
 /// </summary>
 public abstract class TestEntityExactlyOneDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TextTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("TextTestField", () => DomainNamespace.TestEntityExactlyOneMetadata.CreateTextTestField(this.TextTestField.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("TextTestField", () => TestEntityExactlyOneMetadata.CreateTextTestField(this.TextTestField.NonNullValue<System.String>()), result);
         else
             result.Add("TextTestField", new [] { "TextTestField is Required." });
     

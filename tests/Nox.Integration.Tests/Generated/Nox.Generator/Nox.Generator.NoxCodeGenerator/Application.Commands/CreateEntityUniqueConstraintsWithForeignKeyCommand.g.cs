@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using EntityUniqueConstraintsWithForeignKeyEntity = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey;
 
 namespace TestWebApp.Application.Commands;
@@ -62,7 +63,7 @@ internal abstract class CreateEntityUniqueConstraintsWithForeignKeyCommandHandle
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.EntityUniqueConstraintsRelatedForeignKeyId is not null)
 		{
-			var relatedKey = TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(request.EntityDto.EntityUniqueConstraintsRelatedForeignKeyId.NonNullValue<System.Int32>());
+			var relatedKey = Dto.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(request.EntityDto.EntityUniqueConstraintsRelatedForeignKeyId.NonNullValue<System.Int32>());
 			var relatedEntity = await DbContext.EntityUniqueConstraintsRelatedForeignKeys.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToEntityUniqueConstraintsRelatedForeignKey(relatedEntity);

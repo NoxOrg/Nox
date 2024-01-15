@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
@@ -193,13 +194,13 @@ internal abstract class RefStoreToClientsCommandHandlerBase<TRequest> : CommandB
 
 	protected async Task<StoreEntity?> GetStore(StoreKeyDto entityKeyDto)
 	{
-		var keyId = ClientApi.Domain.StoreMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.StoreMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.Stores.FindAsync(keyId);
 	}
 
 	protected async Task<ClientApi.Domain.Client?> GetClient(ClientKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = ClientApi.Domain.ClientMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.ClientMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Clients.FindAsync(relatedKeyId);
 	}
 

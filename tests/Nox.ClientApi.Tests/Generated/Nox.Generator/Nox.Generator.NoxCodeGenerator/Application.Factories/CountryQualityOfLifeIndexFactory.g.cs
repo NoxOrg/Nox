@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using CountryQualityOfLifeIndexEntity = ClientApi.Domain.CountryQualityOfLifeIndex;
 
@@ -81,9 +82,9 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.CountryQualityOfLifeIndex();
-        exceptionCollector.Collect("CountryId",() => entity.CountryId = CountryQualityOfLifeIndexMetadata.CreateCountryId(createDto.CountryId.NonNullValue<System.Int64>()));
+        exceptionCollector.Collect("CountryId",() => entity.CountryId = Dto.CountryQualityOfLifeIndexMetadata.CreateCountryId(createDto.CountryId.NonNullValue<System.Int64>()));
         exceptionCollector.Collect("IndexRating", () => entity.SetIfNotNull(createDto.IndexRating, (entity) => entity.IndexRating = 
-            ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(createDto.IndexRating.NonNullValue<System.Int32>())));
+            Dto.CountryQualityOfLifeIndexMetadata.CreateIndexRating(createDto.IndexRating.NonNullValue<System.Int32>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -92,7 +93,7 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
     private async Task UpdateEntityInternalAsync(CountryQualityOfLifeIndexEntity entity, CountryQualityOfLifeIndexUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("IndexRating",() => entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(updateDto.IndexRating.NonNullValue<System.Int32>()));
+        exceptionCollector.Collect("IndexRating",() => entity.IndexRating = Dto.CountryQualityOfLifeIndexMetadata.CreateIndexRating(updateDto.IndexRating.NonNullValue<System.Int32>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -106,7 +107,7 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
         {
             ArgumentNullException.ThrowIfNull(IndexRatingUpdateValue, "Attribute 'IndexRating' can't be null.");
             {
-                exceptionCollector.Collect("IndexRating",() =>entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(IndexRatingUpdateValue));
+                exceptionCollector.Collect("IndexRating",() =>entity.IndexRating = Dto.CountryQualityOfLifeIndexMetadata.CreateIndexRating(IndexRatingUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

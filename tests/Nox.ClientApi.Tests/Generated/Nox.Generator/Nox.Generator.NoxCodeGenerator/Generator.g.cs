@@ -47,7 +47,6 @@
 //  - Nox.Generator.Domain.EntitiesGenerator
 //  - Nox.Generator.Domain.EntityLocalizedGenerator
 //  - Nox.Generator.Domain.EnumGenerator.EnumGenerator
-//  - Nox.Generator.Domain.ModelGenerator.EntityMetaGenerator
 //  - Nox.Generator.Domain.DomainEventGenerator.DomainEventGenerator
 //  - Nox.Generator.Presentation.Api.OData.EntityDtoGenerator
 //  - Nox.Generator.Presentation.Api.OData.EntityControllerCustomCommandsGenerator
@@ -86,6 +85,7 @@
 //  - Nox.Generator.Application.Dto.EntityUpsertDtoGenerator
 //  - Nox.Generator.Application.Dto.NoxTypeDtoGenerator
 //  - Nox.Generator.Application.Dto.EntityEnumerationGenerator
+//  - Nox.Generator.Application.Dto.Meta.EntityMetaGenerator
 //  - Nox.Generator.Application.Commands.CreateCommandGenerator
 //  - Nox.Generator.Application.Commands.CreateOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.DeleteByIdCommandGenerator

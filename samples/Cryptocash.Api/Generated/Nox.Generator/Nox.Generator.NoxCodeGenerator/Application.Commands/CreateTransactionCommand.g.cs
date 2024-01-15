@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using TransactionEntity = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Commands;
@@ -67,7 +68,7 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.CustomerId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Guid>());
+			var relatedKey = Dto.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.Customers.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCustomer(relatedEntity);
@@ -81,7 +82,7 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		}
 		if(request.EntityDto.BookingId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(request.EntityDto.BookingId.NonNullValue<System.Guid>());
+			var relatedKey = Dto.BookingMetadata.CreateId(request.EntityDto.BookingId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToBooking(relatedEntity);

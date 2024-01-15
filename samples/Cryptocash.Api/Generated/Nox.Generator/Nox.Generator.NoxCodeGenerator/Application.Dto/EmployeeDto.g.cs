@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 public record EmployeeKeyDto(System.Guid keyId);
@@ -32,36 +30,35 @@ public partial class EmployeeDto : EmployeeDtoBase
 /// </summary>
 public abstract class EmployeeDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.FirstName is not null)
-            ExecuteActionAndCollectValidationExceptions("FirstName", () => DomainNamespace.EmployeeMetadata.CreateFirstName(this.FirstName.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("FirstName", () => EmployeeMetadata.CreateFirstName(this.FirstName.NonNullValue<System.String>()), result);
         else
             result.Add("FirstName", new [] { "FirstName is Required." });
     
         if (this.LastName is not null)
-            ExecuteActionAndCollectValidationExceptions("LastName", () => DomainNamespace.EmployeeMetadata.CreateLastName(this.LastName.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("LastName", () => EmployeeMetadata.CreateLastName(this.LastName.NonNullValue<System.String>()), result);
         else
             result.Add("LastName", new [] { "LastName is Required." });
     
         if (this.EmailAddress is not null)
-            ExecuteActionAndCollectValidationExceptions("EmailAddress", () => DomainNamespace.EmployeeMetadata.CreateEmailAddress(this.EmailAddress.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("EmailAddress", () => EmployeeMetadata.CreateEmailAddress(this.EmailAddress.NonNullValue<System.String>()), result);
         else
             result.Add("EmailAddress", new [] { "EmailAddress is Required." });
     
         if (this.Address is not null)
-            ExecuteActionAndCollectValidationExceptions("Address", () => DomainNamespace.EmployeeMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
+            CollectValidationExceptions("Address", () => EmployeeMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
         else
             result.Add("Address", new [] { "Address is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("FirstWorkingDay", () => DomainNamespace.EmployeeMetadata.CreateFirstWorkingDay(this.FirstWorkingDay), result);
+        CollectValidationExceptions("FirstWorkingDay", () => EmployeeMetadata.CreateFirstWorkingDay(this.FirstWorkingDay), result);
     
         if (this.LastWorkingDay is not null)
-            ExecuteActionAndCollectValidationExceptions("LastWorkingDay", () => DomainNamespace.EmployeeMetadata.CreateLastWorkingDay(this.LastWorkingDay.NonNullValue<System.DateTime>()), result);
+            CollectValidationExceptions("LastWorkingDay", () => EmployeeMetadata.CreateLastWorkingDay(this.LastWorkingDay.NonNullValue<System.DateTime>()), result);
 
         return result;
     }

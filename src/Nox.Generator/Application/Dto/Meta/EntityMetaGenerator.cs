@@ -8,16 +8,16 @@ using Nox.Types.Extensions;
 using System.Linq;
 using System.Reflection;
 
-namespace Nox.Generator.Domain.ModelGenerator;
+namespace Nox.Generator.Application.Dto.Meta;
 
 internal class EntityMetaGenerator : INoxCodeGenerator
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.ApplicationDto;
     public void Generate(
       SourceProductionContext context,
       NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
-      System.Action<string> log,
+      Action<string> log,
       string? projectRootPath
       )
     {
@@ -28,17 +28,17 @@ internal class EntityMetaGenerator : INoxCodeGenerator
         foreach (var entity in codeGenConventions.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
-            
-            var entitiesMetaData = entity.GetAllMembers().GroupBy(m=>m.Value.Name).Select(g=>g.First())
-                .Select( t =>  GenerateEntityMetaData(t.Value, codeGenConventions.Solution) )
+
+            var entitiesMetaData = entity.GetAllMembers().GroupBy(m => m.Value.Name).Select(g => g.First())
+                .Select(t => GenerateEntityMetaData(t.Value, codeGenConventions.Solution))
                 .ToList();
-            
+
             new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{entity.Name}Metadata")
-                .WithFileNamePrefix($"Meta")
+                .WithFileNamePrefix("Application.Dto.Meta")
                 .WithObject("entity", entity)
                 .WithObject("entitiesMetaData", entitiesMetaData)
-                .GenerateSourceCodeFromResource("Domain.EntityMeta");
+                .GenerateSourceCodeFromResource("Application.Dto.Meta.EntityMeta");
         }
     }
 
@@ -53,16 +53,16 @@ internal class EntityMetaGenerator : INoxCodeGenerator
         var optionsProperties = Array.Empty<string>();
         var components = type.GetComponents(typeDef).ToArray();
 
-        var inParams = components.Length == 1 
-            ? $"{components[0].Value.FullName} value" 
-            : $"I{type} value" ;
+        var inParams = components.Length == 1
+            ? $"{components[0].Value.FullName} value"
+            : $"I{type} value";
 
-       
+
         if (options != null)
         {
             optionsProperties = GetTypeOptionProperties(typeDef, options);
         }
-        
+
         return new EntityMetaData
         {
             Name = typeDef.Name,
@@ -74,7 +74,7 @@ internal class EntityMetaGenerator : INoxCodeGenerator
     }
 
     private static string[] GetTypeOptionProperties(
-        NoxSimpleTypeDefinition typeDef, 
+        NoxSimpleTypeDefinition typeDef,
         PropertyInfo options)
     {
         var optionsProperties = Array.Empty<string>();
@@ -87,7 +87,7 @@ internal class EntityMetaGenerator : INoxCodeGenerator
             optionsProperties = optionsOutputLines
                 .SkipWhile(s => !s.StartsWith("{"))
                 .Skip(1)
-                .TakeWhile(s=> !s.StartsWith("}"))
+                .TakeWhile(s => !s.StartsWith("}"))
                 .Select(s => s.TrimEnd())
                 .ToArray();
         }

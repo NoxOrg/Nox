@@ -18,6 +18,7 @@ using Nox.Exceptions;
 using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
@@ -55,7 +56,7 @@ internal abstract class PartialUpdate{{entity.Name}}CommandHandlerBase : Command
 		await OnExecutingAsync(request);
 
 		{{- for key in entity.Keys }}
-		var key{{key.Name}} = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.key{{key.Name}});
+		var key{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(request.key{{key.Name}});
 		{{- end }}
 
 		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});

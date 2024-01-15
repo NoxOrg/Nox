@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using Cryptocash.Domain;
 using PaymentProviderEntity = Cryptocash.Domain.PaymentProvider;
 
@@ -82,9 +83,9 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.PaymentProvider();
         exceptionCollector.Collect("PaymentProviderName", () => entity.SetIfNotNull(createDto.PaymentProviderName, (entity) => entity.PaymentProviderName = 
-            Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(createDto.PaymentProviderName.NonNullValue<System.String>())));
+            Dto.PaymentProviderMetadata.CreatePaymentProviderName(createDto.PaymentProviderName.NonNullValue<System.String>())));
         exceptionCollector.Collect("PaymentProviderType", () => entity.SetIfNotNull(createDto.PaymentProviderType, (entity) => entity.PaymentProviderType = 
-            Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(createDto.PaymentProviderType.NonNullValue<System.String>())));
+            Dto.PaymentProviderMetadata.CreatePaymentProviderType(createDto.PaymentProviderType.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         entity.EnsureId(createDto.Id);        
@@ -94,8 +95,8 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
     private async Task UpdateEntityInternalAsync(PaymentProviderEntity entity, PaymentProviderUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("PaymentProviderName",() => entity.PaymentProviderName = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(updateDto.PaymentProviderName.NonNullValue<System.String>()));
-        exceptionCollector.Collect("PaymentProviderType",() => entity.PaymentProviderType = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(updateDto.PaymentProviderType.NonNullValue<System.String>()));
+        exceptionCollector.Collect("PaymentProviderName",() => entity.PaymentProviderName = Dto.PaymentProviderMetadata.CreatePaymentProviderName(updateDto.PaymentProviderName.NonNullValue<System.String>()));
+        exceptionCollector.Collect("PaymentProviderType",() => entity.PaymentProviderType = Dto.PaymentProviderMetadata.CreatePaymentProviderType(updateDto.PaymentProviderType.NonNullValue<System.String>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -109,7 +110,7 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
         {
             ArgumentNullException.ThrowIfNull(PaymentProviderNameUpdateValue, "Attribute 'PaymentProviderName' can't be null.");
             {
-                exceptionCollector.Collect("PaymentProviderName",() =>entity.PaymentProviderName = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(PaymentProviderNameUpdateValue));
+                exceptionCollector.Collect("PaymentProviderName",() =>entity.PaymentProviderName = Dto.PaymentProviderMetadata.CreatePaymentProviderName(PaymentProviderNameUpdateValue));
             }
         }
 
@@ -117,7 +118,7 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
         {
             ArgumentNullException.ThrowIfNull(PaymentProviderTypeUpdateValue, "Attribute 'PaymentProviderType' can't be null.");
             {
-                exceptionCollector.Collect("PaymentProviderType",() =>entity.PaymentProviderType = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(PaymentProviderTypeUpdateValue));
+                exceptionCollector.Collect("PaymentProviderType",() =>entity.PaymentProviderType = Dto.PaymentProviderMetadata.CreatePaymentProviderType(PaymentProviderTypeUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

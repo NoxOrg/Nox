@@ -15,6 +15,7 @@ using FluentValidation;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using CurrencyEntity = ClientApi.Domain.Currency;
 
 namespace ClientApi.Application.Commands;
@@ -50,7 +51,7 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.CurrencyMetadata.CreateId(request.keyId);
+		var keyId = Dto.CurrencyMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Currencies.FindAsync(keyId);
 		if (entity == null)

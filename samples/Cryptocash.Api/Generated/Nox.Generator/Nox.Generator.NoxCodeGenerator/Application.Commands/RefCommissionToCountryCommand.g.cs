@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using CommissionEntity = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
@@ -149,13 +150,13 @@ internal abstract class RefCommissionToCountryCommandHandlerBase<TRequest> : Com
 
 	protected async Task<CommissionEntity?> GetCommission(CommissionKeyDto entityKeyDto)
 	{
-		var keyId = Cryptocash.Domain.CommissionMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.CommissionMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.Commissions.FindAsync(keyId);
 	}
 
 	protected async Task<Cryptocash.Domain.Country?> GetCountry(CountryKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = Cryptocash.Domain.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Countries.FindAsync(relatedKeyId);
 	}
 

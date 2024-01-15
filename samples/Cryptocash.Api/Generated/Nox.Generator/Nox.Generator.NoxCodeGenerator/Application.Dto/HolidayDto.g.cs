@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 public record HolidayKeyDto(System.Int64 keyId);
@@ -32,23 +30,22 @@ public partial class HolidayDto : HolidayDtoBase
 /// </summary>
 public abstract class HolidayDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.HolidayMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Name", () => HolidayMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.Type is not null)
-            ExecuteActionAndCollectValidationExceptions("Type", () => DomainNamespace.HolidayMetadata.CreateType(this.Type.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Type", () => HolidayMetadata.CreateType(this.Type.NonNullValue<System.String>()), result);
         else
             result.Add("Type", new [] { "Type is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("Date", () => DomainNamespace.HolidayMetadata.CreateDate(this.Date), result);
+        CollectValidationExceptions("Date", () => HolidayMetadata.CreateDate(this.Date), result);
     
 
         return result;

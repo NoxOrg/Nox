@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteStoreByIdCommandHandlerBase : CommandCollectionBas
 		var entities = new List<StoreEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = ClientApi.Domain.StoreMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.StoreMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.Stores.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Commands;
@@ -67,7 +68,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.StoreId is not null)
 		{
-			var relatedKey = ClientApi.Domain.StoreMetadata.CreateId(request.EntityDto.StoreId.NonNullValue<System.Guid>());
+			var relatedKey = Dto.StoreMetadata.CreateId(request.EntityDto.StoreId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToStore(relatedEntity);
@@ -81,7 +82,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		}
 		if(request.EntityDto.DefaultCurrencyId is not null)
 		{
-			var relatedKey = ClientApi.Domain.CurrencyMetadata.CreateId(request.EntityDto.DefaultCurrencyId.NonNullValue<System.String>());
+			var relatedKey = Dto.CurrencyMetadata.CreateId(request.EntityDto.DefaultCurrencyId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.Currencies.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToDefaultCurrency(relatedEntity);
@@ -95,7 +96,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		}
 		if(request.EntityDto.SoldInCurrencyId is not null)
 		{
-			var relatedKey = ClientApi.Domain.CurrencyMetadata.CreateId(request.EntityDto.SoldInCurrencyId.NonNullValue<System.String>());
+			var relatedKey = Dto.CurrencyMetadata.CreateId(request.EntityDto.SoldInCurrencyId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.Currencies.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToSoldInCurrency(relatedEntity);

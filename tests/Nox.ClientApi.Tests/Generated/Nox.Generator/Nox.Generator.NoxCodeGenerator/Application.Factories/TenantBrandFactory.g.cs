@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using TenantBrandEntity = ClientApi.Domain.TenantBrand;
 
@@ -97,9 +98,9 @@ internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntit
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.TenantBrand();
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            ClientApi.Domain.TenantBrandMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.TenantBrandMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("Description", () => entity.SetIfNotNull(createDto.Description, (entity) => entity.Description = 
-            ClientApi.Domain.TenantBrandMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>())));
+            Dto.TenantBrandMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -108,8 +109,8 @@ internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntit
     private async Task UpdateEntityInternalAsync(TenantBrandEntity entity, TenantBrandUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Name",() => entity.Name = ClientApi.Domain.TenantBrandMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
-        if(IsDefaultCultureCode(cultureCode)) exceptionCollector.Collect("Description",() => entity.Description = ClientApi.Domain.TenantBrandMetadata.CreateDescription(updateDto.Description.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Name",() => entity.Name = Dto.TenantBrandMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        if(IsDefaultCultureCode(cultureCode)) exceptionCollector.Collect("Description",() => entity.Description = Dto.TenantBrandMetadata.CreateDescription(updateDto.Description.NonNullValue<System.String>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -123,7 +124,7 @@ internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntit
         {
             ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.TenantBrandMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.TenantBrandMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -131,7 +132,7 @@ internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntit
         {
             ArgumentNullException.ThrowIfNull(DescriptionUpdateValue, "Attribute 'Description' can't be null.");
             {
-                exceptionCollector.Collect("Description",() =>entity.Description = ClientApi.Domain.TenantBrandMetadata.CreateDescription(DescriptionUpdateValue));
+                exceptionCollector.Collect("Description",() =>entity.Description = Dto.TenantBrandMetadata.CreateDescription(DescriptionUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

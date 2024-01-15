@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using CountryBarCodeEntity = ClientApi.Domain.CountryBarCode;
 
@@ -82,9 +83,9 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.CountryBarCode();
         exceptionCollector.Collect("BarCodeName", () => entity.SetIfNotNull(createDto.BarCodeName, (entity) => entity.BarCodeName = 
-            ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(createDto.BarCodeName.NonNullValue<System.String>())));
+            Dto.CountryBarCodeMetadata.CreateBarCodeName(createDto.BarCodeName.NonNullValue<System.String>())));
         exceptionCollector.Collect("BarCodeNumber", () => entity.SetIfNotNull(createDto.BarCodeNumber, (entity) => entity.BarCodeNumber = 
-            ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(createDto.BarCodeNumber.NonNullValue<System.Int32>())));
+            Dto.CountryBarCodeMetadata.CreateBarCodeNumber(createDto.BarCodeNumber.NonNullValue<System.Int32>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -93,14 +94,14 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
     private async Task UpdateEntityInternalAsync(CountryBarCodeEntity entity, CountryBarCodeUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("BarCodeName",() => entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(updateDto.BarCodeName.NonNullValue<System.String>()));
+        exceptionCollector.Collect("BarCodeName",() => entity.BarCodeName = Dto.CountryBarCodeMetadata.CreateBarCodeName(updateDto.BarCodeName.NonNullValue<System.String>()));
         if(updateDto.BarCodeNumber is null)
         {
              entity.BarCodeNumber = null;
         }
         else
         {
-            exceptionCollector.Collect("BarCodeNumber",() =>entity.BarCodeNumber = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(updateDto.BarCodeNumber.ToValueFromNonNull<System.Int32>()));
+            exceptionCollector.Collect("BarCodeNumber",() =>entity.BarCodeNumber = Dto.CountryBarCodeMetadata.CreateBarCodeNumber(updateDto.BarCodeNumber.ToValueFromNonNull<System.Int32>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -115,7 +116,7 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
         {
             ArgumentNullException.ThrowIfNull(BarCodeNameUpdateValue, "Attribute 'BarCodeName' can't be null.");
             {
-                exceptionCollector.Collect("BarCodeName",() =>entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(BarCodeNameUpdateValue));
+                exceptionCollector.Collect("BarCodeName",() =>entity.BarCodeName = Dto.CountryBarCodeMetadata.CreateBarCodeName(BarCodeNameUpdateValue));
             }
         }
 
@@ -124,7 +125,7 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
             if (BarCodeNumberUpdateValue == null) { entity.BarCodeNumber = null; }
             else
             {
-                exceptionCollector.Collect("BarCodeNumber",() =>entity.BarCodeNumber = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(BarCodeNumberUpdateValue));
+                exceptionCollector.Collect("BarCodeNumber",() =>entity.BarCodeNumber = Dto.CountryBarCodeMetadata.CreateBarCodeNumber(BarCodeNumberUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

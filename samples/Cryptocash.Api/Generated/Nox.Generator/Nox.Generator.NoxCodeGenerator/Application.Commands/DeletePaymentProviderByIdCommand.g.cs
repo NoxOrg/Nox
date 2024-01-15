@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using PaymentProviderEntity = Cryptocash.Domain.PaymentProvider;
 
 namespace Cryptocash.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeletePaymentProviderByIdCommandHandlerBase : CommandCol
 		var entities = new List<PaymentProviderEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = Cryptocash.Domain.PaymentProviderMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.PaymentProviderMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.PaymentProviders.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

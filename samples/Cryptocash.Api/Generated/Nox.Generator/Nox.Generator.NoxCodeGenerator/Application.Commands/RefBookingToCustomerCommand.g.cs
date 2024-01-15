@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
@@ -149,13 +150,13 @@ internal abstract class RefBookingToCustomerCommandHandlerBase<TRequest> : Comma
 
 	protected async Task<BookingEntity?> GetBooking(BookingKeyDto entityKeyDto)
 	{
-		var keyId = Cryptocash.Domain.BookingMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.BookingMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.Bookings.FindAsync(keyId);
 	}
 
 	protected async Task<Cryptocash.Domain.Customer?> GetCustomer(CustomerKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = Cryptocash.Domain.CustomerMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.CustomerMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Customers.FindAsync(relatedKeyId);
 	}
 

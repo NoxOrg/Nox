@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 public record EmployeePhoneNumberKeyDto(System.Int64 keyId);
@@ -32,19 +30,18 @@ public partial class EmployeePhoneNumberDto : EmployeePhoneNumberDtoBase
 /// </summary>
 public abstract class EmployeePhoneNumberDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.PhoneNumberType is not null)
-            ExecuteActionAndCollectValidationExceptions("PhoneNumberType", () => DomainNamespace.EmployeePhoneNumberMetadata.CreatePhoneNumberType(this.PhoneNumberType.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("PhoneNumberType", () => EmployeePhoneNumberMetadata.CreatePhoneNumberType(this.PhoneNumberType.NonNullValue<System.String>()), result);
         else
             result.Add("PhoneNumberType", new [] { "PhoneNumberType is Required." });
     
         if (this.PhoneNumber is not null)
-            ExecuteActionAndCollectValidationExceptions("PhoneNumber", () => DomainNamespace.EmployeePhoneNumberMetadata.CreatePhoneNumber(this.PhoneNumber.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("PhoneNumber", () => EmployeePhoneNumberMetadata.CreatePhoneNumber(this.PhoneNumber.NonNullValue<System.String>()), result);
         else
             result.Add("PhoneNumber", new [] { "PhoneNumber is Required." });
     

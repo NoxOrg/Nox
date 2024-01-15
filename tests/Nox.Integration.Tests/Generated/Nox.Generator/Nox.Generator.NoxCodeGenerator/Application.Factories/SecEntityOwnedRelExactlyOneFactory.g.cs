@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestWebApp.Domain;
 using SecEntityOwnedRelExactlyOneEntity = TestWebApp.Domain.SecEntityOwnedRelExactlyOne;
 
@@ -82,7 +83,7 @@ internal abstract class SecEntityOwnedRelExactlyOneFactoryBase : IEntityFactory<
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.SecEntityOwnedRelExactlyOne();
         exceptionCollector.Collect("TextTestField2", () => entity.SetIfNotNull(createDto.TextTestField2, (entity) => entity.TextTestField2 = 
-            TestWebApp.Domain.SecEntityOwnedRelExactlyOneMetadata.CreateTextTestField2(createDto.TextTestField2.NonNullValue<System.String>())));
+            Dto.SecEntityOwnedRelExactlyOneMetadata.CreateTextTestField2(createDto.TextTestField2.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -91,7 +92,7 @@ internal abstract class SecEntityOwnedRelExactlyOneFactoryBase : IEntityFactory<
     private async Task UpdateEntityInternalAsync(SecEntityOwnedRelExactlyOneEntity entity, SecEntityOwnedRelExactlyOneUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("TextTestField2",() => entity.TextTestField2 = TestWebApp.Domain.SecEntityOwnedRelExactlyOneMetadata.CreateTextTestField2(updateDto.TextTestField2.NonNullValue<System.String>()));
+        exceptionCollector.Collect("TextTestField2",() => entity.TextTestField2 = Dto.SecEntityOwnedRelExactlyOneMetadata.CreateTextTestField2(updateDto.TextTestField2.NonNullValue<System.String>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -105,7 +106,7 @@ internal abstract class SecEntityOwnedRelExactlyOneFactoryBase : IEntityFactory<
         {
             ArgumentNullException.ThrowIfNull(TextTestField2UpdateValue, "Attribute 'TextTestField2' can't be null.");
             {
-                exceptionCollector.Collect("TextTestField2",() =>entity.TextTestField2 = TestWebApp.Domain.SecEntityOwnedRelExactlyOneMetadata.CreateTextTestField2(TextTestField2UpdateValue));
+                exceptionCollector.Collect("TextTestField2",() =>entity.TextTestField2 = Dto.SecEntityOwnedRelExactlyOneMetadata.CreateTextTestField2(TextTestField2UpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using PaymentProviderEntity = Cryptocash.Domain.PaymentProvider;
 
 namespace Cryptocash.Application.Commands;
@@ -65,7 +66,7 @@ internal abstract class CreatePaymentProviderCommandHandlerBase : CommandBase<Cr
 		{
 			foreach(var relatedId in request.EntityDto.PaymentDetailsId)
 			{
-				var relatedKey = Cryptocash.Domain.PaymentDetailMetadata.CreateId(relatedId);
+				var relatedKey = Dto.PaymentDetailMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.PaymentDetails.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)

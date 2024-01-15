@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteBookingByIdCommandHandlerBase : CommandCollectionB
 		var entities = new List<BookingEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = Cryptocash.Domain.BookingMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.BookingMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.Bookings.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

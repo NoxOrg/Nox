@@ -18,6 +18,7 @@ using Nox.Exceptions;
 using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
@@ -54,7 +55,7 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 		await OnExecutingAsync(request);
 
 		{{- for key in parent.Keys }}
-		var key{{key.Name}} = {{codeGenConventions.DomainNameSpace}}.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
+		var key{{key.Name}} = Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
 		var parentEntity = await DbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
 		if (parentEntity == null)
@@ -77,7 +78,7 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 		{{ else }}
 		await DbContext.Entry(parentEntity).Collection(p => p.{{relationshipName}}).LoadAsync(cancellationToken);
 		{{- for key in entity.Keys }}
-		var owned{{key.Name}} = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityKeyDto.key{{key.Name}});
+		var owned{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
 		var entity = parentEntity.{{relationshipName}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
 		if (entity == null)

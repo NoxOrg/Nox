@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityZeroOrOneToExactlyOneEntity = TestWebApp.Domain.TestEntityZeroOrOneToExactlyOne;
 
 namespace TestWebApp.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteTestEntityZeroOrOneToExactlyOneByIdCommandHandlerB
 		var entities = new List<TestEntityZeroOrOneToExactlyOneEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = TestWebApp.Domain.TestEntityZeroOrOneToExactlyOneMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.TestEntityZeroOrOneToExactlyOneMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.TestEntityZeroOrOneToExactlyOnes.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

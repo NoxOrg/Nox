@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using CurrencyEntity = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
@@ -69,7 +70,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		{
 			foreach(var relatedId in request.EntityDto.CountriesId)
 			{
-				var relatedKey = Cryptocash.Domain.CountryMetadata.CreateId(relatedId);
+				var relatedKey = Dto.CountryMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
@@ -90,7 +91,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		{
 			foreach(var relatedId in request.EntityDto.MinimumCashStocksId)
 			{
-				var relatedKey = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(relatedId);
+				var relatedKey = Dto.MinimumCashStockMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.MinimumCashStocks.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)

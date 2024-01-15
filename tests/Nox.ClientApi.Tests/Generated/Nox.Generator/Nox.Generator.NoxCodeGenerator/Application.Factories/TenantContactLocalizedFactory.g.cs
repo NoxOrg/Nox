@@ -9,6 +9,7 @@ using Nox.Domain;
 using Microsoft.EntityFrameworkCore;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using TenantContactEntity = ClientApi.Domain.TenantContact;
 
@@ -46,7 +47,7 @@ internal abstract class TenantContactLocalizedFactoryBase : IEntityLocalizedFact
         }
         entityLocalized.Description = updateDto.Description == null
             ? null
-            : ClientApi.Domain.TenantContactMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
+            : Dto.TenantContactMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
     }
 
     public virtual async Task PartialUpdateLocalizedEntityAsync(TenantContactEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -60,7 +61,7 @@ internal abstract class TenantContactLocalizedFactoryBase : IEntityLocalizedFact
         {
             entityLocalized.Description = DescriptionUpdateValue == null
                 ? null
-                : ClientApi.Domain.TenantContactMetadata.CreateDescription(DescriptionUpdateValue);
+                : Dto.TenantContactMetadata.CreateDescription(DescriptionUpdateValue);
         }
     }
 

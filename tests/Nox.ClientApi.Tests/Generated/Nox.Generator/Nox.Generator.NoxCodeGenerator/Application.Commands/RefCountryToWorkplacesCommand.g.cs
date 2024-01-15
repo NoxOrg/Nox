@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
@@ -193,13 +194,13 @@ internal abstract class RefCountryToWorkplacesCommandHandlerBase<TRequest> : Com
 
 	protected async Task<CountryEntity?> GetCountry(CountryKeyDto entityKeyDto)
 	{
-		var keyId = ClientApi.Domain.CountryMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.CountryMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.Countries.FindAsync(keyId);
 	}
 
 	protected async Task<ClientApi.Domain.Workplace?> GetWorkplace(WorkplaceKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = ClientApi.Domain.WorkplaceMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.WorkplaceMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Workplaces.FindAsync(relatedKeyId);
 	}
 

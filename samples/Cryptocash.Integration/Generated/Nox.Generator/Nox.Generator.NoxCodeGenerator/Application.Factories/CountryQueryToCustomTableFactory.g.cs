@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using CryptocashIntegration.Application.Dto;
+using Dto = CryptocashIntegration.Application.Dto;
 using CryptocashIntegration.Domain;
 using CountryQueryToCustomTableEntity = CryptocashIntegration.Domain.CountryQueryToCustomTable;
 
@@ -81,15 +82,15 @@ internal abstract class CountryQueryToCustomTableFactoryBase : IEntityFactory<Co
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new CryptocashIntegration.Domain.CountryQueryToCustomTable();
-        exceptionCollector.Collect("Id",() => entity.Id = CountryQueryToCustomTableMetadata.CreateId(createDto.Id.NonNullValue<System.Int32>()));
+        exceptionCollector.Collect("Id",() => entity.Id = Dto.CountryQueryToCustomTableMetadata.CreateId(createDto.Id.NonNullValue<System.Int32>()));
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.CountryQueryToCustomTableMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("Population", () => entity.SetIfNotNull(createDto.Population, (entity) => entity.Population = 
-            CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>())));
+            Dto.CountryQueryToCustomTableMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>())));
         exceptionCollector.Collect("CreateDate", () => entity.SetIfNotNull(createDto.CreateDate, (entity) => entity.CreateDate = 
-            CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateCreateDate(createDto.CreateDate.NonNullValue<System.DateTimeOffset>())));
+            Dto.CountryQueryToCustomTableMetadata.CreateCreateDate(createDto.CreateDate.NonNullValue<System.DateTimeOffset>())));
         exceptionCollector.Collect("EditDate", () => entity.SetIfNotNull(createDto.EditDate, (entity) => entity.EditDate = 
-            CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateEditDate(createDto.EditDate.NonNullValue<System.DateTimeOffset>())));
+            Dto.CountryQueryToCustomTableMetadata.CreateEditDate(createDto.EditDate.NonNullValue<System.DateTimeOffset>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -98,16 +99,16 @@ internal abstract class CountryQueryToCustomTableFactoryBase : IEntityFactory<Co
     private async Task UpdateEntityInternalAsync(CountryQueryToCustomTableEntity entity, CountryQueryToCustomTableUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Name",() => entity.Name = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
-        exceptionCollector.Collect("Population",() => entity.Population = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreatePopulation(updateDto.Population.NonNullValue<System.Int32>()));
-        exceptionCollector.Collect("CreateDate",() => entity.CreateDate = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateCreateDate(updateDto.CreateDate.NonNullValue<System.DateTimeOffset>()));
+        exceptionCollector.Collect("Name",() => entity.Name = Dto.CountryQueryToCustomTableMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Population",() => entity.Population = Dto.CountryQueryToCustomTableMetadata.CreatePopulation(updateDto.Population.NonNullValue<System.Int32>()));
+        exceptionCollector.Collect("CreateDate",() => entity.CreateDate = Dto.CountryQueryToCustomTableMetadata.CreateCreateDate(updateDto.CreateDate.NonNullValue<System.DateTimeOffset>()));
         if(updateDto.EditDate is null)
         {
              entity.EditDate = null;
         }
         else
         {
-            exceptionCollector.Collect("EditDate",() =>entity.EditDate = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateEditDate(updateDto.EditDate.ToValueFromNonNull<System.DateTimeOffset>()));
+            exceptionCollector.Collect("EditDate",() =>entity.EditDate = Dto.CountryQueryToCustomTableMetadata.CreateEditDate(updateDto.EditDate.ToValueFromNonNull<System.DateTimeOffset>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -122,7 +123,7 @@ internal abstract class CountryQueryToCustomTableFactoryBase : IEntityFactory<Co
         {
             ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.CountryQueryToCustomTableMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -130,7 +131,7 @@ internal abstract class CountryQueryToCustomTableFactoryBase : IEntityFactory<Co
         {
             ArgumentNullException.ThrowIfNull(PopulationUpdateValue, "Attribute 'Population' can't be null.");
             {
-                exceptionCollector.Collect("Population",() =>entity.Population = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreatePopulation(PopulationUpdateValue));
+                exceptionCollector.Collect("Population",() =>entity.Population = Dto.CountryQueryToCustomTableMetadata.CreatePopulation(PopulationUpdateValue));
             }
         }
 
@@ -138,7 +139,7 @@ internal abstract class CountryQueryToCustomTableFactoryBase : IEntityFactory<Co
         {
             ArgumentNullException.ThrowIfNull(CreateDateUpdateValue, "Attribute 'CreateDate' can't be null.");
             {
-                exceptionCollector.Collect("CreateDate",() =>entity.CreateDate = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateCreateDate(CreateDateUpdateValue));
+                exceptionCollector.Collect("CreateDate",() =>entity.CreateDate = Dto.CountryQueryToCustomTableMetadata.CreateCreateDate(CreateDateUpdateValue));
             }
         }
 
@@ -147,7 +148,7 @@ internal abstract class CountryQueryToCustomTableFactoryBase : IEntityFactory<Co
             if (EditDateUpdateValue == null) { entity.EditDate = null; }
             else
             {
-                exceptionCollector.Collect("EditDate",() =>entity.EditDate = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateEditDate(EditDateUpdateValue));
+                exceptionCollector.Collect("EditDate",() =>entity.EditDate = Dto.CountryQueryToCustomTableMetadata.CreateEditDate(EditDateUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestWebApp.Domain;
 using ForReferenceNumberEntity = TestWebApp.Domain.ForReferenceNumber;
 
@@ -88,9 +89,9 @@ internal abstract class ForReferenceNumberFactoryBase : IEntityFactory<ForRefere
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         var nextSequenceId =  await _repository.GetSequenceNextValueAsync(Nox.Solution.NoxCodeGenConventions.GetDatabaseSequenceName("ForReferenceNumber", "Id"));
-        entity.EnsureId(nextSequenceId,TestWebApp.Domain.ForReferenceNumberMetadata.IdTypeOptions);
+        entity.EnsureId(nextSequenceId,Dto.ForReferenceNumberMetadata.IdTypeOptions);
         var nextSequenceWorkplaceNumber =  await _repository.GetSequenceNextValueAsync(Nox.Solution.NoxCodeGenConventions.GetDatabaseSequenceName("ForReferenceNumber", "WorkplaceNumber"));
-        entity.EnsureWorkplaceNumber(nextSequenceWorkplaceNumber,TestWebApp.Domain.ForReferenceNumberMetadata.WorkplaceNumberTypeOptions);        
+        entity.EnsureWorkplaceNumber(nextSequenceWorkplaceNumber,Dto.ForReferenceNumberMetadata.WorkplaceNumberTypeOptions);        
         return entity;
     }
 

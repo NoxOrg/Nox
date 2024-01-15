@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using CurrencyEntity = ClientApi.Domain.Currency;
 
 namespace ClientApi.Application.Commands;
@@ -193,13 +194,13 @@ internal abstract class RefCurrencyToStoreLicenseDefaultCommandHandlerBase<TRequ
 
 	protected async Task<CurrencyEntity?> GetCurrency(CurrencyKeyDto entityKeyDto)
 	{
-		var keyId = ClientApi.Domain.CurrencyMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.CurrencyMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.Currencies.FindAsync(keyId);
 	}
 
 	protected async Task<ClientApi.Domain.StoreLicense?> GetStoreLicense(StoreLicenseKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = ClientApi.Domain.StoreLicenseMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.StoreLicenseMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.StoreLicenses.FindAsync(relatedKeyId);
 	}
 

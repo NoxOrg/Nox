@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using Cryptocash.Domain;
 using CommissionEntity = Cryptocash.Domain.Commission;
 
@@ -82,9 +83,9 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.Commission();
         exceptionCollector.Collect("Rate", () => entity.SetIfNotNull(createDto.Rate, (entity) => entity.Rate = 
-            Cryptocash.Domain.CommissionMetadata.CreateRate(createDto.Rate.NonNullValue<System.Single>())));
+            Dto.CommissionMetadata.CreateRate(createDto.Rate.NonNullValue<System.Single>())));
         exceptionCollector.Collect("EffectiveAt", () => entity.SetIfNotNull(createDto.EffectiveAt, (entity) => entity.EffectiveAt = 
-            Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(createDto.EffectiveAt.NonNullValue<System.DateTimeOffset>())));
+            Dto.CommissionMetadata.CreateEffectiveAt(createDto.EffectiveAt.NonNullValue<System.DateTimeOffset>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         entity.EnsureId(createDto.Id);        
@@ -94,8 +95,8 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
     private async Task UpdateEntityInternalAsync(CommissionEntity entity, CommissionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Rate",() => entity.Rate = Cryptocash.Domain.CommissionMetadata.CreateRate(updateDto.Rate.NonNullValue<System.Single>()));
-        exceptionCollector.Collect("EffectiveAt",() => entity.EffectiveAt = Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>()));
+        exceptionCollector.Collect("Rate",() => entity.Rate = Dto.CommissionMetadata.CreateRate(updateDto.Rate.NonNullValue<System.Single>()));
+        exceptionCollector.Collect("EffectiveAt",() => entity.EffectiveAt = Dto.CommissionMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -109,7 +110,7 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
         {
             ArgumentNullException.ThrowIfNull(RateUpdateValue, "Attribute 'Rate' can't be null.");
             {
-                exceptionCollector.Collect("Rate",() =>entity.Rate = Cryptocash.Domain.CommissionMetadata.CreateRate(RateUpdateValue));
+                exceptionCollector.Collect("Rate",() =>entity.Rate = Dto.CommissionMetadata.CreateRate(RateUpdateValue));
             }
         }
 
@@ -117,7 +118,7 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
         {
             ArgumentNullException.ThrowIfNull(EffectiveAtUpdateValue, "Attribute 'EffectiveAt' can't be null.");
             {
-                exceptionCollector.Collect("EffectiveAt",() =>entity.EffectiveAt = Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(EffectiveAtUpdateValue));
+                exceptionCollector.Collect("EffectiveAt",() =>entity.EffectiveAt = Dto.CommissionMetadata.CreateEffectiveAt(EffectiveAtUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

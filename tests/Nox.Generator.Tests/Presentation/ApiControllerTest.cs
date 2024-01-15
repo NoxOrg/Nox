@@ -26,7 +26,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         var filesShouldExist = new[]
         {
             "Domain.Country.g.cs",
-            "Meta.CountryMetadata.g.cs",
+            "Application.Dto.Meta.CountryMetadata.g.cs",
             //"UpdatePopulationStatisticsCommandHandlerBase.g.cs",
             //"GetCountriesByContinentQueryBase.g.cs"
         };

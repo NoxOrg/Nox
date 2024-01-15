@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
@@ -75,7 +76,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.CountryId is not null)
 		{
-			var relatedKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
+			var relatedKey = Dto.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
 			var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCountry(relatedEntity);
@@ -89,7 +90,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		}
 		if(request.EntityDto.StoreOwnerId is not null)
 		{
-			var relatedKey = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.EntityDto.StoreOwnerId.NonNullValue<System.String>());
+			var relatedKey = Dto.StoreOwnerMetadata.CreateId(request.EntityDto.StoreOwnerId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.StoreOwners.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToStoreOwner(relatedEntity);
@@ -103,7 +104,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		}
 		if(request.EntityDto.StoreLicenseId is not null)
 		{
-			var relatedKey = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.EntityDto.StoreLicenseId.NonNullValue<System.Int64>());
+			var relatedKey = Dto.StoreLicenseMetadata.CreateId(request.EntityDto.StoreLicenseId.NonNullValue<System.Int64>());
 			var relatedEntity = await DbContext.StoreLicenses.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToStoreLicense(relatedEntity);
@@ -119,7 +120,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		{
 			foreach(var relatedId in request.EntityDto.ClientsId)
 			{
-				var relatedKey = ClientApi.Domain.ClientMetadata.CreateId(relatedId);
+				var relatedKey = Dto.ClientMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.Clients.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)

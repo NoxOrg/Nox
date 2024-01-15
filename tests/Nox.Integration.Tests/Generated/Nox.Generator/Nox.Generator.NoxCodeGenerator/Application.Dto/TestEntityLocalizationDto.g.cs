@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 public record TestEntityLocalizationKeyDto(System.String keyId);
@@ -32,18 +30,17 @@ public partial class TestEntityLocalizationDto : TestEntityLocalizationDtoBase
 /// </summary>
 public abstract class TestEntityLocalizationDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TextFieldToLocalize is not null)
-            ExecuteActionAndCollectValidationExceptions("TextFieldToLocalize", () => DomainNamespace.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(this.TextFieldToLocalize.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("TextFieldToLocalize", () => TestEntityLocalizationMetadata.CreateTextFieldToLocalize(this.TextFieldToLocalize.NonNullValue<System.String>()), result);
         else
             result.Add("TextFieldToLocalize", new [] { "TextFieldToLocalize is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("NumberField", () => DomainNamespace.TestEntityLocalizationMetadata.CreateNumberField(this.NumberField), result);
+        CollectValidationExceptions("NumberField", () => TestEntityLocalizationMetadata.CreateNumberField(this.NumberField), result);
     
 
         return result;

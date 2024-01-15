@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Commands;
@@ -69,7 +70,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 		{
 			foreach(var relatedId in request.EntityDto.VendingMachinesId)
 			{
-				var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedId);
+				var relatedKey = Dto.VendingMachineMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
@@ -88,7 +89,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 		}
 		if(request.EntityDto.CurrencyId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.CurrencyMetadata.CreateId(request.EntityDto.CurrencyId.NonNullValue<System.String>());
+			var relatedKey = Dto.CurrencyMetadata.CreateId(request.EntityDto.CurrencyId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.Currencies.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCurrency(relatedEntity);

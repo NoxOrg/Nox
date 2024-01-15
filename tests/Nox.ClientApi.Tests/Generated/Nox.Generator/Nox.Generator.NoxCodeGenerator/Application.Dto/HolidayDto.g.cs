@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 public record HolidayKeyDto(System.Guid keyId);
@@ -32,21 +30,20 @@ public partial class HolidayDto : HolidayDtoBase
 /// </summary>
 public abstract class HolidayDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.HolidayMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Name", () => HolidayMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.Type is not null)
-            ExecuteActionAndCollectValidationExceptions("Type", () => DomainNamespace.HolidayMetadata.CreateType(this.Type.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Type", () => HolidayMetadata.CreateType(this.Type.NonNullValue<System.String>()), result);
         if (this.Date is not null)
-            ExecuteActionAndCollectValidationExceptions("Date", () => DomainNamespace.HolidayMetadata.CreateDate(this.Date.NonNullValue<System.DateTime>()), result);
+            CollectValidationExceptions("Date", () => HolidayMetadata.CreateDate(this.Date.NonNullValue<System.DateTime>()), result);
 
         return result;
     }

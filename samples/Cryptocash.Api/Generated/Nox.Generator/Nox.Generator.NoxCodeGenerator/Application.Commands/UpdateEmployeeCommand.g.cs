@@ -15,6 +15,7 @@ using FluentValidation;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
@@ -50,7 +51,7 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.EmployeeMetadata.CreateId(request.keyId);
+		var keyId = Dto.EmployeeMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Employees.FindAsync(keyId);
 		if (entity == null)

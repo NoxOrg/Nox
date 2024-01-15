@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 public record CountryQualityOfLifeIndexKeyDto(System.Int64 keyCountryId, System.Int64 keyId);
@@ -32,17 +30,16 @@ public partial class CountryQualityOfLifeIndexDto : CountryQualityOfLifeIndexDto
 /// </summary>
 public abstract class CountryQualityOfLifeIndexDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if(this.CountryId != default(System.Int64))
-            ExecuteActionAndCollectValidationExceptions("CountryId", () => DomainNamespace.CountryQualityOfLifeIndexMetadata.CreateCountryId(this.CountryId), result);
+            CollectValidationExceptions("CountryId", () => CountryQualityOfLifeIndexMetadata.CreateCountryId(this.CountryId), result);
         else
             result.Add("CountryId", new [] { "CountryId is Required." });
-        ExecuteActionAndCollectValidationExceptions("IndexRating", () => DomainNamespace.CountryQualityOfLifeIndexMetadata.CreateIndexRating(this.IndexRating), result);
+        CollectValidationExceptions("IndexRating", () => CountryQualityOfLifeIndexMetadata.CreateIndexRating(this.IndexRating), result);
     
 
         return result;
