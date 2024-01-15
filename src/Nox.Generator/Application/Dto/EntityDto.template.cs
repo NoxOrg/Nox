@@ -15,9 +15,9 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = {{codeGeneratorState.DomainNameSpace}};
+using DomainNamespace = {{codeGenConventions.DomainNameSpace}};
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Dto;
 
 public record {{entity.Name}}KeyDto({{primaryKeys}});
 

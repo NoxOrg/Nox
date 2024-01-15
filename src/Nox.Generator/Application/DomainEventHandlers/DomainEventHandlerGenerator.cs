@@ -12,7 +12,7 @@ internal class DomainEventHandlerGenerator : INoxCodeGenerator
 
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions codeGeneratorState,
+      NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
@@ -20,7 +20,7 @@ internal class DomainEventHandlerGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Infrastructure?.Messaging is null || codeGeneratorState.Solution.Domain?.Entities is null)
+        if (codeGenConventions.Solution.Infrastructure?.Messaging is null || codeGenConventions.Solution.Domain?.Entities is null)
         {
             if(config.LoggingVerbosity == LoggingVerbosity.Diagnostic)
             {
@@ -30,13 +30,13 @@ internal class DomainEventHandlerGenerator : INoxCodeGenerator
         }
             
 
-        foreach (var (operation, raiseIntegrationEvent, entity) in GroupEntitiesWithDomainEventsByOperation(codeGeneratorState.Solution.Domain.Entities))
+        foreach (var (operation, raiseIntegrationEvent, entity) in GroupEntitiesWithDomainEventsByOperation(codeGenConventions.Solution.Domain.Entities))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
             if (raiseIntegrationEvent)
             {
-                new TemplateCodeBuilder(context, codeGeneratorState)
+                new TemplateCodeBuilder(context, codeGenConventions)
                     .WithClassName($"{entity.Name}{operation}RaiseIntegrationEventDomainEventHandler")
                     .WithFileNamePrefix($"Application.DomainEventHandlers")
                     .WithObject("operation", operation)

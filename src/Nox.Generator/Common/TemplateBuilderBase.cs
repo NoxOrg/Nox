@@ -31,7 +31,7 @@ public abstract class TemplateBuilderBase
         _fileExtension = fileExtension;
         _model = new Dictionary<string, object>
         {
-            ["codeGeneratorState"] = _noxCodeGenConventions,
+            ["codeGenConventions"] = _noxCodeGenConventions,
             ["solution"] = _noxCodeGenConventions.Solution
         };
     }

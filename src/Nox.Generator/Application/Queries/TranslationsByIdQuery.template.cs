@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Commands;
 using YamlDotNet.Core.Tokens;
-using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
-using {{codeGeneratorState.PersistenceNameSpace}};
+using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using {{codeGenConventions.PersistenceNameSpace}};
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Queries;
 
-public record  {{className}}({{primaryKeys}}, Nox.Types.CultureCode {{codeGeneratorState.LocalizationCultureField}}) : IRequest <IQueryable<{{entity.Name}}LocalizedDto>>;
+public record  {{className}}({{primaryKeys}}, Nox.Types.CultureCode {{codeGenConventions.LocalizationCultureField}}) : IRequest <IQueryable<{{entity.Name}}LocalizedDto>>;
 
 internal partial class {{className}}Handler:{{className}}HandlerBase
 {
@@ -40,7 +40,7 @@ internal abstract class {{className}}HandlerBase:  QueryBase<IQueryable<{{entity
                 r.{{key.Name}}.Equals(request.key{{key.Name}}){{if !for.last}} &&{{end}}
             {{- end -}}
             {{-}}
-                && r.CultureCode == request.{{codeGeneratorState.LocalizationCultureField}}.Value
+                && r.CultureCode == request.{{codeGenConventions.LocalizationCultureField}}.Value
             );
         return Task.FromResult(OnResponse(query));
     }

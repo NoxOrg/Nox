@@ -14,13 +14,13 @@ internal class EntityPartialUpdateDtoGenerator : INoxCodeGenerator
 
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions codeGeneratorState,
+      NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
       )
     {
-        NoxSolution solution = codeGeneratorState.Solution;
+        NoxSolution solution = codeGenConventions.Solution;
         context.CancellationToken.ThrowIfCancellationRequested();
 
         if (solution.Domain is null ||
@@ -39,7 +39,7 @@ internal class EntityPartialUpdateDtoGenerator : INoxCodeGenerator
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{entity.Name}PartialUpdateDto")
                 .WithFileNamePrefix("Application.Dto")
                 .WithObject("entity", entity)

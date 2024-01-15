@@ -11,7 +11,7 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Dto;
 
 /// <summary>
 /// {{entity.Description  | string.rstrip}}.

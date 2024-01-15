@@ -25,14 +25,14 @@ using Nox.Exceptions;
 
 using System;
 using System.Net.Http.Headers;
-using {{codeGeneratorState.ApplicationNameSpace}};
-using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
-using {{codeGeneratorState.ApplicationNameSpace}}.Queries;
-using {{codeGeneratorState.ApplicationNameSpace}}.Commands;
-using {{codeGeneratorState.DomainNameSpace}};
-using {{codeGeneratorState.PersistenceNameSpace}};
+using {{codeGenConventions.ApplicationNameSpace}};
+using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using {{codeGenConventions.ApplicationNameSpace}}.Queries;
+using {{codeGenConventions.ApplicationNameSpace}}.Commands;
+using {{codeGenConventions.DomainNameSpace}};
+using {{codeGenConventions.PersistenceNameSpace}};
 
-namespace {{codeGeneratorState.ODataNameSpace}};
+namespace {{codeGenConventions.ODataNameSpace}};
 
 public partial class {{entity.PluralName}}Controller : {{entity.PluralName}}ControllerBase
 {

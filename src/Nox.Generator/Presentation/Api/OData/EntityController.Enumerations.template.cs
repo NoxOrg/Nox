@@ -2,16 +2,16 @@
 
 using System.Collections.Generic;
 
-{{- cultureCode = ToLowerFirstChar codeGeneratorState.LocalizationCultureField}}
+{{- cultureCode = ToLowerFirstChar codeGenConventions.LocalizationCultureField}}
 #nullable enable
 using Microsoft.AspNetCore.Mvc;
 using Nox.Application.Dto;
 
-using DtoNameSpace = {{codeGeneratorState.DtoNameSpace}};
-using ApplicationQueriesNameSpace = {{codeGeneratorState.ApplicationQueriesNameSpace}};
-using ApplicationCommandsNameSpace = {{codeGeneratorState.ApplicationNameSpace}}.Commands;
+using DtoNameSpace = {{codeGenConventions.DtoNameSpace}};
+using ApplicationQueriesNameSpace = {{codeGenConventions.ApplicationQueriesNameSpace}};
+using ApplicationCommandsNameSpace = {{codeGenConventions.ApplicationNameSpace}}.Commands;
 
-namespace {{ codeGeneratorState.ODataNameSpace }};
+namespace {{ codeGenConventions.ODataNameSpace }};
 
 public abstract partial class {{ entity.PluralName }}ControllerBase
 {    

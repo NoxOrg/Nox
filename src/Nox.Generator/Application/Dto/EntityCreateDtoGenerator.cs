@@ -14,7 +14,7 @@ internal class EntityCreateDtoGenerator : INoxCodeGenerator
 
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions codeGeneratorState,
+      NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
@@ -22,11 +22,11 @@ internal class EntityCreateDtoGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain is null)
+        if (codeGenConventions.Solution.Domain is null)
         {
             return;
         }
-        foreach (var entity in codeGeneratorState.Solution.Domain!.Entities.Where(entity => !entity.IsOwnedEntity))
+        foreach (var entity in codeGenConventions.Solution.Domain!.Entities.Where(entity => !entity.IsOwnedEntity))
         {
             var componentsInfo = entity.Attributes
                .ToDictionary(r => r.Name, key => new { 
@@ -36,7 +36,7 @@ internal class EntityCreateDtoGenerator : INoxCodeGenerator
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{entity.Name}CreateDto")
                 .WithFileNamePrefix("Application.Dto")
                 .WithObject("entity", entity)

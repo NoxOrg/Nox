@@ -15,7 +15,7 @@ internal class EntityMetaGenerator : INoxCodeGenerator
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions codeGeneratorState,
+      NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
@@ -23,17 +23,17 @@ internal class EntityMetaGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain is null) return;
+        if (codeGenConventions.Solution.Domain is null) return;
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
+        foreach (var entity in codeGenConventions.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
             
             var entitiesMetaData = entity.GetAllMembers().GroupBy(m=>m.Value.Name).Select(g=>g.First())
-                .Select( t =>  GenerateEntityMetaData(t.Value, codeGeneratorState.Solution) )
+                .Select( t =>  GenerateEntityMetaData(t.Value, codeGenConventions.Solution) )
                 .ToList();
             
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{entity.Name}Metadata")
                 .WithFileNamePrefix($"Meta")
                 .WithObject("entity", entity)

@@ -14,7 +14,7 @@ internal class DomainEventGenerator : INoxCodeGenerator
 
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions codeGeneratorState,
+      NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
@@ -22,23 +22,23 @@ internal class DomainEventGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain == null) return;
+        if (codeGenConventions.Solution.Domain == null) return;
 
 #pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
+        foreach (var entity in codeGenConventions.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
             if (entity.Events == null || !entity.Events.Any()) continue;
             foreach (var evt in entity.Events)
             {
                 context.CancellationToken.ThrowIfCancellationRequested();
-                GenerateEvent(context, codeGeneratorState, evt);
+                GenerateEvent(context, codeGenConventions, evt);
             }
         }
 #pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
     }
 
-    private static void GenerateEvent(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, DomainEvent evt)
+    private static void GenerateEvent(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, DomainEvent evt)
     {
         var code = new CodeBuilder($"{evt.Name}.g.cs", context);
 
@@ -48,7 +48,7 @@ internal class DomainEventGenerator : INoxCodeGenerator
         code.AppendLine($"using Nox.Abstractions;");
         code.AppendLine($"using Nox.Types;");
         code.AppendLine();
-        code.AppendLine($"namespace {codeGeneratorState.DomainNameSpace};");
+        code.AppendLine($"namespace {codeGenConventions.DomainNameSpace};");
 
         GenerateDocs(code, evt.Description);
 

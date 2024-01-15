@@ -14,13 +14,13 @@ internal class EntityUpsertDtoGenerator : INoxCodeGenerator
 
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions codeGeneratorState,
+      NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
       Action<string> log,
       string? projectRootPath
       )
     {
-        NoxSolution solution = codeGeneratorState.Solution;
+        NoxSolution solution = codeGenConventions.Solution;
         context.CancellationToken.ThrowIfCancellationRequested();
 
         if (solution.Domain is null || !solution.Domain.Entities.Any())
@@ -38,7 +38,7 @@ internal class EntityUpsertDtoGenerator : INoxCodeGenerator
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{entity.Name}UpsertDto")
                 .WithFileNamePrefix("Application.Dto")
                 .WithObject("entity", entity)

@@ -7,11 +7,11 @@ using System.Linq.Dynamic.Core;
 using Nox.Application.Commands;
 using Nox.Application.Services;
 
-using {{codeGeneratorState.DtoNameSpace}};
-using {{codeGeneratorState.PersistenceNameSpace}};
-using {{codeGeneratorState.DomainNameSpace}};
+using {{codeGenConventions.DtoNameSpace}};
+using {{codeGenConventions.PersistenceNameSpace}};
+using {{codeGenConventions.DomainNameSpace}};
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Services;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Services;
 
 internal partial class {{className}} : {{className}}Base
 {

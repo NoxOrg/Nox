@@ -6,10 +6,10 @@ using MediatR;
 using Nox.Application;
 using Nox.Infrastructure.Messaging;
 
-using {{codeGeneratorState.DomainNameSpace}};
-using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+using {{codeGenConventions.DomainNameSpace}};
+using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.DomainEventHandlers;
+namespace {{codeGenConventions.ApplicationNameSpace}}.DomainEventHandlers;
 
 internal abstract class {{className}}Base : INotificationHandler<{{entity.Name}}{{operation}}>
 {
@@ -23,7 +23,7 @@ internal abstract class {{className}}Base : INotificationHandler<{{entity.Name}}
     public virtual async Task Handle({{entity.Name}}{{operation}} domainEvent, CancellationToken cancellationToken)
     {
         var dto = domainEvent.{{entity.Name}}.ToDto();
-        var @event = new {{codeGeneratorState.ApplicationNameSpace}}.IntegrationEvents.{{entity.Name}}{{operation}}(dto);
+        var @event = new {{codeGenConventions.ApplicationNameSpace}}.IntegrationEvents.{{entity.Name}}{{operation}}(dto);
         await _outboxRepository.AddAsync(@event);
     }
 }

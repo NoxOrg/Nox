@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using Nox;
 
-namespace {{codeGeneratorState.DomainNameSpace}};
+namespace {{codeGenConventions.DomainNameSpace}};
 
 /// <summary>
 /// Static methods for the {{entity.Name}} class.

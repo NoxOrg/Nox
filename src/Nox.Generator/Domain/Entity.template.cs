@@ -26,7 +26,7 @@ using Nox.Types;
 using Nox.Extensions;
 using Nox.Exceptions;
 
-namespace {{codeGeneratorState.DomainNameSpace}};
+namespace {{codeGenConventions.DomainNameSpace}};
 
 internal partial class {{className}} : {{className}}Base{{if entity.HasDomainEvents}}, IEntityHaveDomainEvents{{end}}
 {

@@ -12,7 +12,7 @@ internal abstract class EntityControllerGeneratorBase : INoxCodeGenerator
 
     public abstract void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions codeGeneratorState,
+      NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath

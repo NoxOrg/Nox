@@ -8,7 +8,7 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Dto;
 
 {{ #We Split Partial from Update Dto, so this one gets registered as a complextype in Odata for Delta to work properly }}
 

@@ -10,7 +10,7 @@ internal class ServiceCollectionExtensionsGenerator : INoxCodeGenerator
 
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions codeGeneratorState,
+      NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
@@ -20,10 +20,10 @@ internal class ServiceCollectionExtensionsGenerator : INoxCodeGenerator
 
         var namePrefix = "Application";
 
-        new TemplateCodeBuilder(context, codeGeneratorState)
+        new TemplateCodeBuilder(context, codeGenConventions)
             .WithClassName("ServiceCollectionExtensions")
             .WithFileNamePrefix(namePrefix)
-            .WithObject("solutionName", codeGeneratorState.Solution.Name)
+            .WithObject("solutionName", codeGenConventions.Solution.Name)
             .WithObject("configPresentation", config.Presentation)
             .GenerateSourceCodeFromResource($"{namePrefix}.ServiceCollectionExtensions");
     }
