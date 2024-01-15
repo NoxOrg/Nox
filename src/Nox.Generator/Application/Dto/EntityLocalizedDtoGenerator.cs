@@ -8,7 +8,7 @@ namespace Nox.Generator.Application.Dto;
 
 internal class EntityLocalizedDtoGenerator : INoxCodeGenerator
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.ApplicationDto;
 
     public void Generate(
         SourceProductionContext context,

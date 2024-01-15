@@ -12,7 +12,7 @@ namespace Nox.Generator.Application.DtoGenerator;
 // TODO Rethink custom commands and queries
 internal class DtoDynamicGenerator// : INoxCodeGenerator
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.ApplicationDto;
 
     public void Generate(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, GeneratorConfig config, string? projectRootPath)
     {

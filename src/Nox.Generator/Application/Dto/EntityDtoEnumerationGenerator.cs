@@ -12,7 +12,7 @@ internal class EntityDtoEnumerationGenerator : INoxCodeGenerator
 
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions noxCodeGenCodeConventions,
+      NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
@@ -20,13 +20,13 @@ internal class EntityDtoEnumerationGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (noxCodeGenCodeConventions.Solution.Domain is null)
+        if (codeGenConventions.Solution.Domain is null)
         {
             return;
         }
 
         context.CancellationToken.ThrowIfCancellationRequested();
-        foreach (var entity in noxCodeGenCodeConventions.Solution.Domain!.Entities)
+        foreach (var entity in codeGenConventions.Solution.Domain!.Entities)
         {
             var enumerationAttributes = 
                 entity
@@ -34,15 +34,15 @@ internal class EntityDtoEnumerationGenerator : INoxCodeGenerator
                 .Where(attribute => attribute.Type == NoxType.Enumeration)
                 .Select(attribute => new { 
                     Attribute = attribute, 
-                    EntityNameForEnumeration = noxCodeGenCodeConventions.GetEntityDtoNameForEnumeration(entity.Name, attribute.Name), 
-                    EntityNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name)
+                    EntityNameForEnumeration = codeGenConventions.GetEntityDtoNameForEnumeration(entity.Name, attribute.Name), 
+                    EntityNameForLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name)
                 });
 
             if (!enumerationAttributes.Any())
             {
                 continue;
             }
-            new TemplateCodeBuilder(context, noxCodeGenCodeConventions)
+            new TemplateCodeBuilder(context, codeGenConventions)
             .WithClassName($"{entity.Name}EnumerationsDto")
             .WithFileNamePrefix("Application.Dto")
             .WithObject("enumerationAttributes", enumerationAttributes)

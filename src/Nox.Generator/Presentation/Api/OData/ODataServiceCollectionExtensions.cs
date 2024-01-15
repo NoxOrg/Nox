@@ -13,7 +13,7 @@ internal class ODataServiceCollectionExtensions : INoxCodeGenerator
 
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions noxCodeGenCodeConventions,
+      NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
@@ -21,13 +21,13 @@ internal class ODataServiceCollectionExtensions : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (noxCodeGenCodeConventions.Solution.Domain is null)
+        if (codeGenConventions.Solution.Domain is null)
         {
             return;
         }
 
         var enumerationAttributes = new List<EntityEnumerations>();
-        foreach (var entity in noxCodeGenCodeConventions.Solution.Domain.Entities)
+        foreach (var entity in codeGenConventions.Solution.Domain.Entities)
         {
             var enumerations = entity
               .Attributes
@@ -35,8 +35,8 @@ internal class ODataServiceCollectionExtensions : INoxCodeGenerator
               .Select(attribute => new EntityEnumerations(
                   entity,
                   attribute,
-                  noxCodeGenCodeConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name) + "Dto",
-                  noxCodeGenCodeConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name) + "Dto"
+                  codeGenConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name) + "Dto",
+                  codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name) + "Dto"
               )).ToArray();
 
             if (enumerations.Any())
@@ -46,7 +46,7 @@ internal class ODataServiceCollectionExtensions : INoxCodeGenerator
 
         var templateName = @"Presentation.Api.OData.ODataServiceCollectionExtensions";
 
-        new TemplateCodeBuilder(context, noxCodeGenCodeConventions)
+        new TemplateCodeBuilder(context, codeGenConventions)
             .WithObject("enumerationAttributes", enumerationAttributes)
             .WithFileNamePrefix($"Presentation.Api.OData")
             .GenerateSourceCodeFromResource(templateName);
