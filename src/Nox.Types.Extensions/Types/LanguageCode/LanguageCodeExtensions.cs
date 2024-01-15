@@ -14,7 +14,4 @@ public static class LanguageCodeExtensions
     /// <returns>The reference language that corresponds to the given language code.</returns>
     public static Language GetReferenceLanguage(this LanguageCode languageCode)
         => World.Languages.GetByIso_639_1(languageCode.Value)!;
-
-
-   
 }
