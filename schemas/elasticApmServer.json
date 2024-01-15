@@ -74,6 +74,22 @@
           "type": "null"
         }
       ]
+    },
+    "logLevel": {    
+      "title": "Sets Logging for the agent",
+      "description": "Default is Warning. Supported values: Critical, Error, Warning, Info, Debug, Trace and None",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^\\$\\{\\{\\s*(.+)\\.(.+)\\s*\\}\\}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "additionalProperties": false
