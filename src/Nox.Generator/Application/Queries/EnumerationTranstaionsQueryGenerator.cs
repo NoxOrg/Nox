@@ -10,7 +10,7 @@ namespace Nox.Generator.Application.Queries;
 
 internal class EnumerationTranslationsQueryGenerator : ApplicationEntityDependentGeneratorBase
 {
-    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions noxCodeGenCodeConventions, IEnumerable<Entity> entities)
+    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, IEnumerable<Entity> entities)
     {
         var templateName = @"Application.Queries.EnumerationTranslationsQuery";
 
@@ -24,7 +24,7 @@ internal class EnumerationTranslationsQueryGenerator : ApplicationEntityDependen
                 .Where(attribute => attribute.Type == NoxType.Enumeration && attribute.EnumerationTypeOptions!.IsLocalized)
                 .Select(attribute => new {
                     Attribute = attribute,
-                    EntityNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name)
+                    EntityNameForLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name)
                 });
 
             if (!enumerationAttributes.Any())
@@ -32,7 +32,7 @@ internal class EnumerationTranslationsQueryGenerator : ApplicationEntityDependen
                 continue;
             }
 
-            new TemplateCodeBuilder(context, noxCodeGenCodeConventions)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"Get{entity.PluralName}EnumerationTranslationsQuery")
                 .WithFileNamePrefix($"Application.Queries")
                 .WithObject("entity", entity)
