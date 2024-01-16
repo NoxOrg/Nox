@@ -1,5 +1,5 @@
 using Nox.Domain;
-using {{codeGeneratorState.DomainNameSpace}};
+using {{codeGenConventions.DomainNameSpace}};
 using MediatR;
 
 {{ for event in entity.Events }}
