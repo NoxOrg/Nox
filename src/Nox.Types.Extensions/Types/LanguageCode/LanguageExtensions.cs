@@ -8,20 +8,15 @@ namespace Nox.Types.Extensions;
 public static class LanguageExtensions
 {
     /// <summary>
-    /// Retrieves the reference language code for the specified <paramref name="language"/>.
+    /// Retrieves the reference language code for the specified <paramref name="referenceLanguage"/>.
     /// </summary>
-    /// <param name="language">The <see cref="Language"/> object.</param>
+    /// <param name="referenceLanguage">The <see cref="Language"/> object.</param>
     /// <returns>The reference language code as a <see cref="LanguageCode"/> object.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="language"/> or <paramref name="language"/>'s Iso_639_1 value is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="referenceLanguage"/> or <paramref name="referenceLanguage"/>'s Iso_639_1 value is null.</exception>
     public static LanguageCode GetLanguageCode(this Language referenceLanguage)
     {
-        ArgumentNullException.ThrowIfNull(language, nameof(language));
-        ArgumentNullException.ThrowIfNull(language.Iso_639_1, nameof(language.Iso_639_1));
-        return LanguageCode.From(language.Iso_639_1);
-        {
-            return LanguageCode.From(language.Iso_639_1);
-        }
-
-        throw new ArgumentNullException(nameof(language), "Language.Iso_639_1 is null");
+        ArgumentNullException.ThrowIfNull(referenceLanguage);
+        ArgumentNullException.ThrowIfNull(referenceLanguage.Iso_639_1);
+        return LanguageCode.From(referenceLanguage.Iso_639_1);
     }
 }

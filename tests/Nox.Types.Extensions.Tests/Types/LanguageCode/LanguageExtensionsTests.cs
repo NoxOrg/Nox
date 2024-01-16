@@ -12,7 +12,7 @@ public class LanguageExtensionsTests : WorldTestBase
         var languageHasIsoCode = World.Languages.FirstOrDefault(x => x.Iso_639_1 != null)!;
        
         //Act & Assert
-        languageHasIsoCode.GetReferenceLanguageCode().Should()
+        languageHasIsoCode.GetLanguageCode().Should()
             .Be(Nox.Types.LanguageCode.From(languageHasIsoCode.Iso_639_1!));
         
     }
@@ -24,7 +24,7 @@ public class LanguageExtensionsTests : WorldTestBase
         var languageHasNoIsoCode = World.Languages.FirstOrDefault(x => x.Iso_639_1 == null)!;
 
         //Act & Assert
-        var action = new Action(() => languageHasNoIsoCode!.GetReferenceLanguageCode());
+        var action = new Action(() => languageHasNoIsoCode!.GetLanguageCode());
         action.Should().Throw<ArgumentNullException>();
     }
 }
