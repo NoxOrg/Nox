@@ -24,7 +24,8 @@ public partial class StoreCreateDto : StoreCreateDtoBase
 /// Stores.
 /// </summary>
 public abstract class StoreCreateDtoBase 
-{/// <summary>
+{
+    /// <summary>
     ///      
     /// </summary>
     /// <remarks>Optional.</remarks>

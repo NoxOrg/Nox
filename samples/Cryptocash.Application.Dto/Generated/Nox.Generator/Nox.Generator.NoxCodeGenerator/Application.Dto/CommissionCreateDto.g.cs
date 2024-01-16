@@ -24,7 +24,8 @@ public partial class CommissionCreateDto : CommissionCreateDtoBase
 /// Exchange commission rate and amount.
 /// </summary>
 public abstract class CommissionCreateDtoBase 
-{/// <summary>
+{
+    /// <summary>
     /// Commission unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>

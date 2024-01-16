@@ -34,7 +34,7 @@ public abstract class {{className}}Base
 {{- for key in entity.Keys }}
     {{- if !IsNoxTypeCreatable key.Type -}}    
     {{ continue; -}}
-    {{- else if key.Type == "Guid" -}}
+    {{- else if key.Type == "Guid" }}
     /// <summary>
     /// {{key.Description  | string.rstrip}}     
     /// </summary>

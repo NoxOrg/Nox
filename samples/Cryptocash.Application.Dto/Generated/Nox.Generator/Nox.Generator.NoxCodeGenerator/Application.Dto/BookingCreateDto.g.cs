@@ -24,7 +24,8 @@ public partial class BookingCreateDto : BookingCreateDtoBase
 /// Exchange booking and related data.
 /// </summary>
 public abstract class BookingCreateDtoBase 
-{/// <summary>
+{
+    /// <summary>
     /// Booking unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>

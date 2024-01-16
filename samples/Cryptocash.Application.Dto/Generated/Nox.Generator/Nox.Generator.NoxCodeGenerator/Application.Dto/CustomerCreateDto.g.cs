@@ -24,7 +24,8 @@ public partial class CustomerCreateDto : CustomerCreateDtoBase
 /// Customer definition and related data.
 /// </summary>
 public abstract class CustomerCreateDtoBase 
-{/// <summary>
+{
+    /// <summary>
     /// Customer's unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>

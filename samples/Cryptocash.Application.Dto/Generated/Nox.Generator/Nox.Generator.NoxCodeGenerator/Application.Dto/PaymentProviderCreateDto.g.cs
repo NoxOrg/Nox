@@ -24,7 +24,8 @@ public partial class PaymentProviderCreateDto : PaymentProviderCreateDtoBase
 /// Payment provider related data.
 /// </summary>
 public abstract class PaymentProviderCreateDtoBase 
-{/// <summary>
+{
+    /// <summary>
     /// Payment provider unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>

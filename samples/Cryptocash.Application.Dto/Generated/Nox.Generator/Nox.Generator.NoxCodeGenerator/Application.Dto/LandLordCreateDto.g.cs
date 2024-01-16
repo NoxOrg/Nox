@@ -24,7 +24,8 @@ public partial class LandLordCreateDto : LandLordCreateDtoBase
 /// Landlord related data.
 /// </summary>
 public abstract class LandLordCreateDtoBase 
-{/// <summary>
+{
+    /// <summary>
     /// Landlord unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>
