@@ -87,7 +87,7 @@
                                                                             Format="##:##:##:##:##:##" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <UiEditIpAddress_g @bind-IpAddress="CurrentAddEntity.PublicIp"
+                                                        <EditIpAddress @bind-IpAddress="CurrentAddEntity.PublicIp"
                                                                              Title="Public Ip" />
                                                     </MudItem>
                                                     <MudItem xs=6>
@@ -97,9 +97,9 @@
                                                                       MinLength="4" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <UiEditCountry_g @bind-CountryId="CurrentAddEntity.CountryId"
+                                                        <EditCountry @bind-CountryId="CurrentAddEntity.CountryId"
                                                                          Title="Installation Country"
-                                                                         CountrySelectionList="CountryEntityData?.EntityList" />
+                                                                         CountrySelectionList="CountryModelData" />
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditArea @bind-Area="CurrentAddEntity.InstallationFootPrint"
@@ -228,7 +228,7 @@
                                                                                 Format="##:##:##:##:##:##" />
                                                         </MudItem>
                                                         <MudItem xs="6">
-                                                            <UiEditIpAddress_g @bind-IpAddress="CurrentEditEntity.PublicIp"
+                                                            <EditIpAddress @bind-IpAddress="CurrentEditEntity.PublicIp"
                                                                                  Title="Public Ip" />
                                                         </MudItem>
                                                         <MudItem xs=6>
@@ -441,7 +441,7 @@
                                 @if (CurrentApiUiService!.IsPropertyShowInSearch("PublicIp"))
                                 {
                                     <MudTd>
-                                        <UiViewIpAddress_g IpAddress="@context.PublicIp" />
+                                        <ViewIpAddress IpAddress="@context.PublicIp" />
                                     </MudTd>
                                 }
 

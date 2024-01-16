@@ -1,0 +1,19 @@
+﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using Nox.Ui.Blazor.Lib.Models
+@using MudBlazor
+
+<MudSelect Label="@Title"
+           Variant="Variant.Outlined"
+           FullWidth="true"
+           Clearable="true"
+           TextChanged="OnCurrencyIdChanged"
+           Value="@CurrentCurrencyIdStr">
+    @foreach (CurrencyModel item in CurrencySelectionList)
+    {
+        if (!string.IsNullOrWhiteSpace(@item.Id)
+            && !string.IsNullOrWhiteSpace(@item.Name))
+        {
+            <MudSelectItem Value="@item.Id.ToString()">@item.Name</MudSelectItem>
+        }        
+    }
+</MudSelect>

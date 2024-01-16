@@ -1,17 +1,16 @@
 ﻿using Nox.Types;
 namespace Nox.Ui.Blazor.Lib.Models;
 
-public class CountryModel
+public class CurrencyModel
 {
-    public CountryModel()
+    public CurrencyModel()
     {
     }
 
-    public CountryModel(string? id, string? name, string? currencyCodeStr)
+    public CurrencyModel(string? id, string? name)
     {
         Id = id;
         Name = name;
-        CurrencyCodeStr = currencyCodeStr;
     }
 
     public string? Id { get; set; }

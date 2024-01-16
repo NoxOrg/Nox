@@ -65,6 +65,30 @@
         new CountryModel("GB", "Great Britain", "GBP")
     };
     LatLongModel testLatLong = new LatLongModel(51.509865, -0.118092);
+    string testIpAddress = "100.100.100.100";
+    CountryModel testCountry = new CountryModel()
+                {
+                    Id = "GB",
+                    Name = "United Kingdom"
+                };
+    List<CurrencyModel> testCurrencySelectionList = new List<CurrencyModel>()
+                {
+                    new CurrencyModel()
+                    {
+                        Id = "GBP",
+                        Name = "British Pound"
+                    },
+                    new CurrencyModel()
+                    {
+                        Id = "CHF",
+                        Name = "Swiss Franc"
+                    }                               
+                };
+    CurrencyModel testCurrency = new CurrencyModel()
+                        {
+                            Id = "GBP",
+                            Name = "British Pound"
+                        };  
 
     #endregion
 
@@ -223,6 +247,17 @@
                                                             Format="#.########"
                                                             DisplayGoogleMap="false" />
                                                     </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditIpAddress @bind-IpAddress="@testIpAddress"
+                                                            Title="Public Ip" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditCountry Title="Country"
+                                                            CountrySelectionList="@testCountryList" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditCurrency Title="Currency" CurrencySelectionList="@testCurrencySelectionList" />
+                                                    </MudItem>
                                                 </MudGrid>
                                     </MudItem>
                                     <MudItem xs="12">
@@ -281,6 +316,9 @@
                                 <MudTh>DayOfWeek</MudTh>
                                 <MudTh>StreetAddress</MudTh>
                                 <MudTh>LatLong</MudTh>
+                                <MudTh>IpAddress</MudTh>
+                                <MudTh>Country</MudTh>
+                                <MudTh>Currency</MudTh>
                             </HeaderContent>
                             <RowTemplate> 
                                 <MudTd Style="vertical-align:top;">
@@ -345,6 +383,15 @@
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <ViewLatLong LatLong="@testLatLong" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewIpAddress IpAddress="@testIpAddress" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewCountry Country="@testCountry" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewCurrency Currency="@testCurrency" />
                                 </MudTd>
                             </RowTemplate>
                             <NoRecordsContent>

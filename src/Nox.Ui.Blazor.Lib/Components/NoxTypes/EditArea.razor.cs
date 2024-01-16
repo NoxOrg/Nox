@@ -24,7 +24,7 @@ public partial class EditArea : ComponentBase
     {
         get
         {
-            return string.Format(Resources.Resources.FieldIsRequired, Title);
+            return string.Format(Resources.Resources.FieldIsRequired, Title).Trim();
         }
     }
 
