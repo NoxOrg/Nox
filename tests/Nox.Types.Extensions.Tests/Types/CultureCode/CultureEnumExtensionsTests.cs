@@ -3,7 +3,7 @@ using Nox.Types.Abstractions.Extensions;
 
 namespace Nox.Types.Extensions.Tests.Types.CultureCode;
 
-public class CultureEnumExtensionsTests
+public class CultureEnumExtensionsTests : WorldTestBase
 {
     [Theory]
     [InlineData(Culture.tr_TR)]
