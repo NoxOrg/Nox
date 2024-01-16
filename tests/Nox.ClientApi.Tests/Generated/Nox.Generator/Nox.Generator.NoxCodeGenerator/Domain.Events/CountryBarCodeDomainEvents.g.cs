@@ -1,5 +1,5 @@
 ﻿using Nox.Domain;
-using  ClientApi.Domain;
+using ClientApi.Domain;
 using MediatR;
 
 
