@@ -10,6 +10,6 @@ public static class CultureExtensions
     /// </summary>
     /// <param name="culture">The <see cref="Nox.Reference.Culture"/> to get the reference culture for.</param>
     /// <returns>The reference culture as a <see cref="CultureCode"/>.</returns>
-    public static CultureCode GetReferenceCultureCode(this Nox.Reference.Culture culture)
+    public static CultureCode GetCultureCode(this Nox.Reference.Culture culture)
         => CultureCode.From(culture.Name);
 }

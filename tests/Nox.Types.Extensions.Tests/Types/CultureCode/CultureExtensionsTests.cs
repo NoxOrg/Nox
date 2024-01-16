@@ -17,6 +17,6 @@ public class CultureExtensionsTests : WorldTestBase
         
         // Assert
         culture.Should().NotBeNull();
-        culture!.GetReferenceCultureCode().Should().Be(cultureCode);
+        culture!.GetCultureCode().Should().Be(cultureCode);
     }
 }
