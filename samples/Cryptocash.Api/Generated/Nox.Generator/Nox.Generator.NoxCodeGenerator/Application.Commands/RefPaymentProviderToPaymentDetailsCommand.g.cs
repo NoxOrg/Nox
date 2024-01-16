@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using PaymentProviderEntity = Cryptocash.Domain.PaymentProvider;
 
 namespace Cryptocash.Application.Commands;
@@ -193,13 +194,13 @@ internal abstract class RefPaymentProviderToPaymentDetailsCommandHandlerBase<TRe
 
 	protected async Task<PaymentProviderEntity?> GetPaymentProvider(PaymentProviderKeyDto entityKeyDto)
 	{
-		var keyId = Cryptocash.Domain.PaymentProviderMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.PaymentProviderMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.PaymentProviders.FindAsync(keyId);
 	}
 
 	protected async Task<Cryptocash.Domain.PaymentDetail?> GetPaymentDetail(PaymentDetailKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = Cryptocash.Domain.PaymentDetailMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.PaymentDetailMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.PaymentDetails.FindAsync(relatedKeyId);
 	}
 

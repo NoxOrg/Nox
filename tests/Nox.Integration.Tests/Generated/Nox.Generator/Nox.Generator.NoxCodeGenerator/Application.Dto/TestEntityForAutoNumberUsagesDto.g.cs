@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 public record TestEntityForAutoNumberUsagesKeyDto(System.Int64 keyId);
@@ -30,20 +28,19 @@ public partial class TestEntityForAutoNumberUsagesDto : TestEntityForAutoNumberU
 /// <summary>
 /// Entity created for testing auto number usages.
 /// </summary>
-public abstract class TestEntityForAutoNumberUsagesDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.TestEntityForAutoNumberUsages>
+public abstract class TestEntityForAutoNumberUsagesDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
-        ExecuteActionAndCollectValidationExceptions("AutoNumberFieldWithOptions", () => DomainNamespace.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithOptions(this.AutoNumberFieldWithOptions), result);
+        CollectValidationExceptions("AutoNumberFieldWithOptions", () => TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithOptions(this.AutoNumberFieldWithOptions), result);
     
-        ExecuteActionAndCollectValidationExceptions("AutoNumberFieldWithoutOptions", () => DomainNamespace.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithoutOptions(this.AutoNumberFieldWithoutOptions), result);
+        CollectValidationExceptions("AutoNumberFieldWithoutOptions", () => TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithoutOptions(this.AutoNumberFieldWithoutOptions), result);
     
         if (this.TextField is not null)
-            ExecuteActionAndCollectValidationExceptions("TextField", () => DomainNamespace.TestEntityForAutoNumberUsagesMetadata.CreateTextField(this.TextField.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("TextField", () => TestEntityForAutoNumberUsagesMetadata.CreateTextField(this.TextField.NonNullValue<System.String>()), result);
         else
             result.Add("TextField", new [] { "TextField is Required." });
     

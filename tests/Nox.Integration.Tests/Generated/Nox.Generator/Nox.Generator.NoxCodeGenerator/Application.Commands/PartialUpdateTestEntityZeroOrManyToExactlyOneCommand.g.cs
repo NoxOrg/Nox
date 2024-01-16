@@ -13,6 +13,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityZeroOrManyToExactlyOneEntity = TestWebApp.Domain.TestEntityZeroOrManyToExactlyOne;
 
 namespace TestWebApp.Application.Commands;
@@ -48,7 +49,7 @@ internal abstract class PartialUpdateTestEntityZeroOrManyToExactlyOneCommandHand
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.TestEntityZeroOrManyToExactlyOneMetadata.CreateId(request.keyId);
+		var keyId = Dto.TestEntityZeroOrManyToExactlyOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityZeroOrManyToExactlyOnes.FindAsync(keyId);
 		if (entity == null)

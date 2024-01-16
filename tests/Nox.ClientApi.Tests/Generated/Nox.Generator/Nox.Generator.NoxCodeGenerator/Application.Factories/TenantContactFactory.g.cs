@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using TenantContactEntity = ClientApi.Domain.TenantContact;
 
@@ -97,11 +98,11 @@ internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactE
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.TenantContact();
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            ClientApi.Domain.TenantContactMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.TenantContactMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("Description", () => entity.SetIfNotNull(createDto.Description, (entity) => entity.Description = 
-            ClientApi.Domain.TenantContactMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>())));
+            Dto.TenantContactMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>())));
         exceptionCollector.Collect("Email", () => entity.SetIfNotNull(createDto.Email, (entity) => entity.Email = 
-            ClientApi.Domain.TenantContactMetadata.CreateEmail(createDto.Email.NonNullValue<System.String>())));
+            Dto.TenantContactMetadata.CreateEmail(createDto.Email.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -110,9 +111,9 @@ internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactE
     private async Task UpdateEntityInternalAsync(TenantContactEntity entity, TenantContactUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Name",() => entity.Name = ClientApi.Domain.TenantContactMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
-        if(IsDefaultCultureCode(cultureCode)) exceptionCollector.Collect("Description",() => entity.Description = ClientApi.Domain.TenantContactMetadata.CreateDescription(updateDto.Description.NonNullValue<System.String>()));
-        exceptionCollector.Collect("Email",() => entity.Email = ClientApi.Domain.TenantContactMetadata.CreateEmail(updateDto.Email.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Name",() => entity.Name = Dto.TenantContactMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        if(IsDefaultCultureCode(cultureCode)) exceptionCollector.Collect("Description",() => entity.Description = Dto.TenantContactMetadata.CreateDescription(updateDto.Description.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Email",() => entity.Email = Dto.TenantContactMetadata.CreateEmail(updateDto.Email.NonNullValue<System.String>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -126,7 +127,7 @@ internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactE
         {
             ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.TenantContactMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.TenantContactMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -134,7 +135,7 @@ internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactE
         {
             ArgumentNullException.ThrowIfNull(DescriptionUpdateValue, "Attribute 'Description' can't be null.");
             {
-                exceptionCollector.Collect("Description",() =>entity.Description = ClientApi.Domain.TenantContactMetadata.CreateDescription(DescriptionUpdateValue));
+                exceptionCollector.Collect("Description",() =>entity.Description = Dto.TenantContactMetadata.CreateDescription(DescriptionUpdateValue));
             }
         }
 
@@ -142,7 +143,7 @@ internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactE
         {
             ArgumentNullException.ThrowIfNull(EmailUpdateValue, "Attribute 'Email' can't be null.");
             {
-                exceptionCollector.Collect("Email",() =>entity.Email = ClientApi.Domain.TenantContactMetadata.CreateEmail(EmailUpdateValue));
+                exceptionCollector.Collect("Email",() =>entity.Email = Dto.TenantContactMetadata.CreateEmail(EmailUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

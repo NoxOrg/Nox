@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nox.Integration.Abstractions;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace {{ codeGeneratorState.ODataNameSpace }};
+namespace {{ codeGenConventions.ODataNameSpace }};
 
 [ApiController]
 [Route("[Controller]")]

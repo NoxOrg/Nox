@@ -15,6 +15,7 @@ using FluentValidation;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityForAutoNumberUsagesEntity = TestWebApp.Domain.TestEntityForAutoNumberUsages;
 
 namespace TestWebApp.Application.Commands;
@@ -50,7 +51,7 @@ internal abstract class UpdateTestEntityForAutoNumberUsagesCommandHandlerBase : 
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateId(request.keyId);
+		var keyId = Dto.TestEntityForAutoNumberUsagesMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityForAutoNumberUsages.FindAsync(keyId);
 		if (entity == null)

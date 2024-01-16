@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 public record LandLordKeyDto(System.Guid keyId);
@@ -30,21 +28,20 @@ public partial class LandLordDto : LandLordDtoBase
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public abstract class LandLordDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.LandLord>
+public abstract class LandLordDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.LandLordMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Name", () => LandLordMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.Address is not null)
-            ExecuteActionAndCollectValidationExceptions("Address", () => DomainNamespace.LandLordMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
+            CollectValidationExceptions("Address", () => LandLordMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
         else
             result.Add("Address", new [] { "Address is Required." });
     

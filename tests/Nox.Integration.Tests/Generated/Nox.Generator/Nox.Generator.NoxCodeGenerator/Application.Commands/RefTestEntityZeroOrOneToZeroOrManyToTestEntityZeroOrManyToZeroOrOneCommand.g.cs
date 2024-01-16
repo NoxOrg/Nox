@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityZeroOrOneToZeroOrManyEntity = TestWebApp.Domain.TestEntityZeroOrOneToZeroOrMany;
 
 namespace TestWebApp.Application.Commands;
@@ -149,13 +150,13 @@ internal abstract class RefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrMany
 
 	protected async Task<TestEntityZeroOrOneToZeroOrManyEntity?> GetTestEntityZeroOrOneToZeroOrMany(TestEntityZeroOrOneToZeroOrManyKeyDto entityKeyDto)
 	{
-		var keyId = TestWebApp.Domain.TestEntityZeroOrOneToZeroOrManyMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.TestEntityZeroOrOneToZeroOrManyMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.TestEntityZeroOrOneToZeroOrManies.FindAsync(keyId);
 	}
 
 	protected async Task<TestWebApp.Domain.TestEntityZeroOrManyToZeroOrOne?> GetTestEntityZeroOrManyToZeroOrOne(TestEntityZeroOrManyToZeroOrOneKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = TestWebApp.Domain.TestEntityZeroOrManyToZeroOrOneMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.TestEntityZeroOrManyToZeroOrOneMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.TestEntityZeroOrManyToZeroOrOnes.FindAsync(relatedKeyId);
 	}
 

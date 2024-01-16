@@ -10,8 +10,6 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 /// <summary>
@@ -25,7 +23,7 @@ public partial class CountryCreateDto : CountryCreateDtoBase
 /// <summary>
 /// Country Entity Country representation for the Client API tests.
 /// </summary>
-public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
+public abstract class CountryCreateDtoBase 
 {
     /// <summary>
     /// The Country Name     Set a unique name for the country Do not use abbreviations     

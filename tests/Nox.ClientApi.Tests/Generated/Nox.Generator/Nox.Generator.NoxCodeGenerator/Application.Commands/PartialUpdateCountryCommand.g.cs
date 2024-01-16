@@ -13,6 +13,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
@@ -48,7 +49,7 @@ internal abstract class PartialUpdateCountryCommandHandlerBase : CommandBase<Par
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.keyId);
+		var keyId = Dto.CountryMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Countries.FindAsync(keyId);
 		if (entity == null)

@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using Cryptocash.Domain;
 using CountryTimeZoneEntity = Cryptocash.Domain.CountryTimeZone;
 
@@ -82,7 +83,7 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.CountryTimeZone();
         exceptionCollector.Collect("TimeZoneCode", () => entity.SetIfNotNull(createDto.TimeZoneCode, (entity) => entity.TimeZoneCode = 
-            Cryptocash.Domain.CountryTimeZoneMetadata.CreateTimeZoneCode(createDto.TimeZoneCode.NonNullValue<System.String>())));
+            Dto.CountryTimeZoneMetadata.CreateTimeZoneCode(createDto.TimeZoneCode.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -91,7 +92,7 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
     private async Task UpdateEntityInternalAsync(CountryTimeZoneEntity entity, CountryTimeZoneUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("TimeZoneCode",() => entity.TimeZoneCode = Cryptocash.Domain.CountryTimeZoneMetadata.CreateTimeZoneCode(updateDto.TimeZoneCode.NonNullValue<System.String>()));
+        exceptionCollector.Collect("TimeZoneCode",() => entity.TimeZoneCode = Dto.CountryTimeZoneMetadata.CreateTimeZoneCode(updateDto.TimeZoneCode.NonNullValue<System.String>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -105,7 +106,7 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
         {
             ArgumentNullException.ThrowIfNull(TimeZoneCodeUpdateValue, "Attribute 'TimeZoneCode' can't be null.");
             {
-                exceptionCollector.Collect("TimeZoneCode",() =>entity.TimeZoneCode = Cryptocash.Domain.CountryTimeZoneMetadata.CreateTimeZoneCode(TimeZoneCodeUpdateValue));
+                exceptionCollector.Collect("TimeZoneCode",() =>entity.TimeZoneCode = Dto.CountryTimeZoneMetadata.CreateTimeZoneCode(TimeZoneCodeUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

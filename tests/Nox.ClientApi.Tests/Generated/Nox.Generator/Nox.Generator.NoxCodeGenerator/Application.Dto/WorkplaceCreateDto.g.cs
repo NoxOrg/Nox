@@ -10,8 +10,6 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 /// <summary>
@@ -25,7 +23,7 @@ public partial class WorkplaceCreateDto : WorkplaceCreateDtoBase
 /// <summary>
 /// Workplace.
 /// </summary>
-public abstract class WorkplaceCreateDtoBase : IEntityDto<DomainNamespace.Workplace>
+public abstract class WorkplaceCreateDtoBase 
 {
     /// <summary>
     /// Workplace Name     

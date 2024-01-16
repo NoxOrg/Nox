@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 public record CommissionKeyDto(System.Guid keyId);
@@ -30,17 +28,16 @@ public partial class CommissionDto : CommissionDtoBase
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public abstract class CommissionDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Commission>
+public abstract class CommissionDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
-        ExecuteActionAndCollectValidationExceptions("Rate", () => DomainNamespace.CommissionMetadata.CreateRate(this.Rate), result);
+        CollectValidationExceptions("Rate", () => CommissionMetadata.CreateRate(this.Rate), result);
     
-        ExecuteActionAndCollectValidationExceptions("EffectiveAt", () => DomainNamespace.CommissionMetadata.CreateEffectiveAt(this.EffectiveAt), result);
+        CollectValidationExceptions("EffectiveAt", () => CommissionMetadata.CreateEffectiveAt(this.EffectiveAt), result);
     
 
         return result;

@@ -12,6 +12,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using EmployeePhoneNumberEntity = Cryptocash.Domain.EmployeePhoneNumber;
 
 namespace Cryptocash.Application.Commands;
@@ -42,14 +43,14 @@ internal partial class DeleteEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.EmployeeMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.EmployeeMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Employees.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Employee",  $"{keyId.ToString()}");
 		}
 		await DbContext.Entry(parentEntity).Collection(p => p.EmployeePhoneNumbers).LoadAsync(cancellationToken);
-		var ownedId = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreateId(request.EntityKeyDto.keyId);
+		var ownedId = Dto.EmployeePhoneNumberMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

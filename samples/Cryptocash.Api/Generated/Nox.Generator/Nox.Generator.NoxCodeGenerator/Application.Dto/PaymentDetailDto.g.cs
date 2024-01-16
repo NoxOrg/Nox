@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 public record PaymentDetailKeyDto(System.Int64 keyId);
@@ -30,26 +28,25 @@ public partial class PaymentDetailDto : PaymentDetailDtoBase
 /// <summary>
 /// Customer payment account related data.
 /// </summary>
-public abstract class PaymentDetailDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.PaymentDetail>
+public abstract class PaymentDetailDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.PaymentAccountName is not null)
-            ExecuteActionAndCollectValidationExceptions("PaymentAccountName", () => DomainNamespace.PaymentDetailMetadata.CreatePaymentAccountName(this.PaymentAccountName.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("PaymentAccountName", () => PaymentDetailMetadata.CreatePaymentAccountName(this.PaymentAccountName.NonNullValue<System.String>()), result);
         else
             result.Add("PaymentAccountName", new [] { "PaymentAccountName is Required." });
     
         if (this.PaymentAccountNumber is not null)
-            ExecuteActionAndCollectValidationExceptions("PaymentAccountNumber", () => DomainNamespace.PaymentDetailMetadata.CreatePaymentAccountNumber(this.PaymentAccountNumber.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("PaymentAccountNumber", () => PaymentDetailMetadata.CreatePaymentAccountNumber(this.PaymentAccountNumber.NonNullValue<System.String>()), result);
         else
             result.Add("PaymentAccountNumber", new [] { "PaymentAccountNumber is Required." });
     
         if (this.PaymentAccountSortCode is not null)
-            ExecuteActionAndCollectValidationExceptions("PaymentAccountSortCode", () => DomainNamespace.PaymentDetailMetadata.CreatePaymentAccountSortCode(this.PaymentAccountSortCode.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("PaymentAccountSortCode", () => PaymentDetailMetadata.CreatePaymentAccountSortCode(this.PaymentAccountSortCode.NonNullValue<System.String>()), result);
 
         return result;
     }

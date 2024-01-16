@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = CryptocashIntegration.Domain;
-
 namespace CryptocashIntegration.Application.Dto;
 
 public record CountryJsonToTableKeyDto(System.Int32 keyId);
@@ -30,25 +28,24 @@ public partial class CountryJsonToTableDto : CountryJsonToTableDtoBase
 /// <summary>
 /// Country and related data for Json file integration.
 /// </summary>
-public abstract class CountryJsonToTableDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.CountryJsonToTable>
+public abstract class CountryJsonToTableDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.CountryJsonToTableMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Name", () => CountryJsonToTableMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("Population", () => DomainNamespace.CountryJsonToTableMetadata.CreatePopulation(this.Population), result);
+        CollectValidationExceptions("Population", () => CountryJsonToTableMetadata.CreatePopulation(this.Population), result);
     
-        ExecuteActionAndCollectValidationExceptions("CreateDate", () => DomainNamespace.CountryJsonToTableMetadata.CreateCreateDate(this.CreateDate), result);
+        CollectValidationExceptions("CreateDate", () => CountryJsonToTableMetadata.CreateCreateDate(this.CreateDate), result);
     
         if (this.EditDate is not null)
-            ExecuteActionAndCollectValidationExceptions("EditDate", () => DomainNamespace.CountryJsonToTableMetadata.CreateEditDate(this.EditDate.NonNullValue<System.DateTimeOffset>()), result);
+            CollectValidationExceptions("EditDate", () => CountryJsonToTableMetadata.CreateEditDate(this.EditDate.NonNullValue<System.DateTimeOffset>()), result);
 
         return result;
     }

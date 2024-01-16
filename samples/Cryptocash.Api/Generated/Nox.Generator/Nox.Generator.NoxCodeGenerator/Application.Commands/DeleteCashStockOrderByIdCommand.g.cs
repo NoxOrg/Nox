@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteCashStockOrderByIdCommandHandlerBase : CommandColl
 		var entities = new List<CashStockOrderEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = Cryptocash.Domain.CashStockOrderMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.CashStockOrderMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.CashStockOrders.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

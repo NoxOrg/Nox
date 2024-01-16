@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteMinimumCashStockByIdCommandHandlerBase : CommandCo
 		var entities = new List<MinimumCashStockEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.MinimumCashStockMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

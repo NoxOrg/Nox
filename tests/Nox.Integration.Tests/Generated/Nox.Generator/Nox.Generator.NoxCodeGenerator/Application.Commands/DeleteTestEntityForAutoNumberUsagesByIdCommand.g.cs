@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityForAutoNumberUsagesEntity = TestWebApp.Domain.TestEntityForAutoNumberUsages;
 
 namespace TestWebApp.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteTestEntityForAutoNumberUsagesByIdCommandHandlerBas
 		var entities = new List<TestEntityForAutoNumberUsagesEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.TestEntityForAutoNumberUsagesMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.TestEntityForAutoNumberUsages.FindAsync(keyId);
 			if (entity == null)

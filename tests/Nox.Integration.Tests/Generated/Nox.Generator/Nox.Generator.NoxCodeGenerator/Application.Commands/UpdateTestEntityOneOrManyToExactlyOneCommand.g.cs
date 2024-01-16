@@ -15,6 +15,7 @@ using FluentValidation;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityOneOrManyToExactlyOneEntity = TestWebApp.Domain.TestEntityOneOrManyToExactlyOne;
 
 namespace TestWebApp.Application.Commands;
@@ -50,7 +51,7 @@ internal abstract class UpdateTestEntityOneOrManyToExactlyOneCommandHandlerBase 
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.TestEntityOneOrManyToExactlyOneMetadata.CreateId(request.keyId);
+		var keyId = Dto.TestEntityOneOrManyToExactlyOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityOneOrManyToExactlyOnes.FindAsync(keyId);
 		if (entity == null)

@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
@@ -149,13 +150,13 @@ internal abstract class RefCustomerToCountryCommandHandlerBase<TRequest> : Comma
 
 	protected async Task<CustomerEntity?> GetCustomer(CustomerKeyDto entityKeyDto)
 	{
-		var keyId = Cryptocash.Domain.CustomerMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.CustomerMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.Customers.FindAsync(keyId);
 	}
 
 	protected async Task<Cryptocash.Domain.Country?> GetCountry(CountryKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = Cryptocash.Domain.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Countries.FindAsync(relatedKeyId);
 	}
 

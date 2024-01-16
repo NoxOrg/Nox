@@ -13,6 +13,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
@@ -48,7 +49,7 @@ internal abstract class PartialUpdateBookingCommandHandlerBase : CommandBase<Par
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.BookingMetadata.CreateId(request.keyId);
+		var keyId = Dto.BookingMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Bookings.FindAsync(keyId);
 		if (entity == null)

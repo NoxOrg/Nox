@@ -23,7 +23,7 @@ internal partial class DtoDbContext : DtoDbContextBase
       INoxDatabaseProvider databaseProvider,
       INoxClientAssemblyProvider clientAssemblyProvider,
       INoxDtoDatabaseConfigurator noxDtoDatabaseConfigurator,
-      NoxCodeGenConventions codeGeneratorState,
+      NoxCodeGenConventions codeGenConventions,
       IEnumerable<IInterceptor> interceptors)
       : base(
           options,
@@ -31,7 +31,7 @@ internal partial class DtoDbContext : DtoDbContextBase
           databaseProvider,
           clientAssemblyProvider,
           noxDtoDatabaseConfigurator,
-          codeGeneratorState,
+          codeGenConventions,
           interceptors)
     { }
 }
@@ -59,7 +59,7 @@ internal abstract partial class DtoDbContextBase : DbContext
         INoxDatabaseProvider databaseProvider,
         INoxClientAssemblyProvider clientAssemblyProvider,
         INoxDtoDatabaseConfigurator noxDtoDatabaseConfigurator,
-        NoxCodeGenConventions codeGeneratorState,
+        NoxCodeGenConventions codeGenConventions,
         IEnumerable<IInterceptor> interceptors) 
         : base(options)
     {
@@ -67,7 +67,7 @@ internal abstract partial class DtoDbContextBase : DbContext
         _dbProvider = databaseProvider;
         _clientAssemblyProvider = clientAssemblyProvider;
         _noxDtoDatabaseConfigurator = noxDtoDatabaseConfigurator;
-        _codeGenConventions = codeGeneratorState;
+        _codeGenConventions = codeGenConventions;
         _interceptors = interceptors;
     }
 

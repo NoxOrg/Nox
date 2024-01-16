@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using CommissionEntity = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
@@ -67,7 +68,7 @@ internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateC
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.CountryId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.String>());
+			var relatedKey = Dto.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCountry(relatedEntity);
@@ -83,7 +84,7 @@ internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateC
 		{
 			foreach(var relatedId in request.EntityDto.BookingsId)
 			{
-				var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(relatedId);
+				var relatedKey = Dto.BookingMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)

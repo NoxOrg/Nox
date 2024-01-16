@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Commands;
@@ -67,7 +68,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.VendingMachineId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityDto.VendingMachineId.NonNullValue<System.Guid>());
+			var relatedKey = Dto.VendingMachineMetadata.CreateId(request.EntityDto.VendingMachineId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToVendingMachine(relatedEntity);
@@ -81,7 +82,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		}
 		if(request.EntityDto.EmployeeId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.EmployeeMetadata.CreateId(request.EntityDto.EmployeeId.NonNullValue<System.Guid>());
+			var relatedKey = Dto.EmployeeMetadata.CreateId(request.EntityDto.EmployeeId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.Employees.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToEmployee(relatedEntity);

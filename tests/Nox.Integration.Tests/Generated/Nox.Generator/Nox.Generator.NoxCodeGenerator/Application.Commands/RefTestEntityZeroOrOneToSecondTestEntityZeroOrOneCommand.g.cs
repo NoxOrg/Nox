@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityZeroOrOneEntity = TestWebApp.Domain.TestEntityZeroOrOne;
 
 namespace TestWebApp.Application.Commands;
@@ -149,13 +150,13 @@ internal abstract class RefTestEntityZeroOrOneToSecondTestEntityZeroOrOneCommand
 
 	protected async Task<TestEntityZeroOrOneEntity?> GetTestEntityZeroOrOne(TestEntityZeroOrOneKeyDto entityKeyDto)
 	{
-		var keyId = TestWebApp.Domain.TestEntityZeroOrOneMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.TestEntityZeroOrOneMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.TestEntityZeroOrOnes.FindAsync(keyId);
 	}
 
 	protected async Task<TestWebApp.Domain.SecondTestEntityZeroOrOne?> GetSecondTestEntityZeroOrOne(SecondTestEntityZeroOrOneKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = TestWebApp.Domain.SecondTestEntityZeroOrOneMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.SecondTestEntityZeroOrOneMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.SecondTestEntityZeroOrOnes.FindAsync(relatedKeyId);
 	}
 

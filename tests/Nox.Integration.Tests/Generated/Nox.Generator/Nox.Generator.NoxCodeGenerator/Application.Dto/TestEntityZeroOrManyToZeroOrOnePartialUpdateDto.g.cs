@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 
@@ -25,7 +23,7 @@ public partial class TestEntityZeroOrManyToZeroOrOnePartialUpdateDto : TestEntit
 /// <summary>
 /// 
 /// </summary>
-public partial class TestEntityZeroOrManyToZeroOrOnePartialUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.TestEntityZeroOrManyToZeroOrOne>
+public partial class TestEntityZeroOrManyToZeroOrOnePartialUpdateDtoBase: EntityDtoBase
 {
     /// <summary>
     /// 

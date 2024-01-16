@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityZeroOrManyToOneOrManyEntity = TestWebApp.Domain.TestEntityZeroOrManyToOneOrMany;
 
 namespace TestWebApp.Application.Commands;
@@ -65,7 +66,7 @@ internal abstract class CreateTestEntityZeroOrManyToOneOrManyCommandHandlerBase 
 		{
 			foreach(var relatedId in request.EntityDto.TestEntityOneOrManyToZeroOrManiesId)
 			{
-				var relatedKey = TestWebApp.Domain.TestEntityOneOrManyToZeroOrManyMetadata.CreateId(relatedId);
+				var relatedKey = Dto.TestEntityOneOrManyToZeroOrManyMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.TestEntityOneOrManyToZeroOrManies.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)

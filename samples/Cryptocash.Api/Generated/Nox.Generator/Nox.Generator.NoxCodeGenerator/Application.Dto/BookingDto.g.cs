@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 public record BookingKeyDto(System.Guid keyId);
@@ -30,37 +28,36 @@ public partial class BookingDto : BookingDtoBase
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public abstract class BookingDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Booking>
+public abstract class BookingDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.AmountFrom is not null)
-            ExecuteActionAndCollectValidationExceptions("AmountFrom", () => DomainNamespace.BookingMetadata.CreateAmountFrom(this.AmountFrom.NonNullValue<MoneyDto>()), result);
+            CollectValidationExceptions("AmountFrom", () => BookingMetadata.CreateAmountFrom(this.AmountFrom.NonNullValue<MoneyDto>()), result);
         else
             result.Add("AmountFrom", new [] { "AmountFrom is Required." });
     
         if (this.AmountTo is not null)
-            ExecuteActionAndCollectValidationExceptions("AmountTo", () => DomainNamespace.BookingMetadata.CreateAmountTo(this.AmountTo.NonNullValue<MoneyDto>()), result);
+            CollectValidationExceptions("AmountTo", () => BookingMetadata.CreateAmountTo(this.AmountTo.NonNullValue<MoneyDto>()), result);
         else
             result.Add("AmountTo", new [] { "AmountTo is Required." });
     
         if (this.RequestedPickUpDate is not null)
-            ExecuteActionAndCollectValidationExceptions("RequestedPickUpDate", () => DomainNamespace.BookingMetadata.CreateRequestedPickUpDate(this.RequestedPickUpDate.NonNullValue<DateTimeRangeDto>()), result);
+            CollectValidationExceptions("RequestedPickUpDate", () => BookingMetadata.CreateRequestedPickUpDate(this.RequestedPickUpDate.NonNullValue<DateTimeRangeDto>()), result);
         else
             result.Add("RequestedPickUpDate", new [] { "RequestedPickUpDate is Required." });
     
         if (this.PickedUpDateTime is not null)
-            ExecuteActionAndCollectValidationExceptions("PickedUpDateTime", () => DomainNamespace.BookingMetadata.CreatePickedUpDateTime(this.PickedUpDateTime.NonNullValue<DateTimeRangeDto>()), result);
+            CollectValidationExceptions("PickedUpDateTime", () => BookingMetadata.CreatePickedUpDateTime(this.PickedUpDateTime.NonNullValue<DateTimeRangeDto>()), result);
         if (this.ExpiryDateTime is not null)
-            ExecuteActionAndCollectValidationExceptions("ExpiryDateTime", () => DomainNamespace.BookingMetadata.CreateExpiryDateTime(this.ExpiryDateTime.NonNullValue<System.DateTimeOffset>()), result);
+            CollectValidationExceptions("ExpiryDateTime", () => BookingMetadata.CreateExpiryDateTime(this.ExpiryDateTime.NonNullValue<System.DateTimeOffset>()), result);
         if (this.CancelledDateTime is not null)
-            ExecuteActionAndCollectValidationExceptions("CancelledDateTime", () => DomainNamespace.BookingMetadata.CreateCancelledDateTime(this.CancelledDateTime.NonNullValue<System.DateTimeOffset>()), result); 
+            CollectValidationExceptions("CancelledDateTime", () => BookingMetadata.CreateCancelledDateTime(this.CancelledDateTime.NonNullValue<System.DateTimeOffset>()), result); 
         if (this.VatNumber is not null)
-            ExecuteActionAndCollectValidationExceptions("VatNumber", () => DomainNamespace.BookingMetadata.CreateVatNumber(this.VatNumber.NonNullValue<VatNumberDto>()), result);
+            CollectValidationExceptions("VatNumber", () => BookingMetadata.CreateVatNumber(this.VatNumber.NonNullValue<VatNumberDto>()), result);
 
         return result;
     }

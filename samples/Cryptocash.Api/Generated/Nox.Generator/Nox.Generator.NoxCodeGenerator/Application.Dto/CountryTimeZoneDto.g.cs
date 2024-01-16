@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 public record CountryTimeZoneKeyDto(System.Int64 keyId);
@@ -30,16 +28,15 @@ public partial class CountryTimeZoneDto : CountryTimeZoneDtoBase
 /// <summary>
 /// Time zone related to country.
 /// </summary>
-public abstract class CountryTimeZoneDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.CountryTimeZone>
+public abstract class CountryTimeZoneDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TimeZoneCode is not null)
-            ExecuteActionAndCollectValidationExceptions("TimeZoneCode", () => DomainNamespace.CountryTimeZoneMetadata.CreateTimeZoneCode(this.TimeZoneCode.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("TimeZoneCode", () => CountryTimeZoneMetadata.CreateTimeZoneCode(this.TimeZoneCode.NonNullValue<System.String>()), result);
         else
             result.Add("TimeZoneCode", new [] { "TimeZoneCode is Required." });
     

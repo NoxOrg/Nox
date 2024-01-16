@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
 
@@ -81,19 +82,19 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.StoreOwner();
-        exceptionCollector.Collect("Id",() => entity.Id = StoreOwnerMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Id",() => entity.Id = Dto.StoreOwnerMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            ClientApi.Domain.StoreOwnerMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.StoreOwnerMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("TemporaryOwnerName", () => entity.SetIfNotNull(createDto.TemporaryOwnerName, (entity) => entity.TemporaryOwnerName = 
-            ClientApi.Domain.StoreOwnerMetadata.CreateTemporaryOwnerName(createDto.TemporaryOwnerName.NonNullValue<System.String>())));
+            Dto.StoreOwnerMetadata.CreateTemporaryOwnerName(createDto.TemporaryOwnerName.NonNullValue<System.String>())));
         exceptionCollector.Collect("VatNumber", () => entity.SetIfNotNull(createDto.VatNumber, (entity) => entity.VatNumber = 
-            ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(createDto.VatNumber.NonNullValue<VatNumberDto>())));
+            Dto.StoreOwnerMetadata.CreateVatNumber(createDto.VatNumber.NonNullValue<VatNumberDto>())));
         exceptionCollector.Collect("StreetAddress", () => entity.SetIfNotNull(createDto.StreetAddress, (entity) => entity.StreetAddress = 
-            ClientApi.Domain.StoreOwnerMetadata.CreateStreetAddress(createDto.StreetAddress.NonNullValue<StreetAddressDto>())));
+            Dto.StoreOwnerMetadata.CreateStreetAddress(createDto.StreetAddress.NonNullValue<StreetAddressDto>())));
         exceptionCollector.Collect("LocalGreeting", () => entity.SetIfNotNull(createDto.LocalGreeting, (entity) => entity.LocalGreeting = 
-            ClientApi.Domain.StoreOwnerMetadata.CreateLocalGreeting(createDto.LocalGreeting.NonNullValue<TranslatedTextDto>())));
+            Dto.StoreOwnerMetadata.CreateLocalGreeting(createDto.LocalGreeting.NonNullValue<TranslatedTextDto>())));
         exceptionCollector.Collect("Notes", () => entity.SetIfNotNull(createDto.Notes, (entity) => entity.Notes = 
-            ClientApi.Domain.StoreOwnerMetadata.CreateNotes(createDto.Notes.NonNullValue<System.String>())));
+            Dto.StoreOwnerMetadata.CreateNotes(createDto.Notes.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -102,15 +103,15 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
     private async Task UpdateEntityInternalAsync(StoreOwnerEntity entity, StoreOwnerUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Name",() => entity.Name = ClientApi.Domain.StoreOwnerMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
-        exceptionCollector.Collect("TemporaryOwnerName",() => entity.TemporaryOwnerName = ClientApi.Domain.StoreOwnerMetadata.CreateTemporaryOwnerName(updateDto.TemporaryOwnerName.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Name",() => entity.Name = Dto.StoreOwnerMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        exceptionCollector.Collect("TemporaryOwnerName",() => entity.TemporaryOwnerName = Dto.StoreOwnerMetadata.CreateTemporaryOwnerName(updateDto.TemporaryOwnerName.NonNullValue<System.String>()));
         if(updateDto.VatNumber is null)
         {
              entity.VatNumber = null;
         }
         else
         {
-            exceptionCollector.Collect("VatNumber",() =>entity.VatNumber = ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(updateDto.VatNumber.ToValueFromNonNull<VatNumberDto>()));
+            exceptionCollector.Collect("VatNumber",() =>entity.VatNumber = Dto.StoreOwnerMetadata.CreateVatNumber(updateDto.VatNumber.ToValueFromNonNull<VatNumberDto>()));
         }
         if(updateDto.StreetAddress is null)
         {
@@ -118,7 +119,7 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
         }
         else
         {
-            exceptionCollector.Collect("StreetAddress",() =>entity.StreetAddress = ClientApi.Domain.StoreOwnerMetadata.CreateStreetAddress(updateDto.StreetAddress.ToValueFromNonNull<StreetAddressDto>()));
+            exceptionCollector.Collect("StreetAddress",() =>entity.StreetAddress = Dto.StoreOwnerMetadata.CreateStreetAddress(updateDto.StreetAddress.ToValueFromNonNull<StreetAddressDto>()));
         }
         if(updateDto.LocalGreeting is null)
         {
@@ -126,7 +127,7 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
         }
         else
         {
-            exceptionCollector.Collect("LocalGreeting",() =>entity.LocalGreeting = ClientApi.Domain.StoreOwnerMetadata.CreateLocalGreeting(updateDto.LocalGreeting.ToValueFromNonNull<TranslatedTextDto>()));
+            exceptionCollector.Collect("LocalGreeting",() =>entity.LocalGreeting = Dto.StoreOwnerMetadata.CreateLocalGreeting(updateDto.LocalGreeting.ToValueFromNonNull<TranslatedTextDto>()));
         }
         if(updateDto.Notes is null)
         {
@@ -134,7 +135,7 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
         }
         else
         {
-            exceptionCollector.Collect("Notes",() =>entity.Notes = ClientApi.Domain.StoreOwnerMetadata.CreateNotes(updateDto.Notes.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("Notes",() =>entity.Notes = Dto.StoreOwnerMetadata.CreateNotes(updateDto.Notes.ToValueFromNonNull<System.String>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -149,7 +150,7 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
         {
             ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.StoreOwnerMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.StoreOwnerMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -157,7 +158,7 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
         {
             ArgumentNullException.ThrowIfNull(TemporaryOwnerNameUpdateValue, "Attribute 'TemporaryOwnerName' can't be null.");
             {
-                exceptionCollector.Collect("TemporaryOwnerName",() =>entity.TemporaryOwnerName = ClientApi.Domain.StoreOwnerMetadata.CreateTemporaryOwnerName(TemporaryOwnerNameUpdateValue));
+                exceptionCollector.Collect("TemporaryOwnerName",() =>entity.TemporaryOwnerName = Dto.StoreOwnerMetadata.CreateTemporaryOwnerName(TemporaryOwnerNameUpdateValue));
             }
         }
 
@@ -168,7 +169,7 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
             {
                 var entityToUpdate = entity.VatNumber is null ? new VatNumberDto() : entity.VatNumber.ToDto();
                 VatNumberDto.UpdateFromDictionary(entityToUpdate, VatNumberUpdateValue);
-                exceptionCollector.Collect("VatNumber",() =>entity.VatNumber = ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(entityToUpdate));
+                exceptionCollector.Collect("VatNumber",() =>entity.VatNumber = Dto.StoreOwnerMetadata.CreateVatNumber(entityToUpdate));
             }
         }
 
@@ -179,7 +180,7 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
             {
                 var entityToUpdate = entity.StreetAddress is null ? new StreetAddressDto() : entity.StreetAddress.ToDto();
                 StreetAddressDto.UpdateFromDictionary(entityToUpdate, StreetAddressUpdateValue);
-                exceptionCollector.Collect("StreetAddress",() =>entity.StreetAddress = ClientApi.Domain.StoreOwnerMetadata.CreateStreetAddress(entityToUpdate));
+                exceptionCollector.Collect("StreetAddress",() =>entity.StreetAddress = Dto.StoreOwnerMetadata.CreateStreetAddress(entityToUpdate));
             }
         }
 
@@ -190,7 +191,7 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
             {
                 var entityToUpdate = entity.LocalGreeting is null ? new TranslatedTextDto() : entity.LocalGreeting.ToDto();
                 TranslatedTextDto.UpdateFromDictionary(entityToUpdate, LocalGreetingUpdateValue);
-                exceptionCollector.Collect("LocalGreeting",() =>entity.LocalGreeting = ClientApi.Domain.StoreOwnerMetadata.CreateLocalGreeting(entityToUpdate));
+                exceptionCollector.Collect("LocalGreeting",() =>entity.LocalGreeting = Dto.StoreOwnerMetadata.CreateLocalGreeting(entityToUpdate));
             }
         }
 
@@ -199,7 +200,7 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
             if (NotesUpdateValue == null) { entity.Notes = null; }
             else
             {
-                exceptionCollector.Collect("Notes",() =>entity.Notes = ClientApi.Domain.StoreOwnerMetadata.CreateNotes(NotesUpdateValue));
+                exceptionCollector.Collect("Notes",() =>entity.Notes = Dto.StoreOwnerMetadata.CreateNotes(NotesUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

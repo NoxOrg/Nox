@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using Cryptocash.Domain;
 using CustomerEntity = Cryptocash.Domain.Customer;
 
@@ -82,15 +83,15 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.Customer();
         exceptionCollector.Collect("FirstName", () => entity.SetIfNotNull(createDto.FirstName, (entity) => entity.FirstName = 
-            Cryptocash.Domain.CustomerMetadata.CreateFirstName(createDto.FirstName.NonNullValue<System.String>())));
+            Dto.CustomerMetadata.CreateFirstName(createDto.FirstName.NonNullValue<System.String>())));
         exceptionCollector.Collect("LastName", () => entity.SetIfNotNull(createDto.LastName, (entity) => entity.LastName = 
-            Cryptocash.Domain.CustomerMetadata.CreateLastName(createDto.LastName.NonNullValue<System.String>())));
+            Dto.CustomerMetadata.CreateLastName(createDto.LastName.NonNullValue<System.String>())));
         exceptionCollector.Collect("EmailAddress", () => entity.SetIfNotNull(createDto.EmailAddress, (entity) => entity.EmailAddress = 
-            Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(createDto.EmailAddress.NonNullValue<System.String>())));
+            Dto.CustomerMetadata.CreateEmailAddress(createDto.EmailAddress.NonNullValue<System.String>())));
         exceptionCollector.Collect("Address", () => entity.SetIfNotNull(createDto.Address, (entity) => entity.Address = 
-            Cryptocash.Domain.CustomerMetadata.CreateAddress(createDto.Address.NonNullValue<StreetAddressDto>())));
+            Dto.CustomerMetadata.CreateAddress(createDto.Address.NonNullValue<StreetAddressDto>())));
         exceptionCollector.Collect("MobileNumber", () => entity.SetIfNotNull(createDto.MobileNumber, (entity) => entity.MobileNumber = 
-            Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(createDto.MobileNumber.NonNullValue<System.String>())));
+            Dto.CustomerMetadata.CreateMobileNumber(createDto.MobileNumber.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         entity.EnsureId(createDto.Id);        
@@ -100,17 +101,17 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
     private async Task UpdateEntityInternalAsync(CustomerEntity entity, CustomerUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("FirstName",() => entity.FirstName = Cryptocash.Domain.CustomerMetadata.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>()));
-        exceptionCollector.Collect("LastName",() => entity.LastName = Cryptocash.Domain.CustomerMetadata.CreateLastName(updateDto.LastName.NonNullValue<System.String>()));
-        exceptionCollector.Collect("EmailAddress",() => entity.EmailAddress = Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(updateDto.EmailAddress.NonNullValue<System.String>()));
-        exceptionCollector.Collect("Address",() => entity.Address = Cryptocash.Domain.CustomerMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>()));
+        exceptionCollector.Collect("FirstName",() => entity.FirstName = Dto.CustomerMetadata.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>()));
+        exceptionCollector.Collect("LastName",() => entity.LastName = Dto.CustomerMetadata.CreateLastName(updateDto.LastName.NonNullValue<System.String>()));
+        exceptionCollector.Collect("EmailAddress",() => entity.EmailAddress = Dto.CustomerMetadata.CreateEmailAddress(updateDto.EmailAddress.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Address",() => entity.Address = Dto.CustomerMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>()));
         if(updateDto.MobileNumber is null)
         {
              entity.MobileNumber = null;
         }
         else
         {
-            exceptionCollector.Collect("MobileNumber",() =>entity.MobileNumber = Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(updateDto.MobileNumber.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("MobileNumber",() =>entity.MobileNumber = Dto.CustomerMetadata.CreateMobileNumber(updateDto.MobileNumber.ToValueFromNonNull<System.String>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -125,7 +126,7 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
         {
             ArgumentNullException.ThrowIfNull(FirstNameUpdateValue, "Attribute 'FirstName' can't be null.");
             {
-                exceptionCollector.Collect("FirstName",() =>entity.FirstName = Cryptocash.Domain.CustomerMetadata.CreateFirstName(FirstNameUpdateValue));
+                exceptionCollector.Collect("FirstName",() =>entity.FirstName = Dto.CustomerMetadata.CreateFirstName(FirstNameUpdateValue));
             }
         }
 
@@ -133,7 +134,7 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
         {
             ArgumentNullException.ThrowIfNull(LastNameUpdateValue, "Attribute 'LastName' can't be null.");
             {
-                exceptionCollector.Collect("LastName",() =>entity.LastName = Cryptocash.Domain.CustomerMetadata.CreateLastName(LastNameUpdateValue));
+                exceptionCollector.Collect("LastName",() =>entity.LastName = Dto.CustomerMetadata.CreateLastName(LastNameUpdateValue));
             }
         }
 
@@ -141,7 +142,7 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
         {
             ArgumentNullException.ThrowIfNull(EmailAddressUpdateValue, "Attribute 'EmailAddress' can't be null.");
             {
-                exceptionCollector.Collect("EmailAddress",() =>entity.EmailAddress = Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(EmailAddressUpdateValue));
+                exceptionCollector.Collect("EmailAddress",() =>entity.EmailAddress = Dto.CustomerMetadata.CreateEmailAddress(EmailAddressUpdateValue));
             }
         }
 
@@ -151,7 +152,7 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
             {
                 var entityToUpdate = entity.Address is null ? new StreetAddressDto() : entity.Address.ToDto();
                 StreetAddressDto.UpdateFromDictionary(entityToUpdate, AddressUpdateValue);
-                exceptionCollector.Collect("Address",() =>entity.Address = Cryptocash.Domain.CustomerMetadata.CreateAddress(entityToUpdate));
+                exceptionCollector.Collect("Address",() =>entity.Address = Dto.CustomerMetadata.CreateAddress(entityToUpdate));
             }
         }
 
@@ -160,7 +161,7 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
             if (MobileNumberUpdateValue == null) { entity.MobileNumber = null; }
             else
             {
-                exceptionCollector.Collect("MobileNumber",() =>entity.MobileNumber = Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(MobileNumberUpdateValue));
+                exceptionCollector.Collect("MobileNumber",() =>entity.MobileNumber = Dto.CustomerMetadata.CreateMobileNumber(MobileNumberUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

@@ -8,25 +8,25 @@ namespace Nox.Generator.Application.Dto;
 
 internal class EntityLocalizedDtoGenerator : INoxCodeGenerator
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.ApplicationDto;
 
     public void Generate(
         SourceProductionContext context,
-        NoxCodeGenConventions codeGeneratorState,
+        NoxCodeGenConventions codeGenConventions,
         GeneratorConfig config,
         Action<string> log,
         string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain is null)
+        if (codeGenConventions.Solution.Domain is null)
             return;
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.GetLocalizedEntities())
+        foreach (var entity in codeGenConventions.Solution.Domain.GetLocalizedEntities())
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName(NoxCodeGenConventions.GetEntityDtoNameForLocalizedType(entity.Name))
                 .WithFileNamePrefix("Application.Dto")
                 .WithObject("entity", entity)

@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 public record TestEntityOwnedRelationshipZeroOrManyKeyDto(System.String keyId);
@@ -30,16 +28,15 @@ public partial class TestEntityOwnedRelationshipZeroOrManyDto : TestEntityOwnedR
 /// <summary>
 /// .
 /// </summary>
-public abstract class TestEntityOwnedRelationshipZeroOrManyDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.TestEntityOwnedRelationshipZeroOrMany>
+public abstract class TestEntityOwnedRelationshipZeroOrManyDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TextTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("TextTestField", () => DomainNamespace.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateTextTestField(this.TextTestField.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("TextTestField", () => TestEntityOwnedRelationshipZeroOrManyMetadata.CreateTextTestField(this.TextTestField.NonNullValue<System.String>()), result);
         else
             result.Add("TextTestField", new [] { "TextTestField is Required." });
     

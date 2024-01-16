@@ -12,22 +12,22 @@ namespace Nox.Generator.Application.DtoGenerator;
 // TODO Rethink custom commands and queries
 internal class DtoDynamicGenerator// : INoxCodeGenerator
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.ApplicationDto;
 
-    public void Generate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, GeneratorConfig config, string? projectRootPath)
+    public void Generate(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, GeneratorConfig config, string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Application?.DataTransferObjects == null) return;
+        if (codeGenConventions.Solution.Application?.DataTransferObjects == null) return;
 
-        foreach (var dto in codeGeneratorState.Solution.Application.DataTransferObjects)
+        foreach (var dto in codeGenConventions.Solution.Application.DataTransferObjects)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
-            GenerateDto(context, codeGeneratorState, dto);
+            GenerateDto(context, codeGenConventions, dto);
         }
     }
 
-    public static void GenerateDto(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, string name, string? description, IReadOnlyList<NoxSimpleTypeDefinition> attributes)
+    public static void GenerateDto(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, string name, string? description, IReadOnlyList<NoxSimpleTypeDefinition> attributes)
     {
         var code = new CodeBuilder($"DtoDynamic.{name}.g.cs", context);
 
@@ -38,7 +38,7 @@ internal class DtoDynamicGenerator// : INoxCodeGenerator
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine();
-        code.AppendLine($"namespace {codeGeneratorState.DtoNameSpace};");
+        code.AppendLine($"namespace {codeGenConventions.DtoNameSpace};");
         code.AppendLine();
 
         GenerateDocs(code, description);
@@ -53,7 +53,7 @@ internal class DtoDynamicGenerator// : INoxCodeGenerator
         code.GenerateSourceCode();
     }
 
-    private static void GenerateDto(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, DataTransferObject dto)
+    private static void GenerateDto(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, DataTransferObject dto)
     {
         var className = dto.Name.EnsureEndsWith("Dto");
         var code = new CodeBuilder($"DtoDynamic.{dto.Name}.g.cs", context);
@@ -65,7 +65,7 @@ internal class DtoDynamicGenerator// : INoxCodeGenerator
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine();
-        code.AppendLine($"namespace {codeGeneratorState.DtoNameSpace};");
+        code.AppendLine($"namespace {codeGenConventions.DtoNameSpace};");
 
         GenerateDocs(code, dto.Description ?? "It's good practice to give a proper description of your dto's");
 

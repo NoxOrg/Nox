@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using CountryTimeZoneEntity = Cryptocash.Domain.CountryTimeZone;
 
 namespace Cryptocash.Application.Commands;
@@ -50,7 +51,7 @@ internal abstract class CreateCountryTimeZonesForCountryCommandHandlerBase : Com
 	public virtual  async Task<CountryTimeZoneKeyDto?> Handle(CreateCountryTimeZonesForCountryCommand request, CancellationToken cancellationToken)
 	{
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)

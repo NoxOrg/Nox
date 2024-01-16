@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 public record StoreLicenseKeyDto(System.Int64 keyId);
@@ -30,20 +28,19 @@ public partial class StoreLicenseDto : StoreLicenseDtoBase
 /// <summary>
 /// Store license info.
 /// </summary>
-public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.StoreLicense>
+public abstract class StoreLicenseDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Issuer is not null)
-            ExecuteActionAndCollectValidationExceptions("Issuer", () => DomainNamespace.StoreLicenseMetadata.CreateIssuer(this.Issuer.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Issuer", () => StoreLicenseMetadata.CreateIssuer(this.Issuer.NonNullValue<System.String>()), result);
         else
             result.Add("Issuer", new [] { "Issuer is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("ExternalId", () => DomainNamespace.StoreLicenseMetadata.CreateExternalId(this.ExternalId), result);
+        CollectValidationExceptions("ExternalId", () => StoreLicenseMetadata.CreateExternalId(this.ExternalId), result);
     
 
         return result;

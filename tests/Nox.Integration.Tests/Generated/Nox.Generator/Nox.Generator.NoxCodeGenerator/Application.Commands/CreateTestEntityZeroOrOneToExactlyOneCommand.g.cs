@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityZeroOrOneToExactlyOneEntity = TestWebApp.Domain.TestEntityZeroOrOneToExactlyOne;
 
 namespace TestWebApp.Application.Commands;
@@ -63,7 +64,7 @@ internal abstract class CreateTestEntityZeroOrOneToExactlyOneCommandHandlerBase 
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.TestEntityExactlyOneToZeroOrOneId is not null)
 		{
-			var relatedKey = TestWebApp.Domain.TestEntityExactlyOneToZeroOrOneMetadata.CreateId(request.EntityDto.TestEntityExactlyOneToZeroOrOneId.NonNullValue<System.String>());
+			var relatedKey = Dto.TestEntityExactlyOneToZeroOrOneMetadata.CreateId(request.EntityDto.TestEntityExactlyOneToZeroOrOneId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.TestEntityExactlyOneToZeroOrOnes.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToTestEntityExactlyOneToZeroOrOne(relatedEntity);

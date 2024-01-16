@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityOneOrManyToExactlyOneEntity = TestWebApp.Domain.TestEntityOneOrManyToExactlyOne;
 
 namespace TestWebApp.Application.Commands;
@@ -65,7 +66,7 @@ internal abstract class CreateTestEntityOneOrManyToExactlyOneCommandHandlerBase 
 		{
 			foreach(var relatedId in request.EntityDto.TestEntityExactlyOneToOneOrManiesId)
 			{
-				var relatedKey = TestWebApp.Domain.TestEntityExactlyOneToOneOrManyMetadata.CreateId(relatedId);
+				var relatedKey = Dto.TestEntityExactlyOneToOneOrManyMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.TestEntityExactlyOneToOneOrManies.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)

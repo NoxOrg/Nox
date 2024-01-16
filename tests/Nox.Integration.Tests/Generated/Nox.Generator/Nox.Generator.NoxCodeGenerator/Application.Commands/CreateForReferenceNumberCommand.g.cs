@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using ForReferenceNumberEntity = TestWebApp.Domain.ForReferenceNumber;
 
 namespace TestWebApp.Application.Commands;

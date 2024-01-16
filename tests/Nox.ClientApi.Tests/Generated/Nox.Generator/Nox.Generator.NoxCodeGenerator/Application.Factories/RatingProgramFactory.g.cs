@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
@@ -81,9 +82,9 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.RatingProgram();
-        exceptionCollector.Collect("StoreId",() => entity.StoreId = RatingProgramMetadata.CreateStoreId(createDto.StoreId.NonNullValue<System.Guid>()));
+        exceptionCollector.Collect("StoreId",() => entity.StoreId = Dto.RatingProgramMetadata.CreateStoreId(createDto.StoreId.NonNullValue<System.Guid>()));
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            ClientApi.Domain.RatingProgramMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.RatingProgramMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -98,7 +99,7 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
         }
         else
         {
-            exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.RatingProgramMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("Name",() =>entity.Name = Dto.RatingProgramMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -114,7 +115,7 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
             if (NameUpdateValue == null) { entity.Name = null; }
             else
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.RatingProgramMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.RatingProgramMetadata.CreateName(NameUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

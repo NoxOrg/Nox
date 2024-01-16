@@ -12,6 +12,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using HolidayEntity = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Commands;
@@ -42,14 +43,14 @@ internal partial class DeleteHolidaysForCountryCommandHandlerBase : CommandBase<
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
 		}
 		await DbContext.Entry(parentEntity).Collection(p => p.Holidays).LoadAsync(cancellationToken);
-		var ownedId = Cryptocash.Domain.HolidayMetadata.CreateId(request.EntityKeyDto.keyId);
+		var ownedId = Dto.HolidayMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

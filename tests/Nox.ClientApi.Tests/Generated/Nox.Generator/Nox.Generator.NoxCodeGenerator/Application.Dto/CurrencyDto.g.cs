@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 public record CurrencyKeyDto(System.String keyId);
@@ -30,18 +28,17 @@ public partial class CurrencyDto : CurrencyDtoBase
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public abstract class CurrencyDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Currency>
+public abstract class CurrencyDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.CurrencyMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Name", () => CurrencyMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         if (this.Symbol is not null)
-            ExecuteActionAndCollectValidationExceptions("Symbol", () => DomainNamespace.CurrencyMetadata.CreateSymbol(this.Symbol.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Symbol", () => CurrencyMetadata.CreateSymbol(this.Symbol.NonNullValue<System.String>()), result);
 
         return result;
     }

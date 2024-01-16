@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
@@ -77,7 +78,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 		{
 			foreach(var relatedId in request.EntityDto.PaymentDetailsId)
 			{
-				var relatedKey = Cryptocash.Domain.PaymentDetailMetadata.CreateId(relatedId);
+				var relatedKey = Dto.PaymentDetailMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.PaymentDetails.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
@@ -98,7 +99,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 		{
 			foreach(var relatedId in request.EntityDto.BookingsId)
 			{
-				var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(relatedId);
+				var relatedKey = Dto.BookingMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
@@ -119,7 +120,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 		{
 			foreach(var relatedId in request.EntityDto.TransactionsId)
 			{
-				var relatedKey = Cryptocash.Domain.TransactionMetadata.CreateId(relatedId);
+				var relatedKey = Dto.TransactionMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.Transactions.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
@@ -138,7 +139,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 		}
 		if(request.EntityDto.CountryId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.String>());
+			var relatedKey = Dto.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCountry(relatedEntity);

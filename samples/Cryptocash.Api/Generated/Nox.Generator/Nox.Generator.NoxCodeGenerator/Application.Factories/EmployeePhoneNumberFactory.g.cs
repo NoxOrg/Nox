@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using Cryptocash.Domain;
 using EmployeePhoneNumberEntity = Cryptocash.Domain.EmployeePhoneNumber;
 
@@ -82,9 +83,9 @@ internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<Employee
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.EmployeePhoneNumber();
         exceptionCollector.Collect("PhoneNumberType", () => entity.SetIfNotNull(createDto.PhoneNumberType, (entity) => entity.PhoneNumberType = 
-            Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumberType(createDto.PhoneNumberType.NonNullValue<System.String>())));
+            Dto.EmployeePhoneNumberMetadata.CreatePhoneNumberType(createDto.PhoneNumberType.NonNullValue<System.String>())));
         exceptionCollector.Collect("PhoneNumber", () => entity.SetIfNotNull(createDto.PhoneNumber, (entity) => entity.PhoneNumber = 
-            Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumber(createDto.PhoneNumber.NonNullValue<System.String>())));
+            Dto.EmployeePhoneNumberMetadata.CreatePhoneNumber(createDto.PhoneNumber.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -93,8 +94,8 @@ internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<Employee
     private async Task UpdateEntityInternalAsync(EmployeePhoneNumberEntity entity, EmployeePhoneNumberUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("PhoneNumberType",() => entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumberType(updateDto.PhoneNumberType.NonNullValue<System.String>()));
-        exceptionCollector.Collect("PhoneNumber",() => entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumber(updateDto.PhoneNumber.NonNullValue<System.String>()));
+        exceptionCollector.Collect("PhoneNumberType",() => entity.PhoneNumberType = Dto.EmployeePhoneNumberMetadata.CreatePhoneNumberType(updateDto.PhoneNumberType.NonNullValue<System.String>()));
+        exceptionCollector.Collect("PhoneNumber",() => entity.PhoneNumber = Dto.EmployeePhoneNumberMetadata.CreatePhoneNumber(updateDto.PhoneNumber.NonNullValue<System.String>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -108,7 +109,7 @@ internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<Employee
         {
             ArgumentNullException.ThrowIfNull(PhoneNumberTypeUpdateValue, "Attribute 'PhoneNumberType' can't be null.");
             {
-                exceptionCollector.Collect("PhoneNumberType",() =>entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumberType(PhoneNumberTypeUpdateValue));
+                exceptionCollector.Collect("PhoneNumberType",() =>entity.PhoneNumberType = Dto.EmployeePhoneNumberMetadata.CreatePhoneNumberType(PhoneNumberTypeUpdateValue));
             }
         }
 
@@ -116,7 +117,7 @@ internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<Employee
         {
             ArgumentNullException.ThrowIfNull(PhoneNumberUpdateValue, "Attribute 'PhoneNumber' can't be null.");
             {
-                exceptionCollector.Collect("PhoneNumber",() =>entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumber(PhoneNumberUpdateValue));
+                exceptionCollector.Collect("PhoneNumber",() =>entity.PhoneNumber = Dto.EmployeePhoneNumberMetadata.CreatePhoneNumber(PhoneNumberUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

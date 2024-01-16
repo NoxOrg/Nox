@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 public record PaymentProviderKeyDto(System.Guid keyId);
@@ -30,21 +28,20 @@ public partial class PaymentProviderDto : PaymentProviderDtoBase
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public abstract class PaymentProviderDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.PaymentProvider>
+public abstract class PaymentProviderDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.PaymentProviderName is not null)
-            ExecuteActionAndCollectValidationExceptions("PaymentProviderName", () => DomainNamespace.PaymentProviderMetadata.CreatePaymentProviderName(this.PaymentProviderName.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("PaymentProviderName", () => PaymentProviderMetadata.CreatePaymentProviderName(this.PaymentProviderName.NonNullValue<System.String>()), result);
         else
             result.Add("PaymentProviderName", new [] { "PaymentProviderName is Required." });
     
         if (this.PaymentProviderType is not null)
-            ExecuteActionAndCollectValidationExceptions("PaymentProviderType", () => DomainNamespace.PaymentProviderMetadata.CreatePaymentProviderType(this.PaymentProviderType.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("PaymentProviderType", () => PaymentProviderMetadata.CreatePaymentProviderType(this.PaymentProviderType.NonNullValue<System.String>()), result);
         else
             result.Add("PaymentProviderType", new [] { "PaymentProviderType is Required." });
     

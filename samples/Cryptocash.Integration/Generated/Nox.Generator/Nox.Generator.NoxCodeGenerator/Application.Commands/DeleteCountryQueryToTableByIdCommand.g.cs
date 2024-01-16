@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using CryptocashIntegration.Infrastructure.Persistence;
 using CryptocashIntegration.Domain;
 using CryptocashIntegration.Application.Dto;
+using Dto = CryptocashIntegration.Application.Dto;
 using CountryQueryToTableEntity = CryptocashIntegration.Domain.CountryQueryToTable;
 
 namespace CryptocashIntegration.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteCountryQueryToTableByIdCommandHandlerBase : Comman
 		var entities = new List<CountryQueryToTableEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.CountryQueryToTableMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.CountryQueryToTables.FindAsync(keyId);
 			if (entity == null)

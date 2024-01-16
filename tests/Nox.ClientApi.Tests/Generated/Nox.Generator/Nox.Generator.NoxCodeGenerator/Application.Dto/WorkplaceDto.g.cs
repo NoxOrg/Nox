@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 public record WorkplaceKeyDto(System.Int64 keyId);
@@ -30,27 +28,26 @@ public partial class WorkplaceDto : WorkplaceDtoBase
 /// <summary>
 /// Workplace.
 /// </summary>
-public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Workplace>
+public abstract class WorkplaceDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.WorkplaceMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Name", () => WorkplaceMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.ReferenceNumber is not null)
-            ExecuteActionAndCollectValidationExceptions("ReferenceNumber", () => DomainNamespace.WorkplaceMetadata.CreateReferenceNumber(this.ReferenceNumber.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("ReferenceNumber", () => WorkplaceMetadata.CreateReferenceNumber(this.ReferenceNumber.NonNullValue<System.String>()), result);
         if (this.Description is not null)
-            ExecuteActionAndCollectValidationExceptions("Description", () => DomainNamespace.WorkplaceMetadata.CreateDescription(this.Description.NonNullValue<System.String>()), result); 
+            CollectValidationExceptions("Description", () => WorkplaceMetadata.CreateDescription(this.Description.NonNullValue<System.String>()), result); 
         if (this.Ownership is not null)
-            ExecuteActionAndCollectValidationExceptions("Ownership", () => DomainNamespace.WorkplaceMetadata.CreateOwnership(this.Ownership.NonNullValue<System.Int32>()), result);
+            CollectValidationExceptions("Ownership", () => WorkplaceMetadata.CreateOwnership(this.Ownership.NonNullValue<System.Int32>()), result);
         if (this.Type is not null)
-            ExecuteActionAndCollectValidationExceptions("Type", () => DomainNamespace.WorkplaceMetadata.CreateType(this.Type.NonNullValue<System.Int32>()), result);
+            CollectValidationExceptions("Type", () => WorkplaceMetadata.CreateType(this.Type.NonNullValue<System.Int32>()), result);
 
         return result;
     }

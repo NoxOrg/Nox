@@ -15,6 +15,7 @@ using FluentValidation;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
@@ -50,7 +51,7 @@ internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenan
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.TenantMetadata.CreateId(request.keyId);
+		var keyId = Dto.TenantMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Tenants.FindAsync(keyId);
 		if (entity == null)

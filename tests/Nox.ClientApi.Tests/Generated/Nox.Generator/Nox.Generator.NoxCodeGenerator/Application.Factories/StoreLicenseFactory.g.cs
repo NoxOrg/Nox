@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
@@ -82,7 +83,7 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.StoreLicense();
         exceptionCollector.Collect("Issuer", () => entity.SetIfNotNull(createDto.Issuer, (entity) => entity.Issuer = 
-            ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(createDto.Issuer.NonNullValue<System.String>())));
+            Dto.StoreLicenseMetadata.CreateIssuer(createDto.Issuer.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -91,7 +92,7 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
     private async Task UpdateEntityInternalAsync(StoreLicenseEntity entity, StoreLicenseUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Issuer",() => entity.Issuer = ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(updateDto.Issuer.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Issuer",() => entity.Issuer = Dto.StoreLicenseMetadata.CreateIssuer(updateDto.Issuer.NonNullValue<System.String>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -105,7 +106,7 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
         {
             ArgumentNullException.ThrowIfNull(IssuerUpdateValue, "Attribute 'Issuer' can't be null.");
             {
-                exceptionCollector.Collect("Issuer",() =>entity.Issuer = ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(IssuerUpdateValue));
+                exceptionCollector.Collect("Issuer",() =>entity.Issuer = Dto.StoreLicenseMetadata.CreateIssuer(IssuerUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

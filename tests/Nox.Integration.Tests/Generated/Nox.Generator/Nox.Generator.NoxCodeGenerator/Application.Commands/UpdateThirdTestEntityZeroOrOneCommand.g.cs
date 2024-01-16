@@ -15,6 +15,7 @@ using FluentValidation;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using ThirdTestEntityZeroOrOneEntity = TestWebApp.Domain.ThirdTestEntityZeroOrOne;
 
 namespace TestWebApp.Application.Commands;
@@ -50,7 +51,7 @@ internal abstract class UpdateThirdTestEntityZeroOrOneCommandHandlerBase : Comma
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.ThirdTestEntityZeroOrOneMetadata.CreateId(request.keyId);
+		var keyId = Dto.ThirdTestEntityZeroOrOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.ThirdTestEntityZeroOrOnes.FindAsync(keyId);
 		if (entity == null)

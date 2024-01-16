@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using Cryptocash.Domain;
 using TransactionEntity = Cryptocash.Domain.Transaction;
 
@@ -82,13 +83,13 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.Transaction();
         exceptionCollector.Collect("TransactionType", () => entity.SetIfNotNull(createDto.TransactionType, (entity) => entity.TransactionType = 
-            Cryptocash.Domain.TransactionMetadata.CreateTransactionType(createDto.TransactionType.NonNullValue<System.String>())));
+            Dto.TransactionMetadata.CreateTransactionType(createDto.TransactionType.NonNullValue<System.String>())));
         exceptionCollector.Collect("ProcessedOnDateTime", () => entity.SetIfNotNull(createDto.ProcessedOnDateTime, (entity) => entity.ProcessedOnDateTime = 
-            Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(createDto.ProcessedOnDateTime.NonNullValue<System.DateTimeOffset>())));
+            Dto.TransactionMetadata.CreateProcessedOnDateTime(createDto.ProcessedOnDateTime.NonNullValue<System.DateTimeOffset>())));
         exceptionCollector.Collect("Amount", () => entity.SetIfNotNull(createDto.Amount, (entity) => entity.Amount = 
-            Cryptocash.Domain.TransactionMetadata.CreateAmount(createDto.Amount.NonNullValue<MoneyDto>())));
+            Dto.TransactionMetadata.CreateAmount(createDto.Amount.NonNullValue<MoneyDto>())));
         exceptionCollector.Collect("Reference", () => entity.SetIfNotNull(createDto.Reference, (entity) => entity.Reference = 
-            Cryptocash.Domain.TransactionMetadata.CreateReference(createDto.Reference.NonNullValue<System.String>())));
+            Dto.TransactionMetadata.CreateReference(createDto.Reference.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         entity.EnsureId(createDto.Id);        
@@ -98,10 +99,10 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
     private async Task UpdateEntityInternalAsync(TransactionEntity entity, TransactionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("TransactionType",() => entity.TransactionType = Cryptocash.Domain.TransactionMetadata.CreateTransactionType(updateDto.TransactionType.NonNullValue<System.String>()));
-        exceptionCollector.Collect("ProcessedOnDateTime",() => entity.ProcessedOnDateTime = Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(updateDto.ProcessedOnDateTime.NonNullValue<System.DateTimeOffset>()));
-        exceptionCollector.Collect("Amount",() => entity.Amount = Cryptocash.Domain.TransactionMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>()));
-        exceptionCollector.Collect("Reference",() => entity.Reference = Cryptocash.Domain.TransactionMetadata.CreateReference(updateDto.Reference.NonNullValue<System.String>()));
+        exceptionCollector.Collect("TransactionType",() => entity.TransactionType = Dto.TransactionMetadata.CreateTransactionType(updateDto.TransactionType.NonNullValue<System.String>()));
+        exceptionCollector.Collect("ProcessedOnDateTime",() => entity.ProcessedOnDateTime = Dto.TransactionMetadata.CreateProcessedOnDateTime(updateDto.ProcessedOnDateTime.NonNullValue<System.DateTimeOffset>()));
+        exceptionCollector.Collect("Amount",() => entity.Amount = Dto.TransactionMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>()));
+        exceptionCollector.Collect("Reference",() => entity.Reference = Dto.TransactionMetadata.CreateReference(updateDto.Reference.NonNullValue<System.String>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -115,7 +116,7 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
         {
             ArgumentNullException.ThrowIfNull(TransactionTypeUpdateValue, "Attribute 'TransactionType' can't be null.");
             {
-                exceptionCollector.Collect("TransactionType",() =>entity.TransactionType = Cryptocash.Domain.TransactionMetadata.CreateTransactionType(TransactionTypeUpdateValue));
+                exceptionCollector.Collect("TransactionType",() =>entity.TransactionType = Dto.TransactionMetadata.CreateTransactionType(TransactionTypeUpdateValue));
             }
         }
 
@@ -123,7 +124,7 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
         {
             ArgumentNullException.ThrowIfNull(ProcessedOnDateTimeUpdateValue, "Attribute 'ProcessedOnDateTime' can't be null.");
             {
-                exceptionCollector.Collect("ProcessedOnDateTime",() =>entity.ProcessedOnDateTime = Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(ProcessedOnDateTimeUpdateValue));
+                exceptionCollector.Collect("ProcessedOnDateTime",() =>entity.ProcessedOnDateTime = Dto.TransactionMetadata.CreateProcessedOnDateTime(ProcessedOnDateTimeUpdateValue));
             }
         }
 
@@ -133,7 +134,7 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
             {
                 var entityToUpdate = entity.Amount is null ? new MoneyDto() : entity.Amount.ToDto();
                 MoneyDto.UpdateFromDictionary(entityToUpdate, AmountUpdateValue);
-                exceptionCollector.Collect("Amount",() =>entity.Amount = Cryptocash.Domain.TransactionMetadata.CreateAmount(entityToUpdate));
+                exceptionCollector.Collect("Amount",() =>entity.Amount = Dto.TransactionMetadata.CreateAmount(entityToUpdate));
             }
         }
 
@@ -141,7 +142,7 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
         {
             ArgumentNullException.ThrowIfNull(ReferenceUpdateValue, "Attribute 'Reference' can't be null.");
             {
-                exceptionCollector.Collect("Reference",() =>entity.Reference = Cryptocash.Domain.TransactionMetadata.CreateReference(ReferenceUpdateValue));
+                exceptionCollector.Collect("Reference",() =>entity.Reference = Dto.TransactionMetadata.CreateReference(ReferenceUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

@@ -15,6 +15,7 @@ using FluentValidation;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityZeroOrOneToOneOrManyEntity = TestWebApp.Domain.TestEntityZeroOrOneToOneOrMany;
 
 namespace TestWebApp.Application.Commands;
@@ -50,7 +51,7 @@ internal abstract class UpdateTestEntityZeroOrOneToOneOrManyCommandHandlerBase :
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.TestEntityZeroOrOneToOneOrManyMetadata.CreateId(request.keyId);
+		var keyId = Dto.TestEntityZeroOrOneToOneOrManyMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityZeroOrOneToOneOrManies.FindAsync(keyId);
 		if (entity == null)

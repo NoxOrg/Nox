@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 public record BankNoteKeyDto(System.Int64 keyId);
@@ -30,21 +28,20 @@ public partial class BankNoteDto : BankNoteDtoBase
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public abstract class BankNoteDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.BankNote>
+public abstract class BankNoteDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.CashNote is not null)
-            ExecuteActionAndCollectValidationExceptions("CashNote", () => DomainNamespace.BankNoteMetadata.CreateCashNote(this.CashNote.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("CashNote", () => BankNoteMetadata.CreateCashNote(this.CashNote.NonNullValue<System.String>()), result);
         else
             result.Add("CashNote", new [] { "CashNote is Required." });
     
         if (this.Value is not null)
-            ExecuteActionAndCollectValidationExceptions("Value", () => DomainNamespace.BankNoteMetadata.CreateValue(this.Value.NonNullValue<MoneyDto>()), result);
+            CollectValidationExceptions("Value", () => BankNoteMetadata.CreateValue(this.Value.NonNullValue<MoneyDto>()), result);
         else
             result.Add("Value", new [] { "Value is Required." });
     

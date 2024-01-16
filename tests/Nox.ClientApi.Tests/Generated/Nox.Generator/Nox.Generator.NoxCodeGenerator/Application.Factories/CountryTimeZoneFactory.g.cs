@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using CountryTimeZoneEntity = ClientApi.Domain.CountryTimeZone;
 
@@ -81,9 +82,9 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.CountryTimeZone();
-        exceptionCollector.Collect("Id",() => entity.Id = CountryTimeZoneMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Id",() => entity.Id = Dto.CountryTimeZoneMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            ClientApi.Domain.CountryTimeZoneMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.CountryTimeZoneMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -98,7 +99,7 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
         }
         else
         {
-            exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.CountryTimeZoneMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("Name",() =>entity.Name = Dto.CountryTimeZoneMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -114,7 +115,7 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
             if (NameUpdateValue == null) { entity.Name = null; }
             else
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.CountryTimeZoneMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.CountryTimeZoneMetadata.CreateName(NameUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

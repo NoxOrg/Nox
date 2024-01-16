@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientEntity = ClientApi.Domain.Client;
 
 namespace ClientApi.Application.Commands;
@@ -65,7 +66,7 @@ internal abstract class CreateClientCommandHandlerBase : CommandBase<CreateClien
 		{
 			foreach(var relatedId in request.EntityDto.StoresId)
 			{
-				var relatedKey = ClientApi.Domain.StoreMetadata.CreateId(relatedId);
+				var relatedKey = Dto.StoreMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)

@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using CommissionEntity = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteCommissionByIdCommandHandlerBase : CommandCollecti
 		var entities = new List<CommissionEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = Cryptocash.Domain.CommissionMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.CommissionMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.Commissions.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

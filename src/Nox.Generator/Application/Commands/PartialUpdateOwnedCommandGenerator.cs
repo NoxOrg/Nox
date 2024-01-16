@@ -9,7 +9,7 @@ namespace Nox.Generator.Application.Commands;
 
 internal class PartialUpdateOwnedCommandGenerator : ApplicationEntityDependentGeneratorBase
 {
-    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
+    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, IEnumerable<Entity> entities)
     {
         var templateName = @"Application.Commands.PartialUpdateOwnedCommand";
 
@@ -26,7 +26,7 @@ internal class PartialUpdateOwnedCommandGenerator : ApplicationEntityDependentGe
                 var parentKeysFindQuery = string.Join(", ", entity.Keys.Select(k => $"key{k.Name}"));
                 var ownedKeysFindQuery = string.Join(" && ", ownedEntity.Keys.Select(k => $"x.{k.Name} == owned{k.Name}"));
 
-                new TemplateCodeBuilder(context, codeGeneratorState)
+                new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"PartialUpdate{relationshipName}For{entity.Name}Command")
                 .WithFileNamePrefix($"Application.Commands")
                 .WithObject("relationship", ownedRelationship)

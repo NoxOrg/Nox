@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 public record CustomerKeyDto(System.Guid keyId);
@@ -30,36 +28,35 @@ public partial class CustomerDto : CustomerDtoBase
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public abstract class CustomerDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Customer>
+public abstract class CustomerDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.FirstName is not null)
-            ExecuteActionAndCollectValidationExceptions("FirstName", () => DomainNamespace.CustomerMetadata.CreateFirstName(this.FirstName.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("FirstName", () => CustomerMetadata.CreateFirstName(this.FirstName.NonNullValue<System.String>()), result);
         else
             result.Add("FirstName", new [] { "FirstName is Required." });
     
         if (this.LastName is not null)
-            ExecuteActionAndCollectValidationExceptions("LastName", () => DomainNamespace.CustomerMetadata.CreateLastName(this.LastName.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("LastName", () => CustomerMetadata.CreateLastName(this.LastName.NonNullValue<System.String>()), result);
         else
             result.Add("LastName", new [] { "LastName is Required." });
     
         if (this.EmailAddress is not null)
-            ExecuteActionAndCollectValidationExceptions("EmailAddress", () => DomainNamespace.CustomerMetadata.CreateEmailAddress(this.EmailAddress.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("EmailAddress", () => CustomerMetadata.CreateEmailAddress(this.EmailAddress.NonNullValue<System.String>()), result);
         else
             result.Add("EmailAddress", new [] { "EmailAddress is Required." });
     
         if (this.Address is not null)
-            ExecuteActionAndCollectValidationExceptions("Address", () => DomainNamespace.CustomerMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
+            CollectValidationExceptions("Address", () => CustomerMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
         else
             result.Add("Address", new [] { "Address is Required." });
     
         if (this.MobileNumber is not null)
-            ExecuteActionAndCollectValidationExceptions("MobileNumber", () => DomainNamespace.CustomerMetadata.CreateMobileNumber(this.MobileNumber.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("MobileNumber", () => CustomerMetadata.CreateMobileNumber(this.MobileNumber.NonNullValue<System.String>()), result);
 
         return result;
     }

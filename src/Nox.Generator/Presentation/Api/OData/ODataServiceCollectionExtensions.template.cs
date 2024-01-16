@@ -7,10 +7,10 @@ using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Lib;
-using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
-using DtoNameSpace = {{codeGeneratorState.DtoNameSpace}};
+using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using DtoNameSpace = {{codeGenConventions.DtoNameSpace}};
 
-namespace {{codeGeneratorState.ODataNameSpace}};
+namespace {{codeGenConventions.ODataNameSpace}};
 
 internal static class ODataServiceCollectionExtensions
 {

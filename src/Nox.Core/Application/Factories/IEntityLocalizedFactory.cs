@@ -4,9 +4,7 @@ using Nox.Types;
 
 namespace Nox.Application.Factories
 {
-    public interface IEntityLocalizedFactory<TEntityLocalizedType, in TEntityType, in TUpdateEntityDtoType>
-        where TEntityType : IEntity
-        where TUpdateEntityDtoType : IEntityDto<TEntityType>
+    public interface IEntityLocalizedFactory<TEntityLocalizedType, in TEntityType, in TUpdateEntityDtoType> where TEntityType : IEntity
     {
         /// <summary>
         /// Create a localized entity from an entity.

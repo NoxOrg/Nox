@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Commands;

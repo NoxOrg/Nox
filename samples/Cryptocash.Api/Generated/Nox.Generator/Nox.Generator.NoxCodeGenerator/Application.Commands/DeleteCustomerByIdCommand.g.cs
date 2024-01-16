@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteCustomerByIdCommandHandlerBase : CommandCollection
 		var entities = new List<CustomerEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = Cryptocash.Domain.CustomerMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.CustomerMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.Customers.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

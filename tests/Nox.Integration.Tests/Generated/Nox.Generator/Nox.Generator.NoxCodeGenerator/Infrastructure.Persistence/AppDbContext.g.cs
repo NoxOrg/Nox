@@ -40,7 +40,7 @@ internal partial class AppDbContext: AppDbContextBase
            INoxClientAssemblyProvider clientAssemblyProvider,
            IUserProvider userProvider,
            ISystemProvider systemProvider,
-           NoxCodeGenConventions codeGeneratorState,
+           NoxCodeGenConventions codeGenConventions,
            ILogger<AppDbContext> logger
        ) : base(
            options,
@@ -50,7 +50,7 @@ internal partial class AppDbContext: AppDbContextBase
            clientAssemblyProvider,
            userProvider,
            systemProvider,
-           codeGeneratorState,
+           codeGenConventions,
            logger)
     {}
 }
@@ -70,14 +70,14 @@ internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistenc
             INoxClientAssemblyProvider clientAssemblyProvider,
             IUserProvider userProvider,
             ISystemProvider systemProvider,
-            NoxCodeGenConventions codeGeneratorState,
+            NoxCodeGenConventions codeGenConventions,
             ILogger<AppDbContext> logger
         ) : base(publisher, userProvider, systemProvider, databaseProvider, logger, options)
     {
         _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
-            _codeGenConventions = codeGeneratorState;
+            _codeGenConventions = codeGenConventions;
         }
     
     public virtual DbSet<TestWebApp.Domain.TestEntityZeroOrOne> TestEntityZeroOrOnes { get; set; } = null!;

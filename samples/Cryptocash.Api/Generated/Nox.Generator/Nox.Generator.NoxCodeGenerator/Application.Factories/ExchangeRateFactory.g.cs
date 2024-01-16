@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using Cryptocash.Domain;
 using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
 
@@ -82,9 +83,9 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.ExchangeRate();
         exceptionCollector.Collect("EffectiveRate", () => entity.SetIfNotNull(createDto.EffectiveRate, (entity) => entity.EffectiveRate = 
-            Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(createDto.EffectiveRate.NonNullValue<System.Int32>())));
+            Dto.ExchangeRateMetadata.CreateEffectiveRate(createDto.EffectiveRate.NonNullValue<System.Int32>())));
         exceptionCollector.Collect("EffectiveAt", () => entity.SetIfNotNull(createDto.EffectiveAt, (entity) => entity.EffectiveAt = 
-            Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(createDto.EffectiveAt.NonNullValue<System.DateTimeOffset>())));
+            Dto.ExchangeRateMetadata.CreateEffectiveAt(createDto.EffectiveAt.NonNullValue<System.DateTimeOffset>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -93,8 +94,8 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
     private async Task UpdateEntityInternalAsync(ExchangeRateEntity entity, ExchangeRateUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("EffectiveRate",() => entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(updateDto.EffectiveRate.NonNullValue<System.Int32>()));
-        exceptionCollector.Collect("EffectiveAt",() => entity.EffectiveAt = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>()));
+        exceptionCollector.Collect("EffectiveRate",() => entity.EffectiveRate = Dto.ExchangeRateMetadata.CreateEffectiveRate(updateDto.EffectiveRate.NonNullValue<System.Int32>()));
+        exceptionCollector.Collect("EffectiveAt",() => entity.EffectiveAt = Dto.ExchangeRateMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -108,7 +109,7 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
         {
             ArgumentNullException.ThrowIfNull(EffectiveRateUpdateValue, "Attribute 'EffectiveRate' can't be null.");
             {
-                exceptionCollector.Collect("EffectiveRate",() =>entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(EffectiveRateUpdateValue));
+                exceptionCollector.Collect("EffectiveRate",() =>entity.EffectiveRate = Dto.ExchangeRateMetadata.CreateEffectiveRate(EffectiveRateUpdateValue));
             }
         }
 
@@ -116,7 +117,7 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
         {
             ArgumentNullException.ThrowIfNull(EffectiveAtUpdateValue, "Attribute 'EffectiveAt' can't be null.");
             {
-                exceptionCollector.Collect("EffectiveAt",() =>entity.EffectiveAt = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(EffectiveAtUpdateValue));
+                exceptionCollector.Collect("EffectiveAt",() =>entity.EffectiveAt = Dto.ExchangeRateMetadata.CreateEffectiveAt(EffectiveAtUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

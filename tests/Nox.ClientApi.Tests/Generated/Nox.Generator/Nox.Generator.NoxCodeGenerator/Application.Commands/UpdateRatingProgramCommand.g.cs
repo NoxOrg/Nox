@@ -15,6 +15,7 @@ using FluentValidation;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Commands;
@@ -50,8 +51,8 @@ internal abstract class UpdateRatingProgramCommandHandlerBase : CommandBase<Upda
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyStoreId = ClientApi.Domain.RatingProgramMetadata.CreateStoreId(request.keyStoreId);
-		var keyId = ClientApi.Domain.RatingProgramMetadata.CreateId(request.keyId);
+		var keyStoreId = Dto.RatingProgramMetadata.CreateStoreId(request.keyStoreId);
+		var keyId = Dto.RatingProgramMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.RatingPrograms.FindAsync(keyStoreId, keyId);
 		if (entity == null)

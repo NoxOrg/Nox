@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
@@ -75,7 +76,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.CustomerId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Guid>());
+			var relatedKey = Dto.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.Customers.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCustomer(relatedEntity);
@@ -89,7 +90,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		}
 		if(request.EntityDto.VendingMachineId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityDto.VendingMachineId.NonNullValue<System.Guid>());
+			var relatedKey = Dto.VendingMachineMetadata.CreateId(request.EntityDto.VendingMachineId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToVendingMachine(relatedEntity);
@@ -103,7 +104,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		}
 		if(request.EntityDto.CommissionId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.CommissionMetadata.CreateId(request.EntityDto.CommissionId.NonNullValue<System.Guid>());
+			var relatedKey = Dto.CommissionMetadata.CreateId(request.EntityDto.CommissionId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.Commissions.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCommission(relatedEntity);
@@ -117,7 +118,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		}
 		if(request.EntityDto.TransactionId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.TransactionMetadata.CreateId(request.EntityDto.TransactionId.NonNullValue<System.Guid>());
+			var relatedKey = Dto.TransactionMetadata.CreateId(request.EntityDto.TransactionId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.Transactions.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToTransaction(relatedEntity);

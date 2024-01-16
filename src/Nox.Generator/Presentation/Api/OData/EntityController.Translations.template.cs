@@ -26,21 +26,21 @@ using Nox.Exceptions;
 using System;
 using System.ComponentModel.Design;
 using System.Net.Http.Headers;
-using {{codeGeneratorState.ApplicationNameSpace}};
+using {{codeGenConventions.ApplicationNameSpace}};
 using System.Threading.Tasks;
-using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
-using {{codeGeneratorState.ApplicationNameSpace}}.Queries;
-using {{codeGeneratorState.ApplicationNameSpace}}.Commands;
-using {{codeGeneratorState.DomainNameSpace}};
-using {{codeGeneratorState.PersistenceNameSpace}};
+using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using {{codeGenConventions.ApplicationNameSpace}}.Queries;
+using {{codeGenConventions.ApplicationNameSpace}}.Commands;
+using {{codeGenConventions.DomainNameSpace}};
+using {{codeGenConventions.PersistenceNameSpace}};
 
-namespace {{ codeGeneratorState.ODataNameSpace }};
+namespace {{ codeGenConventions.ODataNameSpace }};
 
 {{- keysRoute = '' -}}
 {{- for key in keysForRouting }}
          {{ keysRoute = keysRoute | string.append  "{" + key + "}" + "/" }}
 {{ end }}
-{{- cultureCode = ToLowerFirstChar codeGeneratorState.LocalizationCultureField}}
+{{- cultureCode = ToLowerFirstChar codeGenConventions.LocalizationCultureField}}
 
 public abstract partial class {{className}}Base
 {  

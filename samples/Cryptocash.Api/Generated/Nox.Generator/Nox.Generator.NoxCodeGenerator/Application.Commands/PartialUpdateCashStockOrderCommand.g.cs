@@ -13,6 +13,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Commands;
@@ -48,7 +49,7 @@ internal abstract class PartialUpdateCashStockOrderCommandHandlerBase : CommandB
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.keyId);
+		var keyId = Dto.CashStockOrderMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.CashStockOrders.FindAsync(keyId);
 		if (entity == null)

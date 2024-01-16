@@ -14,7 +14,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 
-namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
+namespace {{codeGenConventions.ApplicationNameSpace }}.Dto;
 
 /// <summary>
 /// {{entity.Description}} Localized DTO.
@@ -31,7 +31,7 @@ public partial class {{className}}
     public {{SinglePrimitiveTypeForKey key}} {{key.Name}} { get; set; } = default!;
 {{- end}}
 {{ end }}
-    public System.String {{codeGeneratorState.LocalizationCultureField}} { get; set; } = default!;
+    public System.String {{codeGenConventions.LocalizationCultureField}} { get; set; } = default!;
 {{ for attribute in entityLocalizedAttributes }}
     /// <summary>
     /// {{attribute.Description}} (Optional).

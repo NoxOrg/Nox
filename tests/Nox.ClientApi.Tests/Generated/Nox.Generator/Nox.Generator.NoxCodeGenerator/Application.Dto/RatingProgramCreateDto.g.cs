@@ -10,8 +10,6 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 /// <summary>
@@ -25,7 +23,7 @@ public partial class RatingProgramCreateDto : RatingProgramCreateDtoBase
 /// <summary>
 /// Rating program for store.
 /// </summary>
-public abstract class RatingProgramCreateDtoBase : IEntityDto<DomainNamespace.RatingProgram>
+public abstract class RatingProgramCreateDtoBase 
 {
     /// <summary>
     ///     

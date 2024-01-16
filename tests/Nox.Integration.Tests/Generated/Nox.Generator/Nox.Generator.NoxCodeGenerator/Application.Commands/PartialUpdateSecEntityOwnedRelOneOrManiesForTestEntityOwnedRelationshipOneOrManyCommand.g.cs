@@ -13,6 +13,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using SecEntityOwnedRelOneOrManyEntity = TestWebApp.Domain.SecEntityOwnedRelOneOrMany;
 
 namespace TestWebApp.Application.Commands;
@@ -46,7 +47,7 @@ internal abstract class PartialUpdateSecEntityOwnedRelOneOrManiesForTestEntityOw
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipOneOrManyMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.TestEntityOwnedRelationshipOneOrManyMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.TestEntityOwnedRelationshipOneOrManies.FindAsync(keyId);
 		if (parentEntity == null)
@@ -54,7 +55,7 @@ internal abstract class PartialUpdateSecEntityOwnedRelOneOrManiesForTestEntityOw
 			throw new EntityNotFoundException("TestEntityOwnedRelationshipOneOrMany",  $"{keyId.ToString()}");
 		}
 		await _dbContext.Entry(parentEntity).Collection(p => p.SecEntityOwnedRelOneOrManies).LoadAsync(cancellationToken);
-		var ownedId = TestWebApp.Domain.SecEntityOwnedRelOneOrManyMetadata.CreateId(request.EntityKeyDto.keyId);
+		var ownedId = Dto.SecEntityOwnedRelOneOrManyMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.SecEntityOwnedRelOneOrManies.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

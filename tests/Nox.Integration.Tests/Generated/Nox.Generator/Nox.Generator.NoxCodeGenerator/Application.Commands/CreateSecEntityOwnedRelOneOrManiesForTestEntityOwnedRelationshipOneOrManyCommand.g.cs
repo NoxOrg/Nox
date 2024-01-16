@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using SecEntityOwnedRelOneOrManyEntity = TestWebApp.Domain.SecEntityOwnedRelOneOrMany;
 
 namespace TestWebApp.Application.Commands;
@@ -50,7 +51,7 @@ internal abstract class CreateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRela
 	public virtual  async Task<SecEntityOwnedRelOneOrManyKeyDto?> Handle(CreateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand request, CancellationToken cancellationToken)
 	{
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipOneOrManyMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.TestEntityOwnedRelationshipOneOrManyMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.TestEntityOwnedRelationshipOneOrManies.FindAsync(keyId);
 		if (parentEntity == null)

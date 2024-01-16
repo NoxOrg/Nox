@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 public record MinimumCashStockKeyDto(System.Int64 keyId);
@@ -30,16 +28,15 @@ public partial class MinimumCashStockDto : MinimumCashStockDtoBase
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public abstract class MinimumCashStockDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.MinimumCashStock>
+public abstract class MinimumCashStockDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Amount is not null)
-            ExecuteActionAndCollectValidationExceptions("Amount", () => DomainNamespace.MinimumCashStockMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
+            CollectValidationExceptions("Amount", () => MinimumCashStockMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
         else
             result.Add("Amount", new [] { "Amount is Required." });
     

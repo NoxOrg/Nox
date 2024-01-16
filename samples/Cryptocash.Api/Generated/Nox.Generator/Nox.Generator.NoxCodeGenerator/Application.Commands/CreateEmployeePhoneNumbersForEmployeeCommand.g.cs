@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using EmployeePhoneNumberEntity = Cryptocash.Domain.EmployeePhoneNumber;
 
 namespace Cryptocash.Application.Commands;
@@ -50,7 +51,7 @@ internal abstract class CreateEmployeePhoneNumbersForEmployeeCommandHandlerBase 
 	public virtual  async Task<EmployeePhoneNumberKeyDto?> Handle(CreateEmployeePhoneNumbersForEmployeeCommand request, CancellationToken cancellationToken)
 	{
 		await OnExecutingAsync(request);
-		var keyId = Cryptocash.Domain.EmployeeMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.EmployeeMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Employees.FindAsync(keyId);
 		if (parentEntity == null)

@@ -12,12 +12,12 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
 using Nox.Types.Abstractions.Extensions;
-using {{codeGeneratorState.PersistenceNameSpace}};
-using {{codeGeneratorState.DomainNameSpace}};
-using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
-using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
+using {{codeGenConventions.PersistenceNameSpace}};
+using {{codeGenConventions.DomainNameSpace}};
+using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
 
 {{- for enumAtt in enumerationAttributes }}
 

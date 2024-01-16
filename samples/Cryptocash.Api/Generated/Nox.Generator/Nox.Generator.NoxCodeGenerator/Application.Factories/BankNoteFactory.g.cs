@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using Cryptocash.Domain;
 using BankNoteEntity = Cryptocash.Domain.BankNote;
 
@@ -82,9 +83,9 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.BankNote();
         exceptionCollector.Collect("CashNote", () => entity.SetIfNotNull(createDto.CashNote, (entity) => entity.CashNote = 
-            Cryptocash.Domain.BankNoteMetadata.CreateCashNote(createDto.CashNote.NonNullValue<System.String>())));
+            Dto.BankNoteMetadata.CreateCashNote(createDto.CashNote.NonNullValue<System.String>())));
         exceptionCollector.Collect("Value", () => entity.SetIfNotNull(createDto.Value, (entity) => entity.Value = 
-            Cryptocash.Domain.BankNoteMetadata.CreateValue(createDto.Value.NonNullValue<MoneyDto>())));
+            Dto.BankNoteMetadata.CreateValue(createDto.Value.NonNullValue<MoneyDto>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -93,8 +94,8 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
     private async Task UpdateEntityInternalAsync(BankNoteEntity entity, BankNoteUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("CashNote",() => entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(updateDto.CashNote.NonNullValue<System.String>()));
-        exceptionCollector.Collect("Value",() => entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(updateDto.Value.NonNullValue<MoneyDto>()));
+        exceptionCollector.Collect("CashNote",() => entity.CashNote = Dto.BankNoteMetadata.CreateCashNote(updateDto.CashNote.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Value",() => entity.Value = Dto.BankNoteMetadata.CreateValue(updateDto.Value.NonNullValue<MoneyDto>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -108,7 +109,7 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
         {
             ArgumentNullException.ThrowIfNull(CashNoteUpdateValue, "Attribute 'CashNote' can't be null.");
             {
-                exceptionCollector.Collect("CashNote",() =>entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(CashNoteUpdateValue));
+                exceptionCollector.Collect("CashNote",() =>entity.CashNote = Dto.BankNoteMetadata.CreateCashNote(CashNoteUpdateValue));
             }
         }
 
@@ -118,7 +119,7 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
             {
                 var entityToUpdate = entity.Value is null ? new MoneyDto() : entity.Value.ToDto();
                 MoneyDto.UpdateFromDictionary(entityToUpdate, ValueUpdateValue);
-                exceptionCollector.Collect("Value",() =>entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(entityToUpdate));
+                exceptionCollector.Collect("Value",() =>entity.Value = Dto.BankNoteMetadata.CreateValue(entityToUpdate));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 public record TestEntityWithNuidKeyDto(System.UInt32 keyId);
@@ -30,16 +28,15 @@ public partial class TestEntityWithNuidDto : TestEntityWithNuidDtoBase
 /// <summary>
 /// Entity created for testing nuid.
 /// </summary>
-public abstract class TestEntityWithNuidDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.TestEntityWithNuid>
+public abstract class TestEntityWithNuidDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.TestEntityWithNuidMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Name", () => TestEntityWithNuidMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     

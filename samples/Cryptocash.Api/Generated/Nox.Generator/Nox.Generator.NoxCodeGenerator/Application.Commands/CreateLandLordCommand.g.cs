@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using LandLordEntity = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Commands;
@@ -65,7 +66,7 @@ internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLan
 		{
 			foreach(var relatedId in request.EntityDto.VendingMachinesId)
 			{
-				var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedId);
+				var relatedKey = Dto.VendingMachineMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)

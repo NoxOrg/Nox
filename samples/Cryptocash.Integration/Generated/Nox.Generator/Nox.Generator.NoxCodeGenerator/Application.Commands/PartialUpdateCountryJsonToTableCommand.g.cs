@@ -13,6 +13,7 @@ using Nox.Exceptions;
 using CryptocashIntegration.Infrastructure.Persistence;
 using CryptocashIntegration.Domain;
 using CryptocashIntegration.Application.Dto;
+using Dto = CryptocashIntegration.Application.Dto;
 using CountryJsonToTableEntity = CryptocashIntegration.Domain.CountryJsonToTable;
 
 namespace CryptocashIntegration.Application.Commands;
@@ -48,7 +49,7 @@ internal abstract class PartialUpdateCountryJsonToTableCommandHandlerBase : Comm
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = CryptocashIntegration.Domain.CountryJsonToTableMetadata.CreateId(request.keyId);
+		var keyId = Dto.CountryJsonToTableMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.CountryJsonToTables.FindAsync(keyId);
 		if (entity == null)

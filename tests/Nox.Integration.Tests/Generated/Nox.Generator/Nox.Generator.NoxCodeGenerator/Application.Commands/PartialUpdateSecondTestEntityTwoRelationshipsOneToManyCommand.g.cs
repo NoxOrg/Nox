@@ -13,6 +13,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using SecondTestEntityTwoRelationshipsOneToManyEntity = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToMany;
 
 namespace TestWebApp.Application.Commands;
@@ -48,7 +49,7 @@ internal abstract class PartialUpdateSecondTestEntityTwoRelationshipsOneToManyCo
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToManyMetadata.CreateId(request.keyId);
+		var keyId = Dto.SecondTestEntityTwoRelationshipsOneToManyMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.SecondTestEntityTwoRelationshipsOneToManies.FindAsync(keyId);
 		if (entity == null)

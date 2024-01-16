@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using TransactionEntity = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteTransactionByIdCommandHandlerBase : CommandCollect
 		var entities = new List<TransactionEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = Cryptocash.Domain.TransactionMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.TransactionMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.Transactions.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

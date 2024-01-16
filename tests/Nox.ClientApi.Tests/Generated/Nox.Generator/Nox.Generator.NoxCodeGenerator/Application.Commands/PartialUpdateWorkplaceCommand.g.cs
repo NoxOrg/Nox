@@ -13,6 +13,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
@@ -48,7 +49,7 @@ internal abstract class PartialUpdateWorkplaceCommandHandlerBase : CommandBase<P
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(request.keyId);
+		var keyId = Dto.WorkplaceMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Workplaces.FindAsync(keyId);
 		if (entity == null)

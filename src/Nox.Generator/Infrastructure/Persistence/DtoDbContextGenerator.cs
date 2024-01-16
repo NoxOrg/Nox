@@ -13,7 +13,7 @@ internal class DtoDbContextGenerator : INoxCodeGenerator
 
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions noxCodeGenCodeConventions,
+      NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
@@ -22,20 +22,20 @@ internal class DtoDbContextGenerator : INoxCodeGenerator
         context.CancellationToken.ThrowIfCancellationRequested();
 
 
-        if (noxCodeGenCodeConventions.Solution.Domain is null)
+        if (codeGenConventions.Solution.Domain is null)
         {
             return;
         }
 
         const string templateName = @"Infrastructure.Persistence.DtoDbContext";
         
-        var entities = noxCodeGenCodeConventions.Solution.Domain.Entities
+        var entities = codeGenConventions.Solution.Domain.Entities
             .Where(e => !e.IsOwnedEntity).ToList();
 
-        var entitiesToLocalize = noxCodeGenCodeConventions.Solution.Domain.Entities
+        var entitiesToLocalize = codeGenConventions.Solution.Domain.Entities
             .Where(entity => entity.IsLocalized);
 
-        var enumerationAttributes = noxCodeGenCodeConventions.Solution.Domain.Entities
+        var enumerationAttributes = codeGenConventions.Solution.Domain.Entities
             .Select(entity =>
             new {
                 Entity = entity,
@@ -43,8 +43,8 @@ internal class DtoDbContextGenerator : INoxCodeGenerator
                     entity.Attributes.Where(attribute => attribute.Type == NoxType.Enumeration).Select(attribute =>
                     new { 
                         Attribute = attribute,
-                        EntityNameForEnumeration = noxCodeGenCodeConventions.GetEntityDtoNameForEnumeration(entity.Name, attribute.Name),
-                        EntityNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name),
+                        EntityNameForEnumeration = codeGenConventions.GetEntityDtoNameForEnumeration(entity.Name, attribute.Name),
+                        EntityNameForLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name),
                         DbSetNameForEnumeration = $"{entity.Name.Pluralize()}{attribute.Name.Pluralize()}",
                         DbSetNameForLocalizedEnumeration = $"{entity.Name.Pluralize()}{attribute.Name.Pluralize()}Localized"
                     })               
@@ -52,7 +52,7 @@ internal class DtoDbContextGenerator : INoxCodeGenerator
             .Where(entity => entity.Attributes.Any());
 
 
-        new TemplateCodeBuilder(context, noxCodeGenCodeConventions)
+        new TemplateCodeBuilder(context, codeGenConventions)
             .WithClassName("DtoDbContext")
             .WithFileNamePrefix($"Infrastructure.Persistence")
             .WithObject("entities", entities)

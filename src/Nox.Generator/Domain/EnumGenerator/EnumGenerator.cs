@@ -12,7 +12,7 @@ internal class EnumGenerator : INoxCodeGenerator
 
     public void Generate(
         SourceProductionContext context,
-        NoxCodeGenConventions codeGeneratorState,
+        NoxCodeGenConventions codeGenConventions,
         GeneratorConfig config,
         System.Action<string> log,
         string? projectRootPath
@@ -20,10 +20,10 @@ internal class EnumGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain == null)
+        if (codeGenConventions.Solution.Domain == null)
             return;
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(x => x.Attributes.Any(x => x.Type == Types.NoxType.Enumeration)))
+        foreach (var entity in codeGenConventions.Solution.Domain.Entities.Where(x => x.Attributes.Any(x => x.Type == Types.NoxType.Enumeration)))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -41,7 +41,7 @@ internal class EnumGenerator : INoxCodeGenerator
                     })
                 });
 
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                     .WithClassName($"{entity.Name}Enums")
                     .WithFileNamePrefix($"Domain")
                     .WithObject("entity", entity)

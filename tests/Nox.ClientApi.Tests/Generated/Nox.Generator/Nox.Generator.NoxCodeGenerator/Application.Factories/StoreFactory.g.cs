@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using StoreEntity = ClientApi.Domain.Store;
 
@@ -90,15 +91,15 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.Store();
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            ClientApi.Domain.StoreMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.StoreMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("Address", () => entity.SetIfNotNull(createDto.Address, (entity) => entity.Address = 
-            ClientApi.Domain.StoreMetadata.CreateAddress(createDto.Address.NonNullValue<StreetAddressDto>())));
+            Dto.StoreMetadata.CreateAddress(createDto.Address.NonNullValue<StreetAddressDto>())));
         exceptionCollector.Collect("Location", () => entity.SetIfNotNull(createDto.Location, (entity) => entity.Location = 
-            ClientApi.Domain.StoreMetadata.CreateLocation(createDto.Location.NonNullValue<LatLongDto>())));
+            Dto.StoreMetadata.CreateLocation(createDto.Location.NonNullValue<LatLongDto>())));
         exceptionCollector.Collect("OpeningDay", () => entity.SetIfNotNull(createDto.OpeningDay, (entity) => entity.OpeningDay = 
-            ClientApi.Domain.StoreMetadata.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>())));
+            Dto.StoreMetadata.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>())));
         exceptionCollector.Collect("Status", () => entity.SetIfNotNull(createDto.Status, (entity) => entity.Status = 
-            ClientApi.Domain.StoreMetadata.CreateStatus(createDto.Status.NonNullValue<System.Int32>())));
+            Dto.StoreMetadata.CreateStatus(createDto.Status.NonNullValue<System.Int32>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         entity.EnsureId(createDto.Id);
@@ -113,16 +114,16 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
     private async Task UpdateEntityInternalAsync(StoreEntity entity, StoreUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Name",() => entity.Name = ClientApi.Domain.StoreMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
-        exceptionCollector.Collect("Address",() => entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>()));
-        exceptionCollector.Collect("Location",() => entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(updateDto.Location.NonNullValue<LatLongDto>()));
+        exceptionCollector.Collect("Name",() => entity.Name = Dto.StoreMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Address",() => entity.Address = Dto.StoreMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>()));
+        exceptionCollector.Collect("Location",() => entity.Location = Dto.StoreMetadata.CreateLocation(updateDto.Location.NonNullValue<LatLongDto>()));
         if(updateDto.OpeningDay is null)
         {
              entity.OpeningDay = null;
         }
         else
         {
-            exceptionCollector.Collect("OpeningDay",() =>entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>()));
+            exceptionCollector.Collect("OpeningDay",() =>entity.OpeningDay = Dto.StoreMetadata.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>()));
         }
         if(updateDto.Status is null)
         {
@@ -130,7 +131,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         }
         else
         {
-            exceptionCollector.Collect("Status",() =>entity.Status = ClientApi.Domain.StoreMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>()));
+            exceptionCollector.Collect("Status",() =>entity.Status = Dto.StoreMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -145,7 +146,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         {
             ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.StoreMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.StoreMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -155,7 +156,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
             {
                 var entityToUpdate = entity.Address is null ? new StreetAddressDto() : entity.Address.ToDto();
                 StreetAddressDto.UpdateFromDictionary(entityToUpdate, AddressUpdateValue);
-                exceptionCollector.Collect("Address",() =>entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(entityToUpdate));
+                exceptionCollector.Collect("Address",() =>entity.Address = Dto.StoreMetadata.CreateAddress(entityToUpdate));
             }
         }
 
@@ -165,7 +166,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
             {
                 var entityToUpdate = entity.Location is null ? new LatLongDto() : entity.Location.ToDto();
                 LatLongDto.UpdateFromDictionary(entityToUpdate, LocationUpdateValue);
-                exceptionCollector.Collect("Location",() =>entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(entityToUpdate));
+                exceptionCollector.Collect("Location",() =>entity.Location = Dto.StoreMetadata.CreateLocation(entityToUpdate));
             }
         }
 
@@ -174,7 +175,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
             if (OpeningDayUpdateValue == null) { entity.OpeningDay = null; }
             else
             {
-                exceptionCollector.Collect("OpeningDay",() =>entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(OpeningDayUpdateValue));
+                exceptionCollector.Collect("OpeningDay",() =>entity.OpeningDay = Dto.StoreMetadata.CreateOpeningDay(OpeningDayUpdateValue));
             }
         }
 
@@ -183,7 +184,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
             if (StatusUpdateValue == null) { entity.Status = null; }
             else
             {
-                exceptionCollector.Collect("Status",() =>entity.Status = ClientApi.Domain.StoreMetadata.CreateStatus(StatusUpdateValue));
+                exceptionCollector.Collect("Status",() =>entity.Status = Dto.StoreMetadata.CreateStatus(StatusUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

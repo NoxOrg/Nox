@@ -9,7 +9,7 @@ namespace Nox.Generator.Application.Services;
 
 internal class RelationshipChainValidatorGenerator : ApplicationEntityDependentGeneratorBase
 {
-    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
+    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, IEnumerable<Entity> entities)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -31,7 +31,7 @@ internal class RelationshipChainValidatorGenerator : ApplicationEntityDependentG
             }
         }
 
-        new TemplateCodeBuilder(context, codeGeneratorState)
+        new TemplateCodeBuilder(context, codeGenConventions)
             .WithClassName($"RelationshipChainValidator")
             .WithFileNamePrefix($"Application.Services")
             .WithObject("entities", entities.Where(e => !e.IsOwnedEntity))

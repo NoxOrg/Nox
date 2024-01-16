@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityExactlyOneToOneOrManyEntity = TestWebApp.Domain.TestEntityExactlyOneToOneOrMany;
 
 namespace TestWebApp.Application.Commands;
@@ -149,13 +150,13 @@ internal abstract class RefTestEntityExactlyOneToOneOrManyToTestEntityOneOrManyT
 
 	protected async Task<TestEntityExactlyOneToOneOrManyEntity?> GetTestEntityExactlyOneToOneOrMany(TestEntityExactlyOneToOneOrManyKeyDto entityKeyDto)
 	{
-		var keyId = TestWebApp.Domain.TestEntityExactlyOneToOneOrManyMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.TestEntityExactlyOneToOneOrManyMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.TestEntityExactlyOneToOneOrManies.FindAsync(keyId);
 	}
 
 	protected async Task<TestWebApp.Domain.TestEntityOneOrManyToExactlyOne?> GetTestEntityOneOrManyToExactlyOne(TestEntityOneOrManyToExactlyOneKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = TestWebApp.Domain.TestEntityOneOrManyToExactlyOneMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.TestEntityOneOrManyToExactlyOneMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.TestEntityOneOrManyToExactlyOnes.FindAsync(relatedKeyId);
 	}
 

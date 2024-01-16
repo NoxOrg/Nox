@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using CurrencyEntity = ClientApi.Domain.Currency;
 
@@ -81,11 +82,11 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.Currency();
-        exceptionCollector.Collect("Id",() => entity.Id = CurrencyMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Id",() => entity.Id = Dto.CurrencyMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            ClientApi.Domain.CurrencyMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.CurrencyMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("Symbol", () => entity.SetIfNotNull(createDto.Symbol, (entity) => entity.Symbol = 
-            ClientApi.Domain.CurrencyMetadata.CreateSymbol(createDto.Symbol.NonNullValue<System.String>())));
+            Dto.CurrencyMetadata.CreateSymbol(createDto.Symbol.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -100,7 +101,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         }
         else
         {
-            exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.CurrencyMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("Name",() =>entity.Name = Dto.CurrencyMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>()));
         }
         if(updateDto.Symbol is null)
         {
@@ -108,7 +109,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         }
         else
         {
-            exceptionCollector.Collect("Symbol",() =>entity.Symbol = ClientApi.Domain.CurrencyMetadata.CreateSymbol(updateDto.Symbol.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("Symbol",() =>entity.Symbol = Dto.CurrencyMetadata.CreateSymbol(updateDto.Symbol.ToValueFromNonNull<System.String>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -124,7 +125,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
             if (NameUpdateValue == null) { entity.Name = null; }
             else
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.CurrencyMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.CurrencyMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -133,7 +134,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
             if (SymbolUpdateValue == null) { entity.Symbol = null; }
             else
             {
-                exceptionCollector.Collect("Symbol",() =>entity.Symbol = ClientApi.Domain.CurrencyMetadata.CreateSymbol(SymbolUpdateValue));
+                exceptionCollector.Collect("Symbol",() =>entity.Symbol = Dto.CurrencyMetadata.CreateSymbol(SymbolUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

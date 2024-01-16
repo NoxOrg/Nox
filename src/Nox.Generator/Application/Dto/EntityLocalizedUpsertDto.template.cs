@@ -21,7 +21,7 @@ using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 
-namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
+namespace {{codeGenConventions.ApplicationNameSpace }}.Dto;
 
 /// <summary>
 /// {{entity.Name}} Localized Upsert DTO.

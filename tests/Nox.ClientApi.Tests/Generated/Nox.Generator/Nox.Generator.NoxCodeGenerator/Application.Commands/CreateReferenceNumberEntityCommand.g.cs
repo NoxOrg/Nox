@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ReferenceNumberEntityEntity = ClientApi.Domain.ReferenceNumberEntity;
 
 namespace ClientApi.Application.Commands;

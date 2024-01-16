@@ -13,6 +13,7 @@ using Nox.Exceptions;
 using CryptocashIntegration.Infrastructure.Persistence;
 using CryptocashIntegration.Domain;
 using CryptocashIntegration.Application.Dto;
+using Dto = CryptocashIntegration.Application.Dto;
 using CountryQueryToCustomTableEntity = CryptocashIntegration.Domain.CountryQueryToCustomTable;
 
 namespace CryptocashIntegration.Application.Commands;
@@ -48,7 +49,7 @@ internal abstract class PartialUpdateCountryQueryToCustomTableCommandHandlerBase
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = CryptocashIntegration.Domain.CountryQueryToCustomTableMetadata.CreateId(request.keyId);
+		var keyId = Dto.CountryQueryToCustomTableMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.CountryQueryToCustomTables.FindAsync(keyId);
 		if (entity == null)

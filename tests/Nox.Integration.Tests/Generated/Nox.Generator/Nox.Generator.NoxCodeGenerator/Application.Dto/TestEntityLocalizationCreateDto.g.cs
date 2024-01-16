@@ -10,8 +10,6 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using DomainNamespace = TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
@@ -25,7 +23,7 @@ public partial class TestEntityLocalizationCreateDto : TestEntityLocalizationCre
 /// <summary>
 /// Entity created for testing localization.
 /// </summary>
-public abstract class TestEntityLocalizationCreateDtoBase : IEntityDto<DomainNamespace.TestEntityLocalization>
+public abstract class TestEntityLocalizationCreateDtoBase 
 {
     /// <summary>
     ///     

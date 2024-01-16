@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 public record ReferenceNumberEntityKeyDto(System.String keyId);
@@ -30,16 +28,15 @@ public partial class ReferenceNumberEntityDto : ReferenceNumberEntityDtoBase
 /// <summary>
 /// ReferenceNumberEntity.
 /// </summary>
-public abstract class ReferenceNumberEntityDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.ReferenceNumberEntity>
+public abstract class ReferenceNumberEntityDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.ReferenceNumber is not null)
-            ExecuteActionAndCollectValidationExceptions("ReferenceNumber", () => DomainNamespace.ReferenceNumberEntityMetadata.CreateReferenceNumber(this.ReferenceNumber.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("ReferenceNumber", () => ReferenceNumberEntityMetadata.CreateReferenceNumber(this.ReferenceNumber.NonNullValue<System.String>()), result);
 
         return result;
     }

@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
 using Cryptocash.Domain;
 using HolidayEntity = Cryptocash.Domain.Holiday;
 
@@ -82,11 +83,11 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new Cryptocash.Domain.Holiday();
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            Cryptocash.Domain.HolidayMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.HolidayMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("Type", () => entity.SetIfNotNull(createDto.Type, (entity) => entity.Type = 
-            Cryptocash.Domain.HolidayMetadata.CreateType(createDto.Type.NonNullValue<System.String>())));
+            Dto.HolidayMetadata.CreateType(createDto.Type.NonNullValue<System.String>())));
         exceptionCollector.Collect("Date", () => entity.SetIfNotNull(createDto.Date, (entity) => entity.Date = 
-            Cryptocash.Domain.HolidayMetadata.CreateDate(createDto.Date.NonNullValue<System.DateTime>())));
+            Dto.HolidayMetadata.CreateDate(createDto.Date.NonNullValue<System.DateTime>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -95,9 +96,9 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
     private async Task UpdateEntityInternalAsync(HolidayEntity entity, HolidayUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Name",() => entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
-        exceptionCollector.Collect("Type",() => entity.Type = Cryptocash.Domain.HolidayMetadata.CreateType(updateDto.Type.NonNullValue<System.String>()));
-        exceptionCollector.Collect("Date",() => entity.Date = Cryptocash.Domain.HolidayMetadata.CreateDate(updateDto.Date.NonNullValue<System.DateTime>()));
+        exceptionCollector.Collect("Name",() => entity.Name = Dto.HolidayMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Type",() => entity.Type = Dto.HolidayMetadata.CreateType(updateDto.Type.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Date",() => entity.Date = Dto.HolidayMetadata.CreateDate(updateDto.Date.NonNullValue<System.DateTime>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -111,7 +112,7 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         {
             ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.HolidayMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -119,7 +120,7 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         {
             ArgumentNullException.ThrowIfNull(TypeUpdateValue, "Attribute 'Type' can't be null.");
             {
-                exceptionCollector.Collect("Type",() =>entity.Type = Cryptocash.Domain.HolidayMetadata.CreateType(TypeUpdateValue));
+                exceptionCollector.Collect("Type",() =>entity.Type = Dto.HolidayMetadata.CreateType(TypeUpdateValue));
             }
         }
 
@@ -127,7 +128,7 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         {
             ArgumentNullException.ThrowIfNull(DateUpdateValue, "Attribute 'Date' can't be null.");
             {
-                exceptionCollector.Collect("Date",() =>entity.Date = Cryptocash.Domain.HolidayMetadata.CreateDate(DateUpdateValue));
+                exceptionCollector.Collect("Date",() =>entity.Date = Dto.HolidayMetadata.CreateDate(DateUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

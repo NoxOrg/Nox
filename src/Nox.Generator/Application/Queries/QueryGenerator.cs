@@ -9,13 +9,13 @@ namespace Nox.Generator.Application.Queries;
 
 internal class QueryGenerator : ApplicationEntityDependentGeneratorBase
 {
-    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
+    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, IEnumerable<Entity> entities)
     {
         foreach (var entity in entities.Where(x => !x.IsOwnedEntity))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"Get{entity.PluralName}Query")
                 .WithFileNamePrefix($"Application.Queries")
                 .WithObject("entity", entity)

@@ -10,7 +10,7 @@ namespace Nox.Generator.Application.Queries;
 
 internal class EnumerationQueryGenerator : ApplicationEntityDependentGeneratorBase
 {
-    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions noxCodeGenCodeConventions, IEnumerable<Entity> entities)
+    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, IEnumerable<Entity> entities)
     {
         var templateName = @"Application.Queries.EnumerationQuery";
 
@@ -27,8 +27,8 @@ internal class EnumerationQueryGenerator : ApplicationEntityDependentGeneratorBa
                 .Where(attribute => attribute.Type == NoxType.Enumeration)
                 .Select(attribute => new {
                     Attribute = attribute,
-                    EntityNameForEnumeration = noxCodeGenCodeConventions.GetEntityDtoNameForEnumeration(entity.Name, attribute.Name),
-                    EntityNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name)
+                    EntityNameForEnumeration = codeGenConventions.GetEntityDtoNameForEnumeration(entity.Name, attribute.Name),
+                    EntityNameForLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name)
                 });
 
             if (!enumerationAttributes.Any())
@@ -36,7 +36,7 @@ internal class EnumerationQueryGenerator : ApplicationEntityDependentGeneratorBa
                 continue;
             }
 
-            new TemplateCodeBuilder(context, noxCodeGenCodeConventions)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"Get{entity.PluralName}EnumerationsQuery")
                 .WithFileNamePrefix($"Application.Queries")
                 .WithObject("entity", entity)

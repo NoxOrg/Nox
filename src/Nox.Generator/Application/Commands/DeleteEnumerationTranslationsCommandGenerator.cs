@@ -9,7 +9,7 @@ namespace Nox.Generator.Application.Commands;
 
 internal class DeleteEnumerationTranslationsCommandGenerator : ApplicationEntityDependentGeneratorBase
 {
-    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
+    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, IEnumerable<Entity> entities)
     {
         var templateName = @"Application.Commands.DeleteEnumerationTranslationsCommand";
         foreach (var entity in entities)
@@ -22,7 +22,7 @@ internal class DeleteEnumerationTranslationsCommandGenerator : ApplicationEntity
                     .Where(attribute => attribute.Type == NoxType.Enumeration && attribute.EnumerationTypeOptions!.IsLocalized)
                     .Select(attribute => new {
                         Attribute = attribute,
-                        EntityNameForLocalizedEnumeration = codeGeneratorState.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name)
+                        EntityNameForLocalizedEnumeration = codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name)
                     });
 
             if (!enumerationAttributes.Any())
@@ -30,7 +30,7 @@ internal class DeleteEnumerationTranslationsCommandGenerator : ApplicationEntity
                 continue;
             }
             
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"Delete{entity.Name}EnumerationsTranslationsCommand")
                 .WithFileNamePrefix($"Application.Commands")
                 .WithObject("entity", entity)

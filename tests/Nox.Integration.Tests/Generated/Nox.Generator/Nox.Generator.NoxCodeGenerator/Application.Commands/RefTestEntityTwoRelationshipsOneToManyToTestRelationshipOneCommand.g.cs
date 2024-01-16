@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityTwoRelationshipsOneToManyEntity = TestWebApp.Domain.TestEntityTwoRelationshipsOneToMany;
 
 namespace TestWebApp.Application.Commands;
@@ -193,13 +194,13 @@ internal abstract class RefTestEntityTwoRelationshipsOneToManyToTestRelationship
 
 	protected async Task<TestEntityTwoRelationshipsOneToManyEntity?> GetTestEntityTwoRelationshipsOneToMany(TestEntityTwoRelationshipsOneToManyKeyDto entityKeyDto)
 	{
-		var keyId = TestWebApp.Domain.TestEntityTwoRelationshipsOneToManyMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.TestEntityTwoRelationshipsOneToManyMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.TestEntityTwoRelationshipsOneToManies.FindAsync(keyId);
 	}
 
 	protected async Task<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToMany?> GetSecondTestEntityTwoRelationshipsOneToMany(SecondTestEntityTwoRelationshipsOneToManyKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToManyMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.SecondTestEntityTwoRelationshipsOneToManyMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.SecondTestEntityTwoRelationshipsOneToManies.FindAsync(relatedKeyId);
 	}
 

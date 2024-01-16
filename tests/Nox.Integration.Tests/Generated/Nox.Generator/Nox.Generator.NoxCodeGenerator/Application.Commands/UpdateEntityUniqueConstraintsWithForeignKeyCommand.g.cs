@@ -15,6 +15,7 @@ using FluentValidation;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using EntityUniqueConstraintsWithForeignKeyEntity = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey;
 
 namespace TestWebApp.Application.Commands;
@@ -50,7 +51,7 @@ internal abstract class UpdateEntityUniqueConstraintsWithForeignKeyCommandHandle
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(request.keyId);
+		var keyId = Dto.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.EntityUniqueConstraintsWithForeignKeys.FindAsync(keyId);
 		if (entity == null)

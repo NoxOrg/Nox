@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using HolidayEntity = ClientApi.Domain.Holiday;
 
@@ -82,11 +83,11 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.Holiday();
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            ClientApi.Domain.HolidayMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.HolidayMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("Type", () => entity.SetIfNotNull(createDto.Type, (entity) => entity.Type = 
-            ClientApi.Domain.HolidayMetadata.CreateType(createDto.Type.NonNullValue<System.String>())));
+            Dto.HolidayMetadata.CreateType(createDto.Type.NonNullValue<System.String>())));
         exceptionCollector.Collect("Date", () => entity.SetIfNotNull(createDto.Date, (entity) => entity.Date = 
-            ClientApi.Domain.HolidayMetadata.CreateDate(createDto.Date.NonNullValue<System.DateTime>())));
+            Dto.HolidayMetadata.CreateDate(createDto.Date.NonNullValue<System.DateTime>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         entity.EnsureId(createDto.Id);        
@@ -96,14 +97,14 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
     private async Task UpdateEntityInternalAsync(HolidayEntity entity, HolidayUpsertDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Name",() => entity.Name = ClientApi.Domain.HolidayMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Name",() => entity.Name = Dto.HolidayMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
         if(updateDto.Type is null)
         {
              entity.Type = null;
         }
         else
         {
-            exceptionCollector.Collect("Type",() =>entity.Type = ClientApi.Domain.HolidayMetadata.CreateType(updateDto.Type.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("Type",() =>entity.Type = Dto.HolidayMetadata.CreateType(updateDto.Type.ToValueFromNonNull<System.String>()));
         }
         if(updateDto.Date is null)
         {
@@ -111,7 +112,7 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         }
         else
         {
-            exceptionCollector.Collect("Date",() =>entity.Date = ClientApi.Domain.HolidayMetadata.CreateDate(updateDto.Date.ToValueFromNonNull<System.DateTime>()));
+            exceptionCollector.Collect("Date",() =>entity.Date = Dto.HolidayMetadata.CreateDate(updateDto.Date.ToValueFromNonNull<System.DateTime>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -126,7 +127,7 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         {
             ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = ClientApi.Domain.HolidayMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.HolidayMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -135,7 +136,7 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
             if (TypeUpdateValue == null) { entity.Type = null; }
             else
             {
-                exceptionCollector.Collect("Type",() =>entity.Type = ClientApi.Domain.HolidayMetadata.CreateType(TypeUpdateValue));
+                exceptionCollector.Collect("Type",() =>entity.Type = Dto.HolidayMetadata.CreateType(TypeUpdateValue));
             }
         }
 
@@ -144,7 +145,7 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
             if (DateUpdateValue == null) { entity.Date = null; }
             else
             {
-                exceptionCollector.Collect("Date",() =>entity.Date = ClientApi.Domain.HolidayMetadata.CreateDate(DateUpdateValue));
+                exceptionCollector.Collect("Date",() =>entity.Date = Dto.HolidayMetadata.CreateDate(DateUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
