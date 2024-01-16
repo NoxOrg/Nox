@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
@@ -12,7 +12,7 @@ internal class DomainEventGenerator : INoxCodeGenerator
 
     public void Generate(
         SourceProductionContext context,
-        NoxCodeGenConventions codeGeneratorState,
+        NoxCodeGenConventions codeGenConventions,
         GeneratorConfig config,
         System.Action<string> log,
         string? projectRootPath
@@ -20,13 +20,13 @@ internal class DomainEventGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain is null) return;
+        if (codeGenConventions.Solution.Domain is null) return;
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(e=> e.Events.Any()))
+        foreach (var entity in codeGenConventions.Solution.Domain.Entities.Where(e=> e.Events.Any()))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName(entity.Name+"DomainEvents")
                 .WithFileNamePrefix($"Domain.Events")
                 .WithObject("entity", entity)
