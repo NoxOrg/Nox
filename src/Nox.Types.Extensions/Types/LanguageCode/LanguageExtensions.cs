@@ -15,7 +15,9 @@ public static class LanguageExtensions
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="language"/> or <paramref name="language"/>'s Iso_639_1 value is null.</exception>
     public static LanguageCode GetReferenceLanguageCode(this Language language)
     {
-        if (language.Iso_639_1 is not null)
+        ArgumentNullException.ThrowIfNull(language, nameof(language));
+        ArgumentNullException.ThrowIfNull(language.Iso_639_1, nameof(language.Iso_639_1));
+        return LanguageCode.From(language.Iso_639_1);
         {
             return LanguageCode.From(language.Iso_639_1);
         }
