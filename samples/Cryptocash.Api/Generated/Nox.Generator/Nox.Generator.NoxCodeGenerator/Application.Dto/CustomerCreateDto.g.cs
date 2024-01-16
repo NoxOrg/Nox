@@ -26,7 +26,8 @@ public partial class CustomerCreateDto : CustomerCreateDtoBase
 /// Customer definition and related data.
 /// </summary>
 public abstract class CustomerCreateDtoBase : IEntityDto<DomainNamespace.Customer>
-{/// <summary>
+{
+    /// <summary>
     /// Customer's unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>

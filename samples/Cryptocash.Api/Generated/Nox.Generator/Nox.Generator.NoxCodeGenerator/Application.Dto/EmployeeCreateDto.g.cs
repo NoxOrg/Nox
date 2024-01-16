@@ -26,7 +26,8 @@ public partial class EmployeeCreateDto : EmployeeCreateDtoBase
 /// Employee definition and related data.
 /// </summary>
 public abstract class EmployeeCreateDtoBase : IEntityDto<DomainNamespace.Employee>
-{/// <summary>
+{
+    /// <summary>
     /// Employee's unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>

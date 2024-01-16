@@ -26,7 +26,8 @@ public partial class TransactionCreateDto : TransactionCreateDtoBase
 /// Customer transaction log and related data.
 /// </summary>
 public abstract class TransactionCreateDtoBase : IEntityDto<DomainNamespace.Transaction>
-{/// <summary>
+{
+    /// <summary>
     /// Customer transaction unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>

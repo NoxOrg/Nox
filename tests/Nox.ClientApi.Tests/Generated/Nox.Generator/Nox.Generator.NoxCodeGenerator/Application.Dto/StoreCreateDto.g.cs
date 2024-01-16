@@ -26,7 +26,8 @@ public partial class StoreCreateDto : StoreCreateDtoBase
 /// Stores.
 /// </summary>
 public abstract class StoreCreateDtoBase : IEntityDto<DomainNamespace.Store>
-{/// <summary>
+{
+    /// <summary>
     ///      
     /// </summary>
     /// <remarks>Optional.</remarks>

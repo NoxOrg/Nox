@@ -26,7 +26,8 @@ public partial class EntityUniqueConstraintsWithForeignKeyCreateDto : EntityUniq
 /// Entity created for testing constraints with Foreign Key.
 /// </summary>
 public abstract class EntityUniqueConstraintsWithForeignKeyCreateDtoBase : IEntityDto<DomainNamespace.EntityUniqueConstraintsWithForeignKey>
-{/// <summary>
+{
+    /// <summary>
     ///      
     /// </summary>
     /// <remarks>Optional.</remarks>

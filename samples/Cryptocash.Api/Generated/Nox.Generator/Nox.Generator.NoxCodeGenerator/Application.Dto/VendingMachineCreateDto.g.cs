@@ -26,7 +26,8 @@ public partial class VendingMachineCreateDto : VendingMachineCreateDtoBase
 /// Vending machine definition and related data.
 /// </summary>
 public abstract class VendingMachineCreateDtoBase : IEntityDto<DomainNamespace.VendingMachine>
-{/// <summary>
+{
+    /// <summary>
     /// Vending machine unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>

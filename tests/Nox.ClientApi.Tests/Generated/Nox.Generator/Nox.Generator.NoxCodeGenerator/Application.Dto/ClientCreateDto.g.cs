@@ -26,7 +26,8 @@ public partial class ClientCreateDto : ClientCreateDtoBase
 /// Client of a Store.
 /// </summary>
 public abstract class ClientCreateDtoBase : IEntityDto<DomainNamespace.Client>
-{/// <summary>
+{
+    /// <summary>
     ///      
     /// </summary>
     /// <remarks>Optional.</remarks>

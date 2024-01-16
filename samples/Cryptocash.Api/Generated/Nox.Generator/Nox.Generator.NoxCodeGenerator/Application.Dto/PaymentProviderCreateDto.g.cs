@@ -26,7 +26,8 @@ public partial class PaymentProviderCreateDto : PaymentProviderCreateDtoBase
 /// Payment provider related data.
 /// </summary>
 public abstract class PaymentProviderCreateDtoBase : IEntityDto<DomainNamespace.PaymentProvider>
-{/// <summary>
+{
+    /// <summary>
     /// Payment provider unique identifier     
     /// </summary>
     /// <remarks>Optional.</remarks>
