@@ -13,7 +13,7 @@ public static class LanguageExtensions
     /// <param name="language">The <see cref="Language"/> object.</param>
     /// <returns>The reference language code as a <see cref="LanguageCode"/> object.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="language"/> or <paramref name="language"/>'s Iso_639_1 value is null.</exception>
-    public static LanguageCode GetReferenceLanguageCode(this Language language)
+    public static LanguageCode GetLanguageCode(this Language referenceLanguage)
     {
         ArgumentNullException.ThrowIfNull(language, nameof(language));
         ArgumentNullException.ThrowIfNull(language.Iso_639_1, nameof(language.Iso_639_1));
