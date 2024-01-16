@@ -82,15 +82,7 @@ commands:
       
 events:
   - name: CountryNameUpdatedDomainEvent
-    type: object
-    objectTypeOptions:
-      attributes:
-
-        - name: CountryId
-          type: countryCode2
-
-        - name: CountryName
-          type: text
+    description: Raised when the name of a country is changed
 
 keys:
 

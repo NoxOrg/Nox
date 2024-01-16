@@ -65,6 +65,7 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
     [Title("Domain events for this entity.")]
     [Description("Define one or more event(s) that may be raised when state change occurs on this entity.")]
     [AdditionalProperties(false)]
+    [UniqueItemProperties(nameof(DomainEvent.Name))]
     public IReadOnlyList<DomainEvent> Events { get; internal set; } = Array.Empty<DomainEvent>();
 
     [Title("Keys for this entity.")]
