@@ -12,7 +12,6 @@ using Nox.Solution;
 using Nox.Configuration;
 using Nox.Types.EntityFramework.Abstractions;
 using Cryptocash.Infrastructure.Persistence;
-using Cryptocash.Presentation.Api.OData;
 
 namespace Cryptocash.Presentation;
 
@@ -44,7 +43,6 @@ public static class ServiceCollectionExtensions
         });
 
         services.AddScoped<Nox.Application.Services.IRelationshipChainValidator, Cryptocash.Application.Services.RelationshipChainValidator>();
-        services.AddNoxOdata(configureNoxOdata);
         return services;
     }
 }

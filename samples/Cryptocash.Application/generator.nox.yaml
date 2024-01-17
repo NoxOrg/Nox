@@ -10,16 +10,16 @@
 #  </ItemGroup>
 
 # Generates domain models, events and related types
-domain: false
+domain: true
 
 # Generates application logic and events
-application: false
+application: true
 
 # Generates application dtos/ contracts
-applicationDto: false
+applicationDto: true
 
 # Generates persistence, DbContext and model configuration and mapping
-infrastructure: false
+infrastructure: true
 
 # Generates APi's
-presentation: true
+presentation: false
