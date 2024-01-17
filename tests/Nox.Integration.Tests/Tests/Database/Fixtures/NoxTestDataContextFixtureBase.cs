@@ -6,6 +6,7 @@ using Nox.Infrastructure;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using TestWebApp.Infrastructure.Persistence;
+using TestWebApp.Presentation;
 
 namespace Nox.Integration.Tests.Fixtures;
 
