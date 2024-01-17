@@ -72,6 +72,9 @@ public static class OpenApiExtensions
 
     public static OpenApiOperation WithResponseBody(this OpenApiOperation operation, string? referenceId, string? responseType = null)
     {
+        if (!operation.Responses.ContainsKey("200"))
+            operation.Responses.Add("200", new OpenApiResponse { Description = "Success" });
+
         if (string.IsNullOrEmpty(referenceId))
             return operation;
 

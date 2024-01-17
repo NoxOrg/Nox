@@ -1,7 +1,10 @@
-﻿using Microsoft.OpenApi.Any;
+﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
+using Nox.Extensions;
 using Nox.Solution;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Text.RegularExpressions;
 
 namespace Nox.Presentation.Api.Swagger;
 
@@ -9,7 +12,7 @@ namespace Nox.Presentation.Api.Swagger;
 /// This filter is intended to format default OData generated API
 /// to more usable form specyfing particular entities available
 /// </summary>
-internal class ApiRouteMappingDocumentFilter : IDocumentFilter
+internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
 {
     private readonly NoxSolution _solution;
 
@@ -21,19 +24,13 @@ internal class ApiRouteMappingDocumentFilter : IDocumentFilter
     /// <summary>
     /// Interface method that applies filter change to swagger definition
     /// </summary>
-    /// <param name="openApiDocument">Swagger definition</param>
+    /// <param name="swaggerDoc">Swagger definition</param>
     /// <param name="context">Filterting context</param>
-    public void Apply(OpenApiDocument openApiDocument, DocumentFilterContext context)
+#pragma warning disable S3776 // Cognitive Complexity of methods should not be too high
+    public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+#pragma warning restore S3776 // Cognitive Complexity of methods should not be too high
     {
         var routes = _solution.Presentation.ApiConfiguration.ApiRouteMappings;
-
-        var tags = new[]
-{
-            new OpenApiTag
-            {
-                Name = "Mapppings",
-            }
-        };
 
         var newPaths = new OpenApiPaths();
 
@@ -78,39 +75,45 @@ internal class ApiRouteMappingDocumentFilter : IDocumentFilter
                 operation.Parameters.Add(p);
             }
 
-            // add request body if it's supplied
-
-            if (route.JsonBodyType is not null 
-                && route.HttpVerb != HttpVerb.Get)
+            if (route.JsonBodyType is null && route.ResponseOutput is null)
             {
-                operation.RequestBody = new OpenApiRequestBody()
-                {
-                    Required = true,
-                    Content = new Dictionary<string, OpenApiMediaType>()
-                    {
-                        [route.RequestContentTypeString] = new OpenApiMediaType
-                        {
-                            Schema = ToOpenApiSchema(route.JsonBodyType)
-                        }
-                    },
-                };
+                AddRequestBodyAndResponse(context, route, operation);
             }
-
-
-            // create response
-            var response = new OpenApiResponse
+            else
             {
-                Description = "Success"
-            };
+                // add request body if it's supplied
+                if (route.JsonBodyType is not null
+                    && route.HttpVerb != HttpVerb.Get)
+                {
+                    operation.RequestBody = new OpenApiRequestBody()
+                    {
+                        Required = true,
+                        Content = new Dictionary<string, OpenApiMediaType>()
+                        {
+                            [route.RequestContentTypeString] = new OpenApiMediaType
+                            {
+                                Schema = ToOpenApiSchema(route.JsonBodyType)
+                            }
+                        },
+                    };
+                }
 
-            // add response type
-            response.Content.Add(route.ResponseContentTypeString, new OpenApiMediaType
-            {
-                Schema = ToOpenApiSchema(route.ResponseOutput)
-            });
+                // create response
+                var response = new OpenApiResponse
+                {
+                    Description = "Success"
+                };
 
-            // adding response to operation
-            operation.Responses.Add("200", response);
+                // add response type
+                if (route.ResponseOutput is not null)
+                    response.Content.Add(route.ResponseContentTypeString, new OpenApiMediaType
+                    {
+                        Schema = ToOpenApiSchema(route.ResponseOutput)
+                    });
+
+                // adding response to operation
+                operation.Responses.Add("200", response);
+            }
 
             // finally add the path to document
             var routeKey = $"{_solution.Presentation.ApiConfiguration.ApiRoutePrefix}{route.Route}";
@@ -129,14 +132,100 @@ internal class ApiRouteMappingDocumentFilter : IDocumentFilter
             }
         }
 
-        openApiDocument.Paths.ToList()
+        swaggerDoc.Paths.ToList()
             .ForEach(p => newPaths.Add(p.Key, p.Value));
 
-        openApiDocument.Paths = newPaths;
-
-
+        swaggerDoc.Paths = newPaths;
     }
 
+    private void AddRequestBodyAndResponse(DocumentFilterContext context, ApiRouteMapping route, OpenApiOperation operation)
+    {
+        int indexOfQuestionMark = route.TargetUrl.IndexOf('?');
+        var targetUrl = indexOfQuestionMark != -1 ? route.TargetUrl[..indexOfQuestionMark] : route.TargetUrl;
+        var apiRoutePrefix = _solution.Presentation.ApiConfiguration.ApiRoutePrefix.TrimStart('/');
+
+        var apiDescriptions = context.ApiDescriptions
+            .Where(ad => ad.HttpMethod != null
+            && ad.HttpMethod.Equals(route.HttpVerbString, StringComparison.OrdinalIgnoreCase)
+            && ad.RelativePath != null
+            && ad.RelativePath.StartsWith(apiRoutePrefix));
+
+        foreach (var apiDescription in apiDescriptions)
+        {
+            var relativePathRegex = ConvertToRegex(apiDescription.RelativePath!);
+            if (Regex.IsMatch(targetUrl, relativePathRegex, RegexOptions.IgnoreCase))
+            {
+                AddRequestBody(operation, apiDescription);
+                AddResponse(operation, apiDescription);
+                break;
+            }
+        }
+    }
+
+    private static void AddRequestBody(OpenApiOperation operation, ApiDescription apiDescription)
+    {
+        var bodyParameterDescription = apiDescription.ParameterDescriptions.FirstOrDefault(pd => pd.Source.Id == "Body");
+        var requestReferenceId = bodyParameterDescription?.Type.Name ?? string.Empty;
+        if (requestReferenceId.Contains("Delta"))
+            requestReferenceId = (GetTypeFromFullName(bodyParameterDescription?.Type.FullName) ?? string.Empty) + "Delta";
+        else if (requestReferenceId.Contains("ReferencesDto"))
+            requestReferenceId = "StringReferencesDto";
+        operation.WithRequestBody(requestReferenceId);
+    }
+
+    private static void AddResponse(OpenApiOperation operation, ApiDescription apiDescription)
+    {
+        var supportedResponseTypes = apiDescription.SupportedResponseTypes.FirstOrDefault();
+        var responseReferenceId = supportedResponseTypes?.Type?.Name;
+        if (responseReferenceId is null || responseReferenceId.Contains("IQueryable") || responseReferenceId.Contains("SingleResult"))
+            responseReferenceId = GetTypeFromFullName(supportedResponseTypes?.Type?.FullName);
+
+        var responseType = supportedResponseTypes?.Type?.Name;
+        if (responseType is not null)
+        {
+            if (responseType.Contains("Queryable"))
+                responseType = "array";
+            else if (responseType.Contains("SingleResult"))
+            {
+                responseReferenceId += "SingleResult";
+                responseType = null;
+            }
+            else
+                responseType = null;
+        }
+        operation.WithResponseBody(responseReferenceId, responseType);
+    }
+
+    [GeneratedRegex("\\{.*?\\}")]
+    private static partial Regex KeyRegex();
+
+    private string ConvertToRegex(string path)
+    {
+        var pathWithoutPrefix = path[(_solution.Presentation.ApiConfiguration.ApiRoutePrefix.Length - 1)..];
+        var regexPattern = KeyRegex().Replace(pathWithoutPrefix, "{(.+)}");
+        regexPattern = regexPattern.Replace("$", "\\$");
+        return $"^{regexPattern}$";
+    }
+
+    [GeneratedRegex("\\[\\[([^,]+)")]
+    private static partial Regex FullNameRegex();
+
+    private static string? GetTypeFromFullName(string? fullName)
+    {
+        if (fullName is null)
+            return null;
+
+        var match = FullNameRegex().Match(fullName);
+        if (match.Success)
+        {
+            var fullType = match.Groups[1].Value.Trim();
+            int lastDotIndex = fullType.LastIndexOf('.');
+            if (lastDotIndex != -1)
+                return fullType[(lastDotIndex + 1)..];
+        }
+
+        return null;
+    }    
     private static ParameterLocation FindParameterLocationInRoute(string paramName, string route)
     {
         var parts = route.Split('?');
