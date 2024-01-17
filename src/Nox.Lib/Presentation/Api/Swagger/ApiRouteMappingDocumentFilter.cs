@@ -153,7 +153,7 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
         foreach (var apiDescription in apiDescriptions)
         {
             var relativePathRegex = ConvertToRegex(apiDescription.RelativePath!);
-            if (Regex.IsMatch(targetUrl, relativePathRegex, RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(targetUrl, relativePathRegex, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(100)))
             {
                 AddRequestBody(operation, apiDescription);
                 AddResponse(operation, apiDescription);
