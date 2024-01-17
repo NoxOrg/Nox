@@ -16,8 +16,9 @@ using {{ solutionName }}.Infrastructure.Persistence;
 using {{ solutionName }}.Presentation.Api.OData;
 {{- end }}
 
+namespace {{codeGenConventions.PresentationNameSpace}};
 
-internal static class {{className}}
+public static class {{className}}
 {
     /// <summary>
     /// Use for testing without a WebApplicationBuilder

@@ -14,8 +14,9 @@ using Nox.Types.EntityFramework.Abstractions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Presentation.Api.OData;
 
+namespace Cryptocash.Presentation;
 
-internal static class ServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     /// <summary>
     /// Use for testing without a WebApplicationBuilder

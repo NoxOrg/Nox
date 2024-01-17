@@ -14,8 +14,9 @@ using Nox.Types.EntityFramework.Abstractions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Presentation.Api.OData;
 
+namespace TestWebApp.Presentation;
 
-internal static class ServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     /// <summary>
     /// Use for testing without a WebApplicationBuilder
