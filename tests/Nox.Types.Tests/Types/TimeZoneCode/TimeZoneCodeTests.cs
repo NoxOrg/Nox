@@ -27,9 +27,9 @@ public class TimeZoneCodeTests
     [Fact]
     public void TimeZoneCode_Equality_Tests()
     {
-        var timeZoneCode_1 = Nox.Types.TimeZoneCode.From("PKT");
+        var timeZoneCode_1 = Nox.Types.TimeZoneCode.From("GMT");
 
-        var timeZoneCode_2 = Nox.Types.TimeZoneCode.From("PKT");
+        var timeZoneCode_2 = Nox.Types.TimeZoneCode.From("GMT");
 
         timeZoneCode_1.Should().BeEquivalentTo(timeZoneCode_2);
     }
@@ -37,9 +37,9 @@ public class TimeZoneCodeTests
     [Fact]
     public void TimeZoneCode_CaseInsensitiveEquality_Tests()
     {
-        var timeZoneCode_1 = Nox.Types.TimeZoneCode.From("PKT");
+        var timeZoneCode_1 = Nox.Types.TimeZoneCode.From("GMT");
 
-        var timeZoneCode_2 = Nox.Types.TimeZoneCode.From("pkt");
+        var timeZoneCode_2 = Nox.Types.TimeZoneCode.From("gmt");
 
         timeZoneCode_1.Should().BeEquivalentTo(timeZoneCode_2);
     }
@@ -47,9 +47,9 @@ public class TimeZoneCodeTests
     [Fact]
     public void TimeZoneCode_NotEqual_Tests()
     {
-        var timeZoneCode_1 = Nox.Types.TimeZoneCode.From("PKT");
+        var timeZoneCode_1 = Nox.Types.TimeZoneCode.From("GMT");
 
-        var timeZoneCode_2 = Nox.Types.TimeZoneCode.From("PST");
+        var timeZoneCode_2 = Nox.Types.TimeZoneCode.From("UTC");
 
         timeZoneCode_1.Should().NotBeEquivalentTo(timeZoneCode_2);
     }
@@ -57,8 +57,8 @@ public class TimeZoneCodeTests
     [Fact]
     public void TimeZoneCode_ToString_ReturnsString()
     {
-        var timeZoneCode = Nox.Types.TimeZoneCode.From("PKT");
+        var timeZoneCode = Nox.Types.TimeZoneCode.From("GMT");
 
-        timeZoneCode.ToString().Should().BeEquivalentTo("PKT");
+        timeZoneCode.ToString().Should().BeEquivalentTo("GMT");
     }
 }

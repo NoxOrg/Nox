@@ -717,8 +717,8 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
     public async Task PutToCountryTimeZones_WithNotExistingId_ShouldCreate()
     {
         // Arrange
-        var timeZone1 = "EST";
-        var timeZone2 = "NST";
+        var timeZone1 = "GMT";
+        var timeZone2 = "UTC";
         var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl,
             new CountryCreateDto
             {
