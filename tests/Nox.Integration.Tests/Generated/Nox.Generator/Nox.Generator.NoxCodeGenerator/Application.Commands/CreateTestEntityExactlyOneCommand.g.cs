@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityExactlyOneEntity = TestWebApp.Domain.TestEntityExactlyOne;
 
 namespace TestWebApp.Application.Commands;
@@ -63,7 +64,7 @@ internal abstract class CreateTestEntityExactlyOneCommandHandlerBase : CommandBa
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.SecondTestEntityExactlyOneId is not null)
 		{
-			var relatedKey = TestWebApp.Domain.SecondTestEntityExactlyOneMetadata.CreateId(request.EntityDto.SecondTestEntityExactlyOneId.NonNullValue<System.String>());
+			var relatedKey = Dto.SecondTestEntityExactlyOneMetadata.CreateId(request.EntityDto.SecondTestEntityExactlyOneId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.SecondTestEntityExactlyOnes.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToSecondTestEntityExactlyOne(relatedEntity);

@@ -11,7 +11,7 @@ internal abstract class ApplicationEntityDependentGeneratorBase : INoxCodeGenera
 
     public void Generate(
        SourceProductionContext context,
-       NoxCodeGenConventions codeGeneratorState,
+       NoxCodeGenConventions codeGenConventions,
        GeneratorConfig config,
        System.Action<string> log,
        string? projectRootPath
@@ -19,13 +19,13 @@ internal abstract class ApplicationEntityDependentGeneratorBase : INoxCodeGenera
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain is null)
+        if (codeGenConventions.Solution.Domain is null)
         {
             return;
         }
 
-        DoGenerate(context, codeGeneratorState, codeGeneratorState.Solution.Domain.Entities);
+        DoGenerate(context, codeGenConventions, codeGenConventions.Solution.Domain.Entities);
     }
 
-    protected abstract void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities);
+    protected abstract void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, IEnumerable<Entity> entities);
 }

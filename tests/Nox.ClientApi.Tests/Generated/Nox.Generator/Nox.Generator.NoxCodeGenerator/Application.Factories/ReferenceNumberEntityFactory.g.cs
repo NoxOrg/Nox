@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using ReferenceNumberEntityEntity = ClientApi.Domain.ReferenceNumberEntity;
 
@@ -88,9 +89,9 @@ internal abstract class ReferenceNumberEntityFactoryBase : IEntityFactory<Refere
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         var nextSequenceId =  await _repository.GetSequenceNextValueAsync(Nox.Solution.NoxCodeGenConventions.GetDatabaseSequenceName("ReferenceNumberEntity", "Id"));
-        entity.EnsureId(nextSequenceId,ClientApi.Domain.ReferenceNumberEntityMetadata.IdTypeOptions);
+        entity.EnsureId(nextSequenceId,Dto.ReferenceNumberEntityMetadata.IdTypeOptions);
         var nextSequenceReferenceNumber =  await _repository.GetSequenceNextValueAsync(Nox.Solution.NoxCodeGenConventions.GetDatabaseSequenceName("ReferenceNumberEntity", "ReferenceNumber"));
-        entity.EnsureReferenceNumber(nextSequenceReferenceNumber,ClientApi.Domain.ReferenceNumberEntityMetadata.ReferenceNumberTypeOptions);        
+        entity.EnsureReferenceNumber(nextSequenceReferenceNumber,Dto.ReferenceNumberEntityMetadata.ReferenceNumberTypeOptions);        
         return entity;
     }
 

@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 public record CountryLocalNameKeyDto(System.Int64 keyId);
@@ -30,21 +28,20 @@ public partial class CountryLocalNameDto : CountryLocalNameDtoBase
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public abstract class CountryLocalNameDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.CountryLocalName>
+public abstract class CountryLocalNameDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.CountryLocalNameMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Name", () => CountryLocalNameMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.NativeName is not null)
-            ExecuteActionAndCollectValidationExceptions("NativeName", () => DomainNamespace.CountryLocalNameMetadata.CreateNativeName(this.NativeName.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("NativeName", () => CountryLocalNameMetadata.CreateNativeName(this.NativeName.NonNullValue<System.String>()), result);
 
         return result;
     }

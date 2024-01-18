@@ -9,20 +9,20 @@ internal class EntityControllerEntityGenerator : EntityControllerGeneratorBase
 {
     public override void Generate(
     SourceProductionContext context,
-    NoxCodeGenConventions codeGeneratorState,
+    NoxCodeGenConventions codeGenConventions,
     GeneratorConfig config, System.Action<string> log,
     string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain is null)
+        if (codeGenConventions.Solution.Domain is null)
         {
             return;
         }
 
         const string templateName = @"Presentation.Api.OData.EntityController.Entity";
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
+        foreach (var entity in codeGenConventions.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -31,7 +31,7 @@ internal class EntityControllerEntityGenerator : EntityControllerGeneratorBase
                 continue;
             }
 
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{entity.PluralName}Controller")
                 .WithFileNamePrefix("Presentation.Api.OData")
                 .WithFileNameSuffix("Entity")
@@ -39,7 +39,7 @@ internal class EntityControllerEntityGenerator : EntityControllerGeneratorBase
                 .WithObject("primaryKeysQuery", GetPrimaryKeysQuery(entity))
                 .WithObject("createdKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "createdKey.key", withKeyName: true))
                 .WithObject("updatedKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "updatedKey.key", withKeyName: true))
-                .WithObject("primaryKeysRoute", GetPrimaryKeysRoute(entity, codeGeneratorState.Solution))
+                .WithObject("primaryKeysRoute", GetPrimaryKeysRoute(entity, codeGenConventions.Solution))
                 .GenerateSourceCodeFromResource(templateName);
         }
     }

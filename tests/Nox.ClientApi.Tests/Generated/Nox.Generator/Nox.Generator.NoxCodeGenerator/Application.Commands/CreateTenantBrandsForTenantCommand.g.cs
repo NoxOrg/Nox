@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using TenantBrandEntity = ClientApi.Domain.TenantBrand;
 
 namespace ClientApi.Application.Commands;
@@ -50,7 +51,7 @@ internal abstract class CreateTenantBrandsForTenantCommandHandlerBase : CommandB
 	public virtual  async Task<TenantBrandKeyDto?> Handle(CreateTenantBrandsForTenantCommand request, CancellationToken cancellationToken)
 	{
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.TenantMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.TenantMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Tenants.FindAsync(keyId);
 		if (parentEntity == null)

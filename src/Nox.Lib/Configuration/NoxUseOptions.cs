@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Nox.Middlewares;
 using Nox.Solution;
 using Microsoft.Extensions.Logging;
+using Elastic.Apm.NetCoreAll;
 
 namespace Nox;
 
@@ -24,17 +25,10 @@ internal class NoxUseOptions : INoxUseOptions
     private bool _useODataRouteDebug = false;
     private bool _useEtlBoxCheckLicense = true;
 #endif
-    private bool _useNoxElasticMonitoring = false;
     private bool _useSerilogRequestLogging = true;
     private bool _useEtlBox = false;
     private bool _useHealthChecks = true;
-
-
-    public INoxUseOptions UseNoxElasticMonitoring()
-    {
-        _useNoxElasticMonitoring = true;
-        return this;
-    }
+    private bool _useMonitoring = true;
 
     public INoxUseOptions UseODataRouteDebug()
     {
@@ -44,6 +38,11 @@ internal class NoxUseOptions : INoxUseOptions
     public INoxUseOptions UseHealthChecks(bool use)
     {
         _useHealthChecks = use;
+        return this;
+    }
+    public INoxUseOptions UseMonitoring(bool use)
+    {
+        _useMonitoring = use;
         return this;
     }
     public INoxUseOptions UseRequestLogging(bool use)
@@ -73,7 +72,7 @@ internal class NoxUseOptions : INoxUseOptions
         //4. Routing Mechanism
         builder.UseMiddleware<ExceptionHanderMiddleware>();
 
-        ConfigureHealthChecks(builder);
+        ConfigureHealthChecks(builder);        
 
         builder.UseWhen(context => context.Request.Path.StartsWithSegments("/version"), appBuilder =>
         {
@@ -125,10 +124,8 @@ internal class NoxUseOptions : INoxUseOptions
         {
             builder.ApplicationServices.UseEtlBox(_useEtlBoxCheckLicense);
         }
-        if (_useNoxElasticMonitoring)
-        {
-            builder.UseNoxAllElasticApm();
-        }
+
+        ConfigureMonitoring(builder, solution);
 
         var hostingEnvironment = builder
             .ApplicationServices
@@ -147,6 +144,8 @@ internal class NoxUseOptions : INoxUseOptions
 
         integrationContext?.ExecuteStartupIntegrations();
     }
+
+   
 
     private void ConfigureHealthChecks(IApplicationBuilder builder)
     {
@@ -169,5 +168,24 @@ internal class NoxUseOptions : INoxUseOptions
                 Predicate = healthCheck => healthCheck.Tags.Contains("ready")
             });
         }
+    }
+    private void ConfigureMonitoring(IApplicationBuilder builder, NoxSolution noxSolution)
+    {
+        if (!_useMonitoring)
+            return;
+
+        if (noxSolution.Infrastructure?.Monitoring is null)
+        {
+            return;
+        }
+
+        switch (noxSolution.Infrastructure.Monitoring.Provider)
+        {
+            case MonitoringProvider.ElasticApm:
+                builder.UseAllElasticApm(noxSolution.Infrastructure.Monitoring.ElasticApmServer!.ToConfiguration());
+                break;
+            default:
+                throw new NotImplementedException($"Unknown provider {noxSolution.Infrastructure.Monitoring.Provider}");
+            }
     }
 }

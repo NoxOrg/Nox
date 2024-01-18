@@ -9,11 +9,12 @@ using Nox.Types;
 using Nox.Domain;
 using Microsoft.EntityFrameworkCore;
 
-using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
-using {{codeGeneratorState.DomainNameSpace}};
-using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
+using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using {{codeGenConventions.DomainNameSpace}};
+using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Factories;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Factories;
 
 internal partial class {{className}} : {{className}}Base
 {
@@ -49,7 +50,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
         {{- for attribute in entityLocalizedAttributes }}
         entityLocalized.{{attribute.Name}} = updateDto.{{attribute.Name}} == null
             ? null
-            : {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
+            : Dto.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
         {{- if IsNoxTypeSimpleType attribute.Type -}}.ToValueFromNonNull<{{SinglePrimitiveTypeForKey attribute}}>()
         {{- else -}}.ToValueFromNonNull<{{attribute.Type}}Dto>()
         {{- end}});
@@ -72,7 +73,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
         {
             entityLocalized.{{attribute.Name}} = {{attribute.Name}}UpdateValue == null
                 ? null
-                : {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue);
+                : Dto.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue);
         }
         {{- end }}
     }
@@ -82,7 +83,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
         var localizedEntity = new {{localizedEntityName}}
         {
             {{entity.Name}} = entity,
-            {{codeGeneratorState.LocalizationCultureField}} = cultureCode,
+            {{codeGenConventions.LocalizationCultureField}} = cultureCode,
         };
 
         if (copyEntityAttributes)

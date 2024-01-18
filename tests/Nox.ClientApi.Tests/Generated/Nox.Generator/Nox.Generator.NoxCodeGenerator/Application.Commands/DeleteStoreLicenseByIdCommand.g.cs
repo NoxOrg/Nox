@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteStoreLicenseByIdCommandHandlerBase : CommandCollec
 		var entities = new List<StoreLicenseEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = ClientApi.Domain.StoreLicenseMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.StoreLicenseMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.StoreLicenses.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteCountryByIdCommandHandlerBase : CommandCollectionB
 		var entities = new List<CountryEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = ClientApi.Domain.CountryMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.CountryMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.Countries.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

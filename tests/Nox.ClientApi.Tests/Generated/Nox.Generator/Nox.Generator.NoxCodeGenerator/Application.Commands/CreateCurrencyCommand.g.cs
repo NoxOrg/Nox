@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using CurrencyEntity = ClientApi.Domain.Currency;
 
 namespace ClientApi.Application.Commands;
@@ -65,7 +66,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		{
 			foreach(var relatedId in request.EntityDto.StoreLicenseDefaultId)
 			{
-				var relatedKey = ClientApi.Domain.StoreLicenseMetadata.CreateId(relatedId);
+				var relatedKey = Dto.StoreLicenseMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.StoreLicenses.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
@@ -86,7 +87,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		{
 			foreach(var relatedId in request.EntityDto.StoreLicenseSoldInId)
 			{
-				var relatedKey = ClientApi.Domain.StoreLicenseMetadata.CreateId(relatedId);
+				var relatedKey = Dto.StoreLicenseMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.StoreLicenses.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)

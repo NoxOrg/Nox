@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityOwnedRelationshipExactlyOneEntity = TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOne;
 
 namespace TestWebApp.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteTestEntityOwnedRelationshipExactlyOneByIdCommandHa
 		var entities = new List<TestEntityOwnedRelationshipExactlyOneEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOneMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.TestEntityOwnedRelationshipExactlyOneMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.TestEntityOwnedRelationshipExactlyOnes.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

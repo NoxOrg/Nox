@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 public record StoreOwnerKeyDto(System.String keyId);
@@ -30,32 +28,31 @@ public partial class StoreOwnerDto : StoreOwnerDtoBase
 /// <summary>
 /// Store owners.
 /// </summary>
-public abstract class StoreOwnerDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.StoreOwner>
+public abstract class StoreOwnerDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.StoreOwnerMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Name", () => StoreOwnerMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.TemporaryOwnerName is not null)
-            ExecuteActionAndCollectValidationExceptions("TemporaryOwnerName", () => DomainNamespace.StoreOwnerMetadata.CreateTemporaryOwnerName(this.TemporaryOwnerName.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("TemporaryOwnerName", () => StoreOwnerMetadata.CreateTemporaryOwnerName(this.TemporaryOwnerName.NonNullValue<System.String>()), result);
         else
             result.Add("TemporaryOwnerName", new [] { "TemporaryOwnerName is Required." });
     
         if (this.VatNumber is not null)
-            ExecuteActionAndCollectValidationExceptions("VatNumber", () => DomainNamespace.StoreOwnerMetadata.CreateVatNumber(this.VatNumber.NonNullValue<VatNumberDto>()), result);
+            CollectValidationExceptions("VatNumber", () => StoreOwnerMetadata.CreateVatNumber(this.VatNumber.NonNullValue<VatNumberDto>()), result);
         if (this.StreetAddress is not null)
-            ExecuteActionAndCollectValidationExceptions("StreetAddress", () => DomainNamespace.StoreOwnerMetadata.CreateStreetAddress(this.StreetAddress.NonNullValue<StreetAddressDto>()), result);
+            CollectValidationExceptions("StreetAddress", () => StoreOwnerMetadata.CreateStreetAddress(this.StreetAddress.NonNullValue<StreetAddressDto>()), result);
         if (this.LocalGreeting is not null)
-            ExecuteActionAndCollectValidationExceptions("LocalGreeting", () => DomainNamespace.StoreOwnerMetadata.CreateLocalGreeting(this.LocalGreeting.NonNullValue<TranslatedTextDto>()), result);
+            CollectValidationExceptions("LocalGreeting", () => StoreOwnerMetadata.CreateLocalGreeting(this.LocalGreeting.NonNullValue<TranslatedTextDto>()), result);
         if (this.Notes is not null)
-            ExecuteActionAndCollectValidationExceptions("Notes", () => DomainNamespace.StoreOwnerMetadata.CreateNotes(this.Notes.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Notes", () => StoreOwnerMetadata.CreateNotes(this.Notes.NonNullValue<System.String>()), result);
 
         return result;
     }

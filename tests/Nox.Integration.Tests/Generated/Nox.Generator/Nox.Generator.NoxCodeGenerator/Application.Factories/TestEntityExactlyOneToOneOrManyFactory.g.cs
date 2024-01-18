@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestWebApp.Domain;
 using TestEntityExactlyOneToOneOrManyEntity = TestWebApp.Domain.TestEntityExactlyOneToOneOrMany;
 
@@ -81,9 +82,9 @@ internal abstract class TestEntityExactlyOneToOneOrManyFactoryBase : IEntityFact
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.TestEntityExactlyOneToOneOrMany();
-        exceptionCollector.Collect("Id",() => entity.Id = TestEntityExactlyOneToOneOrManyMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Id",() => entity.Id = Dto.TestEntityExactlyOneToOneOrManyMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
         exceptionCollector.Collect("TextTestField", () => entity.SetIfNotNull(createDto.TextTestField, (entity) => entity.TextTestField = 
-            TestWebApp.Domain.TestEntityExactlyOneToOneOrManyMetadata.CreateTextTestField(createDto.TextTestField.NonNullValue<System.String>())));
+            Dto.TestEntityExactlyOneToOneOrManyMetadata.CreateTextTestField(createDto.TextTestField.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -92,7 +93,7 @@ internal abstract class TestEntityExactlyOneToOneOrManyFactoryBase : IEntityFact
     private async Task UpdateEntityInternalAsync(TestEntityExactlyOneToOneOrManyEntity entity, TestEntityExactlyOneToOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("TextTestField",() => entity.TextTestField = TestWebApp.Domain.TestEntityExactlyOneToOneOrManyMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>()));
+        exceptionCollector.Collect("TextTestField",() => entity.TextTestField = Dto.TestEntityExactlyOneToOneOrManyMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -106,7 +107,7 @@ internal abstract class TestEntityExactlyOneToOneOrManyFactoryBase : IEntityFact
         {
             ArgumentNullException.ThrowIfNull(TextTestFieldUpdateValue, "Attribute 'TextTestField' can't be null.");
             {
-                exceptionCollector.Collect("TextTestField",() =>entity.TextTestField = TestWebApp.Domain.TestEntityExactlyOneToOneOrManyMetadata.CreateTextTestField(TextTestFieldUpdateValue));
+                exceptionCollector.Collect("TextTestField",() =>entity.TextTestField = Dto.TestEntityExactlyOneToOneOrManyMetadata.CreateTextTestField(TextTestFieldUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

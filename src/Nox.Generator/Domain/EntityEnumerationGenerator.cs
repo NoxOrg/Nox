@@ -12,7 +12,7 @@ internal class EntityEnumerationGenerator : INoxCodeGenerator
 
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions noxCodeGenCodeConventions,
+      NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
@@ -20,13 +20,13 @@ internal class EntityEnumerationGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (noxCodeGenCodeConventions.Solution.Domain is null)
+        if (codeGenConventions.Solution.Domain is null)
         {
             return;
         }
 
         context.CancellationToken.ThrowIfCancellationRequested();
-        foreach (var entity in noxCodeGenCodeConventions.Solution.Domain!.Entities)
+        foreach (var entity in codeGenConventions.Solution.Domain!.Entities)
         {
             var enumerationAttributes = 
                 entity
@@ -34,14 +34,14 @@ internal class EntityEnumerationGenerator : INoxCodeGenerator
                 .Where(attribute => attribute.Type == NoxType.Enumeration)
                 .Select(attribute => new { 
                     Attribute = attribute, 
-                    EntityNameForEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name), 
-                    EntityNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name)
+                    EntityNameForEnumeration = codeGenConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name), 
+                    EntityNameForLocalizedEnumeration = codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name)
                 });
             if(!enumerationAttributes.Any())
             {
                 continue;
             }
-            new TemplateCodeBuilder(context, noxCodeGenCodeConventions)
+            new TemplateCodeBuilder(context, codeGenConventions)
             .WithClassName($"{entity.Name}Enumerations")
             .WithFileNamePrefix($"Domain")
             .WithObject("enumerationAttributes", enumerationAttributes)

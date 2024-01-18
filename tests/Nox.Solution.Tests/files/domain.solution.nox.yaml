@@ -94,15 +94,6 @@ domain:
       events:
         - name: CountryNameUpdatedDomainEvent
           description: Raised when the name of a country is changed
-          type: object
-          objectTypeOptions:
-            attributes:
-              
-              - name: CountryId
-                type: countryCode2
-              
-              - name: CountryName
-                type: text
       
       keys:
 

@@ -15,9 +15,7 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = {{codeGeneratorState.DomainNameSpace}};
-
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Dto;
 
 public record {{entity.Name}}KeyDto({{primaryKeys}});
 
@@ -33,9 +31,8 @@ public partial class {{className}} : {{className}}Base
 /// <summary>
 /// {{entity.Description  | string.rstrip}}.
 /// </summary>
-public abstract class {{className}}Base : EntityDtoBase, IEntityDto<DomainNamespace.{{entity.Name}}>
+public abstract class {{className}}Base : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
@@ -45,18 +42,18 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<DomainNamesp
         {{- if key.IsRequired }}        
             {{- if IsValueType (SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity) }}
         if(this.{{key.Name}} != default({{SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity}}))
-            ExecuteActionAndCollectValidationExceptions("{{key.Name}}", () => DomainNamespace.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
+            CollectValidationExceptions("{{key.Name}}", () => {{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
         else
             result.Add("{{key.Name}}", new [] { "{{key.Name}} is Required." });
             {{- else }}
         if (this.{{key.Name}} is not null)
-            ExecuteActionAndCollectValidationExceptions("{{key.Name}}", () => DomainNamespace.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
+            CollectValidationExceptions("{{key.Name}}", () => {{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
         else
             result.Add("{{key.Name}}", new [] { "{{key.Name}} is Required." });
             {{- end }}
         {{- else }}
         if (this.{{attribute.Name}} is not null)
-            ExecuteActionAndCollectValidationExceptions("{{key.Name}}", () => DomainNamespace.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
+            CollectValidationExceptions("{{key.Name}}", () => {{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
         {{- end }}
     {{- end }}
     {{- end }}
@@ -66,16 +63,16 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<DomainNamesp
 
     {{- if attribute.IsRequired }}
         {{- if IsValueType (attributeType attribute) }}
-        ExecuteActionAndCollectValidationExceptions("{{attribute.Name}}", () => DomainNamespace.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}), result);
+        CollectValidationExceptions("{{attribute.Name}}", () => {{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}), result);
         {{- else }}
         if (this.{{attribute.Name}} is not null)
-            ExecuteActionAndCollectValidationExceptions("{{attribute.Name}}", () => DomainNamespace.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>()), result);
+            CollectValidationExceptions("{{attribute.Name}}", () => {{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>()), result);
         else
             result.Add("{{attribute.Name}}", new [] { "{{attribute.Name}} is Required." });
         {{- end }}
     {{ else }}
         if (this.{{attribute.Name}} is not null)
-            ExecuteActionAndCollectValidationExceptions("{{attribute.Name}}", () => DomainNamespace.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>()), result);
+            CollectValidationExceptions("{{attribute.Name}}", () => {{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>()), result);
     {{- end }}
     {{- end}}
 

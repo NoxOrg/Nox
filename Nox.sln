@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Generator", "src\Nox.Ge
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Lib", "src\Nox.Lib\Nox.Lib.csproj", "{15AAEF8D-469F-4EA3-80D3-8D746A53E18A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Monitoring.ElasticApm", "src\Nox.Monitoring.ElasticApm\Nox.Monitoring.ElasticApm.csproj", "{23D83C90-BC4D-4D55-982E-67A55EE97D0D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Core", "src\Nox.Core\Nox.Core.csproj", "{477711F6-C7D5-45D5-8E8B-A1810DD307D1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Types.EntityFramework.Tests", "tests\Nox.Types.EntityFramework.Tests\Nox.Types.EntityFramework.Tests.csproj", "{9FFE063D-3093-4C0A-AFAA-85D34E5E4AE1}"
@@ -18,8 +16,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{4A930AE8-3A32-48A4-BCDB-0F55FA53AE4B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{672E561C-44EA-43EE-8C9D-9E70D8DFB80F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Monitoring", "Monitoring", "{FCAB2F70-846A-4C13-8332-48B70C792256}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Generator.Tests", "tests\Nox.Generator.Tests\Nox.Generator.Tests.csproj", "{58599385-98BD-44A4-9990-A7AEDCAFC8A0}"
 EndProject
@@ -128,7 +124,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Types.Extensions", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Types.Extensions.Tests", "tests\Nox.Types.Extensions.Tests\Nox.Types.Extensions.Tests.csproj", "{BAFE2592-B741-480D-B8F1-654E7014DD1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cryptocash.Application.Dto", "samples\Cryptocash.Application.Dto\Cryptocash.Application.Dto.csproj", "{5E11C102-C4EA-4C14-A314-3A82C8FEB70D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptocash.Application.Dto", "samples\Cryptocash.Application.Dto\Cryptocash.Application.Dto.csproj", "{5E11C102-C4EA-4C14-A314-3A82C8FEB70D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptocash.Application", "samples\Cryptocash.Application\Cryptocash.Application.csproj", "{3F8679EF-6686-420C-A4BB-413CAD92F5D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cryptocash.Domain", "samples\Cryptocash.Domain\Cryptocash.Domain.csproj", "{E638A24C-A523-4295-80E4-6C3AFA0A0B92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cryptocash.Infrastructure", "samples\Cryptocash.Infrastructure\Cryptocash.Infrastructure.csproj", "{7786EDDE-5FD3-4714-B758-18EDC57DF7ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -144,10 +146,6 @@ Global
 		{15AAEF8D-469F-4EA3-80D3-8D746A53E18A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15AAEF8D-469F-4EA3-80D3-8D746A53E18A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15AAEF8D-469F-4EA3-80D3-8D746A53E18A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{23D83C90-BC4D-4D55-982E-67A55EE97D0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{23D83C90-BC4D-4D55-982E-67A55EE97D0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{23D83C90-BC4D-4D55-982E-67A55EE97D0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{23D83C90-BC4D-4D55-982E-67A55EE97D0D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{477711F6-C7D5-45D5-8E8B-A1810DD307D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{477711F6-C7D5-45D5-8E8B-A1810DD307D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{477711F6-C7D5-45D5-8E8B-A1810DD307D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -294,6 +292,18 @@ Global
 		{5E11C102-C4EA-4C14-A314-3A82C8FEB70D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E11C102-C4EA-4C14-A314-3A82C8FEB70D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E11C102-C4EA-4C14-A314-3A82C8FEB70D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F8679EF-6686-420C-A4BB-413CAD92F5D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F8679EF-6686-420C-A4BB-413CAD92F5D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F8679EF-6686-420C-A4BB-413CAD92F5D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F8679EF-6686-420C-A4BB-413CAD92F5D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E638A24C-A523-4295-80E4-6C3AFA0A0B92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E638A24C-A523-4295-80E4-6C3AFA0A0B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E638A24C-A523-4295-80E4-6C3AFA0A0B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E638A24C-A523-4295-80E4-6C3AFA0A0B92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7786EDDE-5FD3-4714-B758-18EDC57DF7ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7786EDDE-5FD3-4714-B758-18EDC57DF7ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7786EDDE-5FD3-4714-B758-18EDC57DF7ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7786EDDE-5FD3-4714-B758-18EDC57DF7ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -301,7 +311,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D51EC17D-12C3-4101-BCF1-4EC65822CC5B} = {154B838E-65DE-479F-80B7-D48CF9862306}
 		{15AAEF8D-469F-4EA3-80D3-8D746A53E18A} = {672E561C-44EA-43EE-8C9D-9E70D8DFB80F}
-		{23D83C90-BC4D-4D55-982E-67A55EE97D0D} = {FCAB2F70-846A-4C13-8332-48B70C792256}
 		{9FFE063D-3093-4C0A-AFAA-85D34E5E4AE1} = {873BFCC4-435D-44D7-8287-1FB1574B2319}
 		{58599385-98BD-44A4-9990-A7AEDCAFC8A0} = {154B838E-65DE-479F-80B7-D48CF9862306}
 		{6E3F2DD4-6AE5-49B2-B5E4-04B21E073B4F} = {4A930AE8-3A32-48A4-BCDB-0F55FA53AE4B}
@@ -338,6 +347,9 @@ Global
 		{57208925-20BE-4CD8-A2C3-270C069FFD11} = {110C16ED-A11D-4B5A-ABB2-0E0F4692C77A}
 		{BAFE2592-B741-480D-B8F1-654E7014DD1E} = {110C16ED-A11D-4B5A-ABB2-0E0F4692C77A}
 		{5E11C102-C4EA-4C14-A314-3A82C8FEB70D} = {BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}
+		{3F8679EF-6686-420C-A4BB-413CAD92F5D5} = {BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}
+		{E638A24C-A523-4295-80E4-6C3AFA0A0B92} = {BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}
+		{7786EDDE-5FD3-4714-B758-18EDC57DF7ED} = {BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}

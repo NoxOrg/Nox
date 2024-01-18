@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestWebApp.Domain;
 using TestEntityForUniqueConstraintsEntity = TestWebApp.Domain.TestEntityForUniqueConstraints;
 
@@ -81,17 +82,17 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.TestEntityForUniqueConstraints();
-        exceptionCollector.Collect("Id",() => entity.Id = TestEntityForUniqueConstraintsMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Id",() => entity.Id = Dto.TestEntityForUniqueConstraintsMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
         exceptionCollector.Collect("TextField", () => entity.SetIfNotNull(createDto.TextField, (entity) => entity.TextField = 
-            TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>())));
+            Dto.TestEntityForUniqueConstraintsMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>())));
         exceptionCollector.Collect("NumberField", () => entity.SetIfNotNull(createDto.NumberField, (entity) => entity.NumberField = 
-            TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateNumberField(createDto.NumberField.NonNullValue<System.Int16>())));
+            Dto.TestEntityForUniqueConstraintsMetadata.CreateNumberField(createDto.NumberField.NonNullValue<System.Int16>())));
         exceptionCollector.Collect("UniqueNumberField", () => entity.SetIfNotNull(createDto.UniqueNumberField, (entity) => entity.UniqueNumberField = 
-            TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueNumberField(createDto.UniqueNumberField.NonNullValue<System.Int16>())));
+            Dto.TestEntityForUniqueConstraintsMetadata.CreateUniqueNumberField(createDto.UniqueNumberField.NonNullValue<System.Int16>())));
         exceptionCollector.Collect("UniqueCountryCode", () => entity.SetIfNotNull(createDto.UniqueCountryCode, (entity) => entity.UniqueCountryCode = 
-            TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueCountryCode(createDto.UniqueCountryCode.NonNullValue<System.String>())));
+            Dto.TestEntityForUniqueConstraintsMetadata.CreateUniqueCountryCode(createDto.UniqueCountryCode.NonNullValue<System.String>())));
         exceptionCollector.Collect("UniqueCurrencyCode", () => entity.SetIfNotNull(createDto.UniqueCurrencyCode, (entity) => entity.UniqueCurrencyCode = 
-            TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueCurrencyCode(createDto.UniqueCurrencyCode.NonNullValue<System.String>())));
+            Dto.TestEntityForUniqueConstraintsMetadata.CreateUniqueCurrencyCode(createDto.UniqueCurrencyCode.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -100,11 +101,11 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
     private async Task UpdateEntityInternalAsync(TestEntityForUniqueConstraintsEntity entity, TestEntityForUniqueConstraintsUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("TextField",() => entity.TextField = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateTextField(updateDto.TextField.NonNullValue<System.String>()));
-        exceptionCollector.Collect("NumberField",() => entity.NumberField = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateNumberField(updateDto.NumberField.NonNullValue<System.Int16>()));
-        exceptionCollector.Collect("UniqueNumberField",() => entity.UniqueNumberField = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueNumberField(updateDto.UniqueNumberField.NonNullValue<System.Int16>()));
-        exceptionCollector.Collect("UniqueCountryCode",() => entity.UniqueCountryCode = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueCountryCode(updateDto.UniqueCountryCode.NonNullValue<System.String>()));
-        exceptionCollector.Collect("UniqueCurrencyCode",() => entity.UniqueCurrencyCode = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueCurrencyCode(updateDto.UniqueCurrencyCode.NonNullValue<System.String>()));
+        exceptionCollector.Collect("TextField",() => entity.TextField = Dto.TestEntityForUniqueConstraintsMetadata.CreateTextField(updateDto.TextField.NonNullValue<System.String>()));
+        exceptionCollector.Collect("NumberField",() => entity.NumberField = Dto.TestEntityForUniqueConstraintsMetadata.CreateNumberField(updateDto.NumberField.NonNullValue<System.Int16>()));
+        exceptionCollector.Collect("UniqueNumberField",() => entity.UniqueNumberField = Dto.TestEntityForUniqueConstraintsMetadata.CreateUniqueNumberField(updateDto.UniqueNumberField.NonNullValue<System.Int16>()));
+        exceptionCollector.Collect("UniqueCountryCode",() => entity.UniqueCountryCode = Dto.TestEntityForUniqueConstraintsMetadata.CreateUniqueCountryCode(updateDto.UniqueCountryCode.NonNullValue<System.String>()));
+        exceptionCollector.Collect("UniqueCurrencyCode",() => entity.UniqueCurrencyCode = Dto.TestEntityForUniqueConstraintsMetadata.CreateUniqueCurrencyCode(updateDto.UniqueCurrencyCode.NonNullValue<System.String>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -118,7 +119,7 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
         {
             ArgumentNullException.ThrowIfNull(TextFieldUpdateValue, "Attribute 'TextField' can't be null.");
             {
-                exceptionCollector.Collect("TextField",() =>entity.TextField = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateTextField(TextFieldUpdateValue));
+                exceptionCollector.Collect("TextField",() =>entity.TextField = Dto.TestEntityForUniqueConstraintsMetadata.CreateTextField(TextFieldUpdateValue));
             }
         }
 
@@ -126,7 +127,7 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
         {
             ArgumentNullException.ThrowIfNull(NumberFieldUpdateValue, "Attribute 'NumberField' can't be null.");
             {
-                exceptionCollector.Collect("NumberField",() =>entity.NumberField = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateNumberField(NumberFieldUpdateValue));
+                exceptionCollector.Collect("NumberField",() =>entity.NumberField = Dto.TestEntityForUniqueConstraintsMetadata.CreateNumberField(NumberFieldUpdateValue));
             }
         }
 
@@ -134,7 +135,7 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
         {
             ArgumentNullException.ThrowIfNull(UniqueNumberFieldUpdateValue, "Attribute 'UniqueNumberField' can't be null.");
             {
-                exceptionCollector.Collect("UniqueNumberField",() =>entity.UniqueNumberField = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueNumberField(UniqueNumberFieldUpdateValue));
+                exceptionCollector.Collect("UniqueNumberField",() =>entity.UniqueNumberField = Dto.TestEntityForUniqueConstraintsMetadata.CreateUniqueNumberField(UniqueNumberFieldUpdateValue));
             }
         }
 
@@ -142,7 +143,7 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
         {
             ArgumentNullException.ThrowIfNull(UniqueCountryCodeUpdateValue, "Attribute 'UniqueCountryCode' can't be null.");
             {
-                exceptionCollector.Collect("UniqueCountryCode",() =>entity.UniqueCountryCode = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueCountryCode(UniqueCountryCodeUpdateValue));
+                exceptionCollector.Collect("UniqueCountryCode",() =>entity.UniqueCountryCode = Dto.TestEntityForUniqueConstraintsMetadata.CreateUniqueCountryCode(UniqueCountryCodeUpdateValue));
             }
         }
 
@@ -150,7 +151,7 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
         {
             ArgumentNullException.ThrowIfNull(UniqueCurrencyCodeUpdateValue, "Attribute 'UniqueCurrencyCode' can't be null.");
             {
-                exceptionCollector.Collect("UniqueCurrencyCode",() =>entity.UniqueCurrencyCode = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueCurrencyCode(UniqueCurrencyCodeUpdateValue));
+                exceptionCollector.Collect("UniqueCurrencyCode",() =>entity.UniqueCurrencyCode = Dto.TestEntityForUniqueConstraintsMetadata.CreateUniqueCurrencyCode(UniqueCurrencyCodeUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

@@ -4,7 +4,7 @@
 
 using Microsoft.AspNetCore.Components;
 
-namespace {{codeGeneratorState.UiNameSpace}}.Components;
+namespace {{codeGenConventions.UiNameSpace}}.Components;
 
 public partial class NavigationMenu : ComponentBase
 {

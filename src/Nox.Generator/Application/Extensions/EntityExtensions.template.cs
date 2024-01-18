@@ -9,11 +9,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Dto;
 
 internal static class {{className}}
 {
-    public static {{entity.Name}}Dto ToDto(this {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}} entity)
+    public static {{entity.Name}}Dto ToDto(this {{codeGenConventions.DomainNameSpace}}.{{entity.Name}} entity)
     {
         var dto = new {{entity.Name}}Dto();
 {{- for key in entity.Keys }}

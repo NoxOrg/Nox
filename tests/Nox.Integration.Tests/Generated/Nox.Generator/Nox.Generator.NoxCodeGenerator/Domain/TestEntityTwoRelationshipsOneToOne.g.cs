@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class TestEntityTwoRelationshipsOneToOne : TestEntityTwoRelationshipsOneToOneBase, IEntityHaveDomainEvents
+public partial class TestEntityTwoRelationshipsOneToOne : TestEntityTwoRelationshipsOneToOneBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class TestEntityTwoRelationshipsOneToOne : TestEntityTwoRelatio
 /// <summary>
 /// Record for TestEntityTwoRelationshipsOneToOne created event.
 /// </summary>
-internal record TestEntityTwoRelationshipsOneToOneCreated(TestEntityTwoRelationshipsOneToOne TestEntityTwoRelationshipsOneToOne) :  IDomainEvent, INotification;
+public record TestEntityTwoRelationshipsOneToOneCreated(TestEntityTwoRelationshipsOneToOne TestEntityTwoRelationshipsOneToOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityTwoRelationshipsOneToOne updated event.
 /// </summary>
-internal record TestEntityTwoRelationshipsOneToOneUpdated(TestEntityTwoRelationshipsOneToOne TestEntityTwoRelationshipsOneToOne) : IDomainEvent, INotification;
+public record TestEntityTwoRelationshipsOneToOneUpdated(TestEntityTwoRelationshipsOneToOne TestEntityTwoRelationshipsOneToOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityTwoRelationshipsOneToOne deleted event.
 /// </summary>
-internal record TestEntityTwoRelationshipsOneToOneDeleted(TestEntityTwoRelationshipsOneToOne TestEntityTwoRelationshipsOneToOne) : IDomainEvent, INotification;
+public record TestEntityTwoRelationshipsOneToOneDeleted(TestEntityTwoRelationshipsOneToOne TestEntityTwoRelationshipsOneToOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class TestEntityTwoRelationshipsOneToOneBase : AuditableEntityBase, IEtag
+public abstract partial class TestEntityTwoRelationshipsOneToOneBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

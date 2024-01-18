@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
-internal partial class RatingProgram : RatingProgramBase, IEntityHaveDomainEvents
+public partial class RatingProgram : RatingProgramBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class RatingProgram : RatingProgramBase, IEntityHaveDomainEvent
 /// <summary>
 /// Record for RatingProgram created event.
 /// </summary>
-internal record RatingProgramCreated(RatingProgram RatingProgram) :  IDomainEvent, INotification;
+public record RatingProgramCreated(RatingProgram RatingProgram) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for RatingProgram updated event.
 /// </summary>
-internal record RatingProgramUpdated(RatingProgram RatingProgram) : IDomainEvent, INotification;
+public record RatingProgramUpdated(RatingProgram RatingProgram) : IDomainEvent, INotification;
 /// <summary>
 /// Record for RatingProgram deleted event.
 /// </summary>
-internal record RatingProgramDeleted(RatingProgram RatingProgram) : IDomainEvent, INotification;
+public record RatingProgramDeleted(RatingProgram RatingProgram) : IDomainEvent, INotification;
 
 /// <summary>
 /// Rating program for store.
 /// </summary>
-internal abstract partial class RatingProgramBase : EntityBase, IEtag
+public abstract partial class RatingProgramBase : EntityBase, IEtag
 {
     /// <summary>
     ///     

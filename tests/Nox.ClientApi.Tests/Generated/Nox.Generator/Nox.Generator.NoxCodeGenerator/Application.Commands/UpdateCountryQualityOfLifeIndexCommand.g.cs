@@ -15,6 +15,7 @@ using FluentValidation;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using CountryQualityOfLifeIndexEntity = ClientApi.Domain.CountryQualityOfLifeIndex;
 
 namespace ClientApi.Application.Commands;
@@ -50,8 +51,8 @@ internal abstract class UpdateCountryQualityOfLifeIndexCommandHandlerBase : Comm
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyCountryId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateCountryId(request.keyCountryId);
-		var keyId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateId(request.keyId);
+		var keyCountryId = Dto.CountryQualityOfLifeIndexMetadata.CreateCountryId(request.keyCountryId);
+		var keyId = Dto.CountryQualityOfLifeIndexMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.CountryQualityOfLifeIndices.FindAsync(keyCountryId, keyId);
 		if (entity == null)

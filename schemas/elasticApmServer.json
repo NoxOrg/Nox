@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Elastic APM Server Configuration.",
+  "description": "Configure Elastic APM Server.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "required": [
+    "serverUri"
+  ],
+  "properties": {
+    "serverUri": {    
+      "title": "Hostname, IP address or URI.",
+      "description": "The name, address, URI or IP of the server to connect to.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^\\$\\{\\{\\s*(.+)\\.(.+)\\s*\\}\\}$"
+        }
+      ]
+    },
+    "serviceName": {    
+      "title": "Service name.",
+      "description": "Allowed characters: a-z, A-Z, 0-9, -, _, and space. Default is the entry assembly of the application",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^\\$\\{\\{\\s*(.+)\\.(.+)\\s*\\}\\}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "secretToken": {    
+      "title": "Secret Token",
+      "description": "Default is empty",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^\\$\\{\\{\\s*(.+)\\.(.+)\\s*\\}\\}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "environment": {    
+      "title": "Environment.",
+      "description": "Default is Production.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^\\$\\{\\{\\s*(.+)\\.(.+)\\s*\\}\\}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "logLevel": {    
+      "title": "Sets Logging for the agent",
+      "description": "Default is Warning. Supported values: Critical, Error, Warning, Info, Debug, Trace and None",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^\\$\\{\\{\\s*(.+)\\.(.+)\\s*\\}\\}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

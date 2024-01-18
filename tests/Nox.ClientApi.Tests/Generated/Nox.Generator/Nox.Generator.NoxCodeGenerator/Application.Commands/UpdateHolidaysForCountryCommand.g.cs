@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using HolidayEntity = ClientApi.Domain.Holiday;
 using CountryEntity = ClientApi.Domain.Country;
 
@@ -52,7 +53,7 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
@@ -67,7 +68,7 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<
 		}
 		else
 		{
-			var ownedId = ClientApi.Domain.HolidayMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Guid>());
+			var ownedId =Dto.HolidayMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Guid>());
 			entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
 			if (entity is null)
 				entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);

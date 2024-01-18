@@ -8,8 +8,6 @@ using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 /// <summary>
@@ -23,7 +21,7 @@ public partial class CountryLocalNameUpsertDto : CountryLocalNameUpsertDtoBase
 /// <summary>
 /// Local names for countries
 /// </summary>
-public abstract class CountryLocalNameUpsertDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.CountryLocalName>
+public abstract class CountryLocalNameUpsertDtoBase: EntityDtoBase
 {
 
     /// <summary>

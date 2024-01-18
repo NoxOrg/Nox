@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
-{{- if  codeGeneratorState.Solution.Infrastructure?.Messaging != null}}
+{{- if  codeGenConventions.Solution.Infrastructure?.Messaging != null}}
 using MassTransit;
 {{- end }}
 
@@ -27,10 +27,10 @@ using Nox.Solution;
 using Nox.Configuration;
 using Nox.Infrastructure;
 
-using DomainNameSpace = {{codeGeneratorState.DomainNameSpace}};
-using {{codeGeneratorState.DomainNameSpace}};
+using DomainNameSpace = {{codeGenConventions.DomainNameSpace}};
+using {{codeGenConventions.DomainNameSpace}};
 
-namespace {{codeGeneratorState.PersistenceNameSpace}};
+namespace {{codeGenConventions.PersistenceNameSpace}};
 
 internal partial class AppDbContext: AppDbContextBase
 {
@@ -42,7 +42,7 @@ internal partial class AppDbContext: AppDbContextBase
            INoxClientAssemblyProvider clientAssemblyProvider,
            IUserProvider userProvider,
            ISystemProvider systemProvider,
-           NoxCodeGenConventions codeGeneratorState,
+           NoxCodeGenConventions codeGenConventions,
            ILogger<AppDbContext> logger
        ) : base(
            options,
@@ -52,7 +52,7 @@ internal partial class AppDbContext: AppDbContextBase
            clientAssemblyProvider,
            userProvider,
            systemProvider,
-           codeGeneratorState,
+           codeGenConventions,
            logger)
     {}
 }
@@ -72,22 +72,22 @@ internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistenc
             INoxClientAssemblyProvider clientAssemblyProvider,
             IUserProvider userProvider,
             ISystemProvider systemProvider,
-            NoxCodeGenConventions codeGeneratorState,
+            NoxCodeGenConventions codeGenConventions,
             ILogger<AppDbContext> logger
         ) : base(publisher, userProvider, systemProvider, databaseProvider, logger, options)
     {
         _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
-            _codeGenConventions = codeGeneratorState;
+            _codeGenConventions = codeGenConventions;
         }
     {{ for entity in solution.Domain.Entities -}}
     {{- if (!entity.IsOwnedEntity) }}
-    public virtual DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
+    public virtual DbSet<{{codeGenConventions.DomainNameSpace}}.{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
     {{- end }}
     {{- end }}
     {{ for entity in entitiesToLocalize -}}
-    public virtual DbSet<{{codeGeneratorState.DomainNameSpace}}.{{GetEntityNameForLocalizedType entity.Name}}> {{GetEntityNameForLocalizedType entity.PluralName}} { get; set; } = null!;
+    public virtual DbSet<{{codeGenConventions.DomainNameSpace}}.{{GetEntityNameForLocalizedType entity.Name}}> {{GetEntityNameForLocalizedType entity.PluralName}} { get; set; } = null!;
     {{- end }}
 
     {{- for entityAtt in enumerationAttributes #Setup Entity Enumerations}}
@@ -114,7 +114,7 @@ internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistenc
 
         ConfigureAuditable(modelBuilder);
 
-        {{- if  codeGeneratorState.Solution.Infrastructure?.Messaging != null}}
+        {{- if  codeGenConventions.Solution.Infrastructure?.Messaging != null}}
         modelBuilder.AddInboxStateEntity();
         modelBuilder.AddOutboxMessageEntity();
         modelBuilder.AddOutboxStateEntity();
@@ -145,11 +145,11 @@ internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistenc
     {
         foreach(var enumAttribute in entity.Attributes.Where(attribute => attribute.Type == NoxType.Enumeration))
             {
-                ConfigureEnumeration(modelBuilder.Entity($"{{codeGeneratorState.DomainNameSpace}}.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}"), enumAttribute.EnumerationTypeOptions!);
+                ConfigureEnumeration(modelBuilder.Entity($"{{codeGenConventions.DomainNameSpace}}.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}"), enumAttribute.EnumerationTypeOptions!);
                 if (enumAttribute.EnumerationTypeOptions!.IsLocalized)
                 {
-                    var enumLocalizedType = _clientAssemblyProvider.GetType($"{{codeGeneratorState.DomainNameSpace}}.{_codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, enumAttribute.Name)}")!;
-                    var enumType = _clientAssemblyProvider.GetType($"{{codeGeneratorState.DomainNameSpace}}.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}")!;
+                    var enumLocalizedType = _clientAssemblyProvider.GetType($"{{codeGenConventions.DomainNameSpace}}.{_codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, enumAttribute.Name)}")!;
+                    var enumType = _clientAssemblyProvider.GetType($"{{codeGenConventions.DomainNameSpace}}.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}")!;
                     ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType, enumAttribute.EnumerationTypeOptions!, _noxSolution.Application!.Localization!.DefaultCulture);
                 }
             }
@@ -159,7 +159,7 @@ internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistenc
     {
     {{- for entity in solution.Domain.Entities }}
     {{- if entity.Persistence?.IsAudited }}
-        modelBuilder.Entity<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<{{codeGenConventions.DomainNameSpace}}.{{entity.Name}}>().HasQueryFilter(p => p.DeletedAtUtc == null);
     {{- end }}
     {{- end }}
     }

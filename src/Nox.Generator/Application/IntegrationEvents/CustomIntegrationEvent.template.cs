@@ -32,9 +32,9 @@ using Nox.Types;
 using Nox.Infrastructure.Messaging;
 {{ if isCollection -}}using System.Collections.Generic;{{ end}}
 
-using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.IntegrationEvents;
+namespace {{codeGenConventions.ApplicationNameSpace}}.IntegrationEvents;
 
 {{ if integrationEvent.Description -}}
 /// <summary>

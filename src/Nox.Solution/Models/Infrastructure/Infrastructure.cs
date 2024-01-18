@@ -1,4 +1,5 @@
-﻿using Nox.Yaml.Attributes;
+﻿using Nox.Solution.Models.Infrastructure.Monitoring;
+using Nox.Yaml.Attributes;
 
 namespace Nox.Solution;
 
@@ -18,6 +19,11 @@ public class Infrastructure
     // These descriptors should be moved to the class when the generator is fixed
 
     public Messaging? Messaging { get; internal set; }
+
+    [Title("The definition namespace for Monitor and Observability pertaining to a Nox solutionn.")]
+    [Description("Specify properties pertinent to the APM server here.")]
+    [AdditionalProperties(false)]
+    public Monitoring? Monitoring { get; internal set; }
 
     public Endpoints Endpoints { get; internal set; } = new();
 

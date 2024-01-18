@@ -49,3 +49,28 @@ Member|Type|Description
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 {{ end }}
 {{ end -}}
+
+{{- if entity.Events | array.size > 0 -}}
+# Custom Domain Events for the {{entity.Name}} entity
+{{ for event in entity.Events -}}
+### `{{event.Name}}`
+
+**Description:**
+{{- if event.Description -}}
+{{event.Description}}
+{{- else -}}
+{{event.Name}}
+{{ end }}
+
+**Members (Keys, Attributes & Relationships):**
+Member|Type|Description
+------|----|-----------
+{{ for member in entityMembers -}}
+{{member.Name}}|{{member.Type}}|{{member.Description}}
+{{ end -}}
+{{- if entity.Persistence.IsAudited -}}
+*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
+{{ end }}
+{{- end -}}
+{{- end -}}
+

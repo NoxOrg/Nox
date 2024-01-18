@@ -9,7 +9,7 @@ public abstract class ValueObject
     /// <summary>
     /// Default timeout for ValueObject validation.
     /// </summary>
-    public static readonly TimeSpan Regex_Default_Timeout_Miliseconds = TimeSpan.FromMilliseconds(150);
+    public static readonly TimeSpan Regex_Default_Timeout_Miliseconds = TimeSpan.FromMilliseconds(300);
 
 
     /// <summary>

@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using SecondTestEntityTwoRelationshipsOneToOneEntity = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOne;
 
 namespace TestWebApp.Application.Commands;
@@ -62,7 +63,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsOneToOneCommandHan
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.TestRelationshipOneOnOtherSideId is not null)
 		{
-			var relatedKey = TestWebApp.Domain.TestEntityTwoRelationshipsOneToOneMetadata.CreateId(request.EntityDto.TestRelationshipOneOnOtherSideId.NonNullValue<System.String>());
+			var relatedKey = Dto.TestEntityTwoRelationshipsOneToOneMetadata.CreateId(request.EntityDto.TestRelationshipOneOnOtherSideId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.TestEntityTwoRelationshipsOneToOnes.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToTestRelationshipOneOnOtherSide(relatedEntity);
@@ -76,7 +77,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsOneToOneCommandHan
 		}
 		if(request.EntityDto.TestRelationshipTwoOnOtherSideId is not null)
 		{
-			var relatedKey = TestWebApp.Domain.TestEntityTwoRelationshipsOneToOneMetadata.CreateId(request.EntityDto.TestRelationshipTwoOnOtherSideId.NonNullValue<System.String>());
+			var relatedKey = Dto.TestEntityTwoRelationshipsOneToOneMetadata.CreateId(request.EntityDto.TestRelationshipTwoOnOtherSideId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.TestEntityTwoRelationshipsOneToOnes.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToTestRelationshipTwoOnOtherSide(relatedEntity);

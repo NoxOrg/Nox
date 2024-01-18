@@ -11,14 +11,14 @@ internal class NoxIntegrationControllerGenerator: INoxCodeGenerator
     
     public void Generate(
         SourceProductionContext context, 
-        NoxCodeGenConventions codeGeneratorState, 
+        NoxCodeGenConventions codeGenConventions, 
         GeneratorConfig config, 
         Action<string> log, 
         string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Application?.Integrations is null)
+        if (codeGenConventions.Solution.Application?.Integrations is null)
         {
             if(config.LoggingVerbosity == LoggingVerbosity.Diagnostic)
             {
@@ -28,10 +28,10 @@ internal class NoxIntegrationControllerGenerator: INoxCodeGenerator
         }
 
         context.CancellationToken.ThrowIfCancellationRequested();
-        new TemplateCodeBuilder(context, codeGeneratorState)
+        new TemplateCodeBuilder(context, codeGenConventions)
             .WithClassName("NoxIntegrationController")
             .WithFileNamePrefix("Presentation.Api.OData")
-            .WithObject("integrations", codeGeneratorState.Solution.Application.Integrations)
+            .WithObject("integrations", codeGenConventions.Solution.Application.Integrations)
             .GenerateSourceCodeFromResource("Presentation.Api.OData.NoxIntegrationController");
     }
 }

@@ -16,9 +16,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using DomainNamespace = {{codeGeneratorState.DomainNameSpace}};
-
-namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
+namespace {{codeGenConventions.ApplicationNameSpace }}.Dto;
 
 /// <summary>
 /// {{entity.Description  | string.rstrip}}.
@@ -31,12 +29,12 @@ public partial class {{className}} : {{className}}Base
 /// <summary>
 /// {{entity.Description  | string.rstrip}}.
 /// </summary>
-public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Name}}>
+public abstract class {{className}}Base 
 {
 {{- for key in entity.Keys }}
     {{- if !IsNoxTypeCreatable key.Type -}}    
     {{ continue; -}}
-    {{- else if key.Type == "Guid" -}}
+    {{- else if key.Type == "Guid" }}
     /// <summary>
     /// {{key.Description  | string.rstrip}}     
     /// </summary>

@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using EntityUniqueConstraintsWithForeignKeyEntity = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey;
 
 namespace TestWebApp.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteEntityUniqueConstraintsWithForeignKeyByIdCommandHa
 		var entities = new List<EntityUniqueConstraintsWithForeignKeyEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = TestWebApp.Domain.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.EntityUniqueConstraintsWithForeignKeys.FindAsync(keyId);
 			if (entity == null)

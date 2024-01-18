@@ -150,16 +150,8 @@ domain:
             
       events:
         - name: CountryNameUpdatedDomainEvent
-          type: object
-          objectTypeOptions:
-            attributes:
-
-              - name: CountryId
-                type: countryCode2
-
-              - name: CountryName
-                type: text
-
+          description: Raised when the name of a country is changed
+          
       keys:
 
         - name: Id
@@ -510,12 +502,6 @@ infrastructure:
         port: 8080
         user: whatsappUser
         password: whatsappPassword
-
-    monitoring:
-      name: SampleObservabiity
-      provider: elasticApm
-      serverUri: localhost
-      port: 8200
 
     uiLocalizations:
       name: SampleCurrencyDb.Localization

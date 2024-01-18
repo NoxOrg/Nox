@@ -3,7 +3,7 @@
 #nullable enable
 using Nox.Types;
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Dto;
 
 internal static class {{className}}
 {

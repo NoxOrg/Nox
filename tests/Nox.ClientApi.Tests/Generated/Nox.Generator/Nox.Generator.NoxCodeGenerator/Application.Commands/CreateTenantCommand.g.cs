@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
@@ -64,7 +65,7 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 		{
 			foreach(var relatedId in request.EntityDto.WorkplacesId)
 			{
-				var relatedKey = ClientApi.Domain.WorkplaceMetadata.CreateId(relatedId);
+				var relatedKey = Dto.WorkplaceMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.Workplaces.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)

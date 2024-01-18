@@ -16,12 +16,13 @@ using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
 
-using {{codeGeneratorState.PersistenceNameSpace}};
-using {{codeGeneratorState.DomainNameSpace}};
-using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
-using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
+using {{codeGenConventions.PersistenceNameSpace}};
+using {{codeGenConventions.DomainNameSpace}};
+using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
 {{- if isSingleRelationship }}
 public partial record PartialUpdate{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto>;
 {{ else }}
@@ -58,7 +59,7 @@ internal abstract class PartialUpdate{{relationshipName}}For{{parent.Name}}Comma
 		await OnExecutingAsync(request);
 
 		{{- for key in parent.Keys }}
-		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
+		var key{{key.Name}} = Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
 
 		var parentEntity = await _dbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
@@ -73,7 +74,7 @@ internal abstract class PartialUpdate{{relationshipName}}For{{parent.Name}}Comma
 		{{ else }}
 		await _dbContext.Entry(parentEntity).Collection(p => p.{{relationshipName}}).LoadAsync(cancellationToken);
 		{{- for key in entity.Keys }}
-		var owned{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityKeyDto.key{{key.Name}});
+		var owned{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
 		var entity = parentEntity.{{relationshipName}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
 		{{- end }}

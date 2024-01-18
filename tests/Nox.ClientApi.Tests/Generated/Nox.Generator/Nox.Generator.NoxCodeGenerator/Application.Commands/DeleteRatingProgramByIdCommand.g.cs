@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Commands;
@@ -45,8 +46,8 @@ internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandColle
 		var entities = new List<RatingProgramEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyStoreId = ClientApi.Domain.RatingProgramMetadata.CreateStoreId(keyDto.keyStoreId);
-			var keyId = ClientApi.Domain.RatingProgramMetadata.CreateId(keyDto.keyId);		
+			var keyStoreId = Dto.RatingProgramMetadata.CreateStoreId(keyDto.keyStoreId);
+			var keyId = Dto.RatingProgramMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.RatingPrograms.FindAsync(keyStoreId, keyId);
 			if (entity == null)

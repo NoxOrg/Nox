@@ -41,7 +41,7 @@ internal abstract class DeleteWorkplaceTranslationCommandHandlerBase : CommandBa
     {
         cancellationToken.ThrowIfCancellationRequested();
         await OnExecutingAsync(command);
-		var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(command.keyId);
+		var keyId = Dto.WorkplaceMetadata.CreateId(command.keyId);
         
         var entity = await DbContext.Workplaces.FindAsync(keyId);
         EntityNotFoundException.ThrowIfNull(entity, "Workplace", $"{keyId.ToString()}");

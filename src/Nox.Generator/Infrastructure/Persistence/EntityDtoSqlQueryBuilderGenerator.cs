@@ -15,21 +15,21 @@ internal class EntityDtoSqlQueryBuilderGenerator : INoxCodeGenerator
 
     public void Generate(
         SourceProductionContext context,
-        NoxCodeGenConventions noxCodeGenCodeConventions,
+        NoxCodeGenConventions codeGenConventions,
         GeneratorConfig config,
         System.Action<string> log,
         string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (noxCodeGenCodeConventions.Solution.Domain is null)
+        if (codeGenConventions.Solution.Domain is null)
             return;
 
-        foreach (var entity in noxCodeGenCodeConventions.Solution.Domain.Entities.Where(e => e.RequiresCustomSqlStatement()))
+        foreach (var entity in codeGenConventions.Solution.Domain.Entities.Where(e => e.RequiresCustomSqlStatement()))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            new TemplateCodeBuilder(context, noxCodeGenCodeConventions)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{entity.Name}DtoSqlQueryBuilder")
                 .WithFileNamePrefix("Infrastructure.Persistence")
                 .WithObject("entity", entity)

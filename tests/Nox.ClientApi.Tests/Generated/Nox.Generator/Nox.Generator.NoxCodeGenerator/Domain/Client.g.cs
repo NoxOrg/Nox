@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
-internal partial class Client : ClientBase, IEntityHaveDomainEvents
+public partial class Client : ClientBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class Client : ClientBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Client created event.
 /// </summary>
-internal record ClientCreated(Client Client) :  IDomainEvent, INotification;
+public record ClientCreated(Client Client) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Client updated event.
 /// </summary>
-internal record ClientUpdated(Client Client) : IDomainEvent, INotification;
+public record ClientUpdated(Client Client) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Client deleted event.
 /// </summary>
-internal record ClientDeleted(Client Client) : IDomainEvent, INotification;
+public record ClientDeleted(Client Client) : IDomainEvent, INotification;
 
 /// <summary>
 /// Client of a Store.
 /// </summary>
-internal abstract partial class ClientBase : AuditableEntityBase, IEtag
+public abstract partial class ClientBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

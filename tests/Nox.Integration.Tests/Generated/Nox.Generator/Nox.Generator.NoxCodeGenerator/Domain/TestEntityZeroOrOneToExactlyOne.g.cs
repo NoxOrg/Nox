@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class TestEntityZeroOrOneToExactlyOne : TestEntityZeroOrOneToExactlyOneBase, IEntityHaveDomainEvents
+public partial class TestEntityZeroOrOneToExactlyOne : TestEntityZeroOrOneToExactlyOneBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class TestEntityZeroOrOneToExactlyOne : TestEntityZeroOrOneToEx
 /// <summary>
 /// Record for TestEntityZeroOrOneToExactlyOne created event.
 /// </summary>
-internal record TestEntityZeroOrOneToExactlyOneCreated(TestEntityZeroOrOneToExactlyOne TestEntityZeroOrOneToExactlyOne) :  IDomainEvent, INotification;
+public record TestEntityZeroOrOneToExactlyOneCreated(TestEntityZeroOrOneToExactlyOne TestEntityZeroOrOneToExactlyOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityZeroOrOneToExactlyOne updated event.
 /// </summary>
-internal record TestEntityZeroOrOneToExactlyOneUpdated(TestEntityZeroOrOneToExactlyOne TestEntityZeroOrOneToExactlyOne) : IDomainEvent, INotification;
+public record TestEntityZeroOrOneToExactlyOneUpdated(TestEntityZeroOrOneToExactlyOne TestEntityZeroOrOneToExactlyOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityZeroOrOneToExactlyOne deleted event.
 /// </summary>
-internal record TestEntityZeroOrOneToExactlyOneDeleted(TestEntityZeroOrOneToExactlyOne TestEntityZeroOrOneToExactlyOne) : IDomainEvent, INotification;
+public record TestEntityZeroOrOneToExactlyOneDeleted(TestEntityZeroOrOneToExactlyOne TestEntityZeroOrOneToExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-internal abstract partial class TestEntityZeroOrOneToExactlyOneBase : AuditableEntityBase, IEtag
+public abstract partial class TestEntityZeroOrOneToExactlyOneBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

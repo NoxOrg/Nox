@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class TestEntityWithNuid : TestEntityWithNuidBase, IEntityHaveDomainEvents
+public partial class TestEntityWithNuid : TestEntityWithNuidBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class TestEntityWithNuid : TestEntityWithNuidBase, IEntityHaveD
 /// <summary>
 /// Record for TestEntityWithNuid created event.
 /// </summary>
-internal record TestEntityWithNuidCreated(TestEntityWithNuid TestEntityWithNuid) :  IDomainEvent, INotification;
+public record TestEntityWithNuidCreated(TestEntityWithNuid TestEntityWithNuid) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityWithNuid updated event.
 /// </summary>
-internal record TestEntityWithNuidUpdated(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent, INotification;
+public record TestEntityWithNuidUpdated(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityWithNuid deleted event.
 /// </summary>
-internal record TestEntityWithNuidDeleted(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent, INotification;
+public record TestEntityWithNuidDeleted(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing nuid.
 /// </summary>
-internal abstract partial class TestEntityWithNuidBase : AuditableEntityBase, IEtag
+public abstract partial class TestEntityWithNuidBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

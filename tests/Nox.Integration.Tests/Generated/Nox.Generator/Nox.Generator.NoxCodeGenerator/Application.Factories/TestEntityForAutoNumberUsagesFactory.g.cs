@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestWebApp.Domain;
 using TestEntityForAutoNumberUsagesEntity = TestWebApp.Domain.TestEntityForAutoNumberUsages;
 
@@ -82,7 +83,7 @@ internal abstract class TestEntityForAutoNumberUsagesFactoryBase : IEntityFactor
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.TestEntityForAutoNumberUsages();
         exceptionCollector.Collect("TextField", () => entity.SetIfNotNull(createDto.TextField, (entity) => entity.TextField = 
-            TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>())));
+            Dto.TestEntityForAutoNumberUsagesMetadata.CreateTextField(createDto.TextField.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -91,7 +92,7 @@ internal abstract class TestEntityForAutoNumberUsagesFactoryBase : IEntityFactor
     private async Task UpdateEntityInternalAsync(TestEntityForAutoNumberUsagesEntity entity, TestEntityForAutoNumberUsagesUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("TextField",() => entity.TextField = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateTextField(updateDto.TextField.NonNullValue<System.String>()));
+        exceptionCollector.Collect("TextField",() => entity.TextField = Dto.TestEntityForAutoNumberUsagesMetadata.CreateTextField(updateDto.TextField.NonNullValue<System.String>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -105,7 +106,7 @@ internal abstract class TestEntityForAutoNumberUsagesFactoryBase : IEntityFactor
         {
             ArgumentNullException.ThrowIfNull(TextFieldUpdateValue, "Attribute 'TextField' can't be null.");
             {
-                exceptionCollector.Collect("TextField",() =>entity.TextField = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateTextField(TextFieldUpdateValue));
+                exceptionCollector.Collect("TextField",() =>entity.TextField = Dto.TestEntityForAutoNumberUsagesMetadata.CreateTextField(TextFieldUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

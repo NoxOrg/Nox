@@ -155,14 +155,6 @@ public class SolutionDeserializationTests
         Assert.Single(country.Events);
         Assert.Equal("CountryNameUpdatedDomainEvent", country.Events[0].Name);
         Assert.Equal("Raised when the name of a country is changed", country.Events[0].Description);
-        Assert.Equal(NoxType.Object, country.Events[0].Type);
-        Assert.NotNull(country.Events[0].ObjectTypeOptions);
-        Assert.NotNull(country.Events[0].ObjectTypeOptions!.Attributes);
-        Assert.Equal(2, country.Events[0].ObjectTypeOptions!.Attributes.Count);
-        Assert.Equal("CountryId", country.Events[0].ObjectTypeOptions!.Attributes[0].Name);
-        Assert.Equal(NoxType.CountryCode2, country.Events[0].ObjectTypeOptions!.Attributes[0].Type);
-        Assert.Equal("CountryName", country.Events[0].ObjectTypeOptions!.Attributes[1].Name);
-        Assert.Equal(NoxType.Text, country.Events[0].ObjectTypeOptions!.Attributes[1].Type);
         
         Assert.NotNull(country.Keys);
         Assert.Single(country.Keys);
@@ -319,11 +311,14 @@ public class SolutionDeserializationTests
         Assert.Equal("whatsappPassword", noxConfig.Infrastructure.Dependencies.Notifications.ImServer!.Password);
         
         
-        Assert.NotNull(noxConfig.Infrastructure.Dependencies.Monitoring);
-        Assert.Equal("SampleObservabiity", noxConfig.Infrastructure.Dependencies.Monitoring!.Name);
-        Assert.Equal("localhost", noxConfig.Infrastructure.Dependencies.Monitoring!.ServerUri);
-        Assert.Equal(8200, noxConfig.Infrastructure.Dependencies.Monitoring!.Port);
-        
+        Assert.NotNull(noxConfig.Infrastructure.Monitoring);
+        Assert.Equal(MonitoringProvider.ElasticApm, noxConfig.Infrastructure.Monitoring!.Provider);
+        Assert.NotNull(noxConfig.Infrastructure.Monitoring!.ElasticApmServer);
+        Assert.Equal("localhost", noxConfig.Infrastructure.Monitoring!.ElasticApmServer.ServerUri);
+        Assert.Equal(string.Empty, noxConfig.Infrastructure.Monitoring!.ElasticApmServer.ServiceName);
+        Assert.Equal(string.Empty, noxConfig.Infrastructure.Monitoring!.ElasticApmServer.SecretToken);
+        Assert.Equal("Production", noxConfig.Infrastructure.Monitoring!.ElasticApmServer.Environment);
+
         Assert.NotNull(noxConfig.Infrastructure.Dependencies.UiLocalizations);
         Assert.Equal("SampleCurrencyDb.Localization", noxConfig.Infrastructure.Dependencies.UiLocalizations!.Name);
         Assert.Equal("sqlserver.iwgplc.com", noxConfig.Infrastructure.Dependencies.UiLocalizations!.ServerUri);

@@ -1,6 +1,6 @@
 ﻿// Generated
 
-namespace {{codeGeneratorState.DomainNameSpace}};
+namespace {{codeGenConventions.DomainNameSpace}};
 {{ for enumAttribute in enumAttributes }}
 /// <summary>
 /// {{enumAttribute.Description | string.rstrip}}{{if !(enumAttribute.Description | string.ends_with ".")}}.{{end}}

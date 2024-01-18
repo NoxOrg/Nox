@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "The definition namespace for the APM (Application Performance Monitoring) server used in a Nox solution.",
-  "description": "Specify properties pertinent to the APM server here. Examples include name, serverUri, Port, provider and connection credentials.",
+  "title": "The definition namespace for Monitor and Observability pertaining to a Nox solutionn.",
+  "description": "Specify properties pertinent to the APM server here. ",
   "oneOf": [
     {
       "type": "object"
@@ -10,106 +10,34 @@
       "type": "null"
     }
   ],
-  "required": [
-    "provider",
-    "name",
-    "serverUri"
-  ],
-  "properties": {
-    "provider": {    
-      "title": "The APM server provider.",
-      "description": "The provider used for this APM server. Examples include ElasticAPM.",
-      "type": "string",
-      "enum": [
-        "elasticApm"
+  "anyOf": [
+    {
+      "required": [
+        "provider"
       ],
+      "properties": {
+        "provider": {    
+          "const": "elasticApm"
+        },
+        "elasticApmServer": {    
+          "anyOf": [
+            { "$ref": "elasticApmServer.json" },
+            {
+              "additionalProperties": false, 
+              "required": ["$ref"],
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        }
+      },
       "additionalProperties": false
-    },
-    "name": {    
-      "title": "The unique name of this server component in the solution.",
-      "description": "The name of this server component in the solution. The name must be unique in the solution configuration",
-      "type": "string",
-      "pattern": "^[^\\s]*$"
-    },
-    "serverUri": {    
-      "title": "Hostname, IP address or URI.",
-      "description": "The name, address, URI or IP of the server to connect to.",
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "string",
-          "pattern": "^\\$\\{\\{\\s*(.+)\\.(.+)\\s*\\}\\}$"
-        }
-      ]
-    },
-    "port": {    
-      "title": "Server port",
-      "description": "The port to connect to.",
-      "oneOf": [
-        {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 65535
-        },
-        {
-          "type": "string",
-          "pattern": "^\\$\\{\\{\\s*(.+)\\.(.+)\\s*\\}\\}$"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "user": {    
-      "title": "Username.",
-      "description": "The username to use when connecting to this server.",
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "string",
-          "pattern": "^\\$\\{\\{\\s*(.+)\\.(.+)\\s*\\}\\}$"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "password": {    
-      "title": "Password.",
-      "description": "The password to use when connecting to this server.",
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "string",
-          "pattern": "^\\$\\{\\{\\s*(.+)\\.(.+)\\s*\\}\\}$"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "options": {    
-      "title": "Additional options.",
-      "description": "A list of additional options to set when connecting to this server.",
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "string",
-          "pattern": "^\\$\\{\\{\\s*(.+)\\.(.+)\\s*\\}\\}$"
-        },
-        {
-          "type": "null"
-        }
-      ]
     }
-  },
-  "additionalProperties": false
+  ]
 }

@@ -1,4 +1,4 @@
-﻿@namespace {{codeGeneratorState.UiNameSpace}}.Components
+﻿@namespace {{codeGenConventions.UiNameSpace}}.Components
 
 <h3>Navigation Menu</h3>
 

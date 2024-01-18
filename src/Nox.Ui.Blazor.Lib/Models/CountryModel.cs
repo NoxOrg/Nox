@@ -3,6 +3,10 @@ namespace Nox.Ui.Blazor.Lib.Models;
 
 public class CountryModel
 {
+    public CountryModel()
+    {
+    }
+
     public CountryModel(string? id, string? name, string? currencyCodeStr)
     {
         Id = id;

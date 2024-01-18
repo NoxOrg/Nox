@@ -10,8 +10,6 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 /// <summary>
@@ -25,7 +23,7 @@ public partial class StoreLicenseCreateDto : StoreLicenseCreateDtoBase
 /// <summary>
 /// Store license info.
 /// </summary>
-public abstract class StoreLicenseCreateDtoBase : IEntityDto<DomainNamespace.StoreLicense>
+public abstract class StoreLicenseCreateDtoBase 
 {
     /// <summary>
     /// License issuer     

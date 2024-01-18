@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Commands;
 using YamlDotNet.Core.Tokens;
-using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
-using {{codeGeneratorState.PersistenceNameSpace}};
+using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using {{codeGenConventions.PersistenceNameSpace}};
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Queries;
 
 public partial record  {{className}}({{primaryKeys}}) : IRequest <IQueryable<{{entity.Name}}LocalizedDto>>;
 

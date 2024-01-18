@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using ClientApi.Domain;
 using EmailAddressEntity = ClientApi.Domain.EmailAddress;
 
@@ -82,9 +83,9 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEnt
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new ClientApi.Domain.EmailAddress();
         exceptionCollector.Collect("Email", () => entity.SetIfNotNull(createDto.Email, (entity) => entity.Email = 
-            ClientApi.Domain.EmailAddressMetadata.CreateEmail(createDto.Email.NonNullValue<System.String>())));
+            Dto.EmailAddressMetadata.CreateEmail(createDto.Email.NonNullValue<System.String>())));
         exceptionCollector.Collect("IsVerified", () => entity.SetIfNotNull(createDto.IsVerified, (entity) => entity.IsVerified = 
-            ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(createDto.IsVerified.NonNullValue<System.Boolean>())));
+            Dto.EmailAddressMetadata.CreateIsVerified(createDto.IsVerified.NonNullValue<System.Boolean>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -99,7 +100,7 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEnt
         }
         else
         {
-            exceptionCollector.Collect("Email",() =>entity.Email = ClientApi.Domain.EmailAddressMetadata.CreateEmail(updateDto.Email.ToValueFromNonNull<System.String>()));
+            exceptionCollector.Collect("Email",() =>entity.Email = Dto.EmailAddressMetadata.CreateEmail(updateDto.Email.ToValueFromNonNull<System.String>()));
         }
         if(updateDto.IsVerified is null)
         {
@@ -107,7 +108,7 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEnt
         }
         else
         {
-            exceptionCollector.Collect("IsVerified",() =>entity.IsVerified = ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(updateDto.IsVerified.ToValueFromNonNull<System.Boolean>()));
+            exceptionCollector.Collect("IsVerified",() =>entity.IsVerified = Dto.EmailAddressMetadata.CreateIsVerified(updateDto.IsVerified.ToValueFromNonNull<System.Boolean>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -123,7 +124,7 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEnt
             if (EmailUpdateValue == null) { entity.Email = null; }
             else
             {
-                exceptionCollector.Collect("Email",() =>entity.Email = ClientApi.Domain.EmailAddressMetadata.CreateEmail(EmailUpdateValue));
+                exceptionCollector.Collect("Email",() =>entity.Email = Dto.EmailAddressMetadata.CreateEmail(EmailUpdateValue));
             }
         }
 
@@ -132,7 +133,7 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEnt
             if (IsVerifiedUpdateValue == null) { entity.IsVerified = null; }
             else
             {
-                exceptionCollector.Collect("IsVerified",() =>entity.IsVerified = ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(IsVerifiedUpdateValue));
+                exceptionCollector.Collect("IsVerified",() =>entity.IsVerified = Dto.EmailAddressMetadata.CreateIsVerified(IsVerifiedUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

@@ -10,8 +10,6 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 /// <summary>
@@ -25,6 +23,6 @@ public partial class ReferenceNumberEntityCreateDto : ReferenceNumberEntityCreat
 /// <summary>
 /// ReferenceNumberEntity.
 /// </summary>
-public abstract class ReferenceNumberEntityCreateDtoBase : IEntityDto<DomainNamespace.ReferenceNumberEntity>
+public abstract class ReferenceNumberEntityCreateDtoBase 
 {
 }

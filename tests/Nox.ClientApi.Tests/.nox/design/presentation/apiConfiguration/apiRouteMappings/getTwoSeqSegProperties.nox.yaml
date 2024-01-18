@@ -18,10 +18,5 @@ requestInput:
   - name: ExtraId
     description: Another Id
     type: number
-
-responseOutput: 
-  name: result
-  description: result 
-  type: string
   
 

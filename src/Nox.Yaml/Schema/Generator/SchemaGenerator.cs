@@ -259,7 +259,7 @@ internal class SchemaGenerator
         if (schemaProperty.Pattern is not null && (schemaProperty.Items is null || schemaProperty.Items.Ignore))
             js.AppendProperty("pattern", schemaProperty.Pattern);
 
-        if (schemaProperty.Enum is not null)
+        if (schemaProperty.Enum is not null && schemaProperty.Type != "array")
             js.AppendProperty("enum", schemaProperty.Enum);
 
         if (schemaProperty.Minimum.HasValue)

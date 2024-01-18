@@ -13,13 +13,13 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Exceptions;
-using {{codeGeneratorState.PersistenceNameSpace}};
-using {{codeGeneratorState.DomainNameSpace}};
-using {{entity.Name}}LocalizedEntity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Localized;
+using {{codeGenConventions.PersistenceNameSpace}};
+using {{codeGenConventions.DomainNameSpace}};
+using {{entity.Name}}LocalizedEntity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Localized;
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
 
-public partial record  {{className}}({{primaryKeys}}, Nox.Types.CultureCode {{codeGeneratorState.LocalizationCultureField}}) : IRequest<bool>;
+public partial record  {{className}}({{primaryKeys}}, Nox.Types.CultureCode {{codeGenConventions.LocalizationCultureField}}) : IRequest<bool>;
 
 internal partial class {{ className}}Handler : {{ className}}HandlerBase
 {
@@ -47,14 +47,14 @@ internal abstract class {{ className}}HandlerBase : CommandBase<{{ className}}, 
         await OnExecutingAsync(command);
 
         {{- for key in entity.Keys }}
-		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(command.key{{key.Name}});
+		var key{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(command.key{{key.Name}});
 		{{- end }}
         
         var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});
         EntityNotFoundException.ThrowIfNull(entity, "{{entity.Name}}", $"{{entity.Keys | keysToString}}");
 		
         var entityLocalized = await DbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x =>{{for key in entity.Keys}}x.{{key.Name}} == entity.{{key.Name}} && {{end}}x.CultureCode == command.CultureCode);
-        EntityLocalizationNotFoundException.ThrowIfNull(entityLocalized, "{{entity.Name}}",  $"{{entity.Keys | keysToString}}", command.{{codeGeneratorState.LocalizationCultureField}}.ToString());
+        EntityLocalizationNotFoundException.ThrowIfNull(entityLocalized, "{{entity.Name}}",  $"{{entity.Keys | keysToString}}", command.{{codeGenConventions.LocalizationCultureField}}.ToString());
         
         await OnCompletedAsync(command, entityLocalized);
         
@@ -71,9 +71,9 @@ public class {{className}}Validator : AbstractValidator<{{className}}>
     {
         var defaultCultureCode = Nox.Types.CultureCode.From(noxSolution!.Application!.Localization!.DefaultCulture);
 
-		RuleFor(x => x.{{codeGeneratorState.LocalizationCultureField}})
+		RuleFor(x => x.{{codeGenConventions.LocalizationCultureField}})
 			.Must(x => x != defaultCultureCode)
-			.WithMessage($"{%{{}%}nameof({{className}}){%{}}%} : {%{{}%}nameof({{className}}.{{codeGeneratorState.LocalizationCultureField}}){%{}}%} cannot be the default culture code: {defaultCultureCode.Value}.");
+			.WithMessage($"{%{{}%}nameof({{className}}){%{}}%} : {%{{}%}nameof({{className}}.{{codeGenConventions.LocalizationCultureField}}){%{}}%} cannot be the default culture code: {defaultCultureCode.Value}.");
 			
     }
 }	

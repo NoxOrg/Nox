@@ -12,7 +12,7 @@ internal class DefaultIntegrationEventGenerator : INoxCodeGenerator
 
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions codeGeneratorState,
+      NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
@@ -20,14 +20,14 @@ internal class DefaultIntegrationEventGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain?.Entities is null)
+        if (codeGenConventions.Solution.Domain?.Entities is null)
             return;
 
-        foreach (var (operation, entity) in GroupEntitiesWithIntegrationEventsByCrudOperation(codeGeneratorState.Solution.Domain.Entities))
+        foreach (var (operation, entity) in GroupEntitiesWithIntegrationEventsByCrudOperation(codeGenConventions.Solution.Domain.Entities))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{entity.Name}{operation}")
                 .WithFileNamePrefix($"Application.IntegrationEvents")
                 .WithObject("operation", operation)

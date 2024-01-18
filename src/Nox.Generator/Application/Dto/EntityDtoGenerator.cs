@@ -8,17 +8,17 @@ namespace Nox.Generator.Presentation.Api.OData;
 
 internal class EntityDtoGenerator : INoxCodeGenerator
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.ApplicationDto;
 
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions codeGeneratorState,
+      NoxCodeGenConventions codeGenConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
       )
     {
-        NoxSolution solution = codeGeneratorState.Solution;
+        NoxSolution solution = codeGenConventions.Solution;
         context.CancellationToken.ThrowIfCancellationRequested();
 
         if (solution.Domain is null)
@@ -26,13 +26,13 @@ internal class EntityDtoGenerator : INoxCodeGenerator
             return;
         }
 
-        foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+        foreach (var entity in codeGenConventions.Solution.Domain!.Entities)
         {
-            var primaryKeys = string.Join(", ", entity.Keys.Select(k => $"{codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
+            var primaryKeys = string.Join(", ", entity.Keys.Select(k => $"{codeGenConventions.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{entity.Name}Dto")
                 .WithFileNamePrefix("Application.Dto")
                 .WithObject("entity", entity)

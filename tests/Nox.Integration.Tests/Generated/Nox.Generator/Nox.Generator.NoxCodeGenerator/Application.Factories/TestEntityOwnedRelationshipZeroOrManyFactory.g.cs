@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestWebApp.Domain;
 using TestEntityOwnedRelationshipZeroOrManyEntity = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany;
 
@@ -89,9 +90,9 @@ internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEnti
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany();
-        exceptionCollector.Collect("Id",() => entity.Id = TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Id",() => entity.Id = Dto.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(createDto.Id.NonNullValue<System.String>()));
         exceptionCollector.Collect("TextTestField", () => entity.SetIfNotNull(createDto.TextTestField, (entity) => entity.TextTestField = 
-            TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateTextTestField(createDto.TextTestField.NonNullValue<System.String>())));
+            Dto.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateTextTestField(createDto.TextTestField.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         createDto.SecEntityOwnedRelZeroOrManies?.ForEach(async dto =>
@@ -105,7 +106,7 @@ internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEnti
     private async Task UpdateEntityInternalAsync(TestEntityOwnedRelationshipZeroOrManyEntity entity, TestEntityOwnedRelationshipZeroOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("TextTestField",() => entity.TextTestField = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>()));
+        exceptionCollector.Collect("TextTestField",() => entity.TextTestField = Dto.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
 	    await UpdateOwnedEntitiesAsync(entity, updateDto, cultureCode);
@@ -119,7 +120,7 @@ internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEnti
         {
             ArgumentNullException.ThrowIfNull(TextTestFieldUpdateValue, "Attribute 'TextTestField' can't be null.");
             {
-                exceptionCollector.Collect("TextTestField",() =>entity.TextTestField = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateTextTestField(TextTestFieldUpdateValue));
+                exceptionCollector.Collect("TextTestField",() =>entity.TextTestField = Dto.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateTextTestField(TextTestFieldUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -144,7 +145,7 @@ internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEnti
                 }
 				else
 				{
-					var key = TestWebApp.Domain.SecEntityOwnedRelZeroOrManyMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.String>());
+					var key = Dto.SecEntityOwnedRelZeroOrManyMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.String>());
 					var ownedEntity = entity.SecEntityOwnedRelZeroOrManies.FirstOrDefault(x => x.Id == key);
 					if(ownedEntity is null)
 						updatedSecEntityOwnedRelZeroOrManies.Add(await SecEntityOwnedRelZeroOrManyFactory.CreateEntityAsync(ownedUpsertDto, cultureCode));

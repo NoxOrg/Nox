@@ -18,6 +18,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 
 using CryptocashIntegration.Application.Dto;
+using Dto = CryptocashIntegration.Application.Dto;
 using CryptocashIntegration.Domain;
 using CountryQueryToTableEntity = CryptocashIntegration.Domain.CountryQueryToTable;
 
@@ -81,11 +82,11 @@ internal abstract class CountryQueryToTableFactoryBase : IEntityFactory<CountryQ
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         var entity = new CryptocashIntegration.Domain.CountryQueryToTable();
-        exceptionCollector.Collect("Id",() => entity.Id = CountryQueryToTableMetadata.CreateId(createDto.Id.NonNullValue<System.Int32>()));
+        exceptionCollector.Collect("Id",() => entity.Id = Dto.CountryQueryToTableMetadata.CreateId(createDto.Id.NonNullValue<System.Int32>()));
         exceptionCollector.Collect("Name", () => entity.SetIfNotNull(createDto.Name, (entity) => entity.Name = 
-            CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
+            Dto.CountryQueryToTableMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("Population", () => entity.SetIfNotNull(createDto.Population, (entity) => entity.Population = 
-            CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>())));
+            Dto.CountryQueryToTableMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -94,8 +95,8 @@ internal abstract class CountryQueryToTableFactoryBase : IEntityFactory<CountryQ
     private async Task UpdateEntityInternalAsync(CountryQueryToTableEntity entity, CountryQueryToTableUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
-        exceptionCollector.Collect("Name",() => entity.Name = CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
-        exceptionCollector.Collect("Population",() => entity.Population = CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreatePopulation(updateDto.Population.NonNullValue<System.Int32>()));
+        exceptionCollector.Collect("Name",() => entity.Name = Dto.CountryQueryToTableMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
+        exceptionCollector.Collect("Population",() => entity.Population = Dto.CountryQueryToTableMetadata.CreatePopulation(updateDto.Population.NonNullValue<System.Int32>()));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -109,7 +110,7 @@ internal abstract class CountryQueryToTableFactoryBase : IEntityFactory<CountryQ
         {
             ArgumentNullException.ThrowIfNull(NameUpdateValue, "Attribute 'Name' can't be null.");
             {
-                exceptionCollector.Collect("Name",() =>entity.Name = CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreateName(NameUpdateValue));
+                exceptionCollector.Collect("Name",() =>entity.Name = Dto.CountryQueryToTableMetadata.CreateName(NameUpdateValue));
             }
         }
 
@@ -117,7 +118,7 @@ internal abstract class CountryQueryToTableFactoryBase : IEntityFactory<CountryQ
         {
             ArgumentNullException.ThrowIfNull(PopulationUpdateValue, "Attribute 'Population' can't be null.");
             {
-                exceptionCollector.Collect("Population",() =>entity.Population = CryptocashIntegration.Domain.CountryQueryToTableMetadata.CreatePopulation(PopulationUpdateValue));
+                exceptionCollector.Collect("Population",() =>entity.Population = Dto.CountryQueryToTableMetadata.CreatePopulation(PopulationUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

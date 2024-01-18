@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using ThirdTestEntityExactlyOneEntity = TestWebApp.Domain.ThirdTestEntityExactlyOne;
 
 namespace TestWebApp.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteThirdTestEntityExactlyOneByIdCommandHandlerBase : 
 		var entities = new List<ThirdTestEntityExactlyOneEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = TestWebApp.Domain.ThirdTestEntityExactlyOneMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.ThirdTestEntityExactlyOneMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.ThirdTestEntityExactlyOnes.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class TestEntityForUniqueConstraints : TestEntityForUniqueConstraintsBase, IEntityHaveDomainEvents
+public partial class TestEntityForUniqueConstraints : TestEntityForUniqueConstraintsBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class TestEntityForUniqueConstraints : TestEntityForUniqueConst
 /// <summary>
 /// Record for TestEntityForUniqueConstraints created event.
 /// </summary>
-internal record TestEntityForUniqueConstraintsCreated(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) :  IDomainEvent, INotification;
+public record TestEntityForUniqueConstraintsCreated(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityForUniqueConstraints updated event.
 /// </summary>
-internal record TestEntityForUniqueConstraintsUpdated(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent, INotification;
+public record TestEntityForUniqueConstraintsUpdated(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityForUniqueConstraints deleted event.
 /// </summary>
-internal record TestEntityForUniqueConstraintsDeleted(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent, INotification;
+public record TestEntityForUniqueConstraintsDeleted(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing constraints.
 /// </summary>
-internal abstract partial class TestEntityForUniqueConstraintsBase : EntityBase, IEtag
+public abstract partial class TestEntityForUniqueConstraintsBase : EntityBase, IEtag
 {
     /// <summary>
     ///     

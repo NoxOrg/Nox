@@ -9,12 +9,13 @@ using Nox.Application.Services;
 
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
+using TestWebApp.Domain;
 
 namespace TestWebApp.Application.Services;
 
 internal partial class RelationshipChainValidator : RelationshipChainValidatorBase
 {
-    public RelationshipChainValidator(DtoDbContext dataDbContext): base(dataDbContext)
+    public RelationshipChainValidator(AppDbContext dataDbContext): base(dataDbContext)
     {
     
     }
@@ -28,10 +29,10 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
 
     private readonly Dictionary<(string EntityPluralName, string NavigationName), bool> _isSingleRelationship;
 
-    public DtoDbContext DataDbContext { get; }
+    public AppDbContext DataDbContext { get; }
 
 #region Constructor
-    public  RelationshipChainValidatorBase(DtoDbContext dataDbContext)
+    public  RelationshipChainValidatorBase(AppDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
 
@@ -166,15 +167,20 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
 
         var aggregateDbSet = (IQueryable)context.DbSet;
 
-        var query = aggregateDbSet.Where($"{context.KeyName} == @0", relationshipChain.EntityKey);
+        if (!TryParseKey(relationshipChain.EntityName, relationshipChain.EntityKey, out var aggregateParsedKey))
+            return false;
+
+        var query = aggregateDbSet.Where($"{context.KeyName} == @0", aggregateParsedKey);
 
         var previousAggregateRoot = relationshipChain.EntityName;
+        var previousKeyName = context.KeyName;
 
         foreach (var property in relationshipChain.SortedNavigationProperties)
         {
             if (!_isSingleRelationship.TryGetValue((previousAggregateRoot, property.NavigationName), out var isSingle))
                 return false;
 
+            query = query.Select($"new ({previousKeyName}, {property.NavigationName})");
             if (isSingle)
                 query = query.Select($"{property.NavigationName}");
             else        
@@ -186,10 +192,234 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
             if (!_entityContextPerEntityName.TryGetValue(relatedPluralName, out var relatedContext))
                 return false;
             
-            query = query.Where($"{relatedContext.KeyName} == @0", property.NavigationKey);
+            if (!TryParseKey(relatedPluralName, property.NavigationKey, out var navigationParsedKey))
+                return false;
+
+            query = query.Where($"{relatedContext.KeyName} == @0", navigationParsedKey);
             previousAggregateRoot = relatedPluralName;
+            previousKeyName = relatedContext.KeyName;
         }
 
-        return query.Any();
+        return query.Select($"{previousKeyName}").Any();
+    }
+
+    private bool TryParseKey(string entityName, string key, out Nox.Types.INoxType parsedKey)
+    {
+        parsedKey = null;
+        if (entityName.Equals("TestEntityZeroOrOnes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityZeroOrOneMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("SecondTestEntityZeroOrOnes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = SecondTestEntityZeroOrOneMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityWithNuids", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.UInt32.TryParse(key, out var value)) return false;
+            parsedKey = TestEntityWithNuidMetadata.CreateId(value);
+            return true;
+        }
+        if (entityName.Equals("TestEntityOneOrManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityOneOrManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("SecondTestEntityOneOrManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = SecondTestEntityOneOrManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityZeroOrManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityZeroOrManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("SecondTestEntityZeroOrManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = SecondTestEntityZeroOrManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("ThirdTestEntityOneOrManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = ThirdTestEntityOneOrManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("ThirdTestEntityZeroOrManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = ThirdTestEntityZeroOrManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("ThirdTestEntityExactlyOnes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = ThirdTestEntityExactlyOneMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("ThirdTestEntityZeroOrOnes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = ThirdTestEntityZeroOrOneMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityExactlyOnes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityExactlyOneMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("SecondTestEntityExactlyOnes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = SecondTestEntityExactlyOneMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityZeroOrOneToZeroOrManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityZeroOrOneToZeroOrManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityZeroOrManyToZeroOrOnes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityZeroOrManyToZeroOrOneMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityExactlyOneToOneOrManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityExactlyOneToOneOrManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityOneOrManyToExactlyOnes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityOneOrManyToExactlyOneMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityExactlyOneToZeroOrManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityExactlyOneToZeroOrManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityZeroOrManyToExactlyOnes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityZeroOrManyToExactlyOneMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityOneOrManyToZeroOrManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityOneOrManyToZeroOrManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityZeroOrManyToOneOrManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityZeroOrManyToOneOrManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityZeroOrOneToOneOrManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityZeroOrOneToOneOrManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityOneOrManyToZeroOrOnes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityOneOrManyToZeroOrOneMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityZeroOrOneToExactlyOnes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityZeroOrOneToExactlyOneMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityExactlyOneToZeroOrOnes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityExactlyOneToZeroOrOneMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityOwnedRelationshipExactlyOnes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityOwnedRelationshipExactlyOneMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityOwnedRelationshipZeroOrOnes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityOwnedRelationshipZeroOrOneMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityOwnedRelationshipOneOrManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityOwnedRelationshipOneOrManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityOwnedRelationshipZeroOrManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityTwoRelationshipsOneToOnes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityTwoRelationshipsOneToOneMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("SecondTestEntityTwoRelationshipsOneToOnes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = SecondTestEntityTwoRelationshipsOneToOneMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityTwoRelationshipsManyToManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityTwoRelationshipsManyToManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("SecondTestEntityTwoRelationshipsManyToManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = SecondTestEntityTwoRelationshipsManyToManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityTwoRelationshipsOneToManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityTwoRelationshipsOneToManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("SecondTestEntityTwoRelationshipsOneToManies", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = SecondTestEntityTwoRelationshipsOneToManyMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityForTypes", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityForTypesMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityForUniqueConstraints", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityForUniqueConstraintsMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("EntityUniqueConstraintsWithForeignKeys", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Guid.TryParse(key, out var value)) return false;
+            parsedKey = EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(value);
+            return true;
+        }
+        if (entityName.Equals("EntityUniqueConstraintsRelatedForeignKeys", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Int32.TryParse(key, out var value)) return false;
+            parsedKey = EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(value);
+            return true;
+        }
+        if (entityName.Equals("TestEntityLocalizations", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = TestEntityLocalizationMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("TestEntityForAutoNumberUsages", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Int64.TryParse(key, out var value)) return false;
+            parsedKey = TestEntityForAutoNumberUsagesMetadata.CreateId(value);
+            return true;
+        }
+        if (entityName.Equals("ForReferenceNumbers", StringComparison.OrdinalIgnoreCase))
+        {
+            parsedKey = ForReferenceNumberMetadata.CreateId(key);
+            return true;
+        }
+        return false;
     }
 }

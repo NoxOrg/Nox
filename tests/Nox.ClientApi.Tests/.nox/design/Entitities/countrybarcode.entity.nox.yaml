@@ -24,3 +24,7 @@ attributes:
 
 persistence:
     isAudited: false
+    
+events: 
+  - name: BarcodeGeneratedEvent
+    description: Barcode generated event

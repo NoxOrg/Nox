@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityTwoRelationshipsManyToManyEntity = TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany;
 
 namespace TestWebApp.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteTestEntityTwoRelationshipsManyToManyByIdCommandHan
 		var entities = new List<TestEntityTwoRelationshipsManyToManyEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = TestWebApp.Domain.TestEntityTwoRelationshipsManyToManyMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.TestEntityTwoRelationshipsManyToManyMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.TestEntityTwoRelationshipsManyToManies.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

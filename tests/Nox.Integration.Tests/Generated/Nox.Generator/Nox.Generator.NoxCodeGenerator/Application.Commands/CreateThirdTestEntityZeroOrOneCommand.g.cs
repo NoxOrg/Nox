@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using ThirdTestEntityZeroOrOneEntity = TestWebApp.Domain.ThirdTestEntityZeroOrOne;
 
 namespace TestWebApp.Application.Commands;
@@ -63,7 +64,7 @@ internal abstract class CreateThirdTestEntityZeroOrOneCommandHandlerBase : Comma
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.ThirdTestEntityExactlyOneId is not null)
 		{
-			var relatedKey = TestWebApp.Domain.ThirdTestEntityExactlyOneMetadata.CreateId(request.EntityDto.ThirdTestEntityExactlyOneId.NonNullValue<System.String>());
+			var relatedKey = Dto.ThirdTestEntityExactlyOneMetadata.CreateId(request.EntityDto.ThirdTestEntityExactlyOneId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.ThirdTestEntityExactlyOnes.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToThirdTestEntityExactlyOne(relatedEntity);

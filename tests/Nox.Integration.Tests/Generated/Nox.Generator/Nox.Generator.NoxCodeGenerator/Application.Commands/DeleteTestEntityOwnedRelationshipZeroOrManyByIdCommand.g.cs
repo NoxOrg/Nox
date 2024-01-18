@@ -11,6 +11,7 @@ using Nox.Exceptions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityOwnedRelationshipZeroOrManyEntity = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany;
 
 namespace TestWebApp.Application.Commands;
@@ -45,7 +46,7 @@ internal abstract class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHa
 		var entities = new List<TestEntityOwnedRelationshipZeroOrManyEntity>(keys.Length);
 		foreach(var keyDto in keys)
 		{
-			var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(keyDto.keyId);		
+			var keyId = Dto.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(keyDto.keyId);		
 
 			var entity = await DbContext.TestEntityOwnedRelationshipZeroOrManies.FindAsync(keyId);
 			if (entity == null || entity.IsDeleted == true)

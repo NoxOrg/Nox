@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
 using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
 
 namespace TestWebApp.Application.Commands;

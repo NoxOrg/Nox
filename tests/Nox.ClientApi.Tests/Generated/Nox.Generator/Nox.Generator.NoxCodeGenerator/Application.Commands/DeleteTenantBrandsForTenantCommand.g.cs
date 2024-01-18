@@ -12,6 +12,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using TenantBrandEntity = ClientApi.Domain.TenantBrand;
 
 namespace ClientApi.Application.Commands;
@@ -42,14 +43,14 @@ internal partial class DeleteTenantBrandsForTenantCommandHandlerBase : CommandBa
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.TenantMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.TenantMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Tenants.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Tenant",  $"{keyId.ToString()}");
 		}
 		await DbContext.Entry(parentEntity).Collection(p => p.TenantBrands).LoadAsync(cancellationToken);
-		var ownedId = ClientApi.Domain.TenantBrandMetadata.CreateId(request.EntityKeyDto.keyId);
+		var ownedId = Dto.TenantBrandMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.TenantBrands.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

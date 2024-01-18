@@ -11,20 +11,20 @@ internal class EntityControllerEnumerationsGenerator : EntityControllerGenerator
 {
     public override void Generate(
         SourceProductionContext context,
-        NoxCodeGenConventions noxCodeGenCodeConventions,
+        NoxCodeGenConventions codeGenConventions,
         GeneratorConfig config, System.Action<string> log,
         string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (noxCodeGenCodeConventions.Solution.Domain is null)
+        if (codeGenConventions.Solution.Domain is null)
         {
             return;
         }
 
         const string templateName = @"Presentation.Api.OData.EntityController.Enumerations";
 
-        foreach (var entity in noxCodeGenCodeConventions.Solution.Domain.Entities)
+        foreach (var entity in codeGenConventions.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -38,9 +38,9 @@ internal class EntityControllerEnumerationsGenerator : EntityControllerGenerator
                 .Where(attribute => attribute.Type == NoxType.Enumeration)
                 .Select(attribute => new {
                     Attribute = attribute,
-                    EntityNameForEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name) + "Dto",
-                    EntityNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name) + "Dto",
-                    EntityDtoNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name),
+                    EntityNameForEnumeration = codeGenConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name) + "Dto",
+                    EntityNameForLocalizedEnumeration = codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name) + "Dto",
+                    EntityDtoNameForLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name),
                 });
 
             if (!enumerationAttributes.Any())
@@ -48,7 +48,7 @@ internal class EntityControllerEnumerationsGenerator : EntityControllerGenerator
                 continue;
             }
 
-            new TemplateCodeBuilder(context, noxCodeGenCodeConventions)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{entity.PluralName}Controller")
                 .WithFileNamePrefix("Presentation.Api.OData")
                 .WithFileNameSuffix("Enumerations")

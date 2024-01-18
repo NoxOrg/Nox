@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Nox.Ui.Blazor.Lib\Nox.Ui.Blazor.Lib.csproj" />
-    <ProjectReference Include="..\Cryptocash.Api\Cryptocash.Api.csproj" />
+    <ProjectReference Include="..\Cryptocash.Application.Dto\Cryptocash.Application.Dto.csproj" />
   </ItemGroup>
 	
 

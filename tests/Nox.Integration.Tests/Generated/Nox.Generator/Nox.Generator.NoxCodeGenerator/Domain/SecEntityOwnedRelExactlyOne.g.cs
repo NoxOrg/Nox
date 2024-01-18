@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class SecEntityOwnedRelExactlyOne : SecEntityOwnedRelExactlyOneBase, IEntityHaveDomainEvents
+public partial class SecEntityOwnedRelExactlyOne : SecEntityOwnedRelExactlyOneBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class SecEntityOwnedRelExactlyOne : SecEntityOwnedRelExactlyOne
 /// <summary>
 /// Record for SecEntityOwnedRelExactlyOne created event.
 /// </summary>
-internal record SecEntityOwnedRelExactlyOneCreated(SecEntityOwnedRelExactlyOne SecEntityOwnedRelExactlyOne) :  IDomainEvent, INotification;
+public record SecEntityOwnedRelExactlyOneCreated(SecEntityOwnedRelExactlyOne SecEntityOwnedRelExactlyOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for SecEntityOwnedRelExactlyOne updated event.
 /// </summary>
-internal record SecEntityOwnedRelExactlyOneUpdated(SecEntityOwnedRelExactlyOne SecEntityOwnedRelExactlyOne) : IDomainEvent, INotification;
+public record SecEntityOwnedRelExactlyOneUpdated(SecEntityOwnedRelExactlyOne SecEntityOwnedRelExactlyOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for SecEntityOwnedRelExactlyOne deleted event.
 /// </summary>
-internal record SecEntityOwnedRelExactlyOneDeleted(SecEntityOwnedRelExactlyOne SecEntityOwnedRelExactlyOne) : IDomainEvent, INotification;
+public record SecEntityOwnedRelExactlyOneDeleted(SecEntityOwnedRelExactlyOne SecEntityOwnedRelExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class SecEntityOwnedRelExactlyOneBase : EntityBase, IOwnedEntity
+public abstract partial class SecEntityOwnedRelExactlyOneBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     ///     

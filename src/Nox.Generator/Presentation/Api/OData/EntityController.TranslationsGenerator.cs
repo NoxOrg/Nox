@@ -12,20 +12,20 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
 {
     public override void Generate(
         SourceProductionContext context,
-        NoxCodeGenConventions codeGeneratorState,
+        NoxCodeGenConventions codeGenConventions,
         GeneratorConfig config, System.Action<string> log,
         string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain is null)
+        if (codeGenConventions.Solution.Domain is null)
         {
             return;
         }
 
         const string templateName = @"Presentation.Api.OData.EntityController.Translations";
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(x => !x.IsOwnedEntity && (x.IsLocalized || x.HasLocalizedOwnedRelationships)))
+        foreach (var entity in codeGenConventions.Solution.Domain.Entities.Where(x => !x.IsOwnedEntity && (x.IsLocalized || x.HasLocalizedOwnedRelationships)))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -45,11 +45,11 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
                 .Where(x => x.LocalizedAttributes.Any())
                 .ToList();
 
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{entity.PluralName}Controller")
                 .WithFileNamePrefix("Presentation.Api.OData")
                 .WithFileNameSuffix("Translations")
-                .WithObject("primaryKeysRoute", GetPrimaryKeysRoute(entity, codeGeneratorState.Solution))
+                .WithObject("primaryKeysRoute", GetPrimaryKeysRoute(entity, codeGenConventions.Solution))
                 .WithObject("primaryKeysQuery", GetPrimaryKeysQuery(entity))
                 .WithObject("createdKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "createdKey.", true))
                 .WithObject("updatedKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "updatedKey.key", true))

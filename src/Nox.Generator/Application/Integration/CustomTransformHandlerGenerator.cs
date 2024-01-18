@@ -12,14 +12,14 @@ internal class CustomTransformHandlerGenerator: INoxCodeGenerator
     
     public void Generate(
         SourceProductionContext context, 
-        NoxCodeGenConventions codeGeneratorState, 
+        NoxCodeGenConventions codeGenConventions, 
         GeneratorConfig config, 
         Action<string> log, 
         string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Application?.Integrations is null)
+        if (codeGenConventions.Solution.Application?.Integrations is null)
         {
             if(config.LoggingVerbosity == LoggingVerbosity.Diagnostic)
             {
@@ -28,10 +28,10 @@ internal class CustomTransformHandlerGenerator: INoxCodeGenerator
             return;
         }
 
-        foreach (var customTransformIntegration in codeGeneratorState.Solution.Application.Integrations.Where(i => i.TransformationType == IntegrationTransformType.CustomTransform))
+        foreach (var customTransformIntegration in codeGenConventions.Solution.Application.Integrations.Where(i => i.TransformationType == IntegrationTransformType.CustomTransform))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{customTransformIntegration.Name}TransformHandlerBase")
                 .WithFileNamePrefix("Application.Integration.CustomTransformHandlers")
                 .WithObject("integration", customTransformIntegration)

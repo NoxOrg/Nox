@@ -15,6 +15,7 @@ using Nox.Exceptions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Commands;
@@ -193,13 +194,13 @@ internal abstract class RefStoreOwnerToStoresCommandHandlerBase<TRequest> : Comm
 
 	protected async Task<StoreOwnerEntity?> GetStoreOwner(StoreOwnerKeyDto entityKeyDto)
 	{
-		var keyId = ClientApi.Domain.StoreOwnerMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.StoreOwnerMetadata.CreateId(entityKeyDto.keyId);
 		return await DbContext.StoreOwners.FindAsync(keyId);
 	}
 
 	protected async Task<ClientApi.Domain.Store?> GetStore(StoreKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = ClientApi.Domain.StoreMetadata.CreateId(relatedEntityKeyDto.keyId);
+		var relatedKeyId = Dto.StoreMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Stores.FindAsync(relatedKeyId);
 	}
 

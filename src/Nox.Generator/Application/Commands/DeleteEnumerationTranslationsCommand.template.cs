@@ -9,17 +9,17 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.Abstractions.Extensions;
-using {{codeGeneratorState.PersistenceNameSpace}};
-using {{codeGeneratorState.DomainNameSpace}};
-using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
+using {{codeGenConventions.PersistenceNameSpace}};
+using {{codeGenConventions.DomainNameSpace}};
+using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
 
 {{- for enumAtt in enumerationAttributes }}
 
 {{-deleteCommand = 'Delete' +  (entity.PluralName) +  (Pluralize (enumAtt.Attribute.Name)) + 'TranslationsCommand' }}
 {{-enumEntity = enumAtt.EntityNameForLocalizedEnumeration }}
-public partial record  {{deleteCommand}}(Nox.Types.CultureCode {{codeGeneratorState.LocalizationCultureField}}) : IRequest<bool>;
+public partial record  {{deleteCommand}}(Nox.Types.CultureCode {{codeGenConventions.LocalizationCultureField}}) : IRequest<bool>;
 
 internal partial class {{deleteCommand}}Handler : {{deleteCommand}}HandlerBase
 {
@@ -65,9 +65,9 @@ public class {{deleteCommand}}Validator : AbstractValidator<{{deleteCommand}}>
 {
 	public {{deleteCommand}}Validator(NoxSolution noxSolution)
     {
-		RuleFor(x => x.{{codeGeneratorState.LocalizationCultureField}})
+		RuleFor(x => x.{{codeGenConventions.LocalizationCultureField}})
 			.Must(x => x.Value != noxSolution!.Application!.Localization!.DefaultCulture!.ToDisplayName())
-			.WithMessage($"{%{{}%}nameof({{deleteCommand}}){%{}}%} : {%{{}%}nameof({{deleteCommand}}.{{codeGeneratorState.LocalizationCultureField}}){%{}}%} cannot be the default culture code: {noxSolution!.Application!.Localization!.DefaultCulture!.ToDisplayName()}.");
+			.WithMessage($"{%{{}%}nameof({{deleteCommand}}){%{}}%} : {%{{}%}nameof({{deleteCommand}}.{{codeGenConventions.LocalizationCultureField}}){%{}}%} cannot be the default culture code: {noxSolution!.Application!.Localization!.DefaultCulture!.ToDisplayName()}.");
 			
     }
 }	

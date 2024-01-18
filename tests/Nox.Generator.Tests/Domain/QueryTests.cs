@@ -2,14 +2,8 @@ using Xunit;
 
 namespace Nox.Generator.Tests.Domain;
 
-public class QueryTests : IClassFixture<GeneratorFixture>
-{
-    private readonly GeneratorFixture _fixture;
-
-    public QueryTests(GeneratorFixture fixture)
-    {
-        _fixture = fixture;
-    }
+public class QueryTests
+{    
 
     [Fact]
     public void Can_generate_domain_query_files()
@@ -24,11 +18,10 @@ public class QueryTests : IClassFixture<GeneratorFixture>
 
         GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileCount(9)
+            .AssertFileCount(8)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
             .AssertFileWasGenerated("Application.Dto.CountryCreateDto.g.cs")
-            .AssertFileWasGenerated("Application.Dto.CountryUpdateDto.g.cs")
-            .AssertFileWasGenerated("Application.Factories.CountryFactory.g.cs");
+            .AssertFileWasGenerated("Application.Dto.CountryUpdateDto.g.cs");
     }
 }

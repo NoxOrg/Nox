@@ -74,23 +74,6 @@
           }
         }
       ]
-    },
-    "monitoring": {    
-      "anyOf": [
-        { "$ref": "monitoring.json" },
-        {
-          "additionalProperties": false, 
-          "required": ["$ref"],
-          "type": "object",
-          "properties": {
-            "$ref": {
-              "type": "string",
-              "format": "uri",
-              "pattern": "^[^\\s]*$"
-            }
-          }
-        }
-      ]
     }
   },
   "additionalProperties": false

@@ -4,9 +4,14 @@ using Nox.Yaml.Attributes;
 namespace Nox.Solution.Events;
 
 [GenerateJsonSchema]
-public class DomainEvent: NoxComplexTypeDefinition
+public class DomainEvent
 {
-    [Title("Whether or not to also raise this as an application event.")]
-    [Description("Will raise this event both as an integration and application event")]
-    public bool RaiseApplicationEvent { get; set; } = false;
+    [Required]
+    [Title("Event name")]
+    [Description("Descriptive name for the domain event. Should be a singular noun and be unique within a collection of events. Pascal Case recommended.")]
+    public string Name { get; internal set; } = null!;
+
+    [Title("Event description")]
+    [Description("A descriptive phrase that explains the nature and function of this event within a collection.")]
+    public string? Description { get; internal set; }
 }

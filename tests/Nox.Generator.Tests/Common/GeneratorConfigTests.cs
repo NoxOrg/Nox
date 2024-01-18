@@ -20,8 +20,7 @@ public class GeneratorConfigTests
             .AssertOutputResult()
             .AssertFileCount(2)
             .AssertContent()
-            .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .AssertFileWasGenerated("Application.ServiceCollectionExtensions.g.cs");
+            .WithExpectedFilesFolder("./ExpectedGeneratedFiles");
     }
     [Fact]
     public void WhenGenerateConfigWithApplicationDto_ShouldNotGenerateServiceCollection()

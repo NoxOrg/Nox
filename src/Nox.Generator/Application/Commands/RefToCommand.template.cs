@@ -20,12 +20,13 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Exceptions;
 
-using {{codeGeneratorState.PersistenceNameSpace}};
-using {{codeGeneratorState.DomainNameSpace}};
-using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
-using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
+using {{codeGenConventions.PersistenceNameSpace}};
+using {{codeGenConventions.DomainNameSpace}};
+using {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
+using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
 
-namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
 
 public abstract record Ref{{entity.Name}}To{{relationshipName}}Command({{entity.Name}}KeyDto EntityKeyDto) : IRequest <bool>;
 
@@ -91,7 +92,7 @@ internal partial class UpdateRef{{entity.Name}}To{{relationshipName}}CommandHand
 			throw new EntityNotFoundException("{{entity.Name}}",  $"{{keysToString entity.Keys 'request.EntityKeyDto.key'}}");
 		}
 
-		var relatedEntities = new List<{{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}>();
+		var relatedEntities = new List<{{codeGenConventions.DomainNameSpace}}.{{relatedEntity.Name}}>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
 			var relatedEntity = await Get{{relatedEntity.Name}}(keyDto);
@@ -208,15 +209,15 @@ internal abstract class Ref{{entity.Name}}To{{relationshipName}}CommandHandlerBa
 	protected async Task<{{entity.Name}}Entity?> Get{{entity.Name}}({{entity.Name}}KeyDto entityKeyDto)
 	{
 		{{- for key in entity.Keys }}
-		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(entityKeyDto.key{{key.Name}});
+		var key{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(entityKeyDto.key{{key.Name}});
 		{{- end }}
 		return await DbContext.{{entity.PluralName}}.FindAsync({{entityKeysFindQuery}});
 	}
 
-	protected async Task<{{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}?> Get{{relatedEntity.Name}}({{relatedEntity.Name}}KeyDto relatedEntityKeyDto)
+	protected async Task<{{codeGenConventions.DomainNameSpace}}.{{relatedEntity.Name}}?> Get{{relatedEntity.Name}}({{relatedEntity.Name}}KeyDto relatedEntityKeyDto)
 	{
 		{{- for key in relatedEntity.Keys }}
-		var relatedKey{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedEntityKeyDto.key{{key.Name}});
+		var relatedKey{{key.Name}} = Dto.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedEntityKeyDto.key{{key.Name}});
 		{{- end }}
 		return await DbContext.{{relatedEntity.PluralName}}.FindAsync({{relatedEntityKeysFindQuery}});
 	}

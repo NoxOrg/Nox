@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Commands;
@@ -50,7 +51,7 @@ internal abstract class CreateCountryLocalNamesForCountryCommandHandlerBase : Co
 	public virtual  async Task<CountryLocalNameKeyDto?> Handle(CreateCountryLocalNamesForCountryCommand request, CancellationToken cancellationToken)
 	{
 		await OnExecutingAsync(request);
-		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
+		var keyId = Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)

@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 public record CountryBarCodeKeyDto();
@@ -30,21 +28,20 @@ public partial class CountryBarCodeDto : CountryBarCodeDtoBase
 /// <summary>
 /// Bar code for country.
 /// </summary>
-public abstract class CountryBarCodeDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.CountryBarCode>
+public abstract class CountryBarCodeDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.BarCodeName is not null)
-            ExecuteActionAndCollectValidationExceptions("BarCodeName", () => DomainNamespace.CountryBarCodeMetadata.CreateBarCodeName(this.BarCodeName.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("BarCodeName", () => CountryBarCodeMetadata.CreateBarCodeName(this.BarCodeName.NonNullValue<System.String>()), result);
         else
             result.Add("BarCodeName", new [] { "BarCodeName is Required." });
     
         if (this.BarCodeNumber is not null)
-            ExecuteActionAndCollectValidationExceptions("BarCodeNumber", () => DomainNamespace.CountryBarCodeMetadata.CreateBarCodeNumber(this.BarCodeNumber.NonNullValue<System.Int32>()), result);
+            CollectValidationExceptions("BarCodeNumber", () => CountryBarCodeMetadata.CreateBarCodeNumber(this.BarCodeNumber.NonNullValue<System.Int32>()), result);
 
         return result;
     }

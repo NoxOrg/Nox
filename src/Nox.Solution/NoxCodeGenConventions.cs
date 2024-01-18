@@ -20,6 +20,7 @@ public class NoxCodeGenConventions
     public string DomainNamespaceAlias => $"{RootNameSpace}Domain";
     public string DtoNameSpace => $"{ApplicationNameSpace}.Dto";
     public string ApplicationNameSpace => $"{RootNameSpace}.Application";
+    public string PresentationNameSpace => $"{RootNameSpace}.Presentation";
     public string ApplicationQueriesNameSpace => $"{ApplicationNameSpace}.Queries";
     public string PersistenceNameSpace => $"{RootNameSpace}.Infrastructure.Persistence";
 

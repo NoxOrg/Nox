@@ -12,8 +12,6 @@ using Nox.Domain;
 using Nox.Extensions;
 
 
-using DomainNamespace = ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 public record StoreKeyDto(System.Guid keyId);
@@ -30,33 +28,32 @@ public partial class StoreDto : StoreDtoBase
 /// <summary>
 /// Stores.
 /// </summary>
-public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Store>
+public abstract class StoreDtoBase : EntityDtoBase
 {
-
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.StoreMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            CollectValidationExceptions("Name", () => StoreMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.Address is not null)
-            ExecuteActionAndCollectValidationExceptions("Address", () => DomainNamespace.StoreMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
+            CollectValidationExceptions("Address", () => StoreMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
         else
             result.Add("Address", new [] { "Address is Required." });
     
         if (this.Location is not null)
-            ExecuteActionAndCollectValidationExceptions("Location", () => DomainNamespace.StoreMetadata.CreateLocation(this.Location.NonNullValue<LatLongDto>()), result);
+            CollectValidationExceptions("Location", () => StoreMetadata.CreateLocation(this.Location.NonNullValue<LatLongDto>()), result);
         else
             result.Add("Location", new [] { "Location is Required." });
     
         if (this.OpeningDay is not null)
-            ExecuteActionAndCollectValidationExceptions("OpeningDay", () => DomainNamespace.StoreMetadata.CreateOpeningDay(this.OpeningDay.NonNullValue<System.DateTimeOffset>()), result);
+            CollectValidationExceptions("OpeningDay", () => StoreMetadata.CreateOpeningDay(this.OpeningDay.NonNullValue<System.DateTimeOffset>()), result);
         if (this.Status is not null)
-            ExecuteActionAndCollectValidationExceptions("Status", () => DomainNamespace.StoreMetadata.CreateStatus(this.Status.NonNullValue<System.Int32>()), result);
+            CollectValidationExceptions("Status", () => StoreMetadata.CreateStatus(this.Status.NonNullValue<System.Int32>()), result);
 
         return result;
     }

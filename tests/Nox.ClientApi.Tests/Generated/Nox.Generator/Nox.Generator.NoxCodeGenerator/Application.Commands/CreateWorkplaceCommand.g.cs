@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Dto = ClientApi.Application.Dto;
 using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
@@ -67,7 +68,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		if(request.EntityDto.CountryId is not null)
 		{
-			var relatedKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
+			var relatedKey = Dto.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
 			var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCountry(relatedEntity);
@@ -83,7 +84,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		{
 			foreach(var relatedId in request.EntityDto.TenantsId)
 			{
-				var relatedKey = ClientApi.Domain.TenantMetadata.CreateId(relatedId);
+				var relatedKey = Dto.TenantMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.Tenants.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)

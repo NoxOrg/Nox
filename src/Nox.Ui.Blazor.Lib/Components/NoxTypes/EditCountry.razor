@@ -1,0 +1,20 @@
+﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using Nox.Ui.Blazor.Lib.Models
+@using MudBlazor
+
+@if (CountrySelectionList.Any())
+{
+    <MudSelect Label="@Title"
+               Variant="Variant.Outlined"
+               FullWidth="true"
+               Clearable="true"
+               Required="true"
+               RequiredError="@ErrorRequiredMessage(Title)"
+               TextChanged="OnCountryIdChanged"
+               Value="@CurrentCountryIdStr">
+        @foreach (CountryModel item in CountrySelectionList)
+        {
+            <MudSelectItem Value="@item.Id">@item.Name</MudSelectItem>
+        }
+    </MudSelect>
+}
