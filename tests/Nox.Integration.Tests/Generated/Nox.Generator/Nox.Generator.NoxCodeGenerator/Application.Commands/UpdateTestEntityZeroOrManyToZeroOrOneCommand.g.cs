@@ -1,0 +1,72 @@
+﻿﻿﻿
+// Generated
+
+#nullable enable
+
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Nox.Application.Commands;
+using Nox.Solution;
+using Nox.Types;
+using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
+using FluentValidation;
+using TestWebApp.Infrastructure.Persistence;
+using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
+using Dto = TestWebApp.Application.Dto;
+using TestEntityZeroOrManyToZeroOrOneEntity = TestWebApp.Domain.TestEntityZeroOrManyToZeroOrOne;
+
+namespace TestWebApp.Application.Commands;
+
+public partial record UpdateTestEntityZeroOrManyToZeroOrOneCommand(System.String keyId, TestEntityZeroOrManyToZeroOrOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityZeroOrManyToZeroOrOneKeyDto>;
+
+internal partial class UpdateTestEntityZeroOrManyToZeroOrOneCommandHandler : UpdateTestEntityZeroOrManyToZeroOrOneCommandHandlerBase
+{
+	public UpdateTestEntityZeroOrManyToZeroOrOneCommandHandler(
+        AppDbContext dbContext,
+		NoxSolution noxSolution,
+		IEntityFactory<TestEntityZeroOrManyToZeroOrOneEntity, TestEntityZeroOrManyToZeroOrOneCreateDto, TestEntityZeroOrManyToZeroOrOneUpdateDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
+	{
+	}
+}
+
+internal abstract class UpdateTestEntityZeroOrManyToZeroOrOneCommandHandlerBase : CommandBase<UpdateTestEntityZeroOrManyToZeroOrOneCommand, TestEntityZeroOrManyToZeroOrOneEntity>, IRequestHandler<UpdateTestEntityZeroOrManyToZeroOrOneCommand, TestEntityZeroOrManyToZeroOrOneKeyDto>
+{
+	public AppDbContext DbContext { get; }
+	private readonly IEntityFactory<TestEntityZeroOrManyToZeroOrOneEntity, TestEntityZeroOrManyToZeroOrOneCreateDto, TestEntityZeroOrManyToZeroOrOneUpdateDto> _entityFactory;
+	protected UpdateTestEntityZeroOrManyToZeroOrOneCommandHandlerBase(
+        AppDbContext dbContext,
+		NoxSolution noxSolution,
+		IEntityFactory<TestEntityZeroOrManyToZeroOrOneEntity, TestEntityZeroOrManyToZeroOrOneCreateDto, TestEntityZeroOrManyToZeroOrOneUpdateDto> entityFactory)
+		: base(noxSolution)
+	{
+		DbContext = dbContext;
+		_entityFactory = entityFactory;
+	}
+
+	public virtual async Task<TestEntityZeroOrManyToZeroOrOneKeyDto> Handle(UpdateTestEntityZeroOrManyToZeroOrOneCommand request, CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		await OnExecutingAsync(request);
+		var keyId = Dto.TestEntityZeroOrManyToZeroOrOneMetadata.CreateId(request.keyId);
+
+		var entity = await DbContext.TestEntityZeroOrManyToZeroOrOnes.FindAsync(keyId);
+		if (entity == null)
+		{
+			throw new EntityNotFoundException("TestEntityZeroOrManyToZeroOrOne",  $"{keyId.ToString()}");
+		}
+
+		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+		await OnCompletedAsync(request, entity);
+
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+
+		return new TestEntityZeroOrManyToZeroOrOneKeyDto(entity.Id.Value);
+	}
+}
