@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
-internal partial class Booking : BookingBase, IEntityHaveDomainEvents
+public partial class Booking : BookingBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class Booking : BookingBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Booking created event.
 /// </summary>
-internal record BookingCreated(Booking Booking) :  IDomainEvent, INotification;
+public record BookingCreated(Booking Booking) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Booking updated event.
 /// </summary>
-internal record BookingUpdated(Booking Booking) : IDomainEvent, INotification;
+public record BookingUpdated(Booking Booking) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Booking deleted event.
 /// </summary>
-internal record BookingDeleted(Booking Booking) : IDomainEvent, INotification;
+public record BookingDeleted(Booking Booking) : IDomainEvent, INotification;
 
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-internal abstract partial class BookingBase : AuditableEntityBase, IEtag
+public abstract partial class BookingBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Booking unique identifier    

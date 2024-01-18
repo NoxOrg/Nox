@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
-internal partial class Holiday : HolidayBase, IEntityHaveDomainEvents
+public partial class BankNote : BankNoteBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -35,65 +35,59 @@ internal partial class Holiday : HolidayBase, IEntityHaveDomainEvents
     }
 }
 /// <summary>
-/// Record for Holiday created event.
+/// Record for BankNote created event.
 /// </summary>
-internal record HolidayCreated(Holiday Holiday) :  IDomainEvent, INotification;
+public record BankNoteCreated(BankNote BankNote) :  IDomainEvent, INotification;
 /// <summary>
-/// Record for Holiday updated event.
+/// Record for BankNote updated event.
 /// </summary>
-internal record HolidayUpdated(Holiday Holiday) : IDomainEvent, INotification;
+public record BankNoteUpdated(BankNote BankNote) : IDomainEvent, INotification;
 /// <summary>
-/// Record for Holiday deleted event.
+/// Record for BankNote deleted event.
 /// </summary>
-internal record HolidayDeleted(Holiday Holiday) : IDomainEvent, INotification;
+public record BankNoteDeleted(BankNote BankNote) : IDomainEvent, INotification;
 
 /// <summary>
-/// Holiday related to country.
+/// Currencies related frequent and rare bank notes.
 /// </summary>
-internal abstract partial class HolidayBase : EntityBase, IOwnedEntity
+public abstract partial class BankNoteBase : EntityBase, IOwnedEntity
 {
     /// <summary>
-    /// Country's holiday unique identifier    
+    /// Currency bank note unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
     public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
-    /// Country holiday name    
+    /// Currency's cash bank note identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Name { get;  set; } = null!;
+    public Nox.Types.Text CashNote { get;  set; } = null!;
 
     /// <summary>
-    /// Country holiday type    
+    /// Bank note value    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Type { get;  set; } = null!;
-
-    /// <summary>
-    /// Country holiday date    
-    /// </summary>
-    /// <remarks>Required.</remarks>   
-    public Nox.Types.Date Date { get;  set; } = null!;
+    public Nox.Types.Money Value { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(Holiday holiday)
+	protected virtual void InternalRaiseCreateEvent(BankNote bankNote)
 	{
-		InternalDomainEvents.Add(new HolidayCreated(holiday));
+		InternalDomainEvents.Add(new BankNoteCreated(bankNote));
     }
 	
-	protected virtual void InternalRaiseUpdateEvent(Holiday holiday)
+	protected virtual void InternalRaiseUpdateEvent(BankNote bankNote)
 	{
-		InternalDomainEvents.Add(new HolidayUpdated(holiday));
+		InternalDomainEvents.Add(new BankNoteUpdated(bankNote));
     }
 	
-	protected virtual void InternalRaiseDeleteEvent(Holiday holiday)
+	protected virtual void InternalRaiseDeleteEvent(BankNote bankNote)
 	{
-		InternalDomainEvents.Add(new HolidayDeleted(holiday));
+		InternalDomainEvents.Add(new BankNoteDeleted(bankNote));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

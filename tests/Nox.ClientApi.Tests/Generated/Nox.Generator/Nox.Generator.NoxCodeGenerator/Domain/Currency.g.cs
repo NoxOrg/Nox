@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
-internal partial class Currency : CurrencyBase, IEntityHaveDomainEvents
+public partial class Currency : CurrencyBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class Currency : CurrencyBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Currency created event.
 /// </summary>
-internal record CurrencyCreated(Currency Currency) :  IDomainEvent, INotification;
+public record CurrencyCreated(Currency Currency) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Currency updated event.
 /// </summary>
-internal record CurrencyUpdated(Currency Currency) : IDomainEvent, INotification;
+public record CurrencyUpdated(Currency Currency) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Currency deleted event.
 /// </summary>
-internal record CurrencyDeleted(Currency Currency) : IDomainEvent, INotification;
+public record CurrencyDeleted(Currency Currency) : IDomainEvent, INotification;
 
 /// <summary>
 /// Currency and related data.
 /// </summary>
-internal abstract partial class CurrencyBase : AuditableEntityBase, IEtag
+public abstract partial class CurrencyBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Currency unique identifier    

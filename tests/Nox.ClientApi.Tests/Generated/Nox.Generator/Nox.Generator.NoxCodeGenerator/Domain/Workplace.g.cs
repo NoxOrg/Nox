@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
-internal partial class Workplace : WorkplaceBase, IEntityHaveDomainEvents
+public partial class Workplace : WorkplaceBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class Workplace : WorkplaceBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Workplace created event.
 /// </summary>
-internal record WorkplaceCreated(Workplace Workplace) :  IDomainEvent, INotification;
+public record WorkplaceCreated(Workplace Workplace) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Workplace updated event.
 /// </summary>
-internal record WorkplaceUpdated(Workplace Workplace) : IDomainEvent, INotification;
+public record WorkplaceUpdated(Workplace Workplace) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Workplace deleted event.
 /// </summary>
-internal record WorkplaceDeleted(Workplace Workplace) : IDomainEvent, INotification;
+public record WorkplaceDeleted(Workplace Workplace) : IDomainEvent, INotification;
 
 /// <summary>
 /// Workplace.
 /// </summary>
-internal abstract partial class WorkplaceBase : AuditableEntityBase, IEtag
+public abstract partial class WorkplaceBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Workplace unique identifier    

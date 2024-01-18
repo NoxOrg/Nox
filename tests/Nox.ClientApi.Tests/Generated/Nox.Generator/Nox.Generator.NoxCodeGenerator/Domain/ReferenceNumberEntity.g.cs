@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
-internal partial class ReferenceNumberEntity : ReferenceNumberEntityBase, IEntityHaveDomainEvents
+public partial class ReferenceNumberEntity : ReferenceNumberEntityBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class ReferenceNumberEntity : ReferenceNumberEntityBase, IEntit
 /// <summary>
 /// Record for ReferenceNumberEntity created event.
 /// </summary>
-internal record ReferenceNumberEntityCreated(ReferenceNumberEntity ReferenceNumberEntity) :  IDomainEvent, INotification;
+public record ReferenceNumberEntityCreated(ReferenceNumberEntity ReferenceNumberEntity) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for ReferenceNumberEntity updated event.
 /// </summary>
-internal record ReferenceNumberEntityUpdated(ReferenceNumberEntity ReferenceNumberEntity) : IDomainEvent, INotification;
+public record ReferenceNumberEntityUpdated(ReferenceNumberEntity ReferenceNumberEntity) : IDomainEvent, INotification;
 /// <summary>
 /// Record for ReferenceNumberEntity deleted event.
 /// </summary>
-internal record ReferenceNumberEntityDeleted(ReferenceNumberEntity ReferenceNumberEntity) : IDomainEvent, INotification;
+public record ReferenceNumberEntityDeleted(ReferenceNumberEntity ReferenceNumberEntity) : IDomainEvent, INotification;
 
 /// <summary>
 /// ReferenceNumberEntity.
 /// </summary>
-internal abstract partial class ReferenceNumberEntityBase : AuditableEntityBase, IEtag
+public abstract partial class ReferenceNumberEntityBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

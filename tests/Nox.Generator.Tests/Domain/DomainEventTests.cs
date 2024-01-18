@@ -23,7 +23,7 @@ public class DomainEventTests : IClassFixture<GeneratorFixture>
 
         GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileCount(14)
+            .AssertFileCount(12)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
             .AssertFileExistsAndContent("Domain.Events.CountryDomainEventsExpected.g.cs", "Domain.Events.CountryDomainEvents.g.cs")

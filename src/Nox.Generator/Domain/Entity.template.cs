@@ -28,7 +28,7 @@ using Nox.Exceptions;
 
 namespace {{codeGenConventions.DomainNameSpace}};
 
-internal partial class {{className}} : {{className}}Base{{if entity.HasDomainEvents}}, IEntityHaveDomainEvents{{end}}
+public partial class {{className}} : {{className}}Base{{if entity.HasDomainEvents}}, IEntityHaveDomainEvents{{end}}
 {
 {{- if entity.HasDomainEvents}}
     ///<inheritdoc/>
@@ -53,27 +53,27 @@ internal partial class {{className}} : {{className}}Base{{if entity.HasDomainEve
 /// <summary>
 /// Record for {{entity.Name}} created event.
 /// </summary>
-internal record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) :  IDomainEvent, INotification;
+public record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) :  IDomainEvent, INotification;
 {{- end}}
 
 {{- if entity.Persistence.Update.RaiseDomainEvents }}
 /// <summary>
 /// Record for {{entity.Name}} updated event.
 /// </summary>
-internal record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent, INotification;
+public record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent, INotification;
 {{- end}}
 
 {{- if entity.Persistence.Delete.RaiseDomainEvents }}
 /// <summary>
 /// Record for {{entity.Name}} deleted event.
 /// </summary>
-internal record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomainEvent, INotification;
+public record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomainEvent, INotification;
 {{- end}}
 
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEtag{{else}}EntityBase, IEtag{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
+public abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEtag{{else}}EntityBase, IEtag{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
 {
 {{- for key in entityKeys }}
     /// <summary>

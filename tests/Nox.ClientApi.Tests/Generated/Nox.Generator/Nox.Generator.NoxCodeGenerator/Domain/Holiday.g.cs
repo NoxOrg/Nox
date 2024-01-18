@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
-internal partial class Holiday : HolidayBase, IEntityHaveDomainEvents
+public partial class Holiday : HolidayBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class Holiday : HolidayBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Holiday created event.
 /// </summary>
-internal record HolidayCreated(Holiday Holiday) :  IDomainEvent, INotification;
+public record HolidayCreated(Holiday Holiday) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Holiday updated event.
 /// </summary>
-internal record HolidayUpdated(Holiday Holiday) : IDomainEvent, INotification;
+public record HolidayUpdated(Holiday Holiday) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Holiday deleted event.
 /// </summary>
-internal record HolidayDeleted(Holiday Holiday) : IDomainEvent, INotification;
+public record HolidayDeleted(Holiday Holiday) : IDomainEvent, INotification;
 
 /// <summary>
 /// Holiday related to country.
 /// </summary>
-internal abstract partial class HolidayBase : EntityBase, IOwnedEntity
+public abstract partial class HolidayBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Country's holiday unique identifier    

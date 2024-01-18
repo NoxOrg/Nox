@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class EntityUniqueConstraintsWithForeignKey : EntityUniqueConstraintsWithForeignKeyBase, IEntityHaveDomainEvents
+public partial class EntityUniqueConstraintsWithForeignKey : EntityUniqueConstraintsWithForeignKeyBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class EntityUniqueConstraintsWithForeignKey : EntityUniqueConst
 /// <summary>
 /// Record for EntityUniqueConstraintsWithForeignKey created event.
 /// </summary>
-internal record EntityUniqueConstraintsWithForeignKeyCreated(EntityUniqueConstraintsWithForeignKey EntityUniqueConstraintsWithForeignKey) :  IDomainEvent, INotification;
+public record EntityUniqueConstraintsWithForeignKeyCreated(EntityUniqueConstraintsWithForeignKey EntityUniqueConstraintsWithForeignKey) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for EntityUniqueConstraintsWithForeignKey updated event.
 /// </summary>
-internal record EntityUniqueConstraintsWithForeignKeyUpdated(EntityUniqueConstraintsWithForeignKey EntityUniqueConstraintsWithForeignKey) : IDomainEvent, INotification;
+public record EntityUniqueConstraintsWithForeignKeyUpdated(EntityUniqueConstraintsWithForeignKey EntityUniqueConstraintsWithForeignKey) : IDomainEvent, INotification;
 /// <summary>
 /// Record for EntityUniqueConstraintsWithForeignKey deleted event.
 /// </summary>
-internal record EntityUniqueConstraintsWithForeignKeyDeleted(EntityUniqueConstraintsWithForeignKey EntityUniqueConstraintsWithForeignKey) : IDomainEvent, INotification;
+public record EntityUniqueConstraintsWithForeignKeyDeleted(EntityUniqueConstraintsWithForeignKey EntityUniqueConstraintsWithForeignKey) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing constraints with Foreign Key.
 /// </summary>
-internal abstract partial class EntityUniqueConstraintsWithForeignKeyBase : EntityBase, IEtag
+public abstract partial class EntityUniqueConstraintsWithForeignKeyBase : EntityBase, IEtag
 {
     /// <summary>
     ///     

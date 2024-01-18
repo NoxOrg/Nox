@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class TestEntityForAutoNumberUsages : TestEntityForAutoNumberUsagesBase, IEntityHaveDomainEvents
+public partial class TestEntityForAutoNumberUsages : TestEntityForAutoNumberUsagesBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class TestEntityForAutoNumberUsages : TestEntityForAutoNumberUs
 /// <summary>
 /// Record for TestEntityForAutoNumberUsages created event.
 /// </summary>
-internal record TestEntityForAutoNumberUsagesCreated(TestEntityForAutoNumberUsages TestEntityForAutoNumberUsages) :  IDomainEvent, INotification;
+public record TestEntityForAutoNumberUsagesCreated(TestEntityForAutoNumberUsages TestEntityForAutoNumberUsages) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityForAutoNumberUsages updated event.
 /// </summary>
-internal record TestEntityForAutoNumberUsagesUpdated(TestEntityForAutoNumberUsages TestEntityForAutoNumberUsages) : IDomainEvent, INotification;
+public record TestEntityForAutoNumberUsagesUpdated(TestEntityForAutoNumberUsages TestEntityForAutoNumberUsages) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityForAutoNumberUsages deleted event.
 /// </summary>
-internal record TestEntityForAutoNumberUsagesDeleted(TestEntityForAutoNumberUsages TestEntityForAutoNumberUsages) : IDomainEvent, INotification;
+public record TestEntityForAutoNumberUsagesDeleted(TestEntityForAutoNumberUsages TestEntityForAutoNumberUsages) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing auto number usages.
 /// </summary>
-internal abstract partial class TestEntityForAutoNumberUsagesBase : EntityBase, IEtag
+public abstract partial class TestEntityForAutoNumberUsagesBase : EntityBase, IEtag
 {
     /// <summary>
     ///     

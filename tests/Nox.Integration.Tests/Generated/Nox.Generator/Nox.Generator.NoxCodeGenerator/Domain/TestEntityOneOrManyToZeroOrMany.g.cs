@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class TestEntityOneOrManyToZeroOrMany : TestEntityOneOrManyToZeroOrManyBase, IEntityHaveDomainEvents
+public partial class TestEntityOneOrManyToZeroOrMany : TestEntityOneOrManyToZeroOrManyBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class TestEntityOneOrManyToZeroOrMany : TestEntityOneOrManyToZe
 /// <summary>
 /// Record for TestEntityOneOrManyToZeroOrMany created event.
 /// </summary>
-internal record TestEntityOneOrManyToZeroOrManyCreated(TestEntityOneOrManyToZeroOrMany TestEntityOneOrManyToZeroOrMany) :  IDomainEvent, INotification;
+public record TestEntityOneOrManyToZeroOrManyCreated(TestEntityOneOrManyToZeroOrMany TestEntityOneOrManyToZeroOrMany) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityOneOrManyToZeroOrMany updated event.
 /// </summary>
-internal record TestEntityOneOrManyToZeroOrManyUpdated(TestEntityOneOrManyToZeroOrMany TestEntityOneOrManyToZeroOrMany) : IDomainEvent, INotification;
+public record TestEntityOneOrManyToZeroOrManyUpdated(TestEntityOneOrManyToZeroOrMany TestEntityOneOrManyToZeroOrMany) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityOneOrManyToZeroOrMany deleted event.
 /// </summary>
-internal record TestEntityOneOrManyToZeroOrManyDeleted(TestEntityOneOrManyToZeroOrMany TestEntityOneOrManyToZeroOrMany) : IDomainEvent, INotification;
+public record TestEntityOneOrManyToZeroOrManyDeleted(TestEntityOneOrManyToZeroOrMany TestEntityOneOrManyToZeroOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-internal abstract partial class TestEntityOneOrManyToZeroOrManyBase : AuditableEntityBase, IEtag
+public abstract partial class TestEntityOneOrManyToZeroOrManyBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

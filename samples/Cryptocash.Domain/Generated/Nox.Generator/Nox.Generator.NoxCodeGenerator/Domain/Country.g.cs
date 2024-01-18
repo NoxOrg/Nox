@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
-internal partial class Country : CountryBase, IEntityHaveDomainEvents
+public partial class Country : CountryBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class Country : CountryBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Country created event.
 /// </summary>
-internal record CountryCreated(Country Country) :  IDomainEvent, INotification;
+public record CountryCreated(Country Country) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Country updated event.
 /// </summary>
-internal record CountryUpdated(Country Country) : IDomainEvent, INotification;
+public record CountryUpdated(Country Country) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Country deleted event.
 /// </summary>
-internal record CountryDeleted(Country Country) : IDomainEvent, INotification;
+public record CountryDeleted(Country Country) : IDomainEvent, INotification;
 
 /// <summary>
 /// Country and related data.
 /// </summary>
-internal abstract partial class CountryBase : AuditableEntityBase, IEtag
+public abstract partial class CountryBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Country unique identifier    

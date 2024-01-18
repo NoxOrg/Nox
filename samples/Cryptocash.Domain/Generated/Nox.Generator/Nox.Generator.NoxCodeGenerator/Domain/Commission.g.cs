@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
-internal partial class Commission : CommissionBase, IEntityHaveDomainEvents
+public partial class Commission : CommissionBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class Commission : CommissionBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Commission created event.
 /// </summary>
-internal record CommissionCreated(Commission Commission) :  IDomainEvent, INotification;
+public record CommissionCreated(Commission Commission) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Commission updated event.
 /// </summary>
-internal record CommissionUpdated(Commission Commission) : IDomainEvent, INotification;
+public record CommissionUpdated(Commission Commission) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Commission deleted event.
 /// </summary>
-internal record CommissionDeleted(Commission Commission) : IDomainEvent, INotification;
+public record CommissionDeleted(Commission Commission) : IDomainEvent, INotification;
 
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-internal abstract partial class CommissionBase : AuditableEntityBase, IEtag
+public abstract partial class CommissionBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Commission unique identifier    

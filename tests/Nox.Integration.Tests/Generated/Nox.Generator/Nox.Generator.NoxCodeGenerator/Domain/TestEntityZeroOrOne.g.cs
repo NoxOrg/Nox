@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class TestEntityZeroOrOne : TestEntityZeroOrOneBase, IEntityHaveDomainEvents
+public partial class TestEntityZeroOrOne : TestEntityZeroOrOneBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class TestEntityZeroOrOne : TestEntityZeroOrOneBase, IEntityHav
 /// <summary>
 /// Record for TestEntityZeroOrOne created event.
 /// </summary>
-internal record TestEntityZeroOrOneCreated(TestEntityZeroOrOne TestEntityZeroOrOne) :  IDomainEvent, INotification;
+public record TestEntityZeroOrOneCreated(TestEntityZeroOrOne TestEntityZeroOrOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityZeroOrOne updated event.
 /// </summary>
-internal record TestEntityZeroOrOneUpdated(TestEntityZeroOrOne TestEntityZeroOrOne) : IDomainEvent, INotification;
+public record TestEntityZeroOrOneUpdated(TestEntityZeroOrOne TestEntityZeroOrOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityZeroOrOne deleted event.
 /// </summary>
-internal record TestEntityZeroOrOneDeleted(TestEntityZeroOrOne TestEntityZeroOrOne) : IDomainEvent, INotification;
+public record TestEntityZeroOrOneDeleted(TestEntityZeroOrOne TestEntityZeroOrOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-internal abstract partial class TestEntityZeroOrOneBase : AuditableEntityBase, IEtag
+public abstract partial class TestEntityZeroOrOneBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

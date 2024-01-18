@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
-internal partial class Customer : CustomerBase, IEntityHaveDomainEvents
+public partial class Customer : CustomerBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class Customer : CustomerBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Customer created event.
 /// </summary>
-internal record CustomerCreated(Customer Customer) :  IDomainEvent, INotification;
+public record CustomerCreated(Customer Customer) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Customer updated event.
 /// </summary>
-internal record CustomerUpdated(Customer Customer) : IDomainEvent, INotification;
+public record CustomerUpdated(Customer Customer) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Customer deleted event.
 /// </summary>
-internal record CustomerDeleted(Customer Customer) : IDomainEvent, INotification;
+public record CustomerDeleted(Customer Customer) : IDomainEvent, INotification;
 
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-internal abstract partial class CustomerBase : AuditableEntityBase, IEtag
+public abstract partial class CustomerBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Customer's unique identifier    
