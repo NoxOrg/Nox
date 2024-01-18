@@ -51,17 +51,10 @@ internal abstract class {{ className}}HandlerBase : CommandBase<{{ className}}, 
 		{{- end }}
         
         var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});
-		if (entity == null)
-		{
-			throw new EntityNotFoundException("{{entity.Name}}",  $"{{entity.Keys | keysToString}}");
-		}
-
-		var entityLocalized = await DbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x =>{{for key in entity.Keys}}x.{{key.Name}} == entity.{{key.Name}} && {{end}}x.CultureCode == command.CultureCode);
-        
-        if (entityLocalized is null)
-        {
-				throw new EntityNotFoundException("{{entity.Name}}",  $"{{entity.Keys | keysToString}}", command.{{codeGeneratorState.LocalizationCultureField}}.ToString());
-        }
+        EntityNotFoundException.ThrowIfNull(entity, "{{entity.Name}}", $"{{entity.Keys | keysToString}}");
+		
+        var entityLocalized = await DbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x =>{{for key in entity.Keys}}x.{{key.Name}} == entity.{{key.Name}} && {{end}}x.CultureCode == command.CultureCode);
+        EntityLocalizationNotFoundException.ThrowIfNull(entityLocalized, "{{entity.Name}}",  $"{{entity.Keys | keysToString}}", command.{{codeGeneratorState.LocalizationCultureField}}.ToString());
         
         await OnCompletedAsync(command, entityLocalized);
         

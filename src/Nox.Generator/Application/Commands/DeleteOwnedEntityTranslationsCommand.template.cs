@@ -52,17 +52,11 @@ internal abstract class {{ className}}HandlerBase : {{if relationship.WithSingle
 		{{- end }}
         var parentEntity = await DbContext.{{parent.PluralName}}.FindAsync({{parentPrimaryKeysFindQuery}});
 
-        if (parentEntity is null)
-        {
-            throw new EntityNotFoundException("{{parent.Name}}", $"{{keysToString parent.Keys 'parentKey' }}");
-        }
+        EntityNotFoundException.ThrowIfNull(parentEntity, "{{parent.Name}}", $"{{keysToString parent.Keys 'parentKey' }}");
 
         {{~if relationship.WithSingleEntity ~}}
         var entity = await DbContext.{{entity.PluralName}}Localized.SingleOrDefaultAsync(x => {{for key in parent.Keys}}x.{{parent.Name}}{{key.Name}} == parentEntity.{{key.Name}} && {{end}}x.CultureCode == command.CultureCode, cancellationToken);
-        if (entity is null)
-        {
-            throw new EntityNotFoundException("{{parent.Name}}.{{GetNavigationPropertyName parent relationship}}",  String.Empty, command.{{codeGeneratorState.LocalizationCultureField}}.ToString());
-        }
+        EntityLocalizationNotFoundException.ThrowIfNull(entity, "{{parent.Name}}.{{GetNavigationPropertyName parent relationship}}", String.Empty, command.{{codeGeneratorState.LocalizationCultureField}}.ToString());
 
         await OnCompletedAsync(command, entity);
 
@@ -79,7 +73,7 @@ internal abstract class {{ className}}HandlerBase : {{if relationship.WithSingle
         
         if (!entities.Any())
         {
-            throw new EntityNotFoundException("{{parent.Name}}.{{GetNavigationPropertyName parent relationship}}",  String.Empty, command.{{codeGeneratorState.LocalizationCultureField}}.ToString());
+            throw new EntityLocalizationNotFoundException("{{parent.Name}}.{{GetNavigationPropertyName parent relationship}}",  String.Empty, command.{{codeGeneratorState.LocalizationCultureField}}.ToString());
         }
 
         await OnCompletedAsync(command, entities);

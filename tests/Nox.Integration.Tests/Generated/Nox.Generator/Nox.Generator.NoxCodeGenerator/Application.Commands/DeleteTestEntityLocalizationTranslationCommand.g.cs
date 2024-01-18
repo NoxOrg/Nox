@@ -44,17 +44,10 @@ internal abstract class DeleteTestEntityLocalizationTranslationCommandHandlerBas
 		var keyId = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateId(command.keyId);
         
         var entity = await DbContext.TestEntityLocalizations.FindAsync(keyId);
-		if (entity == null)
-		{
-			throw new EntityNotFoundException("TestEntityLocalization",  $"{keyId.ToString()}");
-		}
-
-		var entityLocalized = await DbContext.TestEntityLocalizationsLocalized.FirstOrDefaultAsync(x =>x.Id == entity.Id && x.CultureCode == command.CultureCode);
-        
-        if (entityLocalized is null)
-        {
-				throw new EntityNotFoundException("TestEntityLocalization",  $"{keyId.ToString()}", command.CultureCode.ToString());
-        }
+        EntityNotFoundException.ThrowIfNull(entity, "TestEntityLocalization", $"{keyId.ToString()}");
+		
+        var entityLocalized = await DbContext.TestEntityLocalizationsLocalized.FirstOrDefaultAsync(x =>x.Id == entity.Id && x.CultureCode == command.CultureCode);
+        EntityLocalizationNotFoundException.ThrowIfNull(entityLocalized, "TestEntityLocalization",  $"{keyId.ToString()}", command.CultureCode.ToString());
         
         await OnCompletedAsync(command, entityLocalized);
         

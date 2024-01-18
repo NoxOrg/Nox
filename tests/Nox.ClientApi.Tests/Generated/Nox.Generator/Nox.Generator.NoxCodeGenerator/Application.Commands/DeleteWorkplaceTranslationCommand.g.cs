@@ -44,17 +44,10 @@ internal abstract class DeleteWorkplaceTranslationCommandHandlerBase : CommandBa
 		var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(command.keyId);
         
         var entity = await DbContext.Workplaces.FindAsync(keyId);
-		if (entity == null)
-		{
-			throw new EntityNotFoundException("Workplace",  $"{keyId.ToString()}");
-		}
-
-		var entityLocalized = await DbContext.WorkplacesLocalized.FirstOrDefaultAsync(x =>x.Id == entity.Id && x.CultureCode == command.CultureCode);
-        
-        if (entityLocalized is null)
-        {
-				throw new EntityNotFoundException("Workplace",  $"{keyId.ToString()}", command.CultureCode.ToString());
-        }
+        EntityNotFoundException.ThrowIfNull(entity, "Workplace", $"{keyId.ToString()}");
+		
+        var entityLocalized = await DbContext.WorkplacesLocalized.FirstOrDefaultAsync(x =>x.Id == entity.Id && x.CultureCode == command.CultureCode);
+        EntityLocalizationNotFoundException.ThrowIfNull(entityLocalized, "Workplace",  $"{keyId.ToString()}", command.CultureCode.ToString());
         
         await OnCompletedAsync(command, entityLocalized);
         

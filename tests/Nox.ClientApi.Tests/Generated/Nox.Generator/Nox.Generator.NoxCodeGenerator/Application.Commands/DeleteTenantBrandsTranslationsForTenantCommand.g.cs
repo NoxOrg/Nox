@@ -45,10 +45,7 @@ internal abstract class DeleteTenantBrandsTranslationsForTenantCommandHandlerBas
 		var parentKeyId = ClientApi.Domain.TenantMetadata.CreateId(command.keyId);
         var parentEntity = await DbContext.Tenants.FindAsync(parentKeyId);
 
-        if (parentEntity is null)
-        {
-            throw new EntityNotFoundException("Tenant", $"{parentKeyId.ToString()}");
-        }
+        EntityNotFoundException.ThrowIfNull(parentEntity, "Tenant", $"{parentKeyId.ToString()}");
 
         await DbContext.Entry(parentEntity).Collection(p => p.TenantBrands).LoadAsync(cancellationToken);
                 var entityKeys = parentEntity.TenantBrands.Select(x => x.Id).ToList();
@@ -56,7 +53,7 @@ internal abstract class DeleteTenantBrandsTranslationsForTenantCommandHandlerBas
         
         if (!entities.Any())
         {
-            throw new EntityNotFoundException("Tenant.TenantBrands",  String.Empty, command.CultureCode.ToString());
+            throw new EntityLocalizationNotFoundException("Tenant.TenantBrands",  String.Empty, command.CultureCode.ToString());
         }
 
         await OnCompletedAsync(command, entities);
