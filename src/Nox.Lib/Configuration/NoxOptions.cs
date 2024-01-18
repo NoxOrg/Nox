@@ -28,6 +28,7 @@ using Nox.Presentation.Api.Swagger;
 using Elastic.Apm.SerilogEnricher;
 using Elastic.CommonSchema.Serilog;
 using Microsoft.AspNetCore.Http;
+using Nox.Exceptions;
 
 namespace Nox.Configuration
 {
@@ -153,7 +154,7 @@ namespace Nox.Configuration
 
         public INoxOptions WithClientAssembly(Assembly clientAssembly)
         {
-            ArgumentNullException.ThrowIfNull(clientAssembly, nameof(clientAssembly));
+            ArgumentNullException.ThrowIfNull(clientAssembly);
             
             _clientAssembly = clientAssembly;
 
@@ -168,9 +169,8 @@ namespace Nox.Configuration
         }
 
         public void Configure(IServiceCollection services, WebApplicationBuilder? webApplicationBuilder)
-        {            
-            ArgumentNullException.ThrowIfNull(NoxAssemblyConfiguration.DomainAssembly,
-                "Domain is not being generated in any client assembly. Review the generator.nox.yaml coonfiguration");
+        {         
+            InvalidConfigurationException.ThrowIfNull(NoxAssemblyConfiguration.DomainAssembly, "Domain is not being generated in any client assembly. Review the generator.nox.yaml coonfiguration");            
 
             var referencedAssemblies = _clientAssembly!
                 .GetReferencedAssemblies()
