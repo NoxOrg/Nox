@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class SecEntityOwnedRelOneOrMany : SecEntityOwnedRelOneOrManyBase, IEntityHaveDomainEvents
+public partial class SecEntityOwnedRelOneOrMany : SecEntityOwnedRelOneOrManyBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class SecEntityOwnedRelOneOrMany : SecEntityOwnedRelOneOrManyBa
 /// <summary>
 /// Record for SecEntityOwnedRelOneOrMany created event.
 /// </summary>
-internal record SecEntityOwnedRelOneOrManyCreated(SecEntityOwnedRelOneOrMany SecEntityOwnedRelOneOrMany) :  IDomainEvent, INotification;
+public record SecEntityOwnedRelOneOrManyCreated(SecEntityOwnedRelOneOrMany SecEntityOwnedRelOneOrMany) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for SecEntityOwnedRelOneOrMany updated event.
 /// </summary>
-internal record SecEntityOwnedRelOneOrManyUpdated(SecEntityOwnedRelOneOrMany SecEntityOwnedRelOneOrMany) : IDomainEvent, INotification;
+public record SecEntityOwnedRelOneOrManyUpdated(SecEntityOwnedRelOneOrMany SecEntityOwnedRelOneOrMany) : IDomainEvent, INotification;
 /// <summary>
 /// Record for SecEntityOwnedRelOneOrMany deleted event.
 /// </summary>
-internal record SecEntityOwnedRelOneOrManyDeleted(SecEntityOwnedRelOneOrMany SecEntityOwnedRelOneOrMany) : IDomainEvent, INotification;
+public record SecEntityOwnedRelOneOrManyDeleted(SecEntityOwnedRelOneOrMany SecEntityOwnedRelOneOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class SecEntityOwnedRelOneOrManyBase : EntityBase, IOwnedEntity
+public abstract partial class SecEntityOwnedRelOneOrManyBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     ///     

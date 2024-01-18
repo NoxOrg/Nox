@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class SecondTestEntityTwoRelationshipsOneToMany : SecondTestEntityTwoRelationshipsOneToManyBase, IEntityHaveDomainEvents
+public partial class SecondTestEntityTwoRelationshipsOneToMany : SecondTestEntityTwoRelationshipsOneToManyBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class SecondTestEntityTwoRelationshipsOneToMany : SecondTestEnt
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToMany created event.
 /// </summary>
-internal record SecondTestEntityTwoRelationshipsOneToManyCreated(SecondTestEntityTwoRelationshipsOneToMany SecondTestEntityTwoRelationshipsOneToMany) :  IDomainEvent, INotification;
+public record SecondTestEntityTwoRelationshipsOneToManyCreated(SecondTestEntityTwoRelationshipsOneToMany SecondTestEntityTwoRelationshipsOneToMany) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToMany updated event.
 /// </summary>
-internal record SecondTestEntityTwoRelationshipsOneToManyUpdated(SecondTestEntityTwoRelationshipsOneToMany SecondTestEntityTwoRelationshipsOneToMany) : IDomainEvent, INotification;
+public record SecondTestEntityTwoRelationshipsOneToManyUpdated(SecondTestEntityTwoRelationshipsOneToMany SecondTestEntityTwoRelationshipsOneToMany) : IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToMany deleted event.
 /// </summary>
-internal record SecondTestEntityTwoRelationshipsOneToManyDeleted(SecondTestEntityTwoRelationshipsOneToMany SecondTestEntityTwoRelationshipsOneToMany) : IDomainEvent, INotification;
+public record SecondTestEntityTwoRelationshipsOneToManyDeleted(SecondTestEntityTwoRelationshipsOneToMany SecondTestEntityTwoRelationshipsOneToMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class SecondTestEntityTwoRelationshipsOneToManyBase : EntityBase, IEtag
+public abstract partial class SecondTestEntityTwoRelationshipsOneToManyBase : EntityBase, IEtag
 {
     /// <summary>
     ///     

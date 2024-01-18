@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
-internal partial class TenantContact : TenantContactBase, IEntityHaveDomainEvents
+public partial class TenantContact : TenantContactBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class TenantContact : TenantContactBase, IEntityHaveDomainEvent
 /// <summary>
 /// Record for TenantContact created event.
 /// </summary>
-internal record TenantContactCreated(TenantContact TenantContact) :  IDomainEvent, INotification;
+public record TenantContactCreated(TenantContact TenantContact) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TenantContact updated event.
 /// </summary>
-internal record TenantContactUpdated(TenantContact TenantContact) : IDomainEvent, INotification;
+public record TenantContactUpdated(TenantContact TenantContact) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TenantContact deleted event.
 /// </summary>
-internal record TenantContactDeleted(TenantContact TenantContact) : IDomainEvent, INotification;
+public record TenantContactDeleted(TenantContact TenantContact) : IDomainEvent, INotification;
 
 /// <summary>
 /// Tenant Contact.
 /// </summary>
-internal abstract partial class TenantContactBase : EntityBase, IOwnedEntity
+public abstract partial class TenantContactBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     ///     

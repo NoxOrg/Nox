@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class TestEntityLocalization : TestEntityLocalizationBase, IEntityHaveDomainEvents
+public partial class TestEntityLocalization : TestEntityLocalizationBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class TestEntityLocalization : TestEntityLocalizationBase, IEnt
 /// <summary>
 /// Record for TestEntityLocalization created event.
 /// </summary>
-internal record TestEntityLocalizationCreated(TestEntityLocalization TestEntityLocalization) :  IDomainEvent, INotification;
+public record TestEntityLocalizationCreated(TestEntityLocalization TestEntityLocalization) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityLocalization updated event.
 /// </summary>
-internal record TestEntityLocalizationUpdated(TestEntityLocalization TestEntityLocalization) : IDomainEvent, INotification;
+public record TestEntityLocalizationUpdated(TestEntityLocalization TestEntityLocalization) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityLocalization deleted event.
 /// </summary>
-internal record TestEntityLocalizationDeleted(TestEntityLocalization TestEntityLocalization) : IDomainEvent, INotification;
+public record TestEntityLocalizationDeleted(TestEntityLocalization TestEntityLocalization) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing localization.
 /// </summary>
-internal abstract partial class TestEntityLocalizationBase : AuditableEntityBase, IEtag
+public abstract partial class TestEntityLocalizationBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

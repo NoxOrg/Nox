@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class ForReferenceNumber : ForReferenceNumberBase, IEntityHaveDomainEvents
+public partial class ForReferenceNumber : ForReferenceNumberBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class ForReferenceNumber : ForReferenceNumberBase, IEntityHaveD
 /// <summary>
 /// Record for ForReferenceNumber created event.
 /// </summary>
-internal record ForReferenceNumberCreated(ForReferenceNumber ForReferenceNumber) :  IDomainEvent, INotification;
+public record ForReferenceNumberCreated(ForReferenceNumber ForReferenceNumber) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for ForReferenceNumber updated event.
 /// </summary>
-internal record ForReferenceNumberUpdated(ForReferenceNumber ForReferenceNumber) : IDomainEvent, INotification;
+public record ForReferenceNumberUpdated(ForReferenceNumber ForReferenceNumber) : IDomainEvent, INotification;
 /// <summary>
 /// Record for ForReferenceNumber deleted event.
 /// </summary>
-internal record ForReferenceNumberDeleted(ForReferenceNumber ForReferenceNumber) : IDomainEvent, INotification;
+public record ForReferenceNumberDeleted(ForReferenceNumber ForReferenceNumber) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing auto number usages.
 /// </summary>
-internal abstract partial class ForReferenceNumberBase : EntityBase, IEtag
+public abstract partial class ForReferenceNumberBase : EntityBase, IEtag
 {
     /// <summary>
     /// Workplace Id    

@@ -7,7 +7,7 @@ namespace Nox.Generator.Application.Factories;
 
 internal class EntityLocalizedFactoryGenerator : INoxCodeGenerator
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
 
     public void Generate(
       SourceProductionContext context,

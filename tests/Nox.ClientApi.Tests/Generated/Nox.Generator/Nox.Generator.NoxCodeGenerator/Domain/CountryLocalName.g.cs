@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
-internal partial class CountryLocalName : CountryLocalNameBase, IEntityHaveDomainEvents
+public partial class CountryLocalName : CountryLocalNameBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class CountryLocalName : CountryLocalNameBase, IEntityHaveDomai
 /// <summary>
 /// Record for CountryLocalName created event.
 /// </summary>
-internal record CountryLocalNameCreated(CountryLocalName CountryLocalName) :  IDomainEvent, INotification;
+public record CountryLocalNameCreated(CountryLocalName CountryLocalName) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryLocalName updated event.
 /// </summary>
-internal record CountryLocalNameUpdated(CountryLocalName CountryLocalName) : IDomainEvent, INotification;
+public record CountryLocalNameUpdated(CountryLocalName CountryLocalName) : IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryLocalName deleted event.
 /// </summary>
-internal record CountryLocalNameDeleted(CountryLocalName CountryLocalName) : IDomainEvent, INotification;
+public record CountryLocalNameDeleted(CountryLocalName CountryLocalName) : IDomainEvent, INotification;
 
 /// <summary>
 /// Local names for countries.
 /// </summary>
-internal abstract partial class CountryLocalNameBase : EntityBase, IOwnedEntity
+public abstract partial class CountryLocalNameBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// The unique identifier    

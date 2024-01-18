@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
-internal partial class EmailAddress : EmailAddressBase, IEntityHaveDomainEvents
+public partial class EmailAddress : EmailAddressBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class EmailAddress : EmailAddressBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for EmailAddress created event.
 /// </summary>
-internal record EmailAddressCreated(EmailAddress EmailAddress) :  IDomainEvent, INotification;
+public record EmailAddressCreated(EmailAddress EmailAddress) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for EmailAddress updated event.
 /// </summary>
-internal record EmailAddressUpdated(EmailAddress EmailAddress) : IDomainEvent, INotification;
+public record EmailAddressUpdated(EmailAddress EmailAddress) : IDomainEvent, INotification;
 /// <summary>
 /// Record for EmailAddress deleted event.
 /// </summary>
-internal record EmailAddressDeleted(EmailAddress EmailAddress) : IDomainEvent, INotification;
+public record EmailAddressDeleted(EmailAddress EmailAddress) : IDomainEvent, INotification;
 
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-internal abstract partial class EmailAddressBase : EntityBase, IOwnedEntity
+public abstract partial class EmailAddressBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     ///     

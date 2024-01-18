@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
-internal partial class CountryQualityOfLifeIndex : CountryQualityOfLifeIndexBase, IEntityHaveDomainEvents
+public partial class CountryQualityOfLifeIndex : CountryQualityOfLifeIndexBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class CountryQualityOfLifeIndex : CountryQualityOfLifeIndexBase
 /// <summary>
 /// Record for CountryQualityOfLifeIndex created event.
 /// </summary>
-internal record CountryQualityOfLifeIndexCreated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) :  IDomainEvent, INotification;
+public record CountryQualityOfLifeIndexCreated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryQualityOfLifeIndex updated event.
 /// </summary>
-internal record CountryQualityOfLifeIndexUpdated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent, INotification;
+public record CountryQualityOfLifeIndexUpdated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryQualityOfLifeIndex deleted event.
 /// </summary>
-internal record CountryQualityOfLifeIndexDeleted(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent, INotification;
+public record CountryQualityOfLifeIndexDeleted(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent, INotification;
 
 /// <summary>
 /// Country Quality Of Life Index.
 /// </summary>
-internal abstract partial class CountryQualityOfLifeIndexBase : EntityBase, IEtag
+public abstract partial class CountryQualityOfLifeIndexBase : EntityBase, IEtag
 {
     /// <summary>
     ///     
