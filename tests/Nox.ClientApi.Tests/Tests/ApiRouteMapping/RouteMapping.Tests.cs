@@ -214,6 +214,8 @@ public partial class RouteMappingTests : NoxWebApiTestBase
     [InlineData("put", "/Paises/{key}/RefWorkplaces", "ReferencesDto", null, null)]
     [InlineData("get", "/Paises/{key}/RefWorkplaces/{relatedKey}", null, null, null)]
     [InlineData("get", "/CountriesEncoded", null, null, "array")]
+    [InlineData("delete", "/Tenants/{TenantId}/Workplaces/{key}", null, null, null)]
+    [InlineData("patch", "/Tenants/{TenantId}/Workplaces/{key}", "WorkplacePartialUpdateDtoDelta", "WorkplaceDto", null)]
     public async Task WhenNoJsonBodyTypeAndResponseOutput_ShouldUseGenerated(string httpVerb, string route, string? expectedRequestRef, string? expectedResponseRef, string? expectedResponseType)
     {
         //Arrange

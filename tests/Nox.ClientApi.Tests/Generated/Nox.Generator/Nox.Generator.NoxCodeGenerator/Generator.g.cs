@@ -35,6 +35,8 @@
 //  - countryByNameOdataFiltering3Segments.ApiRouteMapping.nox.yaml
 //  - getTwoSeqSegProperties.nox.yaml
 //  - putRefCountryToWorkplace3Segments.ApiRouteMapping.nox.yaml
+//  - workplacesViaTenants.Delete.ApiRouteMapping.nox.yaml
+//  - workplacesViaTenants.Patch.ApiRouteMapping.nox.yaml
 //  - presentation.nox.yaml
 //  - generator.nox.yaml
 // Logging Verbosity Diagnostic

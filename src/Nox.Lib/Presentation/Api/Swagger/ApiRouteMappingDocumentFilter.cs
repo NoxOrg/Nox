@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
+﻿using Azure;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Nox.Extensions;
@@ -77,42 +78,11 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
 
             if (route.JsonBodyType is null && route.ResponseOutput is null)
             {
-                AddRequestBodyAndResponse(context, route, operation);
+                AddDefaultDocumentationByTargetUrl(context, route, operation);
             }
             else
             {
-                // add request body if it's supplied
-                if (route.JsonBodyType is not null
-                    && route.HttpVerb != HttpVerb.Get)
-                {
-                    operation.RequestBody = new OpenApiRequestBody()
-                    {
-                        Required = true,
-                        Content = new Dictionary<string, OpenApiMediaType>()
-                        {
-                            [route.RequestContentTypeString] = new OpenApiMediaType
-                            {
-                                Schema = ToOpenApiSchema(route.JsonBodyType)
-                            }
-                        },
-                    };
-                }
-
-                // create response
-                var response = new OpenApiResponse
-                {
-                    Description = "Success"
-                };
-
-                // add response type
-                if (route.ResponseOutput is not null)
-                    response.Content.Add(route.ResponseContentTypeString, new OpenApiMediaType
-                    {
-                        Schema = ToOpenApiSchema(route.ResponseOutput)
-                    });
-
-                // adding response to operation
-                operation.Responses.Add("200", response);
+                AddDocumentationByRouteConfig(route, operation);
             }
 
             // finally add the path to document
@@ -138,7 +108,43 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
         swaggerDoc.Paths = newPaths;
     }
 
-    private void AddRequestBodyAndResponse(DocumentFilterContext context, ApiRouteMapping route, OpenApiOperation operation)
+    private static void AddDocumentationByRouteConfig(ApiRouteMapping route, OpenApiOperation operation)
+    {
+        // add request body if it's supplied
+        if (route.JsonBodyType is not null
+            && route.HttpVerb != HttpVerb.Get)
+        {
+            operation.RequestBody = new OpenApiRequestBody()
+            {
+                Required = true,
+                Content = new Dictionary<string, OpenApiMediaType>()
+                {
+                    [route.RequestContentTypeString] = new OpenApiMediaType
+                    {
+                        Schema = ToOpenApiSchema(route.JsonBodyType)
+                    }
+                },
+            };
+        }
+
+        // create response
+        var response = new OpenApiResponse
+        {
+            Description = "Success"
+        };
+
+        // add response type
+        if (route.ResponseOutput is not null)
+            response.Content.Add(route.ResponseContentTypeString, new OpenApiMediaType
+            {
+                Schema = ToOpenApiSchema(route.ResponseOutput)
+            });
+
+        // adding response to operation
+        operation.Responses.Add("200", response);
+    }
+
+    private void AddDefaultDocumentationByTargetUrl(DocumentFilterContext context, ApiRouteMapping route, OpenApiOperation operation)
     {
         int indexOfQuestionMark = route.TargetUrl.IndexOf('?');
         var targetUrl = indexOfQuestionMark != -1 ? route.TargetUrl[..indexOfQuestionMark] : route.TargetUrl;

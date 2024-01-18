@@ -6,13 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Nox.Presentation.Api;
 
-internal sealed partial class OperationInfo
-{
-    public OperationType? OperationType { get; set; } = null;
-    public string? RequestReferenceId { get; set; } = null;
-    public string? ResponseReferenceId { get; set; } = null;
-    public string? ResponseType { get; set; } = null;
-}
+internal record OperationInfo(OperationType? OperationType = null, string? RequestReferenceId = null, string? ResponseReferenceId = null, string? ResponseType = null);
 
 internal sealed partial class RelatedEntityRoutingPathBuilder : RelatedEntityRoutingPathBuilderBase<(string, OpenApiPathItem)>
 {

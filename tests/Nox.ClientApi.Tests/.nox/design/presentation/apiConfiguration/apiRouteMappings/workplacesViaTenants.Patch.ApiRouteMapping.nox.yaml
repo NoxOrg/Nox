@@ -1,0 +1,11 @@
+#
+# countriesByName.routeMapping.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../../schemas/apiRouteMapping.json
+#
+
+name: PatchWorkplaceViaTenant
+description: Patch workplace via Tenant 
+httpVerb: patch
+route: /Tenants/{TenantId}/Workplaces/{key}
+targetUrl: /Workplaces/{key}?TenantId={TenantId}

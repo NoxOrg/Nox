@@ -29,6 +29,10 @@ This document provides information about custom API routes. Custom API routes ar
 
 - [GetRefCountriesInPortuguesToWorkplaces](#GetRefCountriesInPortuguesToWorkplaces)
 
+- [DeleteWorkplaceViaTenant](#DeleteWorkplaceViaTenant)
+
+- [PatchWorkplaceViaTenant](#PatchWorkplaceViaTenant)
+
 ### CountriesByName
 - **GET** `/api/v1/CountriesByName/{Count}`
   - Description: Get country names in alphabetical order.
@@ -80,3 +84,11 @@ This document provides information about custom API routes. Custom API routes ar
 ### GetRefCountriesInPortuguesToWorkplaces
 - **GET** `/api/v1/Paises/{key}/RefWorkplaces/{relatedKey}`
   - Description: Post ref country to workplaces.
+
+### DeleteWorkplaceViaTenant
+- **DELETE** `/api/v1/Tenants/{TenantId}/Workplaces/{key}`
+  - Description: Delete workplace via Tenant
+
+### PatchWorkplaceViaTenant
+- **PATCH** `/api/v1/Tenants/{TenantId}/Workplaces/{key}`
+  - Description: Patch workplace via Tenant

@@ -460,6 +460,48 @@
         }
       }
     },
+    "/api/v1/Tenants/{TenantId}/Workplaces/{key}": {
+      "delete": {
+        "tags": [
+          "DeleteWorkplaceViaTenant"
+        ],
+        "summary": "Delete workplace via Tenant",
+        "operationId": "/Tenants/{TenantId}/Workplaces/{key}",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "PatchWorkplaceViaTenant"
+        ],
+        "summary": "Patch workplace via Tenant",
+        "operationId": "/Tenants/{TenantId}/Workplaces/{key}",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkplacePartialUpdateDtoDelta"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/Clients": {
       "get": {
         "tags": [

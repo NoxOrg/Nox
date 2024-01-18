@@ -47,10 +47,10 @@ public class ApiRouteMapping : YamlConfigNode<NoxSolution, ApiConfiguration>
     public ContentBodyType RequestBodyType { get; internal set; } = ContentBodyType.None;
 
     [IfEquals(nameof(RequestBodyType), ContentBodyType.Json)]
-    public JsonTypeDefinition JsonBodyType { get; internal set; } = null!;
+    public JsonTypeDefinition? JsonBodyType { get; internal set; } = null!;
 
     [AdditionalProperties(false)]
-    public JsonTypeDefinition ResponseOutput { get; internal set; } = null!;
+    public JsonTypeDefinition? ResponseOutput { get; internal set; } = null!;
 
     [YamlIgnore]
     public string HttpVerbString { get; private set; } = null!;

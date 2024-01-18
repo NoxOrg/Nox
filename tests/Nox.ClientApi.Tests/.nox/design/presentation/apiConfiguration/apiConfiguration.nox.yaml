@@ -19,5 +19,7 @@ apiRouteMappings:
   - $ref: ./apiRouteMappings/countriesInPortugues.Patch.ApiRouteMapping.nox.yaml
   - $ref: ./apiRouteMappings/countriesInPortuguesToWorkplaces.PostRef.ApiRouteMapping.nox.yaml
   - $ref: ./apiRouteMappings/countriesInPortuguesToWorkplaces.GetRef.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/workplacesViaTenants.Delete.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/workplacesViaTenants.Patch.ApiRouteMapping.nox.yaml
   
         
