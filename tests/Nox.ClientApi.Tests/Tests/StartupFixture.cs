@@ -53,5 +53,8 @@ public class StartupFixture
         {
             endpoints.MapControllers();
         });
+
+        app.UseSwagger();
+        app.UseSwaggerUI();
     }
 }

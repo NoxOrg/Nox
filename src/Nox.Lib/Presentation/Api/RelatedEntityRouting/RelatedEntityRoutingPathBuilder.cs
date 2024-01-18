@@ -3,9 +3,10 @@ using Nox.Extensions;
 using Nox.Solution;
 using Nox.Solution.Builders;
 using System.Text.RegularExpressions;
-using System.Linq;
 
 namespace Nox.Presentation.Api;
+
+internal record OperationInfo(OperationType? OperationType = null, string? RequestReferenceId = null, string? ResponseReferenceId = null, string? ResponseType = null);
 
 internal sealed partial class RelatedEntityRoutingPathBuilder : RelatedEntityRoutingPathBuilderBase<(string, OpenApiPathItem)>
 {
@@ -21,52 +22,52 @@ internal sealed partial class RelatedEntityRoutingPathBuilder : RelatedEntityRou
 
         if (relationship.WithSingleEntity)
         {
-            AddOperationItemsToResult(result, $"{existingPath}/{navigationName}", tagName, new List<(OperationType?, string?, string?)>
+            AddOperationItemsToResult(result, $"{existingPath}/{navigationName}", tagName, new List<OperationInfo>
             {
-                (OperationType.Get, null, $"{relatedEntityName}DtoSingleResult"),
-                (OperationType.Post, $"{relatedEntityName}CreateDto", null),
-                (OperationType.Put, $"{relatedEntityName}UpdateDto", $"{relatedEntityName}Dto"),
-                (OperationType.Patch, $"{relatedEntityName}PartialUpdateDtoDelta", $"{relatedEntityName}Dto"),
-                ((relationship.Relationship == EntityRelationshipType.ZeroOrOne ? OperationType.Delete : null), null, null),
+                new() { OperationType = OperationType.Get, ResponseReferenceId = $"{relatedEntityName}DtoSingleResult" },
+                new() { OperationType = OperationType.Post, RequestReferenceId = $"{relatedEntityName}CreateDto" },
+                new() { OperationType = OperationType.Put, RequestReferenceId = $"{relatedEntityName}UpdateDto", ResponseReferenceId = $"{relatedEntityName}Dto" },
+                new() { OperationType = OperationType.Patch, RequestReferenceId = $"{relatedEntityName}PartialUpdateDtoDelta", ResponseReferenceId = $"{relatedEntityName}Dto" },
+                new() { OperationType = (relationship.Relationship == EntityRelationshipType.ZeroOrOne ? OperationType.Delete : null), }
             });
-            AddOperationItemsToResult(result, $"{existingPath}/{navigationName}/$ref", tagName, new List<(OperationType?, string?, string?)>
+            AddOperationItemsToResult(result, $"{existingPath}/{navigationName}/$ref", tagName, new List<OperationInfo>
             {
-                (OperationType.Get, null, null),
-                ((relationship.Relationship == EntityRelationshipType.ZeroOrOne ? OperationType.Delete : null), null, null),
+                new() { OperationType = OperationType.Get },
+                new() { OperationType = (relationship.Relationship == EntityRelationshipType.ZeroOrOne ? OperationType.Delete : null) }
             });
-            AddOperationItemsToResult(result, $"{existingPath}/{navigationName}/{{{GetKeyParameterName(navigationName)}}}/$ref", tagName, new List<(OperationType?, string?, string?)>
+            AddOperationItemsToResult(result, $"{existingPath}/{navigationName}/{{{GetKeyParameterName(navigationName)}}}/$ref", tagName, new List<OperationInfo>
             {
-                (OperationType.Post, null, null),
-                (OperationType.Put, null, null),
-                ((relationship.Relationship == EntityRelationshipType.ZeroOrOne ? OperationType.Delete : null), null, null),
+                new() { OperationType = OperationType.Post },
+                new() { OperationType = OperationType.Put },
+                new() { OperationType = (relationship.Relationship == EntityRelationshipType.ZeroOrOne ? OperationType.Delete : null) }
             });
         }
         else
         {
-            AddOperationItemsToResult(result, $"{existingPath}/{navigationName}", tagName, new List<(OperationType?, string?, string?)>
+            AddOperationItemsToResult(result, $"{existingPath}/{navigationName}", tagName, new List<OperationInfo>
             {
-                (OperationType.Get, null, $"{relatedEntityName}Dto"),
-                (OperationType.Post, $"{relatedEntityName}CreateDto", null),
-                (OperationType.Delete, null, null)
+                new() { OperationType = OperationType.Get, ResponseReferenceId = $"{relatedEntityName}Dto", ResponseType = "array" },
+                new() { OperationType = OperationType.Post, RequestReferenceId = $"{relatedEntityName}CreateDto" },
+                new() { OperationType = OperationType.Delete }
             });
-            AddOperationItemsToResult(result, $"{existingPath}/{navigationName}/{{{GetKeyParameterName(navigationName)}}}", tagName, new List<(OperationType?, string?, string?)>
+            AddOperationItemsToResult(result, $"{existingPath}/{navigationName}/{{{GetKeyParameterName(navigationName)}}}", tagName, new List<OperationInfo>
             {
-                (OperationType.Get, null, $"{relatedEntityName}DtoSingleResult"),
-                (OperationType.Put, $"{relatedEntityName}UpdateDto", $"{relatedEntityName}Dto"),
-                (OperationType.Patch, $"{relatedEntityName}PartialUpdateDtoDelta", $"{relatedEntityName}Dto"),
-                (OperationType.Delete, null, null)
+                new() { OperationType =  OperationType.Get, RequestReferenceId = $"{relatedEntityName}DtoSingleResult" },
+                new() { OperationType = OperationType.Put, RequestReferenceId = $"{relatedEntityName}UpdateDto", ResponseReferenceId = $"{relatedEntityName}Dto" },
+                new() { OperationType = OperationType.Patch, RequestReferenceId = $"{relatedEntityName}PartialUpdateDtoDelta", ResponseReferenceId = $"{relatedEntityName}Dto" },
+                new() { OperationType = OperationType.Delete }
             });
-            AddOperationItemsToResult(result, $"{existingPath}/{navigationName}/$ref", tagName, new List<(OperationType?, string?, string?)>
+            AddOperationItemsToResult(result, $"{existingPath}/{navigationName}/$ref", tagName, new List<OperationInfo>
             {
-                (OperationType.Get, null, null),
-                (OperationType.Put, "StringReferencesDto", null),
-                (OperationType.Delete, null, null)
+                new() { OperationType = OperationType.Get },
+                new() { OperationType = OperationType.Put, RequestReferenceId = "StringReferencesDto" },
+                new() { OperationType = OperationType.Delete }
             });
-            AddOperationItemsToResult(result, $"{existingPath}/{navigationName}/{{{GetKeyParameterName(navigationName)}}}/$ref", tagName, new List<(OperationType?, string?, string?)>
+            AddOperationItemsToResult(result, $"{existingPath}/{navigationName}/{{{GetKeyParameterName(navigationName)}}}/$ref", tagName, new List<OperationInfo>
             {
-                (OperationType.Post, null, null),
-                (OperationType.Put, null, null),
-                (OperationType.Delete, null, null)
+                new() { OperationType = OperationType.Post },
+                new() { OperationType = OperationType.Put },
+                new() { OperationType = OperationType.Delete }
             });
         }
     }
@@ -93,7 +94,7 @@ internal sealed partial class RelatedEntityRoutingPathBuilder : RelatedEntityRou
         return matches;
     }
 
-    private static void AddOperationItemsToResult(List<(string, OpenApiPathItem)> result, string path, string tagName, List<(OperationType? OperationType, string? RequestReferenceId, string? ResponseReferenceId)> operationsInfo)
+    private static void AddOperationItemsToResult(List<(string, OpenApiPathItem)> result, string path, string tagName, List<OperationInfo> operationsInfo)
     {
         var pathItem = new OpenApiPathItem { Operations = new Dictionary<OperationType, OpenApiOperation>() };
         var keyNames = GetKeyNames(path);
@@ -103,9 +104,10 @@ internal sealed partial class RelatedEntityRoutingPathBuilder : RelatedEntityRou
                 OpenApiExtensions.CreateOperation(tagName)
                 .WithPathParameters(keyNames)
                 .WithRequestBody(info.RequestReferenceId)
-                .WithResponseBody(info.ResponseReferenceId));
+                .WithResponseBody(info.ResponseReferenceId, info.ResponseType));
         }
 
         result.Add((path, pathItem));
     }
+
 }
