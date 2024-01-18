@@ -91,7 +91,11 @@ internal abstract partial class DtoDbContextBase : DbContext
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "Cryptocash", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
+            _dbProvider.ConfigureDbContext(
+                optionsBuilder, 
+                "Cryptocash",
+                _noxSolution.Infrastructure!.Persistence.DatabaseServer,
+                _clientAssemblyProvider.ClientAssembly.GetName().Name);
             optionsBuilder.AddInterceptors(_interceptors);
         }
     }

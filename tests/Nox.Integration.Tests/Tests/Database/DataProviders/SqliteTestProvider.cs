@@ -18,7 +18,7 @@ internal class SqliteTestProvider : SqliteDatabaseProvider
         ConnectionString = InMemoryConnectionString;
     }
 
-    public override DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
+    public override DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer, string? migrationAssemblyName = null)
     {
         var keepAliveConnection = new SqliteConnection(InMemoryConnectionString);
 
