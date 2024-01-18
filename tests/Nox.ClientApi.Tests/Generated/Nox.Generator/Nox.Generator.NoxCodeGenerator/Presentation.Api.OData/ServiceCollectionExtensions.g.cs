@@ -34,6 +34,9 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddNox(this IServiceCollection services, WebApplicationBuilder? webApplicationBuilder, Action<INoxOptions>? configureNox, Action<ODataModelBuilder>? configureNoxOdata)
     {
+        // Set the Assembly where Entities are generated
+        NoxAssemblyConfiguration.DomainAssembly = typeof(ClientApi.Domain.Country).Assembly;
+
         services.AddNoxLib(webApplicationBuilder, configurator =>
         {
             configurator.WithDatabaseContexts<AppDbContext, DtoDbContext>();

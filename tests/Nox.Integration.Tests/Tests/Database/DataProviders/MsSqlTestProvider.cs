@@ -17,7 +17,7 @@ internal class MsSqlTestProvider : SqlServerDatabaseProvider
         ConnectionString = connectionString;
     }
 
-    public override DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
+    public override DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer, string? migrationAssemblyName = null)
     {
         return optionsBuilder
             .UseSqlServer(ConnectionString,
