@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
-internal partial class CountryBarCode : CountryBarCodeBase, IEntityHaveDomainEvents
+public partial class CountryBarCode : CountryBarCodeBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class CountryBarCode : CountryBarCodeBase, IEntityHaveDomainEve
 /// <summary>
 /// Record for CountryBarCode created event.
 /// </summary>
-internal record CountryBarCodeCreated(CountryBarCode CountryBarCode) :  IDomainEvent, INotification;
+public record CountryBarCodeCreated(CountryBarCode CountryBarCode) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryBarCode updated event.
 /// </summary>
-internal record CountryBarCodeUpdated(CountryBarCode CountryBarCode) : IDomainEvent, INotification;
+public record CountryBarCodeUpdated(CountryBarCode CountryBarCode) : IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryBarCode deleted event.
 /// </summary>
-internal record CountryBarCodeDeleted(CountryBarCode CountryBarCode) : IDomainEvent, INotification;
+public record CountryBarCodeDeleted(CountryBarCode CountryBarCode) : IDomainEvent, INotification;
 
 /// <summary>
 /// Bar code for country.
 /// </summary>
-internal abstract partial class CountryBarCodeBase : EntityBase, IOwnedEntity
+public abstract partial class CountryBarCodeBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// The unique identifier    

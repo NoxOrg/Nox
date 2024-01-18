@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
-internal partial class PaymentProvider : PaymentProviderBase, IEntityHaveDomainEvents
+public partial class PaymentProvider : PaymentProviderBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class PaymentProvider : PaymentProviderBase, IEntityHaveDomainE
 /// <summary>
 /// Record for PaymentProvider created event.
 /// </summary>
-internal record PaymentProviderCreated(PaymentProvider PaymentProvider) :  IDomainEvent, INotification;
+public record PaymentProviderCreated(PaymentProvider PaymentProvider) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for PaymentProvider updated event.
 /// </summary>
-internal record PaymentProviderUpdated(PaymentProvider PaymentProvider) : IDomainEvent, INotification;
+public record PaymentProviderUpdated(PaymentProvider PaymentProvider) : IDomainEvent, INotification;
 /// <summary>
 /// Record for PaymentProvider deleted event.
 /// </summary>
-internal record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomainEvent, INotification;
+public record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomainEvent, INotification;
 
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-internal abstract partial class PaymentProviderBase : AuditableEntityBase, IEtag
+public abstract partial class PaymentProviderBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Payment provider unique identifier    

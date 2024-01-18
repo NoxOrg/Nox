@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class SecondTestEntityTwoRelationshipsOneToOne : SecondTestEntityTwoRelationshipsOneToOneBase, IEntityHaveDomainEvents
+public partial class SecondTestEntityTwoRelationshipsOneToOne : SecondTestEntityTwoRelationshipsOneToOneBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class SecondTestEntityTwoRelationshipsOneToOne : SecondTestEnti
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToOne created event.
 /// </summary>
-internal record SecondTestEntityTwoRelationshipsOneToOneCreated(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) :  IDomainEvent, INotification;
+public record SecondTestEntityTwoRelationshipsOneToOneCreated(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToOne updated event.
 /// </summary>
-internal record SecondTestEntityTwoRelationshipsOneToOneUpdated(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent, INotification;
+public record SecondTestEntityTwoRelationshipsOneToOneUpdated(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToOne deleted event.
 /// </summary>
-internal record SecondTestEntityTwoRelationshipsOneToOneDeleted(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent, INotification;
+public record SecondTestEntityTwoRelationshipsOneToOneDeleted(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class SecondTestEntityTwoRelationshipsOneToOneBase : EntityBase, IEtag
+public abstract partial class SecondTestEntityTwoRelationshipsOneToOneBase : EntityBase, IEtag
 {
     /// <summary>
     ///     

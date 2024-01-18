@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
-internal partial class Employee : EmployeeBase, IEntityHaveDomainEvents
+public partial class Employee : EmployeeBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class Employee : EmployeeBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Employee created event.
 /// </summary>
-internal record EmployeeCreated(Employee Employee) :  IDomainEvent, INotification;
+public record EmployeeCreated(Employee Employee) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Employee updated event.
 /// </summary>
-internal record EmployeeUpdated(Employee Employee) : IDomainEvent, INotification;
+public record EmployeeUpdated(Employee Employee) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Employee deleted event.
 /// </summary>
-internal record EmployeeDeleted(Employee Employee) : IDomainEvent, INotification;
+public record EmployeeDeleted(Employee Employee) : IDomainEvent, INotification;
 
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-internal abstract partial class EmployeeBase : AuditableEntityBase, IEtag
+public abstract partial class EmployeeBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Employee's unique identifier    

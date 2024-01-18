@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
-internal partial class CountryTimeZone : CountryTimeZoneBase, IEntityHaveDomainEvents
+public partial class ExchangeRate : ExchangeRateBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -35,53 +35,59 @@ internal partial class CountryTimeZone : CountryTimeZoneBase, IEntityHaveDomainE
     }
 }
 /// <summary>
-/// Record for CountryTimeZone created event.
+/// Record for ExchangeRate created event.
 /// </summary>
-internal record CountryTimeZoneCreated(CountryTimeZone CountryTimeZone) :  IDomainEvent, INotification;
+public record ExchangeRateCreated(ExchangeRate ExchangeRate) :  IDomainEvent, INotification;
 /// <summary>
-/// Record for CountryTimeZone updated event.
+/// Record for ExchangeRate updated event.
 /// </summary>
-internal record CountryTimeZoneUpdated(CountryTimeZone CountryTimeZone) : IDomainEvent, INotification;
+public record ExchangeRateUpdated(ExchangeRate ExchangeRate) : IDomainEvent, INotification;
 /// <summary>
-/// Record for CountryTimeZone deleted event.
+/// Record for ExchangeRate deleted event.
 /// </summary>
-internal record CountryTimeZoneDeleted(CountryTimeZone CountryTimeZone) : IDomainEvent, INotification;
+public record ExchangeRateDeleted(ExchangeRate ExchangeRate) : IDomainEvent, INotification;
 
 /// <summary>
-/// Time zone related to country.
+/// Exchange rate and related data.
 /// </summary>
-internal abstract partial class CountryTimeZoneBase : EntityBase, IOwnedEntity
+public abstract partial class ExchangeRateBase : EntityBase, IOwnedEntity
 {
     /// <summary>
-    /// Country's time zone unique identifier    
+    /// Exchange rate unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
     public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
-    /// Country's related time zone code    
+    /// Exchange rate conversion amount    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.TimeZoneCode TimeZoneCode { get;  set; } = null!;
+    public Nox.Types.Number EffectiveRate { get;  set; } = null!;
+
+    /// <summary>
+    /// Exchange rate conversion amount    
+    /// </summary>
+    /// <remarks>Required.</remarks>   
+    public Nox.Types.DateTime EffectiveAt { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(CountryTimeZone countryTimeZone)
+	protected virtual void InternalRaiseCreateEvent(ExchangeRate exchangeRate)
 	{
-		InternalDomainEvents.Add(new CountryTimeZoneCreated(countryTimeZone));
+		InternalDomainEvents.Add(new ExchangeRateCreated(exchangeRate));
     }
 	
-	protected virtual void InternalRaiseUpdateEvent(CountryTimeZone countryTimeZone)
+	protected virtual void InternalRaiseUpdateEvent(ExchangeRate exchangeRate)
 	{
-		InternalDomainEvents.Add(new CountryTimeZoneUpdated(countryTimeZone));
+		InternalDomainEvents.Add(new ExchangeRateUpdated(exchangeRate));
     }
 	
-	protected virtual void InternalRaiseDeleteEvent(CountryTimeZone countryTimeZone)
+	protected virtual void InternalRaiseDeleteEvent(ExchangeRate exchangeRate)
 	{
-		InternalDomainEvents.Add(new CountryTimeZoneDeleted(countryTimeZone));
+		InternalDomainEvents.Add(new ExchangeRateDeleted(exchangeRate));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

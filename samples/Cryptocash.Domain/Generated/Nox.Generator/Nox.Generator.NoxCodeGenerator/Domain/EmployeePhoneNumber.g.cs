@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
-internal partial class EmployeePhoneNumber : EmployeePhoneNumberBase, IEntityHaveDomainEvents
+public partial class EmployeePhoneNumber : EmployeePhoneNumberBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class EmployeePhoneNumber : EmployeePhoneNumberBase, IEntityHav
 /// <summary>
 /// Record for EmployeePhoneNumber created event.
 /// </summary>
-internal record EmployeePhoneNumberCreated(EmployeePhoneNumber EmployeePhoneNumber) :  IDomainEvent, INotification;
+public record EmployeePhoneNumberCreated(EmployeePhoneNumber EmployeePhoneNumber) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for EmployeePhoneNumber updated event.
 /// </summary>
-internal record EmployeePhoneNumberUpdated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent, INotification;
+public record EmployeePhoneNumberUpdated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent, INotification;
 /// <summary>
 /// Record for EmployeePhoneNumber deleted event.
 /// </summary>
-internal record EmployeePhoneNumberDeleted(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent, INotification;
+public record EmployeePhoneNumberDeleted(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent, INotification;
 
 /// <summary>
 /// Employee phone number and related data.
 /// </summary>
-internal abstract partial class EmployeePhoneNumberBase : EntityBase, IOwnedEntity
+public abstract partial class EmployeePhoneNumberBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Employee's phone number identifier    

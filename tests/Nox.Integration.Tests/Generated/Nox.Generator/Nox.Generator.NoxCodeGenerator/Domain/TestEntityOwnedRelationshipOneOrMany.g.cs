@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class TestEntityOwnedRelationshipOneOrMany : TestEntityOwnedRelationshipOneOrManyBase, IEntityHaveDomainEvents
+public partial class TestEntityOwnedRelationshipOneOrMany : TestEntityOwnedRelationshipOneOrManyBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class TestEntityOwnedRelationshipOneOrMany : TestEntityOwnedRel
 /// <summary>
 /// Record for TestEntityOwnedRelationshipOneOrMany created event.
 /// </summary>
-internal record TestEntityOwnedRelationshipOneOrManyCreated(TestEntityOwnedRelationshipOneOrMany TestEntityOwnedRelationshipOneOrMany) :  IDomainEvent, INotification;
+public record TestEntityOwnedRelationshipOneOrManyCreated(TestEntityOwnedRelationshipOneOrMany TestEntityOwnedRelationshipOneOrMany) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityOwnedRelationshipOneOrMany updated event.
 /// </summary>
-internal record TestEntityOwnedRelationshipOneOrManyUpdated(TestEntityOwnedRelationshipOneOrMany TestEntityOwnedRelationshipOneOrMany) : IDomainEvent, INotification;
+public record TestEntityOwnedRelationshipOneOrManyUpdated(TestEntityOwnedRelationshipOneOrMany TestEntityOwnedRelationshipOneOrMany) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityOwnedRelationshipOneOrMany deleted event.
 /// </summary>
-internal record TestEntityOwnedRelationshipOneOrManyDeleted(TestEntityOwnedRelationshipOneOrMany TestEntityOwnedRelationshipOneOrMany) : IDomainEvent, INotification;
+public record TestEntityOwnedRelationshipOneOrManyDeleted(TestEntityOwnedRelationshipOneOrMany TestEntityOwnedRelationshipOneOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class TestEntityOwnedRelationshipOneOrManyBase : AuditableEntityBase, IEtag
+public abstract partial class TestEntityOwnedRelationshipOneOrManyBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

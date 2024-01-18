@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
-internal partial class LandLord : LandLordBase, IEntityHaveDomainEvents
+public partial class LandLord : LandLordBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class LandLord : LandLordBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for LandLord created event.
 /// </summary>
-internal record LandLordCreated(LandLord LandLord) :  IDomainEvent, INotification;
+public record LandLordCreated(LandLord LandLord) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for LandLord updated event.
 /// </summary>
-internal record LandLordUpdated(LandLord LandLord) : IDomainEvent, INotification;
+public record LandLordUpdated(LandLord LandLord) : IDomainEvent, INotification;
 /// <summary>
 /// Record for LandLord deleted event.
 /// </summary>
-internal record LandLordDeleted(LandLord LandLord) : IDomainEvent, INotification;
+public record LandLordDeleted(LandLord LandLord) : IDomainEvent, INotification;
 
 /// <summary>
 /// Landlord related data.
 /// </summary>
-internal abstract partial class LandLordBase : AuditableEntityBase, IEtag
+public abstract partial class LandLordBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Landlord unique identifier    

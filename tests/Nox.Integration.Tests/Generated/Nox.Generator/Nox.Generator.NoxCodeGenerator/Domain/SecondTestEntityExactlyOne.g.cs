@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class SecondTestEntityExactlyOne : SecondTestEntityExactlyOneBase, IEntityHaveDomainEvents
+public partial class SecondTestEntityExactlyOne : SecondTestEntityExactlyOneBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class SecondTestEntityExactlyOne : SecondTestEntityExactlyOneBa
 /// <summary>
 /// Record for SecondTestEntityExactlyOne created event.
 /// </summary>
-internal record SecondTestEntityExactlyOneCreated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) :  IDomainEvent, INotification;
+public record SecondTestEntityExactlyOneCreated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityExactlyOne updated event.
 /// </summary>
-internal record SecondTestEntityExactlyOneUpdated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent, INotification;
+public record SecondTestEntityExactlyOneUpdated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityExactlyOne deleted event.
 /// </summary>
-internal record SecondTestEntityExactlyOneDeleted(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent, INotification;
+public record SecondTestEntityExactlyOneDeleted(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class SecondTestEntityExactlyOneBase : AuditableEntityBase, IEtag
+public abstract partial class SecondTestEntityExactlyOneBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

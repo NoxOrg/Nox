@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
-internal partial class CashStockOrder : CashStockOrderBase, IEntityHaveDomainEvents
+public partial class CashStockOrder : CashStockOrderBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class CashStockOrder : CashStockOrderBase, IEntityHaveDomainEve
 /// <summary>
 /// Record for CashStockOrder created event.
 /// </summary>
-internal record CashStockOrderCreated(CashStockOrder CashStockOrder) :  IDomainEvent, INotification;
+public record CashStockOrderCreated(CashStockOrder CashStockOrder) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for CashStockOrder updated event.
 /// </summary>
-internal record CashStockOrderUpdated(CashStockOrder CashStockOrder) : IDomainEvent, INotification;
+public record CashStockOrderUpdated(CashStockOrder CashStockOrder) : IDomainEvent, INotification;
 /// <summary>
 /// Record for CashStockOrder deleted event.
 /// </summary>
-internal record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEvent, INotification;
+public record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEvent, INotification;
 
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEtag
+public abstract partial class CashStockOrderBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Vending machine's order unique identifier    

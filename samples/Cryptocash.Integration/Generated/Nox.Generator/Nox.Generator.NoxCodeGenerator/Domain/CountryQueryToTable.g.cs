@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace CryptocashIntegration.Domain;
 
-internal partial class CountryQueryToTable : CountryQueryToTableBase, IEntityHaveDomainEvents
+public partial class CountryQueryToTable : CountryQueryToTableBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class CountryQueryToTable : CountryQueryToTableBase, IEntityHav
 /// <summary>
 /// Record for CountryQueryToTable created event.
 /// </summary>
-internal record CountryQueryToTableCreated(CountryQueryToTable CountryQueryToTable) :  IDomainEvent, INotification;
+public record CountryQueryToTableCreated(CountryQueryToTable CountryQueryToTable) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryQueryToTable updated event.
 /// </summary>
-internal record CountryQueryToTableUpdated(CountryQueryToTable CountryQueryToTable) : IDomainEvent, INotification;
+public record CountryQueryToTableUpdated(CountryQueryToTable CountryQueryToTable) : IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryQueryToTable deleted event.
 /// </summary>
-internal record CountryQueryToTableDeleted(CountryQueryToTable CountryQueryToTable) : IDomainEvent, INotification;
+public record CountryQueryToTableDeleted(CountryQueryToTable CountryQueryToTable) : IDomainEvent, INotification;
 
 /// <summary>
 /// Country and related data.
 /// </summary>
-internal abstract partial class CountryQueryToTableBase : EntityBase, IEtag
+public abstract partial class CountryQueryToTableBase : EntityBase, IEtag
 {
     /// <summary>
     /// Country unique identifier    

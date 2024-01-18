@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
-internal partial class VendingMachine : VendingMachineBase, IEntityHaveDomainEvents
+public partial class VendingMachine : VendingMachineBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class VendingMachine : VendingMachineBase, IEntityHaveDomainEve
 /// <summary>
 /// Record for VendingMachine created event.
 /// </summary>
-internal record VendingMachineCreated(VendingMachine VendingMachine) :  IDomainEvent, INotification;
+public record VendingMachineCreated(VendingMachine VendingMachine) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for VendingMachine updated event.
 /// </summary>
-internal record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent, INotification;
+public record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent, INotification;
 /// <summary>
 /// Record for VendingMachine deleted event.
 /// </summary>
-internal record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEvent, INotification;
+public record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEvent, INotification;
 
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-internal abstract partial class VendingMachineBase : AuditableEntityBase, IEtag
+public abstract partial class VendingMachineBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     /// Vending machine unique identifier    

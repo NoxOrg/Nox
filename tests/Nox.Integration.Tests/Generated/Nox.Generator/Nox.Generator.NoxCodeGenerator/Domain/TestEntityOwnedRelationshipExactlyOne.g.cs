@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class TestEntityOwnedRelationshipExactlyOne : TestEntityOwnedRelationshipExactlyOneBase, IEntityHaveDomainEvents
+public partial class TestEntityOwnedRelationshipExactlyOne : TestEntityOwnedRelationshipExactlyOneBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class TestEntityOwnedRelationshipExactlyOne : TestEntityOwnedRe
 /// <summary>
 /// Record for TestEntityOwnedRelationshipExactlyOne created event.
 /// </summary>
-internal record TestEntityOwnedRelationshipExactlyOneCreated(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) :  IDomainEvent, INotification;
+public record TestEntityOwnedRelationshipExactlyOneCreated(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityOwnedRelationshipExactlyOne updated event.
 /// </summary>
-internal record TestEntityOwnedRelationshipExactlyOneUpdated(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
+public record TestEntityOwnedRelationshipExactlyOneUpdated(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityOwnedRelationshipExactlyOne deleted event.
 /// </summary>
-internal record TestEntityOwnedRelationshipExactlyOneDeleted(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
+public record TestEntityOwnedRelationshipExactlyOneDeleted(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class TestEntityOwnedRelationshipExactlyOneBase : AuditableEntityBase, IEtag
+public abstract partial class TestEntityOwnedRelationshipExactlyOneBase : AuditableEntityBase, IEtag
 {
     /// <summary>
     ///     

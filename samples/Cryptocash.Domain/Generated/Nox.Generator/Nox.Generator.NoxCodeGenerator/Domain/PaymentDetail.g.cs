@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace Cryptocash.Domain;
 
-internal partial class Transaction : TransactionBase, IEntityHaveDomainEvents
+public partial class PaymentDetail : PaymentDetailBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -35,85 +35,65 @@ internal partial class Transaction : TransactionBase, IEntityHaveDomainEvents
     }
 }
 /// <summary>
-/// Record for Transaction created event.
+/// Record for PaymentDetail created event.
 /// </summary>
-internal record TransactionCreated(Transaction Transaction) :  IDomainEvent, INotification;
+public record PaymentDetailCreated(PaymentDetail PaymentDetail) :  IDomainEvent, INotification;
 /// <summary>
-/// Record for Transaction updated event.
+/// Record for PaymentDetail updated event.
 /// </summary>
-internal record TransactionUpdated(Transaction Transaction) : IDomainEvent, INotification;
+public record PaymentDetailUpdated(PaymentDetail PaymentDetail) : IDomainEvent, INotification;
 /// <summary>
-/// Record for Transaction deleted event.
+/// Record for PaymentDetail deleted event.
 /// </summary>
-internal record TransactionDeleted(Transaction Transaction) : IDomainEvent, INotification;
+public record PaymentDetailDeleted(PaymentDetail PaymentDetail) : IDomainEvent, INotification;
 
 /// <summary>
-/// Customer transaction log and related data.
+/// Customer payment account related data.
 /// </summary>
-internal abstract partial class TransactionBase : AuditableEntityBase, IEtag
+public abstract partial class PaymentDetailBase : AuditableEntityBase, IEtag
 {
     /// <summary>
-    /// Customer transaction unique identifier    
+    /// Customer payment account unique identifier    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Guid Id {get; private set;} = null!;
-        /// <summary>
-        /// Ensures that a Guid Id is set or will be generate a new one
-        /// </summary>
-    	public virtual void EnsureId(System.Guid? guid)
-    	{
-    		if(guid is null || System.Guid.Empty.Equals(guid))
-    		{
-    			Id = Nox.Types.Guid.From(System.Guid.NewGuid());
-    		}
-    		else
-    		{
-    			Id = Nox.Types.Guid.From(guid!.Value);
-    		}
-    	}
+    public Nox.Types.AutoNumber Id { get; private set; } = null!;
 
     /// <summary>
-    /// Transaction type    
+    /// Payment account name    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.Text TransactionType { get;  set; } = null!;
+    public Nox.Types.Text PaymentAccountName { get;  set; } = null!;
 
     /// <summary>
-    /// Transaction processed datetime    
+    /// Payment account reference number    
     /// </summary>
     /// <remarks>Required.</remarks>   
-    public Nox.Types.DateTime ProcessedOnDateTime { get;  set; } = null!;
+    public Nox.Types.Text PaymentAccountNumber { get;  set; } = null!;
 
     /// <summary>
-    /// Transaction amount    
+    /// Payment account sort code    
     /// </summary>
-    /// <remarks>Required.</remarks>   
-    public Nox.Types.Money Amount { get;  set; } = null!;
-
-    /// <summary>
-    /// Transaction external reference    
-    /// </summary>
-    /// <remarks>Required.</remarks>   
-    public Nox.Types.Text Reference { get;  set; } = null!;
+    /// <remarks>Optional.</remarks>   
+    public Nox.Types.Text? PaymentAccountSortCode { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(Transaction transaction)
+	protected virtual void InternalRaiseCreateEvent(PaymentDetail paymentDetail)
 	{
-		InternalDomainEvents.Add(new TransactionCreated(transaction));
+		InternalDomainEvents.Add(new PaymentDetailCreated(paymentDetail));
     }
 	
-	protected virtual void InternalRaiseUpdateEvent(Transaction transaction)
+	protected virtual void InternalRaiseUpdateEvent(PaymentDetail paymentDetail)
 	{
-		InternalDomainEvents.Add(new TransactionUpdated(transaction));
+		InternalDomainEvents.Add(new PaymentDetailUpdated(paymentDetail));
     }
 	
-	protected virtual void InternalRaiseDeleteEvent(Transaction transaction)
+	protected virtual void InternalRaiseDeleteEvent(PaymentDetail paymentDetail)
 	{
-		InternalDomainEvents.Add(new TransactionDeleted(transaction));
+		InternalDomainEvents.Add(new PaymentDetailDeleted(paymentDetail));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.
@@ -124,7 +104,7 @@ internal abstract partial class TransactionBase : AuditableEntityBase, IEtag
     }
 
     /// <summary>
-    /// Transaction for ExactlyOne Customers
+    /// PaymentDetail used by ExactlyOne Customers
     /// </summary>
     public virtual Customer Customer { get; private set; } = null!;
 
@@ -149,26 +129,26 @@ internal abstract partial class TransactionBase : AuditableEntityBase, IEtag
     }
 
     /// <summary>
-    /// Transaction for ExactlyOne Bookings
+    /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
-    public virtual Booking Booking { get; private set; } = null!;
+    public virtual PaymentProvider PaymentProvider { get; private set; } = null!;
 
     /// <summary>
-    /// Foreign key for relationship ExactlyOne to entity Booking
+    /// Foreign key for relationship ExactlyOne to entity PaymentProvider
     /// </summary>
-    public Nox.Types.Guid BookingId { get; set; } = null!;
+    public Nox.Types.Guid PaymentProviderId { get; set; } = null!;
 
-    public virtual void CreateRefToBooking(Booking relatedBooking)
+    public virtual void CreateRefToPaymentProvider(PaymentProvider relatedPaymentProvider)
     {
-        Booking = relatedBooking;
+        PaymentProvider = relatedPaymentProvider;
     }
 
-    public virtual void DeleteRefToBooking(Booking relatedBooking)
+    public virtual void DeleteRefToPaymentProvider(PaymentProvider relatedPaymentProvider)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToBooking()
+    public virtual void DeleteAllRefToPaymentProvider()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
