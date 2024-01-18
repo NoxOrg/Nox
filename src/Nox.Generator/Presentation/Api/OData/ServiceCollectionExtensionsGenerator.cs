@@ -2,11 +2,11 @@ using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
 
-namespace Nox.Generator.Application;
+namespace Nox.Generator.Presentation.Api.OData;
 
 internal class ServiceCollectionExtensionsGenerator : INoxCodeGenerator
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Presentation;
 
     public void Generate(
       SourceProductionContext context,
@@ -18,7 +18,7 @@ internal class ServiceCollectionExtensionsGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        var namePrefix = "Application";
+        var namePrefix = "Presentation.Api.OData";
 
         new TemplateCodeBuilder(context, codeGenConventions)
             .WithClassName("ServiceCollectionExtensions")
