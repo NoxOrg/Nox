@@ -59,10 +59,10 @@
 //  - Nox.Generator.Presentation.Api.OData.EntityControllerGenerator
 //  - Nox.Generator.Presentation.Api.OData.NoxIntegrationControllerGenerator
 //  - Nox.Generator.Presentation.Api.OData.ODataServiceCollectionExtensions
+//  - Nox.Generator.Presentation.Api.OData.ServiceCollectionExtensionsGenerator
 //  - Nox.Generator.Application.DomainEventHandlerGenerator
 //  - Nox.Generator.Application.CustomIntegrationEventGenerator
 //  - Nox.Generator.Application.DefaultIntegrationEventGenerator
-//  - Nox.Generator.Application.ServiceCollectionExtensionsGenerator
 //  - Nox.Generator.Application.Services.RelationshipChainValidatorGenerator
 //  - Nox.Generator.Application.Queries.ByIdQueryGenerator
 //  - Nox.Generator.Application.Queries.EnumerationQueryGenerator

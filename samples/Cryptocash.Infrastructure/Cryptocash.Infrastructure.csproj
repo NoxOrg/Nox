@@ -38,5 +38,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\Nox.Core\Nox.Core.csproj" />
 		<ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+		<ProjectReference Include="..\Cryptocash.Application\Cryptocash.Application.csproj" />
 	</ItemGroup>
 </Project>
