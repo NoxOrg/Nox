@@ -45,7 +45,7 @@ internal partial class CreateRefCountryToCommissionsCommandHandler
 			throw new EntityNotFoundException("Country",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCommission(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCountryUsedByCommissions(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Commission",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefCountryToCommissionsCommandHandler
 		var relatedEntities = new List<Cryptocash.Domain.Commission>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetCommission(keyDto);
+			var relatedEntity = await GetCountryUsedByCommissions(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("Commission", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefCountryToCommissionsCommandHandler
 			throw new EntityNotFoundException("Country",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCommission(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCountryUsedByCommissions(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Commission", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -198,7 +198,7 @@ internal abstract class RefCountryToCommissionsCommandHandlerBase<TRequest> : Co
 		return await DbContext.Countries.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.Commission?> GetCommission(CommissionKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.Commission?> GetCountryUsedByCommissions(CommissionKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.CommissionMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Commissions.FindAsync(relatedKeyId);

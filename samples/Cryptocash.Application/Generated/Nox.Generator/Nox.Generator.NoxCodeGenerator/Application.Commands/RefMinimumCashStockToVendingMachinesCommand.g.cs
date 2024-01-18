@@ -45,7 +45,7 @@ internal partial class CreateRefMinimumCashStockToVendingMachinesCommandHandler
 			throw new EntityNotFoundException("MinimumCashStock",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetVendingMachine(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetMinimumCashStocksRequiredByVendingMachines(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("VendingMachine",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefMinimumCashStockToVendingMachinesCommandHandler
 		var relatedEntities = new List<Cryptocash.Domain.VendingMachine>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetVendingMachine(keyDto);
+			var relatedEntity = await GetMinimumCashStocksRequiredByVendingMachines(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("VendingMachine", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefMinimumCashStockToVendingMachinesCommandHandler
 			throw new EntityNotFoundException("MinimumCashStock",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetVendingMachine(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetMinimumCashStocksRequiredByVendingMachines(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("VendingMachine", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -198,7 +198,7 @@ internal abstract class RefMinimumCashStockToVendingMachinesCommandHandlerBase<T
 		return await DbContext.MinimumCashStocks.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.VendingMachine?> GetVendingMachine(VendingMachineKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.VendingMachine?> GetMinimumCashStocksRequiredByVendingMachines(VendingMachineKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.VendingMachineMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.VendingMachines.FindAsync(relatedKeyId);

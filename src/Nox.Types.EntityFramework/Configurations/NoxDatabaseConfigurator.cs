@@ -75,7 +75,7 @@ namespace Nox.Types.EntityFramework.Configurations
 
             ConfigureSystemFields(builder, entity);
 
-            ConfigureRelationships(builder, modelBuilder, entity,clientAssembly);
+            ConfigureRelationships(builder, modelBuilder, entity, clientAssembly);
 
             ConfigureOwnedRelationships(CodeGenConventions, builder, entity, clientAssembly);
 
@@ -170,10 +170,20 @@ namespace Nox.Types.EntityFramework.Configurations
             // Currently, configured bi-directionally, shouldn't cause any issues.
             if (relationship.Relationship.WithMultiEntity && relationship.Relationship.Related.EntityRelationship.WithMultiEntity)
             {
-                builder
-                    .HasMany(navigationPropertyName)
-                    .WithMany(reversedNavigationPropertyName)
-                    .UsingEntity(x => x.ToTable(relationship.Relationship.Name));
+                if (relationship.Relationship.Related.Entity.Name == entity.Name)
+                {
+                    builder
+                        .HasMany(navigationPropertyName)
+                        .WithMany()
+                        .UsingEntity(x => x.ToTable(relationship.Relationship.Name));
+                }
+                else
+                {
+                    builder
+                        .HasMany(navigationPropertyName)
+                        .WithMany(reversedNavigationPropertyName)
+                        .UsingEntity(x => x.ToTable(relationship.Relationship.Name));
+                }
             }
             // OneToOne and OneToMany, setup should be done only on foreign key side
             else if (relationship.Relationship.WithSingleEntity())

@@ -45,7 +45,7 @@ internal partial class CreateRefCountryToVendingMachinesCommandHandler
 			throw new EntityNotFoundException("Country",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetVendingMachine(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCountryUsedByVendingMachines(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("VendingMachine",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefCountryToVendingMachinesCommandHandler
 		var relatedEntities = new List<Cryptocash.Domain.VendingMachine>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetVendingMachine(keyDto);
+			var relatedEntity = await GetCountryUsedByVendingMachines(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("VendingMachine", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefCountryToVendingMachinesCommandHandler
 			throw new EntityNotFoundException("Country",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetVendingMachine(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCountryUsedByVendingMachines(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("VendingMachine", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -198,7 +198,7 @@ internal abstract class RefCountryToVendingMachinesCommandHandlerBase<TRequest> 
 		return await DbContext.Countries.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.VendingMachine?> GetVendingMachine(VendingMachineKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.VendingMachine?> GetCountryUsedByVendingMachines(VendingMachineKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.VendingMachineMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.VendingMachines.FindAsync(relatedKeyId);

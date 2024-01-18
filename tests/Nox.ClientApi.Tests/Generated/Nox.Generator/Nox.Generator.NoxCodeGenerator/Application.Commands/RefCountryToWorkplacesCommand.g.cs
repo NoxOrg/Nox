@@ -45,7 +45,7 @@ internal partial class CreateRefCountryToWorkplacesCommandHandler
 			throw new EntityNotFoundException("Country",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetWorkplace(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetPhysicalWorkplaces(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Workplace",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefCountryToWorkplacesCommandHandler
 		var relatedEntities = new List<ClientApi.Domain.Workplace>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetWorkplace(keyDto);
+			var relatedEntity = await GetPhysicalWorkplaces(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("Workplace", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefCountryToWorkplacesCommandHandler
 			throw new EntityNotFoundException("Country",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetWorkplace(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetPhysicalWorkplaces(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Workplace", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -198,7 +198,7 @@ internal abstract class RefCountryToWorkplacesCommandHandlerBase<TRequest> : Com
 		return await DbContext.Countries.FindAsync(keyId);
 	}
 
-	protected async Task<ClientApi.Domain.Workplace?> GetWorkplace(WorkplaceKeyDto relatedEntityKeyDto)
+	protected async Task<ClientApi.Domain.Workplace?> GetPhysicalWorkplaces(WorkplaceKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.WorkplaceMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Workplaces.FindAsync(relatedKeyId);

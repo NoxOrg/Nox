@@ -45,7 +45,7 @@ internal partial class CreateRefCustomerToPaymentDetailsCommandHandler
 			throw new EntityNotFoundException("Customer",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetPaymentDetail(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCustomerRelatedPaymentDetails(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("PaymentDetail",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefCustomerToPaymentDetailsCommandHandler
 		var relatedEntities = new List<Cryptocash.Domain.PaymentDetail>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetPaymentDetail(keyDto);
+			var relatedEntity = await GetCustomerRelatedPaymentDetails(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("PaymentDetail", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefCustomerToPaymentDetailsCommandHandler
 			throw new EntityNotFoundException("Customer",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetPaymentDetail(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCustomerRelatedPaymentDetails(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("PaymentDetail", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -198,7 +198,7 @@ internal abstract class RefCustomerToPaymentDetailsCommandHandlerBase<TRequest> 
 		return await DbContext.Customers.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.PaymentDetail?> GetPaymentDetail(PaymentDetailKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.PaymentDetail?> GetCustomerRelatedPaymentDetails(PaymentDetailKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.PaymentDetailMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.PaymentDetails.FindAsync(relatedKeyId);

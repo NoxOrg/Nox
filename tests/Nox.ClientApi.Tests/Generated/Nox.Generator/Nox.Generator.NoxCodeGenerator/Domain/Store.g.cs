@@ -223,6 +223,32 @@ public abstract partial class StoreBase : AuditableEntityBase, IEtag
     public virtual void DeleteAllRefToClients()
     {
         Clients.Clear();
+    }
+
+    /// <summary>
+    /// Store franchise stores ZeroOrMany Stores
+    /// </summary>
+    public virtual List<Store> Stores { get; private set; } = new();
+
+    public virtual void CreateRefToStores(Store relatedStore)
+    {
+        Stores.Add(relatedStore);
+    }
+
+    public virtual void UpdateRefToStores(List<Store> relatedStore)
+    {
+        Stores.Clear();
+        Stores.AddRange(relatedStore);
+    }
+
+    public virtual void DeleteRefToStores(Store relatedStore)
+    {
+        Stores.Remove(relatedStore);
+    }
+
+    public virtual void DeleteAllRefToStores()
+    {
+        Stores.Clear();
     }﻿
 
     /// <summary>

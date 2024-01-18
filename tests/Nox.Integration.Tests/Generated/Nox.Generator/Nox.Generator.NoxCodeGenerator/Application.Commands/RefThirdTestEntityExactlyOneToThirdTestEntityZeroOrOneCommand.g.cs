@@ -45,7 +45,7 @@ internal partial class CreateRefThirdTestEntityExactlyOneToThirdTestEntityZeroOr
 			throw new EntityNotFoundException("ThirdTestEntityExactlyOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetThirdTestEntityZeroOrOne(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetThirdTestEntityZeroOrOneRelationship(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("ThirdTestEntityZeroOrOne",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefThirdTestEntityExactlyOneToThirdTestEntityZeroOr
 			throw new EntityNotFoundException("ThirdTestEntityExactlyOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetThirdTestEntityZeroOrOne(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetThirdTestEntityZeroOrOneRelationship(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("ThirdTestEntityZeroOrOne", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -154,7 +154,7 @@ internal abstract class RefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCo
 		return await DbContext.ThirdTestEntityExactlyOnes.FindAsync(keyId);
 	}
 
-	protected async Task<TestWebApp.Domain.ThirdTestEntityZeroOrOne?> GetThirdTestEntityZeroOrOne(ThirdTestEntityZeroOrOneKeyDto relatedEntityKeyDto)
+	protected async Task<TestWebApp.Domain.ThirdTestEntityZeroOrOne?> GetThirdTestEntityZeroOrOneRelationship(ThirdTestEntityZeroOrOneKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.ThirdTestEntityZeroOrOneMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.ThirdTestEntityZeroOrOnes.FindAsync(relatedKeyId);

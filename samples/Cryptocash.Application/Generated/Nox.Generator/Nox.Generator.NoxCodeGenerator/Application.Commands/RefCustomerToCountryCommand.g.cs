@@ -45,7 +45,7 @@ internal partial class CreateRefCustomerToCountryCommandHandler
 			throw new EntityNotFoundException("Customer",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCountry(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCustomerBaseCountry(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Country",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefCustomerToCountryCommandHandler
 			throw new EntityNotFoundException("Customer",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCountry(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCustomerBaseCountry(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Country", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -154,7 +154,7 @@ internal abstract class RefCustomerToCountryCommandHandlerBase<TRequest> : Comma
 		return await DbContext.Customers.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.Country?> GetCountry(CountryKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.Country?> GetCustomerBaseCountry(CountryKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Countries.FindAsync(relatedKeyId);

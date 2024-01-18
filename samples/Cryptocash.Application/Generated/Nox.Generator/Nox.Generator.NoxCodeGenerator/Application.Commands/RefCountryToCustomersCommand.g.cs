@@ -45,7 +45,7 @@ internal partial class CreateRefCountryToCustomersCommandHandler
 			throw new EntityNotFoundException("Country",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCustomer(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCountryUsedByCustomers(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Customer",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefCountryToCustomersCommandHandler
 		var relatedEntities = new List<Cryptocash.Domain.Customer>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetCustomer(keyDto);
+			var relatedEntity = await GetCountryUsedByCustomers(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("Customer", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefCountryToCustomersCommandHandler
 			throw new EntityNotFoundException("Country",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCustomer(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCountryUsedByCustomers(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Customer", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -198,7 +198,7 @@ internal abstract class RefCountryToCustomersCommandHandlerBase<TRequest> : Comm
 		return await DbContext.Countries.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.Customer?> GetCustomer(CustomerKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.Customer?> GetCountryUsedByCustomers(CustomerKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.CustomerMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Customers.FindAsync(relatedKeyId);

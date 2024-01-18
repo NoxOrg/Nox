@@ -45,7 +45,7 @@ internal partial class CreateRefWorkplaceToTenantsCommandHandler
 			throw new EntityNotFoundException("Workplace",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetTenant(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetTenantsInWorkplace(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Tenant",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefWorkplaceToTenantsCommandHandler
 		var relatedEntities = new List<ClientApi.Domain.Tenant>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetTenant(keyDto);
+			var relatedEntity = await GetTenantsInWorkplace(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("Tenant", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefWorkplaceToTenantsCommandHandler
 			throw new EntityNotFoundException("Workplace",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetTenant(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetTenantsInWorkplace(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Tenant", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -198,7 +198,7 @@ internal abstract class RefWorkplaceToTenantsCommandHandlerBase<TRequest> : Comm
 		return await DbContext.Workplaces.FindAsync(keyId);
 	}
 
-	protected async Task<ClientApi.Domain.Tenant?> GetTenant(TenantKeyDto relatedEntityKeyDto)
+	protected async Task<ClientApi.Domain.Tenant?> GetTenantsInWorkplace(TenantKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.TenantMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Tenants.FindAsync(relatedKeyId);

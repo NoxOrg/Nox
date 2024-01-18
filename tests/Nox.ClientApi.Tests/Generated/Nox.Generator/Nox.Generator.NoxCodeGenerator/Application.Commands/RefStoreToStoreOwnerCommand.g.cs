@@ -45,7 +45,7 @@ internal partial class CreateRefStoreToStoreOwnerCommandHandler
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetStoreOwner(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetOwnership(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("StoreOwner",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefStoreToStoreOwnerCommandHandler
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetStoreOwner(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetOwnership(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("StoreOwner", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -154,7 +154,7 @@ internal abstract class RefStoreToStoreOwnerCommandHandlerBase<TRequest> : Comma
 		return await DbContext.Stores.FindAsync(keyId);
 	}
 
-	protected async Task<ClientApi.Domain.StoreOwner?> GetStoreOwner(StoreOwnerKeyDto relatedEntityKeyDto)
+	protected async Task<ClientApi.Domain.StoreOwner?> GetOwnership(StoreOwnerKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.StoreOwnerMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.StoreOwners.FindAsync(relatedKeyId);

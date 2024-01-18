@@ -34,8 +34,9 @@ internal partial class CreateStoreCommandHandler : CreateStoreCommandHandlerBase
 		IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> StoreOwnerFactory,
 		IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory,
 		IEntityFactory<ClientApi.Domain.Client, ClientCreateDto, ClientUpdateDto> ClientFactory,
+		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,CountryFactory, StoreOwnerFactory, StoreLicenseFactory, ClientFactory, entityFactory)
+		: base(dbContext, noxSolution,CountryFactory, StoreOwnerFactory, StoreLicenseFactory, ClientFactory, StoreFactory, entityFactory)
 	{
 	}
 }
@@ -49,6 +50,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 	protected readonly IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> StoreOwnerFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Client, ClientCreateDto, ClientUpdateDto> ClientFactory;
+	protected readonly IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory;
 
 	protected CreateStoreCommandHandlerBase(
         AppDbContext dbContext,
@@ -57,6 +59,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> StoreOwnerFactory,
 		IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory,
 		IEntityFactory<ClientApi.Domain.Client, ClientCreateDto, ClientUpdateDto> ClientFactory,
+		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
@@ -66,6 +69,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		this.StoreOwnerFactory = StoreOwnerFactory;
 		this.StoreLicenseFactory = StoreLicenseFactory;
 		this.ClientFactory = ClientFactory;
+		this.StoreFactory = StoreFactory;
 	}
 
 	public virtual async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
@@ -135,6 +139,27 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 			{
 				var relatedEntity = await ClientFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToClients(relatedEntity);
+			}
+		}
+		if(request.EntityDto.StoresId.Any())
+		{
+			foreach(var relatedId in request.EntityDto.StoresId)
+			{
+				var relatedKey = Dto.StoreMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToStores(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("Stores", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.Stores)
+			{
+				var relatedEntity = await StoreFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
+				entityToCreate.CreateRefToStores(relatedEntity);
 			}
 		}
 

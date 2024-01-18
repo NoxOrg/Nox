@@ -45,7 +45,7 @@ internal partial class CreateRefTestEntityExactlyOneToSecondTestEntityExactlyOne
 			throw new EntityNotFoundException("TestEntityExactlyOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetSecondTestEntityExactlyOne(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetSecondTestEntityExactlyOneRelationship(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("SecondTestEntityExactlyOne",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefTestEntityExactlyOneToSecondTestEntityExactlyOne
 			throw new EntityNotFoundException("TestEntityExactlyOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetSecondTestEntityExactlyOne(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetSecondTestEntityExactlyOneRelationship(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("SecondTestEntityExactlyOne", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -154,7 +154,7 @@ internal abstract class RefTestEntityExactlyOneToSecondTestEntityExactlyOneComma
 		return await DbContext.TestEntityExactlyOnes.FindAsync(keyId);
 	}
 
-	protected async Task<TestWebApp.Domain.SecondTestEntityExactlyOne?> GetSecondTestEntityExactlyOne(SecondTestEntityExactlyOneKeyDto relatedEntityKeyDto)
+	protected async Task<TestWebApp.Domain.SecondTestEntityExactlyOne?> GetSecondTestEntityExactlyOneRelationship(SecondTestEntityExactlyOneKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.SecondTestEntityExactlyOneMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.SecondTestEntityExactlyOnes.FindAsync(relatedKeyId);

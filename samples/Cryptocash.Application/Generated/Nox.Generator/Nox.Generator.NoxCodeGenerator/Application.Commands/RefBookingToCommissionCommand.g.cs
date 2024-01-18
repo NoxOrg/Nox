@@ -45,7 +45,7 @@ internal partial class CreateRefBookingToCommissionCommandHandler
 			throw new EntityNotFoundException("Booking",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCommission(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetBookingFeesForCommission(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Commission",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefBookingToCommissionCommandHandler
 			throw new EntityNotFoundException("Booking",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCommission(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetBookingFeesForCommission(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Commission", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -154,7 +154,7 @@ internal abstract class RefBookingToCommissionCommandHandlerBase<TRequest> : Com
 		return await DbContext.Bookings.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.Commission?> GetCommission(CommissionKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.Commission?> GetBookingFeesForCommission(CommissionKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.CommissionMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Commissions.FindAsync(relatedKeyId);

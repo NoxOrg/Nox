@@ -45,7 +45,7 @@ internal partial class CreateRefWorkplaceToCountryCommandHandler
 			throw new EntityNotFoundException("Workplace",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCountry(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetBelongsToCountry(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Country",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefWorkplaceToCountryCommandHandler
 			throw new EntityNotFoundException("Workplace",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCountry(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetBelongsToCountry(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Country", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -154,7 +154,7 @@ internal abstract class RefWorkplaceToCountryCommandHandlerBase<TRequest> : Comm
 		return await DbContext.Workplaces.FindAsync(keyId);
 	}
 
-	protected async Task<ClientApi.Domain.Country?> GetCountry(CountryKeyDto relatedEntityKeyDto)
+	protected async Task<ClientApi.Domain.Country?> GetBelongsToCountry(CountryKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Countries.FindAsync(relatedKeyId);

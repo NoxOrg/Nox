@@ -45,7 +45,7 @@ internal partial class CreateRefCustomerToTransactionsCommandHandler
 			throw new EntityNotFoundException("Customer",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetTransaction(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCustomerRelatedTransactions(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Transaction",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefCustomerToTransactionsCommandHandler
 		var relatedEntities = new List<Cryptocash.Domain.Transaction>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetTransaction(keyDto);
+			var relatedEntity = await GetCustomerRelatedTransactions(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("Transaction", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefCustomerToTransactionsCommandHandler
 			throw new EntityNotFoundException("Customer",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetTransaction(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCustomerRelatedTransactions(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Transaction", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -198,7 +198,7 @@ internal abstract class RefCustomerToTransactionsCommandHandlerBase<TRequest> : 
 		return await DbContext.Customers.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.Transaction?> GetTransaction(TransactionKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.Transaction?> GetCustomerRelatedTransactions(TransactionKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.TransactionMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Transactions.FindAsync(relatedKeyId);

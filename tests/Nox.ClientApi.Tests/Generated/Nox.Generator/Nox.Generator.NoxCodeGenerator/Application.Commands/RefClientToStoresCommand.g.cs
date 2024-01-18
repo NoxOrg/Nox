@@ -45,7 +45,7 @@ internal partial class CreateRefClientToStoresCommandHandler
 			throw new EntityNotFoundException("Client",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetStore(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetClientOf(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Store",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefClientToStoresCommandHandler
 		var relatedEntities = new List<ClientApi.Domain.Store>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetStore(keyDto);
+			var relatedEntity = await GetClientOf(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("Store", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefClientToStoresCommandHandler
 			throw new EntityNotFoundException("Client",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetStore(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetClientOf(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Store", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -198,7 +198,7 @@ internal abstract class RefClientToStoresCommandHandlerBase<TRequest> : CommandB
 		return await DbContext.Clients.FindAsync(keyId);
 	}
 
-	protected async Task<ClientApi.Domain.Store?> GetStore(StoreKeyDto relatedEntityKeyDto)
+	protected async Task<ClientApi.Domain.Store?> GetClientOf(StoreKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.StoreMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Stores.FindAsync(relatedKeyId);

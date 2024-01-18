@@ -120,6 +120,11 @@ public abstract class StoreDtoBase : EntityDtoBase
     public virtual List<ClientDto> Clients { get; set; } = new();
 
     /// <summary>
+    /// Store franchise stores ZeroOrMany Stores
+    /// </summary>
+    public virtual List<StoreDto> Stores { get; set; } = new();
+
+    /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
     public virtual EmailAddressDto? EmailAddress { get; set; } = null!;

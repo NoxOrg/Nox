@@ -45,7 +45,7 @@ internal partial class CreateRefVendingMachineToCashStockOrdersCommandHandler
 			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCashStockOrder(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetVendingMachineRelatedCashStockOrders(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("CashStockOrder",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefVendingMachineToCashStockOrdersCommandHandler
 		var relatedEntities = new List<Cryptocash.Domain.CashStockOrder>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetCashStockOrder(keyDto);
+			var relatedEntity = await GetVendingMachineRelatedCashStockOrders(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("CashStockOrder", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefVendingMachineToCashStockOrdersCommandHandler
 			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCashStockOrder(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetVendingMachineRelatedCashStockOrders(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("CashStockOrder", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -198,7 +198,7 @@ internal abstract class RefVendingMachineToCashStockOrdersCommandHandlerBase<TRe
 		return await DbContext.VendingMachines.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.CashStockOrder?> GetCashStockOrder(CashStockOrderKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.CashStockOrder?> GetVendingMachineRelatedCashStockOrders(CashStockOrderKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.CashStockOrderMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.CashStockOrders.FindAsync(relatedKeyId);

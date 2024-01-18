@@ -75,6 +75,7 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
             { ("stores", "storeowner"), true },           
             { ("stores", "storelicense"), true },           
             { ("stores", "clients"), false },           
+            { ("stores", "stores"), false },           
             { ("workplaces", "country"), true },           
             { ("workplaces", "tenants"), false },           
             { ("storeowners", "stores"), false },           

@@ -45,7 +45,7 @@ internal partial class CreateRefTestEntityTwoRelationshipsOneToOneToTestRelation
 			throw new EntityNotFoundException("TestEntityTwoRelationshipsOneToOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetSecondTestEntityTwoRelationshipsOneToOne(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetTestRelationshipTwo(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("SecondTestEntityTwoRelationshipsOneToOne",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefTestEntityTwoRelationshipsOneToOneToTestRelation
 			throw new EntityNotFoundException("TestEntityTwoRelationshipsOneToOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetSecondTestEntityTwoRelationshipsOneToOne(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetTestRelationshipTwo(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("SecondTestEntityTwoRelationshipsOneToOne", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -154,7 +154,7 @@ internal abstract class RefTestEntityTwoRelationshipsOneToOneToTestRelationshipT
 		return await DbContext.TestEntityTwoRelationshipsOneToOnes.FindAsync(keyId);
 	}
 
-	protected async Task<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOne?> GetSecondTestEntityTwoRelationshipsOneToOne(SecondTestEntityTwoRelationshipsOneToOneKeyDto relatedEntityKeyDto)
+	protected async Task<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOne?> GetTestRelationshipTwo(SecondTestEntityTwoRelationshipsOneToOneKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.SecondTestEntityTwoRelationshipsOneToOneMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.SecondTestEntityTwoRelationshipsOneToOnes.FindAsync(relatedKeyId);

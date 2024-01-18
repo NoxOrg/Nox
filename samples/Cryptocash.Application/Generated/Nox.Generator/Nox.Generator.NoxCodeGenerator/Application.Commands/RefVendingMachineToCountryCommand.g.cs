@@ -45,7 +45,7 @@ internal partial class CreateRefVendingMachineToCountryCommandHandler
 			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCountry(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetVendingMachineInstallationCountry(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Country",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefVendingMachineToCountryCommandHandler
 			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCountry(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetVendingMachineInstallationCountry(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Country", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -154,7 +154,7 @@ internal abstract class RefVendingMachineToCountryCommandHandlerBase<TRequest> :
 		return await DbContext.VendingMachines.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.Country?> GetCountry(CountryKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.Country?> GetVendingMachineInstallationCountry(CountryKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Countries.FindAsync(relatedKeyId);

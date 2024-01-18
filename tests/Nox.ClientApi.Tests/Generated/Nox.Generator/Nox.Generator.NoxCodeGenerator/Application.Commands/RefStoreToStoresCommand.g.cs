@@ -20,24 +20,24 @@ using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
-public abstract record RefStoreToClientsCommand(StoreKeyDto EntityKeyDto) : IRequest <bool>;
+public abstract record RefStoreToStoresCommand(StoreKeyDto EntityKeyDto) : IRequest <bool>;
 
 #region CreateRefTo
 
-public partial record CreateRefStoreToClientsCommand(StoreKeyDto EntityKeyDto, ClientKeyDto RelatedEntityKeyDto)
-	: RefStoreToClientsCommand(EntityKeyDto);
+public partial record CreateRefStoreToStoresCommand(StoreKeyDto EntityKeyDto, StoreKeyDto RelatedEntityKeyDto)
+	: RefStoreToStoresCommand(EntityKeyDto);
 
-internal partial class CreateRefStoreToClientsCommandHandler
-	: RefStoreToClientsCommandHandlerBase<CreateRefStoreToClientsCommand>
+internal partial class CreateRefStoreToStoresCommandHandler
+	: RefStoreToStoresCommandHandlerBase<CreateRefStoreToStoresCommand>
 {
-	public CreateRefStoreToClientsCommandHandler(
+	public CreateRefStoreToStoresCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefStoreToClientsCommand request)
+	protected override async Task<bool> ExecuteAsync(CreateRefStoreToStoresCommand request)
     {
 		var entity = await GetStore(request.EntityKeyDto);
 		if (entity == null)
@@ -45,13 +45,13 @@ internal partial class CreateRefStoreToClientsCommandHandler
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetClientsOfStore(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetFranchisesOfStore(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			throw new RelatedEntityNotFoundException("Client",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
+			throw new RelatedEntityNotFoundException("Store",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
-		entity.CreateRefToClients(relatedEntity);
+		entity.CreateRefToStores(relatedEntity);
 
 		return await SaveChangesAsync(request, entity);
     }
@@ -61,20 +61,20 @@ internal partial class CreateRefStoreToClientsCommandHandler
 
 #region UpdateRefTo
 
-public partial record UpdateRefStoreToClientsCommand(StoreKeyDto EntityKeyDto, List<ClientKeyDto> RelatedEntitiesKeysDtos)
-	: RefStoreToClientsCommand(EntityKeyDto);
+public partial record UpdateRefStoreToStoresCommand(StoreKeyDto EntityKeyDto, List<StoreKeyDto> RelatedEntitiesKeysDtos)
+	: RefStoreToStoresCommand(EntityKeyDto);
 
-internal partial class UpdateRefStoreToClientsCommandHandler
-	: RefStoreToClientsCommandHandlerBase<UpdateRefStoreToClientsCommand>
+internal partial class UpdateRefStoreToStoresCommandHandler
+	: RefStoreToStoresCommandHandlerBase<UpdateRefStoreToStoresCommand>
 {
-	public UpdateRefStoreToClientsCommandHandler(
+	public UpdateRefStoreToStoresCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(UpdateRefStoreToClientsCommand request)
+	protected override async Task<bool> ExecuteAsync(UpdateRefStoreToStoresCommand request)
     {
 		var entity = await GetStore(request.EntityKeyDto);
 		if (entity == null)
@@ -82,19 +82,19 @@ internal partial class UpdateRefStoreToClientsCommandHandler
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntities = new List<ClientApi.Domain.Client>();
+		var relatedEntities = new List<ClientApi.Domain.Store>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetClientsOfStore(keyDto);
+			var relatedEntity = await GetFranchisesOfStore(keyDto);
 			if (relatedEntity == null)
 			{
-				throw new RelatedEntityNotFoundException("Client", $"{keyDto.keyId.ToString()}");
+				throw new RelatedEntityNotFoundException("Store", $"{keyDto.keyId.ToString()}");
 			}
 			relatedEntities.Add(relatedEntity);
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.Clients).LoadAsync();
-		entity.UpdateRefToClients(relatedEntities);
+		await DbContext.Entry(entity).Collection(x => x.Stores).LoadAsync();
+		entity.UpdateRefToStores(relatedEntities);
 
 		return await SaveChangesAsync(request, entity);
     }
@@ -104,20 +104,20 @@ internal partial class UpdateRefStoreToClientsCommandHandler
 
 #region DeleteRefTo
 
-public record DeleteRefStoreToClientsCommand(StoreKeyDto EntityKeyDto, ClientKeyDto RelatedEntityKeyDto)
-	: RefStoreToClientsCommand(EntityKeyDto);
+public record DeleteRefStoreToStoresCommand(StoreKeyDto EntityKeyDto, StoreKeyDto RelatedEntityKeyDto)
+	: RefStoreToStoresCommand(EntityKeyDto);
 
-internal partial class DeleteRefStoreToClientsCommandHandler
-	: RefStoreToClientsCommandHandlerBase<DeleteRefStoreToClientsCommand>
+internal partial class DeleteRefStoreToStoresCommandHandler
+	: RefStoreToStoresCommandHandlerBase<DeleteRefStoreToStoresCommand>
 {
-	public DeleteRefStoreToClientsCommandHandler(
+	public DeleteRefStoreToStoresCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefStoreToClientsCommand request)
+	protected override async Task<bool> ExecuteAsync(DeleteRefStoreToStoresCommand request)
     {
         var entity = await GetStore(request.EntityKeyDto);
 		if (entity == null)
@@ -125,13 +125,13 @@ internal partial class DeleteRefStoreToClientsCommandHandler
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetClientsOfStore(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetFranchisesOfStore(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			throw new RelatedEntityNotFoundException("Client", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
+			throw new RelatedEntityNotFoundException("Store", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
-		entity.DeleteRefToClients(relatedEntity);
+		entity.DeleteRefToStores(relatedEntity);
 
 		return await SaveChangesAsync(request, entity);
     }
@@ -141,28 +141,28 @@ internal partial class DeleteRefStoreToClientsCommandHandler
 
 #region DeleteAllRefTo
 
-public record DeleteAllRefStoreToClientsCommand(StoreKeyDto EntityKeyDto)
-	: RefStoreToClientsCommand(EntityKeyDto);
+public record DeleteAllRefStoreToStoresCommand(StoreKeyDto EntityKeyDto)
+	: RefStoreToStoresCommand(EntityKeyDto);
 
-internal partial class DeleteAllRefStoreToClientsCommandHandler
-	: RefStoreToClientsCommandHandlerBase<DeleteAllRefStoreToClientsCommand>
+internal partial class DeleteAllRefStoreToStoresCommandHandler
+	: RefStoreToStoresCommandHandlerBase<DeleteAllRefStoreToStoresCommand>
 {
-	public DeleteAllRefStoreToClientsCommandHandler(
+	public DeleteAllRefStoreToStoresCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefStoreToClientsCommand request)
+	protected override async Task<bool> ExecuteAsync(DeleteAllRefStoreToStoresCommand request)
     {
         var entity = await GetStore(request.EntityKeyDto);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.Clients).LoadAsync();
-		entity.DeleteAllRefToClients();
+		await DbContext.Entry(entity).Collection(x => x.Stores).LoadAsync();
+		entity.DeleteAllRefToStores();
 
 		return await SaveChangesAsync(request, entity);
     }
@@ -170,12 +170,12 @@ internal partial class DeleteAllRefStoreToClientsCommandHandler
 
 #endregion DeleteAllRefTo
 
-internal abstract class RefStoreToClientsCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreEntity>,
-	IRequestHandler <TRequest, bool> where TRequest : RefStoreToClientsCommand
+internal abstract class RefStoreToStoresCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreEntity>,
+	IRequestHandler <TRequest, bool> where TRequest : RefStoreToStoresCommand
 {
 	public AppDbContext DbContext { get; }
 
-	public RefStoreToClientsCommandHandlerBase(
+	public RefStoreToStoresCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(noxSolution)
@@ -198,10 +198,10 @@ internal abstract class RefStoreToClientsCommandHandlerBase<TRequest> : CommandB
 		return await DbContext.Stores.FindAsync(keyId);
 	}
 
-	protected async Task<ClientApi.Domain.Client?> GetClientsOfStore(ClientKeyDto relatedEntityKeyDto)
+	protected async Task<ClientApi.Domain.Store?> GetFranchisesOfStore(StoreKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = Dto.ClientMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.Clients.FindAsync(relatedKeyId);
+		var relatedKeyId = Dto.StoreMetadata.CreateId(relatedEntityKeyDto.keyId);
+		return await DbContext.Stores.FindAsync(relatedKeyId);
 	}
 
 	protected async Task<bool> SaveChangesAsync(TRequest request, StoreEntity entity)

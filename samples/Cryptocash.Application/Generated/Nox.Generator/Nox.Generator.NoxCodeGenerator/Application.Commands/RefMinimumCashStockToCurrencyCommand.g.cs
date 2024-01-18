@@ -45,7 +45,7 @@ internal partial class CreateRefMinimumCashStockToCurrencyCommandHandler
 			throw new EntityNotFoundException("MinimumCashStock",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCurrency(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetMinimumCashStockRelatedCurrency(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Currency",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefMinimumCashStockToCurrencyCommandHandler
 			throw new EntityNotFoundException("MinimumCashStock",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCurrency(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetMinimumCashStockRelatedCurrency(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Currency", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -154,7 +154,7 @@ internal abstract class RefMinimumCashStockToCurrencyCommandHandlerBase<TRequest
 		return await DbContext.MinimumCashStocks.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.Currency?> GetCurrency(CurrencyKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.Currency?> GetMinimumCashStockRelatedCurrency(CurrencyKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.CurrencyMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Currencies.FindAsync(relatedKeyId);

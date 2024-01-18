@@ -71,6 +71,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<StoreDto>().ContainsOptional(e => e.StoreOwner);
         builder.EntityType<StoreDto>().ContainsOptional(e => e.StoreLicense);
         builder.EntityType<StoreDto>().ContainsMany(e => e.Clients);
+        builder.EntityType<StoreDto>().ContainsMany(e => e.Stores);
         builder.EntityType<StoreDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<StoreDto>().Ignore(e => e.Etag);
 

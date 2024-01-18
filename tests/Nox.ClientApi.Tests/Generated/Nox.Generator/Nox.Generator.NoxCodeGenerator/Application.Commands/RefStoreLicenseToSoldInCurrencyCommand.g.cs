@@ -45,7 +45,7 @@ internal partial class CreateRefStoreLicenseToSoldInCurrencyCommandHandler
 			throw new EntityNotFoundException("StoreLicense",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCurrency(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetSoldInCurrency(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Currency",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefStoreLicenseToSoldInCurrencyCommandHandler
 			throw new EntityNotFoundException("StoreLicense",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCurrency(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetSoldInCurrency(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Currency", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -154,7 +154,7 @@ internal abstract class RefStoreLicenseToSoldInCurrencyCommandHandlerBase<TReque
 		return await DbContext.StoreLicenses.FindAsync(keyId);
 	}
 
-	protected async Task<ClientApi.Domain.Currency?> GetCurrency(CurrencyKeyDto relatedEntityKeyDto)
+	protected async Task<ClientApi.Domain.Currency?> GetSoldInCurrency(CurrencyKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.CurrencyMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Currencies.FindAsync(relatedKeyId);

@@ -45,7 +45,7 @@ internal partial class CreateRefEntityUniqueConstraintsWithForeignKeyToEntityUni
 			throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKey",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetEntityUniqueConstraintsRelatedForeignKey(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetrelatestoSingleForeignKey(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("EntityUniqueConstraintsRelatedForeignKey",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefEntityUniqueConstraintsWithForeignKeyToEntityUni
 			throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKey",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetEntityUniqueConstraintsRelatedForeignKey(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetrelatestoSingleForeignKey(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("EntityUniqueConstraintsRelatedForeignKey", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -154,7 +154,7 @@ internal abstract class RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueCo
 		return await DbContext.EntityUniqueConstraintsWithForeignKeys.FindAsync(keyId);
 	}
 
-	protected async Task<TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey?> GetEntityUniqueConstraintsRelatedForeignKey(EntityUniqueConstraintsRelatedForeignKeyKeyDto relatedEntityKeyDto)
+	protected async Task<TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey?> GetrelatestoSingleForeignKey(EntityUniqueConstraintsRelatedForeignKeyKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.EntityUniqueConstraintsRelatedForeignKeys.FindAsync(relatedKeyId);

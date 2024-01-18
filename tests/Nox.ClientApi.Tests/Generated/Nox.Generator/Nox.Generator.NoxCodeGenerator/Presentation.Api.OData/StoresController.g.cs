@@ -647,6 +647,195 @@ public abstract partial class StoresControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> CreateRefToStores([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefStoreToStoresCommand(new StoreKeyDto(key), new StoreKeyDto(relatedKey)));
+        
+        return NoContent();
+    }
+    
+    [HttpPut("/api/v1/Stores/{key}/Stores/$ref")]
+    public virtual async Task<ActionResult> UpdateRefToStoresNonConventional([FromRoute] System.Guid key, [FromBody] ReferencesDto<System.Guid> referencesDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var relatedKeysDto = referencesDto.References.Select(x => new StoreKeyDto(x)).ToList();
+        var updatedRef = await _mediator.Send(new UpdateRefStoreToStoresCommand(new StoreKeyDto(key), relatedKeysDto));
+        
+        return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> GetRefToStores([FromRoute] System.Guid key)
+    {
+        var entity = (await _mediator.Send(new GetStoreByIdQuery(key))).Include(x => x.Stores).SingleOrDefault();
+        if (entity is null)
+        {
+            throw new EntityNotFoundException("Store", $"{key.ToString()}");
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in entity.Stores)
+        {
+            references.Add(new System.Uri($"Stores/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
+    }
+    
+    public virtual async Task<ActionResult> DeleteRefToStores([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefStoreToStoresCommand(new StoreKeyDto(key), new StoreKeyDto(relatedKey)));
+        
+        return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> DeleteRefToStores([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefStoreToStoresCommand(new StoreKeyDto(key)));
+        
+        return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToStores([FromRoute] System.Guid key, [FromBody] StoreCreateDto store)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        store.StoresId = new List<System.Guid> { key };
+        var createdKey = await _mediator.Send(new CreateStoreCommand(store, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetStoreByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<StoreDto>>> GetStores(System.Guid key)
+    {
+        var query = await _mediator.Send(new GetStoreByIdQuery(key));
+        if (!query.Any())
+        {
+            throw new EntityNotFoundException("Store", $"{key.ToString()}");
+        }
+        return Ok(query.Include(x => x.Stores).SelectMany(x => x.Stores));
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Stores/{key}/Stores/{relatedKey}")]
+    public virtual async Task<SingleResult<StoreDto>> GetStoresNonConventional(System.Guid key, System.Guid relatedKey)
+    {
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).SelectMany(x => x.Stores).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<StoreDto>(Enumerable.Empty<StoreDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
+    [HttpPut("/api/v1/Stores/{key}/Stores/{relatedKey}")]
+    public virtual async Task<ActionResult<StoreDto>> PutToStoresNonConventional(System.Guid key, System.Guid relatedKey, [FromBody] StoreUpdateDto store)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).SelectMany(x => x.Stores).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Stores", $"{relatedKey.ToString()}");
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateStoreCommand(relatedKey, store, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetStoreByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpPatch("/api/v1/Stores/{key}/Stores/{relatedKey}")]
+    public virtual async Task<ActionResult<StoreDto>> PatchtoStoresNonConventional(System.Guid key, System.Guid relatedKey, [FromBody] Delta<StorePartialUpdateDto> store)
+    {
+        if (!ModelState.IsValid || store is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).SelectMany(x => x.Stores).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Stores", $"{relatedKey.ToString()}");
+        }
+        
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<StorePartialUpdateDto>(store);
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateStoreCommand(relatedKey, updatedProperties, _cultureCode, etag));
+        
+        var updatedItem = (await _mediator.Send(new GetStoreByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(updatedItem);
+    }
+    
+    [HttpDelete("/api/v1/Stores/{key}/Stores/{relatedKey}")]
+    public virtual async Task<ActionResult> DeleteToStores([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).SelectMany(x => x.Stores).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            throw new EntityNotFoundException("Stores", $"{relatedKey.ToString()}");
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteStoreByIdCommand(new List<StoreKeyDto> { new StoreKeyDto(relatedKey) }, etag));
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("/api/v1/Stores/{key}/Stores")]
+    public virtual async Task<ActionResult> DeleteToStores([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.Stores).SingleOrDefault();
+        if (related == null)
+        {
+            throw new EntityNotFoundException("Store", $"{key.ToString()}");
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        await _mediator.Send(new DeleteStoreByIdCommand(related.Select(item => new StoreKeyDto(item.Id)), etag));
+        return NoContent();
+    }
+    
     #endregion
     
 }

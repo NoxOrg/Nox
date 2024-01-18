@@ -45,7 +45,7 @@ internal partial class CreateRefCashStockOrderToVendingMachineCommandHandler
 			throw new EntityNotFoundException("CashStockOrder",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetVendingMachine(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCashStockOrderForVendingMachine(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("VendingMachine",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefCashStockOrderToVendingMachineCommandHandler
 			throw new EntityNotFoundException("CashStockOrder",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetVendingMachine(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCashStockOrderForVendingMachine(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("VendingMachine", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -154,7 +154,7 @@ internal abstract class RefCashStockOrderToVendingMachineCommandHandlerBase<TReq
 		return await DbContext.CashStockOrders.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.VendingMachine?> GetVendingMachine(VendingMachineKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.VendingMachine?> GetCashStockOrderForVendingMachine(VendingMachineKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.VendingMachineMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.VendingMachines.FindAsync(relatedKeyId);

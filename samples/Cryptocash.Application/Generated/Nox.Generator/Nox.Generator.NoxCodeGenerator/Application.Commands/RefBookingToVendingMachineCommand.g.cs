@@ -45,7 +45,7 @@ internal partial class CreateRefBookingToVendingMachineCommandHandler
 			throw new EntityNotFoundException("Booking",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetVendingMachine(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetBookingRelatedVendingMachine(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("VendingMachine",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefBookingToVendingMachineCommandHandler
 			throw new EntityNotFoundException("Booking",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetVendingMachine(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetBookingRelatedVendingMachine(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("VendingMachine", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -154,7 +154,7 @@ internal abstract class RefBookingToVendingMachineCommandHandlerBase<TRequest> :
 		return await DbContext.Bookings.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.VendingMachine?> GetVendingMachine(VendingMachineKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.VendingMachine?> GetBookingRelatedVendingMachine(VendingMachineKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.VendingMachineMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.VendingMachines.FindAsync(relatedKeyId);

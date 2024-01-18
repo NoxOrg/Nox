@@ -45,7 +45,7 @@ internal partial class CreateRefEntityUniqueConstraintsRelatedForeignKeyToEntity
 			throw new EntityNotFoundException("EntityUniqueConstraintsRelatedForeignKey",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetEntityUniqueConstraintsWithForeignKey(request.RelatedEntityKeyDto);
+		var relatedEntity = await Getrelatesto2(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("EntityUniqueConstraintsWithForeignKey",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefEntityUniqueConstraintsRelatedForeignKeyToEntity
 		var relatedEntities = new List<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetEntityUniqueConstraintsWithForeignKey(keyDto);
+			var relatedEntity = await Getrelatesto2(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("EntityUniqueConstraintsWithForeignKey", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefEntityUniqueConstraintsRelatedForeignKeyToEntity
 			throw new EntityNotFoundException("EntityUniqueConstraintsRelatedForeignKey",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetEntityUniqueConstraintsWithForeignKey(request.RelatedEntityKeyDto);
+		var relatedEntity = await Getrelatesto2(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("EntityUniqueConstraintsWithForeignKey", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -198,7 +198,7 @@ internal abstract class RefEntityUniqueConstraintsRelatedForeignKeyToEntityUniqu
 		return await DbContext.EntityUniqueConstraintsRelatedForeignKeys.FindAsync(keyId);
 	}
 
-	protected async Task<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey?> GetEntityUniqueConstraintsWithForeignKey(EntityUniqueConstraintsWithForeignKeyKeyDto relatedEntityKeyDto)
+	protected async Task<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey?> Getrelatesto2(EntityUniqueConstraintsWithForeignKeyKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.EntityUniqueConstraintsWithForeignKeys.FindAsync(relatedKeyId);
