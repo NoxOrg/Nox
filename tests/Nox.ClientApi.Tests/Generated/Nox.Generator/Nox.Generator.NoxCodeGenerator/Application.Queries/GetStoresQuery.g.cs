@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
-
+using Nox.Application.Repositories;
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
 
@@ -16,26 +16,22 @@ public partial record GetStoresQuery() : IRequest<IQueryable<StoreDto>>;
 
 internal partial class GetStoresQueryHandler: GetStoresQueryHandlerBase
 {
-    public GetStoresQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetStoresQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetStoresQueryHandlerBase : QueryBase<IQueryable<StoreDto>>, IRequestHandler<GetStoresQuery, IQueryable<StoreDto>>
 {
-    public  GetStoresQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetStoresQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<StoreDto>> Handle(GetStoresQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<StoreDto>)DataDbContext.Stores
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<StoreDto>()
             .Include(e => e.EmailAddress);
-       return Task.FromResult(OnResponse(item));
+       return Task.FromResult(OnResponse(query));
     }
 }

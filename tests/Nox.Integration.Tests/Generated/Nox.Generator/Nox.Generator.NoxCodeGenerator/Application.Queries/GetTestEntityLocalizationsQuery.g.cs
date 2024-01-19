@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
-
+using Nox.Application.Repositories;
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetTestEntityLocalizationsQuery() : IRequest<IQueryable<Te
 
 internal partial class GetTestEntityLocalizationsQueryHandler: GetTestEntityLocalizationsQueryHandlerBase
 {
-    public GetTestEntityLocalizationsQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetTestEntityLocalizationsQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetTestEntityLocalizationsQueryHandlerBase : QueryBase<IQueryable<TestEntityLocalizationDto>>, IRequestHandler<GetTestEntityLocalizationsQuery, IQueryable<TestEntityLocalizationDto>>
 {
-    public  GetTestEntityLocalizationsQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetTestEntityLocalizationsQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<TestEntityLocalizationDto>> Handle(GetTestEntityLocalizationsQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<TestEntityLocalizationDto>)DataDbContext.TestEntityLocalizations
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<TestEntityLocalizationDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

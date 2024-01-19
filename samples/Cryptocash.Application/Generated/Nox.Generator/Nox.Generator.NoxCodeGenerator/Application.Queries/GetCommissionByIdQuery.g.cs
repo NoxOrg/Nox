@@ -31,7 +31,7 @@ internal abstract class GetCommissionByIdQueryHandlerBase:  QueryBase<IQueryable
 
     public virtual Task<IQueryable<CommissionDto>> Handle(GetCommissionByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<CommissionDto >()
+        var query = ReadOnlyRepository.Query<CommissionDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

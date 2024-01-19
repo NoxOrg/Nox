@@ -31,7 +31,7 @@ internal abstract class GetTestEntityLocalizationByIdQueryHandlerBase:  QueryBas
 
     public virtual Task<IQueryable<TestEntityLocalizationDto>> Handle(GetTestEntityLocalizationByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<TestEntityLocalizationDto >()
+        var query = ReadOnlyRepository.Query<TestEntityLocalizationDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

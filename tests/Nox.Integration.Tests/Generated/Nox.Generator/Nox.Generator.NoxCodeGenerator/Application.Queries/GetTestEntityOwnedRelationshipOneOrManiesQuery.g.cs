@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
-
+using Nox.Application.Repositories;
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -16,26 +16,22 @@ public partial record GetTestEntityOwnedRelationshipOneOrManiesQuery() : IReques
 
 internal partial class GetTestEntityOwnedRelationshipOneOrManiesQueryHandler: GetTestEntityOwnedRelationshipOneOrManiesQueryHandlerBase
 {
-    public GetTestEntityOwnedRelationshipOneOrManiesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetTestEntityOwnedRelationshipOneOrManiesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetTestEntityOwnedRelationshipOneOrManiesQueryHandlerBase : QueryBase<IQueryable<TestEntityOwnedRelationshipOneOrManyDto>>, IRequestHandler<GetTestEntityOwnedRelationshipOneOrManiesQuery, IQueryable<TestEntityOwnedRelationshipOneOrManyDto>>
 {
-    public  GetTestEntityOwnedRelationshipOneOrManiesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetTestEntityOwnedRelationshipOneOrManiesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<TestEntityOwnedRelationshipOneOrManyDto>> Handle(GetTestEntityOwnedRelationshipOneOrManiesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<TestEntityOwnedRelationshipOneOrManyDto>)DataDbContext.TestEntityOwnedRelationshipOneOrManies
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<TestEntityOwnedRelationshipOneOrManyDto>()
             .Include(e => e.SecEntityOwnedRelOneOrManies);
-       return Task.FromResult(OnResponse(item));
+       return Task.FromResult(OnResponse(query));
     }
 }

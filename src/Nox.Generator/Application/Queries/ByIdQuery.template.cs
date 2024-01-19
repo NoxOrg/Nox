@@ -31,7 +31,7 @@ internal abstract class Get{{entity.Name}}ByIdQueryHandlerBase:  QueryBase<IQuer
 
     public virtual Task<IQueryable<{{entity.Name}}Dto>> Handle(Get{{entity.Name}}ByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<{{entity.Name}}Dto >()
+        var query = ReadOnlyRepository.Query<{{entity.Name}}Dto>()
             {{- for ownedRelationship in entity.OwnedRelationships }}
             .Include(e => e.{{GetNavigationPropertyName entity ownedRelationship}})
             {{- end }}

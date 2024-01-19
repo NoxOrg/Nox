@@ -31,7 +31,7 @@ internal abstract class GetPaymentProviderByIdQueryHandlerBase:  QueryBase<IQuer
 
     public virtual Task<IQueryable<PaymentProviderDto>> Handle(GetPaymentProviderByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<PaymentProviderDto >()
+        var query = ReadOnlyRepository.Query<PaymentProviderDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

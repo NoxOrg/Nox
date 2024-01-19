@@ -55,7 +55,7 @@ internal partial class AppDbContext: AppDbContextBase
     {}
 }
 
-internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistence.EntityDbContextBase
+internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistence.EntityDbContextBase, Nox.Domain.IRepository
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;

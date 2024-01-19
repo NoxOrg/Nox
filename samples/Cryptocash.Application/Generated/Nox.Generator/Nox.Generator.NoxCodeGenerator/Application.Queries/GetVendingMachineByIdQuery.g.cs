@@ -31,7 +31,7 @@ internal abstract class GetVendingMachineByIdQueryHandlerBase:  QueryBase<IQuery
 
     public virtual Task<IQueryable<VendingMachineDto>> Handle(GetVendingMachineByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<VendingMachineDto >()
+        var query = ReadOnlyRepository.Query<VendingMachineDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

@@ -31,7 +31,7 @@ internal abstract class GetStoreByIdQueryHandlerBase:  QueryBase<IQueryable<Stor
 
     public virtual Task<IQueryable<StoreDto>> Handle(GetStoreByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<StoreDto >()
+        var query = ReadOnlyRepository.Query<StoreDto>()
             .Include(e => e.EmailAddress)
             .Where(r =>
                 r.Id.Equals(request.keyId));

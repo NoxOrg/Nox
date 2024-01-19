@@ -31,7 +31,7 @@ internal abstract class GetStoreLicenseByIdQueryHandlerBase:  QueryBase<IQueryab
 
     public virtual Task<IQueryable<StoreLicenseDto>> Handle(GetStoreLicenseByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<StoreLicenseDto >()
+        var query = ReadOnlyRepository.Query<StoreLicenseDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

@@ -7,6 +7,8 @@ using MediatR;
 using YamlDotNet.Core.Tokens;
 
 using Nox.Application.Queries;
+using Nox.Application.Repositories;
+
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using {{codeGenConventions.PersistenceNameSpace}};
 
@@ -16,25 +18,21 @@ public partial record  {{className}}({{primaryKeys}}) : IRequest <IQueryable<{{e
 
 internal partial class {{className}}Handler:{{className}}HandlerBase
 {
-    public  {{className}}Handler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public  {{className}}Handler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class {{className}}HandlerBase:  QueryBase<IQueryable<{{entity.Name}}LocalizedDto>>, IRequestHandler<{{className}}, IQueryable<{{entity.Name}}LocalizedDto>>
 {
-    public  {{className}}HandlerBase(DtoDbContext dataDbContext)
+    public  {{className}}HandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<{{entity.Name}}LocalizedDto>> Handle({{className}} request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.{{entity.PluralName}}Localized
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<{{entity.Name}}LocalizedDto>()
             .Where(r =>
             {{- for key in entityKeys }}
                 r.{{key.Name}}.Equals(request.key{{key.Name}}){{if !for.last}} &&{{end}}
