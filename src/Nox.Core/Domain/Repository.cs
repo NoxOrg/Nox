@@ -4,13 +4,14 @@ using Nox.Infrastructure.Persistence;
 
 namespace Nox.Domain;
 
+
 public sealed class Repository : IRepository
 {
     private readonly EntityDbContextBase _dbContext;
 
     public Repository(EntityDbContextBase dbContext)
     {
-        ArgumentNullException.ThrowIfNull(dbContext, nameof(dbContext));
+        ArgumentNullException.ThrowIfNull(dbContext);
         _dbContext = dbContext;
     }
 

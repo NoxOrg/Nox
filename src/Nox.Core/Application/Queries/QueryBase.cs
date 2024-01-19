@@ -1,10 +1,10 @@
 ﻿
-namespace Nox.Application.Commands;
+namespace Nox.Application.Queries;
 
 /// <summary>
 /// Base Implementation for aNox Command
 /// </summary>
-public abstract class QueryBase<TResponse> : INoxQuery
+public abstract class QueryBase<TResponse> : IQuery
 {
 
     /// <summary>

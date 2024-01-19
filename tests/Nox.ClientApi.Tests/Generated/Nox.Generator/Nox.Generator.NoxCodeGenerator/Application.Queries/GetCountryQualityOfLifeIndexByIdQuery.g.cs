@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
@@ -16,25 +17,21 @@ public partial record GetCountryQualityOfLifeIndexByIdQuery(System.Int64 keyCoun
 
 internal partial class GetCountryQualityOfLifeIndexByIdQueryHandler:GetCountryQualityOfLifeIndexByIdQueryHandlerBase
 {
-    public  GetCountryQualityOfLifeIndexByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetCountryQualityOfLifeIndexByIdQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetCountryQualityOfLifeIndexByIdQueryHandlerBase:  QueryBase<IQueryable<CountryQualityOfLifeIndexDto>>, IRequestHandler<GetCountryQualityOfLifeIndexByIdQuery, IQueryable<CountryQualityOfLifeIndexDto>>
 {
-    public  GetCountryQualityOfLifeIndexByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetCountryQualityOfLifeIndexByIdQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<CountryQualityOfLifeIndexDto>> Handle(GetCountryQualityOfLifeIndexByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.CountryQualityOfLifeIndices
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<CountryQualityOfLifeIndexDto >()
             .Where(r =>
                 r.CountryId.Equals(request.keyCountryId) &&
                 r.Id.Equals(request.keyId));

@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Infrastructure.Persistence;
@@ -16,25 +17,21 @@ public partial record GetCountryByIdQuery(System.String keyId) : IRequest <IQuer
 
 internal partial class GetCountryByIdQueryHandler:GetCountryByIdQueryHandlerBase
 {
-    public  GetCountryByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetCountryByIdQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetCountryByIdQueryHandlerBase:  QueryBase<IQueryable<CountryDto>>, IRequestHandler<GetCountryByIdQuery, IQueryable<CountryDto>>
 {
-    public  GetCountryByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetCountryByIdQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<CountryDto>> Handle(GetCountryByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.Countries
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<CountryDto >()
             .Include(e => e.CountryTimeZones)
             .Include(e => e.Holidays)
             .Where(r =>

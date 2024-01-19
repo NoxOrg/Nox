@@ -2,11 +2,11 @@
 
 #nullable enable
 
-using MediatR;
 using Microsoft.EntityFrameworkCore;
-
-using Nox.Application.Commands;
+using MediatR;
 using YamlDotNet.Core.Tokens;
+
+using Nox.Application.Queries;
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using {{codeGenConventions.PersistenceNameSpace}};
 

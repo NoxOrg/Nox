@@ -5,7 +5,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
 
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using {{codeGenConventions.PersistenceNameSpace}};
