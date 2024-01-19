@@ -63,13 +63,8 @@ internal abstract class {{ className}}HandlerBase : {{if relationship.WithSingle
         DbContext.Remove(entity);
         {{~else~}}
         await DbContext.Entry(parentEntity).Collection(p => p.{{GetNavigationPropertyName parent relationship}}).LoadAsync(cancellationToken);
-        {{if entity.Keys.size > 1}}
-        var entityKeys = parentEntity.{{GetNavigationPropertyName parent relationship}}.Select(x => new { {{for key in entity.Keys}} {{key.Name}} = x.{{key.Name}}{{if !for.last}}, {{end}}{{end}} }).ToList();
-        var entities = await DbContext.{{entity.PluralName}}Localized.WhereAnyMatch(entityKeys, (x,y) => {{for key in entity.Keys}}x.{{key.Name}} == {{key.Name}} && {{end}}x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
-        {{~ else ~}}
         var entityKeys = parentEntity.{{GetNavigationPropertyName parent relationship}}.Select(x => x.{{entity.Keys[0].Name}}).ToList();
         var entities = await DbContext.{{entity.PluralName}}Localized.Where(x => entityKeys.Contains(x.{{entity.Keys[0].Name}}) && x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
-        {{~ end ~}}
         
         if (!entities.Any())
         {

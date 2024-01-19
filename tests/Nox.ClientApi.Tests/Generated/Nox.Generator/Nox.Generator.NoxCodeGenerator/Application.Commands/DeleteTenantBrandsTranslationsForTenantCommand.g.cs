@@ -48,8 +48,8 @@ internal abstract class DeleteTenantBrandsTranslationsForTenantCommandHandlerBas
         EntityNotFoundException.ThrowIfNull(parentEntity, "Tenant", $"{parentKeyId.ToString()}");
 
         await DbContext.Entry(parentEntity).Collection(p => p.TenantBrands).LoadAsync(cancellationToken);
-                var entityKeys = parentEntity.TenantBrands.Select(x => x.Id).ToList();
-                var entities = await DbContext.TenantBrandsLocalized.Where(x => entityKeys.Contains(x.Id) && x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
+        var entityKeys = parentEntity.TenantBrands.Select(x => x.Id).ToList();
+        var entities = await DbContext.TenantBrandsLocalized.Where(x => entityKeys.Contains(x.Id) && x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
         
         if (!entities.Any())
         {
