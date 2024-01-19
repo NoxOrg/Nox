@@ -1,11 +1,9 @@
 ﻿
-using System.Linq.Expressions;
-
 namespace Nox.Domain;
 
 public interface IRepository
 {
-    IQueryable<T> Query<T>(Expression<Func<T, bool>> predicate) where T : class, IEntity;
+    IQueryable<T> Query<T>() where T : class, IEntity;
     ValueTask<T> AddAsync<T>(T entity, CancellationToken cancellationToken = default(CancellationToken)) where T : class, IEntity;
 
     void Update<T>(T entity) where T : IEntity;

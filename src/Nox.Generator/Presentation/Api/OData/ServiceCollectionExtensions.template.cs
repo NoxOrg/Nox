@@ -43,9 +43,8 @@ public static class {{className}}
 
         services.AddNoxLib(webApplicationBuilder, configurator =>
         {
-            configurator.WithDatabaseContexts<AppDbContext, DtoDbContext>();
+            configurator.WithRepositories<AppDbContext, DtoDbContext>();
             configurator.WithMessagingTransactionalOutbox<AppDbContext>();
-            configurator.WithRepository<Nox.Domain.Repository>();
             configurator.WithHealthChecks(healthChecksBuilder => healthChecksBuilder.AddDbContextCheck<AppDbContext>());
             configureNox?.Invoke(configurator);
         });

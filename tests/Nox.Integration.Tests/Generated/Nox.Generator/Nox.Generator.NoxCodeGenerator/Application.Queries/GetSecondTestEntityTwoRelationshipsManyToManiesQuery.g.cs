@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
-
+using Nox.Application.Repositories;
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetSecondTestEntityTwoRelationshipsManyToManiesQuery() : I
 
 internal partial class GetSecondTestEntityTwoRelationshipsManyToManiesQueryHandler: GetSecondTestEntityTwoRelationshipsManyToManiesQueryHandlerBase
 {
-    public GetSecondTestEntityTwoRelationshipsManyToManiesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetSecondTestEntityTwoRelationshipsManyToManiesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetSecondTestEntityTwoRelationshipsManyToManiesQueryHandlerBase : QueryBase<IQueryable<SecondTestEntityTwoRelationshipsManyToManyDto>>, IRequestHandler<GetSecondTestEntityTwoRelationshipsManyToManiesQuery, IQueryable<SecondTestEntityTwoRelationshipsManyToManyDto>>
 {
-    public  GetSecondTestEntityTwoRelationshipsManyToManiesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetSecondTestEntityTwoRelationshipsManyToManiesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<SecondTestEntityTwoRelationshipsManyToManyDto>> Handle(GetSecondTestEntityTwoRelationshipsManyToManiesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<SecondTestEntityTwoRelationshipsManyToManyDto>)DataDbContext.SecondTestEntityTwoRelationshipsManyToManies
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<SecondTestEntityTwoRelationshipsManyToManyDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

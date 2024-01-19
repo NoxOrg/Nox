@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
-
+using Nox.Application.Repositories;
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetTestEntityTwoRelationshipsManyToManiesQuery() : IReques
 
 internal partial class GetTestEntityTwoRelationshipsManyToManiesQueryHandler: GetTestEntityTwoRelationshipsManyToManiesQueryHandlerBase
 {
-    public GetTestEntityTwoRelationshipsManyToManiesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetTestEntityTwoRelationshipsManyToManiesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetTestEntityTwoRelationshipsManyToManiesQueryHandlerBase : QueryBase<IQueryable<TestEntityTwoRelationshipsManyToManyDto>>, IRequestHandler<GetTestEntityTwoRelationshipsManyToManiesQuery, IQueryable<TestEntityTwoRelationshipsManyToManyDto>>
 {
-    public  GetTestEntityTwoRelationshipsManyToManiesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetTestEntityTwoRelationshipsManyToManiesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<TestEntityTwoRelationshipsManyToManyDto>> Handle(GetTestEntityTwoRelationshipsManyToManiesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<TestEntityTwoRelationshipsManyToManyDto>)DataDbContext.TestEntityTwoRelationshipsManyToManies
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<TestEntityTwoRelationshipsManyToManyDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

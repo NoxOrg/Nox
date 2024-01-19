@@ -31,7 +31,7 @@ internal abstract class GetCountryJsonToTableByIdQueryHandlerBase:  QueryBase<IQ
 
     public virtual Task<IQueryable<CountryJsonToTableDto>> Handle(GetCountryJsonToTableByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<CountryJsonToTableDto >()
+        var query = ReadOnlyRepository.Query<CountryJsonToTableDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

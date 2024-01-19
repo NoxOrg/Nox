@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
-
+using Nox.Application.Repositories;
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetTestEntityForAutoNumberUsagesQuery() : IRequest<IQuerya
 
 internal partial class GetTestEntityForAutoNumberUsagesQueryHandler: GetTestEntityForAutoNumberUsagesQueryHandlerBase
 {
-    public GetTestEntityForAutoNumberUsagesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetTestEntityForAutoNumberUsagesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetTestEntityForAutoNumberUsagesQueryHandlerBase : QueryBase<IQueryable<TestEntityForAutoNumberUsagesDto>>, IRequestHandler<GetTestEntityForAutoNumberUsagesQuery, IQueryable<TestEntityForAutoNumberUsagesDto>>
 {
-    public  GetTestEntityForAutoNumberUsagesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetTestEntityForAutoNumberUsagesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<TestEntityForAutoNumberUsagesDto>> Handle(GetTestEntityForAutoNumberUsagesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<TestEntityForAutoNumberUsagesDto>)DataDbContext.TestEntityForAutoNumberUsages
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<TestEntityForAutoNumberUsagesDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

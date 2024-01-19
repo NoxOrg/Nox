@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
-
+using Nox.Application.Repositories;
 using CryptocashIntegration.Application.Dto;
 using CryptocashIntegration.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetCountryJsonToTablesQuery() : IRequest<IQueryable<Countr
 
 internal partial class GetCountryJsonToTablesQueryHandler: GetCountryJsonToTablesQueryHandlerBase
 {
-    public GetCountryJsonToTablesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetCountryJsonToTablesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetCountryJsonToTablesQueryHandlerBase : QueryBase<IQueryable<CountryJsonToTableDto>>, IRequestHandler<GetCountryJsonToTablesQuery, IQueryable<CountryJsonToTableDto>>
 {
-    public  GetCountryJsonToTablesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetCountryJsonToTablesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<CountryJsonToTableDto>> Handle(GetCountryJsonToTablesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<CountryJsonToTableDto>)DataDbContext.CountryJsonToTables
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<CountryJsonToTableDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

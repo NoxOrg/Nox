@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
-
+using Nox.Application.Repositories;
 using Cryptocash.Application.Dto;
 using Cryptocash.Infrastructure.Persistence;
 
@@ -16,26 +16,22 @@ public partial record GetEmployeesQuery() : IRequest<IQueryable<EmployeeDto>>;
 
 internal partial class GetEmployeesQueryHandler: GetEmployeesQueryHandlerBase
 {
-    public GetEmployeesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetEmployeesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetEmployeesQueryHandlerBase : QueryBase<IQueryable<EmployeeDto>>, IRequestHandler<GetEmployeesQuery, IQueryable<EmployeeDto>>
 {
-    public  GetEmployeesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetEmployeesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<EmployeeDto>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<EmployeeDto>)DataDbContext.Employees
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<EmployeeDto>()
             .Include(e => e.EmployeePhoneNumbers);
-       return Task.FromResult(OnResponse(item));
+       return Task.FromResult(OnResponse(query));
     }
 }
