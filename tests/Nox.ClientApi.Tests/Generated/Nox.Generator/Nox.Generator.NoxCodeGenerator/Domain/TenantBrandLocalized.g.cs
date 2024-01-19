@@ -19,7 +19,7 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Tenant Brand.
 /// </summary>
-public partial class TenantBrandLocalized : IEntity, IEtag 
+public partial class TenantBrandLocalized : IEntity, IEtag
 {
     /// <summary>
     ///  (Required).

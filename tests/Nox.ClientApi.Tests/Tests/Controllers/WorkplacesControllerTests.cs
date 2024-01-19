@@ -5,6 +5,7 @@ using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
 using Nox.Application.Dto;
+using static MassTransit.ValidationResultExtensions;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -898,7 +899,77 @@ namespace ClientApi.Tests.Tests.Controllers
             return postResult;
         }
 
+        [Fact]
+        public async Task Delete_DeletingNonDefaultLocalization_DeletesLocalization()
+        {
+            // Arrange
+            var newWorkplace = await CreateWorkplaceAndGetId();
+            var cultureCode = "ar-SA";
+            var upsertDto = new WorkplaceLocalizedUpsertDto
+            {
+                Description = "الوصف المترجم باللغة الإنجليزية."
+            };
 
+            var headers = CreateHeaders(
+                CreateAcceptLanguageHeader(cultureCode));
+
+            await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}",
+                upsertDto,
+                headers, false);
+
+            // Act
+            var deleteResult = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{newWorkplace!.Id}/WorkplacesLocalized/{cultureCode}");
+            var arResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}?lang={cultureCode}", CreateAcceptLanguageHeader(cultureCode)))?.ToList();
+
+            // Assert
+            deleteResult!.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            arResult.Should().NotBeNull();
+
+            // Result should be in default culture since ar localization is deleted
+            arResult![0]!.Description.Should().Be(newWorkplace.Description);
+        }
+
+        [Fact]
+        public async Task Delete_DeletingDefaultLocalization_ReturnsBadRequest()
+        {
+            // Arrange
+            var newWorkplace = await CreateWorkplaceAndGetId();
+
+            // Act
+            var deleteResult = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{newWorkplace!.Id}/WorkplacesLocalized/en-US", false);
+
+            // Assert
+            deleteResult!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            var response = await deleteResult.Content.ReadFromJsonAsync<ApplicationErrorCodeResponse>();
+            response!.Error.Code.Should().Be("bad_request");
+        }
+
+        [Fact]
+        public async Task Delete_DeletingNonExistentLocalization_ReturnsNotFound()
+        {
+            // Arrange
+            var newWorkplace = await CreateWorkplaceAndGetId();
+
+            // Act
+            var deleteResult = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{newWorkplace!.Id}/WorkplacesLocalized/fr-FR", false);
+
+            // Assert
+            deleteResult!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task Delete_DeletingForEntityThatDoesntExist_ReturnsNotFound()
+        {
+            // Arrange
+            var id = 123;
+
+            // Act
+            var deleteResult = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{id}/WorkplacesLocalized/fr-FR", false);
+
+            // Assert
+            deleteResult!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
         #endregion LOCALIZATIONS
 
         #region ENUMS

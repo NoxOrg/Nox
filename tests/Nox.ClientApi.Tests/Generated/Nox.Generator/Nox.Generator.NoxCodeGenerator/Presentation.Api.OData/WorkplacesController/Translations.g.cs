@@ -58,6 +58,20 @@ public abstract partial class WorkplacesControllerBase
         return Ok(item);
     }
 
+    [HttpDelete("/api/v1/Workplaces/{key}/WorkplacesLocalized/{cultureCode}")]
+    public virtual async Task<ActionResult<WorkplaceLocalizedDto>> DeleteWorkplaceLocalized( [FromRoute] System.Int64 key, [FromRoute] System.String cultureCode)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
+               
+        await _mediator.Send(new DeleteWorkplaceTranslationCommand(key, cultureCodeValue!));
+
+        return NoContent();
+    }
 
     [HttpGet("/api/v1/Workplaces/{key}/WorkplacesLocalized/")]
     public virtual async Task<ActionResult<IQueryable<WorkplaceLocalizedDto>>> GetWorkplaceLocalizedNonConventional( [FromRoute] System.Int64 key)
@@ -66,6 +80,5 @@ public abstract partial class WorkplacesControllerBase
             
         return Ok(result);
     }
-
 
 }
