@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using DtoNameSpace = ClientApi.Application.Dto;
 using PersistenceNameSpace = ClientApi.Infrastructure.Persistence;
@@ -15,24 +16,21 @@ public partial record GetWorkplacesOwnershipsTranslationsQuery() : IRequest<IQue
 
 internal partial class GetWorkplacesOwnershipsTranslationsQueryHandler: GetWorkplacesOwnershipsTranslationsQueryHandlerBase
 {
-    public GetWorkplacesOwnershipsTranslationsQueryHandler(PersistenceNameSpace.DtoDbContext dataDbContext): base(dataDbContext){}
+    public GetWorkplacesOwnershipsTranslationsQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetWorkplacesOwnershipsTranslationsQueryHandlerBase : QueryBase<IQueryable<DtoNameSpace.WorkplaceOwnershipLocalizedDto>>, IRequestHandler<GetWorkplacesOwnershipsTranslationsQuery, IQueryable<DtoNameSpace.WorkplaceOwnershipLocalizedDto>>
 {
-    public  GetWorkplacesOwnershipsTranslationsQueryHandlerBase(PersistenceNameSpace.DtoDbContext dataDbContext)
+    public  GetWorkplacesOwnershipsTranslationsQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public PersistenceNameSpace.DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<DtoNameSpace.WorkplaceOwnershipLocalizedDto>> Handle(GetWorkplacesOwnershipsTranslationsQuery request, CancellationToken cancellationToken)
-    {
-       
-        var queryBuilder = DataDbContext.WorkplacesOwnershipsLocalized
-            .AsNoTracking<DtoNameSpace.WorkplaceOwnershipLocalizedDto>();
-        return Task.FromResult(OnResponse(queryBuilder));
-       
+    {       
+        var queryBuilder = ReadOnlyRepository.Query<DtoNameSpace.WorkplaceOwnershipLocalizedDto>();
+        return Task.FromResult(OnResponse(queryBuilder));       
     }  
 }

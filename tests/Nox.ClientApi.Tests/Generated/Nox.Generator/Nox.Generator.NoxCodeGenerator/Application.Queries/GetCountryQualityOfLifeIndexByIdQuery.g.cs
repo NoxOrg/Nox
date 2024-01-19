@@ -31,7 +31,7 @@ internal abstract class GetCountryQualityOfLifeIndexByIdQueryHandlerBase:  Query
 
     public virtual Task<IQueryable<CountryQualityOfLifeIndexDto>> Handle(GetCountryQualityOfLifeIndexByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<CountryQualityOfLifeIndexDto >()
+        var query = ReadOnlyRepository.Query<CountryQualityOfLifeIndexDto>()
             .Where(r =>
                 r.CountryId.Equals(request.keyCountryId) &&
                 r.Id.Equals(request.keyId));

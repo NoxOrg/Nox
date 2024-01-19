@@ -31,7 +31,7 @@ internal abstract class GetCashStockOrderByIdQueryHandlerBase:  QueryBase<IQuery
 
     public virtual Task<IQueryable<CashStockOrderDto>> Handle(GetCashStockOrderByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<CashStockOrderDto >()
+        var query = ReadOnlyRepository.Query<CashStockOrderDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

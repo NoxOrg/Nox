@@ -7,6 +7,7 @@ using MediatR;
 using YamlDotNet.Core.Tokens;
 
 using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
@@ -17,25 +18,21 @@ public record  GetTenantContactTranslationsByIdQuery(System.UInt32 keyTenantId, 
 
 internal partial class GetTenantContactTranslationsByIdQueryHandler:GetTenantContactTranslationsByIdQueryHandlerBase
 {
-    public  GetTenantContactTranslationsByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public  GetTenantContactTranslationsByIdQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetTenantContactTranslationsByIdQueryHandlerBase:  QueryBase<IQueryable<TenantContactLocalizedDto>>, IRequestHandler<GetTenantContactTranslationsByIdQuery, IQueryable<TenantContactLocalizedDto>>
 {
-    public  GetTenantContactTranslationsByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetTenantContactTranslationsByIdQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<TenantContactLocalizedDto>> Handle(GetTenantContactTranslationsByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.TenantContactsLocalized
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<TenantContactLocalizedDto>()
             .Where(r =>
                 r.TenantId.Equals(request.keyTenantId)
                 && r.CultureCode == request.CultureCode.Value

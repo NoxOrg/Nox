@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
-
+using Nox.Application.Repositories;
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetStoreLicensesQuery() : IRequest<IQueryable<StoreLicense
 
 internal partial class GetStoreLicensesQueryHandler: GetStoreLicensesQueryHandlerBase
 {
-    public GetStoreLicensesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetStoreLicensesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetStoreLicensesQueryHandlerBase : QueryBase<IQueryable<StoreLicenseDto>>, IRequestHandler<GetStoreLicensesQuery, IQueryable<StoreLicenseDto>>
 {
-    public  GetStoreLicensesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetStoreLicensesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<StoreLicenseDto>> Handle(GetStoreLicensesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<StoreLicenseDto>)DataDbContext.StoreLicenses
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<StoreLicenseDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

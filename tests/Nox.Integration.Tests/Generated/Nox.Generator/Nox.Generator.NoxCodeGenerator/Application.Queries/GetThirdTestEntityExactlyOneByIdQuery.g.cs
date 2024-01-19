@@ -31,7 +31,7 @@ internal abstract class GetThirdTestEntityExactlyOneByIdQueryHandlerBase:  Query
 
     public virtual Task<IQueryable<ThirdTestEntityExactlyOneDto>> Handle(GetThirdTestEntityExactlyOneByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<ThirdTestEntityExactlyOneDto >()
+        var query = ReadOnlyRepository.Query<ThirdTestEntityExactlyOneDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
-
+using Nox.Application.Repositories;
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetClientsQuery() : IRequest<IQueryable<ClientDto>>;
 
 internal partial class GetClientsQueryHandler: GetClientsQueryHandlerBase
 {
-    public GetClientsQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetClientsQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetClientsQueryHandlerBase : QueryBase<IQueryable<ClientDto>>, IRequestHandler<GetClientsQuery, IQueryable<ClientDto>>
 {
-    public  GetClientsQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetClientsQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<ClientDto>> Handle(GetClientsQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<ClientDto>)DataDbContext.Clients
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<ClientDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

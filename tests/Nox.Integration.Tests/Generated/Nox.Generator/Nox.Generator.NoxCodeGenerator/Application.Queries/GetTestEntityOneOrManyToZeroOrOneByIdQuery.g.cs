@@ -31,7 +31,7 @@ internal abstract class GetTestEntityOneOrManyToZeroOrOneByIdQueryHandlerBase:  
 
     public virtual Task<IQueryable<TestEntityOneOrManyToZeroOrOneDto>> Handle(GetTestEntityOneOrManyToZeroOrOneByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<TestEntityOneOrManyToZeroOrOneDto >()
+        var query = ReadOnlyRepository.Query<TestEntityOneOrManyToZeroOrOneDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

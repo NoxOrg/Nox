@@ -31,7 +31,7 @@ internal abstract class GetStoreOwnerByIdQueryHandlerBase:  QueryBase<IQueryable
 
     public virtual Task<IQueryable<StoreOwnerDto>> Handle(GetStoreOwnerByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<StoreOwnerDto >()
+        var query = ReadOnlyRepository.Query<StoreOwnerDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

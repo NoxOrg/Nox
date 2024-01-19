@@ -31,7 +31,7 @@ internal abstract class GetTestEntityForAutoNumberUsagesByIdQueryHandlerBase:  Q
 
     public virtual Task<IQueryable<TestEntityForAutoNumberUsagesDto>> Handle(GetTestEntityForAutoNumberUsagesByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<TestEntityForAutoNumberUsagesDto >()
+        var query = ReadOnlyRepository.Query<TestEntityForAutoNumberUsagesDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
