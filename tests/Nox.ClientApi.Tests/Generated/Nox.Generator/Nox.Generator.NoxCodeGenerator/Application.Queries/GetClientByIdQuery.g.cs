@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
@@ -16,25 +17,21 @@ public partial record GetClientByIdQuery(System.Guid keyId) : IRequest <IQueryab
 
 internal partial class GetClientByIdQueryHandler:GetClientByIdQueryHandlerBase
 {
-    public  GetClientByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetClientByIdQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetClientByIdQueryHandlerBase:  QueryBase<IQueryable<ClientDto>>, IRequestHandler<GetClientByIdQuery, IQueryable<ClientDto>>
 {
-    public  GetClientByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetClientByIdQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<ClientDto>> Handle(GetClientByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.Clients
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<ClientDto >()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

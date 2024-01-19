@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using CryptocashIntegration.Application.Dto;
 using CryptocashIntegration.Infrastructure.Persistence;
@@ -16,25 +17,21 @@ public partial record GetCountryQueryToTableByIdQuery(System.Int32 keyId) : IReq
 
 internal partial class GetCountryQueryToTableByIdQueryHandler:GetCountryQueryToTableByIdQueryHandlerBase
 {
-    public  GetCountryQueryToTableByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetCountryQueryToTableByIdQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetCountryQueryToTableByIdQueryHandlerBase:  QueryBase<IQueryable<CountryQueryToTableDto>>, IRequestHandler<GetCountryQueryToTableByIdQuery, IQueryable<CountryQueryToTableDto>>
 {
-    public  GetCountryQueryToTableByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetCountryQueryToTableByIdQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<CountryQueryToTableDto>> Handle(GetCountryQueryToTableByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.CountryQueryToTables
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<CountryQueryToTableDto >()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

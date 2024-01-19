@@ -5,7 +5,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Infrastructure.Persistence;

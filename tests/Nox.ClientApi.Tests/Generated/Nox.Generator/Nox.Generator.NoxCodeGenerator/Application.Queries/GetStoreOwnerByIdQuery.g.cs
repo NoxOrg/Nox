@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
@@ -16,25 +17,21 @@ public partial record GetStoreOwnerByIdQuery(System.String keyId) : IRequest <IQ
 
 internal partial class GetStoreOwnerByIdQueryHandler:GetStoreOwnerByIdQueryHandlerBase
 {
-    public  GetStoreOwnerByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetStoreOwnerByIdQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetStoreOwnerByIdQueryHandlerBase:  QueryBase<IQueryable<StoreOwnerDto>>, IRequestHandler<GetStoreOwnerByIdQuery, IQueryable<StoreOwnerDto>>
 {
-    public  GetStoreOwnerByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetStoreOwnerByIdQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<StoreOwnerDto>> Handle(GetStoreOwnerByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.StoreOwners
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<StoreOwnerDto >()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

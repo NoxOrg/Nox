@@ -5,7 +5,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
 
 using DtoNameSpace = ClientApi.Application.Dto;
 using PersistenceNameSpace = ClientApi.Infrastructure.Persistence;

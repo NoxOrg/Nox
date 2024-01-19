@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
@@ -16,25 +17,21 @@ public partial record GetStoreLicenseByIdQuery(System.Int64 keyId) : IRequest <I
 
 internal partial class GetStoreLicenseByIdQueryHandler:GetStoreLicenseByIdQueryHandlerBase
 {
-    public  GetStoreLicenseByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetStoreLicenseByIdQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetStoreLicenseByIdQueryHandlerBase:  QueryBase<IQueryable<StoreLicenseDto>>, IRequestHandler<GetStoreLicenseByIdQuery, IQueryable<StoreLicenseDto>>
 {
-    public  GetStoreLicenseByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetStoreLicenseByIdQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<StoreLicenseDto>> Handle(GetStoreLicenseByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.StoreLicenses
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<StoreLicenseDto >()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

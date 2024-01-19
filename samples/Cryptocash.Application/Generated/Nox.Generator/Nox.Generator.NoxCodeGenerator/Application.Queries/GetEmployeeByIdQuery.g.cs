@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Infrastructure.Persistence;
@@ -16,25 +17,21 @@ public partial record GetEmployeeByIdQuery(System.Guid keyId) : IRequest <IQuery
 
 internal partial class GetEmployeeByIdQueryHandler:GetEmployeeByIdQueryHandlerBase
 {
-    public  GetEmployeeByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetEmployeeByIdQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetEmployeeByIdQueryHandlerBase:  QueryBase<IQueryable<EmployeeDto>>, IRequestHandler<GetEmployeeByIdQuery, IQueryable<EmployeeDto>>
 {
-    public  GetEmployeeByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetEmployeeByIdQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<EmployeeDto>> Handle(GetEmployeeByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.Employees
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<EmployeeDto >()
             .Include(e => e.EmployeePhoneNumbers)
             .Where(r =>
                 r.Id.Equals(request.keyId));

@@ -30,8 +30,8 @@ public interface INoxOptions
     /// <summary>
     /// Set the generated DbContext for Dto and Entities
     /// </summary>
-    /// <typeparam name="T">DbContext for the Application Domain, <see cref="EntityDbContextBase"/></typeparam>
-    /// <typeparam name="D"></typeparam>
+    /// <typeparam name="T">DbContext for the Domain, <see cref="EntityDbContextBase"/></typeparam>
+    /// <typeparam name="D">The DbContext for the Read Model for the Application</typeparam>
     INoxOptions WithDatabaseContexts<T, D>() where T : EntityDbContextBase where D : DbContext;
 
     /// <summary>

@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
@@ -16,25 +17,21 @@ public partial record GetTenantByIdQuery(System.UInt32 keyId) : IRequest <IQuery
 
 internal partial class GetTenantByIdQueryHandler:GetTenantByIdQueryHandlerBase
 {
-    public  GetTenantByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetTenantByIdQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetTenantByIdQueryHandlerBase:  QueryBase<IQueryable<TenantDto>>, IRequestHandler<GetTenantByIdQuery, IQueryable<TenantDto>>
 {
-    public  GetTenantByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetTenantByIdQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<TenantDto>> Handle(GetTenantByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.Tenants
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<TenantDto >()
             .Include(e => e.TenantBrands)
             .Include(e => e.TenantContact)
             .Where(r =>
